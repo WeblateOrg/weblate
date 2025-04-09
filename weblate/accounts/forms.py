@@ -7,7 +7,7 @@ from __future__ import annotations
 import base64
 import json
 from binascii import unhexlify
-from datetime import timedelta
+from datetime import datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, cast
 
@@ -20,7 +20,6 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db import transaction
 from django.middleware.csrf import rotate_token
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
 from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
@@ -276,6 +275,12 @@ class SubscriptionForm(ProfileBaseForm):
         user = kwargs["instance"].user
         self.fields["watched"].required = False
         self.fields["watched"].queryset = user.allowed_projects
+        # Create a mapping of project IDs to slugs
+        project_slug_map = {str(p.id): p.slug for p in user.allowed_projects}
+        # Add the data attribute with the JSON mapping
+        self.fields["watched"].widget.attrs["data-project-slugs"] = json.dumps(
+            project_slug_map
+        )
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -482,10 +487,15 @@ class CaptchaForm(forms.Form):
                 self.store_challenge()
 
     def generate_challenge(self) -> Challenge:
+        # The expires timestamp needs to be in the local time and not
+        # timezone aware because it is converted using time.mktime(expires.timetuple())
+        # and then compared to time.time()
+        expires = datetime.now(tz=None) + timedelta(hours=1)  # noqa: DTZ005
+
         challenge_options = ChallengeOptions(
             hmac_key=settings.SECRET_KEY,
             max_number=settings.ALTCHA_MAX_NUMBER,
-            expires=timezone.now() + timedelta(hours=2),
+            expires=expires,
         )
         self.challenge = create_challenge(challenge_options)
         return self.challenge

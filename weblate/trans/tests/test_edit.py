@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.checks.models import Check
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -705,25 +706,25 @@ class EditPropagateTest(EditTest):
             source=self.source, translation__language_code="cs"
         ):
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_NEW_UNIT_REPO).count(), 1
+                unit.change_set.filter(action=ActionEvents.NEW_UNIT_REPO).count(),
+                1,
             )
             self.assertEqual(
-                unit.change_set.filter(action=Change.ACTION_STRING_REPO_UPDATE).count(),
+                unit.change_set.filter(action=ActionEvents.STRING_REPO_UPDATE).count(),
                 0,
             )
             if unit.translation.component.slug == "second":
                 self.assertEqual(
-                    unit.change_set.filter(
-                        action=Change.ACTION_PROPAGATED_EDIT
-                    ).count(),
+                    unit.change_set.filter(action=ActionEvents.PROPAGATED_EDIT).count(),
                     2,
                 )
             else:
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_NEW).count(), 1
+                    unit.change_set.filter(action=ActionEvents.NEW).count(), 1
                 )
                 self.assertEqual(
-                    unit.change_set.filter(action=Change.ACTION_CHANGE).count(), 1
+                    unit.change_set.filter(action=ActionEvents.CHANGE).count(),
+                    1,
                 )
 
         # Bring strins out of sync
@@ -733,7 +734,7 @@ class EditPropagateTest(EditTest):
             None,
             test_edit,
             STATE_TRANSLATED,
-            change_action=Change.ACTION_AUTO,
+            change_action=ActionEvents.AUTO,
             propagate=False,
         )
         self.assertEqual(set(get_targets()), {self.second_target, test_edit})
@@ -746,7 +747,7 @@ class EditPropagateTest(EditTest):
             None,
             self.second_target,
             STATE_TRANSLATED,
-            change_action=Change.ACTION_AUTO,
+            change_action=ActionEvents.AUTO,
             propagate=False,
         )
         self.assertEqual(set(get_targets()), {self.second_target})

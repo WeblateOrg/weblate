@@ -738,6 +738,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.format.VueFormattingCheck",
 #     "weblate.checks.format.I18NextInterpolationCheck",
 #     "weblate.checks.format.ESTemplateLiteralsCheck",
+#     "weblate.checks.format.AutomatticComponentsCheck",
 #     "weblate.checks.angularjs.AngularJSInterpolationCheck",
 #     "weblate.checks.icu.ICUMessageFormatCheck",
 #     "weblate.checks.icu.ICUSourceCheck",
@@ -899,6 +900,7 @@ if REQUIRE_LOGIN:
 #    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
 #    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
 #    rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
+#    rf"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
 # )
 
 # Silence some of the Django system checks

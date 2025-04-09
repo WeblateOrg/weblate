@@ -19,6 +19,7 @@ from weblate.checks.fluent.utils import (
     translation_from_check,
     variant_name,
 )
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -941,7 +942,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
 
     check_id = "fluent-source-inner-html"
     name = gettext_lazy("Fluent source inner HTML")
-    description = gettext_lazy("Fluent source should be valid inner HTML")
+    description = gettext_lazy("Fluent source should be valid inner HTML.")
     default_disabled = True
 
     def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
@@ -1049,7 +1050,9 @@ class _VariantNodesDifference:
     ) -> str:
         if not variant_list:
             return ""
-        return ", ".join(variant.name() for variant in variant_list)
+        return format_html_join_comma(
+            "{}", list_to_tuples(variant.name() for variant in variant_list)
+        )
 
     def _unique_target_nodes(self) -> Iterator[_HTMLNode]:
         unique_nodes: list[_HTMLNode] = []
@@ -1217,7 +1220,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
 
     check_id = "fluent-target-inner-html"
     name = gettext_lazy("Fluent translation inner HTML")
-    description = gettext_lazy("Fluent target should be valid inner HTML that matches")
+    description = gettext_lazy("Fluent target should be valid inner HTML that matches.")
     default_disabled = True
 
     @classmethod

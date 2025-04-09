@@ -95,7 +95,9 @@ def add_middleware_headers(result, generator, request, public):
             if "responses" not in operation:  # pragma: no cover
                 continue
 
-            for response in operation["responses"].values():
+            for code, response in operation["responses"].items():
+                if code != "200":
+                    continue
                 # spec: https://swagger.io/specification/#response-object
                 response.setdefault("headers", {})
                 response["headers"].update(

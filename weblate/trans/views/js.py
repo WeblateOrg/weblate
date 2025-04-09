@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import cache_control
@@ -45,20 +46,22 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
 
 @require_POST
 @login_required
+@transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
-    obj = get_object_or_404(Check, pk=int(check_id))
+    obj = get_object_or_404(Check.objects.select_for_update(), pk=int(check_id))
 
     if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied
 
     # Mark check for ignoring
-    obj.set_dismiss("revert" not in request.GET)
+    obj.set_dismiss(state="revert" not in request.GET)
     # response for AJAX
     return HttpResponse("ok")
 
 
 @require_POST
 @login_required
+@transaction.atomic
 def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     unit = obj.unit.source_unit

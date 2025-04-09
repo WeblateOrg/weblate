@@ -575,6 +575,15 @@ Groups
     :type id: int
     :form string role_id: The unique role ID
 
+.. http:delete:: /api/groups/(int:id)/roles/(int:role_id)
+
+    Delete role from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param role_id: The unique role ID
+    :type role_id: int
+
 .. http:post:: /api/groups/(int:id)/components/
 
     Associate components with a group.
@@ -2271,6 +2280,12 @@ and XLIFF.
     :param id: Unit ID
     :type id: int
 
+.. http:get:: /api/units/(int:id)/translations/
+
+   .. versionadded:: 5.11
+
+   Returns a list of all target translation units for the given source translation unit.
+
 Changes
 +++++++
 
@@ -2817,7 +2832,7 @@ update individual repositories; see
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
-        https://docs.gitlab.com/ee/user/project/integrations/webhooks.html
+        https://docs.gitlab.com/user/project/integrations/webhooks/
             Generic information about GitLab Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

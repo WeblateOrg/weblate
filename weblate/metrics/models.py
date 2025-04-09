@@ -20,6 +20,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
@@ -445,15 +446,15 @@ class MetricManager(models.Manager["Metric"]):
             timezone.now().date() - datetime.timedelta(days=1)
         ).aggregate(
             changes=Count("id"),
-            comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
-            suggestions=Count("id", filter=Q(action=Change.ACTION_SUGGESTION)),
+            comments=Count("id", filter=Q(action=ActionEvents.COMMENT)),
+            suggestions=Count("id", filter=Q(action=ActionEvents.SUGGESTION)),
             translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
             screenshots=Count(
                 "id",
                 filter=Q(
                     action__in=(
-                        Change.ACTION_SCREENSHOT_ADDED,
-                        Change.ACTION_SCREENSHOT_UPLOADED,
+                        ActionEvents.SCREENSHOT_ADDED,
+                        ActionEvents.SCREENSHOT_UPLOADED,
                     )
                 ),
             ),

@@ -30,7 +30,7 @@ class OptionalPluralCheck(SourceCheck):
     check_id = "optional_plural"
     name = gettext_lazy("Unpluralised")
     description = gettext_lazy(
-        "The string is used as plural, but not using plural forms"
+        "The string is used as plural, but not using plural forms."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -45,7 +45,7 @@ class EllipsisCheck(SourceCheck):
     check_id = "ellipsis"
     name = gettext_lazy("Ellipsis")
     description = gettext_lazy(
-        "The string uses three dots (...) instead of an ellipsis character (…)"
+        "The string uses three dots (...) instead of an ellipsis character (…)."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -58,7 +58,7 @@ class MultipleFailingCheck(SourceCheck):
     check_id = "multiple_failures"
     name = gettext_lazy("Multiple failing checks")
     description = gettext_lazy(
-        "The translations in several languages have failing checks"
+        "The translations in several languages have failing checks."
     )
 
     def get_related_checks(self, unit: Unit):
@@ -115,7 +115,7 @@ class MultipleFailingCheck(SourceCheck):
 class LongUntranslatedCheck(SourceCheck):
     check_id = "long_untranslated"
     name = gettext_lazy("Long untranslated")
-    description = gettext_lazy("The string has not been translated for a long time")
+    description = gettext_lazy("The string has not been translated for a long time.")
 
     def check_source_unit(self, sources: list[str], unit: Unit):
         if unit.timestamp > timezone.now() - timedelta(days=90):

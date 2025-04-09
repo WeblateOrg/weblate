@@ -3,7 +3,9 @@
   "extends": [
     "config:recommended",
     ":dependencyDashboard",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "replacements:all",
+    "customManagers:biomeVersions"
   ],
   "labels": [
     "dependencies"
@@ -52,7 +54,8 @@
     },
     {
       "matchPackageNames": [
-        "shellcheck-py/shellcheck-py"
+        "shellcheck-py/shellcheck-py",
+        "scop/pre-commit-shfmt"
       ],
       "versioning": "loose"
     },

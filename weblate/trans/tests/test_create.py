@@ -4,8 +4,6 @@
 
 """Test for creating projects and models."""
 
-import urllib.parse
-
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -219,19 +217,6 @@ class CreateTest(ViewTestCase):
             )
 
         self.assertContains(response, self.component.get_repo_link_url())
-        parsed_query = urllib.parse.parse_qs(response.request["QUERY_STRING"])
-        expected_query_strings = [
-            "vcs",
-            "source_language",
-            "license",
-        ]
-        for field in expected_query_strings:
-            if component_value := getattr(self.component, field):
-                if field == "source_language":
-                    component_value = str(component_value.id)
-                self.assertEqual(parsed_query[field][0], component_value)
-
-        self.assertEqual(parsed_query["source_component"][0], str(self.component.pk))
 
         # discovery step
         self.assertContains(response, "Choose translation files to import")

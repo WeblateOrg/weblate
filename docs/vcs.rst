@@ -385,7 +385,7 @@ Weblate settings to make this work. Once configured, you will see a
    :ref:`push-changes`,
    :setting:`GITLAB_CREDENTIALS`
 
-.. _GitLab API: https://docs.gitlab.com/ee/api/
+.. _GitLab API: https://docs.gitlab.com/api/
 
 .. _vcs-gitea:
 .. _gitea-push:

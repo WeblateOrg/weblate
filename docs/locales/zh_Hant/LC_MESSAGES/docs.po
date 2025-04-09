@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Chang-Chia Tseng <pswo10680@gmail.com>, 2023, 2024.
+# Chang-Chia Tseng <pswo10680@gmail.com>, 2023, 2024, 2025.
 # notlin4 <iamnotlin4@gmail.com>, 2023, 2024.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # pan93412 <pan93412@gmail.com>, 2023, 2024, 2025.
@@ -17,13 +17,14 @@
 # ei9 <ei498@proton.me>, 2024.
 # Winston Sung <winston21.sung@gmail.com>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
+# william chen <william.fromtw@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-02-27 11:49+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-04-03 13:18+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -963,8 +964,7 @@ msgstr "該組的成員將有以下權限（假定使用預設角色設定）：
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
-msgstr ""
-"一般（瀏覽）存取整個專案``foo``，包括它的兩個元件：``foo / bar``和``foo / "
+msgstr "一般（瀏覽）存取整個專案 ``foo``，包括它的兩個元件：``foo / bar`` 和 ``foo / "
 "baz``。"
 
 #: ../../admin/access.rst:433
@@ -1218,11 +1218,11 @@ msgstr "使用自動建議"
 
 #: ../../admin/access.rst:514 ../../user/translating.rst:308
 msgid "Translation memory"
-msgstr "翻譯記憶"
+msgstr "翻譯記憶庫"
 
 #: ../../admin/access.rst:514
 msgid "Edit translation memory"
-msgstr "編輯翻譯記憶"
+msgstr "編輯翻譯記憶庫"
 
 #: ../../admin/access.rst:514 ../../admin/access.rst:516
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
@@ -1230,7 +1230,7 @@ msgstr ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 
 #: ../../admin/access.rst:516
 msgid "Delete translation memory"
-msgstr "刪除翻譯記憶"
+msgstr "刪除翻譯記憶庫"
 
 #: ../../admin/access.rst:518 ../../api.rst:846
 msgid "Projects"
@@ -1504,7 +1504,7 @@ msgstr "管理公告"
 
 #: ../../admin/access.rst:598
 msgid "Manage translation memory"
-msgstr "管理翻譯記憶"
+msgstr "管理翻譯記憶庫"
 
 #: ../../admin/access.rst:600
 msgid "Manage machinery"
@@ -2813,7 +2813,7 @@ msgstr "``copy_addons``"
 
 #: ../../admin/addons.rst:304
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "從主組件拓製附加元件至新建立的組件"
+msgstr "將附加元件，從主要組件拓製到新創建的組件"
 
 #: ../../admin/addons.rst:306
 msgid "``remove``"
@@ -2821,7 +2821,7 @@ msgstr "``remove``"
 
 #: ../../admin/addons.rst:306
 msgid "Remove components for inexistent files"
-msgstr "移除檔案不存在的組件"
+msgstr "移除無相關檔案的組件"
 
 #: ../../admin/addons.rst:308
 msgid "``confirm``"
@@ -3379,7 +3379,7 @@ msgstr "將來源字串作為唯讀字串的翻譯填充。"
 
 #: ../../admin/addons.rst:574
 msgid "Statistics generator"
-msgstr "統計資料產生器"
+msgstr "統計數據產生器"
 
 #: ../../admin/addons.rst:576
 msgid "``weblate.generate.generate``"
@@ -3882,16 +3882,17 @@ msgstr "``append_trailers``"
 
 #: ../../admin/addons.rst:839
 msgid "Append trailers to squashed commit message"
-msgstr "將額外資訊加入至壓縮送交的訊息"
+msgstr "在將多個送交壓縮（squash）為一個送交時，將某些特定的元資料（trailers）附加到"
+"最終的送交資訊中"
 
 #: ../../admin/addons.rst:839
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"額外資訊的列看起來類似於 RFC 822 郵件信箱標頭，位於送交訊息的其他自由格式部分"
-"的末尾，例如「Co-authored-by: …」。"
+msgstr "額外資訊的列看起來類似於 RFC 822 "
+"郵件信箱標頭，位於送交訊息的其他自由格式部分的末尾，例如「Co-authored-by: "
+"…」。"
 
 #: ../../admin/addons.rst:841
 msgid "``commit_message``"
@@ -21030,7 +21031,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
-msgstr "共享的翻譯記憶"
+msgstr "共用翻譯記憶庫"
 
 #: ../../admin/memory.rst:53
 #, fuzzy
@@ -22102,7 +22103,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
-msgstr "使用共享的翻譯記憶"
+msgstr "使用共享的翻譯記憶庫"
 
 #: ../../admin/projects.rst:175
 msgid ""
@@ -22119,7 +22120,7 @@ msgstr "可以通過 :setting:`DEFAULT_ACCESS_CONTROL` 更改預設值。"
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
-msgstr "貢獻至共享翻譯記憶"
+msgstr "貢獻至共享翻譯記憶庫"
 
 #: ../../admin/projects.rst:184
 msgid ""
@@ -26805,7 +26806,7 @@ msgstr "自動翻譯來源"
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
-msgstr "開啟對專案的共享翻譯記憶作貢獻，以取得其他組件的存取權。"
+msgstr "啟用對專案共享翻譯記憶庫的貢獻，以獲取額外組件的存取權。"
 
 #: ../../api.rst:2063
 msgid ""
@@ -39753,7 +39754,7 @@ msgstr "增加了對用螢幕擷圖搜尋來源字串的支援。"
 
 #: ../../changes/v4.rst:1131
 msgid "Extended info available in the stats insights."
-msgstr "擴展了統計資料洞察中可用的資訊。"
+msgstr "擴展了統計數據內察中可用的資訊。"
 
 #: ../../changes/v4.rst:1132
 msgid "Improved search editing on \"Translate\" pages."
@@ -50377,10 +50378,8 @@ msgid "Consecutive duplicated words"
 msgstr "連續重複單字"
 
 #: ../../user/checks.rst:144
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "文字在同一行中有兩個相同的單字："
+msgstr "文字在同一列中有兩個相同的單字"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -54019,7 +54018,7 @@ msgstr "（可選）調整您的個人資料以選擇您知道的語言。"
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
-msgstr "儀錶板"
+msgstr "儀表板"
 
 #: ../../user/profile.rst:22
 msgid ""
@@ -54176,7 +54175,7 @@ msgstr ""
 
 #: ../../user/profile.rst:116
 msgid "Default dashboard view"
-msgstr "預設儀錶板檢視"
+msgstr "預設儀表板檢視"
 
 #: ../../user/profile.rst:118
 msgid ""
@@ -55883,7 +55882,7 @@ msgstr "顯示目前資訊中使用的項目詞彙表的術語。"
 
 #: ../../user/translating.rst:312
 msgid "History"
-msgstr "歷史"
+msgstr "歷史紀錄"
 
 #: ../../user/translating.rst:313
 msgid "List of people whom have changed this message recently using Weblate."

@@ -17,6 +17,7 @@ from weblate.checks.fluent.utils import (
     translation_from_check,
     variant_name,
 )
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -445,7 +446,9 @@ class _VariantReferencesDifference:
     ) -> str:
         if not variant_list:
             return ""
-        return ", ".join(variant.name() for variant in variant_list)
+        return format_html_join_comma(
+            "{}", list_to_tuples(variant.name() for variant in variant_list)
+        )
 
     def _unique_target_refs(self) -> Iterator[_Reference]:
         unique_refs: list[_Reference] = []
@@ -668,7 +671,7 @@ class FluentReferencesCheck(TargetCheck):
 
     check_id = "fluent-references"
     name = gettext_lazy("Fluent references")
-    description = gettext_lazy("Fluent references should match")
+    description = gettext_lazy("Fluent references should match.")
     default_disabled = True
 
     @classmethod

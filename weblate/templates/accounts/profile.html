@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 
+{% load compress %}
 {% load i18n %}
+{% load static %}
 {% load translations %}
 {% load authnames %}
 {% load crispy_forms_tags %}
 {% load icons %}
 {% load otp_webauthn %}
+
+{% block extra_script %}
+  {% compress js %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/accounts/profile/index.js' %}{{ cache_param }}"></script>
+  {% endcompress %}
+{% endblock %}
 
 {% block breadcrumbs %}
   <li>

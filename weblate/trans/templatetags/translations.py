@@ -44,6 +44,7 @@ from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
 from weblate.utils.random import get_random_identifier
@@ -968,7 +969,10 @@ def unit_state_title(unit) -> str:
         state.append(
             "{} {}".format(
                 pgettext("String state", "Failing checks:"),
-                ", ".join(str(check) for check in checks),
+                format_html_join_comma(
+                    "{}",
+                    list_to_tuples(checks),
+                ),
             )
         )
     checks = unit.dismissed_checks
@@ -976,7 +980,7 @@ def unit_state_title(unit) -> str:
         state.append(
             "{} {}".format(
                 pgettext("String state", "Dismissed checks:"),
-                ", ".join(str(check) for check in checks),
+                format_html_join_comma("{}", list_to_tuples(checks)),
             )
         )
     if unit.has_comment:
@@ -1028,7 +1032,7 @@ def get_location_links(user: User | None, unit):
 
     # Go through all locations separated by comma
     return format_html_join(
-        mark_safe('\n<span class="divisor">•</span>\n'),  # noqa: S308
+        mark_safe('\n<span class="divisor">•</span>\n'),
         "{}",
         (
             (
@@ -1079,7 +1083,7 @@ def active_tab(context: Context, slug):
 @register.simple_tag(takes_context=True)
 def active_link(context: Context, slug):
     if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')  # noqa: S308
+        return mark_safe('class="active"')
     return ""
 
 
@@ -1322,7 +1326,7 @@ def indicate_alerts(
                 text,
                 text,
                 icon(icon_name),
-                mark_safe("</a>") if url else "",  # noqa: S308
+                mark_safe("</a>") if url else "",
             )
             for icon_name, text, url in get_alerts(
                 context=context,
@@ -1367,7 +1371,9 @@ def choiceval(boundfield):
         return value
     choices = {str(choice): value for choice, value in boundfield.field.choices}
     if isinstance(value, list):
-        return ", ".join(choices.get(val, val) for val in value)
+        return format_html_join_comma(
+            "{}", list_to_tuples(choices.get(val, val) for val in value)
+        )
     return choices.get(value, value)
 
 
@@ -1578,7 +1584,7 @@ def list_objects_number(
                 url=translate_url or search_url,
                 query=query,
             )
-            url_end = mark_safe("</a>")  # noqa: S308
+            url_end = mark_safe("</a>")
         value_formatted = intcomma(value)
     return format_html(
         """
@@ -1615,7 +1621,7 @@ def list_objects_percent(
             url=translate_url or search_url,
             query=query,
         )
-        url_end = mark_safe("</a>")  # noqa: S308
+        url_end = mark_safe("</a>")
     else:
         url_start = url_end = ""
 

@@ -14,6 +14,7 @@ from django.test import SimpleTestCase
 from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
+from weblate.checks.format import BaseFormatCheck
 from weblate.lang.models import Language, Plural
 
 if TYPE_CHECKING:
@@ -173,9 +174,11 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def do_test(
         self, expected: bool, data: tuple[str, str, str] | None, lang: str | None = None
-    ) -> None:
+    ):
         """Perform single check if we have data to test."""
         if data is None:
+            self.skipTest("Not supported")
+        if isinstance(self.check, BaseFormatCheck):
             self.skipTest("Not supported")
         if lang is None:
             lang = self.default_lang
@@ -189,7 +192,7 @@ class CheckTestCase(SimpleTestCase, ABC):
             self.assertFalse(should_skip, msg=f"Check should not skip for {params}")
         elif should_skip:
             # There is nothing to test here
-            return
+            return None
 
         # Verify check logic
         result = self.check.check_single(
@@ -199,6 +202,7 @@ class CheckTestCase(SimpleTestCase, ABC):
             self.assertTrue(result, msg=f"Check did not fire for {params}")
         else:
             self.assertFalse(result, msg=f"Check did fire for {params}")
+        return result
 
     def test_single_good_matching(self) -> None:
         self.do_test(False, self.test_good_matching)

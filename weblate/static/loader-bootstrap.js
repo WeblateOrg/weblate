@@ -571,7 +571,7 @@ $(function () {
       if ($content.find(".panel-body").length > 0) {
         $content = $content.find(".panel-body");
       }
-      $content.load($target.data("href"), (responseText, status, xhr) => {
+      $content.load($target.data("href"), (_responseText, status, xhr) => {
         if (status !== "success") {
           const msg = gettext("Error while loading page:");
           $content.html(
@@ -580,7 +580,6 @@ $(function () {
               </div>
             `,
           );
-          console.error(xhr.statusText, xhr.status, responseText);
         }
         $target.data("loaded", 1);
         loadTableSorting();
@@ -1015,6 +1014,22 @@ $(function () {
     }
   }
 
+  function updateSearchSortBy() {
+    const sortValue = $("#id_sort_by").val();
+    const label = $(".sort-field li a")
+      .filter(function () {
+        return $(this).data("sort") === sortValue;
+      })
+      .text();
+    if (label !== "") {
+      $("#query-sort-dropdown span.search-label").text(gettext(label));
+    }
+  }
+  const sortByLabelObserver = new MutationObserver(updateSearchSortBy);
+  if ($("#id_sort_by")[0]) {
+    sortByLabelObserver.observe($("#id_sort_by")[0], { attributes: true });
+  }
+
   /* Branch loading */
   $(".branch-loader select[name=component]").change(function () {
     const $this = $(this);
@@ -1038,9 +1053,13 @@ $(function () {
     $positionInputEditable.show();
     $positionInputEditableInput.attr("type", "number");
     if ($positionInput.length > 1) {
-      $(event.target).parent().find("#position-input-editable-input").focus();
+      $(event.target)
+        .parent()
+        .find("#position-input-editable-input")
+        .focus()
+        .select();
     } else {
-      $positionInputEditableInput.focus();
+      $positionInputEditableInput.focus().select();
     }
     document.addEventListener("click", clickedOutsideEditableInput);
     document.addEventListener("keyup", pressedEscape);
@@ -1122,6 +1141,21 @@ $(function () {
       }
     });
     $input.val(sortParams.join(","));
+    // Toggle active class on icons
+    $this.find(".search-icon").toggleClass("active");
+    // Ensure only one icon is active at a time
+    $this
+      .find(".search-icon.asc")
+      .toggleClass(
+        "active",
+        !$this.find(".search-icon.desc").hasClass("active"),
+      );
+    $this
+      .find(".search-icon.desc")
+      .toggleClass(
+        "active",
+        !$this.find(".search-icon.asc").hasClass("active"),
+      );
     if ($this.closest(".result-page-form").length > 0) {
       $this.closest("form").submit();
     }

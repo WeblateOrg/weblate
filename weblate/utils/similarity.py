@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from rapidfuzz.distance import DamerauLevenshtein
+from rapidfuzz import fuzz
 
 
 class Comparer:
@@ -16,4 +16,4 @@ class Comparer:
 
     def similarity(self, first: str, second: str) -> int:
         """Return string similarity in range 0 - 100%."""
-        return int(100 * DamerauLevenshtein.normalized_similarity(first, second))
+        return int(fuzz.QRatio(first, second))

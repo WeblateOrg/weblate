@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, ClassVar, cast
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
@@ -26,6 +26,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
+from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.utils.data import data_dir
@@ -312,7 +313,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if old is not None:
             # Update alerts if needed
             if old.web != self.web:
-                component_alerts.delay(
+                component_alerts.delay_on_commit(
                     list(self.component_set.values_list("id", flat=True))
                 )
 
@@ -327,9 +328,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             import_memory.delay_on_commit(self.id)
 
     def generate_changes(self, old) -> None:
-        from weblate.trans.models.change import Change
-
-        tracked = (("slug", Change.ACTION_RENAME_PROJECT),)
+        tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
@@ -517,8 +516,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user: User, billing=None) -> None:
-        from weblate.trans.models import Change
-
         if billing:
             billing.projects.add(self)
             if billing.plan.change_access_control:
@@ -529,7 +526,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if not user.is_superuser:
             self.add_user(user, "Administration")
         self.change_set.create(
-            action=Change.ACTION_CREATE_PROJECT, user=user, author=user
+            action=ActionEvents.CREATE_PROJECT, user=user, author=user
         )
 
     @cached_property
@@ -573,7 +570,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         own = filter_callback(self.component_set.defer_huge())
         if self.has_shared_components:
             shared = filter_callback(self.shared_components.defer_huge())
-            return own.union(shared)
+            return own | shared
         return own
 
     @cached_property
@@ -709,9 +706,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def enable_review(self):
         return self.translation_review or self.source_review
 
+    @transaction.atomic
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
-        for component in self.component_set.iterator():
-            component.do_lock(user, lock=lock, auto=auto)
+        from weblate.trans.models.change import Change
+
+        actionable = self.component_set.exclude(locked=lock)
+        changes = [
+            component.get_lock_change(user=user, lock=lock, auto=auto)
+            for component in actionable
+        ]
+        actionable.update(locked=lock)
+        Change.objects.bulk_create(changes, batch_size=500)
 
     @property
     def can_add_category(self) -> bool:

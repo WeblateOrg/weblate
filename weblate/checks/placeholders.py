@@ -29,7 +29,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     check_id = "placeholders"
     default_disabled = True
     name = gettext_lazy("Placeholders")
-    description = gettext_lazy("Translation is missing some placeholders")
+    description = gettext_lazy("Translation is missing some placeholders.")
 
     @property
     def param_type(self):
@@ -127,7 +127,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             errors.append(self.get_extra_text(result["extra"]))
 
         return format_html_join(
-            mark_safe("<br />"),  # noqa: S308
+            mark_safe("<br />"),
             "{}",
             ((error,) for error in errors),
         )
@@ -137,7 +137,7 @@ class RegexCheck(TargetCheckParametrized):
     check_id = "regex"
     default_disabled = True
     name = gettext_lazy("Regular expression")
-    description = gettext_lazy("Translation does not match regular expression")
+    description = gettext_lazy("Translation does not match regular expression.")
 
     @property
     def param_type(self):

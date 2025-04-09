@@ -627,11 +627,45 @@ To install :ref:`mt-deepl`:
 
 .. code-block:: shell
 
-   weblate install_service --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
+   weblate install_machinery --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
 
 .. seealso::
 
    :doc:`machine`
+
+list_addons
+-----------
+
+.. weblate-admin:: list_addons
+
+Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`.
+
+.. seealso::
+
+   :doc:`/contributing/documentation`
+
+list_permissions
+----------------
+
+.. weblate-admin:: list_permissions
+
+Lists permissions in reStructuredText as a template for :doc:`/admin/access`.
+
+.. seealso::
+
+   :doc:`/contributing/documentation`
+
+list_checks
+-----------
+
+.. weblate-admin:: list_checks
+
+Lists quality checks in reStructuredText as a template for :doc:`/admin/checks` and :doc:`/user/checks`.
+
+.. seealso::
+
+   :doc:`/contributing/documentation`
+
 
 list_languages
 --------------
@@ -642,6 +676,17 @@ Lists supported languages in MediaWiki markup - language codes, English names
 and localized names.
 
 This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>.
+
+list_machinery
+--------------
+
+.. weblate-admin:: list_machinery
+
+Lists automatic suggestions services in reStructuredText as a template for :doc:`/admin/machine`.
+
+.. seealso::
+
+   :doc:`/contributing/documentation`
 
 list_translators
 ----------------

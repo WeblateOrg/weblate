@@ -13,12 +13,13 @@
 # ɴᴇᴋᴏ <s99095lkjjim@gmail.com>, 2024.
 # Jeff Huang <s8321414@gmail.com>, 2024.
 # Winston Sung <winston21.sung@gmail.com>, 2024.
+# william chen <william.fromtw@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-22 19:15+0000\n"
+"PO-Revision-Date: 2025-04-03 13:18+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -73,8 +74,7 @@ msgstr "使用帳號的郵件信箱"
 msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
-msgstr ""
-"用於版本控制的提交。一旦 Weblate 提交了變更，地址將永久保留在儲存庫中。"
+msgstr "用於版本控制的送交。一旦 Weblate 送交了變更，地址將永久保留在儲存庫中。"
 
 #: weblate/accounts/forms.py:232 weblate/accounts/models.py:704
 msgid "Public e-mail"
@@ -97,7 +97,7 @@ msgstr "帳號郵件信箱"
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr "用作郵件信箱通知，以及下方未設定時使用的提交信箱。"
+msgstr "用作郵件信箱通知，以及下方未設定時使用的送交信箱。"
 
 #: weblate/accounts/forms.py:435
 msgid "Verification failed. Try again later."
@@ -586,7 +586,7 @@ msgstr "想翻譯成哪些語言"
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
-msgstr "請選擇您能翻譯成的語言。這些語言會列在儀錶板中，以便您選擇翻譯。"
+msgstr "請選擇您能翻譯成的語言。這些語言會列在儀表板中，以便您選擇。"
 
 #: weblate/accounts/models.py:503
 msgid "Secondary languages"
@@ -619,7 +619,7 @@ msgstr "暗色"
 
 #: weblate/accounts/models.py:526
 msgid "Hide completed translations on the dashboard"
-msgstr "於儀錶板中隱藏已完成的翻譯"
+msgstr "於儀表板中隱藏已完成的翻譯"
 
 #: weblate/accounts/models.py:530
 msgid "Show secondary translations in the Zen mode"
@@ -715,7 +715,7 @@ msgstr "建議的翻譯"
 
 #: weblate/accounts/models.py:620
 msgid "Default dashboard view"
-msgstr "預設儀錶板檢視"
+msgstr "預設儀表板檢視"
 
 #: weblate/accounts/models.py:626
 msgid "Default component list"
@@ -727,7 +727,7 @@ msgstr "預設組件列表"
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr "您可以接收關注專案的通知，預設情況下通知會顯示在儀錶板中。"
+msgstr "您可以接收關注專案的通知，預設情況下通知會顯示在儀表板中。"
 
 #: weblate/accounts/models.py:644
 msgid "Website URL"
@@ -741,7 +741,7 @@ msgstr "Liberapay 使用者名稱"
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
-msgstr "Liberapay 是給大眾向團隊、組織或個人捐款的平台。"
+msgstr "Liberapay 是一個捐款平台，旨在向團隊、組織和個人捐贈金錢。"
 
 #: weblate/accounts/models.py:658
 msgid "Fediverse URL"
@@ -789,11 +789,11 @@ msgstr "公司"
 #: weblate/accounts/models.py:779
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "請選擇您想在儀錶板上顯示的組件列表。"
+msgstr "請選擇您想在儀表板上顯示的組件列表。"
 
 #: weblate/accounts/models.py:790
 msgid "Selecting component list has no effect when not shown on the dashboard."
-msgstr "如果儀錶板上沒顯示組件清單，則選取組件清單不會有作用。"
+msgstr "如果儀表板上沒顯示組件清單，則選取組件清單不會有影響。"
 
 #: weblate/accounts/models.py:923 weblate/trans/views/edit.py:386
 #, python-format
@@ -949,20 +949,18 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "您的密碼不能只有單一字元或由空白組成。"
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "這個密碼只有單一字元。"
+msgstr[0] "這個密碼過長。密碼最多只能有 %(max_length)d 個字元。"
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(min_length)d character."
 msgid_plural "Your password must contain at most %(min_length)d characters."
-msgstr[0] "您的密碼不能有重複的單字或字元。"
+msgstr[0] "您的密碼最多只能包含 %(min_length)d 個字元。"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1444,16 +1442,17 @@ msgstr "每位作者"
 
 #: weblate/addons/forms.py:172
 msgid "Append trailers to squashed commit message"
-msgstr "將額外資訊加入至壓縮送交的訊息"
+msgstr "在將多個送交壓縮（squash）為一個送交時，將某些特定的元資料（trailers）附加到"
+"最終的送交資訊中"
 
 #: weblate/addons/forms.py:176
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"額外資訊的列看起來類似於 RFC 822 郵件信箱標頭，位於送交訊息的其他自由格式部分"
-"的末尾，例如「Co-authored-by: …」。"
+msgstr "額外資訊的列看起來類似於 RFC 822 "
+"郵件信箱標頭，位於送交訊息的其他自由格式部分的末尾，例如「Co-authored-by: "
+"…」。"
 
 #: weblate/addons/forms.py:182
 msgid "Commit message"
@@ -1597,11 +1596,11 @@ msgstr "掃描檔案遮罩時，用於篩選翻譯檔案的常規表示式。"
 
 #: weblate/addons/forms.py:331
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "從主組件拓製附加元件至新建立的組件"
+msgstr "將附加元件，從主要組件拓製到新創建的組件"
 
 #: weblate/addons/forms.py:337
 msgid "Remove components for inexistent files"
-msgstr "移除檔案不存在的組件"
+msgstr "移除無相關檔案的組件"
 
 #: weblate/addons/forms.py:340
 msgid "I confirm the above matches look correct"
@@ -1621,7 +1620,7 @@ msgstr "請檢閱並確認符合的組件。"
 
 #: weblate/addons/forms.py:447
 msgid "Please include component markup in the template."
-msgstr "請在模板中納入組件標記。"
+msgstr "請在範本中包含組件標記。"
 
 #: weblate/addons/forms.py:502
 msgid "Translation threshold"
@@ -1718,7 +1717,7 @@ msgstr "啟用區分大小寫的字串鍵排序"
 
 #: weblate/addons/generate.py:35
 msgid "Statistics generator"
-msgstr "統計資料產生器"
+msgstr "統計數據產生器"
 
 #: weblate/addons/generate.py:37
 msgid "Generates a file containing detailed info about the translation status."
@@ -2021,11 +2020,11 @@ msgstr "重要日期"
 
 #: weblate/auth/admin.py:218
 msgid "This is not used when a component list is selected."
-msgstr "選取組件列表時，不會使用本選項。"
+msgstr "當選擇組件清單時，這不會被使用。"
 
 #: weblate/auth/admin.py:225
 msgid "This is not used when a component is selected."
-msgstr "選取組件時不會使用本選項。"
+msgstr "當選擇組件時，這不會被使用。"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:21
@@ -2095,12 +2094,12 @@ msgstr "使用自動建議"
 #. Translators: Permission name
 #: weblate/auth/data.py:47
 msgid "Edit translation memory"
-msgstr "編輯翻譯記憶"
+msgstr "編輯翻譯記憶庫"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:49
 msgid "Delete translation memory"
-msgstr "刪除翻譯記憶"
+msgstr "刪除翻譯記憶庫"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:51
@@ -2307,7 +2306,7 @@ msgstr "管理公告"
 #. Translators: Permission name
 #: weblate/auth/data.py:137
 msgid "Manage translation memory"
-msgstr "管理翻譯記憶"
+msgstr "管理翻譯記憶庫"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
@@ -2383,7 +2382,7 @@ msgstr "自動翻譯"
 #: weblate/auth/data.py:218
 msgctxt "Access-control role"
 msgid "Manage translation memory"
-msgstr "管理翻譯記憶"
+msgstr "管理翻譯記憶庫"
 
 #: weblate/auth/data.py:222
 msgctxt "Access-control role"
@@ -2549,7 +2548,7 @@ msgstr "所有受保護的專案"
 
 #: weblate/auth/models.py:153
 msgid "From component list"
-msgstr "取自組件列表"
+msgstr "來自組件列表"
 
 #: weblate/auth/models.py:158 weblate/billing/admin.py:74
 #: weblate/billing/models.py:284 weblate/templates/accounts/profile.html:427
@@ -3200,17 +3199,13 @@ msgid "Consecutive duplicated words"
 msgstr "連續重複單字"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "文字在同一行中有兩個相同的單字："
+msgstr "文字在同一列中有兩個相同的單字"
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "會建立下列組件"
+msgstr[0] "以下字詞重複："
 
 #: weblate/checks/flags.py:42
 msgid "RST text"
@@ -4433,15 +4428,15 @@ msgstr "CSV 檔案 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1685
 msgid "Simple CSV file"
-msgstr "簡單 CSV 檔"
+msgstr "簡易 CSV 檔"
 
 #: weblate/formats/ttkit.py:1703
 msgid "Simple CSV file (ISO-8859-1)"
-msgstr "簡單 CSV 檔（ISO-8859-1）"
+msgstr "簡易 CSV 檔（ISO-8859-1）"
 
 #: weblate/formats/ttkit.py:1710
 msgid "Simple CSV file (UTF-8)"
-msgstr "簡單 CSV 檔 (UTF-8)"
+msgstr "簡易 CSV 檔 (UTF-8)"
 
 #: weblate/formats/ttkit.py:1717
 msgid "YAML file"
@@ -5313,7 +5308,7 @@ msgstr "這個檔案格式必須指定來源語言和目標語言。"
 
 #: weblate/memory/forms.py:62
 msgid "Confirm deleting all translation memory entries"
-msgstr "確認刪除所有翻譯記憶條目"
+msgstr "確認刪除所有編輯翻譯記庫條目"
 
 #: weblate/memory/models.py:205
 #, python-format
@@ -5350,7 +5345,7 @@ msgstr "不支援的檔案！"
 
 #: weblate/memory/models.py:374
 msgid "Monolingual format not supported for memory upload"
-msgstr "翻譯記憶上傳並不支援單語格式"
+msgstr "不支援單語格式的記憶庫上傳"
 
 #: weblate/memory/models.py:384
 msgid "Missing source or target language in file!"
@@ -5384,7 +5379,7 @@ msgstr "條目已刪除。"
 msgid ""
 "Entries were deleted and the translation memory will be rebuilt in the "
 "background."
-msgstr "條目已刪除，將在後台重建翻譯記憶。"
+msgstr "條目已刪除，將在後台重建翻譯記憶庫。"
 
 #: weblate/memory/views.py:142
 msgid "File processed, the entries will appear shortly."
@@ -5517,7 +5512,7 @@ msgstr "無權顯示此頁面。"
 #: weblate/templates/403.html:23 weblate/templates/404.html:24
 #: weblate/templates/base.html:151 weblate/templates/base.html:419
 msgid "Dashboard"
-msgstr "儀錶板"
+msgstr "儀表板"
 
 #: weblate/templates/403.html:24 weblate/templates/404.html:25
 #: weblate/templates/base.html:171
@@ -5633,28 +5628,18 @@ msgid ""
 msgstr "致力於維持開源價值，而且尊重隱私的在地化平台。"
 
 #: weblate/templates/about/donate.html:33
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
 msgstr[0] "GitHub 星數"
 
 #: weblate/templates/about/donate.html:39
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "Open issues"
-#| msgid_plural "Open issues"
 msgctxt "Label on donate page"
 msgid "Open issue"
 msgid_plural "Open issues"
-msgstr[0] "開放中議題"
+msgstr[0] "待處理問題"
 
 #: weblate/templates/about/donate.html:45
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
@@ -5760,9 +5745,8 @@ msgstr "複製到剪貼簿"
 msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
-msgstr ""
-"Weblate 採用 GPG 金鑰 %(gpg_key_id)s 簽署所有的送交動作，下方可以查看對應的公"
-"鑰。"
+msgstr "Weblate 採用 GPG 金鑰 %(gpg_key_id)s "
+"簽署所有的送交動作，下方可以查看對應的公鑰。"
 
 #: weblate/templates/about/keys.html:41
 msgid "Commit signing is not configured."
@@ -6103,7 +6087,7 @@ msgstr "儲存"
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
-msgstr "請將您想要翻譯的所有專案加到列表中，可以到儀錶板中以關注專案方式查看。"
+msgstr "請將您想要翻譯的所有專案加到列表中，可以到儀表板中以關注專案方式查看。"
 
 #: weblate/templates/accounts/profile.html:114
 #: weblate/templates/mail/base.html:112
@@ -6367,8 +6351,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與郵件信箱作為送交資訊，並依各個在地化專案所"
+msgstr "一旦註冊，即代表您同意以您的名稱與郵件信箱作為送交資訊，並依各個在地化專案所"
 "使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/accounts/profile.html:614
@@ -6869,7 +6852,7 @@ msgstr "管理"
 #: weblate/templates/language.html:39 weblate/templates/project.html:52
 #: weblate/templates/translate.html:333 weblate/templates/translation.html:53
 msgid "History"
-msgstr "歷史"
+msgstr "歷史紀錄"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "No add-ons currently installed"
@@ -7093,8 +7076,7 @@ msgstr "來自此儲存庫內組件的 Weblate 送交將會壓縮成一個送交
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
-msgstr ""
-"會保留原本的送交訊息，但除非選取「每位作者」，或者送交訊息已自訂包括原作者，"
+msgstr "會保留原本的送交訊息，但除非選取「每位作者」，或者送交訊息已自訂包括原作者，"
 "否則原作者資訊會遺失。"
 
 #: weblate/templates/auth/team.html:16
@@ -7317,7 +7299,7 @@ msgstr "帳單概覽"
 #: weblate/wladmin/templates/admin/weblate-index.html:53
 #: weblate/wladmin/views.py:81
 msgid "Translation memory"
-msgstr "翻譯記憶"
+msgstr "翻譯記憶庫"
 
 #: weblate/templates/base.html:362
 #: weblate/templates/weblate_auth/invitation_detail.html:40
@@ -7636,7 +7618,7 @@ msgstr "資訊"
 #: weblate/templates/language-project.html:35 weblate/templates/project.html:48
 #: weblate/templates/translation.html:49
 msgid "Insights"
-msgstr "內觀"
+msgstr "內察"
 
 #: weblate/templates/category-project.html:37
 #: weblate/templates/category.html:64 weblate/templates/component-list.html:27
@@ -7693,7 +7675,7 @@ msgstr "搜尋並取代"
 #: weblate/templates/language-project.html:92
 #: weblate/templates/project.html:201 weblate/templates/translation.html:138
 msgid "Organize or remove"
-msgstr "組織或移除"
+msgstr "整理或移除"
 
 #: weblate/templates/category-project.html:89
 #: weblate/templates/language-project.html:132
@@ -7759,7 +7741,7 @@ msgstr "新增類別"
 #: weblate/templates/project.html:303 weblate/templates/translation.html:132
 #: weblate/templates/translation.html:519
 msgid "Post announcement"
-msgstr "張貼公告"
+msgstr "發布公告"
 
 #: weblate/templates/category.html:157 weblate/templates/category.html:164
 #: weblate/templates/language-project.html:139
@@ -7895,11 +7877,11 @@ msgstr "警告"
 
 #: weblate/templates/component.html:58 weblate/templates/project.html:60
 msgid "Download language statistics (CSV)"
-msgstr "下載語言統計數據（CSV）"
+msgstr "下載語言統計數據 (CSV)"
 
 #: weblate/templates/component.html:61 weblate/templates/project.html:63
 msgid "Download language statistics (JSON)"
-msgstr "下載語言統計數據（JSON）"
+msgstr "下載語言統計數據 (JSON)"
 
 #: weblate/templates/component.html:109 weblate/templates/data.html:12
 #: weblate/templates/project.html:111 weblate/templates/translation.html:104
@@ -8026,7 +8008,7 @@ msgstr[0] "瀏覽全部 %(count)s 個專案"
 
 #: weblate/templates/dashboard/user.html:18
 msgid "Configure dashboard"
-msgstr "設定儀錶板"
+msgstr "設定儀表板"
 
 #: weblate/templates/dashboard/user.html:54
 msgid "Recent additions"
@@ -8318,7 +8300,7 @@ msgstr "編輯字型群組"
 #: weblate/templates/footer.html:7
 #, python-format
 msgid "Powered by %(weblate_version_link)s"
-msgstr "威力本源 %(weblate_version_link)s"
+msgstr "%(weblate_version_link)s 技術提供"
 
 #: weblate/templates/footer.html:23
 msgid "Privacy policy"
@@ -8464,13 +8446,13 @@ msgstr "送交"
 #, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 個未決更動"
+msgstr[0] "%(count)s 個待處理變更"
 
 #: weblate/templates/js/git-status.html:35
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "這會送交所有 Weblate 上有，但儲存庫沒有的未決更動。"
+msgstr "這將送交 Weblate 中所有變更到儲存庫。"
 
 #: weblate/templates/js/git-status.html:44
 msgid "Push"
@@ -8480,13 +8462,13 @@ msgstr "推送"
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s 個待送出送交"
+msgstr[0] "%(count)s 個尚未推送的送交"
 
 #: weblate/templates/js/git-status.html:49
 #, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "送交當中缺少%(count)s 個"
+msgstr[0] "(推送分支中缺少 %(count)s 個提交)"
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8512,7 +8494,7 @@ msgstr[0] "%(count)s 個缺少的送交"
 
 #: weblate/templates/js/git-status.html:91
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "這會以上游更動更新 Weblate 的儲存庫。"
+msgstr "這將使用上游變更來更新 Weblate 儲存庫。"
 
 #: weblate/templates/js/git-status.html:100
 msgid "Allow changes to the Weblate repository"
@@ -9826,7 +9808,7 @@ msgstr "選擇"
 
 #: weblate/templates/memory/index.html:42
 msgid "Translation memory status"
-msgstr "翻譯記憶狀態"
+msgstr "翻譯記憶庫狀態"
 
 #: weblate/templates/memory/index.html:49
 #, python-format
@@ -9866,7 +9848,7 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] "這將永久從翻譯記憶中刪除 %(count)s 個條目。"
+msgstr[0] "這將永久從翻譯記憶庫中刪除 %(count)s 個條目。"
 
 #: weblate/templates/memory/index.html:99
 #: weblate/templates/memory/index.html:120
@@ -9887,7 +9869,7 @@ msgstr "%(source_language)s 到 %(target_language)s 的條目"
 
 #: weblate/templates/memory/index.html:244
 msgid "Shared translation memory"
-msgstr "共享的翻譯記憶"
+msgstr "共用翻譯記憶庫"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:249
@@ -9909,7 +9891,7 @@ msgstr "此 Weblate 執行個體的總條目數"
 
 #: weblate/templates/memory/index.html:297
 msgid "Import translation memory"
-msgstr "匯入翻譯記憶"
+msgstr "匯入翻譯記憶庫"
 
 #: weblate/templates/message.html:11
 msgid "Delete announcement"
@@ -10074,7 +10056,7 @@ msgstr "感謝您使用 Weblate"
 
 #: weblate/templates/registration/logged_out.html:18
 msgid "Return to dashboard"
-msgstr "回到儀錶板"
+msgstr "回到儀表板"
 
 #: weblate/templates/replace.html:15
 msgid "Please review and confirm the search and replace results."
@@ -10153,9 +10135,9 @@ msgid ""
 "integration. It features a simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
-msgstr ""
-"Weblate 是款緊密版本控制整合，以網頁技術為基礎打造的翻譯工具。它具備簡潔且清"
-"爽的使用介面、跨組件翻譯再用、品質查核，還能自動連結來源檔。"
+msgstr "Weblate "
+"是款與版本控制系統緊密整合的網頁翻譯工具。它具備簡潔直觀的使用者介面、跨組件"
+"翻譯傳播、品質查核，以及自動連結至來源檔案等功能。"
 
 #: weblate/templates/snippets/about.html:8
 #, python-format
@@ -10251,7 +10233,7 @@ msgstr "購買支援套件"
 
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "給予 Weblate"
+msgstr "提供給 Weblate"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -10474,7 +10456,7 @@ msgstr "瀏覽所有使用者"
 
 #: weblate/templates/snippets/info.html:278
 msgid "String statistics"
-msgstr "字串統計資料"
+msgstr "字串統計數據"
 
 #: weblate/templates/snippets/info.html:284
 msgid "Strings percent"
@@ -10779,8 +10761,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in version control "
 "system commits and provide your contribution under license defined by each "
 "translated project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱與郵件信箱作為版本控制系統的送交資訊，並依各"
+msgstr "一旦註冊，即代表您同意以您的名稱與郵件信箱作為版本控制系統的送交資訊，並依各"
 "個您所翻譯的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/login-info.html:32
@@ -10788,8 +10769,7 @@ msgid ""
 "By registering you agree to use your name in version control system commits "
 "and provide your contribution under license defined by each translated "
 "project."
-msgstr ""
-"一旦註冊，即代表您同意以您的名稱作為版本控制系統的送交資訊，並依各個您所翻譯"
+msgstr "一旦註冊，即代表您同意以您的名稱作為版本控制系統的送交資訊，並依各個您所翻譯"
 "的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/plural-formula.html:5
@@ -11281,8 +11261,8 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "addon on this component in Weblate."
 msgstr ""
-"Gerrit 禁止了本次推送。您可能需要一個在這個儲存庫或分支具有 forge 作者權限的 "
-"Gerrit 帳戶，或者在 Weblate 上使用壓縮組件的附加元件。"
+"Gerrit 禁止了這次推送。您可能需要一個具有該儲存庫/分支的 forge 作者權限的 "
+"Gerrit 帳號，或需要在 Weblate 中使用該組件的 squash 外掛。"
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid ""
@@ -11307,17 +11287,15 @@ msgid ""
 "You might want to choose Git with force push as version control system in "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
-msgstr ""
-"您可能會想在重定 Weblate 中的送交基底後，在組件設定中將版本控制系統設定為具有"
-"強制推送的 Git，來覆寫遠端的儲存庫。"
+msgstr "您可能會想在重定 Weblate 中的送交基底後，"
+"在組件設定中將版本控制系統設定為具有強制推送的 Git，來覆寫遠端的儲存庫。"
 
 #: weblate/templates/trans/alert/common-repo.html:41
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
-msgstr ""
-"Weblate 儲存庫缺少某些源自上游的送交。或許是因為其未收到遠端儲存庫更新的通"
-"知。"
+msgstr "Weblate "
+"儲存庫缺少某些源自上游的送交。或許是因為其未收到遠端儲存庫更新的通知。"
 
 #: weblate/templates/trans/alert/common-repo.html:46
 msgid ""
@@ -11738,7 +11716,7 @@ msgstr "這個動作無法取消。這會永久刪除 %(object)s 專案及其所
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
-msgstr "這包含但不限於：翻譯記憶、詞彙表及使用者權限。"
+msgstr "這包含但不限於：翻譯記憶庫、詞彙表及使用者權限。"
 
 #: weblate/templates/trans/delete-category.html:11
 #: weblate/templates/trans/delete-component.html:10
@@ -12274,7 +12252,7 @@ msgstr "字串 %(position)s"
 
 #: weblate/templates/translate.html:860
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "未決的更動尚未送交到 Weblate 儲存庫"
+msgstr "尚未送交到 Weblate 倉庫的待處理變更"
 
 #: weblate/templates/translate.html:860
 msgid "pending"
@@ -12362,9 +12340,8 @@ msgid ""
 "applies them to the current component. It can be used to push translations "
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
-msgstr ""
-"自動翻譯會擷取此專案中既有的翻譯並套用到目前的元件中。可以用來將翻譯推送到不"
-"同的分支、修正不一致的翻譯，或是使用翻譯記憶去翻譯新的組件。"
+msgstr "自動翻譯會將此專案中已有的翻譯應用到當前組件。它可以用來將翻譯推送到不同的分"
+"支、修正不一致的翻譯，或使用翻譯記憶庫來翻譯新的組件。"
 
 #: weblate/templates/translation.html:296
 msgid ""
@@ -12531,7 +12508,7 @@ msgstr "退出禪譯模式"
 
 #: weblate/trans/admin.py:32
 msgid "Commit pending changes"
-msgstr "送交未決的更動"
+msgstr "送交待處理的變更"
 
 #: weblate/trans/admin.py:41
 msgid "Update VCS repository"
@@ -12881,7 +12858,7 @@ msgstr "機器翻譯"
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
-msgstr "開啟對專案的共享翻譯記憶作貢獻，以取得其他組件的存取權。"
+msgstr "啟用對專案共享翻譯記憶庫的貢獻，以獲取額外組件的存取權。"
 
 #: weblate/trans/forms.py:941
 msgid "Machine translation engines"
@@ -13566,7 +13543,7 @@ msgstr "解除了組件鎖定"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:474
 msgid "Changes committed"
-msgstr "已提交變更"
+msgstr "已送交變更"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:476
@@ -14574,12 +14551,12 @@ msgstr "組件列表名稱"
 
 #: weblate/trans/models/componentlist.py:39
 msgid "Show on dashboard"
-msgstr "顯示在儀錶板中"
+msgstr "顯示在儀表板中"
 
 #: weblate/trans/models/componentlist.py:43
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr "啟用後，這個組件列表會以分頁的形式顯示在儀錶板中"
+msgstr "啟用後，這個組件列表會以分頁的形式顯示在儀表板中"
 
 #: weblate/trans/models/componentlist.py:71
 msgid "Project regular expression"
@@ -14639,7 +14616,7 @@ msgstr "讓 Weblate 更新您專案的「Language-Team」檔案標頭欄位。"
 
 #: weblate/trans/models/project.py:195
 msgid "Use shared translation memory"
-msgstr "使用共享的翻譯記憶"
+msgstr "使用共享的翻譯記憶庫"
 
 #: weblate/trans/models/project.py:198
 msgid "Uses the pool of shared translations between projects."
@@ -14647,7 +14624,7 @@ msgstr "在不同專案使用共享的翻譯匯聚池。"
 
 #: weblate/trans/models/project.py:202
 msgid "Contribute to shared translation memory"
-msgstr "貢獻至共享翻譯記憶"
+msgstr "貢獻至共享翻譯記憶庫"
 
 #: weblate/trans/models/project.py:205
 msgid "Contributes to the pool of shared translations between projects."
@@ -14719,7 +14696,7 @@ msgstr "無法解析 %(file)s 檔案：%(error)s"
 #: weblate/trans/models/translation.py:1316
 #, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "無法送交未決的更動：%s"
+msgstr "無法送交未決的變動：%s"
 
 #: weblate/trans/models/translation.py:1773
 msgid "Plurals are not supported by the file format!"
@@ -15458,7 +15435,7 @@ msgstr "翻譯更新正在進行中。"
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
-msgstr "已送交所有未決的的翻譯。"
+msgstr "已送交所有待處理的的翻譯。"
 
 #: weblate/trans/views/lock.py:34
 msgid "Component is now locked for translation updates!"
@@ -15879,7 +15856,7 @@ msgstr "這會將更動推送至上游儲存庫。"
 
 #: weblate/vcs/git.py:87
 msgid "This will push changes to the upstream Git repository."
-msgstr "這會將更動推送到上游 Git 儲存庫。"
+msgstr "這將把變更推送到上游 Git 儲存庫。"
 
 #: weblate/vcs/git.py:572
 msgid "Possible cleanups:"

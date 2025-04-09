@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # tachyglossues <tachyglossues@gmail.com>, 2023.
 # Julien Humbert <julroy67@gmail.com>, 2023, 2024.
-# Ldm Public <ldmpub@gmail.com>, 2023, 2024.
+# Ldm Public <ldmpub@gmail.com>, 2023, 2024, 2025.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Brewen Couaran <45310490+brewcoua@users.noreply.github.com>, 2023.
 # ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2024.
@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-03-04 21:44+0000\n"
+"PO-Revision-Date: 2025-03-22 22:10+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -2015,10 +2015,9 @@ msgid "Repository post-add"
 msgstr "quotidien, après l’ajout du dépôt"
 
 #: ../../admin/addons.rst:50
-#, fuzzy
-#| msgid "Hook triggered after new translation is added."
 msgid "Triggered just after the new translation is added and committed."
-msgstr "Crochet déclenché lors de l’ajout d’une nouvelle traduction."
+msgstr ""
+"Activé juste après que la nouvelle traduction ait été ajoutée et validée."
 
 #: ../../admin/addons.rst:55
 #, fuzzy
@@ -2065,10 +2064,8 @@ msgid "Repository pre-push"
 msgstr "Réinitialiser le dépôt"
 
 #: ../../admin/addons.rst:86
-#, fuzzy
-#| msgid "Hook triggered after repository is pushed upstream."
 msgid "Triggered just before the repository is pushed upstream."
-msgstr "Crochet déclenché après que le dépôt est poussé en amont."
+msgstr "Déclenché juste avant que le dépôt ne soit poussé vers l'amont."
 
 #: ../../admin/addons.rst:91
 msgid "Repository pre-update"
@@ -2085,10 +2082,8 @@ msgid "Storage post-load"
 msgstr "stockage après chargement"
 
 #: ../../admin/addons.rst:100
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "Triggered when file is parsed by Weblate."
-msgstr "Horodatage de la date à laquelle la chaîne a été ajoutée dans Weblate."
+msgstr "Déclenché quand le fichier est analysé par Weblate."
 
 #: ../../admin/addons.rst:105
 #, fuzzy
@@ -9393,7 +9388,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1061
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Valeur par défaut : ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1065
 msgid ""
@@ -9410,10 +9405,8 @@ msgid "IP_PROXY_OFFSET"
 msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:1078
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default changed from 1 to -1."
-msgstr "La valeur par défaut est 10."
+msgstr "La valeur par défaut est passée de 1 à -1."
 
 #: ../../admin/config.rst:1080
 msgid ""
@@ -9437,10 +9430,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1093
-#, fuzzy
-#| msgid "Defaults to 10."
 msgid "Defaults to -1."
-msgstr "La valeur par défaut est 10."
+msgstr "La valeur par défaut est -1."
 
 #: ../../admin/config.rst:1097
 msgid ""
@@ -9458,7 +9449,7 @@ msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1112
 msgid "You need :ref:`legal` installed to make this work."
-msgstr ""
+msgstr "Il faut que :ref:`legal` soit installé pour que ceci fonctionne."
 
 #: ../../admin/config.rst:1114
 msgid ""
@@ -9472,7 +9463,7 @@ msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1128
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL où votre instance Weblate expose ses documents juridiques."
 
 #: ../../admin/config.rst:1132
 msgid ""
@@ -9490,13 +9481,15 @@ msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1150
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Licences supplémentaires à inclure dans le choix des licences."
 
 #: ../../admin/config.rst:1154
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Chaque définition de license doit être un tuple composé de son nom court, "
+"d'un nom long et d'une URL."
 
 #: ../../admin/config.rst:1156 ../../admin/config.rst:1184
 #: ../../admin/config.rst:1311 ../../admin/projects.rst:464
@@ -9520,11 +9513,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1182
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Ce filtre utilise le nom court des licences."
 
 #: ../../admin/config.rst:1190
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Ceci désactive l'alerte de licence :"
 
 #: ../../admin/config.rst:1198 ../../admin/config.rst:1697
 msgid ":ref:`alerts`"
@@ -9540,7 +9533,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1209
 msgid "This is off by default."
-msgstr ""
+msgstr "Désactivé par défaut."
 
 #: ../../admin/config.rst:1214
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
@@ -42250,6 +42243,8 @@ msgstr ""
 msgid ""
 "The ability to add strings in Weblate requires :ref:`component-manage_units`."
 msgstr ""
+"La possibilité d'ajouter des chaînes dans Weblate nécessite :ref:`component-"
+"manage_units`."
 
 #: ../../devel/integration.rst:94
 msgid "Updating target-language files"
@@ -45661,10 +45656,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/ini.rst:14
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Monolingual INI files"
-msgstr "Fichier de langue de base mono-langue"
+msgstr "Fichiers INI mono-langue"
 
 #: ../../formats/ini.rst:18
 msgid "INI translations are usually used as monolingual translations."
@@ -45742,11 +45735,13 @@ msgstr "Propriétés Java"
 
 #: ../../formats/java.rst:10
 msgid "Native Java format for translations."
-msgstr ""
+msgstr "Format Java natif pour les traductions."
 
 #: ../../formats/java.rst:12
 msgid "Java properties are usually used as monolingual translations."
 msgstr ""
+"Les propriétés Java sont utilisées habituellement comme des traductions "
+"monolingues."
 
 #: ../../formats/java.rst:14
 msgid ""
@@ -47446,10 +47441,8 @@ msgid "Consecutive duplicated words"
 msgstr "Répétition de mots"
 
 #: ../../user/checks.rst:144
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row"
-msgstr "Le texte contient une répétition du même mot deux fois de suite :"
+msgstr "Le texte contient le même mot deux fois de suite"
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -53809,7 +53802,7 @@ msgstr ""
 
 #: ../../vcs.rst:276
 msgid "Git with force push"
-msgstr "Git avec force push"
+msgstr "Git avec poussée forcée"
 
 #: ../../vcs.rst:278
 msgid ""
@@ -54024,20 +54017,15 @@ msgid "Bitbucket Data Center pull requests"
 msgstr "Tirages demandés du Bitbucket Data Center"
 
 #: ../../vcs.rst:419
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Server API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
-"Ceci ajoute simplement un niveau par dessus :ref:`vcs-git` en utilisant "
-"`Bitbucket Server API`_ pour permettre de pousser les modifcations de "
-"traduction en tant que demandes de tirage, au lieu de les pousser "
-"directement sur le dépôt."
+"Ceci ajoute simplement un mince niveau par dessus :ref:`vcs-git` en "
+"utilisant `Bitbucket Data Center API`_ pour permettre de pousser les "
+"modifcations de traduction en tant que demandes de tirage, au lieu de les "
+"pousser directement sur le dépôt."
 
 #: ../../vcs.rst:425
 msgid "This does not support Bitbucket Cloud API."
@@ -54057,22 +54045,17 @@ msgstr ""
 "qu'avec :ref:`vcs-bitbucket-data-center`, une demande de tirage est créée."
 
 #: ../../vcs.rst:433
-#, fuzzy
-#| msgid ""
-#| "You need to configure API credentials (:setting:"
-#| "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
-#| "Once configured, you will see a :guilabel:`Bitbucket Server` option when "
-#| "selecting :ref:`component-vcs`."
 msgid ""
 "You need to configure API credentials (:setting:"
 "`BITBUCKETSERVER_CREDENTIALS`) in the Weblate settings to make this work. "
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"Vous devez configurer les informations de connexion à l'API (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) dans les paramètres de Weblate pour que cela "
-"fonctionne. Une fois configuré, vous pourrez voir une option  :guilabel:"
-"`Bitbucket Server` quand vous sélectionnerez :ref:`component-vcs`."
+"Vous devez configurer les informations de connexion à l'API "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) dans les paramètres de Weblate pour "
+"que cela fonctionne. Une fois configuré, vous pourrez voir une option  "
+":guilabel:`Bitbucket Data Server` quand vous sélectionnerez :ref:`component-"
+"vcs`."
 
 #: ../../vcs.rst:439
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -54083,19 +54066,14 @@ msgid "Bitbucket Cloud pull requests"
 msgstr "Requêtes de pull de Bitbucket Cloud"
 
 #: ../../vcs.rst:452
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Server API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Cloud "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"Ceci ajoute simplement un niveau par dessus :ref:`vcs-git` en utilisant "
-"`Bitbucket Server API`_ pour permettre de pousser les modifcations de "
-"traduction en tant que demandes de tirage, au lieu de les pousser "
+"Ceci ajoute simplement un mince niveau par dessus :ref:`vcs-git` en "
+"utilisant `Bitbucket Cloud API`_ pour permettre de pousser les modifcations "
+"de traduction en tant que demandes de tirage, au lieu de les pousser "
 "directement sur le dépôt."
 
 #: ../../vcs.rst:458
@@ -54411,19 +54389,14 @@ msgid "Getting started"
 msgstr "Pour commencer"
 
 #: ../../wlc.rst:69
-#, fuzzy
-#| msgid ""
-#| "The :program:`wlc` configuration is stored in ``~/.config/weblate`` (see :"
-#| "ref:`wlc-config` for other locations), please create it to match your "
-#| "environment:"
 msgid ""
 "The :program:`wlc` configuration is stored in :file:`~/.config/weblate` "
 "(see :ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
-"La configuration de :program:`wlc` est stockée dans ``~/.config/weblate`` "
-"(voir :ref:`wlc-config` pour les autres emplacements), veuillez la créer "
-"selon votre environnement."
+"La configuration de :program:`wlc` est stockée dans :file:`~/.config/weblate`"
+" (voir :ref:`wlc-config` pour les autres emplacements), veuillez la créer "
+"selon votre environnement :"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
@@ -54688,71 +54661,51 @@ msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
-#, fuzzy
-#| msgid "Configuration file parser following XDG specification."
 msgid "Configuration file placed in the project directory."
-msgstr "Analyseur de fichiers de configuration suivant la spécification XDG."
+msgstr "Fichiers de configuration placé dans le répertoire projet."
 
 #: ../../wlc.rst:299
-#, fuzzy
-#| msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
-msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
-#, fuzzy
-#| msgid "User configuration file on Windows."
 msgid "User configuration file on Windows in the roamed profile."
-msgstr "Fichier de configuration utilisateur sous Windows."
+msgstr ""
+"Fichier de configuration utilisateur sous Windows dans le profil itinérant."
 
 #: ../../wlc.rst:301
-#, fuzzy
-#| msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
-msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: ../../wlc.rst:302
-#, fuzzy
-#| msgid "User configuration file on Windows."
 msgid "User configuration file on Windows in the local profile."
-msgstr "Fichier de configuration utilisateur sous Windows."
+msgstr "Fichier de configuration utilisateur sous Windows dans le profil local."
 
 #: ../../wlc.rst:303
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:304
-#, fuzzy
-#| msgid "User configuration file"
 msgid "User configuration file."
-msgstr "Fichier de configuration utilisateur"
+msgstr "Fichier de configuration utilisateur."
 
 #: ../../wlc.rst:305
 msgid ":file:`/etc/xdg/weblate`"
 msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:306
-#, fuzzy
-#| msgid "System wide configuration file"
 msgid "System wide configuration file."
-msgstr "Fichier de configuration global du système"
+msgstr "Fichier de configuration global du système."
 
 #: ../../wlc.rst:308
-#, fuzzy
-#| msgid ""
-#| "The program follows the XDG specification, so you can adjust placement of "
-#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
-#| "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred "
-#| "location for the configuration file."
 msgid ""
 "The program follows the XDG specification, so you can adjust the placement "
 "of config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``."
 msgstr ""
 "Le programme suit la spécification XDG, vous pouvez donc ajuster "
-"l'emplacement des fichiers à l'aide des variables d'environnement "
-"``XDG_CONFIG_HOME`` ou ``XDG_CONFIG_DIRS``. Sous Windows, le répertoire "
-"``APPDATA`` est l'endroit préféré pour le fichier de configuration."
+"l'emplacement des fichiers de configuration à l'aide des variables "
+"d'environnement ``XDG_CONFIG_HOME`` ou ``XDG_CONFIG_DIRS``."
 
 #: ../../wlc.rst:312
 msgid ""
@@ -55126,17 +55079,12 @@ msgid "Peer review"
 msgstr "Évaluation par les pairs"
 
 #: ../../workflows.rst:134
-#, fuzzy
-#| msgid ""
-#| "With this workflow, anybody can add a suggestion, which needs approval "
-#| "from additional member(s) before it is accepted as a translation."
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional members before it is accepted as a translation."
 msgstr ""
-"Avec ce flux de travail, tout le monde peut ajouter une suggestion, qui doit "
-"être approuvée par un ou plusieurs autres membres avant d'être acceptée "
-"comme traduction."
+"Avec ce flux de travail, chacun peut ajouter une suggestion, qui doit être "
+"approuvée par d'autres membres avant d'être acceptée comme traduction."
 
 #: ../../workflows.rst:137
 msgid "*Any user* can add suggestions."

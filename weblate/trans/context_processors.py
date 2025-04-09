@@ -83,7 +83,7 @@ def get_bread_image(path) -> str:
         return "language.svg"
     if first == "manage":
         return "wrench.svg"
-    if first in {"about", "stats", "keys", "legal"}:
+    if first in {"about", "stats", "keys", "legal", "donate"}:
         return "weblate.svg"
     if first in {
         "glossaries",
@@ -95,8 +95,13 @@ def get_bread_image(path) -> str:
     return "project.svg"
 
 
-def get_interledger_payment_pointer():
-    interledger_payment_pointers = settings.INTERLEDGER_PAYMENT_POINTERS
+def get_interledger_payment_pointer() -> str:
+    interledger_payment_pointers: list[str] = []
+    if settings.INTERLEDGER_PAYMENT_BUILTIN:
+        # Weblate funding
+        interledger_payment_pointers.append("$ilp.uphold.com/ENU7fREdeZi9")
+
+    interledger_payment_pointers.extend(settings.INTERLEDGER_PAYMENT_POINTERS)
 
     if not interledger_payment_pointers:
         return None

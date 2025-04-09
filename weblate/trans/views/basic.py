@@ -20,6 +20,7 @@ from django.views.generic import RedirectView
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.forms import (
     AddCategoryForm,
@@ -62,6 +63,7 @@ from weblate.utils.stats import (
     CategoryLanguage,
     GhostProjectLanguageStats,
     ProjectLanguage,
+    get_non_glossary_stats,
     prefetch_stats,
 )
 from weblate.utils.views import (
@@ -144,22 +146,6 @@ def show_engage(request: AuthenticatedHttpRequest, path):
         try_set_language(language.code)
         translate_object = obj
         project = obj.project
-        stats_obj = obj.stats
-
-        all_count = strings_count = stats_obj.all
-        translated_count = stats_obj.translated
-
-        # Remove glossary from counts
-        glossaries = prefetch_stats(
-            Translation.objects.filter(
-                language=language, component__in=project.glossaries
-            ).prefetch()
-        )
-        for glossary in glossaries:
-            all_count -= glossary.stats.all
-            translated_count -= glossary.stats.translated
-            strings_count -= glossary.stats.all
-
     else:
         project = obj
         language = None
@@ -173,17 +159,8 @@ def show_engage(request: AuthenticatedHttpRequest, path):
             translate_object = ProjectLanguage(
                 project=project, language=guessed_language
             )
-        stats_obj = obj.stats
 
-        all_count = stats_obj.all
-        strings_count = stats_obj.source_strings
-        translated_count = stats_obj.translated
-
-        # Remove glossary from counts
-        for glossary in prefetch_stats(project.glossaries):
-            all_count -= glossary.stats.all
-            translated_count -= glossary.stats.translated
-            strings_count -= glossary.stats.source_strings
+    stats = get_non_glossary_stats(obj.stats)
 
     return render(
         request,
@@ -193,9 +170,9 @@ def show_engage(request: AuthenticatedHttpRequest, path):
             "object": obj,
             "path_object": obj,
             "project": project,
-            "strings_count": strings_count,
+            "strings_count": stats["source_strings"],
             "languages_count": project.stats.languages,
-            "percent": translation_percent(translated_count, all_count),
+            "percent": translation_percent(stats["translated"], stats["all"]),
             "language": language,
             "translate_object": translate_object,
             "project_link": format_html(
@@ -733,7 +710,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
     added = False
 
     if request.method == "POST":
-        form = form_class(obj, request.POST)
+        form = form_class(user, obj, request.POST)
 
         if form.is_valid():
             result = obj
@@ -758,11 +735,11 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             if len(langs) == 1:
                                 result = translation
                             obj.change_set.create(
-                                action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                                action=ActionEvents.ADDED_LANGUAGE, **kwargs
                             )
                     elif obj.new_lang == "contact":
                         obj.change_set.create(
-                            action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
+                            action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
                         )
                         messages.success(
                             request,
@@ -794,7 +771,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
             return redirect(result)
         messages.error(request, gettext("Please fix errors in the form."))
     else:
-        form = form_class(obj)
+        form = form_class(user, obj)
 
     return render(
         request,

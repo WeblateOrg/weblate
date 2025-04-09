@@ -481,6 +481,44 @@ class GroupAPITest(APIBaseTest):
             request={"role_id": role.id},
         )
 
+    def test_remove_role(self) -> None:
+        role = Role.objects.get(name="Administration")
+        group = Group.objects.get(name="Users")
+
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"role_id": role.id},
+        )
+
+        self.do_request(
+            "api:group-delete-roles",
+            kwargs={"id": group.id, "role_id": role.id},
+            method="delete",
+            code=403,
+        )
+
+        self.do_request(
+            "api:group-delete-roles",
+            kwargs={"id": group.id, "role_id": 99999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:group-delete-roles",
+            kwargs={"id": group.id, "role_id": role.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        self.assertEqual(group.roles.filter(pk=role.id).count(), 0)
+
     def test_add_component(self) -> None:
         self.do_request(
             "api:group-components",
@@ -2626,7 +2664,12 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat()},
+            request={
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+                "sort_by": "count",
+                "sort_order": "ascending",
+            },
         )
         self.assertEqual(response.data, [])
 
@@ -2635,7 +2678,13 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
+            request={
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+                "lang": "fr",
+                "sort_by": "count",
+                "sort_order": "ascending",
+            },
         )
         self.assertEqual(response.data, [])
 
@@ -4070,6 +4119,25 @@ class UnitAPITest(APIBaseTest):
         component = Component.objects.get(pk=component.pk)
         self.assertNotEqual(revision, component.repository.last_revision)
         self.assertEqual(component.stats.all, 12)
+
+    def test_unit_translations(self):
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Thank you for using Weblate."
+        )
+        response = self.client.get(
+            reverse("api:unit-translations", kwargs={"pk": unit.pk})
+        )
+        # translations units do not include source unit
+        self.assertEqual(len(response.data), 3)
+
+        unit_cs = Unit.objects.get(
+            translation__language_code="cs", source="Thank you for using Weblate."
+        )
+        response = self.client.get(
+            reverse("api:unit-translations", kwargs={"pk": unit_cs.pk})
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["code"], "not-a-source-unit")
 
 
 class ScreenshotAPITest(APIBaseTest):

@@ -21,15 +21,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-    - uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
+    - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Setup Python
-      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+      uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
       with:
         python-version: '3.13'
-    - uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
+    - uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182 # v5.4.1
     - name: detect method
       id: detect
       run: |
@@ -44,13 +44,13 @@ jobs:
         fi
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
-      run: uv run --no-sources --only-group pre-commit pre-commit run --all
+      run: uv run --no-sources --only-group pre-commit pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
-      run: uvx pre-commit run --all
+      run: uvx pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
@@ -62,7 +62,7 @@ jobs:
       run: uv pip install --system "$(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)"
     - name: pre-commit (installed)
       if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
-      run: pre-commit run --all
+      run: pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -27,6 +27,7 @@ from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
+from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -47,6 +48,9 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 @app.task(
@@ -118,11 +122,18 @@ def perform_push(pk, *args, **kwargs) -> None:
 
 
 @app.task(trail=False)
-def commit_pending(hours=None, pks=None, logger=None) -> None:
+def commit_pending(
+    hours: int | None = None,
+    pks: set[int] | None = None,
+    logger: Callable[[str], None] | None = None,
+) -> None:
     if pks is None:
         components = Component.objects.all()
     else:
-        components = Component.objects.filter(translation__pk__in=pks).distinct()
+        components = Component.objects.filter(translation__pk__in=pks)
+
+    # All components with pending units
+    components = components.filter(translation__unit__pending=True).distinct()
 
     for component in prefetch_stats(components.prefetch()):
         age = timezone.now() - timedelta(
@@ -199,7 +210,7 @@ def cleanup_suggestions() -> None:
                 and suggestion.unit.translated
             ):
                 suggestion.delete_log(
-                    anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
+                    anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
                 )
                 continue
 
@@ -211,7 +222,7 @@ def cleanup_suggestions() -> None:
             for other in sugs:
                 if other.target == suggestion.target:
                     suggestion.delete_log(
-                        anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
+                        anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
                     )
                     break
 
@@ -391,7 +402,7 @@ def component_removal(pk: int, uid: int) -> None:
         return
     component.acting_user = user
     component.project.change_set.create(
-        action=Change.ACTION_REMOVE_COMPONENT,
+        action=ActionEvents.REMOVE_COMPONENT,
         target=component.slug,
         user=user,
         author=user,
@@ -418,7 +429,7 @@ def category_removal(pk: int, uid: int) -> None:
     for component_id in category.component_set.values_list("id", flat=True):
         component_removal(component_id, uid)
     category.project.change_set.create(
-        action=Change.ACTION_REMOVE_CATEGORY,
+        action=ActionEvents.REMOVE_CATEGORY,
         target=category.slug,
         user=user,
         author=user,
@@ -445,7 +456,7 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
         except Project.DoesNotExist:
             return
         Change.objects.create(
-            action=Change.ACTION_REMOVE_PROJECT,
+            action=ActionEvents.REMOVE_PROJECT,
             target=project.slug,
             user=user,
             author=user,
@@ -547,7 +558,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
     # tasks in discovery
     component.full_clean()
     component.save(force_insert=True)
-    component.change_set.create(action=Change.ACTION_CREATE_COMPONENT)
+    component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
     if copy_from:
         # Copy non-automatic component lists
         for clist in ComponentList.objects.filter(

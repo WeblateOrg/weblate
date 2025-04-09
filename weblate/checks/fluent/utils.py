@@ -53,7 +53,7 @@ def format_html_code(
 def format_html_error_list(errors: Iterable[str]) -> SafeString:
     """Return a HTML SafeString with each given error on a new line."""
     return format_html_join(
-        mark_safe("<br />"),  # noqa: S308
+        mark_safe("<br />"),
         "{}",
         ((err,) for err in errors),
     )

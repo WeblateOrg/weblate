@@ -85,6 +85,8 @@ class EmailValidatorTestCase(SimpleTestCase):
             self.assertIsNone(validator("@example.com"))
         with self.assertRaises(ValidationError):
             self.assertIsNone(validator(".@example.com"))
+        with self.assertRaises(ValidationError):
+            self.assertIsNone(validator("fdfdsa@disposablemails.com"))
 
 
 class FilenameTest(SimpleTestCase):

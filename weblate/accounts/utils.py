@@ -96,6 +96,16 @@ def remove_user(user: User, request: AuthenticatedHttpRequest, **params) -> None
     Token.objects.filter(user=user).delete()
 
 
+def lock_user(
+    user: User,
+    reason: Literal["locked", "admin-locked"],
+    request: AuthenticatedHttpRequest | None = None,
+):
+    user.set_unusable_password()
+    user.save(update_fields=["password"])
+    AuditLog.objects.create(user, request, reason)
+
+
 def get_all_user_mails(user: User, entries=None, filter_deliverable=True):
     """Return all verified mails for user."""
     kwargs = {"social__user": user}

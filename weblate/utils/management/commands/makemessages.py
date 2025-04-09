@@ -22,7 +22,8 @@ class Command(BaseCommand):
 
     def build_potfiles(self):
         if self.domain == "django":
-            self.xgettext_options = self.xgettext_options[:] + [
-                "--keyword=pgettext_noop:1c,2"
+            self.xgettext_options = [
+                *self.xgettext_options,
+                "--keyword=pgettext_noop:1c,2",
             ]
         return super().build_potfiles()

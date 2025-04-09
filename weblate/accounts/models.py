@@ -44,19 +44,25 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import Change, ComponentList
+from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField
 from weblate.utils.html import mail_quote_value
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.stats import (
+    CategoryLanguageStats,
+    GhostProjectLanguageStats,
+    ProjectLanguageStats,
+)
 from weblate.utils.token import get_token
 from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
 from weblate.wladmin.models import get_support_status
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
     from django_otp.models import Device
 
@@ -130,6 +136,7 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/contact/$",  # Optional for contact form
         r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
+        r"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     )
 
     class Meta:
@@ -220,6 +227,7 @@ ACCOUNT_ACTIVITY = {
     ),
     "failed-auth": gettext_lazy("Could not sign in using {method} ({name})."),
     "locked": gettext_lazy("Account locked due to many failed sign in attempts."),
+    "admin-locked": gettext_lazy("Account locked by the site administrator."),
     "removed": gettext_lazy("Account and all private data removed."),
     "removal-request": gettext_lazy("Account removal confirmation sent to {email}."),
     "tos": gettext_lazy("Agreement with General Terms and Conditions {date}."),
@@ -432,12 +440,12 @@ class AuditLog(models.Model):
 
     def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
+        from weblate.accounts.utils import lock_user
+
         if self.activity == "failed-auth" and self.user.has_usable_password():
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                self.user.set_unusable_password()
-                self.user.save(update_fields=["password"])
-                AuditLog.objects.create(self.user, request, "locked")
+                lock_user(self.user, "locked", request)
                 return True
 
         elif self.activity == "reset-request":
@@ -855,25 +863,70 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_translation_orderer(self, request: AuthenticatedHttpRequest):
+    def get_translation_orderer(
+        self, request: AuthenticatedHttpRequest | None
+    ) -> Callable[
+        [
+            Iterable[
+                Unit
+                | Translation
+                | Language
+                | ProjectLanguageStats
+                | CategoryLanguageStats
+                | GhostProjectLanguageStats
+                | GhostTranslation
+            ]
+        ],
+        str,
+    ]:
         """Create a function suitable for ordering languages based on user preferences."""
 
-        def get_translation_order(translation) -> str:
+        def get_translation_order(
+            obj: Unit
+            | Translation
+            | Language
+            | ProjectLanguageStats
+            | CategoryLanguageStats
+            | GhostProjectLanguageStats
+            | GhostTranslation,
+        ) -> str:
             from weblate.trans.models import Unit
 
-            if isinstance(translation, Unit):
-                translation = translation.translation
-            language = translation.language
+            language: Language
+            is_source = False
+            if isinstance(obj, Language):
+                language = obj
+            elif isinstance(obj, Unit):
+                translation = obj.translation
+                language = translation.language
+                is_source = translation.is_source
+            elif isinstance(
+                obj,
+                (
+                    Translation,
+                    ProjectLanguageStats,
+                    CategoryLanguageStats,
+                    GhostProjectLanguageStats,
+                    GhostTranslation,
+                ),
+            ):
+                language = obj.language
+                is_source = obj.is_source
+            else:
+                message = f"{obj.__class__.__name__} is not supported"
+                raise TypeError(message)
 
             if language.pk in self.primary_language_ids:
                 priority = 0
             elif language.pk in self.secondary_language_ids:
                 priority = 1
             elif (
-                not self.primary_language_ids and language == request.accepted_language
+                not self.primary_language_ids
+                and request is not None
+                and language == request.accepted_language
             ):
                 priority = 2
-            elif translation.is_source:
+            elif is_source:
                 priority = 3
             else:
                 priority = 4

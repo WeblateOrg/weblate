@@ -319,7 +319,7 @@ class UserQuerySet(models.QuerySet["User"]):
         author_email: str | None,
         fallback: User | None,
         request: AuthenticatedHttpRequest,
-    ) -> User:
+    ) -> User | None:
         from weblate.accounts.models import AuditLog
 
         if author_email and (fallback is None or not fallback.has_email(author_email)):
@@ -343,14 +343,22 @@ class UserQuerySet(models.QuerySet["User"]):
         defaults: Mapping[str, Any] | None = None,
         **kwargs: Any,  # noqa: ANN401
     ) -> tuple[User, bool]:
-        filtered = {
-            name: value
-            for name, value in defaults.items()
-            if name not in User.DUMMY_FIELDS
-        }
-        extra = {
-            name: value for name, value in defaults.items() if name in User.DUMMY_FIELDS
-        }
+        filtered: dict[str, Any] | None
+        extra: dict[str, Any]
+        if defaults is None:
+            filtered = None
+            extra = {}
+        else:
+            filtered = {
+                name: value
+                for name, value in defaults.items()
+                if name not in User.DUMMY_FIELDS
+            }
+            extra = {
+                name: value
+                for name, value in defaults.items()
+                if name in User.DUMMY_FIELDS
+            }
 
         user, created = super().get_or_create(defaults=filtered, **kwargs)
         if created:
@@ -399,8 +407,10 @@ def wrap_group_list(func):
 class GroupManyToManyField(models.ManyToManyField):
     """Customized field to accept Django Groups objects as well."""
 
-    def contribute_to_class(self, cls, name, **kwargs) -> None:
-        super().contribute_to_class(cls, name, **kwargs)
+    def contribute_to_class(
+        self, cls: type[models.Model], name: str, private_only: bool = False, **kwargs
+    ) -> None:
+        super().contribute_to_class(cls, name, private_only=private_only, **kwargs)
 
         # Get related descriptor
         descriptor = getattr(cls, self.name)

@@ -365,6 +365,11 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
             "czech", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False
         )
 
+    def test_dan(self) -> None:
+        """Test that aliases have higher priority than language names."""
+        language = Language.objects.auto_get_or_create("dan")
+        self.assertEqual(language.code, "da")
+
     def test_chinese_fuzzy_get(self) -> None:
         """Test handling of manually created zh_CN language."""
         language = Language.objects.create(code="zh_CN", name="Chinese")

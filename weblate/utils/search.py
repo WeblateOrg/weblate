@@ -339,7 +339,8 @@ class BaseTermExpr:
 
         # Field specific code
         field_method: Callable[[str, dict], Q] = cast(
-            "Callable[[str, dict], Q]", getattr(self, f"{field}_field", None)
+            "Callable[[str, dict], Q] | None",
+            getattr(self, f"{field}_field", None),
         )
         if field_method is not None:
             return field_method(match, context)
@@ -421,7 +422,6 @@ class UnitTermExpr(BaseTermExpr):
         "check": "check__name",
         "dismissed_check": "check__name",
         "language": "translation__language__code",
-        "component": "translation__component__slug",
         "project": "translation__component__project__slug",
         "changed_by": "change__author__username",
         "suggestion_author": "suggestion__user__username",
@@ -511,6 +511,15 @@ class UnitTermExpr(BaseTermExpr):
     def convert_source_state(self, text: str) -> int | None:
         return self.convert_state(text)
 
+    def component_field(self, text: str, context: dict) -> Q:
+        if self.operator == ":=":
+            return Q(translation__component__slug__iexact=text) | Q(
+                translation__component__name__iexact=text
+            )
+        return Q(translation__component__slug__icontains=text) | Q(
+            translation__component__name__icontains=text
+        )
+
     def path_field(self, text: str, context: dict) -> Q:
         try:
             obj = parse_path(
@@ -578,8 +587,6 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
-        if field == "component":
-            return query | Q(translation__component__name__icontains=match)
         if field == "label":
             return query | Q(labels__name__iexact=match)
         if field == "screenshot":

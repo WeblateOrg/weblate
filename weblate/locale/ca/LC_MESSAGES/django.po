@@ -4,13 +4,14 @@
 # victor dargallo <victordargallo@disroot.org>, 2023, 2024.
 # Eduard Ereza Martínez <eduard@ereza.cat>, 2023, 2024, 2025.
 # Ecron <ecron_89@hotmail.com>, 2023.
+# Espea Tiviq <espea.tiviq@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-02-20 11:29+0000\n"
-"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
+"PO-Revision-Date: 2025-03-29 18:49+0000\n"
+"Last-Translator: Espea Tiviq <espea.tiviq@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.1-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -1033,14 +1034,16 @@ msgstr ""
 "La contrasenya no pot consistir només en un caràcter o espais en blanc."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Aquesta contrasenya només té un caràcter."
-msgstr[1] "Aquesta contrasenya només té un caràcter."
+msgstr[0] ""
+"Aquesta contrasenya és massa llarga. Només pot tenir %(max_length)d caràcter."
+msgstr[1] ""
+"Aquesta contrasenya és massa llarga. Només pot tenir %(max_length)d "
+"caràcters."
 
 #: weblate/accounts/password_validation.py:56
 #, fuzzy, python-format
@@ -1101,16 +1104,14 @@ msgid "Use recovery codes"
 msgstr ""
 
 #: weblate/accounts/utils.py:175
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Política de seguretat"
+msgstr "Codi de seguretat (%s)"
 
 #: weblate/accounts/utils.py:181
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Autenticació"
+msgstr "Applicació d'autenticació (%s)"
 
 #: weblate/accounts/views.py:205 weblate/accounts/views.py:1053
 #: weblate/accounts/views.py:1110 weblate/templates/accounts/reset.html:9
@@ -2106,17 +2107,16 @@ msgid "Could not obtain the lock to perform the operation."
 msgstr "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
 
 #: weblate/api/views.py:162
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
+msgstr "No s’ha pogut obtenir la clau del repositori perquè %s pugui funcionar."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
+msgstr ""
+"No s’ha pogut actualitzar la clau del repositori perquè %s pugui funcionar."
 
 #: weblate/api/views.py:177
 #, fuzzy, python-format
@@ -5512,10 +5512,9 @@ msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
 
 #: weblate/machinery/forms.py:286
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "La traducció no és XML vàlid"
+msgstr "El vector de context no és vàlid: %s"
 
 #: weblate/machinery/forms.py:290
 #, python-format
@@ -5657,10 +5656,9 @@ msgid "File"
 msgstr "Fitxer"
 
 #: weblate/memory/forms.py:22
-#, fuzzy, python-format
-#| msgid "You can download glossary in following formats:"
+#, python-format
 msgid "You can upload a file of following formats: %s."
-msgstr "Podeu baixar el glossari en els formats següents:"
+msgstr "Podeu pujar el fitxer en els formats següents: %s"
 
 #: weblate/memory/forms.py:27 weblate/trans/models/component.py:722
 msgid "Source language"
@@ -8445,10 +8443,9 @@ msgstr "S’està actualitzant el component…"
 
 #: weblate/templates/component-progress.html:43
 #: weblate/templates/multi-progress.html:32
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Continue to %(return_target)s"
-msgstr "Invitació a %(project_name)s"
+msgstr "Continuar a %(return_target)s"
 
 #: weblate/templates/component-progress.html:45
 msgid "Abort the update"
@@ -9172,12 +9169,11 @@ msgid "Lock"
 msgstr "Bloca"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "S’ha blocat el component %(component)s"
-msgstr[1] "S’ha blocat el component %(component)s"
+msgstr[0] "S’ha bloquejat %(count)s component"
+msgstr[1] "S’han bloquejat %(count)s components"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:200
 msgctxt "Joins a list of values"
@@ -9185,12 +9181,11 @@ msgid ", "
 msgstr ""
 
 #: weblate/templates/js/git-status.html:118
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "S’ha desblocat el component %(component)s"
-msgstr[1] "S’ha desblocat el component %(component)s"
+msgstr[0] "S’ha desbloquejat %(count)s component"
+msgstr[1] "S’han desbloquejat %(count)s components"
 
 #: weblate/templates/js/git-status.html:121
 #: weblate/templates/js/git-status.html:126
@@ -10133,16 +10128,14 @@ msgstr[0] "%(count)s cadena inacabada"
 msgstr[1] "%(count)s cadenes inacabades"
 
 #: weblate/templates/mail/translated_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "The translations in several languages have failing checks"
+#, python-format
 msgid "Translations in all languages have been completed in %(component)s"
-msgstr "Les traduccions en diferents llengües tenen comprovacions fallides"
+msgstr "Les traduccions a tots els idiomes s'han completat en %(component)s"
 
 #: weblate/templates/mail/translated_language_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translations have been updated."
+#, python-format
 msgid "%(translation)s has been completed"
-msgstr "S’han actualitzat les traduccions."
+msgstr "S'ha completat %(translation)s"
 
 #: weblate/templates/manage/alerts.html:11
 msgid "Component alerts"
@@ -14969,10 +14962,9 @@ msgstr "%(action)s el %(time)s a %(translation)s per %(user)s"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:772
-#, fuzzy, python-format
-#| msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
-msgstr "%(action)s el %(time)s a %(translation)s per %(user)s"
+msgstr "%(action)s el %(time)s a %(translation)s"
 
 #: weblate/trans/models/change.py:949
 msgid "The “{}” file was changed."
@@ -15960,14 +15952,9 @@ msgid "Failed adding string, no translation found."
 msgstr "No s’ha pogut afegir la cadena, no s’ha trobat cap traducció."
 
 #: weblate/trans/models/unit.py:1064
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr ""
-"La cadena no s’ha propagat a %(component)s perquè no heu acceptat un acord "
-"de col·laboració."
+msgstr "La cadena no s’ha propagat a %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1830
 msgid "Unmark as read-only"

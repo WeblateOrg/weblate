@@ -30,7 +30,7 @@ class AngularJSInterpolationCheck(BaseFormatCheck):
 
     check_id = "angularjs_format"
     name = gettext_lazy("AngularJS interpolation string")
-    description = gettext_lazy("AngularJS interpolation strings do not match source")
+    description = gettext_lazy("AngularJS interpolation strings do not match source.")
     regexp = ANGULARJS_INTERPOLATION_MATCH
 
     def cleanup_string(self, text: str) -> str:

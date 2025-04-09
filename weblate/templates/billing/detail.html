@@ -143,7 +143,8 @@
                              class="btn btn-primary"
                              name="approve"
                              value="{% trans "Approve as libre" %}" />
-                    {% else %}
+                    {% endif %}
+                    {% if not billing.payment.libre_request %}
                       {{ hosting_form|crispy }}
                       <input type="submit"
                              class="btn btn-primary"

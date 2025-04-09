@@ -36,9 +36,14 @@ services:
     depends_on:
     - database
     - cache
+    - maildev
     environment:
       DJANGO_SETTINGS_MODULE: weblate.settings_docker
       WEBLATE_SITE_DOMAIN: ${WEBLATE_HOST}
+      WEBLATE_EMAIL_HOST: maildev
+      WEBLATE_EMAIL_PORT: 1025
+      WEBLATE_EMAIL_USE_TLS: 0
+      WEBLATE_EMAIL_USE_SSL: 0
     env_file:
     - ./environment
   database:
@@ -57,6 +62,10 @@ services:
     command: [redis-server, --save, '60', '1']
     volumes:
     - redis-data:/data
+  maildev:
+    image: maildev/maildev:2.2.1
+    ports:
+    - 1080:1080
 volumes:
   weblate-data: {}
   postgres-data: {}

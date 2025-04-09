@@ -326,7 +326,7 @@ All these default to empty list.
 .. seealso::
 
     :ref:`csp`,
-    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP>`_
+    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>`_
 
 .. setting:: CHECK_LIST
 
@@ -811,7 +811,7 @@ List for credentials for GitLab servers.
 .. seealso::
 
    :ref:`vcs-gitlab`,
-   `GitLab: Personal access token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
+   `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
 
 .. setting:: GITHUB_CREDENTIALS
 
@@ -1006,6 +1006,20 @@ does not prevent an attacker from figuring out version by probing behavior.
 
     This is turned off by default.
 
+.. setting:: INTERLEDGER_PAYMENT_BUILTIN
+
+INTERLEDGER_PAYMENT_BUILTIN
+---------------------------
+
+.. versionadded:: 5.11
+
+Toggles built-in Interledger Payment Pointer for funding Weblate.
+
+.. seealso::
+
+   :setting:`INTERLEDGER_PAYMENT_POINTERS`
+
+
 .. setting:: INTERLEDGER_PAYMENT_POINTERS
 
 INTERLEDGER_PAYMENT_POINTERS
@@ -1022,7 +1036,13 @@ Please check <https://webmonetization.org/> for more details.
 
 .. hint::
 
-   The default value lets users fund Weblate itself.
+   A pointer to fund Weblate itself is automatically added unless turned off
+   by :setting:`INTERLEDGER_PAYMENT_BUILTIN`.
+
+
+.. seealso::
+
+   :setting:`INTERLEDGER_PAYMENT_BUILTIN`
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -1088,7 +1108,7 @@ which address from the header is used as client IP address here.
 
    Setting this affects the security of your installation. You should only
    configure it to use trusted proxies for determining the IP address.
-   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
+   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
 Defaults to -1.
 
@@ -1738,7 +1758,7 @@ Configure sampling rate for performance monitoring. Set to 1 to trace all events
 
 .. seealso::
 
-   `Sentry Performance Monitoring <https://docs.sentry.io/product/performance/>`_
+   `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
 
 .. setting:: SENTRY_SEND_PII
 

@@ -5,13 +5,58 @@ Weblate 5.11
 
 .. rubric:: New features
 
+* Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
+* Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
+* :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
+
 .. rubric:: Improvements
 
 * Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:`api`.
+* :ref:`credits` and :ref:`stats` include translator's join date. Additionally, both reports can be sorted either by the join date or the number of strings translated.
+* Widgets show more precise stats.
+* :ref:`upload` is now tracked in history with details.
+* :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
+* Changes in string flags are now tracked in history.
+* :doc:`/admin/machine` documentation extended.
+* :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
+* Dismissing :ref:`checks` automatically updates propagated strings.
+* Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 
 .. rubric:: Bug fixes
 
+* Fixed captcha verification when some time zone was configured.
+* Improved translation propagation performance.
+* Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.
+* Fixed background parsing of newly added translation files.
+
 .. rubric:: Compatibility
+
+* Registration now disallows disposable e-mail domains.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The database migration updates indexes and this might take considerable time.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/136?closed=1>`__.
+
+Weblate 5.10.4
+--------------
+
+*Released on March 19th 2025.*
+
+.. rubric:: Bug fixes
+
+* Fixed dismissing of checks.
+* Reduced overhead of rendering other strings while translating.
+* Improved performance of some :ref:`api` endpoints.
+* Fixed :ref:`language-parsing-codes` in some corner cases.
+* :ref:`search-strings` now properly finds exact match on the component.
 
 .. rubric:: Upgrading
 
@@ -19,9 +64,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. rubric:: Contributors
 
-.. include:: changes/contributors/5.11.rst
+.. include:: changes/contributors/5.10.4.rst
 
-`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/136?closed=1>`__.
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/140?closed=1>`__.
 
 Weblate 5.10.3
 --------------

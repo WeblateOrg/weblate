@@ -31,7 +31,7 @@ jobs:
       PYTHONUNBUFFERED: 1
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-    - uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
+    - uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182 # v5.4.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -41,7 +41,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Set up Python
-      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+      uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
       with:
         python-version: '3.13'
     - name: Used versions
@@ -55,8 +55,7 @@ jobs:
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
-        # TODO: add --fail-on-warn once OpenAPI is without warnings
-        uv run --no-sources ./manage.py spectacular --skip-checks --validate --urlconf="weblate.api.urls" > weblate-openapi.yaml
+        uv run --no-sources ./manage.py spectacular --skip-checks --fail-on-warn --validate --urlconf="weblate.api.urls" > weblate-openapi.yaml
         echo "::remove-matcher owner=spectacular::"
     - name: openapi-lint
       run: npx @redocly/cli lint --format github-actions weblate-openapi.yaml

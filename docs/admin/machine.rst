@@ -28,6 +28,15 @@ Per-project automatic suggestion can also be configured via the :ref:`api`.
 
    :ref:`machine-translation`
 
+.. _mt-translation-services-priority:
+
+Priority of machine translation and translation memory services
+----------------------------------------------------------------
+
+:ref:`mt-weblate-translation-memory` matches with 100% score take priority over machine translation services. If 100% match in translation memory is found, no machine translation is performed. If several 100% matches occur, the first one returned by the database is used.
+
+Each machine translation service has a predefined maximum score it can produce. The use of installed translation services is ordered according to their maximum score. For each string with translation score lower than the service's maximum, the service is asked to produce a translation. Translations with a score exceeding the current one are accepted.
+
 .. _mt-alibaba:
 
 Alibaba
@@ -36,6 +45,7 @@ Alibaba
 .. versionadded:: 5.3
 
 :Service ID: ``alibaba``
+:Maximal score: 80
 :Configuration: +------------+-------------------+--+
                 | ``key``    | Access key ID     |  |
                 +------------+-------------------+--+
@@ -57,6 +67,7 @@ Apertium APy
 ------------
 
 :Service ID: ``apertium-apy``
+:Maximal score: 88
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
                 +---------+---------+--+
@@ -79,6 +90,7 @@ Amazon Translate
 ----------------
 
 :Service ID: ``aws``
+:Maximal score: 88
 :Configuration: +------------+----------------+--+
                 | ``key``    | Access key ID  |  |
                 +------------+----------------+--+
@@ -98,12 +110,40 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
     `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_,
     `AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-policy/latest/reference/TranslateFullAccess.html>`_
 
+.. _mt-azure-openai:
+
+Azure OpenAI
+------------
+
+.. versionadded:: 5.8
+
+:Service ID: ``azure-openai``
+:Maximal score: 90
+:Configuration: +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``            | API key                   |                                                                                                                           |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``        | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``          | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``azure_endpoint`` | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``deployment``     | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
+                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `OpenAI`_ hosted on Azure.
+
+.. seealso::
+
+    :ref:`mt-openai`
+
 .. _mt-baidu:
 
 Baidu
 -----
 
 :Service ID: ``baidu``
+:Maximal score: 90
 :Configuration: +------------+---------------+--+
                 | ``key``    | Client ID     |  |
                 +------------+---------------+--+
@@ -126,6 +166,7 @@ Cyrtranslit
 .. versionadded:: 5.7
 
 :Service ID: ``cyrtranslit``
+:Maximal score: 100
 :Configuration: `This service has no configuration.`
 
 Machine translation service using the Cyrtranslit library.
@@ -142,6 +183,7 @@ DeepL
 -----
 
 :Service ID: ``deepl``
+:Maximal score: 91
 :Configuration: +---------------+---------------------+-------------------------------------------------------------------------------------+
                 | ``url``       | API URL             |                                                                                     |
                 +---------------+---------------------+-------------------------------------------------------------------------------------+
@@ -199,6 +241,7 @@ Glosbe
 ------
 
 :Service ID: ``glosbe``
+:Maximal score: 90
 :Configuration: `This service has no configuration.`
 
 Free dictionary and translation memory for almost every living language.
@@ -217,6 +260,7 @@ Google Cloud Translation Basic
 ------------------------------
 
 :Service ID: ``google-translate``
+:Maximal score: 90
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
@@ -236,6 +280,7 @@ Google Cloud Translation Advanced
 ---------------------------------
 
 :Service ID: ``google-translate-api-v3``
+:Maximal score: 90
 :Configuration: +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
                 | ``credentials`` | Google Translate service account info | Enter a JSON key for the service account.                                                                |
                 +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
@@ -289,6 +334,7 @@ IBM Watson Language Translator
 .. versionadded:: 4.16
 
 :Service ID: ``ibm``
+:Maximal score: 88
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
                 +---------+---------+--+
@@ -315,6 +361,7 @@ LibreTranslate
 .. versionadded:: 4.7.1
 
 :Service ID: ``libretranslate``
+:Maximal score: 89
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
                 +---------+---------+--+
@@ -339,6 +386,7 @@ Azure AI Translator
 -------------------
 
 :Service ID: ``microsoft-translator``
+:Maximal score: 90
 :Configuration: +------------------+-------------------------------+---------------------------------------------------------------------------+
                 | ``key``          | API key                       |                                                                           |
                 +------------------+-------------------------------+---------------------------------------------------------------------------+
@@ -397,35 +445,10 @@ You can also specify a custom category to use `custom translator <https://learn.
 
    `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/products/ai-services/ai-translator>`_,
    `Microsoft Azure Portal <https://portal.azure.com/>`_,
-   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_,
-   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_
-   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_
+   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#base-urls>`_,
+   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-a-multi-service-resource>`_
+   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-an-access-token>`_
 
-.. _mt-azure-openai:
-
-Azure OpenAI
-------------
-
-.. versionadded:: 5.8
-
-:Service ID: ``azure-openai``
-:Configuration: +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``            | API key                   |                                                                                                                           |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``        | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``          | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``azure_endpoint`` | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``deployment``     | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-
-Performs translation using `OpenAI`_ hosted on Azure.
-
-.. seealso::
-
-    :ref:`mt-openai`
 
 .. _mt-modernmt:
 
@@ -435,6 +458,7 @@ ModernMT
 .. versionadded:: 4.2
 
 :Service ID: ``modernmt``
+:Maximal score: 90
 :Configuration: +--------------------+----------------+-----------------------------------------------------------------------+
                 | ``url``            | API URL        |                                                                       |
                 +--------------------+----------------+-----------------------------------------------------------------------+
@@ -455,6 +479,7 @@ MyMemory
 --------
 
 :Service ID: ``mymemory``
+:Maximal score: 100
 :Configuration: +--------------+----------------+--+
                 | ``email``    | Contact e-mail |  |
                 +--------------+----------------+--+
@@ -481,6 +506,7 @@ Netease Sight
 -------------
 
 :Service ID: ``netease-sight``
+:Maximal score: 90
 :Configuration: +------------+---------------+--+
                 | ``key``    | Client ID     |  |
                 +------------+---------------+--+
@@ -503,8 +529,13 @@ OpenAI
 .. versionadded:: 5.3
 
 :Service ID: ``openai``
+:Maximal score: 90
 :Configuration: +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``key``          | API key             |                                                                                                                           |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``      | Translator persona  | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``        | Translator style    | Describe the style of translation. For example: “Use informal language.”                                                  |
                 +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``base_url``     | OpenAI API base URL | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
                 +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -512,23 +543,29 @@ OpenAI
                 |                  |                     |                                                                                                                           |
                 |                  |                     | ``auto`` -- Automatic selection                                                                                           |
                 |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
+                |                  |                     |                                                                                                                           |
                 |                  |                     | ``gpt-4o`` -- GPT-4o                                                                                                      |
                 |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4-1106-preview`` -- GPT-4 Turbo                                                                                     |
+                |                  |                     | ``o3-mini`` -- OpenAI o3-mini                                                                                             |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``o3`` -- OpenAI o3                                                                                                       |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``o1-mini`` -- OpenAI o1-mini                                                                                             |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``o1`` -- OpenAI o1                                                                                                       |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4.5-preview`` -- GPT-4.5                                                                                            |
+                |                  |                     |                                                                                                                           |
+                |                  |                     | ``gpt-4-turbo`` -- GPT-4 Turbo                                                                                            |
                 |                  |                     |                                                                                                                           |
                 |                  |                     | ``gpt-4`` -- GPT-4                                                                                                        |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-3.5-turbo-1106`` -- Updated GPT 3.5 Turbo                                                                           |
                 |                  |                     |                                                                                                                           |
                 |                  |                     | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
                 |                  |                     |                                                                                                                           |
                 |                  |                     | ``custom`` -- Custom model                                                                                                |
                 +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``custom_model`` | Custom model name   | Only needed when model is set to 'Custom model'                                                                           |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``      | Translator persona  | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``        | Translator style    | Describe the style of translation. For example: “Use informal language.”                                                  |
                 +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 Performs translation using `OpenAI`_.
@@ -560,6 +597,7 @@ SAP Translation Hub
 -------------------
 
 :Service ID: ``sap-translation-hub``
+:Maximal score: 100
 :Configuration: +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``url``       | API URL                    |                                                                                                                                                 |
                 +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -600,6 +638,7 @@ Systran
 -------
 
 :Service ID: ``systran``
+:Maximal score: 90
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
@@ -615,6 +654,7 @@ tmserver
 --------
 
 :Service ID: ``tmserver``
+:Maximal score: 100
 :Configuration: +---------+---------+--+
                 | ``url`` | API URL |  |
                 +---------+---------+--+
@@ -653,6 +693,7 @@ Weblate
 -------
 
 :Service ID: ``weblate``
+:Maximal score: 100
 :Configuration: `This service has no configuration.`
 
 
@@ -667,6 +708,7 @@ Weblate Translation Memory
 --------------------------
 
 :Service ID: ``weblate-translation-memory``
+:Maximal score: 100
 :Configuration: `This service has no configuration.`
 
 Use :ref:`translation-memory` as a machine translation service.
@@ -684,6 +726,7 @@ Yandex
 ------
 
 :Service ID: ``yandex``
+:Maximal score: 90
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
@@ -705,6 +748,7 @@ Yandex v2
 .. versionadded:: 5.1
 
 :Service ID: ``yandex-v2``
+:Maximal score: 90
 :Configuration: +---------+---------+--+
                 | ``key`` | API key |  |
                 +---------+---------+--+
@@ -724,6 +768,7 @@ Youdao Zhiyun
 -------------
 
 :Service ID: ``youdao-zhiyun``
+:Maximal score: 90
 :Configuration: +------------+---------------+--+
                 | ``key``    | Client ID     |  |
                 +------------+---------------+--+
