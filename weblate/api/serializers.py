@@ -436,6 +436,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "secondary_language",
             "enforced_2fa",
             "machinery_settings",
         )
@@ -603,6 +604,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "auto_lock_error",
             "language_regex",
             "key_filter",
+            "secondary_language",
             "variant_regex",
             "zipfile",
             "docfile",
