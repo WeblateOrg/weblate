@@ -35,7 +35,7 @@ $(document).ready(() => {
       if (dataValue) {
         // Encode the data value to prevent unsafe HTML injection
         const projectSlug = encodeURIComponent(slugs[dataValue]);
-        $element.attr("href", `/projects/${projectSlug}`);
+        $element.attr("href", `/projects/${projectSlug}/`);
         $element.on("click", (event) => event.preventDefault());
       }
     });
