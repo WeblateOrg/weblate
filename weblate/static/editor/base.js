@@ -158,13 +158,14 @@ WLT.Editor = (() => {
 
     this.$translationArea[0].focus();
 
-    // Show confirmation dialog if changes have been madae
-    onbeforeunload = (e) => {
+    // Show confirmation dialog if changes have been made
+    // when leaving the page
+    addEventListener("beforeunload", (e) => {
       if (hasChanges) {
         e.preventDefault();
         return true; // Backwards compatibility
       }
-    };
+    });
 
     // Skip confirmation
     this.$editor.on("click", ".skip", (_e) => {
