@@ -3746,6 +3746,7 @@ class UnitAPITest(APIBaseTest):
         )
         response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
         self.assertIn("translation", response.data)
+        self.assertIn("language_code", response.data)
         self.assertEqual(response.data["source"], ["Hello, world!\n"])
 
     def test_get_plural_unit(self) -> None:
@@ -3754,6 +3755,7 @@ class UnitAPITest(APIBaseTest):
         )
         response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
         self.assertIn("translation", response.data)
+        self.assertIn("language_code", response.data)
         self.assertEqual(
             response.data["source"],
             ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"],

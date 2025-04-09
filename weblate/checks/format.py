@@ -15,6 +15,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import MissingExtraDict, SourceCheck, TargetCheck
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -491,7 +492,12 @@ class BaseFormatCheck(TargetCheck):
         ):
             yield gettext(
                 "The following format strings are in the wrong order: %s"
-            ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
+            ) % format_html_join_comma(
+                "{}",
+                list_to_tuples(
+                    self.format_string(x) for x in sorted(set(result["missing"]))
+                ),
+            )
         else:
             yield from super().format_result(result)
 

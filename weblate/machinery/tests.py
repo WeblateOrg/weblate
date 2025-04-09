@@ -262,7 +262,7 @@ class BaseMachineTranslationTest(TestCase):
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
     NOTSUPPORTED: str | None = "tg"
-    NOTSUPPORTED_VARIANT = "de_CZ"
+    NOTSUPPORTED_VARIANT = "fr_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
     EXPECTED_LEN = 2
@@ -481,6 +481,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         Test cleanup of glossary TSV content.
 
         Any problematic leading character is removed from term
+        Leading and trailing whitespaces are stripped
         """
         unit = MockUnit(code="cs", source="foo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
@@ -499,11 +500,31 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         unit = MockUnit(code="cs", source="%foo", target="%bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # # multiple prohibited characters are cleaned
+        # multiple prohibited characters are cleaned
         unit = MockUnit(code="cs", source="==foo", target="==bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
-        # # no character cleaned
+        # whitespace correctly stripped
+        unit = MockUnit(code="cs", source=" foo  ", target=" bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # whitespaces after prohibited characters correctly stripped
+        unit = MockUnit(code="cs", source="% foo  ", target="% bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="% foo  ", target="% % bar  ")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # other Unicode whitespaces are correctly stripped
+        unit = MockUnit(code="cs", source="\r- foo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="|\u00a0foo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="\n\nfoo", target="bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+        unit = MockUnit(code="cs", source="%\u2002foo  ", target="%bar")
+        self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
+
+        # no character cleaned
         unit = MockUnit(code="cs", source="foo=", target="bar=")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
         unit = MockUnit(code="cs", source=":foo", target=":bar")
@@ -2768,4 +2789,51 @@ class CommandTest(FixtureTestCase):
         setting = Setting.objects.get(category=SettingCategory.MT, name="deepl")
         self.assertEqual(
             setting.value, {"key": "x2", "url": "https://api.deepl.com/v2/"}
+        )
+
+
+class SourceLanguageTranslateTestCase(FixtureTestCase):
+    LANGUAGE = "de"
+    SOURCE = "Hello, world!\n"
+    TRANSLATION = "Hallo, Welt!\n"
+
+    def prepare(self) -> Unit:
+        # Set German translation
+        self.edit_unit(self.SOURCE, self.TRANSLATION, language=self.LANGUAGE)
+        return self.get_unit(self.SOURCE)
+
+    def test_translate(self):
+        czech_unit = self.prepare()
+        machine = DummyTranslation({})
+        translation = machine.translate(
+            czech_unit, source_language=Language.objects.get(code=self.LANGUAGE)
+        )
+        self.assertEqual(
+            translation,
+            [
+                [
+                    {
+                        "text": "Ahoj německý světe!",
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": "Hallo, Welt!\n",
+                        "original_source": "Hallo, Welt!\n",
+                    }
+                ]
+            ],
+        )
+
+    def test_batch_translate(self):
+        czech_unit = self.prepare()
+        machine = DummyTranslation({})
+        machine.batch_translate(
+            [czech_unit], source_language=Language.objects.get(code=self.LANGUAGE)
+        )
+        self.assertEqual(
+            czech_unit.machinery,
+            {
+                "translation": ["Ahoj německý světe!"],
+                "origin": [machine],
+                "quality": [100],
+            },
         )

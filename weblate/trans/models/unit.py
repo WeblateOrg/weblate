@@ -501,7 +501,7 @@ class Unit(models.Model, LoggerMixin):
         # Data for machinery integration
         self.machinery: UnitMemoryResultDict = {}
         # PluralMapper integration
-        self.plural_map: list[str] | None = None
+        self.plural_map: list[str] = []
         # Data for glossary integration
         self.glossary_terms: list[Unit] | None = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
@@ -1959,10 +1959,12 @@ class Unit(models.Model, LoggerMixin):
 
     def update_explanation(
         self, explanation: str, user: User, save: bool = True
-    ) -> None:
+    ) -> bool:
         """Update glossary explanation."""
         verify_in_transaction()
-        old = self.explanation
+        old = self.old_unit["explanation"]
+        if old == explanation:
+            return False
         self.explanation = explanation
         file_format_support = (
             self.translation.component.file_format_cls.supports_explanation
@@ -1989,12 +1991,13 @@ class Unit(models.Model, LoggerMixin):
                 target=explanation,
                 old=old,
             )
+        return True
 
     def update_extra_flags(
         self, extra_flags: str, user: User, save: bool = True
     ) -> None:
         """Update unit extra flags."""
-        old = self.extra_flags
+        old = self.old_unit["extra_flags"]
         self.extra_flags = extra_flags
         units: Iterable[Unit] = []
         if self.is_source:

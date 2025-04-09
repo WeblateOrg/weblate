@@ -1092,6 +1092,9 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         ),
         strip_parts=1,
     )
+    language_code = serializers.CharField(
+        source="translation.language.code", read_only=True
+    )
     source_unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
     )
@@ -1106,6 +1109,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         model = Unit
         fields = (
             "translation",
+            "language_code",
             "source",
             "previous_source",
             "target",

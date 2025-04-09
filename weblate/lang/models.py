@@ -14,6 +14,7 @@ from weakref import WeakValueDictionary
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -36,15 +37,16 @@ from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable
 
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.trans.models import Unit
+    from weblate.trans.models.unit import Unit, UnitQuerySet
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -407,7 +409,7 @@ class LanguageQuerySet(models.QuerySet):
         cache[code] = language
         return language
 
-    def as_choices(self, use_code: bool = True, user: User = None):
+    def as_choices(self, use_code: bool = True, user: User | None = None):
         if user is not None:
             key = user.profile.get_translation_orderer(request=None)
         else:
@@ -1103,7 +1105,9 @@ class Plural(models.Model):
         return format_html(
             PLURAL_TITLE,
             name=self.get_plural_name(idx),
-            examples=", ".join(self.examples.get(idx, [])),
+            examples=format_html_join_comma(
+                "{}", list_to_tuples(self.examples.get(idx, []))
+            ),
             title=gettext("Example counts for this plural form."),
         )
 
@@ -1123,7 +1127,9 @@ class Plural(models.Model):
             yield {
                 "index": i,
                 "name": self.get_plural_name(i),
-                "examples": ", ".join(self.examples.get(i, [])),
+                "examples": format_html_join_comma(
+                    "{}", list_to_tuples(self.examples.get(i, []))
+                ),
             }
 
 
@@ -1178,8 +1184,11 @@ class PluralMapper:
                 result.append((None, None))
         return tuple(result)
 
-    def map(self, unit: Unit) -> list[str]:
-        source_strings = unit.get_source_plurals()
+    def map(self, unit: Unit, other_unit: Unit | None = None) -> list[str]:
+        if other_unit is not None:
+            source_strings = other_unit.get_target_plurals()
+        else:
+            source_strings = unit.get_source_plurals()
         if self.same_plurals or len(source_strings) == 1:
             strings_to_translate = source_strings
         elif self.target_plural.number == 1:
@@ -1205,9 +1214,38 @@ class PluralMapper:
                 strings_to_translate.append(s)
         return strings_to_translate
 
-    def map_units(self, units: Iterable[Unit]) -> None:
+    @staticmethod
+    def get_other_units(
+        units: list[Unit] | UnitQuerySet, language: Language
+    ) -> dict[int, Unit]:
+        if not units:
+            return {}
+        component = units[0].translation.component
+        try:
+            translation = component.translation_set.get(language=language)
+        except ObjectDoesNotExist:
+            return {}
+        return {
+            other.id_hash: other
+            for other in translation.unit_set.filter(
+                id_hash__in={unit.id_hash for unit in units}
+            )
+        }
+
+    def map_units(
+        self, units: list[Unit] | UnitQuerySet, other_units: dict[int, Unit] | None
+    ) -> None:
+        other: Unit | None
         for unit in units:
-            unit.plural_map = self.map(unit)
+            if other_units is None:
+                other = None
+            elif unit.id_hash not in other_units:
+                # Unit strings not available
+                unit.plural_map = []
+                continue
+            else:
+                other = other_units[unit.id_hash]
+            unit.plural_map = self.map(unit, other)
 
     def zip(self, sources: list[str], targets: list[str], unit: Unit):
         if len(sources) != self.source_plural.number:

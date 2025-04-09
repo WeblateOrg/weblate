@@ -1747,7 +1747,7 @@ Source checks can help developers improve the quality of source strings.
 Ellipsis
 ~~~~~~~~
 
-:Summary: The string uses three dots (...) instead of an ellipsis character (…).
+:Summary: The string uses three dots (``...``) instead of an ellipsis character (``…``).
 :Scope: source strings
 :Check class: ``weblate.checks.source.EllipsisCheck``
 :Check identifier: ``ellipsis``

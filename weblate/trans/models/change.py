@@ -653,6 +653,13 @@ class Change(models.Model, UserDisplayMixin):
             ActionEvents.NEW_SOURCE,
         }
 
+    def show_diff(self):
+        """Whether to show content as diff."""
+        return self.action in {
+            ActionEvents.EXPLANATION,
+            ActionEvents.EXTRA_FLAGS,
+        }
+
     def show_removed_string(self):
         """Whether to show content as source change."""
         return self.action == ActionEvents.STRING_REMOVE
