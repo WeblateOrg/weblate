@@ -58,6 +58,7 @@ from weblate.trans.util import redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -79,7 +80,7 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
     messages.info(
         request,
         gettext("Following fixups were applied to translation: %s")
-        % ", ".join(str(f) for f in fixups),
+        % format_html_join_comma("{}", list_to_tuples(fixups)),
     )
 
 
@@ -351,7 +352,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     )
     # Make sure explanation is saved
     if change_explanation:
-        unit.update_explanation(form.cleaned_data["explanation"], user)
+        saved |= unit.update_explanation(form.cleaned_data["explanation"], user)
 
     # Warn about applied fixups
     if unit.fixups:
@@ -400,7 +401,11 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             gettext(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(", ".join(str(CHECKS[check].name) for check in newchecks)),
+            ).format(
+                format_html_join_comma(
+                    "{}", list_to_tuples(CHECKS[check].name for check in newchecks)
+                )
+            ),
         )
         # Stay on same entry
         return False

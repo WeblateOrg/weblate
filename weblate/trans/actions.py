@@ -15,11 +15,11 @@ class ActionEvents(IntegerChoices):
     # Translators: Name of event in the history
     CHANGE = 2, gettext_lazy("Translation changed")
     # Translators: Name of event in the history
-    NEW = 5, gettext_lazy("Translation added")
-    # Translators: Name of event in the history
     COMMENT = 3, gettext_lazy("Comment added")
     # Translators: Name of event in the history
     SUGGESTION = 4, gettext_lazy("Suggestion added")
+    # Translators: Name of event in the history
+    NEW = 5, gettext_lazy("Translation added")
     # Translators: Name of event in the history
     AUTO = 6, gettext_lazy("Automatically translated")
     # Translators: Name of event in the history

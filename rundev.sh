@@ -68,7 +68,7 @@ build)
     ;;
 wait)
     TIMEOUT=0
-    while ! docker compose ps | grep healthy; do
+    while ! docker compose ps | grep "weblate-dev:.*healthy"; do
         echo "Waiting for the container startup..."
         sleep 5
         docker compose ps
@@ -85,6 +85,7 @@ start | restart | "")
     # Start it up
     docker compose up -d --force-recreate
     echo -e "\n${GREEN}Running development version of Weblate on http://${WEBLATE_HOST}/${NC}\n"
+    echo "maildev is runinng on http://localhost:1080/"
     ;;
 *)
     docker compose "$@"

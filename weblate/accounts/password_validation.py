@@ -53,10 +53,10 @@ class MaximalLengthValidator:
 
     def get_help_text(self):
         return ngettext(
-            "Your password must contain at most %(min_length)d character.",
-            "Your password must contain at most %(min_length)d characters.",
+            "Your password must contain at most %(max_length)d character.",
+            "Your password must contain at most %(max_length)d characters.",
             settings.MAXIMAL_PASSWORD_LENGTH,
-        ) % {"min_length": settings.MAXIMAL_PASSWORD_LENGTH}
+        ) % {"max_length": settings.MAXIMAL_PASSWORD_LENGTH}
 
 
 class PastPasswordsValidator:

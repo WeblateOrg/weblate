@@ -7,6 +7,8 @@
 var WLT = WLT || {};
 
 WLT.Config = (() => ({
+  // biome-ignore lint/performance/useTopLevelRegex: TODO: factor out
+  // biome-ignore lint/style/useNamingConvention: TODO: fix naming
   IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
 }))();
 
@@ -174,6 +176,7 @@ WLT.Editor = (() => {
     });
   }
 
+  // biome-ignore lint/suspicious/noEmptyBlockStatements: TODO
   EditorBase.prototype.init = () => {};
 
   EditorBase.prototype.initHighlight = function () {
@@ -266,6 +269,7 @@ WLT.Editor = (() => {
   }
 
   return {
+    // biome-ignore lint/style/useNamingConvention: TODO
     Base: EditorBase,
   };
 })();

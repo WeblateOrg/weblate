@@ -202,10 +202,14 @@ def render_glossary_units_tsv(units) -> str:
         - Strips leading and trailing whitespace.
         - Removes leading characters from PROHIBITED_INITIAL_CHARS if present.
         """
-        text = text.translate(CONTROLCHARS_TRANS).strip()
-        if text and text[0] in PROHIBITED_INITIAL_CHARS:
-            text = text.lstrip("".join(PROHIBITED_INITIAL_CHARS))
-        return text
+        text = text.translate(CONTROLCHARS_TRANS)
+        prohibited_initial_chars_pattern = (
+            "^("
+            r"\s"
+            "|" + "|".join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS) + ")*"
+        )
+
+        return re.sub(prohibited_initial_chars_pattern, "", text).strip()
 
     # We can get list or iterator as well
     if hasattr(units, "prefetch_related"):

@@ -2,10 +2,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+// biome-ignore lint/correctness/noNodejsModules: used for build only
 const path = require("node:path");
 
+// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const TerserPlugin = require("terser-webpack-plugin");
+// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const LicensePlugin = require("webpack-license-plugin");
+// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // Regular expression to match copyright lines
