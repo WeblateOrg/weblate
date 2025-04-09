@@ -44,13 +44,13 @@ jobs:
         fi
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
-      run: uv run --no-sources --only-group pre-commit pre-commit run --all
+      run: uv run --no-sources --only-group pre-commit pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
-      run: uvx pre-commit run --all
+      run: uvx pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
@@ -62,7 +62,7 @@ jobs:
       run: uv pip install --system "$(sed -n 's/.*"\(pre-commit==\([^"]*\)\)".*/\1/p' pyproject.toml)"
     - name: pre-commit (installed)
       if: steps.detect.outputs.method == 'requirements' || steps.detect.outputs.method == 'pyproject'
-      run: pre-commit run --all
+      run: pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github

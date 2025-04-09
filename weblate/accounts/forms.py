@@ -275,6 +275,12 @@ class SubscriptionForm(ProfileBaseForm):
         user = kwargs["instance"].user
         self.fields["watched"].required = False
         self.fields["watched"].queryset = user.allowed_projects
+        # Create a mapping of project IDs to slugs
+        project_slug_map = {str(p.id): p.slug for p in user.allowed_projects}
+        # Add the data attribute with the JSON mapping
+        self.fields["watched"].widget.attrs["data-project-slugs"] = json.dumps(
+            project_slug_map
+        )
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False

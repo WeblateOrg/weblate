@@ -26,6 +26,8 @@ from django.db.models.lookups import Lookup, Regex
 from django.utils import timezone
 from packaging.version import Version
 
+from weblate.utils.html import format_html_join_comma, list_to_tuples
+
 from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .classloader import ClassLoader
@@ -133,7 +135,9 @@ def check_celery(
                     weblate_check(
                         "weblate.E034",
                         "The Celery process is outdated or misconfigured."
-                        " Following items differ: {}".format(", ".join(differing)),
+                        " Following items differ: {}".format(
+                            format_html_join_comma("{}", list_to_tuples(differing))
+                        ),
                     )
                 )
         except CeleryTimeoutError:

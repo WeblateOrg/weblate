@@ -363,6 +363,7 @@ linkcheck_timeout = 10
 linkcheck_ignore = [
     # Local URL to Weblate
     "http://127.0.0.1:8080/",
+    "http://127.0.0.1:1080/",
     # Requires a valid token
     "https://api.deepl.com/v2/translate",
     # Requires authentication

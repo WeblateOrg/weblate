@@ -90,9 +90,9 @@ def eval_expr(expr):
     """
     Evaluate arithmetic expression used in Captcha.
 
-    >>> eval_expr('2+6')
+    >>> eval_expr("2+6")
     8
-    >>> eval_expr('2*6')
+    >>> eval_expr("2*6")
     12
     """
     return eval_node(ast.parse(expr).body[0].value)

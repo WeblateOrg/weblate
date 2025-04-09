@@ -443,8 +443,18 @@ class RSTReferencesCheck(RSTBaseCheck):
             )
         if missing or extra or errors:
             return {
-                "missing": [src_references[item] for item in missing],
-                "extra": [tgt_references[item] for item in extra],
+                "missing": list(
+                    chain.from_iterable(
+                        [src_references[item]] if src_set[item] == 1 else [item] * count
+                        for item, count in missing.items()
+                    )
+                ),
+                "extra": list(
+                    chain.from_iterable(
+                        [tgt_references[item]] if tgt_set[item] == 1 else [item] * count
+                        for item, count in extra.items()
+                    )
+                ),
                 "errors": errors,
             }
         return False
