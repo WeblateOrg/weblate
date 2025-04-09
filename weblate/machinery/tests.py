@@ -29,7 +29,7 @@ from google.cloud.translate import (
 )
 
 import weblate.machinery.models
-from weblate.checks.tests.test_checks import MockTranslation, MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -64,7 +64,7 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.trans.models import Project, Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
 from weblate.utils.db import TransactionsTestMixin
@@ -2500,49 +2500,97 @@ class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
         self.assertNotEqual(results, [])
 
 
-class CyrTranslitTranslationTest(TransactionsTestMixin, FixtureTestCase):
+class CyrTranslitTranslationTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base()
+
     def get_machine(self):
         return CyrTranslitTranslation({})
 
-    def test_transliterate(self) -> None:
+    def test_notsupported(self) -> None:
         machine = self.get_machine()
 
         # check empty result when source or translation language isn't supported
-        unit = MockUnit(code="cs", source="Ahoj světe!")
-        unit.translation = MockTranslation(code="cs", source_language="en")
+        unit = self.get_unit("Hello, world!\n")
         results = machine.translate(unit, self.user)
         self.assertEqual(results, [])
+
+    def test_notsource(self) -> None:
+        machine = self.get_machine()
 
         # check empty result when source and translation aren't from same language
-        unit = MockUnit(code="cnr_Cyrl", source="something else")
-        unit.translation = MockTranslation(code="cnr_Cyrl", source_language="sr_Latn")
+        self.component.add_new_language(Language.objects.get(code="cnr_Cyrl"), None)
+        unit = self.get_unit("Hello, world!\n", language="cnr_Cyrl")
         results = machine.translate(unit, self.user)
         self.assertEqual(results, [])
 
+    def test_fallback_language(self):
+        machine = self.get_machine()
+
+        # Add translations and prepare units
+        self.component.add_new_language(Language.objects.get(code="sr_Latn"), None)
+        self.component.add_new_language(Language.objects.get(code="sr_Cyrl"), None)
+        self.edit_unit("Hello, world!\n", "Moj hoverkraft je pun jegulja", "sr_Latn")
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
+        self.assertNotEqual(latn_unit.target, "")
+        cyrl_unit = self.get_unit("Hello, world!\n", language="sr_Cyrl")
+        self.assertEqual(cyrl_unit.target, "")
+
         # check latin to cyrillic
-        unit = MockUnit(code="sr_Cyrl", source="Moj hoverkraft je pun jegulja")
-        unit.translation = MockTranslation(code="sr_Cyrl", source_language="sr_Latn")
+        results = machine.translate(cyrl_unit, self.user)
+        self.assertEqual(
+            results,
+            [
+                [
+                    {
+                        "text": "Мој ховеркрафт је пун јегуља\n",
+                        "quality": 100,
+                        "service": "CyrTranslit",
+                        "source": "Moj hoverkraft je pun jegulja\n",
+                        "original_source": "Moj hoverkraft je pun jegulja\n",
+                    }
+                ]
+            ],
+        )
+
+        # Test not matching translation
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(
+            results,
+            [[]],
+        )
+
+        # check cyrillic to latin
+        self.edit_unit("Hello, world!\n", "Мој ховеркрафт је пун јегуља\n", "sr_Cyrl")
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
+
+    def test_multiple_languages(self):
+        machine = self.get_machine()
+
+        # Add translations and prepare units
+        self.component.add_new_language(Language.objects.get(code="ru"), None)
+        self.component.add_new_language(Language.objects.get(code="be"), None)
+        self.component.add_new_language(Language.objects.get(code="be_Latn"), None)
+        self.edit_unit("Hello, world!\n", "Прывітанне, свет!\n", "be")
+        self.edit_unit("Hello, world!\n", "Привет, мир!\n", "ru")
+
+        unit = self.get_unit("Hello, world!\n", language="be_Latn")
         results = machine.translate(unit, self.user)
         self.assertEqual(
             results,
             [
                 [
                     {
-                        "text": "Мој ховеркрафт је пун јегуља",
+                        "text": "Pry'vіtanne, svet!\n",
                         "quality": 100,
                         "service": "CyrTranslit",
-                        "source": "Moj hoverkraft je pun jegulja",
-                        "original_source": "Moj hoverkraft je pun jegulja",
+                        "source": "Прывітанне, свет!\n",
+                        "original_source": "Прывітанне, свет!\n",
                     }
                 ]
             ],
         )
-
-        # check cyrillic to latin
-        unit = MockUnit(code="sr_Latn", source="Мој ховеркрафт је пун јегуља")
-        unit.translation = MockTranslation(code="sr_Latn", source_language="sr_Cyrl")
-        results = machine.translate(unit, self.user)
-        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja")
 
 
 class ViewsTest(FixtureTestCase):

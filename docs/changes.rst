@@ -21,6 +21,7 @@ Weblate 5.11
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
+* :ref:`mt-cyrtranslit` now automatically transliterates from matching translation.
 
 .. rubric:: Bug fixes
 
