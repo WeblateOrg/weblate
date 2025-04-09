@@ -1772,10 +1772,19 @@ class Unit(models.Model, LoggerMixin):
 
     def get_secondary_units(self, user: User) -> list[Unit]:
         """Return list of secondary units."""
-        secondary_langs: set[int] = user.profile.secondary_language_ids - {
-            self.translation.language_id,
-            self.translation.component.source_language_id,
-        }
+        translation = self.translation
+        component = translation.component
+        secondary_langs: set[int] = user.profile.secondary_language_ids
+
+        # Add project/component secondary languages
+        if component.secondary_language_id:
+            secondary_langs.add(component.secondary_language_id)
+        elif component.project.secondary_language_id:
+            secondary_langs.add(component.project.secondary_language_id)
+
+        # Remove current source and trarget language
+        secondary_langs -= {translation.language_id, component.source_language_id}
+
         if not secondary_langs:
             return []
         result = get_distinct_translations(
@@ -1791,8 +1800,9 @@ class Unit(models.Model, LoggerMixin):
                 "translation__plural",
             )
         )
+        # Avoid fetching component again from the database
         for unit in result:
-            unit.translation.component = self.translation.component
+            unit.translation.component = component
         return result
 
     @property
