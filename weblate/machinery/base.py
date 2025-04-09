@@ -36,7 +36,8 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.machinery.forms import BaseMachineryForm
-    from weblate.trans.models import Unit
+    from weblate.trans.models import Translation, Unit
+    from weblate.trans.models.unit import UnitQuerySet
 
 
 def get_machinery_language(language: Language) -> Language:
@@ -479,29 +480,51 @@ class BatchMachineTranslation:
             source_language, target_language, [(text, unit)], user, threshold=10
         )[text]
 
-    def translate(self, unit, user=None, threshold: int = 75):
+    def get_default_source_language(self, translation: Translation) -> Language:
+        """Return default source language for the translation."""
+        return translation.component.source_language
+
+    def translate(
+        self,
+        unit: Unit,
+        user: User | None = None,
+        threshold: int = 75,
+        *,
+        source_language: Language | None = None,
+    ):
         """Return list of machine translations."""
         translation = unit.translation
+        if source_language is None:
+            # Fall back to component source language
+            source_language = self.get_default_source_language(translation)
+        translating_from_source: bool = (
+            translation.component.source_language == source_language
+        )
+
         try:
-            source_language, target_language = self.get_languages(
-                translation.component.source_language, translation.language
+            mapped_source_language, target_language = self.get_languages(
+                source_language, translation.language
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
-                translation.component.source_language.code,
+                source_language.code,
                 translation.language.code,
             )
             return []
 
         self.account_usage(translation.component.project)
 
-        source_plural = translation.component.source_language.plural
+        source_plural = source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
-        plural_mapper.map_units([unit])
+        alternate_units: dict[int, Unit] | None = None
+        if not translating_from_source:
+            alternate_units = plural_mapper.get_other_units([unit], source_language)
+
+        plural_mapper.map_units([unit], alternate_units)
         translations = self._translate(
-            source_language,
+            mapped_source_language,
             target_language,
             [(text, unit) for text in unit.plural_map],
             user,
@@ -612,25 +635,43 @@ class BatchMachineTranslation:
 
         return salt, digest
 
-    def batch_translate(self, units, user=None, threshold: int = 75) -> None:
+    def batch_translate(
+        self,
+        units: list[Unit] | UnitQuerySet,
+        user: User | None = None,
+        threshold: int = 75,
+        *,
+        source_language: Language | None = None,
+    ) -> None:
         try:
             translation = units[0].translation
         except IndexError:
             return
+
+        if source_language is None:
+            # Fall back to component source language
+            source_language = self.get_default_source_language(translation)
+
+        translating_from_source: bool = (
+            translation.component.source_language == source_language
+        )
+
         try:
-            source, language = self.get_languages(
-                translation.component.source_language, translation.language
-            )
+            source, language = self.get_languages(source_language, translation.language)
         except UnsupportedLanguageError:
             return
 
         self.account_usage(translation.component.project, delta=len(units))
 
-        source_plural = translation.component.source_language.plural
+        source_plural = source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
-        plural_mapper.map_units(units)
+        alternate_units: dict[int, Unit] | None = None
+        if not translating_from_source:
+            alternate_units = plural_mapper.get_other_units(units, source_language)
+        plural_mapper.map_units(units, alternate_units)
 
+        # TODO: fetch source from other units
         sources = [(text, unit) for unit in units for text in unit.plural_map]
         translations = self._translate(source, language, sources, user, threshold)
 

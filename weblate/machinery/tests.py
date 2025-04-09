@@ -262,7 +262,7 @@ class BaseMachineTranslationTest(TestCase):
     SUPPORTED = "cs"
     SUPPORTED_VARIANT = "cs_CZ"
     NOTSUPPORTED: str | None = "tg"
-    NOTSUPPORTED_VARIANT = "de_CZ"
+    NOTSUPPORTED_VARIANT = "fr_CZ"
     SOURCE_BLANK = "Hello"
     SOURCE_TRANSLATED = "Hello, world!"
     EXPECTED_LEN = 2
@@ -2789,4 +2789,51 @@ class CommandTest(FixtureTestCase):
         setting = Setting.objects.get(category=SettingCategory.MT, name="deepl")
         self.assertEqual(
             setting.value, {"key": "x2", "url": "https://api.deepl.com/v2/"}
+        )
+
+
+class SourceLanguageTranslateTestCase(FixtureTestCase):
+    LANGUAGE = "de"
+    SOURCE = "Hello, world!\n"
+    TRANSLATION = "Hallo, Welt!\n"
+
+    def prepare(self) -> Unit:
+        # Set German translation
+        self.edit_unit(self.SOURCE, self.TRANSLATION, language=self.LANGUAGE)
+        return self.get_unit(self.SOURCE)
+
+    def test_translate(self):
+        czech_unit = self.prepare()
+        machine = DummyTranslation({})
+        translation = machine.translate(
+            czech_unit, source_language=Language.objects.get(code=self.LANGUAGE)
+        )
+        self.assertEqual(
+            translation,
+            [
+                [
+                    {
+                        "text": "Ahoj německý světe!",
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": "Hallo, Welt!\n",
+                        "original_source": "Hallo, Welt!\n",
+                    }
+                ]
+            ],
+        )
+
+    def test_batch_translate(self):
+        czech_unit = self.prepare()
+        machine = DummyTranslation({})
+        machine.batch_translate(
+            [czech_unit], source_language=Language.objects.get(code=self.LANGUAGE)
+        )
+        self.assertEqual(
+            czech_unit.machinery,
+            {
+                "translation": ["Ahoj německý světe!"],
+                "origin": [machine],
+                "quality": [100],
+            },
         )

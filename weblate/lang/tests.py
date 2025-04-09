@@ -718,6 +718,23 @@ class PluralMapperTestCase(FixtureTestCase):
             ["Orangutan has %d banana.\n", "", "Orangutan has %d bananas.\n"],
         )
 
+    def test_czech_german(self) -> None:
+        german = Language.objects.get(code="de")
+        czech = Language.objects.get(code="cs")
+        mapper = PluralMapper(czech.plural, german.plural)
+        self.assertEqual(mapper.target_map, ((0, None), (-1, None)))
+        unit = Unit.objects.get(
+            translation__language=german, id_hash=2097404709965985808
+        )
+        others = mapper.get_other_units([unit], czech)
+        self.assertIn(2097404709965985808, others)
+        other = others[2097404709965985808]
+        other.target = join_plural(["one", "few", "other"])
+        self.assertEqual(
+            mapper.map(unit, other),
+            ["one", "other"],
+        )
+
     def test_russian_english(self) -> None:
         russian = Language.objects.get(code="ru")
         english = Language.objects.get(code="en")
