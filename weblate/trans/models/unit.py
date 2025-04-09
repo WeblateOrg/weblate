@@ -501,7 +501,7 @@ class Unit(models.Model, LoggerMixin):
         # Data for machinery integration
         self.machinery: UnitMemoryResultDict = {}
         # PluralMapper integration
-        self.plural_map: list[str] | None = None
+        self.plural_map: list[str] = []
         # Data for glossary integration
         self.glossary_terms: list[Unit] | None = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()

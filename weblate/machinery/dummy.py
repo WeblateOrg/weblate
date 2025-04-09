@@ -20,7 +20,7 @@ class DummyTranslation(MachineTranslation):
 
         Dummy translation supports just Czech language.
         """
-        return ("en", "cs")
+        return ("en", "cs", "de")
 
     def download_translations(
         self,
@@ -45,6 +45,13 @@ class DummyTranslation(MachineTranslation):
             }
             yield {
                 "text": "Ahoj světe!",
+                "quality": self.max_score,
+                "service": "Dummy",
+                "source": text,
+            }
+        if source_language == "de" and text.strip() == "Hallo, Welt!":
+            yield {
+                "text": "Ahoj německý světe!",
                 "quality": self.max_score,
                 "service": "Dummy",
                 "source": text,
