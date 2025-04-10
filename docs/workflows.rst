@@ -260,6 +260,22 @@ based on what is now a polished source language.
    :ref:`component-template`,
    :ref:`bimono`
 
+.. _secondary-language-workflow:
+
+String consolidation using secondary language
+---------------------------------------------
+
+When :ref:`component-intermediate` cannot be used to consolidate the strings,
+you might choose one of the translations to act as a secondary language. The
+language can configured in the project (:ref:`project-secondary_language`) or
+component (:ref:`component-secondary_language`). It is then shown to the
+translators while translating (see :ref:`secondary-languages`) and can be
+optionally used as a source for the machine translation (see
+:ref:`mt-sources`).
+
+This setup can be useful with mixed language source strings and consolidating
+them into a single translation which is then used as a baseline for other work.
+
 .. _source-reviews:
 
 Source strings reviews

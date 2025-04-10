@@ -10,11 +10,10 @@ import random
 import re
 import time
 from collections import defaultdict
-from collections.abc import Iterable, Iterator
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING, NotRequired, TypedDict
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -25,17 +24,28 @@ from requests.exceptions import HTTPError, JSONDecodeError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
+from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import request
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
+from .types import (
+    DownloadMultipleTranslations,
+    DownloadTranslations,
+    SettingsDict,
+    SourceLanguageChoices,
+    TranslationResultDict,
+    UnitMemoryResultDict,
+)
+
 if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
+
     from requests.auth import AuthBase
 
     from weblate.auth.models import User
-    from weblate.machinery.forms import BaseMachineryForm
     from weblate.trans.models import Translation, Unit
     from weblate.trans.models.unit import UnitQuerySet
 
@@ -58,54 +68,6 @@ class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
 
 
-class SettingsDict(TypedDict, total=False):
-    key: str
-    url: str
-    secret: str
-    email: str
-    username: str
-    password: str
-    enable_mt: bool
-    domain: str
-    base_url: str
-    endpoint_url: str
-    region: str
-    credentials: str
-    project: str
-    location: str
-    formality: str
-    model: str
-    persona: str
-    style: str
-    custom_model: str
-    bucket_name: str
-    context_vector: str
-    deployment: str
-    azure_endpoint: str
-
-
-class TranslationResultDict(TypedDict):
-    text: str
-    quality: int
-    service: str
-    source: str
-    original_source: NotRequired[str]
-    show_quality: NotRequired[bool]
-    origin: NotRequired[str | None]
-    origin_url: NotRequired[str]
-    delete_url: NotRequired[str]
-
-
-class UnitMemoryResultDict(TypedDict, total=False):
-    quality: list[int]
-    translation: list[str]
-    origin: list[BatchMachineTranslation | None]
-
-
-DownloadTranslations = Iterable[TranslationResultDict]
-DownloadMultipleTranslations = dict[str, list[TranslationResultDict]]
-
-
 class BatchMachineTranslation:
     """Generic object for machine translation services."""
 
@@ -121,7 +83,7 @@ class BatchMachineTranslation:
     accounting_key = "external"
     force_uncleanup = False
     hightlight_syntax = False
-    settings_form: type[BaseMachineryForm] | None = None
+    settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
     replacement_start = "[X"
@@ -484,6 +446,21 @@ class BatchMachineTranslation:
         """Return default source language for the translation."""
         return translation.component.source_language
 
+    def get_source_language(self, translation: Translation) -> Language:
+        selection = self.settings.get("source_language", SourceLanguageChoices.AUTO)
+
+        if selection == SourceLanguageChoices.SOURCE:
+            return translation.component.source_language
+
+        if selection == SourceLanguageChoices.SECONDARY:
+            # Use secondary if configured
+            if translation.component.secondary_language:
+                return translation.component.secondary_language
+            if translation.component.project.secondary_language:
+                return translation.component.project.secondary_language
+
+        return self.get_default_source_language(translation)
+
     def translate(
         self,
         unit: Unit,
@@ -496,7 +473,7 @@ class BatchMachineTranslation:
         translation = unit.translation
         if source_language is None:
             # Fall back to component source language
-            source_language = self.get_default_source_language(translation)
+            source_language = self.get_source_language(translation)
         translating_from_source: bool = (
             translation.component.source_language == source_language
         )
@@ -650,7 +627,7 @@ class BatchMachineTranslation:
 
         if source_language is None:
             # Fall back to component source language
-            source_language = self.get_default_source_language(translation)
+            source_language = self.get_source_language(translation)
 
         translating_from_source: bool = (
             translation.component.source_language == source_language
@@ -749,6 +726,7 @@ class InternalMachineTranslation(MachineTranslation):
     do_cleanup = False
     accounting_key = "internal"
     cache_translations = False
+    settings_form: type[BaseMachineryForm] | None = None
 
     def is_supported(
         self, source_language: Language, target_language: Language

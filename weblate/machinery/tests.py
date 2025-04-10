@@ -70,6 +70,8 @@ from weblate.utils.classloader import load_class
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
+from .types import SourceLanguageChoices
+
 if TYPE_CHECKING:
     from requests import PreparedRequest
 
@@ -2562,6 +2564,48 @@ class CyrTranslitTranslationTest(ViewTestCase):
 
         # check cyrillic to latin
         self.edit_unit("Hello, world!\n", "Мој ховеркрафт је пун јегуља\n", "sr_Cyrl")
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
+
+        # Force using source language only
+        machine = CyrTranslitTranslation(
+            {"source_language": SourceLanguageChoices.SOURCE}
+        )
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results, [])
+
+        # Secondary language source
+        machine = CyrTranslitTranslation(
+            {"source_language": SourceLanguageChoices.SECONDARY}
+        )
+
+        # None secondary language falls back to auto
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
+
+        cyrillic_lang = Language.objects.get(code="sr_Cyrl")
+        latin_lang = Language.objects.get(code="sr_Latn")
+
+        # Not matching source language
+        self.project.secondary_language = latin_lang
+        self.project.save(update_fields=["secondary_language"])
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results, [])
+
+        # Matching source language
+        self.project.secondary_language = cyrillic_lang
+        self.project.save(update_fields=["secondary_language"])
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
+
+        # Component secondary overrides project
+        self.component.secondary_language = latin_lang
+        self.component.save(update_fields=["secondary_language"])
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results, [])
+
+        self.component.secondary_language = cyrillic_lang
+        self.component.save(update_fields=["secondary_language"])
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
 

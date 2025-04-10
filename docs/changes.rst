@@ -9,6 +9,7 @@ Weblate 5.11
 * Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
 * :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
 * :ref:`secondary-languages` can now be specified in :ref:`project` and :ref:`component`.
+* :ref:`mt-sources` can now be customized.
 
 .. rubric:: Improvements
 
