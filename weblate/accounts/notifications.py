@@ -442,7 +442,7 @@ class Notification:
                     current_subscription.delete()
 
     def send_digest(
-        self, language, email, changes, subscription=None, overlimit=False
+        self, language, email, changes, subscription=None, *, overlimit: bool = False
     ) -> None:
         with override("en" if language is None else language):
             context = self.get_context(
