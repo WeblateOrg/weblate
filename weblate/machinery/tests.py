@@ -2557,7 +2557,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(
             results,
-            [[]],
+            [],
         )
 
         # check cyrillic to latin
