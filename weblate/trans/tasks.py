@@ -583,6 +583,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 
 
 @app.task(trail=False)
+@transaction.atomic
 def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
     try:
         component = Component.objects.get(pk=pk)
@@ -603,7 +604,10 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         component.source_translation,
     )
     for translation in translations:
-        for unit in translation.unit_set.prefetch().prefetch_all_checks():
+        units = translation.unit_set.prefetch()
+        if update_state:
+            units = units.select_for_update()
+        for unit in units.prefetch_all_checks():
             if update_state:
                 unit.update_state()
             unit.run_checks()
