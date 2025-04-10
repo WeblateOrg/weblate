@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
-"PO-Revision-Date: 2025-04-10 23:08+0000\n"
+"PO-Revision-Date: 2025-04-11 04:51+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -457,10 +457,8 @@ msgstr ""
 "add hozzá őket a projekt `Administration` csapatához."
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "Projekt hozzáférés-szabályozása"
+msgstr "Projektalapú hozzáférési tokenek"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -468,6 +466,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Projekt szintű hozzáférési tokeneket a(z) :guilabel:`API access` fülön "
+"definiálhatsz. Az API tokenekhez lejárati dátumot lehet beállítani, és a "
+"jogosultságaikat a felhasználókhoz hasonlóan a csapat tagságok alapján lehet "
+"testre szabni."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -4230,33 +4232,35 @@ msgstr "Tartalmazza a Weblate alapvető áttekintését:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`."
-msgstr ""
+msgstr "Támogatási állapot, lásd: :doc:`support`."
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`."
-msgstr ""
+msgstr "Biztonsági mentések, lásd: :doc:`backup`."
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr "Megosztott fordítási memória, lásd :doc:`memory`."
+msgstr "Megosztott fordítási memória, lásd: :doc:`memory`."
 
 #: ../../admin/admin.rst:17
 msgid ""
 ":ref:`manage-performance` to review Weblate health and length of Celery "
 "queues."
 msgstr ""
+"A(z) :ref:`manage-performance` segítségével ellenőrizheted a Weblate "
+"állapotát és a(z) Celery sorok hosszát."
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`."
-msgstr "SSH kulcsok kezelése, lásd :ref:`ssh-repos`."
+msgstr "SSH kulcsok kezelése, lásd: :ref:`ssh-repos`."
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`."
-msgstr ""
+msgstr "Figyelmeztetések áttekintése minden komponenshez, lásd: :ref:`alerts`."
 
 #: ../../admin/admin.rst:20
 msgid "Users and teams, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Felhasználók és csapatok, lásd: :ref:`custom-acl`."
 
 #: ../../admin/admin.rst:21
 msgid ":ref:`manage-appearance`."
@@ -4919,6 +4923,9 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <https://"
 "translate.codeberg.org>`_."
 msgstr ""
+"A fenti konfiguráció a Forgejo-val is működik; a Forgejo-val való éles "
+"telepítés példájáért lásd a `Codeberg Translate "
+"<https://translate.codeberg.org>`_."
 
 #: ../../admin/auth.rst:322
 msgid ":doc:`psa:backends/gitea`"
@@ -5067,6 +5074,10 @@ msgid ""
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
+"Az alapértelmezett :file:`settings.py` egy ésszerű "
+":setting:`django:AUTH_PASSWORD_VALIDATORS` készlettel érkezik, amely "
+"biztosítja, hogy a gyenge jelszavak ne legyenek engedélyezve. Ezt a "
+"beállítást testre szabhatod a jelszópolitikádnak megfelelően."
 
 #: ../../admin/auth.rst:461
 msgid ""
@@ -5075,6 +5086,10 @@ msgid ""
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
+"Ezenkívül telepítheted a `django-zxcvbn-password-validator <https://"
+"github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ csomagot is, "
+"amely meglehetősen reális becsléseket ad a jelszavak nehézségére, és "
+"lehetővé teszi a bizonyos küszöbérték alatti jelszavak elutasítását."
 
 #: ../../admin/auth.rst:468
 msgid ""
@@ -5544,6 +5559,8 @@ msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
+"Használd a generált fájlt a projekt importálásához, amikor :ref:`adding-"
+"projects` vagy a :wladmin:`import_projectbackup` során."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -6347,6 +6364,9 @@ msgid ""
 "A failing check will be triggered if the string ``### Index`` is translated "
 "as ``# Indice``."
 msgstr ""
+"Ellenőrizni kell, hogy a fordítók ne változtassák meg egy Markdown "
+"dokumentum fejlécét. A hibaellenőrzés akkor lép működésbe, ha a ``### Index``"
+" szöveget ``# Indice``-ként fordítják le."
 
 #: ../../admin/checks.rst:64
 msgid ""
@@ -6370,6 +6390,9 @@ msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgstr ""
+"Kezeld a szöveget reStructuredText dokumentumként, hatással van a(z) :ref"
+":`check-same`-re. Bekapcsolja a(z) :ref:`check-rst-syntax`-t és a(z) :ref"
+":`check-rst-references`-t."
 
 #: ../../admin/checks.rst:74 ../../user/checks.rst:124
 msgid "``bbcode-text``"
@@ -6380,6 +6403,8 @@ msgid ""
 "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:"
 "`check-same`."
 msgstr ""
+"Egy szöveg kezelése Bulletin Board Code (BBCode) dokumentumként befolyásolja "
+"a(z) :ref:`check-same`-t."
 
 #: ../../admin/checks.rst:76
 msgid "``dos-eol``"
@@ -6582,7 +6607,7 @@ msgstr "``strict-same``"
 
 #: ../../admin/checks.rst:116
 msgid "Make the :ref:`check-same` avoid using the built-in words exceptions."
-msgstr ""
+msgstr "A(z) :ref:`check-same` ne használja a beépített szavak kivételeit."
 
 #: ../../admin/checks.rst:117
 msgid "``strict-format``"
@@ -7161,7 +7186,7 @@ msgstr "``ignore-end-interrobang``"
 
 #: ../../admin/checks.rst:256
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "A(z) :ref:`check-end-interrobang` minőségellenőrzés kihagyása."
+msgstr "Hagyd ki a :ref:`check-end-interrobang` minőségellenőrzést."
 
 #: ../../admin/checks.rst:257 ../../user/checks.rst:1256
 msgid "``ignore-end-question``"
@@ -7234,7 +7259,7 @@ msgstr "``ignore-rst-syntax``"
 
 #: ../../admin/checks.rst:274
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "A(z) :ref:`check-rst-syntax` minőségellenőrzés kihagyása."
+msgstr "Hagyd ki a :ref:`check-rst-syntax` minőségellenőrzést."
 
 #: ../../admin/checks.rst:275 ../../user/checks.rst:1491
 msgid "``ignore-reused``"
@@ -7796,6 +7821,8 @@ msgid ""
 "The maximum number of days Weblate will keep audit logs containing "
 "information about the account activity."
 msgstr ""
+"A maximális napok száma, ameddig a Weblate megőrzi a fióktevékenységre "
+"vonatkozó naplókat."
 
 #: ../../admin/config.rst:81 ../../admin/config.rst:172
 msgid "Defaults to 180 days."
@@ -7997,7 +8024,7 @@ msgstr ""
 
 #: ../../admin/config.rst:186
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr ""
+msgstr "Az elérhető javítások a(z) :ref:`autofix` részben vannak leírva."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
@@ -8911,6 +8938,9 @@ msgid ""
 ":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP access token <https://"
 "confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP hozzáférési token "
+"<https://confluence.atlassian.com/bitbucketserver/http-access-"
+"tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:883
 msgid "BITBUCKETCLOUD_CREDENTIALS"
@@ -9038,12 +9068,16 @@ msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
+"Google Analytics azonosító, amivel bekapcsolható a Weblate figyelése a "
+"Google Universal Analytics segítségével."
 
 #: ../../admin/config.rst:971
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"A Google Analytics 4 integráció jelenleg nem elérhető a Weblate számára, "
+"kérlek, nézd meg a https://github.com/WeblateOrg/weblate/issues/14015 oldalt."
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9525,10 +9559,14 @@ msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
+"Minimális jelszó pontszám, ahogy azt a `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_ jelszó erősségbecslő kiértékeli."
 
 #: ../../admin/config.rst:1375
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
+"Alapértelmezés szerint 0, ami azt jelenti, hogy az erősség ellenőrzése le "
+"van tiltva."
 
 #: ../../admin/config.rst:1379
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
@@ -9904,6 +9942,9 @@ msgid ""
 "the Python Social Auth (you can allow certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Ez a beállítás hatással van a beépített e-mail cím általi hitelesítésre vagy "
+"a Python Social Auth-ra (bizonyos háttereket engedélyezhetsz a "
+":setting:`REGISTRATION_ALLOW_BACKENDS` használatával)."
 
 #: ../../admin/config.rst:1659
 msgid ""
@@ -10994,6 +11035,9 @@ msgid ""
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
+"A :guilabel:`Payload URL` a Weblate URL-ből áll, amelyhez hozzá van fűzve a "
+"``/hooks/github/``, például a Hosted Weblate szolgáltatás esetén ez "
+"``https://hosted.weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:231
 msgid ""
@@ -12187,7 +12231,7 @@ msgstr "Opcionális függőségek"
 
 #: ../../admin/install.rst:208
 msgid "Optional dependency specifier"
-msgstr ""
+msgstr "Opcionális függőségi megjelölő"
 
 #: ../../admin/install.rst:209
 msgid "Python Packages"
@@ -12733,11 +12777,11 @@ msgid "It is recommended to run Weblate with a PostgreSQL database server."
 msgstr "Ajánlott a Weblate-et PostgreSQL adatbázis szerverrel futtatni."
 
 #: ../../admin/install.rst:400
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid ""
 "PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended."
-msgstr "A választott osztályozás nem támogatott."
+msgstr ""
+"A PostgreSQL 13 és újabb verziók támogatottak. A PostgreSQL 15 vagy újabb "
+"használata ajánlott."
 
 #: ../../admin/install.rst:402
 msgid ":ref:`mysql` is supported, but not recommended for new installs."
@@ -12950,7 +12994,7 @@ msgstr ""
 
 #: ../../admin/install.rst:560
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.5."
-msgstr ""
+msgstr "A Weblate legalább MySQL 8 vagy MariaDB 10.5 verziót igényel."
 
 #: ../../admin/install.rst:562
 msgid "Following configuration is recommended for Weblate:"
@@ -14163,6 +14207,13 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
+"A Weblate alapértelmezett beállítása engedélyezi a(z) "
+"``weblate.middleware.SecurityMiddleware`` middleware-t, amely biztonsággal "
+"kapcsolatos HTTP-fejléceket állít be, mint például a :http:header:`Content-"
+"Security-Policy` vagy a :http:header:`X-XSS-Protection`. Ezek alapértelmezés "
+"szerint úgy vannak beállítva, hogy működjenek a Weblate-tel és annak "
+"konfigurációjával, de lehet, hogy testreszabásra lesz szükség a "
+"környezetedhez."
 
 #: ../../admin/install.rst:1406
 msgid ""
@@ -14305,6 +14356,9 @@ msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Miután telepítetted a Gunicorn-t, elindíthatod. Ez általában rendszer "
+"szinten történik. Az alábbi példák a systemd-n keresztüli indítást mutatják "
+"be:"
 
 #: ../../admin/install.rst:1517
 msgid "/etc/systemd/system/gunicorn.socket"
@@ -15831,6 +15885,8 @@ msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
+"Beállítja az alapértelmezett címet és üzenetet a pull requestekhez az API-n "
+"keresztül a :setting:`DEFAULT_PULL_MESSAGE` módosításával."
 
 #: ../../admin/install/docker.rst:821
 msgid ":ref:`config-pull-message`"
@@ -15909,6 +15965,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:879
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
 msgstr ""
+"Lehetővé teszi a :http:header:`Content-Security-Policy` HTTP fejléc "
+"testreszabását."
 
 #: ../../admin/install/docker.rst:883
 msgid ""
@@ -15926,11 +15984,11 @@ msgstr "Beállítja a :setting:`LICENSE_FILTER`-t."
 
 #: ../../admin/install/docker.rst:897
 msgid "Configures :setting:`LICENSE_REQUIRED`."
-msgstr ""
+msgstr "Beállítja a :setting:`LICENSE_REQUIRED` értékét."
 
 #: ../../admin/install/docker.rst:901
 msgid "Configures :setting:`WEBSITE_REQUIRED`."
-msgstr ""
+msgstr "Beállítja a :setting:`WEBSITE_REQUIRED` értékét."
 
 #: ../../admin/install/docker.rst:905
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -16124,6 +16182,8 @@ msgid ""
 "Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Beállítja a(z) :ref:`vcs-bitbucket-data-center`-t a(z) "
+":setting:`BITBUCKETSERVER_CREDENTIALS` módosításával."
 
 #: ../../admin/install/docker.rst:1161
 msgid ""
@@ -16276,7 +16336,7 @@ msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1363
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr ""
+msgstr "Engedélyezi a Keycloak hitelesítést, lásd :doc:`psa:backends/keycloak`."
 
 #: ../../admin/install/docker.rst:1366
 msgid "Linux vendors"
@@ -16348,6 +16408,9 @@ msgid ""
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
+"Minimális jelszó pontszám, amit a `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_ jelszó erősség becslő értékel. Alapértelmezett értéke 3, "
+"állítsd 0-ra az erősség ellenőrzés kikapcsolásához."
 
 #: ../../admin/install/docker.rst:1445
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
@@ -16402,6 +16465,10 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
+"Konfiguráld, hogyan kezeli a PostgreSQL az SSL-t a szerverhez való "
+"kapcsolódás során, a lehetséges választási lehetőségekért lásd `SSL Mode "
+"Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-"
+"SSLMODE-STATEMENTS>`_."
 
 #: ../../admin/install/docker.rst:1488
 msgid ""
@@ -16971,6 +17038,10 @@ msgid ""
 "Weblate container. The other service containers (PostgreSQL or Redis) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
+"A Weblate konténer által két kötet van exportálva (:file:`data` és "
+":file:`cache`). A többi szolgáltatás konténer (PostgreSQL vagy Redis) "
+"szintén rendelkezik saját adatkötegekkel, de ezekre ez a dokumentum nem tér "
+"ki."
 
 #: ../../admin/install/docker.rst:1967
 msgid ""
@@ -16979,6 +17050,10 @@ msgid ""
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
+"A :file:`data` kötet a :file:`/app/data` helyre van csatolva, és a Weblate "
+"tartós adatainak tárolására szolgál, mint például a klónozott tárolók, vagy "
+"a Weblate telepítés testreszabására. A :setting:`DATA_DIR` részletesebben "
+"leírja, hogy mi van itt tárolva."
 
 #: ../../admin/install/docker.rst:1971
 msgid ""
@@ -16999,6 +17074,10 @@ msgid ""
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
+"A :file:`cache` kötet a :file:`/app/cache` helyre van csatolva, és statikus "
+"fájlok és a :setting:`CACHE_DIR` tárolására szolgál. A tartalma a konténer "
+"indításakor újra létrejön, és a kötetet olyan ideiglenes fájlrendszerrel is "
+"csatolhatod, mint a `tmpfs`."
 
 #: ../../admin/install/docker.rst:1980
 msgid ""
@@ -17014,6 +17093,9 @@ msgid ""
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
+"A Weblate konténer futtatható csak olvasható gyökér fájlrendszerrel is. "
+"Ebben az esetben két további ``tmpfs`` kötetet kell csatolni: :file:`/tmp` "
+"és :file:`/run`."
 
 #: ../../admin/install/docker.rst:1989
 msgid ""
@@ -17402,6 +17484,11 @@ msgid ""
 "your application. The web console will prompt you for the values for all of "
 "the parameters used by the template."
 msgstr ""
+"Másold ki a nyers tartalmat a `template.yml <https://github.com/WeblateOrg/"
+"openshift/blob/main/template.yml>`_-ből, és importáld be a projektedbe, majd "
+"használd a(z) :guilabel:`Create` gombot az OpenShift web konzoljában az "
+"alkalmazásod létrehozásához. A web konzol megkér majd az összes, a sablon "
+"által használt paraméter értékének megadására."
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
@@ -17610,7 +17697,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr ""
+msgstr "A teszt szervert leállíthatod a :kbd:`Ctrl+C` billentyűkombinációval."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -18240,6 +18327,9 @@ msgid ""
 "it will be able to contribute. This is a clearly visible step when accessing "
 "the translation:"
 msgstr ""
+"Ha megadsz egy :ref:`component-agreement`, csak azok a felhasználók tudnak "
+"majd hozzájárulni, akik elfogadták azt. Ez egy jól látható lépés a fordítás "
+"elérésekor:"
 
 #: ../../admin/licensing.rst:28
 msgid "User licenses"
@@ -20201,6 +20291,8 @@ msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`, for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 msgstr ""
+"A reguláris kifejezésnek tartalmaznia kell `component` és `language` nevű "
+"csoportokat, például: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 
 #: ../../admin/management.rst:410
 msgid ""
@@ -20334,12 +20426,14 @@ msgstr "import_projectbackup"
 
 #: ../../admin/management.rst:541
 msgid "Imports :ref:`projectbackup`."
-msgstr ":ref:`projectbackup` importálása."
+msgstr "Importálja a(z) :ref:`projectbackup`-ot."
 
 #: ../../admin/management.rst:545
 msgid ""
 "Usually it is more comfortable to import project when :ref:`adding-projects`."
 msgstr ""
+"Általában kényelmesebb a projekt importálása, amikor a(z) :ref:`adding-"
+"projects` történik."
 
 #: ../../admin/management.rst:548
 msgid "importuserdata"
@@ -20746,26 +20840,32 @@ msgstr "Automatikusan importált korábbi fordítások."
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
 msgstr ""
+"A fordítási memóriában lévő tartalom többféleképpen is alkalmazható a "
+"szövegekre:"
 
 #: ../../admin/memory.rst:15
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
 msgstr ""
-"A felhasználó elfogadhat javaslatokat a :ref:`machine-translation` fül alatt "
-"a karakterlánc szerkesztése közben."
+"A felhasználó elfogadhatja a javaslatokat a(z) :ref:`machine-translation` "
+"fülről, miközben a szöveget szerkeszti."
 
 #: ../../admin/memory.rst:16
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
+"A kiválasztott szövegeket a(z) :guilabel:`Tools` menüből elérhető :ref:`auto-"
+"translation` segítségével lehet feldolgozni."
 
 #: ../../admin/memory.rst:17
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
+"A(z) :ref:`addon-weblate.autotranslate.autotranslate` kiegészítő "
+"automatikusan alkalmazhat változtatásokat az új és meglévő szövegekre."
 
 #: ../../admin/memory.rst:19
 msgid ""
@@ -21379,6 +21479,9 @@ msgid ""
 "Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG key "
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
+"Kapcsold be a :setting:`WEBLATE_GPG_IDENTITY` beállítást. (A Weblate igény "
+"esetén létrehoz egy GnuPG kulcsot, és ezt fogja használni az összes "
+"fordítási elkötelezés aláírására.)"
 
 #: ../../admin/optionals.rst:242
 msgid "This feature needs GnuPG 2.1 or newer installed."
@@ -21397,6 +21500,8 @@ msgid ""
 "Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"Alternatív megoldásként meglévő kulcsokat is importálhatsz a Weblate-be, "
+"csak állítsd be a ``HOME=$DATA_DIR/home`` értéket a gpg hívásakor."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -22777,16 +22882,17 @@ msgstr ""
 "licenszével)."
 
 #: ../../admin/projects.rst:656
+#, fuzzy
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Közreműködői licencmegállapodás, amelyet jóvá kell hagyni, mielőtt egy "
-"felhasználó lefordíthatja ezt az összetevőt."
+"Közreműködői licencszerződés, amelyet jóvá kell hagyni, mielőtt egy "
+"felhasználó lefordíthatja a(z) :ref:`component`-et."
 
 #: ../../admin/projects.rst:659
 msgid "Markdown can be used for text formatting or inserting links."
-msgstr ""
+msgstr "A Markdown használható szöveg formázására vagy linkek beszúrására."
 
 #: ../../admin/projects.rst:664
 msgid "Adding new translation"
@@ -24724,6 +24830,10 @@ msgid ""
 "on REST framework setup, by default ``json``, ``csv`` and ``api`` are "
 "supported. The latter provides web browser interface for API."
 msgstr ""
+"Válaszformátum (felülírja a :http:header:`Accept`). A lehetséges értékek a "
+"REST keretrendszer beállításaitól függnek, alapértelmezés szerint a ``json``"
+", ``csv`` és ``api`` támogatott. Az utóbbi web böngésző felületet biztosít "
+"az API-hoz."
 
 #: ../../api.rst:42
 msgid ""
@@ -24861,7 +24971,7 @@ msgstr ""
 
 #: ../../api.rst:86
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
-msgstr ""
+msgstr ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
 
 #: ../../api.rst:91
 msgid "Authentication examples"
@@ -25001,20 +25111,20 @@ msgstr ""
 ":envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:232
-#, fuzzy
-#| msgid "Error message"
 msgid "Error responses"
-msgstr "Hibaüzenet"
+msgstr "Hibaválaszok"
 
 #: ../../api.rst:236
 msgid "Error responses were endpoint specific before this release."
-msgstr ""
+msgstr "A hibaválaszok a kiadás előtt végpontspecifikusak voltak."
 
 #: ../../api.rst:238
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-error:"
 "error_response`."
 msgstr ""
+"A Weblate hibaválaszai a :doc:`drf-standardized-error:error_response` "
+"alapján vannak formázva."
 
 #: ../../api.rst:242
 msgid "API Entry Point"
@@ -26607,7 +26717,7 @@ msgstr "Visszaad egy listát a fordítási egységekről."
 
 #: ../../api.rst:2017 ../../api.rst:2185
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr ""
+msgstr "Keresési lekérdezési karakterlánc :doc:`/user/search` (nem kötelező)"
 
 #: ../../api.rst:2019
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -27901,24 +28011,20 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.10.2"
-msgstr "Weblate kulcsok"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:4
 msgid "*Released on February 28th 2025.*"
-msgstr ""
+msgstr "*Kiadva: 2025. február 28.*"
 
 #: ../../changes.rst:7 ../../changes.rst:69 ../../changes.rst:180
 #: ../../changes.rst:322 ../../changes.rst:427 ../../changes.rst:523
 #: ../../changes.rst:635 ../../changes.rst:672 ../../changes.rst:783
 #: ../../changes.rst:845 ../../changes.rst:907 ../../changes.rst:971
 #: ../../changes.rst:1047 ../../changes.rst:1088
-#, fuzzy
-#| msgid "Features"
 msgid "New features"
-msgstr "Funkciók"
+msgstr "Új funkciók"
 
 #: ../../changes.rst:9 ../../changes.rst:42 ../../changes.rst:76
 #: ../../changes.rst:134 ../../changes.rst:192 ../../changes.rst:234
@@ -27929,22 +28035,20 @@ msgstr "Funkciók"
 #: ../../changes.rst:883 ../../changes.rst:911 ../../changes.rst:948
 #: ../../changes.rst:979 ../../changes.rst:1022 ../../changes.rst:1051
 #: ../../changes.rst:1096
-#, fuzzy
-#| msgid "Components"
 msgid "Improvements"
-msgstr "Összetevők"
+msgstr "Fejlesztések"
 
 #: ../../changes.rst:10
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Továbbfejlesztett :ref:`translation-memory` egyezés."
+msgstr "Javítottuk a(z) :ref:`translation-memory` illesztést."
 
 #: ../../changes.rst:11
 msgid "Visual diff now better highlights whitespace additions."
-msgstr ""
+msgstr "A vizuális különbség most már jobban kiemeli a szóköz hozzáadásokat."
 
 #: ../../changes.rst:12
 msgid "Improved performance on large projects."
-msgstr "Jobb teljesítmény nagy projektek esetén."
+msgstr "Javított teljesítmény nagy projekteknél."
 
 #: ../../changes.rst:15 ../../changes.rst:48 ../../changes.rst:97
 #: ../../changes.rst:139 ../../changes.rst:161 ../../changes.rst:205
@@ -27958,38 +28062,38 @@ msgstr "Jobb teljesítmény nagy projektek esetén."
 #: ../../changes.rst:830 ../../changes.rst:863 ../../changes.rst:888
 #: ../../changes.rst:924 ../../changes.rst:955 ../../changes.rst:994
 #: ../../changes.rst:1027 ../../changes.rst:1060 ../../changes.rst:1117
-#, fuzzy
-#| msgid "Languages"
 msgid "Bug fixes"
-msgstr "Nyelvek"
+msgstr "Hibajavítások"
 
 #: ../../changes.rst:16
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
 msgstr ""
+"A :ref:`search-boolean` konzisztenciája a :doc:`/user/search` dokumentumban."
 
 #: ../../changes.rst:17
 msgid "Fixed some :ref:`addons` trigger upon installation."
-msgstr ""
+msgstr "Néhány :ref:`addons` telepítéskor kiváltott esemény javítva."
 
 #: ../../changes.rst:18
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
+"Javítva a Git tárolók visszaállítása a(z) :ref:`projectbackup` segítségével."
 
 #: ../../changes.rst:21 ../../changes.rst:110 ../../changes.rst:211
 #: ../../changes.rst:351 ../../changes.rst:456 ../../changes.rst:546
 #: ../../changes.rst:708 ../../changes.rst:814 ../../changes.rst:867
 #: ../../changes.rst:932 ../../changes.rst:1003 ../../changes.rst:1070
 #: ../../changes.rst:1125
-#, fuzzy
-#| msgid "Activity"
 msgid "Compatibility"
-msgstr "Tevékenység"
+msgstr "Kompatibilitás"
 
 #: ../../changes.rst:22
 msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
+"A Weblate áttért egy másik könyvtárra a zxcvbn integrációhoz, mivel a régi "
+"már nincs karbantartva, lásd: :ref:`password-authentication`."
 
 #: ../../changes.rst:25 ../../changes.rst:54 ../../changes.rst:116
 #: ../../changes.rst:146 ../../changes.rst:165 ../../changes.rst:219
@@ -28010,10 +28114,8 @@ msgstr ""
 #: ../../changes/v4.rst:768 ../../changes/v4.rst:859 ../../changes/v4.rst:934
 #: ../../changes/v4.rst:1020 ../../changes/v4.rst:1095
 #: ../../changes/v4.rst:1168
-#, fuzzy
-#| msgid "pending"
 msgid "Upgrading"
-msgstr "függőben"
+msgstr "Frissítés"
 
 #: ../../changes.rst:26 ../../changes.rst:55 ../../changes.rst:117
 #: ../../changes.rst:147 ../../changes.rst:166 ../../changes.rst:220
@@ -28046,6 +28148,10 @@ msgid ""
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
+"Számos változás történt a(z) :file:`settings_example.py` fájlban, a "
+"legjelentősebbek a módosított ``AUTH_PASSWORD_VALIDATORS`` és "
+"``INSTALLED_APPS`` beállítások; kérlek, ennek megfelelően igazítsd a "
+"beállításaidat."
 
 #: ../../changes.rst:31 ../../changes.rst:58 ../../changes.rst:123
 #: ../../changes.rst:150 ../../changes.rst:169 ../../changes.rst:223
@@ -28053,31 +28159,31 @@ msgstr ""
 #: ../../changes.rst:311 ../../changes.rst:362 ../../changes.rst:388
 #: ../../changes.rst:416 ../../changes.rst:472
 msgid "Contributors"
-msgstr "Közreműködők"
+msgstr "Hozzájárulók"
 
 #: ../../changes.rst:34
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
+"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/138?closed=1>`__."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 5.10.1"
-msgstr "Weblate kulcsok"
+msgstr "Weblate 5.10.1"
 
 #: ../../changes.rst:39
 msgid "*Released on February 21st 2025.*"
-msgstr ""
+msgstr "*Kiadva: 2025. február 21.*"
 
 #: ../../changes.rst:43
 msgid ""
 ":ref:`check-multiple-failures` better shows failing checks including links "
 "to the strings."
 msgstr ""
-"A(z) :ref:`check-multiple-failures` jobban megjeleníti a hibás "
-"ellenőrzéseket, beleértve a karakterláncokra mutató hivatkozásokat is."
+"A :ref:`check-multiple-failures` jobban megmutatja a hibás ellenőrzéseket, "
+"beleértve a karakterláncokra mutató linkeket is."
 
 #: ../../changes.rst:44
 #, fuzzy
@@ -28085,29 +28191,28 @@ msgstr ""
 msgid ""
 "Detailed overview of locked components on project repository management."
 msgstr ""
-"Ez a kiegészítő minden összetevőnél használatban van, amely megosztja ezt a "
-"tárolót."
+"Részletes áttekintés a projekt tárházkezelésénél zárolt a(z) "
+":ref:`components`-ról."
 
 #: ../../changes.rst:45
 msgid ":ref:`search-strings` supports searching by source string state."
 msgstr ""
-"A(z) :ref:`search-strings` támogatja a keresést a forráskarakterlánc "
-"állapota alapján."
+"A :ref:`search-strings` támogatja a forrás szöveg állapota szerinti keresést."
 
 #: ../../changes.rst:49
 msgid ":ref:`download` performs faster on project and language scopes."
-msgstr ""
+msgstr "A :ref:`download` gyorsabban működik a projekt- és nyelvi területeken."
 
 #: ../../changes.rst:50
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
 msgstr ""
-"A :ref:`zen-mode` nem jeleníti meg kétszer a forráskarakterláncot "
+"A(z) :ref:`zen-mode` nem jeleníti meg kétszer a forrás karakterláncot "
 "szerkesztés közben."
 
 #: ../../changes.rst:51
 msgid "Fixed :ref:`glossary` terms highlighting."
-msgstr ""
+msgstr "Javítva a(z) :ref:`glossary` kifejezések kiemelése."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.rst:2 ../../changes/contributors/5.7.1.rst:2
@@ -28148,6 +28253,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/137?"
 "closed=1>`__."
 msgstr ""
+"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/137?closed=1>`__."
 
 #: ../../changes.rst:64
 msgid "Weblate 5.10"
@@ -28155,7 +28262,7 @@ msgstr "Weblate 5.10"
 
 #: ../../changes.rst:66
 msgid "*Released on February 14th 2025.*"
-msgstr ""
+msgstr "*2025. február 14-én jelent meg.*"
 
 #: ../../changes.rst:70
 msgid ""
@@ -28167,16 +28274,20 @@ msgstr ""
 #: ../../changes.rst:71
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
 msgstr ""
+"A :ref:`check-rst-syntax` ellenőrzés a reStructuredText szintaxis "
+"érvényesítésére szolgál."
 
 #: ../../changes.rst:72
 msgid "API can now produce CSV output."
-msgstr ""
+msgstr "Az API mostantól képes CSV kimenetet előállítani."
 
 #: ../../changes.rst:73
 msgid ""
 "New management command :wladmin:`import_projectbackup` to import :ref:"
 "`projectbackup`."
 msgstr ""
+"Új kezelési parancs: :wladmin:`import_projectbackup` a(z) "
+":ref:`projectbackup` importálásához."
 
 #: ../../changes.rst:77
 msgid "Improved error handling in :ref:`machine-translation-setup`."
@@ -28209,10 +28320,12 @@ msgstr ""
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
 msgstr ""
+"A :ref:`autofix-punctuation-spacing` nem módosítja a reStructuredText "
+"jelölést."
 
 #: ../../changes.rst:82
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr ""
+msgstr "Fejlesztett hibajavítások az :doc:`/api`-ban, lásd: :ref:`api-errors`."
 
 #: ../../changes.rst:83
 msgid ""
@@ -28220,93 +28333,108 @@ msgid ""
 "com/WeblateOrg/language-data/>`__ is now reflected in all existing "
 "installations."
 msgstr ""
+"Bármely nyelv, amely a(z) `Weblate language data <https://github.com/"
+"WeblateOrg/language-data/>`__ adatbázisában aliasra lett változtatva, most "
+"már tükröződik az összes meglévő telepítésben."
 
 #: ../../changes.rst:84
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
+"Az üres alias nyelvek (amelyek nincsenek kapcsolva egyetlen fordításhoz, "
+"profilhoz, a(z) component, ...) most már automatikusan eltávolításra "
+"kerülnek."
 
 #: ../../changes.rst:85
 msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+"A(z) :ref:`check-duplicate` jobban működik olyan jelölésekkel, mint a "
+"Markdown vagy a reStructuredText."
 
 #: ../../changes.rst:86
 msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
 msgstr ""
+"Az :ref:`mt-deepl` esetében automatikusan használja a DeepL API Free "
+"végpontot a DeepL API Free hitelesítési kulcsokhoz."
 
 #: ../../changes.rst:87
 msgid ""
 "Compatibility with third-party static files storage backends for Django."
 msgstr ""
+"Kompatibilitás harmadik féltől származó statikus fájlok tároló "
+"háttérrendszereivel Django-hoz."
 
 #: ../../changes.rst:88
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ""
-"Továbbfejlesztett nyelvi kompatibilitás a :ref:`mt-microsoft-translator` "
-"esetén."
+msgstr "Javított nyelvi kompatibilitás a(z) :ref:`mt-microsoft-translator`-ban."
 
 #: ../../changes.rst:89
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
 msgstr ""
-"A :ref:`check-reused` ellenőrzés megfelelően kezeli a kis- és "
-"nagybetűérzékenységet nem alkalmazó nyelveket."
+"A(z) :ref:`check-reused` ellenőrzés elegánsan kezeli azokat a nyelveket, "
+"amelyek nem érzékenyek a kis- és nagybetűkre."
 
 #: ../../changes.rst:90
 msgid ""
 ":ref:`component-enforced_checks` are now applied on strings imported from "
 "the repository."
 msgstr ""
+"A(z) :ref:`component-enforced_checks` most már alkalmazva van a tárhelyről "
+"importált sztringekre."
 
 #: ../../changes.rst:91
 msgid ""
 "Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` "
 "for CJK languages."
 msgstr ""
+"Csökkentették a téves pozitív találatokat a(z) :ref:`check-end-colon` és a(z)"
+" :ref:`check-end-stop` esetében a CJK nyelveknél."
 
 #: ../../changes.rst:92
 msgid "OpenAPI schema for API includes more information."
-msgstr ""
+msgstr "Az API OpenAPI sémája több információt tartalmaz."
 
 #: ../../changes.rst:93
 msgid ":ref:`check-regex` supports advanced regular expressions."
-msgstr ""
+msgstr "A :ref:`check-regex` támogatja a fejlett reguláris kifejezéseket."
 
 #: ../../changes.rst:94
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
 msgstr ""
-"A :ref:`check-same` megfelelően kezeli a kis- és nagybetűérzékenységet nem "
-"alkalmazó nyelveket."
+"A :ref:`check-same` elegánsan kezeli a kis- és nagybetűérzékeny nyelveket."
 
 #: ../../changes.rst:98
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
-msgstr ""
+msgstr "A :ref:`check-reused` hibásan aktiválódott a hiba javítása után."
 
 #: ../../changes.rst:99
-#, fuzzy
-#| msgid "Misconfigured monolingual translation."
 msgid "Dark theme behavior in some situations."
-msgstr "Helytelenül beállított egynyelvű fordítás."
+msgstr "Sötét téma viselkedése bizonyos helyzetekben."
 
 #: ../../changes.rst:100
 msgid "Translation propagation sometimes did not work as expected."
-msgstr ""
+msgstr "A fordítás terjesztése néha nem működött a vártnak megfelelően."
 
 #: ../../changes.rst:101
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
 msgstr ""
+"A :http:header:`Content-Security-Policy` mostantól automatikusan be van "
+"állítva az AWS esetében."
 
 #: ../../changes.rst:102
 msgid ""
 ":ref:`machine-translation-setup` sometimes cached results too aggressively."
 msgstr ""
+"A :ref:`machine-translation-setup` néha túl agresszívan gyorsítótárazott "
+"eredményeket."
 
 #: ../../changes.rst:103
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
@@ -28318,24 +28446,24 @@ msgstr ""
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
 msgstr ""
+"A :ref:`autofix-html` automatikus javítások figyelembe veszik a ``ignore-"
+"safe-html`` zászlót."
 
 #: ../../changes.rst:105
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
-msgstr ""
-"A :ref:`check-punctuation-spacing` ellenőrzés többé nem vonatkozik a breton "
-"nyelvre."
+msgstr "A :ref:`check-punctuation-spacing` már nem vonatkozik a breton nyelvre."
 
 #: ../../changes.rst:106
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
-msgstr ""
+msgstr "Javítva a :ref:`addon-weblate.git.squash` a csatolt tárolókon."
 
 #: ../../changes.rst:107
 msgid ""
 ":ref:`check-multiple-failures` avoids false positives and better lists "
 "related checks."
 msgstr ""
-"A :ref:`check-multiple-failures` elkerüli a téves találatokat, és jobban "
-"felsorolja a kapcsolódó ellenőrzéseket."
+"A :ref:`check-multiple-failures` elkerüli a téves pozitív eredményeket, és "
+"jobban felsorolja a kapcsolódó ellenőrzéseket."
 
 #: ../../changes.rst:111
 msgid ""
@@ -28350,10 +28478,13 @@ msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag "
 "is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
+"A :ref:`check-bbcode` ellenőrzés mostantól alapértelmezés szerint le van "
+"tiltva. Az `bbcode-text` jelző szükséges az ellenőrzés aktiválásához, lásd "
+":ref:`custom-checks`."
 
 #: ../../changes.rst:113
 msgid "API error responses format has changed, see :ref:`api-errors`."
-msgstr ""
+msgstr "Az API hibaüzenetek formátuma megváltozott, lásd: :ref:`api-errors`."
 
 #: ../../changes.rst:119
 msgid ""
@@ -28362,10 +28493,15 @@ msgid ""
 "``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` and "
 "``INSTALLED_APPS``; please adjust your settings accordingly."
 msgstr ""
+"A :file:`settings_example.py` fájlban több változás is történt, amelyek "
+"közül a legjelentősebbek az új beállítások a :ref:`api`-hoz a "
+"``REST_FRAMEWORK``, ``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` és "
+"``INSTALLED_APPS`` részekben; kérlek, ennek megfelelően igazítsd a "
+"beállításaidat."
 
 #: ../../changes.rst:120
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
-msgstr ""
+msgstr "A PostgreSQL 12 és a MariaDB 10.4 már nem támogatott."
 
 #: ../../changes.rst:126
 msgid ""
@@ -28381,12 +28517,13 @@ msgstr "Weblate 5.9.2"
 
 #: ../../changes.rst:131
 msgid "*Released on December 19th 2024.*"
-msgstr ""
+msgstr "*Kiadva: 2024. december 19.*"
 
 #: ../../changes.rst:135
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
 msgstr ""
-"A :ref:`vcs-bitbucket-data-center` átnevezve az új terméknévnek megfelelően."
+"Átnevezték a(z) :ref:`vcs-bitbucket-data-center`-t az új terméknévhez "
+"igazodva."
 
 #: ../../changes.rst:136
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -28430,7 +28567,7 @@ msgstr "Weblate 5.9.1"
 
 #: ../../changes.rst:158 ../../changes.rst:177
 msgid "*Released on December 16th 2024.*"
-msgstr ""
+msgstr "*Kiadva: 2024. december 16.*"
 
 #: ../../changes.rst:162
 msgid "Fixed publishing package to PyPI."
@@ -28506,6 +28643,8 @@ msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate this component`)."
 msgstr ""
+"Most már elérhető egy gyorsbillentyű a komponens duplikálásához közvetlenül "
+"a menüben (:guilabel:`Manage` → :guilabel:`Duplicate this component`)."
 
 #: ../../changes.rst:195
 msgid "Included username when generating :ref:`credits`."
@@ -28556,6 +28695,9 @@ msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variants in the search language, see :ref:`search-strings`."
 msgstr ""
+"A ``has:variant`` mező használatával most már helyesen jeleníti meg azokat a "
+"szövegeket, amelyeknek vannak változatai a keresési nyelven, lásd :ref"
+":`search-strings`."
 
 #: ../../changes.rst:207
 msgid "Saving newly added strings in some formats."
@@ -28614,7 +28756,7 @@ msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:231
 msgid "*Released on November 19th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. november 19-én.*"
 
 #: ../../changes.rst:235
 msgid ":ref:`search-users` can search based on user changes."
@@ -28649,7 +28791,7 @@ msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:256
 msgid "*Released on November 6th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. november 6-án.*"
 
 #: ../../changes.rst:260
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -28678,7 +28820,7 @@ msgstr "Weblate 5.8.2"
 
 #: ../../changes.rst:277
 msgid "*Released on November 1st 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. november 1-jén.*"
 
 #: ../../changes.rst:281
 msgid "Update outdated plural definitions during the database migration."
@@ -28714,7 +28856,7 @@ msgstr "Weblate 5.8.1"
 
 #: ../../changes.rst:300 ../../changes.rst:319
 msgid "*Released on October 15th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. október 15-én.*"
 
 #: ../../changes.rst:304
 msgid "Use lower case name for the Python package."
@@ -28741,6 +28883,8 @@ msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
+"A :doc:`/user/search` mostantól támogatja a szűrést objektum útvonal és :ref"
+":`date-search` alapján."
 
 #: ../../changes.rst:325
 msgid ""
@@ -28849,7 +28993,7 @@ msgstr "A Weblate mostantól Python 3.11 vagy újabb verziót igényel."
 
 #: ../../changes.rst:353
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
-msgstr ""
+msgstr "A :ref:`mt-aws` mostantól `TranslateFullAccess` jogosultságot igényel."
 
 #: ../../changes.rst:359
 msgid ""
@@ -28877,7 +29021,7 @@ msgstr "Weblate 5.7.2"
 
 #: ../../changes.rst:370
 msgid "*Released on September 5th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. szeptember 5-én.*"
 
 #: ../../changes.rst:374
 msgid ":ref:`2fa` remembers last method used by user."
@@ -28914,7 +29058,7 @@ msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:396
 msgid "*Released on August 30th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. augusztus 30-án.*"
 
 #: ../../changes.rst:400
 msgid ""
@@ -28977,7 +29121,7 @@ msgstr "Weblate 5.7"
 
 #: ../../changes.rst:424
 msgid "*Released on August 15th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. augusztus 15-én.*"
 
 #: ../../changes.rst:428
 msgid ""
@@ -29172,7 +29316,7 @@ msgstr "Weblate 5.6.2"
 
 #: ../../changes.rst:480
 msgid "*Released on July 1st 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. július 1-jén.*"
 
 #: ../../changes.rst:484
 msgid "Rendering of :ref:`labels` color selection widget."
@@ -29218,7 +29362,7 @@ msgstr "Weblate 5.6.1"
 
 #: ../../changes.rst:500
 msgid "*Released on June 24th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. június 24-én.*"
 
 #: ../../changes.rst:504
 msgid ""
@@ -29255,7 +29399,7 @@ msgstr "Weblate 5.6"
 
 #: ../../changes.rst:520
 msgid "*Released on June 19th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. június 19-én.*"
 
 #: ../../changes.rst:524
 msgid ":ref:`addons` activity log for tracking add-on activity."
@@ -29347,7 +29491,7 @@ msgstr "Weblate 5.5.5"
 
 #: ../../changes.rst:558
 msgid "*Released on May 13th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. május 13-án.*"
 
 #: ../../changes.rst:562
 msgid "False-positive merge failure alert when using push branch."
@@ -29373,7 +29517,7 @@ msgstr "Weblate 5.5.4"
 
 #: ../../changes.rst:574
 msgid "*Released on May 10th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. május 10-én.*"
 
 #: ../../changes.rst:578
 msgid "Visually highlight explanation in :ref:`glossary`."
@@ -29412,7 +29556,7 @@ msgstr "Weblate 5.5.3"
 
 #: ../../changes.rst:596
 msgid "*Released on May 3rd 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. május 3-án.*"
 
 #: ../../changes.rst:600
 msgid "Improved performance of rendering large lists of objects."
@@ -29447,7 +29591,7 @@ msgstr "Weblate 5.5.2"
 
 #: ../../changes.rst:617 ../../changes.rst:632
 msgid "*Released on April 26th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. április 26-án.*"
 
 #: ../../changes.rst:621
 msgid "Fixed publishing packages to PyPI."
@@ -29467,7 +29611,7 @@ msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:636
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr "A :doc:`/user/search` támogatja a ``source_changed:DATETIME`` szűrést."
+msgstr "A :doc:`/user/search` támogatja a ``source_changed:DATETIME`` funkciót."
 
 #: ../../changes.rst:637
 msgid "Added several new :ref:`component-language_code_style`."
@@ -29558,7 +29702,7 @@ msgstr "Weblate 5.5"
 
 #: ../../changes.rst:669
 msgid "*Released on April 20th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. április 20-án.*"
 
 #: ../../changes.rst:673
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
@@ -29568,7 +29712,7 @@ msgstr ""
 
 #: ../../changes.rst:675
 msgid "API improvements."
-msgstr ""
+msgstr "API fejlesztések."
 
 #: ../../changes.rst:677
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
@@ -29736,7 +29880,7 @@ msgstr "Weblate 5.4.3"
 
 #: ../../changes.rst:725
 msgid "*Released on March 26th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. március 26-án.*"
 
 #: ../../changes.rst:729
 msgid "Superuser access to components with :ref:`component-restricted`."
@@ -29804,7 +29948,7 @@ msgstr "Weblate 5.4.2"
 
 #: ../../changes.rst:748
 msgid "*Released on February 22nd 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. február 22-én.*"
 
 #: ../../changes.rst:752
 msgid "Displaying debugging page in case of database connection issues."
@@ -29828,7 +29972,7 @@ msgstr "Weblate 5.4.1"
 
 #: ../../changes.rst:764
 msgid "*Released on February 19th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. február 19-én.*"
 
 #: ../../changes.rst:768
 msgid ""
@@ -29852,7 +29996,7 @@ msgstr "Weblate 5.4"
 
 #: ../../changes.rst:780
 msgid "*Released on February 15th 2024.*"
-msgstr ""
+msgstr "*Kiadva 2024. február 15-én.*"
 
 #: ../../changes.rst:784
 msgid ":ref:`check-perl-brace-format` quality check."
@@ -29995,7 +30139,7 @@ msgstr "Weblate 5.3.1"
 
 #: ../../changes.rst:827
 msgid "*Released on December 19th 2023.*"
-msgstr ""
+msgstr "*Kiadva 2023. december 19-én.*"
 
 #: ../../changes.rst:831
 msgid "Not updating statistics in some situations."
@@ -30015,7 +30159,7 @@ msgstr "Weblate 5.3"
 
 #: ../../changes.rst:842
 msgid "*Released on December 14th 2023.*"
-msgstr ""
+msgstr "*Kiadva 2023. december 14-én.*"
 
 #: ../../changes.rst:846
 msgid ":ref:`mt-openai` automatic suggestion service."
@@ -30110,7 +30254,7 @@ msgstr "Weblate 5.2.1"
 
 #: ../../changes.rst:880
 msgid "*Released on November 22nd 2023.*"
-msgstr ""
+msgstr "*Kiadva 2023. november 22-én.*"
 
 #: ../../changes.rst:884
 msgid "Show search field after no strings found while translating."
@@ -30159,13 +30303,11 @@ msgstr "Weblate 5.2"
 
 #: ../../changes.rst:904
 msgid "*Released on November 16th 2023.*"
-msgstr ""
+msgstr "*Kiadva 2023. november 16-án.*"
 
 #: ../../changes.rst:908
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`"
 msgid ":ref:`vcs-azure-devops`."
-msgstr ":ref:`vcs-azure-devops`"
+msgstr ":ref:`vcs-azure-devops`."
 
 #: ../../changes.rst:912
 msgid "Faster statistics updates."
@@ -30275,7 +30417,7 @@ msgstr "Weblate 5.1.1"
 
 #: ../../changes.rst:945
 msgid "*Released on October 25th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. október 25.*"
 
 #: ../../changes.rst:949
 msgid ""
@@ -30321,7 +30463,7 @@ msgstr "Weblate 5.1"
 
 #: ../../changes.rst:968
 msgid "*Released on October 16th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. október 16.*"
 
 #: ../../changes.rst:972
 msgid ":ref:`mt-yandex-v2` machine translation service."
@@ -30487,7 +30629,7 @@ msgstr "Weblate 5.0.2"
 
 #: ../../changes.rst:1019
 msgid "*Released on September 14th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. szeptember 14.*"
 
 #: ../../changes.rst:1023
 msgid "Translate page performance."
@@ -30535,7 +30677,7 @@ msgstr "Weblate 5.0.1"
 
 #: ../../changes.rst:1044
 msgid "*Released on September 10th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. szeptember 10.*"
 
 #: ../../changes.rst:1048
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
@@ -30622,7 +30764,7 @@ msgstr "Weblate 5.0"
 
 #: ../../changes.rst:1085
 msgid "*Released on August 24th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. augusztus 24.*"
 
 #: ../../changes.rst:1089
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
@@ -30831,7 +30973,7 @@ msgstr "Weblate 0.9"
 
 #: ../../changes/v0.rst:7
 msgid "*Released on April 18th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. április 18.*"
 
 #: ../../changes/v0.rst:9
 msgid "Fixed import of unknown languages."
@@ -30904,7 +31046,7 @@ msgstr "Weblate 0.8"
 
 #: ../../changes/v0.rst:28
 msgid "*Released on April 3rd 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. április 3.*"
 
 #: ../../changes/v0.rst:30
 msgid "Replaced own full text search with Whoosh."
@@ -30983,7 +31125,7 @@ msgstr "Weblate 0.7"
 
 #: ../../changes/v0.rst:50
 msgid "*Released on February 16th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 16.*"
 
 #: ../../changes/v0.rst:52
 msgid "Direct support for GitHub notifications."
@@ -31011,7 +31153,7 @@ msgstr "Weblate 0.6"
 
 #: ../../changes/v0.rst:61
 msgid "*Released on February 14th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 14.*"
 
 #: ../../changes/v0.rst:63
 msgid "Added various checks for translated messages."
@@ -31039,7 +31181,7 @@ msgstr "Weblate 0.5"
 
 #: ../../changes/v0.rst:72
 msgid "*Released on February 12th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 12.*"
 
 #: ../../changes/v0.rst:74
 msgid "Support for machine translation using following online services:"
@@ -31084,7 +31226,7 @@ msgstr "Weblate 0.4"
 
 #: ../../changes/v0.rst:88 ../../changes/v0.rst:96
 msgid "*Released on February 8th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 8.*"
 
 #: ../../changes/v0.rst:90
 msgid "Added usage guide to documentation."
@@ -31125,7 +31267,7 @@ msgstr "Weblate 0.2"
 
 #: ../../changes/v0.rst:107
 msgid "*Released on February 7th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 7.*"
 
 #: ../../changes/v0.rst:109
 msgid "Improved validation of several forms."
@@ -31153,7 +31295,7 @@ msgstr "Weblate 0.1"
 
 #: ../../changes/v0.rst:118
 msgid "*Released on February 6th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. február 6.*"
 
 #: ../../changes/v0.rst:120
 msgid "Initial release."
@@ -31169,7 +31311,7 @@ msgstr "Weblate 1.9"
 
 #: ../../changes/v1.rst:7
 msgid "*Released on May 6th 2014.*"
-msgstr ""
+msgstr "*Kiadva: 2014. május 6.*"
 
 #: ../../changes/v1.rst:9
 msgid "Django 1.6 compatibility."
@@ -31213,7 +31355,7 @@ msgstr "Weblate 1.8"
 
 #: ../../changes/v1.rst:22
 msgid "*Released on November 7th 2013.*"
-msgstr ""
+msgstr "*Kiadva: 2013. november 7.*"
 
 #: ../../changes/v1.rst:24 ../../changes/v1.rst:41 ../../changes/v1.rst:82
 msgid "Please check manual for upgrade instructions."
@@ -31265,7 +31407,7 @@ msgstr "Weblate 1.7"
 
 #: ../../changes/v1.rst:39
 msgid "*Released on October 7th 2013.*"
-msgstr ""
+msgstr "*Kiadva: 2013. október 7.*"
 
 #: ../../changes/v1.rst:42
 msgid "Support for checking Python brace format string."
@@ -31328,7 +31470,7 @@ msgstr "Weblate 1.6"
 
 #: ../../changes/v1.rst:58
 msgid "*Released on July 25th 2013.*"
-msgstr ""
+msgstr "*Kiadva: 2013. július 25.*"
 
 #: ../../changes/v1.rst:60
 msgid "Nicer error handling on registration."
@@ -31400,7 +31542,7 @@ msgstr "Weblate 1.5"
 
 #: ../../changes/v1.rst:80
 msgid "*Released on April 16th 2013.*"
-msgstr ""
+msgstr "*Kiadva: 2013. április 16.*"
 
 #: ../../changes/v1.rst:83
 msgid "Added public user pages."
@@ -31488,7 +31630,7 @@ msgstr "Weblate 1.4"
 
 #: ../../changes/v1.rst:104
 msgid "*Released on January 23rd 2013.*"
-msgstr ""
+msgstr "*Kiadva: 2013. január 23.*"
 
 #: ../../changes/v1.rst:106
 msgid "Fixed deleting of checks/comments on string deletion."
@@ -31580,7 +31722,7 @@ msgstr "Weblate 1.3"
 
 #: ../../changes/v1.rst:130
 msgid "*Released on November 16th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. november 16.*"
 
 #: ../../changes/v1.rst:132
 msgid "Compatibility with PostgreSQL database backend."
@@ -31669,7 +31811,7 @@ msgstr "Weblate 1.2"
 
 #: ../../changes/v1.rst:154
 msgid "*Released on August 14th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. augusztus 14.*"
 
 #: ../../changes/v1.rst:156
 msgid ""
@@ -31772,7 +31914,7 @@ msgstr "Weblate 1.1"
 
 #: ../../changes/v1.rst:182
 msgid "*Released on July 4th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. július 4.*"
 
 #: ../../changes/v1.rst:184
 msgid "Improved several translations."
@@ -31796,7 +31938,7 @@ msgstr "Weblate 1.0"
 
 #: ../../changes/v1.rst:193
 msgid "*Released on May 10th 2012.*"
-msgstr ""
+msgstr "*Kiadva: 2012. május 10.*"
 
 #: ../../changes/v1.rst:195
 msgid "Improved validation while adding/saving component."
@@ -31829,7 +31971,7 @@ msgstr "Weblate 2.20"
 
 #: ../../changes/v2.rst:7
 msgid "*Released on April 4th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. április 4.*"
 
 #: ../../changes/v2.rst:9
 msgid "Improved speed of cloning subversion repositories."
@@ -31921,7 +32063,7 @@ msgstr "Weblate 2.19.1"
 
 #: ../../changes/v2.rst:29
 msgid "*Released on February 20th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. február 20.*"
 
 #: ../../changes/v2.rst:31
 msgid "Fixed migration issue on upgrade from 2.18."
@@ -31937,7 +32079,7 @@ msgstr "Weblate 2.19"
 
 #: ../../changes/v2.rst:37
 msgid "*Released on February 15th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. február 15.*"
 
 #: ../../changes/v2.rst:39
 msgid "Fixed imports across some file formats."
@@ -32023,7 +32165,7 @@ msgstr "Weblate 2.18"
 
 #: ../../changes/v2.rst:61
 msgid "*Released on December 15th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. december 15.*"
 
 #: ../../changes/v2.rst:63
 msgid "Extended contributor stats."
@@ -32087,7 +32229,7 @@ msgstr "Weblate 2.17.1"
 
 #: ../../changes/v2.rst:78 ../../changes/v2.rst:86
 msgid "*Released on October 13th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. október 13.*"
 
 #: ../../changes/v2.rst:80
 msgid "Fixed running testsuite in some specific situations."
@@ -32158,7 +32300,7 @@ msgstr "Weblate 2.16"
 
 #: ../../changes/v2.rst:104
 msgid "*Released on August 11th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. augusztus 11.*"
 
 #: ../../changes/v2.rst:107
 msgid "Added support for nested JSON format."
@@ -32204,7 +32346,7 @@ msgstr "Weblate 2.15"
 
 #: ../../changes/v2.rst:120
 msgid "*Released on June 30th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. június 30.*"
 
 #: ../../changes/v2.rst:122
 msgid "Show more related translations in other translations."
@@ -32257,7 +32399,7 @@ msgstr "Weblate 2.14.1"
 
 #: ../../changes/v2.rst:136
 msgid "*Released on May 24th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. május 24.*"
 
 #: ../../changes/v2.rst:138
 msgid "Fixed possible error when paginating search results."
@@ -32288,7 +32430,7 @@ msgstr "Weblate 2.14"
 
 #: ../../changes/v2.rst:147
 msgid "*Released on May 17th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. május 17.*"
 
 #: ../../changes/v2.rst:149
 msgid "Add glossary entries using AJAX."
@@ -32380,7 +32522,7 @@ msgstr "Weblate 2.13.1"
 
 #: ../../changes/v2.rst:171 ../../changes/v2.rst:181
 msgid "*Released on Apr 12th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. április 12.*"
 
 #: ../../changes/v2.rst:173
 msgid "Fixed listing of managed projects in profile."
@@ -32471,7 +32613,7 @@ msgstr "Weblate 2.12"
 
 #: ../../changes/v2.rst:200
 msgid "*Released on Mar 3rd 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. március 3.*"
 
 #: ../../changes/v2.rst:202
 msgid "Improved admin interface for groups."
@@ -32534,7 +32676,7 @@ msgstr "Weblate 2.11"
 
 #: ../../changes/v2.rst:218
 msgid "*Released on Jan 31st 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. január 31.*"
 
 #: ../../changes/v2.rst:220
 msgid "Include language detailed information on language page."
@@ -32602,7 +32744,7 @@ msgstr "Weblate 2.10.1"
 
 #: ../../changes/v2.rst:237
 msgid "*Released on Jan 20th 2017.*"
-msgstr ""
+msgstr "*Kiadva: 2017. január 20.*"
 
 #: ../../changes/v2.rst:239
 msgid "Do not leak account existence on password reset form (CVE-2017-5537)."
@@ -32616,7 +32758,7 @@ msgstr "Weblate 2.10"
 
 #: ../../changes/v2.rst:244
 msgid "*Released on Dec 15th 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. december 15.*"
 
 #: ../../changes/v2.rst:246
 msgid ""
@@ -32675,7 +32817,7 @@ msgstr "Weblate 2.9"
 
 #: ../../changes/v2.rst:262
 msgid "*Released on Nov 4th 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. november 4.*"
 
 #: ../../changes/v2.rst:264
 msgid "Extended parameters for createadmin management command."
@@ -32754,7 +32896,7 @@ msgstr "Weblate 2.8"
 
 #: ../../changes/v2.rst:284
 msgid "*Released on Aug 31st 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. augusztus 31.*"
 
 #: ../../changes/v2.rst:287
 msgid "Translations."
@@ -32827,7 +32969,7 @@ msgstr "Weblate 2.7"
 
 #: ../../changes/v2.rst:306
 msgid "*Released on Jul 10th 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. július 10.*"
 
 #: ../../changes/v2.rst:308
 msgid "Removed Google web translate machine translation."
@@ -32872,7 +33014,7 @@ msgstr "Weblate 2.6"
 
 #: ../../changes/v2.rst:321
 msgid "*Released on Apr 28th 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. április 28.*"
 
 #: ../../changes/v2.rst:323
 msgid "Fixed validation of components with language filter."
@@ -32904,7 +33046,7 @@ msgstr "Weblate 2.5"
 
 #: ../../changes/v2.rst:333
 msgid "*Released on Mar 10th 2016.*"
-msgstr ""
+msgstr "*Kiadva: 2016. március 10.*"
 
 #: ../../changes/v2.rst:335
 msgid "Fixed automatic translation for project owners."
@@ -33074,7 +33216,7 @@ msgstr "Weblate 2.4"
 
 #: ../../changes/v2.rst:380
 msgid "*Released on Sep 20th 2015.*"
-msgstr ""
+msgstr "*Kiadva: 2015. szeptember 20.*"
 
 #: ../../changes/v2.rst:382
 msgid "Improved support for PHP files."
@@ -33214,7 +33356,7 @@ msgstr "Weblate 2.3"
 
 #: ../../changes/v2.rst:416
 msgid "*Released on May 22nd 2015.*"
-msgstr ""
+msgstr "*Kiadva: 2015. május 22.*"
 
 #: ../../changes/v2.rst:418
 msgid "Dropped support for Django 1.6 and South migrations."
@@ -33284,7 +33426,7 @@ msgstr "Weblate 2.2"
 
 #: ../../changes/v2.rst:436
 msgid "*Released on Feb 19th 2015.*"
-msgstr ""
+msgstr "*Kiadva: 2015. február 19.*"
 
 #: ../../changes/v2.rst:438 ../../changes/v4.rst:631
 msgid "Performance improvements."
@@ -33342,7 +33484,7 @@ msgstr "Weblate 2.1"
 
 #: ../../changes/v2.rst:454
 msgid "*Released on Dec 5th 2014.*"
-msgstr ""
+msgstr "*Kiadva: 2014. december 5.*"
 
 #: ../../changes/v2.rst:456
 msgid "Added support for Mercurial repositories."
@@ -33394,7 +33536,7 @@ msgstr "Weblate 2.0"
 
 #: ../../changes/v2.rst:472
 msgid "*Released on Nov 6th 2014.*"
-msgstr ""
+msgstr "*Kiadva: 2014. november 6.*"
 
 #: ../../changes/v2.rst:474
 msgid "New responsive UI using Bootstrap."
@@ -33475,7 +33617,7 @@ msgstr "Weblate 3.11.3"
 
 #: ../../changes/v3.rst:7
 msgid "*Released on March 11th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. március 11.*"
 
 #: ../../changes/v3.rst:9
 msgid "Fixed searching for fields with certain priority."
@@ -33559,7 +33701,7 @@ msgstr "Weblate 3.11.2"
 
 #: ../../changes/v3.rst:31
 msgid "*Released on February 22nd 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. február 22.*"
 
 #: ../../changes/v3.rst:33
 msgid "Fixed rendering of suggestions."
@@ -33577,7 +33719,7 @@ msgstr "Weblate 3.11.1"
 
 #: ../../changes/v3.rst:39
 msgid "*Released on February 20th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. február 20.*"
 
 #: ../../changes/v3.rst:41
 msgid "Documented Celery setup changes."
@@ -33609,7 +33751,7 @@ msgstr "Weblate 3.11"
 
 #: ../../changes/v3.rst:51
 msgid "*Released on February 17th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. február 17.*"
 
 #: ../../changes/v3.rst:53
 msgid "Allow using VCS push URL during component creation via API."
@@ -33733,7 +33875,7 @@ msgstr "Weblate 3.10.3"
 
 #: ../../changes/v3.rst:82 ../../changes/v3.rst:89
 msgid "*Released on January 18th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. január 18.*"
 
 #: ../../changes/v3.rst:84
 msgid "Support for translate-toolkit 2.5.0."
@@ -33795,7 +33937,7 @@ msgstr "Weblate 3.10.1"
 
 #: ../../changes/v3.rst:106
 msgid "*Released on January 9th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. január 9.*"
 
 #: ../../changes/v3.rst:108
 msgid "Extended API with translation creation."
@@ -33839,7 +33981,7 @@ msgstr "Weblate 3.10"
 
 #: ../../changes/v3.rst:121
 msgid "*Released on December 20th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. december 20.*"
 
 #: ../../changes/v3.rst:123
 msgid "Improved application user interface."
@@ -33941,7 +34083,7 @@ msgstr "Weblate 3.9.1"
 
 #: ../../changes/v3.rst:150
 msgid "*Released on October 28th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. október 28.*"
 
 #: ../../changes/v3.rst:152
 msgid "Remove some unneeded files from backups."
@@ -33997,7 +34139,7 @@ msgstr "Weblate 3.9"
 
 #: ../../changes/v3.rst:167
 msgid "*Released on October 15th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. október 15.*"
 
 #: ../../changes/v3.rst:169
 msgid "Include Weblate metadata in downloaded files."
@@ -34152,7 +34294,7 @@ msgstr "Weblate 3.8"
 
 #: ../../changes/v3.rst:205
 msgid "*Released on August 15th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. augusztus 15.*"
 
 #: ../../changes/v3.rst:207
 msgid "Added support for simplified creating of similar components."
@@ -34282,7 +34424,7 @@ msgstr "Weblate 3.7.1"
 
 #: ../../changes/v3.rst:239
 msgid "*Released on June 28th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. június 28.*"
 
 #: ../../changes/v3.rst:242
 msgid "Fixed some requirements constraints."
@@ -34315,7 +34457,7 @@ msgstr "Weblate 3.7"
 
 #: ../../changes/v3.rst:252
 msgid "*Released on June 21st 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. június 21.*"
 
 #: ../../changes/v3.rst:254
 msgid "Added separate Celery queue for notifications."
@@ -34444,7 +34586,7 @@ msgstr "Weblate 3.6.1"
 
 #: ../../changes/v3.rst:287
 msgid "*Released on April 26th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. április 26.*"
 
 #: ../../changes/v3.rst:290
 msgid "Fixed digest notifications in some corner cases."
@@ -34476,7 +34618,7 @@ msgstr "Weblate 3.6"
 
 #: ../../changes/v3.rst:300
 msgid "*Released on April 20th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. április 20.*"
 
 #: ../../changes/v3.rst:302
 msgid "Add support for downloading user data."
@@ -34570,7 +34712,7 @@ msgstr "Weblate 3.5.1"
 
 #: ../../changes/v3.rst:324
 msgid "*Released on March 10th 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. március 10.*"
 
 #: ../../changes/v3.rst:326
 msgid "Fixed Celery systemd unit example."
@@ -34621,7 +34763,7 @@ msgstr "Weblate 3.5"
 
 #: ../../changes/v3.rst:340
 msgid "*Released on March 3rd 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. március 3.*"
 
 #: ../../changes/v3.rst:342
 msgid "Improved performance of built-in translation memory."
@@ -34699,7 +34841,7 @@ msgstr "Weblate 3.4"
 
 #: ../../changes/v3.rst:362
 msgid "*Released on January 22nd 2019.*"
-msgstr ""
+msgstr "*Kiadva: 2019. január 22.*"
 
 #: ../../changes/v3.rst:364
 msgid "Added support for XLIFF placeholders."
@@ -34773,7 +34915,7 @@ msgstr "Weblate 3.3"
 
 #: ../../changes/v3.rst:382
 msgid "*Released on November 30th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. november 30.*"
 
 #: ../../changes/v3.rst:384
 msgid "Added support for component and project removal."
@@ -34812,7 +34954,7 @@ msgstr "Weblate 3.2.2"
 
 #: ../../changes/v3.rst:395
 msgid "*Released on October 20th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. október 20.*"
 
 #: ../../changes/v3.rst:397
 msgid "Remove no longer needed Babel dependency."
@@ -34855,7 +34997,7 @@ msgstr "Weblate 3.2.1"
 
 #: ../../changes/v3.rst:409
 msgid "*Released on October 10th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. október 10.*"
 
 #: ../../changes/v3.rst:411
 msgid "Document dependency on backports.csv on Python 2.7."
@@ -34899,7 +35041,7 @@ msgstr "Weblate 3.2"
 
 #: ../../changes/v3.rst:424
 msgid "*Released on October 6th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. október 6.*"
 
 #: ../../changes/v3.rst:426
 msgid "Add install_addon management command for automated add-on installation."
@@ -35013,7 +35155,7 @@ msgstr "Weblate 3.1.1"
 
 #: ../../changes/v3.rst:454 ../../changes/v3.rst:461
 msgid "*Released on July 27th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. július 27.*"
 
 #: ../../changes/v3.rst:456
 msgid "Fix testsuite failure on some setups."
@@ -35088,7 +35230,7 @@ msgstr "Weblate 3.0.1"
 
 #: ../../changes/v3.rst:479
 msgid "*Released on June 10th 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. június 10.*"
 
 #: ../../changes/v3.rst:481
 msgid "Fixed possible migration issue from 2.20."
@@ -35116,7 +35258,7 @@ msgstr "Weblate 3.0"
 
 #: ../../changes/v3.rst:491
 msgid "*Released on June 1st 2018.*"
-msgstr ""
+msgstr "*Kiadva: 2018. június 1.*"
 
 #: ../../changes/v3.rst:493
 msgid "Rewritten access control."
@@ -35188,7 +35330,7 @@ msgstr "Weblate 4.18.2"
 
 #: ../../changes/v4.rst:7
 msgid "*Released on June 30th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. június 30.*"
 
 #: ../../changes/v4.rst:9
 msgid "Fixed parsing notes from TBX."
@@ -35226,7 +35368,7 @@ msgstr "Weblate 4.18.1"
 
 #: ../../changes/v4.rst:20
 msgid "*Released on June 16th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. június 16.*"
 
 #: ../../changes/v4.rst:22
 msgid "Fixed language code format for i18next."
@@ -35250,7 +35392,7 @@ msgstr "Weblate 4.18"
 
 #: ../../changes/v4.rst:30
 msgid "*Released on June 15th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. június 15.*"
 
 #: ../../changes/v4.rst:32
 msgid "Improved API error messages on permission denied."
@@ -35381,7 +35523,7 @@ msgstr "Weblate 4.17"
 
 #: ../../changes/v4.rst:66
 msgid "*Released on April 17th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. április 17.*"
 
 #: ../../changes/v4.rst:68
 msgid "Allow to filter on language in reports."
@@ -35408,10 +35550,8 @@ msgid "Improved performance of public user profiles."
 msgstr "Javított teljesítmény a nyilvános felhasználói profiloknál."
 
 #: ../../changes/v4.rst:73
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Improved Sentry performance monitoring integration."
-msgstr "Sentry-integráció kipróbálása"
+msgstr "Javított Sentry teljesítményfigyelési integráció."
 
 #: ../../changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -35496,7 +35636,7 @@ msgstr "Weblate 4.16.4"
 
 #: ../../changes/v4.rst:109
 msgid "*Released on March 16th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. március 16.*"
 
 #: ../../changes/v4.rst:111 ../../changes/v4.rst:122
 msgid "Dependencies updates."
@@ -35520,7 +35660,7 @@ msgstr "Weblate 4.16.3"
 
 #: ../../changes/v4.rst:119
 msgid "*Released on March 15th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. március 15.*"
 
 #: ../../changes/v4.rst:121
 msgid "Improved session handling with project backups."
@@ -35540,7 +35680,7 @@ msgstr "Weblate 4.16.2"
 
 #: ../../changes/v4.rst:131
 msgid "*Released on March 8th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. március 8.*"
 
 #: ../../changes/v4.rst:133
 msgid "Fixed searching in the translation memory."
@@ -35578,7 +35718,7 @@ msgstr "Weblate 4.16.1"
 
 #: ../../changes/v4.rst:144 ../../changes/v4.rst:153
 msgid "*Released on March 1st 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. március 1.*"
 
 #: ../../changes/v4.rst:146
 msgid "Fixed testsuite error."
@@ -35703,7 +35843,7 @@ msgstr "Weblate 4.15.2"
 
 #: ../../changes/v4.rst:183
 msgid "*Released on January 25th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. január 25.*"
 
 #: ../../changes/v4.rst:185
 msgid ""
@@ -35734,7 +35874,7 @@ msgstr "Weblate 4.15.1"
 
 #: ../../changes/v4.rst:194
 msgid "*Released on January 19th 2023.*"
-msgstr ""
+msgstr "*Kiadva: 2023. január 19.*"
 
 #: ../../changes/v4.rst:196
 msgid "Fixed suggestions from automatic translation."
@@ -35791,7 +35931,7 @@ msgstr "Weblate 4.15"
 
 #: ../../changes/v4.rst:211
 msgid "*Released on December 16th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. december 16.*"
 
 #: ../../changes/v4.rst:213
 msgid "Added support for browsing all changes for an individual string."
@@ -35942,7 +36082,7 @@ msgstr "Weblate 4.14.2"
 
 #: ../../changes/v4.rst:253
 msgid "*Released on November 5th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. november 5.*"
 
 #: ../../changes/v4.rst:255
 msgid "Added support for removing entries from translation memory."
@@ -36026,7 +36166,7 @@ msgstr "Weblate 4.14.1"
 
 #: ../../changes/v4.rst:276
 msgid "*Released on September 15th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. szeptember 15.*"
 
 #: ../../changes/v4.rst:278
 msgid "Fixed generating project backups in some situations."
@@ -36103,7 +36243,7 @@ msgstr "Weblate 4.14"
 
 #: ../../changes/v4.rst:299
 msgid "*Released on August 22nd 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. augusztus 22.*"
 
 #: ../../changes/v4.rst:301
 msgid "Track add-on changes in a history."
@@ -36207,7 +36347,7 @@ msgstr "Weblate 4.13.1"
 
 #: ../../changes/v4.rst:334
 msgid "*Released on July 1st 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. július 1.*"
 
 #: ../../changes/v4.rst:336
 msgid "Fixed tracking suggestions in history."
@@ -36261,7 +36401,7 @@ msgstr "Weblate 4.13"
 
 #: ../../changes/v4.rst:351
 msgid "*Released on June 15th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. június 15.*"
 
 #: ../../changes/v4.rst:353
 msgid "Changed behavior of updating language names."
@@ -36387,7 +36527,7 @@ msgstr "Weblate 4.12.2"
 
 #: ../../changes/v4.rst:389
 msgid "*Released on May 11th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. május 11.*"
 
 #: ../../changes/v4.rst:391
 msgid "Fixed rebuilding project translation-memory for some components."
@@ -36423,7 +36563,7 @@ msgstr "Weblate 4.12.1"
 
 #: ../../changes/v4.rst:401
 msgid "*Released on April 29th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. április 29.*"
 
 #: ../../changes/v4.rst:403
 msgid "Fixed pull request message title."
@@ -36459,7 +36599,7 @@ msgstr "Weblate 4.12"
 
 #: ../../changes/v4.rst:414
 msgid "*Released on April 20th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. április 20.*"
 
 #: ../../changes/v4.rst:416
 msgid "Added support for Amharic in :ref:`check-end-stop`."
@@ -36542,7 +36682,7 @@ msgstr "Weblate 4.11.2"
 
 #: ../../changes/v4.rst:441 ../../changes/v4.rst:450
 msgid "*Released on March 4th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. március 4.*"
 
 #: ../../changes/v4.rst:443
 msgid "Fixed corrupted MO files in the binary release."
@@ -36600,7 +36740,7 @@ msgstr "Weblate 4.11"
 
 #: ../../changes/v4.rst:463
 msgid "*Released on February 25th 2022.*"
-msgstr ""
+msgstr "*Kiadva: 2022. február 25.*"
 
 #: ../../changes/v4.rst:465
 msgid ""
@@ -36776,7 +36916,7 @@ msgstr "Weblate 4.10.1"
 
 #: ../../changes/v4.rst:508
 msgid "*Released on December 22nd 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. december 22.*"
 
 #: ../../changes/v4.rst:510
 msgid "Documented changes introduced by upgrading to Django 4.0."
@@ -36823,7 +36963,7 @@ msgstr "Weblate 4.10"
 
 #: ../../changes/v4.rst:523
 msgid "*Released on December 16th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. december 16.*"
 
 #: ../../changes/v4.rst:525
 msgid "Added support for formality and placeholders with DeepL."
@@ -36945,7 +37085,7 @@ msgstr "Weblate 4.9.1"
 
 #: ../../changes/v4.rst:559
 msgid "*Released on November 19th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. november 19.*"
 
 #: ../../changes/v4.rst:561
 msgid "Fixed upload of monolingual files after changing template."
@@ -36981,7 +37121,7 @@ msgstr "Weblate 4.9"
 
 #: ../../changes/v4.rst:572
 msgid "*Released on November 10th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. november 10.*"
 
 #: ../../changes/v4.rst:574
 msgid "Provide more details for events in history."
@@ -37100,7 +37240,7 @@ msgstr "Weblate 4.8.1"
 
 #: ../../changes/v4.rst:605
 msgid "*Released on September 10th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. szeptember 10.*"
 
 #: ../../changes/v4.rst:607
 msgid "Fixed user removal in Django admin interface."
@@ -37169,7 +37309,7 @@ msgstr "Weblate 4.8"
 
 #: ../../changes/v4.rst:625
 msgid "*Released on August 21th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. augusztus 21.*"
 
 #: ../../changes/v4.rst:627
 msgid "Added support for Apple stringsdict format."
@@ -37233,7 +37373,7 @@ msgstr "Weblate 4.7.2"
 
 #: ../../changes/v4.rst:651
 msgid "*Released on July 15th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. július 15.*"
 
 #: ../../changes/v4.rst:653
 msgid "Support more language aliases to be configured on a project."
@@ -37269,7 +37409,7 @@ msgstr "Weblate 4.7.1"
 
 #: ../../changes/v4.rst:664
 msgid "*Released on June 30th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. június 30.*"
 
 #: ../../changes/v4.rst:666
 msgid "Improved popup for adding terms to glossary."
@@ -37302,7 +37442,7 @@ msgstr "Weblate 4.7"
 
 #: ../../changes/v4.rst:676
 msgid "*Released on June 17th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. június 17.*"
 
 #: ../../changes/v4.rst:678
 msgid "Improved configuration health check."
@@ -37423,7 +37563,7 @@ msgstr "Weblate 4.6.2"
 
 #: ../../changes/v4.rst:711
 msgid "*Released on May 8th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. május 8.*"
 
 #: ../../changes/v4.rst:713
 msgid "Fixed crash after moving shared component between projects."
@@ -37476,7 +37616,7 @@ msgstr "Weblate 4.6.1"
 
 #: ../../changes/v4.rst:727
 msgid "*Released on May 2nd 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. május 2.*"
 
 #: ../../changes/v4.rst:729
 msgid "Remove obsolete spam protection code."
@@ -37526,7 +37666,7 @@ msgstr "Weblate 4.6"
 
 #: ../../changes/v4.rst:743
 msgid "*Released on April 19th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. április 19.*"
 
 #: ../../changes/v4.rst:745
 msgid ""
@@ -37656,7 +37796,7 @@ msgstr "Weblate 4.5.3"
 
 #: ../../changes/v4.rst:780
 msgid "*Released on April 1st 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. április 1.*"
 
 #: ../../changes/v4.rst:782
 msgid "Fixed metrics collection."
@@ -37682,7 +37822,7 @@ msgstr "Weblate 4.5.2"
 
 #: ../../changes/v4.rst:790
 msgid "*Released on March 26th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. március 26.*"
 
 #: ../../changes/v4.rst:792
 msgid "Configurable schedule for automatic translation."
@@ -37746,7 +37886,7 @@ msgstr "Weblate 4.5.1"
 
 #: ../../changes/v4.rst:809
 msgid "*Released on March 5th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. március 5.*"
 
 #: ../../changes/v4.rst:811
 msgid "Fixed editing of glossary flags in some corner cases."
@@ -37817,7 +37957,7 @@ msgstr "Weblate 4.5"
 
 #: ../../changes/v4.rst:829
 msgid "*Released on February 19th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. február 19.*"
 
 #: ../../changes/v4.rst:831
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -37978,7 +38118,7 @@ msgstr "Weblate 4.4.2"
 
 #: ../../changes/v4.rst:876
 msgid "*Released on January 14th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. január 14.*"
 
 #: ../../changes/v4.rst:878
 msgid "Fixed corruption of one distributed MO file."
@@ -37990,7 +38130,7 @@ msgstr "Weblate 4.4.1"
 
 #: ../../changes/v4.rst:883
 msgid "*Released on January 13th 2021.*"
-msgstr ""
+msgstr "*Kiadva: 2021. január 13.*"
 
 #: ../../changes/v4.rst:885
 msgid "Fixed reverting plural changes."
@@ -38068,7 +38208,7 @@ msgstr "Weblate 4.4"
 
 #: ../../changes/v4.rst:905
 msgid "*Released on December 15th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. december 15.*"
 
 #: ../../changes/v4.rst:907
 msgid "Improved validation when creating a component."
@@ -38235,7 +38375,7 @@ msgstr "Weblate 4.3.2"
 
 #: ../../changes/v4.rst:951
 msgid "*Released on November 4th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. november 4.*"
 
 #: ../../changes/v4.rst:953
 msgid "Fixed crash on certain component file masks."
@@ -38307,7 +38447,7 @@ msgstr "Weblate 4.3.1"
 
 #: ../../changes/v4.rst:970
 msgid "*Released on October 21st 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. október 21.*"
 
 #: ../../changes/v4.rst:972
 msgid "Improved auto-translation performance."
@@ -38352,7 +38492,7 @@ msgstr "Weblate 4.3"
 
 #: ../../changes/v4.rst:986
 msgid "*Released on October 15th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. október 15.*"
 
 #: ../../changes/v4.rst:988
 msgid "Include user stats in the API."
@@ -38555,7 +38695,7 @@ msgstr "Weblate 4.2.2"
 
 #: ../../changes/v4.rst:1043
 msgid "*Released on September 2nd 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. szeptember 2.*"
 
 #: ../../changes/v4.rst:1045
 msgid "Fixed matching of source strings for JSON formats."
@@ -38588,7 +38728,7 @@ msgstr "Weblate 4.2.1"
 
 #: ../../changes/v4.rst:1055
 msgid "*Released on August 21st 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. augusztus 21.*"
 
 #: ../../changes/v4.rst:1057
 msgid "Fixed saving plurals for some locales in Android resources."
@@ -38610,7 +38750,7 @@ msgstr "Weblate 4.2"
 
 #: ../../changes/v4.rst:1064
 msgid "*Released on August 18th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. augusztus 18.*"
 
 #: ../../changes/v4.rst:1066
 msgid "Improved user pages and added listing of users."
@@ -38803,7 +38943,7 @@ msgstr "Weblate 4.1.1"
 
 #: ../../changes/v4.rst:1111
 msgid "*Released on June 19th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. június 19.*"
 
 #: ../../changes/v4.rst:1113
 msgid "Fixed changing autofix or add-ons configuration in Docker."
@@ -38858,7 +38998,7 @@ msgstr "Weblate 4.1"
 
 #: ../../changes/v4.rst:1127
 msgid "*Released on June 15th 2020.*"
-msgstr ""
+msgstr "*Kiadva: 2020. június 15.*"
 
 #: ../../changes/v4.rst:1129
 msgid "Added support for creating new translations with included country code."
@@ -38897,6 +39037,8 @@ msgstr ""
 msgid ""
 "Possibility to allow certain registration methods with registrations closed."
 msgstr ""
+"Lehetőség bizonyos regisztrációs módok engedélyezésére, amikor a "
+"regisztráció zárva van."
 
 #: ../../changes/v4.rst:1138
 msgid "Improved lookup of related terms in glossary."
@@ -39084,7 +39226,7 @@ msgstr "Weblate 4.0.4"
 
 #: ../../changes/v4.rst:1184
 msgid "*Released on May 7th 2020.*"
-msgstr ""
+msgstr "*2020. május 7-én kiadva.*"
 
 #: ../../changes/v4.rst:1186
 msgid "Fixed testsuite execution on some Python 3.8 environments."
@@ -39129,7 +39271,7 @@ msgstr "Weblate 4.0.3"
 
 #: ../../changes/v4.rst:1198
 msgid "*Released on May 2nd 2020.*"
-msgstr ""
+msgstr "*2020. május 2-án kiadva.*"
 
 #: ../../changes/v4.rst:1200
 msgid "Fixed possible crash in reports."
@@ -39160,7 +39302,7 @@ msgstr "Weblate 4.0.2"
 
 #: ../../changes/v4.rst:1209
 msgid "*Released on April 27th 2020.*"
-msgstr ""
+msgstr "*2020. április 27-én kiadva.*"
 
 #: ../../changes/v4.rst:1211
 msgid "Improved performance of translation stats."
@@ -39239,7 +39381,7 @@ msgstr "Weblate 4.0.1"
 
 #: ../../changes/v4.rst:1233 ../../changes/v4.rst:1240
 msgid "*Released on April 16th 2020.*"
-msgstr ""
+msgstr "*2020. április 16-án kiadva.*"
 
 #: ../../changes/v4.rst:1235
 msgid "Fixed package installation from PyPI."
@@ -39305,6 +39447,8 @@ msgstr "Támogatás hozzáadva több ``is:`` kereséshez a :doc:`/user/search`-b
 #: ../../changes/v4.rst:1254
 msgid "Allow to make :ref:`check-same` avoid the built-in words exceptions."
 msgstr ""
+"Engedélyezd, hogy a :ref:`check-same` elkerülje a beépített szavak "
+"kivételeit."
 
 #: ../../changes/v4.rst:1255
 msgid "Improved comments extraction from monolingual po files."
@@ -39587,10 +39731,8 @@ msgid "Translation file wrapper."
 msgstr "Fordítási fájl burkoló."
 
 #: ../../contributing/addons.rst:45
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Base form for configuring add-ons."
-msgstr "Van néhány nem véglegesített változtatás!"
+msgstr "Alap űrlap a kiegészítők konfigurálásához."
 
 #: ../../contributing/addons.rst:47
 msgid "Here is an example add-on:"
@@ -39987,6 +40129,9 @@ msgid ""
 "See :ref:`collecting-errors` for information on setting up Sentry which can "
 "provide useful insights on badly performing operations."
 msgstr ""
+"Nézd meg a(z) :ref:`collecting-errors` részt a Sentry beállításának "
+"információiért, amely hasznos betekintést nyújthat a rosszul teljesítő "
+"műveletekről."
 
 #: ../../contributing/debugging.rst:100
 msgid ""
@@ -40083,7 +40228,7 @@ msgstr "Futtasd a(z) ``cd client`` parancsot."
 
 #: ../../contributing/frontend.rst:34
 msgid "Run ``yarn install``."
-msgstr ""
+msgstr "Futtasd a ``yarn install`` parancsot."
 
 #: ../../contributing/frontend.rst:39
 msgid "To install a library, first run the following command:"
@@ -41973,6 +42118,9 @@ msgid ""
 "artifacts on our CI as :abbr:`SARIF (Static Analysis Results Interchange "
 "Format)`."
 msgstr ""
+"Ezeknek a vizsgálatoknak az eredményeit a GitHubon találhatod meg — a CI-"
+"nkon tárgyként vannak tárolva :abbr:`SARIF (Static Analysis Results "
+"Interchange Format)` formátumban."
 
 #: ../../contributing/security.rst:44
 msgid ":ref:`ci-tests`"
@@ -46120,10 +46268,8 @@ msgstr ""
 "translation`"
 
 #: ../../formats.rst:4
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization file formats"
-msgstr "Honosítási útmutató"
+msgstr "Helyi nyelvi fájlformátumok"
 
 #: ../../formats.rst:6
 msgid ""
@@ -48599,6 +48745,9 @@ msgid ""
 "style comments. Weblate does strip these comments while parsing the files "
 "and discards them when saving."
 msgstr ""
+"Bár ezt a formátumot JSON-nak nevezik, a specifikációja megengedi a \"//\" "
+"stílusú megjegyzések használatát. A Weblate eltávolítja ezeket a "
+"megjegyzéseket a fájlok elemzése során, és elveti őket a mentéskor."
 
 #: ../../formats/webextension.rst:16
 msgid ""
@@ -48971,10 +49120,8 @@ msgid "Contributor docs"
 msgstr "Közreműködői dokumentáció"
 
 #: ../../index.rst:144
-#, fuzzy
-#| msgid "File format"
 msgid "File formats"
-msgstr "Fájlformátum"
+msgstr "Fájlformátumok"
 
 #: ../../index.rst:153
 msgid "Change history"
@@ -49070,26 +49217,25 @@ msgid ""
 "doc:`admin/projects`. For self-hosting your own Weblate clone, read our :doc:"
 "`admin/install`."
 msgstr ""
+"Ha saját projektet szeretnél indítani a felhőszolgáltatásunkon, a Hosted "
+"Weblate-en, nézd meg a :doc:`admin/projects`. Ha saját Weblate klónt "
+"szeretnél önállóan üzemeltetni, olvasd el a :doc:`admin/install`."
 
 #: ../../index.rst:45
 msgid "FAQ"
-msgstr ""
+msgstr "GYIK"
 
 #: ../../index.rst:46
 msgid "Check our :doc:`faq`."
-msgstr ""
+msgstr "Nézd meg a(z) :doc:`faq`-t."
 
 #: ../../index.rst:49
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Véglegesítés"
+msgstr "Közösség"
 
 #: ../../index.rst:50
-#, fuzzy
-#| msgid ":ref:`contributing`"
 msgid "Learn more about :ref:`contributing`."
-msgstr ":ref:`contributing`"
+msgstr "Tudj meg többet a(z) :ref:`contributing`-ról."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -49319,7 +49465,7 @@ msgstr "Felhasználói kulcs"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used."
-msgstr ""
+msgstr "API szerver URL, ha nincs megadva, az alapértelmezett lesz használva."
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
@@ -49453,10 +49599,8 @@ msgid "Trailing ellipsis replacer"
 msgstr "Végeken lévő hármaspont helyettesítő"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Label name"
 msgid "Class name"
-msgstr "Címke neve"
+msgstr "Osztály neve"
 
 #: ../../user/checks.rst:29
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -49511,6 +49655,7 @@ msgid ""
 "Replaces sentence full stop in Bangla by the Devanagari danda character (``।"
 "``)."
 msgstr ""
+"A bangla mondatzáró pontot lecseréli a devanagari danda karakterre (``।``)."
 
 #: ../../user/checks.rst:59 ../../user/checks.rst:1399
 msgid "Punctuation spacing"
@@ -49523,6 +49668,7 @@ msgstr "``weblate.trans.autofixes.chars.PunctuationSpacing``"
 #: ../../user/checks.rst:65
 msgid "Ensures French uses correct punctuation spacing."
 msgstr ""
+"Biztosítja, hogy a francia nyelv a helyes írásjelezési szóközöket használja."
 
 #: ../../user/checks.rst:67
 msgid ""
@@ -49610,6 +49756,8 @@ msgid ""
 "This checks no longer relies on unreliable automatic detection, it now needs "
 "to be turned on using the ``bbcode-text`` flag."
 msgstr ""
+"Ez az ellenőrzés már nem támaszkodik a megbízhatatlan automatikus "
+"észlelésre, most a ``bbcode-text`` zászlóval kell bekapcsolni."
 
 #: ../../user/checks.rst:0
 msgid "Summary"
@@ -49706,7 +49854,7 @@ msgstr "Egymást követő ismétlődő szavak"
 
 #: ../../user/checks.rst:144
 msgid "Text contains the same word twice in a row"
-msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer"
+msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer."
 
 #: ../../user/checks.rst:146
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -50100,7 +50248,7 @@ msgstr "Fluent fordítási szintaxis"
 
 #: ../../user/checks.rst:386
 msgid "Fluent syntax error in the translation"
-msgstr "Fluent szintaktikai hiba a fordításban"
+msgstr "Folyékony szintaxis hiba a fordításban."
 
 #: ../../user/checks.rst:388
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
@@ -51183,8 +51331,7 @@ msgstr "Következetlen reStructuredText hivatkozások"
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
-"Következetlen reStructuredText kifejezés-hivatkozások a lefordított "
-"üzenetben."
+"Következetlen reStructuredText kifejezés hivatkozások a fordított üzenetben."
 
 #: ../../user/checks.rst:990
 msgid "``weblate.checks.markup.RSTReferencesCheck``"
@@ -51199,42 +51346,40 @@ msgid "``ignore-rst-references``"
 msgstr "``ignore-rst-references``"
 
 #: ../../user/checks.rst:995
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid ""
 "reStructuredText term references do not match source, the typical causes for "
 "these errors are:"
-msgstr "A Markdown hivatkozás referenciái nem egyeznek a forrással"
+msgstr ""
+"A reStructuredText kifejezéshivatkozások nem egyeznek a forrással, ezeknek a "
+"hibáknak a tipikus okai a következők:"
 
 #: ../../user/checks.rst:997
-#, fuzzy
-#| msgid "Mismatched question mark"
 msgid "Mismatched or missing backticks."
-msgstr "Nem egyező kérdőjel"
+msgstr "Nem megfelelő vagy hiányzó backtick-ek."
 
 #: ../../user/checks.rst:998 ../../user/checks.rst:1472
 msgid ""
 "Missing spaces or interpunction around the reference. The reStructuredText "
 "inline blocks need to be separated by non-word characters."
 msgstr ""
+"Hiányzó szóközök vagy írásjelek a hivatkozás körül. A reStructuredText "
+"inline blokkokat nem betű karakterekkel kell elválasztani."
 
 #: ../../user/checks.rst:999
 msgid "Space between inline tag and backticks."
-msgstr ""
+msgstr "Szóköz az inline tag és a backtickek között."
 
 #: ../../user/checks.rst:1000
-#, fuzzy
-#| msgid "This term should not be translated."
 msgid "The reference name is not being translated."
-msgstr "Ezt a kifejezést nem szabad lefordítani."
+msgstr "A hivatkozás neve nincs lefordítva."
 
 #: ../../user/checks.rst:1001 ../../user/checks.rst:1473
 msgid "Using quotes instead of backticks."
-msgstr ""
+msgstr "Idézőjelek használata backtickek helyett."
 
 #: ../../user/checks.rst:1005
 msgid "`reStructuredText Primer`_, :ref:`check-rst-syntax`"
-msgstr ""
+msgstr "`reStructuredText Primer`_, :ref:`check-rst-syntax`"
 
 #: ../../user/checks.rst:1011
 msgid "Kashida letter used"
@@ -51836,10 +51981,8 @@ msgid "The string starts with a prohibited character in CSV"
 msgstr "A karakterlánc tiltott karakterrel kezdődik a CSV-ben."
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "glossary strings"
-msgstr "Szomszédos szövegek"
+msgstr "szójegyzék karakterláncok"
 
 #: ../../user/checks.rst:1387
 msgid "``weblate.checks.glossary.ProhibitedInitialCharacterCheck``"
@@ -51856,6 +51999,11 @@ msgid ""
 "being evaluated as an expression. This also affects :ref:`glossary-mt` where "
 "many services use CSV for synchronizing glossaries and reject such strings."
 msgstr ""
+"A szójegyzéket gyakran CSV formátumban osztják meg, és sok alkalmazás "
+"korlátozza bizonyos karakterek használatát az elején, mivel ezek miatt a "
+"szöveget kifejezésként értelmezhetik. Ez hatással van a(z) :ref:`glossary-"
+"mt`-re is, ahol sok szolgáltatás CSV-t használ a szójegyzékek "
+"szinkronizálására, és elutasítja az ilyen karakterláncokat."
 
 #: ../../user/checks.rst:1401
 msgid "Missing non breakable space before double punctuation sign"
@@ -51874,6 +52022,8 @@ msgid ""
 "This check used to apply to Breton language as well, but it was limited to "
 "French only."
 msgstr ""
+"Ez az ellenőrzés korábban a breton nyelvre is vonatkozott, de most már csak "
+"a franciára korlátozódik."
 
 #: ../../user/checks.rst:1412
 msgid ""
@@ -51882,6 +52032,10 @@ msgid ""
 "only in a few selected languages like French, where space before double "
 "punctuation sign is a typographic rule."
 msgstr ""
+"Ellenőrzi, hogy van-e nem törhető szóköz a kettős írásjelek (felkiáltójel, "
+"kérdőjel, pontosvessző és kettőspont) előtt. Ezt a szabályt csak néhány "
+"kiválasztott nyelvnél alkalmazzák, mint például a francia, ahol a kettős "
+"írásjelek előtti szóköz tipográfiai szabály."
 
 #: ../../user/checks.rst:1419
 msgid ""
@@ -51908,6 +52062,8 @@ msgid ""
 "Extended support for advanced regular expressions including Unicode "
 "codepoint properties."
 msgstr ""
+"Kiterjesztett támogatás fejlett reguláris kifejezésekhez, beleértve az "
+"Unicode kódpont tulajdonságokat is."
 
 #: ../../user/checks.rst:1438
 msgid ""
@@ -51923,18 +52079,20 @@ msgid ""
 "The matching also supports Unicode codepoint properties, including scripts "
 "and blocks:"
 msgstr ""
+"Az illesztés támogatja az Unicode kódpont tulajdonságokat is, beleértve a "
+"szkripteket és blokkokat:"
 
 #: ../../user/checks.rst:1453
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
-msgstr ""
+msgstr "`regex dokumentáció <https://github.com/mrabarnett/mrab-regex>`_"
 
 #: ../../user/checks.rst:1458
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText szintaktikai hiba"
+msgstr "reStructuredText szintaxis hiba"
 
 #: ../../user/checks.rst:1462
 msgid "reStructuredText syntax error in the translation."
-msgstr "reStructuredText szintaktikai hiba a fordításban."
+msgstr "reStructuredText szintaxis hiba a fordításban."
 
 #: ../../user/checks.rst:1464
 msgid "``weblate.checks.markup.RSTSyntaxCheck``"
@@ -51945,20 +52103,17 @@ msgid "``rst-syntax``"
 msgstr "``rst-syntax``"
 
 #: ../../user/checks.rst:1469
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation. Issues to look for:"
-msgstr "Fluent szintaktikai hiba a fordításban"
+msgstr ""
+"Hiba a reStructuredText szintaxisban a fordítás során. Figyelendő problémák:"
 
 #: ../../user/checks.rst:1471
-#, fuzzy
-#| msgid "Missing query string."
 msgid "Mismatched closing/opening tags."
-msgstr "Hiányzó lekérdezési szöveg."
+msgstr "Nem egyező záró/nyitó címkék."
 
 #: ../../user/checks.rst:1477
 msgid "`reStructuredText Primer`_, :ref:`check-rst-references`"
-msgstr ""
+msgstr "`reStructuredText Primer`_, :ref:`check-rst-references`"
 
 #: ../../user/checks.rst:1483
 msgid "Reused translation"
@@ -52138,6 +52293,10 @@ msgid ""
 "all languages are ignored, and various markups are stripped. This reduces "
 "the number of false positives."
 msgstr ""
+"Ez akkor fordul elő, ha a forrás és a hozzá tartozó fordítási szövegek "
+"azonosak, legalább az egyik többes számú alak esetében. Néhány, minden "
+"nyelvben gyakran előforduló szöveget figyelmen kívül hagyunk, és különféle "
+"jelöléseket eltávolítunk. Ez csökkenti a téves pozitív találatok számát."
 
 #: ../../user/checks.rst:1592
 msgid "This check can help find strings mistakenly untranslated."
@@ -52146,6 +52305,7 @@ msgstr ""
 "szövegeket."
 
 #: ../../user/checks.rst:1594
+#, fuzzy
 msgid ""
 "The default behavior of this check is to exclude words from the built-in "
 "terms list from the checking. These are words which are frequently not being "
@@ -52153,6 +52313,13 @@ msgid ""
 "consist only of a single word which is the same in several languages. This "
 "list can be disabled by adding ``strict-same`` flag to a string or component."
 msgstr ""
+"Ennek az ellenőrzésnek az alapértelmezett viselkedése az, hogy kizárja az "
+"ellenőrzésből azokat a szavakat, amelyek szerepelnek a beépített kifejezések "
+"listáján. Ezek gyakran olyan szavak, amelyeket nem fordítanak le. Ez hasznos "
+"a téves pozitív találatok elkerülésére rövid szövegeknél, amelyek csak "
+"egyetlen szóból állnak, ami több nyelven is ugyanaz. Ez a lista letiltható, "
+"ha hozzáadod a(z) ``strict-same`` jelzést egy szöveghez vagy a(z) "
+":ref:`component`-hez."
 
 #: ../../user/checks.rst:1602
 msgid ""
@@ -52662,7 +52829,7 @@ msgstr "Fluent forrás szintaxis"
 
 #: ../../user/checks.rst:1886
 msgid "Fluent syntax error in the source"
-msgstr "Fluent szintaktikai hiba a forrásban"
+msgstr "A forrásban folyékony szintaxis hiba található"
 
 #: ../../user/checks.rst:1888
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
@@ -54113,6 +54280,7 @@ msgstr "``source_state:TEXT``"
 #: ../../user/search.rst:52
 msgid "Search for source string states, see above for more info."
 msgstr ""
+"Keresd meg a forrás szöveg állapotokat, további információért lásd fentebb."
 
 #: ../../user/search.rst:53
 msgid "``pending:BOOLEAN``"
@@ -54386,6 +54554,8 @@ msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
+"A kereséseket kombinálhatod az ``AND``, ``OR``, ``NOT`` operátorokkal és "
+"zárójelekkel, hogy összetett lekérdezéseket hozz létre."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -54393,18 +54563,21 @@ msgid ""
 "``AND`` operator has higher precedence than the ``OR`` operator. You can add "
 "parenthesis to define a precedence of your own."
 msgstr ""
+"A ``NOT`` operátor magasabb precedenciával rendelkezik, mint az ``AND`` "
+"operátor; az ``AND`` operátor magasabb precedenciával rendelkezik, mint az "
+"``OR`` operátor. Zárójelek hozzáadásával saját precedenciát határozhatsz meg."
 
 #: ../../user/search.rst:128
 msgid ""
 "Omitting the operator will make the query behave like the ``AND`` operator "
 "was used."
 msgstr ""
+"Ha kihagyod az operátort, a lekérdezés úgy fog viselkedni, mintha az ``AND`` "
+"operátort használták volna."
 
 #: ../../user/search.rst:131
-#, fuzzy
-#| msgid "Regular expressions"
 msgid "Equivalent expressions"
-msgstr "Reguláris kifejezések"
+msgstr "Egyenértékű kifejezések"
 
 #: ../../user/search.rst:133
 msgid "``(state:translated AND source:hello) OR source:bar``"
@@ -54412,7 +54585,7 @@ msgstr "``(state:translated AND source:hello) OR source:bar``"
 
 #: ../../user/search.rst:134
 msgid "Parenthesized expression to clearly show the precedence."
-msgstr ""
+msgstr "Zárójelezett kifejezés az előtagok egyértelműségért."
 
 #: ../../user/search.rst:135
 msgid "``state:translated AND source:hello OR source:bar``"
@@ -54421,6 +54594,8 @@ msgstr "``state:translated AND source:hello OR source:bar``"
 #: ../../user/search.rst:136
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
 msgstr ""
+"Az ``AND`` operátor magasabb precedenciával rendelkezik, mint az ``OR`` "
+"operátor."
 
 #: ../../user/search.rst:137
 msgid "``state:translated source:hello OR source:bar``"
@@ -54428,7 +54603,7 @@ msgstr "``state:translated source:hello OR source:bar``"
 
 #: ../../user/search.rst:138
 msgid "Query using an implicit ``AND`` operator."
-msgstr ""
+msgstr "Lekérdezés implicit ``AND`` operátor használatával."
 
 #: ../../user/search.rst:143
 msgid "Field operators"
@@ -54569,6 +54744,8 @@ msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp."
 "html>`_"
 msgstr ""
+"`MySQL reguláris kifejezések <https://dev.mysql.com/doc/refman/9.2/en/"
+"regexp.html>`_"
 
 #: ../../user/search.rst:198
 msgid "Predefined queries"
@@ -54633,13 +54810,15 @@ msgstr "``translates:TEXT``"
 
 #: ../../user/search.rst:229
 msgid "User has contributed to a given language."
-msgstr ""
+msgstr "A felhasználó hozzájárult egy adott nyelvhez."
 
 #: ../../user/search.rst:231 ../../user/search.rst:235
 msgid ""
 "You might want to limit contribution time by ``change_time``, for example "
 "``change_time:>\"90 days ago\"``."
 msgstr ""
+"Érdemes lehet korlátozni a hozzájárulási időt a ``change_time`` "
+"segítségével, például ``change_time:>\"90 days ago\"``."
 
 #: ../../user/search.rst:232
 msgid "``contributes:TEXT``"
@@ -54649,7 +54828,8 @@ msgstr "``contributes:TEXT``"
 #, fuzzy
 #| msgid "User has been invited to this project."
 msgid "User has contributed to a given project or component."
-msgstr "A felhasználó meg lett hívva ehhez a projekthez."
+msgstr ""
+"A felhasználó hozzájárult egy adott projekthez vagy a(z) :ref:`component`."
 
 #: ../../user/search.rst:237 ../../user/search.rst:239
 msgid "Same as in :ref:`search-strings`."
@@ -54773,6 +54953,7 @@ msgid "Translation links"
 msgstr "Fordítási linkek"
 
 #: ../../user/translating.rst:35
+#, fuzzy
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -54781,6 +54962,13 @@ msgid ""
 "strings` is still available. Alternatively you can use the :doc:`Search </"
 "user/search>` feature to find a specific string or term."
 msgstr ""
+"Miután elnavigáltál a(z) :ref:`component`-hez, egy linkgyűjtemény vezet az "
+"aktuális fordításhoz. A fordítás további ellenőrzésekre van bontva, mint "
+"például a(z) :guilabel:`Untranslated strings` vagy a(z) :guilabel:`"
+"Unfinished strings`. Ha az egész projekt már hibátlanul le van fordítva, a(z)"
+" :guilabel:`All strings` akkor is elérhető. Alternatív megoldásként "
+"használhatod a(z) :doc:`Search </user/search>` funkciót, hogy megtalálj egy "
+"adott szöveget vagy kifejezést."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -55199,7 +55387,7 @@ msgstr ":kbd:`Cmd+M` után :kbd:`1`-től :kbd:`9`-ig"
 
 #: ../../user/translating.rst:238
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Egy adott számú gépi fordítás másolása az aktuális fordításba."
+msgstr "Másold át a gépi fordítást a megadott számról a jelenlegi fordításba."
 
 #: ../../user/translating.rst:244
 msgid ":kbd:`Ctrl+I` followed by :kbd:`1` to :kbd:`9` or"
@@ -55642,6 +55830,11 @@ msgid ""
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
+"Ezzel a nézettel hatékonyan összehasonlíthatod a különböző nyelveket. Ez "
+"elérhető minden komponens oldalon, a(z) :guilabel:`Tools` menüből. Először "
+"válaszd ki az összes nyelvet, amit össze szeretnél hasonlítani, erősítsd meg "
+"a választásodat, majd kattints bármelyik fordításra, hogy megnyisd és "
+"szerkeszd azt."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -55695,6 +55888,11 @@ msgid ""
 "and :ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as version control "
 "back-ends."
 msgstr ""
+"A Weblate jelenleg támogatja a(z) :ref:`vcs-git` verziókezelőt ("
+"kiterjesztett támogatással a(z) :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref"
+":`vcs-gitea`, :ref:`vcs-gerrit`, :ref:`vcs-git-svn`, :ref:`vcs-bitbucket-"
+"cloud`, :ref:`vcs-bitbucket-data-center` és :ref:`vcs-azure-devops` számára)"
+", valamint a(z) :ref:`vcs-mercurial`-t verziókezelési háttérként."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -56428,6 +56626,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
+"Nincs szükség erre a Git tárolók eléréséhez, a szokásos :ref:`vcs-git` "
+"ugyanúgy működik. Az egyetlen különbség az, hogy a módosítások hogyan "
+"kerülnek feltöltésre a tárolóba. A(z) :ref:`vcs-git` esetében a "
+"változtatások közvetlenül a tárolóba kerülnek feltöltésre, míg a(z) :ref"
+":`vcs-bitbucket-data-center` pull requestet hoz létre."
 
 #: ../../vcs.rst:433
 msgid ""
@@ -56774,6 +56977,9 @@ msgid ""
 "(see :ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
+"A :program:`wlc` konfiguráció a :file:`~/.config/weblate` fájlban van "
+"tárolva (nézd meg a :ref:`wlc-config` a többi helyszínért), kérlek, hozd "
+"létre, hogy illeszkedjen a környezetedhez:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
@@ -57038,43 +57244,39 @@ msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
 msgid "Configuration file placed in the project directory."
-msgstr ""
+msgstr "Konfigurációs fájl a projektkönyvtárban van elhelyezve."
 
 #: ../../wlc.rst:299
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
 msgid "User configuration file on Windows in the roamed profile."
-msgstr ""
+msgstr "Felhasználói konfigurációs fájl Windows rendszeren, a vándorprofilban."
 
 #: ../../wlc.rst:301
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: ../../wlc.rst:302
 msgid "User configuration file on Windows in the local profile."
-msgstr ""
+msgstr "Felhasználói konfigurációs fájl Windows alatt a helyi profilban."
 
 #: ../../wlc.rst:303
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:304
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "User configuration file."
-msgstr "Hibás beállítás"
+msgstr "Felhasználói konfigurációs fájl."
 
 #: ../../wlc.rst:305
 msgid ":file:`/etc/xdg/weblate`"
 msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:306
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "System wide configuration file."
-msgstr "Hibás beállítás"
+msgstr "Rendszerszintű konfigurációs fájl."
 
 #: ../../wlc.rst:308
 msgid ""
@@ -57082,12 +57284,17 @@ msgid ""
 "of config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``."
 msgstr ""
+"A program követi az XDG specifikációt, így a konfigurációs fájlok "
+"elhelyezését az ``XDG_CONFIG_HOME`` vagy ``XDG_CONFIG_DIRS`` környezeti "
+"változókkal tudod beállítani."
 
 #: ../../wlc.rst:312
 msgid ""
 "On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred "
 "locations for the configuration file."
 msgstr ""
+"Windows rendszeren a konfigurációs fájl számára az ``APPDATA`` és "
+"``LOCALAPPDATA`` könyvtárak az előnyben részesített helyek."
 
 #: ../../wlc.rst:315
 msgid ""
