@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-04-11 15:32+0000\n"
+"PO-Revision-Date: 2025-04-11 16:23+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -459,10 +459,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "A fiók zárolva lett több sikertelen bejelentkezési kísérlet miatt."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Nem sikerült üzenetet küldeni a rendszergazdának."
+msgstr "A fiókot a webhely adminisztrátora zárolta."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1014,13 +1012,11 @@ msgstr[1] ""
 "Ez a jelszó túl hosszú. Legfeljebb %(max_length)d karaktert tartalmazhat."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "A jelszónak legfeljebb %(min_length)d karaktert kell tartalmaznia."
-msgstr[1] "A jelszónak legfeljebb %(min_length)d karaktert kell tartalmaznia."
+msgstr[0] "A jelszó legfeljebb %(max_length)d karakter hosszú lehet."
+msgstr[1] "A jelszó legfeljebb %(max_length)d karakter hosszú lehet."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1099,10 +1095,8 @@ msgid "Could not send message to administrator."
 msgstr "Nem sikerült üzenetet küldeni a rendszergazdának."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
+msgstr "Nem sikerült hibajegyet nyitni, próbálja meg később."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -2074,7 +2068,7 @@ msgstr "Nem sikerült beszerezni a zárolást a művelet végrehajtásához."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "A megadott egységazonosító nem forrásfordítási egység."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3149,10 +3143,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS interpolációs szöveg"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Az AngularJS interpolációs szöveg nem egyezik meg a forrással"
+msgstr "Az AngularJS interpolációs szöveg nem egyezik meg a forrással."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3171,60 +3163,48 @@ msgid "Starting newline"
 msgstr "Kezdő soremelés"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "A forrás és a fordítás nem kezdődik egyformán soremeléssel"
+msgstr "A forrás és a fordítás nem kezdődik egyformán soremeléssel."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Lezáró soremelés"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "A forrás és a fordítás nem végződik egyformán soremeléssel"
+msgstr "A forrás és a fordítás nem végződik egyformán soremeléssel."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Kezdő szóközök"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "A forrás és a fordítás nem kezdődik egyformán ugyanannyi szóközzel"
+msgstr "A forrás és a fordítás nem kezdődik egyformán ugyanannyi szóközzel."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Lezáró szóköz"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "A forrás és a fordítás nem végződik egyformán szóközzel"
+msgstr "A forrás és a fordítás nem végződik egyformán szóközzel."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Dupla szóköz"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "A fordítás dupla szóközt tartalmaz"
+msgstr "A fordítás dupla szóközt tartalmaz."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Nem egyező mondatvégi pont"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "A forrás és a fordítás nem végződik egyformán ponttal"
+msgstr "A forrás és a fordítás nem végződik egyformán ponttal."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
