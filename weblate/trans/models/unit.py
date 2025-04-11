@@ -202,9 +202,7 @@ class UnitQuerySet(models.QuerySet):
 
         result = self
         if "labels_count" in query:
-            result = result.annotate(
-                labels_count=Count("source_unit__labels") + Count("labels")
-            )
+            result = result.annotate(labels_count=Count("source_unit__labels") + Count("labels"))
 
         result = result.filter(parse_query(query, **context))
         return result.distinct()
