@@ -410,6 +410,7 @@ class UnitTermExpr(BaseTermExpr):
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
+        "labels_count": "labels_count",
     }
     STRING_FIELD_MAP: dict[str, str] = {
         "suggestion": "suggestion__target",
