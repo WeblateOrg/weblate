@@ -200,13 +200,7 @@ class UnitQuerySet(models.QuerySet):
         """High level wrapper for searching."""
         from weblate.utils.search import parse_query
 
-        result = self
-        if "labels_count" in query:
-            result = result.annotate(
-                labels_count=Count("source_unit__labels") + Count("labels")
-            )
-
-        result = result.filter(parse_query(query, **context))
+        result = self.filter(parse_query(query, **context))
         return result.distinct()
 
     def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:

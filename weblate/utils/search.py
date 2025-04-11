@@ -521,6 +521,27 @@ class UnitTermExpr(BaseTermExpr):
             translation__component__name__icontains=text
         )
 
+    def labels_count_field(self, text: str, context: dict) -> Q:
+        from weblate.trans.models import Unit
+        from django.db.models import Count
+
+        try:
+            value = self.convert_labels_count(text)
+        except ValueError as error:
+            raise ValueError(f"Invalid value for labels_count: {text}") from error
+
+        suffix = OPERATOR_MAP.get(self.operator)
+        if suffix == "substring":
+            suffix = "exact"
+        filter_kwargs = {f'labels_count__{suffix}': value}
+
+        return Q(
+            id__in=Unit.objects.annotate(
+                labels_count=Count("source_unit__labels", distinct=True) +
+                             Count("labels", distinct=True)
+            ).filter(**filter_kwargs).values_list("id", flat=True)
+        )
+
     def path_field(self, text: str, context: dict) -> Q:
         try:
             obj = parse_path(
@@ -579,6 +600,9 @@ class UnitTermExpr(BaseTermExpr):
     def convert_priority(self, text: str) -> int:
         return self.convert_int(text)
 
+    def convert_labels_count(self, text: str) -> int:
+        return self.convert_int(text)
+
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         from weblate.trans.models import Change
 
@@ -605,6 +629,8 @@ class UnitTermExpr(BaseTermExpr):
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )
+
+
 
 
 class UserTermExpr(BaseTermExpr):
