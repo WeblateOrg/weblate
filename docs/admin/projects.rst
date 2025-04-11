@@ -284,7 +284,7 @@ Secondary language
 
 Additional language to show together with the source language while translating.
 
-Optionally it can be also used as a source for the machine translation.
+Optionally, it can be also used as a source for the machine translation.
 
 .. seealso::
 
@@ -984,7 +984,7 @@ Secondary language
 
 Additional language to show together with the source language while translating.
 
-Optionally it can be also used as a source for the machine translation.
+Optionally, it can be also used as a source for the machine translation.
 
 .. hint::
 
