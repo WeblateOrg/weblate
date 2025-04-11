@@ -267,7 +267,7 @@ String consolidation using secondary language
 
 When :ref:`component-intermediate` cannot be used to consolidate the strings,
 you can choose one of the translations to act as a secondary language. The
-language can be configured in a project (:ref:`project-secondary_language`) or in a 
+language can be configured in a project (:ref:`project-secondary_language`) or in a
 component (:ref:`component-secondary_language`). It is then shown to the
 translators while translating (see :ref:`secondary-languages`) and can be
 optionally used as a source for machine translations (see
