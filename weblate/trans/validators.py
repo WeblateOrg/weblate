@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
 from pyparsing import ParseException
 
-from weblate.checks.flags import Flags
+from weblate.checks.flags import FlagsValidator
 from weblate.lang.models import Language
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH
 
@@ -37,7 +37,7 @@ def validate_autoaccept(val) -> None:
 def validate_check_flags(val) -> None:
     """Validate check-influencing flags."""
     try:
-        flags = Flags(val)
+        flags = FlagsValidator(val)
     except (ParseException, re.error) as error:
         raise ValidationError(gettext("Could not parse flags: %s") % error) from error
     flags.validate()
