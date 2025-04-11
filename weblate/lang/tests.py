@@ -27,6 +27,7 @@ from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.db import using_postgresql
+from weblate.utils.state import STATE_TRANSLATED
 
 TEST_LANGUAGES = (
     ("cs_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
@@ -716,6 +717,26 @@ class PluralMapperTestCase(FixtureTestCase):
         self.assertEqual(
             mapper.map(unit),
             ["Orangutan has %d banana.\n", "", "Orangutan has %d bananas.\n"],
+        )
+
+    def test_czech_german(self) -> None:
+        german = Language.objects.get(code="de")
+        czech = Language.objects.get(code="cs")
+        mapper = PluralMapper(czech.plural, german.plural)
+        self.assertEqual(mapper.target_map, ((0, None), (-1, None)))
+        unit = Unit.objects.get(
+            translation__language=czech, id_hash=2097404709965985808
+        )
+        unit.translate(None, ["one\n", "few\n", "other\n"], STATE_TRANSLATED)
+        unit = Unit.objects.get(
+            translation__language=german, id_hash=2097404709965985808
+        )
+        others = mapper.get_other_units([unit], czech)
+        self.assertIn(2097404709965985808, others)
+        other = others[2097404709965985808]
+        self.assertEqual(
+            mapper.map(unit, other),
+            ["one\n", "other\n"],
         )
 
     def test_russian_english(self) -> None:

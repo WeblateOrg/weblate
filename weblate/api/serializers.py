@@ -436,6 +436,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "secondary_language",
             "enforced_2fa",
             "machinery_settings",
         )
@@ -603,6 +604,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "auto_lock_error",
             "language_regex",
             "key_filter",
+            "secondary_language",
             "variant_regex",
             "zipfile",
             "docfile",
@@ -1092,6 +1094,9 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         ),
         strip_parts=1,
     )
+    language_code = serializers.CharField(
+        source="translation.language.code", read_only=True
+    )
     source_unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
     )
@@ -1106,6 +1111,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         model = Unit
         fields = (
             "translation",
+            "language_code",
             "source",
             "previous_source",
             "target",

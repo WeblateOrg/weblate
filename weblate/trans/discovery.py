@@ -47,6 +47,8 @@ COPY_ATTRIBUTES = (
     "manage_units",
     "variant_regex",
     "category_id",
+    "key_filter",
+    "secondary_language",
 )
 
 

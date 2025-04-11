@@ -9,6 +9,7 @@ Weblate 5.11
 * Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
 * :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
 * Inherited flags can now be discarded, see :ref:`custom-checks`.
+* :ref:`secondary-languages` can now be specified in :ref:`project` and :ref:`component`.
 
 .. rubric:: Improvements
 
@@ -18,13 +19,17 @@ Weblate 5.11
 * :ref:`upload` is now tracked in history with details.
 * :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
 * Changes in string flags are now tracked in history.
+* :doc:`/admin/machine` documentation extended.
 * :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
+* Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
+* :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
 
 .. rubric:: Bug fixes
 
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
+* Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.
 * Fixed background parsing of newly added translation files.
 
 .. rubric:: Compatibility

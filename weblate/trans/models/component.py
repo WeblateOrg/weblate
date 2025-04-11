@@ -28,6 +28,7 @@ from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from django.utils.text import format_lazy
 from django.utils.timezone import localtime
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -85,6 +86,7 @@ from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.licenses import (
     get_license_choices,
     get_license_name,
@@ -798,6 +800,23 @@ class Component(
             "Regular expression used to filter keys. This is only available for monolingual formats."
         ),
         blank=True,
+    )
+
+    secondary_language = models.ForeignKey(
+        Language,
+        verbose_name=gettext_lazy("Secondary language"),
+        help_text=format_lazy(
+            "{} {}",
+            gettext_lazy(
+                "Additional language to show together with the source language while translating."
+            ),
+            gettext_lazy("This setting is inherited from the project if left empty."),
+        ),
+        default=None,
+        blank=True,
+        null=True,
+        related_name="component_secondary_languages",
+        on_delete=models.deletion.CASCADE,
     )
 
     objects = ComponentQuerySet.as_manager()
@@ -2938,7 +2957,7 @@ class Component(
         if errors:
             message = gettext(
                 "Could not parse base file for new translations: %s"
-            ) % ", ".join(str(error) for error in errors)
+            ) % format_html_join_comma("{}", list_to_tuples(errors))
             raise ValidationError({"new_base": message})
         raise ValidationError(
             {"new_base": gettext("Unrecognized base file for new translations.")}

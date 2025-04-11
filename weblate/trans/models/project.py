@@ -253,6 +253,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ),
         validators=[validate_language_aliases],
     )
+    secondary_language = models.ForeignKey(
+        Language,
+        verbose_name=gettext_lazy("Secondary language"),
+        help_text=gettext_lazy(
+            "Additional language to show together with the source language while translating."
+        ),
+        default=None,
+        blank=True,
+        null=True,
+        related_name="project_secondary_languages",
+        on_delete=models.deletion.CASCADE,
+    )
 
     machinery_settings = models.JSONField(default=dict, blank=True)
 

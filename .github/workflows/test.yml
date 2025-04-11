@@ -130,13 +130,6 @@ jobs:
       uses: codecov/test-results-action@f2dba722c67b86c6caa034178c6e4d35335f6706 # v1.1.0
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@afb2984f4d89672b2f9d9c13ae23d53779671984 # v2.19.0
-      if: always()
-      with:
-        comment_mode: off
-        files: |
-          junit.xml
     - name: Stop services
       if: always()
       run: ./ci/services-down ${{ matrix.database }}

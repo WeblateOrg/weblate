@@ -30,7 +30,12 @@ You can fine-tune Weblate's behavior by using flags. The flags provide visual
 feedback to the translators and help them to improve their translation.
 The flags are merged from following sources:
 
-* Source string, see :ref:`additional`.
+* Source string additional flags:
+
+  * :ref:`additional` describes manual editing.
+  * :ref:`bulk-edit` can be used to apply flags in batch.
+  * :ref:`addon-weblate.flags.bulk` add-on can apply flags automatically.
+
 * Per-string flags extracted from the file format, see :ref:`formats`.
 * Translation flags (currently only ``read-only`` flag for bilingual source string).
 * File-format specific flags.

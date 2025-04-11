@@ -1934,6 +1934,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
+    @transaction.atomic
     def perform_update(self, serializer) -> None:  # noqa: C901
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
@@ -2095,6 +2096,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         description="Associate source string with screenshot.", methods=["post"]
     )
     @action(detail=True, methods=["post"])
+    @transaction.atomic
     def units(self, request: Request, **kwargs):
         obj = self.get_object()
 

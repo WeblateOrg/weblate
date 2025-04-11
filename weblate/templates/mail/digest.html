@@ -11,5 +11,8 @@
 {% endblock %}
 
 {% block content %}
+  {% if overlimit %}
+    <p class="note">{% trans "Note: This digest has been truncated as there were over 100 notifications." %}</p>
+  {% endif %}
   {% include "last-changes-content.html" with in_email=True last_changes=changes %}
 {% endblock %}

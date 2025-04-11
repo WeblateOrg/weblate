@@ -275,6 +275,20 @@ Using non standard code: ``ia_FOO:ia``
     :ref:`language-code`,
     :ref:`language-parsing-codes`
 
+.. _project-secondary_language:
+
+Secondary language
+++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Additional language to show together with the source language while translating.
+
+.. seealso::
+
+   :ref:`secondary-languages`
+
+
 .. _component:
 
 Component configuration
@@ -957,6 +971,23 @@ Regular expression used to determine the variants of a string, see
 .. seealso::
 
    :ref:`faq-vcs`, :ref:`alerts`
+
+.. _component-secondary_language:
+
+Secondary language
+++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Additional language to show together with the source language while translating.
+
+.. hint::
+
+   This setting is inherited from the project if left empty.
+
+.. seealso::
+
+   :ref:`secondary-languages`
 
 .. _component-priority:
 
