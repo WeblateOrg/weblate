@@ -522,8 +522,9 @@ class UnitTermExpr(BaseTermExpr):
         )
 
     def labels_count_field(self, text: str, context: dict) -> Q:
-        from weblate.trans.models import Unit
         from django.db.models import Count
+
+        from weblate.trans.models import Unit
 
         try:
             value = self.convert_labels_count(text)
@@ -533,13 +534,15 @@ class UnitTermExpr(BaseTermExpr):
         suffix = OPERATOR_MAP.get(self.operator)
         if suffix == "substring":
             suffix = "exact"
-        filter_kwargs = {f'labels_count__{suffix}': value}
+        filter_kwargs = {f"labels_count__{suffix}": value}
 
         return Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True) +
-                             Count("labels", distinct=True)
-            ).filter(**filter_kwargs).values_list("id", flat=True)
+                labels_count=Count("source_unit__labels", distinct=True)
+                + Count("labels", distinct=True)
+            )
+            .filter(**filter_kwargs)
+            .values_list("id", flat=True)
         )
 
     def path_field(self, text: str, context: dict) -> Q:
@@ -629,8 +632,6 @@ class UnitTermExpr(BaseTermExpr):
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )
-
-
 
 
 class UserTermExpr(BaseTermExpr):
