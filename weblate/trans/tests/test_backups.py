@@ -19,7 +19,7 @@ from django.urls import reverse
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.backups import ProjectBackup
-from weblate.trans.models import Comment, Project, Suggestion, Unit, Vote
+from weblate.trans.models import Category, Comment, Project, Suggestion, Unit, Vote
 from weblate.trans.tasks import cleanup_project_backup_download, cleanup_project_backups
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -36,6 +36,11 @@ class BackupsTest(ViewTestCase):
         # Create linked component
         self.create_link_existing()
         # Additional content to test on backups
+        category = self.project.category_set.create(
+            name="My Category", slug="my-category"
+        )
+        self.component.category = category
+        self.component.save()
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
         unit.labels.add(label)
@@ -66,7 +71,7 @@ class BackupsTest(ViewTestCase):
             self.assertIn("weblate-backup.json", files)
             self.assertIn("components/test.json", files)
             self.assertIn("components/glossary.json", files)
-            self.assertIn("vcs/test/.git/index", files)
+            self.assertIn("vcs/my-category/test/.git/index", files)
             self.assertIn("vcs/glossary/.git/index", files)
 
         restore = ProjectBackup(backup.filename)
@@ -121,6 +126,26 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.component_set.values_list("slug", flat=True)),
             set(restored.component_set.values_list("slug", flat=True)),
+        )
+        self.assertEqual(
+            Category.objects.filter(project=self.project).count(),
+            Category.objects.filter(project=restored).count(),
+        )
+        self.assertEqual(
+            set(self.project.category_set.values_list("slug", flat=True)),
+            set(restored.category_set.values_list("slug", flat=True)),
+        )
+
+        def component_category_mapping(p):
+            """Return a mapping of component slugs to component category slugs."""
+            return {
+                co.slug: co.category.slug if co.category else None
+                for co in p.component_set.all()
+            }
+
+        self.assertEqual(
+            component_category_mapping(self.project),
+            component_category_mapping(restored),
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
