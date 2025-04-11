@@ -4685,7 +4685,7 @@ requires-dist = [
     { name = "user-agents", specifier = ">=2.0,<2.3" },
     { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "saml", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-language-data", specifier = ">=2025.2" },
-    { name = "weblate-schemas", specifier = "==2024.2" },
+    { name = "weblate-schemas", git = "https://github.com/amCap1712/weblate_schemas.git?rev=categories" },
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2024.6" },
 ]
@@ -4805,16 +4805,12 @@ wheels = [
 [[package]]
 name = "weblate-schemas"
 version = "2024.2"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/amCap1712/weblate_schemas.git?rev=categories#67184a6d71a225f6786e4349b10bac8bb1d95c47" }
 dependencies = [
     { name = "fqdn" },
     { name = "jsonschema" },
     { name = "rfc3987" },
     { name = "strict-rfc3339" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/24/62/b29ec5e47ddddb3f956d46ebb40d3a38bdbc1a56a7dacd526c3205194687/weblate_schemas-2024.2.tar.gz", hash = "sha256:63b856a9fbf5819dac4f67cd6d62d50f3c1b55d07fd6b4ffa0d0fda7f9a4600b", size = 15850 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/cd/d291321f3eaf9170516c84427b107637f7cb1a69fe53f082d35b681413c0/weblate_schemas-2024.2-py3-none-any.whl", hash = "sha256:67de28eb012900eddda6e561775058537730493b88b0d3134ae107c3bd68e087", size = 17195 },
 ]
 
 [[package]]
