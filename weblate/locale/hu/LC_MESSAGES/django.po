@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 16:12+0000\n"
-"PO-Revision-Date: 2025-04-11 04:51+0000\n"
-"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
+"PO-Revision-Date: 2025-04-11 07:14+0000\n"
+"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -170,7 +170,7 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:51 weblate/utils/fields.py:36
 #: weblate/wladmin/forms.py:44
 msgid "E-mail"
-msgstr "E-mail cím"
+msgstr "E-mail"
 
 #: weblate/accounts/forms.py:590
 msgid "An e-mail with a confirmation link will be sent here."
@@ -603,7 +603,7 @@ msgstr "Felhasználói felület nyelve"
 
 #: weblate/accounts/models.py:493
 msgid "Translated languages"
-msgstr "Fordított nyelvek"
+msgstr "Lefordított nyelvek"
 
 #: weblate/accounts/models.py:496
 msgid ""
@@ -651,7 +651,7 @@ msgstr "Befejezett fordítások elrejtése a vezérlőpulton"
 
 #: weblate/accounts/models.py:530
 msgid "Show secondary translations in the Zen mode"
-msgstr "Másodlagos fordítások megjelenítése Zen módban"
+msgstr "Másodlagos fordítások megjelenítése a Zen módban"
 
 #: weblate/accounts/models.py:534
 msgid "Hide source if a secondary translation exists"
@@ -659,7 +659,7 @@ msgstr "Forrás elrejtése, ha másodlagos fordítás létezik"
 
 #: weblate/accounts/models.py:541
 msgid "Editor link"
-msgstr "Szerkesztő link"
+msgstr "Szerkesztő hivatkozás"
 
 #: weblate/accounts/models.py:543
 msgid ""
@@ -697,7 +697,7 @@ msgstr "Egymás mellett"
 
 #: weblate/accounts/models.py:573
 msgid "Special characters"
-msgstr "Speciális karakterek"
+msgstr "Különleges karakterek"
 
 #: weblate/accounts/models.py:575
 msgid ""
@@ -716,7 +716,8 @@ msgstr "Szomszédos szövegek száma"
 #: weblate/accounts/models.py:585
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"A teljes szerkesztőben megjelenítendő közeli szövegek száma mindkét irányban."
+"Mindkét irányban megjelenítendő szomszédos szövegek száma a teljes "
+"szerkesztőben."
 
 #: weblate/accounts/models.py:589
 msgid "Automatically watch projects on contribution"
@@ -735,7 +736,7 @@ msgstr "Megfigyelt fordítások"
 #: weblate/accounts/models.py:604 weblate/auth/models.py:170
 #: weblate/templates/dashboard/user.html:29
 msgid "Component lists"
-msgstr "Komponenslisták"
+msgstr "Összetevőlisták"
 
 #: weblate/accounts/models.py:605 weblate/templates/dashboard/user.html:89
 msgid "Component list"
@@ -747,7 +748,7 @@ msgstr "Javasolt fordítások"
 
 #: weblate/accounts/models.py:620
 msgid "Default dashboard view"
-msgstr "Alapértelmezett irányítópult nézet"
+msgstr "Alapértelmezett vezérlőpult nézet"
 
 #: weblate/accounts/models.py:626
 msgid "Default component list"
@@ -1081,7 +1082,7 @@ msgstr "Fiók eltávolítása"
 
 #: weblate/accounts/views.py:211 weblate/accounts/views.py:954
 msgid "User registration"
-msgstr "Felhasználói regisztráció"
+msgstr "Felhasználó-regisztráció"
 
 #: weblate/accounts/views.py:256
 msgid "Could not send message to administrator."
@@ -1298,7 +1299,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Automatikusan fordítja a szövegeket gépi fordítással vagy más komponensekkel."
+"Automatikusan lefordítja a szövegeket gépi fordítás vagy egyéb összetevők "
+"használatával."
 
 #: weblate/addons/base.py:404 weblate/trans/views/create.py:260
 msgid ""
@@ -1310,19 +1312,19 @@ msgstr ""
 
 #: weblate/addons/cdn.py:35
 msgid "JavaScript localization CDN"
-msgstr "JavaScript lokalizációs CDN"
+msgstr "JavaScript honosítási CDN"
 
 #: weblate/addons/cdn.py:37
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"A fordítások közzététele tartalomszolgáltató hálózaton JavaScript vagy HTML "
-"lokalizációhoz."
+"Közzéteszi a fordításokat a tartalomkézbesítési hálózatban a JavaScript vagy "
+"HTML honosításokban való használathoz."
 
 #: weblate/addons/cleanup.py:35
 msgid "Cleanup translation files"
-msgstr "Fordítási fájlok tisztítása"
+msgstr "Fordítási fájlok kitisztítása"
 
 #: weblate/addons/cleanup.py:37
 msgid ""
@@ -1330,18 +1332,17 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Frissítsd az összes fordítási fájlt, hogy megfeleljen az egynyelvű "
-"alapfájlnak. A legtöbb fájlformátum esetében ez azt jelenti, hogy "
-"eltávolítja azokat a fordítási kulcsokat, amelyek már nincsenek jelen az "
-"alapfájlban."
+"Az összes fordítási fájl frissítése, hogy megegyezzen az egynyelvű "
+"alapfájllal. A legtöbb fájlformátumnál ez az alapfájlban többé nem létező, "
+"elavult fordítási kulcsok eltávolítását jelenti."
 
 #: weblate/addons/cleanup.py:78
 msgid "Remove blank strings"
-msgstr "Üres karakterláncok eltávolítása"
+msgstr "Üres szövegek eltávolítása"
 
 #: weblate/addons/cleanup.py:80
 msgid "Removes strings without a translation from translation files."
-msgstr "Eltávolítja a fordítás nélküli karakterláncokat a fordítási fájlokból."
+msgstr "Eltávolítja a fordítás nélküli szövegeket a fordítási fájlokból."
 
 #: weblate/addons/consistency.py:22
 msgid "Add missing languages"
@@ -1352,20 +1353,20 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Biztosítja, hogy egy projekt összes komponensénél egységes nyelvkészlet "
-"legyen használatban."
+"Azt biztosítja, hogy következetes nyelvkészlet legyen használva egy "
+"projekten belüli összes összetevőben."
 
 #: weblate/addons/discovery.py:25
 msgid "Component discovery"
-msgstr "Komponens felderítés"
+msgstr "Összetevő felfedezése"
 
 #: weblate/addons/discovery.py:27
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Automatikusan hozzáadja vagy eltávolítja a projektkomponenseket a "
-"verziókezelő rendszerben történt fájlmódosítások alapján."
+"Automatikusan hozzáadja vagy eltávolítja a projekt összetevőit a "
+"verziókövető rendszerben történt fájlváltoztatások alapján."
 
 #: weblate/addons/example.py:22
 msgid "Example add-on"
@@ -1385,8 +1386,7 @@ msgstr "Ez a kiegészítő végrehajt egy parancsfájlt."
 
 #: weblate/addons/flags.py:38
 msgid "Flag new source strings as \"Needs editing\""
-msgstr ""
-"Jelöld meg az új forrásszövegeket \"Szerkesztés szükséges\" állapotúként."
+msgstr "Új forrásszövegek megjelölése, hogy „Szerkesztést igényel”"
 
 #: weblate/addons/flags.py:40
 msgid ""
@@ -1394,13 +1394,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Amikor egy új forrásszöveg kerül importálásra a VCS-ből, a Weblate-ben "
-"\"Szerkesztés szükséges\" jelzővel lesz ellátva. Így könnyen szűrheted és "
-"szerkesztheted a fejlesztők által írt forrásszövegeket."
+"Amikor új forrásszöveget importálnak a verziókövető rendszerből, akkor az "
+"meg lesz jelölve, hogy szerkesztést igényel a Weblate-ben. Ily módon "
+"egyszerűen szűrheti és szerkesztheti a fejlesztők által írt forrásszövegeket."
 
 #: weblate/addons/flags.py:59
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Jelöld meg az új fordításokat \"Szerkesztés szükséges\" állapotúként."
+msgstr "Új fordítások megjelölése, hogy „Szerkesztést igényel”"
 
 #: weblate/addons/flags.py:61
 msgid ""
@@ -1408,14 +1408,14 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Amikor egy új fordítható szöveg kerül importálásra a VCS-ből, a Weblate-ben "
-"\"Szerkesztés szükséges\" jelzővel lesz ellátva. Így könnyen szűrheted és "
-"szerkesztheted a fejlesztők által létrehozott fordításokat."
+"Amikor új lefordítható szöveget importálnak a verziókövető rendszerből, "
+"akkor az meg lesz jelölve, hogy szerkesztést igényel a Weblate-ben. Ily "
+"módon egyszerűen szűrheti és szerkesztheti a fejlesztők által létrehozott "
+"fordításokat."
 
 #: weblate/addons/flags.py:77
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr ""
-"Jelöld meg a változatlan fordításokat \"Szerkesztés szükséges\" állapotúként."
+msgstr "Változatlan fordítások megjelölése, hogy „Szerkesztést igényel”"
 
 #: weblate/addons/flags.py:79
 msgid ""
@@ -1423,10 +1423,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Amikor egy új, fordítható karakterláncot importálnak a VCS-ből, és az "
-"megegyezik egy forrás karakterlánccal, akkor a Weblate-ben szerkesztendőként "
-"lesz megjelölve. Különösen hasznos olyan fájlformátumok esetén, amelyek "
-"tartalmazzák a forrás karakterláncokat a le nem fordított szövegekhez."
+"Amikor új lefordítható szöveg kerül importálásra a verziókövető rendszerből, "
+"és az megegyezik egy forrásszöveggel, akkor az szerkesztést igénylőként lesz "
+"megjelölve a Weblate-ben. Ez különösen olyan fájlformátumoknál hasznos, "
+"amelyek forrásszövegeket tartalmaznak a lefordítatlan szövegekhez."
 
 #: weblate/addons/flags.py:100 weblate/templates/category-project.html:58
 #: weblate/templates/category-project.html:134
@@ -1441,35 +1441,35 @@ msgstr "Tömeges szerkesztés"
 
 #: weblate/addons/flags.py:101
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Szerkeszd tömegesen a szövegek jelzőit, címkéit vagy állapotait."
+msgstr "Szövegek jelzőinek, címkéinek vagy állapotainak tömeges szerkesztése."
 
 #: weblate/addons/forms.py:48
 msgid "Path of generated MO file"
-msgstr "A létrehozott MO fájl elérési útja"
+msgstr "Előállított MO-fájl útvonala"
 
 #: weblate/addons/forms.py:52
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Ha nincs megadva, a PO fájl helye lesz használva."
+msgstr "Ha nincs megadva, akkor a PO-fájl helye lesz használva."
 
 #: weblate/addons/forms.py:56
 msgid "Include strings needing editing"
-msgstr "Foglalja bele a szerkesztésre szoruló szövegeket."
+msgstr "A szerkesztést igényló szövegeket is tartalmazza"
 
 #: weblate/addons/forms.py:59
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
-"A szerkesztésre szoruló (fuzzy) szövegek általában még nem állnak készen "
-"fordításként való használatra."
+"A szerkesztést igénylő szövegek (zavaros) általában nem állnak használatra "
+"készen fordításokként."
 
 #: weblate/addons/forms.py:85
 msgid "Name of generated file"
-msgstr "A generált fájl neve"
+msgstr "Előállított fájl neve"
 
 #: weblate/addons/forms.py:89
 msgid "Content of generated file"
-msgstr "A létrehozott fájl tartalma"
+msgstr "Előállított fájl tartalma"
 
 #: weblate/addons/forms.py:119 weblate/addons/forms.py:237
 msgid "Long lines wrapping"
@@ -1488,35 +1488,35 @@ msgstr ""
 
 #: weblate/addons/forms.py:131 weblate/addons/forms.py:243
 msgid "No line wrapping"
-msgstr "Nincs sorszélesség-beállítás"
+msgstr "Nincs sortörés"
 
 #: weblate/addons/forms.py:136
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Alapértelmezés szerint a gettext 77 karakter után és új soroknál tördel. A "
-"--no-wrap paraméterrel a tördelés csak új soroknál történik."
+"Alapértelmezetten a gettext tördeli a sorokat a 77. karakternél és az új "
+"soroknál. A --no-wrap paraméterrel csak az új soroknál végez tördelést."
 
 #: weblate/addons/forms.py:144
 msgid "Keep previous msgids of translated strings"
-msgstr "A lefordított szövegek korábbi msgid-jeinek megtartása"
+msgstr "Lefordított szövegek korábbi üzenetazonosítóinak megtartása"
 
 #: weblate/addons/forms.py:149
 msgid "Remove locations of translated strings"
-msgstr "A lefordított szövegek helyeinek eltávolítása"
+msgstr "Lefordított szövegek helyeinek eltávolítása"
 
 #: weblate/addons/forms.py:154
 msgid "Use fuzzy matching"
-msgstr "Közelítő egyezés használata"
+msgstr "Zavaros illesztés használata"
 
 #: weblate/addons/forms.py:160
 msgid "Commit squashing"
-msgstr "Commit összevonása"
+msgstr "Véglegesítések összevonása"
 
 #: weblate/addons/forms.py:163
 msgid "All commits into one"
-msgstr "Összes commit egybe"
+msgstr "Minden véglegesítést egybe"
 
 #: weblate/addons/forms.py:164
 msgid "Per language"
@@ -1532,7 +1532,7 @@ msgstr "Szerzőnként"
 
 #: weblate/addons/forms.py:172
 msgid "Append trailers to squashed commit message"
-msgstr "A trájlerek hozzáfűzése az összevont commit üzenethez"
+msgstr "Zárósorok hozzáfűzése az összevont véglegesítésüzenethez"
 
 #: weblate/addons/forms.py:176
 msgid ""
@@ -1540,21 +1540,21 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"A trájlervonalak olyan sorok, amelyek hasonlóak az RFC 822 e-mail "
-"fejléceihez, és a commit üzenet szabad formátumú részének végén találhatók, "
-"például 'Co-authored-by: …'."
+"A zárósorok az RFC 822-es e-mail-fejlécekhez hasonló sorok a "
+"véglegesítésüzenet egyébként szabad szöveges részének végén, mint például "
+"„Co-authored-by: …”."
 
 #: weblate/addons/forms.py:182
 msgid "Commit message"
-msgstr "Commit üzenet"
+msgstr "Véglegesítésüzenet"
 
 #: weblate/addons/forms.py:186
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Ez a commit üzenet lesz használva az összevont committok kombinált üzenetei "
-"helyett."
+"Ez a véglegesítésüzenet lesz használva az összevont véglegesítésekből "
+"származó egyesített véglegesítésüzenetek helyett."
 
 #: weblate/addons/forms.py:203
 msgid "Sort JSON keys"
@@ -1562,11 +1562,11 @@ msgstr "JSON kulcsok rendezése"
 
 #: weblate/addons/forms.py:205
 msgid "JSON indentation"
-msgstr "JSON behúzás"
+msgstr "JSON behúzása"
 
 #: weblate/addons/forms.py:208
 msgid "JSON indentation style"
-msgstr "JSON behúzási stílus"
+msgstr "JSON behúzási stílusa"
 
 #: weblate/addons/forms.py:210
 msgid "Spaces"
@@ -1578,11 +1578,11 @@ msgstr "Tabulátorok"
 
 #: weblate/addons/forms.py:222
 msgid "Include closing tag for blank XML tags"
-msgstr "Záró tagok hozzáadása az üres XML tagekhez"
+msgstr "Záró címke felvétele az üres XML-címkéknél"
 
 #: weblate/addons/forms.py:230
 msgid "YAML indentation"
-msgstr "YAML behúzás"
+msgstr "YAML behúzása"
 
 #: weblate/addons/forms.py:239
 msgid "Wrap lines at 80 chars"
@@ -1618,21 +1618,21 @@ msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:262
 msgid "Days to keep"
-msgstr "Napok száma a megőrzéshez"
+msgstr "Napok a megtartáshoz"
 
 #: weblate/addons/forms.py:268
 msgid "Voting threshold"
-msgstr "Szavazási küszöbérték"
+msgstr "Szavazási küszöbszint"
 
 #: weblate/addons/forms.py:272
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
-"Eltávolítási küszöbérték. Ez a mező nincs hatással, ha a szavazás ki van "
-"kapcsolva."
+"Küszöbszint az eltávolításhoz. Ennek a mezőnek nincs hatása a szavazások "
+"kikapcsolásával."
 
 #: weblate/addons/forms.py:279
 msgid "Regular expression to match translation files against"
-msgstr "Reguláris kifejezés, amely alapján azonosíthatók a fordítási fájlok"
+msgstr "Reguláris kifejezés a fordítási fájlok illesztéséhez"
 
 #: weblate/addons/forms.py:283
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -1643,33 +1643,33 @@ msgstr "Fájlformátum"
 
 #: weblate/addons/forms.py:289
 msgid "Customize the component name"
-msgstr "A(z) komponens nevének testreszabása"
+msgstr "Az összetevő nevének személyre szabása"
 
 #: weblate/addons/forms.py:294
 msgid "Define the monolingual base filename"
-msgstr "Határozd meg az egynyelvű alapfájlnév formátumát."
+msgstr "Az egynyelvű alapfájlnév meghatározása"
 
 #: weblate/addons/forms.py:297
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyd üresen kétnyelvű fordítási fájlok esetén."
+msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
 
 #: weblate/addons/forms.py:300
 msgid "Define the base file for new translations"
-msgstr "Határozd meg az új fordítások alapfájlját"
+msgstr "Az alapfájl meghatározása új fordításokhoz"
 
 #: weblate/addons/forms.py:304 weblate/trans/models/component.py:517
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Az új fordítások létrehozásához használt fájl neve. Gettext esetén válassz "
-".pot fájlt."
+"Új fordítások létrehozásához használt fájl fájlneve. A gettext esetén "
+"válassza a .pot fájlt."
 
 #: weblate/addons/forms.py:309
 #: weblate/templates/trans/alert/inexistantfiles.html:14
 #: weblate/trans/models/component.py:501
 msgid "Intermediate language file"
-msgstr "Köztes nyelvi fájl"
+msgstr "Közbülső nyelvi fájl"
 
 #: weblate/addons/forms.py:313 weblate/trans/models/component.py:505
 msgid ""
@@ -1677,33 +1677,32 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
-"Az átmeneti fordítási fájl fájlneve. A legtöbb esetben ez egy fejlesztők "
-"által biztosított fordítási fájl, amelyet a tényleges forrás szövegek "
-"létrehozásakor használnak."
+"A közbülső fordítási fájl fájlneve. A legtöbb esetben ez a fejlesztők által "
+"biztosított fordítási fájl, és a tényleges forrásszövegek létrehozásakor van "
+"használva."
 
 #: weblate/addons/forms.py:320 weblate/trans/models/component.py:728
 msgid "Language filter"
-msgstr "Nyelvi szűrő"
+msgstr "Nyelvszűrő"
 
 #: weblate/addons/forms.py:325
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Reguláris kifejezés, amellyel a fordítási fájlokat szűrheted, amikor "
-"fájlmaszkot keresel."
+"Reguláris kifejezés a fordítási fájlok szűréséhez a fájlmaszk keresésekor."
 
 #: weblate/addons/forms.py:331
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Klónozd az extrákat a fő komponensből az újonnan létrehozottakba."
+msgstr "Kiegészítők klónozása a fő összetevőből az újonnan létrehozottakba"
 
 #: weblate/addons/forms.py:337
 msgid "Remove components for inexistent files"
-msgstr "Távolítsd el a nem létező fájlokhoz tartozó komponenseket."
+msgstr "Nem létező fájlok összetevőinek eltávolítása"
 
 #: weblate/addons/forms.py:340
 msgid "I confirm the above matches look correct"
-msgstr "Megerősítem, hogy a fenti egyezések helyesnek tűnnek."
+msgstr "Megerősítem, hogy a fenti illesztések helyesnek tűnnek"
 
 #: weblate/addons/forms.py:397 weblate/trans/models/component.py:3030
 msgid "You can not use a monolingual translation without a base file."
@@ -1723,39 +1722,39 @@ msgstr "Vegye fel az összetevő jelölőnyelvét a sablonban."
 
 #: weblate/addons/forms.py:502
 msgid "Translation threshold"
-msgstr "Fordítási küszöbérték"
+msgstr "Fordítási küszöbszint"
 
 #: weblate/addons/forms.py:507
 msgid "Threshold for inclusion of translations."
-msgstr "Fordítások bevonásának küszöbértéke."
+msgstr "Küszöbszint a fordítások beszámításához."
 
 #: weblate/addons/forms.py:510
 msgid "CSS selector"
-msgstr "CSS szelektor"
+msgstr "CSS-kiválasztó"
 
 #: weblate/addons/forms.py:513
 msgid "CSS selector to detect localizable elements."
-msgstr "CSS-szelektor a lokalizálható elemek felismerésére."
+msgstr "CSS-kiválasztó a honosítható elemek felismeréséhez."
 
 #: weblate/addons/forms.py:516
 msgid "Language cookie name"
-msgstr "Nyelv cookie neve"
+msgstr "Nyelvi süti neve"
 
 #: weblate/addons/forms.py:519
 msgid "Name of cookie which stores language preference."
-msgstr "A nyelvi beállításokat tároló süti neve."
+msgstr "A süti neve, amely a nyelvi beállítást tárolja."
 
 #: weblate/addons/forms.py:524
 msgid "Extract strings from HTML files"
-msgstr "Szövegek kinyerése HTML fájlokból"
+msgstr "Szövegek kinyerése HTML-fájlokból"
 
 #: weblate/addons/forms.py:527
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"A jelenlegi adattárban található fájlnevek vagy távoli URL-ek listája, "
-"amelyeket a fordítható szövegek keresésére elemzünk."
+"A jelenlegi tárolóban vagy távoli URL-eken lévő feldolgozandó fájlnevek "
+"listája a lefordítható szövegekhez."
 
 #: weblate/addons/forms.py:555
 #, python-format
@@ -1768,7 +1767,7 @@ msgstr "Nem sikerült feldolgozni a CSS-kiválasztót: %s"
 #: weblate/templates/translation.html:155 weblate/trans/admin.py:91
 #: weblate/wladmin/models.py:216
 msgid "Source strings"
-msgstr "Forráskarakterláncok"
+msgstr "Forrásszövegek"
 
 #: weblate/addons/forms.py:572
 msgid "Target translation"
@@ -1776,38 +1775,38 @@ msgstr "Célfordítás"
 
 #: weblate/addons/forms.py:574
 msgid "All strings in this translation will be overwritten"
-msgstr "A fordításban szereplő összes szöveg felülíródik."
+msgstr "Az ebben a fordításban lévő összes szöveg felül lesz írva"
 
 #: weblate/addons/forms.py:579 weblate/templates/addons/pseudolocale.html:9
 msgid "Fixed string prefix"
-msgstr "Javítva a szöveg előtagja."
+msgstr "Rögzített szövegelőtag"
 
 #: weblate/addons/forms.py:584 weblate/templates/addons/pseudolocale.html:10
 msgid "Variable string prefix"
-msgstr "Változó szöveg előtagja."
+msgstr "Változó szövegelőtag"
 
 #: weblate/addons/forms.py:589 weblate/templates/addons/pseudolocale.html:13
 msgid "Fixed string suffix"
-msgstr "Javítva a szöveg utótagja."
+msgstr "Rögzített szövegutótag"
 
 #: weblate/addons/forms.py:594 weblate/templates/addons/pseudolocale.html:12
 msgid "Variable string suffix"
-msgstr "Változó szöveg utótagja."
+msgstr "Változó szövegutótag"
 
 #: weblate/addons/forms.py:599
 msgid "Variable part multiplier"
-msgstr "Változó rész szorzója."
+msgstr "Változó részismétlő"
 
 #: weblate/addons/forms.py:603
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
-"Hányszor ismételje meg a változó részt a forrás szöveg hosszától függően."
+"Hányszor ismétlődjön a változó rész a forrásszöveg hosszának függvényében."
 
 #: weblate/addons/forms.py:608
 msgid "Include read-only strings"
-msgstr "Olvasható szövegek bevonása"
+msgstr "Csak olvasható szövegek felvétele"
 
 #: weblate/addons/forms.py:638
 msgid "The source and target have to be different languages."
@@ -1815,41 +1814,40 @@ msgstr "A forrásnak és a célnak különböző nyelveknek kell lenniük."
 
 #: weblate/addons/forms.py:651
 msgid "Enable case-sensitive key sorting"
-msgstr "Engedélyezze az érzékeny kulcssorrendet"
+msgstr "Kis- és nagybetűérzékeny kulcsrendezés engedélyezése"
 
 #: weblate/addons/generate.py:35
 msgid "Statistics generator"
-msgstr "Statisztikagenerátor"
+msgstr "Statisztika-előállító"
 
 #: weblate/addons/generate.py:37
 msgid "Generates a file containing detailed info about the translation status."
 msgstr ""
-"Létrehoz egy fájlt, amely részletes információkat tartalmaz a fordítás "
-"állapotáról."
+"Részletes információkat tartalmazó fájlt állít elő a fordítás állapotáról."
 
 #: weblate/addons/generate.py:133
 msgid "Pseudolocale generation"
-msgstr "Ál-lokál generálás"
+msgstr "Pszeudo területi beállítás előállítása"
 
 #: weblate/addons/generate.py:135
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Fordítást generál azáltal, hogy automatikusan előtagot és utótagot ad a "
-"forrás karakterláncokhoz."
+"Előállít egy fordítást úgy, hogy automatikusan előtagot és utótagot ad hozzá "
+"a forrásszövegekhez."
 
 #: weblate/addons/generate.py:207
 msgid "Prefill translation with source"
-msgstr "Fordítás előzetes kitöltése forrással"
+msgstr "Fordítás előzetes kitöltése a forrással"
 
 #: weblate/addons/generate.py:208
 msgid "Fills in translation strings with source string."
-msgstr "Kitölti a fordítási szövegeket a forrásszöveggel."
+msgstr "Kitölti a fordítási szövegeket a forrásszövegekkel."
 
 #: weblate/addons/generate.py:238
 msgid "Fill read-only strings with source"
-msgstr "Töltsd ki a csak olvasható szövegeket a forrással"
+msgstr "Csak olvasható szövegek kitöltése a forrással"
 
 #: weblate/addons/generate.py:240
 msgid "Fills in translation of read-only strings with source string."
@@ -1857,23 +1855,23 @@ msgstr "Kitölti a csak olvasható szövegek fordítását a forrásszöveggel."
 
 #: weblate/addons/gettext.py:35
 msgid "Generate MO files"
-msgstr "MO fájlok generálása"
+msgstr "MO-fájlok előállítása"
 
 #: weblate/addons/gettext.py:37
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr "Automatikusan generál egy MO fájlt minden megváltozott PO fájlhoz."
+msgstr "Automatikusan előállít egy MO-fájlt minden megváltoztatott PO-fájlhoz."
 
 #: weblate/addons/gettext.py:68
 msgid "Update LINGUAS file"
-msgstr "Frissítsd a LINGUAS fájlt."
+msgstr "LINGUAS-fájl frissítése"
 
 #: weblate/addons/gettext.py:70
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Frissíti a LINGUAS fájlt, amikor új fordítás kerül hozzáadásra."
+msgstr "Frissíti a LINGUAS-fájlt, ha új fordítást adnak hozzá."
 
 #: weblate/addons/gettext.py:161
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Frissítsd az ALL_LINGUAS változót a(z) \"configure\" fájlban."
+msgstr "Az ALL_LINGUAS változó frissítése a „configure” fájlban"
 
 #: weblate/addons/gettext.py:163
 msgid ""
@@ -1885,7 +1883,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:232
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "PO fájlok frissítése a POT-hoz való igazításhoz (msgmerge)"
+msgstr "PO-fájlok frissítése, hogy egyezzenek a POT-fájllal (msgmerge)"
 
 #: weblate/addons/gettext.py:234
 msgid ""
@@ -1898,73 +1896,73 @@ msgstr ""
 
 #: weblate/addons/gettext.py:328
 msgid "Customize gettext output"
-msgstr "Gettext kimenet testreszabása"
+msgstr "A gettext kimenet személyre szabása"
 
 #: weblate/addons/gettext.py:330
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Lehetővé teszi a gettext kimeneti viselkedésének testreszabását, például a "
-"sorszélesség beállítását."
+"Lehetővé teszi a gettext kimenet viselkedésének személyre szabását, például "
+"a sortörést."
 
 #: weblate/addons/gettext.py:352
 msgid "Contributors in comment"
-msgstr "Közreműködők a megjegyzésben"
+msgstr "Közreműködők a megegyezésben"
 
 #: weblate/addons/gettext.py:354
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Frissíti a PO fájl fejlécének megjegyzés részét, hogy tartalmazza a "
-"hozzájárulók nevét és a hozzájárulások éveit."
+"Frissíti a PO-fájl fejlécének megjegyzés részét a közreműködők neveinek és a "
+"közreműködések éveinek felvételéhez."
 
 #: weblate/addons/git.py:26
 msgid "Squash Git commits"
-msgstr "Git commitok összefésülése"
+msgstr "Git véglegesítések összevonása"
 
 #: weblate/addons/git.py:27
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Git commitok összefésülése a változások feltöltése előtt."
+msgstr "Git véglegesítések összevonása a változtatások felküldése előtt."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
-msgstr "A JSON kimenet testreszabása"
+msgstr "JSON kimenet személyre szabása"
 
 #: weblate/addons/json.py:15
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Lehetővé teszi a JSON kimenet viselkedésének beállítását, például a behúzás "
-"vagy a rendezés módosítását."
+"Lehetővé teszi a JSON kimenet viselkedésének beállítását, például a behúzást "
+"vagy a rendezést."
 
 #: weblate/addons/properties.py:142
 msgid "Format the Java properties file"
-msgstr "Java tulajdonságfájl formázása"
+msgstr "A Java properties fájl formázása"
 
 #: weblate/addons/properties.py:143
 msgid "Formats and sorts the Java properties file."
-msgstr "Formázza és rendezi a Java tulajdonságfájlt."
+msgstr "Megformázza és rendezi a Java properties fájlt."
 
 #: weblate/addons/removal.py:37
 msgid "Stale comment removal"
-msgstr "Régi megjegyzések eltávolítása"
+msgstr "Elavult megjegyzés eltávolítása"
 
 #: weblate/addons/removal.py:38
 msgid "Set a timeframe for removal of comments."
-msgstr "Adj meg egy időkeretet a megjegyzések eltávolításához."
+msgstr "Időkeret beállítása a megjegyzések eltávolításához."
 
 #: weblate/addons/removal.py:51
 msgid "Stale suggestion removal"
-msgstr "Régi javaslatok eltávolítása"
+msgstr "Elavult javaslat eltávolítása"
 
 #: weblate/addons/removal.py:52
 msgid "Set a timeframe for removal of suggestions."
-msgstr "Adj meg egy időkeretet a javaslatok eltávolításához."
+msgstr "Időkeret beállítása a javaslatok eltávolításához."
 
 #: weblate/addons/resx.py:22
 msgid "Update RESX files"
-msgstr "RESX fájlok frissítése"
+msgstr "RESX-fájlok frissítése"
 
 #: weblate/addons/resx.py:24
 msgid ""
@@ -1972,9 +1970,9 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Frissítsd az összes fordítási fájlt, hogy megfeleljenek az egynyelvű "
-"upstream alapfájlnak. A nem használt szövegek eltávolításra kerülnek, és az "
-"újakat a forrásszöveg másolataként adjuk hozzá."
+"Az összes fordítási fájl frissítése, hogy megegyezzen a távoli tároló "
+"egynyelvű alapfájljával. A nem használt szövegek eltávolításra kerülnek, és "
+"az újak hozzá lesznek adva a forrásszöveg másolataiként."
 
 #: weblate/addons/views.py:129
 #, python-format
@@ -1987,24 +1985,24 @@ msgstr "A kiegészítő telepítve. Nézze át az integrációs utasításokat."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
-msgstr "XML kimenet testreszabása"
+msgstr "XML kimenet személyre szabása"
 
 #: weblate/addons/xml.py:28
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr ""
 "Lehetővé teszi az XML kimenet viselkedésének beállítását, például a záró "
-"tagok használatát."
+"címkéket."
 
 #: weblate/addons/yaml.py:15
 msgid "Customize YAML output"
-msgstr "A YAML kimenet testreszabása"
+msgstr "YAML kimenet személyre szabása"
 
 #: weblate/addons/yaml.py:17
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Lehetővé teszi a YAML kimenet viselkedésének beállítását, például a sorhossz "
-"vagy az új sorok módosítását."
+"Lehetővé teszi a YAML kimenet viselkedésének beállítását, például a sor "
+"hosszát vagy az új sorokat."
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
@@ -2038,15 +2036,16 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
-msgstr "Engedélyezett kérések száma a végrehajtáshoz"
+msgstr "Végrehajtandó kérések engedélyezett száma"
 
 #: weblate/api/docs.py:77
 msgid "Remaining number of requests to perform"
-msgstr "Hátralévő kérések száma a végrehajtáshoz"
+msgstr "Végrehajtandó kérések hátralévő száma"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "Másodpercek száma a sebességkorlátozási ablak visszaállításáig"
+msgstr ""
+"A sebességkorlátozás ablakának visszaállításáig hátralévő másodpercek száma"
 
 #: weblate/api/spectacular.py:57
 #: weblate/templates/drf_spectacular/redoc.html:11
@@ -2109,7 +2108,7 @@ msgstr "Kategória"
 #: weblate/trans/forms.py:985 weblate/trans/forms.py:1736
 #: weblate/trans/models/announcement.py:90
 msgid "Component"
-msgstr "Komponens"
+msgstr "Összetevő"
 
 #: weblate/api/views.py:2364
 msgid "User"
@@ -2156,22 +2155,22 @@ msgstr "Ez nem lesz használva, ha összetevő van kiválasztva."
 #. Translators: Permission name
 #: weblate/auth/data.py:21
 msgid "View billing info"
-msgstr "Számlázási adatok megtekintése"
+msgstr "Számlázási információk megtekintése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Download changes"
-msgstr "Változások letöltése"
+msgstr "Változtatások letöltése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
 msgid "Post comment"
-msgstr "Hozzászólás küldése"
+msgstr "Megjegyzés küldése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "Hozzászólás törlése"
+msgstr "Megjegyzés törlése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
@@ -2181,37 +2180,37 @@ msgstr "Megjegyzés megoldása"
 #. Translators: Permission name
 #: weblate/auth/data.py:31
 msgid "Edit component settings"
-msgstr "A(z) komponens beállításainak szerkesztése"
+msgstr "Összetevő-beállítások szerkesztése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Lock component, preventing translations"
-msgstr "A(z) komponens zárolása, a fordítások megakadályozása érdekében"
+msgstr "Összetevő zárolása, fordítások megakadályozása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Szószedet bejegyzés hozzáadása"
+msgstr "Szójegyzék-bejegyzés hozzáadása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Add glossary terminology"
-msgstr "Szójegyzék terminológia hozzáadása"
+msgstr "Szójegyzék-terminológia hozzáadása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Edit glossary entry"
-msgstr "Szószedet bejegyzés szerkesztése"
+msgstr "Szójegyzék-bejegyzés szerkesztése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Delete glossary entry"
-msgstr "Szószedet bejegyzés törlése"
+msgstr "Szójegyzék-bejegyzés törlése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
 msgid "Upload glossary entries"
-msgstr "Szószedet bejegyzések feltöltése"
+msgstr "Szójegyzék-bejegyzések feltöltése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -2231,12 +2230,12 @@ msgstr "Fordítási memória törlése"
 #. Translators: Permission name
 #: weblate/auth/data.py:51
 msgid "Edit project settings"
-msgstr "A(z) projekt beállításainak szerkesztése"
+msgstr "Projektbeállítások szerkesztése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:53
 msgid "Manage project access"
-msgstr "A(z) projekt hozzáférés kezelése"
+msgstr "Projekt-hozzáférés kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:55
@@ -2263,7 +2262,7 @@ msgstr "Képernyőkép törlése"
 #. Translators: Permission name
 #: weblate/auth/data.py:63 weblate/templates/translate.html:890
 msgid "Edit additional string info"
-msgstr "Kiegészítő szöveginformáció szerkesztése"
+msgstr "További szöveginformációk szerkesztése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:65
@@ -2278,7 +2277,7 @@ msgstr "Szöveg eltávolítása"
 #. Translators: Permission name
 #: weblate/auth/data.py:69
 msgid "Dismiss failing check"
-msgstr "Nem sikerült ellenőrzés elvetése"
+msgstr "Sikertelen ellenőrzés eltüntetése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:71
@@ -2293,7 +2292,7 @@ msgstr "Szövegek felülvizsgálata"
 #. Translators: Permission name
 #: weblate/auth/data.py:75
 msgid "Edit string when suggestions are enforced"
-msgstr "Szöveg szerkesztése, amikor javaslatok kötelezőek"
+msgstr "Szöveg szerkesztése, ha javaslatok érvényesülnek"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2323,7 +2322,7 @@ msgstr "Szavazás a javaslatra"
 #. Translators: Permission name
 #: weblate/auth/data.py:87
 msgid "Add language for translation"
-msgstr "Nyelv hozzáadása fordításhoz"
+msgstr "Nyelv hozzáadása a fordításhoz"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:89
@@ -2343,12 +2342,12 @@ msgstr "Fordítási fájl letöltése"
 #. Translators: Permission name
 #: weblate/auth/data.py:95
 msgid "Add several languages for translation"
-msgstr "Több nyelv hozzáadása fordításhoz"
+msgstr "Több nyelv hozzáadása a fordításhoz"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:97
 msgid "Define author of uploaded translation"
-msgstr "A feltöltött fordítás szerzőjének meghatározása"
+msgstr "Feltöltött fordítás szerzőjének meghatározása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:99
@@ -2363,37 +2362,37 @@ msgstr "Fordítások feltöltése"
 #. Translators: Permission name
 #: weblate/auth/data.py:103
 msgid "Access the internal repository"
-msgstr "A(z) belső adattár elérése"
+msgstr "Hozzáférés a belső tárolóhoz"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Commit changes to the internal repository"
-msgstr "Változások elkötelezése a(z) belső adattárba"
+msgstr "Változtatások véglegesítése a belső tárolóba"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
 msgid "Push change from the internal repository"
-msgstr "Változások feltöltése a(z) belső adattárból"
+msgstr "Változtatás felküldése a belső tárolóból"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:109
 msgid "Reset changes in the internal repository"
-msgstr "Változások visszaállítása a(z) belső adattárban"
+msgstr "Változtatások visszaállítása a belső tárolóban"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "View upstream repository location"
-msgstr "A(z) upstream adattár helyének megtekintése"
+msgstr "Távoli tároló helyének megtekintése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:113
 msgid "Update the internal repository"
-msgstr "A(z) belső adattár frissítése"
+msgstr "A belső tároló frissítése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
 msgid "Use management interface"
-msgstr "Használd a kezelőfelületet"
+msgstr "Kezelőfelület használata"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2403,12 +2402,12 @@ msgstr "Új projektek hozzáadása"
 #. Translators: Permission name
 #: weblate/auth/data.py:125
 msgid "Add language definitions"
-msgstr "Nyelvi definíciók hozzáadása"
+msgstr "Nyelvmeghatározások hozzáadása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
 msgid "Manage language definitions"
-msgstr "Nyelvi definíciók kezelése"
+msgstr "Nyelvmeghatározások kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/teams.html:24
@@ -2423,12 +2422,12 @@ msgstr "Felhasználók kezelése"
 #. Translators: Permission name
 #: weblate/auth/data.py:133
 msgid "Manage roles"
-msgstr "Szerepkörök kezelése"
+msgstr "Szerepek kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
 msgid "Manage announcements"
-msgstr "Közlemények kezelése"
+msgstr "Bejelentések kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
@@ -2438,12 +2437,12 @@ msgstr "Fordítási memória kezelése"
 #. Translators: Permission name
 #: weblate/auth/data.py:139
 msgid "Manage machinery"
-msgstr "Fordítószolgáltatások kezelése"
+msgstr "Gépi fordítás kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
 msgid "Manage component lists"
-msgstr "Komponenslisták kezelése"
+msgstr "Összetevőlisták kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
@@ -2454,7 +2453,7 @@ msgstr "Számlázás kezelése"
 #. Translators: Permission name
 #: weblate/auth/data.py:145
 msgid "Manage site-wide add-ons"
-msgstr "Webhely szintű bővítmények kezelése"
+msgstr "Webhelyszintű kiegészítők kezelése"
 
 #: weblate/auth/data.py:176
 msgctxt "Access-control role"
@@ -2647,7 +2646,7 @@ msgstr "Válassza ki az ehhez a szerephez megadott jogosultságokat."
 #: weblate/templates/auth/team.html:61 weblate/templates/manage/teams.html:30
 #: weblate/templates/trans/project-access.html:216
 msgid "Roles"
-msgstr "Szerepkörök"
+msgstr "Szerepek"
 
 #: weblate/auth/models.py:135
 msgid "Choose roles granted to this team."
@@ -2655,7 +2654,7 @@ msgstr "Válassza ki az ehhez a csapathoz megadott szerepeket."
 
 #: weblate/auth/models.py:147
 msgid "Project selection"
-msgstr "Projekt kiválasztása"
+msgstr "Projektválasztás"
 
 #: weblate/auth/models.py:149 weblate/auth/models.py:177
 msgid "As defined"
@@ -2700,7 +2699,7 @@ msgstr "Projektek"
 #: weblate/templates/snippets/info.html:451
 #: weblate/templates/trans/project-access.html:218 weblate/trans/forms.py:2212
 msgid "Components"
-msgstr "Komponensek"
+msgstr "Összetevők"
 
 #: weblate/auth/models.py:165
 msgid "Empty selection grants access to all components in project scope."
@@ -2743,7 +2742,7 @@ msgstr "Belső Weblate csapat"
 
 #: weblate/auth/models.py:192
 msgid "Team administrators"
-msgstr "Csapat adminisztrátorok"
+msgstr "Csapatrendszergazdák"
 
 #: weblate/auth/models.py:195
 msgid "The administrator can add or remove users from a team."
@@ -2753,7 +2752,7 @@ msgstr ""
 
 #: weblate/auth/models.py:200 weblate/trans/models/project.py:218
 msgid "Enforced two-factor authentication"
-msgstr "Kötelező kétlépcsős azonosítás"
+msgstr "Kényszerített kétfaktoros hitelesítés"
 
 #: weblate/auth/models.py:203
 msgid "Requires users to have two-factor authentication configured."
@@ -3053,7 +3052,7 @@ msgstr "Változtatások a múlt hónapban"
 
 #: weblate/billing/models.py:276
 msgid "Number of changes"
-msgstr "Változások száma"
+msgstr "Változtatások száma"
 
 #: weblate/billing/models.py:300 weblate/wladmin/models.py:215
 msgid "Hosted strings"
@@ -3073,7 +3072,7 @@ msgstr "Utolsó számla"
 
 #: weblate/billing/models.py:365
 msgid "N/A"
-msgstr "Nem elérhető"
+msgstr "N/A"
 
 #: weblate/billing/models.py:369
 msgid "In display limits"
@@ -3127,11 +3126,11 @@ msgstr ""
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
-msgstr "AngularJS interpolációs sztring"
+msgstr "AngularJS interpolációs szöveg"
 
 #: weblate/checks/angularjs.py:33
 msgid "AngularJS interpolation strings do not match source"
-msgstr "Az AngularJS interpolációs szövegek nem egyeznek a forrással."
+msgstr "Az AngularJS interpolációs szöveg nem egyezik meg a forrással"
 
 #: weblate/checks/base.py:327
 msgid "The following format strings are missing: {}"
@@ -3147,19 +3146,19 @@ msgstr "A következő hibák találhatók:"
 
 #: weblate/checks/chars.py:47
 msgid "Starting newline"
-msgstr "Új sor kezdése"
+msgstr "Kezdő soremelés"
 
 #: weblate/checks/chars.py:49
 msgid "Source and translation do not both start with a newline"
-msgstr "A forrás és a fordítás nem kezdődik mindkettő új sorral."
+msgstr "A forrás és a fordítás nem kezdődik egyformán soremeléssel"
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
-msgstr "Záró soremelés"
+msgstr "Lezáró soremelés"
 
 #: weblate/checks/chars.py:61
 msgid "Source and translation do not both end with a newline"
-msgstr "A forrás és a fordítás nem végződik mindkettő új sorral."
+msgstr "A forrás és a fordítás nem végződik egyformán soremeléssel"
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
@@ -3167,15 +3166,15 @@ msgstr "Kezdő szóközök"
 
 #: weblate/checks/chars.py:73
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "A forrás és a fordítás nem ugyanannyi szóközzel kezdődik."
+msgstr "A forrás és a fordítás nem kezdődik egyformán ugyanannyi szóközzel"
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
-msgstr "Záró szóköz"
+msgstr "Lezáró szóköz"
 
 #: weblate/checks/chars.py:108
 msgid "Source and translation do not both end with a space"
-msgstr "A forrás és a fordítás nem végződik mindkettő szóközzel."
+msgstr "A forrás és a fordítás nem végződik egyformán szóközzel"
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
@@ -3187,11 +3186,11 @@ msgstr "A fordítás dupla szóközt tartalmaz"
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
-msgstr "Nem egyező pont"
+msgstr "Nem egyező mondatvégi pont"
 
 #: weblate/checks/chars.py:167
 msgid "Source and translation do not both end with a full stop"
-msgstr "A forrás és a fordítás nem mindkettő ponttal végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán ponttal"
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
@@ -3199,7 +3198,7 @@ msgstr "Nem egyező kettőspont"
 
 #: weblate/checks/chars.py:219
 msgid "Source and translation do not both end with a colon"
-msgstr "A forrás és a fordítás nem mindkettő kettősponttal végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán kettősponttal"
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
@@ -3207,7 +3206,7 @@ msgstr "Nem egyező kérdőjel"
 
 #: weblate/checks/chars.py:251
 msgid "Source and translation do not both end with a question mark"
-msgstr "A forrás és a fordítás nem mindkettő kérdőjellel végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán kérdőjellel"
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
@@ -3215,7 +3214,7 @@ msgstr "Nem egyező felkiáltójel"
 
 #: weblate/checks/chars.py:293
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "A forrás és a fordítás nem mindkettő felkiáltójellel végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán felkiáltójellel"
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
@@ -3228,11 +3227,11 @@ msgstr ""
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
-msgstr "Nem egyező hárompont (… három pont)"
+msgstr "Nem egyező hármaspont"
 
 #: weblate/checks/chars.py:339
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "A forrás és a fordítás nem mindkettő három ponttal végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán hármasponttal"
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
@@ -3248,23 +3247,23 @@ msgstr "Nem egyező sortörések"
 
 #: weblate/checks/chars.py:381
 msgid "Number of new lines in translation does not match source"
-msgstr "Az új sorok száma a fordításban nem egyezik meg a forrással."
+msgstr "A fordításban lévő új sorok száma nem egyezik a forrással"
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
-msgstr "Zéró szélességű szóköz"
+msgstr "Nulla szélességű szóköz"
 
 #: weblate/checks/chars.py:390
 msgid "Translation contains extra zero-width space character"
-msgstr "A fordítás tartalmaz extra nulla szélességű szóköz karaktert."
+msgstr "A fordítás felesleges nulla szélességű szóköz karaktert tartalmaz"
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:72
 msgid "Maximum length of translation"
-msgstr "A fordítás maximális hossza"
+msgstr "Fordítás legnagyobb hossza"
 
 #: weblate/checks/chars.py:408
 msgid "Translation should not exceed given length"
-msgstr "A fordítás nem haladhatja meg a megadott hosszt."
+msgstr "A fordítás nem lépheti túl a megadott hosszt"
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
@@ -3272,23 +3271,23 @@ msgstr "Nem egyező pontosvessző"
 
 #: weblate/checks/chars.py:428
 msgid "Source and translation do not both end with a semicolon"
-msgstr "A forrás és a fordítás nem mindkettő pontosvesszővel végződik."
+msgstr "A forrás és a fordítás nem végződik egyformán pontosvesszővel"
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
-msgstr "Kashida betű használva"
+msgstr "Használt kasida betűk"
 
 #: weblate/checks/chars.py:443
 msgid "The decorative kashida letters should not be used"
-msgstr "A dekoratív kashida betűket nem szabad használni."
+msgstr "A dekoratív kasida betűket nem szabad használni"
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
-msgstr "Írásjelek közötti távolság"
+msgstr "Írásjel térköze"
 
 #: weblate/checks/chars.py:464
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "Hiányzik a nem törhető szóköz a kettős írásjel előtt."
+msgstr "Hiányzó nem törhető szóköz a dupla írásjel jel előtt"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -3296,15 +3295,15 @@ msgstr "Hiányzó többes számok"
 
 #: weblate/checks/consistency.py:31
 msgid "Some plural forms are untranslated"
-msgstr "Néhány többes számú alak lefordítatlan"
+msgstr "Néhány többes számú alak nincs lefordítva"
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
-msgstr "Azonos többes számok"
+msgstr "Ugyanaz a többes szám"
 
 #: weblate/checks/consistency.py:58
 msgid "Some plural forms are translated in the same way"
-msgstr "Néhány többes számú alak ugyanúgy van lefordítva."
+msgstr "Néhány többes számú alak ugyanúgy van lefordítva"
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3315,12 +3314,12 @@ msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"Ez a szöveg több fordítással rendelkezik ebben a projektben, vagy néhány "
-"komponensben lefordítatlan."
+"Ennek a szövegnek egynél több fordítása van ebben a projektben, vagy nincs "
+"lefordítva néhány összetevőben."
 
 #: weblate/checks/consistency.py:164
 msgid "Reused translation"
-msgstr "Újrahasznosított fordítás"
+msgstr "Újrahasznált fordítás"
 
 #: weblate/checks/consistency.py:165
 msgid "Different strings are translated the same."
@@ -3340,11 +3339,11 @@ msgstr "„%s”"
 
 #: weblate/checks/consistency.py:285
 msgid "Has been translated"
-msgstr "Lefordítva"
+msgstr "Le lett fordítva"
 
 #: weblate/checks/consistency.py:286
 msgid "This string has been translated in the past"
-msgstr "Ezt a szöveget korábban már lefordították."
+msgstr "Ezt a szöveget a már régebben lefordították"
 
 #: weblate/checks/consistency.py:295
 #, python-format
@@ -3353,11 +3352,11 @@ msgstr "Az előző fordítás „%s” volt."
 
 #: weblate/checks/duplicate.py:38
 msgid "Consecutive duplicated words"
-msgstr "Egymást követő ismétlődő szavak"
+msgstr "Egymás utáni kettőzött szavak"
 
 #: weblate/checks/duplicate.py:39
 msgid "Text contains the same word twice in a row"
-msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer."
+msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer"
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3411,7 +3410,7 @@ msgstr "Tiltott fordítás"
 
 #: weblate/checks/flags.py:54 weblate/trans/forms.py:2506
 msgid "Terminology"
-msgstr "Terminológia"
+msgstr "Szakkifejezések"
 
 #: weblate/checks/flags.py:55
 msgid "Ignore all checks"
@@ -3612,11 +3611,11 @@ msgstr "A(z) {sequence} sorozat nem érvényes HTML karakterhivatkozás."
 
 #: weblate/checks/fluent/inner_html.py:943
 msgid "Fluent source inner HTML"
-msgstr "Fluent forrás belső HTML"
+msgstr "Fluent-forrás belső HTML-e"
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source should be valid inner HTML"
-msgstr "A Fluent forrásnak érvényes belső HTML-nek kell lennie."
+msgstr "A Fluent-forrásnak érvényes belső HTML-nek kell lennie"
 
 #: weblate/checks/fluent/inner_html.py:1015
 #, python-brace-format
@@ -3677,11 +3676,11 @@ msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1219
 msgid "Fluent translation inner HTML"
-msgstr "Fluent fordítás belső HTML"
+msgstr "Fluent-fordítás belső HTML-e"
 
 #: weblate/checks/fluent/inner_html.py:1220
 msgid "Fluent target should be valid inner HTML that matches"
-msgstr "A Fluent célnak érvényes belső HTML-nek kell lennie, amely megfelel"
+msgstr "A Fluent-célnak érvényes belső HTML-nek kell lennie, amely illeszkedik"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3703,11 +3702,11 @@ msgstr "Váratlan Fluent-attribútum: {hint}"
 
 #: weblate/checks/fluent/parts.py:112
 msgid "Fluent parts"
-msgstr "Fluent részek"
+msgstr "Fluent-részek"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match"
-msgstr "A Fluent részeknek egyezniük kell"
+msgstr "A Fluent-részeknek egyezniük kell"
 
 #: weblate/checks/fluent/references.py:373
 #, python-brace-format
@@ -3836,11 +3835,11 @@ msgstr ""
 
 #: weblate/checks/fluent/references.py:670
 msgid "Fluent references"
-msgstr "Fluent hivatkozások"
+msgstr "Fluent-hivatkozások"
 
 #: weblate/checks/fluent/references.py:671
 msgid "Fluent references should match"
-msgstr "A Fluent hivatkozásoknak egyezniük kell"
+msgstr "A Fluent-hivatkozásoknak egyezniük kell"
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3849,19 +3848,19 @@ msgstr "Fluent szintaktikai hiba: {error}."
 
 #: weblate/checks/fluent/syntax.py:46
 msgid "Fluent source syntax"
-msgstr "Fluent forrás szintaxis"
+msgstr "Fluent-forrás szintaxisa"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in the source"
-msgstr "A forrásban folyékony szintaxis hiba található"
+msgstr "Fluent szintaktikai hiba a forrásban"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
-msgstr "Fluent fordítási szintaxis"
+msgstr "Fluent-fordítás szintaxisa"
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent syntax error in the translation"
-msgstr "Folyékony szintaxis hiba a fordításban."
+msgstr "Fluent szintaktikai hiba a fordításban"
 
 #: weblate/checks/format.py:481
 #, python-format
@@ -3874,7 +3873,7 @@ msgstr "Python formátum"
 
 #: weblate/checks/format.py:565
 msgid "Python format string does not match source"
-msgstr "A Python formátumszöveg nem egyezik a forrással."
+msgstr "A Python formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:573
 msgid "PHP format"
@@ -3882,7 +3881,7 @@ msgstr "PHP formátum"
 
 #: weblate/checks/format.py:574
 msgid "PHP format string does not match source"
-msgstr "A PHP formátumszöveg nem egyezik a forrással."
+msgstr "A PHP formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:581
 msgid "C format"
@@ -3890,15 +3889,15 @@ msgstr "C formátum"
 
 #: weblate/checks/format.py:582
 msgid "C format string does not match source"
-msgstr "A C formátumszöveg nem egyezik a forrással."
+msgstr "A C formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:589
 msgid "Perl brace format"
-msgstr "Perl kapcsos zárójel formátum"
+msgstr "Perl-zárójel formátum"
 
 #: weblate/checks/format.py:590
 msgid "Perl brace format string does not match source"
-msgstr "A Perl kapcsos zárójel formátumú string nem egyezik a forrással."
+msgstr "A Perl-zárójel formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:602
 msgid "Perl format"
@@ -3906,7 +3905,7 @@ msgstr "Perl formátum"
 
 #: weblate/checks/format.py:603
 msgid "Perl format string does not match source"
-msgstr "A Perl formátumszöveg nem egyezik a forrással."
+msgstr "A Perl formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:610
 msgid "JavaScript format"
@@ -3914,7 +3913,7 @@ msgstr "JavaScript formátum"
 
 #: weblate/checks/format.py:611
 msgid "JavaScript format string does not match source"
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással."
+msgstr "A JavaScript formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:618
 msgid "Lua format"
@@ -3922,7 +3921,7 @@ msgstr "Lua formátum"
 
 #: weblate/checks/format.py:619
 msgid "Lua format string does not match source"
-msgstr "A Lua formátumszöveg nem egyezik a forrással."
+msgstr "A Lua formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:626
 msgid "Object Pascal format"
@@ -3930,7 +3929,7 @@ msgstr "Object Pascal formátum"
 
 #: weblate/checks/format.py:627
 msgid "Object Pascal format string does not match source"
-msgstr "Az Object Pascal formátumszöveg nem egyezik a forrással."
+msgstr "Az Object Pascal formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:635
 msgid "Scheme format"
@@ -3938,15 +3937,15 @@ msgstr "Scheme formátum"
 
 #: weblate/checks/format.py:636
 msgid "Scheme format string does not match source"
-msgstr "A Scheme formátumszöveg nem egyezik a forrással."
+msgstr "A Scheme formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:647
 msgid "Python brace format"
-msgstr "Python kapcsos formátum"
+msgstr "Python-zárójel formátum"
 
 #: weblate/checks/format.py:648
 msgid "Python brace format string does not match source"
-msgstr "A Python kapcsos formátumszöveg nem egyezik a forrással."
+msgstr "A Python-zárójel formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:667
 msgid "Single {} encountered in the format string."
@@ -3958,7 +3957,7 @@ msgstr "C# formátum"
 
 #: weblate/checks/format.py:695
 msgid "C# format string does not match source"
-msgstr "A C# formátumszöveg nem egyezik a forrással."
+msgstr "A C# formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:709
 msgid "Java format"
@@ -3966,15 +3965,15 @@ msgstr "Java formátum"
 
 #: weblate/checks/format.py:710
 msgid "Java format string does not match source"
-msgstr "A Java formátumszöveg nem egyezik a forrással."
+msgstr "A Java formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:717
 msgid "Java MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "Java-üzenetformátum"
 
 #: weblate/checks/format.py:718
 msgid "Java MessageFormat string does not match source"
-msgstr "A Java MessageFormat szöveg nem egyezik a forrással."
+msgstr "A Java-üzenetformátum szöveg nem egyezik a forrással"
 
 #: weblate/checks/format.py:757
 msgid "You need to pair up an apostrophe with another one."
@@ -3986,23 +3985,23 @@ msgstr "i18next interpoláció"
 
 #: weblate/checks/format.py:764
 msgid "The i18next interpolation does not match source"
-msgstr "Az i18next interpoláció nem egyezik a forrással."
+msgstr "Az i18next interpoláció nem egyezik a forrással"
 
 #: weblate/checks/format.py:777
 msgid "ECMAScript template literals"
-msgstr "ECMAScript template literálok"
+msgstr "ECMAScript sablonszövegek"
 
 #: weblate/checks/format.py:778
 msgid "ECMAScript template literals do not match source"
-msgstr "Az ECMAScript sablonliterálok nem egyeznek a forrással."
+msgstr "Az ECMAScript sablonszövegei nem egyeznek a forrással"
 
 #: weblate/checks/format.py:791
 msgid "Percent placeholders"
-msgstr "Százalékos helyőrzők"
+msgstr "Százalékos helykitöltők"
 
 #: weblate/checks/format.py:792
 msgid "The percent placeholders do not match source"
-msgstr "A százalékos helyőrzők nem egyeznek a forrással."
+msgstr "A százalékos helykitöltők nem egyeznek a forrással"
 
 #: weblate/checks/format.py:799
 msgid "Vue I18n formatting"
@@ -4010,7 +4009,7 @@ msgstr "Vue I18n formázás"
 
 #: weblate/checks/format.py:800
 msgid "The Vue I18n formatting does not match source"
-msgstr "A Vue I18n formázás nem egyezik a forrással."
+msgstr "A Vue l18n formázás nem egyezik a forrással"
 
 #: weblate/checks/format.py:808
 msgid "Multiple unnamed variables"
@@ -4021,16 +4020,16 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
-"Több névtelen változó van a szövegben, ami lehetetlenné teszi a fordítók "
-"számára, hogy átrendezzék őket."
+"Több névtelen változó található a szövegben, ami lehetetlenné teszi a "
+"fordítóknak az átrendezésüket"
 
 #: weblate/checks/glossary.py:24
 msgid "Does not follow glossary"
-msgstr "Nem követi a szószedetet"
+msgstr "Nem követi a szójegyzéket"
 
 #: weblate/checks/glossary.py:26
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "A fordítás nem követi a szószedetben meghatározott kifejezéseket."
+msgstr "A fordítás nem követi a szójegyzékben meghatározott kifejezéseket."
 
 #: weblate/checks/glossary.py:82
 msgid "Following terms are not translated according to glossary: {}"
@@ -4038,11 +4037,11 @@ msgstr "A következő kifejezések nem a szójegyzék szerint lettek fordítva: 
 
 #: weblate/checks/glossary.py:90
 msgid "Prohibited initial character"
-msgstr "Tiltott kezdeti karakter"
+msgstr "Tiltott kezdőkarakter"
 
 #: weblate/checks/glossary.py:91
 msgid "The string starts with a prohibited character in CSV"
-msgstr "A karakterlánc tiltott karakterrel kezdődik a CSV-ben."
+msgstr "A szöveg a CSV-ben tiltott karakterrel kezdődik"
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4052,22 +4051,22 @@ msgstr ""
 
 #: weblate/checks/icu.py:253
 msgid "ICU MessageFormat syntax"
-msgstr "ICU MessageFormat szintaxis"
+msgstr "ICU-üzenetformátum szintaxisa"
 
 #: weblate/checks/icu.py:254
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Szintaxis hibák az ICU MessageFormat karakterláncokban."
+msgstr "Szintaktikai hibák az ICU-üzenetformátum szövegeiben."
 
 #: weblate/checks/icu.py:282
 msgid "ICU MessageFormat"
-msgstr "ICU MessageFormat"
+msgstr "ICU-üzenetformátum"
 
 #: weblate/checks/icu.py:284
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Szintaktikai hibák és/vagy helyőrző eltérések az ICU MessageFormat "
-"szövegekben."
+"Szintaktikai hibák és/vagy helykitöltő egyezési problémák az ICU-"
+"üzenetformátum szövegeiben."
 
 #: weblate/checks/icu.py:455
 #, python-format
@@ -4134,11 +4133,11 @@ msgstr "Egy vagy több XML-címke tartalma hiányzik a fordításban: %s"
 
 #: weblate/checks/markup.py:111
 msgid "BBCode markup"
-msgstr "BBCode jelölés"
+msgstr "BBCode jelölő"
 
 #: weblate/checks/markup.py:112
 msgid "BBCode in translation does not match source"
-msgstr "A BBCode a fordításban nem egyezik a forrással"
+msgstr "A fordításban lévő BBCode nem egyezik a forrással"
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
@@ -4146,31 +4145,31 @@ msgstr "XML szintaxis"
 
 #: weblate/checks/markup.py:196
 msgid "The translation is not valid XML"
-msgstr "A fordítás nem érvényes XML."
+msgstr "A fordítás nem érvényes XML"
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
-msgstr "XML jelölés"
+msgstr "XML jelölő"
 
 #: weblate/checks/markup.py:221
 msgid "XML tags in translation do not match source"
-msgstr "A fordításban szereplő XML címkék nem egyeznek a forrással."
+msgstr "A fordításban lévő XML-címkék nem egyeznek a forrással"
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
-msgstr "Markdown hivatkozások"
+msgstr "Markdown referenciák"
 
 #: weblate/checks/markup.py:280
 msgid "Markdown link references do not match source"
-msgstr "A Markdown hivatkozás-referenciák nem egyeznek a forrással."
+msgstr "A Markdown hivatkozás referenciái nem egyeznek a forrással"
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
-msgstr "Markdown linkek"
+msgstr "Markdown hivatkozások"
 
 #: weblate/checks/markup.py:297
 msgid "Markdown links do not match source"
-msgstr "A Markdown hivatkozások nem egyeznek a forrással."
+msgstr "A Markdown hivatkozások nem egyeznek a forrással"
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
@@ -4178,11 +4177,11 @@ msgstr "Markdown szintaxis"
 
 #: weblate/checks/markup.py:326
 msgid "Markdown syntax does not match source"
-msgstr "A Markdown szintaxis nem egyezik a forrással."
+msgstr "A Markdown szintaxis nem egyezik a forrással"
 
 #: weblate/checks/markup.py:359
 msgid "The translation does not contain an URL"
-msgstr "A fordítás nem tartalmaz URL-t."
+msgstr "A fordítás nem tartalmaz URL-t"
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
@@ -4190,7 +4189,7 @@ msgstr "Nem biztonságos HTML"
 
 #: weblate/checks/markup.py:379
 msgid "The translation uses unsafe HTML markup"
-msgstr "A fordítás nem biztonságos HTML jelölést használ."
+msgstr "A fordítás nem biztonságos HTML jelölőt használ"
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4200,7 +4199,8 @@ msgstr "Következetlen reStructuredText hivatkozások"
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
-"Következetlen reStructuredText kifejezés hivatkozások a fordított üzenetben."
+"Következetlen reStructuredText kifejezés-hivatkozások a lefordított "
+"üzenetben."
 
 #: weblate/checks/markup.py:436
 msgid "Inconsistent inline links in the translated message."
@@ -4212,19 +4212,19 @@ msgstr "Következetlen külső hivatkozások a lefordított üzenetben."
 
 #: weblate/checks/markup.py:565
 msgid "reStructuredText syntax error"
-msgstr "reStructuredText szintaxis hiba"
+msgstr "reStructuredText szintaktikai hiba"
 
 #: weblate/checks/markup.py:566
 msgid "reStructuredText syntax error in the translation."
-msgstr "reStructuredText szintaxis hiba a fordításban."
+msgstr "reStructuredText szintaktikai hiba a fordításban."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
-msgstr "Helyettesítők"
+msgstr "Helykitöltők"
 
 #: weblate/checks/placeholders.py:32
 msgid "Translation is missing some placeholders"
-msgstr "A fordításból hiányoznak néhány helykitöltők."
+msgstr "A fordításból hiányzik néhány helykitöltő"
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
@@ -4232,7 +4232,7 @@ msgstr "Reguláris kifejezés"
 
 #: weblate/checks/placeholders.py:140
 msgid "Translation does not match regular expression"
-msgstr "A fordítás nem felel meg a reguláris kifejezésnek."
+msgstr "A fordítás nem illeszkedik a reguláris kifejezésre"
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4244,23 +4244,23 @@ msgstr "Qt formátum"
 
 #: weblate/checks/qt.py:35
 msgid "Qt format string does not match source"
-msgstr "A Qt formátumszöveg nem egyezik a forrással."
+msgstr "A Qt formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
-msgstr "Qt többes szám formátum"
+msgstr "Qt többes számú formátum"
 
 #: weblate/checks/qt.py:48
 msgid "Qt plural format string does not match source"
-msgstr "A Qt többes számú formátumszöveg nem egyezik a forrással."
+msgstr "A Qt többes számú formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
-msgstr "A fordítás maximális mérete"
+msgstr "Fordítás legnagyobb mérete"
 
 #: weblate/checks/render.py:32
 msgid "Translation rendered text should not exceed given size"
-msgstr "A fordítás megjelenített szövege nem haladhatja meg a megadott méretet."
+msgstr "A fordítás megjelenített szövege nem haladhatja meg az adott méretet"
 
 #: weblate/checks/render.py:107
 msgid ""
@@ -4275,40 +4275,40 @@ msgstr "Ruby formátum"
 
 #: weblate/checks/ruby.py:55
 msgid "Ruby format string does not match source"
-msgstr "A Ruby formátumszöveg nem egyezik a forrással."
+msgstr "A Ruby formátumszöveg nem egyezik a forrással"
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
-msgstr "Változatlan fordítás"
+msgstr "Változatlan fordítások"
 
 #: weblate/checks/same.py:153
 msgid "Source and translation are identical"
-msgstr "A forrás és a fordítás azonos."
+msgstr "A forrás és a fordítás megegyezik"
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
-msgstr "Nincs többes számra alakítva"
+msgstr "Többes szám nélküli"
 
 #: weblate/checks/source.py:33
 msgid "The string is used as plural, but not using plural forms"
 msgstr ""
-"A szöveg többes számban van használva, de nem alkalmaz többes számú formákat."
+"A szöveg többes számként van használva, de nem használ többes számú alakot"
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
-msgstr "Három pont"
+msgstr "Hármaspont"
 
 #: weblate/checks/source.py:48
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "A szöveg három pontot (...) használ az ellipszis karakter (…) helyett."
+msgstr "A szöveg három pontot (...) használ a hármaspont karakter (…) helyett"
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
-msgstr "Többszörös hibázó ellenőrzések"
+msgstr "Több sikertelen ellenőrzés"
 
 #: weblate/checks/source.py:61
 msgid "The translations in several languages have failing checks"
-msgstr "Több nyelv fordításai esetén hibás ellenőrzések vannak."
+msgstr "A fordításoknak sikertelen ellenőrzései vannak számos nyelven"
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4316,11 +4316,11 @@ msgstr "A következő ellenőrzések sikertelenek:"
 
 #: weblate/checks/source.py:117
 msgid "Long untranslated"
-msgstr "Hosszú ideje nincs lefordítva"
+msgstr "Régóta lefordítatlan"
 
 #: weblate/checks/source.py:118
 msgid "The string has not been translated for a long time"
-msgstr "A szöveg hosszú ideje nincs lefordítva."
+msgstr "A szöveg nem lett lefordítva egy jó ideje"
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -4350,7 +4350,7 @@ msgstr "Fordítás"
 
 #: weblate/configuration/apps.py:12
 msgid "Weblate configuration"
-msgstr "Weblate konfiguráció"
+msgstr "Weblate beállítás"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:33
 #: weblate/templates/fonts/font_list.html:88
@@ -4449,15 +4449,15 @@ msgstr "RC-fájl"
 
 #: weblate/formats/convert.py:540
 msgid "Plain text file"
-msgstr "Egyszerű szövegfájl"
+msgstr "Egyszerű szöveges fájl"
 
 #: weblate/formats/convert.py:577
 msgid "DokuWiki text file"
-msgstr "DokuWiki szövegfájl"
+msgstr "DokuWiki-szövegfájl"
 
 #: weblate/formats/convert.py:584
 msgid "MediaWiki text file"
-msgstr "MediaWiki szövegfájl"
+msgstr "MediaWiki-szövegfájl"
 
 #: weblate/formats/exporters.py:50
 msgid "gettext PO"
@@ -4602,11 +4602,11 @@ msgstr "WebExtension JSON-fájl"
 
 #: weblate/formats/ttkit.py:1519
 msgid "i18next JSON file v3"
-msgstr "i18next JSON fájl v3"
+msgstr "i18next JSON-fájl v3"
 
 #: weblate/formats/ttkit.py:1529
 msgid "i18next JSON file v4"
-msgstr "i18next JSON fájl v4"
+msgstr "i18next JSON-fájl v4"
 
 #: weblate/formats/ttkit.py:1535
 msgid "go-i18n v1 JSON file"
@@ -4626,7 +4626,7 @@ msgstr "gotext JSON-fájl"
 
 #: weblate/formats/ttkit.py:1570
 msgid "Format.JS JSON file"
-msgstr "Format.JS JSON fájl"
+msgstr "Format.JS JSON-fájl"
 
 #: weblate/formats/ttkit.py:1578
 msgid "CSV file"
@@ -4714,7 +4714,7 @@ msgstr "Metaadatfájlokkal rendelkező könyvtárnak kell lennie!"
 
 #: weblate/formats/txt.py:197
 msgid "App store metadata files"
-msgstr "Alkalmazásbolt metaadat fájlok"
+msgstr "App store metaadatfájlok"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -4806,11 +4806,11 @@ msgstr "Három"
 #: weblate/templates/snippets/info.html:191
 #: weblate/templates/trans/alert/ambiguouslanguage.html:14
 msgid "Language code"
-msgstr "Nyelvi kód"
+msgstr "Nyelvkód"
 
 #: weblate/lang/models.py:715 weblate/templates/addons/generate_help.html:17
 msgid "Language name"
-msgstr "Nyelv neve"
+msgstr "Nyelvnév"
 
 #: weblate/lang/models.py:718 weblate/templates/snippets/info.html:217
 msgid "Text direction"
@@ -5008,7 +5008,7 @@ msgstr "Többes számok száma"
 #: weblate/lang/models.py:1005 weblate/templates/snippets/plural-formula.html:5
 #: weblate/templates/snippets/plural.html:37
 msgid "Plural formula"
-msgstr "Többes szám formula"
+msgstr "Többes szám képlet"
 
 #: weblate/lang/models.py:1010 weblate/templates/snippets/plural.html:20
 msgid "Plural type"
@@ -5063,7 +5063,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:7 weblate/templates/footer.html:14
 #: weblate/templates/footer.html:18
 msgid "Legal"
-msgstr "Jogi tudnivalók"
+msgstr "Jogi feltételek"
 
 #: weblate/legal/templates/legal/confirm.html:18
 msgid "You have to agree to the General Terms and Conditions"
@@ -5236,8 +5236,8 @@ msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
-"Egy fordítási tartomány azonosítója, például BC. Ha nem adsz meg tartományt, "
-"a módszer az összes elérhető tartományban keresi a fordításokat."
+"A fordítási tartomány azonosítója, például BC. Ha nem adott meg tartományt, "
+"akkor a metódus az összes elérhető tartományban keres fordításokat."
 
 #: weblate/machinery/forms.py:128
 msgid "Please provide either key or username and password."
@@ -5256,8 +5256,8 @@ msgstr "Hitelesítési szolgáltatás URL-e"
 #: weblate/machinery/forms.py:159
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
-"A regionális vagy több szolgáltatásra vonatkozó beállításokat az alábbi "
-"régió mezőben lehet meghatározni."
+"A regionális vagy többes szolgáltatás a lenti régió mező használatával "
+"adható meg."
 
 #: weblate/machinery/forms.py:165
 msgctxt "Automatic suggestion service configuration"
@@ -5385,7 +5385,7 @@ msgstr "Környezeti vektor"
 #: weblate/machinery/forms.py:273
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
-"Memóriaazonosítók vesszővel elválasztott listája:súly. Például: "
+"Memóriaazonosítók:súlyok vesszővel elválasztott listája. Például "
 "1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:286
@@ -5406,7 +5406,7 @@ msgstr "Formalitás"
 #: weblate/machinery/forms.py:303
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
-"A megadott formalitást használja, ha a nyelv nincs megadva mint (in)formális."
+"A megadott formalitást használja, ha a nyelv nincs (nem)formálisként megadva"
 
 #: weblate/machinery/forms.py:318
 msgctxt "Automatic suggestion service configuration"
@@ -5417,8 +5417,7 @@ msgstr "Fordítási környezet"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
-"Írd le a fordítás szövegkörnyezetét, hogy javítsd a fordítás pontosságát."
+msgstr "Írja le a fordítás környezetét a fordítás pontosságának javításához."
 
 #: weblate/machinery/forms.py:332
 msgctxt "Automatic suggestion service configuration"
@@ -5430,8 +5429,8 @@ msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
-"Írd le a fordító személyiségét a fordítás pontosságának javítása érdekében. "
-"Például: „Te egy mókus tenyésztő vagy."
+"Írja le a fordító személyiségét a fordítás pontosságának javítása érdekében. "
+"Például: „Ön egy mókustenyésztő.”"
 
 #: weblate/machinery/forms.py:343
 msgctxt "Automatic suggestion service configuration"
@@ -5441,7 +5440,7 @@ msgstr "Fordító stílusa"
 #: weblate/machinery/forms.py:347
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr "Írd le a fordítás stílusát. Például: „Használj kötetlen nyelvezetet."
+msgstr "Írja le a fordítás stílusát. Például: „Informális nyelv használata.”"
 
 #: weblate/machinery/forms.py:356
 msgctxt "OpenAI model selection"
@@ -5475,7 +5474,7 @@ msgstr "Egyéni modell neve"
 
 #: weblate/machinery/forms.py:392
 msgid "Only needed when model is set to 'Custom model'"
-msgstr "Csak akkor szükséges, ha a modell 'Egyedi modell'-re van állítva."
+msgstr "Csak akkor szükséges, ha a modell „Egyéni modell” értékre van állítva"
 
 #: weblate/machinery/forms.py:402
 msgid "Missing custom model name."
@@ -5493,7 +5492,9 @@ msgstr "Azure OpenAI végpontjának URL-e"
 #: weblate/machinery/forms.py:419
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
-msgstr "Az instance végpont URL-je, pl.: https://my-instance.openai.azure.com."
+msgstr ""
+"A példány végpontjának URL-e, például: https://sajat-"
+"peldany.openai.azure.com."
 
 #: weblate/machinery/forms.py:425
 msgctxt "Automatic suggestion service configuration"
@@ -5502,7 +5503,7 @@ msgstr "Azure OpenAI üzembe állítása"
 
 #: weblate/machinery/forms.py:428
 msgid "The model's unique deployment name."
-msgstr "A modell egyedi telepítési neve."
+msgstr "A modell egyedi üzembe állítási neve."
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -5750,7 +5751,7 @@ msgstr "Nincs elegendő jogosultsága az oldal megjelenítéséhez."
 #: weblate/templates/403.html:23 weblate/templates/404.html:24
 #: weblate/templates/base.html:151 weblate/templates/base.html:419
 msgid "Dashboard"
-msgstr "Irányítópult"
+msgstr "Vezérlőpult"
 
 #: weblate/templates/403.html:24 weblate/templates/404.html:25
 #: weblate/templates/base.html:171
@@ -5903,7 +5904,7 @@ msgstr[1] "Legutóbbi változtatás"
 #: weblate/templates/base.html:395 weblate/templates/footer.html:10
 #: weblate/trans/views/about.py:20 weblate/trans/views/about.py:41
 msgid "About Weblate"
-msgstr "A Weblate-ről"
+msgstr "A Weblate névjegye"
 
 #: weblate/templates/about/index.html:20 weblate/templates/base.html:405
 #: weblate/templates/footer.html:38 weblate/templates/manage/index.html:102
@@ -6312,7 +6313,7 @@ msgstr "Profil"
 #: weblate/templates/accounts/profile.html:48
 #: weblate/templates/accounts/profile.html:604
 msgid "Licenses"
-msgstr "Licenszek"
+msgstr "Licencek"
 
 #: weblate/templates/accounts/profile.html:51
 #: weblate/templates/accounts/profile.html:484
@@ -6326,7 +6327,7 @@ msgstr "Ellenőrzési napló"
 #: weblate/templates/trans/project-access.html:32
 #: weblate/templates/trans/project-access.html:303
 msgid "API access"
-msgstr "API hozzáférés"
+msgstr "API-hozzáférés"
 
 #: weblate/templates/accounts/profile.html:68
 msgid ""
@@ -6408,15 +6409,15 @@ msgstr "Új felhasználói személyazonosság hozzáadása"
 #: weblate/templates/accounts/profile.html:248
 #: weblate/templates/accounts/user.html:390
 msgid "Two-factor authentication"
-msgstr "Kétlépcsős azonosítás"
+msgstr "Kétfaktoros hitelesítés"
 
 #: weblate/templates/accounts/profile.html:253
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"A kétlépcsős azonosítás egy további biztonsági réteget ad a fiókodhoz "
-"azáltal, hogy a bejelentkezéshez nem csak jelszót kér."
+"A kétfaktoros hitelesítés egy újabb biztonsági réteget ad a fiókjához, mivel "
+"a bejelentkezéshez nem csak egy jelszóra van szükség."
 
 #: weblate/templates/accounts/profile.html:258
 msgid "Security keys (WebAuthn)"
@@ -6467,7 +6468,7 @@ msgstr "Új hitelesítő alkalmazás regisztrálása"
 #: weblate/templates/accounts/recovery-codes.html:15
 #: weblate/templates/accounts/recovery-codes.html:39
 msgid "Recovery codes"
-msgstr "Helyreállítási kódok"
+msgstr "Visszaszerzési kódok"
 
 #: weblate/templates/accounts/profile.html:327
 msgid "No recovery codes generated yet."
@@ -6526,9 +6527,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"Az ezen az oldalon található összes mező kitöltése opcionális, és bármikor "
-"törölhető, a kitöltésükkel pedig hozzájárulsz ahhoz, hogy az adatokat "
-"megosszuk, ahol csak a felhasználói profilod megjelenik."
+"Ezen az oldalon az összes mező kihagyható és bármikor törölhető, valamint a "
+"kitöltésükkel beleegyezését adja számunkra, hogy megosszuk ezeket az "
+"adatokat bárhol, ahol a felhasználói profilja megjelenik."
 
 #: weblate/templates/accounts/profile.html:404
 msgid "Your avatar"
@@ -6670,9 +6671,9 @@ msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"A helyreállítási kódokkal hozzáférhetsz a fiókodhoz, ha elveszíted a "
-"hozzáférést az eszközödhöz, és nem tudsz kétfaktoros hitelesítési kódokat "
-"fogadni."
+"A visszaszerzési kódok használhatók a fiókjához való hozzáféréséhez, ha "
+"elveszti a hozzáférést az eszközéhez, és nem tud kétfaktoros hitelesítési "
+"kódokat fogadni."
 
 #: weblate/templates/accounts/recovery-codes.html:35
 msgid ""
@@ -7312,7 +7313,7 @@ msgstr "A következő összetevők lesznek létrehozva"
 #: weblate/templates/trans/alert/inexistantfiles.html:12
 #: weblate/trans/models/component.py:482
 msgid "Monolingual base language file"
-msgstr "Egynyelvű alapnyelvi fájl"
+msgstr "Egynyelvű alap nyelvi fájl"
 
 #: weblate/templates/addons/discovery_preview.html:40
 #: weblate/templates/addons/discovery_preview.html:64
@@ -7353,16 +7354,16 @@ msgstr "Lefordított szövegek száma"
 
 #: weblate/templates/addons/generate_help.html:67
 msgid "Translation filename"
-msgstr "Fordítás fájlnév"
+msgstr "Fordítási fájlnév"
 
 #: weblate/templates/addons/generate_help.html:77
 #: weblate/trans/models/component.py:360
 msgid "Component name"
-msgstr "Komponens neve"
+msgstr "Összetevő neve"
 
 #: weblate/templates/addons/generate_help.html:87
 msgid "Component URL slug"
-msgstr "Komponens URL slug"
+msgstr "Összetevő keresőbarát URL-e"
 
 #: weblate/templates/addons/generate_help.html:97
 #: weblate/trans/models/project.py:162
@@ -7371,7 +7372,7 @@ msgstr "Projekt neve"
 
 #: weblate/templates/addons/generate_help.html:107
 msgid "Project URL slug"
-msgstr "Projekt URL slug"
+msgstr "Projekt keresőbarát URL-e"
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
@@ -7379,7 +7380,7 @@ msgstr "Előállított szövegek"
 
 #: weblate/templates/addons/pseudolocale.html:6
 msgid "The strings will be generated using following pattern:"
-msgstr "A szövegek a következő mintázat alapján lesznek generálva:"
+msgstr "A szövegek a következő minta használatával lesznek előállítva:"
 
 #: weblate/templates/addons/pseudolocale.html:11
 #: weblate/templates/mail/snippets/source-string.html:10
@@ -7390,7 +7391,7 @@ msgstr "A szövegek a következő mintázat alapján lesznek generálva:"
 #: weblate/templates/translate.html:97 weblate/trans/forms.py:2474
 #: weblate/utils/views.py:204
 msgid "Source string"
-msgstr "Forrás szöveg"
+msgstr "Forrásszöveg"
 
 #: weblate/templates/addons/squash_help.html:3
 msgid ""
@@ -7412,7 +7413,7 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:15
 #: weblate/trans/models/project.py:212
 msgid "Access control"
-msgstr "Hozzáférés-vezérlés"
+msgstr "Hozzáférés-szabályozás"
 
 #: weblate/templates/auth/team.html:39 weblate/templates/base.html:355
 #: weblate/templates/component-settings.html:10
@@ -7885,11 +7886,11 @@ msgstr "Mindenki számára látható."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:43
 #: weblate/templates/snippets/info.html:124
 msgid "Any authenticated user can contribute."
-msgstr "Bármely hitelesített felhasználó hozzájárulhat."
+msgstr "Bármely hitelesített felhasználó közreműködhet."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
 msgid "VCS repository might be exposed to everybody."
-msgstr "A VCS-tárhely mindenki számára elérhető lehet."
+msgstr "A verziókövető tárolója mindenki számára hozzáférhető lehet."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -7900,7 +7901,7 @@ msgstr "Csak a kiválasztott felhasználók járulhatnak hozzá."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:54
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:62
 msgid "Only chosen users can access VCS repository."
-msgstr "Csak a kiválasztott felhasználók férhetnek hozzá a VCS-tárhelyhez."
+msgstr "Csak a kiválasztott felhasználók férhetnek hozzá a verziókövetőhöz."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:58
 msgid "Visible only to chosen users."
@@ -8041,7 +8042,7 @@ msgstr "Alkalmaz"
 #: weblate/templates/category.html:52
 #: weblate/templates/language-project.html:43 weblate/templates/project.html:56
 msgid "Announcements"
-msgstr "Közlemények"
+msgstr "Bejelentések"
 
 #: weblate/templates/category.html:57 weblate/templates/component.html:65
 #: weblate/templates/dashboard/user.html:60 weblate/templates/project.html:67
@@ -8163,7 +8164,7 @@ msgstr "Előállítás"
 #: weblate/templates/category.html:338 weblate/templates/component.html:394
 #: weblate/templates/dashboard/user.html:161 weblate/templates/project.html:421
 msgid "Contributor stats"
-msgstr "Közreműködői statisztikák"
+msgstr "Közreműködő statisztikái"
 
 #: weblate/templates/category.html:342 weblate/templates/component.html:398
 #: weblate/templates/dashboard/user.html:165 weblate/templates/project.html:425
@@ -8258,7 +8259,7 @@ msgstr "Az összetevő kettőzése"
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
 msgid "Community localization checklist"
-msgstr "Közösségi lokalizációs ellenőrzőlista"
+msgstr "Közösségi honosítási ellenőrzőlista"
 
 #: weblate/templates/component.html:202 weblate/templates/manage/alerts.html:30
 msgid "dismissed"
@@ -8403,7 +8404,7 @@ msgstr ""
 
 #: weblate/templates/data.html:22
 msgid "RSS feeds"
-msgstr "RSS hírcsatornák"
+msgstr "RSS hírforrások"
 
 #: weblate/templates/data.html:26
 msgid ""
@@ -9068,16 +9069,16 @@ msgstr "Művelet"
 
 #: weblate/templates/keyboard-shortcuts.html:33
 msgid "Open available keyboard shortcuts."
-msgstr "Nyisd meg az elérhető billentyűparancsokat."
+msgstr "Elérhető gyorsbillentyűk megnyitása."
 
 #: weblate/templates/keyboard-shortcuts.html:39
 msgid "Navigate to the first translation in the current search."
-msgstr "Navigálj az aktuális keresés első fordítására."
+msgstr "Navigálás az aktuális keresésben lévő első fordításhoz."
 
 #: weblate/templates/keyboard-shortcuts.html:45
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the last translation in the current search."
-msgstr "Navigálj az aktuális keresés utolsó fordítására."
+msgstr "Navigálás az aktuális keresésben lévő utolsó fordításhoz."
 
 #: weblate/templates/keyboard-shortcuts.html:49
 #: weblate/templates/keyboard-shortcuts.html:51
@@ -9106,7 +9107,7 @@ msgstr "vagy"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
-msgstr "Navigálj az aktuális keresés következő fordítására."
+msgstr "Navigálás az aktuális keresésben lévő következő fordításhoz."
 
 #: weblate/templates/keyboard-shortcuts.html:81
 msgid ""
@@ -9118,9 +9119,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
-msgstr ""
-"Jelöld meg a fordítást úgy, hogy ne legyen szüksége szerkesztésre, és küldd "
-"el."
+msgstr "A „Szerkesztést igénylő” jelzés eltávolítása a fordításról és beküldés."
 
 #: weblate/templates/keyboard-shortcuts.html:99
 msgid ""
@@ -9132,11 +9131,11 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:108
 msgid "Focus on translation editor."
-msgstr "Összpontosíts a fordítószerkesztőre."
+msgstr "Fókuszálás a fordításszerkesztőre."
 
 #: weblate/templates/keyboard-shortcuts.html:116
 msgid "Focus on comment editor."
-msgstr "Összpontosíts a megjegyzésszerkesztőre."
+msgstr "Fókuszálás a megjegyzésszerkesztőre."
 
 #: weblate/templates/keyboard-shortcuts.html:124
 msgid "Shows Automatic suggestions tab."
@@ -9154,7 +9153,7 @@ msgstr "–"
 
 #: weblate/templates/keyboard-shortcuts.html:134
 msgid "Copies placeable of a given number from source string."
-msgstr "Átmásolja a(z) adott számú behelyettesíthetőt a forrás szövegből."
+msgstr "Egy adott számú beszúrható szövegrész másolása a forrásszövegből."
 
 #: weblate/templates/keyboard-shortcuts.html:138
 #: weblate/templates/keyboard-shortcuts.html:141
@@ -9165,11 +9164,11 @@ msgstr "követő"
 
 #: weblate/templates/keyboard-shortcuts.html:145
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Másold át a gépi fordítást a megadott számról a jelenlegi fordításba."
+msgstr "Egy adott számú gépi fordítás másolása az aktuális fordításba."
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
-msgstr "Egy elemet hagyj figyelmen kívül a megbukott ellenőrzések listájában."
+msgstr "Egy elem figyelmen kívül hagyása a sikertelen ellenőrzések listájából."
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
@@ -9177,11 +9176,11 @@ msgstr "Megjeleníti a „Szomszédos szövegek” lapot."
 
 #: weblate/templates/keyboard-shortcuts.html:173
 msgid "Focus on search field."
-msgstr "A keresőmezőre fókuszál."
+msgstr "Fókuszálás a keresőmezőre."
 
 #: weblate/templates/keyboard-shortcuts.html:181
 msgid "Copy the source string."
-msgstr "Másold a forráskarakterláncot."
+msgstr "A forrásszöveg másolása."
 
 #: weblate/templates/keyboard-shortcuts.html:189
 msgid "Toggle the Needs editing checkbox."
@@ -9189,11 +9188,11 @@ msgstr "A „Szerkesztést igényel” jelölőnégyzet átkapcsolása."
 
 #: weblate/templates/keyboard-shortcuts.html:195
 msgid "Browse the next translation string."
-msgstr "Böngészd a következő fordítandó szöveget."
+msgstr "A következő fordítási szöveg tallózása."
 
 #: weblate/templates/keyboard-shortcuts.html:201
 msgid "Browse the previous translation string."
-msgstr "Böngészd az előző fordítandó szöveget."
+msgstr "Az előző fordítási szöveg tallózása."
 
 #: weblate/templates/lang/create.html:11
 #: weblate/templates/snippets/list-objects.html:39
@@ -9965,7 +9964,7 @@ msgstr "Támogatás lejárata"
 
 #: weblate/templates/manage/index.html:75
 msgid "Discover Weblate"
-msgstr "Fedezd fel a Weblate-et"
+msgstr "Weblate-felfedezés"
 
 #: weblate/templates/manage/index.html:77
 msgid "Browse discovery"
@@ -10045,7 +10044,7 @@ msgstr "Rendszer kódolása"
 
 #: weblate/templates/manage/performance.html:143
 msgid "Web server"
-msgstr "Webszerver"
+msgstr "Webkiszolgáló"
 
 #: weblate/templates/manage/performance.html:144
 msgid "Celery worker"
@@ -10355,12 +10354,12 @@ msgstr "Megosztott fordítási memória"
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:249
 msgid "on"
-msgstr "bekapcsolva"
+msgstr "be"
 
 #. Translators: Shared translation memory is disabled
 #: weblate/templates/memory/index.html:252
 msgid "off"
-msgstr "kikapcsolva"
+msgstr "ki"
 
 #: weblate/templates/memory/index.html:267
 msgid "Number of shared entries in this Weblate instance"
@@ -10603,7 +10602,7 @@ msgstr "Új képernyőkép hozzáadása"
 #: weblate/templates/translation.html:165
 #: weblate/templates/translation.html:212
 msgid "Strings"
-msgstr "Karakterláncok"
+msgstr "Szövegek"
 
 #: weblate/templates/screenshots/screenshot_list.html:74
 msgid "There are no assigned strings."
@@ -10811,7 +10810,7 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:10
 #: weblate/trans/models/component.py:396
 msgid "Source code repository"
-msgstr "Forráskód tároló"
+msgstr "Forráskód tárolója"
 
 #: weblate/templates/snippets/git-info.html:20
 #: weblate/trans/templatetags/translations.py:1177
@@ -10879,7 +10878,7 @@ msgstr "Nem találhatók kapcsolódó szövegek a szójegyzékben."
 
 #: weblate/templates/snippets/info.html:20 weblate/trans/models/project.py:176
 msgid "Project website"
-msgstr "Projekt weboldal"
+msgstr "Projekt webhelye"
 
 #: weblate/templates/snippets/info.html:29
 msgid "Instructions for translators"
@@ -10896,7 +10895,7 @@ msgstr "Automatikus összetevőlista-hozzárendelés"
 #: weblate/templates/snippets/info.html:76
 #: weblate/trans/models/component.py:586
 msgid "Translation license"
-msgstr "Fordítási licenc"
+msgstr "Fordítás licence"
 
 #: weblate/templates/snippets/info.html:101
 msgid "Translation process"
@@ -11095,7 +11094,7 @@ msgstr "Gyors számok"
 #: weblate/templates/snippets/info.html:502
 #: weblate/templates/snippets/info.html:540
 msgid "Contributors"
-msgstr "Hozzájárulók"
+msgstr "Közreműködők"
 
 #: weblate/templates/snippets/invite-info.html:4
 #, python-format
@@ -11256,7 +11255,7 @@ msgstr "Javaslatok"
 #: weblate/templates/snippets/list-objects.html:128
 #: weblate/templates/translate.html:308 weblate/templates/translate.html:652
 msgid "Comments"
-msgstr "Hozzászólások"
+msgstr "Megjegyzések"
 
 #: weblate/templates/snippets/list-objects.html:181
 #: weblate/templates/snippets/list-objects.html:182
@@ -12002,7 +12001,7 @@ msgstr "A következő fájlok már nem szerepelnek a tárolóban:"
 #: weblate/templates/trans/alert/inexistantfiles.html:16
 #: weblate/trans/models/component.py:513
 msgid "Template for new translations"
-msgstr "Új fordítások sablonja"
+msgstr "Sablon az új fordításokhoz"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -12122,7 +12121,7 @@ msgstr ""
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:384
 msgid "Version control system"
-msgstr "Verziókezelő rendszer"
+msgstr "Verziókövető rendszer"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:22
 msgid ""
@@ -12211,7 +12210,7 @@ msgstr[1] "A biztonsági mentések %(keep_days)s nap után lesznek eltávolítva
 #: weblate/templates/trans/change_list.html:17
 #: weblate/trans/views/changes.py:88
 msgid "Changes"
-msgstr "Változások"
+msgstr "Változtatások"
 
 #: weblate/templates/trans/change_list.html:37
 #: weblate/templates/trans/change_list.html:41
@@ -12234,11 +12233,11 @@ msgstr "Nincs jogosultsága összetevők létrehozásához semelyik projektben."
 
 #: weblate/templates/trans/component_create.html:30
 msgid "From version control"
-msgstr "Verziókezelésből"
+msgstr "Verziókövetőből"
 
 #: weblate/templates/trans/component_create.html:35
 msgid "From existing component"
-msgstr "Létező komponensből"
+msgstr "Meglévő összetevőből"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Additional branch"
@@ -12254,7 +12253,7 @@ msgstr "Dokumentum fordítása"
 
 #: weblate/templates/trans/component_create.html:55
 msgid "Start from scratch"
-msgstr "Kezdés az elejéről"
+msgstr "Kezdés a semmiből"
 
 #: weblate/templates/trans/component_create.html:70
 msgid ""
@@ -12735,7 +12734,7 @@ msgstr "Az ezt körülvevő üzenetek"
 
 #: weblate/templates/translate.html:278
 msgid "Nearby strings"
-msgstr "Közeli szövegek"
+msgstr "Szomszédos szövegek"
 
 #: weblate/templates/translate.html:285
 msgid "Strings with similar keys"
@@ -12922,7 +12921,7 @@ msgstr "Jelenleg nincsenek címkék beállítva."
 
 #: weblate/templates/translate.html:820
 msgid "Flags"
-msgstr "Megjelölések"
+msgstr "Jelzők"
 
 #: weblate/templates/translate.html:826
 msgid "No flags currently set."
@@ -13427,7 +13426,7 @@ msgstr "A lefordítani kívánt szöveg többé nem érhető el."
 
 #: weblate/trans/forms.py:481
 msgid "Needs editing"
-msgstr "Szerkesztésre szorul"
+msgstr "Szerkesztést igényel"
 
 #: weblate/trans/forms.py:483
 msgid ""
@@ -13545,7 +13544,7 @@ msgstr "Szerző neve"
 
 #: weblate/trans/forms.py:726
 msgid "Author e-mail"
-msgstr "Szerző e-mail cím"
+msgstr "Szerző e-mail-címe"
 
 #: weblate/trans/forms.py:878
 msgid "Could not find the merged string."
@@ -13561,15 +13560,15 @@ msgstr "Nem található a visszavont változtatás."
 
 #: weblate/trans/forms.py:911
 msgid "Automatic translation mode"
-msgstr "Automatikus fordítás módja"
+msgstr "Automatikus fordítási mód"
 
 #: weblate/trans/forms.py:918
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Kérlek, vedd figyelembe, hogy ha az összes szöveget lefordítod, az összes "
-"meglévő fordítás elvész."
+"Ne feledje, hogy az összes szöveg fordítása elveti az összes meglévő "
+"fordítást."
 
 #: weblate/trans/forms.py:923
 msgid "Source of automated translations"
@@ -13588,24 +13587,24 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Kapcsold be a hozzájárulást a megosztott fordítási memóriához a projektben, "
-"hogy hozzáférj további komponensekhez."
+"A megosztott fordítási memórián történő közreműködés bekapcsolása a "
+"projektnél, hogy hozzáférést kapjon a további összetevőkhöz."
 
 #: weblate/trans/forms.py:941
 msgid "Machine translation engines"
-msgstr "Gépi fordító motorok"
+msgstr "Gépi fordítómotorok"
 
 #: weblate/trans/forms.py:944
 msgid "Score threshold"
-msgstr "Pontszám küszöbérték"
+msgstr "Pontszámküszöb"
 
 #: weblate/trans/forms.py:987
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Adja meg a forrásként használni kívánt komponens slugját, hagyja üresen, ha "
-"az aktuális projekt összes komponensét szeretné használni."
+"Adja meg a forrásként használandó összetevő keresőbarát URL-jét. Hagyja "
+"üresen a jelenlegi projektben lévő összes összetevő használatához."
 
 #: weblate/trans/forms.py:998
 msgid "All components in current project"
@@ -13756,7 +13755,7 @@ msgstr "Fordításokat tartalmazó ZIP-fájl"
 
 #: weblate/trans/forms.py:1865
 msgid "Document to translate"
-msgstr "Fordítandó dokumentum"
+msgstr "Lefordítandó dokumentum"
 
 #: weblate/trans/forms.py:1872
 msgid "Target language of the document for bilingual files"
@@ -13883,7 +13882,7 @@ msgstr "Hozzáadandó fordítási jelzők"
 
 #: weblate/trans/forms.py:2617
 msgid "Translation flags to remove"
-msgstr "Eltávolítandó fordítási jelölők"
+msgstr "Eltávolítandó fordítási jelzők"
 
 #: weblate/trans/forms.py:2621
 msgid "Labels to add"
@@ -13978,7 +13977,7 @@ msgstr ""
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
-msgstr "Verziókezelési integráció"
+msgstr "Verziókövető-integráció"
 
 #: weblate/trans/guide.py:81
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -14034,7 +14033,7 @@ msgstr ""
 
 #: weblate/trans/guide.py:247
 msgid "Workflow customization"
-msgstr "Munkafolyamat testreszabása"
+msgstr "Munkafolyamat személyre szabása"
 
 #: weblate/trans/mixins.py:144
 msgid ""
@@ -14223,7 +14222,7 @@ msgstr "Megjelenített név"
 #: weblate/trans/models/category.py:60 weblate/trans/models/component.py:365
 #: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:169
 msgid "URL slug"
-msgstr "URL slug"
+msgstr "Keresőbarát URL"
 
 #: weblate/trans/models/category.py:62 weblate/trans/models/component.py:367
 #: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:172
@@ -14658,7 +14657,7 @@ msgstr "Kapcsolatfelvétel a karbantartókkal"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:132
 msgid "Point to translation instructions URL"
-msgstr "Fordítási útmutató URL megadása"
+msgstr "Hivatkozás a fordítási utasítások URL-re"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:134
@@ -14676,43 +14675,41 @@ msgstr "Alapértelmezés a fájlformátum alapján"
 
 #: weblate/trans/models/component.py:140
 msgid "POSIX style using underscore as a separator"
-msgstr "POSIX stílus, aláhúzásjel használatával elválasztóként"
+msgstr "Elválasztóként aláhúzást használó POSIX stílus"
 
 #: weblate/trans/models/component.py:143
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "POSIX stílus alulvonás használatával elválasztóként, kisbetűkkel"
+msgstr "Elválasztóként aláhúzást használó POSIX stílus, kisbetűs"
 
 #: weblate/trans/models/component.py:145
 msgid "BCP style using hyphen as a separator"
-msgstr "BCP stílus, kötőjel használatával elválasztóként"
+msgstr "Elválasztóként kötőjelet használó BCP stílus"
 
 #: weblate/trans/models/component.py:149
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr ""
-"POSIX stílus, aláhúzásjel használatával elválasztóként, beleértve az "
-"országkódot is."
+"Elválasztóként aláhúzást használó POSIX stílus, beleértve az országkódot is"
 
 #: weblate/trans/models/component.py:155
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
-"POSIX stílus alulvonás használatával elválasztóként, beleértve az "
-"országkódot, kisbetűkkel"
+"Elválasztóként aláhúzást használó POSIX stílus, beleértve az országkódot is, "
+"kisbetűs"
 
 #: weblate/trans/models/component.py:160
 msgid "BCP style using hyphen as a separator, including country code"
 msgstr ""
-"BCP stílus, kötőjel használatával elválasztóként, beleértve az országkódot "
-"is."
+"Elválasztóként kötőjelet használó BCP stílus, beleértve az országkódot is"
 
 #: weblate/trans/models/component.py:164
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr "BCP stílus kötőjelet használva elválasztóként, régi nyelvkódok"
+msgstr "Elválasztóként kötőjelet és örökölt nyelvkódokat használó BCP stílus"
 
 #: weblate/trans/models/component.py:166
 msgid "BCP style using hyphen as a separator, lower cased"
-msgstr "BCP stílus kötőjelet használva elválasztóként, kisbetűs formátumban."
+msgstr "Elválasztóként kötőjelet használó, kisbetűs BCP stílus"
 
 #: weblate/trans/models/component.py:167
 msgid "Android style"
@@ -14720,11 +14717,11 @@ msgstr "Android stílus"
 
 #: weblate/trans/models/component.py:168
 msgid "Apple App Store metadata style"
-msgstr "Apple App Store metadatastílus"
+msgstr "Apple App Store metaadatstílus"
 
 #: weblate/trans/models/component.py:169
 msgid "Google Play metadata style"
-msgstr "Google Play metadatastílus"
+msgstr "Google Play metaadatstílus"
 
 #: weblate/trans/models/component.py:170
 msgid "Linux style"
@@ -14732,11 +14729,11 @@ msgstr "Linux stílus"
 
 #: weblate/trans/models/component.py:171
 msgid "Linux style, lower cased"
-msgstr "Linux stílus, kisbetűkkel"
+msgstr "Linux stílus, kisbetűs"
 
 #: weblate/trans/models/component.py:175
 msgid "Merge"
-msgstr "Egyesítés"
+msgstr "Beolvasztás"
 
 #: weblate/trans/models/component.py:176
 msgid "Rebase"
@@ -14744,7 +14741,7 @@ msgstr "Újraalapozás"
 
 #: weblate/trans/models/component.py:177
 msgid "Merge without fast-forward"
-msgstr "Egyesítés fast-forward nélkül"
+msgstr "Beolvasztás előrepörgetés nélkül"
 
 #: weblate/trans/models/component.py:387
 msgid ""
@@ -14766,7 +14763,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:411
 msgid "Repository push URL"
-msgstr "Tároló feltöltési URL"
+msgstr "Tároló felküldési URL-e"
 
 #: weblate/trans/models/component.py:414
 msgid "URL of a push repository, pushing is turned off if empty."
@@ -14774,7 +14771,7 @@ msgstr "Egy felküldési tároló URL-e, a felküldés ki van kapcsolva, ha üre
 
 #: weblate/trans/models/component.py:419
 msgid "Repository browser"
-msgstr "Tároló böngésző"
+msgstr "Tárolóböngésző"
 
 #: weblate/trans/models/component.py:422
 msgid ""
@@ -14799,7 +14796,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:438
 msgid "Source string bug reporting address"
-msgstr "Forráskarakterlánc hibajelentési címe"
+msgstr "Forrásszöveg hibabejelentési címe"
 
 #: weblate/trans/models/component.py:440
 msgid ""
@@ -14815,7 +14812,7 @@ msgstr "Lefordítandó tárolóág"
 
 #: weblate/trans/models/component.py:453
 msgid "Push branch"
-msgstr "Feltöltési ág"
+msgstr "Felküldési ág"
 
 #: weblate/trans/models/component.py:456
 msgid "Branch for pushing changes, leave empty to use repository branch"
@@ -14833,7 +14830,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:472
 msgid "Screenshot file mask"
-msgstr "Képernyőkép fájlmaszk"
+msgstr "Képernyőkép fájlmaszkja"
 
 #: weblate/trans/models/component.py:477
 msgid ""
@@ -14869,7 +14866,7 @@ msgstr "A zárolt összetevő nem kap semmilyen fordítási frissítéseket."
 
 #: weblate/trans/models/component.py:537
 msgid "Allow translation propagation"
-msgstr "Fordítás terjesztésének engedélyezése"
+msgstr "Fordítások terjedésének engedélyezése"
 
 #: weblate/trans/models/component.py:540
 msgid ""
@@ -14889,7 +14886,7 @@ msgstr "Tegye-e lehetővé egyáltalán a fordítási javaslatokat."
 
 #: weblate/trans/models/component.py:552 weblate/trans/models/workflow.py:35
 msgid "Suggestion voting"
-msgstr "Javaslatok értékelése"
+msgstr "Szavazás a javaslatról"
 
 #: weblate/trans/models/component.py:555 weblate/trans/models/workflow.py:38
 msgid "Users can only vote for suggestions and can’t make direct translations."
@@ -14911,7 +14908,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:569 weblate/trans/models/unit.py:392
 msgid "Translation flags"
-msgstr "Fordítási jelölők"
+msgstr "Fordítási jelzők"
 
 #: weblate/trans/models/component.py:572 weblate/trans/models/unit.py:395
 msgid "Additional comma-separated flags to influence Weblate behavior."
@@ -14921,7 +14918,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:578
 msgid "Enforced checks"
-msgstr "Kikényszerített ellenőrzések"
+msgstr "Kényszerített ellenőrzések"
 
 #: weblate/trans/models/component.py:579
 msgid "List of checks which can not be ignored."
@@ -14932,8 +14929,8 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Közreműködői licencszerződés, amelyet jóvá kell hagyni, mielőtt egy "
-"felhasználó lefordíthatja a(z) :ref:`component`-et."
+"Közreműködői licencmegállapodás, amelyet jóvá kell hagyni, mielőtt egy "
+"felhasználó lefordíthatja ezt az összetevőt."
 
 #: weblate/trans/models/component.py:604
 msgid "Adding new translation"
@@ -14945,19 +14942,19 @@ msgstr "Hogyan kell kezelni az új fordítások létrehozásának kéréseit."
 
 #: weblate/trans/models/component.py:611
 msgid "Language code style"
-msgstr "Nyelvi kód stílusa"
+msgstr "Nyelvkód stílusa"
 
 #: weblate/trans/models/component.py:617
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
 msgstr ""
-"Testre szabhatod a nyelvi kódot, amelyet a Weblate által létrehozott "
-"fordítások fájlnevének generálásához használnak."
+"A Weblate által létrehozott fordítások fájlnevének előállításához használt "
+"nyelvkód személyre szabása."
 
 #: weblate/trans/models/component.py:622
 msgid "Manage strings"
-msgstr "Karakterláncok kezelése"
+msgstr "Szövegek kezelése"
 
 #: weblate/trans/models/component.py:625
 msgid ""
@@ -14971,7 +14968,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:633
 msgid "Merge style"
-msgstr "Összevonási stílus"
+msgstr "Beolvasztási stílus"
 
 #: weblate/trans/models/component.py:638
 msgid ""
@@ -15017,7 +15014,7 @@ msgstr "Beolvasztási kérés üzenete"
 
 #: weblate/trans/models/component.py:697
 msgid "Push on commit"
-msgstr "Feltöltés elkövetéskor"
+msgstr "Felküldés véglegesítéskor"
 
 #: weblate/trans/models/component.py:700
 msgid "Whether the repository should be pushed upstream on every commit."
@@ -15026,7 +15023,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:704
 msgid "Age of changes to commit"
-msgstr "Elkövetendő változások kora"
+msgstr "Véglegesítendő változtatások életkora"
 
 #: weblate/trans/models/component.py:708
 msgid ""
@@ -15037,7 +15034,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:713
 msgid "Lock on error"
-msgstr "Zárolás hiba esetén"
+msgstr "Zárolás hibánál"
 
 #: weblate/trans/models/component.py:716
 msgid "Whether the component should be locked on repository errors."
@@ -15057,7 +15054,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:737
 msgid "Variants regular expression"
-msgstr "Variánsok reguláris kifejezése"
+msgstr "Változatok reguláris kifejezése"
 
 #: weblate/trans/models/component.py:743
 msgid "Regular expression used to determine variants of a string."
@@ -15067,7 +15064,7 @@ msgstr ""
 #: weblate/trans/models/component.py:752
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
-"A magasabb prioritású komponensek először kerülnek felajánlásra a "
+"A magasabb prioritással rendelkező összetevők lesznek először felajánlva a "
 "fordítóknak."
 
 #: weblate/trans/models/component.py:756
@@ -15092,11 +15089,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:777
 msgid "Use as a glossary"
-msgstr "Használat szószedetként"
+msgstr "Használat szójegyzékként"
 
 #: weblate/trans/models/component.py:782
 msgid "Glossary color"
-msgstr "Szószedet színe"
+msgstr "Szójegyzék színe"
 
 #: weblate/trans/models/component.py:793
 msgid "Key filter"
@@ -15454,11 +15451,11 @@ msgstr "A lefordított projekt fő webhelye."
 
 #: weblate/trans/models/project.py:182
 msgid "Translation instructions"
-msgstr "Fordítási útmutatások"
+msgstr "Fordítási utasítások"
 
 #: weblate/trans/models/project.py:188
 msgid "Set \"Language-Team\" header"
-msgstr "Állítsd be a \"Language-Team\" fejlécet"
+msgstr "A „Language-Team” fejléc beállítása"
 
 #: weblate/trans/models/project.py:191
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
@@ -15468,7 +15465,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:195
 msgid "Use shared translation memory"
-msgstr "Közös fordítási memória használata"
+msgstr "Megosztott fordítási memória használata"
 
 #: weblate/trans/models/project.py:198
 msgid "Uses the pool of shared translations between projects."
@@ -15476,7 +15473,7 @@ msgstr "Felhasználja a projektek között megosztott fordítások tárolóját.
 
 #: weblate/trans/models/project.py:202
 msgid "Contribute to shared translation memory"
-msgstr "Hozzájárulás a közös fordítási memóriához"
+msgstr "Közreműködés a megosztott fordítási memóriában"
 
 #: weblate/trans/models/project.py:205
 msgid "Contributes to the pool of shared translations between projects."
@@ -15499,7 +15496,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:226 weblate/trans/models/workflow.py:23
 msgid "Enable reviews"
-msgstr "Ellenőrzések engedélyezése"
+msgstr "Felülvizsgálatok engedélyezése"
 
 #: weblate/trans/models/project.py:228 weblate/trans/models/workflow.py:25
 msgid "Requires dedicated reviewers to approve translations."
@@ -15507,7 +15504,7 @@ msgstr "Dedikált felülvizsgálókat igényel a fordítások jóváhagyásához
 
 #: weblate/trans/models/project.py:231
 msgid "Enable source reviews"
-msgstr "Forrásellenőrzések engedélyezése"
+msgstr "Forrás-felülvizsgálatok engedélyezése"
 
 #: weblate/trans/models/project.py:234
 msgid "Requires dedicated reviewers to approve source strings."
@@ -15515,7 +15512,7 @@ msgstr "Dedikált felülvizsgálókat igényel a forrásszövegek jóváhagyás�
 
 #: weblate/trans/models/project.py:238
 msgid "Enable hooks"
-msgstr "Hookok engedélyezése"
+msgstr "Horgok engedélyezése"
 
 #: weblate/trans/models/project.py:241
 msgid "Whether to allow updating this repository by remote hooks."
@@ -15523,7 +15520,7 @@ msgstr "E tároló frissítésének engedélyezáse távoli horgokon keresztül.
 
 #: weblate/trans/models/project.py:245
 msgid "Language aliases"
-msgstr "Nyelvi aliasok"
+msgstr "Nyelvi álnevek"
 
 #: weblate/trans/models/project.py:249
 msgid ""
@@ -16239,7 +16236,7 @@ msgstr "Automatikus fordítás folyamatban"
 
 #: weblate/trans/views/edit.py:845
 msgid "Source needs review"
-msgstr "A forrás felülvizsgálatra szorul"
+msgstr "A forrás felülvizsgálatot igényel"
 
 #: weblate/trans/views/edit.py:848
 msgid "Posted new comment"
@@ -16788,7 +16785,7 @@ msgstr "Ez véglegesíteni fogja a változtatásokat a Subversion-tárolóba."
 
 #: weblate/vcs/git.py:794
 msgid "Git with force push"
-msgstr "Git kényszerített feltöltéssel"
+msgstr "Git kényszerített felküldéssel"
 
 #: weblate/vcs/git.py:798
 msgid "This will force push changes to the upstream repository."
