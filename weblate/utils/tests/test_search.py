@@ -517,41 +517,50 @@ class UnitQueryParserTest(SearchTestCase):
         result = parse_query("labels_count:2", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True) +
-                             Count("labels", distinct=True)
-            ).filter(labels_count=2).values_list("id", flat=True)
+                labels_count=Count("source_unit__labels", distinct=True)
+                + Count("labels", distinct=True)
+            )
+            .filter(labels_count=2)
+            .values_list("id", flat=True)
         )
         self.assertEqual(str(result), str(expected))
 
         result = parse_query("labels_count:>3", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True) +
-                             Count("labels", distinct=True)
-            ).filter(labels_count__gt=3).values_list("id", flat=True)
+                labels_count=Count("source_unit__labels", distinct=True)
+                + Count("labels", distinct=True)
+            )
+            .filter(labels_count__gt=3)
+            .values_list("id", flat=True)
         )
         self.assertEqual(str(result), str(expected))
 
         result = parse_query("labels_count:<=1", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True) +
-                             Count("labels", distinct=True)
-            ).filter(labels_count__lte=1).values_list("id", flat=True)
+                labels_count=Count("source_unit__labels", distinct=True)
+                + Count("labels", distinct=True)
+            )
+            .filter(labels_count__lte=1)
+            .values_list("id", flat=True)
         )
         self.assertEqual(str(result), str(expected))
 
         result = parse_query("labels_count:=5", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True) +
-                             Count("labels", distinct=True)
-            ).filter(labels_count=5).values_list("id", flat=True)
+                labels_count=Count("source_unit__labels", distinct=True)
+                + Count("labels", distinct=True)
+            )
+            .filter(labels_count=5)
+            .values_list("id", flat=True)
         )
         self.assertEqual(str(result), str(expected))
 
         with self.assertRaises(ValueError):
             parse_query("labels_count:invalid", parser=self.parser)
+
 
 class UserQueryParserTest(SearchTestCase):
     object_class = User
