@@ -30,6 +30,7 @@ from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
+    Category,
     Comment,
     Component,
     Label,
@@ -77,6 +78,13 @@ class ProjectBackup:
         self.labels_map: dict[str, Label] = {}
         self.user_cache: dict[str, User] = {}
         self.components_cache: dict[str, Component] = {}
+        self.categories_cache: dict[str, Category] = {}
+
+    @staticmethod
+    def full_slug_without_project(obj: Component | Category) -> str:
+        """Return the full slug for a component or category without the project slug."""
+        parts = obj.get_url_path()
+        return "/".join(parts[1:])
 
     @property
     def supports_restore(self):
@@ -115,6 +123,20 @@ class ProjectBackup:
     ):
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
+    def backup_categories(self, obj: Project | Category) -> list[dict]:
+        if isinstance(obj, Project):
+            categories = obj.category_set.filter(category=None)
+        else:
+            categories = obj.category_set.all()
+        return [
+            self.backup_object(
+                category,
+                self.project_schema["definitions"]["category"]["required"],
+                {"categories": self.backup_categories},
+            )
+            for category in categories
+        ]
+
     def backup_data(self, project) -> None:
         self.project = project
         self.data = {
@@ -131,6 +153,7 @@ class ProjectBackup:
                 {"name": label.name, "color": label.color}
                 for label in project.label_set.all()
             ],
+            "categories": self.backup_categories(project),
         }
 
         # Make sure generated backup data is correct
@@ -248,6 +271,11 @@ class ProjectBackup:
                 ).iterator()
             ],
         }
+        # component category is not a required field
+        if component.category:
+            data["component"]["category"] = self.full_slug_without_project(
+                component.category
+            )
 
         data["screenshots"] = screenshots = []
         for screenshot in Screenshot.objects.filter(
@@ -289,7 +317,7 @@ class ProjectBackup:
         self.backup_dir(
             backupzip,
             component.full_path,
-            f"{self.VCS_PREFIX}{component.slug}",
+            f"{self.VCS_PREFIX}{self.full_slug_without_project(component)}",
         )
 
     @transaction.atomic
@@ -451,8 +479,11 @@ class ProjectBackup:
             # Update linked_component attribute
             if kwargs["repo"].startswith(new_slug):
                 kwargs["linked_component"] = self.components_cache[
-                    kwargs["repo"].removeprefix("weblate://")
+                    kwargs["repo"].removeprefix(new_slug)
                 ]
+
+        if "category" in kwargs:
+            kwargs["category"] = self.categories_cache[kwargs["category"]]
 
         component = Component(project=self.project, **kwargs)
         # Trigger pre_save to update git export URL
@@ -595,7 +626,7 @@ class ProjectBackup:
         component.schedule_update_checks()
 
         # Update cache
-        self.components_cache[component.full_slug] = component
+        self.components_cache[self.full_slug_without_project(component)] = component
 
     def import_language(self, code: str):
         if not self.languages_cache:
@@ -607,6 +638,23 @@ class ProjectBackup:
                 code
             )
             return language
+
+    def restore_categories(
+        self, categories: list[dict], parent_category: Category = None
+    ):
+        for category in categories:
+            category_obj = Category(
+                name=category["name"],
+                slug=category["slug"],
+                category=parent_category,
+                project=self.project,
+            )
+            category_obj = Category.objects.bulk_create([category_obj])[0]
+            self.categories_cache[self.full_slug_without_project(category_obj)] = (
+                category_obj
+            )
+
+            self.restore_categories(category["categories"], category_obj)
 
     @transaction.atomic
     def restore(self, project_name: str, project_slug: str, user: User, billing=None):
@@ -630,6 +678,8 @@ class ProjectBackup:
                 Label(project=project, **entry) for entry in self.data["labels"]
             )
             self.labels_map = {label.name: label for label in labels}
+            if "categories" in self.data:
+                self.restore_categories(self.data["categories"], None)
 
             # Import translation memory
             memory = self.load_memory(zipfile)
