@@ -4,13 +4,14 @@
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # kapatych <maxklezovich@gmail.com>, 2024.
 # CyrTranslit <noreply-mt-cyrtranslit@weblate.org>, 2025.
+# Yauhen <bugomol@users.noreply.hosted.weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 17:34+0200\n"
-"PO-Revision-Date: 2025-04-10 08:02+0000\n"
-"Last-Translator: CyrTranslit <noreply-mt-cyrtranslit@weblate.org>\n"
+"PO-Revision-Date: 2025-04-11 22:26+0000\n"
+"Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "documentation/be/>\n"
 "Language: be\n"
@@ -2041,10 +2042,6 @@ msgid "``component``"
 msgstr "``component``"
 
 #: ../../admin/addons.rst:158
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -2675,8 +2672,6 @@ msgid ":file:`res/values-de/strings-help.xml`"
 msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:409
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
 msgstr "Адрозніваюцца пераклады радкоў"
 
@@ -2950,7 +2945,8 @@ msgstr "``weblate.generate.fill_read_only``"
 #: ../../admin/addons.rst:570
 msgid "Fills in translation of read-only strings with source string."
 msgstr ""
-"Hети пиераклад викаристоŭважекка жак зичодни радок у hетим кампаниенкие."
+"Пераклад радкоў даступных толькі для чытання, запаўняецца тэкстам зыходнага "
+"радка."
 
 #: ../../admin/addons.rst:575
 msgid "Statistics generator"
@@ -3093,12 +3089,10 @@ msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:648
-#, fuzzy
 msgid "Variable part multiplier"
 msgstr "Множнік зменнай часткі"
 
 #: ../../admin/addons.rst:648
-#, fuzzy
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
@@ -3112,7 +3106,7 @@ msgstr "``include_readonly``"
 
 #: ../../admin/addons.rst:650
 msgid "Include read-only strings"
-msgstr "Вакоĺнижа радки"
+msgstr "Радкі толькі для чытання"
 
 #: ../../admin/addons.rst:654
 msgid ""
@@ -3191,8 +3185,8 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Абнаўляе каментар у загалоўку PO-файла для ўключэння імя ўдзельніка і гадоў "
-"удзелу."
+"Абнаўляе загаловак PO-файла, каб дадаць імя ўдзельніка і гады, у якія ён "
+"працаваў з перакладам."
 
 #: ../../admin/addons.rst:709
 msgid "The PO file header will look like this:"
@@ -3323,7 +3317,7 @@ msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:783
 msgid "Include strings needing editing"
-msgstr "Импартаваć жак радок, šто патрабуже редаhаванниа"
+msgstr "Уключыць радкі, якім патрабуецца рэдагаванне"
 
 #: ../../admin/addons.rst:783
 msgid ""
@@ -3755,10 +3749,8 @@ msgid "Line breaks"
 msgstr "Знак пераносу радка"
 
 #: ../../admin/addons.rst:1001
-#, fuzzy
-#| msgid "DOS (\\r\\n)"
 msgid "``dos`` -- DOS (\\\\r\\\\n)"
-msgstr "DOS (\\r\\n)"
+msgstr "ДОС (\\р\\н)"
 
 #: ../../admin/addons.rst:1003
 msgid "``unix`` -- UNIX (\\\\n)"
@@ -5231,16 +5223,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:164
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
 msgstr ""
-"Выкарыстоўвайце /path/to/repo для лакальных рэзервовых копій альбо "
-"user@host:/path/to/repo для адлеглых рэзервовых копій па SSH."
+"Выкарыстоўвайце /паз/то/репо для лакальных рэзервовых копій альбо "
+"усер@hост:/паз/то/репо для адлеглых рэзервовых копій па СШ."
 
 #: ../../admin/backup.rst:168
 msgid ""
@@ -8389,10 +8377,8 @@ msgid "This is turned off by default."
 msgstr "Адсиланние виклиуčана длиа %с."
 
 #: ../../admin/config.rst:1012
-#, fuzzy
-#| msgid "INTERLEDGER_PAYMENT_POINTERS"
 msgid "INTERLEDGER_PAYMENT_BUILTIN"
-msgstr "INTERLEDGER_PAYMENT_POINTERS"
+msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 
 #: ../../admin/config.rst:1016
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
@@ -8488,10 +8474,8 @@ msgid "IP_PROXY_OFFSET"
 msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:1098
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "The default changed from 1 to -1."
-msgstr "Адрас электроннай пошты зменены з {old} на {new}."
+msgstr "Адрас электроннай пошты зменены з {олд} на {нев}."
 
 #: ../../admin/config.rst:1100
 msgid ""
@@ -10164,10 +10148,8 @@ msgid "SSH URL"
 msgstr ""
 
 #: ../../admin/continuous.rst:378 ../../admin/continuous.rst:393
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push to separate branch"
-msgstr "Ветка Git"
+msgstr "Ветка Гит"
 
 #: ../../admin/continuous.rst:381 ../../admin/continuous.rst:396
 #: ../../admin/continuous.rst:406 ../../admin/continuous.rst:416
@@ -12621,8 +12603,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1504
-#, fuzzy
-#| msgid "All configuration will stay once you start paying."
 msgid "Sample configuration to start Gunicorn"
 msgstr "Як толькі вы пачнеце аплачваць, канфігурацыя стане нязменнай."
 
@@ -13825,8 +13805,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:809
-#, fuzzy
-#| msgid "Can not change authentication for demo!"
 msgid "To enforce authentication for the contact form, do:"
 msgstr "Немагчыма змяніць аўтэнтыфікацыю для дэма!"
 
@@ -16259,12 +16237,12 @@ msgstr "``baidu``"
 #: ../../admin/machine.rst:211 ../../admin/machine.rst:662
 #: ../../admin/machine.rst:980
 msgid "Client ID"
-msgstr ""
+msgstr "ИД кліента"
 
 #: ../../admin/machine.rst:213 ../../admin/machine.rst:664
 #: ../../admin/machine.rst:982
 msgid "Client secret"
-msgstr ""
+msgstr "Сакрэт кліента"
 
 #: ../../admin/machine.rst:216
 msgid "Machine translation service provided by Baidu."
@@ -16345,7 +16323,7 @@ msgstr "``context``"
 
 #: ../../admin/machine.rst:273 ../../user/translating.rst:291
 msgid "Translation context"
-msgstr ""
+msgstr "Камиентар да пиеракладу"
 
 #: ../../admin/machine.rst:273
 msgid ""
@@ -17907,10 +17885,8 @@ msgid ":doc:`machine`"
 msgstr ":doc:`machine`"
 
 #: ../../admin/management.rst:637
-#, fuzzy
-#| msgid "install_addon"
 msgid "list_addons"
-msgstr "install_addon"
+msgstr "list_addons"
 
 #: ../../admin/management.rst:641
 msgid ""
@@ -17925,10 +17901,8 @@ msgid ":doc:`/contributing/documentation`"
 msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/management.rst:648
-#, fuzzy
-#| msgid "list_versions"
 msgid "list_permissions"
-msgstr "list_versions"
+msgstr "list_permissions"
 
 #: ../../admin/management.rst:652
 msgid ""
@@ -17936,10 +17910,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/management.rst:659
-#, fuzzy
-#| msgid "System checks"
 msgid "list_checks"
-msgstr "Сістэмныя праверкі"
+msgstr "list_checks"
 
 #: ../../admin/management.rst:663
 msgid ""
@@ -17964,10 +17936,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/management.rst:681
-#, fuzzy
-#| msgid "install_machinery"
 msgid "list_machinery"
-msgstr "install_machinery"
+msgstr "list_machinery"
 
 #: ../../admin/management.rst:685
 msgid ""
@@ -19899,8 +19869,8 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Паhадниенние, жакоже павинна биć заквиерdžана да таhо жак каристаĺник змоžа "
-"пиеракладаć hети кампаниент."
+"Ліцэнзійнае пагадненне ўдзельніка, з якім трэба згадзіцца, перш чым "
+"карыстальнік зможа перакладаць гэты кампанент."
 
 #: ../../admin/projects.rst:685
 msgid "Markdown can be used for text formatting or inserting links."
@@ -20044,10 +20014,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:769
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "Стыль POSIX, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік"
+msgstr "Стыль ПОСИХ, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік"
 
 #: ../../admin/projects.rst:772
 msgid "POSIX style using underscore as a separator, including country code"
@@ -20062,13 +20030,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:775
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
-"Стыль POSIX, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік, з кодам "
+"Стыль ПОСИХ, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік, з кодам "
 "краіны"
 
 #: ../../admin/projects.rst:776
@@ -20098,19 +20064,15 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:784
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr ""
-"Стыль BCP, у якім працяжнік выкарыстоўваецца як падзяляльнік, з кодам краіны"
+"Стыль БКП, у якім працяжнік выкарыстоўваецца як падзяляльнік, з кодам краіны"
 
 #: ../../admin/projects.rst:785
 msgid "Uses legacy codes for Chinese and BCP style notation."
 msgstr ""
 
 #: ../../admin/projects.rst:786
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
 msgstr "Стыль BCP, у якім працяжнік выкарыстоўваецца як падзяляльнік"
 
@@ -20119,8 +20081,6 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr ""
 
 #: ../../admin/projects.rst:788
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "Apple App Store metadata style"
 msgstr "Файлы метаданых крамы праграм"
 
@@ -20129,8 +20089,6 @@ msgid "Style suitable for uploading metadata to Apple App Store."
 msgstr ""
 
 #: ../../admin/projects.rst:790
-#, fuzzy
-#| msgid "App store metadata files"
 msgid "Google Play metadata style"
 msgstr "Файлы метаданых крамы праграм"
 
@@ -21846,8 +21804,6 @@ msgid "date the user is created"
 msgstr ""
 
 #: ../../api.rst:325
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "date the user last signed in"
 msgstr "Вы не ўвайшлі ў сістэму"
 
@@ -23391,8 +23347,6 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2210
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The ``last_updated`` attribute is now exposed."
 msgstr "Выяўлены фармат файлаў не падтрымліваецца."
 
@@ -24862,8 +24816,6 @@ msgid ""
 msgstr "Радок фарматаванниа К ние адпавиадаже клиуčу"
 
 #: ../../changes.rst:145
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid ""
 "Detailed overview of locked components on project repository management."
 msgstr ""
@@ -31998,8 +31950,6 @@ msgid "Improved analysis on the duplicate language alert."
 msgstr "Импартаваć памиаć пиеракладу"
 
 #: ../../changes/v4.rst:257 ../../changes/v4.rst:954
-#, fuzzy
-#| msgid "Improved accurancy of the consecutive duplicated words check."
 msgid "Improved accuracy of the consecutive duplicated-words check."
 msgstr "Палепшана дакладнасць праверкі паслядоўных паўторных слоў."
 
@@ -32254,8 +32204,6 @@ msgid "Fixed audit log for user invitation e-mails."
 msgstr "Ниводнаhа адпавиеднаhа зичоднаhа радка ние знойдзиена."
 
 #: ../../changes/v4.rst:344
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Fixed flag names for Java formatting strings."
 msgstr "Дазваляе масава рэдагаваць адзнакі, адмеціны ці станы радкоў."
 
@@ -32626,8 +32574,6 @@ msgid "Weblate now requires Python 3.7 or newer."
 msgstr ""
 
 #: ../../changes/v4.rst:475
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Fixed some write operations with project token authentication."
 msgstr "Сервер не дазваляе аўтэнтыфікацыю."
 
@@ -32827,10 +32773,6 @@ msgid "Fixed translating newly added strings."
 msgstr "Пиеракладзиенижа радкі"
 
 #: ../../changes/v4.rst:536
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
 "Аўтаматычна перакладае радкі пры дапамозе машыннага перакладу ці іншых "
@@ -34369,8 +34311,6 @@ msgid "Number of displayed nearby strings can be configured."
 msgstr ""
 
 #: ../../changes/v4.rst:1071
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
 "Гэтае дапаўненне будзе выкарыстоўвацца для ўсіх кампанентаў, што "
@@ -36674,8 +36614,6 @@ msgid "default"
 msgstr "Аhадани спис кампаниентаŭ"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
 msgstr "Паходжанне"
 
@@ -36709,8 +36647,6 @@ msgid "*The Source String*"
 msgstr "Зичодни радок"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
 msgstr "Жоўты"
 
@@ -37167,10 +37103,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:29
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "ISO formatted timestamp"
-msgstr "Згенеравана за %(timestamp)s."
+msgstr "Згенеравана за %(тиместамп)с."
 
 #: ../../contributing/schemas.rst:29
 msgid "target"
@@ -37396,8 +37330,6 @@ msgid "Clone the Weblate source code:"
 msgstr "криника"
 
 #: ../../contributing/start.rst:30
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create a virtualenv:"
 msgstr "Стварыць акаўнт пры дапамозе:"
 
@@ -39012,10 +38944,6 @@ msgid "`New`"
 msgstr ""
 
 #: ../../devel/reporting.rst:89
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid ""
 "Amount of newly translated strings which didn't have a translation before."
 msgstr ""
@@ -41422,7 +41350,7 @@ msgstr ""
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
-msgstr ""
+msgstr "Наступнижа кроки"
 
 #: ../../formats/csv.rst:10
 msgid ""
@@ -41533,7 +41461,7 @@ msgstr "Прости файл КСВ"
 
 #: ../../formats/dtd.rst:4
 msgid "DTD files"
-msgstr ""
+msgstr "Наступнижа кроки"
 
 #: ../../formats/dtd.rst:9
 msgid ":doc:`tt:formats/dtd`"
@@ -41891,7 +41819,7 @@ msgstr ""
 
 #: ../../formats/html.rst:4
 msgid "HTML files"
-msgstr ""
+msgstr "Наступнижа кроки"
 
 #: ../../formats/html.rst:8
 msgid ""
@@ -42008,7 +41936,7 @@ msgstr "Файл ЯМЛ"
 
 #: ../../formats/ini.rst:4
 msgid "INI translations"
-msgstr ""
+msgstr "Уласнижа пиераклади"
 
 #: ../../formats/ini.rst:11
 msgid ""
@@ -42129,7 +42057,7 @@ msgstr ""
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
-msgstr ""
+msgstr "Аŭтаматиčни пиераклад"
 
 #: ../../formats/joomla.rst:9
 msgid "Native Joomla format for translations."
@@ -42157,7 +42085,7 @@ msgstr ""
 
 #: ../../formats/json.rst:4
 msgid "JSON files"
-msgstr ""
+msgstr "Наступнижа кроки"
 
 #: ../../formats/json.rst:11
 msgid ""
@@ -42344,7 +42272,7 @@ msgstr "Радковижа ресурси Андроид"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
-msgstr ""
+msgstr "Дакумиентакижа"
 
 #: ../../formats/odf.rst:8
 msgid ""
@@ -42805,9 +42733,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/xliff.rst:22
-#, fuzzy
 msgid "`XLIFF 1.2 with placeables support`"
-msgstr "XLIFF з падтрымкай размяшчэння"
+msgstr "ХЛИФФ з падтрымкай размяшчэння"
 
 #: ../../formats/xliff.rst:23
 msgid "Standard XLIFF supporting placeables and other XML elements."
@@ -42975,7 +42902,7 @@ msgstr ""
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"
-msgstr ""
+msgstr "Наступнижа кроки"
 
 #: ../../formats/yaml.rst:9
 msgid ""
@@ -43492,10 +43419,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:73
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Unsafe HTML cleanup"
-msgstr "Небяспечны код HTML"
+msgstr "Небяспечны код HТМЛ"
 
 #: ../../user/checks.rst:75
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -46243,8 +46168,6 @@ msgid "``<img class=a/>``"
 msgstr "``<img class=a/>``"
 
 #: ../../user/checks.rst:1848
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The attribute value is not quoted."
 msgstr "Выяўлены фармат файлаў не падтрымліваецца."
 
@@ -46362,8 +46285,6 @@ msgid "ICU MessageFormat syntax"
 msgstr "Фармат Жава Мессаге"
 
 #: ../../user/checks.rst:1930
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "Сінтаксічная памылка ў моўных псеўданімах."
 
@@ -48145,8 +48066,6 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:75
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using ``@username``."
@@ -48384,7 +48303,7 @@ msgstr ""
 
 #: ../../user/translating.rst:214
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Дадаć жак пиераклад, жаки патрабуже редаhаванниа"
+msgstr "Зняць адзнаку «патрабуецца рэдагаванне» і адправіць пераклад"
 
 #: ../../user/translating.rst:218
 msgid ":kbd:`Alt+Enter` or"
