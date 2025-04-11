@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-02-26 17:13+0100\n"
 "PO-Revision-Date: 2025-04-11 07:14+0000\n"
-"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
+"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -1703,17 +1703,12 @@ msgid ":guilabel:`View upstream repository location`"
 msgstr ":guilabel:`A(z) upstream adattár helyének megtekintése`"
 
 #: ../../admin/access.rst:671
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "`Edit source`"
-msgstr "Forrás szerkesztése"
+msgstr "`Forrás szerkesztése`"
 
 #: ../../admin/access.rst:684
-#, fuzzy
-#| msgid "Add suggestion"
 msgid "`Add suggestion`"
-msgstr "Javaslat hozzáadása"
+msgstr "`Javaslat hozzáadása`"
 
 #: ../../admin/access.rst:686
 msgid "`Access repository`"
@@ -4058,7 +4053,6 @@ msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr "A telepítési útmutatóért lásd: :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:1045
-#, fuzzy
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -4083,7 +4077,6 @@ msgid "Absolute path to VCS repository."
 msgstr "A VCS adattár abszolút elérési útja."
 
 #: ../../admin/addons.rst:1064
-#, fuzzy
 msgid "Repository branch configured in the current component."
 msgstr "Az aktuális komponenshez beállított tároló ág."
 
@@ -4128,7 +4121,6 @@ msgid "Project slug used to construct URL."
 msgstr "A projekt slug az URL felépítéséhez."
 
 #: ../../admin/addons.rst:1102
-#, fuzzy
 msgid "Component name."
 msgstr "Komponens neve."
 
@@ -4137,7 +4129,6 @@ msgid "Project name."
 msgstr "A projekt neve."
 
 #: ../../admin/addons.rst:1110
-#, fuzzy
 msgid "Component URL."
 msgstr "Komponens URL-je."
 
@@ -10206,7 +10197,6 @@ msgid "SINGLE_PROJECT"
 msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1855
-#, fuzzy
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` so it only works if there is "
@@ -10890,13 +10880,12 @@ msgid "The script for doing updates can look like this:"
 msgstr "A frissítések végrehajtásához használt szkript így nézhet ki:"
 
 #: ../../admin/continuous.rst:163
-#, fuzzy
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
-"Ha több :ref:`component` osztozik ugyanazon a tárolón, mindegyiket külön "
-"kell zárolnod:"
+"Ha több komponens osztozik ugyanazon a tárolón, mindegyiket külön kell "
+"zárolnod:"
 
 #: ../../admin/continuous.rst:174
 msgid ""
@@ -26418,7 +26407,6 @@ msgstr ""
 "fogadja el."
 
 #: ../../api.rst:1531
-#, fuzzy
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
@@ -27140,7 +27128,6 @@ msgstr "Egy kapcsolódó egység objektum URL-je"
 
 #: ../../api.rst:2302 ../../api.rst:2331 ../../api.rst:2390 ../../api.rst:2401
 #: ../../api.rst:2412 ../../api.rst:2445
-#, fuzzy
 msgid "URL of a related component object"
 msgstr "Egy kapcsolódó komponens objektum URL-je"
 
@@ -28183,13 +28170,9 @@ msgstr ""
 "beleértve a karakterláncokra mutató linkeket is."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid ""
 "Detailed overview of locked components on project repository management."
-msgstr ""
-"Részletes áttekintés a projekt tárházkezelésénél zárolt a(z) "
-":ref:`components`-ról."
+msgstr "A zárolt komponensek részletes áttekintése a projekt tárolókezelésében."
 
 #: ../../changes.rst:45
 msgid ":ref:`search-strings` supports searching by source string state."
@@ -34849,7 +34832,6 @@ msgid "Celery can now utilize multiple task queues."
 msgstr "A Celery most már több feladatsort is képes használni."
 
 #: ../../changes/v3.rst:366
-#, fuzzy
 msgid "Added support for renaming and moving projects and components."
 msgstr ""
 "Hozzáadva a projektek és komponensek átnevezésének és áthelyezésének "
@@ -35113,7 +35095,6 @@ msgid "Added support for automated daily update of repositories."
 msgstr "Támogatás hozzáadva a tárolók automatikus napi frissítéséhez."
 
 #: ../../changes/v3.rst:442
-#, fuzzy
 msgid "Added support for creating projects and components by users."
 msgstr ""
 "Hozzáadva a projektek és komponensek felhasználók általi létrehozásának "
@@ -42452,11 +42433,11 @@ msgid ""
 "The example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
 "A CI konfigurációja a :file:`.github/workflows` könyvtárban található. "
-"Nagymértékben használ segédszkripteket, amelyek a :file:`ci` könyvtárban "
+"Nagymértékben használ segéd szkripteket, amelyek a :file:`ci` könyvtárban "
 "vannak tárolva. A szkriptek manuálisan is futtathatók, de több környezeti "
 "változót igényelnek, főként a használni kívánt Django beállítások fájljának "
 "meghatározására és a tesztadatbázis csatlakozására. Ennek példadefiníciója a "
-":file:`scripts/test-database.sh` fájlban található."
+":file:`scripts/test-database.sh` fájlban található:"
 
 #: ../../contributing/tests.rst:35
 msgid "The simple execution can look like:"
@@ -44411,7 +44392,6 @@ msgstr ""
 "projektek, komponensek vagy egyéni felhasználók esetében."
 
 #: ../../devel/review.rst:13
-#, fuzzy
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
@@ -52303,7 +52283,6 @@ msgstr ""
 "szövegeket."
 
 #: ../../user/checks.rst:1594
-#, fuzzy
 msgid ""
 "The default behavior of this check is to exclude words from the built-in "
 "terms list from the checking. These are words which are frequently not being "
@@ -52311,13 +52290,12 @@ msgid ""
 "consist only of a single word which is the same in several languages. This "
 "list can be disabled by adding ``strict-same`` flag to a string or component."
 msgstr ""
-"Ennek az ellenőrzésnek az alapértelmezett viselkedése az, hogy kizárja az "
-"ellenőrzésből azokat a szavakat, amelyek szerepelnek a beépített kifejezések "
-"listáján. Ezek gyakran olyan szavak, amelyeket nem fordítanak le. Ez hasznos "
-"a téves pozitív találatok elkerülésére rövid szövegeknél, amelyek csak "
-"egyetlen szóból állnak, ami több nyelven is ugyanaz. Ez a lista letiltható, "
-"ha hozzáadod a(z) ``strict-same`` jelzést egy szöveghez vagy a(z) "
-":ref:`component`-hez."
+"Ennél az ellenőrzésnél alapértelmezetten ki vannak zárva az ellenőrzésből a "
+"beépített kifejezéslistában szereplő szavak. Ezek olyan szavak, amelyeket "
+"gyakran nem fordítanak le. Ez hasznos a téves találatok elkerülésére rövid "
+"szövegeknél, amelyek egyetlen szóból állnak, és több nyelvben is ugyanazok. "
+"Ez a lista letiltható a ``strict-same`` jelző hozzáadásával egy szöveghez "
+"vagy komponenshez."
 
 #: ../../user/checks.rst:1602
 msgid ""
@@ -54823,11 +54801,8 @@ msgid "``contributes:TEXT``"
 msgstr "``contributes:TEXT``"
 
 #: ../../user/search.rst:233
-#, fuzzy
-#| msgid "User has been invited to this project."
 msgid "User has contributed to a given project or component."
-msgstr ""
-"A felhasználó hozzájárult egy adott projekthez vagy a(z) :ref:`component`."
+msgstr "A felhasználó hozzájárult egy adott projekthez vagy komponenshez."
 
 #: ../../user/search.rst:237 ../../user/search.rst:239
 msgid "Same as in :ref:`search-strings`."
@@ -54951,7 +54926,6 @@ msgid "Translation links"
 msgstr "Fordítási linkek"
 
 #: ../../user/translating.rst:35
-#, fuzzy
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -54960,13 +54934,12 @@ msgid ""
 "strings` is still available. Alternatively you can use the :doc:`Search </"
 "user/search>` feature to find a specific string or term."
 msgstr ""
-"Miután elnavigáltál a(z) :ref:`component`-hez, egy linkgyűjtemény vezet az "
-"aktuális fordításhoz. A fordítás további ellenőrzésekre van bontva, mint "
-"például a(z) :guilabel:`Untranslated strings` vagy a(z) :guilabel:`"
-"Unfinished strings`. Ha az egész projekt már hibátlanul le van fordítva, a(z)"
-" :guilabel:`All strings` akkor is elérhető. Alternatív megoldásként "
-"használhatod a(z) :doc:`Search </user/search>` funkciót, hogy megtalálj egy "
-"adott szöveget vagy kifejezést."
+"Miután megnyitottál egy komponenst, egy sor hivatkozás vezet annak tényleges "
+"fordításához. A fordítás tovább tagolódik egyes ellenőrzésekre, mint például "
+":guilabel:`Untranslated strings` vagy :guilabel:`Unfinished strings`. Ha az "
+"egész projekt már hibamentesen le van fordítva, a :guilabel:`All strings` "
+"továbbra is elérhető. Alternatívaként használhatod a :doc:`Search </user/"
+"search>` funkciót, hogy megtalálj egy adott szöveget vagy kifejezést."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -55842,8 +55815,6 @@ msgstr ""
 "nézetből."
 
 #: ../../user/translating.rst:458
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen Mode"
 msgstr "Zen mód"
 
