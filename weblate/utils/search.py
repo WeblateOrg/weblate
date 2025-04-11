@@ -523,6 +523,7 @@ class UnitTermExpr(BaseTermExpr):
 
     def labels_count_field(self, text: str, context: dict) -> Q:
         from django.db.models import Count
+
         from weblate.trans.models import Unit
 
         try:
@@ -535,14 +536,18 @@ class UnitTermExpr(BaseTermExpr):
             suffix = "exact"
         filter_kwargs = {f"labels_count__{suffix}": value}
 
-        project = context.get('project')
+        project = context.get("project")
         base_query = Unit.objects.all()
         if project:
             base_query = base_query.filter(translation__component__project=project)
 
-        filtered_ids = base_query.annotate(
-            labels_count=Count("source_unit__labels") + Count("labels")
-        ).filter(**filter_kwargs).values_list('id', flat=True)
+        filtered_ids = (
+            base_query.annotate(
+                labels_count=Count("source_unit__labels") + Count("labels")
+            )
+            .filter(**filter_kwargs)
+            .values_list("id", flat=True)
+        )
 
         return Q(id__in=filtered_ids)
 
