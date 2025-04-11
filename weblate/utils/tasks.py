@@ -43,6 +43,7 @@ def ping():
         "mt_services": sorted(MACHINERY.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
         "uid": os.getuid(),
+        "data_dir": settings.DATA_DIR,
     }
 
 
