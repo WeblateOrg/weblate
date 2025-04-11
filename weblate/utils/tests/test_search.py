@@ -517,8 +517,7 @@ class UnitQueryParserTest(SearchTestCase):
         result = parse_query("labels_count:2", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True)
-                + Count("labels", distinct=True)
+                labels_count=Count("source_unit__labels") + Count("labels")
             )
             .filter(labels_count=2)
             .values_list("id", flat=True)
@@ -528,8 +527,7 @@ class UnitQueryParserTest(SearchTestCase):
         result = parse_query("labels_count:>3", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True)
-                + Count("labels", distinct=True)
+                labels_count=Count("source_unit__labels") + Count("labels")
             )
             .filter(labels_count__gt=3)
             .values_list("id", flat=True)
@@ -539,8 +537,7 @@ class UnitQueryParserTest(SearchTestCase):
         result = parse_query("labels_count:<=1", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True)
-                + Count("labels", distinct=True)
+                labels_count=Count("source_unit__labels") + Count("labels")
             )
             .filter(labels_count__lte=1)
             .values_list("id", flat=True)
@@ -550,8 +547,7 @@ class UnitQueryParserTest(SearchTestCase):
         result = parse_query("labels_count:=5", parser=self.parser)
         expected = Q(
             id__in=Unit.objects.annotate(
-                labels_count=Count("source_unit__labels", distinct=True)
-                + Count("labels", distinct=True)
+                labels_count=Count("source_unit__labels") + Count("labels")
             )
             .filter(labels_count=5)
             .values_list("id", flat=True)
