@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-03-24 21:47+0000\n"
-"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-04-11 22:26+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -451,10 +451,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Účet byl uzamčen kvůli příliš mnoha chybným přihlášením."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Zpráva nemohla být odeslána správci serveru."
+msgstr "Účet byl uzamčen správcem webu."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -997,14 +995,12 @@ msgstr[2] ""
 "Toto heslo je příliš dlouhé. Může obsahovat maximálně %(max_length)d znaků."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Vaše heslo může obsahovat maximálně %(min_length)d znak."
-msgstr[1] "Vaše heslo může obsahovat maximálně %(min_length)d znaky."
-msgstr[2] "Vaše heslo může obsahovat maximálně %(min_length)d znaků."
+msgstr[0] "Vaše heslo může obsahovat maximálně %(max_length)d znak."
+msgstr[1] "Vaše heslo může obsahovat maximálně %(max_length)d znaky."
+msgstr[2] "Vaše heslo může obsahovat maximálně %(max_length)d znaků."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1079,10 +1075,8 @@ msgid "Could not send message to administrator."
 msgstr "Zpráva nemohla být odeslána správci serveru."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Bylo odesláno příliš mnoho zpráv, zkuste to prosím později."
+msgstr "Nepodařilo se otevřít ticket, zkuste to prosím později."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -2039,7 +2033,7 @@ msgstr "Nepodařilo se získat uzamčení pro provedení operace."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Zadané ID jednotky není jednotka zdroje překladů."
 
 #: weblate/api/views.py:170
 #, python-format
