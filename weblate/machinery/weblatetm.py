@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from django.conf import settings
 from django.db.models import Value
 from django.db.models.functions import MD5, Lower
@@ -44,7 +46,7 @@ class WeblateTranslation(InternalMachineTranslation):
             base = base.using("memory_db")
 
         # Build search query
-        lookup: dict[str, str] = {}
+        lookup: dict[str, Any] = {}
         if threshold < 100:
             # Full text search
             lookup["source__search"] = text

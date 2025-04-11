@@ -13,6 +13,7 @@ class DummyTranslation(MachineTranslation):
     """Dummy machine translation for testing purposes."""
 
     name = "Dummy"
+    settings_form = None
 
     def download_languages(self):
         """

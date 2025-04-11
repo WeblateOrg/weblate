@@ -284,9 +284,12 @@ Secondary language
 
 Additional language to show together with the source language while translating.
 
+Optionally, it can be also used as a source for the machine translation.
+
 .. seealso::
 
-   :ref:`secondary-languages`
+   :ref:`secondary-languages`,
+   :ref:`mt-sources`
 
 
 .. _component:
@@ -981,13 +984,16 @@ Secondary language
 
 Additional language to show together with the source language while translating.
 
+Optionally, it can be also used as a source for the machine translation.
+
 .. hint::
 
    This setting is inherited from the project if left empty.
 
 .. seealso::
 
-   :ref:`secondary-languages`
+   :ref:`secondary-languages`,
+   :ref:`mt-sources`
 
 .. _component-priority:
 

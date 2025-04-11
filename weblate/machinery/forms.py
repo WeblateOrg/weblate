@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import re
 
@@ -11,8 +13,19 @@ from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 from weblate.utils.forms import WeblateServiceURLField
 
+from .types import SourceLanguageChoices
+
 
 class BaseMachineryForm(forms.Form):
+    source_language = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration", "Source language selection"
+        ),
+        choices=SourceLanguageChoices,
+        initial=SourceLanguageChoices.AUTO,
+        required=False,
+    )
+
     def __init__(self, machinery, *args, **kwargs) -> None:
         self.machinery = machinery
         super().__init__(*args, **kwargs)
