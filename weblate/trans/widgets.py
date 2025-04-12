@@ -17,6 +17,7 @@ from django.utils.translation import (
     get_language,
     gettext,
     gettext_lazy,
+    ngettext,
     npgettext,
     pgettext,
     pgettext_lazy,
@@ -537,6 +538,6 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             languages = self.stats.get_language_stats()
 
         language_count = sum(1 for _ in languages)
-        languages_text = gettext("languages")
+        languages_text = ngettext("language", "languages", language_count)
 
         self.render_badge(response, languages_text, str(language_count), "#3fed48")
