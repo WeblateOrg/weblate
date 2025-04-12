@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-04-11 17:27+0000\n"
+"PO-Revision-Date: 2025-04-12 10:14+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -51,11 +51,11 @@ msgstr "שם מלא"
 
 #: weblate/accounts/forms.py:132
 msgid "Name is also used in version control commits."
-msgstr "בשם נעשה שימוש גם להגשות בבקרת הגרסאות."
+msgstr "בשם נעשה שימוש גם לקיבועים בבקרת הגרסאות."
 
 #: weblate/accounts/forms.py:196 weblate/accounts/models.py:718
 msgid "Commit e-mail"
-msgstr "כתובת דוא״ל להגשות"
+msgstr "כתובת דוא״ל לקיבועים"
 
 #: weblate/accounts/forms.py:197
 msgid "Use account e-mail address"
@@ -66,8 +66,8 @@ msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"משמש בהגשות למערכת בקרת הגרסאות. הכתובת נשארת במאגר לעד לאחר שהוגשו שינויים "
-"על ידי Weblate."
+"משמש בקיבועים למערכת בקרת הגרסאות. הכתובת נשארת במאגר לעד לאחר שהתקבעו "
+"שינויים על ידי Weblate."
 
 #: weblate/accounts/forms.py:231 weblate/accounts/models.py:712
 msgid "Public e-mail"
@@ -90,7 +90,7 @@ msgstr "כתובת דוא״ל של החשבון"
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr "משמש להודעות דוא״ל וכדוא״ל להגשה אם לא מוגדר להלן."
+msgstr "משמש להודעות דוא״ל וכדוא״ל לקיבוע אם לא מוגדר להלן."
 
 #: weblate/accounts/forms.py:440
 msgid "Verification failed. Try again later."
@@ -976,15 +976,13 @@ msgstr[3] ""
 "הסיסמה הזאת ארוכה מדי. היא חייבת להיות באורך %(max_length)d תווים לכל היותר."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
 msgstr[0] "הסיסמה שלך חייבת להיות באורך של תו לכל היותר."
 msgstr[1] "הסיסמה שלך חייבת להיות באורך של שני תווים לכל היותר."
-msgstr[2] "הסיסמה שלך חייבת להיות באורך של %(min_length)d תווים לכל היותר."
-msgstr[3] "הסיסמה שלך חייבת להיות באורך של %(min_length)d תווים לכל היותר."
+msgstr[2] "הסיסמה שלך חייבת להיות באורך של %(max_length)d תווים לכל היותר."
+msgstr[3] "הסיסמה שלך חייבת להיות באורך של %(max_length)d תווים לכל היותר."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1059,10 +1057,8 @@ msgid "Could not send message to administrator."
 msgstr "לא ניתן לשלוח הודעה למנהל."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "נשלחו יותר מדי הודעות, נא לנסות שוב מאוחר יותר."
+msgstr "לא ניתן לפתוח קריאה, נא לנסות שוב מאוחר יותר."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1335,7 +1331,7 @@ msgstr "תוסף זה חסר תועלת, הוא מיועד לצורכי הדגמ
 
 #: weblate/addons/example_pre.py:21
 msgid "Execute script before commit"
-msgstr "הפעלת סקריפט לפני ההגשה"
+msgstr "הפעלת סקריפט לפני הקיבוע"
 
 #: weblate/addons/example_pre.py:22
 msgid "This add-on executes a script."
@@ -1462,11 +1458,11 @@ msgstr "להשתמש בהתאמה מעורפלת"
 
 #: weblate/addons/forms.py:160
 msgid "Commit squashing"
-msgstr "דחיסת הגשות"
+msgstr "דחיסת קיבועים"
 
 #: weblate/addons/forms.py:163
 msgid "All commits into one"
-msgstr "כל ההגשות דחוסות לאחת"
+msgstr "כל הקיבועים דחוסים לאחד"
 
 #: weblate/addons/forms.py:164
 msgid "Per language"
@@ -1482,7 +1478,7 @@ msgstr "לפי מחבר"
 
 #: weblate/addons/forms.py:172
 msgid "Append trailers to squashed commit message"
-msgstr "הוספת שורות מקדימות לסופן של הודעות הגשה מתוקצרות"
+msgstr "הוספת שורות מקדימות להודעות קיבועים דחוסים"
 
 #: weblate/addons/forms.py:176
 msgid ""
@@ -1491,18 +1487,18 @@ msgid ""
 "authored-by: …'."
 msgstr ""
 "שורות מקדימות הן שורות שנראות כמו כותרות דוא״ל לפי תקן RFC 822, בסוף של מה "
-"שאמור היה להיות החלק הפתוח בהודעת ההגשה, כגון ‚Co-authored-by: …‎’."
+"שאמור היה להיות החלק הפתוח בהודעת הקיבוע, כגון ‚Co-authored-by: …‎’."
 
 #: weblate/addons/forms.py:182
 msgid "Commit message"
-msgstr "הודעת הגשה"
+msgstr "הודעת קיבוע"
 
 #: weblate/addons/forms.py:186
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"במקום הודעת ההגשה המתוקצרות ייעשה שימוש בהודעה הגשה זו מההגשות שקובצו להן "
+"במקום הודעת הקיבוע המאוחדת ייעשה שימוש בהודעה קיבוע זו מהקיבועים שקובצו להם "
 "יחדיו."
 
 #: weblate/addons/forms.py:203
@@ -1855,11 +1851,11 @@ msgstr ""
 
 #: weblate/addons/git.py:26
 msgid "Squash Git commits"
-msgstr "דחיסת הגשות Git"
+msgstr "דחיסת קיבועי Git"
 
 #: weblate/addons/git.py:27
 msgid "Squash Git commits prior to pushing changes."
-msgstr "דחיסת הגשות Git בטרם דחיפת השינויים."
+msgstr "דחיסת קיבועי Git בטרם דחיפת השינויים."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
@@ -1982,7 +1978,7 @@ msgstr "לא ניתן לתפוס נעילה לביצוע הפעולה."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "מזהה היחידה אינו יחידת מקור תרגום."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -2290,7 +2286,7 @@ msgstr "גישה למאגר הפנימי"
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Commit changes to the internal repository"
-msgstr "הגשת שינויים למאגר הפנימי"
+msgstr "קיבוע השינויים למאגר הפנימי"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -3033,10 +3029,8 @@ msgid "AngularJS interpolation string"
 msgstr "מחרוזת שזירה של AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "מחרוזות השזירה של AngularJS אינן תואמות למקור"
+msgstr "מחרוזות השזירה של AngularJS אינן תואמות למקור."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3055,111 +3049,88 @@ msgid "Starting newline"
 msgstr "פתיחה בשורה חדשה"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "מקור ותרגום לא מתחילים עם שורה חדשה"
+msgstr "מקור ותרגום לא מתחילים עם שורה חדשה."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "שורה חדשה בסוף"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "מקור ותרגום לא מסתיימים בשורה חדשה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בשורה חדשה."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "פתיחה ברווחים"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "מקור ותרגום לא מתחילים עם אותו מספר של רווחים"
+msgstr "מקור ותרגום לא מתחילים שניהם עם אותו מספר של רווחים."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "רווח בסוף"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "מקור ותרגום לא מסתיימים ברווח"
+msgstr "מקור ותרגום לא מסתיימים שניהם ברווח."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "רווח כפול"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "התרגום מכיל רווח כפול"
+msgstr "התרגום מכיל רווח כפול."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "נקודה לא תואמת"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "מקור ותרגום לא מסתיימים בנקודה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בנקודה."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "נקודתיים לא תואמות"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודתיים"
+msgstr "המקור והתרגום לא מסתיימים שניהם בנקודתיים."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "סימן שאלה לא תואם"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "מקור ותרגום לא מסתיימים בסימן שאלה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בסימן שאלה."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "סימן קריאה לא תואם"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה"
+msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "אינטרובאנג לא תואם"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "מקור ותרגום לא מסתיימים בביטוי אינטרובאנג"
+msgstr "מקור ותרגום לא מסתיימים שניהם בביטוי אינטרובאנג."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "השמטה לא תואמת"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "מקור ותרגום לא מסתיימים בסימן השמטה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בסימן השמטה."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
@@ -3176,40 +3147,32 @@ msgid "Mismatching line breaks"
 msgstr "ירידות השורה אינן תואמות"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "כמות השורות החדשות בתרגום אינה תואמת למקור"
+msgstr "כמות השורות החדשות בתרגום אינה תואמת למקור."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "רווח ללא רוחב"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "התרגום כולל תווי רווח מיותרים ברוחב אפס"
+msgstr "התרגום כולל תווי רווח מיותרים ברוחב אפס."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "אורך מירבי לתרגום"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "על התרגום לא לחרוג מהאורך שצוין"
+msgstr "על התרגום לא לחרוג מהאורך שצוין."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "נקודה פסיק לא תואם"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק"
+msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
@@ -3229,19 +3192,19 @@ msgstr "חסר רווח קשיח לפני סימן פיסוק כפול."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
-msgstr "צורות רבים חסרות"
+msgstr "צורות ריבוי חסרות"
 
 #: weblate/checks/consistency.py:31
 msgid "Some plural forms are untranslated."
-msgstr "צורות רבים מסוימות אינן מתורגמות."
+msgstr "צורות ריבוי מסוימות אינן מתורגמות."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
-msgstr "אותם רבים"
+msgstr "אותן מחרוזות ריבוי"
 
 #: weblate/checks/consistency.py:58
 msgid "Some plural forms are translated in the same way."
-msgstr "חלק מצורות הרבים מתורגמות באופן זהה."
+msgstr "חלק מצורות הריבוי מתורגמות באופן זהה."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3281,10 +3244,8 @@ msgid "Has been translated"
 msgstr "יש תרגום"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "מחרוזת זו תורגמה בעבר"
+msgstr "מחרוזת זו תורגמה בעבר."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3556,10 +3517,8 @@ msgid "Fluent source inner HTML"
 msgstr "מקור Fluent‏ HTML פנימי"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "מקור ה־Fluent אמור להיות HTML פנימי תקני"
+msgstr "מקור ה־Fluent אמור להיות HTML פנימי תקני."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3618,10 +3577,8 @@ msgid "Fluent translation inner HTML"
 msgstr "HTML פנימי בתרגום Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "יעד Fluent אמור להיות HTML פנימי תקף תואם"
+msgstr "יעד Fluent אמור להיות HTML פנימי תקף תואם."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3646,10 +3603,8 @@ msgid "Fluent parts"
 msgstr "חלקי Fluent"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "חלקי ה־Fluent צריכים להיות תואמים"
+msgstr "חלקי ה־Fluent צריכים להיות תואמים."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3691,6 +3646,8 @@ msgid ""
 "Fluent {attribute} attribute has an unexpected extra {reference} Fluent "
 "reference for the following variants: {variant_list}."
 msgstr ""
+"למאפיין ה־Fluent בשם {attribute} יש הפניית Fluent {reference}עודפת להגוונים "
+"הבאים: {variant_list}."
 
 #: weblate/checks/fluent/references.py:430
 #, python-brace-format
@@ -3761,10 +3718,8 @@ msgid "Fluent references"
 msgstr "העדפות Fluent"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "הפניות ה־Fluent אמורות להיות תואמות"
+msgstr "הפניות ה־Fluent אמורות להיות תואמות."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3776,20 +3731,16 @@ msgid "Fluent source syntax"
 msgstr "תחביר מקור Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "שגיאת תחביר Fluent במקור"
+msgstr "שגיאת תחביר Fluent במקור."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "תחביר תרגום Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "שגיאת תחביר Fluent בתרגום"
+msgstr "שגיאת תחביר Fluent בתרגום."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3801,30 +3752,24 @@ msgid "Python format"
 msgstr "תבנית Python"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "המחרוזת בתבנית Python אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Python אינה תואמת למקור."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "תבנית PHP"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "המחרוזת בתבנית PHP אינה תואמת למקור"
+msgstr "המחרוזת בתבנית PHP אינה תואמת למקור."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "תבנית C"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "המחרוזת בתבנית C אינה תואמת למקור"
+msgstr "המחרוזת בתבנית C אינה תואמת למקור."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
@@ -3839,60 +3784,48 @@ msgid "Perl format"
 msgstr "תבנית Perl"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "המחרוזת בתבנית Perl אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Perl אינה תואמת למקור."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "תבנית JavaScript"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "המחרוזת בתבנית JavaScript אינה תואמת למקור"
+msgstr "המחרוזת בתבנית JavaScript אינה תואמת למקור."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "תבנית Lua"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "המחרוזת בתבנית Lua אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Lua אינה תואמת למקור."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "צורת Object Pascal"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "המחרוזת בתבנית Object Pascal אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Object Pascal אינה תואמת למקור."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "תבנית Scheme"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "מחרוזת תבנית Schema לא תואמת למקור"
+msgstr "מחרוזת תבנית Schema לא תואמת למקור."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "תבנית סוגריים מסולסלים ב־Python"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "המחרוזת בתבנית סוגריים מסולסלים ב־Python אינה תואמת למקור"
+msgstr "המחרוזת בתבנית סוגריים מסולסלים ב־Python אינה תואמת למקור."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -3903,30 +3836,24 @@ msgid "C# format"
 msgstr "תבנית C#‎"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "המחרוזת בתבנית C#‎ אינה תואמת למקור"
+msgstr "המחרוזת בתבנית C#‎ אינה תואמת למקור."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "תבנית Java"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "המחרוזת בתבנית Java אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Java אינה תואמת למקור."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "תבנית Java MessageFormat"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -3937,10 +3864,8 @@ msgid "i18next interpolation"
 msgstr "שזירת i18next"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "שזירת ה־i18next אינה תואמת למקור"
+msgstr "שזירת ה־i18next אינה תואמת למקור."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
@@ -3979,14 +3904,10 @@ msgid "Multiple unnamed variables"
 msgstr "מספר משתנים ללא שם"
 
 #: weblate/checks/format.py:849
-#, fuzzy
-#| msgid ""
-#| "There are multiple unnamed variables in the string, making it impossible "
-#| "for translators to reorder them"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
-msgstr "יש מספר משתנים ללא שם במחרוזת, מה שלא מאפשר למתרגמים לשנות להם את הסדר"
+msgstr "יש מספר משתנים ללא שם במחרוזת, מה שלא מאפשר למתרגמים לשנות להם את הסדר."
 
 #: weblate/checks/glossary.py:24
 msgid "Does not follow glossary"
@@ -4005,10 +3926,8 @@ msgid "Prohibited initial character"
 msgstr "התו הראשוני אסור"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "המחרוזת מתחיל בתו אסור ב־CSV"
+msgstr "המחרוזת מתחילה בתו אסור ב־CSV."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4060,7 +3979,7 @@ msgstr "חסרה תת־הודעה אחרת עבור: %s"
 #: weblate/checks/icu.py:483
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "בוחרי רבים שגויים עבור: %s"
+msgstr "בוררי ריבוי שגויים עבור: %s"
 
 #: weblate/checks/icu.py:490
 #, python-format
@@ -4095,60 +4014,48 @@ msgid "BBCode markup"
 msgstr "סימון קוד BB"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode שבתרגום לא תואם למקור"
+msgstr "BBCode שבתרגום לא תואם למקור."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "תחביר XML"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "התרגום אינו XML תקני"
+msgstr "התרגום אינו XML תקני."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "סימון XML"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "תגי XML בתרגום לא תואמים למקור"
+msgstr "תגי XML בתרגום לא תואמים למקור."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
 msgstr "הפניות ב־Markdown"
 
 #: weblate/checks/markup.py:280
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
-msgstr "הפניות הקישורים ב־Markdown אינן תואמות למקור"
+msgstr "הפניות הקישורים ב־Markdown אינן תואמות למקור."
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
 msgstr "קישורי Markdown"
 
 #: weblate/checks/markup.py:297
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "קישורי ה־Markdown לא תואמים למקור"
+msgstr "קישורי ה־Markdown לא תואמים למקור."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "תחביר Markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "תחביר ה־Markdown אינו תואם למקור"
+msgstr "תחביר ה־Markdown אינו תואם למקור."
 
 #: weblate/checks/markup.py:359
 #, fuzzy
@@ -4729,7 +4636,7 @@ msgstr "יחיד"
 #: weblate/lang/data.py:305
 msgctxt "Plural form description"
 msgid "Plural"
-msgstr "רבים"
+msgstr "ריבוי"
 
 #: weblate/lang/data.py:308 weblate/lang/data.py:314 weblate/lang/data.py:319
 #: weblate/lang/data.py:326 weblate/lang/data.py:334 weblate/lang/data.py:338
@@ -5013,7 +4920,7 @@ msgstr "יחיד"
 #: weblate/lang/models.py:1123 weblate/templates/translation.html:376
 #: weblate/templates/translation.html:405
 msgid "Plural"
-msgstr "רבים"
+msgstr "ריבוי"
 
 #: weblate/lang/models.py:1124
 #, python-format
@@ -5945,7 +5852,7 @@ msgstr "מפתחות Weblate"
 
 #: weblate/templates/about/keys.html:25
 msgid "Commit signing"
-msgstr "חתימה על הגשות"
+msgstr "חתימה על קיבועים"
 
 #: weblate/templates/about/keys.html:34
 #: weblate/templates/snippets/ssh-key.html:18
@@ -5985,11 +5892,11 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"כל ההגשות עם Weblate חתומות במפתח GPG‏ %(gpg_key_id)s, בו ניתן לצפות להלן."
+"כל הקיבועים עם Weblate חתומים במפתח GPG‏ %(gpg_key_id)s, בו ניתן לצפות להלן."
 
 #: weblate/templates/about/keys.html:41
 msgid "Commit signing is not configured."
-msgstr "לא מוגדרת חתימה על הגשות."
+msgstr "לא מוגדרת חתימה על קיבועים."
 
 #: weblate/templates/about/stats.html:13
 #: weblate/templates/dashboard/user.html:57 weblate/templates/data.html:61
@@ -6989,10 +6896,8 @@ msgid "Turn off two-factor authentication"
 msgstr "כיבוי אימות דו־שלבי"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "נא להפעיל אימות באמצעות סיסמה כדי לאבטח את החשבון שלך."
+msgstr "השבתת אימות הסיסמה למשתמש."
 
 #: weblate/templates/accounts/user.html:420
 msgid "Disable password"
@@ -7364,15 +7269,15 @@ msgstr "מחרוזת מקור"
 #: weblate/templates/addons/squash_help.html:3
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "הגשות מצד Weblate מהרכיבים שבמאגר זה יימעכו."
+msgstr "קיבועים מצד Weblate מהרכיבים שבמאגר זה יידחסו."
 
 #: weblate/templates/addons/squash_help.html:5
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
 msgstr ""
-"הודעות ההגשה המקוריות נשמרות אך הבעלות על ההגשות לא תישמר אלא אם כן בחרת "
-"ב„לפי מחבר” או שהתאמת אישית את הודעת ההגשה כדי שתכלול אותה."
+"הודעות הקיבוע המקוריות נשמרות אך הבעלות על הקיבועים לא תישמר אלא אם כן בחרת "
+"ב„לפי מחבר” או שהתאמת אישית את הודעת הקיבוע כדי שתכלול אותה."
 
 #: weblate/templates/auth/team.html:16
 #: weblate/templates/trans/project-access.html:15
@@ -8775,7 +8680,7 @@ msgstr "מצב מאגר"
 
 #: weblate/templates/js/git-status.html:29
 msgid "Commit"
-msgstr "הגשה"
+msgstr "קיבוע"
 
 #: weblate/templates/js/git-status.html:32
 #, python-format
@@ -8790,7 +8695,7 @@ msgstr[3] "%(count)s שינויים ממתינים"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "פעולה זו תגיש את כל השינויים הממתינים שקיימים ב־Weblate ולא במאגר."
+msgstr "פעולה זו תקבע את כל השינויים הממתינים שקיימים ב־Weblate ולא במאגר."
 
 #: weblate/templates/js/git-status.html:44
 msgid "Push"
@@ -8800,10 +8705,10 @@ msgstr "דחיפה"
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "הגשה יוצאת"
-msgstr[1] "%(count)s הגשות יוצאות"
-msgstr[2] "%(count)s הגשות יוצאות"
-msgstr[3] "%(count)s הגשות יוצאות"
+msgstr[0] "קיבוע יוצא"
+msgstr[1] "%(count)s קיבועים יוצאים"
+msgstr[2] "%(count)s קיבועים יוצאים"
+msgstr[3] "%(count)s קיבועים יוצאים"
 
 #: weblate/templates/js/git-status.html:49
 #, python-format
@@ -8834,10 +8739,10 @@ msgstr "עדכון עם מיזוג ללא הרצה קדימה"
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "הגשה חסרה"
-msgstr[1] "%(count)s הגשות חסרות"
-msgstr[2] "%(count)s הגשות חסרות"
-msgstr[3] "%(count)s הגשות חסרות"
+msgstr[0] "קיבוע חסר"
+msgstr[1] "%(count)s קיבועים חסרים"
+msgstr[2] "%(count)s קיבועים חסרים"
+msgstr[3] "%(count)s קיבועים חסרים"
 
 #: weblate/templates/js/git-status.html:91
 msgid "This will update the Weblate repository with the upstream changes."
@@ -9484,7 +9389,7 @@ msgstr "הרכיב %(component)s שוחרר"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "לתשומת לבך: המקבץ הזה קוצר כיוון שהיו למעלה מ־100 התראות."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -10718,7 +10623,7 @@ msgstr "ענף מאגר"
 
 #: weblate/templates/snippets/git-info.html:39
 msgid "Last remote commit"
-msgstr "ההגשה המרוחקת האחרונה"
+msgstr "הקיבוע המרוחק האחרון"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:49
@@ -10729,7 +10634,7 @@ msgstr "ע״י %(author)s %(date)s"
 
 #: weblate/templates/snippets/git-info.html:59
 msgid "Last commit in Weblate"
-msgstr "הגשה אחרונה ב־Weblate"
+msgstr "הקיבוע האחרון ב־Weblate"
 
 #: weblate/templates/snippets/git-info.html:79
 msgid "Weblate repository"
@@ -11186,7 +11091,7 @@ msgid ""
 "translated project."
 msgstr ""
 "הרשמה דינה הסכמה לשימוש בשם ובכתובת הדוא״ל שלך במערכת בקרת הגרסאות לטובת "
-"הגשות ולאספקת התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
+"קיבועים ולאספקת התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
 
 #: weblate/templates/snippets/login-info.html:32
 msgid ""
@@ -11194,14 +11099,14 @@ msgid ""
 "and provide your contribution under license defined by each translated "
 "project."
 msgstr ""
-"הרשמה דינה הסכמה לשימוש בשם שלך במערכת בקרת הגרסאות לטובת הגשות ולאספקת "
+"הרשמה דינה הסכמה לשימוש בשם שלך במערכת בקרת הגרסאות לטובת קיבועים ולאספקת "
 "התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
 
 #: weblate/templates/snippets/plural-formula.html:5
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
-msgstr "נוסחה זו מגדירה באיזו צורת רבים להשתמש על בסיס ספירה נתונה (n)."
+msgstr "נוסחה זו מגדירה באיזו צורת ריבוי להשתמש על בסיס ספירה נתונה (n)."
 
 #: weblate/templates/snippets/plural.html:10
 #, python-format
@@ -11701,18 +11606,13 @@ msgid ""
 msgstr "אי אפשר לגשת למאגר המקור. נא לבדוק האם ל־Weblate יש גישה אליו."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
 "Gerrit מנע את הדחיפה הזאת. יכול להיות שצריכה להיות לך גישה לחשבון gerrit שיש "
-"לו הרשאות לזייף יוצרים למאגר/ענף או שצריך להשתמש בתוסף המעיכה על הרכיב הזה "
+"לו הרשאות לזייף יוצרים למאגר/ענף או שצריך להשתמש בתוסף הדחיסה על הרכיב הזה "
 "ב־Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:20
@@ -11740,7 +11640,7 @@ msgid ""
 "rebasing commits in Weblate."
 msgstr ""
 "אולי כדאי לך לבחור ב־Git עם דחיפה בכוח (force push) כמערכת בקרת גרסאות "
-"בהגדרות הרכיב כדי לדרוס את המאגר המרוחק לאחר ביסוס מחדש (rebase) של הגשות "
+"בהגדרות הרכיב כדי לדרוס את המאגר המרוחק לאחר ביסוס מחדש (rebase) של קיבועים "
 "(commits) ב־Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:41
@@ -11748,7 +11648,7 @@ msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"למאגר ה־Weblate חסרות הגשות במאגר המקורי. אולי לא מגיעות אליו התראות על "
+"למאגר ה־Weblate חסרים קיבועים במאגר המקורי. אולי לא מגיעות אליו התראות על "
 "עדכונים במאגר המרוחק."
 
 #: weblate/templates/trans/alert/common-repo.html:46
@@ -12299,7 +12199,7 @@ msgstr "פתיחת משיכה קיימת של מאגר המקור כדי לבצ�
 #: weblate/templates/trans/merge_instructions.html:11
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "הגשת השינויים הממתינים ב־Weblate ונעילת רכיב התרגום."
+msgstr "קיבוע השינויים הממתינים ב־Weblate ונעילת רכיב התרגום."
 
 #: weblate/templates/trans/merge_instructions.html:16
 msgid "Add Weblate exported repository as a remote."
@@ -12331,7 +12231,7 @@ msgstr "ניתן לעיין בעמוד השו״ת לקבלת מידע לפתרו
 
 #: weblate/templates/trans/messages_help.html:5
 msgid "You can use Django templates markup in the commit messages."
-msgstr "ניתן להשתמש בסימון תבניות Django בהודעות המסירה."
+msgstr "ניתן להשתמש בתבנית סימון של Django בהודעות הקיבוע."
 
 #: weblate/templates/trans/other-row.html:16
 msgid "This translation"
@@ -12771,7 +12671,7 @@ msgstr "מחרוזת %(position)s"
 
 #: weblate/templates/translate.html:865
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "השינויים הממתינים טרם הוגשו למאגר של Weblate"
+msgstr "השינויים הממתינים טרם קובעו במאגר של Weblate"
 
 #: weblate/templates/translate.html:865
 msgid "pending"
@@ -13094,7 +12994,7 @@ msgstr "הרכיב שוחרר"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:39
 msgid "Changes committed"
-msgstr "הוגשו שינויים"
+msgstr "קובעו שינויים"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:41
@@ -13388,21 +13288,17 @@ msgstr "שינוי מופץ"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "מצב העלאת קבצים"
+msgstr "קובץ הועלה"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "עדכון אחרון"
+msgstr "עודכנו הדגלונים העודפים"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
-msgstr "הגשת השינויים הממתינים"
+msgstr "קיבוע השינויים הממתינים"
 
 #: weblate/trans/admin.py:42
 msgid "Update VCS repository"
@@ -13551,7 +13447,7 @@ msgstr "מחרוזות ללא תוויות"
 
 #: weblate/trans/filter.py:68
 msgid "Pluralized string"
-msgstr "מחרוזת עם רבים"
+msgstr "מחרוזת עם ריבוי"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:137
 msgid "Failing check: {}"
@@ -13832,20 +13728,16 @@ msgid "Report period"
 msgstr "תקופת הדוח"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "מיון לפי"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "אין מחרוזת לתרגום"
+msgstr "מחרוזות מתורגמות"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "סדר מיון"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -13889,7 +13781,7 @@ msgstr "מערכת בקרת גרסאות"
 
 #: weblate/trans/forms.py:1624
 msgid "Commit messages"
-msgstr "הודעות הגשה"
+msgstr "הודעות קיבוע"
 
 #: weblate/trans/forms.py:1640
 msgid "Translation files"
@@ -14402,10 +14294,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s"
 
 #: weblate/trans/models/change.py:681
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "מצב העלאת קבצים"
+msgstr "מצב העלאת קבצים:"
 
 #: weblate/trans/models/change.py:717
 msgid "The “{}” file was changed."
@@ -14746,7 +14636,7 @@ msgstr "להגדיר האם Weblate אמור למזג אל מאגר המקור �
 
 #: weblate/trans/models/component.py:646
 msgid "Commit message when translating"
-msgstr "הודעת הגשה בעת תרגום"
+msgstr "הודעת קיבוע בעת תרגום"
 
 #: weblate/trans/models/component.py:648 weblate/trans/models/component.py:657
 #: weblate/trans/models/component.py:666 weblate/trans/models/component.py:675
@@ -14759,19 +14649,19 @@ msgstr ""
 
 #: weblate/trans/models/component.py:655
 msgid "Commit message when adding translation"
-msgstr "הודעת הגשה בעת הוספת תרגום"
+msgstr "הודעת קיבוע בעת הוספת תרגום"
 
 #: weblate/trans/models/component.py:664
 msgid "Commit message when removing translation"
-msgstr "הודעת הגשה בעת הסרת תרגום"
+msgstr "הודעת קיבוע בעת הסרת תרגום"
 
 #: weblate/trans/models/component.py:673
 msgid "Commit message when merging translation"
-msgstr "הודעת הגשה בעת מיזוג תרגום"
+msgstr "הודעת קיבוע בעת מיזוג תרגום"
 
 #: weblate/trans/models/component.py:682
 msgid "Commit message when add-on makes a change"
-msgstr "הודעת הגשה כשתוסף עורך שינוי"
+msgstr "הודעת קיבוע כשתוסף עורך שינוי"
 
 #: weblate/trans/models/component.py:691
 msgid "Merge request message"
@@ -14779,20 +14669,20 @@ msgstr "הודעת בקשת המיזוג"
 
 #: weblate/trans/models/component.py:700
 msgid "Push on commit"
-msgstr "דחיפה עם ההגשה"
+msgstr "דחיפה עם קיבוע"
 
 #: weblate/trans/models/component.py:703
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "האם יש לדחוף את המאגר בחזרה למקור עם כל הגשה של תרגום."
+msgstr "האם לדחוף את המאגר בחזרה למקור עם כל קיבוע של תרגום."
 
 #: weblate/trans/models/component.py:707
 msgid "Age of changes to commit"
-msgstr "גיל של שינויים להגשה"
+msgstr "גיל של שינויים לקיבוע"
 
 #: weblate/trans/models/component.py:711
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "הזמן בשעות שלאחריו השינויים הממתינים יוגשו למערכת ניהול הגרסאות."
+msgstr "הזמן בשעות שלאחריו השינויים הממתינים יקובעו במערכת ניהול הגרסאות."
 
 #: weblate/trans/models/component.py:716
 msgid "Lock on error"
@@ -14860,26 +14750,18 @@ msgid ""
 msgstr "ביטוי רגולרי שמשמש לסינון תגיות. זמין רק בסוגי קבצים חד־לשוניים."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "שפות משניות"
+msgstr "שפה משנית"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "השפות המשניות יופיעו ליד מחרוזת המקור בעת התרגום."
+msgstr "שפות נוספות שתוצגנה יחד עם שפת המקור בזמן התרגום."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "לא יובאו מחרוזות מהקובץ שהועלה."
+msgstr "ההגדרה הזאת מתקבלת בירושה מהמיזם אם היא נשארת ריקה."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15288,28 +15170,27 @@ msgstr "לא ניתן לפענח את הקובץ %(file)s:‏ %(error)s"
 
 #: weblate/trans/models/translation.py:1024
 msgid "“{}”"
-msgstr ""
+msgstr "„{}”"
 
 #: weblate/trans/models/translation.py:1027
 msgid "…"
-msgstr "..."
+msgstr "…"
 
 #: weblate/trans/models/translation.py:1034
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "לא ניתן למצוא את המחרוזת שמוזגה."
-msgstr[1] "לא ניתן למצוא את המחרוזת שמוזגה."
-msgstr[2] "לא ניתן למצוא את המחרוזת שמוזגה."
-msgstr[3] "לא ניתן למצוא את המחרוזת שמוזגה."
+msgstr[0] "לא ניתן למצוא את המחרוזת:"
+msgstr[1] "לא ניתן למצוא %d מחרוזות:"
+msgstr[2] "לא ניתן למצוא %d מחרוזות:"
+msgstr[3] "לא ניתן למצוא %d מחרוזות:"
 
 #: weblate/trans/models/translation.py:1220
 #: weblate/trans/models/translation.py:1279
 #: weblate/trans/models/translation.py:1361
 #, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "לא ניתן להגיש שינויים ממתינים: %s"
+msgstr "לא ניתן לקבע שינויים ממתינים: %s"
 
 #: weblate/trans/models/translation.py:1864
 msgid "Plurals are not supported by the file format!"
@@ -16100,7 +15981,7 @@ msgstr "מתבצעים עדכונים לתרגומים."
 
 #: weblate/trans/views/git.py:178
 msgid "All pending translations were committed."
-msgstr "כל התרגומים שממתינים הוגשו."
+msgstr "כל התרגומים שממתינים קובעו."
 
 #: weblate/trans/views/lock.py:34
 msgid "Component is now locked for translation updates!"
@@ -16513,10 +16394,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "כתובת דוא״ל שגויה: {}"
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "כתובת דוא״ל זו אינה מורשית."
+msgstr "אסור להשתמש בכתובות דוא״ל חד־פעמיות."
 
 #: weblate/utils/validators.py:211
 msgid "Could not evaluate plural formula: {}"
@@ -16594,7 +16473,7 @@ msgstr "פעולה זו תדחף את השינויים ל־Gerrit לסקירה."
 
 #: weblate/vcs/git.py:652
 msgid "This will commit changes to the Subversion repository."
-msgstr "פעולה זו תגיש שינויים למאגר ה־Subversion."
+msgstr "פעולה זו תקבע שינויים למאגר ה־Subversion."
 
 #: weblate/vcs/git.py:819
 msgid "Git with force push"
