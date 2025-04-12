@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 17:34+0200\n"
-"PO-Revision-Date: 2025-04-11 17:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-12 10:14+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "documentation/he/>\n"
 "Language: he\n"
@@ -1314,7 +1314,7 @@ msgstr "עדכון המאגר הפנימי"
 
 #: ../../admin/access.rst:572
 msgid "Commit changes to the internal repository"
-msgstr "הגשת שינויים למאגר הפנימי"
+msgstr "קיבוע השינויים למאגר הפנימי"
 
 #: ../../admin/access.rst:574
 msgid "Push change from the internal repository"
@@ -3647,7 +3647,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:826
 msgid "Squash Git commits"
-msgstr "דחיסת הגשות Git"
+msgstr "דחיסת קיבועי Git"
 
 #: ../../admin/addons.rst:828
 msgid "``weblate.git.squash``"
@@ -3659,7 +3659,7 @@ msgstr "``squash``"
 
 #: ../../admin/addons.rst:830
 msgid "Commit squashing"
-msgstr "דחיסת הגשות"
+msgstr "דחיסת קיבועים"
 
 #: ../../admin/addons.rst:832
 #, fuzzy
@@ -3688,7 +3688,7 @@ msgstr "``append_trailers``"
 
 #: ../../admin/addons.rst:840
 msgid "Append trailers to squashed commit message"
-msgstr "הוספת שורות מקדימות לסופן של הודעות הגשה מתוקצרות"
+msgstr "הוספת שורות מקדימות להודעות קיבועים דחוסים"
 
 #: ../../admin/addons.rst:840
 msgid ""
@@ -3697,7 +3697,7 @@ msgid ""
 "authored-by: …'."
 msgstr ""
 "שורות מקדימות הן שורות שנראות כמו כותרות דוא״ל לפי תקן RFC 822, בסוף של מה "
-"שאמור היה להיות החלק הפתוח בהודעת ההגשה, כגון ‚Co-authored-by: …‎’."
+"שאמור היה להיות החלק הפתוח בהודעת הקיבוע, כגון ‚Co-authored-by: …‎’."
 
 #: ../../admin/addons.rst:842
 msgid "``commit_message``"
@@ -3705,14 +3705,14 @@ msgstr "``commit_message``"
 
 #: ../../admin/addons.rst:842
 msgid "Commit message"
-msgstr "הודעת הגשה"
+msgstr "הודעת קיבוע"
 
 #: ../../admin/addons.rst:842
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"במקום הודעת ההגשה המתוקצרות ייעשה שימוש בהודעה הגשה זו מההגשות שקובצו להן "
+"במקום הודעת הקיבוע המאוחדת ייעשה שימוש בהודעה קיבוע זו מהקיבועים שקובצו להם "
 "יחדיו."
 
 #: ../../admin/addons.rst:844
@@ -3721,7 +3721,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:846
 msgid "Squash Git commits prior to pushing changes."
-msgstr "דחיסת הגשות Git בטרם דחיפת השינויים."
+msgstr "דחיסת קיבועי Git בטרם דחיפת השינויים."
 
 #: ../../admin/addons.rst:848
 msgid ""
@@ -3731,7 +3731,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:851
 msgid "All commits into one"
-msgstr "כל ההגשות דחוסות לאחת"
+msgstr "כל הקיבועים דחוסים לאחד"
 
 #: ../../admin/addons.rst:852
 msgid "Per language"
@@ -19861,20 +19861,14 @@ msgid ""
 msgstr "שם רכיב"
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:990
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "שפות משניות"
+msgstr "שפה משנית"
 
 #: ../../admin/projects.rst:285 ../../admin/projects.rst:994
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "השפות המשניות יופיעו ליד מחרוזת המקור בעת התרגום."
+msgstr "שפות נוספות שתוצגנה יחד עם שפת המקור בזמן התרגום."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
 msgid ""
@@ -20768,7 +20762,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:857
 msgid "Push on commit"
-msgstr "דחיפה עם ההגשה"
+msgstr "דחיפה עם קיבוע"
 
 #: ../../admin/projects.rst:859
 msgid ""
@@ -20780,7 +20774,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:868
 msgid "Age of changes to commit"
-msgstr "גיל של שינויים להגשה"
+msgstr "גיל של שינויים לקיבוע"
 
 #: ../../admin/projects.rst:870
 msgid ""
@@ -20976,10 +20970,8 @@ msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgstr ""
 
 #: ../../admin/projects.rst:1000
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "לא יובאו מחרוזות מהקובץ שהועלה."
+msgstr "ההגדרה הזאת מתקבלת בירושה מהמיזם אם היא נשארת ריקה."
 
 #: ../../admin/projects.rst:1010
 msgid "Priority"
@@ -46119,10 +46111,8 @@ msgid "Summary"
 msgstr "סיכומים"
 
 #: ../../user/checks.rst:116
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode שבתרגום לא תואם למקור"
+msgstr "BBCode שבתרגום לא תואם למקור."
 
 #: ../../user/checks.rst:117 ../../user/checks.rst:146
 #: ../../user/checks.rst:167 ../../user/checks.rst:192
@@ -46289,10 +46279,8 @@ msgid "Double space"
 msgstr "רווח כפול"
 
 #: ../../user/checks.rst:191
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "התרגום מכיל רווח כפול"
+msgstr "התרגום מכיל רווח כפול."
 
 #: ../../user/checks.rst:193
 msgid "``weblate.checks.chars.DoubleSpaceCheck``"
@@ -46319,10 +46307,8 @@ msgid "Fluent parts"
 msgstr "חלקי Fluent"
 
 #: ../../user/checks.rst:208
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "חלקי ה־Fluent צריכים להיות תואמים"
+msgstr "חלקי ה־Fluent צריכים להיות תואמים."
 
 #: ../../user/checks.rst:210
 msgid "``weblate.checks.fluent.parts.FluentPartsCheck``"
@@ -46365,10 +46351,8 @@ msgid "Fluent references"
 msgstr "העדפות Fluent"
 
 #: ../../user/checks.rst:248
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "הפניות ה־Fluent אמורות להיות תואמות"
+msgstr "הפניות ה־Fluent אמורות להיות תואמות."
 
 #: ../../user/checks.rst:250
 msgid "``weblate.checks.fluent.references.FluentReferencesCheck``"
@@ -46444,10 +46428,8 @@ msgid "Fluent translation inner HTML"
 msgstr "HTML פנימי בתרגום Fluent"
 
 #: ../../user/checks.rst:319
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "יעד Fluent אמור להיות HTML פנימי תקף תואם"
+msgstr "יעד Fluent אמור להיות HTML פנימי תקף תואם."
 
 #: ../../user/checks.rst:321
 msgid "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
@@ -46526,10 +46508,8 @@ msgid "Fluent translation syntax"
 msgstr "תחביר תרגום Fluent"
 
 #: ../../user/checks.rst:387
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "שגיאת תחביר Fluent בתרגום"
+msgstr "שגיאת תחביר Fluent בתרגום."
 
 #: ../../user/checks.rst:389
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
@@ -46608,10 +46588,8 @@ msgid "AngularJS interpolation string"
 msgstr "מחרוזת שזירה של AngularJS"
 
 #: ../../user/checks.rst:444
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "מחרוזות השזירה של AngularJS אינן תואמות למקור"
+msgstr "מחרוזות השזירה של AngularJS אינן תואמות למקור."
 
 #: ../../user/checks.rst:446
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -46692,10 +46670,8 @@ msgid "C format"
 msgstr "תבנית C"
 
 #: ../../user/checks.rst:480
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "המחרוזת בתבנית C אינה תואמת למקור"
+msgstr "המחרוזת בתבנית C אינה תואמת למקור."
 
 #: ../../user/checks.rst:482
 msgid "``weblate.checks.format.CFormatCheck``"
@@ -46742,10 +46718,8 @@ msgid "C# format"
 msgstr "תבנית C#‎"
 
 #: ../../user/checks.rst:500
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "המחרוזת בתבנית C#‎ אינה תואמת למקור"
+msgstr "המחרוזת בתבנית C#‎ אינה תואמת למקור."
 
 #: ../../user/checks.rst:502
 msgid "``weblate.checks.format.CSharpFormatCheck``"
@@ -46806,10 +46780,8 @@ msgid "i18next interpolation"
 msgstr "שזירת i18next"
 
 #: ../../user/checks.rst:538
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "שזירת ה־i18next אינה תואמת למקור"
+msgstr "שזירת ה־i18next אינה תואמת למקור."
 
 #: ../../user/checks.rst:540
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
@@ -46972,10 +46944,8 @@ msgid "Java format"
 msgstr "תבנית Java"
 
 #: ../../user/checks.rst:625
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "המחרוזת בתבנית Java אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Java אינה תואמת למקור."
 
 #: ../../user/checks.rst:627
 msgid "``weblate.checks.format.JavaFormatCheck``"
@@ -47002,10 +46972,8 @@ msgid "Java MessageFormat"
 msgstr "תבנית Java MessageFormat"
 
 #: ../../user/checks.rst:649
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור."
 
 #: ../../user/checks.rst:651
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -47055,10 +47023,8 @@ msgid "JavaScript format"
 msgstr "תבנית JavaScript"
 
 #: ../../user/checks.rst:678
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "המחרוזת בתבנית JavaScript אינה תואמת למקור"
+msgstr "המחרוזת בתבנית JavaScript אינה תואמת למקור."
 
 #: ../../user/checks.rst:680
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
@@ -47079,10 +47045,8 @@ msgid "Lua format"
 msgstr "תבנית Lua"
 
 #: ../../user/checks.rst:696
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "המחרוזת בתבנית Lua אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Lua אינה תואמת למקור."
 
 #: ../../user/checks.rst:698
 msgid "``weblate.checks.format.LuaFormatCheck``"
@@ -47103,10 +47067,8 @@ msgid "Object Pascal format"
 msgstr "צורת Object Pascal"
 
 #: ../../user/checks.rst:714
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "המחרוזת בתבנית Object Pascal אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Object Pascal אינה תואמת למקור."
 
 #: ../../user/checks.rst:716
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
@@ -47177,10 +47139,8 @@ msgid "Perl format"
 msgstr "תבנית Perl"
 
 #: ../../user/checks.rst:771
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "המחרוזת בתבנית Perl אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Perl אינה תואמת למקור."
 
 #: ../../user/checks.rst:773
 msgid "``weblate.checks.format.PerlFormatCheck``"
@@ -47202,10 +47162,8 @@ msgid "PHP format"
 msgstr "תבנית PHP"
 
 #: ../../user/checks.rst:791
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "המחרוזת בתבנית PHP אינה תואמת למקור"
+msgstr "המחרוזת בתבנית PHP אינה תואמת למקור."
 
 #: ../../user/checks.rst:793
 msgid "``weblate.checks.format.PHPFormatCheck``"
@@ -47227,10 +47185,8 @@ msgid "Python brace format"
 msgstr "תבנית סוגריים מסולסלים ב־Python"
 
 #: ../../user/checks.rst:811
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "המחרוזת בתבנית סוגריים מסולסלים ב־Python אינה תואמת למקור"
+msgstr "המחרוזת בתבנית סוגריים מסולסלים ב־Python אינה תואמת למקור."
 
 #: ../../user/checks.rst:813
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
@@ -47264,10 +47220,8 @@ msgid "Python format"
 msgstr "תבנית Python"
 
 #: ../../user/checks.rst:831
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "המחרוזת בתבנית Python אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Python אינה תואמת למקור."
 
 #: ../../user/checks.rst:833
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -47395,10 +47349,8 @@ msgid "Scheme format"
 msgstr "תבנית Scheme"
 
 #: ../../user/checks.rst:908
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "מחרוזת תבנית Schema לא תואמת למקור"
+msgstr "מחרוזת תבנית Schema לא תואמת למקור."
 
 #: ../../user/checks.rst:910
 msgid "``weblate.checks.format.SchemeFormatCheck``"
@@ -47478,10 +47430,8 @@ msgid "Has been translated"
 msgstr "יש תרגום"
 
 #: ../../user/checks.rst:949
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "מחרוזת זו תורגמה בעבר"
+msgstr "מחרוזת זו תורגמה בעבר."
 
 #: ../../user/checks.rst:950 ../../user/checks.rst:964
 #, fuzzy
@@ -47649,10 +47599,8 @@ msgid "Markdown links"
 msgstr "קישורי Markdown"
 
 #: ../../user/checks.rst:1051 ../../user/checks.rst:1058
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "קישורי ה־Markdown לא תואמים למקור"
+msgstr "קישורי ה־Markdown לא תואמים למקור."
 
 #: ../../user/checks.rst:1053
 msgid "``weblate.checks.markup.MarkdownLinkCheck``"
@@ -47671,10 +47619,8 @@ msgid "Markdown references"
 msgstr "הפניות ב־Markdown"
 
 #: ../../user/checks.rst:1070 ../../user/checks.rst:1077
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
-msgstr "הפניות הקישורים ב־Markdown אינן תואמות למקור"
+msgstr "הפניות הקישורים ב־Markdown אינן תואמות למקור."
 
 #: ../../user/checks.rst:1072
 msgid "``weblate.checks.markup.MarkdownRefLinkCheck``"
@@ -47693,10 +47639,8 @@ msgid "Markdown syntax"
 msgstr "תחביר Markdown"
 
 #: ../../user/checks.rst:1088
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "תחביר ה־Markdown אינו תואם למקור"
+msgstr "תחביר ה־Markdown אינו תואם למקור."
 
 #: ../../user/checks.rst:1090
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
@@ -47719,10 +47663,8 @@ msgid "Maximum length of translation"
 msgstr "אורך מירבי לתרגום"
 
 #: ../../user/checks.rst:1106
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "על התרגום לא לחרוג מהאורך שצוין"
+msgstr "על התרגום לא לחרוג מהאורך שצוין."
 
 #: ../../user/checks.rst:1108
 msgid "``weblate.checks.chars.MaxLengthCheck``"
@@ -47843,10 +47785,8 @@ msgid "Mismatched colon"
 msgstr "נקודתיים לא תואמות"
 
 #: ../../user/checks.rst:1192
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודתיים"
+msgstr "המקור והתרגום לא מסתיימים שניהם בנקודתיים."
 
 #: ../../user/checks.rst:1194
 msgid "``weblate.checks.chars.EndColonCheck``"
@@ -47873,10 +47813,8 @@ msgid "Mismatched ellipsis"
 msgstr "השמטה לא תואמת"
 
 #: ../../user/checks.rst:1211
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "מקור ותרגום לא מסתיימים בסימן השמטה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בסימן השמטה."
 
 #: ../../user/checks.rst:1213
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
@@ -47908,10 +47846,8 @@ msgid "Mismatched exclamation mark"
 msgstr "סימן קריאה לא תואם"
 
 #: ../../user/checks.rst:1232
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה"
+msgstr "המקור והתרגום לא מסתיימים שניהם בסימן קריאה."
 
 #: ../../user/checks.rst:1234
 msgid "``weblate.checks.chars.EndExclamationCheck``"
@@ -47940,10 +47876,8 @@ msgid "Mismatched full stop"
 msgstr "נקודה לא תואמת"
 
 #: ../../user/checks.rst:1252
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "מקור ותרגום לא מסתיימים בנקודה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בנקודה."
 
 #: ../../user/checks.rst:1254
 msgid "``weblate.checks.chars.EndStopCheck``"
@@ -47969,11 +47903,8 @@ msgid "Mismatched interrobang"
 msgstr "אינטרובאנג לא תואם"
 
 #: ../../user/checks.rst:1271
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "מקור ותרגום לא מסתיימים בביטוי אינטרובאנג"
+msgstr "מקור ותרגום לא מסתיימים שניהם בביטוי אינטרובאנג."
 
 #: ../../user/checks.rst:1273
 msgid "``weblate.checks.chars.EndInterrobangCheck``"
@@ -48001,10 +47932,8 @@ msgid "Mismatched question mark"
 msgstr "סימן שאלה לא תואם"
 
 #: ../../user/checks.rst:1288
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "מקור ותרגום לא מסתיימים בסימן שאלה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בסימן שאלה."
 
 #: ../../user/checks.rst:1290
 msgid "``weblate.checks.chars.EndQuestionCheck``"
@@ -48032,10 +47961,8 @@ msgid "Mismatched semicolon"
 msgstr "נקודה פסיק לא תואם"
 
 #: ../../user/checks.rst:1309
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק"
+msgstr "המקור והתרגום לא מסתיימים שניהם בנקודה ופסיק."
 
 #: ../../user/checks.rst:1311
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
@@ -48060,10 +47987,8 @@ msgid "Mismatching line breaks"
 msgstr "ירידות השורה אינן תואמות"
 
 #: ../../user/checks.rst:1326
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "כמות השורות החדשות בתרגום אינה תואמת למקור"
+msgstr "כמות השורות החדשות בתרגום אינה תואמת למקור."
 
 #: ../../user/checks.rst:1328
 msgid "``weblate.checks.chars.NewLineCountCheck``"
@@ -48081,11 +48006,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1339
 msgid "Missing plurals"
-msgstr "צורות רבים חסרות"
+msgstr "צורות ריבוי חסרות"
 
 #: ../../user/checks.rst:1341
 msgid "Some plural forms are untranslated."
-msgstr "צורות רבים מסוימות אינן מתורגמות."
+msgstr "צורות ריבוי מסוימות אינן מתורגמות."
 
 #: ../../user/checks.rst:1343
 msgid "``weblate.checks.consistency.PluralsCheck``"
@@ -48164,10 +48089,8 @@ msgid "Prohibited initial character"
 msgstr "התו הראשוני אסור"
 
 #: ../../user/checks.rst:1404
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "המחרוזת מתחיל בתו אסור ב־CSV"
+msgstr "המחרוזת מתחילה בתו אסור ב־CSV."
 
 #: ../../user/checks.rst:1405
 #, fuzzy
@@ -48315,11 +48238,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1518
 msgid "Same plurals"
-msgstr "אותם רבים"
+msgstr "אותן מחרוזות ריבוי"
 
 #: ../../user/checks.rst:1520
 msgid "Some plural forms are translated in the same way."
-msgstr "חלק מצורות הרבים מתורגמות באופן זהה."
+msgstr "חלק מצורות הריבוי מתורגמות באופן זהה."
 
 #: ../../user/checks.rst:1522
 msgid "``weblate.checks.consistency.SamePluralsCheck``"
@@ -48340,10 +48263,8 @@ msgid "Starting newline"
 msgstr "פתיחה בשורה חדשה"
 
 #: ../../user/checks.rst:1534
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "מקור ותרגום לא מתחילים עם שורה חדשה"
+msgstr "מקור ותרגום לא מתחילים עם שורה חדשה."
 
 #: ../../user/checks.rst:1536
 msgid "``weblate.checks.chars.BeginNewlineCheck``"
@@ -48369,10 +48290,8 @@ msgid "Starting spaces"
 msgstr "פתיחה ברווחים"
 
 #: ../../user/checks.rst:1552
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "מקור ותרגום לא מתחילים עם אותו מספר של רווחים"
+msgstr "מקור ותרגום לא מתחילים שניהם עם אותו מספר של רווחים."
 
 #: ../../user/checks.rst:1554
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
@@ -48393,10 +48312,8 @@ msgid "Trailing newline"
 msgstr "שורה חדשה בסוף"
 
 #: ../../user/checks.rst:1566
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "מקור ותרגום לא מסתיימים בשורה חדשה"
+msgstr "מקור ותרגום לא מסתיימים שניהם בשורה חדשה."
 
 #: ../../user/checks.rst:1568
 msgid "``weblate.checks.chars.EndNewlineCheck``"
@@ -48415,10 +48332,8 @@ msgid "Trailing space"
 msgstr "רווח בסוף"
 
 #: ../../user/checks.rst:1584
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "מקור ותרגום לא מסתיימים ברווח"
+msgstr "מקור ותרגום לא מסתיימים שניהם ברווח."
 
 #: ../../user/checks.rst:1586
 msgid "``weblate.checks.chars.EndSpaceCheck``"
@@ -48550,10 +48465,8 @@ msgid "XML markup"
 msgstr "סימון XML"
 
 #: ../../user/checks.rst:1678
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "תגי XML בתרגום לא תואמים למקור"
+msgstr "תגי XML בתרגום לא תואמים למקור."
 
 #: ../../user/checks.rst:1680
 msgid "``weblate.checks.markup.XMLTagsCheck``"
@@ -48592,10 +48505,8 @@ msgid "XML syntax"
 msgstr "תחביר XML"
 
 #: ../../user/checks.rst:1702
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "התרגום אינו XML תקני"
+msgstr "התרגום אינו XML תקני."
 
 #: ../../user/checks.rst:1704
 msgid "``weblate.checks.markup.XMLValidityCheck``"
@@ -48614,10 +48525,8 @@ msgid "Zero-width space"
 msgstr "רווח ללא רוחב"
 
 #: ../../user/checks.rst:1723
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "התרגום כולל תווי רווח מיותרים ברוחב אפס"
+msgstr "התרגום כולל תווי רווח מיותרים ברוחב אפס."
 
 #: ../../user/checks.rst:1725
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
@@ -48700,10 +48609,8 @@ msgid "Fluent source inner HTML"
 msgstr "מקור Fluent‏ HTML פנימי"
 
 #: ../../user/checks.rst:1772
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "מקור ה־Fluent אמור להיות HTML פנימי תקני"
+msgstr "מקור ה־Fluent אמור להיות HTML פנימי תקני."
 
 #: ../../user/checks.rst:1774
 msgid "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
@@ -48929,10 +48836,8 @@ msgid "Fluent source syntax"
 msgstr "תחביר מקור Fluent"
 
 #: ../../user/checks.rst:1905
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "שגיאת תחביר Fluent במקור"
+msgstr "שגיאת תחביר Fluent במקור."
 
 #: ../../user/checks.rst:1907
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
@@ -49033,14 +48938,10 @@ msgid "Multiple unnamed variables"
 msgstr "מספר משתנים ללא שם"
 
 #: ../../user/checks.rst:1982 ../../user/checks.rst:1988
-#, fuzzy
-#| msgid ""
-#| "There are multiple unnamed variables in the string, making it impossible "
-#| "for translators to reorder them"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
-msgstr "יש מספר משתנים ללא שם במחרוזת, מה שלא מאפשר למתרגמים לשנות להם את הסדר"
+msgstr "יש מספר משתנים ללא שם במחרוזת, מה שלא מאפשר למתרגמים לשנות להם את הסדר."
 
 #: ../../user/checks.rst:1984
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
