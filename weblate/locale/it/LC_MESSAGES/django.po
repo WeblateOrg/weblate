@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-04-12 01:05+0000\n"
+"PO-Revision-Date: 2025-04-12 04:20+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -350,7 +350,7 @@ msgstr "Commenti fatti"
 
 #: weblate/accounts/forms.py:1004
 msgid "Screenshots uploaded"
-msgstr "Schermate caricate"
+msgstr "Screenshot caricati"
 
 #: weblate/accounts/forms.py:1028
 msgid "The chosen sorting is not supported."
@@ -457,10 +457,8 @@ msgstr ""
 "Account bloccato a causa di eccessivi tentativi di accesso non riusciti."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Non è stato possibile inviare il messaggio all'amministratore."
+msgstr "Account bloccato dall'amministratore del sito."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1093,10 +1091,8 @@ msgid "Could not send message to administrator."
 msgstr "Non è stato possibile inviare il messaggio all'amministratore."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Hai inviato troppi messaggi. Riprova più tardi."
+msgstr "Non è stato possibile aprire un ticket. Riprova più tardi."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -2532,7 +2528,7 @@ msgstr "Gestisci memoria traduzione"
 #: weblate/auth/data.py:222
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr "Gestisci schermate"
+msgstr "Gestisci screenshot"
 
 #: weblate/auth/data.py:226
 msgctxt "Access-control role"
@@ -3152,10 +3148,8 @@ msgid "AngularJS interpolation string"
 msgstr "Stringa interpolazione AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Le stringhe interpolazione AngularJS non corrispondono al sorgente"
+msgstr "Le stringhe interpolazione AngularJS non corrispondono al sorgente."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3174,210 +3168,169 @@ msgid "Starting newline"
 msgstr "Nuova riga iniziale"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Sorgente e traduzione non iniziano entrambe con una riga vuota"
+msgstr "Sorgente e traduzione non iniziano entrambe con una riga vuota."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Righe vuote"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Sorgente e traduzione non finiscono entrambe con una riga vuota"
+msgstr "Sorgente e traduzione non finiscono entrambe con una riga vuota."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Spazi iniziali"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
 msgstr ""
-"Sorgente e traduzione non iniziano entrambe con lo stesso numero di spazi"
+"Sorgente e traduzione non iniziano entrambe con lo stesso numero di spazi."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Spazio finale"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Sorgente e traduzione non finiscono entrambe con uno spazio"
+msgstr "Sorgente e traduzione non finiscono entrambe con uno spazio."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Doppio spazio"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "La traduzione contiene un doppio spazio"
+msgstr "La traduzione contiene un doppio spazio."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Punto a capo non corrispondente"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Sorgente e traduzione non terminano entrambe con un punto"
+msgstr "Sorgente e traduzione non terminano entrambe con un punto."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Due punti non corrispondenti"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Sorgente e traduzione non terminano entrambe con i due punti"
+msgstr "Sorgente e traduzione non terminano entrambe con i due punti."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Punto interrogativo non corrispondente"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
 msgstr ""
-"Sorgente e traduzione non terminano entrambe con un punto interrogativo"
+"Sorgente e traduzione non terminano entrambe con un punto interrogativo."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Punto esclamativo non corrispondente"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Sorgente e traduzione non terminano entrambe con un punto esclamativo"
+msgstr "Sorgente e traduzione non terminano entrambe con un punto esclamativo."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Interrobang non corrispondente"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
 msgstr ""
-"Sorgente e traduzione non finiscono entrambe con un'espressione interrobang"
+"Sorgente e traduzione non finiscono entrambe con un'espressione interrobang."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Puntini di sospensione non corrispondenti"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
 msgstr ""
-"Sorgente e traduzione non finiscono entrambe con i puntini di sospensione"
+"Sorgente e traduzione non finiscono entrambe con i puntini di sospensione."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "\\n non corrispondenti"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
 msgstr ""
-"Il numero di codici \\n nella traduzione non corrisponde a quelle nel "
-"sorgente"
+"Il numero di codici \\n"
+" nella traduzione non corrisponde a quelle nel sorgente."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Mancata corrispondenza ritorni a capo"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
 msgstr ""
-"Il numero di linee nella traduzione non corrisponde a quelle nel sorgente"
+"Il numero di linee nella traduzione non corrisponde a quelle nel sorgente."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Spazi larghezza zero"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "La traduzione contiene caratteri spazio a larghezza zero aggiuntivi"
+msgstr "La traduzione contiene caratteri spazio a larghezza zero aggiuntivi."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Lunghezza massima della traduzione"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "La traduzione non deve eccedere la lunghezza indicata"
+msgstr "La traduzione non deve eccedere la lunghezza indicata."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Punto e virgola non corrispondente"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Sorgente e traduzione non finiscono entrambe con punto e virgola"
+msgstr "Sorgente e traduzione non finiscono entrambe con punto e virgola."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Usato lettera Kashida"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Non dovrebbero essere usate le lettere decorative kashida"
+msgstr "Non dovrebbero essere usate le lettere decorative kashida."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Spaziatura punteggiatura"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
 msgstr ""
-"Spazio non interrompibile mancante prima del doppio segno di punteggiatura"
+"Spazio non interrompibile mancante prima del doppio segno di punteggiatura."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Plurali mancanti"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Alcune forme plurali non sono state tradotte"
+msgstr "Alcune forme plurali non sono state tradotte."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Uguale singolare/plurale"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
 msgstr ""
-"Alcune forme plurali sono state tradotte nello stesso modo del singolare"
+"Alcune forme plurali sono state tradotte nello stesso modo del singolare."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3416,10 +3369,8 @@ msgid "Has been translated"
 msgstr "È stata tradotta"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "Questa stringa è stata tradotta in passato"
+msgstr "Questa stringa è stata tradotta in passato."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3431,10 +3382,8 @@ msgid "Consecutive duplicated words"
 msgstr "Parole duplicate consecutive"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "Il testo contiene la stessa parola due volte di fila"
+msgstr "Il testo contiene la stessa parola due volte di fila."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3543,7 +3492,7 @@ msgstr "Tipo Fluent"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Scarta flag"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -3694,10 +3643,8 @@ msgid "Fluent source inner HTML"
 msgstr "HTML interno sorgente Fluent"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "La sorgente Fluent dovrebbe essere un HTML interno valido"
+msgstr "La sorgente Fluent dovrebbe essere un HTML interno valido."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3761,12 +3708,10 @@ msgid "Fluent translation inner HTML"
 msgstr "Traduzione Fluent HTML interno"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
 msgstr ""
 "Il target Fluent dovrebbe essere un codice HTML interno valido che "
-"corrisponda"
+"corrisponda."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3791,10 +3736,8 @@ msgid "Fluent parts"
 msgstr "Parti Fluent"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Le parti Fluent devono corrispondere"
+msgstr "Le parti Fluent devono corrispondere."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3924,10 +3867,8 @@ msgid "Fluent references"
 msgstr "Riferimenti Fluent"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "I riferimenti Fluent devono corrispondere"
+msgstr "I riferimenti Fluent devono corrispondere."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3939,20 +3880,16 @@ msgid "Fluent source syntax"
 msgstr "Sintassi Fluent sorgente"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Errore di sintassi Fluent nel sorgente"
+msgstr "Errore di sintassi Fluent nel sorgente."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Sintassi Fluent traduzione"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Errore di sintassi Fluent nella traduzione"
+msgstr "Errore di sintassi Fluent nella traduzione."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3964,101 +3901,81 @@ msgid "Python format"
 msgstr "Formato Python"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "La stringa in formato Phython non corrisponde al sorgente"
+msgstr "La stringa in formato Phython non corrisponde al sorgente."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "Formato PHP"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "La stringa in formato PHP non corrisponde al sorgente"
+msgstr "La stringa in formato PHP non corrisponde al sorgente."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "Formato C"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "La stringa in formato C non corrisponde al sorgente"
+msgstr "La stringa in formato C non corrisponde al sorgente."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "Formato parentesi graffa Perl"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
 msgstr ""
-"La stringa in formato parentesi graffa Perl non corrisponde al sorgente"
+"La stringa in formato parentesi graffa Perl non corrisponde al sorgente."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "Formato Perl"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "La stringa in formato Perl non corrisponde al sorgente"
+msgstr "La stringa in formato Perl non corrisponde al sorgente."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "Formato JavaScript"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "La stringa in formato JavaScript non corrisponde al sorgente"
+msgstr "La stringa in formato JavaScript non corrisponde al sorgente."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "Formato Lua"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "La stringa Lua non corrisponde al sorgente"
+msgstr "La stringa Lua non corrisponde al sorgente."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "Formato Object Pascal"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "La stringa in formato Object Pascal non corrisponde al sorgente"
+msgstr "La stringa in formato Object Pascal non corrisponde al sorgente."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "Formato Scheme"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "La stringa in formato Scheme non corrisponde al sorgente"
+msgstr "La stringa in formato Scheme non corrisponde al sorgente."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "Formato parentesi graffa Python"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "La stringa in formato Phython brace non corrisponde al sorgente"
+msgstr "La stringa in formato Phython brace non corrisponde al sorgente."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4069,30 +3986,24 @@ msgid "C# format"
 msgstr "Formato C#"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "La stringa in formato C# non corrisponde al sorgente"
+msgstr "La stringa in formato C# non corrisponde al sorgente."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "Formato Java"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "La stringa in formato Java non corrisponde al sorgente"
+msgstr "La stringa in formato Java non corrisponde al sorgente."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "Formato messaggio Java"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "La stringa formato messaggio Java non corrisponde al sorgente"
+msgstr "La stringa formato messaggio Java non corrisponde al sorgente."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4103,69 +4014,53 @@ msgid "i18next interpolation"
 msgstr "Interpolazione i18next"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "L'interpolazione i18next non corrisponde al sorgente"
+msgstr "L'interpolazione i18next non corrisponde al sorgente."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "Letterali modello ECMAScript"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
 msgstr ""
-"I valori letterali del modello ECMAScript non corrispondono al sorgente"
+"I valori letterali del modello ECMAScript non corrispondono al sorgente."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "Segnaposti percentuale"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "I segnaposti percentuale non corrispondono al sorgente"
+msgstr "I segnaposti percentuale non corrispondono al sorgente."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Formattazione Vue I18n"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "La formattazione Vue I18n non corrisponde al sorgente"
+msgstr "La formattazione Vue I18n non corrisponde al sorgente."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic Components"
-msgstr "Assegnazioni automatiche"
+msgstr "Componenti automatici"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "I segnaposti percentuale non corrispondono al sorgente"
+msgstr "I segnaposti percentuale non corrispondono al sorgente."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
 msgstr "Variabili senza nome multiple"
 
 #: weblate/checks/format.py:849
-#, fuzzy
-#| msgid ""
-#| "There are multiple unnamed variables in the string, making it impossible "
-#| "for translators to reorder them"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
 "Nella stringa ci sono più variabili senza nome, rendendo impossibile per i "
-"traduttori riordinarle"
+"traduttori riordinarle."
 
 #: weblate/checks/glossary.py:24
 msgid "Does not follow glossary"
@@ -4184,10 +4079,8 @@ msgid "Prohibited initial character"
 msgstr "Carattere iniziale proibito"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "La stringa inizia con un carattere proibito in CSV"
+msgstr "La stringa inizia con un carattere proibito in CSV."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4280,76 +4173,60 @@ msgid "BBCode markup"
 msgstr "Markup BBCode"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode nella traduzione non corrisponde al sorgente"
+msgstr "BBCode nella traduzione non corrisponde al sorgente."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "Sintassi XML"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "Traduzione con errori nel codice XML"
+msgstr "Traduzione con errori nel codice XML."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "Markup XML"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "I tag XML nella traduzione non corrispondono al sorgente"
+msgstr "I tag XML nella traduzione non corrispondono al sorgente."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
 msgstr "Riferimenti markdown"
 
 #: weblate/checks/markup.py:280
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
-msgstr "I riferimenti ai collegamenti markdown non corrispondono al sorgente"
+msgstr "I riferimenti ai collegamenti markdown non corrispondono al sorgente."
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
 msgstr "Collegamenti markdown"
 
 #: weblate/checks/markup.py:297
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "I collegamenti markdown non corrispondono al sorgente"
+msgstr "I collegamenti markdown non corrispondono al sorgente."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "Sintassi markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "La sintassi markdown non corrisponde al sorgente"
+msgstr "La sintassi markdown non corrisponde al sorgente."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "La traduzione non contiene un URL"
+msgstr "La traduzione non contiene un URL."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML non sicuro"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "La traduzione usa una marcatore HTML non sicuro"
+msgstr "La traduzione usa una marcatore HTML non sicuro."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4382,20 +4259,16 @@ msgid "Placeholders"
 msgstr "Segnaposti"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "Nella traduzione mancano alcuni segnaposto"
+msgstr "Nella traduzione mancano alcuni segnaposto."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "Espressione regolare"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "La traduzione non corrisponde all'espressione regolare"
+msgstr "La traduzione non corrisponde all'espressione regolare."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4406,30 +4279,24 @@ msgid "Qt format"
 msgstr "Formato Qt"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "La stringa in formato Qt non corrisponde al sorgente"
+msgstr "La stringa in formato Qt non corrisponde al sorgente."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Formato Qt plurale"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "La stringa in formato Qt plurale non corrisponde al sorgente"
+msgstr "La stringa in formato Qt plurale non corrisponde al sorgente."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "Dimensione massima della traduzione"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "Il testo tradotto non dovrebbe superare le dimensioni indicate"
+msgstr "Il testo tradotto non dovrebbe superare le dimensioni indicate."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4441,53 +4308,42 @@ msgid "Ruby format"
 msgstr "Formato Ruby"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "La stringa in formato Ruby non corrisponde al sorgente"
+msgstr "La stringa in formato Ruby non corrisponde al sorgente."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Traduzione invariata"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Sorgente e traduzione sono identiche"
+msgstr "Sorgente e traduzione sono identiche."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "Non al plurale"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr "La stringa è usata come plurale, ma non usa forme plurali"
+msgstr "La stringa è usata come plurale, ma non usa forme plurali."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "Puntini di sospensione"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
 msgstr ""
 "La stringa usa tre punti (...) invece del carattere per i puntini di "
-"sospensione (…)"
+"sospensione (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "Stringhe con errori"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "La traduzione in diverse lingue contiene alcuni errori"
+msgstr "La traduzione in diverse lingue contiene alcuni errori."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4498,10 +4354,8 @@ msgid "Long untranslated"
 msgstr "Non tradotta da molto tempo"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "La stringa non è stata tradotta da molto tempo"
+msgstr "La stringa non è stata tradotta da molto tempo."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -5362,11 +5216,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Impossibile recuperare la traduzione: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Testo lingua di origine"
+msgstr "Selezione lingua sorgente"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5697,26 +5549,19 @@ msgid "The model's unique deployment name."
 msgstr "Nome di distribuzione univoco del modello."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Selezione automatica"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Componente rinominato"
+msgstr "Lingua sorgente del componente"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Nuova lingua aggiunta in %(component)s"
+msgstr "Lingua secondaria definita nel progetto o nel componente"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -5909,12 +5754,13 @@ msgstr "Nome screenshot"
 
 #: weblate/screenshots/models.py:57
 msgid "Repository path to screenshot"
-msgstr "Percorso repository per schermata"
+msgstr "Percorso repository per screenshot"
 
 #: weblate/screenshots/models.py:58
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
-"Cerca la modifica del file schermata durante l'aggiornamento del repository."
+"Esegui la scansione per individuare eventuali modifiche al file dello "
+"screenshot durante l'aggiornamento del repository."
 
 #: weblate/screenshots/models.py:63
 #: weblate/templates/screenshots/screenshot_detail.html:90
@@ -5929,16 +5775,16 @@ msgstr "Carica immagini fino a 2000x2000 pixel."
 #: weblate/screenshots/views.py:244
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
-"La schermata è stata caricata, ora puoi assegnarla alle stringhe sorgenti."
+"Lo screenshot è stato caricato, ora puoi assegnarlo alle stringhe sorgente."
 
 #: weblate/screenshots/views.py:250
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "Impossibile caricare la schermata, correggi gli errori di seguito."
+msgstr "Impossibile caricare lo screenshot. Correggi gli errori qui sotto."
 
 #: weblate/screenshots/views.py:309
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "La schermata '%s' è stata eliminata."
+msgstr "Lo screenshot %s è stato eliminato."
 
 #: weblate/screenshots/views.py:328
 msgid "Source has been removed."
@@ -7106,8 +6952,8 @@ msgstr[1] "%(count)s suggerimenti in attesa"
 #, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s schermata"
-msgstr[1] "%(count)s schermate"
+msgstr[0] "%(count)s screenshot"
+msgstr[1] "%(count)s screenshot"
 
 #: weblate/templates/accounts/user.html:91
 #, python-format
@@ -7246,16 +7092,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Disattiva l'autenticazione a due fattori"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Attiva l'autenticazione con password per proteggere il tuo account."
+msgstr "Disabilita l'autenticazione tramite password per l'utente."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Nuova password"
+msgstr "Disabilita password"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -7906,7 +7748,7 @@ msgstr ""
 #: weblate/templates/base.html:479
 #: weblate/templates/screenshots/screenshot_detail.html:115
 msgid "Screenshot details"
-msgstr "Dettagli schermata"
+msgstr "Dettagli screenshot"
 
 #: weblate/templates/billing/detail.html:32
 msgid "Recurring payment"
@@ -10058,7 +9900,7 @@ msgstr "Posizione stringa sorgente"
 #: weblate/templates/mail/snippets/unit-screenshots.html:12
 #: weblate/templates/translate.html:746
 msgid "Screenshot context"
-msgstr "Contesto schermata"
+msgstr "Contesto screenshot"
 
 #: weblate/templates/mail/todo_strings.html:11 weblate/trans/filter.py:26
 #: weblate/trans/filter.py:123
@@ -10811,8 +10653,8 @@ msgstr "Stringhe sorgente assegnate"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
-"La schermata è visualizzata per aggiungere un contesto visivo per tutte le "
-"stringhe sorgenti elencate."
+"Viene mostrato uno screenshot per aggiungere un contesto visivo a tutte le "
+"stringhe sorgente elencate."
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
 msgid "Assign source strings"
@@ -10829,13 +10671,13 @@ msgstr "Ricerca stringa sorgente"
 #: weblate/templates/screenshots/screenshot_detail.html:142
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
-"L'eliminazione della schermata la rimuoverà da tutte le stringhe sorgenti "
+"L'eliminazione dello screenshot lo rimuoverà da tutte le stringhe sorgente "
 "associate."
 
 #: weblate/templates/screenshots/screenshot_list.html:41
 #: weblate/templates/translate.html:994
 msgid "Add new screenshot"
-msgstr "Aggiungi nuova schermata"
+msgstr "Aggiungi nuovo screenshot"
 
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/translation.html:165
@@ -10849,7 +10691,7 @@ msgstr "Non ci sono stringhe assegnate."
 
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:3
 msgid "Add to screenshot"
-msgstr "Aggiungi alla schermata"
+msgstr "Aggiungi allo screenshot"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
 msgid "Paste from clipboard"
@@ -11018,7 +10860,7 @@ msgstr "Stringa destinazione"
 
 #: weblate/templates/snippets/embed-units.html:62
 msgid "Assigned screenshots"
-msgstr "Schermate assegnate"
+msgstr "Screenshot assegnati"
 
 #: weblate/templates/snippets/embed-units.html:74
 msgid "Loading results…"
@@ -12073,20 +11915,14 @@ msgstr ""
 "Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Gerrit ha proibito questa push. Potrebbe essere necessario un account Gerrit "
-"che disponga delle autorizzazioni di Forge Author per il repository/ramo o "
-"che sia necessario utilizzare l'add-on squash su questo componente in "
-"Weblate."
+"Gerrit ha proibito questo push. Potrebbe essere necessario un account Gerrit "
+"che abbia i permessi di forge author per il repository/branch oppure devi "
+"utilizzare l'add-on squash su questo componente in Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid ""
@@ -12409,11 +12245,11 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
 msgid "At least one screenshot has no string assigned to it."
-msgstr "Ad almeno una schermata non è stata assegnata alcuna stringa."
+msgstr "Ad almeno uno screenshot non è assegnata alcuna stringa."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:6
 msgid "Manage screenshots"
-msgstr "Gestisci schermate"
+msgstr "Gestisci screenshot"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -13153,7 +12989,7 @@ msgstr "Informazioni stringa"
 
 #: weblate/templates/translate.html:751
 msgid "No screenshot currently associated."
-msgstr "Nessuna schermata attualmente associata."
+msgstr "Nessuno screenshot attualmente associato."
 
 #: weblate/templates/translate.html:778
 msgid "No explanation currently provided."
@@ -13723,12 +13559,12 @@ msgstr "Contratto di licenza per collaboratori modificato"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:117
 msgid "Screenshot added"
-msgstr "Schermata aggiunta"
+msgstr "Screenshot aggiunto"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:119
 msgid "Screenshot uploaded"
-msgstr "Schermata caricata"
+msgstr "Screenshot caricato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:121
@@ -13827,17 +13663,13 @@ msgstr "Cambiamento propagato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Modalità di caricamento file"
+msgstr "File caricato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Ultimo aggiornamento"
+msgstr "Flag extra aggiornati"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -13949,7 +13781,7 @@ msgstr "Stringhe con varianti"
 
 #: weblate/trans/filter.py:31
 msgid "Strings with screenshots"
-msgstr "Stringhe con schermate"
+msgstr "Stringhe con screenshot"
 
 #: weblate/trans/filter.py:32
 msgid "Strings with labels"
@@ -13981,7 +13813,7 @@ msgstr "Stringhe in attesa di revisione"
 
 #: weblate/trans/filter.py:64
 msgid "Strings without screenshots"
-msgstr "Stringhe senza schermate"
+msgstr "Stringhe senza screenshot"
 
 #: weblate/trans/filter.py:67
 msgid "Strings without a label"
@@ -14284,20 +14116,16 @@ msgid "Report period"
 msgstr "Periodo rapporto"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Ordina per"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Nessuna stringa da tradurre"
+msgstr "Stringhe tradotte"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Tipo ordinamento"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -14632,7 +14460,7 @@ msgstr "Fornisci contesto ai traduttori"
 
 #: weblate/trans/guide.py:181
 msgid "Add screenshots to show where strings are being used."
-msgstr "Aggiungi schermate per visualizzare dove vengono usate le stringhe."
+msgstr "Aggiungi screenshot per mostrare dove vengono usate le stringhe."
 
 #: weblate/trans/guide.py:196
 msgid "Use flags to indicate special strings in your translation."
@@ -14747,7 +14575,7 @@ msgstr "URL del sito web del progetto non funzionante"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:578
 msgid "Unused screenshot"
-msgstr "Schermata non usata"
+msgstr "Screenshot non usato"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:597
@@ -15104,8 +14932,8 @@ msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
 msgstr ""
-"Percorso file schermate relativo alla radice del repository, ad esempio: "
-"docs/schermate/*.png."
+"Percorso degli screenshot relativo alla radice del repository, ad esempio: "
+"docs/screenshots/*.png."
 
 #: weblate/trans/models/component.py:489
 msgid ""
@@ -15375,28 +15203,20 @@ msgstr ""
 "formati monolingue."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Lingue secondarie"
+msgstr "Lingua secondaria"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
-"Le lingue secondarie quando si traduce sono visualizzate accanto alla "
-"stringa sorgente."
+"Lingua aggiuntiva da visualizzare insieme alla lingua di origine durante la "
+"traduzione."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Non è stata importata alcuna stringa dal file caricato."
+msgstr "Se lasciata vuota, questa impostazione viene ereditata dal progetto."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15845,7 +15665,6 @@ msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Impossibile analizzare il file %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1024
-#, fuzzy
 msgid "“{}”"
 msgstr "“{}”"
 
@@ -16798,16 +16617,12 @@ msgid "Horizontal language bar chart"
 msgstr "Grafico a barre della lingua orizziontale"
 
 #: weblate/trans/widgets.py:526
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Codice lingua"
+msgstr "Badge di conteggio delle lingue"
 
 #: weblate/trans/widgets.py:540
-#, fuzzy
-#| msgid "Languages"
 msgid "languages"
-msgstr "Lingue"
+msgstr "lingue"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -17053,10 +16868,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Indirizzo e-mail non valido: {}"
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Questo indirizzo e-mail non è consentito."
+msgstr "Non sono ammessi domini di posta elettronica usa e getta."
 
 #: weblate/utils/validators.py:211
 msgid "Could not evaluate plural formula: {}"
