@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-02-27 07:31+0000\n"
+"PO-Revision-Date: 2025-04-12 00:51+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:86
@@ -1011,13 +1011,11 @@ msgstr[1] ""
 "caratteri."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "La password deve contenere al massimo %(min_length)d carattere."
-msgstr[1] "La password deve contenere al massimo %(min_length)d caratteri."
+msgstr[0] "La password deve contenere al massimo %(max_length)d carattere."
+msgstr[1] "La password deve contenere al massimo %(max_length)d caratteri."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -2074,7 +2072,7 @@ msgstr "Impossibile ottenere il blocco per eseguire l'operazione."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "L'ID unità specificato non è un'unità di traduzione sorgente."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -9789,6 +9787,7 @@ msgstr "Il componente %(component)s è stato sbloccato"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Nota: questo riepilogo è stato troncato perché conteneva oltre 100 notifiche."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -14880,10 +14879,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s alle %(time)s in %(translation)s"
 
 #: weblate/trans/models/change.py:681
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Modalità di caricamento file"
+msgstr "Modalità di caricamento file:"
 
 #: weblate/trans/models/change.py:717
 msgid "The “{}” file was changed."
@@ -15848,20 +15845,20 @@ msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Impossibile analizzare il file %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1024
+#, fuzzy
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1027
 msgid "…"
-msgstr "..."
+msgstr "…"
 
 #: weblate/trans/models/translation.py:1034
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Impossibile trovare stringhe unite."
-msgstr[1] "Impossibile trovare stringhe unite."
+msgstr[0] "Impossibile trovare %d stringa:"
+msgstr[1] "Impossibile trovare %d stringhe:"
 
 #: weblate/trans/models/translation.py:1220
 #: weblate/trans/models/translation.py:1279
