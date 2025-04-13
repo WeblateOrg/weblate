@@ -480,10 +480,8 @@
     });
 
     /* Glossary dialog */
-    let $glossaryDialog = null;
-    this.$editor.on("show.bs.modal", "#add-glossary-form", (e) => {
-      $glossaryDialog = $(e.currentTarget);
-
+    const $glossaryDialog = $("#add-glossary-form");
+    $glossaryDialog.on("show.bs.modal", (e) => {
       /* Prefill adding to glossary with current string */
       if (e.target.hasAttribute("data-shown")) {
         return;
@@ -516,7 +514,7 @@
     });
 
     /* Inline glossary adding */
-    this.$editor.on("submit", ".add-dict-inline", (e) => {
+    $(".add-dict-inline").on("submit", (e) => {
       const $form = $(e.currentTarget);
 
       increaseLoading("glossary-add");
