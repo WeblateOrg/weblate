@@ -24,8 +24,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 17:34+0200\n"
-"PO-Revision-Date: 2025-04-12 18:21+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2025-04-13 03:16+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -5863,7 +5864,7 @@ msgstr "源字符串附加标记："
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` 描述手动编辑。"
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
@@ -5933,6 +5934,9 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"可以用 ``discard:NAME`` 语法忽略更高层级定义的标记。比如，如果部件配置为 "
+"``safe-html`` ，你可以添加 ``discard:safe-html`` "
+"到字符串标记让这个特定字符串跳过它。"
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -8590,7 +8594,7 @@ msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 
 #: ../../admin/config.rst:1016
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
-msgstr "开关用于资助 Weblate 的内置的 Interledger Payment Pointer。"
+msgstr "开关用于资助 Weblate 的内置的 Interledger Payment 提示。"
 
 #: ../../admin/config.rst:1020 ../../admin/install/docker.rst:724
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -8618,7 +8622,8 @@ msgstr "请查阅 <https://webmonetization.org/> 了解更多细节。"
 msgid ""
 "A pointer to fund Weblate itself is automatically added unless turned off "
 "by :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
-msgstr ""
+msgstr "除非通过 :setting:`INTERLEDGER_PAYMENT_BUILTIN` 关闭，否则会自动添加资助 "
+"Weblate 的提示。"
 
 #: ../../admin/config.rst:1045
 msgid ":setting:`INTERLEDGER_PAYMENT_BUILTIN`"
@@ -17082,6 +17087,10 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+"匹配度达 100% 的 :ref:`mt-weblate-translation-memory` "
+"的优先级高于机器翻译服务。如果翻译记忆库中找到 100% "
+"匹配的条目，那么将不会执行机器翻译。如果有几条 100% "
+"匹配的条目，系统会使用数据库返回的第一个条目。"
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -17091,6 +17100,9 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"每个机器翻译服务都有一个预定义的可以生成的最高分。系统按照它们的最高分确定使"
+"用安装的翻译服务的顺序。如果字符串译文的分低于机器翻译服务的最高分，那么将请"
+"求该服务生成翻译。如果译文得分超过当前得分，那么系统将接受该译文。"
 
 #: ../../admin/machine.rst:43
 msgid "Source strings for the machine translation"
@@ -17101,7 +17113,8 @@ msgid ""
 "The origin of source strings for all third-party services can be configured. "
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
-msgstr ""
+msgstr "可以配置所有第三方服务的源字符串来源。这可以用来微调服务获得最好结果。有以下"
+"选项可用："
 
 #: ../../admin/machine.rst:50
 msgid ":guilabel:`Automatic selection`"
@@ -17143,7 +17156,7 @@ msgstr ""
 msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
-msgstr ""
+msgstr "退回到自动选择源语言，如果未配置第二语言。"
 
 #: ../../admin/machine.rst:66
 msgid "Alibaba"
@@ -17155,7 +17168,7 @@ msgstr "服务 ID"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "最高分"
 
 #: ../../admin/machine.rst:71
 msgid "80"
@@ -26237,6 +26250,8 @@ msgid ""
 "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
 "all target translation units for the given source translation unit."
 msgstr ""
+"新增 :http:get:`/api/units/(int:id)/translations/` "
+"获取给定源字符串翻译单元所有目标翻译单元的列表。"
 
 #: ../../changes.rst:9
 msgid ""
@@ -26283,14 +26298,15 @@ msgstr "改进"
 msgid ""
 "Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:"
 "`api`."
-msgstr ""
+msgstr "Weblate 现在使用 OpenAPI 规范 3.1.1 来生成 :ref:`api` 方案。"
 
 #: ../../changes.rst:18
 msgid ""
 ":ref:`credits` and :ref:`stats` include translator's join date. "
 "Additionally, both reports can be sorted either by the join date or the "
 "number of strings translated."
-msgstr ""
+msgstr ":ref:`credits` 和 :ref:`stats` "
+"包括译者的加入日期。此外，这两者均可根据加入日期或已翻译的字符串数进行排序。"
 
 #: ../../changes.rst:19
 msgid "Widgets show more precise stats."
@@ -26298,7 +26314,7 @@ msgstr "小挂件显示更精确的统计数据。"
 
 #: ../../changes.rst:20
 msgid ":ref:`upload` is now tracked in history with details."
-msgstr ""
+msgstr "历史记录中 :ref:`upload` 的情况现包含详情。"
 
 #: ../../changes.rst:21
 msgid ""
@@ -26324,7 +26340,7 @@ msgstr ":ref:`addon-weblate.discovery.discovery` 更好地处理上百个匹配�
 
 #: ../../changes.rst:25
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
-msgstr ""
+msgstr "忽略 :ref:`checks` 会自动更新已传播的字符串。"
 
 #: ../../changes.rst:26
 msgid ""
@@ -26342,7 +26358,7 @@ msgstr "改进了历史记录中 :ref:`additional-flags` 和 :ref:`additional-ex
 msgid ""
 ":ref:`mt-cyrtranslit` now automatically transliterates from a matching "
 "translation instead of the source strings."
-msgstr ""
+msgstr ":ref:`mt-cyrtranslit` 现自动从匹配的译文而不是源字符串进行音译。"
 
 #: ../../changes.rst:31 ../../changes.rst:59 ../../changes.rst:86
 #: ../../changes.rst:115 ../../changes.rst:149 ../../changes.rst:198
@@ -26487,7 +26503,7 @@ msgstr "修复了某些极端情况下 :ref:`language-parsing-codes` 的问题�
 
 #: ../../changes.rst:64
 msgid ":ref:`search-strings` now properly finds exact match on the component."
-msgstr ""
+msgstr ":ref:`search-strings` 现正确地在部件上寻找精准匹配。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -26624,7 +26640,7 @@ msgstr ""
 msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
-msgstr ""
+msgstr "当提供 HTTP 凭据时，Weblate 对于 Git 2.46.0 及更高版本使用主动身份验证。"
 
 #: ../../changes.rst:129
 msgid ""
@@ -37676,7 +37692,7 @@ msgstr "文档权限、检查、附加组件和自动建议"
 msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
-msgstr ""
+msgstr "几个文档部分使用从代码生成的模板。下列管理命令可用："
 
 #: ../../contributing/documentation.rst:47
 msgid ":wladmin:`list_addons`"
@@ -37699,7 +37715,8 @@ msgid ""
 "All these commands output reStructuredText which is used as a template for "
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
-msgstr ""
+msgstr "所有这些命令输出用作文档模板的 "
+"reStructuredText。应用更改到文档的最简单方法是在编辑器中使用可视化差异比较。"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -39594,6 +39611,8 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate 被配置为将 :program:`maildev` 容器用作电子邮件服务器。可以在 "
+"<http://127.0.0.1:1080/> 看到传递的电子邮件。"
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -50290,6 +50309,9 @@ msgid ""
 "secondary_language`) or component (:ref:`component-secondary_language`). In "
 "that case it can be used for :ref:`secondary-language-workflow`."
 msgstr ""
+"也可以在项目 (:ref:`project-secondary_language`)或部件 (:ref:`component-"
+"secondary_language`) 对此进行配置。如果是这种情况，它可以被用于 :ref"
+":`secondary-language-workflow`。"
 
 #: ../../user/profile.rst:115
 msgid "Preferences"
@@ -53836,17 +53858,23 @@ msgid ""
 "(see :ref:`secondary-languages`) and can be optionally used as a source for "
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
+"当 :ref:`component-intermediate` "
+"不能被用来合并字符串时，可以选择译文中的一个充当第二语言。可以在项目 (:ref"
+":`project-secondary_language`)或部件 (:ref:`component-secondary_language`) "
+"中配置语言。接着在译者进行翻译时会显示该第二语言 (见 :ref:`secondary-"
+"languages`) ，你也可以选择将其用作机器翻译的来源 (see :ref:`mt-sources`)。"
 
 #: ../../workflows.rst:276
 msgid ""
 "This setup can be useful with mixed language source strings and "
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
-msgstr ""
+msgstr "此设置对混合的语言字符串可能会有帮助，将它们合并入单一翻译中然后用作其他工作"
+"的基础。"
 
 #: ../../workflows.rst:282
 msgid "Source strings reviews"
-msgstr "源字符串复查"
+msgstr "源字符串审核"
 
 #: ../../workflows.rst:284
 msgid ""
