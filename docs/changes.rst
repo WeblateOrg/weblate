@@ -27,6 +27,7 @@ Weblate 5.11
 * :ref:`project-check_flags` can now also be configured on the project level.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 * :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
+* Errors from creating a duplicate glossary and failure to delete a glossary are now handled gracefully.
 
 .. rubric:: Bug fixes
 
