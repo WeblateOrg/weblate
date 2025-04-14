@@ -7,7 +7,11 @@ import operator
 
 from django.utils.functional import cached_property
 
-from .base import DownloadTranslations, GlossaryMachineTranslationMixin
+from .base import (
+    DownloadTranslations,
+    GlossaryDoesNotExistError,
+    GlossaryMachineTranslationMixin,
+)
 from .forms import AWSMachineryForm
 
 
@@ -89,6 +93,8 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
         """Create glossary in the service."""
         # add header with source and target languages
         tsv = f"{source_language}\t{target_language}\n{tsv}"
+
+        # AWS gracefully handles duplicate entries by merging them
         self.client.import_terminology(
             Name=name,
             MergeStrategy="OVERWRITE",
@@ -117,7 +123,10 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
     def delete_glossary(self, glossary_id: str) -> None:
         """Delete a single glossary from service."""
-        self.client.delete_terminology(Name=glossary_id)
+        try:
+            self.client.delete_terminology(Name=glossary_id)
+        except self.client.exceptions.ResourceNotFoundException as error:
+            raise GlossaryDoesNotExistError from error
 
     def delete_oldest_glossary(self) -> None:
         """Delete oldest glossary if any."""
