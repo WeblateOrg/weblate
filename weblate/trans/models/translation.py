@@ -973,8 +973,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             result.add_if(self.stats, "fuzzy", "")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "")
-            result.add_if(self.stats, "nosuggestions", "")
+            if result.add_if(self.stats, "suggestions", ""):
+                result.add_if(self.stats, "nosuggestions", "")
 
         # All checks
         result.add_if(self.stats, "allchecks", "")
@@ -997,13 +997,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # Include labels
         labels = self.component.project.label_set.order_by("name")
         if labels:
+            has_label = False
             for label in labels:
-                result.add_if(
+                has_label |= result.add_if(
                     self.stats,
                     f"label:{label.name}",
                     f"label label-{label.color}",
                 )
-            result.add_if(self.stats, "unlabeled", "")
+            if has_label:
+                result.add_if(self.stats, "unlabeled", "")
 
         return result
 
