@@ -22,6 +22,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
+from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
     TranslateTextResponse,
@@ -930,6 +931,41 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
+    def test_glossary_with_exception(self) -> None:
+        self.mock_languages()
+        self.mock_glossary_responses()
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
+
+        mock_blob = self.mock_blob(fail_delete=True)
+        mock_bucket = self.mock_bucket(mock_blob)
+
+        with (
+            patch.object(
+                TranslationServiceClient,
+                "create_glossary",
+                Mock(
+                    side_effect=google_api_exceptions.AlreadyExists(
+                        "Glossary already exists"
+                    )
+                ),
+            ),
+            patch.object(
+                TranslationServiceClient,
+                "delete_glossary",
+                Mock(
+                    side_effect=google_api_exceptions.NotFound("Glossary was not found")
+                ),
+            ),
+            patch(
+                "google.cloud.storage.Client", new=self.mock_storage_client(mock_bucket)
+            ),
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
     def test_glossary_with_calls_check(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
@@ -1040,26 +1076,42 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         get_credentials_patcher.start()
         self.addCleanup(get_credentials_patcher.stop)
 
+        mock_blob = self.mock_blob()
+        mock_bucket = self.mock_bucket(mock_blob)
+        patcher = patch(
+            "google.cloud.storage.Client", new=self.mock_storage_client(mock_bucket)
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def mock_storage_client(self, mock_bucket: type[MagicMock]) -> type[MagicMock]:
+        class MockStorageClient(MagicMock):
+            def get_bucket(self, *args, **kwargs):
+                """google.cloud.storage.Client.get_bucket."""
+                return mock_bucket()
+
+        return MockStorageClient
+
+    def mock_bucket(self, mock_blob: type[MagicMock]) -> type[MagicMock]:
+        class MockBucket(MagicMock):
+            def blob(self, *args, **kwargs):
+                """Mock google.cloud.storage.Bucket.blob."""
+                return mock_blob()
+
+        return MockBucket
+
+    def mock_blob(self, *args, fail_delete: bool = False, **kwargs) -> type[MagicMock]:
         class MockBlob(MagicMock):
             def upload_from_string(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.upload_from_string."""
 
             def delete(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.delete."""
+                if fail_delete:
+                    faile_message = "Blob file was not found"
+                    raise google_api_exceptions.NotFound(faile_message)
 
-        class MockBucket(MagicMock):
-            def blob(self, *args, **kwargs):
-                """Mock google.cloud.storage.Bucket.blob."""
-                return MockBlob()
-
-        class MockStorageClient(MagicMock):
-            def get_bucket(self, *args, **kwargs):
-                """google.cloud.storage.Client.get_bucket."""
-                return MockBucket()
-
-        patcher = patch("google.cloud.storage.Client", new=MockStorageClient)
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        return MockBlob
 
 
 class TMServerTranslationTest(BaseMachineTranslationTest):
