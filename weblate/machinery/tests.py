@@ -1881,6 +1881,80 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
 
     @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary_with_failed_delete(self) -> None:
+        """Test handling of glossary deletion failure scenario."""
+        with patch(
+            "weblate.machinery.deepl.DeepLTranslation.glossary_count_limit",
+            new=1,
+        ):
+            self.mock_languages()
+            # list glossaries to find matching name
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                            "name": "weblate:1:EN:DE:4a8f2d980d32c9a5",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-02T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+            # list glossaries before deleting
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                            "name": "weblate:1:EN:DE:4a8f2d980d32c9a5",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-02T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+            # delete oldest glossary
+            responses.delete(
+                "https://api.deepl.com/v2/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                json={"message": "Invalid or missing glossary id"},
+                status=400,
+            )
+            # create new glossary
+            responses.post("https://api.deepl.com/v2/glossaries")
+            # list glossaries with new entry
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                            "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-03T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+
+            responses.post("https://api.deepl.com/v2/translate", json=DEEPL_RESPONSE)
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+    @responses.activate
     def test_replacements(self) -> None:
         def request_callback(request: PreparedRequest):
             payload = json.loads(request.body)
