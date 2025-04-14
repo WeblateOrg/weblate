@@ -67,9 +67,32 @@ class FontListView(ProjectViewMixin, ListView):
             try:
                 instance.validate_unique()
             except ValidationError:
-                messages.error(
-                    request, gettext("Font with the same name already exists.")
-                )
+                # Check if a font with the same family and style exists
+                existing_font = Font.objects.filter(
+                    project=self.project,
+                    family=instance.family,
+                    style=instance.style,
+                ).first()
+
+                if existing_font:
+                    # Overwrite the file
+                    existing_font.font = instance.font
+                    existing_font.user = self.request.user
+                    existing_font.save()
+
+                    # TODO: Invalidate cache/rendering tied to this font
+                    messages.success(
+                        request,
+                        gettext("Existing font updated successfully."),
+                    )
+                    return redirect(existing_font)
+                else:
+                    # If no matching font, still raise the error
+                    messages.error(
+                        request,
+                        gettext("Font with the same name already exists."),
+                    )
+
             else:
                 instance.save()
                 return redirect(instance)
