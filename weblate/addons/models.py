@@ -116,12 +116,6 @@ class Addon(models.Model):
             original_component = self.component
             self.component = self.component.linked_component
 
-        # Clear add-on cache
-        if self.component:
-            self.component.drop_addons_cache()
-        if original_component:
-            original_component.drop_addons_cache()
-
         # Store history (if not updating state only)
         if update_fields != ["state"]:
             self.store_change(
@@ -129,6 +123,12 @@ class Addon(models.Model):
                 if not self.pk or force_insert
                 else ActionEvents.ADDON_CHANGE
             )
+
+        # Clear add-on cache, needs to be after creating Change
+        if self.component:
+            self.component.drop_addons_cache()
+        if original_component:
+            original_component.drop_addons_cache()
 
         return super().save(
             force_insert=force_insert,
@@ -179,6 +179,8 @@ class Addon(models.Model):
                 Alert.objects.filter(name=self.addon.alert).delete()
 
         result = super().delete(using=using, keep_parents=keep_parents)
+        if self.component:
+            self.component.drop_addons_cache()
         # Trigger post uninstall action
         self.addon.post_uninstall()
         return result
@@ -332,6 +334,7 @@ def execute_addon_event(
             # Uninstall no longer compatible add-ons
             if not addon.addon.can_install(component, None):
                 addon.disable()
+                component.drop_addons_cache()
         else:
             scope.log_debug("completed %s add-on: %s", event.label, addon.name)
         finally:
