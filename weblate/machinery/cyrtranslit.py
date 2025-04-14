@@ -26,9 +26,9 @@ CYRTRANSLIT_TO_WEBLATE_LANGS = {
     # mongolian
     "mn@latin": [],
     "mn@cyrillic": ["mn"],
-    # (belo)russian
-    "ru@latin": ["be_Latn"],
-    "ru@cyrillic": ["be", "ru"],
+    # russian
+    "ru@latin": [],
+    "ru@cyrillic": ["ru"],
     # serbian
     "sr@latin": ["sr", "sr_Latn", "sr@ijekavian_Latn"],
     "sr@cyrillic": ["sr@ijekavian", "sr_Cyrl"],

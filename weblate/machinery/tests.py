@@ -2613,24 +2613,28 @@ class CyrTranslitTranslationTest(ViewTestCase):
         machine = self.get_machine()
 
         # Add translations and prepare units
-        self.component.add_new_language(Language.objects.get(code="ru"), None)
-        self.component.add_new_language(Language.objects.get(code="be"), None)
-        self.component.add_new_language(Language.objects.get(code="be_Latn"), None)
-        self.edit_unit("Hello, world!\n", "Прывітанне, свет!\n", "be")
-        self.edit_unit("Hello, world!\n", "Привет, мир!\n", "ru")
+        self.component.add_new_language(Language.objects.get(code="sr_Cyrl"), None)
+        self.component.add_new_language(Language.objects.get(code="sr@ijekavian"), None)
+        self.component.add_new_language(
+            Language.objects.get(code="sr@ijekavian_Latn"), None
+        )
+        self.edit_unit(
+            "Hello, world!\n", "Мој ховеркрафт је пун јегуља\n", "sr@ijekavian"
+        )
+        self.edit_unit("Hello, world!\n", "Мој ховеркрафт је пун\n", "sr_Cyrl")
 
-        unit = self.get_unit("Hello, world!\n", language="be_Latn")
+        unit = self.get_unit("Hello, world!\n", language="sr@ijekavian_Latn")
         results = machine.translate(unit, self.user)
         self.assertEqual(
             results,
             [
                 [
                     {
-                        "text": "Pry'vіtanne, svet!\n",
+                        "text": "Moj hoverkraft je pun jegulja\n",
                         "quality": 100,
                         "service": "CyrTranslit",
-                        "source": "Прывітанне, свет!\n",
-                        "original_source": "Прывітанне, свет!\n",
+                        "source": "Мој ховеркрафт је пун јегуља\n",
+                        "original_source": "Мој ховеркрафт је пун јегуља\n",
                     }
                 ]
             ],
