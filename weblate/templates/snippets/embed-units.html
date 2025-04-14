@@ -19,7 +19,7 @@
           {% if include_search %}
             <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "context" %}-{% endif %}context">
             {% endif %}
-            {{ component.context_label }}
+            {{ units.0.translation.component.context_label }}
             {% if include_search %}
               <span class="sort-icon {% if sort_query == "context" %}sort-down{% elif sort_query == "-context" %}sort-up{% endif %}" />
             </a>

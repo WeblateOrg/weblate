@@ -15,6 +15,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.views import get_form_data
 
 
 class SearchViewTest(TransactionsTestMixin, ViewTestCase):
@@ -225,7 +226,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         url = reverse("settings", kwargs={"path": mono_component.get_url_path()})
         self.project.add_user(self.user, "Administration")
         response = self.client.get(url)
-        data = response.context["form"].initial
+        data = get_form_data(response.context["form"].initial)
         data["variant_regex"] = r"(_variant)$"
 
         response = self.client.post(

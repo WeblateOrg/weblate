@@ -12,6 +12,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.views import get_form_data
 
 
 class SettingsTest(ViewTestCase):
@@ -28,7 +29,7 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
         response = self.client.get(url)
         self.assertContains(response, "Settings")
-        data = response.context["form"].initial
+        data = get_form_data(response.context["form"].initial)
         data["web"] = "https://example.com/test/"
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Settings saved")
@@ -80,7 +81,7 @@ class SettingsTest(ViewTestCase):
 
         # Get initial form data
         response = self.client.get(url)
-        data = response.context["form"].initial
+        data = get_form_data(response.context["form"].initial)
         data["access_control"] = Project.ACCESS_PROTECTED
 
         # No permissions
@@ -124,8 +125,7 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
-        data = {}
-        data.update(response.context["form"].initial)
+        data = get_form_data(response.context["form"].initial)
         data["license"] = "MIT"
         data["enforced_checks"] = ["same", "duplicate"]
         response = self.client.post(url, data, follow=True)
@@ -148,8 +148,7 @@ class SettingsTest(ViewTestCase):
 
         response = self.client.get(url)
         self.assertContains(response, "Settings")
-        data = {}
-        data.update(response.context["form"].initial)
+        data = get_form_data(response.context["form"].initial)
         data["links"] = other.pk
         del data["enforced_checks"]
 

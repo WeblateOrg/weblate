@@ -441,9 +441,15 @@ class Notification:
                 if current_subscription.onetime:
                     current_subscription.delete()
 
-    def send_digest(self, language, email, changes, subscription=None) -> None:
+    def send_digest(
+        self, language, email, changes, subscription=None, *, overlimit: bool = False
+    ) -> None:
         with override("en" if language is None else language):
-            context = self.get_context(subscription=subscription, changes=changes)
+            context = self.get_context(
+                subscription=subscription,
+                changes=changes,
+                extracontext={"overlimit": overlimit},
+            )
             subject = self.render_template("_subject.txt", context, digest=True)
             context["subject"] = subject
             try:
@@ -479,20 +485,18 @@ class Notification:
                     users[user.pk] = user
         for user in users.values():
             user_changes = notifications[user.pk]
-            parts = []
-            while len(user_changes) > 120:
-                parts.append(user_changes[:100])
-                user_changes = user_changes[100:]
-            if user_changes:
-                parts.append(user_changes)
+            overlimit = False
+            if len(user_changes) > 100:
+                user_changes = user_changes[:100]
+                overlimit = True
 
-            for part in parts:
-                self.send_digest(
-                    user.profile.language,
-                    user.email,
-                    part,
-                    subscription=user.current_subscription,
-                )
+            self.send_digest(
+                user.profile.language,
+                user.email,
+                user_changes,
+                subscription=user.current_subscription,
+                overlimit=overlimit,
+            )
 
     def filter_changes(self, **kwargs):
         return Change.objects.filter(

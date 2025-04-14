@@ -37,6 +37,29 @@ Priority of machine translation and translation memory services
 
 Each machine translation service has a predefined maximum score it can produce. The use of installed translation services is ordered according to their maximum score. For each string with translation score lower than the service's maximum, the service is asked to produce a translation. Translations with a score exceeding the current one are accepted.
 
+.. _mt-sources:
+
+Source strings for the machine translation
+------------------------------------------
+
+.. versionadded:: 5.11
+
+The origin of source strings for all third-party services can be configured.
+This can be used to tweak the service to get the best results. Following choices are available:
+
+:guilabel:`Automatic selection`
+   Chooses the best source language automatically.
+
+   This is the default behavior.
+:guilabel:`Component source language`
+   Uses the component source language.
+
+   This was the behavior before the 5.11 release.
+:guilabel:`Secondary language defined in project or component`
+   Use project :ref:`project-secondary_language` or component :ref:`component-secondary_language`.
+
+   Falls back to the automatic selection of the source language if the secondary language not configured.
+
 .. _mt-alibaba:
 
 Alibaba
@@ -46,13 +69,21 @@ Alibaba
 
 :Service ID: ``alibaba``
 :Maximal score: 80
-:Configuration: +------------+-------------------+--+
-                | ``key``    | Access key ID     |  |
-                +------------+-------------------+--+
-                | ``secret`` | Access key secret |  |
-                +------------+-------------------+--+
-                | ``region`` | Region ID         |  |
-                +------------+-------------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | Access key ID             |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``secret``          | Access key secret         |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``region``          | Region ID                 |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Alibaba Translate is a neural machine translation service for translating text
 and it supports up to 214 language pairs.
@@ -68,9 +99,17 @@ Apertium APy
 
 :Service ID: ``apertium-apy``
 :Maximal score: 88
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 A libre software machine translation platform providing translations to
 a limited set of languages.
@@ -91,13 +130,21 @@ Amazon Translate
 
 :Service ID: ``aws``
 :Maximal score: 88
-:Configuration: +------------+----------------+--+
-                | ``key``    | Access key ID  |  |
-                +------------+----------------+--+
-                | ``secret`` | API secret key |  |
-                +------------+----------------+--+
-                | ``region`` | Region name    |  |
-                +------------+----------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | Access key ID             |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``secret``          | API secret key            |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``region``          | Region name               |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
@@ -119,17 +166,25 @@ Azure OpenAI
 
 :Service ID: ``azure-openai``
 :Maximal score: 90
-:Configuration: +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``            | API key                   |                                                                                                                           |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``        | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``          | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``azure_endpoint`` | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``deployment``     | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
-                +--------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``source`` -- Component source language                                                                                   |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``azure_endpoint``  | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``deployment``      | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 Performs translation using `OpenAI`_ hosted on Azure.
 
@@ -144,11 +199,19 @@ Baidu
 
 :Service ID: ``baidu``
 :Maximal score: 90
-:Configuration: +------------+---------------+--+
-                | ``key``    | Client ID     |  |
-                +------------+---------------+--+
-                | ``secret`` | Client secret |  |
-                +------------+---------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | Client ID                 |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``secret``          | Client secret             |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by Baidu.
 
@@ -160,14 +223,22 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 
 .. _mt-cyrtranslit:
 
-Cyrtranslit
+CyrTranslit
 -----------
 
 .. versionadded:: 5.7
 
 :Service ID: ``cyrtranslit``
 :Maximal score: 100
-:Configuration: `This service has no configuration.`
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service using the Cyrtranslit library.
 
@@ -184,15 +255,23 @@ DeepL
 
 :Service ID: ``deepl``
 :Maximal score: 91
-:Configuration: +---------------+---------------------+-------------------------------------------------------------------------------------+
-                | ``url``       | API URL             |                                                                                     |
-                +---------------+---------------------+-------------------------------------------------------------------------------------+
-                | ``key``       | API key             |                                                                                     |
-                +---------------+---------------------+-------------------------------------------------------------------------------------+
-                | ``formality`` | Formality           | Uses the specified formality if language is not specified as (in)formal             |
-                +---------------+---------------------+-------------------------------------------------------------------------------------+
-                | ``context``   | Translation context | Describe the context of the translation to improve the accuracy of the translation. |
-                +---------------+---------------------+-------------------------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                  |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                                     |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``source`` -- Component source language                                             |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                 |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                                     |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                     |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``formality``       | Formality                 | Uses the specified formality if language is not specified as (in)formal             |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``context``         | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -242,7 +321,15 @@ Glosbe
 
 :Service ID: ``glosbe``
 :Maximal score: 90
-:Configuration: `This service has no configuration.`
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Free dictionary and translation memory for almost every living language.
 
@@ -261,9 +348,17 @@ Google Cloud Translation Basic
 
 :Service ID: ``google-translate``
 :Maximal score: 90
-:Configuration: +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by the Google Cloud services.
 
@@ -281,15 +376,23 @@ Google Cloud Translation Advanced
 
 :Service ID: ``google-translate-api-v3``
 :Maximal score: 90
-:Configuration: +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``credentials`` | Google Translate service account info | Enter a JSON key for the service account.                                                                |
-                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``project``     | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                                       |
-                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``location``    | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
-                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
-                | ``bucket_name`` | Google Storage Bucket name            | Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.              |
-                +-----------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection             | Available choices:                                                                                       |
+                |                     |                                       |                                                                                                          |
+                |                     |                                       | ``auto`` -- Automatic selection                                                                          |
+                |                     |                                       |                                                                                                          |
+                |                     |                                       | ``source`` -- Component source language                                                                  |
+                |                     |                                       |                                                                                                          |
+                |                     |                                       | ``secondary`` -- Secondary language defined in project or component                                      |
+                +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``credentials``     | Google Translate service account info | Enter a JSON key for the service account.                                                                |
+                +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``project``         | Google Translate project              | Enter the numeric or alphanumeric ID of your Google Cloud project.                                       |
+                +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``location``        | Google Translate location             | Choose a Google Cloud Translation region that is used for the Google Cloud project or is closest to you. |
+                +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
+                | ``bucket_name``     | Google Storage Bucket name            | Enter the name of the Google Cloud Storage bucket that is used to store the Glossary files.              |
+                +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by the Google Cloud services.
 
@@ -335,11 +438,19 @@ IBM Watson Language Translator
 
 :Service ID: ``ibm``
 :Maximal score: 88
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 .. warning::
 
@@ -362,11 +473,19 @@ LibreTranslate
 
 :Service ID: ``libretranslate``
 :Maximal score: 89
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 LibreTranslate is a free and open-source service for machine translations. The
 public instance requires an API key, but LibreTranslate can be self-hosted
@@ -387,37 +506,45 @@ Azure AI Translator
 
 :Service ID: ``microsoft-translator``
 :Maximal score: 90
-:Configuration: +------------------+-------------------------------+---------------------------------------------------------------------------+
-                | ``key``          | API key                       |                                                                           |
-                +------------------+-------------------------------+---------------------------------------------------------------------------+
-                | ``base_url``     | Application base URL          | Available choices:                                                        |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)        |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific             |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe                   |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America            |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.translator.azure.cn`` -- China                                      |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud     |
-                +------------------+-------------------------------+---------------------------------------------------------------------------+
-                | ``endpoint_url`` | Authentication service URL    | Regional or multi-service can be specified using region field below.      |
-                |                  |                               |                                                                           |
-                |                  |                               | Available choices:                                                        |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.cognitive.microsoft.com`` -- Global                                 |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.cognitive.azure.cn`` -- China                                       |
-                |                  |                               |                                                                           |
-                |                  |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud               |
-                +------------------+-------------------------------+---------------------------------------------------------------------------+
-                | ``region``       | Authentication service region |                                                                           |
-                +------------------+-------------------------------+---------------------------------------------------------------------------+
-                | ``category``     | Category                      | Specify a customized system category ID to use it instead of general one. |
-                +------------------+-------------------------------+---------------------------------------------------------------------------+
+:Configuration: +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection     | Available choices:                                                        |
+                |                     |                               |                                                                           |
+                |                     |                               | ``auto`` -- Automatic selection                                           |
+                |                     |                               |                                                                           |
+                |                     |                               | ``source`` -- Component source language                                   |
+                |                     |                               |                                                                           |
+                |                     |                               | ``secondary`` -- Secondary language defined in project or component       |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``key``             | API key                       |                                                                           |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``base_url``        | Application base URL          | Available choices:                                                        |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.cognitive.microsofttranslator.com`` -- Global (non-regional)        |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific             |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api-eur.cognitive.microsofttranslator.com`` -- Europe                   |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api-nam.cognitive.microsofttranslator.com`` -- North America            |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.translator.azure.cn`` -- China                                      |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud     |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``endpoint_url``    | Authentication service URL    | Regional or multi-service can be specified using region field below.      |
+                |                     |                               |                                                                           |
+                |                     |                               | Available choices:                                                        |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.cognitive.microsoft.com`` -- Global                                 |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.cognitive.azure.cn`` -- China                                       |
+                |                     |                               |                                                                           |
+                |                     |                               | ``api.cognitive.microsoft.us`` -- Azure US Government cloud               |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``region``          | Authentication service region |                                                                           |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
+                | ``category``        | Category                      | Specify a customized system category ID to use it instead of general one. |
+                +---------------------+-------------------------------+---------------------------------------------------------------------------+
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
@@ -459,13 +586,21 @@ ModernMT
 
 :Service ID: ``modernmt``
 :Maximal score: 90
-:Configuration: +--------------------+----------------+-----------------------------------------------------------------------+
-                | ``url``            | API URL        |                                                                       |
-                +--------------------+----------------+-----------------------------------------------------------------------+
-                | ``key``            | API key        |                                                                       |
-                +--------------------+----------------+-----------------------------------------------------------------------+
-                | ``context_vector`` | Context vector | Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456 |
-                +--------------------+----------------+-----------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------+-----------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                    |
+                |                     |                           |                                                                       |
+                |                     |                           | ``auto`` -- Automatic selection                                       |
+                |                     |                           |                                                                       |
+                |                     |                           | ``source`` -- Component source language                               |
+                |                     |                           |                                                                       |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component   |
+                +---------------------+---------------------------+-----------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                       |
+                +---------------------+---------------------------+-----------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                       |
+                +---------------------+---------------------------+-----------------------------------------------------------------------+
+                | ``context_vector``  | Context vector            | Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456 |
+                +---------------------+---------------------------+-----------------------------------------------------------------------+
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
@@ -480,13 +615,21 @@ MyMemory
 
 :Service ID: ``mymemory``
 :Maximal score: 100
-:Configuration: +--------------+----------------+--+
-                | ``email``    | Contact e-mail |  |
-                +--------------+----------------+--+
-                | ``username`` | Username       |  |
-                +--------------+----------------+--+
-                | ``key``      | API key        |  |
-                +--------------+----------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``email``           | Contact e-mail            |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``username``        | Username                  |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 
 Huge translation memory with machine translation.
@@ -507,11 +650,19 @@ Netease Sight
 
 :Service ID: ``netease-sight``
 :Maximal score: 90
-:Configuration: +------------+---------------+--+
-                | ``key``    | Client ID     |  |
-                +------------+---------------+--+
-                | ``secret`` | Client secret |  |
-                +------------+---------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | Client ID                 |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``secret``          | Client secret             |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by NetEase.
 
@@ -530,43 +681,51 @@ OpenAI
 
 :Service ID: ``openai``
 :Maximal score: 90
-:Configuration: +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``          | API key             |                                                                                                                           |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``      | Translator persona  | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``        | Translator style    | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``base_url``     | OpenAI API base URL | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``        | OpenAI model        | Available choices:                                                                                                        |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``auto`` -- Automatic selection                                                                                           |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4o`` -- GPT-4o                                                                                                      |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``o3-mini`` -- OpenAI o3-mini                                                                                             |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``o3`` -- OpenAI o3                                                                                                       |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``o1-mini`` -- OpenAI o1-mini                                                                                             |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``o1`` -- OpenAI o1                                                                                                       |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4.5-preview`` -- GPT-4.5                                                                                            |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4-turbo`` -- GPT-4 Turbo                                                                                            |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-4`` -- GPT-4                                                                                                        |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
-                |                  |                     |                                                                                                                           |
-                |                  |                     | ``custom`` -- Custom model                                                                                                |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``custom_model`` | Custom model name   | Only needed when model is set to 'Custom model'                                                                           |
-                +------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``source`` -- Component source language                                                                                   |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``        | OpenAI API base URL       | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``           | OpenAI model              | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4o`` -- GPT-4o                                                                                                      |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``o3-mini`` -- OpenAI o3-mini                                                                                             |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``o3`` -- OpenAI o3                                                                                                       |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``o1-mini`` -- OpenAI o1-mini                                                                                             |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``o1`` -- OpenAI o1                                                                                                       |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4.5-preview`` -- GPT-4.5                                                                                            |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4-turbo`` -- GPT-4 Turbo                                                                                            |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4`` -- GPT-4                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``custom`` -- Custom model                                                                                                |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model``    | Custom model name         | Only needed when model is set to 'Custom model'                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 Performs translation using `OpenAI`_.
 
@@ -598,19 +757,27 @@ SAP Translation Hub
 
 :Service ID: ``sap-translation-hub``
 :Maximal score: 100
-:Configuration: +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``url``       | API URL                    |                                                                                                                                                 |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``key``       | API key                    |                                                                                                                                                 |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``username``  | SAP username               |                                                                                                                                                 |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``password``  | SAP password               |                                                                                                                                                 |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``enable_mt`` | Enable machine translation |                                                                                                                                                 |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``domain``    | Translation domain         | The ID of a translation domain, for example, BC. If you do not specify a domain, the method searches for translations in all available domains. |
-                +---------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection  | Available choices:                                                                                                                              |
+                |                     |                            |                                                                                                                                                 |
+                |                     |                            | ``auto`` -- Automatic selection                                                                                                                 |
+                |                     |                            |                                                                                                                                                 |
+                |                     |                            | ``source`` -- Component source language                                                                                                         |
+                |                     |                            |                                                                                                                                                 |
+                |                     |                            | ``secondary`` -- Secondary language defined in project or component                                                                             |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``url``             | API URL                    |                                                                                                                                                 |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``key``             | API key                    |                                                                                                                                                 |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``username``        | SAP username               |                                                                                                                                                 |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``password``        | SAP password               |                                                                                                                                                 |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``enable_mt``       | Enable machine translation |                                                                                                                                                 |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``domain``          | Translation domain         | The ID of a translation domain, for example, BC. If you do not specify a domain, the method searches for translations in all available domains. |
+                +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Machine translation service provided by SAP.
 
@@ -639,9 +806,17 @@ Systran
 
 :Service ID: ``systran``
 :Maximal score: 90
-:Configuration: +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 
 Machine translation service provided by Systran.
@@ -655,9 +830,17 @@ tmserver
 
 :Service ID: ``tmserver``
 :Maximal score: 100
-:Configuration: +---------+---------+--+
-                | ``url`` | API URL |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 You can run your own translation memory server by using the one bundled with
 Translate-toolkit and let Weblate talk to it. You can also use it with an
@@ -727,9 +910,17 @@ Yandex
 
 :Service ID: ``yandex``
 :Maximal score: 90
-:Configuration: +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by Yandex.
 
@@ -749,9 +940,17 @@ Yandex v2
 
 :Service ID: ``yandex-v2``
 :Maximal score: 90
-:Configuration: +---------+---------+--+
-                | ``key`` | API key |  |
-                +---------+---------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by Yandex.
 
@@ -769,11 +968,19 @@ Youdao Zhiyun
 
 :Service ID: ``youdao-zhiyun``
 :Maximal score: 90
-:Configuration: +------------+---------------+--+
-                | ``key``    | Client ID     |  |
-                +------------+---------------+--+
-                | ``secret`` | Client secret |  |
-                +------------+---------------+--+
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                  |
+                |                     |                           |                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                     |
+                |                     |                           |                                                                     |
+                |                     |                           | ``source`` -- Component source language                             |
+                |                     |                           |                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``key``             | Client ID                 |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
+                | ``secret``          | Client secret             |                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------+
 
 Machine translation service provided by Youdao.
 

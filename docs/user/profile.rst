@@ -102,6 +102,13 @@ the Hebrew language is shown as secondarily:
 
 .. image:: /screenshots/secondary-language.webp
 
+.. hint::
+
+   This can be also configured in the project
+   (:ref:`project-secondary_language`) or component
+   (:ref:`component-secondary_language`). In that case it can be used for
+   :ref:`secondary-language-workflow`.
+
 .. _profile-preferences:
 
 Preferences

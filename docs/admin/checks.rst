@@ -40,6 +40,7 @@ The flags are merged from following sources:
 * Translation flags (currently only ``read-only`` flag for bilingual source string).
 * File-format specific flags.
 * :ref:`component` (:ref:`component-check_flags`).
+* :ref:`project` (:ref:`project-check_flags`).
 
 The flags are comma-separated; if they have parameters, they are separated
 with colon. You can use quotes to include whitespaces or special characters
@@ -69,7 +70,10 @@ A failing check will be triggered if the string ``### Index`` is translated as `
 To ensure that internal links are not being translated (i.e. `[test](../checks)`
 does not become `[test](../chequeos)`.
 
-
+The flags defined on a higher level can be discarded using the
+``discard:NAME`` syntax. For example, if a component is configured to
+``safe-html``, you can add ``discard:safe-html`` to the string flags to skip it
+for this particular string.
 
 Here is a list of flags currently accepted:
 
@@ -115,6 +119,8 @@ Here is a list of flags currently accepted:
     Mark this string as a variant of string with matching source. See :ref:`variants`.
 ``regex:REGEX``
     Regular expression to match translation, see :ref:`check-regex`.
+``discard:NAME``
+    Discards flag defined on a higher level.
 ``forbidden``
     Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
 ``strict-same``

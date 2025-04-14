@@ -36,10 +36,11 @@ WLT.Utils = (() => ({
    */
   indicateChanges: () => {
     const $warning = $("<span class='text-warning'/>");
+    const $editorArea = $(".translator .translation-editor");
     $warning.text(gettext("Unsaved changes!"));
-    if ($(".translation-editor").next(".text-warning").length === 0) {
-      $warning.insertAfter($(".translation-editor"));
-      $(".translation-editor").addClass("has-changes");
+    if ($editorArea.next(".text-warning").length === 0) {
+      $warning.insertAfter($editorArea);
+      $editorArea.addClass("has-changes");
     }
   },
 }))();
@@ -174,6 +175,10 @@ WLT.Editor = (() => {
           gettext("You have unsaved changes. Are you sure you want to skip?"),
         );
       }
+    });
+
+    this.$editor.on("submit", () => {
+      hasChanges = false;
     });
   }
 

@@ -38,6 +38,7 @@ from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
@@ -1228,7 +1229,8 @@ class PluralMapper:
         return {
             other.id_hash: other
             for other in translation.unit_set.filter(
-                id_hash__in={unit.id_hash for unit in units}
+                state__gte=STATE_TRANSLATED,
+                id_hash__in={unit.id_hash for unit in units},
             )
         }
 

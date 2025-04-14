@@ -422,6 +422,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "web",
             "web_url",
             "url",
+            "check_flags",
             "components_list_url",
             "repository_url",
             "statistics_url",
@@ -436,6 +437,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "secondary_language",
             "enforced_2fa",
             "machinery_settings",
         )
@@ -603,6 +605,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "auto_lock_error",
             "language_regex",
             "key_filter",
+            "secondary_language",
             "variant_regex",
             "zipfile",
             "docfile",

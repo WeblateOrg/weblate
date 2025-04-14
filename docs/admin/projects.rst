@@ -275,6 +275,32 @@ Using non standard code: ``ia_FOO:ia``
     :ref:`language-code`,
     :ref:`language-parsing-codes`
 
+.. _project-secondary_language:
+
+Secondary language
+++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Additional language to show together with the source language while translating.
+
+Optionally, it can be also used as a source for the machine translation.
+
+.. seealso::
+
+   :ref:`secondary-languages`,
+   :ref:`mt-sources`
+
+.. _project-check_flags:
+
+Translation flags
++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
+
 .. _component:
 
 Component configuration
@@ -957,6 +983,26 @@ Regular expression used to determine the variants of a string, see
 .. seealso::
 
    :ref:`faq-vcs`, :ref:`alerts`
+
+.. _component-secondary_language:
+
+Secondary language
+++++++++++++++++++
+
+.. versionadded:: 5.11
+
+Additional language to show together with the source language while translating.
+
+Optionally, it can be also used as a source for the machine translation.
+
+.. hint::
+
+   This setting is inherited from the project if left empty.
+
+.. seealso::
+
+   :ref:`secondary-languages`,
+   :ref:`mt-sources`
 
 .. _component-priority:
 

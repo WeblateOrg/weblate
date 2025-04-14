@@ -605,6 +605,10 @@ def download_translation_file(
     return response
 
 
+def get_form_data(data: dict[str, str | int | None]) -> dict[str, str | int]:
+    return {key: "" if value is None else value for key, value in data.items()}
+
+
 def get_form_errors(form):
     for error in form.non_field_errors():
         yield error

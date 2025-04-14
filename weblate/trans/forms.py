@@ -1525,6 +1525,7 @@ class ComponentSettingsForm(
             "intermediate",
             "language_regex",
             "key_filter",
+            "secondary_language",
             "variant_regex",
             "restricted",
             "auto_lock_error",
@@ -1536,6 +1537,7 @@ class ComponentSettingsForm(
         widgets = {
             "enforced_checks": SelectChecksWidget,
             "source_language": SortedSelect,
+            "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
         }
         field_classes = {"enforced_checks": SelectChecksField}
@@ -1593,6 +1595,7 @@ class ComponentSettingsForm(
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
+                        "secondary_language",
                     ),
                     css_id="translation",
                 ),
@@ -2100,15 +2103,18 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "contribute_shared_tm",
             "enable_hooks",
             "language_aliases",
+            "secondary_language",
             "access_control",
             "enforced_2fa",
             "translation_review",
             "source_review",
+            "check_flags",
         )
         widgets = {
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
+            "secondary_language": SortedSelect,
         }
 
     def clean(self) -> None:
@@ -2213,8 +2219,10 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     "set_language_team",
                     "use_shared_tm",
                     "contribute_shared_tm",
+                    "check_flags",
                     "enable_hooks",
                     "language_aliases",
+                    "secondary_language",
                     "translation_review",
                     "source_review",
                     ContextDiv(
