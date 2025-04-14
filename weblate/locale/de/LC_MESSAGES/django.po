@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-04-14 09:51+0000\n"
+"PO-Revision-Date: 2025-04-14 11:06+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -5640,18 +5640,14 @@ msgid "Automatic selection"
 msgstr "Automatische Auswahl"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Komponente umbenannt"
+msgstr "Ausgangssprache der Komponenten"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Neue Sprache hinzugefügt zu %(component)s"
+msgstr "Im Projekt oder in der Komponente definierte Zweitsprache"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7214,17 +7210,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Zwei-Faktor-Authentifizierung ausschalten"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr ""
-"Bitte aktivieren Sie die Passwortauthentifizierung, um Ihr Konto zu schützen."
+msgstr "Deaktiviert die Passwortauthentifizierung für den Benutzer."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Neues Passwort"
+msgstr "Passwort deaktivieren"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9797,6 +9788,8 @@ msgstr "Komponente %(component)s wurde entsperrt"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Hinweis: Diese Zusammenfassung wurde gekürzt, da es über 100 "
+"Benachrichtigungen gab."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -12095,11 +12088,6 @@ msgstr ""
 "Sie, ob es für Weblate zugänglich ist."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
@@ -13874,10 +13862,8 @@ msgstr "Datei hochgeladen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Zuletzt aktualisiert"
+msgstr "Zusätzliche Markierungen aktualisiert"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14340,10 +14326,8 @@ msgid "Sort by"
 msgstr "Sortieren nach"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Keine Zeichenketten zu übersetzen"
+msgstr "Zeichenketten übersetzt"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
@@ -15443,22 +15427,16 @@ msgid "Secondary language"
 msgstr "Zweitsprache"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
-"Die Zweitsprachen werden beim Übersetzen neben der Ausgangszeichenkette "
-"angezeigt."
+"Zusätzliche Sprache, die beim Übersetzen zusammen mit der Ausgangssprache "
+"angezeigt wird."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Aus der hochgeladenen Datei wurden keine Zeichenketten importiert."
+msgstr "Diese Einstellung wird vom Projekt vererbt, wenn sie leer bleibt."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15922,12 +15900,11 @@ msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1034
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Zusammengeführte Zeichenkette konnte nicht gefunden werden."
-msgstr[1] "Zusammengeführte Zeichenkette konnte nicht gefunden werden."
+msgstr[0] "Konnte Zeichenkette %d nicht finden:"
+msgstr[1] "Konnte Zeichenketten %d nicht finden:"
 
 #: weblate/trans/models/translation.py:1220
 #: weblate/trans/models/translation.py:1279
@@ -15977,16 +15954,11 @@ msgstr ""
 "%(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] ""
-"Die Zeichenkette konnte nicht an %(component)s weitergegeben werden, "
-"%(reason)s"
-msgstr[1] ""
-"Die Zeichenkette konnte nicht an %(component)s weitergegeben werden, "
-"%(reason)s"
+msgstr[0] "Zeichenkette konnte nicht an Komponente %d weitergegeben werden."
+msgstr[1] "Zeichenkette konnte nicht an Komponenten %d weitergegeben werden."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16886,10 +16858,8 @@ msgid "Horizontal language bar chart"
 msgstr "Horizontales Balkendiagramm der Sprache"
 
 #: weblate/trans/widgets.py:526
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Sprachcode"
+msgstr "Sprachanzahl-Symbol"
 
 #: weblate/trans/widgets.py:540
 msgid "languages"
@@ -17143,10 +17113,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Ungültige E-Mail-Adresse: {}"
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Diese E-Mail-Adresse ist nicht zulässig."
+msgstr "Wegwerf-E-Mail-Domains sind nicht zulässig."
 
 #: weblate/utils/validators.py:211
 msgid "Could not evaluate plural formula: {}"
