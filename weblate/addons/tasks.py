@@ -179,7 +179,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 
 
 @app.task(trail=True)
-def addon_change(sender, change_ids: list[int], **kwargs) -> None:
+def addon_change(change_ids: list[int], **kwargs) -> None:
     """
     Process add-on change events for a list of changes.
 

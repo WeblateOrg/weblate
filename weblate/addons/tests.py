@@ -1842,7 +1842,7 @@ class WebhookAddonsTest(ViewTestCase):
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
-                "name": "weblate.webhook.webhooks",
+                "name": "weblate.webhook.webhook",
                 "form": "1",
             },
             follow=True,
@@ -1853,7 +1853,7 @@ class WebhookAddonsTest(ViewTestCase):
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
-                "name": "weblate.webhook.webhooks",
+                "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
             },
@@ -1865,7 +1865,7 @@ class WebhookAddonsTest(ViewTestCase):
         addon_id = Addon.objects.get(component=self.component).id
         response = self.client.post(
             reverse("addon-detail", kwargs={"pk": addon_id}),
-            {"delete": "weblate.webhook.webhooks"},
+            {"delete": "weblate.webhook.webhook"},
             follow=True,
         )
         self.assertContains(response, "No add-ons currently installed")
@@ -1874,7 +1874,7 @@ class WebhookAddonsTest(ViewTestCase):
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
-                "name": "weblate.webhook.webhooks",
+                "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "events": [ActionEvents.NEW],
@@ -1888,7 +1888,7 @@ class WebhookAddonsTest(ViewTestCase):
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
-                "name": "weblate.webhook.webhooks",
+                "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "secret": "xxxx-xxxx-xxxx",

@@ -36,8 +36,8 @@ class MessageNotDeliveredError(Exception):
 class WebhookAddon(ChangeBaseAddon):
     """Class for Webhooks Addon."""
 
-    name = "weblate.webhook.webhooks"
-    verbose = gettext_lazy("Webhooks")
+    name = "weblate.webhook.webhook"
+    verbose = gettext_lazy("Webhook")
     description = gettext_lazy(
         "Sends notification to external service based on selected events."
     )

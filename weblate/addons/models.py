@@ -554,7 +554,7 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
     from weblate.addons.tasks import addon_change
 
     if created:  # ignore Change updates, they should not be updated anyway
-        addon_change(sender, [instance.pk], **kwargs)
+        addon_change.delay_on_commit([instance.pk])
 
 
 @receiver(change_bulk_create)
@@ -562,7 +562,7 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
     """Handle Change bulk create signal."""
     from weblate.addons.tasks import addon_change
 
-    addon_change(sender, [change.pk for change in instances], **kwargs)
+    addon_change.delay_on_commit([change.pk for change in instances])
 
 
 class AddonActivityLog(models.Model):
