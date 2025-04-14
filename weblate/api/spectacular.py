@@ -188,7 +188,12 @@ The OpenAPI specification is available as feature preview, feedback welcome!
                 "name": "rssFeeds",
                 "description": "Changes in translations are exported in RSS feeds.",
             },
+            {
+                "name": "webhooks",
+                "description": "Notifications sent by Weblate.",
+            },
         ],
+        "WEBHOOKS": ["weblate.addons.webhooks.change_event_webhook"],
     }
     if "weblate.legal" in installed_apps:
         settings["TOS"] = "/legal/terms/"

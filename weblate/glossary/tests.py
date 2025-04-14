@@ -22,7 +22,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
 TEST_TBX = get_test_file("terms.tbx")
 TEST_CSV = get_test_file("terms.csv")
@@ -372,6 +372,15 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
+
+    def test_add_untranslatable(self) -> None:
+        start = Unit.objects.count()
+        self.do_add_unit(read_only=1)
+        # Should be added to all languages
+        self.assertEqual(Unit.objects.count(), start + 2)
+        unit = Unit.objects.get(source="source", translation__language__code="cs")
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.target, "")
 
     def test_add_terminology_existing(self) -> None:
         self.make_manager()

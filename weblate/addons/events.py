@@ -18,6 +18,7 @@ class AddonEvent(IntegerChoices):
     EVENT_PRE_PUSH = 10, "Repository pre-push"
     EVENT_DAILY = 11, "Daily"
     EVENT_COMPONENT_UPDATE = 12, "Component update"
+    EVENT_CHANGE = 13, "Event change"
 
 
 POST_CONFIGURE_EVENTS = {

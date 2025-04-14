@@ -9,13 +9,14 @@
 # Amalia Nostalgia <cadenanostalgia@gmail.com>, 2025.
 # CyrTranslit <noreply-mt-cyrtranslit@weblate.org>, 2025.
 # Yauhen <bugomol@users.noreply.hosted.weblate.org>, 2025.
+# Michal Čihař <michal@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-11 15:33+0000\n"
-"PO-Revision-Date: 2025-04-12 18:21+0000\n"
-"Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-04-14 11:06+0000\n"
+"Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
 "Language: be\n"
@@ -508,10 +509,9 @@ msgstr ""
 "запампаваных іншым карыстальнікам."
 
 #: weblate/accounts/models.py:242
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Доступ да праекта [Х18Х] быў заблакаваны"
+msgstr "Доступ да праекта {project} быў заблакаваны."
 
 #: weblate/accounts/models.py:243
 msgid "User was enabled by administrator."
@@ -639,6 +639,7 @@ msgid "Theme"
 msgstr "Тэма"
 
 #: weblate/accounts/models.py:528
+#, fuzzy
 msgctxt "Theme selection"
 msgid "Sync with system"
 msgstr "Сінхранізацыя з сістэмай"
@@ -967,6 +968,8 @@ msgid "New translation component was created"
 msgstr "Створаны новы кампанент перакладу"
 
 #: weblate/accounts/notifications.py:775
+#, fuzzy
+#| msgid "Announcements"
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Апублікавана аб'ява"
@@ -1172,6 +1175,8 @@ msgid "Sign in"
 msgstr "Увайсці"
 
 #: weblate/accounts/views.py:906
+#, fuzzy
+#| msgid "Sign out"
 msgid "Signed out"
 msgstr "Выйсці"
 
@@ -1812,10 +1817,12 @@ msgid "Variable string suffix"
 msgstr "Зменны суфікс радка"
 
 #: weblate/addons/forms.py:599
+#, fuzzy
 msgid "Variable part multiplier"
 msgstr "Множнік зменнай часткі"
 
 #: weblate/addons/forms.py:603
+#, fuzzy
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
@@ -2823,6 +2830,7 @@ msgid "Regular expression for e-mail address"
 msgstr "Рэгулярны выраз для адрасоў электроннай пошты"
 
 #: weblate/auth/models.py:939
+#, fuzzy
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 "Карыстальнікі з адрасамі электроннай пошты, якія адпавядаюць, будуць "
@@ -2978,8 +2986,10 @@ msgid "This component is currently locked."
 msgstr "Hети пиераклад заблакавани."
 
 #: weblate/auth/views.py:121
+#, fuzzy
+#| msgid "Changing of %s is prohibited for built-in teams."
 msgid "Cannot remove built-in team!"
-msgstr "Змяненне %с забаронена для ўбудаваных каманд."
+msgstr "Змяненне %s забаронена для ўбудаваных каманд."
 
 #: weblate/auth/views.py:186
 msgid "User invitation was removed."
@@ -4092,6 +4102,8 @@ msgid "ICU MessageFormat syntax"
 msgstr "Фармат Жава Мессаге"
 
 #: weblate/checks/icu.py:255
+#, fuzzy
+#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "Сінтаксічная памылка ў моўных псеўданімах."
 
@@ -4133,12 +4145,12 @@ msgstr "Адсутнічае іншае падпаведамленне для: %
 #: weblate/checks/icu.py:483
 #, fuzzy, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "Няправільныя селектары множнага ліку для: [Х48Х]"
+msgstr "Няправільныя селектары множнага ліку для: %s"
 
 #: weblate/checks/icu.py:490
 #, fuzzy, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "Няправільныя селектары падпаведамленняў для: [Х51Х]"
+msgstr "Няправільныя селектары падпаведамленняў для: %s"
 
 #: weblate/checks/icu.py:497
 #, python-format
@@ -4494,6 +4506,8 @@ msgid "Font group deleted."
 msgstr "Група шрыфтоў выдаленая."
 
 #: weblate/formats/base.py:389
+#, fuzzy
+#| msgid "Failed to load strings from the file, try choosing other format."
 msgid "Could not load strings from the file, try choosing other format."
 msgstr "Не атрымалася загрузіць радкі з файла, паспрабуйце іншы фармат."
 
@@ -4602,8 +4616,9 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Файл пиеракладу ХЛИФФ"
 
 #: weblate/formats/ttkit.py:1298
+#, fuzzy
 msgid "XLIFF 1.2 with placeables support"
-msgstr "ХЛИФФ з падтрымкай размяшчэння"
+msgstr "XLIFF з падтрымкай размяшчэння"
 
 #: weblate/formats/ttkit.py:1305
 msgid "XLIFF 1.2 with gettext extensions"
@@ -5266,11 +5281,13 @@ msgid "API URL"
 msgstr "Адрас API"
 
 #: weblate/machinery/forms.py:61
+#, fuzzy
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr "ИД кліента"
+msgstr "ID кліента"
 
 #: weblate/machinery/forms.py:65
+#, fuzzy
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr "Сакрэт кліента"
@@ -5840,32 +5857,47 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF-праверка не атрымалася. Запыт спынены."
 
 #: weblate/templates/403_csrf.html:20
+#, fuzzy
+#| msgid ""
+#| "This HTTPS site requires a 'Referer header' to be sent by your web "
+#| "browser, but none was sent. This header is required for security reasons, "
+#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Гэты HТТПС-сайт патрабуе каб Реферер-загаловак быў адпраўлены вашым вэб-"
+"Гэты HTTPS-сайт патрабуе каб Referer-загаловак быў адпраўлены вашым вэб-"
 "браўзерам, але гэтага не адбылося. Гэты загаловак неабходны для бяспекі, каб "
 "пераканацца, што ваш браўзэр не ўзаламаны трэцімі асобамі."
 
 #: weblate/templates/403_csrf.html:23
+#, fuzzy
+#| msgid ""
+#| "If you have set up your browser to not send 'Referer' headers, please "
+#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
+#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers,  you need "
 "to turn that on (at least for this site, HTTPS connections, or 'same-origin' "
 "requests)."
 msgstr ""
 "Калі вы наладзілі ваш браўзер так, каб ён не працаваў з загалоўкамі "
-"ьРеферерь, калі ласка дазвольце адпраўляць яго хоць для гэтага сайту, ці для "
-"HТТПС-злучэнняў, ці для запытаў ьсаме-оригинь."
+"'Referer', калі ласка дазвольце адпраўляць яго хоць для гэтага сайту, ці для "
+"HTTPS-злучэнняў, ці для запытаў 'same-origin'."
 
 #: weblate/templates/403_csrf.html:27
+#, fuzzy
+#| msgid ""
+#| "This site requires a CSRF cookie when submitting forms. This cookie is "
+#| "required for security reasons, to ensure that your browser is not being "
+#| "hijacked by third-parties."
 msgid ""
 "Our site requires a session cookie to make the forms work. This cookie is "
 "required for security reasons, ensuring that your browser is not being "
 "hijacked by third parties."
 msgstr ""
-"Гэты сайт патрабуе КСРФ коокие для адпраўлення формы. Гэтыя файлы коокие "
+"Гэты сайт патрабуе CSRF cookie для адпраўлення формы. Гэтыя файлы cookie "
 "неабходныя для бяспекі, каб пераканацца, што ваш браўзер не ўзламаны трэцімі "
 "асобамі."
 
@@ -5877,12 +5909,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/403_csrf.html:33
+#, fuzzy
+#| msgid ""
+#| "If you have set up your browser to not save cookies, please turn them on "
+#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Калі вы наладзілі ваш браўзер так, каб ён не працаваў з коокиес, калі ласка "
-"дазвольце іх хоць для гэтага сайту ці для запытаў \"саме-оригин\"."
+"Калі вы наладзілі ваш браўзер так, каб ён не працаваў з cookies, калі ласка "
+"дазвольце іх хоць для гэтага сайту ці для запытаў \"same-origin\"."
 
 #: weblate/templates/403_csrf.html:37
 #, python-format
@@ -6232,6 +6268,8 @@ msgid "Request a new confirmation link if it expires."
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:49
+#, fuzzy
+#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
 msgstr ""
 "Калі ласка, праверце паштовую скрыню на наяўнасць ліста са спасылкай для "
@@ -6282,6 +6320,8 @@ msgid "You will have 14 days to set up your project."
 msgstr "У вас будзе 14 дзён на наладку свайго праекта."
 
 #: weblate/templates/accounts/hosting.html:42
+#, fuzzy
+#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
 msgstr ""
 "Калі ласка, пасля завяршэння наладкі адпраўце запыт на зацвярджэнне праекта."
@@ -6455,6 +6495,8 @@ msgid "Remove this notification setting"
 msgstr "Выдаліць гэтую наладу апавяшчэння"
 
 #: weblate/templates/accounts/profile.html:181
+#, fuzzy
+#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
 msgstr "Выберыце электронную пошту аўтара ўнёску з правераных адрасоў."
 
@@ -6621,6 +6663,9 @@ msgid "Description"
 msgstr "Апісанне"
 
 #: weblate/templates/accounts/profile.html:487
+#, fuzzy
+#| msgid ""
+#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
@@ -6778,8 +6823,12 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Перанакіраванне да правайдэра аўтэнтыфікацыі."
 
 #: weblate/templates/accounts/register.html:24
+#, fuzzy
+#| msgid ""
+#| "Please enter the activation token obtained when making the subscription."
 msgid "Please complete the registration to accept the invitation."
-msgstr "Калі ласка, увядзіце токен актывацыі, атрыманы пры афармленні падпіскі."
+msgstr ""
+"Калі ласка, увядзіце токен актывацыі, атрыманы пры афармленні падпіскі."
 
 #: weblate/templates/accounts/register.html:38
 msgid "Register in Weblate"
@@ -6877,6 +6926,10 @@ msgid "Your trial will last 14 days."
 msgstr "Ваш пробны перыяд скончыцца праз 14 дзён."
 
 #: weblate/templates/accounts/trial.html:30
+#, fuzzy
+#| msgid ""
+#| "Your trial will run the Enterprise plan, but you can choose any plan "
+#| "later."
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
 "Падчас вашага пробнага перыяду будзе выкарысоўвацца тарыфны план "
@@ -6920,6 +6973,8 @@ msgid "Last sign-in on %(date)s"
 msgstr "Апошні ўваход %(date)s"
 
 #: weblate/templates/accounts/user.html:41
+#, fuzzy
+#| msgid "Not yet signed in"
 msgid "Never signed-in"
 msgstr "Вы не ўвайшлі ў сістэму"
 
@@ -7595,6 +7650,8 @@ msgid "Automatic assignment"
 msgstr "Аўтаматычнае прызначэнне"
 
 #: weblate/templates/auth/teams-name.html:5
+#, fuzzy
+#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
 msgstr "Сервер не дазваляе аўтэнтыфікацыю."
 
@@ -7831,6 +7888,8 @@ msgstr "Чакаюць пацвярджэння"
 #: weblate/templates/mail/billing_expired.html:67
 #: weblate/templates/project.html:151
 #: weblate/templates/snippets/project/billing-libre-trial.html:13
+#, fuzzy
+#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
 msgstr "Запытаць дазвол на бясплатны хостынг"
 
@@ -8374,6 +8433,8 @@ msgid "Organize component"
 msgstr "Ствариć кампаниент"
 
 #: weblate/templates/component.html:328
+#, fuzzy
+#| msgid "Fix this component to clear its alerts."
 msgid "Moving or renaming the component will also change its URLs."
 msgstr "Выпраўце гэты кампанент, каб ачысціць яго апавяшчэнні."
 
@@ -9035,6 +9096,8 @@ msgid "Weblate translations are locked"
 msgstr "Пераклад Weblate заблакіраваны"
 
 #: weblate/templates/js/git-status.html:129
+#, fuzzy
+#| msgid "Locking prevents translators from doing changes"
 msgid "Locking prevents translators from doing changes."
 msgstr "Блакіраванне не дае перакладчыкам рабіць змены."
 
@@ -9331,7 +9394,7 @@ msgstr[2] "адрэдагавана %(count)s сімвалаў"
 
 #: weblate/templates/last-changes-content.html:73
 msgid "Current translation"
-msgstr "Пиераклади Веблате"
+msgstr "Бягучы пераклад"
 
 #: weblate/templates/last-changes-content.html:120
 msgid "No matching activity found."
@@ -10038,7 +10101,7 @@ msgstr "Статус падтрымкі Weblate"
 
 #: weblate/templates/manage/index.html:26
 msgid "Weblate version"
-msgstr "Пиераклади Веблате"
+msgstr "Версія Weblate"
 
 #: weblate/templates/manage/index.html:38
 msgid "Support status"
@@ -10141,8 +10204,10 @@ msgid "Web server"
 msgstr "Сиервиер"
 
 #: weblate/templates/manage/performance.html:144
+#, fuzzy
+#| msgid "Celery queues"
 msgid "Celery worker"
-msgstr "Чэргі Келери"
+msgstr "Чэргі Celery"
 
 #: weblate/templates/manage/performance.html:149
 msgid "Filenames encoding"
@@ -10174,6 +10239,8 @@ msgid "Celery latency"
 msgstr "Сиервиер бази данич"
 
 #: weblate/templates/manage/performance.html:197
+#, fuzzy
+#| msgid "Not yet signed in"
 msgid "Not yet measured"
 msgstr "Вы не ўвайшлі ў сістэму"
 
@@ -10641,6 +10708,10 @@ msgid "Please review and confirm the search and replace results."
 msgstr "Калі ласка, праглядзіце і пацвердзіце вынікі пошуку і замены."
 
 #: weblate/templates/replace.html:19
+#, fuzzy
+#| msgid ""
+#| "Showing and replacing only the first 250 matches. Perform the replacement "
+#| "again to replace more entries."
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more."
@@ -11263,6 +11334,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Праект актыўна развіваецца прынамсі 3 месяцы."
 
 #: weblate/templates/snippets/libre-checklist.html:18
+#, fuzzy
+#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
 msgstr "Нявыкананыя рэкамендацыі з кантрольнага спіса лакалізацыі супольнасці:"
 
@@ -11457,6 +11530,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:17
+#, fuzzy
+#| msgid ""
+#| "This project is in the trial period, so be cautious before you "
+#| "contribute. Things like license or repository can still change before "
+#| "being approved as a libre project."
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
@@ -11922,6 +12000,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
+#, fuzzy
+#| msgid "Some linked components have the same filemask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
 msgstr "У некаторых звязаных кампанентаў аднолькавыя маскі файлаў."
@@ -11950,6 +12030,10 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:17
+#, fuzzy
+#| msgid ""
+#| "In case the translation to the source language is desired, please change "
+#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
@@ -11958,6 +12042,10 @@ msgstr ""
 "наладах кампанента."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:20
+#, fuzzy
+#| msgid ""
+#| "In case the translation file for the source language is not needed, "
+#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
@@ -11966,11 +12054,16 @@ msgstr ""
 "рэпазіторыя."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:23
+#, fuzzy
+#| msgid ""
+#| "In case the translation file for the source language is needed, but "
+#| "should be ignored by Weblate, please adjust the language filter to "
+#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Калі файл перакладу для зыходнай мовы неабходны, але Веблате павінен "
+"Калі файл перакладу для зыходнай мовы неабходны, але Weblate павінен "
 "праігнараваць, наладзьце моўны фільтр, каб выключыць яго."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:32
@@ -12173,6 +12266,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
+#, fuzzy
+#| msgid ""
+#| "There is at least one screenshot which is not assigned to any strings."
 msgid "At least one screenshot has no string assigned to it."
 msgstr "Ёсць прынамсі адзін здымак экрана, які не звязаны ні з адным радком."
 
@@ -13772,7 +13868,7 @@ msgstr "Змяніць напрамак пісьма"
 
 #: weblate/trans/forms.py:368
 msgid "Alternative translation"
-msgstr "Пиераклади Веблате"
+msgstr "Альтэрнатыўны пераклад"
 
 #: weblate/trans/forms.py:432
 msgid "Search filter"
@@ -13932,6 +14028,10 @@ msgid "Score threshold"
 msgstr "Парог ацэнкі"
 
 #: weblate/trans/forms.py:981
+#, fuzzy
+#| msgid ""
+#| "Ensures a consistent set of languages is used for all components within a "
+#| "project."
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -14305,6 +14405,8 @@ msgid "Could not find matching user!"
 msgstr "Не ўдалося знайсці адпаведнага карыстальніка!"
 
 #: weblate/trans/forms.py:2939
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
 msgid "Expiry cannot be in the past."
 msgstr "Назва файла не можа быць абсалютным шляхам."
 
@@ -14376,11 +14478,13 @@ msgstr ""
 "Выкарыстоўваць адзнакі для пазначэння адмысловых радкоў у вашым перакладзе."
 
 #: weblate/trans/guide.py:216
+#, fuzzy
+#| msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgid ""
 "Add safe-html flag to avoid dangerous HTML from translators for strings "
 "which are rendered as HTML."
 msgstr ""
-"Дадайце бяспечную адзнаку hтмл, каб пазбегнуць шкоднага HТМЛ-кода ад "
+"Дадайце бяспечную адзнаку html, каб пазбегнуць шкоднага HTML-кода ад "
 "перакладчыкаў."
 
 #: weblate/trans/guide.py:247
@@ -14553,6 +14657,8 @@ msgid "Notify users"
 msgstr "Апавясціць карыстальніка"
 
 #: weblate/trans/models/announcement.py:130
+#, fuzzy
+#| msgid "Send e-mail invitation to the user"
 msgid "Send notification to subscribed users."
 msgstr "Адправіць апавяшчэнне падпісаным карыстальнікам."
 
@@ -14588,6 +14694,8 @@ msgid "Parent category has to be in the same project!"
 msgstr ""
 
 #: weblate/trans/models/category.py:182
+#, fuzzy
+#| msgid "First and last name should be different!"
 msgid "Parent category has to be different!"
 msgstr "Бацькоўская катэгорыя павінна адрознівацца!"
 
@@ -14676,8 +14784,10 @@ msgid "POSIX style using underscore as a separator"
 msgstr "Стыль POSIX, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік"
 
 #: weblate/trans/models/component.py:147
+#, fuzzy
+#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, lower cased"
-msgstr "Стыль ПОСИХ, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік"
+msgstr "Стыль POSIX, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік"
 
 #: weblate/trans/models/component.py:149
 msgid "BCP style using hyphen as a separator"
@@ -14690,11 +14800,13 @@ msgstr ""
 "краіны"
 
 #: weblate/trans/models/component.py:159
+#, fuzzy
+#| msgid "POSIX style using underscore as a separator, including country code"
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
 msgstr ""
-"Стыль ПОСИХ, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік, з кодам "
+"Стыль POSIX, у якім падкрэсліванне выкарыстоўваецца як падзяляльнік, з кодам "
 "краіны"
 
 #: weblate/trans/models/component.py:164
@@ -14703,11 +14815,15 @@ msgstr ""
 "Стыль BCP, у якім працяжнік выкарыстоўваецца як падзяляльнік, з кодам краіны"
 
 #: weblate/trans/models/component.py:168
+#, fuzzy
+#| msgid "BCP style using hyphen as a separator, including country code"
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr ""
-"Стыль БКП, у якім працяжнік выкарыстоўваецца як падзяляльнік, з кодам краіны"
+"Стыль BCP, у якім працяжнік выкарыстоўваецца як падзяляльнік, з кодам краіны"
 
 #: weblate/trans/models/component.py:170
+#, fuzzy
+#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, lower cased"
 msgstr "Стыль BCP, у якім працяжнік выкарыстоўваецца як падзяляльнік"
 
@@ -14716,10 +14832,14 @@ msgid "Android style"
 msgstr "Стыль Android"
 
 #: weblate/trans/models/component.py:172
+#, fuzzy
+#| msgid "App store metadata files"
 msgid "Apple App Store metadata style"
 msgstr "Файлы метаданых крамы праграм"
 
 #: weblate/trans/models/component.py:173
+#, fuzzy
+#| msgid "App store metadata files"
 msgid "Google Play metadata style"
 msgstr "Файлы метаданых крамы праграм"
 
@@ -15069,6 +15189,8 @@ msgid "Share in projects"
 msgstr "Назиражемижа пражекти"
 
 #: weblate/trans/models/component.py:774
+#, fuzzy
+#| msgid "Choose additional projects where this glossary can be used."
 msgid "Choose additional projects where this component will be listed."
 msgstr "Абярыце дадатковыя праекты, у якіх можна выкарыстаць гэты гласарый."
 
@@ -16430,6 +16552,10 @@ msgid "Invalid settings. Please check the form for errors."
 msgstr "Налади ниекаректнижа, правиеркие форми на нажаŭнасć памилак!"
 
 #: weblate/trans/views/settings.py:146
+#, fuzzy
+#| msgid ""
+#| "The repository is outdated, you might not get expected results until you "
+#| "update it."
 msgid ""
 "The repository is outdated. You might not get expected results until you "
 "update it."
@@ -16815,6 +16941,8 @@ msgstr "Сінтаксічная памылка ў моўных псеўдані
 
 #: weblate/utils/validators.py:291 weblate/utils/validators.py:300
 #: weblate/utils/validators.py:309
+#, fuzzy
+#| msgid "This name is prohibited"
 msgid "This URL is prohibited"
 msgstr "Такая назва забароненая"
 
@@ -17068,12 +17196,16 @@ msgid "Backup repository URL"
 msgstr "URL-адрас рэпазіторыя рэзервовых копій"
 
 #: weblate/wladmin/models.py:242
+#, fuzzy
+#| msgid ""
+#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
+#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Выкарыстоўвайце /паз/то/репо для лакальных рэзервовых копій альбо "
-"усер@hост:/паз/то/репо для адлеглых рэзервовых копій па СШ."
+"Выкарыстоўвайце /path/to/repo для лакальных рэзервовых копій альбо "
+"user@host:/path/to/repo для адлеглых рэзервовых копій па SSH."
 
 #: weblate/wladmin/models.py:306
 msgid "Backup performed"

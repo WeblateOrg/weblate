@@ -20,6 +20,7 @@ from django.utils.functional import cached_property
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
+    change_bulk_create,
     component_post_update,
     store_post_load,
     translation_post_add,
@@ -254,6 +255,7 @@ class AddonsConf(AppConf):
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
+        "weblate.addons.webhooks.WebhookAddon",
     )
 
     LOCALIZE_CDN_URL = None
@@ -544,6 +546,23 @@ def store_post_load_handler(sender, translation: Translation, store, **kwargs) -
         (translation, store),
         translation=translation,
     )
+
+
+@receiver(post_save, sender=Change)
+def change_post_save_handler(sender, instance: Change, created, **kwargs) -> None:
+    """Handle Change post save signal."""
+    from weblate.addons.tasks import addon_change
+
+    if created:  # ignore Change updates, they should not be updated anyway
+        addon_change.delay_on_commit([instance.pk])
+
+
+@receiver(change_bulk_create)
+def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
+    """Handle Change bulk create signal."""
+    from weblate.addons.tasks import addon_change
+
+    addon_change.delay_on_commit([change.pk for change in instances])
 
 
 class AddonActivityLog(models.Model):

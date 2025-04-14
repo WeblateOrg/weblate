@@ -973,8 +973,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             result.add_if(self.stats, "fuzzy", "")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "")
-            result.add_if(self.stats, "nosuggestions", "")
+            if result.add_if(self.stats, "suggestions", ""):
+                result.add_if(self.stats, "nosuggestions", "")
 
         # All checks
         result.add_if(self.stats, "allchecks", "")
@@ -997,13 +997,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # Include labels
         labels = self.component.project.label_set.order_by("name")
         if labels:
+            has_label = False
             for label in labels:
-                result.add_if(
+                has_label |= result.add_if(
                     self.stats,
                     f"label:{label.name}",
                     f"label label-{label.color}",
                 )
-            result.add_if(self.stats, "unlabeled", "")
+            if has_label:
+                result.add_if(self.stats, "unlabeled", "")
 
         return result
 
@@ -1565,7 +1567,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         return result
 
     @transaction.atomic
-    def add_unit(  # noqa: C901,PLR0914,PLR0915
+    def add_unit(  # noqa: C901,PLR0914,PLR0915,PLR0912
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -1583,6 +1585,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         if isinstance(source, list):
             source = join_plural(source)
 
+        parsed_flags = Flags(extra_flags)
+
         user = request.user if request else None
         component = self.component
         add_terminology = False
@@ -1597,7 +1601,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                     "language"
                 ),
             )
-        elif component.is_glossary and "terminology" in Flags(extra_flags):
+        elif component.is_glossary and "terminology" in parsed_flags:
             add_terminology = True
             translations = (
                 component.source_translation,
@@ -1642,6 +1646,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 current_target = target
             if current_target is None:
                 current_target = ""
+            # Wipe target for untranslatable strings
+            if component.is_glossary and "read-only" in parsed_flags:
+                current_target = ""
             if isinstance(current_target, list):
                 has_translation = any(current_target)
                 current_target = join_plural(current_target)
@@ -1671,7 +1678,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
-                if "read-only" in translation.all_flags:
+                if "read-only" in translation.all_flags or (
+                    component.is_glossary and "read-only" in parsed_flags
+                ):
                     unit_state = STATE_READONLY
                 elif state is None:
                     unit_state = STATE_TRANSLATED if has_translation else STATE_EMPTY
