@@ -549,20 +549,31 @@ def store_post_load_handler(sender, translation: Translation, store, **kwargs) -
 
 
 @receiver(post_save, sender=Change)
+@disable_for_loaddata
 def change_post_save_handler(sender, instance: Change, created, **kwargs) -> None:
     """Handle Change post save signal."""
-    from weblate.addons.tasks import addon_change
-
     if created:  # ignore Change updates, they should not be updated anyway
-        addon_change.delay_on_commit([instance.pk])
+        bulk_change_create_handler(sender, [instance])
 
 
 @receiver(change_bulk_create)
+@disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
     from weblate.addons.tasks import addon_change
 
-    addon_change.delay_on_commit([change.pk for change in instances])
+    # Filter out events that have a subscriber
+    # It currently also includes all project and site-wide events as there is currently
+    # no effective way to filter and these are not that frequent.
+    filtered = [
+        change.pk
+        for change in instances
+        if change.component is None
+        or AddonEvent.EVENT_CHANGE in change.component.addons_cache
+    ]
+
+    if filtered:
+        addon_change.delay_on_commit(filtered)
 
 
 class AddonActivityLog(models.Model):
