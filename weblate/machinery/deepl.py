@@ -13,6 +13,7 @@ from requests.exceptions import HTTPError, RequestException
 from .base import (
     BatchMachineTranslation,
     DownloadMultipleTranslations,
+    GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     XMLMachineTranslationMixin,
 )
@@ -196,11 +197,22 @@ class DeepLTranslation(
             self.delete_glossary(glossaries[0]["glossary_id"])
 
     def delete_glossary(self, glossary_id: str) -> None:
-        self.request("delete", self.get_api_url("glossaries", glossary_id))
+        """
+        Delete glossary from service.
+
+        :param glossary_id: ID of the glossary to delete
+        :raises GlossaryDoesNotExistError: If the glossary does not exist
+        """
+        try:
+            self.request("delete", self.get_api_url("glossaries", glossary_id))
+        except HTTPError as error:
+            if error.response.status_code in {400, 404}:
+                raise GlossaryDoesNotExistError from error
 
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
     ) -> None:
+        # Deepl gracefully handles glossaries with duplicate name by updating the existing one
         self.request(
             "post",
             self.get_api_url("glossaries"),
