@@ -28,18 +28,7 @@ Python modules
 
    Please check :ref:`python-deps` for fine-tuning of optional dependencies.
 
-   .. note::
+   .. seealso::
 
-      On some Linux distributions running Weblate fails with libffi error:
-
-      .. code-block:: text
-
-         ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)
-
-      This is caused by incompatibility of binary packages distributed via PyPI
-      with the distribution. To address this, you need to rebuild the package
-      on your system:
-
-      .. code-block:: sh
-
-         uv pip install --force-reinstall --no-binary :all: cffi
+      :ref:`troubleshoot-pip-install` describes frequent issues while installing Python
+      dependencies.

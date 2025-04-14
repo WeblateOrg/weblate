@@ -9,9 +9,14 @@ Installing on Debian and Ubuntu
 
    apt install -y \
       libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev \
-      libffi-dev libcairo-dev gir1.2-pango-1.0 gir1.2-rsvg-2.0 libgirepository1.0-dev \
+      libffi-dev libcairo-dev gir1.2-pango-1.0 gir1.2-rsvg-2.0 libgirepository-2.0-dev \
       libacl1-dev liblz4-dev libzstd-dev libxxhash-dev libssl-dev libpq-dev libjpeg-dev build-essential \
       python3-gdbm python3-dev git
+
+.. hint::
+
+   Older distributions do not have ``libgirepository-2.0-dev``, use
+   ``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`.
 
 .. include:: steps/install-system-optional.rst
 
