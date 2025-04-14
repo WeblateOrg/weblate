@@ -967,13 +967,14 @@ Unused strings are removed, and new ones added as copies of the source string.
 
    :ref:`faq-cleanup`
 
+.. _addon-weblate.webhook.webhook:
 
-.. _addon-weblate.webhook.webhooks:
+Webhook
+-------
 
-Webhooks
---------
+.. versionadded:: 5.11
 
-:Add-on ID: ``weblate.webhook.webhooks``
+:Add-on ID: ``weblate.webhook.webhook``
 :Configuration: +-----------------+---------------+-------------------------------------------------+
                 | ``webhook_url`` | Webhook URL   |                                                 |
                 +-----------------+---------------+-------------------------------------------------+
@@ -987,11 +988,11 @@ Webhooks
                 |                 |               |                                                 |
                 |                 |               | ``2`` -- Translation changed                    |
                 |                 |               |                                                 |
-                |                 |               | ``5`` -- Translation added                      |
-                |                 |               |                                                 |
                 |                 |               | ``3`` -- Comment added                          |
                 |                 |               |                                                 |
                 |                 |               | ``4`` -- Suggestion added                       |
+                |                 |               |                                                 |
+                |                 |               | ``5`` -- Translation added                      |
                 |                 |               |                                                 |
                 |                 |               | ``6`` -- Automatically translated               |
                 |                 |               |                                                 |
@@ -1021,8 +1022,6 @@ Webhooks
                 |                 |               |                                                 |
                 |                 |               | ``23`` -- Repository rebase failed              |
                 |                 |               |                                                 |
-                |                 |               | ``28`` -- Repository push failed                |
-                |                 |               |                                                 |
                 |                 |               | ``24`` -- Parsing failed                        |
                 |                 |               |                                                 |
                 |                 |               | ``25`` -- Translation removed                   |
@@ -1030,6 +1029,8 @@ Webhooks
                 |                 |               | ``26`` -- Suggestion removed                    |
                 |                 |               |                                                 |
                 |                 |               | ``27`` -- Translation replaced                  |
+                |                 |               |                                                 |
+                |                 |               | ``28`` -- Repository push failed                |
                 |                 |               |                                                 |
                 |                 |               | ``29`` -- Suggestion removed during cleanup     |
                 |                 |               |                                                 |
@@ -1124,6 +1125,10 @@ Webhooks
                 |                 |               | ``76`` -- Applied enforced check                |
                 |                 |               |                                                 |
                 |                 |               | ``77`` -- Propagated change                     |
+                |                 |               |                                                 |
+                |                 |               | ``78`` -- File uploaded                         |
+                |                 |               |                                                 |
+                |                 |               | ``79`` -- Extra flags updated                   |
                 +-----------------+---------------+-------------------------------------------------+
 :Triggers: :ref:`addon-event-event-change`
 
