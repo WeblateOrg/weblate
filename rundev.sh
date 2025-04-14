@@ -73,7 +73,7 @@ wait)
         sleep 5
         docker compose ps
         TIMEOUT=$((TIMEOUT + 1))
-        if [ $TIMEOUT -gt 120 ]; then
+        if [ $TIMEOUT -gt 60 ]; then
             docker compose logs
             exit 1
         fi
