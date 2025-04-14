@@ -16,4 +16,8 @@
     $("#shortcuts-modal").modal("show");
     return false;
   });
+
+  $("#shortcuts-btn").on("click", () => {
+    $("#shortcuts-modal").modal("show");
+  });
 })();
