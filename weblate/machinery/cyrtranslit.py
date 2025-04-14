@@ -47,6 +47,8 @@ class CyrTranslitTranslation(MachineTranslation):
     name = "CyrTranslit"
     max_score = 100
     cache_translations = False
+    replacement_start = "[___"
+    replacement_end = "___]"
 
     def download_languages(self):
         """List of supported languages."""

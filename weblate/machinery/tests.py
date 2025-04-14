@@ -2640,6 +2640,37 @@ class CyrTranslitTranslationTest(ViewTestCase):
             ],
         )
 
+    def test_placeholders(self):
+        machine = self.get_machine()
+
+        # Add translations and prepare units
+        self.component.add_new_language(Language.objects.get(code="sr_Latn"), None)
+        self.component.add_new_language(Language.objects.get(code="sr_Cyrl"), None)
+        self.edit_unit(
+            "Orangutan has %d banana.\n", "Орангутан има %d банану.\n", "sr_Cyrl"
+        )
+
+        unit = self.get_unit("Orangutan has %d banana.\n", language="sr_Latn")
+
+        # check cyrillic to latin
+        results = machine.translate(unit, self.user)
+        self.assertEqual(
+            [
+                [
+                    {
+                        "original_source": "Орангутан има %d банану.\n",
+                        "quality": 100,
+                        "service": "CyrTranslit",
+                        "source": "Орангутан има %d банану.\n",
+                        "text": "Orangutan ima %d bananu.\n",
+                    }
+                ],
+                [],
+                [],
+            ],
+            results,
+        )
+
 
 class ViewsTest(FixtureTestCase):
     """Testing of AJAX/JS views."""
