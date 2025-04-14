@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
+"PO-Revision-Date: 2025-04-14 22:16+0000\n"
 "Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
@@ -2094,35 +2094,34 @@ msgstr ""
 
 #: weblate/api/views.py:153
 msgid "Could not obtain the lock to perform the operation."
-msgstr ""
-"Ние атрималасиа заблакаваć репазиторий бо виконважекка інšажа апиеракижа."
+msgstr "Не ўдалося задзейнічаць блакіраванне, каб выканаць аперацыю."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
 msgstr ""
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Failed to lock the repository, another operation is in progress."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr ""
-"Ние атрималасиа заблакаваć репазиторий бо виконважекка інšажа апиеракижа."
+"Не ўдалося задзейнічаць блакіраванне рэпазіторыя для %s, каб выканаць "
+"аперацыю."
 
 #: weblate/api/views.py:178
-#, fuzzy, python-format
-#| msgid "Failed to lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr ""
-"Ние атрималасиа заблакаваć репазиторий бо виконважекка інšажа апиеракижа."
+"Не ўдалося задзейнічаць блакіраванне абнаўлення для кампанента %s, каб "
+"выканаць аперацыю."
 
 #: weblate/api/views.py:185
-#, fuzzy, python-format
-#| msgid "Failed to lock the repository, another operation is in progress."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Ние атрималасиа заблакаваć репазиторий бо виконважекка інšажа апиеракижа."
+"Не ўдалося задзейнічаць блакіраванне %(scope)s для %(origin)s, каб выканаць "
+"аперацыю."
 
 #: weblate/api/views.py:2420 weblate/auth/models.py:964
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -5178,7 +5177,7 @@ msgstr "Юрыдычная інфармацыя"
 
 #: weblate/legal/templates/legal/confirm.html:18
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Ви павинни паhадзикка з умовами абслуhоŭванниа"
+msgstr "Вы павінны пагадзіцца з Агульнымі ўмовамі выкарыстання"
 
 #: weblate/legal/templates/legal/confirm.html:21
 msgid "Please read following General Terms and Conditions document:"
@@ -5491,10 +5490,9 @@ msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
 
 #: weblate/machinery/forms.py:299
-#, fuzzy, python-format
-#| msgid "The translation is not valid XML"
+#, python-format
 msgid "The context vector is not valid: %s"
-msgstr "Пиераклад зжаŭлиажекка ниекаректним ХМЛ-файлам"
+msgstr "Вектар кантэксту няправільны: %s"
 
 #: weblate/machinery/forms.py:303
 #, python-format
@@ -5663,10 +5661,9 @@ msgid "Confirm deleting all translation memory entries"
 msgstr "Пацвердзіць выдаленне ўсіх запісаў памяці перакладаў"
 
 #: weblate/memory/models.py:205
-#, fuzzy, python-format
-#| msgid "Unsupported image type: %s"
+#, python-format
 msgid "Unsupported file extension: %s"
-msgstr "Тип вижави ние падтримливажекка: [Х33Х]"
+msgstr "Пашырэнне файла не падтрымліваецца: %s"
 
 #: weblate/memory/models.py:227
 msgid "No valid entries found in the uploaded file!"
@@ -6551,10 +6548,12 @@ msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
+"Двухфактарная аўтэнтыфікацыя дадае для ўліковага запісу яшчэ адзін узровень "
+"бяспекі, для ўваходу недастаткова проста ўвесці пароль."
 
 #: weblate/templates/accounts/profile.html:268
 msgid "Security keys (WebAuthn)"
-msgstr ""
+msgstr "Ключы бяспекі (WebAuthn)"
 
 #: weblate/templates/accounts/profile.html:271
 msgid "No WebAuthn keys registered yet."
@@ -6601,7 +6600,7 @@ msgstr "Зарэгістраваць праграму для аўтэнтыфі�
 #: weblate/templates/accounts/recovery-codes.html:15
 #: weblate/templates/accounts/recovery-codes.html:39
 msgid "Recovery codes"
-msgstr ""
+msgstr "Коды аднаўлення"
 
 #: weblate/templates/accounts/profile.html:337
 msgid "No recovery codes generated yet."
@@ -6611,21 +6610,19 @@ msgstr "Коды аднаўлення яшчэ не згенерыраваны."
 #: weblate/templates/accounts/recovery-codes.html:55
 #: weblate/templates/accounts/recovery-codes.html:62
 msgid "Generate new recovery codes"
-msgstr ""
+msgstr "Згенерыраваць коды аднаўлення"
 
 #: weblate/templates/accounts/profile.html:344
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgid "%(count)s recovery code available."
 msgid_plural "%(count)s recovery codes available."
-msgstr[0] "[Х0Х] hолас"
-msgstr[1] "[Х0Х] hаласи"
-msgstr[2] "[Х0Х] hаласоŭ"
+msgstr[0] "Даступны %(count)s код аднаўлення."
+msgstr[1] "Даступна %(count)s коды аднаўлення."
+msgstr[2] "Даступна %(count)s кодаў аднаўлення."
 
 #: weblate/templates/accounts/profile.html:350
 msgid "View recovery codes"
-msgstr ""
+msgstr "Праглядзець коды аднаўлення"
 
 #: weblate/templates/accounts/profile.html:363
 msgid "User data"
@@ -6739,7 +6736,7 @@ msgstr "Ваш асабісты ключ API:"
 #: weblate/templates/data.html:144
 #: weblate/templates/trans/project-access.html:357
 msgid "Toggle API key visibility"
-msgstr "Змиениенажа баčнасć"
+msgstr "Змяніць бачнасць ключа API"
 
 #: weblate/templates/accounts/profile.html:551
 #: weblate/templates/trans/project-access.html:361
@@ -6752,7 +6749,7 @@ msgstr "Перастварыць API-ключ"
 
 #: weblate/templates/accounts/profile.html:559
 msgid "API root URL:"
-msgstr "Карнявы URL API:"
+msgstr "Каранёвы URL для API:"
 
 #: weblate/templates/accounts/profile.html:565
 msgid "API usage example:"
@@ -7163,11 +7160,11 @@ msgstr "Редаhаванние зичоднаhа радка"
 
 #: weblate/templates/accounts/user.html:398
 msgid "The user has two-factor authentication."
-msgstr "Викаристоŭважекка длиа аŭтентификаки каристаĺника, кали налаdžана"
+msgstr "У карыстальніка двухфактарная аўтэнтыфікацыя."
 
 #: weblate/templates/accounts/user.html:400
 msgid "The user doesn't have two-factor authentication."
-msgstr "Викаристоŭважекка длиа аŭтентификаки каристаĺника, кали налаdžана"
+msgstr "Карыстальнік без двухфактарнай аўтэнтыфікацыі."
 
 #: weblate/templates/accounts/user.html:407
 msgid "Turn off two-factor authentication"
@@ -7829,10 +7826,8 @@ msgid "Contribute to Weblate"
 msgstr "Паўдзельнічаць у развіцці Weblate"
 
 #: weblate/templates/base.html:408 weblate/templates/keyboard-shortcuts.html:18
-#, fuzzy
-#| msgid "Keyboard shortcuts available:"
 msgid "Keyboard shortcuts"
-msgstr "Даступныя гарачыя клавішы:"
+msgstr "Спалучэнні клавіш"
 
 #: weblate/templates/base.html:437 weblate/templates/manage/index.html:47
 msgid ""
@@ -9201,7 +9196,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:179
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Аčискиć усие файли, šто ниеадсоčважукка, ŭ лакаĺним репазитори"
+msgstr "Паўторнае сканаванне ўсіх файлаў перакладу ў рэпазіторыі Weblate"
 
 #: weblate/templates/js/git-status.html:181
 msgid "Loads translations from the files into Weblate."
@@ -9992,7 +9987,7 @@ msgstr "Пацвердзіць запрашэнне"
 #: weblate/templates/snippets/query-builder.html:33
 #: weblate/templates/translate.html:790
 msgid "Source string description"
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Апісанне зыходнага радка"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:838
@@ -10341,16 +10336,13 @@ msgid "Generate %(key_type)s SSH key"
 msgstr "Zhиениераваć СШ-клиуč"
 
 #: weblate/templates/manage/ssh.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "You don't seem to have existing SSH key, by pressing button below Weblate "
-#| "will generate one for you."
+#, python-format
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
 msgstr ""
-"Здажекка, у вас ниама СШ-клиуčа. Веблате моžа жиениераваć жаhо длиа вас. "
-"Длиа hетаhа пстрикникие кнопку ниžей."
+"Падобна, што ў вас няма %(key_type)s ключа SSH. Weblate можа згенерыраваць "
+"яго, калі вы націсніце кнопку ніжэй."
 
 #: weblate/templates/manage/ssh.html:43
 #, fuzzy, python-format
@@ -11037,7 +11029,7 @@ msgstr "Апавиаščенни пиеракладу"
 
 #: weblate/templates/snippets/glossary.html:41
 msgid "Glossary string explanation"
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Тлумачэнне да радка гласарыя"
 
 #: weblate/templates/snippets/glossary.html:50
 msgid "No related strings found in the glossary."
@@ -11701,11 +11693,11 @@ msgstr ""
 
 #: weblate/templates/snippets/share-menu.html:6
 msgid "Share"
-msgstr "Падзяліцца"
+msgstr "Абагуліць"
 
 #: weblate/templates/snippets/share-menu.html:11
 msgid "Share on Facebook"
-msgstr "Падзяліцца праз Facebook"
+msgstr "Абагуліць праз Facebook"
 
 #: weblate/templates/snippets/share-menu.html:14
 #: weblate/templates/snippets/share-menu.html:19
@@ -11715,11 +11707,11 @@ msgstr "Перакладайце %(object)s пры дапамозе %%23Weblate 
 
 #: weblate/templates/snippets/share-menu.html:14
 msgid "Share on X"
-msgstr "Падзиаликка праз Факебоок"
+msgstr "Абагуліць праз X"
 
 #: weblate/templates/snippets/share-menu.html:19
 msgid "Share on Fediverse"
-msgstr "Падзиаликка праз Факебоок"
+msgstr "Абагуліць праз Fediverse"
 
 #: weblate/templates/snippets/share-menu.html:24
 msgid "Engage page"
@@ -12813,7 +12805,7 @@ msgstr "Выдаліць радок"
 
 #: weblate/templates/translate.html:226
 msgid "Add variant of this string"
-msgstr "Змиениени ад"
+msgstr "Дадаць варыянт гэтага радка"
 
 #: weblate/templates/translate.html:231
 msgid "Add alternative translation"
@@ -13926,7 +13918,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:564
 msgid "Source string explanation"
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Тлумачэнне да зыходнага радка"
 
 #: weblate/trans/forms.py:566
 msgid "Translation explanation"
@@ -14349,7 +14341,7 @@ msgstr "Вам ние дастаже правоŭ, каб ствараć пра�
 
 #: weblate/trans/forms.py:2640
 msgid "State to set"
-msgstr "Вызначаемы стан"
+msgstr "Стан для вызначэння"
 
 #: weblate/trans/forms.py:2641
 msgid "Do not change"
@@ -14368,9 +14360,8 @@ msgid "Labels to add"
 msgstr "Меткі для дадавання"
 
 #: weblate/trans/forms.py:2658
-#, fuzzy
 msgid "Labels to remove"
-msgstr "Адмеціны для выдалення"
+msgstr "Меткі для выдалення"
 
 #: weblate/trans/forms.py:2712
 msgid "I accept the contributor license agreement"
@@ -14604,7 +14595,7 @@ msgstr "Хібная спасылка на сайт праекта"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:578
 msgid "Unused screenshot"
-msgstr "Няўжывальны здымак экрана"
+msgstr "Нявыкарыстаны здымак экрана"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:597
@@ -14638,11 +14629,11 @@ msgstr "Пиераклад викаристоŭваже аднамоŭнижа �
 
 #: weblate/trans/models/announcement.py:105
 msgid "Severity"
-msgstr "Биаспиека"
+msgstr "Узровень крытычнасці"
 
 #: weblate/trans/models/announcement.py:106
 msgid "Severity defines color used for the message."
-msgstr "Катеhорижа визнаčаже колиер павиедамлиенниа."
+msgstr "Узровень крытычнасці вызначае колер для паведамлення."
 
 #: weblate/trans/models/announcement.py:108
 msgid "Info (light blue)"
@@ -14693,7 +14684,7 @@ msgstr "Назва катэгорыі"
 #: weblate/trans/models/category.py:57 weblate/trans/models/component.py:365
 #: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:168
 msgid "Display name"
-msgstr "Адлюстроўваемая назва"
+msgstr "Бачная назва"
 
 #: weblate/trans/models/category.py:60 weblate/trans/models/component.py:368
 #: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:172
@@ -16996,7 +16987,7 @@ msgstr "Колькасць няўдалых праверак"
 
 #: weblate/utils/views.py:212
 msgid "String location"
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Размяшчэнне радка"
 
 #: weblate/utils/views.py:617
 #, python-format
