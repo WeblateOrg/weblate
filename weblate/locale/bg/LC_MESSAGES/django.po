@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-04-11 15:33+0000\n"
+"POT-Creation-Date: 2025-04-14 18:25+0000\n"
 "PO-Revision-Date: 2025-04-12 10:14+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -1305,7 +1305,7 @@ msgid ""
 msgstr ""
 "Превежда автоматично низовете чрез машинен превод или чрез други компоненти."
 
-#: weblate/addons/base.py:405 weblate/trans/views/create.py:265
+#: weblate/addons/base.py:409 weblate/trans/views/create.py:265
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1448,19 +1448,19 @@ msgstr "Масово редактиране"
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Масово редактиране на флагове, етикети или състояние на низовете."
 
-#: weblate/addons/forms.py:48
+#: weblate/addons/forms.py:58
 msgid "Path of generated MO file"
 msgstr "Път до създадения файл MO"
 
-#: weblate/addons/forms.py:52
+#: weblate/addons/forms.py:62
 msgid "If not specified, the location of the PO file will be used."
 msgstr "Ако не е посочено, ще се ползва местоположението на файла PO."
 
-#: weblate/addons/forms.py:56
+#: weblate/addons/forms.py:66
 msgid "Include strings needing editing"
 msgstr "Да се включат низовете, нуждаещи се от редактиране"
 
-#: weblate/addons/forms.py:59
+#: weblate/addons/forms.py:69
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
@@ -1468,35 +1468,35 @@ msgstr ""
 "Низовете, които изискват редактиране (с неточни съвпадения) обикновено не са "
 "готови за ползване като преводи."
 
-#: weblate/addons/forms.py:85
+#: weblate/addons/forms.py:95
 msgid "Name of generated file"
 msgstr "Име на създадения файл"
 
-#: weblate/addons/forms.py:89
+#: weblate/addons/forms.py:99
 msgid "Content of generated file"
 msgstr "Съдържание на създадения файл"
 
-#: weblate/addons/forms.py:119 weblate/addons/forms.py:237
+#: weblate/addons/forms.py:129 weblate/addons/forms.py:247
 msgid "Long lines wrapping"
 msgstr "Пренасяне на дългите редове"
 
-#: weblate/addons/forms.py:124
+#: weblate/addons/forms.py:134
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr ""
 "Пренасяне на редовете при достигане на 77 знака и при знак за нов ред (по "
 "подразбиране за xgettext)"
 
-#: weblate/addons/forms.py:129
+#: weblate/addons/forms.py:139
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr ""
 "Пренасяне на редовете само при знак за нов ред (също като „xgettext --no-"
 "wrap“)"
 
-#: weblate/addons/forms.py:131 weblate/addons/forms.py:243
+#: weblate/addons/forms.py:141 weblate/addons/forms.py:253
 msgid "No line wrapping"
 msgstr "Без пренасяне на редовете"
 
-#: weblate/addons/forms.py:136
+#: weblate/addons/forms.py:146
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -1505,43 +1505,43 @@ msgstr ""
 "нов ред. С параметър „--no-wrap“, пренасяне ще има само при срещане на знак "
 "за нов ред."
 
-#: weblate/addons/forms.py:144
+#: weblate/addons/forms.py:154
 msgid "Keep previous msgids of translated strings"
 msgstr "Запазване на предходните елементи „msgid“ на преведените низове"
 
-#: weblate/addons/forms.py:149
+#: weblate/addons/forms.py:159
 msgid "Remove locations of translated strings"
 msgstr "Премахване на местоположенията на преведените низове"
 
-#: weblate/addons/forms.py:154
+#: weblate/addons/forms.py:164
 msgid "Use fuzzy matching"
 msgstr "Използване на неточни съответствия"
 
-#: weblate/addons/forms.py:160
+#: weblate/addons/forms.py:170
 msgid "Commit squashing"
 msgstr "Смачкване на подаванията"
 
-#: weblate/addons/forms.py:163
+#: weblate/addons/forms.py:173
 msgid "All commits into one"
 msgstr "Всички подавания в едно"
 
-#: weblate/addons/forms.py:164
+#: weblate/addons/forms.py:174
 msgid "Per language"
 msgstr "По език"
 
-#: weblate/addons/forms.py:165
+#: weblate/addons/forms.py:175
 msgid "Per file"
 msgstr "По файл"
 
-#: weblate/addons/forms.py:166
+#: weblate/addons/forms.py:176
 msgid "Per author"
 msgstr "По автор"
 
-#: weblate/addons/forms.py:172
+#: weblate/addons/forms.py:182
 msgid "Append trailers to squashed commit message"
 msgstr "Добавяне на завършващ текст към съобщението на смачкано подаване"
 
-#: weblate/addons/forms.py:176
+#: weblate/addons/forms.py:186
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1551,11 +1551,11 @@ msgstr ""
 "822, които се поставят в края на съобщението за подаване, след свободния "
 "текст в него, като например: „Co-authored-by: …“."
 
-#: weblate/addons/forms.py:182
+#: weblate/addons/forms.py:192
 msgid "Commit message"
 msgstr "Съобщение при подаване на промените"
 
-#: weblate/addons/forms.py:186
+#: weblate/addons/forms.py:196
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
@@ -1563,107 +1563,107 @@ msgstr ""
 "Това съобщение ще се използва вместо комбинираните съобщения от смачканите "
 "подавания."
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:213
 msgid "Sort JSON keys"
 msgstr "Подреждане на ключовете в JSON"
 
-#: weblate/addons/forms.py:205
+#: weblate/addons/forms.py:215
 msgid "JSON indentation"
 msgstr "Отстъп в JSON"
 
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:218
 msgid "JSON indentation style"
 msgstr "Стил на отстъпа в JSON"
 
-#: weblate/addons/forms.py:210
+#: weblate/addons/forms.py:220
 msgid "Spaces"
 msgstr "Интервали"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:221
 msgid "Tabs"
 msgstr "Табулатори"
 
-#: weblate/addons/forms.py:222
+#: weblate/addons/forms.py:232
 msgid "Include closing tag for blank XML tags"
 msgstr "Да се добавя затварящ елемент за празните елементи в XML"
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:240
 msgid "YAML indentation"
 msgstr "Отстъп в YAML"
 
-#: weblate/addons/forms.py:239
+#: weblate/addons/forms.py:249
 msgid "Wrap lines at 80 chars"
 msgstr "Пренасяне на редовете при достигане на 80 знака"
 
-#: weblate/addons/forms.py:240
+#: weblate/addons/forms.py:250
 msgid "Wrap lines at 100 chars"
 msgstr "Пренасяне на редовете при достигане на 100 знака"
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:251
 msgid "Wrap lines at 120 chars"
 msgstr "Пренасяне на редовете при достигане на 120 знака"
 
-#: weblate/addons/forms.py:242
+#: weblate/addons/forms.py:252
 msgid "Wrap lines at 180 chars"
 msgstr "Пренасяне на редовете при достигане на 180 знака"
 
-#: weblate/addons/forms.py:249
+#: weblate/addons/forms.py:259
 msgid "Line breaks"
 msgstr "Знак за нов ред"
 
-#: weblate/addons/forms.py:251
+#: weblate/addons/forms.py:261
 msgid "DOS (\\r\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: weblate/addons/forms.py:252
+#: weblate/addons/forms.py:262
 msgid "UNIX (\\n)"
 msgstr "UNIX (\\n)"
 
-#: weblate/addons/forms.py:253
+#: weblate/addons/forms.py:263
 msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
-#: weblate/addons/forms.py:262
+#: weblate/addons/forms.py:272
 msgid "Days to keep"
 msgstr "Дни за съхранение"
 
-#: weblate/addons/forms.py:268
+#: weblate/addons/forms.py:278
 msgid "Voting threshold"
 msgstr "Граница за гласуване"
 
-#: weblate/addons/forms.py:272
+#: weblate/addons/forms.py:282
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "Граница за премахване. Това поле няма значение, ако гласуването е изключено."
 
-#: weblate/addons/forms.py:279
+#: weblate/addons/forms.py:289
 msgid "Regular expression to match translation files against"
 msgstr "Регулярен израз, с който да се проверяват файловете за превод"
 
-#: weblate/addons/forms.py:283
+#: weblate/addons/forms.py:293
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
 #: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:636
 #: weblate/trans/forms.py:1863 weblate/trans/models/component.py:526
 msgid "File format"
 msgstr "Формат на файла"
 
-#: weblate/addons/forms.py:289
+#: weblate/addons/forms.py:299
 msgid "Customize the component name"
 msgstr "Настройка на името на компонента"
 
-#: weblate/addons/forms.py:294
+#: weblate/addons/forms.py:304
 msgid "Define the monolingual base filename"
 msgstr "Определяне на едноезичния базов езиков файл"
 
-#: weblate/addons/forms.py:297
+#: weblate/addons/forms.py:307
 msgid "Leave empty for bilingual translation files."
 msgstr "Да бъде празно за двуезичните файлове за превод."
 
-#: weblate/addons/forms.py:300
+#: weblate/addons/forms.py:310
 msgid "Define the base file for new translations"
 msgstr "Определяне на базовия файл за новите преводи"
 
-#: weblate/addons/forms.py:304 weblate/trans/models/component.py:520
+#: weblate/addons/forms.py:314 weblate/trans/models/component.py:520
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1671,13 +1671,13 @@ msgstr ""
 "Име на файл, който да се използва при създаването на нови преводи. За "
 "„gettext“ изберете файл с разширение „.pot“."
 
-#: weblate/addons/forms.py:309
+#: weblate/addons/forms.py:319
 #: weblate/templates/trans/alert/inexistantfiles.html:14
 #: weblate/trans/models/component.py:504
 msgid "Intermediate language file"
 msgstr "Преходен езиков файл"
 
-#: weblate/addons/forms.py:313 weblate/trans/models/component.py:508
+#: weblate/addons/forms.py:323 weblate/trans/models/component.py:508
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1687,11 +1687,11 @@ msgstr ""
 "предоставен от разработчиците и се използва при създаването на самите "
 "изходни низове."
 
-#: weblate/addons/forms.py:320 weblate/trans/models/component.py:731
+#: weblate/addons/forms.py:330 weblate/trans/models/component.py:731
 msgid "Language filter"
 msgstr "Филтър за езика"
 
-#: weblate/addons/forms.py:325
+#: weblate/addons/forms.py:335
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -1699,63 +1699,63 @@ msgstr ""
 "Регулярен израз за филтриране на файловете за превод при сканиране за "
 "файлова маска."
 
-#: weblate/addons/forms.py:331
+#: weblate/addons/forms.py:341
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Клониране на добавките от основния компонент в новосъздадените"
 
-#: weblate/addons/forms.py:337
+#: weblate/addons/forms.py:347
 msgid "Remove components for inexistent files"
 msgstr "Премахване на компонентите за несъществуващи файлове"
 
-#: weblate/addons/forms.py:340
+#: weblate/addons/forms.py:350
 msgid "I confirm the above matches look correct"
 msgstr "Потвърждавам, че горните съвпадения изглеждат правилни"
 
-#: weblate/addons/forms.py:397 weblate/trans/models/component.py:3040
+#: weblate/addons/forms.py:407 weblate/trans/models/component.py:3040
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Не можете да използвате едноезичен превод без базов файл."
 
-#: weblate/addons/forms.py:405 weblate/trans/models/component.py:2974
+#: weblate/addons/forms.py:415 weblate/trans/models/component.py:2974
 msgid "You can not use a base file for bilingual translation."
 msgstr "Не може да използвате базов файл за двуезичен превод."
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:429
 msgid "Please review and confirm the matched components."
 msgstr "Моля, прегледайте и потвърдете съвпадащите компоненти."
 
-#: weblate/addons/forms.py:447
+#: weblate/addons/forms.py:457
 msgid "Please include component markup in the template."
 msgstr "Добавете и синтаксиса на компонента в шаблона."
 
-#: weblate/addons/forms.py:502
+#: weblate/addons/forms.py:512
 msgid "Translation threshold"
 msgstr "Граница на превода"
 
-#: weblate/addons/forms.py:507
+#: weblate/addons/forms.py:517
 msgid "Threshold for inclusion of translations."
 msgstr "Граница за включване на преводите."
 
-#: weblate/addons/forms.py:510
+#: weblate/addons/forms.py:520
 msgid "CSS selector"
 msgstr "Селектор за CSS"
 
-#: weblate/addons/forms.py:513
+#: weblate/addons/forms.py:523
 msgid "CSS selector to detect localizable elements."
 msgstr "Селектор за CSS, който разпознава преводимите елементи."
 
-#: weblate/addons/forms.py:516
+#: weblate/addons/forms.py:526
 msgid "Language cookie name"
 msgstr "Име на бисквитката за езика"
 
-#: weblate/addons/forms.py:519
+#: weblate/addons/forms.py:529
 msgid "Name of cookie which stores language preference."
 msgstr "Име на бисквитката, която съхранява предпочитания език."
 
-#: weblate/addons/forms.py:524
+#: weblate/addons/forms.py:534
 msgid "Extract strings from HTML files"
 msgstr "Извличане на низове от файлове HTML"
 
-#: weblate/addons/forms.py:527
+#: weblate/addons/forms.py:537
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1763,12 +1763,12 @@ msgstr ""
 "Списък от имена на файлове в текущото хранилище или адреси, които да бъдат "
 "анализирани за извличане на низове за превод."
 
-#: weblate/addons/forms.py:555
+#: weblate/addons/forms.py:565
 #, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "Селекторът за CSS не може да бъде анализиран: %s"
 
-#: weblate/addons/forms.py:567 weblate/billing/models.py:295
+#: weblate/addons/forms.py:577 weblate/billing/models.py:295
 #: weblate/templates/snippets/query-builder.html:19
 #: weblate/templates/snippets/query-builder.html:24
 #: weblate/templates/translation.html:155 weblate/trans/admin.py:92
@@ -1776,35 +1776,35 @@ msgstr "Селекторът за CSS не може да бъде анализи
 msgid "Source strings"
 msgstr "Изходни низове"
 
-#: weblate/addons/forms.py:572
+#: weblate/addons/forms.py:582
 msgid "Target translation"
 msgstr "Целеви превод"
 
-#: weblate/addons/forms.py:574
+#: weblate/addons/forms.py:584
 msgid "All strings in this translation will be overwritten"
 msgstr "Всички низове в този превод ще бъдат презаписани"
 
-#: weblate/addons/forms.py:579 weblate/templates/addons/pseudolocale.html:9
+#: weblate/addons/forms.py:589 weblate/templates/addons/pseudolocale.html:9
 msgid "Fixed string prefix"
 msgstr "Фиксирана представка за низовете"
 
-#: weblate/addons/forms.py:584 weblate/templates/addons/pseudolocale.html:10
+#: weblate/addons/forms.py:594 weblate/templates/addons/pseudolocale.html:10
 msgid "Variable string prefix"
 msgstr "Променлива представка за низовете"
 
-#: weblate/addons/forms.py:589 weblate/templates/addons/pseudolocale.html:13
+#: weblate/addons/forms.py:599 weblate/templates/addons/pseudolocale.html:13
 msgid "Fixed string suffix"
 msgstr "Фиксирана наставка за низовете"
 
-#: weblate/addons/forms.py:594 weblate/templates/addons/pseudolocale.html:12
+#: weblate/addons/forms.py:604 weblate/templates/addons/pseudolocale.html:12
 msgid "Variable string suffix"
 msgstr "Променлива наставка за низовете"
 
-#: weblate/addons/forms.py:599
+#: weblate/addons/forms.py:609
 msgid "Variable part multiplier"
 msgstr "Множител за променливата част"
 
-#: weblate/addons/forms.py:603
+#: weblate/addons/forms.py:613
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
@@ -1812,18 +1812,34 @@ msgstr ""
 "Колко пъти да се повтаря променливата част, в зависимост от дължината на "
 "изходния низ."
 
-#: weblate/addons/forms.py:608
+#: weblate/addons/forms.py:618
 msgid "Include read-only strings"
 msgstr "Да се включат и низовете, които са само за четене"
 
-#: weblate/addons/forms.py:638
+#: weblate/addons/forms.py:648
 msgid "The source and target have to be different languages."
 msgstr "Изходният и целевият език трябва да бъдат различни езици."
 
-#: weblate/addons/forms.py:651
+#: weblate/addons/forms.py:661
 msgid "Enable case-sensitive key sorting"
 msgstr ""
 "Включване на различаването на главни и малки букви при сортирането на ключове"
+
+#: weblate/addons/forms.py:671
+#, fuzzy
+#| msgid "Changed license"
+msgid "Change events"
+msgstr "Променен лиценз"
+
+#: weblate/addons/forms.py:682
+#, fuzzy
+#| msgid "Website URL"
+msgid "Webhook URL"
+msgstr "Адрес на страницата"
+
+#: weblate/addons/forms.py:686
+msgid "Secret"
+msgstr ""
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1994,6 +2010,16 @@ msgstr "Неправилно име на добавка: „%s“"
 msgid "Add-on installed, please review integration instructions."
 msgstr ""
 "Добавката е инсталирана. Моля, прегледайте инструкциите за интегриране."
+
+#: weblate/addons/webhooks.py:40
+msgid "Webhook"
+msgstr ""
+
+#: weblate/addons/webhooks.py:42
+#, fuzzy
+#| msgid "Send notification to subscribed users."
+msgid "Sends notification to external service based on selected events."
+msgstr "Изпращане на известие до абонатите."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2263,7 +2289,7 @@ msgid "Add screenshot"
 msgstr "Добавяне на екранна снимка"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:59 weblate/templates/base.html:479
+#: weblate/auth/data.py:59 weblate/templates/base.html:482
 #: weblate/templates/screenshots/screenshot_detail.html:103
 msgid "Edit screenshot"
 msgstr "Редактиране на екранната снимка"
@@ -2770,7 +2796,7 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "Изисква потребителите да имат настроено двустепенно удостоверяване."
 
 #: weblate/auth/models.py:439 weblate/utils/forms.py:76
-#: weblate/utils/validators.py:174
+#: weblate/utils/validators.py:176
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -3252,9 +3278,7 @@ msgstr "Несъответствие на знака „\\n“"
 
 #: weblate/checks/chars.py:360
 msgid "Number of \\n literals in translation does not match source."
-msgstr ""
-"Броят на знаците \\n"
-" в превода не е същият като този в изходния низ."
+msgstr "Броят на знаците \\n в превода не е същият като този в изходния низ."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
@@ -4415,7 +4439,7 @@ msgid "Font"
 msgstr "Шрифт"
 
 #: weblate/fonts/validators.py:17 weblate/fonts/validators.py:21
-#: weblate/utils/validators.py:164
+#: weblate/utils/validators.py:166
 msgid "Unsupported file format."
 msgstr "Неподдържан файлов формат."
 
@@ -5185,7 +5209,7 @@ msgstr "Условия"
 msgid "Overview"
 msgstr "Общ преглед"
 
-#: weblate/machinery/apertium.py:102 weblate/machinery/base.py:116
+#: weblate/machinery/apertium.py:102 weblate/machinery/base.py:125
 #, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "Неуспешно получаване на поддържаните езици: %s"
@@ -5195,7 +5219,7 @@ msgstr "Неуспешно получаване на поддържаните е
 msgid "No supported languages found: %s"
 msgstr "Няма намерени поддържани езици: %s"
 
-#: weblate/machinery/apertium.py:116 weblate/machinery/base.py:122
+#: weblate/machinery/apertium.py:116 weblate/machinery/base.py:131
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "Неуспешно получаване на превода: %s"
@@ -5795,7 +5819,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Нямате нужните права, за да видите тази страница."
 
 #: weblate/templates/403.html:23 weblate/templates/404.html:24
-#: weblate/templates/base.html:151 weblate/templates/base.html:419
+#: weblate/templates/base.html:151 weblate/templates/base.html:422
 msgid "Dashboard"
 msgstr "Табло"
 
@@ -7120,7 +7144,7 @@ msgstr "Изтриване"
 
 #: weblate/templates/accounts/user.html:448
 #: weblate/templates/auth/team.html:187 weblate/templates/auth/team.html:219
-#: weblate/templates/base.html:469 weblate/templates/base.html:480
+#: weblate/templates/base.html:472 weblate/templates/base.html:483
 #: weblate/templates/keyboard-shortcuts.html:15
 #: weblate/templates/keyboard-shortcuts.html:207
 #: weblate/templates/manage/backups.html:111
@@ -7731,14 +7755,20 @@ msgstr "Документация"
 msgid "Contribute to Weblate"
 msgstr "Допринасяне към Weblate"
 
-#: weblate/templates/base.html:434 weblate/templates/manage/index.html:47
+#: weblate/templates/base.html:408 weblate/templates/keyboard-shortcuts.html:18
+#, fuzzy
+#| msgid "Keyboard shortcuts available:"
+msgid "Keyboard shortcuts"
+msgstr "Клавишни комбинации:"
+
+#: weblate/templates/base.html:437 weblate/templates/manage/index.html:47
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr ""
 "Вашата инсталация на Weblate превишава ограниченият на услугата. Моля, "
 "надградете абонамента си."
 
-#: weblate/templates/base.html:479
+#: weblate/templates/base.html:482
 #: weblate/templates/screenshots/screenshot_detail.html:115
 msgid "Screenshot details"
 msgstr "Подробности за снимката на екрана"
@@ -8244,8 +8274,8 @@ msgstr "Пренебрегнато"
 #: weblate/templates/check_list.html:42 weblate/templates/engage.html:40
 #: weblate/templates/snippets/info.html:488
 #: weblate/templates/snippets/info.html:533
-#: weblate/templates/snippets/list-objects.html:72 weblate/trans/widgets.py:293
-#: weblate/trans/widgets.py:311
+#: weblate/templates/snippets/list-objects.html:72 weblate/trans/widgets.py:294
+#: weblate/trans/widgets.py:312
 msgid "Translated"
 msgstr "Преведени"
 
@@ -8563,14 +8593,14 @@ msgstr ""
 "разработено да улесни процеса на превод както за разработчиците, така и за "
 "преводачите."
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:278
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:279
 msgctxt "Label on engage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "Низ"
 msgstr[1] "Низа"
 
-#: weblate/templates/engage.html:35 weblate/trans/widgets.py:287
+#: weblate/templates/engage.html:35 weblate/trans/widgets.py:288
 msgctxt "Label on engage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -8578,7 +8608,7 @@ msgstr[0] "Език"
 msgstr[1] "Езика"
 
 #: weblate/templates/engage.html:39
-#: weblate/trans/templatetags/translations.py:1404 weblate/trans/widgets.py:104
+#: weblate/trans/templatetags/translations.py:1404 weblate/trans/widgets.py:105
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -9115,10 +9145,6 @@ msgstr "Подробности за хранилището"
 #: weblate/templates/js/git-status.html:211
 msgid "Repository changes"
 msgstr "Промени в хранилището"
-
-#: weblate/templates/keyboard-shortcuts.html:18
-msgid "Available Shortcuts"
-msgstr "Налични комбинации"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14636,48 +14662,48 @@ msgstr "Горната категория трябва да бъде в същи
 msgid "Parent category has to be different!"
 msgstr "Горната категория трябва да бъде различна!"
 
-#: weblate/trans/models/change.py:396
+#: weblate/trans/models/change.py:406
 msgid "The component was automatically locked because of an alert."
 msgstr "Компонентът в момента е заключен автоматично, поради предупреждение."
 
-#: weblate/trans/models/change.py:400
+#: weblate/trans/models/change.py:410
 msgid "Fixing an alert automatically unlocked the component."
 msgstr "Оправянето на предупреждение автоматично е отключило компонента."
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:510
+#: weblate/trans/models/change.py:520
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s в %(time)s в %(translation)s, от %(user)s"
 
 #. Translators: condensed rendering of a change action in history
-#: weblate/trans/models/change.py:517
+#: weblate/trans/models/change.py:527
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s в %(time)s в %(translation)s"
 
-#: weblate/trans/models/change.py:681
+#: weblate/trans/models/change.py:691
 msgid "File upload mode:"
 msgstr "Режим на качване на файла:"
 
-#: weblate/trans/models/change.py:717
+#: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
 msgstr "Файлът „{}“ е променен."
 
-#: weblate/trans/models/change.py:719
+#: weblate/trans/models/change.py:729
 msgid "Parsing of the “{}” file was enforced."
 msgstr "Извършен е принудителен анализ на файла „{}“."
 
-#: weblate/trans/models/change.py:721
+#: weblate/trans/models/change.py:731
 msgid "File “{}” was added."
 msgstr "Файлът „{}“ е добавен."
 
-#: weblate/trans/models/change.py:728
+#: weblate/trans/models/change.py:738
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "Няма"
 
-#: weblate/trans/models/change.py:730
+#: weblate/trans/models/change.py:740
 #, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
@@ -14685,11 +14711,11 @@ msgid ""
 msgstr ""
 "Лицензът на компонента „%(component)s“ е променен от %(old)s на %(target)s."
 
-#: weblate/trans/models/change.py:787
+#: weblate/trans/models/change.py:797
 msgid "Original revision: {}"
 msgstr "Оригинална ревизия: {}"
 
-#: weblate/trans/models/change.py:791
+#: weblate/trans/models/change.py:801
 msgid "New revision: {}"
 msgstr "Нова ревизия: {}"
 
@@ -15611,56 +15637,56 @@ msgstr ""
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Неуспешен анализ на файла „%(file)s“: %(error)s"
 
-#: weblate/trans/models/translation.py:1024
+#: weblate/trans/models/translation.py:1026
 msgid "“{}”"
 msgstr "„{}“"
 
-#: weblate/trans/models/translation.py:1027
+#: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "..."
 
-#: weblate/trans/models/translation.py:1034
+#: weblate/trans/models/translation.py:1036
 #, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
 msgstr[0] "%d низ не може да бъде намерен:"
 msgstr[1] "%d низа не могат да бъдат намерени:"
 
-#: weblate/trans/models/translation.py:1220
-#: weblate/trans/models/translation.py:1279
-#: weblate/trans/models/translation.py:1361
+#: weblate/trans/models/translation.py:1222
+#: weblate/trans/models/translation.py:1281
+#: weblate/trans/models/translation.py:1363
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Чакащите промени не успяха да бъдат подадени: %s"
 
-#: weblate/trans/models/translation.py:1864
+#: weblate/trans/models/translation.py:1873
 msgid "Plurals are not supported by the file format!"
 msgstr "Множествените числа не се поддържат при този файлов формат!"
 
-#: weblate/trans/models/translation.py:1869 weblate/trans/models/unit.py:753
+#: weblate/trans/models/translation.py:1878 weblate/trans/models/unit.py:753
 #: weblate/utils/forms.py:126
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Низът съдържа контролен знак: %s"
 
-#: weblate/trans/models/translation.py:1874
+#: weblate/trans/models/translation.py:1883
 msgid "Empty state is supported for blank strings only."
 msgstr "Празното състояние е приложимо само за празни низове."
 
-#: weblate/trans/models/translation.py:1877
+#: weblate/trans/models/translation.py:1886
 msgid "Blank strings require an empty state."
 msgstr "Празните низове изискват празно състояние."
 
-#: weblate/trans/models/translation.py:1881
+#: weblate/trans/models/translation.py:1890
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 "Одобреното състояние не е налично, тъй като рецензирането не е включено."
 
-#: weblate/trans/models/translation.py:1889
+#: weblate/trans/models/translation.py:1898
 msgid "This string seems to already exist."
 msgstr "Изглежда този низ вече съществува."
 
-#: weblate/trans/models/translation.py:1896
+#: weblate/trans/models/translation.py:1905
 msgid "Failed adding string, no translation found."
 msgstr "Неуспешно добавяне на низа, няма намерен превод."
 
@@ -16509,58 +16535,62 @@ msgstr "Създаването на резервно копие е насроч�
 msgid "Could not change additional string info!"
 msgstr "Допълнителната информация за низа не може да бъде променена!"
 
-#: weblate/trans/widgets.py:269
+#: weblate/trans/widgets.py:270
 msgid "Big status badge"
 msgstr "Голяма значка със състоянието"
 
-#: weblate/trans/widgets.py:305
+#: weblate/trans/widgets.py:306
 msgid "Small status badge"
 msgstr "Малка значка със състоянието"
 
-#: weblate/trans/widgets.py:327
+#: weblate/trans/widgets.py:328
 msgctxt "Status widget name"
 msgid "Panel"
 msgstr "Панел"
 
 #. Translators: Text on OpenGraph image
-#: weblate/trans/widgets.py:348
+#: weblate/trans/widgets.py:349
 msgid "Project {}"
 msgstr "Проект {}"
 
 #. Translators: Text on OpenGraph image
-#: weblate/trans/widgets.py:351
+#: weblate/trans/widgets.py:352
 msgid "Component {}"
 msgstr "Компонент {}"
 
-#: weblate/trans/widgets.py:412
+#: weblate/trans/widgets.py:413
 msgid "SVG status badge"
 msgstr "Значка със състоянието във формат SVG"
 
-#: weblate/trans/widgets.py:415
+#: weblate/trans/widgets.py:416
 msgid "translated"
 msgstr "преведени"
 
-#: weblate/trans/widgets.py:429
+#: weblate/trans/widgets.py:430
 msgid "PNG status badge"
 msgstr "Голяма значка със състоянието във формат PNG"
 
-#: weblate/trans/widgets.py:438
+#: weblate/trans/widgets.py:439
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
 msgstr "Вертикална стълбова диаграма"
 
-#: weblate/trans/widgets.py:519
+#: weblate/trans/widgets.py:520
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Хоризонтална стълбова диаграма"
 
-#: weblate/trans/widgets.py:526
+#: weblate/trans/widgets.py:527
 msgid "Language count badge"
 msgstr "Значка с броя на езиците"
 
-#: weblate/trans/widgets.py:540
-msgid "languages"
-msgstr "езици"
+#: weblate/trans/widgets.py:541
+#, fuzzy
+#| msgid "languages"
+msgid "language"
+msgid_plural "languages"
+msgstr[0] "езици"
+msgstr[1] "езици"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -16752,16 +16782,16 @@ msgctxt "String state"
 msgid "Waiting for review"
 msgstr "Чакащ за одобрение"
 
-#: weblate/utils/validators.py:61
+#: weblate/utils/validators.py:63
 #, python-brace-format
 msgid "Compilation failed: {0}"
 msgstr "Грешка при компилиране: {0}"
 
-#: weblate/utils/validators.py:65
+#: weblate/utils/validators.py:67
 msgid "The regular expression can not match an empty string."
 msgstr "Регулярният израз не може да открива съвпадения с празни низове."
 
-#: weblate/utils/validators.py:73
+#: weblate/utils/validators.py:75
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
@@ -16770,77 +16800,83 @@ msgstr ""
 "В регулярния израз липсва именувана група „{0}“. Най-лесният начин да я "
 "дефинирате е следният: {1}."
 
-#: weblate/utils/validators.py:115
+#: weblate/utils/validators.py:117
 msgid "Invalid image!"
 msgstr "Неправилно изображение!"
 
-#: weblate/utils/validators.py:124
+#: weblate/utils/validators.py:126
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr "Неподдържан тип изображение: %s"
 
-#: weblate/utils/validators.py:132
+#: weblate/utils/validators.py:134
 msgid "The image is too big, please crop or scale it down."
 msgstr "Изображението е твърде голямо. Моля, смалете го или го изрежете."
 
-#: weblate/utils/validators.py:151
+#: weblate/utils/validators.py:153
 msgid "Please avoid using special characters in the full name."
 msgstr "Моля, избягвайте употребата на специални знаци в пълното име."
 
-#: weblate/utils/validators.py:155
+#: weblate/utils/validators.py:157
 msgid "Name consists only of disallowed characters."
 msgstr "Името съдържа само неразрешени знаци."
 
-#: weblate/utils/validators.py:170
+#: weblate/utils/validators.py:172
 msgid "The username can not start with a full stop."
 msgstr "Потребителското име не може да започва с точка."
 
-#: weblate/utils/validators.py:181 weblate/utils/validators.py:189
+#: weblate/utils/validators.py:183 weblate/utils/validators.py:191
 msgid "Enter a valid e-mail address."
 msgstr "Въведете правилен адрес на е-поща."
 
-#: weblate/utils/validators.py:191
+#: weblate/utils/validators.py:193
 msgid "This e-mail address is disallowed."
 msgstr "Този адрес на е-поща не е позволен."
 
-#: weblate/utils/validators.py:196
+#: weblate/utils/validators.py:198
 msgid "Invalid e-mail address: {}"
 msgstr "Неправилен адрес на е-поща: {}"
 
-#: weblate/utils/validators.py:200
+#: weblate/utils/validators.py:202
 msgid "Disposable e-mail domains are disallowed."
 msgstr "Не е позволено да се ползват адреси на временна е-поща."
 
-#: weblate/utils/validators.py:211
+#: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
 msgstr "Формулата за множествено число не може да бъде изчислена: {}"
 
-#: weblate/utils/validators.py:218
+#: weblate/utils/validators.py:220
 msgid "The filename can not contain reference to a parent directory."
 msgstr "Името на файла не може да съдържа връзка към по-горна папка."
 
-#: weblate/utils/validators.py:221
+#: weblate/utils/validators.py:223
 msgid "The filename can not be an absolute path."
 msgstr "Името на файла не може да бъде абсолютен път."
 
-#: weblate/utils/validators.py:227
+#: weblate/utils/validators.py:229
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 "Името на файла трябва да бъде възможно най-просто. Може би искате да "
 "използвате: {}"
 
-#: weblate/utils/validators.py:266 weblate/utils/validators.py:283
+#: weblate/utils/validators.py:268 weblate/utils/validators.py:285
 msgid "This name is prohibited"
 msgstr "Това име е забранено"
 
-#: weblate/utils/validators.py:275
+#: weblate/utils/validators.py:277
 msgid "Syntax error in language aliases."
 msgstr "Синтактична грешка в езиковите псевдоними."
 
-#: weblate/utils/validators.py:291 weblate/utils/validators.py:300
-#: weblate/utils/validators.py:309
+#: weblate/utils/validators.py:293 weblate/utils/validators.py:302
+#: weblate/utils/validators.py:311
 msgid "This URL is prohibited"
 msgstr "Този адрес е забранен"
+
+#: weblate/utils/validators.py:319
+#, fuzzy
+#| msgid "Invalid search string!"
+msgid "Invalid base64 encoded string"
+msgstr "Грешен низ за търсене!"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
@@ -17214,6 +17250,9 @@ msgstr "Стартиран е процес за създаване на резе
 #: weblate/wladmin/views.py:345
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешката в конфигурацията не може да бъде отхвърлена!"
+
+#~ msgid "Available Shortcuts"
+#~ msgstr "Налични комбинации"
 
 #~ msgctxt "Label on engage page"
 #~ msgid "Recent changes"
@@ -17613,9 +17652,6 @@ msgstr "Грешката в конфигурацията не може да бъ
 
 #~ msgid "Component locking"
 #~ msgstr "Заключване на компонент"
-
-#~ msgid "Changed license"
-#~ msgstr "Променен лиценз"
 
 #~ msgid "New string"
 #~ msgstr "Нов низ"
@@ -19179,9 +19215,6 @@ msgstr "Грешката в конфигурацията не може да бъ
 #~ msgid "License URL can not be used without a license summary."
 #~ msgstr ""
 #~ "Не можете да зададете адрес на лиценза без да има негово кратко описание."
-
-#~ msgid "Keyboard shortcuts available:"
-#~ msgstr "Клавишни комбинации:"
 
 #~ msgid "Unmark review needed flag and save"
 #~ msgstr "Премахване на отметката за нужда от одобрение и запазване"
