@@ -9,6 +9,7 @@ import operator
 from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
+from google.api_core.exceptions import AlreadyExists, NotFound
 from google.cloud import storage
 from google.cloud.translate_v3 import (
     GcsSource,
@@ -21,6 +22,8 @@ from google.oauth2 import service_account
 
 from .base import (
     DownloadTranslations,
+    GlossaryAlreadyExistsError,
+    GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     XMLMachineTranslationMixin,
 )
@@ -174,15 +177,26 @@ class GoogleV3Translation(
             ),
             input_config=input_config,
         )
-        self.client.create_glossary(parent=self.parent, glossary=glossary)
+        try:
+            self.client.create_glossary(parent=self.parent, glossary=glossary)
+        except AlreadyExists as error:
+            raise GlossaryAlreadyExistsError from error
 
     def delete_glossary(self, glossary_name: str) -> None:
         """Delete the glossary in service and storage bucket."""
-        self.client.delete_glossary(name=self.get_glossary_resource_path(glossary_name))
-
-        #  delete tsv from storage bucket
-        glossary_bucket_file = self.storage_bucket.blob(f"{glossary_name}.tsv")
-        glossary_bucket_file.delete()
+        try:
+            self.client.delete_glossary(
+                name=self.get_glossary_resource_path(glossary_name)
+            )
+        except NotFound as error:
+            raise GlossaryDoesNotExistError from error
+        finally:
+            try:
+                #  delete tsv from storage bucket
+                glossary_bucket_file = self.storage_bucket.blob(f"{glossary_name}.tsv")
+                glossary_bucket_file.delete()
+            except NotFound:
+                pass
 
     def delete_oldest_glossary(self) -> None:
         """Delete the oldest glossary if any."""
