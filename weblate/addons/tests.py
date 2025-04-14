@@ -235,9 +235,13 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         )
 
     def test_crash(self) -> None:
+        self.assertEqual([], self.component.addons_cache["__names__"])
+
         addon = CrashAddon.create(component=self.component)
+        self.assertEqual(
+            ["weblate.base.crash"], self.component.addons_cache["__names__"]
+        )
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
-        ADDONS[CrashAddon.get_identifier()] = CrashAddon
 
         with self.assertRaises(CrashAddonError):
             addon.post_update(self.component, "head", False)
@@ -247,6 +251,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             self.component.repository.last_revision, False
         )
 
+        self.assertEqual([], self.component.addons_cache["__names__"])
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
 
     def test_process_error(self) -> None:
@@ -1636,6 +1641,7 @@ class WebhookAddonsTest(ViewTestCase):
         WebhookAddon.create(
             configuration=self.addon_configuration, project=self.project
         )
+        self.component.drop_addons_cache()
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
 
         # create translation for unit and similar units across project
