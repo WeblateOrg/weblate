@@ -8,11 +8,13 @@ import os
 import tempfile
 
 from dateutil.parser import isoparse
+from requests.exceptions import HTTPError
 
 import weblate.utils.version
 
 from .base import (
     DownloadTranslations,
+    GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     MachineTranslationError,
 )
@@ -134,7 +136,11 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
     def delete_glossary(self, glossary_id: str) -> None:
         """Delete single glossary."""
-        self.request("delete", self.get_api_url("memories", str(glossary_id)))
+        try:
+            self.request("delete", self.get_api_url("memories", str(glossary_id)))
+        except HTTPError as error:
+            if error.response.status_code == 404:
+                raise GlossaryDoesNotExistError from error
 
     def delete_oldest_glossary(self) -> None:
         """Delete oldest glossary if any."""
@@ -158,6 +164,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
         Create a memory with the given name and the populate with tsv content.
         """
+        # ModernMT gracefully handles glossaries with duplicate name by updating the existing one
         response = self.request(
             "post",
             self.get_api_url("memories"),

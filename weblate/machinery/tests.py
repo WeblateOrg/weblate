@@ -1542,7 +1542,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_glossary(self) -> None:
+    def test_glossary(self, fail_delete_glossary: bool = False) -> None:
         """Test that glossary is used in translation request when available."""
 
         def translate_request_callback(request: PreparedRequest):
@@ -1596,19 +1596,24 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-        # stale glossary delete
-        responses.add_callback(
-            responses.DELETE,
-            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=partial(delete_glossary_callback, expected_id=37785),
-        )
+        if fail_delete_glossary:
+            responses.delete(
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"), status=404
+            )
+        else:
+            # stale glossary delete
+            responses.add_callback(
+                responses.DELETE,
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+                callback=partial(delete_glossary_callback, expected_id=37785),
+            )
 
-        # oldest glossary delete
-        responses.add_callback(
-            responses.DELETE,
-            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=partial(delete_glossary_callback, expected_id=37782),
-        )
+            # oldest glossary delete
+            responses.add_callback(
+                responses.DELETE,
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+                callback=partial(delete_glossary_callback, expected_id=37782),
+            )
 
         # change count limit, check that the oldest glossary is deleted
         self.mock_list_glossaries(
@@ -1672,6 +1677,9 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             self.assert_translate(
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
+
+    def test_glossary_with_delete_fail(self):
+        self.test_glossary(fail_delete_glossary=True)
 
     @responses.activate
     def test_context_vector(self) -> None:
