@@ -2144,131 +2144,152 @@ class AWSTranslationTest(BaseMachineTranslationTest):
         # Stubbing here is tricky
         self.skipTest("Not tested")
 
-    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_glossary(self) -> None:
-        """Test translation with glossary (terminology)."""
-        machine = self.get_machine()
+    def setup_stubber_with_glossaries(
+        self, machine: BatchMachineTranslation, fail_delete: bool = True
+    ) -> Stubber:
+        """Set up stubber for translation with glossary test."""
+        stubber = Stubber(machine.client)
 
-        with (
-            Stubber(machine.client) as stubber,
-            patch(
-                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
-                new=1,
-            ),
-        ):
-            stubber.add_response(
-                "list_languages",
-                AWS_LANGUAGES_RESPONSE,
-            )
-            # glossary list with stale glossary response
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["de"],
-                            "CreatedAt": "2021-03-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        }
-                    ]
-                },
-            )
+        stubber.add_response(
+            "list_languages",
+            AWS_LANGUAGES_RESPONSE,
+        )
+        # glossary list with stale glossary response
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["de"],
+                        "CreatedAt": "2021-03-03T14:16:18.329Z",
+                        "Directionality": "UNI",
+                        "Format": "TSV",
+                    }
+                ]
+            },
+        )
 
-            # glossary list with stale glossary response
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["de"],
-                            "CreatedAt": "2021-03-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        }
-                    ]
-                },
-            )
+        # glossary list with stale glossary response
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["de"],
+                        "CreatedAt": "2021-03-03T14:16:18.329Z",
+                        "Directionality": "UNI",
+                        "Format": "TSV",
+                    }
+                ]
+            },
+        )
 
-            # delete stale glossary response
+        # delete stale glossary response
+        if fail_delete:
+            stubber.add_client_error(
+                "delete_terminology", "ResourceNotFoundException", http_status_code=400
+            )
+        else:
             stubber.add_response(
                 "delete_terminology",
                 {},
                 {"Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb"},
             )
 
-            # create glossary response
-            stubber.add_response(
-                "import_terminology",
-                {
-                    "AuxiliaryDataLocation": {
-                        "Location": "location",
-                        "RepositoryType": "type",
-                    },
-                    "TerminologyProperties": {},
+        # create glossary response
+        stubber.add_response(
+            "import_terminology",
+            {
+                "AuxiliaryDataLocation": {
+                    "Location": "location",
+                    "RepositoryType": "type",
                 },
-                {
-                    "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                    "MergeStrategy": "OVERWRITE",
-                    "TerminologyData": {
-                        "File": b"en\tcs\nfoo\tbar",
-                        "Format": "TSV",
+                "TerminologyProperties": {},
+            },
+            {
+                "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                "MergeStrategy": "OVERWRITE",
+                "TerminologyData": {
+                    "File": b"en\tcs\nfoo\tbar",
+                    "Format": "TSV",
+                    "Directionality": "UNI",
+                },
+            },
+        )
+
+        # return glossary list with newly created glossary
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["cs"],
+                        "CreatedAt": "2021-08-03T14:16:18.329Z",
                         "Directionality": "UNI",
+                        "Format": "TSV",
                     },
-                },
-            )
+                ]
+            },
+        )
 
-            # return glossary list with newly created glossary
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["cs"],
-                            "CreatedAt": "2021-08-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        },
-                    ]
-                },
-            )
+        # translate with glossary
+        stubber.add_response(
+            "translate_text",
+            {
+                "TranslatedText": "Ahoj",
+                "SourceLanguageCode": "en",
+                "TargetLanguageCode": "cs",
+                "AppliedTerminologies": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                        "Terms": [
+                            {"SourceText": "foo", "TargetText": "bar"},
+                        ],
+                    },
+                ],
+            },
+            {
+                "SourceLanguageCode": ANY,
+                "TargetLanguageCode": ANY,
+                "Text": ANY,
+                "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
+            },
+        )
 
-            # translate with glossary
-            stubber.add_response(
-                "translate_text",
-                {
-                    "TranslatedText": "Ahoj",
-                    "SourceLanguageCode": "en",
-                    "TargetLanguageCode": "cs",
-                    "AppliedTerminologies": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                            "Terms": [
-                                {"SourceText": "foo", "TargetText": "bar"},
-                            ],
-                        },
-                    ],
-                },
-                {
-                    "SourceLanguageCode": ANY,
-                    "TargetLanguageCode": ANY,
-                    "Text": ANY,
-                    "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
-                },
-            )
+        return stubber
 
+    def test_glossary(self, fail_delete: bool = False) -> None:
+        """Test translation with glossary (terminology)."""
+        machine = self.get_machine()
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"),
+            patch(
+                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
+                new=1,
+            ),
+        ):
+            stubber = self.setup_stubber_with_glossaries(
+                machine, fail_delete=fail_delete
+            )
+            stubber.activate()
             self.assert_translate(
                 self.SUPPORTED,
                 self.SOURCE_TRANSLATED,
                 self.EXPECTED_LEN,
                 machine=machine,
             )
+            stubber.deactivate()
+
+    def test_glossary_delete_fail(self) -> None:
+        """Test translation with glossary with terminology delete fail."""
+        self.test_glossary(fail_delete=True)
 
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
