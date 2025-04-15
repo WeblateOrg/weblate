@@ -33,6 +33,8 @@ jobs:
     - run: brew upgrade
     - run: brew list --versions
     - run: brew deps --tree --installed
+    - run: brew config
+    - run: brew doctor
     - name: Install brew dependencies
       run: |
         brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash librsvg uv
