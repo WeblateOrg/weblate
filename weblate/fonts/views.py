@@ -130,9 +130,10 @@ class FontDetailView(ProjectViewMixin, DetailView):
             return self.get(request, **kwargs)
 
         # Compare file content hashes
-        new_hash = hashlib.md5(new_file.read()).hexdigest()
+        new_hash = hashlib.sha256(new_file.read()).hexdigest()
         new_file.seek(0)
-        current_hash = hashlib.md5(self.object.font.read()).hexdigest()
+
+        current_hash = hashlib.sha256(self.object.font.read()).hexdigest()
         self.object.font.seek(0)
 
         if new_hash == current_hash:
