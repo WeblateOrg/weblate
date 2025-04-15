@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-15 17:12+0000\n"
+"PO-Revision-Date: 2025-04-15 17:24+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -9594,11 +9594,10 @@ msgid "INTERLEDGER_PAYMENT_BUILTIN"
 msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 
 #: ../../admin/config.rst:1016
-#, fuzzy
-#| msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
 msgstr ""
-"Az Interledger fizetési mutatók (ILP-k) listája a webes bevételszerzéshez."
+"Bekapcsolja a Weblate finanszírozásához használható beépített Interledger "
+"fizetési azonosítót (IPP)."
 
 #: ../../admin/config.rst:1020 ../../admin/install/docker.rst:724
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -9727,22 +9726,16 @@ msgstr ""
 "fejléc melyik címét használják kliens IP-címként."
 
 #: ../../admin/config.rst:1109
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation. You should only "
-#| "configure it to use trusted proxies for determining the IP address. "
-#| "Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-"
-#| "Forwarded-For#security_and_privacy_concerns> for more details."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address. Please "
 "check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-"
 "Forwarded-For#security_and_privacy_concerns> for more details."
 msgstr ""
-"Ennek a beállítása hatással van a telepítésed biztonságára. Csak megbízható "
-"proxykat érdemes beállítani az IP-cím meghatározásához. További részletekért "
-"kérlek nézd meg a <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/"
-"X-Forwarded-For#security_and_privacy_concerns> oldalt."
+"Ennek a beállításnak hatása van a telepítés biztonságára. Csak akkor "
+"konfiguráld, ha megbízható proxykat használsz az IP-cím meghatározásához. "
+"További részletekért lásd: <https://developer.mozilla.org/en-US/docs/Web/"
+"HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns>."
 
 #: ../../admin/config.rst:1113
 msgid "Defaults to -1."
@@ -18953,20 +18946,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:50
-#, fuzzy
-#| msgid ":guilabel:`Use automatic suggestions`"
 msgid ":guilabel:`Automatic selection`"
-msgstr ":guilabel:`Use automatic suggestions`"
+msgstr ":guilabel:`Automatikus kiválasztás`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
 msgstr ""
 
 #: ../../admin/machine.rst:53
-#, fuzzy
-#| msgid "This is not on by default."
 msgid "This is the default behavior."
-msgstr "Ez alapértelmezés szerint nincs bekapcsolva."
+msgstr "Ez az alapértelmezett viselkedés."
 
 #: ../../admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
@@ -19086,10 +19075,9 @@ msgstr "``source`` – Összetevő forrásnyelve"
 #: ../../admin/machine.rst:816 ../../admin/machine.rst:840
 #: ../../admin/machine.rst:920 ../../admin/machine.rst:950
 #: ../../admin/machine.rst:978
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid "``secondary`` -- Secondary language defined in project or component"
-msgstr "Új nyelv hozzáadva a(z) %(component)s összetevőhöz"
+msgstr ""
+"``secondary`` -- A projektben vagy összetevőben megadott másodlagos nyelv"
 
 #: ../../admin/machine.rst:81 ../../admin/machine.rst:142
 #: ../../admin/machine.rst:178 ../../admin/machine.rst:211
@@ -19344,10 +19332,8 @@ msgstr ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:227
-#, fuzzy
-#| msgid "Cyrtranslit"
 msgid "CyrTranslit"
-msgstr "Cyrtranslit"
+msgstr "CyrTranslit"
 
 #: ../../admin/machine.rst:231
 msgid "``cyrtranslit``"
@@ -19946,18 +19932,6 @@ msgstr ""
 "végpontodat."
 
 #: ../../admin/machine.rst:573
-#, fuzzy
-#| msgid ""
-#| "`Cognitive Services - Text Translation API <https://azure.microsoft.com/"
-#| "en-us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal "
-#| "<https://portal.azure.com/>`_, `Base URLs <https://learn.microsoft.com/en-"
-#| "us/azure/ai-services/translator/reference/v3-0-reference#base-urls>`_, "
-#| "`\"Authenticating with a Multi-service resource\" <https://learn."
-#| "microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_ "
-#| "`\"Authenticating with an access token\" section <https://learn.microsoft."
-#| "com/en-us/azure/ai-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal <https://"
@@ -19970,15 +19944,16 @@ msgid ""
 "services/translator/text-translation/reference/v3/reference#authenticating-"
 "with-an-access-token>`_"
 msgstr ""
-"`Cognitive Services – Text Translation API <https://azure.microsoft.com/en-"
-"us/products/ai-services/ai-translator>`_, `Microsoft Azure Portál <https://"
-"portal.azure.com/>`_, `Alap URL-ek <https://learn.microsoft.com/en-us/azure/"
-"ai-services/translator/reference/v3-0-reference#base-urls>`_, `\"Hitelesítés "
-"több szolgáltatást tartalmazó erőforrással\" <https://learn.microsoft.com/en-"
-"us/azure/ai-services/translator/reference/v3-0-reference#authenticating-with-"
-"a-multi-service-resource>`_, `\"Hitelesítés hozzáférési tokennel\" szakasz "
-"<https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/"
-"v3-0-reference#authenticating-with-an-access-token>`_"
+"`Cognitive Services – Text Translation API <https://azure.microsoft.com/"
+"en-us/products/ai-services/ai-translator>`_, `Microsoft Azure Portal "
+"<https://portal.azure.com/>`_, `Alap URL-ek <https://learn.microsoft.com/"
+"en-us/azure/ai-services/translator/text-translation/reference/v3/reference"
+"#base-urls>`_, `\"Hitelesítés több szolgáltatásos erőforrással\" <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/v3/reference#authenticating-with-a-multi-service-resource>`_ `"
+"\"Hitelesítés hozzáférési tokennel\" rész <https://learn.microsoft.com/en-us/"
+"azure/ai-services/translator/text-translation/reference/v3/reference"
+"#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:583
 msgid "ModernMT"
@@ -20085,10 +20060,8 @@ msgid "OpenAI model"
 msgstr "OpenAI modell"
 
 #: ../../admin/machine.rst:705
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4o-mini`` – GPT-4o mini"
 
 #: ../../admin/machine.rst:707
 msgid "``gpt-4o`` -- GPT-4o"
@@ -20111,16 +20084,12 @@ msgid "``o1`` -- OpenAI o1"
 msgstr ""
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``gpt-4-1106-preview`` -- GPT-4 Turbo"
 msgid "``gpt-4.5-preview`` -- GPT-4.5"
-msgstr "``gpt-4-1106-preview`` -- GPT-4 Turbo"
+msgstr "``gpt-4.5-preview`` – GPT-4.5"
 
 #: ../../admin/machine.rst:719
-#, fuzzy
-#| msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgid "``gpt-4-turbo`` -- GPT-4 Turbo"
-msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
+msgstr "``gpt-4-turbo`` – GPT-4 Turbo"
 
 #: ../../admin/machine.rst:721
 msgid "``gpt-4`` -- GPT-4"
@@ -23043,13 +23012,9 @@ msgid ""
 msgstr "A fordítás során a forrásnyelvvel együtt megjelenítendő további nyelv."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
-#, fuzzy
-#| msgid ""
-#| "Automatically detect supported languages for DeepL machine translation."
 msgid ""
 "Optionally, it can be also used as a source for the machine translation."
-msgstr ""
-"Automatikusan felismeri a DeepL gépi fordítás által támogatott nyelveket."
+msgstr "Opcionálisan gépi fordítás forrásaként is használható."
 
 #: ../../admin/projects.rst:291 ../../admin/projects.rst:1004
 msgid ":ref:`secondary-languages`, :ref:`mt-sources`"
@@ -26268,10 +26233,8 @@ msgid "The unique role ID"
 msgstr "Az egyedi szerepkörazonosító"
 
 #: ../../api.rst:580
-#, fuzzy
-#| msgid "Delete project from a group."
 msgid "Delete role from a group."
-msgstr "Projekt törlése egy csoportból."
+msgstr "Szerepkör törlése egy csoportból."
 
 #: ../../api.rst:589
 msgid "Associate components with a group."
@@ -27925,13 +27888,12 @@ msgid "Deletes a translation unit."
 msgstr "Töröl egy fordítási egységet."
 
 #: ../../api.rst:2287
-#, fuzzy
-#| msgid "Returns a list of translation objects in the given component."
 msgid ""
 "Returns a list of all target translation units for the given source "
 "translation unit."
 msgstr ""
-"Visszaadja a megadott összetevőben található fordítási objektumok listáját."
+"Visszaadja az adott forrás fordítási egységhez tartozó összes célnyelvi "
+"fordítási egység listáját."
 
 #: ../../api.rst:2296
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -28686,10 +28648,8 @@ msgid "For instruction on setting up GitLab integration"
 msgstr "A GitLab integráció beállításáról szóló útmutatóért"
 
 #: ../../api.rst:2835
-#, fuzzy
-#| msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 msgid "https://docs.gitlab.com/user/project/integrations/webhooks/"
-msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
+msgstr "https://docs.gitlab.com/user/project/integrations/webhooks/"
 
 #: ../../api.rst:2836
 msgid "Generic information about GitLab Webhooks"
@@ -28848,16 +28808,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on April 17th 2023.*"
 msgid "*Released on April 15th 2025.*"
-msgstr "*Kiadva: 2023. április 17.*"
+msgstr "*Kiadva: 2025. április 15.*"
 
 #: ../../changes.rst:7 ../../changes.rst:172 ../../changes.rst:283
 #: ../../changes.rst:425 ../../changes.rst:530 ../../changes.rst:626
@@ -28949,11 +28905,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Changes in dictionary are now logged in history."
 msgid "Changes in string flags are now tracked in history."
-msgstr ""
-"A szótárban történt változások most már naplózva vannak az előzményekben."
+msgstr "A szöveg jelzők változásai mostantól megjelennek az előzményekben."
 
 #: ../../changes.rst:24
 msgid ":doc:`/admin/machine` documentation extended."
