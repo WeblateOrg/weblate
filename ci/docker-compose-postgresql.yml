@@ -4,7 +4,7 @@
 
 services:
   database:
-    image: postgres:17.4
+    image: postgres:17.4@sha256:fe3f571d128e8efadcd8b2fde0e2b73ebab6dbec33f6bfe69d98c682c7d8f7bd
     ports:
     - 60000:5432
     # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
@@ -13,7 +13,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
   cache:
-    image: redis:7.4.2-alpine
+    image: redis:7.4.2-alpine@sha256:02419de7eddf55aa5bcf49efb74e88fa8d931b4d77c07eff8a6b2144472b6952
     restart: always
     ports:
     - 60001:6379
