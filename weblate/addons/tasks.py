@@ -202,7 +202,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
 
         return addon_callback
 
-    for change in Change.objects.filter(pk__in=change_ids).prefetch():
+    for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         handle_addon_event(
             AddonEvent.EVENT_CHANGE,
             callback_wrapper(change),

@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationFormat
-    from weblate.trans.models import Project, Translation, Unit
+    from weblate.trans.models import Change, Project, Translation, Unit
 
 
 class CompatDict(TypedDict, total=False):
@@ -296,7 +296,7 @@ class BaseAddon:
         """Event handler for component update."""
         # To be implemented in a subclass
 
-    def change_event(self, change) -> None:
+    def change_event(self, change: Change) -> None:
         """Event handler for change event."""
         # To be implemented in a subclass
 
