@@ -35,6 +35,7 @@ jobs:
     - run: brew untap homebrew/core
     - run: brew untap aws/tap
     - run: brew upgrade
+    - run: brew cleanup
     - run: brew list --versions
     - run: brew deps --tree --installed
     - run: brew config
