@@ -30,11 +30,16 @@ jobs:
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - run: brew update
+    - run: brew uninstall openssl@1.1
+    - run: brew untap homebrew/cask
+    - run: brew untap homebrew/core
+    - run: brew untap aws/tap
     - run: brew upgrade
     - run: brew list --versions
     - run: brew deps --tree --installed
     - run: brew config
     - run: brew doctor
+      continue-on-error: true
     - name: Install brew dependencies
       run: |
         brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash librsvg uv
