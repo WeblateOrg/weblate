@@ -78,6 +78,8 @@ jobs:
       run: ./ci/run-migrate 5.9
     - name: Migrate from 5.10
       run: ./ci/run-migrate 5.10
+    - name: Migrate from 5.11
+      run: ./ci/run-migrate 5.11
     - name: Coverage
       run: |
         uv run --no-sources coverage combine
