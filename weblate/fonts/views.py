@@ -12,12 +12,16 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, View
+from django.utils import timezone
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
 from weblate.trans.models import Project
 from weblate.utils import messages
 from weblate.utils.views import parse_path
+from weblate.fonts.utils import get_font_name
+
+import hashlib
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -96,12 +100,51 @@ class FontDetailView(ProjectViewMixin, DetailView):
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
+
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
 
-        self.object.delete()
-        messages.error(request, gettext("Font deleted."))
-        return redirect("fonts", project=self.project.slug)
+        if "font" not in request.FILES:
+            messages.error(request, "No file uploaded.")
+            return self.get(request, **kwargs)
+
+        new_file = request.FILES["font"]
+
+        try:
+            uploaded_family, uploaded_style = get_font_name(new_file)
+            new_file.seek(0)
+        except Exception:
+            messages.error(request, "Could not extract font metadata. Ensure it’s a valid font file.")
+            return self.get(request, **kwargs)
+
+        # Enforce same family & style
+        if (
+            uploaded_family != self.object.family
+            or uploaded_style != self.object.style
+        ):
+            messages.error(
+                request,
+                f"The uploaded font must match the existing family and style: "
+                f"'{self.object.family} {self.object.style}'"
+            )
+            return self.get(request, **kwargs)
+
+        # Compare file content hashes
+        new_hash = hashlib.md5(new_file.read()).hexdigest()
+        new_file.seek(0)
+        current_hash = hashlib.md5(self.object.font.read()).hexdigest()
+        self.object.font.seek(0)
+
+        if new_hash == current_hash:
+            messages.info(request, "The uploaded font file is identical to the current one.")
+        else:
+            self.object.font = new_file
+            self.object.user = request.user
+            self.object.timestamp = timezone.now()
+            self.object.save()
+            messages.success(request, "Font updated successfully.")
+
+        return redirect(self.object)
 
 
 @method_decorator(login_required, name="dispatch")
