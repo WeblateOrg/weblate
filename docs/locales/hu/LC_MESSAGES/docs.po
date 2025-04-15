@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-15 18:19+0000\n"
+"PO-Revision-Date: 2025-04-15 20:19+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -49,7 +49,7 @@ msgid ""
 "access to your project."
 msgstr ""
 "Azok a projektek, amelyek a Hosted Weblate ingyenes Libre csomagját "
-"futtatják, mindig :guilabel:`Public`. Átválthatsz a fizetős csomagra, ha "
+"futtatják, mindig :guilabel:`Nyilvános`. Átválthatsz a fizetős csomagra, ha "
 "korlátozni szeretnéd a projektedhez való hozzáférést."
 
 #: ../../admin/access.rst:22
@@ -63,7 +63,7 @@ msgstr ""
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
-msgstr ":guilabel:`Public`"
+msgstr ":guilabel:`Nyilvános`"
 
 #: ../../admin/access.rst:26 ../../admin/access.rst:34
 msgid "Visible to everybody."
@@ -87,7 +87,7 @@ msgstr ""
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:491
 msgid ":guilabel:`Protected`"
-msgstr ":guilabel:`Protected`"
+msgstr ":guilabel:`Védett`"
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
@@ -109,7 +109,7 @@ msgstr ""
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:493
 msgid ":guilabel:`Private`"
-msgstr ":guilabel:`Private`"
+msgstr ":guilabel:`Személyes`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -124,7 +124,7 @@ msgstr ""
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:495
 msgid ":guilabel:`Custom`"
-msgstr ":guilabel:`Custom`"
+msgstr ":guilabel:`Egyéni`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
@@ -132,8 +132,7 @@ msgstr "A Hosted Weblate-en nem elérhető."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
-"Minden engedélyt a(z) :ref:`custom-acl` használatával kell beállítanod."
+msgstr "Minden engedélyt az :ref:`custom-acl` használatával kell beállítanod."
 
 #: ../../admin/access.rst:60
 msgid ""
@@ -165,7 +164,7 @@ msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
-"Még a `Private` projekt statisztikái is beleszámítanak az oldal szintű "
+"Még a `Személyes` projekt statisztikái is beleszámítanak az oldal szintű "
 "statisztikákba és a nyelvi összesítésbe. Ez nem fedi fel a projektek nevét "
 "vagy egyéb információkat."
 
@@ -176,8 +175,8 @@ msgid ""
 "settings <custom-acl>`."
 msgstr ""
 "Az instance adminisztrátorok módosíthatják a felhasználók számára elérhető "
-"alapértelmezett jogosultsági beállításokat a(z) `Public`, `Protected` és "
-"`Private` projektekben a(z) :ref:`custom settings <custom-acl>` "
+"alapértelmezett jogosultsági beállításokat a `Nyilvános`, `Védett` és "
+"`Személyes` projektekben a(z) :ref:`custom settings <custom-acl>` "
 "használatával."
 
 #: ../../admin/access.rst:83
@@ -190,7 +189,7 @@ msgstr "Hozzáférés-ellenőrzés kezelése projektenként"
 
 #: ../../admin/access.rst:90
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "`Public`, `Protected` és `Private` projektek esetén:"
+msgstr "`Nyilvános`, `Védett` és `Személyes` projektek esetén:"
 
 #: ../../admin/access.rst:92
 msgid ""
@@ -198,11 +197,11 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"Ha a felhasználóknak megadod a(z) :guilabel:`Manage project access` "
-"jogosultságot (lásd: :ref:`privileges`), lehetővé teszed számukra, hogy más "
-"felhasználókat rendeljenek hozzá a(z) `Public`, `Protected` és `Private` "
-"projektekhez (de nem a(z) `Custom` projektekhez) azáltal, hogy hozzáadják "
-"őket csapatokhoz."
+"A :guilabel:`Projekt-hozzáférés kezelése` jogosultság megadása a "
+"felhasználóknak (lásd: :ref:`privileges`) lehetővé teszi számukra, hogy más "
+"felhasználókat hozzárendeljenek `Nyilvános`, `Védett` és `Személyes` "
+"projektekhez azáltal, hogy hozzáadják őket csapatokhoz. `Egyéni` projektek "
+"esetében ez nem lehetséges."
 
 #: ../../admin/access.rst:96
 msgid ""
@@ -237,7 +236,7 @@ msgstr ""
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
-msgstr "Csak `Protected` és `Private` projektek esetén:"
+msgstr "Csak `Védett` és `Személyes` projektek esetén:"
 
 #: ../../admin/access.rst:109 ../../admin/access.rst:730
 msgid "`Translate`"
@@ -424,7 +423,7 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Beállíthatod a projektjeidet :guilabel:`Protected` vagy :guilabel:`Private` "
+"Beállíthatod a projektjeidet :guilabel:`Védett` vagy :guilabel:`Személyes` "
 "módba (lásd: :ref:`acl`), és kezelheted a felhasználók hozzáférését a "
 "projektenként (:ref:`manage users access <manage-acl>`)."
 
@@ -467,7 +466,7 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
-"Projekt szintű hozzáférési tokeneket a(z) :guilabel:`API access` fülön "
+"Projekt szintű hozzáférési tokeneket az :guilabel:`API access` fülön "
 "definiálhatsz. Az API tokenekhez lejárati dátumot lehet beállítani, és a "
 "jogosultságaikat a felhasználókhoz hasonlóan a csapat tagságok alapján lehet "
 "testre szabni."
@@ -503,10 +502,10 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"A Weblate hozzáférés-vezérlési rendszerének leghatékonyabb funkciói a :ref:"
-"`management-interface` felületen konfigurálhatók. Ezt használhatod bármely "
-"projekt jogosultságainak kezelésére. Nem feltétlenül szükséges átkapcsolnod :"
-"guilabel:`Custom` :ref:`access control <acl>` módra, hogy kihasználd. "
+"A Weblate hozzáférés-vezérlési rendszerének leghatékonyabb funkciói a :ref"
+":`management-interface` felületen konfigurálhatók. Ezt használhatod bármely "
+"projekt jogosultságainak kezelésére. Nem feltétlenül szükséges átkapcsolnod "
+":guilabel:`Egyéni` :ref:`access control <acl>` módra, hogy kihasználd. "
 "Azonban szuperuser jogosultságokra van szükséged a használatához."
 
 #: ../../admin/access.rst:245
@@ -540,8 +539,8 @@ msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Users` (ez alapértelmezés szerint a(z) :ref:`automatic team assignment "
-"<autoteam>` által történik)."
+"`Felhasználók` (ez alapértelmezetten megtörténik a :ref:`automatic team "
+"assignment <autoteam>` révén)."
 
 #: ../../admin/access.rst:258
 msgid ""
@@ -565,7 +564,7 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"Minden projektet `Public` beállítással kell tartanod (lásd :ref:`acl`), "
+"Minden projektet `Nyilvános` beállítással kell tartanod (lásd :ref:`acl`), "
 "különben a `Users` és `Reviewers` csapatok tagsága által biztosított "
 "oldalszintű jogosultságoknak nem lesz hatása."
 
@@ -6671,15 +6670,17 @@ msgstr "Forrás szöveg – további jelzők:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional`, ami részletezi a kézi szerkesztést."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr ""
+msgstr "A :ref:`bulk-edit` használható a jelzők tömeges alkalmazására."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+"A :ref:`addon-weblate.flags.bulk` kiegészítő automatikusan is képes jelzőket "
+"alkalmazni."
 
 #: ../../admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
@@ -6748,6 +6749,10 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"A magasabb szinten meghatározott jelzők elvethetők a ``discard:NAME`` "
+"szintaxis használatával. Például, ha egy összetevő ``safe-html`` "
+"beállítással van konfigurálva, hozzáadhatod a ``discard:safe-html`` jelzőt "
+"egy adott szöveghez, hogy ezt a jelzőt figyelmen kívül hagyja."
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -6968,7 +6973,7 @@ msgstr "``discard:NAME``"
 
 #: ../../admin/checks.rst:123
 msgid "Discards flag defined on a higher level."
-msgstr ""
+msgstr "Elveti a magasabb szinten definiált jelzőt."
 
 #: ../../admin/checks.rst:124
 msgid "``forbidden``"
@@ -8982,7 +8987,7 @@ msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
-"Használd a(z) :guilabel:`Custom` beállítást, ha manuálisan kezeled az ACL-t, "
+"Használd a(z) :guilabel:`Egyéni` beállítást, ha manuálisan kezeled az ACL-t, "
 "vagyis nem támaszkodsz a Weblate belső kezelésére."
 
 #: ../../admin/config.rst:502
@@ -9631,6 +9636,8 @@ msgid ""
 "A pointer to fund Weblate itself is automatically added unless turned off "
 "by :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 msgstr ""
+"A Weblate finanszírozására mutató hivatkozás automatikusan hozzáadásra "
+"kerül, hacsak a :setting:`INTERLEDGER_PAYMENT_BUILTIN` nincs letiltva."
 
 #: ../../admin/config.rst:1045
 msgid ":setting:`INTERLEDGER_PAYMENT_BUILTIN`"
@@ -12963,18 +12970,25 @@ msgid ""
 "introspection-1.0`` and since then, it requires ``gobject-"
 "introspection-2.0``."
 msgstr ""
+"A telepített ``PyGobject`` csomag nem talál megfelelő GObject Introspection "
+"könyvtárat. A 3.52-es kiadás előtt a ``gobject-introspection-1.0``, azóta "
+"pedig a ``gobject-introspection-2.0`` szükséges."
 
 #: ../../admin/install.rst:311
 msgid ""
 "In case your operating system provides both, it is recommended to install "
 "the newer version and retry the installation."
 msgstr ""
+"Ha az operációs rendszered mindkettőt biztosítja, ajánlott az újabb verziót "
+"telepíteni, majd újra megpróbálni a telepítést."
 
 #: ../../admin/install.rst:314
 msgid ""
 "When the newer version is not available, please install the older release of "
 "PyGobject before installing Weblate:"
 msgstr ""
+"Ha az újabb verzió nem elérhető, telepítsd a PyGobject régebbi verzióját a "
+"Weblate telepítése előtt:"
 
 #: ../../admin/install.rst:321
 msgid ""
@@ -18417,6 +18431,8 @@ msgid ""
 ":ref:`troubleshoot-pip-install` describes frequent issues while installing "
 "Python dependencies."
 msgstr ""
+"A :ref:`troubleshoot-pip-install` részletezi a Python-függőségek telepítése "
+"során gyakran előforduló problémákat."
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -18476,6 +18492,9 @@ msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Régebbi disztribúciók nem tartalmazzák a ``libgirepository-2.0-dev`` "
+"csomagot, ilyen esetekben használd a ``libgirepository1.0-dev`` csomagot. "
+"Lásd még: :ref:`troubleshoot-pip-install`."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -18924,6 +18943,10 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+"A :ref:`mt-weblate-translation-memory` esetén a 100%-os egyezések "
+"elsőbbséget élveznek a gépi fordítással szemben. Ha található 100%-os "
+"egyezés a fordítási memóriában, nem történik gépi fordítás. Ha több 100%-os "
+"egyezés is van, az adatbázis által elsőként visszaadott lesz felhasználva."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -18933,6 +18956,12 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Minden gépi fordítószolgáltatásnak van egy előre meghatározott maximális "
+"pontszáma. A telepített fordítószolgáltatásokat a maximális pontszámuk "
+"alapján sorolja be a rendszer. Minden olyan szöveg esetén, amelynek a "
+"fordítási pontszáma alacsonyabb a szolgáltatás maximális értékénél, a "
+"rendszer megpróbál fordítást kérni. Azokat a fordításokat fogadja el, "
+"amelyek pontszáma meghaladja a jelenlegit."
 
 #: ../../admin/machine.rst:43
 msgid "Source strings for the machine translation"
@@ -18944,6 +18973,9 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"A forrásszöveg eredete minden külső szolgáltatás esetén konfigurálható. Ez "
+"lehetővé teszi a szolgáltatás finomhangolását az optimális eredmény "
+"érdekében. Az alábbi lehetőségek állnak rendelkezésre:"
 
 #: ../../admin/machine.rst:50
 msgid ":guilabel:`Automatic selection`"
@@ -18951,7 +18983,7 @@ msgstr ":guilabel:`Automatikus kiválasztás`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "Automatikusan kiválasztja a legjobb forrásnyelvet."
 
 #: ../../admin/machine.rst:53
 msgid "This is the default behavior."
@@ -18967,7 +18999,7 @@ msgstr "Az összetevő forrásnyelvét használja."
 
 #: ../../admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
-msgstr ""
+msgstr "Ez az 5.11-es verzió előtti működés volt."
 
 #: ../../admin/machine.rst:58
 msgid ":guilabel:`Secondary language defined in project or component`"
@@ -18985,7 +19017,7 @@ msgstr ""
 msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
-msgstr ""
+msgstr "Másodlagos nyelv hiányában visszatér az automatikus nyelvválasztáshoz."
 
 #: ../../admin/machine.rst:66
 msgid "Alibaba"
@@ -18997,7 +19029,7 @@ msgstr "Szolgáltatásazonosító"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "Maximális pontszám"
 
 #: ../../admin/machine.rst:71
 msgid "80"
@@ -20069,19 +20101,19 @@ msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
 msgid "``o3-mini`` -- OpenAI o3-mini"
-msgstr ""
+msgstr "``o3-mini`` -- OpenAI o3-mini"
 
 #: ../../admin/machine.rst:711
 msgid "``o3`` -- OpenAI o3"
-msgstr ""
+msgstr "``o3`` -- OpenAI o3"
 
 #: ../../admin/machine.rst:713
 msgid "``o1-mini`` -- OpenAI o1-mini"
-msgstr ""
+msgstr "``o1-mini`` -- OpenAI o1-mini"
 
 #: ../../admin/machine.rst:715
 msgid "``o1`` -- OpenAI o1"
-msgstr ""
+msgstr "``o1`` -- OpenAI o1"
 
 #: ../../admin/machine.rst:717
 msgid "``gpt-4.5-preview`` -- GPT-4.5"
@@ -21264,6 +21296,8 @@ msgstr "list_addons"
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
+"Kiegészítők listázása reStructuredText formátumban sablonként a következőhöz:"
+" :doc:`/admin/addons`."
 
 #: ../../admin/management.rst:645 ../../admin/management.rst:656
 #: ../../admin/management.rst:667 ../../admin/management.rst:689
@@ -21278,6 +21312,8 @@ msgstr "list_permissions"
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
+"Jogosultságok listázása reStructuredText formátumban sablonként a "
+"következőhöz: :doc:`/admin/access`."
 
 #: ../../admin/management.rst:659
 msgid "list_checks"
@@ -21288,6 +21324,8 @@ msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
+"Minőségellenőrzések felsorolása reStructuredText formátumban sablonként a "
+"következő dokumentumokhoz: :doc:`/admin/checks` és :doc:`/user/checks`."
 
 #: ../../admin/management.rst:671
 msgid "list_languages"
@@ -21318,6 +21356,8 @@ msgid ""
 "Lists automatic suggestions services in reStructuredText as a template for :"
 "doc:`/admin/machine`."
 msgstr ""
+"Automatikus javaslatszolgáltatások felsorolása reStructuredText formátumban "
+"sablonként a következőhöz: :doc:`/admin/machine`."
 
 #: ../../admin/management.rst:692
 msgid "list_translators"
@@ -21909,10 +21949,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"A korlátozott hozzáférésű tárolók böngészéséhez (amikor `Private` :ref:"
-"`access control <acl>` van beállítva vagy amikor a(z) :setting:"
-"`REQUIRE_LOGIN` engedélyezve van) API token szükséges, amelyet a(z) :ref:"
-"`user profile <user-profile>` oldalon szerezhetsz be:"
+"A korlátozott hozzáférésű tárolók böngészéséhez (amikor `Személyes` :ref:`"
+"access control <acl>` van beállítva vagy amikor a(z) :setting:`REQUIRE_LOGIN`"
+" engedélyezve van) API token szükséges, amelyet a(z) :ref:`user profile "
+"<user-profile>` oldalon szerezhetsz be:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -25094,7 +25134,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:42
 msgid "Additional info on source strings"
-msgstr "További információk a forrás stringekről"
+msgstr "További információk a forrásszövegekről"
 
 #: ../../admin/translating.rst:44
 msgid ""
@@ -28991,22 +29031,20 @@ msgstr ""
 
 #: ../../changes.rst:35
 msgid "Improved translation propagation performance."
-msgstr "Javult a fordítások terjesztésének teljesítménye."
+msgstr "Javítva a fordítások továbbításának teljesítménye."
 
 #: ../../changes.rst:36
 msgid ""
 "Leading and trailing whitespace are now correctly stripped in glossary "
 "strings that also contain a :ref:`check-prohibited-initial-character`."
 msgstr ""
-"A szójegyzék szövegek elején és végén lévő szóközök mostantól helyesen "
-"kerülnek eltávolításra, még akkor is, ha tartalmaznak :ref:`check-prohibited-"
-"initial-character` karaktert."
+"A szóeleji és -végi szóközök mostantól helyesen kerülnek eltávolításra a "
+"szójegyzék szövegeiben, ha azok tartalmaznak :ref:`check-prohibited-initial-"
+"character` ellenőrzést is."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed background parsing of newly added translation files."
-msgstr "Javítva az újonnan hozzáadott szövegek fordítása."
+msgstr "Javítva az újonnan hozzáadott fordítási fájlok háttérbeli feldolgozása."
 
 #: ../../changes.rst:40 ../../changes.rst:123 ../../changes.rst:213
 #: ../../changes.rst:314 ../../changes.rst:454 ../../changes.rst:559
@@ -29019,6 +29057,7 @@ msgstr "Kompatibilitás"
 #: ../../changes.rst:41
 msgid "Registration now disallows disposable e-mail domains."
 msgstr ""
+"A regisztráció mostantól nem engedélyezi az eldobható e-mail domaineket."
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:96
 #: ../../changes.rst:128 ../../changes.rst:157 ../../changes.rst:219
@@ -29065,14 +29104,14 @@ msgstr "Frissítés"
 #: ../../changes/v4.rst:1169
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
-"Kérlek, kövesd a(z) :ref:`generic-upgrade-instructions` útmutatót a "
-"frissítés végrehajtásához."
+msgstr "A frissítéshez kövesd a :ref:`generic-upgrade-instructions` leírását."
 
 #: ../../changes.rst:47
 msgid ""
 "The database migration updates indexes and this might take considerable time."
 msgstr ""
+"Az adatbázis-migráció frissíti az indexeket, ez jelentősebb időt vehet "
+"igénybe."
 
 #: ../../changes.rst:50 ../../changes.rst:73 ../../changes.rst:100
 #: ../../changes.rst:134 ../../changes.rst:161 ../../changes.rst:226
@@ -29084,44 +29123,34 @@ msgid "Contributors"
 msgstr "Közreműködők"
 
 #: ../../changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/138?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/136?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/138?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"136?closed=1>`__."
 
 #: ../../changes.rst:56
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.10.4"
-msgstr "Weblate 5.10.2"
+msgstr "Weblate 5.10.4"
 
 #: ../../changes.rst:58
-#, fuzzy
-#| msgid "*Released on March 11th 2020.*"
 msgid "*Released on March 19th 2025.*"
-msgstr "*Kiadva: 2020. március 11.*"
+msgstr "*Kiadva: 2025. március 19.*"
 
 #: ../../changes.rst:62
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed dismissing of checks."
-msgstr "Javítva az összeomlás néhány ellenőrzés megjelenítésekor."
+msgstr "Javítva az ellenőrzések elutasítása."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Removed locking of translations while translating."
 msgid "Reduced overhead of rendering other strings while translating."
-msgstr "Eltávolítottuk a fordítások zárolását fordítás közben."
+msgstr ""
+"Csökkentett erőforrásigény más szövegek megjelenítésekor a fordítási "
+"nézetben."
 
 #: ../../changes.rst:64
 msgid "Improved performance of some :ref:`api` endpoints."
-msgstr "Számos :ref:`api` végpont teljesítménye javult."
+msgstr "Javítva néhány :ref:`api` végpont teljesítménye."
 
 #: ../../changes.rst:65
 msgid "Fixed :ref:`language-parsing-codes` in some corner cases."
@@ -29130,6 +29159,8 @@ msgstr "Javítva: :ref:`language-parsing-codes` néhány speciális esetben."
 #: ../../changes.rst:66
 msgid ":ref:`search-strings` now properly finds exact match on the component."
 msgstr ""
+"A :ref:`search-strings` mostantól megfelelően megtalálja az összetevőn "
+"belüli pontos egyezéseket."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29155,7 +29186,7 @@ msgstr "Kódbeli hozzájárulások"
 #: ../../changes/contributors/5.8.2.rst:7 ../../changes/contributors/5.8.rst:7
 #: ../../changes/contributors/5.9.2.rst:7 ../../changes/contributors/5.9.rst:6
 msgid "Translations contributions"
-msgstr "Fordításokhoz való hozzájárulások"
+msgstr "Fordítási hozzájárulások"
 
 #: ../../changes/contributors/5.10.1.rst:12
 #: ../../changes/contributors/5.10.2.rst:12
@@ -29172,31 +29203,23 @@ msgstr "Fordításokhoz való hozzájárulások"
 #: ../../changes/contributors/5.9.2.rst:12
 #: ../../changes/contributors/5.9.rst:11
 msgid "Documentation contributions"
-msgstr "Dokumentációhoz való hozzájárulások"
+msgstr "Dokumentációs hozzájárulások"
 
 #: ../../changes.rst:76
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/140?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"140?closed=1>`__."
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.10.3"
-msgstr "Weblate 5.10.2"
+msgstr "Weblate 5.10.3"
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid "*Released on March 11th 2020.*"
 msgid "*Released on March 13th 2025.*"
-msgstr "*Kiadva: 2020. március 11.*"
+msgstr "*Kiadva: 2025. március 13.*"
 
 #: ../../changes.rst:85
 msgid "Captcha is not shown for registrations via :ref:`invite-user`."
@@ -29205,44 +29228,34 @@ msgstr ""
 "Captcha."
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved performance of API download endpoints."
-msgstr "A fájlletöltések teljesítménye javult."
+msgstr "Javult az API letöltési végpontok teljesítménye."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid "Removed locking of translations while translating."
 msgid "Optimized fetching other translations while translating."
-msgstr "Eltávolítottuk a fordítások zárolását fordítás közben."
+msgstr "Optimalizáltuk a többi fordítás lekérését a fordítási nézetben."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Used in notifications e-mails."
 msgid "Reduced notifications overhead."
-msgstr "Értesítő e-mailekben használatos."
+msgstr "Csökkent a rendszerértesítések erőforrásigénye."
 
 #: ../../changes.rst:92
 msgid "Improved handling of components using :ref:`internal-urls`."
-msgstr "Javult a :ref:`internal-urls` használatával működő összetevők kezelése."
+msgstr ""
+"Fejlesztettük a :ref:`internal-urls` használatával működő összetevők "
+"kezelését."
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authenticating with some Git servers."
-msgstr "Javítva a hitelesítés néhány harmadik fél szolgáltatót használva."
+msgstr "Javítva az egyes Git szerverekkel való hitelesítés."
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/138?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/139?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/138?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"139?closed=1>`__."
 
 #: ../../changes.rst:106
 msgid "Weblate 5.10.2"
@@ -29254,20 +29267,22 @@ msgstr "*Kiadva: 2025. február 28.*"
 
 #: ../../changes.rst:112
 msgid "Improved :ref:`translation-memory` matching."
-msgstr "Javítottuk a(z) :ref:`translation-memory` illesztést."
+msgstr "Javult a :ref:`translation-memory` egyezés."
 
 #: ../../changes.rst:113
 msgid "Visual diff now better highlights whitespace additions."
-msgstr "A vizuális különbség most már jobban kiemeli a szóköz hozzáadásokat."
+msgstr ""
+"A vizuális különbség megjelenítés jobban kiemeli a szóközök hozzáadását."
 
 #: ../../changes.rst:114
 msgid "Improved performance on large projects."
-msgstr "Javított teljesítmény nagy projekteknél."
+msgstr "Jobb teljesítmény nagy projektek esetén."
 
 #: ../../changes.rst:118
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
 msgstr ""
-"A :ref:`search-boolean` konzisztenciája a :doc:`/user/search` dokumentumban."
+"A :ref:`search-boolean` működése konzisztens a :doc:`/user/search` "
+"dokumentumban."
 
 #: ../../changes.rst:119
 msgid "Fixed some :ref:`addons` trigger upon installation."
@@ -29276,7 +29291,7 @@ msgstr "Néhány :ref:`addons` telepítéskor kiváltott esemény javítva."
 #: ../../changes.rst:120
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
-"Javítva a Git tárolók visszaállítása a(z) :ref:`projectbackup` segítségével."
+"Javítva a Git tárolók visszaállítása a :ref:`projectbackup` segítségével."
 
 #: ../../changes.rst:124
 msgid ""
@@ -29291,6 +29306,8 @@ msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
 msgstr ""
+"A Weblate proaktív hitelesítést alkalmaz a Git 2.46.0 és újabb verziói "
+"esetén, ha HTTP hitelesítő adatok vannak megadva."
 
 #: ../../changes.rst:131
 msgid ""
@@ -29298,9 +29315,9 @@ msgid ""
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
-"Számos változás történt a(z) :file:`settings_example.py` fájlban, a "
-"legjelentősebbek a módosított ``AUTH_PASSWORD_VALIDATORS`` és "
-"``INSTALLED_APPS`` beállítások; kérlek, ennek megfelelően igazítsd a "
+"Számos változás történt a :file:`settings_example.py` fájlban, ezek közül a "
+"legfontosabbak a ``AUTH_PASSWORD_VALIDATORS`` és a ``INSTALLED_APPS`` "
+"beállítások módosításai; kérjük, ezeknek megfelelően frissítsd a saját "
 "beállításaidat."
 
 #: ../../changes.rst:137
@@ -29308,8 +29325,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/138?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/138?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"138?closed=1>`__."
 
 #: ../../changes.rst:140
 msgid "Weblate 5.10.1"
@@ -29357,8 +29374,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/137?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/137?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"137?closed=1>`__."
 
 #: ../../changes.rst:167
 msgid "Weblate 5.10"
@@ -29664,8 +29681,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/135?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/135?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"135?closed=1>`__."
 
 #: ../../changes.rst:259
 msgid "Weblate 5.9.1"
@@ -29684,8 +29701,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/134?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/134?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"134?closed=1>`__."
 
 #: ../../changes.rst:278
 msgid "Weblate 5.9"
@@ -29954,8 +29971,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/129?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/129?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"129?closed=1>`__."
 
 #: ../../changes.rst:401
 msgid "Weblate 5.8.1"
@@ -29974,8 +29991,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/128?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/128?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"128?closed=1>`__."
 
 #: ../../changes.rst:420
 msgid "Weblate 5.8"
@@ -30120,8 +30137,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/122?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"122?closed=1>`__."
 
 #: ../../changes.rst:471
 msgid "Weblate 5.7.2"
@@ -30157,8 +30174,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/126?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"126?closed=1>`__."
 
 #: ../../changes.rst:497
 msgid "Weblate 5.7.1"
@@ -30220,8 +30237,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/125?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"125?closed=1>`__."
 
 #: ../../changes.rst:525
 msgid "Weblate 5.7"
@@ -30416,8 +30433,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/116?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"116?closed=1>`__."
 
 #: ../../changes.rst:581
 msgid "Weblate 5.6.2"
@@ -30462,8 +30479,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/124?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"124?closed=1>`__."
 
 #: ../../changes.rst:601
 msgid "Weblate 5.6.1"
@@ -30498,8 +30515,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/123?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"123?closed=1>`__."
 
 #: ../../changes.rst:621
 msgid "Weblate 5.6"
@@ -30655,8 +30672,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"120?closed=1>`__."
 
 #: ../../changes.rst:697
 msgid "Weblate 5.5.3"
@@ -30802,8 +30819,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/117?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"117?closed=1>`__."
 
 #: ../../changes.rst:770
 msgid "Weblate 5.5"
@@ -30981,8 +30998,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/111?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"111?closed=1>`__."
 
 #: ../../changes.rst:826
 msgid "Weblate 5.4.3"
@@ -31048,8 +31065,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/115?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"115?closed=1>`__."
 
 #: ../../changes.rst:849
 msgid "Weblate 5.4.2"
@@ -31097,8 +31114,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/112?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"112?closed=1>`__."
 
 #: ../../changes.rst:881
 msgid "Weblate 5.4"
@@ -31240,8 +31257,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/109?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"109?closed=1>`__."
 
 #: ../../changes.rst:928
 msgid "Weblate 5.3.1"
@@ -31260,8 +31277,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/110?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"110?closed=1>`__."
 
 #: ../../changes.rst:943
 msgid "Weblate 5.3"
@@ -31407,8 +31424,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/108?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"108?closed=1>`__."
 
 #: ../../changes.rst:1005
 msgid "Weblate 5.2"
@@ -31521,8 +31538,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/104?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"104?closed=1>`__."
 
 #: ../../changes.rst:1046
 msgid "Weblate 5.1.1"
@@ -31735,8 +31752,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/100?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"100?closed=1>`__."
 
 #: ../../changes.rst:1120
 msgid "Weblate 5.0.2"
@@ -31783,8 +31800,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/105?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"105?closed=1>`__."
 
 #: ../../changes.rst:1145
 msgid "Weblate 5.0.1"
@@ -32076,8 +32093,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/99?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"99?closed=1>`__."
 
 #: ../../changes/v0.rst:2
 msgid "Weblate 0.x series"
@@ -34954,7 +34971,7 @@ msgstr "Hozzáadva a megjegyzések megoldásának lehetősége."
 
 #: ../../changes/v3.rst:69
 msgid "Added bulk editing of flags."
-msgstr "Hozzáadva a jelölők tömeges szerkesztése."
+msgstr "Hozzáadva a jelzők tömeges szerkesztése."
 
 #: ../../changes/v3.rst:70
 msgid "Added support for :ref:`labels`."
@@ -34962,7 +34979,7 @@ msgstr "Támogatás hozzáadva a(z) :ref:`labels` számára."
 
 #: ../../changes/v3.rst:71
 msgid "Added bulk edit add-on."
-msgstr "Hozzáadva a tömeges szerkesztési bővítmény."
+msgstr "Hozzáadva a tömeges szerkesztési kiegészítő."
 
 #: ../../changes/v3.rst:72
 msgid "Added option for :ref:`enforcing-checks`."
@@ -36494,8 +36511,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/102?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/102?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"102?closed=1>`__."
 
 #: ../../changes/v4.rst:18
 msgid "Weblate 4.18.1"
@@ -36518,8 +36535,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/101?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/101?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"101?closed=1>`__."
 
 #: ../../changes/v4.rst:28
 msgid "Weblate 4.18"
@@ -36619,8 +36636,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/97?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/97?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"97?closed=1>`__."
 
 #: ../../changes/v4.rst:57
 msgid ""
@@ -36845,8 +36862,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/94?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/94?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"94?closed=1>`__."
 
 #: ../../changes/v4.rst:142
 msgid "Weblate 4.16.1"
@@ -36865,8 +36882,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/92?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"92?closed=1>`__."
 
 #: ../../changes/v4.rst:151
 msgid "Weblate 4.16"
@@ -36926,8 +36943,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/89?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/89?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"89?closed=1>`__."
 
 #: ../../changes/v4.rst:172
 msgid ""
@@ -37001,8 +37018,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/91?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/91?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"91?closed=1>`__."
 
 #: ../../changes/v4.rst:192
 msgid "Weblate 4.15.1"
@@ -37058,8 +37075,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/90?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/90?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"90?closed=1>`__."
 
 #: ../../changes/v4.rst:209
 msgid "Weblate 4.15"
@@ -37294,8 +37311,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/87?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/87?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"87?closed=1>`__."
 
 #: ../../changes/v4.rst:274
 msgid "Weblate 4.14.1"
@@ -37371,8 +37388,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/86?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/86?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"86?closed=1>`__."
 
 #: ../../changes/v4.rst:297
 msgid "Weblate 4.14"
@@ -37447,8 +37464,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/84?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/84?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"84?closed=1>`__."
 
 #: ../../changes/v4.rst:321
 msgid ""
@@ -37531,8 +37548,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/85?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/85?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"85?closed=1>`__."
 
 #: ../../changes/v4.rst:349
 msgid "Weblate 4.13"
@@ -37729,8 +37746,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/82?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/82?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"82?closed=1>`__."
 
 #: ../../changes/v4.rst:412
 msgid "Weblate 4.12"
@@ -37808,8 +37825,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/77?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/77?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"77?closed=1>`__."
 
 #: ../../changes/v4.rst:436
 msgid "There are no special steps required."
@@ -37832,8 +37849,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/80?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"80?closed=1>`__."
 
 #: ../../changes/v4.rst:448
 msgid "Weblate 4.11.1"
@@ -37870,8 +37887,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/78?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/78?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"78?closed=1>`__."
 
 #: ../../changes/v4.rst:461
 msgid "Weblate 4.11"
@@ -38021,8 +38038,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/75?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/75?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"75?closed=1>`__."
 
 #: ../../changes/v4.rst:500
 msgid ""
@@ -38093,8 +38110,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/76?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/76?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"76?closed=1>`__."
 
 #: ../../changes/v4.rst:521
 msgid "Weblate 4.10"
@@ -38114,8 +38131,8 @@ msgid ""
 "Bulk edit and search-and-replace are now available on project and language "
 "level."
 msgstr ""
-"A tömeges szerkesztés és a keresés-csere mostantól elérhető a projekt és "
-"nyelv szintjén."
+"A tömeges szerkesztés és a keresés–csere funkció mostantól elérhető projekt- "
+"és nyelvi szinten is."
 
 #: ../../changes/v4.rst:527
 msgid "Added filtering to search and replace."
@@ -38179,8 +38196,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/74?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"74?closed=1>`__."
 
 #: ../../changes/v4.rst:544
 msgid ""
@@ -38252,8 +38269,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/73?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"73?closed=1>`__."
 
 #: ../../changes/v4.rst:570
 msgid "Weblate 4.9"
@@ -38363,8 +38380,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/71?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/71?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"71?closed=1>`__."
 
 #: ../../changes/v4.rst:600
 msgid ""
@@ -38440,8 +38457,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/70?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"70?closed=1>`__."
 
 #: ../../changes/v4.rst:623
 msgid "Weblate 4.8"
@@ -38499,8 +38516,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/67?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"67?closed=1>`__."
 
 #: ../../changes/v4.rst:646
 msgid "There are no additional upgrade steps needed in this release."
@@ -38539,8 +38556,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/69?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"69?closed=1>`__."
 
 #: ../../changes/v4.rst:662
 msgid "Weblate 4.7.1"
@@ -38572,8 +38589,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/68?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/68?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"68?closed=1>`__."
 
 #: ../../changes/v4.rst:674
 msgid "Weblate 4.7"
@@ -38662,8 +38679,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/64?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"64?closed=1>`__."
 
 #: ../../changes/v4.rst:701 ../../changes/v4.rst:771 ../../changes/v4.rst:862
 #: ../../changes/v4.rst:937 ../../changes/v4.rst:1023 ../../changes/v4.rst:1098
@@ -38746,8 +38763,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/66?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"66?closed=1>`__."
 
 #: ../../changes/v4.rst:725
 msgid "Weblate 4.6.1"
@@ -38796,8 +38813,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/65?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/65?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"65?closed=1>`__."
 
 #: ../../changes/v4.rst:741
 msgid "Weblate 4.6"
@@ -38902,8 +38919,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/61?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"61?closed=1>`__."
 
 #: ../../changes/v4.rst:773 ../../changes/v4.rst:1174
 msgid ""
@@ -39017,8 +39034,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/63?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/63?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"63?closed=1>`__."
 
 #: ../../changes/v4.rst:807
 msgid "Weblate 4.5.1"
@@ -39088,8 +39105,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/62?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/62?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"62?closed=1>`__."
 
 #: ../../changes/v4.rst:827
 msgid "Weblate 4.5"
@@ -39226,8 +39243,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/59?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/59?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"59?closed=1>`__."
 
 #: ../../changes/v4.rst:864
 msgid "The migration might take considerable time if you had big glossaries."
@@ -39340,8 +39357,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"60?closed=1>`__."
 
 #: ../../changes/v4.rst:903
 msgid "Weblate 4.4"
@@ -39463,8 +39480,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/56?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/56?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"56?closed=1>`__."
 
 #: ../../changes/v4.rst:939
 msgid ""
@@ -39580,8 +39597,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/58?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/58?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"58?closed=1>`__."
 
 #: ../../changes/v4.rst:968
 msgid "Weblate 4.3.1"
@@ -39625,8 +39642,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/57?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/57?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"57?closed=1>`__."
 
 #: ../../changes/v4.rst:984
 msgid "Weblate 4.3"
@@ -39762,8 +39779,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/53?"
 "closed=1>`__."
 msgstr ""
-"`Minden változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
+"53?closed=1>`__."
 
 #: ../../changes/v4.rst:1025
 msgid ""
@@ -40734,10 +40751,8 @@ msgstr "Ellenőrizd, hogy a bővítmény kompatibilis-e a megadott összetevőve
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.change_event:1
-#, fuzzy
-#| msgid "Event handler for component update."
 msgid "Event handler for change event."
-msgstr "Eseménykezelő az összetevő frissítéséhez."
+msgstr "Eseménykezelő a módosítási eseményhez."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -41389,19 +41404,15 @@ msgstr ""
 "Az építéshez használd a :program:`ci/run-docs` parancsot."
 
 #: ../../contributing/documentation.rst:34
-#, fuzzy
-#| msgid "You will also need :program:`graphviz` to build the documentation."
 msgid ""
 "You will also need :program:`graphviz` installed to build the documentation."
 msgstr ""
-"Szükséged lesz a :program:`graphviz` programra is a dokumentáció "
-"felépítéséhez."
+"A dokumentáció felépítéséhez szükséged lesz a :program:`graphviz` "
+"telepítésére is."
 
 #: ../../contributing/documentation.rst:37
-#, fuzzy
-#| msgid "Translate document"
 msgid "Translating the documentation"
-msgstr "Dokumentum fordítása"
+msgstr "Dokumentáció fordítása"
 
 #: ../../contributing/documentation.rst:39
 msgid ""
@@ -41421,6 +41432,8 @@ msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
 msgstr ""
+"A dokumentáció több szakasza sablonokat használ, amelyeket a kódból generál "
+"a rendszer. A következő adminisztrációs parancsok érhetők el:"
 
 #: ../../contributing/documentation.rst:47
 msgid ":wladmin:`list_addons`"
@@ -41444,6 +41457,9 @@ msgid ""
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
 msgstr ""
+"Ezek a parancsok mind reStructuredText formátumban adnak ki szöveget, amely "
+"a dokumentációs sablonként szolgál. A legkényelmesebb módja a változások "
+"alkalmazásának a 'vizuális különbségek' használata a szerkesztőben."
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -43446,6 +43462,9 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"A Weblate úgy van beállítva, hogy e-mail szerverként a :program:`maildev` "
+"konténert használja. A kézbesített e-mailek megtekinthetők itt: "
+"<http://127.0.0.1:1080/>."
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -45420,11 +45439,6 @@ msgstr ""
 "dokumentációba, míg a JSON hasznos az adatok további feldolgozásához."
 
 #: ../../devel/reporting.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can choose predefined periods or enter a custom date range. In that "
-#| "case, the contributions are counted at midnight – that means that it "
-#| "includes the starting date and excludes the ending date."
 msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
@@ -45432,9 +45446,11 @@ msgid ""
 "contributors in the output by their join date or the number of strings they "
 "have translated, in either ascending or descending order."
 msgstr ""
-"Kiválaszthatsz előre meghatározott időszakokat vagy megadhatsz egy egyedi "
-"dátumtartományt. Ebben az esetben a hozzájárulásokat éjfélkor számolják – ez "
-"azt jelenti, hogy tartalmazza a kezdő dátumot, de kizárja a befejező dátumot."
+"Előre meghatározott időszakokat választhatsz vagy megadhatsz egyéni "
+"dátumtartományt is. Ez utóbbi esetben az aktivitásokat éjfélkor számolja a "
+"rendszer – tehát a kezdődátumot beleszámítja, a záródátumot viszont nem. A "
+"közreműködőket rendezheted csatlakozási dátum vagy a lefordított szövegek "
+"száma szerint, növekvő vagy csökkenő sorrendben."
 
 #: ../../devel/reporting.rst:25
 msgid "Number of words"
@@ -45612,10 +45628,8 @@ msgid "Amount of characters in the translated string."
 msgstr "A lefordított szövegben lévő karakterek mennyisége."
 
 #: ../../devel/reporting.rst:110
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "The translator's join date is also included in the report."
-msgstr "A fordítás a háttérben lesz frissítve."
+msgstr "A fordító csatlakozási dátuma is szerepel a jelentésben."
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
@@ -48211,13 +48225,6 @@ msgstr ""
 "szövegreferenciák esetén:"
 
 #: ../../formats/android.rst:62
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-images-resources.html>`_, :doc:`tt:formats/"
-#| "android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
@@ -48227,7 +48234,7 @@ msgstr ""
 "`Android string resources dokumentáció <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"images-resources.html>`_, :doc:`tt:formats/android`"
+"multiplatform-resources.html>`_, :doc:`tt:formats/android`"
 
 #: ../../formats/android.rst:67
 msgid "Weblate configuration for Android resource strings"
@@ -51597,10 +51604,8 @@ msgstr ""
 "guide/interpolation>`_"
 
 #: ../../user/checks.rst:460
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic components formatting"
-msgstr "Automatikus hozzárendelések"
+msgstr "Automattic összetevők formázása"
 
 #: ../../user/checks.rst:462
 msgid "The Automattic components' placeholders do not match the source."
@@ -51631,16 +51636,12 @@ msgid "``They bought {{strong}}apples{{/strong}}.``"
 msgstr "``They bought {{strong}}apples{{/strong}}.``"
 
 #: ../../user/checks.rst:472
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 ":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
 "wp-calypso/tree/trunk/packages/interpolate-components>`_"
 msgstr ""
-":ref:`check-formats`, `i18next interpoláció <https://www.i18next.com/"
-"translation-function/interpolation>`_"
+":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
+"wp-calypso/tree/trunk/packages/interpolate-components>`_"
 
 #: ../../user/checks.rst:478
 msgid "C format"
@@ -51706,10 +51707,8 @@ msgid "``c_sharp_format``"
 msgstr "``c_sharp_format``"
 
 #: ../../user/checks.rst:504
-#, fuzzy
-#| msgid "``c-sharp-format``"
 msgid "``c-sharp-format``, ``csharp-format``"
-msgstr "``c-sharp-format``"
+msgstr "``c-sharp-format``, ``csharp-format``"
 
 #: ../../user/checks.rst:506 ../../user/checks.rst:656
 msgid "``There are {0} apples``"
@@ -55109,6 +55108,9 @@ msgid ""
 "secondary_language`) or component (:ref:`component-secondary_language`). In "
 "that case it can be used for :ref:`secondary-language-workflow`."
 msgstr ""
+"Ez projekt szinten (:ref:`project-secondary_language`) vagy összetevő "
+"szinten (:ref:`component-secondary_language`) is beállítható. Ilyen esetben "
+"használható a :ref:`secondary-language-workflow` szerint."
 
 #: ../../user/profile.rst:115
 msgid "Preferences"
@@ -57547,6 +57549,8 @@ msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
 msgstr ""
+"Ez lehetővé teszi Azure DevOps tárolók elérését és gyorsabbá teszi a "
+"hitelesített tárolók elérését."
 
 #: ../../vcs.rst:238
 msgid ""
@@ -59018,6 +59022,13 @@ msgid ""
 "(see :ref:`secondary-languages`) and can be optionally used as a source for "
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
+"Amikor a :ref:`component-intermediate` nem használható a szövegek "
+"összevonására, kiválaszthatsz egy fordítást másodlagos nyelvként. A nyelv "
+"beállítható projekt (:ref:`project-secondary_language`) vagy összetevő (:ref"
+":`component-secondary_language`) szinten. Ezután a fordítók számára "
+"megjelenik a fordítási folyamat során (lásd: :ref:`secondary-languages`), és "
+"opcionálisan gépi fordítási forrásként is használható (lásd: :ref:`mt-"
+"sources`)."
 
 #: ../../workflows.rst:276
 msgid ""
@@ -59025,6 +59036,9 @@ msgid ""
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
 msgstr ""
+"Ez a beállítás hasznos lehet vegyes nyelvű forrásszövegek esetén, ha ezeket "
+"egy közös fordításban szeretnénk összevonni, amely kiindulási alapként "
+"szolgál a további munkához."
 
 #: ../../workflows.rst:282
 msgid "Source strings reviews"
