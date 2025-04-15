@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-15 07:48+0000\n"
+"PO-Revision-Date: 2025-04-15 13:32+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -6728,22 +6728,24 @@ msgstr ""
 "Markierungen werden aus folgenden Quellen zusammengeführt:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string additional flags:"
-msgstr "Ort der Ausgangszeichenkette"
+msgstr "Zusätzliche Markierungen der Ausgangszeichenkette:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` beschreibt die manuelle Bearbeitung."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
 msgstr ""
+":ref:`bulk-edit` kann verwendet werden, um Markierungen stapelweise "
+"anzuwenden."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+":ref:`addon-weblate.flags.bulk`-Erweiterung kann Markierungen automatisch "
+"anwenden."
 
 #: ../../admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
@@ -6814,6 +6816,11 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"Die auf einer höhereren Ebene definierten Markierungen können mit der Syntax "
+"``discard:NAME`` verworfen werden. Wenn eine Komponente beispielsweise auf "
+"``safe-html`` konfiguriert ist, können Sie ``discard:safe-html`` zu den "
+"Markierungen der Zeichenketten hinzufügen, um sie für diese spezielle "
+"Zeichenkette zu überspringen."
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -7034,7 +7041,7 @@ msgstr "``discard:NAME``"
 
 #: ../../admin/checks.rst:123
 msgid "Discards flag defined on a higher level."
-msgstr ""
+msgstr "Verwirft die auf einer höheren Ebene definierte Markierung."
 
 #: ../../admin/checks.rst:124
 msgid "``forbidden``"
@@ -7321,10 +7328,8 @@ msgid "``fluent-source-inner-html``"
 msgstr "``fluent-source-inner-html``"
 
 #: ../../admin/checks.rst:189
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enable the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-safe-html`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-fluent-source-inner-html`."
 
 #: ../../admin/checks.rst:190 ../../user/checks.rst:1908
 #: ../../user/checks.rst:1909
@@ -7332,16 +7337,12 @@ msgid "``fluent-source-syntax``"
 msgstr "``fluent-source-syntax``"
 
 #: ../../admin/checks.rst:191
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enable the :ref:`check-fluent-source-syntax` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-lua-format`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-fluent-source-syntax`."
 
 #: ../../admin/checks.rst:193
-#, fuzzy
-#| msgid "Enable the :ref:`check-icu-message-format` quality check."
 msgid "Enable the :ref:`check-icu-message-format-syntax` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-icu-message-format`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-icu-message-format-syntax`."
 
 #: ../../admin/checks.rst:194 ../../user/checks.rst:121
 msgid "``ignore-bbcode``"
@@ -7380,40 +7381,32 @@ msgid "``ignore-fluent-parts``"
 msgstr "``ignore-fluent-parts``"
 
 #: ../../admin/checks.rst:203
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-space` quality check."
 msgid "Skip the :ref:`check-fluent-parts` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-end-space`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-parts`."
 
 #: ../../admin/checks.rst:204 ../../user/checks.rst:253
 msgid "``ignore-fluent-references``"
 msgstr "``ignore-fluent-references``"
 
 #: ../../admin/checks.rst:205
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-newline` quality check."
 msgid "Skip the :ref:`check-fluent-references` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-end-newline`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-references`."
 
 #: ../../admin/checks.rst:206 ../../user/checks.rst:324
 msgid "``ignore-fluent-target-inner-html``"
 msgstr "``ignore-fluent-target-inner-html``"
 
 #: ../../admin/checks.rst:207
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid "Skip the :ref:`check-fluent-target-inner-html` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-safe-html`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-target-inner-html`."
 
 #: ../../admin/checks.rst:208 ../../user/checks.rst:392
 msgid "``ignore-fluent-target-syntax``"
 msgstr "``ignore-fluent-target-syntax``"
 
 #: ../../admin/checks.rst:209
-#, fuzzy
-#| msgid "Skip the :ref:`check-rst-syntax` quality check."
 msgid "Skip the :ref:`check-fluent-target-syntax` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-rst-syntax`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-target-syntax`."
 
 #: ../../admin/checks.rst:210 ../../user/checks.rst:449
 msgid "``ignore-angularjs-format``"
@@ -7613,10 +7606,8 @@ msgid "``ignore-rst-references``"
 msgstr "``ignore-rst-references``"
 
 #: ../../admin/checks.rst:259
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Skip the :ref:`check-rst-references` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-regex`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-rst-references`."
 
 #: ../../admin/checks.rst:260 ../../user/checks.rst:1036
 msgid "``ignore-kashida``"
@@ -7896,20 +7887,16 @@ msgid "``ignore-fluent-source-inner-html``"
 msgstr "``ignore-fluent-source-inner-html``"
 
 #: ../../admin/checks.rst:329
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid "Skip the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-safe-html`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-source-inner-html`."
 
 #: ../../admin/checks.rst:330 ../../user/checks.rst:1910
 msgid "``ignore-fluent-source-syntax``"
 msgstr "``ignore-fluent-source-syntax``"
 
 #: ../../admin/checks.rst:331
-#, fuzzy
-#| msgid "Skip the :ref:`check-rst-syntax` quality check."
 msgid "Skip the :ref:`check-fluent-source-syntax` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-rst-syntax`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-source-syntax`."
 
 #: ../../admin/checks.rst:333
 msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
@@ -9688,10 +9675,8 @@ msgid "INTERLEDGER_PAYMENT_BUILTIN"
 msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 
 #: ../../admin/config.rst:1016
-#, fuzzy
-#| msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
-msgstr "Liste der Interledger Payment Pointers (ILPs) für Web-Monetarisierung."
+msgstr "Liste der Interledger-Payment-Pointers (ILPs) für Web-Monetarisierung."
 
 #: ../../admin/config.rst:1020 ../../admin/install/docker.rst:724
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -9703,7 +9688,7 @@ msgstr "INTERLEDGER_PAYMENT_POINTERS"
 
 #: ../../admin/config.rst:1030
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr "Liste der Interledger Payment Pointers (ILPs) für Web-Monetarisierung."
+msgstr "Liste der Interledger-Payment-Pointers (ILPs) für Web-Monetarisierung."
 
 #: ../../admin/config.rst:1032
 msgid ""
