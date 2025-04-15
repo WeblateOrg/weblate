@@ -52,13 +52,23 @@
         </td>
       </tr>
     </table>
-    <div class="panel-footer">
-      {% if can_edit %}
-        <a href=""
-           class="btn btn-danger link-post"
-           data-href="{{ object.get_absolute_url }}">{% trans "Delete" %}</a>
-      {% endif %}
-    </div>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="panel-body">{{ font_form|crispy }}</div>
+  <div class="panel-footer">
+    {% if can_edit %}
+      <input type="submit"
+             name="action"
+             value="{% trans "Update" %}"
+             class="btn btn-primary"
+             id="update_font_submit" />
+      <a href=""
+         class="btn btn-danger link-post"
+         data-href="{{ object.get_absolute_url }}">{% trans "Delete" %}</a>
+    {% endif %}
+  </div>
+</form>
+
   </div>
 
 {% endblock %}
