@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-15 13:32+0000\n"
+"PO-Revision-Date: 2025-04-15 14:44+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -9676,7 +9676,9 @@ msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 
 #: ../../admin/config.rst:1016
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
-msgstr "Liste der Interledger-Payment-Pointers (ILPs) für Web-Monetarisierung."
+msgstr ""
+"Schaltet den integrierten Interledger-Payment-Pointer für die Weblate-"
+"Finanzierung um."
 
 #: ../../admin/config.rst:1020 ../../admin/install/docker.rst:724
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -9707,6 +9709,9 @@ msgid ""
 "A pointer to fund Weblate itself is automatically added unless turned off "
 "by :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 msgstr ""
+"Ein Verweis auf die Finanzierung von Weblate selbst wird automatisch "
+"hinzugefügt, sofern dies nicht durch :setting:`INTERLEDGER_PAYMENT_BUILTIN` "
+"deaktiviert wird."
 
 #: ../../admin/config.rst:1045
 msgid ":setting:`INTERLEDGER_PAYMENT_BUILTIN`"
@@ -10614,15 +10619,12 @@ msgstr ""
 "alle Ereignisse zu verfolgen, 0 (Standard) deaktiviert die Verfolgung."
 
 #: ../../admin/config.rst:1761
-#, fuzzy
-#| msgid ""
-#| "`Sentry Performance Monitoring <https://docs.sentry.io/product/"
-#| "performance/>`_"
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
 "performance-monitoring/>`_"
 msgstr ""
-"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/performance/>`_"
+"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/sentry-basics/"
+"performance-monitoring/>`_"
 
 #: ../../admin/config.rst:1766
 msgid "SENTRY_SEND_PII"
@@ -13046,10 +13048,8 @@ msgid "Or you can install Weblate without any optional features:"
 msgstr "Oder Sie können Weblate ohne optionale Funktionen installieren:"
 
 #: ../../admin/install.rst:303
-#, fuzzy
-#| msgid "Troubleshooting"
 msgid "Troubleshooting pip install"
-msgstr "Fehlerbehebung"
+msgstr "Fehlerbehebung bei pip install"
 
 #: ../../admin/install.rst:305
 msgid ""
@@ -13064,18 +13064,25 @@ msgid ""
 "introspection-1.0`` and since then, it requires ``gobject-"
 "introspection-2.0``."
 msgstr ""
+"Das installierte ``PyGobject``-Paket kann keine passende GObject-"
+"Introspection-Bibliothek finden. Vor der Version 3.52 benötigte es ``gobject-"
+"introspection-1.0`` und seither benötigt es ``gobject-introspection-2.0``."
 
 #: ../../admin/install.rst:311
 msgid ""
 "In case your operating system provides both, it is recommended to install "
 "the newer version and retry the installation."
 msgstr ""
+"Falls Ihr Betriebssystem beides anbietet, sollten Sie die neuere Version "
+"installieren und die Installation erneut versuchen."
 
 #: ../../admin/install.rst:314
 msgid ""
 "When the newer version is not available, please install the older release of "
 "PyGobject before installing Weblate:"
 msgstr ""
+"Wenn die neuere Version nicht verfügbar ist, installieren Sie bitte die "
+"ältere Version von PyGobject, bevor Sie Weblate installieren:"
 
 #: ../../admin/install.rst:321
 msgid ""
@@ -15343,18 +15350,14 @@ msgstr ""
 "konfiguriert werden."
 
 #: ../../admin/install.rst:1764
-#, fuzzy
-#| msgid ""
-#| "`Sentry Performance Monitoring <https://docs.sentry.io/product/"
-#| "performance/>`_, `Sentry Profiling <https://docs.sentry.io/product/"
-#| "explore/profiling/>`_"
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
 "performance-monitoring/>`_, `Sentry Profiling <https://docs.sentry.io/"
 "product/explore/profiling/>`_"
 msgstr ""
-"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/performance/"
-">`_, `Sentry-Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
+"`Sentry-Leistungsüberwachung <https://docs.sentry.io/product/sentry-basics/"
+"performance-monitoring/>`_, `Sentry-Profiling <https://docs.sentry.io/"
+"product/explore/profiling/>`_"
 
 #: ../../admin/install.rst:1770
 msgid "Rollbar"
@@ -16412,10 +16415,8 @@ msgstr ""
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:713
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
-msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
+msgstr "Konfiguriert :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 
 #: ../../admin/install/docker.rst:719
 msgid ""
@@ -18585,6 +18586,8 @@ msgid ""
 ":ref:`troubleshoot-pip-install` describes frequent issues while installing "
 "Python dependencies."
 msgstr ""
+":ref:`troubleshoot-pip-install` beschreibt häufige Probleme bei der "
+"Installation von Python-Abhängigkeiten."
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -18644,6 +18647,9 @@ msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Ältere Distributionen haben kein ``libgirepository-2.0-dev``, verwenden Sie "
+"stattdessen ``libgirepository1.0-dev``. Siehe auch :ref:`troubleshoot-pip-"
+"install`."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -19086,11 +19092,9 @@ msgid ":ref:`machine-translation`"
 msgstr ":ref:`machine-translation`"
 
 #: ../../admin/machine.rst:34
-#, fuzzy
-#| msgid "Support for machine translation using following online services:"
 msgid "Priority of machine translation and translation memory services"
 msgstr ""
-"Unterstützung für die maschineller Übersetzung durch folgende Online-Dienste:"
+"Vorrang der Dienste für maschinelle Übersetzungen und Übersetzungsspeicher"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -19099,6 +19103,11 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+":ref:`mt-weblate-translation-memory`-Übereinstimmungen mit 100%iger "
+"Trefferquote haben Vorrang vor maschinellen Übersetzungsdiensten. Wenn eine "
+"100%ige Übereinstimmung im Übersetzungsspeicher gefunden wird, wird keine "
+"maschinelle Übersetzung durchgeführt. Gibt es mehrere 100%-Treffer, wird der "
+"erste von der Datenbank zurückgegebene verwendet."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -19108,12 +19117,16 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Jeder maschinelle Übersetzungsdienst hat eine vordefinierte Höchstpunktzahl, "
+"die er erreichen kann. Die installierten Übersetzungsdienste werden nach "
+"ihrer Maximalpunktzahl sortiert. Für jede Zeichenkette, deren "
+"Übersetzungspunktzahl unter der Höchstpunktzahl des Dienstes liegt, wird der "
+"Dienst aufgefordert, eine Übersetzung zu erstellen. Übersetzungen mit einer "
+"höheren Punktzahl als der aktuellen werden akzeptiert."
 
 #: ../../admin/machine.rst:43
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid "Source strings for the machine translation"
-msgstr "Großer Übersetzungsspeicher mit maschineller Übersetzung."
+msgstr "Ausgangszeichenketten für die maschinelle Übersetzung"
 
 #: ../../admin/machine.rst:47
 msgid ""
@@ -19131,10 +19144,8 @@ msgid "Chooses the best source language automatically."
 msgstr ""
 
 #: ../../admin/machine.rst:53
-#, fuzzy
-#| msgid "This is turned on by default."
 msgid "This is the default behavior."
-msgstr "Diese Funktion ist standardmäßig eingeschaltet."
+msgstr "Dies ist das Standardverhalten."
 
 #: ../../admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
@@ -19178,7 +19189,7 @@ msgstr "Dienst-ID"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "Maximale Punktzahl"
 
 #: ../../admin/machine.rst:71
 msgid "80"
@@ -19256,10 +19267,10 @@ msgstr "``source`` -- Ausgangssprache der Komponente"
 #: ../../admin/machine.rst:816 ../../admin/machine.rst:840
 #: ../../admin/machine.rst:920 ../../admin/machine.rst:950
 #: ../../admin/machine.rst:978
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid "``secondary`` -- Secondary language defined in project or component"
-msgstr "Neue Sprache hinzugefügt zu %(component)s"
+msgstr ""
+"``secondary`` -- Zweitsprache, die im Projekt oder in der Komponente "
+"definiert ist"
 
 #: ../../admin/machine.rst:81 ../../admin/machine.rst:142
 #: ../../admin/machine.rst:178 ../../admin/machine.rst:211
@@ -20541,7 +20552,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:891
 msgid "Weblate Translation Memory"
-msgstr "Weblate Translation Memory"
+msgstr "Weblate-Übersetzungsspeicher"
 
 #: ../../admin/machine.rst:893
 msgid "``weblate-translation-memory``"
