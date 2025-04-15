@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # "Miguel A. Bouzada" <mbouzada@gmail.com>, 2024, 2025.
+# xuars <yago.rana.gayoso@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-15 06:56+0000\n"
-"Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
+"PO-Revision-Date: 2025-04-15 09:48+0000\n"
+"Last-Translator: xuars <yago.rana.gayoso@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
 "Language: gl\n"
@@ -457,10 +458,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "A conta foi bloqueada por mor dos moitos intentos de acceso fallados."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Non foi posíbel enviarlle unha mensaxe á administración."
+msgstr "Conta bloqueada polo administrador do sitio."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1008,14 +1007,11 @@ msgstr[1] ""
 "caracteres."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "O seu contrasinal debe conter como máximo %(min_length)d carácter."
-msgstr[1] ""
-"O seu contrasinal debe conter como máximo %(min_length)d caracteres."
+msgstr[0] "O seu contrasinal debe conter como máximo %(max_length)d carácter."
+msgstr[1] "O seu contrasinal debe conter como máximo %(max_length)d caracteres."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1833,7 +1829,7 @@ msgstr "Activar a ordenación por maiúsculas e minúsculas"
 #, fuzzy
 #| msgid "Changed since"
 msgid "Change events"
-msgstr "Mudado dende"
+msgstr "Cambiar eventos"
 
 #: weblate/addons/forms.py:682
 #, fuzzy
@@ -1843,7 +1839,7 @@ msgstr "URL do sitio web"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Segredo"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -3170,10 +3166,8 @@ msgid "AngularJS interpolation string"
 msgstr "Cadea de interpolación do AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "As cadeas de interpolación de AngularJS non coinciden coa orixe"
+msgstr "As cadeas de interpolación de AngularJS non coinciden co orixe."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3192,102 +3186,82 @@ msgid "Starting newline"
 msgstr "Salto de liña no inicio"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "A orixe e a tradución non comezan ámbalas dúas cun salto de liña"
+msgstr "A orixe e a tradución non comezan ámbalas dúas cun salto de liña."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Salto liña ao final"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun salto de liña"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun salto de liña."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Espazos no inicio"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "A orixe e a tradución non comezan co mesmo número de espazos"
+msgstr "A orixe e a tradución non comezan co mesmo número de espazos."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Espazo no final"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun espazo"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun espazo."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Dobre espazo"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "A tradución contén algún dobre espazo"
+msgstr "A tradución contén algún dobre espazo."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "O punto final non coincide"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun punto final"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun punto final."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Os dous puntos finais non coinciden"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "A orixe e a tradución non rematan ámbalas dúas con dous puntos"
+msgstr "A orixe e a tradución non rematan ámbalas dúas con dous puntos."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "O signo de interrogación non coincide"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun signo de interrogación"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun signo de interrogación."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "O signo de exclamación non coincide"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun signo de exclamación"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun signo de exclamación."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "O exclarrogativo (‽) non coincide"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
 msgstr ""
-"Orixe e tradución non rematan ámbalas dúas cunha expresión exclarrogativa (‽)"
+"Orixe e tradución non rematan ámbalas dúas cunha expresión exclarrogativa "
+"(‽)."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
