@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-15 21:16+0000\n"
+"PO-Revision-Date: 2025-04-16 00:35+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -11599,7 +11599,7 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
-"A Weblate támogatja az Azure Repos webhookokat – adj hozzá egy webhookot a "
+"A Weblate támogatja az Azure Repos webhorgokat – adj hozzá egy webhorgot a "
 ":guilabel:`Kód feltöltve` eseményhez, amely a Weblate telepítéseden belüli "
 "``/hooks/azure/`` URL-re mutat (például ``https://hosted.weblate.org/hooks/"
 "azure/``). Ezt a :guilabel:`Szolgáltatáshorgok` menüpontban tudod megtenni a "
@@ -11696,14 +11696,14 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
-"Minden fordítási összetevőnek beállítható egy push URL (lásd: :ref:"
-"`component-push`), és ebben az esetben a Weblate képes lesz változtatásokat "
-"feltölteni a távoli adattárba. A Weblate úgy is beállítható, hogy "
-"automatikusan feltöltse a változtatásokat minden commit után (ez az "
-"alapértelmezett, lásd: :ref:`component-push_on_commit`). Ha nem szeretnéd, "
-"hogy a változtatások automatikusan feltöltődjenek, ezt manuálisan megteheted "
-"a(z) :guilabel:`Repository maintenance` alatt vagy az API használatával "
-"a(z) :option:`wlc push` segítségével."
+"Minden fordítási összetevőhöz beállítható egy feltöltési URL (lásd: :ref"
+":`component-push`), ebben az esetben a Weblate képes lesz a változtatásokat "
+"a távoli tárolóba továbbítani. A Weblate úgy is beállítható, hogy minden "
+"commit után automatikusan feltöltse a változásokat (ez az alapértelmezett "
+"viselkedés, lásd: :ref:`component-push_on_commit`). Ha nem szeretnéd, hogy a "
+"változások automatikusan kerüljenek feltöltésre, ezt megteheted manuálisan a "
+":guilabel:`Tároló karbantartása` menüpont alatt vagy az API használatával, a "
+":option:`wlc push` opcióval."
 
 #: ../../admin/continuous.rst:349
 msgid ""
@@ -11722,13 +11722,13 @@ msgid ""
 "`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` "
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Ha nem szeretnéd, hogy a Weblate közvetlenül toljon, támogatott a(z) :ref:"
-"`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:"
-"`vcs-azure-devops` pull requestek vagy a(z) :ref:`vcs-gerrit` véleményezések "
-"használata. Ezeket aktiválhatod, ha a :ref:`component`-ban a :ref:`component-"
-"vcs`-ként a(z) :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :"
-"guilabel:`Gerrit`, :guilabel:`Azure DevOps` vagy a(z) :guilabel:`Pagure` "
-"lehetőséget választod."
+"Ha nem szeretnél közvetlen feltöltést a Weblate-től, lehetőséged van "
+"használni a :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref"
+":`vcs-pagure`, :ref:`vcs-azure-devops` pull kérelmeket vagy a :ref:`vcs-"
+"gerrit` felülvizsgálatokat. Ezeket úgy aktiválhatod, hogy az :ref:`component`"
+" beállításai között a :ref:`component-vcs` opcióhoz a következők egyikét "
+"választod: :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps` vagy :guilabel:`Pagure`."
 
 #: ../../admin/continuous.rst:357
 msgid ""
@@ -11965,12 +11965,12 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
-"A Weblate viselkedése az, hogy ha lehetséges, azonos szerzőtől származó "
-"commitokat egy commitba csoportosítja. Ez jelentősen csökkenti a commitok "
-"számát, azonban előfordulhat, hogy kifejezetten meg kell adnod, hogy "
-"készítse el a commitokat, ha szinkronizálni akarod a VCS tárolót, például "
-"egyesítéshez (ez alapértelmezés szerint engedélyezett a(z) :guilabel:"
-"`Managers` csoport számára, lásd: :ref:`privileges`)."
+"A Weblate működése során, ha lehetséges, ugyanattól a szerzőtől származó "
+"módosításokat egy commitba vonja össze. Ez jelentősen csökkenti a "
+"véglegesítések számát, azonban előfordulhat, hogy manuálisan kell "
+"kezdeményezned a véglegesítést, ha szeretnéd a VCS tárolót szinkronba hozni, "
+"például egy összevonás miatt (ez alapértelmezetten engedélyezett a "
+":guilabel:`Kezelők` csoport számára, lásd: :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:513
 msgid ""
@@ -12042,13 +12042,14 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
-"A Weblate és az adattár közötti interakció testreszabásának módja a(z) :ref:"
-"`addons`. Nézd meg a :ref:`addon-script`-et, hogy megtudhasd, hogyan "
-"hajthatsz végre külső szkripteket extrákon keresztül."
+"A Weblate és a tároló közötti együttműködés testreszabásának módja a "
+":ref:`addons`. További információt arról, hogyan hajthatsz végre külső "
+"parancsfájlokat kiegészítőkön keresztül, a :ref:`addon-script` részben "
+"találsz."
 
 #: ../../admin/continuous.rst:547
 msgid "Keeping translations same across components"
-msgstr "Fordítások egységesítése a(z) component-ek között"
+msgstr "Fordítások egységesítése az összetevők között"
 
 #: ../../admin/continuous.rst:549
 msgid ""
@@ -12540,7 +12541,7 @@ msgstr "WSGI szerver"
 
 #: ../../admin/install.rst:139
 msgid "A WSGI server serving web pages to users."
-msgstr "Egy WSGI szerver, amely weboldalakat szolgáltat a(z) felhasználóknak."
+msgstr "Egy WSGI szerver, amely weboldalakat szolgáltat a felhasználóknak."
 
 #: ../../admin/install.rst:143
 msgid ""
@@ -12555,7 +12556,7 @@ msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
-"Használj dedikált adatbázis csomópontot a(z) olyan oldalakhoz, amelyek több "
+"Használj dedikált adatbázis csomópontot olyan oldalakhoz, amelyek több "
 "százmillió tárolt szót tartalmaznak."
 
 #: ../../admin/install.rst:146
@@ -12886,7 +12887,7 @@ msgstr "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
 
 #: ../../admin/install.rst:264
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "SAML 2 IDP integrálása a(z) Weblate-be"
+msgstr "SAML 2 IDP integrálása a Weblate-be"
 
 #: ../../admin/install.rst:266
 msgid "``wlhosted``"
@@ -12918,7 +12919,7 @@ msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
 msgid "wsgi server for Weblate"
-msgstr "wsgi szerver a(z) Weblate-hez"
+msgstr "wsgi szerver a Weblate-hez"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -13058,8 +13059,8 @@ msgid ""
 "``tesseract`` (needed only if :program:`tesserocr` binary wheels are not "
 "available for your system)"
 msgstr ""
-"``tesseract`` (csak akkor szükséges, ha a(z) :program:`tesserocr` bináris "
-"kerék nem érhető el a rendszeredhez)"
+"``tesseract`` (csak akkor szükséges, ha a :program:`tesserocr` bináris kerék "
+"nem érhető el a rendszeredhez)"
 
 #: ../../admin/install.rst:344
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -13212,9 +13213,8 @@ msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
-"Kis- és közepes méretű webhelyek esetén (milliókban mérhető tárolt szavak) a "
-"Weblate összes a(z) :ref:`architecture` összetevője egyetlen csomóponton "
-"futtatható."
+"Kis- és közepes méretű oldalak esetén (milliónyi tárolt szó) a Weblate "
+"összes összetevője (lásd: :ref:`architecture`) futtatható egyetlen gépen."
 
 #: ../../admin/install/steps/hw.rst:48
 msgid ""
@@ -13235,9 +13235,9 @@ msgid ""
 "<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub "
 "release."
 msgstr ""
-"A Weblate kiadások kriptográfiailag alá vannak írva a(z) `Sigstore "
-"signatures <https://www.sigstore.dev/>`_ segítségével. Az aláírások a GitHub "
-"kiadáshoz vannak csatolva."
+"A Weblate kiadások kriptográfiailag alá vannak írva a `Sigstore signatures "
+"<https://www.sigstore.dev/>`_ segítségével. Az aláírások a GitHub kiadáshoz "
+"vannak csatolva."
 
 #: ../../admin/install.rst:385
 msgid ""
@@ -13245,7 +13245,7 @@ msgid ""
 "project/sigstore/>`_. The following example verifies signature of the 5.4 "
 "release:"
 msgstr ""
-"Az ellenőrzés a(z) `sigstore package <https://pypi.org/project/sigstore/>`_ "
+"Az ellenőrzés a `sigstore package <https://pypi.org/project/sigstore/>`_ "
 "segítségével végezhető el. Az alábbi példa az 5.4 kiadás aláírását ellenőrzi:"
 
 #: ../../admin/install.rst:399
@@ -13377,10 +13377,10 @@ msgid ""
 "provided in this documentation, but the numbers will change once you "
 "customize the amount of WSGI workers or adjust parallelism of Celery."
 msgstr ""
-"Ez vonatkozik a(z) Docker konténer alapértelmezéseire és az ebben a "
-"dokumentációban megadott példakonfigurációkra, de a számok megváltoznak, "
-"amint testre szabod a WSGI munkavállalók számát vagy módosítod a(z) Celery "
-"párhuzamosságát."
+"Ez vonatkozik a Docker konténer alapértelmezett beállításaira és a "
+"dokumentációban szereplő példakonfigurációkra is, azonban a számok "
+"megváltoznak, ha módosítod a WSGI munkafolyamatok számát vagy a Celery "
+"párhuzamosítását állítod."
 
 #: ../../admin/install.rst:467
 msgid ""
@@ -13512,10 +13512,10 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
-"Néhány Weblate funkció jobban fog működni a(z) :ref:`postgresql` "
-"használatával. Ide tartozik a keresés és a fordítási memória, amelyek mind a "
-"teljes szöveges funkciókat használják az adatbázisban, és a PostgreSQL "
-"megvalósítása kiváló."
+"Néhány Weblate-funkció jobban teljesít :ref:`postgresql` használatával. "
+"Ilyenek például a keresés és a fordítási memória, amelyek a teljes szövegű "
+"keresési funkciókat használják az adatbázisban – ezek PostgreSQL alatt "
+"hatékonyabban működnek."
 
 #: ../../admin/install.rst:585
 msgid ""
@@ -13717,11 +13717,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
-"A(z) :setting:`IP_BEHIND_REVERSE_PROXY` engedélyezése elegendő lehet a "
-"leggyakoribb beállításokhoz, de szükség lehet a(z) :setting:"
-"`IP_PROXY_HEADER` és a(z) :setting:`IP_PROXY_OFFSET` módosítására is "
-"(használd a(z) :envvar:`WEBLATE_IP_PROXY_HEADER` és a(z) :envvar:"
-"`WEBLATE_IP_PROXY_OFFSET` változókat a Docker konténerben)."
+"Az :setting:`IP_BEHIND_REVERSE_PROXY` engedélyezése elegendő lehet a "
+"leggyakoribb beállításokhoz, de szükség lehet az :setting:`IP_PROXY_HEADER` "
+"és a(z) :setting:`IP_PROXY_OFFSET` módosítására is (használd a(z) "
+":envvar:`WEBLATE_IP_PROXY_HEADER` és a :envvar:`WEBLATE_IP_PROXY_OFFSET` "
+"változókat a Docker konténerben)."
 
 #: ../../admin/install.rst:736
 msgid ""
@@ -13818,8 +13818,8 @@ msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
-"A kapcsolatfelvételi űrlap ezekre is e-mailt küld, hacsak a(z) :setting:"
-"`ADMINS_CONTACT` nincs beállítva."
+"A kapcsolatfelvételi űrlap ezekre is e-mailt küld, hacsak az "
+":setting:`ADMINS_CONTACT` nincs beállítva."
 
 #: ../../admin/install.rst:804
 msgid ""
@@ -14604,10 +14604,10 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
-"A legtöbb esetben minden szolgáltatást egyetlen (virtuális) szerveren fogsz "
-"futtatni, de ha a telepítésed nagy terhelés alatt van, szétoszthatod a "
-"szolgáltatásokat. Az egyetlen korlátozás az, hogy a Celery és a Wsgi "
-"szervereknek hozzáférésre van szükségük a(z) :setting:`DATA_DIR`-hez."
+"A legtöbb esetben minden szolgáltatás egyetlen (virtuális) szerveren fut "
+"majd, de ha a példányod nagy terhelés alatt áll, a szolgáltatásokat szét is "
+"választhatod. Az egyetlen megkötés, hogy a Celery és a WSGI szervereknek "
+"hozzáférést kell biztosítani a :setting:`DATA_DIR` könyvtárhoz."
 
 #: ../../admin/install.rst:1362
 msgid ""
@@ -14658,11 +14658,11 @@ msgid ""
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"A Django beépített szervere csak akkor szolgál ki statikus fájlokat, ha "
-"a(z) :setting:`DEBUG` engedélyezve van, mivel ez kizárólag fejlesztési "
-"célokra van szánva. Éles környezetben történő használathoz kérlek nézd meg a "
-"WSGI beállításokat a(z) :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, "
-"és :ref:`static-files` részekben."
+"A Django beépített szervere csak akkor szolgál ki statikus fájlokat, ha a "
+":setting:`DEBUG` engedélyezve van, mivel ez kizárólag fejlesztési célokra "
+"van szánva. Éles környezetben történő használathoz kérlek nézd meg a WSGI "
+"beállításokat az :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, és :ref"
+":`static-files` részekben."
 
 #: ../../admin/install.rst:1397
 msgid "Serving static files"
@@ -14790,12 +14790,12 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"A produkciós webszerver futtatásához használd a Weblate-tel telepített WSGI "
-"csomagolót (virtuális környezet esetén ez a(z) :file:`~/weblate-env/lib/"
-"python3.9/site-packages/weblate/wsgi.py` fájlként van telepítve). Ne "
-"felejtsd el beállítani a Python keresési útvonalát a virtuális "
-"környezetedhez is (például ``virtualenv = /home/user/weblate-env`` "
-"használatával az uWSGI-ben)."
+"A Weblate éles webszerverként való futtatásához használd a Weblate-tel "
+"együtt telepített WSGI-wrappert (virtuális környezet esetén ez a következő "
+"helyen található: :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"wsgi.py`). Ne felejtsd el beállítani a Python keresési útvonalát is a "
+"virtuális környezetedre (például az ``virtualenv = /home/user/weblate-env`` "
+"beállítással uWSGI esetén)."
 
 #: ../../admin/install.rst:1472
 msgid ""
@@ -14876,7 +14876,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1534
 msgid "Sample configuration to start Gunicorn"
-msgstr "Példa konfiguráció a(z) Gunicorn elindításához"
+msgstr "Példa konfiguráció a Gunicorn elindításához"
 
 #: ../../admin/install.rst:1536
 msgid ""
@@ -14884,9 +14884,9 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
-"A Weblate-nek van egy `wsgi` opcionális függősége (lásd: :ref:`python-"
-"deps`), ami mindent telepít, amire szükséged van a(z) Gunicorn futtatásához. "
-"Amikor a Weblate-et telepíted, megadhatod így:"
+"A Weblate-nek van egy `wsgi` opcionális függősége (lásd: :ref:`python-deps`)"
+", ami mindent telepít, amire szükséged van a Gunicorn futtatásához. Amikor a "
+"Weblate-et telepíted, megadhatod így:"
 
 #: ../../admin/install.rst:1544
 msgid ""
@@ -15332,7 +15332,7 @@ msgstr ""
 #: ../../admin/install.rst:1832
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
-"Az adatbázisok közötti migrálás le van írva a(z) :ref:`database-migration` "
+"Az adatbázisok közötti migrálás le van írva az :ref:`database-migration` "
 "részben."
 
 #: ../../admin/install.rst:1835
@@ -15669,7 +15669,7 @@ msgid ""
 "following configuration:"
 msgstr ""
 "Ha már más webhelyeket is üzemeltetsz ugyanazon a szerveren, valószínű, hogy "
-"a(z) ``80`` és ``443`` portokat egy fordított proxy, például az NGINX "
+"a ``80``-as és a ``443``-as portokat egy fordított proxy, például az NGINX "
 "használja. Az HTTPS kapcsolat NGINX-ből a docker konténerbe történő "
 "továbbításához a következő konfigurációt használhatod:"
 
@@ -15678,7 +15678,7 @@ msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
-"Cseréld le a(z) ``<SITE_URL>``, ``<SITE>`` és ``<EXPOSED_DOCKER_PORT>`` "
+"Cseréld le a ``<SITE_URL>``, ``<SITE>`` és ``<EXPOSED_DOCKER_PORT>`` "
 "elemeket a környezeted valós értékeire."
 
 #: ../../admin/install/docker.rst:174
@@ -15694,13 +15694,13 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file. Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
-"Ha automatikusan generált `Let’s Encrypt <https://letsencrypt.org/>`_ SSL "
-"tanúsítványokat szeretnél használni nyilvános telepítésen, hozzá kell adnod "
-"egy fordított HTTPS proxy-t egy további Docker konténerrel. Ehhez a(z) "
-"`https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_ lesz "
-"használva. Ezt a :file:`docker-compose-https.yml` fájlban használják. Ezután "
-"hozz létre egy :file:`docker-compose-https.override.yml` fájlt a saját "
-"beállításaiddal:"
+"Ha nyilvános telepítés esetén automatikusan generált `Let’s Encrypt <https://"
+"letsencrypt.org/>`_ SSL tanúsítványokat szeretnél használni, egy fordított "
+"HTTPS proxy hozzáadása szükséges egy további Docker konténerként – erre a "
+"célra a `https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_ "
+"kerül felhasználásra. Ez a :file:`docker-compose-https.yml` fájlban van "
+"megvalósítva. Ezután hozz létre egy :file:`docker-compose-https.override.yml`"
+" fájlt a saját beállításaiddal:"
 
 #: ../../admin/install/docker.rst:198
 msgid ""
@@ -19917,7 +19917,7 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
-"A szolgáltatás automatikusan használja a(z) :ref:`glossary`-t a(z) `dynamic "
+"A szolgáltatás automatikusan használja a :ref:`glossary`-t a `dynamic "
 "dictionary <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
 "dynamic-dictionary>`_ segítségével, lásd: :ref:`glossary-mt`."
 
@@ -20249,14 +20249,14 @@ msgstr ""
 #: ../../admin/machine.rst:792
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
 msgstr ""
-"A Sandbox API eléréséhez be kell állítanod a(z) ``url`` és ``key`` értékét."
+"A Sandbox API eléréséhez be kell állítanod az ``url`` és ``key`` értékét."
 
 #: ../../admin/machine.rst:795
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
-"A működő API eléréséhez be kell állítanod a(z) ``url``, ``username`` és "
+"A működő API eléréséhez be kell állítanod az ``url``, ``username`` és "
 "``password`` értékét."
 
 #: ../../admin/machine.rst:799
@@ -20325,8 +20325,8 @@ msgid ""
 "Configure Weblate to talk to it, the default URL is ``http://localhost:8888/"
 "tmserver/``."
 msgstr ""
-"Konfiguráld a Weblate-et, hogy kommunikáljon vele, az alapértelmezett URL "
-"a(z) ``http://localhost:8888/tmserver/``."
+"Konfiguráld a Weblate-et, hogy kommunikáljon vele, az alapértelmezett URL az "
+"``http://localhost:8888/tmserver/``."
 
 #: ../../admin/machine.rst:867
 msgid ""
@@ -20355,10 +20355,11 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
-"A Weblate gépi fordítási szolgáltatása képes fordításokat biztosítani a "
-"jelenleg létező szövegek pontos egyezései alapján a(z) :guilabel:"
-"`Translated`, :guilabel:`Approved` vagy :guilabel:`Read-only` :ref:`states "
-"<states>` állapotokban a Weblate-en belül."
+"A Weblate gépi fordítási szolgáltatása képes fordításokat javasolni egy "
+"szöveg pontos egyezése alapján a Weblate-ben már meglévő szövegek között, "
+"amelyek a következő állapotok valamelyikében vannak: :guilabel:`Lefordítva`, "
+":guilabel:`Jóváhagyva` vagy :guilabel:`Csak olvasható` (lásd: :ref:`states "
+"<states>`)."
 
 #: ../../admin/machine.rst:891
 msgid "Weblate Translation Memory"
@@ -21657,8 +21658,8 @@ msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"A kiválasztott szövegeket a(z) :guilabel:`Tools` menüből elérhető :ref:`auto-"
-"translation` segítségével lehet feldolgozni."
+"A kiválasztott szövegek feldolgozhatók az :ref:`auto-translation` funkcióval "
+"a :guilabel:`Eszközök` menüből."
 
 #: ../../admin/memory.rst:17
 msgid ""
@@ -22913,8 +22914,8 @@ msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together with :"
 "ref:`project-use_shared_tm`."
 msgstr ""
-"Ez az opció nem elérhető a Hosted Weblate-en, a(z) :ref:`project-"
-"use_shared_tm` opcióval együtt van átkapcsolva."
+"Ez az opció nem érhető el a Hosted Weblate-en, és együtt kapcsolható a :ref"
+":`project-use_shared_tm` beállítással."
 
 #: ../../admin/projects.rst:199
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -22937,9 +22938,9 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
-"Kényszerítsd ki a(z) :ref:`2fa` használatát minden közreműködő számára. A "
-"felhasználók nem végezhetnek semmilyen műveletet a projektben, amíg nincs "
-"beállítva."
+"Kötelezővé teszi a :ref:`2fa` használatát minden közreműködő számára. A "
+"felhasználók nem hajthatnak végre semmilyen műveletet a projekten belül, "
+"amíg ezt be nem állították."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -23203,9 +23204,9 @@ msgid ""
 "Repository URL used for pushing. The behavior of this depends on :ref:"
 "`component-vcs`, and this is in more detail covered in :ref:`push-changes`."
 msgstr ""
-"A tároló URL-je, amelyet a feltöltéshez használnak. Ennek viselkedése a(z) :"
-"ref:`component-vcs`-től függ, és ezt részletesebben a(z) :ref:`push-changes` "
-"rész tárgyalja."
+"A feltöltéshez használt tároló URL-je. Ennek működése a :ref:`component-vcs` "
+"beállítástól függ, és részletesebben a :ref:`push-changes` részben van "
+"kifejtve."
 
 #: ../../admin/projects.rst:394 ../../admin/projects.rst:434
 #: ../../admin/projects.rst:443
@@ -23779,9 +23780,10 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
-"A projekt adminjai új fordításokat is hozzáadhatnak, még akkor is, ha itt le "
-"van tiltva, amikor ez lehetséges (akár a(z) :ref:`component-new_base`, akár "
-"a fájlformátum támogatja az üres fájlból való indítást)."
+"A projektadminisztrátorok akkor is hozzáadhatnak új fordításokat, ha ez itt "
+"le van tiltva, amennyiben ez lehetséges (például ha a :ref:`component-"
+"new_base` engedélyezett vagy a fájlformátum támogatja az üres fájlból való "
+"indítást)."
 
 #: ../../admin/projects.rst:716
 msgid ":ref:`adding-translation`, :ref:`component-new_base`"
@@ -24532,7 +24534,7 @@ msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:1112
 msgid "The following variables are available in the component templates:"
-msgstr "A következő változók elérhetők a(z) component sablonjaiban:"
+msgstr "A következő változók érhetők el az összetevő sablonokban:"
 
 #: ../../admin/projects.rst:1114
 msgid "``{{ language_code }}``"
@@ -24910,7 +24912,7 @@ msgstr ""
 
 #: ../../admin/support.rst:24
 msgid "Info sent to the Weblate"
-msgstr "Információ elküldve a(z) Weblate-nek"
+msgstr "A Weblate részére elküldött információ"
 
 #: ../../admin/support.rst:26
 msgid "Your Weblate instance URL"
@@ -24927,8 +24929,7 @@ msgstr "A(z) futtatott verzió"
 #: ../../admin/support.rst:29
 msgid "Tallies of projects, components, languages, source strings, and users"
 msgstr ""
-"Projektek, az összetevők, a(z) nyelvek, a(z) forrás stringek és a(z) "
-"felhasználók összesítései"
+"Projektek, összetevők, nyelvek, forrásszövegek és felhasználók számlálói"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
@@ -25037,9 +25038,8 @@ msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from its management page :"
 msgstr ""
-"Ellenőrizd, hogy szeretnéd-e, hogy a Weblate oldalad szerepeljen a listán, "
-"azzal, hogy rákattintasz a(z) :guilabel:`Enable discovery` lehetőségre a "
-"kezelőfelületén:"
+"Erősítsd meg, hogy szeretnéd, ha a Weblate megjelenne a listában, a "
+":guilabel:`Felfedezés engedélyezése` gombra kattintva a kezelőfelületén:"
 
 #: ../../admin/support.rst:89
 msgid "Listing customization"
@@ -25068,14 +25068,14 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
-"Alapértelmezés szerint mindenki hozzáadhat javaslatokat, amelyeket a "
-"bejelentkezett felhasználók fogadhatnak el. A javaslatok szavazását akkor "
-"lehet használni egy szöveg elfogadásához, ha több bejelentkezett felhasználó "
-"is egyetért, a :ref:`component` beállításával a(z) :guilabel:`Suggestion "
-"voting` lehetőségre a szavazás bekapcsolásához, és a(z) :guilabel:"
-"`Automatically accept suggestions` lehetőségre az elfogadott javaslatok "
-"küszöbének beállításához (ez magában foglalja a javaslattevő felhasználó "
-"szavazatát is, ha leadja azt)."
+"Alapértelmezetten bárki tehet javaslatot, amelyeket bejelentkezett "
+"felhasználók fogadhatnak el. A javaslatokra leadott szavazatok használhatók "
+"arra, hogy egy szöveg akkor kerüljön felhasználásra, ha több bejelentkezett "
+"felhasználó is egyetért vele. Ehhez be kell állítani az adott "
+":ref:`component` esetén a :guilabel:`Javaslatok szavazása` opciót a szavazás "
+"engedélyezéséhez, valamint a :guilabel:`Javaslatok automatikus elfogadása` "
+"opciót, amely megadja az elfogadáshoz szükséges szavazatok számát (ez "
+"tartalmazza a javaslatot tevő felhasználó szavazatát is, ha leadja)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -25084,10 +25084,10 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` :ref:"
 "`permission <privileges>`."
 msgstr ""
-"Miután az automatikus elfogadás be van állítva, a normál felhasználók "
-"elveszítik azt a jogosultságot, hogy közvetlenül mentsenek fordításokat vagy "
-"elfogadjanak javaslatokat. Ez felülírható a(z) :guilabel:`Edit string when "
-"suggestions are enforced` :ref:`permission <privileges>` jogosultsággal."
+"Amint az automatikus elfogadás be van állítva, a normál felhasználók "
+"elveszítik a fordítások közvetlen mentésének és a javaslatok elfogadásának "
+"jogát. Ez felülírható a :guilabel:`Szöveg szerkesztése javaslatok "
+"kényszerítése esetén` nevű :ref:`permission <privileges>`-al."
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -25672,10 +25672,10 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
-"Adja vissza a megadott számú elemet kérésenként. Az alapértelmezett érték "
-"50, a maximum pedig 1000. A `units` végpontok esetében az alapértelmezett "
-"100, a maximum pedig 10000. Az alapértelmezett érték szintén konfigurálható "
-"a(z) `PAGE_SIZE` beállítással."
+"A megadott számú elemet adja vissza lekérdezésenként. Az alapértelmezett "
+"érték 50, a maximum pedig 1000. A `units` végpontok esetén az "
+"alapértelmezett 100, a maximum pedig 10000. Az alapértelmezett érték a "
+"`PAGE_SIZE` beállítással is konfigurálható."
 
 #: ../../api.rst:0
 msgid "Request Headers"
@@ -25737,7 +25737,7 @@ msgstr "Az API használatával elérhető erőforrás URL-je"
 
 #: ../../api.rst:61
 msgid "URL to access this resource using web browser"
-msgstr "URL a(z) erőforrás webböngészőn keresztüli eléréséhez"
+msgstr "Erőforrás elérési URL webböngészőn keresztüli megtekintéshez"
 
 #: ../../api.rst:0
 msgid "Status Codes"
@@ -26837,7 +26837,7 @@ msgstr ">json string name"
 
 #: ../../api.rst:1237 ../../api.rst:1248
 msgid "name of the label"
-msgstr "a(z) címke neve"
+msgstr "címke neve"
 
 #: ../../api.rst:0
 msgid ">json string color"
@@ -26845,11 +26845,11 @@ msgstr ">json string color"
 
 #: ../../api.rst:1238 ../../api.rst:1249
 msgid "color of the label"
-msgstr "a(z) címke színe"
+msgstr "címke színe"
 
 #: ../../api.rst:1244
 msgid "Creates a label for a project."
-msgstr "Létrehoz egy címkét a(z) projekthez."
+msgstr "Létrehoz egy címkét a projekthez."
 
 #: ../../api.rst:0
 msgid "<json string name"
@@ -26917,8 +26917,8 @@ msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
-"Használd a(z) :http:post:`/api/projects/(string:project)/components/` "
-"végpontot új összetevők létrehozásához."
+"Használd a :http:post:`/api/projects/(string:project)/components/` végpontot "
+"új összetevők létrehozásához."
 
 #: ../../api.rst:1302
 msgid "Returns a list of translation components."
@@ -27506,24 +27506,24 @@ msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
-"Az URL a(z) fájl objektumhoz; lásd :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/file/`"
+"A fájlobjektum URL-je; lásd: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1918
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
-"Az URL a(z) változások listájához; lásd :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/changes/`"
+"A változások listájának URL-je; lásd: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1919
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
-"Az URL a(z) stringek listájához; lásd :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/units/`"
+"A szövegek listájának URL-je; lásd: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1993
 msgid "Deletes a translation."
@@ -28241,7 +28241,7 @@ msgstr "Jelenleg a feladatok listázása nem elérhető."
 
 #: ../../api.rst:2601
 msgid "Returns information about a task."
-msgstr "Információt ad vissza a(z) feladatról."
+msgstr "Információt ad vissza a feladatról."
 
 #: ../../api.rst:2603
 msgid "Task UUID"
@@ -28297,19 +28297,19 @@ msgstr "lefordított karakterek százaléka"
 
 #: ../../api.rst:2633
 msgid "number of fuzzy (marked for edit) words"
-msgstr "a(z) fuzzy (szerkesztésre jelölt) szavak száma"
+msgstr "az ellenőrzést igénylő szavak száma"
 
 #: ../../api.rst:2634
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "a(z) fuzzy (szerkesztésre jelölt) karakterek száma"
+msgstr "az ellenőrzést igénylő karakterek száma"
 
 #: ../../api.rst:2636
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "a(z) fuzzy (szerkesztésre jelölt) szavak százaléka"
+msgstr "az ellenőrzést igénylő szavak százaléka"
 
 #: ../../api.rst:2637
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "a(z) fuzzy (szerkesztésre jelölt) karakterek százaléka"
+msgstr "az ellenőrzést igénylő karakterek százaléka"
 
 #: ../../api.rst:2638
 msgid "number of failing checks"
@@ -28321,15 +28321,15 @@ msgstr "a hibás ellenőrzések százaléka"
 
 #: ../../api.rst:2640
 msgid "number of approved strings"
-msgstr "a(z) jóváhagyott szövegrészek száma"
+msgstr "a jóváhagyott szövegrészek száma"
 
 #: ../../api.rst:2641
 msgid "number of approved words"
-msgstr "a(z) jóváhagyott szavak száma"
+msgstr "a jóváhagyott szavak száma"
 
 #: ../../api.rst:2642
 msgid "number of approved characters"
-msgstr "a(z) jóváhagyott karakterek száma"
+msgstr "a jóváhagyott karakterek száma"
 
 #: ../../api.rst:2643
 msgid "percentage of approved strings"
@@ -28337,11 +28337,11 @@ msgstr "jóváhagyott szövegek százaléka"
 
 #: ../../api.rst:2644
 msgid "percentage of approved words"
-msgstr "a(z) jóváhagyott szavak százaléka"
+msgstr "a jóváhagyott szavak százaléka"
 
 #: ../../api.rst:2645
 msgid "percentage of approved characters"
-msgstr "a(z) jóváhagyott karakterek százaléka"
+msgstr "a jóváhagyott karakterek százaléka"
 
 #: ../../api.rst:2646
 msgid "number of read-only strings"
@@ -28349,11 +28349,11 @@ msgstr "csak olvasható szövegek száma"
 
 #: ../../api.rst:2647
 msgid "number of read-only words"
-msgstr "a(z) csak olvasható szavak száma"
+msgstr "a csak olvasható szavak száma"
 
 #: ../../api.rst:2648
 msgid "number of read-only characters"
-msgstr "a(z) csak olvasható karakterek száma"
+msgstr "a csak olvasható karakterek száma"
 
 #: ../../api.rst:2649
 msgid "percentage of read-only strings"
@@ -28361,11 +28361,11 @@ msgstr "csak olvasható szövegek százaléka"
 
 #: ../../api.rst:2650
 msgid "percentage of read-only words"
-msgstr "a(z) csak olvasható szavak százaléka"
+msgstr "a csak olvasható szavak százaléka"
 
 #: ../../api.rst:2651
 msgid "percentage of read-only characters"
-msgstr "a(z) csak olvasható karakterek százaléka"
+msgstr "a csak olvasható karakterek százaléka"
 
 #: ../../api.rst:2652
 msgid "number of strings with suggestions"
@@ -28533,11 +28533,11 @@ msgstr "A kategória slugja."
 
 #: ../../api.rst:2729
 msgid "Link to a project."
-msgstr "Hivatkozás a(z) projektre."
+msgstr "Hivatkozás a projektre."
 
 #: ../../api.rst:2730
 msgid "Link to a parent category."
-msgstr "Hivatkozás a(z) szülő kategóriára."
+msgstr "Hivatkozás a szülőkategóriára."
 
 #: ../../api.rst:2736
 msgid "Edit partial information about category."
@@ -28745,9 +28745,9 @@ msgid ""
 "Please ensure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
-"Kérlek, győződj meg róla, hogy a(z) :guilabel:`Resource details to send` "
-"értéke *All* legyen, különben a Weblate nem fogja tudni összepárosítani az "
-"Azure adattáradat."
+"Győződj meg róla, hogy a :guilabel:`Küldendő erőforrás részletei` beállítás "
+"*Összes* értékre van állítva, különben a Weblate nem fogja tudni "
+"összepárosítani az Azure tárolódat."
 
 #: ../../api.rst:2881
 msgid "For instruction on setting up Azure integration"
@@ -29364,7 +29364,7 @@ msgstr ""
 
 #: ../../changes.rst:154
 msgid "Fixed :ref:`glossary` terms highlighting."
-msgstr "Javítva a(z) :ref:`glossary` kifejezések kiemelése."
+msgstr "Javítva a :ref:`glossary` kifejezések kiemelése."
 
 #: ../../changes.rst:164
 msgid ""
@@ -29451,18 +29451,18 @@ msgid ""
 "com/WeblateOrg/language-data/>`__ is now reflected in all existing "
 "installations."
 msgstr ""
-"Bármely nyelv, amely a(z) `Weblate language data <https://github.com/"
-"WeblateOrg/language-data/>`__ adatbázisában aliasra lett változtatva, most "
-"már tükröződik az összes meglévő telepítésben."
+"Ha egy nyelvet álnévre módosítottak a `Weblate nyelvi adatbázisában <https://"
+"github.com/WeblateOrg/language-data/>`__, az mostantól minden meglévő "
+"telepítésben is megjelenik."
 
 #: ../../changes.rst:187
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
-"Az üres alias nyelvek (amelyek nincsenek kapcsolva egyetlen fordításhoz, "
-"profilhoz, a(z) component, ...) most már automatikusan eltávolításra "
-"kerülnek."
+"Azok az álnévként megadott nyelvek, amelyek nincsenek összekapcsolva "
+"egyetlen fordítással, profillal, összetevővel stb., mostantól automatikusan "
+"törlésre kerülnek."
 
 #: ../../changes.rst:188
 msgid ""
@@ -29489,8 +29489,7 @@ msgstr ""
 
 #: ../../changes.rst:191
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ""
-"Javított nyelvi kompatibilitás a(z) :ref:`mt-microsoft-translator`-ban."
+msgstr "Javított nyelvi kompatibilitás a :ref:`mt-microsoft-translator`-ban."
 
 #: ../../changes.rst:192
 msgid ""
@@ -29513,8 +29512,8 @@ msgid ""
 "Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` "
 "for CJK languages."
 msgstr ""
-"Csökkentették a téves pozitív találatokat a(z) :ref:`check-end-colon` és "
-"a(z) :ref:`check-end-stop` esetében a CJK nyelveknél."
+"Csökkent a téves találatok száma a :ref:`check-end-colon` és :ref:`check-end-"
+"stop` ellenőrzések esetén a CJK nyelveknél."
 
 #: ../../changes.rst:195
 msgid "OpenAPI schema for API includes more information."
@@ -29642,8 +29641,8 @@ msgstr "*Kiadva: 2024. december 19.*"
 #: ../../changes.rst:238
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
 msgstr ""
-"Átnevezték a(z) :ref:`vcs-bitbucket-data-center`-t az új terméknévhez "
-"igazodva."
+"A :ref:`vcs-bitbucket-data-center` átnevezésre került az új terméknévnek "
+"megfelelően."
 
 #: ../../changes.rst:239
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -29666,8 +29665,8 @@ msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
 msgstr ""
-"Tedd lehetővé, hogy a projekt tokenek működjenek, amikor a(z) :ref:`2fa` "
-"vagy a(z) :ref:`component-agreement` érvényben van."
+"A projekt tokenek mostantól akkor is működnek, ha a :ref:`2fa` vagy a :ref"
+":`component-agreement` kötelezően be van állítva."
 
 #: ../../changes.rst:246
 msgid "Captcha solution were sometimes not accepted."
@@ -29710,8 +29709,8 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
-"A(z) :ref:`machine-translation-setup` mostantól projektenként konfigurálható "
-"a(z) Projekt :ref:`api` segítségével."
+"A projektenkénti :ref:`machine-translation-setup` mostantól konfigurálható a "
+"Projekt :ref:`api` segítségével."
 
 #: ../../changes.rst:286
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
@@ -29729,8 +29728,8 @@ msgid ""
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
 "A fordítási memória importálása mostantól támogatja az XLIFF, PO és CSV "
-"formátumú fájlokat, lásd :ref:`memory-user` és :wladmin:`import_memory` "
-"parancs a(z) :ref:`manage` részben."
+"formátumú fájlokat. Lásd: :ref:`memory-user`, valamint a "
+":wladmin:`import_memory` parancsot a :ref:`manage` részben."
 
 #: ../../changes.rst:290
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
@@ -29749,14 +29748,14 @@ msgstr ""
 
 #: ../../changes.rst:292
 msgid "Logging to :ref:`graylog`."
-msgstr "Naplózás a(z) :ref:`graylog`-hoz."
+msgstr "Naplózás a :ref:`graylog`-hoz."
 
 #: ../../changes.rst:296
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
 msgstr ""
-"A(z) :ref:`mt-google-translate-api-v3` most már támogatja a(z) :ref:"
-"`glossary-mt` funkciót (opcionális)."
+"A :ref:`mt-google-translate-api-v3` mostantól támogatja a :ref:`glossary-mt` "
+"funkciót (nem kötelező jelleggel)."
 
 #: ../../changes.rst:297
 msgid ""
@@ -29768,7 +29767,7 @@ msgstr ""
 
 #: ../../changes.rst:298
 msgid "Included username when generating :ref:`credits`."
-msgstr "A felhasználónév is szerepel a(z) :ref:`credits` generálásakor."
+msgstr "A :ref:`credits` generálásakor mostantól a felhasználónév is szerepel."
 
 #: ../../changes.rst:299
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
@@ -29779,18 +29778,18 @@ msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
 msgstr ""
-"A :http:get:`/api/components/(string:project)/(string:component)/` "
-"megmutatja a(z) component zárolási állapotát."
+"A :http:get:`/api/components/(string:project)/(string:component)/` végpont "
+"mostantól tartalmazza az összetevő zárolási állapotát is."
 
 #: ../../changes.rst:301
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
-"A szerkesztő a(z) :ref:`zen-mode` módban most már a képernyő aljához van "
-"rögzítve."
+"A szerkesztő mostantól a képernyő alján rögzítve jelenik meg a :ref:`zen-"
+"mode` módban."
 
 #: ../../changes.rst:302
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Hozzáadott oldalnavigáció a(z) :ref:`translating` közben."
+msgstr "Oldalnavigáció került hozzáadásra :ref:`translating` közben."
 
 #: ../../changes.rst:303
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -29800,15 +29799,15 @@ msgstr ""
 
 #: ../../changes.rst:304
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr "Javítottuk a(z) :ref:`translation-propagation` teljesítményét."
+msgstr "Javult a :ref:`translation-propagation` teljesítménye."
 
 #: ../../changes.rst:305
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-"Részletesebb hibaüzenetek a(z) :http:post:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/file/` részére."
+"Részletesebb hibaüzenetek érhetők el a :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/` végpontnál."
 
 #: ../../changes.rst:309
 msgid ""
@@ -29961,7 +29960,7 @@ msgstr ""
 
 #: ../../changes.rst:387
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr "Javítottuk a(z) :ref:`workflow-customization` teljesítményét."
+msgstr "Javult a :ref:`workflow-customization` teljesítménye."
 
 #: ../../changes.rst:398
 msgid ""
@@ -30215,8 +30214,7 @@ msgstr ""
 #: ../../changes.rst:510
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
-"Támogatás a formális és informális portugál nyelvhez a(z) :ref:`mt-deepl`-"
-"ben."
+"Támogatás a formális és informális portugál nyelvhez a :ref:`mt-deepl`-ben."
 
 #: ../../changes.rst:511
 msgid "QR code for TOTP is now black/white even in dark mode."
@@ -30334,9 +30332,9 @@ msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
-"A Szójegyzékben található :ref:`glossary-terminology` bejegyzéseket "
-"mostantól csak azok a felhasználók hozhatják létre, akik rendelkeznek a(z) :"
-"guilabel:`Add glossary terminology` jogosultsággal."
+"A szójegyzékben található :ref:`glossary-terminology` bejegyzéseket "
+"mostantól csak azok a felhasználók hozhatják létre, akik rendelkeznek a "
+":guilabel:`Szójegyzék bejegyzés hozzáadása` jogosultsággal."
 
 #: ../../changes.rst:549
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
@@ -30347,8 +30345,8 @@ msgstr ""
 #: ../../changes.rst:550
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr ""
-"Most már a vágólapról beilleszthetők a képernyőképek a(z) :ref:`screenshots` "
-"részben."
+"Most már a vágólapról beilleszthetők a képernyőképek a :ref:`screenshots` "
+"oldalon."
 
 #: ../../changes.rst:554
 msgid "Accessibility of keyboard navigation."
@@ -30421,9 +30419,9 @@ msgid ""
 "use HTTPS, please silence related check as described in :setting:"
 "`ENABLE_HTTPS` documentation."
 msgstr ""
-"A(z) :setting:`ENABLE_HTTPS` mostantól szükséges a WebAuthn támogatásához. "
-"Ha nem tudod használni a HTTPS-t, kérlek, némítsd el a kapcsolódó "
-"ellenőrzést a(z) :setting:`ENABLE_HTTPS` dokumentációjában leírtak szerint."
+"A :setting:`ENABLE_HTTPS` beállítás mostantól kötelező a WebAuthn "
+"támogatásához. Ha nem tudod használni a HTTPS-t, a kapcsolódó ellenőrzést "
+"elnémíthatod a :setting:`ENABLE_HTTPS` dokumentációjában leírtak szerint."
 
 #: ../../changes.rst:578
 msgid ""
@@ -30505,7 +30503,7 @@ msgstr ""
 
 #: ../../changes.rst:612
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr "Nyelvi aliasok a(z) :doc:`/admin/machine`-ben."
+msgstr "Nyelvi álnevek a következő részben: :doc:`/admin/machine`."
 
 #: ../../changes.rst:618
 msgid ""
@@ -30581,8 +30579,7 @@ msgstr "Néhány webhelyszintű :ref:`addons` viselkedésének javítása."
 
 #: ../../changes.rst:644
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr ""
-"A szerkesztésre szoruló szövegek mentése a(z) :doc:`/formats/winrc` fájlba."
+msgstr "Szerkesztést igénylő szövegek mentése ide: :doc:`/formats/winrc`."
 
 #: ../../changes.rst:645
 msgid ":ref:`check-xml-tags` better handle XML entities."
@@ -30808,7 +30805,7 @@ msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr ""
-"Változás történt a(z) ``REST_FRAMEWORK`` beállításban (újonnan hozzáadva: "
+"Változás történt a ``REST_FRAMEWORK`` beállításban (újonnan hozzáadva: "
 "``EXCEPTION_HANDLER``)."
 
 #: ../../changes.rst:767
@@ -30934,7 +30931,7 @@ msgstr "Javítva a kategóriák listázása a nyelvenkénti oldalakon."
 
 #: ../../changes.rst:806
 msgid "Fixed :guilabel:`Needs editing` state calculation."
-msgstr "Javítva a(z) :guilabel:`Needs editing` állapot kiszámítása."
+msgstr "Javítva a :guilabel:`Szerkesztést igényel` állapot kiszámítása."
 
 #: ../../changes.rst:807
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
@@ -33835,7 +33832,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:224
 msgid "Added WL_BRANCH variable to hook scripts."
-msgstr "Hozzáadva a(z) WL_BRANCH változó a hook szkriptekhez."
+msgstr "A horog szkriptekhez hozzáadásra került a WL_BRANCH változó."
 
 #: ../../changes/v2.rst:225
 msgid "Improved developer documentation."
@@ -34231,7 +34228,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:346
 msgid "Support for adding new translations in Qt TS."
-msgstr "Támogatás új fordítások hozzáadásához a(z) Qt TS-ben."
+msgstr "Támogatás új fordítások hozzáadásához a Qt TS-ben."
 
 #: ../../changes/v2.rst:347 ../../changes/v2.rst:370
 msgid "Improved support for translating PHP files."
@@ -34400,8 +34397,8 @@ msgid ""
 "Hook scripts are executed with environment variables describing current "
 "component."
 msgstr ""
-"A hook szkriptek olyan környezeti változókkal futnak, amelyek a(z) aktuális "
-"összetevőt írják le."
+"A horgok szkriptjei olyan környezeti változókkal futnak le, amelyek leírják "
+"az aktuális összetevőt."
 
 #: ../../changes/v2.rst:392
 msgid "Add management command to optimize fulltext index."
@@ -39660,7 +39657,7 @@ msgstr "A(z) lapozott oldalakon javított összetevő sorrend."
 
 #: ../../changes/v4.rst:990
 msgid "Define source language for a glossary."
-msgstr "Forrásszöveg nyelvének meghatározása a(z) szójegyzékhez."
+msgstr "Forrásszöveg nyelvének meghatározása a szójegyzékhez."
 
 #: ../../changes/v4.rst:991
 msgid "Rewritten support for GitHub and GitLab pull requests."
@@ -40874,19 +40871,19 @@ msgstr "ORM objektum az összetevőhöz."
 
 #: ../../contributing/addons.rst:25
 msgid "ORM object for a translation."
-msgstr "ORM objektum a(z) fordításhoz."
+msgstr "ORM objektum a fordításhoz."
 
 #: ../../contributing/addons.rst:29
 msgid "ORM object for a project."
-msgstr "ORM objektum a(z) projekthez."
+msgstr "ORM objektum a projekthez."
 
 #: ../../contributing/addons.rst:33
 msgid "ORM object for an unit."
-msgstr "ORM objektum a(z) egységhez."
+msgstr "ORM objektum az egységhez."
 
 #: ../../contributing/addons.rst:37
 msgid "ORM object for an user."
-msgstr "ORM objektum a(z) felhasználóhoz."
+msgstr "ORM objektum a felhasználóhoz."
 
 #: ../../contributing/addons.rst:41
 msgid "Translation file wrapper."
@@ -40929,7 +40926,7 @@ msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
 msgstr ""
-"Bármilyen Weblate kódot a(z) `Security by Design Principles`_ "
+"Bármilyen Weblate kódot a `Security by Design Principles`_ "
 "figyelembevételével kell írni."
 
 #: ../../contributing/snippets/code-guide.rst:9
@@ -41539,7 +41536,7 @@ msgstr "A ``yarn`` csomagkezelő telepítve van a rendszereden."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
-msgstr "Futtasd a(z) ``cd client`` parancsot."
+msgstr "Futtasd a ``cd client`` parancsot."
 
 #: ../../contributing/frontend.rst:34
 msgid "Run ``yarn install``."
@@ -41565,7 +41562,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:51
 msgid "Import the library in ``src/main.js``."
-msgstr "Importáld a könyvtárat a(z) ``src/main.js`` fájlba."
+msgstr "Importáld a könyvtárat a ``src/main.js`` fájlba."
 
 #: ../../contributing/frontend.rst:52
 msgid "And declare it in the global scope (if needed)."
@@ -43842,9 +43839,10 @@ msgid ""
 "applicable programs, products, services and technologies hosted on Weblate "
 "servers."
 msgstr ""
-"Használd a Weblate logókat vizuális anyagokban, hogy hűen utalj a(z) és/vagy "
-"linkelj a Weblate szervereken hosztolt megfelelő programokra, termékekre, "
-"szolgáltatásokra és technológiákra."
+"Használd a Weblate logókat vizuális anyagokban, ha hitelesen szeretnél "
+"hivatkozni a Weblate szerverein kiszolgált programokra, termékekre, "
+"szolgáltatásokra vagy technológiákra, illetve azokra mutató linkeket "
+"szeretnél elhelyezni."
 
 #: ../../contributing/trademark.rst:20
 msgid ""
@@ -44803,10 +44801,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
-"Azok számára, akik nem szeretnék használni a meglévő tárolót (vagy nincs "
-"ilyenjük), válaszd a(z) :guilabel:`Start from scratch` lehetőséget összetevő "
-"létrehozásakor, és válaszd a `JSON fájl` fájlformátumot (ebben a pontban "
-"bármilyen egynyelvű formátumot választhatsz)."
+"Azok számára, akik nem szeretnének meglévő tárolót használni (vagy nincs "
+"ilyenük), az összetevő létrehozásakor válasszák a :guilabel:`Újrakezdés` "
+"lehetőséget, majd válasszák a `JSON-fájl` formátumot (ebben a lépésben "
+"bármely egynyelvű formátum megfelelő)."
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN add-on"
@@ -45127,10 +45125,10 @@ msgid ""
 "(in the :guilabel:`Repository maintenance`), or from the command-line using :"
 "ref:`wlc`."
 msgstr ""
-"Mielőtt ezt megtennéd, érdemes elkötelezni a Weblate-ben végrehajtott, "
-"függőben lévő helyi változtatásokat (lásd: :ref:`lazy-commit`). Ezt "
-"megteheted a felhasználói felületen (a(z) :guilabel:`Repository maintenance` "
-"részben) vagy a parancssorból a(z) :ref:`wlc` használatával."
+"Mielőtt ezt megtennéd, érdemes véglegesíteni a Weblate-ben még függőben lévő "
+"helyi változtatásokat (lásd: :ref:`lazy-commit`). Ezt megteheted a "
+"felhasználói felületen keresztül (a :guilabel:`Tároló karbantartása` "
+"menüpontban) vagy parancssorból a :ref:`wlc` használatával."
 
 #: ../../devel/integration.rst:34
 msgid ""
@@ -45247,10 +45245,10 @@ msgid ""
 "old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
-"Az eredeti fájl feltöltésével a(z) :guilabel:`Replace existing translation "
-"file` opcióval (ez felülírja a meglévő szövegeket, így kérlek, győződj meg "
-"róla, hogy a fájl tartalmazza mind a régi, mind az új szövegeket) vagy a(z) :"
-"guilabel:`Add new strings` lehetőséggel, lásd: :ref:`upload-method`."
+"A forrásfájlt feltöltheted a :guilabel:`Létező fordítási fájl cseréje` "
+"opcióval (ez felülírja a meglévő szövegeket, ezért győződj meg róla, hogy a "
+"fájl tartalmazza a régi és az új szövegeket is), vagy a :guilabel:`Új "
+"szövegek hozzáadása` lehetőséggel – lásd: :ref:`upload-method`."
 
 #: ../../devel/integration.rst:89
 msgid ""
@@ -45649,8 +45647,8 @@ msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
-"Egy projekt vagy összetevő aktivitásjelentései elérhetők a vezérlőpultján, "
-"a(z) :guilabel:`Info` fülön."
+"Egy projekt vagy összetevő aktivitásjelentése elérhető annak "
+"vezérlőpultjáról, az :guilabel:`Információ` fülön."
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -46425,7 +46423,7 @@ msgid ""
 "monolingual translations in the :ref:`component`:"
 msgstr ""
 "Meghatározhatsz reguláris kifejezéseket, hogy a szövegeket a egynyelvű "
-"fordítások kulcsai alapján csoportosítsd a(z) :ref:`component`-ben:"
+"fordítások kulcsai alapján csoportosítsd az :ref:`component`-ben:"
 
 #: ../../devel/translations.rst:121
 msgid ""
@@ -46576,8 +46574,9 @@ msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
-"Állíts be egy push URL-t a Weblate-ben a(z) :ref:`component`-nél, ez "
-"lehetővé teszi, hogy a Weblate változtatásokat küldjön a tárolódba."
+"Állíts be egy feltöltési URL-t a Weblate-ben az adott :ref:`component` "
+"számára – ez lehetővé teszi, hogy a Weblate továbbítsa a változtatásokat a "
+"tárolódba."
 
 #: ../../faq.rst:20
 msgid ""
@@ -48797,11 +48796,11 @@ msgid ""
 "`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :"
 "ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 msgstr ""
-":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext a(z) Wikipédián "
+":doc:`../devel/gettext`, :doc:`../devel/sphinx`, `Gettext a Wikipédián "
 "<https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
-"weblate.gettext.authors`, :ref:`addon-weblate.gettext.configure`, :ref:"
-"`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :"
-"ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
+"weblate.gettext.authors`, :ref:`addon-weblate.gettext.configure`, :ref"
+":`addon-weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, "
+":ref:`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats/gettext.rst:29
 msgid "Showing source string change"
@@ -49501,8 +49500,8 @@ msgid ""
 "File format used for JavaScript localization by `draggable/i18n`_. "
 "Syntactically it matches :ref:`javaprop`."
 msgstr ""
-"A JavaScript lokalizációhoz használt fájlformátum a(z) `draggable/i18n`_ "
-"által. Szintaktikailag megegyezik a :ref:`javaprop`-al."
+"A JavaScript lokalizációhoz használt fájlformátum a `draggable/i18n`_ által. "
+"Szintaktikailag megegyezik a :ref:`javaprop`-al."
 
 #: ../../formats/mi18n.rst:20
 msgid ""
@@ -49597,8 +49596,8 @@ msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
-"A PHP fordítások általában egynyelvűek, ezért ajánlott megadni egy alapfájlt "
-"a(z) (ami legtöbbször) angol szövegekkel."
+"A PHP-fordítások általában egynyelvűek, ezért ajánlott megadni egy "
+"alapfájlt, amely (legtöbbször) az angol szövegeket tartalmazza."
 
 #: ../../formats/php.rst:13
 msgid "Weblate currently supports several variants of PHP translations:"
@@ -50190,9 +50189,9 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing edit`."
 msgstr ""
-"Hasonlóképpen, amikor ilyen fájlokat importálsz (a feltöltési űrlapon), "
-"válaszd a(z) :guilabel:`Import as translated` lehetőséget a(z) :guilabel:"
-"`Processing of strings needing edit` alatt."
+"Hasonlóképpen, az ilyen fájlok importálásakor (a feltöltési űrlapon) érdemes "
+"a :guilabel:`Importálás lefordítottként` lehetőséget választani a :guilabel:`"
+"Szerkesztést igénylő szövegek feldolgozása` beállításnál."
 
 #: ../../formats/xliff.rst:68
 msgid ":ref:`reviews`"
@@ -50400,7 +50399,7 @@ msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
-"Üdvözlünk a(z) `Weblate <https://weblate.org>`_ hivatalos dokumentációjában, "
+"Üdvözlünk a `Weblate <https://weblate.org>`_ hivatalos dokumentációjában, "
 "amely egy szabad szoftver alapú, webes folyamatos lokalizációs rendszer."
 
 #: ../../index.rst:28
@@ -50455,7 +50454,7 @@ msgstr "GYIK"
 
 #: ../../index.rst:46
 msgid "Check our :doc:`faq`."
-msgstr "Nézd meg a(z) :doc:`faq`-t."
+msgstr "Nézd meg a :doc:`faq`-ot."
 
 #: ../../index.rst:49
 msgid "Community"
@@ -50903,8 +50902,8 @@ msgid ""
 "This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
-"Ez a javítás letiltható az ``ignore-punctuation-spacing`` zászlóval (ami "
-"letiltja a(z) :ref:`check-punctuation-spacing` funkciót is)."
+"Ez a javítás kikapcsolható az ``ignore-punctuation-spacing`` jelzővel (ami "
+"egyben letiltja a :ref:`check-punctuation-spacing` ellenőrzést is)."
 
 #: ../../user/checks.rst:73
 msgid "Unsafe HTML cleanup"
@@ -55683,8 +55682,8 @@ msgstr "``source_changed:DATETIME``"
 #: ../../user/search.rst:94
 msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgstr ""
-"A forrás szöveg változott a(z) date dátumkor, támogatja a(z) :ref:`search-"
-"operators` operátorokat."
+"A forrásszöveg megváltozott egy adott dátumon, támogatja a :ref:`search-"
+"operators` használatát."
 
 #: ../../user/search.rst:95
 msgid "``check:TEXT``"
@@ -56633,7 +56632,7 @@ msgstr ":kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:250
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr "Megjeleníti a(z) :guilabel:`Nearby strings` fület."
+msgstr "Megjeleníti a :guilabel:`Szomszédos szövegek` fület."
 
 #: ../../user/translating.rst:254
 msgid ":kbd:`Ctrl+S` or"
@@ -56829,10 +56828,10 @@ msgid ""
 "in the database, and can be reverted. Optionally, translations can also be "
 "reverted in the underlying version control system."
 msgstr ""
-"Alapértelmezés szerint minden módosítás (hacsak nincs kikapcsolva a(z) "
-"component beállításaiban) el van mentve az adatbázisba, és visszaállítható. "
-"Opcionálisan a fordítások visszaállíthatók az alatta lévő verziókezelő "
-"rendszerben is."
+"Alapértelmezetten (hacsak nincs kikapcsolva az összetevő beállításaiban) "
+"minden változtatás elmentésre kerül az adatbázisba és visszavonható. "
+"Opcionálisan a fordítások visszavonása a háttérben működő verziókezelő "
+"rendszerben is lehetséges."
 
 #: ../../user/translating.rst:329
 msgid "Translated string length"
@@ -56867,16 +56866,16 @@ msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
 msgstr ""
-"A karakterek maximális hossza, amelyet a fordítási fájl vagy zászló határoz "
-"meg, a(z) :ref:`check-max-length` szerint."
+"A fordítási fájl vagy jelző által meghatározott maximális hossz "
+"karakterekben, a :ref:`check-max-length` szerint."
 
 #: ../../user/translating.rst:341
 msgid ""
 "Maximal rendered size in pixels as defined by flags; see :ref:`check-max-"
 "size`."
 msgstr ""
-"A maximális megjelenített méret pixelben, a zászlók által meghatározva; lásd "
-"a(z) :ref:`check-max-size`."
+"A megjelenített szöveg maximális mérete képpontban, a jelzők alapján "
+"meghatározva; lásd: :ref:`check-max-size`."
 
 #: ../../user/translating.rst:348
 msgid ""
@@ -57033,8 +57032,8 @@ msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in the :guilabel:"
 "`Tools` menu of each project, component or translation."
 msgstr ""
-"Ezt az eszközt :guilabel:`Bulk edit`-nek hívják, elérhető a(z) :guilabel:"
-"`Tools` menüben minden projekt, összetevő vagy fordítás esetén."
+"Ez az eszköz a :guilabel:`Tömeges szerkesztés` nevet viseli, és elérhető "
+"minden projekt, összetevő vagy fordítás :guilabel:`Eszközök` menüjében."
 
 #: ../../user/translating.rst:442
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
@@ -57051,11 +57050,10 @@ msgid ""
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"Ezzel a nézettel hatékonyan összehasonlíthatod a különböző nyelveket. Ez "
-"elérhető minden összetevő oldalon, a(z) :guilabel:`Tools` menüből. Először "
-"válaszd ki az összes nyelvet, amit össze szeretnél hasonlítani, erősítsd meg "
-"a választásodat, majd kattints bármelyik fordításra, hogy megnyisd és "
-"szerkeszd azt."
+"Ezzel a nézettel hatékonyan összehasonlíthatod a különböző nyelveket. Minden "
+"összetevő oldalán elérhető az :guilabel:`Eszközök` menüből. Először válaszd "
+"ki az összes összehasonlítani kívánt nyelvet, erősítsd meg a választásodat, "
+"majd kattints bármelyik fordításra a megnyitásához és szerkesztéséhez."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -57077,10 +57075,10 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
-"Ez a mód leegyszerűsíti az elrendezést, és eltávolítja az olyan további UI "
-"elemeket, mint a(z) :guilabel:`Nearby strings` vagy a(z) :guilabel:"
-"`Glossary`. A normál szerkesztő (egy szöveg fordítása) jobb felső sarkában "
-"található :guilabel:`Zen` gombra kattintva érhető el."
+"Ez a mód leegyszerűsíti az elrendezést, és eltávolítja a kiegészítő felületi "
+"elemeket, például a :guilabel:`Közeli szövegek` vagy a :guilabel:`Szójegyzék`"
+" megjelenítését. A normál szerkesztőfelületen (egy szöveg fordításánál) a "
+"jobb felső sarokban található :guilabel:`Zen` gombra kattintva érhető el."
 
 #: ../../user/translating.rst:464
 msgid ""
@@ -57089,11 +57087,11 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
-"A(z) :ref:`profile-preferences` fülön a(z) :ref:`user-profile` "
-"beállításaiban választhatod ki a Zen szerkesztőt alapértelmezett "
-"szerkesztőként. Itt azt is eldöntheted, hogy a fordítások :guilabel:`Top to "
-"bottom` vagy :guilabel:`Side by side` legyenek listázva, attól függően, hogy "
-"mi a személyes preferenciád."
+"A Zen szerkesztőt beállíthatod alapértelmezett szerkesztőként a :ref:`user-"
+"profile` oldaladon található :ref:`profile-preferences` fülön. Itt azt is "
+"kiválaszthatod, hogy a fordítások :guilabel:`Fentről lefelé` vagy :guilabel:`"
+"Egymás mellett` jelenjenek meg, attól függően, melyik elrendezést részesíted "
+"előnyben."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -57210,21 +57208,21 @@ msgid ""
 "access to the repository. You can then use SSH URL to access the repository "
 "(see :ref:`ssh-repos`)."
 msgstr ""
-"A kódhoszting oldalakon található tárolók eléréséhez általában egy dedikált "
-"felhasználót hozunk létre, akihez a(z) Weblate SSH kulcs van társítva "
-"(lásd: :ref:`weblate-ssh-key`). Így a Weblate SSH kulcsot egyetlen "
-"felhasználóhoz kapcsolod (a platformok gyakran előírják az SSH kulcs "
-"egyszeri használatát), és ennek a felhasználónak adsz hozzáférést a "
-"tárolóhoz. Ezután SSH URL-t használhatsz a tároló eléréséhez (lásd: :ref:"
-"`ssh-repos`)."
+"A kódtároló oldalakhoz való hozzáférés általában úgy történik, hogy "
+"létrehozol egy dedikált felhasználót, akihez a Weblate SSH-kulcsát társítod "
+"(lásd: :ref:`weblate-ssh-key`). Így a Weblate SSH-kulcsa egyetlen "
+"felhasználóhoz kapcsolódik (sok platform előírja, hogy egy SSH-kulcs csak "
+"egy felhasználónál lehet használatban), és ennek a felhasználónak adsz "
+"hozzáférést a tárolóhoz. Ezután SSH URL-t használhatsz a tároló eléréséhez "
+"(lásd: :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
 "On a Hosted Weblate, this is pre-configured for most of the public sites, "
 "please see :ref:`hosted-push`."
 msgstr ""
-"Egy Hosted Weblate esetében ez előre konfigurálva van a legtöbb nyilvános "
-"oldalhoz, kérlek nézd meg a(z) :ref:`hosted-push` részt."
+"A Hosted Weblate esetén ez a legtöbb nyilvános oldalhoz előre be van állítva "
+"– lásd: :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
@@ -57290,9 +57288,9 @@ msgid ""
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
 msgstr ""
-"Az adminok generálhatják vagy megjeleníthetik a Weblate által jelenleg "
-"használt nyilvános kulcsot a kapcsolatban (a(z) :guilabel:`SSH keys` "
-"részből) az admin felület kezdőlapján."
+"Az adminisztrátorok létrehozhatják vagy megjeleníthetik a Weblate által "
+"jelenleg használt nyilvános kulcsot a kapcsolatban (a :guilabel:`SSH kulcsok`"
+" menüpontból) az adminisztrációs felületen."
 
 #: ../../vcs.rst:102
 msgid ""
@@ -57754,9 +57752,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez csak egy vékony réteget ad a(z) :ref:`vcs-git` fölé, a `GitLab API`_ "
-"használatával lehetővé téve a fordítási változtatások benyújtását merge "
-"requestként ahelyett, hogy közvetlenül a tárolóba tolnánk."
+"Ez mindössze egy vékony réteget ad a :ref:`vcs-git` fölé, és a `GitLab API`_ "
+"használatával lehetővé teszi, hogy a fordítási változtatásokat közvetlen "
+"feltöltés helyett összevonási (merge) kérelemként küldje be a rendszer."
 
 #: ../../vcs.rst:374
 msgid ""
@@ -57765,11 +57763,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárolók eléréséhez, a szokásos :ref:"
-"`vcs-git` ugyanúgy működik, az egyetlen különbség az, hogyan kezeljük a "
-"tárolóba történő feltolást. A(z) :ref:`vcs-git` esetében a változtatások "
-"közvetlenül a tárolóba kerülnek feltolásra, míg a(z) :ref:`vcs-gitlab` merge "
-"requestet hoz létre."
+"A Git tárolók eléréséhez nincs szükség ennek használatára, a hagyományos :ref"
+":`vcs-git` ugyanúgy működik – az egyetlen különbség a tárolóba való "
+"feltöltés módjában van. A :ref:`vcs-git` esetén a változások közvetlenül a "
+"tárolóba kerülnek feltöltésre, míg a :ref:`vcs-gitlab` összevonási (merge) "
+"kérelmet hoz létre."
 
 #: ../../vcs.rst:379
 msgid ""
@@ -57852,11 +57850,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
-"Nincs szükség erre a Git tárolók eléréséhez, a szokásos :ref:`vcs-git` "
-"ugyanúgy működik. Az egyetlen különbség az, hogy a módosítások hogyan "
-"kerülnek feltöltésre a tárolóba. A(z) :ref:`vcs-git` esetében a "
-"változtatások közvetlenül a tárolóba kerülnek feltöltésre, míg a(z) :ref:"
-"`vcs-bitbucket-data-center` pull requestet hoz létre."
+"Nincs szükség ennek használatára a Git tárolók eléréséhez, a hagyományos :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban rejlik, hogyan "
+"történik a feltöltés a tárolóba: míg a :ref:`vcs-git` esetén a módosítások "
+"közvetlenül a tárolóba kerülnek, addig a :ref:`vcs-bitbucket-data-center` "
+"egy összevonási (pull) kérelmet hoz létre."
 
 #: ../../vcs.rst:441
 msgid ""
@@ -57884,10 +57882,10 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"Ez csak egy vékony réteget ad a(z) :ref:`vcs-git` tetejére a `Bitbucket "
-"Cloud API`_ használatával, hogy a fordítási változtatásokat pull "
-"requestekként lehessen beküldeni, ahelyett, hogy közvetlenül a tárolóba "
-"pusholnánk őket."
+"Ez csak egy vékony réteget ad a :ref:`vcs-git` fölé a `Bitbucket Cloud API`_ "
+"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
+"tárolóba való feltöltés helyett összevonási (pull) kérelmet lehessen "
+"beküldeni."
 
 #: ../../vcs.rst:466
 msgid "This is different from Bitbucket Data Center API."
@@ -57900,11 +57898,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-cloud` creates pull request."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárolók eléréséhez, az egyszerű :ref:"
-"`vcs-git` ugyanúgy működik, az egyetlen különbség az, hogyan történik a push "
-"a tárolóba. A(z) :ref:`vcs-git` esetén a változtatások közvetlenül a "
-"tárolóba kerülnek, míg a(z) :ref:`vcs-bitbucket-cloud` pull requestet hoz "
-"létre."
+"Nincs szükség ennek használatára a Git tárolók eléréséhez, a hagyományos :ref"
+":`vcs-git` ugyanúgy működik, az egyetlen különbség a tárolóba történő "
+"feltöltés módjában van. A :ref:`vcs-git` esetében a módosítások közvetlenül "
+"a tárolóba kerülnek, míg a :ref:`vcs-bitbucket-cloud` összevonási (pull) "
+"kérelmet hoz létre."
 
 #: ../../vcs.rst:474
 msgid ""
@@ -57913,10 +57911,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Cloud` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:"
-"`BITBUCKETCLOUD_CREDENTIALS`) a Weblate beállításoknál, hogy ez működjön. "
-"Miután beállítottad, egy :guilabel:`Bitbucket Cloud` opciót fogsz látni, "
-"amikor a(z) :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatokat kell beállítanod a Weblate "
+"beállításaiban (:setting:`BITBUCKETCLOUD_CREDENTIALS`). A konfiguráció után "
+"a :ref:`component-vcs` kiválasztásakor megjelenik a :guilabel:`Bitbucket "
+"Cloud` opció."
 
 #: ../../vcs.rst:480
 msgid ":ref:`push-changes`, :setting:`BITBUCKETCLOUD_CREDENTIALS`"
@@ -57972,9 +57970,9 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
-"Egy vékony réteget ad a(z) :ref:`vcs-git` fölé a `git-review`_ eszköz "
-"használatával, lehetővé téve a fordítási változtatások benyújtását Gerrit "
-"review requestként, ahelyett, hogy közvetlenül a tárolóba tolnánk őket."
+"Egy vékony réteget ad a :ref:`vcs-git` fölé a `git-review`_ eszköz "
+"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
+"feltöltés helyett Gerrit felülvizsgálati kérelmekként küldjük be."
 
 #: ../../vcs.rst:522
 msgid ""
@@ -57994,10 +57992,9 @@ msgid ""
 "allow pushing translation changes as pull requests, instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez egy vékony réteget ad a(z) :ref:`vcs-git` fölé az `Azure DevOps API`_ "
-"használatával, hogy a fordítási változtatásokat visszavonási kérelmekként "
-"lehessen feltölteni, ahelyett, hogy közvetlenül a tárolóba töltenénk fel "
-"őket."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé az `Azure DevOps API`_ "
+"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
+"feltöltés helyett összevonási (pull) kérelmekként küldjük be."
 
 #: ../../vcs.rst:534
 msgid ""
@@ -59059,9 +59056,10 @@ msgid ""
 "`reviews` — once an issue with a source string is reported, the source "
 "string is marked as :guilabel:`Needs editing`."
 msgstr ""
-"Az egynyelvű formátumok esetén a forrás szövegek ellenőrzése hasonlóan "
-"működik, mint a(z) :ref:`reviews` — amint egy forrás szöveggel kapcsolatban "
-"probléma merül fel, a forrás szöveg :guilabel:`Needs editing` jelölést kap."
+"Egynyelvű formátumok esetén a forrásszöveg felülvizsgálata hasonlóan "
+"működik, mint a :ref:`reviews` — amikor egy forrásszöveggel kapcsolatban "
+"problémát jelentenek, a szöveg :guilabel:`Szerkesztést igényel` állapotra "
+"vált."
 
 #: ../../workflows.rst:292
 msgid ""
