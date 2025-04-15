@@ -112,6 +112,8 @@ Fields
    Search in labels.
 ``screenshot:TEXT``
    Search in screenshots.
+``labels_count:NUMBER``
+   Filter by count of labels
 
 .. _search-boolean:
 
