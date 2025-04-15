@@ -2,9 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO: upgrade to 5.11 image once it is available
-#FROM weblate/weblate:5.10.4.0@sha256:9cbbcab6264bc80248955182be72a07ba54f2ef21ffee212642ac74d8d919e86
-FROM weblate/weblate:edge-2025-04-13-ed2feb7dfdabbed0554b3d92f84da225d4d9940c
+FROM weblate/weblate:5.10.4.0@sha256:9cbbcab6264bc80248955182be72a07ba54f2ef21ffee212642ac74d8d919e86
 
 ##########
 # WARNING!
