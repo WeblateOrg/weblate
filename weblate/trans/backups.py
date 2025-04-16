@@ -642,19 +642,19 @@ class ProjectBackup:
     def restore_categories(
         self, categories: list[dict], parent_category: Category = None
     ):
-        for category in categories:
-            category_obj = Category(
+        category_objs = [
+            Category(
                 name=category["name"],
                 slug=category["slug"],
                 category=parent_category,
                 project=self.project,
             )
-            category_obj = Category.objects.bulk_create([category_obj])[0]
-            self.categories_cache[self.full_slug_without_project(category_obj)] = (
-                category_obj
-            )
-
-            self.restore_categories(category["categories"], category_obj)
+            for category in categories
+        ]
+        category_objs = Category.objects.bulk_create(category_objs)
+        for category, obj in zip(categories, category_objs, strict=False):
+            self.categories_cache[self.full_slug_without_project(obj)] = obj
+            self.restore_categories(category["categories"], obj)
 
     @transaction.atomic
     def restore(self, project_name: str, project_slug: str, user: User, billing=None):
