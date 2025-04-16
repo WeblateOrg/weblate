@@ -7,6 +7,8 @@ Weblate 5.11.1
 
 .. rubric:: Improvements
 
+* :ref:`projectbackup` now include teams and categories.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
