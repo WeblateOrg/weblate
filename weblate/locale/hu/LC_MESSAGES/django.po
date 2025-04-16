@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-16 16:22+0000\n"
+"PO-Revision-Date: 2025-04-16 17:44+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -1404,9 +1404,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Amikor új forrásszöveget importálnak a verziókövető rendszerből, akkor az "
-"meg lesz jelölve, hogy szerkesztést igényel a Weblate-ben. Ily módon "
-"egyszerűen szűrheti és szerkesztheti a fejlesztők által írt forrásszövegeket."
+"Amikor egy új forrásszöveg érkezik a VCS-ből (verziókezelő rendszerből), a "
+"Weblate automatikusan szerkesztést igényel jelzővel látja el. Így könnyedén "
+"kiszűrhető és szerkeszthető a fejlesztők által írt forrásszöveg."
 
 #: weblate/addons/flags.py:59
 msgid "Flag new translations as \"Needs editing\""
@@ -1418,10 +1418,10 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Amikor új lefordítható szöveget importálnak a verziókövető rendszerből, "
-"akkor az meg lesz jelölve, hogy szerkesztést igényel a Weblate-ben. Ily "
-"módon egyszerűen szűrheti és szerkesztheti a fejlesztők által létrehozott "
-"fordításokat."
+"Amikor egy új lefordítható szöveg érkezik a VCS-ből (verziókezelő "
+"rendszerből), a Weblate automatikusan szerkesztést igényel jelzővel látja "
+"el. Így könnyedén kiszűrhetőek és szerkeszthetőek a fejlesztők által "
+"készített fordítások."
 
 #: weblate/addons/flags.py:77
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1433,10 +1433,11 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Amikor új lefordítható szöveg kerül importálásra a verziókövető rendszerből, "
-"és az megegyezik egy forrásszöveggel, akkor az szerkesztést igénylőként lesz "
-"megjelölve a Weblate-ben. Ez különösen olyan fájlformátumoknál hasznos, "
-"amelyek forrásszövegeket tartalmaznak a lefordítatlan szövegekhez."
+"Amikor egy új lefordítható szöveg érkezik a VCS-ből (verziókezelő "
+"rendszerből), és megegyezik egy meglévő forrásszöveggel, a Weblate "
+"automatikusan szerkesztést igényel jelzővel látja el. Ez különösen hasznos "
+"azoknál a fájlformátumoknál, amelyek az eredeti szöveget is tartalmazzák a "
+"még le nem fordított szövegek esetében."
 
 #: weblate/addons/flags.py:100 weblate/templates/category-project.html:58
 #: weblate/templates/category-project.html:134
@@ -7976,7 +7977,7 @@ msgstr "Bármely hitelesített felhasználó hozzájárulhat."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
 msgid "VCS repository might be exposed to everybody."
-msgstr "A verziókövető tárolója mindenki számára hozzáférhető lehet."
+msgstr "A VCS (verziókezelő) tároló mindenki számára elérhetővé válhat."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -7987,7 +7988,9 @@ msgstr "Csak a kiválasztott felhasználók járulhatnak hozzá."
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:54
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:62
 msgid "Only chosen users can access VCS repository."
-msgstr "Csak a kiválasztott felhasználók férhetnek hozzá a verziókövetőhöz."
+msgstr ""
+"Csak a kiválasztott felhasználók férhetnek hozzá a VCS (verziókezelő) "
+"tárolóhoz."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:58
 msgid "Visible only to chosen users."
