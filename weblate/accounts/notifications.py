@@ -502,7 +502,7 @@ class Notification:
         return Change.objects.filter(
             action__in=self.actions,
             timestamp__gte=timezone.now() - relativedelta(**kwargs),
-        ).prefetch_for_get()
+        ).prefetch_for_render()
 
     def notify_daily(self) -> None:
         self.notify_digest(

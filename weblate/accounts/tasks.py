@@ -110,7 +110,7 @@ class NotificationFactory:
 def notify_changes(change_ids: list[int]) -> None:
     from weblate.trans.models import Change
 
-    changes = Change.objects.prefetch_for_get().filter(pk__in=change_ids)
+    changes = Change.objects.prefetch_for_render().filter(pk__in=change_ids)
     factory = NotificationFactory()
 
     for change in changes:

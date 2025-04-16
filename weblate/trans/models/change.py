@@ -152,14 +152,13 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return base.count_stats(days, step, dtstart)
 
-    def prefetch_for_get(self) -> ChangeQuerySet:
-        return self.select_related(
+    def prefetch_for_render(self) -> ChangeQuerySet:
+        return self.prefetch().select_related(
             "alert",
             "screenshot",
             "announcement",
             "suggestion",
             "comment",
-            *PREFETCH_FIELDS,
         )
 
     def prefetch(self) -> ChangeQuerySet:
@@ -383,7 +382,7 @@ class ChangeManager(models.Manager["Change"]):
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
             result = self.filter_projects(user).filter_components(user)
-        return result.prefetch().order()
+        return result.prefetch_for_render().order()
 
 
 class Change(models.Model, UserDisplayMixin):
