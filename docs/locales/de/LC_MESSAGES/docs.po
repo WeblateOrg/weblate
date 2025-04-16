@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-16 07:36+0000\n"
+"PO-Revision-Date: 2025-04-16 13:13+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -16784,7 +16784,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1079
 msgid "Code hosting sites credentials"
-msgstr "Anmeldedaten für Code-Hosting-Sites"
+msgstr "Zugangsdaten für Code-Hosting-Sites"
 
 #: ../../admin/install/docker.rst:1081
 msgid ""
@@ -25089,11 +25089,11 @@ msgid ""
 "ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
 "Falls Ihr Projekt Dutzende von Übersetzungsdateien hat (z. B. für "
-"verschiedene gettext-Domänen oder Teile von Android-Apps), möchten Sie diese "
+"verschiedene gettext-Domains oder Teile von Android-Apps), möchten Sie diese "
 "vielleicht automatisch importieren. Dies kann entweder über die Befehlszeile "
 "mit :wladmin:`import_project` oder :wladmin:`import_json` erfolgen oder "
-"durch die Installation der Erweiterung :ref:`addon-weblate.discovery."
-"discovery`."
+"durch die Installation der Erweiterung :ref:`addon-"
+"weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1248
 msgid ""
@@ -29404,6 +29404,8 @@ msgstr ""
 msgid ""
 "The database migration updates indexes and this might take considerable time."
 msgstr ""
+"Bei der Datenbankmigration werden die Indizes aktualisiert, was eine "
+"beträchtliche Zeit in Anspruch nehmen kann."
 
 #: ../../changes.rst:50 ../../changes.rst:73 ../../changes.rst:100
 #: ../../changes.rst:134 ../../changes.rst:161 ../../changes.rst:226
@@ -29431,32 +29433,27 @@ msgid "*Released on March 19th 2025.*"
 msgstr "*Veröffentlicht am 19. März 2025.*"
 
 #: ../../changes.rst:62
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed dismissing of checks."
-msgstr "Absturz bei der Anzeige einiger Qualitätsprüfungen behoben."
+msgstr "Das Verwerfen von Prüfungen korrigiert."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid "Removed locking of translations while translating."
 msgid "Reduced overhead of rendering other strings while translating."
-msgstr "Das Sperren von Übersetzungen während des Übersetzens aufgehoben."
+msgstr ""
+"Geringerer Aufwand für das Darstellen anderer Zeichenketten beim Übersetzen."
 
 #: ../../changes.rst:64
-#, fuzzy
-#| msgid "Improved performance of several views."
 msgid "Improved performance of some :ref:`api` endpoints."
-msgstr "Verbesserte Leistung mehrerer Ansichten."
+msgstr "Die Leistung einiger Endpunkte von :ref:`api` verbessert."
 
 #: ../../changes.rst:65
-#, fuzzy
-#| msgid "Fixed add-on page crash in some corner cases."
 msgid "Fixed :ref:`language-parsing-codes` in some corner cases."
-msgstr "Absturz der Erweiterungsseite in einigen Ausnahmefällen behoben."
+msgstr ":ref:`language-parsing-codes` in einigen Ausnahmefällen korrigiert."
 
 #: ../../changes.rst:66
 msgid ":ref:`search-strings` now properly finds exact match on the component."
 msgstr ""
+":ref:`search-strings` findet nun die genaue Übereinstimmung mit der "
+"Komponente."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29518,40 +29515,30 @@ msgid "*Released on March 13th 2025.*"
 msgstr "*Veröffentlicht am 13. März 2025.*"
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Captcha protection for registration."
 msgid "Captcha is not shown for registrations via :ref:`invite-user`."
-msgstr "CAPTCHA-Schutz für die Registrierung."
+msgstr ""
+"Bei Registrierungen über :ref:`invite-user` wird kein Captcha angezeigt."
 
 #: ../../changes.rst:89
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved performance of API download endpoints."
-msgstr "Verbesserte Leistung beim Herunterladen von Dateien."
+msgstr "Verbesserte Leistung der API-Download-Endpunkte."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid "Removed locking of translations while translating."
 msgid "Optimized fetching other translations while translating."
-msgstr "Das Sperren von Übersetzungen während des Übersetzens aufgehoben."
+msgstr "Optimiertes Abrufen von anderen Übersetzungen während des Übersetzens."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Used in notifications e-mails."
 msgid "Reduced notifications overhead."
-msgstr "Wird in Benachrichtigungs-E-Mails verwendet."
+msgstr "Geringerer Aufwand für Benachrichtigungen."
 
 #: ../../changes.rst:92
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved handling of components using :ref:`internal-urls`."
-msgstr "Verbesserte Fehlerbehandlung in :ref:`invite-user`."
+msgstr ""
+"Verbesserte Handhabung von Komponenten die :ref:`internal-urls` verwenden."
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authenticating with some Git servers."
-msgstr "Die Authentifizierung bei einigen Drittanbietern korrigiert."
+msgstr "Die Authentifizierung mit einigen Git-Servern korrigiert."
 
 #: ../../changes.rst:103
 msgid ""
@@ -29608,6 +29595,8 @@ msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
 msgstr ""
+"Weblate verwendet eine proaktive Authentifizierung mit Git 2.46.0 und neuer, "
+"wenn HTTP-Zugangsdaten angegeben werden."
 
 #: ../../changes.rst:131
 msgid ""
@@ -31868,7 +31857,7 @@ msgstr "Validierung für Zugangsdaten der VCS-Integration hinzugefügt."
 
 #: ../../changes.rst:1055
 msgid "Reduced overhead of statistics collection."
-msgstr "Reduzierter Aufwand für die Statistikerfassung."
+msgstr "Geringerer Aufwand für die Statistikerfassung."
 
 #: ../../changes.rst:1059
 msgid "Added plurals validation when editing string using the API."
@@ -37917,7 +37906,7 @@ msgstr ""
 #: ../../changes/v4.rst:306
 msgid "Added support for translation domain in SAP Translation Hub."
 msgstr ""
-"Unterstützung für die Übersetzungsdomäne im SAP Translation Hub hinzugefügt."
+"Unterstützung für die Übersetzungsdomain im SAP Translation Hub hinzugefügt."
 
 #: ../../changes/v4.rst:307
 msgid "Allow absolute links in source string locations."
@@ -41324,10 +41313,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.change_event:1
-#, fuzzy
-#| msgid "Event handler for component update."
 msgid "Event handler for change event."
-msgstr "Ereignis-Handler für Komponentenaktualisierung."
+msgstr "Ereignis-Handler für Änderungsereignis."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -41899,10 +41886,8 @@ msgstr ""
 "this page` in der oberen rechten Ecke der Seite."
 
 #: ../../contributing/documentation.rst:8
-#, fuzzy
-#| msgid "Documentation updates."
 msgid "Documentation guidelines"
-msgstr "Aktualisierung der Dokumentation."
+msgstr "Dokumentationsrichtlinien"
 
 #: ../../contributing/documentation.rst:10
 msgid "Please respect these guidelines while writing:"
@@ -41968,40 +41953,30 @@ msgstr ""
 "Sie die Struktur der Absätze in einem weiteren Pull Request."
 
 #: ../../contributing/documentation.rst:26
-#, fuzzy
-#| msgid "Typo fixes in the documentation."
 msgid "Building the documentation locally"
-msgstr "Korrektur von Tippfehlern in der Dokumentation."
+msgstr "Lokales Erstellen der Dokumentation"
 
 #: ../../contributing/documentation.rst:28
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in the ``docs`` dependency group in :file:`pyproject."
-#| "toml`."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`. The build "
 "can be performed using :program:`ci/run-docs`."
 msgstr ""
 "Die Dokumentation kann auch lokal bearbeitet und erstellt werden, die Python-"
-"Anforderungen befinden sich in der Abhängigkeitsgruppe ``docs`` in :file:"
-"`pyproject.toml`."
+"Anforderungen befinden sich in der Abhängigkeitsgruppe ``docs`` in "
+":file:`pyproject.toml`. Die Erstellung kann mit :program:`ci/run-docs` "
+"durchgeführt werden."
 
 #: ../../contributing/documentation.rst:34
-#, fuzzy
-#| msgid "You will also need :program:`graphviz` to build the documentation."
 msgid ""
 "You will also need :program:`graphviz` installed to build the documentation."
 msgstr ""
-"Sie benötigen außerdem :program:`graphviz`, um die Dokumentation zu "
-"erstellen."
+"Zum Erstellen der Dokumentation muss außerdem :program:`graphviz` "
+"installiert sein."
 
 #: ../../contributing/documentation.rst:37
-#, fuzzy
-#| msgid "Translate document"
 msgid "Translating the documentation"
-msgstr "Dokument übersetzen"
+msgstr "Übersetzen der Dokumentation"
 
 #: ../../contributing/documentation.rst:39
 msgid ""
@@ -42012,16 +41987,18 @@ msgstr ""
 "projects/weblate/documentation/>`_."
 
 #: ../../contributing/documentation.rst:42
-#, fuzzy
-#| msgid "Machinery is now called automatic suggestions."
 msgid "Documenting permissions, checks, add-ons and automatic suggestions"
-msgstr "Suchmaschinen werden jetzt als automatische Vorschläge bezeichnet."
+msgstr ""
+"Dokumentieren von Berechtigungen, Prüfungen, Erweiterungen und automatischen "
+"Vorschlägen"
 
 #: ../../contributing/documentation.rst:44
 msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
 msgstr ""
+"Mehrere Abschnitte der Dokumentation verwenden aus dem Code generierte "
+"Vorlagen. Die folgenden Verwaltungsbefehle sind verfügbar:"
 
 #: ../../contributing/documentation.rst:47
 msgid ":wladmin:`list_addons`"
@@ -42045,6 +42022,9 @@ msgid ""
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
 msgstr ""
+"Alle diese Befehle geben reStructuredText aus, der als Vorlage für die "
+"Dokumentation dient. Änderungen an der Dokumentation lassen sich am "
+"einfachsten mithilfe von Visual diff in Ihrem Editor vornehmen."
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -44058,6 +44038,9 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate ist so konfiguriert, dass der :program:`maildev`-Container als E"
+"-Mail-Server verwendet wird. Die zugestellten E-Mails können unter "
+"<http://127.0.0.1:1080/> eingesehen werden."
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -44948,7 +44931,7 @@ msgid ""
 msgstr ""
 "Die Qualität der automatischen Übersetzung (oft mit dem BLEU-Score gemessen) "
 "korreliert mit der Bearbeitungszeit [1]. Wählen Sie ein maschinelles "
-"Backend, das die benötigten Sprachen und Domänen unterstützt. Machen Sie "
+"Backend, das die benötigten Sprachen und Domains unterstützt. Machen Sie "
 "klar, wie das Übersetzungs-Backend funktioniert und welche Qualität der Post-"
 "Editor zu erwarten hat."
 
@@ -46082,11 +46065,6 @@ msgstr ""
 "ist."
 
 #: ../../devel/reporting.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can choose predefined periods or enter a custom date range. In that "
-#| "case, the contributions are counted at midnight – that means that it "
-#| "includes the starting date and excludes the ending date."
 msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
@@ -46094,9 +46072,12 @@ msgid ""
 "contributors in the output by their join date or the number of strings they "
 "have translated, in either ascending or descending order."
 msgstr ""
-"Sie können vordefinierte Zeiträume wählen oder einen benutzerdefinierten "
-"Datumsbereich eingeben. In diesem Fall werden die Beiträge um Mitternacht "
-"gezählt – d. h. das Anfangsdatum wird berücksichtigt und das Enddatum nicht."
+"Sie können vordefinierte Zeiträume wählen oder einen eigenen Datumsbereich "
+"eingeben. In diesem Fall werden die Beiträge um Mitternacht gezählt – d. h. "
+"das Anfangsdatum wird berücksichtigt und das Enddatum nicht. Sie können die "
+"Mitwirkenden in der Ausgabe nach ihrem Beitrittsdatum oder der Anzahl der "
+"von ihnen übersetzten Zeichenketten in aufsteigender oder absteigender "
+"Reihenfolge sortieren."
 
 #: ../../devel/reporting.rst:25
 msgid "Number of words"
@@ -46278,10 +46259,8 @@ msgid "Amount of characters in the translated string."
 msgstr "Anzahl der Zeichen in der übersetzten Zeichenkette."
 
 #: ../../devel/reporting.rst:110
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "The translator's join date is also included in the report."
-msgstr "Die Übersetzung wird im Hintergrund aktualisiert."
+msgstr "Das Beitrittsdatum des Übersetzers ist ebenfalls im Bericht enthalten."
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
@@ -51639,14 +51618,10 @@ msgid "``weblate.trans.autofixes.html.BleachHTML``"
 msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../user/checks.rst:77
-#, fuzzy
-#| msgid ""
-#| "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :"
-#| "ref:`check-safe-html`)."
 msgid "Removes unsafe HTML markup from strings flagged as ``safe-html``."
 msgstr ""
-"Entfernt unsichere HTML-Auszeichnungen von Zeichenketten, die als ``safe-"
-"html`` markiert sind (siehe :ref:`check-safe-html`)."
+"Entfernt unsichere HTML-Auszeichnungen aus Zeichenketten, die als ``safe-"
+"html`` markiert sind."
 
 #: ../../user/checks.rst:81
 msgid ":ref:`check-safe-html`"
@@ -52371,16 +52346,12 @@ msgid "``They bought {{strong}}apples{{/strong}}.``"
 msgstr "``They bought {{strong}}apples{{/strong}}.``"
 
 #: ../../user/checks.rst:472
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 ":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
 "wp-calypso/tree/trunk/packages/interpolate-components>`_"
 msgstr ""
-":ref:`check-formats`, `i18next-Interpolation <https://www.i18next.com/"
-"translation-function/interpolation>`_"
+":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
+"wp-calypso/tree/trunk/packages/interpolate-components>`_"
 
 #: ../../user/checks.rst:478
 msgid "C format"
@@ -55914,6 +55885,10 @@ msgid ""
 "secondary_language`) or component (:ref:`component-secondary_language`). In "
 "that case it can be used for :ref:`secondary-language-workflow`."
 msgstr ""
+"Dies kann auch im Projekt (:ref:`project-secondary_language`) oder in der "
+"Komponente (:ref:`component-secondary_language`) konfiguriert werden. In "
+"diesem Fall kann es für die :ref:`secondary-language-workflow` verwendet "
+"werden."
 
 #: ../../user/profile.rst:115
 msgid "Preferences"
@@ -58398,6 +58373,8 @@ msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
 msgstr ""
+"Dies ermöglicht den Zugriff auf Azure-DevOps-Repositorys und beschleunigt "
+"den Zugriff auf authentifizierte Repositorys."
 
 #: ../../vcs.rst:238
 msgid ""
@@ -59873,10 +59850,8 @@ msgstr ""
 ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
 #: ../../workflows.rst:266
-#, fuzzy
-#| msgid "Starting translation into a new language"
 msgid "String consolidation using secondary language"
-msgstr "Beginn der Übersetzung in eine neue Sprache"
+msgstr "Konsolidierung von Zeichenketten in der Zweitsprache"
 
 #: ../../workflows.rst:268
 msgid ""
@@ -59888,6 +59863,14 @@ msgid ""
 "(see :ref:`secondary-languages`) and can be optionally used as a source for "
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
+"Wenn die :ref:`component-intermediate` nicht zum Konsolidieren der "
+"Zeichenketten verwendet werden kann, können Sie eine der Übersetzungen als "
+"Zweitsprache auswählen. Die Sprache kann in einem Projekt (:ref:`project-"
+"secondary_language`) oder in einer Komponente (:ref:`component-"
+"secondary_language`) konfiguriert werden. Sie wird dann den Übersetzern beim "
+"Übersetzen angezeigt (siehe :ref:`secondary-languages`) und kann optional "
+"als Quelle für maschinelle Übersetzungen verwendet werden (siehe :ref:`mt-"
+"sources`)."
 
 #: ../../workflows.rst:276
 msgid ""
@@ -59895,6 +59878,9 @@ msgid ""
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
 msgstr ""
+"Diese Vorgehensweise kann bei gemischtsprachigen Ausgangszeichenketten "
+"nützlich sein, um sie in einer einzigen Übersetzung zusammenzufassen, die "
+"dann als Grundlage für weitere Übersetzungen verwendet wird."
 
 #: ../../workflows.rst:282
 msgid "Source strings reviews"
