@@ -640,7 +640,7 @@ class ProjectBackup:
             return language
 
     def restore_categories(
-        self, categories: list[dict], parent_category: Category = None
+        self, categories: list[dict], parent_category: Category | None = None
     ):
         category_objs = [
             Category(
