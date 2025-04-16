@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-16 21:40+0000\n"
+"PO-Revision-Date: 2025-04-16 23:14+0000\n"
 "Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
@@ -462,10 +462,8 @@ msgstr ""
 "Уліковы запіс заблакіраваны праз вялікую колькасць няўдалых спробаў уваходу."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Не атрымалася адправіць паведамленне адміністратару."
+msgstr "Уліковы запіс заблакіраваны адміністратарам сайта."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1103,7 +1101,7 @@ msgstr "Рэгістрацыя карыстальніка"
 
 #: weblate/accounts/views.py:260
 msgid "Could not send message to administrator."
-msgstr "Не атрымалася адправіць паведамленне адміністратару."
+msgstr "Не ўдалося адправіць паведамленне адміністратару."
 
 #: weblate/accounts/views.py:277
 #, fuzzy
@@ -1201,7 +1199,7 @@ msgstr "Пароль ужо скінуты."
 
 #: weblate/accounts/views.py:1298
 msgid "Could not remove user identity"
-msgstr "Не атрымалася выдаліць уліковыя даныя карыстальніка"
+msgstr "Не ўдалося выдаліць уліковыя даныя карыстальніка"
 
 #: weblate/accounts/views.py:1308
 msgid "Add another identity by confirming your e-mail address first."
@@ -1215,7 +1213,7 @@ msgstr "Не ўдалося прайсці аўтэнтыфікацыю: %s"
 
 #: weblate/accounts/views.py:1365
 msgid "Could not complete registration."
-msgstr "Не атрымалася завяршыць рэгістрацыяю."
+msgstr "Не ўдалося завяршыць рэгістрацыяю."
 
 #: weblate/accounts/views.py:1368
 msgid "Please check if you have already registered an account."
@@ -1237,7 +1235,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1390
 msgid "Could not authenticate due to invalid session state."
-msgstr "Аўтэнтыфікацыя не атрымалася праз хібны стан сеансу."
+msgstr "Не ўдалося выканаць аўтэнтыфікацыю, хібны стан сеанса."
 
 #: weblate/accounts/views.py:1399
 msgid "Got no e-mail address from third party authentication service."
@@ -1255,8 +1253,8 @@ msgstr "Рэгістрацыя новых карыстальнікаў выкл�
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Не атрымалася аўтэнтыфікавацца, напэўна, праз заканчэнне тэрміну токена "
-"альбо памылку злучэння."
+"Не ўдалося выканаць аўтэнтыфікацыю. Магчыма, скончыўся тэрмін дзеяння токена "
+"або з-за памылкі злучэння."
 
 #: weblate/accounts/views.py:1480
 msgid "Authentication cancelled."
@@ -3962,10 +3960,8 @@ msgid "Object Pascal format"
 msgstr "Фармат Object Pascal"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Радок фарматаванниа Перл ние адпавиадаже клиуčу"
+msgstr "Фарматаванне радка Object Pascal не адпавядае зыходнаму."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
@@ -4028,50 +4024,40 @@ msgid "i18next interpolation"
 msgstr "Інтэрпаляцыя i18next"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "Інтэрпаляцыя i18next не адпавядае крыніцы"
+msgstr "Інтэрпаляцыя i18next не адпавядае зыходнай."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "Літаралы шаблона ECMAScript"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "Літэралы шаблона ECMAScript не адпавядаюць крыніцы"
+msgstr "Літэралы шаблона ECMAScript не адпавядаюць зыходным."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "Адсотак запаўняльных сімвалаў"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "Адсотак запаўняльных сімвалаў не адпавядае крыніцы"
+msgstr "Працэнт запаўняльных сімвалаў не адпавядае крыніцы."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Фарматаванне Vue I18n"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Фарматаванне Vue I18n не адпавядае крыніцы"
+msgstr "Фарматаванне Vue I18n не адпавядае зыходнаму."
 
 #: weblate/checks/format.py:827
 msgid "Automattic Components"
-msgstr "Аўтаматычныя кампаненты"
+msgstr "Кампаненты Automattic"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Адсотак запаўняльных сімвалаў не адпавядае крыніцы"
+msgstr "Запаўняльнікі кампанентаў Automattic не адпавядаюць зыходным."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
@@ -4217,10 +4203,8 @@ msgid "XML markup"
 msgstr "Разметка XML"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "Пазнакі XML ў перакладзе не адпавядаюць зыходнаму тэксту"
+msgstr "Тэгі XML ў перакладзе не адпавядаюць зыходным."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
@@ -4322,10 +4306,8 @@ msgid "Qt format"
 msgstr "Фармат Qt"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "Qt-фарматаванне радка не адпавядае зыходнаму тэксту"
+msgstr "Qt-фарматаванне радка не адпавядае зыходнаму тэксту."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
@@ -4388,11 +4370,8 @@ msgid "Ellipsis"
 msgstr "Шматкроп’е"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "У радку выкарыстоўваюцца тры кропкі (...) замест шматкроп'я (…)"
+msgstr "У радку выкарыстоўваюцца тры кропкі (...) замест шматкроп'я (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
@@ -4406,17 +4385,15 @@ msgstr "У перакладах на некалькі моў ёсць няпро
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
-msgstr "Не атрымалася выканаць наступныя праверкі:"
+msgstr "Не пройдзены наступныя праверкі:"
 
 #: weblate/checks/source.py:117
 msgid "Long untranslated"
 msgstr "Даўно не перакладалася"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "Гэты радок даўно не перакладаўся"
+msgstr "Гэты радок даўно не перакладаўся."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -4499,7 +4476,7 @@ msgstr "Шрыфт з такой назвай ужо існуе."
 
 #: weblate/fonts/views.py:78
 msgid "Creation failed, please fix the errors below."
-msgstr "Не атрымалася стварыць. Калі ласка, выпраўце памылкі, паказаныя ніжэй."
+msgstr "Не здалося стварыць. Выправіце паказаныя ніжэй памылкі."
 
 #: weblate/fonts/views.py:101
 msgid "Font deleted."
@@ -14469,7 +14446,7 @@ msgstr "Дублиавани пиераклад."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:280
 msgid "Could not merge the repository."
-msgstr "Не атрымалася аб'яднаць рэпазіторый."
+msgstr "Не ўдалося аб'яднаць рэпазіторый."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:289
@@ -14479,12 +14456,12 @@ msgstr "Не атрымалася адправіць рэпазіторый."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:373
 msgid "Could not update the repository."
-msgstr "Не атрымалася абнавіць рэпазіторый."
+msgstr "Не ўдалося абнавіць рэпазіторый."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:382
 msgid "Could not parse translation files."
-msgstr "Не атрымалася разабраць файлы перакладу."
+msgstr "Не ўдалося разабраць файлы перакладу."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:389
@@ -15375,7 +15352,7 @@ msgstr ""
 #: weblate/trans/models/component.py:3077
 #, python-format
 msgid "Could not update repository: %s"
-msgstr "Не атрымалася абнавіць рэпазіторый: %s"
+msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
 #: weblate/trans/models/component.py:3086
 msgid "Pull and push branches cannot be the same when using merge requests."
@@ -15412,7 +15389,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:3573
 msgid "Could not add new translation file."
-msgstr "Не атрымалася дадаць новы файл перакладу."
+msgstr "Не ўдалося дадаць новы файл перакладу."
 
 #: weblate/trans/models/component.py:3580
 msgid "You do not have permissions to add new translation file."
@@ -16404,7 +16381,7 @@ msgstr ""
 #: weblate/trans/views/files.py:257
 #, python-format
 msgid "File upload has failed: %s"
-msgstr "Не атрымалася запампаваць файл: %s"
+msgstr "Не ўдалося запампаваць файл: %s"
 
 #: weblate/trans/views/git.py:38
 msgid "Could not lock the repository, another operation is in progress."
@@ -17171,7 +17148,7 @@ msgstr "Рэзервовае капіяванне выканана"
 
 #: weblate/wladmin/models.py:307
 msgid "Backup failed"
-msgstr "Не атрымалася стварыць рэзервовую копію"
+msgstr "Не ўдалося стварыць рэзервовую копію"
 
 #: weblate/wladmin/models.py:308
 msgid "Deleted the oldest backups"
@@ -17250,8 +17227,8 @@ msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
-"Не атрымалася актываваць усталяванне. Калі ласка, пераканайцеся, што ваш "
-"токен актывацыі сапраўдны."
+"Не ўдалося актываваць усталяванне. Пераканайцеся, што ваш токен актывацыі "
+"правільны."
 
 #: weblate/wladmin/views.py:279
 #, python-format
