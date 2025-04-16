@@ -44,6 +44,7 @@ Issues lifecycle
       "Waiting for: Triage" -> "Waiting for: Community" [label="The issue is not clearly defined"];
       "Waiting for: Triage" -> "Issue closed as not planned" [label="The issue is out of scope"];
       "Waiting for: Triage" -> "Issue converted to a discussion" [label="The issue is merely a support request"];
+"Waiting for: Triage" -> "Waiting for: Milestone" [label="Ready to to be worked on"];
 
       "Waiting for: Community" -> "Issue closed as not planned" [label="Lack of response"];
 
