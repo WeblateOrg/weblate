@@ -116,7 +116,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         # List strings with different targets
         # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
-            units.values("id_hash", "translation__language", "translation__plural")
+            units.values("id_hash", "translation__plural")
             .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
             .order_by("id_hash")[:100]
@@ -131,7 +131,6 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
                     lambda x, y: x
                     | (
                         Q(id_hash=y["id_hash"])
-                        & Q(translation__language=y["translation__language"])
                         & Q(translation__plural=y["translation__plural"])
                     ),
                     matches,
@@ -211,7 +210,6 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             units.values(
                 "target__lower__md5",
                 "target",
-                "translation__language",
                 "translation__plural",
             )
             .annotate(source__count=Count("source", distinct=True))
@@ -229,7 +227,6 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                     | (
                         Q(target__lower__md5=y["target__lower__md5"])
                         & Q(target=y["target"])
-                        & Q(translation__language=y["translation__language"])
                         & Q(translation__plural=y["translation__plural"])
                     ),
                     matches,
