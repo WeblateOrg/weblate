@@ -45,7 +45,7 @@ Weblate 5.11
 * :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
 * Changes in string flags are now tracked in history.
 * :doc:`/admin/machine` documentation extended.
-* :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
+* :ref:`addon-weblate.discovery.discovery` better handles hundreds of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
 * :ref:`project-check_flags` can now also be configured on the project level.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
