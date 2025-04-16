@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-16 21:40+0000\n"
+"PO-Revision-Date: 2025-04-16 23:14+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -160,17 +160,17 @@ msgstr ""
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Az alapértelmezett beállítás a :setting:`DEFAULT_ACCESS_CONTROL` megadásával "
-"is megváltoztatható."
+"Az alapértelmezett beállítás az :setting:`DEFAULT_ACCESS_CONTROL` "
+"megadásával is megváltoztatható."
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
-"Még a `Személyes` projekt statisztikái is beleszámítanak az oldal szintű "
-"statisztikákba és a nyelvi összesítésbe. Ez nem fedi fel a projektek nevét "
-"vagy egyéb információkat."
+"Még a `Személyes` projektek statisztikái is beleszámítanak az oldal szintű "
+"statisztikákba és a nyelvi összesítőbe. Ez azonban nem fedi fel a projektek "
+"nevét vagy bármilyen egyéb információt."
 
 #: ../../admin/access.rst:78
 msgid ""
@@ -178,9 +178,9 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"Az instance adminisztrátorok módosíthatják a felhasználók számára elérhető "
-"alapértelmezett jogosultsági beállításokat a `Nyilvános`, `Védett` és "
-"`Személyes` projektekben a(z) :ref:`custom settings <custom-acl>` "
+"A Weblate példány adminisztrátorai módosíthatják a felhasználók számára "
+"elérhető alapértelmezett jogosultságkészleteket a `Nyilvános`, `Védett` és "
+"`Személyes` projektek esetében az :ref:`custom settings <custom-acl>` "
 "használatával."
 
 #: ../../admin/access.rst:83
@@ -189,7 +189,7 @@ msgstr ":ref:`project-access_control`"
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
-msgstr "Hozzáférés-ellenőrzés kezelése projektenként"
+msgstr "Projektalapú hozzáférés-vezérlés kezelése"
 
 #: ../../admin/access.rst:90
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -201,11 +201,10 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"Ha a felhasználóknak megadod a(z) :guilabel:`Manage project access` "
-"jogosultságot (lásd: :ref:`privileges`), lehetővé teszed számukra, hogy más "
-"felhasználókat rendeljenek hozzá a `Nyilvános`, `Védett` és `Személyes` "
-"projektekhez (de nem az `Egyéni` projektekhez) azáltal, hogy hozzáadják őket "
-"csapatokhoz."
+"A :guilabel:`Projekt hozzáférés kezelése` jogosultság megadása (lásd: "
+":ref:`privileges`) lehetővé teszi a felhasználók számára, hogy másokat "
+"hozzáadhassanak csapatokhoz, ezzel jogosultságot adva nekik `Nyilvános`, "
+"`Védett` és `Személyes` projektekhez (az `Egyéni` típusúakhoz azonban nem)."
 
 #: ../../admin/access.rst:96
 msgid ""
@@ -218,7 +217,7 @@ msgstr ""
 
 #: ../../admin/access.rst:99 ../../admin/access.rst:623
 msgid "`Administration`"
-msgstr "`Administration`"
+msgstr "`Adminisztráció`"
 
 #: ../../admin/access.rst:100
 msgid "All available permissions for the project."
@@ -230,13 +229,12 @@ msgstr "`Felülvizsgálat`"
 
 #: ../../admin/access.rst:103
 msgid "Approve translations in a review."
-msgstr "Fordítások jóváhagyása egy értékelés során."
+msgstr "Fordítások jóváhagyása egy felülvizsgálat során."
 
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
-"Csak akkor elérhető, ha a(z) :ref:`review workflow <reviews>` be van "
-"kapcsolva."
+"Csak akkor elérhető, ha a :ref:`review workflow <reviews>` be van kapcsolva."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -248,8 +246,7 @@ msgstr "`Fordítás`"
 
 #: ../../admin/access.rst:110
 msgid "Translate the project and upload translations made offline."
-msgstr ""
-"Fordítsd le a projektet, és töltsd fel az offline elkészített fordításokat."
+msgstr "A projekt fordítása és offline készített fordítások feltöltése."
 
 #: ../../admin/access.rst:112
 msgid "`Sources`"
@@ -260,8 +257,8 @@ msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"Szerkeszd a forráskarakterláncokat (ha engedélyezett a :ref:`project "
-"settings <component-manage_units>`) és a forrás-karakterlánc információkat."
+"Forrásszövegek és forrásszöveg-információk szerkesztése (ha ez engedélyezett "
+"a :ref:`project settings <component-manage_units>` beállításban)."
 
 #: ../../admin/access.rst:116
 msgid "`Languages`"
@@ -269,8 +266,7 @@ msgstr "`Nyelvek`"
 
 #: ../../admin/access.rst:117
 msgid "Manage translated languages (add or remove translations)."
-msgstr ""
-"Kezeld a lefordított nyelveket (fordítások hozzáadása vagy eltávolítása)."
+msgstr "Lefordított nyelvek kezelése (fordítások hozzáadása vagy eltávolítása)."
 
 #: ../../admin/access.rst:119
 msgid "`Glossary`"
@@ -279,7 +275,7 @@ msgstr "`Szószedet`"
 #: ../../admin/access.rst:120
 msgid "Manage glossary (add, remove, and upload entries)."
 msgstr ""
-"Kezeld a szójegyzéket (bejegyzések hozzáadása, eltávolítása és feltöltése)."
+"Szójegyzék kezelése (bejegyzések hozzáadása, eltávolítása és feltöltése)."
 
 #: ../../admin/access.rst:122
 msgid "`Memory`"
@@ -287,7 +283,7 @@ msgstr "`Memória`"
 
 #: ../../admin/access.rst:123
 msgid "Manage translation memory."
-msgstr "Kezeld a fordítási memóriát."
+msgstr "Fordítási memória kezelése."
 
 #: ../../admin/access.rst:125
 msgid "`Screenshots`"
@@ -296,8 +292,8 @@ msgstr "`Képernyőképek`"
 #: ../../admin/access.rst:126
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
 msgstr ""
-"Kezeld a képernyőképeket (adj hozzá, távolíts el, és társítsd őket a "
-"forrásszövegekhez)."
+"Képernyőképek kezelése (hozzáadás, eltávolítás és forrásszövegekhez "
+"rendelés)."
 
 #: ../../admin/access.rst:129 ../../admin/access.rst:746
 msgid "`Automatic translation`"
@@ -305,7 +301,7 @@ msgstr "`Automatikus fordítás`"
 
 #: ../../admin/access.rst:130
 msgid "Can use automatic translation."
-msgstr "Használhat automatikus fordítást."
+msgstr "Automatikus fordítás használatának engedélyezése."
 
 #: ../../admin/access.rst:132
 msgid "`VCS`"
@@ -313,8 +309,7 @@ msgstr "`VCS`"
 
 #: ../../admin/access.rst:133
 msgid "Manage VCS and access the exported repository."
-msgstr ""
-"Kezeld a VCS-t (verziókezelő rendszert) és férj hozzá az exportált tárolóhoz."
+msgstr "VCS (verziókezelő rendszer) kezelése és az exportált tároló elérése."
 
 #: ../../admin/access.rst:135 ../../admin/access.rst:763
 msgid "`Billing`"
@@ -322,24 +317,24 @@ msgstr "`Számlázás`"
 
 #: ../../admin/access.rst:136
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr ""
-"Lépj be a számlázási adatokhoz és beállításokhoz (lásd: :ref:`billing`)."
+msgstr "Számlázási adatok és beállítások elérése (lásd: :ref:`billing`)."
 
 #: ../../admin/access.rst:140
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`."
 msgstr ""
-"Ezek a funkciók elérhetők a projekt menüjében található :guilabel:`Manage` "
-"↓ :guilabel:`Users` oldalon, az :guilabel:`Access control` lapon."
+"Ezek a funkciók elérhetők a projekt menüjében található :guilabel:`Kezelés` ↓"
+" :guilabel:`Felhasználók` oldalon, a :guilabel:`Hozzáférés-vezérlés` lapon."
 
 #: ../../admin/access.rst:145
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
-"Korlátozhatod a csapatokat nyelvekre vagy összetevőkre, és kijelölt "
-"hozzáférési szerepköröket rendelhetsz hozzájuk (lásd: :ref:`privileges`)."
+"A csapatokat korlátozhatod bizonyos nyelvekre vagy összetevőkre, és "
+"meghatározott hozzáférési szerepköröket rendelhetsz hozzájuk (lásd: "
+":ref:`privileges`)."
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
@@ -350,9 +345,9 @@ msgid ""
 "Each team can have team administrator, who can add and remove users within "
 "the team. This is useful in case you want to build self-governed teams."
 msgstr ""
-"Minden csapatnak lehet csapat adminisztrátora, aki hozzáadhat és "
-"eltávolíthat felhasználókat a csapaton belül. Ez hasznos, ha önállóan működő "
-"csapatokat szeretnél létrehozni."
+"Minden csapatnak lehet csapatrendszergazdája, aki hozzáadhat vagy "
+"eltávolíthat felhasználókat a csapaton belül. Ez hasznos lehet, ha önállóan "
+"működő csapatokat szeretnél létrehozni."
 
 #: ../../admin/access.rst:161
 msgid "Inviting new users"
@@ -365,10 +360,11 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
-"A meglévő felhasználók hozzáadása esetén meghívót kapnak a megerősítéshez. "
-"Ha a :setting:`REGISTRATION_OPEN` beállítás aktív, az adminisztrátor új "
-"felhasználókat is meghívhat e-mailben. A meghívott felhasználóknak be kell "
-"fejezniük a regisztrációs folyamatot, hogy hozzáférjenek a projekthez."
+"Meglévő felhasználók hozzáadásakor meghívót kapnak jóváhagyásra. Ha a "
+":setting:`REGISTRATION_OPEN` be van kapcsolva, a rendszergazda új "
+"felhasználókat is meghívhat e-mailben. A meghívott felhasználóknak végig "
+"kell menniük a regisztrációs folyamaton, hogy hozzáférést kapjanak a "
+"projekthez."
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -376,25 +372,25 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"Ehhez nem szükséges semmilyen weboldal-szintű jogosultság, elegendő a "
-"projekt hatáskörében való hozzáféréskezelési engedély (pl. tagság az "
-"`Administration` csapatban)."
+"Ehhez nincs szükség semmilyen globális jogosultságra; elegendő, ha a "
+"felhasználónak van hozzáféréskezelési jogosultsága a projekt szintjén ("
+"például tagja az `Adminisztráció` csapatnak)."
 
 #: ../../admin/access.rst:174
 msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Ha a meghívott felhasználó lekéste a meghívás érvényességét, új meghívót "
-"kell létrehozni."
+"Ha a meghívott felhasználó meghívója lejárt, új meghívót kell létrehozni."
 
 #: ../../admin/access.rst:177
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"Ugyanilyen típusú meghívók érhetők el az egész oldalon a :ref:`management "
-"interface <management-interface>` :guilabel:`Users` fülén."
+"Ugyanilyen típusú meghívók elérhetők globálisan is a :ref:`management "
+"interface <management-interface>` felületen, a :guilabel:`Felhasználók` "
+"lapon."
 
 #: ../../admin/access.rst:182
 msgid ""
@@ -416,12 +412,12 @@ msgid ""
 "won't be able to contribute."
 msgstr ""
 "Ha a felhasználók nem megfelelően viselkednek a projektedben, letilthatod "
-"őket a közreműködésről. A megfelelő jogosultságok letiltásával a "
-"felhasználók továbbra is láthatják a projektet, de nem tudnak hozzájárulni."
+"őket a közreműködésről. A vonatkozó jogosultságok letiltásával a felhasználó "
+"továbbra is láthatja a projektet, de nem tud majd hozzájárulni."
 
 #: ../../admin/access.rst:197
 msgid "Per-project permission management"
-msgstr "Projektenkénti jogosultságkezelés"
+msgstr "Projektalapú jogosultságkezelés"
 
 #: ../../admin/access.rst:199
 msgid ""
@@ -442,12 +438,12 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Alapértelmezés szerint ez megakadályozza, hogy a Weblate hozzáférést "
-"biztosítson a `Users` és `Viewers` :ref:`default teams <default-teams>` "
-"által, ezeknek a csapatoknak a saját beállításai miatt. Ez nem akadályoz meg "
-"abban, hogy oldalszinten adj hozzá jogosultságokat ezekhez a projektekhez az "
-"alapértelmezett csapatok módosításával, új csapat létrehozásával vagy "
-"további egyedi beállítások létrehozásával egyéni összetevőkhöz, ahogy az a :"
-"ref:`custom-acl` részben alább le van írva."
+"biztosítson a `Felhasználók` és `Megtekintők` :ref:`default teams <default-"
+"teams>` által, ezeknek a csapatoknak a saját beállításai miatt. Ez nem "
+"akadályoz meg abban, hogy oldalszinten adj hozzá jogosultságokat ezekhez a "
+"projektekhez az alapértelmezett csapatok módosításával, új csapat "
+"létrehozásával vagy további egyedi beállítások létrehozásával egyéni "
+"összetevőkhöz, ahogy az a :ref:`custom-acl` részben alább le van írva."
 
 #: ../../admin/access.rst:208
 msgid ""
@@ -459,7 +455,7 @@ msgstr ""
 "Az egyik fő előnye annak, hogy a jogosultságokat a Weblate felhasználói "
 "felületén keresztül kezeled, az, hogy ezt más felhasználókra is átruházhatod "
 "anélkül, hogy szuperfelhasználói jogosultságokat kellene adnál nekik. Ehhez "
-"add hozzá őket a projekt `Administration` csapatához."
+"add hozzá őket a projekt `Adminisztráció` csapatához."
 
 #: ../../admin/access.rst:216
 msgid "Per-project access tokens"
@@ -570,7 +566,7 @@ msgid ""
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
 "Minden projektet `Nyilvános` beállítással kell tartanod (lásd :ref:`acl`), "
-"különben a `Users` és `Reviewers` csapatok tagsága által biztosított "
+"különben a `Felhasználók` és `Reviewers` csapatok tagsága által biztosított "
 "oldalszintű jogosultságoknak nem lesz hatása."
 
 #: ../../admin/access.rst:267
@@ -580,8 +576,8 @@ msgid ""
 "to all the `Users`."
 msgstr ""
 "További jogosultságokat is adhatsz az alapértelmezett csapatoknak saját "
-"választásod szerint. Például adhatsz jogosultságot az összes `Users` tag "
-"számára, hogy képernyőképeket kezelhessenek."
+"választásod szerint. Például adhatsz jogosultságot az összes `Felhasználók` "
+"tag számára, hogy képernyőképeket kezelhessenek."
 
 #: ../../admin/access.rst:271
 msgid ""
@@ -642,12 +638,12 @@ msgid ""
 "<default-teams>`."
 msgstr ""
 "Távolítsd el a `cseh` fordítási jogosultságot minden felhasználótól. Az "
-"alapértelmezett konfigurációban ezt a `Users` :ref:`default team <default-"
-"teams>` módosításával lehet megtenni."
+"alapértelmezett konfigurációban ezt a `Felhasználók` :ref:`default team "
+"<default-teams>` módosításával lehet megtenni."
 
 #: ../../admin/access.rst:293
 msgid "Group `Users`"
-msgstr "`Users` csoport"
+msgstr "`Felhasználók` csoport"
 
 #: ../../admin/access.rst:296 ../../admin/access.rst:310
 msgid "Language selection"
@@ -782,7 +778,7 @@ msgstr ""
 "Egy felhasználónak tagja kell lennie a projekthez vagy az adott projekten "
 "belüli bármely összetevőhöz kapcsolt csapatnak. A tagság elegendő, nincs "
 "szükség speciális jogosultságokra a projekt böngészéséhez (ez az "
-"alapértelmezett `Viewers` csapatban van így, lásd :ref:`default-teams`)."
+"alapértelmezett `Megtekintők` csapatban van így, lásd :ref:`default-teams`)."
 
 #: ../../admin/access.rst:367
 msgid "Component-browsing access"
@@ -970,8 +966,8 @@ msgid ""
 msgstr ""
 "A funkció leggyakoribb használati módja, hogy minden új felhasználót "
 "hozzárendeljünk egy alapértelmezett csapathoz. Ez a viselkedés az "
-"alapértelmezett `Users` és `Guest` csapatoknál van használatban (lásd: :ref:"
-"`default-teams`). Használj ``^.*$`` reguláris kifejezést, hogy minden "
+"alapértelmezett `Felhasználók` és `Guest` csapatoknál van használatban (lásd:"
+" :ref:`default-teams`). Használj ``^.*$`` reguláris kifejezést, hogy minden "
 "felhasználót hozzárendelj."
 
 #: ../../admin/access.rst:451
@@ -992,10 +988,10 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"Az automatikus csapatkiosztás a `Users` és `Viewers` csapatokhoz mindig újra "
-"létrejön, amikor frissítesz egyik Weblate verzióról a másikra. Ha ki "
-"szeretnéd kapcsolni, állítsd be a reguláris kifejezést ``^$``-ra (ami nem "
-"fog semmire sem illeszkedni)."
+"Az automatikus csapatkiosztás a `Felhasználók` és `Megtekintők` csapatokhoz "
+"mindig újra létrejön, amikor frissítesz egyik Weblate verzióról a másikra. "
+"Ha ki szeretnéd kapcsolni, állítsd be a reguláris kifejezést ``^$``-ra (ami "
+"nem fog semmire sem illeszkedni)."
 
 #: ../../admin/access.rst:464
 msgid ""
@@ -1058,7 +1054,7 @@ msgstr "Számlázási információk megtekintése"
 
 #: ../../admin/access.rst:488
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr ":guilabel:`Administration`, :guilabel:`Billing`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Billing`"
 
 #: ../../admin/access.rst:490 ../../api.rst:2290
 msgid "Changes"
@@ -1074,7 +1070,7 @@ msgstr "Változtatások letöltése"
 #: ../../admin/access.rst:532 ../../admin/access.rst:534
 #: ../../admin/access.rst:564
 msgid ":guilabel:`Administration`"
-msgstr ":guilabel:`Administration`"
+msgstr ":guilabel:`Adminisztráció`"
 
 #: ../../admin/access.rst:492 ../../user/translating.rst:62
 msgid "Comments"
@@ -1092,8 +1088,9 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
-"user`, :guilabel:`Review strings`, :guilabel:`Translate`"
+":guilabel:`Adminisztráció`, :guilabel:`Forrás szerkesztése`, :guilabel:`"
+"Képzett felhasználó`, :guilabel:`Szövegek felülvizsgálata`, "
+":guilabel:`Fordítás`"
 
 #: ../../admin/access.rst:494
 msgid "Delete comment"
@@ -1106,7 +1103,7 @@ msgstr "Megjegyzés megoldása"
 #: ../../admin/access.rst:496 ../../admin/access.rst:540
 #: ../../admin/access.rst:542
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
-msgstr ":guilabel:`Administration`, :guilabel:`Review strings`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Szövegek felülvizsgálata`"
 
 #: ../../admin/access.rst:498 ../../admin/addons.rst:165
 msgid "Component"
@@ -1124,7 +1121,7 @@ msgstr "Összetevő zárolása, fordítások megakadályozása"
 #: ../../admin/access.rst:574 ../../admin/access.rst:576
 #: ../../admin/access.rst:580
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr ":guilabel:`Administration`, :guilabel:`Manage repository`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Tároló kezelése`"
 
 #: ../../admin/access.rst:502 ../../api.rst:2583 ../../user/glossary.rst:4
 #: ../../user/translating.rst:310
@@ -1141,8 +1138,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
-"user`"
+":guilabel:`Adminisztráció`, :guilabel:`Szójegyzék kezelése`, :guilabel:`"
+"Képzett felhasználó`"
 
 #: ../../admin/access.rst:504
 msgid "Add glossary terminology"
@@ -1150,7 +1147,7 @@ msgstr "Szójegyzék-terminológia hozzáadása"
 
 #: ../../admin/access.rst:504
 msgid ":guilabel:`Administration`, :guilabel:`Manage glossary`"
-msgstr ":guilabel:`Administration`, :guilabel:`Manage glossary`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Szójegyzék kezelése`"
 
 #: ../../admin/access.rst:506
 msgid "Edit glossary entry"
@@ -1183,7 +1180,7 @@ msgstr "Fordítási memória szerkesztése"
 
 #: ../../admin/access.rst:514 ../../admin/access.rst:516
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
-msgstr ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Manage translation memory`"
 
 #: ../../admin/access.rst:516
 msgid "Delete translation memory"
@@ -1220,7 +1217,7 @@ msgstr "Képernyőkép hozzáadása"
 #: ../../admin/access.rst:524 ../../admin/access.rst:526
 #: ../../admin/access.rst:528
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Manage screenshots`"
 
 #: ../../admin/access.rst:526
 msgid "Edit screenshot"
@@ -1240,7 +1237,7 @@ msgstr "További szöveginformációk szerkesztése"
 
 #: ../../admin/access.rst:530
 msgid ":guilabel:`Administration`, :guilabel:`Edit source`"
-msgstr ":guilabel:`Administration`, :guilabel:`Edit source`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Forrás szerkesztése`"
 
 #: ../../admin/access.rst:532
 msgid "Strings"
@@ -1278,7 +1275,8 @@ msgstr "Forrásszövegek szerkesztése"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
+":guilabel:`Adminisztráció`, :guilabel:`Forrás szerkesztése`, :guilabel:`"
+"Képzett felhasználó`"
 
 #: ../../admin/access.rst:546 ../../user/translating.rst:46
 #: ../../workflows.rst:83
@@ -1299,9 +1297,9 @@ msgid ""
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Add "
-"suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
-"`Translate`"
+":guilabel:`Adminisztráció`, :guilabel:`Forrás szerkesztése`, :guilabel:`"
+"Javaslat hozzáadása`, :guilabel:`Képzett felhasználó`, :guilabel:`Szövegek "
+"felülvizsgálata`, :guilabel:`Fordítás`"
 
 #: ../../admin/access.rst:550
 msgid "Delete suggestion"
@@ -1309,7 +1307,7 @@ msgstr "Javaslat törlése"
 
 #: ../../admin/access.rst:550
 msgid ":guilabel:`Administration`, :guilabel:`Power user`"
-msgstr ":guilabel:`Administration`, :guilabel:`Power user`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Képzett felhasználó`"
 
 #: ../../admin/access.rst:552
 msgid "Vote on suggestion"
@@ -1328,8 +1326,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
-"languages`"
+":guilabel:`Adminisztráció`, :guilabel:`Képzett felhasználó`, :guilabel:`"
+"Nyelvek kezelése`"
 
 #: ../../admin/access.rst:556
 msgid "Perform automatic translation"
@@ -1337,7 +1335,7 @@ msgstr "Automatikus fordítás végrehajtása"
 
 #: ../../admin/access.rst:556
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr ":guilabel:`Administration`, :guilabel:`Automatic translation`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Automatic translation`"
 
 #: ../../admin/access.rst:558
 msgid "Delete existing translation"
@@ -1345,7 +1343,7 @@ msgstr "Meglévő fordítás törlése"
 
 #: ../../admin/access.rst:558 ../../admin/access.rst:562
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr ":guilabel:`Administration`, :guilabel:`Manage languages`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Nyelvek kezelése`"
 
 #: ../../admin/access.rst:560
 msgid "Download translation file"
@@ -1357,9 +1355,9 @@ msgid ""
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Access "
-"repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
-"`Translate`, :guilabel:`Manage languages`"
+":guilabel:`Adminisztráció`, :guilabel:`Forrás szerkesztése`, :guilabel:`"
+"Hozzáférés a tárolóhoz`, :guilabel:`Képzett felhasználó`, :guilabel:`"
+"Szövegek felülvizsgálata`, :guilabel:`Fordítás`, :guilabel:`Nyelvek kezelése`"
 
 #: ../../admin/access.rst:562
 msgid "Add several languages for translation"
@@ -1394,8 +1392,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
-"user`, :guilabel:`Manage repository`"
+":guilabel:`Adminisztráció`, :guilabel:`Hozzáférés a tárolóhoz`, :guilabel:`"
+"Képzett felhasználó`, :guilabel:`Tároló kezelése`"
 
 #: ../../admin/access.rst:572
 msgid "Commit changes to the internal repository"
@@ -1597,7 +1595,7 @@ msgstr ":guilabel:`Accept suggestion`"
 #: ../../admin/access.rst:685 ../../admin/access.rst:704
 #: ../../admin/access.rst:721 ../../admin/access.rst:734
 msgid ":guilabel:`Add suggestion`"
-msgstr ":guilabel:`Add suggestion`"
+msgstr ":guilabel:`Javaslat hozzáadása`"
 
 #: ../../admin/access.rst:648 ../../admin/access.rst:705
 msgid ":guilabel:`Delete suggestion`"
@@ -1659,7 +1657,7 @@ msgstr ":guilabel:`Edit string when suggestions are enforced`"
 
 #: ../../admin/access.rst:660 ../../admin/access.rst:727
 msgid ":guilabel:`Review strings`"
-msgstr ":guilabel:`Review strings`"
+msgstr ":guilabel:`Szövegek felülvizsgálata`"
 
 #: ../../admin/access.rst:661 ../../admin/access.rst:681
 #: ../../admin/access.rst:711
@@ -1790,7 +1788,8 @@ msgstr ""
 
 #: ../../admin/access.rst:786
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr "Alapértelmezett szerepkörök: `Add suggestion`, `Access repository`"
+msgstr ""
+"Alapértelmezett szerepkörök: `Javaslat hozzáadása`, `Hozzáférés a tárolóhoz`"
 
 #: ../../admin/access.rst:788
 msgid "`Viewers`"
@@ -1828,7 +1827,7 @@ msgstr "Alapértelmezett csapat minden felhasználó számára."
 
 #: ../../admin/access.rst:803
 msgid "Default roles: `Power user`"
-msgstr "Alapértelmezett szerepkörök: `Power user`"
+msgstr "Alapértelmezett szerepkörök: `Képzett felhasználó`"
 
 #: ../../admin/access.rst:805 ../../workflows.rst:190
 msgid "`Reviewers`"
@@ -1840,7 +1839,7 @@ msgstr "Csoport a lektorok számára (lásd: :ref:`workflows`)."
 
 #: ../../admin/access.rst:808
 msgid "Default roles: `Review strings`"
-msgstr "Alapértelmezett szerepkörök: `Review strings`"
+msgstr "Alapértelmezett szerepkörök: `Szövegek felülvizsgálata`"
 
 #: ../../admin/access.rst:810
 msgid "`Managers`"
@@ -1852,7 +1851,7 @@ msgstr "Csoport adminisztrátorok számára."
 
 #: ../../admin/access.rst:813
 msgid "Default roles: `Administration`"
-msgstr "Alapértelmezett szerepkörök: `Administration`"
+msgstr "Alapértelmezett szerepkörök: `Adminisztráció`"
 
 #: ../../admin/access.rst:815
 msgid "`Project creators`"
@@ -4857,8 +4856,8 @@ msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
-"A közlemények minden szinten közzétehetők a :guilabel:`Manage` menüben, a :"
-"guilabel:`Post announcement` használatával:"
+"A közlemények minden szinten közzétehetők a :guilabel:`Kezelés` menüben, a "
+":guilabel:`Post announcement` használatával:"
 
 #: ../../admin/announcements.rst:21
 msgid ""
@@ -5873,7 +5872,7 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
-"A projekt biztonsági mentését a :guilabel:`Manage` ↓ :guilabel:`Backups` "
+"A projekt biztonsági mentését a :guilabel:`Kezelés` ↓ :guilabel:`Backups` "
 "menüpontban végezheted el. A biztonsági mentés visszaállítható a projekt "
 "létrehozásakor (lásd: :ref:`adding-projects`)."
 
@@ -7949,8 +7948,8 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
-"A Weblate a fordítási projekted :guilabel:`Manage` menüje alatt található :"
-"guilabel:`Fonts` eszközével lehetőséget biztosít a betűtípusok feltöltésére "
+"A Weblate a fordítási projekted :guilabel:`Kezelés` menüje alatt található "
+":guilabel:`Fonts` eszközével lehetőséget biztosít a betűtípusok feltöltésére "
 "és kezelésére. Feltölthetsz TrueType vagy OpenType betűtípusokat, "
 "létrehozhatsz betűtípus-csoportokat, és ezeket használhatod az ellenőrzés "
 "során."
@@ -9375,7 +9374,7 @@ msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
-"Előfordulhat, hogy a :guilabel:`Administration` is szükséges egy tároló fork-"
+"Előfordulhat, hogy a :guilabel:`Adminisztráció` is szükséges egy tároló fork-"
 "olásához, ha fork-olást tervezel, és az eredeti tároló nem nyilvános."
 
 #: ../../admin/config.rst:844
@@ -18628,13 +18627,14 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
-"Ha ez is sikertelen, egy új nyelvi definíció jön létre az alapértelmezett "
-"beállításokkal (balról jobbra szövegirány, egyes szám). Az automatikusan "
-"létrehozott ``xx_XX`` kódú nyelv neve :guilabel:`xx_XX (generated)` lesz. "
-"Később érdemes lehet ezt megváltoztatni az adminisztrációs felületen (lásd: :"
-"ref:`changing-languages`), és jelenteni a hibakövető rendszerben (lásd: :ref:"
-"`contributing`), hogy a megfelelő definíció bekerülhessen a következő "
-"Weblate kiadásba."
+"Ha ez is sikertelen lenne, akkor egy új nyelvi definíció jön létre az "
+"alapértelmezett beállításokkal (balról jobbra írásirány, egyes szám/többes "
+"szám megkülönböztetés nélkül). Az automatikusan létrehozott nyelv ``xx_XX`` "
+"kóddal fog szerepelni, és a következő néven jelenik meg: :guilabel:`xx_XX ("
+"automatikusan létrehozott)`. Ezt később célszerű módosítani az "
+"adminisztrációs felületen (lásd: :ref:`changing-languages`), és érdemes "
+"jelenteni a hibakövető rendszerben is (lásd: :ref:`contributing`), hogy a "
+"megfelelő nyelvi definíció bekerülhessen a következő Weblate kiadásba."
 
 #: ../../admin/languages.rst:59
 msgid ""
@@ -18787,10 +18787,10 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
-"A többes szám vagy formula megváltoztatása csak a szövegek megjelenítését "
-"befolyásolja, de nem érinti a szövegek fájlokba történő elemzését és "
-"tárolását. Ha úgy gondolod, hogy a Weblate helytelenül viselkedik, kérjük, "
-"jelentsd be a problémát a hibakövetőnken."
+"A többes szám szabályainak vagy képletének módosítása csak a szövegek "
+"megjelenítésére van hatással, de nem befolyásolja azok fájlba írását vagy "
+"értelmezését. Amennyiben úgy gondolod, hogy a Weblate helytelenül "
+"viselkedik, jelents egy hibát a hibakövető rendszerünkben."
 
 #: ../../admin/languages.rst:163
 msgid "Plural number"
@@ -21973,9 +21973,10 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"Alapértelmezés szerint a :guilabel:`Users` csoport tagjai és az anonim "
-"felhasználók hozzáférnek a nyilvános projektek adattáraihoz a :guilabel:"
-"`Access repository` és a :guilabel:`Power user` szerepkörökön keresztül."
+"Alapértelmezés szerint a :guilabel:`Felhasználók` csoport tagjai és az "
+"anonim felhasználók hozzáférnek a nyilvános projektek adattáraihoz a "
+":guilabel:`Hozzáférés a tárolóhoz` és a :guilabel:`Képzett felhasználó` "
+"szerepkörökön keresztül."
 
 #: ../../admin/optionals.rst:69
 msgid "Billing"
@@ -22015,7 +22016,7 @@ msgid ""
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
 "Először létre kell hoznod egy számlázási tervet a számlázás aktiválásához. "
-"Lépj a `Administration` szekcióba (amit a csavarkulcs ikon jelöl), és nyisd "
+"Lépj a `Adminisztráció` szekcióba (amit a csavarkulcs ikon jelöl), és nyisd "
 "meg a `Tools` képernyőt. Innen haladj tovább a `Django admin interface`-re."
 
 #: ../../admin/optionals.rst:95
@@ -29334,10 +29335,9 @@ msgid ""
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
-"Számos változás történt a :file:`settings_example.py` fájlban, ezek közül a "
-"legfontosabbak a ``AUTH_PASSWORD_VALIDATORS`` és a ``INSTALLED_APPS`` "
-"beállítások módosításai; kérjük, ezeknek megfelelően frissítsd a saját "
-"beállításaidat."
+"A :file:`settings_example.py` fájlban több változás is történt, ezek közül a "
+"legfontosabb az ``AUTH_PASSWORD_VALIDATORS`` és az ``INSTALLED_APPS`` "
+"beállítás módosítása; igazítsd ehhez a saját beállításaidat is."
 
 #: ../../changes.rst:137
 msgid ""
@@ -29785,7 +29785,7 @@ msgid ""
 "guilabel:`Manage` → :guilabel:`Duplicate this component`)."
 msgstr ""
 "Most már elérhető egy gyorsbillentyű a összetevő duplikálásához közvetlenül "
-"a menüben (:guilabel:`Manage` → :guilabel:`Duplicate this component`)."
+"a menüben (:guilabel:`Kezelés` → :guilabel:`Duplicate this component`)."
 
 #: ../../changes.rst:298
 msgid "Included username when generating :ref:`credits`."
@@ -31728,7 +31728,7 @@ msgstr ""
 
 #: ../../changes.rst:1102
 msgid "Fixed editing :guilabel:`Administration` team."
-msgstr "Javítva az :guilabel:`Administration` csapat szerkesztése."
+msgstr "Javítva az :guilabel:`Adminisztráció` csapat szerkesztése."
 
 #: ../../changes.rst:1103
 msgid ""
@@ -37517,8 +37517,8 @@ msgid ""
 msgstr ""
 "**Változás a 4.14.2-es verzióban:** Elavultnak minősül a VCS (verziókövető "
 "rendszer) szolgáltatás API kulcsainak nem biztonságos konfigurálása _TOKEN/"
-"_USERNAME beállításokkal a _CREDENTIALS lista helyett. Docker esetén kérjük, "
-"adj hozzá egy megfelelő _HOST direktívát is. Például lásd: "
+"_USERNAME beállításokkal a _CREDENTIALS lista helyett. Docker esetén, adj "
+"hozzá egy megfelelő _HOST direktívát is. Például lásd: "
 ":envvar:`WEBLATE_GITHUB_HOST` és :setting:`GITHUB_CREDENTIALS`."
 
 #: ../../changes/v4.rst:332
@@ -37654,8 +37654,8 @@ msgid ""
 "Added separate permission for resolving comments and grant it to the :"
 "guilabel:`Review strings` role."
 msgstr ""
-"Külön jogosultság hozzáadva a megjegyzések megoldásához, és ez megadva a :"
-"guilabel:`Review strings` szerepkörnek."
+"Külön jogosultság hozzáadva a megjegyzések megoldásához, és ez megadva a "
+":guilabel:`Szövegek felülvizsgálata` szerepkörnek."
 
 #: ../../changes/v4.rst:368
 msgid "Added support for storing alternative translations in the CSV file."
@@ -41124,9 +41124,10 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"A hibák megjelenhetnek alkalmazás-összeomlásként vagy különféle helytelen "
-"működésként. Nyugodtan gyűjts információt bármely ilyen problémáról, és "
-"küldd el a `hibakövető <https://github.com/WeblateOrg/weblate/issues>`_-re."
+"A hibák megjelenhetnek alkalmazás-összeomlásként vagy különféle rendellenes "
+"működésként. Nyugodtan gyűjts információt bármilyen ilyen problémáról, és "
+"küldd be a `hibakövető <https://github.com/WeblateOrg/weblate/issues>`_ "
+"rendszerünkbe."
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -42213,8 +42214,8 @@ msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
-"A Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ a "
-"GitHub-on található."
+"A Weblate `hibakövetője <https://github.com/WeblateOrg/weblate/issues>`_ a "
+"GitHubon található."
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -42265,10 +42266,9 @@ msgid ""
 "sensitive nature of security issues, we ask that they not be publicly "
 "reported in this fashion."
 msgstr ""
-"A legtöbb normál hibát a Weblate-ben a nyilvános `GitHub issues tracker "
-"<https://github.com/WeblateOrg/weblate/issues>`_-en jelentik, de a "
-"biztonsági problémák érzékeny jellege miatt kérjük, hogy ezeket ne ilyen "
-"módon tegyék közzé nyilvánosan."
+"A Weblate szokásos hibáit mostantól a nyilvános `GitHub hibakövetőben "
+"<https://github.com/WeblateOrg/weblate/issues>`_ lehet jelenteni, de a "
+"biztonsági problémák érzékeny jellege miatt ezeket ne nyilvánosan jelezd."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -46378,10 +46378,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
-"A nyelvek, összetevők vagy az őket tartalmazó projektek eltávolíthatók "
-"(törlődnek a Weblate-ből és a távoli tárolóból, ha használva van) a :"
-"guilabel:`Manage` ↓ :guilabel:`Removal` menüpontban minden egyes projektnél, "
-"összetevőnél vagy nyelvnél."
+"A nyelvek, összetevők vagy az őket tartalmazó projektek eltávolíthatók ("
+"törlődnek a Weblate-ből és a távoli tárolóból, ha használva van) a "
+":guilabel:`Kezelés` ↓ :guilabel:`Removal` menüpontban minden egyes "
+"projektnél, összetevőnél vagy nyelvnél."
 
 #: ../../devel/translations.rst:79
 msgid ""
@@ -46656,8 +46656,8 @@ msgstr ""
 "általában elkerülheted, ha a Weblate fordításait összeolvasztod, mielőtt "
 "változtatásokat végeznél a fordítási fájlokban (például mielőtt futtatnád a "
 "msgmerge-t). Csak mondd meg a Weblate-nek, hogy kötelezze el az összes függő "
-"fordítást (ezt megteheted a :guilabel:`Repository maintenance` alatt a :"
-"guilabel:`Manage` menüben), és olvaszd össze a tárolót (ha az automatikus "
+"fordítást (ezt megteheted a :guilabel:`Repository maintenance` alatt a "
+":guilabel:`Kezelés` menüben), és olvaszd össze a tárolót (ha az automatikus "
 "push nincs bekapcsolva)."
 
 #: ../../faq.rst:46
@@ -58738,7 +58738,7 @@ msgstr ""
 "A következő fejezetekben az *bármely felhasználó* kifejezés olyan "
 "felhasználóra utal, aki hozzáfér a fordításhoz. Ha a projekt nyilvános, "
 "akkor ez lehet bármely hitelesített felhasználó vagy olyan felhasználó, aki "
-"rendelkezik a projekt :guilabel:`Translate` jogosultságával."
+"rendelkezik a projekt :guilabel:`Fordítás` jogosultságával."
 
 #: ../../workflows.rst:61
 msgid "Each translated string can be in one of the following states:"
@@ -59003,8 +59003,8 @@ msgid ""
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
 "Az értékelések bekapcsolhatók a projekt beállításaiban, a projekt "
-"beállításainak :guilabel:`Workflow` aloldalán (a :guilabel:`Manage` → :"
-"guilabel:`Settings` menüben található):"
+"beállításainak :guilabel:`Workflow` aloldalán (a :guilabel:`Kezelés` → "
+":guilabel:`Settings` menüben található):"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
