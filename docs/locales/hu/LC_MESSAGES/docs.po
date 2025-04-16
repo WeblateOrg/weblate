@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-16 17:44+0000\n"
+"PO-Revision-Date: 2025-04-16 21:40+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -82,8 +82,8 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
-"**Válaszd ezt nyílt forráskódú projektekhez vagy ha a Weblate példányod "
-"privát vagy lezárt.**"
+"**Ezt válaszd nyílt forráskódú projektekhez vagy ha a Weblate példányod "
+"személyes vagy korlátozott hozzáférésű.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:491
 msgid ":guilabel:`Protected`"
@@ -106,8 +106,8 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
-"**Válaszd ezt, ha láthatóságot szeretnél elérni, de mégis szeretnéd "
-"szabályozni, ki járulhat hozzá.**"
+"**Ezt válaszd, ha szeretnél nagyobb láthatóságot, de továbbra is meg akarod "
+"határozni, kik járulhatnak hozzá.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:493
 msgid ":guilabel:`Private`"
@@ -121,8 +121,8 @@ msgstr "Csak a kiválasztott felhasználók számára látható."
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
-"**Válaszd ezt azokhoz a projektekhez, amelyeket egyáltalán nem szabad "
-"nyilvánosan közzétenni.**"
+"**Ezt válaszd olyan projektekhez, amelyeket egyáltalán nem szeretnél "
+"nyilvánosságra hozni.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:495
 msgid ":guilabel:`Custom`"
@@ -134,15 +134,17 @@ msgstr "A Hosted Weblate-en nem elérhető."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr "Minden engedélyt az :ref:`custom-acl` használatával kell beállítanod."
+msgstr ""
+"Minden jogosultságot neked kell beállítanod az :ref:`custom-acl` "
+"használatával."
 
 #: ../../admin/access.rst:60
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
-"**Válaszd ezt a saját Weblate példányodon, ha egyedi, részletekbe menően "
-"testreszabható módon szeretnéd meghatározni a hozzáférést.**"
+"**Ezt válaszd a saját Weblate példányodon, ha pontosan és részletesen "
+"szeretnéd szabályozni a hozzáféréseket.**"
 
 #: ../../admin/access.rst:62
 msgid ""
@@ -150,9 +152,9 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-"A :guilabel:`Access control` a konfiguráció :guilabel:`Access` fülén "
-"módosítható (:guilabel:`Manage` ↓ :guilabel:`Settings`) az egyes projektek "
-"esetében."
+"A :guilabel:`Hozzáférés-vezérlés` a projekt beállításainál található "
+":guilabel:`Hozzáférés` fülön módosítható (:guilabel:`Kezelés` ↓ "
+":guilabel:`Beállítások`)."
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -4421,8 +4423,8 @@ msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
-"A parancsfájl végrehajtása az adott összetevő VCS (verziókezelő rendszer) "
-"gyökérkönyvtárára állított aktuális könyvtárral történik."
+"A parancsfájl úgy fut le, hogy az aktuális könyvtár az adott összetevő VCS "
+"(verziókezelő) tárolójának gyökérkönyvtárára van beállítva."
 
 #: ../../admin/addons.rst:1223
 msgid "Additionally, the following environment variables are available:"
@@ -4438,7 +4440,7 @@ msgstr "Upstream adattár URL-je."
 
 #: ../../admin/addons.rst:1235
 msgid "Absolute path to VCS repository."
-msgstr "A VCS adattár abszolút elérési útja."
+msgstr "Abszolút elérési út a VCS (verziókezelő) tárolóhoz."
 
 #: ../../admin/addons.rst:1239
 msgid "Repository branch configured in the current component."
@@ -4514,10 +4516,10 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"Használható a fordítási fájlok frissítésére, amikor a VCS upstream forrása "
-"megváltozik. Ehhez kérlek, vedd figyelembe, hogy a Weblate csak a VCS-be "
-"elkötelezett fájlokat látja, ezért a változtatásokat a script részeként kell "
-"elkötelezned."
+"Használható a fordítási fájlok frissítésére, amikor a VCS (verziókezelő "
+"rendszer) forrásága megváltozik. Ehhez ne feledd, hogy a Weblate csak a VCS-"
+"be véglegesített fájlokat látja, ezért a módosításokat a parancsfájl "
+"részeként véglegesítened kell."
 
 #: ../../admin/addons.rst:1302
 msgid "For example with Gulp you can do it using following code:"
@@ -8839,9 +8841,9 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
-"Az a mappa, amelyben a Weblate minden adatot tárol. Tartalmazza a VCS "
-"tárolókra mutató linkeket, egy teljes szöveges indexet és különféle "
-"konfigurációs fájlokat külső eszközökhöz."
+"A mappa, amelyben a Weblate minden adatot tárol. Tartalmazza a VCS "
+"(verziókezelő) tárolókra mutató hivatkozásokat, egy teljes szövegű indexet, "
+"valamint különféle külső eszközökhöz tartozó konfigurációs fájlokat."
 
 #: ../../admin/config.rst:429
 msgid ":file:`home`"
@@ -9560,9 +9562,9 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
-"Például ahelyett, hogy ``https://user:password@git.example.com/repo.git`` "
-"jelenne meg, csak ``https://git.example.com/repo.git`` fog látszódni. "
-"Hasonló módon próbálja meg az VCS hibaüzeneteket is megtisztítani."
+"Például a ``https://user:password@git.example.com/repo.git`` helyett csak a "
+"``https://git.example.com/repo.git`` jelenik meg. Hasonló módon megpróbálja "
+"megtisztítani a VCS (verziókezelő rendszer) hibaüzeneteit is."
 
 #: ../../admin/config.rst:989
 msgid "On by default."
@@ -10899,7 +10901,8 @@ msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:2023
 msgid "Configuration of available VCS backends."
-msgstr "A rendelkezésre álló VCS háttérrendszerek konfigurációja."
+msgstr ""
+"A rendelkezésre álló VCS (verziókezelő) háttérrendszerek konfigurációja."
 
 #: ../../admin/config.rst:2027
 msgid "Weblate tries to use all supported back-ends you have the tools for."
@@ -10911,7 +10914,7 @@ msgstr ""
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
 "Ezzel korlátozhatod a választási lehetőségeket vagy hozzáadhatsz egyedi VCS "
-"háttérrendszereket."
+"(verziókezelő) háttérrendszereket."
 
 #: ../../admin/config.rst:2039 ../../faq.rst:525
 msgid ":ref:`vcs`"
@@ -11081,10 +11084,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Ez a szakasz a VCS hitelesítő adat változókat írja le, mint például a(z) :"
-"setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, :setting:"
-"`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
-"`BITBUCKETSERVER_CREDENTIALS`."
+"Ez a szakasz a VCS (verziókezelő rendszer) hitelesítő adatokat tartalmazó "
+"változóit írja le, mint például :setting:`GITHUB_CREDENTIALS`, "
+":setting:`GITLAB_CREDENTIALS`, :setting:`GITEA_CREDENTIALS`, "
+":setting:`PAGURE_CREDENTIALS`, :setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2215
 msgid ""
@@ -11153,7 +11156,8 @@ msgstr "Ez a folyamat:"
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
-"A fejlesztők módosításokat végeznek, és feltöltik azokat a VCS tárolóba."
+"A fejlesztők módosításokat végeznek, majd feltöltik azokat a VCS "
+"(verziókezelő) tárolóba."
 
 #: ../../admin/continuous.rst:18
 msgid ""
@@ -11166,8 +11170,8 @@ msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
-"A Weblate lekéri a változásokat a VCS tárolóból, feldolgozza a fordítási "
-"fájlokat, és frissíti az adatbázisát, lásd: :ref:`update-vcs`."
+"A Weblate lekéri a módosításokat a VCS (verziókezelő) tárolóból, feldolgozza "
+"a fordítási fájlokat, és frissíti az adatbázisát, lásd :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -11971,11 +11975,12 @@ msgid ""
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
 "A Weblate működése során, ha lehetséges, ugyanattól a szerzőtől származó "
-"módosításokat egy commitba vonja össze. Ez jelentősen csökkenti a "
-"véglegesítések számát, azonban előfordulhat, hogy manuálisan kell "
-"kezdeményezned a véglegesítést, ha szeretnéd a VCS tárolót szinkronba hozni, "
-"például egy összevonás miatt (ez alapértelmezetten engedélyezett a "
-":guilabel:`Kezelők` csoport számára, lásd: :ref:`privileges`)."
+"módosításokat egy véglegesítésbe (commit) vonja össze. Ez jelentősen "
+"csökkenti a véglegesítések számát, azonban előfordulhat, hogy manuálisan "
+"kell kezdeményezned a véglegesítést, ha szeretnéd a VCS (verziókezelő) "
+"tárolót szinkronba hozni, például egy összevonás miatt (ez alapértelmezetten "
+"engedélyezett a :guilabel:`Kezelők` csoport számára, lásd: "
+":ref:`privileges`)."
 
 #: ../../admin/continuous.rst:513
 msgid ""
@@ -12583,8 +12588,8 @@ msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
-"Fájlrendszer tároló a VCS tárolók és a feltöltött felhasználói adatok "
-"tárolására. Ezt az összes folyamat megosztja."
+"Fájlrendszer tároló a VCS (verziókezelő) tárolók és a feltöltött "
+"felhasználói adatok tárolására. Ezt minden folyamat közösen használja."
 
 #: ../../admin/install.rst:153
 msgid "Use networked storage when scaling Weblate horizontally."
@@ -13776,9 +13781,9 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
-"A Weblate VCS parancsokat hajt végre, és ezek elfogadják a környezeti proxy "
-"beállításokat. Az ajánlott megközelítés az, hogy a proxy beállításokat a :"
-"file:`settings.py`-ben definiáljuk:"
+"A Weblate VCS (verziókezelő rendszer) parancsokat hajt végre és ezek "
+"elfogadják a környezeti proxy beállításokat. Az ajánlott megközelítés az, "
+"hogy a proxy beállításokat a :file:`settings.py` fájlban definiáljuk:"
 
 #: ../../admin/install.rst:777
 msgid ""
@@ -15342,7 +15347,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1835
 msgid "Migrating VCS repositories"
-msgstr "A VCS tárolók migrálása"
+msgstr "VCS (verziókezelő rendszer) tárolók migrálása"
 
 #: ../../admin/install.rst:1837
 msgid ""
@@ -15350,9 +15355,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
-"A(z) :setting:`DATA_DIR` alatt tárolt VCS tárolókat is át kell költöztetni. "
-"Egyszerűen átmásolhatod őket vagy használhatod a :command:`rsync` parancsot, "
-"hogy hatékonyabban végezd el a migrálást."
+"A :setting:`DATA_DIR` alatt tárolt VCS (verziókezelő) tárolókat is át kell "
+"költöztetni. Egyszerűen átmásolhatod őket vagy a költöztetés hatékonyabb "
+"elvégzéséhez használhatod a :command:`rsync` parancsot."
 
 #: ../../admin/install.rst:1842
 msgid "Other notes"
@@ -18276,9 +18281,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
-"Hozz létre egy összetevőt, ami a tényleges fordítandó objektum - ez mutat a "
-"VCS tárolóra, és kiválasztja, hogy mely fájlokat kell fordítani. További "
-"részletekért lásd: :ref:`component`."
+"Hozz létre egy összetevőt, ami a tényleges fordítási objektumként szolgál – "
+"ez mutat a VCS (verziókezelő) tárolóra, és kiválasztja, hogy mely fájlokat "
+"kell lefordítani. További részletekért lásd: :ref:`component`."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -18301,8 +18306,8 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
-"Miután a fenti lépések befejeződtek (ez hosszadalmas folyamat lehet a VCS "
-"tároló méretétől és a fordítandó üzenetek számától függően), elkezdheted a "
+"Miután a fenti lépések befejeződtek (ez időigényes lehet a VCS (verziókezelő)"
+" tároló méretétől és a fordítandó üzenetek számától függően), elkezdheted a "
 "fordítást."
 
 #: ../../admin/install/steps/install-configure.rst:2
@@ -20908,7 +20913,9 @@ msgstr "Meghatározza, honnan lesznek importálva az összetevők."
 
 #: ../../admin/management.rst:326
 msgid "Use the given VCS repository from this component for all of them."
-msgstr "Használd ennek az összetevőnek a megadott VCS adattárát mindegyikhez."
+msgstr ""
+"Használd az adott összetevőhöz tartozó VCS (verziókezelő) tárolót "
+"mindegyikhez."
 
 #: ../../admin/management.rst:330
 msgid "Skip (already) imported components."
@@ -21103,8 +21110,8 @@ msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
-"Megadhatod, hogy melyik összetevőt választod főösszetevőként - azt, amelyik "
-"ténylegesen tartalmazza a VCS tárolót."
+"Megadhatod, hogy melyik összetevő legyen a fő – vagyis az, amelyik "
+"ténylegesen tartalmazza a VCS (verziókezelő) tárolót."
 
 #: ../../admin/management.rst:448
 msgid "Specify the overall, project or component translation license."
@@ -21404,7 +21411,7 @@ msgid ""
 "updates in the VCS repository)."
 msgstr ""
 "Újratölti a fordításokat a lemezről (például ha frissítéseket végeztél a VCS "
-"tárolóban)."
+"(verziókezelő) tárolóban)."
 
 #: ../../admin/management.rst:730
 msgid "Force update, even if the files should be up-to-date."
@@ -21423,10 +21430,10 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
-"Ritkán van szükség arra, hogy ezt meghívd, mert a Weblate automatikusan "
-"betölti a megváltozott fájlokat minden VCS frissítésnél. Erre akkor van "
-"szükség, ha kézzel megváltoztattad a Weblate VCS tárolót vagy néhány "
-"speciális esetben egy frissítés után."
+"Erre ritkán van szükség, mivel a Weblate automatikusan betölti a módosított "
+"fájlokat minden VCS (verziókezelő) frissítésnél. Akkor lehet szükséges, ha "
+"manuálisan módosítottad a Weblate mögötti VCS tárolót vagy bizonyos "
+"speciális esetekben egy frissítés után."
 
 #: ../../admin/management.rst:746
 msgid "lock_translation"
@@ -21505,7 +21512,8 @@ msgstr "pushgit"
 #: ../../admin/management.rst:807
 msgid "Pushes committed changes to the upstream VCS repository."
 msgstr ""
-"A véglegesített változtatásokat feltölti a felsőbb szintű VCS tárolóba."
+"A véglegesített változtatásokat feltölti a felsőbb szintű VCS (verziókezelő) "
+"tárolóba."
 
 #: ../../admin/management.rst:811
 msgid "Force commits any pending changes, prior to pushing."
@@ -21606,7 +21614,9 @@ msgstr "updategit"
 
 #: ../../admin/management.rst:894
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr "Lekérdezi a távoli VCS-tárolókat, és frissíti a belső gyorsítótárat."
+msgstr ""
+"Lekérdezi a távoli VCS (verziókezelő) tárolókat és frissíti a belső "
+"gyorsítótárat."
 
 #: ../../admin/management.rst:901
 msgid ""
@@ -22561,9 +22571,9 @@ msgid ""
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
-"A Weblate a projekt/összetevők fordítható VCS tartalmát fa szerkezetbe "
-"rendezi. Ezenfelül a projekteken belül kategóriák segítségével is "
-"rendezheted az összetevőket."
+"A Weblate fa szerkezetben rendezi a projekt/összetevők fordítható VCS ("
+"verziókezelő rendszer) tartalmát. Emellett az összetevőket kategóriák "
+"segítségével is rendszerezheted egy projekten belül."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -22589,9 +22599,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
-"A felette lévő szinten a(z) :ref:`component`, ami valójában a lefordítandó "
-"összetevő, meghatározza a használni kívánt VCS-tárolót és a lefordítandó "
-"fájlok maszkját."
+"Az :ref:`component` szintjén, ami valójában a lefordítandó összetevő, "
+"megadod a használandó VCS (verziókezelő) tárolót, valamint a fordítandó "
+"fájlok mintáját."
 
 #: ../../admin/projects.rst:22
 msgid ""
@@ -22599,10 +22609,10 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
-"A :ref:`component` felett találhatóak az egyéni fordítások, amelyeket a "
-"Weblate automatikusan kezel, amikor a fordítási fájlok (amelyek megfelelnek "
-"a :ref:`component`-ben meghatározott :ref:`component-filemask`-nak) "
-"megjelennek a VCS tárolóban."
+"Az :ref:`component` felett találhatók az egyes fordítások, amelyeket a "
+"Weblate automatikusan kezel fordítási fájlként – ezek a fájlok a VCS "
+"(verziókezelő) tárolóban jelennek meg, és megfelelnek az :ref:`component` "
+"alatt megadott :ref:`component-filemask` beállításnak."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -22619,10 +22629,10 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
-"Megoszthatod a klónozott VCS-tárolókat a(z) :ref:`internal-urls` "
-"segítségével. Ennek a funkciónak a használata erősen ajánlott, ha sok "
-"összetevő osztozik ugyanazon VCS-en. Javítja a teljesítményt és csökkenti a "
-"szükséges lemezterületet."
+"Megoszthatod a klónozott VCS (verziókezelő) tárolókat a :ref:`internal-urls` "
+"használatával. Ennek a funkciónak a használata erősen ajánlott, ha több "
+"összetevő is ugyanazt a VCS-t használja. Ez javítja a teljesítményt és "
+"csökkenti a szükséges lemezterületet."
 
 #: ../../admin/projects.rst:38
 msgid "Adding translation projects and components"
@@ -23088,10 +23098,10 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
-"Az összetevő egy fordítandó elemek csoportosítása. Megadod a VCS tároló "
-"helyét és a fájlmaszkot azokhoz a fájlokhoz, amelyeket le szeretnél "
-"fordíttatni, és a Weblate automatikusan lekéri ezt a VCS-t, majd megkeresi "
-"az összes olyan fájlt, amely megfelel a fordítható fájloknak."
+"Egy összetevő egy fordítandó egységcsoportot jelöl. Megadod a VCS "
+"(verziókezelő) tároló helyét és a fájlmaszkot, hogy mely fájlokat szeretnéd "
+"fordítani, a Weblate pedig automatikusan letölti ezeket a VCS-ből, és "
+"megkeresi az összes megfelelő fordítható fájlt."
 
 #: ../../admin/projects.rst:317
 msgid ""
@@ -23136,8 +23146,9 @@ msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
-"Az összetevő tartalmazza az összes fontos paramétert a VCS-sel való "
-"munkához, és a fordítások kinyeréséhez:"
+"Az összetevő tartalmazza az összes fontos beállítást, amelyek a VCS ("
+"verziókezelő rendszer) használatához és a fordítások kinyeréséhez "
+"szükségesek:"
 
 #: ../../admin/projects.rst:339 ../../admin/projects.rst:1119
 msgid "Component name"
@@ -23171,7 +23182,8 @@ msgstr "Verziókövető rendszer"
 
 #: ../../admin/projects.rst:362
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr "Használandó VCS, részletekért lásd :ref:`vcs`."
+msgstr ""
+"A használandó VCS (verziókezelő rendszer), részletekért lásd: :ref:`vcs`."
 
 #: ../../admin/projects.rst:366 ../../admin/projects.rst:452
 msgid ":ref:`push-changes`"
@@ -23183,7 +23195,7 @@ msgstr "Forráskód tárolója"
 
 #: ../../admin/projects.rst:373
 msgid "VCS repository used to pull changes."
-msgstr "A változások lehúzására használt VCS tároló."
+msgstr "A módosítások lekérésére használt VCS (verziókezelő) tároló."
 
 #: ../../admin/projects.rst:377
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
@@ -23196,9 +23208,9 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
-"Ez lehet egy valódi VCS URL vagy ``weblate://project/component``, amely azt "
-"jelzi, hogy a tárolót meg kell osztani egy másik összetevővel. További "
-"részletekért lásd :ref:`internal-urls`."
+"Ez lehet egy valódi VCS URL vagy ``weblate://project/component``, ami azt "
+"jelzi, hogy a tárolót egy másik összetevővel kell megosztani. További "
+"részletekért lásd: :ref:`internal-urls`."
 
 #: ../../admin/projects.rst:388
 msgid "Repository push URL"
@@ -23290,7 +23302,8 @@ msgstr "Tároló ág"
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
 msgstr ""
-"Melyik ágat kell kiválasztani a VCS-ből, és hol kell keresni a fordításokat."
+"Melyik ágat kell beolvasni a VCS (verziókezelő) tárolóból, és hol keresse a "
+"fordításokat."
 
 #: ../../admin/projects.rst:439
 msgid "Push branch"
@@ -23307,8 +23320,8 @@ msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
-"Ez jelenleg csak a Git, GitLab és GitHub esetében támogatott, más VCS "
-"integrációknál figyelmen kívül hagyja."
+"Ez jelenleg csak a Git, GitLab és GitHub esetében támogatott, más VCS ("
+"verziókezelő rendszer) integrációknál figyelmen kívül lesz hagyva."
 
 #: ../../admin/projects.rst:457 ../../devel/gettext.rst:226
 #: ../../formats/android.rst:72 ../../formats/android.rst:87
@@ -23376,10 +23389,10 @@ msgid ""
 "the component level and necessitates the use of an asterisk \"*\" to replace "
 "the screenshot file name."
 msgstr ""
-"Ez a funkció lehetővé teszi a képernyőképek felfedezését és frissítését a "
-"képernyőkép fájlmaszkok segítségével, a VCS tárolóból származó útvonalak "
-"használatával. Ez az összetevő szintjén működik, és szükséges az asterisk "
-"\"*\" használata a képernyőkép fájlnevének helyettesítésére."
+"Ez a funkció lehetővé teszi a képernyőképek felismerését és frissítését "
+"képernyőkép fájlmaszkok segítségével, a VCS (verziókezelő) tárolóból "
+"származó elérési utak alapján. Ez az összetevő szintjén működik, és "
+"szükséges hozzá, hogy a képernyőkép fájlneve helyén csillagot („*”) használj."
 
 #: ../../admin/projects.rst:483
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
@@ -23407,7 +23420,9 @@ msgstr ""
 
 #: ../../admin/projects.rst:492
 msgid "Let's assume your VCS repository has a structure like this:"
-msgstr "Tegyük fel, hogy a VCS tárolódnak ilyen struktúrája van:"
+msgstr ""
+"Tegyük fel, hogy a VCS (verziókezelő) tárolód szerkezete a következőképpen "
+"néz ki:"
 
 #: ../../admin/projects.rst:501
 msgid ""
@@ -24033,8 +24048,9 @@ msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
-"Beállíthatod, hogyan kezelje a frissítéseket a felsőbb szintű adattárból. A "
-"tényleges megvalósítás a VCS-től függ, lásd :doc:`/vcs`."
+"Beállíthatod, hogyan kezelje a frissítéseket a felsőbb szintű tárolóból. A "
+"konkrét megvalósítás a használt VCS (verziókezelő rendszer) típusától függ – "
+"lásd: :doc:`/vcs`."
 
 #: ../../admin/projects.rst:815
 msgid "Rebase"
@@ -24749,8 +24765,8 @@ msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
 msgstr ""
-"A VCS tároló lekérése és a fordítások Weblate-be történő importálása "
-"hosszadalmas folyamat lehet, a fordítások méretétől függően. Íme néhány tipp:"
+"A VCS (verziókezelő) tároló letöltése és a fordítások importálása a Weblate-"
+"be időigényes lehet, a fordításaid méretétől függően. Íme néhány tipp:"
 
 #: ../../admin/projects.rst:1208
 msgid "Optimize configuration"
@@ -25278,8 +25294,8 @@ msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
 msgstr ""
-"Közvetlenül a Verziókezelő Rendszer (VCS) tárolódból is hozzáadhatsz vagy "
-"frissíthetsz képernyőképeket."
+"Képernyőképeket közvetlenül a verziókezelő rendszered (VCS) tárolójából is "
+"hozzáadhatsz vagy frissíthetsz."
 
 #: ../../admin/translating.rst:141
 msgid ""
@@ -26613,10 +26629,10 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
-"Visszaadja a VCS tároló állapotával kapcsolatos információkat. Ez a végpont "
-"csak egy átfogó összefoglalót tartalmaz a projekt összes tárolójáról. Ha "
-"részletesebb állapotra van szükséged, használd a :http:get:`/api/components/"
-"(string:project)/(string:component)/repository/` végpontot."
+"Visszaadja a VCS (verziókezelő) tároló állapotára vonatkozó információkat. "
+"Ez a végpont csak egy összefoglaló áttekintést tartalmaz a projekt összes "
+"tárolójáról. Részletesebb állapotinformációkért használd a következőt: "
+":http:get:`/api/components/(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:964 ../../api.rst:1638
 msgid "whether there are any pending changes to commit"
@@ -26633,7 +26649,7 @@ msgstr "vannak-e helyi változtatások, amelyeket fel kell tölteni"
 
 #: ../../api.rst:981 ../../api.rst:2136
 msgid "Performs given operation on the VCS repository."
-msgstr "Elvégzi a megadott műveletet a VCS tárhelyen."
+msgstr "Végrehajtja a megadott műveletet a VCS (verziókezelő) tárolón."
 
 #: ../../api.rst:986
 msgid ""
@@ -26669,8 +26685,8 @@ msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
-"A ``zipfile`` és ``docfile`` paraméterek most már elfogadottak a VCS nélküli "
-"összetevők esetében, lásd :ref:`vcs-local`."
+"A ``zipfile`` és ``docfile`` paraméterek mostantól VCS nélküli összetevők "
+"esetén is használhatók, lásd: :ref:`vcs-local`."
 
 #: ../../api.rst:1043
 msgid ""
@@ -26690,8 +26706,8 @@ msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
-"Használd a :ref:`internal-urls`-t, amikor több összetevőt hozol létre "
-"egyetlen VCS tárolóból."
+"Használd a :ref:`internal-urls` hivatkozást, amikor több összetevőt hozol "
+"létre egyetlen VCS (verziókezelő) tárolóból."
 
 #: ../../api.rst:1053
 msgid ""
@@ -27299,7 +27315,8 @@ msgstr "Logikai érték, hogy zároljuk-e vagy sem."
 
 #: ../../api.rst:1630 ../../api.rst:2123
 msgid "Returns information about the VCS repository status."
-msgstr "Visszaadja a VCS tároló állapotával kapcsolatos információkat."
+msgstr ""
+"Visszaadja a VCS (verziókezelő) tároló állapotára vonatkozó információkat."
 
 #: ../../api.rst:1632
 msgid ""
@@ -27315,7 +27332,7 @@ msgstr "Távoli commit információk"
 
 #: ../../api.rst:1642
 msgid "VCS repository status as reported by VCS"
-msgstr "A VCS által jelentett VCS tároló állapota"
+msgstr "A VCS (verziókezelő rendszer) által jelentett tárolóállapot"
 
 #: ../../api.rst:1643
 msgid "Text describing merge failure or null if there is none"
@@ -27323,7 +27340,7 @@ msgstr "Szöveg, amely leírja az egyesítési hibát vagy null, ha nincs ilyen"
 
 #: ../../api.rst:1647
 msgid "Performs the given operation on a VCS repository."
-msgstr "Végrehajtja a megadott műveletet egy VCS tárolón."
+msgstr "Végrehajtja a megadott műveletet egy VCS (verziókezelő) tárolón."
 
 #: ../../api.rst:1649 ../../api.rst:2138
 msgid ""
@@ -27628,9 +27645,9 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
-"Töltsd le a jelenlegi fordítási fájlt úgy, ahogy az a VCS-ben van tárolva (a "
-"``format`` paraméter nélkül) vagy konvertálva más formátumra (lásd: :ref:"
-"`download`)."
+"Töltsd le az aktuális fordítási fájlt úgy, ahogy az a VCS (verziókezelő) "
+"tárolóban van tárolva (a ``format`` paraméter nélkül),vagy átalakítva egy "
+"másik formátumba (lásd: :ref:`download`)."
 
 #: ../../api.rst:2077
 msgid ""
@@ -27639,10 +27656,10 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
-"Ez az API végpont más logikát használ a kimenethez, mint az API többi része, "
-"mivel egy teljes fájlon dolgozik, nem pedig adatokon. Az elfogadott "
-"``format`` paraméterek készlete eltér, és ilyen paraméter nélkül a fordítási "
-"fájlt úgy kapod meg, ahogy az a VCS-ben tárolva van."
+"Ez az API-végpont eltérő logikát használ a többi API-végponthoz képest, "
+"mivel nem adatokon, hanem teljes fájlokon dolgozik. Az elfogadott ``format`` "
+"paraméterek köre is különbözik, és ha nem adsz meg ilyen paramétert, akkor a "
+"fordítási fájlt a VCS (verziókezelő) tárolóban tárolt formájában kapod meg."
 
 #: ../../api.rst:2082
 msgid "Timestamp of last change to this file."
@@ -28586,7 +28603,7 @@ msgid ""
 "VCS repository has been updated."
 msgstr ""
 "Az értesítési horgok lehetővé teszik külső alkalmazások számára, hogy "
-"értesítsék a Weblate-et arról, hogy a VCS tárhely frissült."
+"jelezzék a Weblate felé, ha frissült a VCS (verziókezelő) tároló."
 
 #: ../../api.rst:2782
 msgid ""
@@ -28613,8 +28630,8 @@ msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
-"Kiváltja egy összetevő frissítését (betöltés a VCS-ből és a fordítási "
-"változások keresése)."
+"Frissíti az összetevőt (lekéri a módosításokat a VCS (verziókezelő) "
+"tárolóból, és átvizsgálja a fordítási változásokat)."
 
 #: ../../api.rst:2800
 msgid ""
@@ -28630,8 +28647,8 @@ msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
-"Kiváltja az összes összetevő frissítését egy projektben (betöltés a VCS-ből "
-"és a fordítási változások keresése)."
+"Frissíti a projekt összes összetevőjét (lekéri a módosításokat a VCS "
+"(verziókezelő) tárolóból, és átvizsgálja a fordítási változásokat)."
 
 #: ../../api.rst:2808
 msgid ""
@@ -31349,7 +31366,7 @@ msgstr ""
 
 #: ../../changes.rst:967
 msgid "Removing stale VCS directories."
-msgstr "Elavult VCS könyvtárak eltávolítása."
+msgstr "Elavult VCS (verziókezelő rendszer) könyvtárak eltávolítása."
 
 #: ../../changes.rst:971
 msgid ""
@@ -31562,7 +31579,9 @@ msgstr "Hozzáadva a Fediverse-en való megosztás gombja."
 
 #: ../../changes.rst:1054
 msgid "Added validation for VCS integration credentials."
-msgstr "Hozzáadott érvényesítés a VCS integrációs hitelesítő adatokhoz."
+msgstr ""
+"Hozzáadtuk a VCS (verziókezelő rendszer) integrációhoz használt hitelesítési "
+"adatok ellenőrzését."
 
 #: ../../changes.rst:1055
 msgid "Reduced overhead of statistics collection."
@@ -31643,8 +31662,8 @@ msgstr "A projekt hozzáadódik a megfigyeltekhez, amikor elfogadod a meghívás
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr ""
-"Állítsd be a VCS API hitelesítő adatokat Python szótárként a környezeti "
-"változókból."
+"Állítsd be a VCS (verziókezelő rendszer) API hitelesítési adatokat egy "
+"Python szótárként a környezeti változókból."
 
 #: ../../changes.rst:1086
 msgid "Improved accuracy of checks on plural messages."
@@ -31735,8 +31754,9 @@ msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
 msgstr ""
-"Megszűnt a támogatás a VCS szolgáltatás API kulcsainak elavult, nem "
-"biztonságos _TOKEN/_USERNAME konfigurálásához a :file:`settings.py` fájlban."
+"Megszűnt a támogatás a VCS (verziókezelő rendszer) szolgáltatások API-"
+"kulcsainak elavult és nem biztonságos, _TOKEN/_USERNAME formában történő "
+"beállításához a :file:`settings.py` fájlban."
 
 #: ../../changes.rst:1115
 msgid ""
@@ -34395,7 +34415,8 @@ msgstr "Több URL megváltozott, lehet, hogy frissítened kell a könyvjelzőide
 #: ../../changes/v2.rst:390
 msgid "Hook scripts are executed with VCS root as current directory."
 msgstr ""
-"A hook szkriptek a VCS gyökérkönyvtárával mint aktuális könyvtárral futnak."
+"A hook szkriptek a VCS (verziókövető rendszer) gyökérkönyvtárában futnak, "
+"azaz ez lesz az aktuális könyvtáruk futás közben."
 
 #: ../../changes/v2.rst:391
 msgid ""
@@ -34685,7 +34706,7 @@ msgstr "Új reszponzív felhasználói felület Bootstrap használatával."
 
 #: ../../changes/v2.rst:475
 msgid "Rewritten VCS backend."
-msgstr "Újraírt VCS háttérrendszer."
+msgstr "Újraírt VCS (verziókövető rendszer) háttérrendszer."
 
 #: ../../changes/v2.rst:477
 msgid "Added whiteboard for site wide messages."
@@ -34897,8 +34918,8 @@ msgstr "*Kiadva: 2020. február 17.*"
 #: ../../changes/v3.rst:53
 msgid "Allow using VCS push URL during component creation via API."
 msgstr ""
-"Lehetővé teszi a VCS push URL használatát összetevő létrehozásakor az API-n "
-"keresztül."
+"Lehetővé teszi a VCS (verziókövető rendszer) feltöltési URL használatát "
+"összetevő létrehozásakor az API-n keresztül."
 
 #: ../../changes/v3.rst:54
 msgid "Rendered width check now shows image with the render."
@@ -35483,7 +35504,9 @@ msgstr "Támogatás hozzáadva a fájltartalom feltöltöttel való cseréjéhez
 
 #: ../../changes/v3.rst:217
 msgid "Add support for translating non VCS based content."
-msgstr "Támogatás hozzáadva a nem VCS-alapú tartalmak fordításához."
+msgstr ""
+"Támogatás hozzáadása nem VCS (verziókövető rendszer) alapú tartalmak "
+"fordításához."
 
 #: ../../changes/v3.rst:218
 msgid "Added OpenGraph widget image to use on social networks."
@@ -35757,7 +35780,8 @@ msgstr "A kezelt projektek jelölése a projektlistában."
 #: ../../changes/v3.rst:295
 msgid "Allow update to recover from missing VCS repository."
 msgstr ""
-"Lehetővé teszi a frissítést, hogy helyreálljon a hiányzó VCS tárolóból."
+"Engedélyezi a frissítést hiányzó VCS (verziókövető) tároló esetén, hogy "
+"helyreállítható legyen."
 
 #: ../../changes/v3.rst:298
 msgid "Weblate 3.6"
@@ -36912,8 +36936,8 @@ msgstr "Hozzáadott támogatás az IBM Watson Nyelvfordítóhoz."
 #: ../../changes/v4.rst:159
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
 msgstr ""
-"Eltávolították a 4.14-ben elavulttá vált VCS integrációs beállítások "
-"támogatását."
+"Kivezetésre kerültek a 4.14-es verzióban elavulttá vált VCS (verziókövető "
+"rendszer) integrációs beállítások."
 
 #: ../../changes/v4.rst:160
 msgid "Added support for Bitbucket Server pull requests."
@@ -36960,8 +36984,8 @@ msgid ""
 "The deprecated VCS setting for credentials is no longer supported, see :ref:"
 "`up-4-14`."
 msgstr ""
-"A hitelesítő adatok elavult VCS beállítása már nem támogatott, lásd: :ref:"
-"`up-4-14`."
+"A hitelesítő adatokhoz használt, elavult VCS (verziókövető rendszer) "
+"beállítás többé nem támogatott, lásd: :ref:`up-4-14`."
 
 #: ../../changes/v4.rst:176
 msgid ""
@@ -37264,8 +37288,9 @@ msgid ""
 "Deprecated insecure configuration of VCS service API keys via _TOKEN/"
 "_USERNAME configuration instead of _CREDENTIALS list."
 msgstr ""
-"Elavult a VCS szolgáltatás API-kulcsok nem biztonságos konfigurációja _TOKEN/"
-"_USERNAME beállítással a _CREDENTIALS lista helyett."
+"Elavultnak minősül a VCS (verziókövető rendszer) szolgáltatás API kulcsainak "
+"nem biztonságos konfigurálása _TOKEN/_USERNAME beállításokkal a _CREDENTIALS "
+"lista helyett."
 
 #: ../../changes/v4.rst:261
 msgid "Fixed processing of some uploaded CSV files."
@@ -37490,10 +37515,11 @@ msgid ""
 "Docker, please add matching _HOST directive. For example see :envvar:"
 "`WEBLATE_GITHUB_HOST` and :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
-"**Változás a 4.14.2-ben:** Elavult a VCS szolgáltatás API kulcsok nem "
-"biztonságos konfigurálása _TOKEN/_USERNAME konfigurációval a _CREDENTIALS "
-"lista helyett. Dockerben kérlek, add hozzá a megfelelő _HOST direktívát. "
-"Például lásd: :envvar:`WEBLATE_GITHUB_HOST` és :setting:`GITHUB_CREDENTIALS`."
+"**Változás a 4.14.2-es verzióban:** Elavultnak minősül a VCS (verziókövető "
+"rendszer) szolgáltatás API kulcsainak nem biztonságos konfigurálása _TOKEN/"
+"_USERNAME beállításokkal a _CREDENTIALS lista helyett. Docker esetén kérjük, "
+"adj hozzá egy megfelelő _HOST direktívát is. Például lásd: "
+":envvar:`WEBLATE_GITHUB_HOST` és :setting:`GITHUB_CREDENTIALS`."
 
 #: ../../changes/v4.rst:332
 msgid "Weblate 4.13.1"
@@ -39878,7 +39904,9 @@ msgstr "Javítva a Git commit egyesítése, ha a trailerek engedélyezve vannak.
 
 #: ../../changes/v4.rst:1050
 msgid "Fixed creating local VCS components using the API."
-msgstr "Javítva a helyi VCS összetevők létrehozása az API használatával."
+msgstr ""
+"Javítva a helyi VCS (verziókövető rendszer) összetevők létrehozása API-n "
+"keresztül."
 
 #: ../../changes/v4.rst:1053
 msgid "Weblate 4.2.1"
@@ -44695,7 +44723,7 @@ msgstr "Érték"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr "A projekted VCS-tárolójának URL-je"
+msgstr "A projektedhez tartozó VCS tároló URL-je"
 
 #: ../../devel/gettext.rst:226 ../../formats/gettext.rst:119
 #: ../../formats/gettext.rst:131
@@ -45090,10 +45118,11 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into Weblate components."
 msgstr ""
-"A Weblate fejlesztése során a VCS integrációt mint alapvető funkciót vették "
-"figyelembe, így a legegyszerűbb módja, ha a Weblate hozzáférést kap a "
-"tárolódhoz . Az importálási folyamat végigvezet a fordítások Weblate "
-"összetevőkké való konfigurálásán."
+"A Weblate fejlesztése során kiemelt szempont volt a VCS (verziókövető "
+"rendszer) integráció, mivel ez a rendszer egyik alapvető funkciója. A "
+"legegyszerűbb megoldás, ha hozzáférést adsz a Weblate számára a tárolódhoz. "
+"Az importálási folyamat lépésről lépésre végigvezet a fordítások Weblate "
+"összetevőkké alakításán."
 
 #: ../../devel/integration.rst:14
 msgid ""
@@ -45150,9 +45179,9 @@ msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
-"Alternatív megoldásként használd a :doc:`/api`-t a fordítások frissítésére, "
-"hogy azok megfeleljenek a legújabb verziónak a távoli VCS tárolódban "
-"található upstream alapján."
+"Alternatív megoldásként használhatod a :doc:`/api` felületet is a fordítások "
+"frissítésére, hogy azok megegyezzenek a távoli VCS (verziókövető) tárolóban "
+"található legfrissebb verzióval."
 
 #: ../../devel/integration.rst:42
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
@@ -45169,10 +45198,11 @@ msgid ""
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"Ahhoz, hogy a távoli VCS tárolódban nemrég frissített sztringek bekerüljenek "
-"a Weblate-be, engedélyezd, hogy a Weblate lehúzza az upstream tárolót. Ezt "
-"megteheted a felhasználói felületen (a :guilabel:`Repository maintenance` "
-"részben) vagy a parancssorból a :ref:`wlc` használatával."
+"Ahhoz, hogy a távoli VCS (verziókövető) tárolóban frissen frissített "
+"szövegek bekerüljenek a Weblate-be, engedélyezni kell, hogy a Weblate "
+"lekérje az adatokat a forrástárolóból. Ez megtehető a felhasználói felületen "
+"(:guilabel:`Tároló karbantartása`) vagy parancssorból a :ref:`wlc` "
+"használatával."
 
 #: ../../devel/integration.rst:54
 msgid ""
@@ -45189,9 +45219,9 @@ msgid ""
 "If not using VCS integration, you can use the UI or :doc:`/api` to update "
 "the translations so that they match your codebase."
 msgstr ""
-"Ha nem használod a VCS integrációt, frissítheted a fordításokat a "
-"felhasználói felületen vagy a :doc:`/api` segítségével, hogy azok "
-"megfeleljenek a kódbázisodnak."
+"Ha nem használod a VCS (verziókövető rendszer) integrációt, a felhasználói "
+"felületen vagy :doc:`/api` segítségével is frissítheted a fordításokat, hogy "
+"azok megegyezzenek a kódbázisoddal."
 
 #: ../../devel/integration.rst:62
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
@@ -45208,12 +45238,12 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
-"Ha a fordítási fájljaid távoli verziókezelő rendszerben vannak tárolva a "
-"kóddal együtt, valószínűleg már van egy meglévő munkafolyamatotok arra, hogy "
-"a fejlesztők új szövegeket vezessenek be. Bármilyen módon is adtok hozzá új "
-"szövegeket, ezeket fel fogja ismerni a rendszer, de érdemes megfontolni a :"
-"ref:`source-quality-gateway` használatát, hogy elkerüljétek a hibák "
-"bevezetését."
+"Ha a fordítási fájlok a kóddal együtt egy távoli VCS (verziókövető) "
+"tárolóban találhatók, akkor valószínűleg már van egy kialakult "
+"munkafolyamatod arra, hogyan kerülnek be az új szövegek. Bármilyen módon is "
+"kerülnek be új szövegek, a Weblate fel fogja ismerni őket, de érdemes "
+"megfontolni a :ref:`source-quality-gateway` használatát, hogy elkerüld a "
+"hibák bevezetését."
 
 #: ../../devel/integration.rst:75
 msgid ""
@@ -45383,7 +45413,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:160
 msgid "Managing the local VCS repository"
-msgstr "A helyi VCS tároló kezelése"
+msgstr "A helyi VCS (verziókövető) tároló kezelése"
 
 #: ../../devel/integration.rst:162
 msgid ""
@@ -46903,8 +46933,9 @@ msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
 msgstr ""
-"Minden commit szerzője (ha az alapul szolgáló VCS támogatja) továbbra is "
-"helyesen van rögzítve, mint a fordítást végző felhasználó."
+"Minden commit (véglegesítés) szerzője (ha az adott VCS (verziókövető) "
+"támogatja) továbbra is helyesen kerül rögzítésre: az a felhasználó lesz "
+"megadva, aki a fordítást végezte."
 
 #: ../../faq.rst:271
 msgid ""
@@ -47381,10 +47412,11 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"A Weblate jelenleg nem rendelkezik natív támogatással másra, mint a(z) :ref:"
-"`vcs-git` (kiterjesztett támogatással a(z) :ref:`vcs-github`, :ref:`vcs-"
-"gerrit` és :ref:`vcs-git-svn` esetén) és a(z) :ref:`vcs-mercurial`, de "
-"lehetséges backendet írni más verziókezelő rendszerekhez."
+"A Weblate jelenleg csak a :ref:`vcs-git` rendszert támogatja natívan ("
+"kiterjesztett támogatással elérhető: a :ref:`vcs-github`, :ref:`vcs-gerrit` "
+"és az :ref:`vcs-git-svn`), valamint a :ref:`vcs-mercurial` rendszer, de "
+"lehetőség van arra, hogy más verziókezelő rendszerekhez is készítsünk "
+"háttérmodulokat."
 
 #: ../../faq.rst:515
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
@@ -47402,10 +47434,10 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
-"Más verziókezelő rendszerek natív támogatásához a Weblate-nek elosztott "
-"verziókezelő rendszerekre van szüksége, és valószínűleg beállítható, hogy a "
-"Git és a Mercurial mellett mással is működjön, de valakinek meg kell "
-"valósítania ezt a támogatást."
+"Ahhoz, hogy a Weblate natívan támogasson más VCS rendszereket, "
+"elengedhetetlen, hogy azok elosztott működésűek legyenek. Elvileg bármi "
+"mással is működhetne a Giten és a Mercurialon kívül, de ehhez valakinek meg "
+"kell valósítania a szükséges támogatást."
 
 #: ../../faq.rst:528
 msgid "How does Weblate credit translators?"
@@ -47417,10 +47449,10 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
-"Minden, a Weblate-ben végrehajtott módosítás a fordító nevében kerül be a "
-"verziókezelő rendszerbe. Így minden egyes változtatás megfelelő szerzőséggel "
-"rendelkezik, és nyomon követheted a szokásos verziókezelő eszközökkel, "
-"amelyeket a kódhoz használsz."
+"A Weblate-ben végzett minden módosítás a fordító nevében kerül "
+"véglegesítésre a verziókezelő rendszerben (VCS). Így minden egyes "
+"változtatás megfelelő szerzőséggel rendelkezik, és a szokásos, kódhoz "
+"használt VCS eszközökkel visszakövethető."
 
 #: ../../faq.rst:534
 msgid ""
@@ -52494,8 +52526,9 @@ msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
-"Azt jelenti, hogy egy string már le lett fordítva. Ez akkor fordulhat elő, "
-"ha a fordításokat visszavonták a VCS-ben vagy más módon elvesztek."
+"Azt jelenti, hogy a szöveg már le lett fordítva. Ez akkor fordulhat elő, ha "
+"a fordításokat a VCS (verziókezelő rendszer) visszaállította vagy valamilyen "
+"más módon elvesztek."
 
 #: ../../user/checks.rst:961
 msgid "Inconsistent"
@@ -55049,9 +55082,9 @@ msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
-"A felhasználói profil tartalmazza a preferenciáidat. A név és az e-mail cím "
-"a VCS commitokban kerül felhasználásra, ezért tartsd ezeket az információkat "
-"pontosan."
+"A felhasználói profil a beállításaidat tartalmazza. A név és az e-mail cím a "
+"VCS (verziókezelő rendszer) véglegesítéseihez van felhasználva, ezért "
+"fontos, hogy ezek az adatok pontosak legyenek."
 
 #: ../../user/profile.rst:68
 msgid "All language selections only offer currently translated languages."
@@ -55167,9 +55200,9 @@ msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
-"A :guilabel:`Editor link` beállításával a helyi szerkesztődet használhatod a "
-"lefordított szövegek VCS forráskód fájljának megnyitására. Használhatod a :"
-"ref:`markup`-ot."
+"A :guilabel:`Szerkesztő hivatkozás` beállításával a saját helyi "
+"szerkesztődet használhatod a lefordított szövegek VCS (verziókezelő rendszer)"
+" forrásfájljának megnyitására. Használhatod a :ref:`markup` jelöléseket is."
 
 #: ../../user/profile.rst:145
 msgid ""
@@ -55518,7 +55551,7 @@ msgstr "``pending:BOOLEAN``"
 
 #: ../../user/search.rst:54
 msgid "String pending for flushing to VCS."
-msgstr "Folyamatban lévő szöveg VCS-re való kiürítéshez."
+msgstr "A szöveg készen áll a verziókezelő rendszerbe (VCS) való mentésre."
 
 #: ../../user/search.rst:55
 msgid "``has:TEXT``"
@@ -57128,11 +57161,11 @@ msgid ""
 "repositories or for push URLs the setup is more complex and requires "
 "authentication."
 msgstr ""
-"A VCS tárolóhoz, amelyet használni szeretnél, a Weblate-nek hozzáféréssel "
-"kell rendelkeznie. Nyilvánosan elérhető tároló esetén csak a helyes URL-t "
-"kell megadnod (például ``https://github.com/WeblateOrg/weblate.git``), de "
-"privát tárolók vagy push URL-ek esetén a beállítás bonyolultabb, és "
-"hitelesítést igényel."
+"A használni kívánt VCS (verziókezelő rendszer) tárolónak elérhetőnek kell "
+"lennie a Weblate számára. Nyilvánosan elérhető tároló esetén elegendő a "
+"megfelelő URL megadása (például ``https://github.com/WeblateOrg/"
+"weblate.git``), de privát tárolók vagy feltöltési URL-ek esetén a beállítás "
+"bonyolultabb, és hitelesítést igényel."
 
 #: ../../vcs.rst:25
 msgid "Accessing repositories from Hosted Weblate"
@@ -57473,10 +57506,10 @@ msgid ""
 "This way linked components use the VCS repository configuration of the main "
 "(referenced) component."
 msgstr ""
-"Oszd meg egy tároló beállítását különböző összetevők között azáltal, hogy "
-"annak elhelyezkedésére ``weblate://project/component`` hivatkozol más "
-"(kapcsolt) összetevőkben. Így a kapcsolt összetevők a fő (hivatkozott) "
-"összetevő VCS tároló konfigurációját használják."
+"Oszd meg egyetlen tároló beállítását több különböző összetevő között úgy, "
+"hogy a tároló helyét ``weblate://project/component`` formátumban adod meg a "
+"többi (összekapcsolt) összetevőnél. Így az összekapcsolt összetevők a fő "
+"(hivatkozott) összetevő VCS (verziókezelő) tárolóbeállításait használják."
 
 #: ../../vcs.rst:204
 msgid "Removing main component also removes linked components."
@@ -57571,8 +57604,8 @@ msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
-"Ha proxy szerver használatával kell elérned a HTTP/HTTPS VCS tárolókat, "
-"állítsd be a VCS-t, hogy használja azt."
+"Ha HTTP/HTTPS VCS (verziókezelő) tárolókat proxy szerveren keresztül kell "
+"elérned, állítsd be úgy a VCS-t, hogy használja a proxy szervert."
 
 #: ../../vcs.rst:248
 msgid ""
@@ -57581,9 +57614,10 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
-"Ezt megteheted az ``http_proxy``, ``https_proxy`` és ``all_proxy`` "
-"környezeti változók használatával (ahogyan a `cURL dokumentáció <https://"
-"curl.se/docs/>`_ leírja) vagy a VCS konfigurációjában kényszerítve, például:"
+"Ez megtehető a ``http_proxy``, ``https_proxy`` és ``all_proxy`` környezeti "
+"változók használatával (ahogy azt a `cURL dokumentáció <https://curl.se/docs/"
+">`_ ismerteti), vagy a VCS (verziókezelő rendszer) konfigurációjában való "
+"beállítással, például így:"
 
 #: ../../vcs.rst:258
 msgid ""
@@ -57652,9 +57686,10 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
-"A Weblate minden VCS parancsot ``HOME=$DATA_DIR/home`` (lásd: :setting:"
-"`DATA_DIR`) beállítással hajt végre, ezért a felhasználói beállításokat a "
-"``DATA_DIR/home/.git`` mappában kell szerkeszteni."
+"A Weblate minden VCS (verziókezelő rendszer) parancsot a ``HOME=$DATA_DIR/"
+"home`` környezettel hajt végre (lásd :setting:`DATA_DIR`), ezért a "
+"felhasználói konfigurációt a ``DATA_DIR/home/.git`` könyvtárban kell "
+"szerkeszteni."
 
 #: ../../vcs.rst:305
 msgid "Git remote helpers"
@@ -58033,7 +58068,7 @@ msgstr "Mercurial"
 #: ../../vcs.rst:556
 msgid "Mercurial is another VCS you can use directly in Weblate."
 msgstr ""
-"A Mercurial egy másik verziókezelő rendszer, amelyet közvetlenül "
+"A Mercurial egy másik VCS (verziókezelő rendszer), amelyet közvetlenül "
 "használhatsz a Weblate-ben."
 
 #: ../../vcs.rst:560
@@ -58116,10 +58151,10 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
-"A Weblate távoli verziókezelő rendszer nélkül is működhet. Az első "
-"fordításokat feltöltéssel lehet importálni. Később egyes fájlokat "
-"fájlfeltöltéssel lehet lecserélni vagy közvetlenül a Weblate-ben is "
-"hozzáadhatók fordítási szövegek (jelenleg csak egynyelvű fordításokhoz "
+"A Weblate távoli VCS (verziókezelő rendszer) nélkül is képes működni. A "
+"kezdeti fordításokat feltöltéssel lehet importálni. Később az egyes fájlok "
+"lecserélhetők fájlfeltöltéssel vagy közvetlenül a Weblate felületén is "
+"hozzáadhatók fordítási szövegek (jelenleg csak egynyelvű fordítások esetén "
 "érhető el)."
 
 #: ../../vcs.rst:624
@@ -58129,10 +58164,10 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"A háttérben a Weblate létrehoz egy Git-tárhelyet számodra, és minden "
-"változás követve van benne. Ha később úgy döntesz, hogy egy VCS-t használsz "
-"a fordítások tárolására, már van egy tárhelyed a Weblate-ben, amire "
-"alapozhatod az integrációdat."
+"A háttérben a Weblate létrehoz egy Git tárolót számodra, és minden változást "
+"ebben követ nyomon. Ha később úgy döntesz, hogy VCS-t (verziókezelő "
+"rendszert) szeretnél használni a fordítások tárolására, már rendelkezésedre "
+"áll egy tároló a Weblate-en belül, amelyre alapozhatod az integrációt."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -58559,9 +58594,10 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
-"Ez lehetővé teszi, hogy a kulcsokat a személyes beállításaidban tárold, "
-"miközben a(z) :file:`.weblate` konfigurációt a VCS adattárban használod, így "
-"a(z) :program:`wlc` tudja, melyik szerverrel kell kommunikálnia."
+"Ez lehetővé teszi, hogy a kulcsokat a saját beállításaid között tárold, "
+"miközben a VCS (verziókezelő) tárolóban található :file:`.weblate` "
+"konfigurációt használod, így a :program:`wlc` tudni fogja, melyik szerverrel "
+"kell kommunikálnia."
 
 #: ../../wlc.rst:351
 msgid "Examples"
