@@ -16,7 +16,10 @@ from django.db import connection
 from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.backups import ProjectBackup
 from weblate.trans.models import Category, Comment, Project, Suggestion, Unit, Vote
@@ -60,6 +63,17 @@ class BackupsTest(ViewTestCase):
             user=self.user,
         )
         Vote.objects.create(suggestion=suggestion, user=self.user, value=1)
+        team = Group.objects.create(name="Test group", defining_project=self.project)
+        team.roles.set([Role.objects.get(name="Translate")])
+        team.admins.add(self.user)
+        team.language_selection = SELECTION_MANUAL
+        team.languages.set(
+            [
+                Language.objects.get(code="en"),
+                Language.objects.get(code="ru"),
+            ]
+        )
+        AutoGroup(match="^.*$", group=team).save()
 
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -134,6 +148,30 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.category_set.values_list("slug", flat=True)),
             set(restored.category_set.values_list("slug", flat=True)),
+        )
+
+        restored_team = restored.defined_groups.filter(name=team.name).first()
+        self.assertIsNotNone(restored_team)
+        self.assertEqual(team.language_selection, restored_team.language_selection)
+        self.assertEqual(
+            set(team.roles.values_list("name", flat=True)),
+            set(restored_team.roles.values_list("name", flat=True)),
+        )
+        self.assertEqual(
+            set(team.admins.values_list("username", flat=True)),
+            set(restored_team.admins.values_list("username", flat=True)),
+        )
+        self.assertEqual(
+            set(team.user_set.values_list("username", flat=True)),
+            set(restored_team.user_set.values_list("username", flat=True)),
+        )
+        self.assertEqual(
+            set(team.languages.values_list("code", flat=True)),
+            set(restored_team.languages.values_list("code", flat=True)),
+        )
+        self.assertEqual(
+            team.components.count(),
+            restored_team.components.count(),
         )
 
         def component_category_mapping(p):

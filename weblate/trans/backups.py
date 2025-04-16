@@ -10,6 +10,7 @@ import json
 import os
 from collections import defaultdict
 from datetime import datetime
+from functools import partial
 from itertools import chain
 from pathlib import Path
 from shutil import copyfileobj
@@ -24,7 +25,7 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 from weblate_schemas import load_schema, validate_schema
 
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -48,6 +49,8 @@ from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from django.db.models import Model
 
 PROJECTBACKUP_PREFIX = "projectbackups"
 
@@ -79,6 +82,7 @@ class ProjectBackup:
         self.user_cache: dict[str, User] = {}
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
+        self.roles_cache: dict[str, Role] = {}
 
     @staticmethod
     def full_slug_without_project(obj: Component | Category) -> str:
@@ -123,6 +127,37 @@ class ProjectBackup:
     ):
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
+    def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
+        """Backup a many to many relation using a unique identifying field of the related object."""
+        return list(getattr(obj, relation).values_list(field, flat=True))
+
+    def backup_teams(self, project: Project) -> list[dict]:
+        extras = {}
+        for schema_name, relation, field in [
+            ("roles", "roles", "name"),
+            ("languages", "languages", "code"),
+            ("admins", "admins", "username"),
+            ("members", "user_set", "username"),
+            ("autogroups", "autogroup_set", "match"),
+        ]:
+            extras[schema_name] = partial(
+                self.backup_m2m_flat,
+                relation=relation,
+                field=field,
+            )
+        extras["components"] = lambda obj: [
+            self.full_slug_without_project(c) for c in obj.components.all()
+        ]
+
+        return [
+            self.backup_object(
+                group,
+                self.project_schema["properties"]["teams"]["items"]["required"],
+                extras,
+            )
+            for group in project.defined_groups.all()
+        ]
+
     def backup_categories(self, obj: Project | Category) -> list[dict]:
         if isinstance(obj, Project):
             categories = obj.category_set.filter(category=None)
@@ -154,6 +189,7 @@ class ProjectBackup:
                 for label in project.label_set.all()
             ],
             "categories": self.backup_categories(project),
+            "teams": self.backup_teams(project),
         }
 
         # Make sure generated backup data is correct
@@ -465,6 +501,50 @@ class ProjectBackup:
         data[field] = self.restore_user(data[field])
         return data
 
+    def restore_users(self, usernames: list[str]):
+        users = []
+        for username in usernames:
+            user = self.restore_user(username)
+            if user.username == settings.ANONYMOUS_USER_NAME:
+                continue
+            users.append(user)
+        return users
+
+    @staticmethod
+    def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
+        return [value for key in keys if (value := cache.get(key))]
+
+    def restore_team(self, team: dict):
+        if team["name"] == "Administration":
+            group = Group.objects.get(name=team["name"], defining_project=self.project)
+        else:
+            group = Group(name=team["name"], defining_project=self.project)
+            group = Group.objects.bulk_create([group])[0]
+
+        group.language_selection = team["language_selection"]
+        group.enforced_2fa = team["enforced_2fa"]
+
+        group.roles.set(self.get_items_from_cache(self.roles_cache, team["roles"]))
+        group.components.set(
+            self.get_items_from_cache(self.components_cache, team["components"])
+        )
+        group.languages.set(
+            self.get_items_from_cache(self.languages_cache, team["languages"])
+        )
+        group.admins.set(self.restore_users(team["admins"]))
+        group.user_set.set(self.restore_users(team["members"]))
+
+        autogroups = [
+            AutoGroup(match=match, group=group) for match in team["autogroups"]
+        ]
+        AutoGroup.objects.bulk_create(autogroups)
+
+    def restore_teams(self, data: list[dict]):
+        self.roles_cache = {r.name: r for r in Role.objects.all()}
+        self.create_language_cache()
+        for team in data:
+            self.restore_team(team)
+
     def restore_component(self, zipfile, data) -> None:  # noqa: C901
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
@@ -628,9 +708,12 @@ class ProjectBackup:
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
 
-    def import_language(self, code: str):
+    def create_language_cache(self):
         if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
+
+    def import_language(self, code: str):
+        self.create_language_cache()
         try:
             return self.languages_cache[code]
         except KeyError:
@@ -718,6 +801,9 @@ class ProjectBackup:
 
             # Create components
             self.load_components(zipfile, do_restore=True)
+
+            if "teams" in self.data:
+                self.restore_teams(self.data["teams"])
 
         return self.project
 
