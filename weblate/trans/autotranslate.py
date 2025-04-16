@@ -192,7 +192,7 @@ class AutoTranslate:
         self, engines_list: list[str], threshold: int
     ) -> dict[int, UnitMemoryResultDict]:
         """Get the translations."""
-        units: list[Unit] = list(self.get_units())
+        units: list[Unit] = list(self.get_units().select_related("source_unit"))
         num_units = len(units)
 
         machinery_settings = self.translation.component.project.get_machinery_settings()
