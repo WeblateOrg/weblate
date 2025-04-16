@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-16 14:45+0000\n"
+"PO-Revision-Date: 2025-04-16 21:40+0000\n"
 "Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
@@ -2012,10 +2012,9 @@ msgstr ""
 "зыходных радкоў."
 
 #: weblate/addons/views.py:129
-#, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
+#, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr "Указана ниаправиĺнажа назва дадатку!"
+msgstr "Недапушчальная назва дапаўнення: «%s»"
 
 #: weblate/addons/views.py:149
 msgid "Add-on installed, please review integration instructions."
@@ -2498,7 +2497,7 @@ msgstr "Кираванние мовами"
 #. Translators: Permission name
 #: weblate/auth/data.py:145
 msgid "Manage site-wide add-ons"
-msgstr "Усталиаванижа дадатки"
+msgstr "Кіраванне дапаўненнямі для ўсяго сайта"
 
 #: weblate/auth/data.py:176
 msgctxt "Access-control role"
@@ -7264,15 +7263,15 @@ msgstr ""
 
 #: weblate/templates/addons/addon_detail.html:37
 msgid "Configure add-on"
-msgstr "Наладзиć дадатак"
+msgstr "Наладзіць дапаўненне"
 
 #: weblate/templates/addons/addon_detail.html:51
 msgid "This add-on has no settings."
-msgstr "Hети дадатак виконваже скенар."
+msgstr "Гэта дапаўненне не мае налад."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "The add-on can only be installed on the component."
-msgstr "Иснуже ниекаĺки папиареdžанниаŭ длиа hетаhа кампаниента"
+msgstr "Дапаўненне можна ўсталяваць толькі для кампанентаў."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This add-on is used for all components sharing this repository."
@@ -7317,16 +7316,15 @@ msgstr "Гісторыя"
 
 #: weblate/templates/addons/addon_list.html:44
 msgid "No add-ons currently installed"
-msgstr "Ниама ŭсталиаванич дадаткаŭ."
+msgstr "Няма ўсталяваных дапаўненняў"
 
 #: weblate/templates/addons/addon_list.html:46
-#, fuzzy, python-format
-#| msgid "Installed addons"
+#, python-format
 msgid "Installed %(count)s add-on"
 msgid_plural "Installed %(count)s add-ons"
-msgstr[0] "Усталиаванижа дадатки"
-msgstr[1] "Усталиаванижа дадатки"
-msgstr[2] "Усталиаванижа дадатки"
+msgstr[0] "Усталявана %(count)s дапаўненне"
+msgstr[1] "Усталявана %(count)s дапаўненні"
+msgstr[2] "Усталявана %(count)s дапаўненняў"
 
 #: weblate/templates/addons/addon_list.html:59
 msgid "Uninstall"
@@ -7344,7 +7342,7 @@ msgstr "Наладзіць"
 
 #: weblate/templates/addons/addon_list.html:72
 msgid "Add-ons can also be installed at the project and the component levels."
-msgstr "Иснуже ниекаĺки папиареdžанниаŭ длиа hетаhа кампаниента"
+msgstr "Дапаўненні таксама можна ўсталёўваць на ўзроўні праектаў і кампанентаў."
 
 #: weblate/templates/addons/addon_list.html:77
 #, fuzzy, python-format
@@ -7365,11 +7363,11 @@ msgstr[2] ""
 
 #: weblate/templates/addons/addon_list.html:95
 msgid "Available add-ons"
-msgstr "Даступнижа дадатки"
+msgstr "Даступныя дапаўненні"
 
 #: weblate/templates/addons/addon_list.html:107
 msgid "The add-on can only be installed on the component level."
-msgstr "Иснуже ниекаĺки папиареdžанниаŭ длиа hетаhа кампаниента"
+msgstr "Дапаўненне можна ўсталяваць толькі на ўзроўні кампанента."
 
 #: weblate/templates/addons/addon_list.html:108
 #: weblate/templates/addons/addon_list.html:114
@@ -7382,20 +7380,21 @@ msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
 msgstr ""
-"Ние атрималасиа знайски анижакич дадаткаŭ, сумиаскимич з hетим пиеракладам."
+"Не ўдалося знайсці ніводнага дапаўнення, сумяшчальнага з гэтым кампанентам "
+"перакладу."
 
 #: weblate/templates/addons/addon_list.html:126
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
-"Некаторым дапаўненням спатрэбіцца дадатковае наладжванне падчас усталявання."
+"Некаторым дапаўненням падчас усталявання патрабуецца дадатковае наладжванне."
 
 #: weblate/templates/addons/addon_list.html:135
 msgid "Browse all add-on changes"
-msgstr "Прагляд усіх змен надбудовы"
+msgstr "Прагляд усіх змен дапаўнення"
 
 #: weblate/templates/addons/addon_logs.html:33
 msgid "Add-on Activity Logs"
-msgstr "Журналы актыўнасці дадатку"
+msgstr "Журналы дзеянняў дапаўнення"
 
 #: weblate/templates/addons/addon_logs.html:38
 msgid "Status"
@@ -9711,20 +9710,12 @@ msgid "View invitation"
 msgstr "Администраванние"
 
 #: weblate/templates/mail/invite.html:15
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The invitation will expire after %(count)s hour."
 msgid_plural "The invitation will expire after %(count)s hours."
-msgstr[0] ""
-"Кали спасилка паквиерdžанниа састарела да такоhо, жак ви жой скаристалисиа, "
-"то реhистужокиесиа зноŭ."
-msgstr[1] ""
-"Кали спасилка паквиерdžанниа састарела да такоhо, жак ви жой скаристалисиа, "
-"то реhистужокиесиа зноŭ."
-msgstr[2] ""
-"Кали спасилка паквиерdžанниа састарела да такоhо, жак ви жой скаристалисиа, "
-"то реhистужокиесиа зноŭ."
+msgstr[0] "Дзеянне запрашэння скончыцца праз %(count)s гадзіну."
+msgstr[1] "Дзеянне запрашэння скончыцца праз %(count)s гадзіны."
+msgstr[2] "Дзеянне запрашэння скончыцца праз %(count)s гадзін."
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -11909,7 +11900,7 @@ msgstr "Спасылка на сайт праекта паказвае на не
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "Веблате ние моžа виканаć скрипт дадатку."
+msgstr "Дапаўненню Weblate CDN не ўдалося разабраць файлы HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:11
 #: weblate/templates/trans/alert/parseerror.html:11
@@ -13545,17 +13536,17 @@ msgstr "Радок абноўлены ў рэпазіторыі"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:123
 msgid "Add-on installed"
-msgstr "Дадатак ўсталяваны"
+msgstr "Дапаўненне ўсталявана"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:125
 msgid "Add-on configuration changed"
-msgstr "Канфігурацыя надбудовы зменена"
+msgstr "Канфігурацыя дапаўнення зменена"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:127
 msgid "Add-on uninstalled"
-msgstr "Дадатак высталяваны"
+msgstr "Дапаўненне выдалена"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:129
@@ -14519,7 +14510,7 @@ msgstr "Звесткі пра ліцэнзію адсутнічаюць."
 #: weblate/trans/models/alert.py:428 weblate/trans/models/alert.py:435
 #: weblate/trans/models/alert.py:443
 msgid "Could not run add-on."
-msgstr "Не атрымалася запусціць дапаўненне."
+msgstr "Не ўдалося запусціць дапаўненне."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:451
@@ -15120,8 +15111,8 @@ msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
 msgstr ""
-"Реhулиарни вираз, жаки викаристоŭважекка длиа фиĺтраки пиеракладаŭ при "
-"сканаванни маски файла."
+"Рэгулярны выраз, які выкарыстоўваецца для фільтрацыі файлаў перакладу пры "
+"пошуку па масцы файла."
 
 #: weblate/trans/models/component.py:740
 msgid "Variants regular expression"
@@ -15165,15 +15156,15 @@ msgstr "Колер гласарыя"
 
 #: weblate/trans/models/component.py:796
 msgid "Key filter"
-msgstr "Фіĺтр поšуку"
+msgstr "Фільтр пошуку"
 
 #: weblate/trans/models/component.py:800
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
-"Реhулиарни вираз, жаки викаристоŭважекка длиа фиĺтраки пиеракладаŭ при "
-"сканаванни маски файла."
+"Рэгулярны выраз, які выкарыстоўваецца для фільтрацыі перакладаў пры "
+"сканаванні файлавай маскі."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
 msgid "Secondary language"
@@ -15284,7 +15275,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:2861
 msgid "The file mask did not match any files."
-msgstr "Маска ние вилуčила ніводнаhа файла!"
+msgstr "Маска не адпавядае ніводнаму файлу."
 
 #: weblate/trans/models/component.py:2871
 #, fuzzy, python-format
@@ -15326,10 +15317,9 @@ msgstr ""
 "асноўнага файла."
 
 #: weblate/trans/models/component.py:2959
-#, fuzzy, python-format
-#| msgid "Failed to parse base file for new translations: %s"
+#, python-format
 msgid "Could not parse base file for new translations: %s"
-msgstr "Визнаčиć базави файл длиа нович пиеракладаŭ"
+msgstr "Не ўдалося разабраць базавы файл для новых перакладаў: %s"
 
 #: weblate/trans/models/component.py:2963
 msgid "Unrecognized base file for new translations."
