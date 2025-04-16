@@ -29,4 +29,5 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. seealso::
 
-    :ref:`fedora-messaging`
+    :ref:`fedora-messaging`,
+    :ref:`addon-weblate.webhook.webhook`
