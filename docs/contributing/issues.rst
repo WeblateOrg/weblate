@@ -19,7 +19,7 @@ Issues lifecycle
 
 .. graphviz::
 
-    digraph issue {
+    digraph "Issue lifecycle" {
       graph [fontname = "sans-serif", fontsize=10, ranksep=0.6, newrank=true];
       node [fontname = "sans-serif", fontsize=10, margin=0.15];
       edge [fontname = "sans-serif", fontsize=10];
