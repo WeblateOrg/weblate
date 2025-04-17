@@ -475,12 +475,12 @@ class KabyleCharacterNormalizationCheck(TargetCheck):
     )
 
     confusable_to_standard = {
-        "\u03b3": "\u0263",  # γ → ɣ
-        "\u0393": "\u0194",  # Γ → Ɣ
-        "\u03b5": "\u025b",  # ε → ɛ
-        "\u0395": "\u0190",  # Ε → Ɛ
-        "\u011f": "\u01e7",  # ğ → ǧ
-        "\u011e": "\u01e6",  # Ğ → Ǧ
+        "\u03b3": "\u0263",
+        "\u0393": "\u0194",
+        "\u03b5": "\u025b",
+        "\u0395": "\u0190",
+        "\u011f": "\u01e7",
+        "\u011e": "\u01e6",
     }
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
