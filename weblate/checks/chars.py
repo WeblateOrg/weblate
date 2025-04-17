@@ -464,6 +464,7 @@ class PunctuationSpacingCheck(TargetCheck):
         "Missing non breakable space before double punctuation sign."
     )
 
+
 class KabyleCharacterNormalizationCheck(TargetCheck):
     """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
 
@@ -474,12 +475,12 @@ class KabyleCharacterNormalizationCheck(TargetCheck):
     )
 
     confusable_to_standard = {
-        "\u03B3": "\u0263",  # γ → ɣ
+        "\u03b3": "\u0263",  # γ → ɣ
         "\u0393": "\u0194",  # Γ → Ɣ
-        "\u03B5": "\u025B",  # ε → ɛ
+        "\u03b5": "\u025b",  # ε → ɛ
         "\u0395": "\u0190",  # Ε → Ɛ
-        "\u011F": "\u01E7",  # ğ → ǧ
-        "\u011E": "\u01E6",  # Ğ → Ǧ
+        "\u011f": "\u01e7",  # ğ → ǧ
+        "\u011e": "\u01e6",  # Ğ → Ǧ
     }
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
