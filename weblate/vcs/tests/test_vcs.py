@@ -1597,7 +1597,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Check that it doesn't raise error when pull request already exists
         self.mock_responses(
-            pr_status=422,
+            pr_status=409,
             pr_response={"message": ["Another open merge request already exists"]},
         )
         super().test_push(branch)
