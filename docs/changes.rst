@@ -11,6 +11,8 @@ Weblate 5.11.1
 
 .. rubric:: Bug fixes
 
+* :ref:`vcs-gitlab` integration now detects merge‑request conflicts more robustly.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
