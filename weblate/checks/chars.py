@@ -464,6 +464,35 @@ class PunctuationSpacingCheck(TargetCheck):
         "Missing non breakable space before double punctuation sign."
     )
 
+class KabyleCharacterNormalizationCheck(TargetCheck):
+    """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
+
+    check_id = "kab_character_normalization"
+    name = gettext_lazy("Non-standard characters in Kabyle")
+    description = gettext_lazy(
+        "Use standardized latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
+    )
+
+    confusable_to_standard = {
+        "\u03B3": "\u0263",  # γ → ɣ
+        "\u0393": "\u0194",  # Γ → Ɣ
+        "\u03B5": "\u025B",  # ε → ɛ
+        "\u0395": "\u0190",  # Ε → Ɛ
+        "\u011F": "\u01E7",  # ğ → ǧ
+        "\u011E": "\u01E6",  # Ğ → Ǧ
+    }
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if unit.translation.language.code != "kab":
+            return False
+        return any(char in target for char in self.confusable_to_standard)
+
+    def get_fixup(self, unit: Unit):
+        return [
+            (re.escape(confusable), standard, "gu")
+            for confusable, standard in self.confusable_to_standard.items()
+        ]
+
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if (
             not unit.translation.language.is_base({"fr"})
