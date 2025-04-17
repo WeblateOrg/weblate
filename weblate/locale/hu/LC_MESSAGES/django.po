@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-16 23:14+0000\n"
+"PO-Revision-Date: 2025-04-18 04:14+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -460,7 +460,7 @@ msgstr "A fiók zárolva lett több sikertelen bejelentkezési kísérlet miatt.
 
 #: weblate/accounts/models.py:230
 msgid "Account locked by the site administrator."
-msgstr "A fiókot az oldal rendszergazdája zárolta."
+msgstr "A fiókot az oldal adminisztrátora zárolta."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -511,11 +511,11 @@ msgstr "A(z) {project} projekthez való hozzáférés tiltva lett."
 
 #: weblate/accounts/models.py:243
 msgid "User was enabled by administrator."
-msgstr "A felhasználót engedélyezte egy rendszergazda."
+msgstr "A felhasználót engedélyezte egy adminisztrátor."
 
 #: weblate/accounts/models.py:244
 msgid "User was disabled by administrator."
-msgstr "A felhasználót letiltotta egy rendszergazda."
+msgstr "A felhasználót letiltotta egy adminisztrátor."
 
 #: weblate/accounts/models.py:245
 msgid "Semiannual support status review was displayed."
@@ -1092,7 +1092,7 @@ msgstr "Felhasználó-regisztráció"
 
 #: weblate/accounts/views.py:260
 msgid "Could not send message to administrator."
-msgstr "Nem sikerült üzenetet küldeni a rendszergazdának."
+msgstr "Nem sikerült üzenetet küldeni az adminisztrátornak."
 
 #: weblate/accounts/views.py:277
 msgid "Could not open a ticket, please try again later."
@@ -2458,7 +2458,7 @@ msgstr "Felhasználók kezelése"
 #. Translators: Permission name
 #: weblate/auth/data.py:133
 msgid "Manage roles"
-msgstr "Szerepek kezelése"
+msgstr "Szerepkörök kezelése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -2682,11 +2682,11 @@ msgstr "Válassza ki az ehhez a szerephez megadott jogosultságokat."
 #: weblate/templates/auth/team.html:61 weblate/templates/manage/teams.html:30
 #: weblate/templates/trans/project-access.html:216
 msgid "Roles"
-msgstr "Szerepek"
+msgstr "Szerepkörök"
 
 #: weblate/auth/models.py:133
 msgid "Choose roles granted to this team."
-msgstr "Válassza ki az ehhez a csapathoz megadott szerepeket."
+msgstr "Válassza ki az ehhez a csapathoz megadott szerepköröket."
 
 #: weblate/auth/models.py:145
 msgid "Project selection"
@@ -2778,12 +2778,12 @@ msgstr "Belső Weblate csapat"
 
 #: weblate/auth/models.py:190
 msgid "Team administrators"
-msgstr "Csapatrendszergazdák"
+msgstr "Csapatadminisztrátorok"
 
 #: weblate/auth/models.py:193
 msgid "The administrator can add or remove users from a team."
 msgstr ""
-"A rendszergazda hozzáadhat felhasználókat a csoporthoz vagy eltávolíthatja "
+"Az adminisztrátor hozzáadhat felhasználókat a csoporthoz vagy eltávolíthatja "
 "azokat."
 
 #: weblate/auth/models.py:198 weblate/trans/models/project.py:221
@@ -6135,14 +6135,11 @@ msgstr "Megerősítés"
 #: weblate/templates/accounts/contact.html:21
 #, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
-msgstr ""
-"Csak a(z) %(site_title)s kiszolgáló rendszergazdáival veheti fel itt a "
-"kapcsolatot."
+msgstr "Itt csak a(z) %(site_title)s kiszolgáló adminisztrátorait tudja elérni."
 
 #: weblate/templates/accounts/contact.html:23
 msgid "You can only contact administrators of the whole server here."
-msgstr ""
-"Csak az egész kiszolgáló rendszergazdáival veheti fel itt a kapcsolatot."
+msgstr "Itt csak az egész kiszolgáló adminisztrátorait tudja elérni."
 
 #: weblate/templates/accounts/contact.html:27
 msgid ""
@@ -6175,7 +6172,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:43
 msgid "Contact server administrators"
-msgstr "Kapcsolatfelvétel a kiszolgáló rendszergazdáival"
+msgstr "Kapcsolatfelvétel a kiszolgáló adminisztrátoraival"
 
 #: weblate/templates/accounts/contact.html:50
 #: weblate/templates/manage/tools.html:32
@@ -7531,7 +7528,7 @@ msgstr "Utolsó bejelentkezés"
 
 #: weblate/templates/auth/team.html:116 weblate/trans/forms.py:1287
 msgid "Team administrator"
-msgstr "Csapatrendszergazda"
+msgstr "Csapatadminisztrátor"
 
 #: weblate/templates/auth/team.html:124
 #: weblate/templates/trans/project-access-row.html:21
@@ -7541,11 +7538,11 @@ msgstr "Még nincs bejelentkezve"
 
 #: weblate/templates/auth/team.html:134
 msgid "Revoke administration"
-msgstr "Rendszergazdai jog visszavonása"
+msgstr "Adminisztrátori jog visszavonása"
 
 #: weblate/templates/auth/team.html:142
 msgid "Grant administration"
-msgstr "Rendszergazdai jog megadása"
+msgstr "Adminisztrátori jog megadása"
 
 #: weblate/templates/auth/team.html:164 weblate/templates/auth/team.html:222
 #: weblate/templates/trans/project-access.html:155
@@ -9869,7 +9866,7 @@ msgid ""
 "If you didn’t initiate this, please report it to the server administrators "
 "by clicking the button below."
 msgstr ""
-"Ha nem Ön kezdeményezte ezt, akkor jelentse a kiszolgáló rendszergazdáinak "
+"Ha nem Ön kezdeményezte ezt, akkor jelentse a kiszolgáló adminisztrátorainak "
 "az alábbi gombra kattintva."
 
 #: weblate/templates/mail/shared-activity.html:25
@@ -11220,7 +11217,7 @@ msgstr ""
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
-msgstr "További címkéket a projekt rendszergazdái határozhatnak meg."
+msgstr "További címkéket a projekt adminisztrátorai határozhatnak meg."
 
 #: weblate/templates/snippets/libre-basic.html:3
 msgid ""
@@ -12303,7 +12300,7 @@ msgstr[1] "A biztonsági mentések %(keep_days)s nap után lesznek eltávolítva
 #: weblate/templates/trans/change_list.html:17
 #: weblate/trans/views/changes.py:88
 msgid "Changes"
-msgstr "Változtatások"
+msgstr "Változások"
 
 #: weblate/templates/trans/change_list.html:37
 #: weblate/templates/trans/change_list.html:41
@@ -13699,7 +13696,7 @@ msgstr "Minőség-ellenőrzések frissítése"
 
 #: weblate/trans/admin.py:86
 msgid "Administrators"
-msgstr "Rendszergazdák"
+msgstr "Adminisztrátorok"
 
 #: weblate/trans/admin.py:105
 msgid "VCS repositories"
