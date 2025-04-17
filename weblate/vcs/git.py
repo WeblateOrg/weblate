@@ -1975,10 +1975,7 @@ class GitLabRepository(GitMergeRequestBase):
             "post", credentials, pr_url, data=request
         )
 
-        if (
-            "web_url" not in response_data
-            and "open merge request already exists" not in error
-        ):
+        if "web_url" not in response_data and response.status_code != 409:
             self.failed_pull_request(error, pr_url, response, response_data)
 
 
