@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-18 04:14+0000\n"
+"PO-Revision-Date: 2025-04-18 12:56+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -953,10 +953,10 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"A :guilabel:`Team` szerkesztésekor megadhatod az :guilabel:"
-"`Automatic assignments`, ami reguláris kifejezések listája, amelyeket arra "
-"használnak, hogy az újonnan létrehozott felhasználókat automatikusan "
-"hozzárendeljék egy csapathoz az e-mail címük alapján. Ez a hozzárendelés "
+"A :guilabel:`Csapat` szerkesztésekor megadhatod a :guilabel:`Automatikus "
+"hozzárendelések` listát, amely reguláris kifejezéseket tartalmaz. Ezek "
+"alapján a rendszer automatikusan hozzárendeli az újonnan létrehozott "
+"felhasználókat egy csapathoz az e-mail címük alapján. Ez a hozzárendelés "
 "csak a fiók létrehozásakor történik meg."
 
 #: ../../admin/access.rst:447
@@ -966,11 +966,11 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
-"A funkció leggyakoribb használati módja, hogy minden új felhasználót "
-"hozzárendeljünk egy alapértelmezett csapathoz. Ez a viselkedés az "
-"alapértelmezett `Felhasználók` és `Guest` csapatoknál van használatban (lásd:"
-" :ref:`default-teams`). Használj ``^.*$`` reguláris kifejezést, hogy minden "
-"felhasználót hozzárendelj."
+"A funkció leggyakoribb használata, hogy minden új felhasználót automatikusan "
+"egy alapértelmezett csapathoz rendeljünk. Ez a megoldás van beállítva az "
+"alapértelmezett `Felhasználók` és `Vendégek` csapatoknál is (lásd :ref"
+":`default-teams`). Használd a ``^.*$`` reguláris kifejezést, ha minden "
+"felhasználóra szeretnéd alkalmazni."
 
 #: ../../admin/access.rst:451
 msgid ""
@@ -1002,8 +1002,8 @@ msgid ""
 "<api>`."
 msgstr ""
 "Jelenleg nincs mód arra, hogy a felhasználói felületen keresztül tömegesen "
-"adjunk hozzá már létező felhasználókat egy csapathoz. Ehhez használhatod a :"
-"ref:`REST API <api>`-t."
+"adjunk hozzá már létező felhasználókat egy csapathoz. Ehhez használhatod a "
+":ref:`REST API <api>`-t."
 
 #: ../../admin/access.rst:468
 msgid "Default teams and roles"
@@ -1014,8 +1014,8 @@ msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Telepítés után egy alapértelmezett csapatkészlet jön létre (lásd: :ref:"
-"`default-teams`)."
+"Telepítés után egy alapértelmezett csapatkészlet jön létre (lásd: :ref"
+":`default-teams`)."
 
 #: ../../admin/access.rst:472
 msgid ""
@@ -1056,7 +1056,7 @@ msgstr "Számlázási információk megtekintése"
 
 #: ../../admin/access.rst:488
 msgid ":guilabel:`Administration`, :guilabel:`Billing`"
-msgstr ":guilabel:`Adminisztráció`, :guilabel:`Billing`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Számlázás`"
 
 #: ../../admin/access.rst:490 ../../api.rst:2290
 msgid "Changes"
@@ -1064,7 +1064,7 @@ msgstr "Változások"
 
 #: ../../admin/access.rst:490
 msgid "Download changes"
-msgstr "Változtatások letöltése"
+msgstr "Változások letöltése"
 
 #: ../../admin/access.rst:490 ../../admin/access.rst:494
 #: ../../admin/access.rst:498 ../../admin/access.rst:518
@@ -1182,7 +1182,7 @@ msgstr "Fordítási memória szerkesztése"
 
 #: ../../admin/access.rst:514 ../../admin/access.rst:516
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
-msgstr ":guilabel:`Adminisztráció`, :guilabel:`Manage translation memory`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Fordítási memória kezelése`"
 
 #: ../../admin/access.rst:516
 msgid "Delete translation memory"
@@ -1219,7 +1219,7 @@ msgstr "Képernyőkép hozzáadása"
 #: ../../admin/access.rst:524 ../../admin/access.rst:526
 #: ../../admin/access.rst:528
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr ":guilabel:`Adminisztráció`, :guilabel:`Manage screenshots`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Képernyőképek kezelése`"
 
 #: ../../admin/access.rst:526
 msgid "Edit screenshot"
@@ -1267,7 +1267,7 @@ msgstr "Szövegek felülvizsgálata"
 
 #: ../../admin/access.rst:542
 msgid "Edit string when suggestions are enforced"
-msgstr "Szöveg szerkesztése, ha javaslatok érvényesülnek"
+msgstr "Szöveg szerkesztése kötelező javaslatkezelés esetén"
 
 #: ../../admin/access.rst:544
 msgid "Edit source strings"
@@ -1321,7 +1321,7 @@ msgstr "Fordítások"
 
 #: ../../admin/access.rst:554
 msgid "Add language for translation"
-msgstr "Nyelv hozzáadása a fordításhoz"
+msgstr "Nyelv hozzáadása fordításhoz"
 
 #: ../../admin/access.rst:554
 msgid ""
@@ -1337,7 +1337,7 @@ msgstr "Automatikus fordítás végrehajtása"
 
 #: ../../admin/access.rst:556
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr ":guilabel:`Adminisztráció`, :guilabel:`Automatic translation`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Automatikus fordítás`"
 
 #: ../../admin/access.rst:558
 msgid "Delete existing translation"
@@ -1363,7 +1363,7 @@ msgstr ""
 
 #: ../../admin/access.rst:562
 msgid "Add several languages for translation"
-msgstr "Több nyelv hozzáadása a fordításhoz"
+msgstr "Több nyelv hozzáadása fordításhoz"
 
 #: ../../admin/access.rst:564
 msgid "Uploads"
@@ -1403,7 +1403,7 @@ msgstr "Változtatások véglegesítése a belső tárolóba"
 
 #: ../../admin/access.rst:574
 msgid "Push change from the internal repository"
-msgstr "Változtatás felküldése a belső tárolóból"
+msgstr "Változás feltöltése a belső tárolóból"
 
 #: ../../admin/access.rst:576
 msgid "Reset changes in the internal repository"
@@ -1411,7 +1411,7 @@ msgstr "Változtatások visszaállítása a belső tárolóban"
 
 #: ../../admin/access.rst:578
 msgid "View upstream repository location"
-msgstr "Távoli tároló helyének megtekintése"
+msgstr "Felsőbb szintű tároló helyének megtekintése"
 
 #: ../../admin/access.rst:580
 msgid "Update the internal repository"
@@ -1419,7 +1419,7 @@ msgstr "A belső tároló frissítése"
 
 #: ../../admin/access.rst:582
 msgid "Site wide privileges"
-msgstr "Webhely szintű jogosultságok"
+msgstr "Webhelyszintű jogosultságok"
 
 #: ../../admin/access.rst:582
 msgid "Use management interface"
@@ -1431,7 +1431,7 @@ msgstr "Új projektek hozzáadása"
 
 #: ../../admin/access.rst:584 ../../admin/access.rst:766
 msgid ":guilabel:`Add new projects`"
-msgstr ":guilabel:`Add new projects`"
+msgstr ":guilabel:`Új projektek hozzáadása`"
 
 #: ../../admin/access.rst:586
 msgid "Add language definitions"
@@ -22020,7 +22020,8 @@ msgid ""
 msgstr ""
 "Először létre kell hoznod egy számlázási tervet a számlázás aktiválásához. "
 "Lépj a `Adminisztráció` szekcióba (amit a csavarkulcs ikon jelöl), és nyisd "
-"meg a `Tools` képernyőt. Innen haladj tovább a `Django admin interface`-re."
+"meg a `Eszközök` képernyőt. Innen haladj tovább a `Django admin "
+"interface`-re."
 
 #: ../../admin/optionals.rst:95
 msgid ""
@@ -25280,7 +25281,7 @@ msgid ""
 "so by pressing the :guilabel:`Automatically recognize` button."
 msgstr ""
 "A :ref:`additional` mellett a képernyőképek külön kezelőfelülettel "
-"rendelkeznek a :guilabel:`Tools` menü alatt. Tölts fel képernyőképeket, "
+"rendelkeznek a :guilabel:`Eszközök` menü alatt. Tölts fel képernyőképeket, "
 "rendeld hozzá őket manuálisan a forrás szövegekhez vagy használd az optikai "
 "karakterfelismerést (OCR) erre a célra a :guilabel:`Automatically recognize` "
 "gomb megnyomásával."
@@ -38179,8 +38180,8 @@ msgid ""
 "\"Perform automatic translation\" is in the *Administration* and the new "
 "*Automatic translation* group."
 msgstr ""
-"Az \"Automatikus fordítás végrehajtása\" az *Administration* és az új "
-"*Automatic translation* csoportban található."
+"Az \"Automatikus fordítás végrehajtása\" az *Administration* és az új *"
+"Automatikus fordítás* csoportban található."
 
 #: ../../changes/v4.rst:530
 msgid "Fixed generating XLSX files with special chars."
@@ -41255,11 +41256,11 @@ msgid ""
 "for instructions on how to invoke it in different environments) or by using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
-"Ellenőrizheted, hogy a kimenő e-mailek helyesen működnek-e a :djadmin:"
-"`django:sendtestemail` kezelési parancs használatával (lásd :ref:`invoke-"
-"manage` az utasításokért, hogyan hívhatod meg különböző környezetekben) vagy "
-"az :guilabel:`Tools` fül alatt található :ref:`management-interface` "
-"használatával."
+"Ellenőrizheted, hogy a kimenő e-mailek helyesen működnek-e a "
+":djadmin:`django:sendtestemail` kezelési parancs használatával (lásd :ref"
+":`invoke-manage` az utasításokért, hogyan hívhatod meg különböző "
+"környezetekben) vagy az :guilabel:`Eszközök` fül alatt található :ref"
+":`management-interface` használatával."
 
 #: ../../contributing/debugging.rst:70
 msgid ""
@@ -45263,7 +45264,7 @@ msgid ""
 "buttons :guilabel:`Singular` and :guilabel:`Plural` inside the form. Select "
 "the appropriate form of the new translation string to be added."
 msgstr ""
-"Kézzel, a forrásnyelv :guilabel:`Tools` menüjéből a :guilabel:`Add new "
+"Kézzel, a forrásnyelv :guilabel:`Eszközök` menüjéből a :guilabel:`Add new "
 "translation string` opcióval. A űrlapon belül választhatsz a rádiógombok "
 "között: :guilabel:`Singular` és :guilabel:`Plural`. Válaszd ki az új "
 "fordítási szöveg megfelelő formáját, amelyet hozzá szeretnél adni."
@@ -46419,9 +46420,9 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
-"A Weblate felületén a :guilabel:`Tools` ↓ :guilabel:`Remove` gombbal a "
-"sztring szerkesztése közben. Ez fájlformátumonként eltérő lehet, lásd: :ref:"
-"`component-manage_units`"
+"A Weblate felületén a :guilabel:`Eszközök` ↓ :guilabel:`Remove` gombbal a "
+"sztring szerkesztése közben. Ez fájlformátumonként eltérő lehet, lásd: :ref"
+":`component-manage_units`"
 
 #: ../../devel/translations.rst:95
 msgid ""
@@ -46534,8 +46535,8 @@ msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
-"Egy szöveg további variánsát a :guilabel:`Tools` segítségével is hozzá lehet "
-"adni a fordítás során (amikor a :ref:`component-manage_units` be van "
+"Egy szöveg további variánsát a :guilabel:`Eszközök` segítségével is hozzá "
+"lehet adni a fordítás során (amikor a :ref:`component-manage_units` be van "
 "kapcsolva):"
 
 #: ../../devel/translations.rst:153
@@ -54799,8 +54800,8 @@ msgid ""
 "toggle additional features using the :guilabel:`Tools` menu for each term."
 msgstr ""
 "A szójegyzék kifejezéseit ugyanúgy fordítod, mint a normál szövegeket. "
-"További funkciókat kapcsolhatsz be az egyes kifejezéseknél a :guilabel:"
-"`Tools` menü használatával."
+"További funkciókat kapcsolhatsz be az egyes kifejezéseknél a "
+":guilabel:`Eszközök` menü használatával."
 
 #: ../../user/glossary.rst:58
 msgid ":ref:`adding-strings`"
@@ -54819,8 +54820,8 @@ msgid ""
 "visually highlighted in the glossary sidebar."
 msgstr ""
 "Bizonyos szójegyzék kifejezések fordításainak ``read-only`` megjelölése "
-"tömeges szerkesztéssel, a jelölés beírásával vagy a :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as untranslatable` használatával azt jelenti, hogy ezek nem "
+"tömeges szerkesztéssel, a jelölés beírásával vagy a :guilabel:`Eszközök` ↓ "
+":guilabel:`Mark as untranslatable` használatával azt jelenti, hogy ezek nem "
 "fordíthatók. Használd ezt márkanevekre vagy más kifejezésekre, amelyeket nem "
 "szabad megváltoztatni más nyelveken. Az ilyen kifejezések vizuálisan "
 "kiemelésre kerülnek a szójegyzék oldalsávjában."
@@ -54838,11 +54839,11 @@ msgid ""
 "meanings."
 msgstr ""
 "Ha bizonyos szójegyzéki kifejezések fordításait ``forbidden``-ként jelöljük "
-"meg csoportos szerkesztéssel, a jelölés beírásával vagy a :guilabel:`Tools` "
-"↓ :guilabel:`Mark as forbidden translation` használatával, az azt jelenti, "
-"hogy ezek **nem** használhatók. Ezt akkor használd, ha a fordítás "
-"tisztázására van szükség, amikor bizonyos szavak kétértelműek vagy váratlan "
-"jelentéssel bírhatnak."
+"meg csoportos szerkesztéssel, a jelölés beírásával vagy a "
+":guilabel:`Eszközök` ↓ :guilabel:`Mark as forbidden translation` "
+"használatával, az azt jelenti, hogy ezek **nem** használhatók. Ezt akkor "
+"használd, ha a fordítás tisztázására van szükség, amikor bizonyos szavak "
+"kétértelműek vagy váratlan jelentéssel bírhatnak."
 
 #: ../../user/glossary.rst:93
 msgid "Terminology"
@@ -54857,8 +54858,8 @@ msgid ""
 "meaning across all languages."
 msgstr ""
 "Ha bizonyos szójegyzéki kifejezéseket ``terminology``-ként jelöljük meg "
-"csoportos szerkesztéssel, a jelölés beírásával vagy a :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as terminology` használatával, az bejegyzéseket ad hozzá az "
+"csoportos szerkesztéssel, a jelölés beírásával vagy a :guilabel:`Eszközök` ↓ "
+":guilabel:`Mark as terminology` használatával, az bejegyzéseket ad hozzá az "
 "összes nyelvhez a szójegyzékben. Ezt fontos kifejezések esetén használd, "
 "amelyeknél alapos átgondolás szükséges, és amelyeknek következetes jelentést "
 "kell megőrizniük minden nyelven."
@@ -56463,9 +56464,9 @@ msgid ""
 "removed upon saving."
 msgstr ""
 "Néhány formátumnál lehetséges, hogy egyetlen karakterlánchoz több fordítás "
-"is tartozzon. További alternatív fordításokat adhatsz hozzá a :guilabel:"
-"`Tools` menü használatával. Bármely üres alternatív fordítást automatikusan "
-"eltávolít a rendszer mentéskor."
+"is tartozzon. További alternatív fordításokat adhatsz hozzá a "
+":guilabel:`Eszközök` menü használatával. Bármely üres alternatív fordítást "
+"automatikusan eltávolít a rendszer mentéskor."
 
 #: ../../user/translating.rst:181
 msgid "Keyboard shortcuts"
@@ -56949,8 +56950,8 @@ msgid ""
 "language:"
 msgstr ""
 "Használhatod az automatikus fordítást a fordítás elindításához külső "
-"források alapján. Ezt az eszközt :guilabel:`Automatic translation` néven "
-"találod meg a :guilabel:`Tools` menüben, miután kiválasztottál egy "
+"források alapján. Ezt az eszközt :guilabel:`Automatikus fordítás` néven "
+"találod meg a :guilabel:`Eszközök` menüben, miután kiválasztottál egy "
 "összetevőt és egy nyelvet:"
 
 #: ../../user/translating.rst:369
@@ -57031,8 +57032,8 @@ msgid ""
 "guilabel:`Search and replace` in the :guilabel:`Tools` menu."
 msgstr ""
 "A terminológia hatékony megváltoztatásához vagy a szövegek tömeges "
-"javításához használd a :guilabel:`Search and replace` funkciót az :guilabel:"
-"`Tools` menüben."
+"javításához használd a :guilabel:`Search and replace` funkciót az "
+":guilabel:`Eszközök` menüben."
 
 #: ../../user/translating.rst:417
 msgid ""
