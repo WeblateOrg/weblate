@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-18 15:40+0000\n"
+"PO-Revision-Date: 2025-04-18 19:33+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -1411,7 +1411,7 @@ msgstr "Változtatások visszaállítása a belső tárolóban"
 
 #: ../../admin/access.rst:578
 msgid "View upstream repository location"
-msgstr "Felsőbb szintű tároló helyének megtekintése"
+msgstr "Forrás tároló helyének megtekintése"
 
 #: ../../admin/access.rst:580
 msgid "Update the internal repository"
@@ -1706,7 +1706,7 @@ msgstr ":guilabel:`Belső tároló frissítése`"
 #: ../../admin/access.rst:670 ../../admin/access.rst:689
 #: ../../admin/access.rst:715 ../../admin/access.rst:762
 msgid ":guilabel:`View upstream repository location`"
-msgstr ":guilabel:`Felsőbb szintű tároló helyének megtekintése`"
+msgstr ":guilabel:`Forrás tároló helyének megtekintése`"
 
 #: ../../admin/access.rst:671
 msgid "`Edit source`"
@@ -1865,7 +1865,7 @@ msgstr "Olyan felhasználók, akik jogosultak új projektek létrehozására."
 
 #: ../../admin/access.rst:820
 msgid "Default roles: `Add new projects`"
-msgstr "Alapértelmezett szerepkörök: `Add new projects`"
+msgstr "Alapértelmezett szerepkörök: `Új projektek hozzáadása`"
 
 #: ../../admin/access.rst:824
 msgid ""
@@ -1873,9 +1873,9 @@ msgid ""
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
-"Soha ne távolítsd el az előre definiált Weblate csapatokat és "
-"felhasználókat, mivel ez váratlan problémákhoz vezethet! Ha nincs rájuk "
-"szükséged, egyszerűen távolítsd el minden jogosultságukat."
+"Az előre definiált Weblate csapatokat és felhasználókat soha ne töröld, mert "
+"ez váratlan problémákat okozhat! Ha nincs rájuk szükséged, egyszerűen vond "
+"meg tőlük az összes jogosultságot."
 
 #: ../../admin/access.rst:829
 msgid "Additional access restrictions"
@@ -1974,8 +1974,9 @@ msgid ""
 "Triggered daily, but add-ons usually split the daily load between components "
 "depending on :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"Naponta fut le, de a kiegészítők általában elosztják a napi terhelést az "
-"összetevők között a :setting:`BACKGROUND_TASKS` beállítástól függően."
+"Naponta egyszer aktiválódik, de a kiegészítők általában az összetevők között "
+"osztják el a napi terhelést a :setting:`BACKGROUND_TASKS` beállításnak "
+"megfelelően."
 
 #: ../../admin/addons.rst:48
 msgid "Event change"
@@ -1983,72 +1984,69 @@ msgstr "Változás esemény"
 
 #: ../../admin/addons.rst:50
 msgid "Triggered after a Change event is created."
-msgstr "Létrejön egy 'Változás' esemény után."
+msgstr "A változás esemény létrejötte után aktiválódik."
 
 #: ../../admin/addons.rst:55
 msgid "Repository post-add"
-msgstr "Tárház hozzáadása utáni művelet"
+msgstr "Tároló hozzáadás utáni művelet"
 
 #: ../../admin/addons.rst:57
 msgid "Triggered just after the new translation is added and committed."
 msgstr ""
-"Közvetlenül azután aktiválódik, hogy az új fordítás hozzáadásra és "
-"elkötelezésre került."
+"Akkor aktiválódik, amikor egy új fordítás hozzáadásra és véglegesítésre "
+"kerül."
 
 #: ../../admin/addons.rst:62
 msgid "Repository post-commit"
-msgstr "Tároló elkötelezés utáni művelet"
+msgstr "Tároló véglegesítés utáni művelet"
 
 #: ../../admin/addons.rst:64
 msgid "Triggered just after the changes are committed."
-msgstr "Közvetlenül a módosítások elkötelezése után aktiválódik."
+msgstr "Akkor aktiválódik, amikor a változások véglegesítése megtörténik."
 
 #: ../../admin/addons.rst:70
 msgid "Repository post-push"
-msgstr "Tároló utáni feltöltés"
+msgstr "Tároló feltöltés utáni művelet"
 
 #: ../../admin/addons.rst:72
 msgid "Triggered just after the repository is pushed upstream."
-msgstr ""
-"Közvetlenül azután váltódik ki, hogy a tárolót feltöltötték upstreamre."
+msgstr "Akkor aktiválódik, amikor a tárolót feltöltik a forrás tárolóba."
 
 #: ../../admin/addons.rst:77
 msgid "Repository post-update"
-msgstr "Tároló frissítés utáni állapot"
+msgstr "Tároló frissítés utáni esemény"
 
 #: ../../admin/addons.rst:79
 msgid "Triggered whenever new changes are pulled from the upstream repository."
-msgstr ""
-"Akkor aktiválódik, amikor új változtatásokat húznak le a felsőbb szintű "
-"tárolóból."
+msgstr "Akkor aktiválódik, amikor új változások érkeznek a forrás tárolóból."
 
 #: ../../admin/addons.rst:84
 msgid "Repository pre-commit"
-msgstr "Tároló előtti elkötelezés"
+msgstr "Tároló véglegesítés előtti esemény"
 
 #: ../../admin/addons.rst:86
 msgid "Triggered just before the changes are committed."
-msgstr "Közvetlenül azelőtt váltódik ki, hogy a változtatásokat elköteleznék."
+msgstr "Közvetlenül a változások véglegesítése előtt aktiválódik."
 
 #: ../../admin/addons.rst:91
 msgid "Repository pre-push"
-msgstr "A(z) tároló feltolás előtti állapota"
+msgstr "Tároló feltöltés előtti esemény"
 
 #: ../../admin/addons.rst:93
 msgid "Triggered just before the repository is pushed upstream."
-msgstr "A tároló feltöltése előtt közvetlenül váltódik ki."
+msgstr "Közvetlenül a forrás tárolóra feltöltés előtt aktiválódik."
 
 #: ../../admin/addons.rst:98
 msgid "Repository pre-update"
-msgstr "Tároló előfrissítés"
+msgstr "Tároló frissítés előtti esemény"
 
 #: ../../admin/addons.rst:100
 msgid "Triggered just before the repository update is attempted."
-msgstr "A tároló frissítése előtti kísérlet közvetlenül előtti aktiválás."
+msgstr "Közvetlenül a forrás tárolóból történő frissítés előtt aktiválódik."
 
 #: ../../admin/addons.rst:105
 msgid "Storage post-load"
-msgstr "Tárolás betöltés után"
+msgstr "Tárolás betöltése utáni esemény"
 
 #: ../../admin/addons.rst:107
 msgid "Triggered when file is parsed by Weblate."
@@ -2056,7 +2054,7 @@ msgstr "Akkor aktiválódik, amikor a fájlt a Weblate feldolgozza."
 
 #: ../../admin/addons.rst:112
 msgid "Unit post-save"
-msgstr "Egység mentés utáni állapot"
+msgstr "Egység mentése utáni esemény"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the string is saved."
@@ -2064,11 +2062,11 @@ msgstr "Közvetlenül azután aktiválódik, hogy a szöveg mentésre kerül."
 
 #: ../../admin/addons.rst:119
 msgid "Unit pre-create"
-msgstr "Egység előkészítése"
+msgstr "Egység létrehozása előtti esemény"
 
 #: ../../admin/addons.rst:121
 msgid "Triggered just after the newly created string is saved."
-msgstr "Közvetlenül az újonnan létrehozott szöveg mentése után váltódik ki."
+msgstr "Közvetlenül az újonnan létrehozott szöveg mentése után aktiválódik."
 
 #: ../../admin/addons.rst:125
 msgid "Built-in add-ons"
@@ -2092,7 +2090,7 @@ msgstr "``weblate.autotranslate.autotranslate``"
 #: ../../admin/install/kubernetes.rst:26 ../../admin/install/openshift.rst:102
 #: ../../admin/machine.rst:0 ../../faq.rst:5
 msgid "Configuration"
-msgstr "Konfiguráció"
+msgstr "Beállítások"
 
 #: ../../admin/addons.rst:135
 msgid "``mode``"
@@ -2100,7 +2098,7 @@ msgstr "``mode``"
 
 #: ../../admin/addons.rst:135 ../../api.rst:2063
 msgid "Automatic translation mode"
-msgstr "Automatikus fordítási mód"
+msgstr "Automatikus fordítás módja"
 
 #: ../../admin/addons.rst:135 ../../admin/addons.rst:145
 #: ../../admin/addons.rst:159 ../../admin/addons.rst:454
@@ -2200,8 +2198,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Adja meg a forrásként használandó összetevő keresőbarát URL-jét. Hagyja "
-"üresen a jelenlegi projektben lévő összes összetevő használatához."
+"Írd be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
+"szeretnél használni; hagyd üresen, ha az aktuális projekt összes "
+"összetevőjét használni szeretnéd."
 
 #: ../../admin/addons.rst:167
 msgid "``engines``"
@@ -2221,7 +2220,7 @@ msgstr "Pontszámküszöb"
 
 #: ../../admin/addons.rst:0
 msgid "Triggers"
-msgstr "Kiváltó események"
+msgstr "Események"
 
 #: ../../admin/addons.rst:171 ../../admin/addons.rst:575
 #: ../../admin/addons.rst:626 ../../admin/addons.rst:659
@@ -2237,8 +2236,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Automatikusan lefordítja a szövegeket gépi fordítás vagy egyéb összetevők "
-"használatával."
+"Automatikusan lefordítja a szövegeket gépi fordítással vagy más összetevők "
+"alapján."
 
 #: ../../admin/addons.rst:177
 msgid ""
@@ -2250,7 +2249,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:184
 msgid "JavaScript localization CDN"
-msgstr "JavaScript honosítási CDN"
+msgstr "JavaScript lokalizációs CDN"
 
 #: ../../admin/addons.rst:188
 msgid "``weblate.cdn.cdnjs``"
@@ -2258,11 +2257,11 @@ msgstr "``weblate.cdn.cdnjs``"
 
 #: ../../admin/addons.rst:190 ../../devel/html.rst:49
 msgid "Translation threshold"
-msgstr "Fordítási küszöbszint"
+msgstr "Fordítási küszöbérték"
 
 #: ../../admin/addons.rst:190
 msgid "Threshold for inclusion of translations."
-msgstr "Küszöbszint a fordítások beszámításához."
+msgstr "A fordítások bekerülési küszöbértéke."
 
 #: ../../admin/addons.rst:192
 msgid "``css_selector``"
@@ -2270,11 +2269,11 @@ msgstr "``css_selector``"
 
 #: ../../admin/addons.rst:192 ../../devel/html.rst:51
 msgid "CSS selector"
-msgstr "CSS-kiválasztó"
+msgstr "CSS-szelektor"
 
 #: ../../admin/addons.rst:192
 msgid "CSS selector to detect localizable elements."
-msgstr "CSS-kiválasztó a honosítható elemek felismeréséhez."
+msgstr "CSS-szelektor a lokalizálható elemek felismerésére."
 
 #: ../../admin/addons.rst:194
 msgid "``cookie_name``"
@@ -2301,8 +2300,8 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"A jelenlegi tárolóban vagy távoli URL-eken lévő feldolgozandó fájlnevek "
-"listája a lefordítható szövegekhez."
+"Az aktuális tárolóban lévő vagy távoli URL-ekről elérhető fájlnevek listája, "
+"amelyekből lefordítható szövegeket keresünk."
 
 #: ../../admin/addons.rst:198
 msgid ""
@@ -2317,24 +2316,24 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Közzéteszi a fordításokat a tartalomkézbesítési hálózatban a JavaScript vagy "
-"HTML honosításokban való használathoz."
+"A fordításokat tartalomszolgáltató hálózatra (CDN) publikálja, hogy "
+"JavaScript vagy HTML lokalizáció során felhasználhatók legyenek."
 
 #: ../../admin/addons.rst:203
 msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
 msgstr ""
-"Használható statikus HTML oldalak lokalizálására vagy a lokalizáció "
-"betöltésére a JavaScript kódban."
+"Használható statikus HTML-oldalak lokalizálására vagy a lokalizáció "
+"betöltésére JavaScript-kódban."
 
 #: ../../admin/addons.rst:206
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
-"Egyedi URL-t generál az összetevődhöz, amelyet beilleszthetsz HTML oldalakba "
-"azok lokalizálásához. További részletekért lásd: :ref:`weblate-cdn`."
+"Egyedi URL-t generál az összetevődhöz, amelyet HTML-oldalakba illeszthetsz, "
+"hogy azokat lokalizáld. További részletekért lásd: :ref:`weblate-cdn`."
 
 #: ../../admin/addons.rst:211
 msgid ""
@@ -2344,12 +2343,11 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
-"Ez a kiegészítő további konfigurációt igényel a Weblate szerveren. A :"
-"setting:`LOCALIZE_CDN_PATH` beállítja, hogy a generált fájlok hova "
-"kerüljenek írásra (a fájlrendszeren), míg a :setting:`LOCALIZE_CDN_URL` "
-"meghatározza, hogy honnan lesznek elérhetőek (URL). A fájlok kiszolgálását "
-"nem a Weblate végzi, ezt külsőleg kell beállítani (általában egy CDN "
-"szolgáltatás használatával)."
+"Ez a kiegészítő további beállításokat igényel a Weblate szerveren. A "
+":setting:`LOCALIZE_CDN_PATH` megadja, hogy a generált fájlok hová kerüljenek "
+"a fájlrendszeren, a :setting:`LOCALIZE_CDN_URL` pedig azt, hogy honnan "
+"lesznek elérhetők (URL). A fájlok kiszolgálását nem a Weblate végzi, azt "
+"külsőleg kell beállítani (általában CDN-szolgáltatás használatával)."
 
 #: ../../admin/addons.rst:217
 msgid ""
@@ -2364,8 +2362,8 @@ msgid ""
 ":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
 "`cdn-addon-html`"
 msgstr ""
-":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
-"`cdn-addon-html`"
+":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref"
+":`cdn-addon-html`"
 
 #: ../../admin/addons.rst:230
 msgid "Remove blank strings"
@@ -2389,12 +2387,14 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
-"`addon-event-repository-post-update`"
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref"
+":`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:238
 msgid "Removes strings without a translation from translation files."
-msgstr "Eltávolítja a fordítás nélküli szövegeket a fordítási fájlokból."
+msgstr ""
+"Eltávolítja a fordítási fájlokból azokat a szövegeket, amelyekhez nincs "
+"fordítás."
 
 #: ../../admin/addons.rst:240
 msgid ""
@@ -2402,9 +2402,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
-"Használd ezt, hogy ne legyenek üres karakterláncok a fordítási fájlokban "
-"(például, ha a lokalizációs könyvtárad hiányzóként jeleníti meg őket "
-"ahelyett, hogy a forrás karakterláncra állna vissza)."
+"Használd ezt, ha nem szeretnéd, hogy üres szövegek maradjanak a fordítási "
+"fájlokban (például ha a lokalizációs könyvtárad hiányzó fordításokat üresen "
+"jelenítene meg ahelyett, hogy a forrásszövegre állna vissza)."
 
 #: ../../admin/addons.rst:246 ../../admin/addons.rst:267
 #: ../../admin/addons.rst:828 ../../admin/addons.rst:968
@@ -2413,7 +2413,7 @@ msgstr ":ref:`faq-cleanup`"
 
 #: ../../admin/addons.rst:251
 msgid "Cleanup translation files"
-msgstr "Fordítási fájlok kitisztítása"
+msgstr "Fordítási fájlok tisztítása"
 
 #: ../../admin/addons.rst:253
 msgid "``weblate.cleanup.generic``"
@@ -2424,8 +2424,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
-":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
-"`addon-event-repository-pre-commit`"
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref"
+":`addon-event-repository-pre-commit`"
 
 #: ../../admin/addons.rst:257
 msgid ""
@@ -2433,9 +2433,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Az összes fordítási fájl frissítése, hogy megegyezzen az egynyelvű "
-"alapfájllal. A legtöbb fájlformátumnál ez az alapfájlban többé nem létező, "
-"elavult fordítási kulcsok eltávolítását jelenti."
+"Frissíti az összes fordítási fájlt, hogy megfeleljenek a egynyelvű "
+"alapfájlnak. A legtöbb fájlformátum esetén ez azt jelenti, hogy eltávolítja "
+"az alapfájlban már nem szereplő, régi fordítási kulcsokat."
 
 #: ../../admin/addons.rst:261
 msgid ""
@@ -2443,9 +2443,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
-"Azoknál a formátumoknál, amelyek a fordítási szövegeken kívül további "
-"tartalmat is tartalmaznak (például :ref:`html`, :ref:`winrc` vagy :ref:`odf`)"
-", ez a művelet egyúttal a fordítási fájlt is szinkronba hozza az alapfájllal."
+"Az olyan formátumoknál, amelyek fordításon kívüli tartalmat is tartalmaznak ("
+"például :ref:`html`, :ref:`winrc` vagy :ref:`odf`), a fordítási fájl is "
+"szinkronba kerül az alapfájllal."
 
 #: ../../admin/addons.rst:272
 msgid "Add missing languages"
@@ -2469,33 +2469,32 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Azt biztosítja, hogy következetes nyelvkészlet legyen használva egy "
-"projekten belüli összes összetevőben."
+"Gondoskodik arról, hogy a projekt összes összetevője következetes "
+"nyelvkészletet használjon."
 
 #: ../../admin/addons.rst:281
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
-"A hiányzó nyelveket 24 óránként ellenőrizzük, és amikor új nyelveket adnak "
-"hozzá a Weblate-ben."
+"A hiányzó nyelveket 24 óránként, valamint új nyelvek Weblate-be történő "
+"hozzáadásakor ellenőrzi."
 
 #: ../../admin/addons.rst:284
 msgid "Unlike most others, this add-on affects the whole project."
-msgstr ""
-"A legtöbb másikkal ellentétben ez a kiegészítő az egész projektet érinti."
+msgstr "Más kiegészítőktől eltérően ez a kiegészítő az egész projektet érinti."
 
 #: ../../admin/addons.rst:288
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
-"Fordíttasd le automatikusan az újonnan hozzáadott szövegeket az :ref:`addon-"
-"weblate.autotranslate.autotranslate` kiegészítővel."
+"Újonnan hozzáadott szövegek automatikus lefordítása a :ref:`addon-"
+"weblate.autotranslate.autotranslate` segítségével."
 
 #: ../../admin/addons.rst:294
 msgid "Component discovery"
-msgstr "Összetevő felfedezése"
+msgstr "Összetevők felismerése"
 
 #: ../../admin/addons.rst:296
 msgid "``weblate.discovery.discovery``"
@@ -2507,7 +2506,7 @@ msgstr "``match``"
 
 #: ../../admin/addons.rst:298 ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
-msgstr "Reguláris kifejezés a fordítási fájlok illesztéséhez"
+msgstr "Reguláris kifejezés, amellyel a fordítási fájlok egyezését vizsgáljuk"
 
 #: ../../admin/addons.rst:300
 msgid "``file_format``"
@@ -2546,7 +2545,7 @@ msgstr "``name_template``"
 
 #: ../../admin/addons.rst:302 ../../devel/sphinx.rst:47
 msgid "Customize the component name"
-msgstr "Az összetevő nevének személyre szabása"
+msgstr "Az összetevő nevének testreszabása"
 
 #: ../../admin/addons.rst:304
 msgid "``base_file_template``"
@@ -2554,11 +2553,11 @@ msgstr "``base_file_template``"
 
 #: ../../admin/addons.rst:304
 msgid "Define the monolingual base filename"
-msgstr "Az egynyelvű alapfájlnév meghatározása"
+msgstr "Az egynyelvű alapfájl nevének megadása"
 
 #: ../../admin/addons.rst:304
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
+msgstr "Hagyd üresen, ha kétnyelvű fordítási fájlokat használsz."
 
 #: ../../admin/addons.rst:306
 msgid "``new_base_template``"
@@ -2566,15 +2565,15 @@ msgstr "``new_base_template``"
 
 #: ../../admin/addons.rst:306 ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
-msgstr "Az alapfájl meghatározása új fordításokhoz"
+msgstr "Az új fordítások alapfájljának meghatározása"
 
 #: ../../admin/addons.rst:306
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Új fordítások létrehozásához használt fájl fájlneve. A gettext esetén "
-"válassza a .pot fájlt."
+"Az új fordítások létrehozásához használt fájl neve. Gettext esetén válassz "
+".pot fájlt."
 
 #: ../../admin/addons.rst:308
 msgid "``intermediate_template``"
@@ -2582,7 +2581,7 @@ msgstr "``intermediate_template``"
 
 #: ../../admin/addons.rst:308 ../../admin/projects.rst:536
 msgid "Intermediate language file"
-msgstr "Közbülső nyelvi fájl"
+msgstr "Köztes nyelvi fájl"
 
 #: ../../admin/addons.rst:308
 msgid ""
@@ -2590,9 +2589,8 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
-"A közbülső fordítási fájl fájlneve. A legtöbb esetben ez a fejlesztők által "
-"biztosított fordítási fájl, és a tényleges forrásszövegek létrehozásakor van "
-"használva."
+"A köztes fordítási fájl neve. A legtöbb esetben ez egy fejlesztők által "
+"biztosított fordítási fájl, amit a forrásszövegek létrehozásakor használnak."
 
 #: ../../admin/addons.rst:310
 msgid "``language_regex``"
@@ -2600,14 +2598,15 @@ msgstr "``language_regex``"
 
 #: ../../admin/addons.rst:310 ../../admin/projects.rst:916
 msgid "Language filter"
-msgstr "Nyelvszűrő"
+msgstr "Nyelvi szűrő"
 
 #: ../../admin/addons.rst:310
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Reguláris kifejezés a fordítási fájlok szűréséhez a fájlmaszk keresésekor."
+"Reguláris kifejezés, amellyel a fordítási fájlokat szűrjük fájlmaszk "
+"keresésekor."
 
 #: ../../admin/addons.rst:312
 msgid "``copy_addons``"
@@ -2615,7 +2614,8 @@ msgstr "``copy_addons``"
 
 #: ../../admin/addons.rst:312
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Kiegészítők klónozása a fő összetevőből az újonnan létrehozottakba"
+msgstr ""
+"Kiegészítők másolása a fő összetevőről az újonnan létrehozott összetevőkre"
 
 #: ../../admin/addons.rst:314
 msgid "``remove``"
@@ -2631,7 +2631,7 @@ msgstr "``confirm``"
 
 #: ../../admin/addons.rst:316
 msgid "I confirm the above matches look correct"
-msgstr "Megerősítem, hogy a fenti illesztések helyesnek tűnnek"
+msgstr "Megerősítem, hogy a fenti egyezések helyesek"
 
 #: ../../admin/addons.rst:318 ../../admin/addons.rst:818
 #: ../../admin/addons.rst:956
@@ -2643,8 +2643,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Automatikusan hozzáadja vagy eltávolítja a projekt összetevőit a "
-"verziókövető rendszerben történt fájlváltoztatások alapján."
+"A projekt összetevőit automatikusan hozzáadja vagy eltávolítja a fájlok "
+"változásai alapján a verziókezelő rendszerben."
 
 #: ../../admin/addons.rst:323
 msgid ""
@@ -2652,10 +2652,9 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
-"Az illesztés reguláris kifejezések használatával történik, ami lehetővé "
-"teszi az összetett konfigurációt, de némi tudás szükséges hozzá. Néhány "
-"példát a gyakori felhasználási esetekre a kiegészítő súgó részében "
-"találhatsz."
+"Az egyezés reguláris kifejezésekkel történik, ami lehetővé teszi az "
+"összetett beállításokat is, de némi ismeretet igényel a használatuk. Néhány "
+"gyakori példát megtalálsz a kiegészítő súgójában."
 
 #: ../../admin/addons.rst:328
 msgid ""
@@ -2663,14 +2662,16 @@ msgid ""
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
 msgstr ""
-"A fordítási fájlokhoz illeszkedő reguláris kifejezésnek két névvel ellátott "
-"csoportot kell tartalmaznia, amelyek az összetevőt és a nyelvet illesztik. "
-"Az összes névvel ellátott csoport a reguláris kifejezésben változóként "
-"használható a sablon mezőkben."
+"A fordítási fájlok egyeztetéséhez használt reguláris kifejezésnek két "
+"elnevezett csoportot kell tartalmaznia: az összetevő és a nyelv "
+"azonosításához. A reguláris kifejezés összes elnevezett csoportja "
+"felhasználható változóként a sablonmezőkben."
 
 #: ../../admin/addons.rst:332
 msgid "You can use Django template markup in all filename fields, for example:"
-msgstr "A Django sablon jelölést minden fájlnév mezőben használhatod, például:"
+msgstr ""
+"Minden fájlnév mezőben használhatod a Django sablonnyelv szintaxisát, "
+"például:"
 
 #: ../../admin/addons.rst:334
 msgid "``{{ component }}``"
@@ -2678,7 +2679,7 @@ msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:335
 msgid "Component filename match"
-msgstr "Összetevő fájlnév egyezés"
+msgstr "Összetevő fájlnév egyeztetése"
 
 #: ../../admin/addons.rst:336
 msgid "``{{ component|title }}``"
@@ -2694,7 +2695,7 @@ msgstr "``{{ path }}: {{ component }}``"
 
 #: ../../admin/addons.rst:339
 msgid "Custom match group from the regular expression"
-msgstr "Egyedi illeszkedési csoport a reguláris kifejezésből"
+msgstr "Egyedi egyező csoport a reguláris kifejezésből"
 
 #: ../../admin/addons.rst:341
 msgid ""
@@ -2702,13 +2703,13 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
-"Amint rákattintasz a :guilabel:`Mentés` gombra, megjelenik az egyező "
-"összetevők előnézete, ahol ellenőrizheted, hogy a beállítás valóban megfelel-"
-"e az igényeidnek:"
+"Amint megnyomod a :guilabel:`Mentés` gombot, megjelenik az összetevők "
+"előnézete, ahol ellenőrizheted, hogy a beállítások valóban megfelelnek-e az "
+"igényeidnek:"
 
 #: ../../admin/addons.rst:347
 msgid "Component discovery examples"
-msgstr "Összetevő felfedezési példák"
+msgstr "Összetevő-felismerési példák"
 
 #: ../../admin/addons.rst:350
 msgid "One folder per language"
@@ -2753,11 +2754,11 @@ msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:363
 msgid "Gettext locales layout"
-msgstr "Gettext lokalizációk elrendezése"
+msgstr "Gettext helyi fájlszerkezet"
 
 #: ../../admin/addons.rst:365
 msgid "Usual structure for storing gettext PO files."
-msgstr "A gettext PO fájlok tárolásának szokásos struktúrája."
+msgstr "Általános struktúra a gettext PO fájlok tárolására."
 
 #: ../../admin/addons.rst:368
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
@@ -2785,7 +2786,7 @@ msgstr "Összetett fájlnevek"
 
 #: ../../admin/addons.rst:378
 msgid "Using both component and language name within filename."
-msgstr "A fájlnéven belül az összetevő és a nyelv nevének használata."
+msgstr "Az összetevő és a nyelv nevének együttes használata a fájlnévben."
 
 #: ../../admin/addons.rst:381
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
@@ -2809,11 +2810,11 @@ msgstr ":file:`src/locale/website.de.po`"
 
 #: ../../admin/addons.rst:389
 msgid "Repeated language code"
-msgstr "Ismétlődő nyelvi kód"
+msgstr "Ismételt nyelvkód"
 
 #: ../../admin/addons.rst:391
 msgid "Using language in both path and filename."
-msgstr "A nyelv használata mind az elérési útban, mind a fájlnévben."
+msgstr "A nyelv szerepel mind az elérési útban, mind a fájlnévben."
 
 #: ../../admin/addons.rst:394
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
@@ -2838,11 +2839,11 @@ msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:403
 msgid "Split Android strings"
-msgstr "Android szövegek felosztása"
+msgstr "Android szövegek felosztva"
 
 #: ../../admin/addons.rst:405
 msgid "Android resource strings, split into several files."
-msgstr "Android erőforrás sztringek, több fájlra osztva."
+msgstr "Android erőforrás szövegek, több fájlba szétosztva."
 
 #: ../../admin/addons.rst:408
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
@@ -2866,11 +2867,11 @@ msgstr ":file:`res/values-de/strings-help.xml`"
 
 #: ../../admin/addons.rst:416
 msgid "Matching multiple paths"
-msgstr "Több útvonal illesztése"
+msgstr "Több útvonal egyeztetése"
 
 #: ../../admin/addons.rst:418
 msgid "Multi-module Maven project with Java properties translations."
-msgstr "Több modulból álló Maven projekt Java tulajdonságok fordításaival."
+msgstr "Több modulból álló Maven projekt Java properties fordításokkal."
 
 #: ../../admin/addons.rst:421
 msgid ""
@@ -2893,16 +2894,16 @@ msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
 "properties`"
 msgstr ""
-":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
-"properties`"
+":file:`parent/module1/submodule/src/main/resources/"
+"ApplicationResources_fr.properties`"
 
 #: ../../admin/addons.rst:426
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
 "properties`"
 msgstr ""
-":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
-"properties`"
+":file:`parent/module1/submodule/src/main/resources/"
+"ApplicationResource_es.properties`"
 
 #: ../../admin/addons.rst:427
 msgid ""
@@ -3026,7 +3027,7 @@ msgstr "**Példák:**"
 
 #: ../../admin/addons.rst:478
 msgid "Label new strings automatically"
-msgstr "Automatikusan címkézd fel az új karakterláncokat"
+msgstr "Új szövegek automatikus címkézése"
 
 #: ../../admin/addons.rst:481 ../../admin/addons.rst:489
 #: ../../admin/addons.rst:498
@@ -3039,13 +3040,11 @@ msgstr "``NOT has:label``"
 
 #: ../../admin/addons.rst:484
 msgid "*recent*"
-msgstr "*legutóbbi*"
+msgstr "*friss szövegek*"
 
 #: ../../admin/addons.rst:486
 msgid "Marking all :ref:`appstore` changelog strings read-only"
-msgstr ""
-"Az összes :ref:`appstore` változásnapló szövegének csak olvashatóként való "
-"megjelölése"
+msgstr "Az összes :ref:`appstore` változásnapló szöveg csak olvashatóvá tétele"
 
 #: ../../admin/addons.rst:490
 msgid "``language:en AND key:changelogs/``"
@@ -3058,13 +3057,11 @@ msgstr "``read-only``"
 
 #: ../../admin/addons.rst:495
 msgid "Marking certain strings read-only"
-msgstr "Bizonyos szövegeket csak olvashatóként jelölni"
+msgstr "Bizonyos szövegek csak olvashatóvá tétele"
 
 #: ../../admin/addons.rst:499
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
-msgstr ""
-"``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en`` (Ez a rész nem "
-"fordítandó, mivel kódot tartalmaz.)"
+msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 
 #: ../../admin/addons.rst:505
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
@@ -3072,7 +3069,7 @@ msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
 #: ../../admin/addons.rst:513
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Változatlan fordítások megjelölése, hogy „Szerkesztést igényel”"
+msgstr "Változatlan fordítások megjelölése „Szerkesztést igényel” állapottal"
 
 #: ../../admin/addons.rst:515
 msgid "``weblate.flags.same_edit``"
@@ -3100,8 +3097,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
-"Érdemes lehet szigorítani a :ref:`check-same` ellenőrzést a ``strict-same`` "
-"zászló hozzáadásával a :ref:`component-check_flags`-hoz."
+"Érdemes lehet szigorítani a :ref:`check-same` ellenőrzést is úgy, hogy a "
+"``strict-same`` jelzőt hozzáadod a :ref:`component-check_flags` beállításhoz."
 
 #: ../../admin/addons.rst:530 ../../admin/addons.rst:547
 #: ../../admin/addons.rst:564
@@ -3110,7 +3107,7 @@ msgstr ":ref:`states`"
 
 #: ../../admin/addons.rst:535
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Új forrásszövegek megjelölése, hogy „Szerkesztést igényel”"
+msgstr "Új forrásszövegek megjelölése „Szerkesztést igényel” állapottal"
 
 #: ../../admin/addons.rst:537
 msgid "``weblate.flags.source_edit``"
@@ -3128,7 +3125,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:552
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Új fordítások megjelölése, hogy „Szerkesztést igényel”"
+msgstr "Új fordítások megjelölése „Szerkesztést igényel” állapottal"
 
 #: ../../admin/addons.rst:554
 msgid "``weblate.flags.target_edit``"
@@ -3155,7 +3152,9 @@ msgstr "``weblate.generate.fill_read_only``"
 
 #: ../../admin/addons.rst:577
 msgid "Fills in translation of read-only strings with source string."
-msgstr "Kitölti a csak olvasható szövegek fordítását a forrásszöveggel."
+msgstr ""
+"A csak olvasható szövegek fordítása automatikusan a forrásszöveggel lesz "
+"kitöltve."
 
 #: ../../admin/addons.rst:582
 msgid "Statistics generator"
@@ -3171,7 +3170,7 @@ msgstr "``filename``"
 
 #: ../../admin/addons.rst:586 ../../admin/addons.rst:599
 msgid "Name of generated file"
-msgstr "Előállított fájl neve"
+msgstr "A létrehozott fájl neve"
 
 #: ../../admin/addons.rst:588
 msgid "``template``"
@@ -3179,7 +3178,7 @@ msgstr "``template``"
 
 #: ../../admin/addons.rst:588
 msgid "Content of generated file"
-msgstr "Előállított fájl tartalma"
+msgstr "A létrehozott fájl tartalma"
 
 #: ../../admin/addons.rst:590 ../../admin/addons.rst:711
 #: ../../admin/addons.rst:792 ../../admin/addons.rst:903
@@ -3189,19 +3188,20 @@ msgstr ":ref:`addon-event-repository-pre-commit`"
 #: ../../admin/addons.rst:592
 msgid "Generates a file containing detailed info about the translation status."
 msgstr ""
-"Részletes információkat tartalmazó fájlt állít elő a fordítás állapotáról."
+"Olyan fájl létrehozása, amely részletes információt tartalmaz a fordítás "
+"állapotáról."
 
 #: ../../admin/addons.rst:594
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
-"Használhatsz Django sablont mind a fájlnévben, mind a tartalomban. A "
-"részletes jelölés leírásához lásd: :ref:`markup`."
+"A fájlnévhez és a tartalomhoz is használhatsz Django sablont, a részletes "
+"leírást lásd itt: :ref:`markup`."
 
 #: ../../admin/addons.rst:597
 msgid "For example generating a summary file for each translation:"
-msgstr "Például összefoglaló fájl generálása minden fordításhoz:"
+msgstr "Példa: összefoglaló fájl generálása minden fordításhoz:"
 
 #: ../../admin/addons.rst:600
 msgid "``locale/{{ language_code }}.json``"
@@ -3225,7 +3225,7 @@ msgstr "``weblate.generate.prefill``"
 
 #: ../../admin/addons.rst:628
 msgid "Fills in translation strings with source string."
-msgstr "Kitölti a fordítási szövegeket a forrásszövegekkel."
+msgstr "A fordítási szövegek automatikus kitöltése a forrásszöveggel."
 
 #: ../../admin/addons.rst:630
 msgid ""
@@ -3233,13 +3233,13 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
-"Az összetevő összes le nem fordított szövegét kitöltik a forrásszöveggel, és "
-"szerkesztésre szorulóként jelölik meg. Ezt akkor használd, ha nem lehetnek "
-"üres szövegek a fordítási fájlokban."
+"Az összes lefordítatlan szöveg az összetevőben a forrásszöveggel lesz "
+"kitöltve, és „Szerkesztést igényel” állapottal lesz megjelölve. Használd "
+"ezt, ha nem lehetnek üres szövegek a fordítási fájlokban."
 
 #: ../../admin/addons.rst:637
 msgid "Pseudolocale generation"
-msgstr "Pszeudo területi beállítás előállítása"
+msgstr "Ál-lokáció (pseudolocale) generálása"
 
 #: ../../admin/addons.rst:641
 msgid "``weblate.generate.pseudolocale``"
@@ -3259,7 +3259,7 @@ msgstr "Célfordítás"
 
 #: ../../admin/addons.rst:645
 msgid "All strings in this translation will be overwritten"
-msgstr "Az ebben a fordításban lévő összes szöveg felül lesz írva"
+msgstr "A megadott fordítás összes szövege felül lesz írva"
 
 #: ../../admin/addons.rst:647
 msgid "``prefix``"
@@ -3299,14 +3299,15 @@ msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
 msgid "Variable part multiplier"
-msgstr "Változó részismétlő"
+msgstr "Változó rész szorzója"
 
 #: ../../admin/addons.rst:655
 msgid ""
 "How many times to repeat the variable part depending on the length of the "
 "source string."
 msgstr ""
-"Hányszor ismétlődjön a változó rész a forrásszöveg hosszának függvényében."
+"Megadja, hogy hányszor ismétlődjön a változó rész a forrásszöveg hosszától "
+"függően."
 
 #: ../../admin/addons.rst:657
 msgid "``include_readonly``"
@@ -3314,15 +3315,15 @@ msgstr "``include_readonly``"
 
 #: ../../admin/addons.rst:657
 msgid "Include read-only strings"
-msgstr "Csak olvasható szövegek felvétele"
+msgstr "Csak olvasható szövegek bevonása"
 
 #: ../../admin/addons.rst:661
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Előállít egy fordítást úgy, hogy automatikusan előtagot és utótagot ad hozzá "
-"a forrásszövegekhez."
+"Fordítást generál azáltal, hogy automatikusan előtagot és utótagot ad a "
+"forrásszövegekhez."
 
 #: ../../admin/addons.rst:664
 msgid ""
@@ -3331,19 +3332,19 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
-"A pszeudolokálék hasznosak azoknak a karakterláncoknak a megtalálásához, "
-"amelyek nincsenek előkészítve a lokalizálásra. Ezt úgy érhetjük el, hogy az "
-"összes fordítható forráskarakterláncot módosítjuk, így könnyen észrevehetők "
-"a módosítatlan karakterláncok, amikor az alkalmazást a pszeudolokále nyelven "
-"futtatjuk."
+"Az ál-lokációk (pseudolocale) abban segítenek, hogy könnyen megtaláld azokat "
+"a szövegeket, amelyek nincsenek megfelelően előkészítve lokalizációra. Ezt "
+"úgy érik el, hogy az összes lefordítható forrásszöveget módosítják, így "
+"futtatás közben azonnal feltűnnek azok, amik változatlanok maradtak az ál-"
+"lokációs nyelv használatakor."
 
 #: ../../admin/addons.rst:669
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
-"Azoknak a karakterláncoknak a megtalálása is lehetséges, amelyek lokalizált "
-"megfelelői esetleg nem illeszkednek a kialakításhoz."
+"Segítségükkel azokat a szövegeket is könnyen kiszűrheted, amelyeknél a "
+"fordítás esetleg nem férne el a felhasználói felületen."
 
 #: ../../admin/addons.rst:672
 msgid ""
@@ -3355,17 +3356,16 @@ msgid ""
 "world___________`` - the suffix is repeated once for each character in the "
 "source string."
 msgstr ""
-"A változó részek használatával lehetőség nyílik olyan szövegek keresésére, "
-"amelyek a lokalizáció után esetleg nem illeszkednek a felhasználói felületbe "
-"- ez a szöveget a forrás szöveg hosszának alapján kiterjeszti. A változó "
-"részeket a szöveg hosszának és a szorzónak a szorzataként ismételjük meg. "
-"Például a ``Hello world`` változó utótaggal ``_`` és változó szorzóval 1, "
-"így alakul: ``Hello world___________`` - az utótag minden egyes karakterére "
-"megismétlődik a forrás szövegben."
+"A változó részek használatával megnyújtod a szöveget a forrás hosszának "
+"megfelelően – így könnyen észreveheted, ha a fordítás túllógna a kijelölt "
+"helyen. A változó részeket a forrásszöveg hosszának és a megadott szorzónak "
+"megfelelően ismétli meg a rendszer. Például: a ``Hello world`` szöveg "
+"változó utótaggal (``_``) és szorzóval 1 így nézne ki: ``Hello "
+"world___________`` – az utótag minden egyes karakter után egyszer ismétlődik."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
-msgstr "A szövegek a következő minta használatával lesznek előállítva:"
+msgstr "A szövegek a következő minta alapján generálódnak:"
 
 #: ../../admin/addons.rst:681
 msgid ""
@@ -3373,17 +3373,17 @@ msgid ""
 "`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
 "suffix`"
 msgstr ""
-":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :guilabel:"
-"`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
-"suffix`"
+":guilabel:`Rögzített szövegelőtag` :guilabel:`Változó szövegelőtag` "
+":guilabel:`Forrásszöveg` :guilabel:`Változó szövegutótag` :guilabel:`"
+"Rögzített szövegutótag`"
 
 #: ../../admin/addons.rst:689
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
-"Használhatsz valódi nyelveket a teszteléshez, de a Weblate-ben elérhetők "
-"dedikált ál-lokálok is - `en_XA` és `ar_XB`."
+"Teszteléshez használhatsz valódi nyelveket is, de a Weblate saját ál-"
+"lokációs nyelveket is kínál – például `en_XA` és `ar_XB`."
 
 #: ../../admin/addons.rst:694
 msgid ""
@@ -3393,24 +3393,24 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
-"Ezt a kiegészítőt használhatod, hogy elkezdj fordítani egy meglévő nyelv új "
-"helyi változatára vagy hasonló nyelvre. Miután hozzáadtad a fordítást az "
-"összetevőhöz, kövesd a kiegészítőt. *Példa:* Ha van `fr` fordításod és el "
-"akarod kezdeni az `fr_CA` fordítást, egyszerűen állítsd be a `fr`-t "
-"forrásként, az `fr_CA`-t pedig célként, és hagyd üresen a prefixet és a "
-"suffixet."
+"Ezzel a kiegészítővel elkezdheted egy meglévő nyelv új helyi változatának a "
+"fordítását is. Miután hozzáadtad az új fordítást az összetevőhöz, használd a "
+"kiegészítőt. *Példa:* Ha van már `fr` (francia) fordításod, és szeretnéd "
+"elindítani a `fr_CA` (kanadai francia) változatot, akkor egyszerűen állítsd "
+"be a `fr`-t forrásnak, a `fr_CA`-t célnak, és hagyd üresen az előtagot és "
+"utótagot."
 
 #: ../../admin/addons.rst:700
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
-"Távolítsd el a kiegészítőt, miután az új fordítás kitöltésre került, hogy "
-"megakadályozd, hogy a Weblate megváltoztassa a másolás utáni fordításokat."
+"Miután az új fordítás elkészült, érdemes eltávolítani a kiegészítőt, hogy a "
+"Weblate ne módosítsa később a kézzel javított fordításokat."
 
 #: ../../admin/addons.rst:707
 msgid "Contributors in comment"
-msgstr "Közreműködők a megegyezésben"
+msgstr "Közreműködők a megjegyzésben"
 
 #: ../../admin/addons.rst:709
 msgid "``weblate.gettext.authors``"
@@ -3421,8 +3421,8 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Frissíti a PO-fájl fejlécének megjegyzés részét a közreműködők neveinek és a "
-"közreműködések éveinek felvételéhez."
+"Frissíti a PO fájl fejlécének megjegyzés részét úgy, hogy belekerüljenek a "
+"közreműködők nevei és az évek, amikor hozzájárultak a projekthez."
 
 #: ../../admin/addons.rst:716
 msgid "The PO file header will look like this:"
@@ -3430,7 +3430,7 @@ msgstr "A PO fájl fejléc így fog kinézni:"
 
 #: ../../admin/addons.rst:728
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Az ALL_LINGUAS változó frissítése a „configure” fájlban"
+msgstr "ALL_LINGUAS változó frissítése a „configure” fájlban"
 
 #: ../../admin/addons.rst:730
 msgid "``weblate.gettext.configure``"
@@ -3441,13 +3441,13 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
-"Frissíti az ALL_LINGUAS változót a :file:`configure`, :file:`configure.in` "
-"vagy bármely :file:`configure.ac` fájlban, amikor új fordítás kerül "
-"hozzáadásra."
+"Amikor új fordítás kerül a projektbe, frissíti az ALL_LINGUAS változót a "
+":file:`configure`, :file:`configure.in` vagy bármely :file:`configure.ac` "
+"fájlban."
 
 #: ../../admin/addons.rst:740
 msgid "Customize gettext output"
-msgstr "A gettext kimenet személyre szabása"
+msgstr "Gettext kimenet testreszabása"
 
 #: ../../admin/addons.rst:742
 msgid "``weblate.gettext.customize``"
@@ -3466,25 +3466,25 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Alapértelmezetten a gettext tördeli a sorokat a 77. karakternél és az új "
-"soroknál. A --no-wrap paraméterrel csak az új soroknál végez tördelést."
+"Alapértelmezetten a gettext a sorokat 77 karakter után, illetve "
+"sortöréseknél töri meg. A --no-wrap paraméterrel viszont csak sortöréseknél "
+"fog törni."
 
 #: ../../admin/addons.rst:748
 msgid ""
 "``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr ""
-"``77`` -- A sorok tördelése 77 karakter után és új soroknál (xgettext "
-"alapértelmezés)"
+"``77`` – Sorok tördelése 77 karakternél és sortöréseknél (xgettext "
+"alapértelmezett)"
 
 #: ../../admin/addons.rst:750
 msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr ""
-"``65535`` -- A sorok csak új soroknál történő tördelése (mint 'xgettext --no-"
-"wrap')"
+"``65535`` – Sorok tördelése csak sortöréseknél (mint az 'xgettext --no-wrap')"
 
 #: ../../admin/addons.rst:752
 msgid "``-1`` -- No line wrapping"
-msgstr "``-1`` -- Nincs sortördelés"
+msgstr "``-1`` – Nincs sortörés"
 
 #: ../../admin/addons.rst:754 ../../admin/addons.rst:890
 #: ../../admin/addons.rst:1148 ../../admin/addons.rst:1181
@@ -3495,20 +3495,20 @@ msgstr ":ref:`addon-event-storage-post-load`"
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Lehetővé teszi a gettext kimenet viselkedésének személyre szabását, például "
-"a sortörést."
+"Lehetővé teszi a gettext kimenetének testreszabását, például a sorok "
+"tördelésének módját."
 
 #: ../../admin/addons.rst:758
 msgid "It offers the following options:"
-msgstr "A következő opciókat kínálja:"
+msgstr "A következő lehetőségeket kínálja:"
 
 #: ../../admin/addons.rst:760
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Tördeld a sorokat 77 karakter után és új soroknál"
+msgstr "Sorok tördelése 77 karakternél és sortöréseknél"
 
 #: ../../admin/addons.rst:761
 msgid "Only wrap lines at newlines"
-msgstr "Csak új soroknál tördelj sorokat"
+msgstr "Sorok tördelése csak sortöréseknél"
 
 #: ../../admin/addons.rst:762
 msgid "No line wrapping"
@@ -3519,8 +3519,9 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"Alapértelmezés szerint a gettext 77 karakter után és új soroknál tördel. A "
-"``--no-wrap`` paraméterrel a tördelés csak új soroknál történik."
+"Alapértelmezés szerint a gettext 77 karakter után, illetve sortöréseknél "
+"töri meg a sorokat. A ``--no-wrap`` paraméterrel viszont csak a "
+"sortöréseknél történik tördelés."
 
 #: ../../admin/addons.rst:773
 msgid "Update LINGUAS file"
@@ -3532,11 +3533,11 @@ msgstr "``weblate.gettext.linguas``"
 
 #: ../../admin/addons.rst:779
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Frissíti a LINGUAS-fájlt, ha új fordítást adnak hozzá."
+msgstr "Frissíti a LINGUAS fájlt, amikor új fordítás kerül hozzáadásra."
 
 #: ../../admin/addons.rst:784
 msgid "Generate MO files"
-msgstr "MO-fájlok előállítása"
+msgstr "MO-fájlok generálása"
 
 #: ../../admin/addons.rst:786
 msgid "``weblate.gettext.mo``"
@@ -3548,11 +3549,11 @@ msgstr "``path``"
 
 #: ../../admin/addons.rst:788
 msgid "Path of generated MO file"
-msgstr "Előállított MO-fájl útvonala"
+msgstr "A generált MO-fájl elérési útja"
 
 #: ../../admin/addons.rst:788
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Ha nincs megadva, akkor a PO-fájl helye lesz használva."
+msgstr "Ha nincs megadva, akkor a PO-fájl helyét használja alapértelmezetten."
 
 #: ../../admin/addons.rst:790 ../../admin/addons.rst:816
 msgid "``fuzzy``"
@@ -3560,27 +3561,27 @@ msgstr "``fuzzy``"
 
 #: ../../admin/addons.rst:790
 msgid "Include strings needing editing"
-msgstr "A szerkesztést igényló szövegeket is tartalmazza"
+msgstr "Szerkesztést igénylő szövegek beillesztése"
 
 #: ../../admin/addons.rst:790
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
-"A szerkesztést igénylő szövegek (zavaros) általában nem állnak használatra "
-"készen fordításokként."
+"A szerkesztést igénylő (zavaros) szövegek általában még nem alkalmasak "
+"fordításként való használatra."
 
 #: ../../admin/addons.rst:794
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr "Automatikusan előállít egy MO-fájlt minden megváltoztatott PO-fájlhoz."
+msgstr "Automatikusan MO-fájlt generál minden módosított PO-fájlhoz."
 
 #: ../../admin/addons.rst:796
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
-"A generált MO fájl helye testreszabható, és a mező ehhez :ref:`markup`-ot "
-"használ."
+"A generált MO-fájl helye testreszabható, és az elérési út mező támogatja a "
+":ref:`markup` használatát."
 
 #: ../../admin/addons.rst:800
 msgid ""
@@ -3588,13 +3589,13 @@ msgid ""
 "repository, but the MO file generated by this add-on will not. The MO file "
 "must be removed from the upstream manually."
 msgstr ""
-"Ha egy fordítás törlésre kerül, a PO fájl eltávolításra kerül a tárolóból, "
-"azonban a kiegészítő által generált MO fájl nem. Az MO fájlt manuálisan kell "
-"eltávolítani a tárolóból."
+"Ha egy fordítást eltávolítasz, a hozzá tartozó PO-fájl törlődik a tárolóból, "
+"de a kiegészítő által létrehozott MO-fájl megmarad. Az MO-fájlt ilyenkor "
+"kézzel kell törölni a forrás tárolóból."
 
 #: ../../admin/addons.rst:808
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "PO-fájlok frissítése, hogy egyezzenek a POT-fájllal (msgmerge)"
+msgstr "PO-fájlok frissítése a POT-fájlhoz igazítva (msgmerge)"
 
 #: ../../admin/addons.rst:810
 msgid "``weblate.gettext.msgmerge``"
@@ -3606,7 +3607,7 @@ msgstr "``previous``"
 
 #: ../../admin/addons.rst:812
 msgid "Keep previous msgids of translated strings"
-msgstr "Lefordított szövegek korábbi üzenetazonosítóinak megtartása"
+msgstr "A lefordított szövegek korábbi üzenetazonosítóinak (msgid) megtartása"
 
 #: ../../admin/addons.rst:814
 msgid "``no_location``"
@@ -3614,11 +3615,11 @@ msgstr "``no_location``"
 
 #: ../../admin/addons.rst:814
 msgid "Remove locations of translated strings"
-msgstr "Lefordított szövegek helyeinek eltávolítása"
+msgstr "A lefordított szövegek helyinformációinak eltávolítása"
 
 #: ../../admin/addons.rst:816
 msgid "Use fuzzy matching"
-msgstr "Zavaros illesztés használata"
+msgstr "Bizonytalan (fuzzy) egyezések használata"
 
 #: ../../admin/addons.rst:820
 msgid ""
@@ -3626,17 +3627,17 @@ msgid ""
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
-"Az összes PO fájl frissítése (a :ref:`component-filemask` által "
-"konfigurálva), hogy illeszkedjen a POT fájlhoz (a :ref:`component-new_base` "
-"által konfigurálva) a :program:`msgmerge` használatával."
+"Minden PO-fájlt frissít (ahogy a :ref:`component-filemask` szerint be van "
+"állítva), hogy megfeleljen a POT-fájlnak (amit a :ref:`component-new_base` "
+"határoz meg), a :program:`msgmerge` használatával."
 
 #: ../../admin/addons.rst:823
 msgid ""
 "Most msgmerge command-line options can be set up through the add-on "
 "configuration."
 msgstr ""
-"A legtöbb msgmerge parancssori opció beállítható a bővítmény konfigurációján "
-"keresztül."
+"A legtöbb msgmerge parancssori opció beállítható a kiegészítő "
+"konfigurációjában."
 
 #: ../../admin/addons.rst:833
 msgid "Squash Git commits"
@@ -3656,19 +3657,19 @@ msgstr "Véglegesítések összevonása"
 
 #: ../../admin/addons.rst:839
 msgid "``all`` -- All commits into one"
-msgstr "``all`` -- Minden commit egyben"
+msgstr "``all`` – Minden véglegesítést egybevon"
 
 #: ../../admin/addons.rst:841
 msgid "``language`` -- Per language"
-msgstr "``language`` -- Nyelvenként"
+msgstr "``language`` – Nyelvenként összevonva"
 
 #: ../../admin/addons.rst:843
 msgid "``file`` -- Per file"
-msgstr "``file`` -- Fájlonként"
+msgstr "``file`` – Fájlonként összevonva"
 
 #: ../../admin/addons.rst:845
 msgid "``author`` -- Per author"
-msgstr "``author`` -- Szerzőnként"
+msgstr "``author`` – Szerzőnként összevonva"
 
 #: ../../admin/addons.rst:847
 msgid "``append_trailers``"
@@ -3676,7 +3677,7 @@ msgstr "``append_trailers``"
 
 #: ../../admin/addons.rst:847
 msgid "Append trailers to squashed commit message"
-msgstr "Zárósorok hozzáfűzése az összevont véglegesítésüzenethez"
+msgstr "Trailer (záró) sorok hozzáfűzése az összevont véglegesítési üzenethez"
 
 #: ../../admin/addons.rst:847
 msgid ""
@@ -3684,9 +3685,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"A zárósorok az RFC 822-es e-mail-fejlécekhez hasonló sorok a "
-"véglegesítésüzenet egyébként szabad szöveges részének végén, mint például "
-"„Co-authored-by: …”."
+"A trailer (záró) sorok olyan sorok, amelyek hasonlítanak az RFC 822 "
+"szabványú e-mail fejlécekhez, és a véglegesítési üzenet szabad formátumú "
+"része után helyezkednek el, például: „Co-authored-by: …”."
 
 #: ../../admin/addons.rst:849
 msgid "``commit_message``"
@@ -3694,15 +3695,15 @@ msgstr "``commit_message``"
 
 #: ../../admin/addons.rst:849
 msgid "Commit message"
-msgstr "Véglegesítésüzenet"
+msgstr "Véglegesítési üzenet"
 
 #: ../../admin/addons.rst:849
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Ez a véglegesítésüzenet lesz használva az összevont véglegesítésekből "
-"származó egyesített véglegesítésüzenetek helyett."
+"Ez a véglegesítési üzenet lesz használva az összevont véglegesítések "
+"eredményeként, ahelyett, hogy az összevont üzeneteket egyesítené."
 
 #: ../../admin/addons.rst:851
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
@@ -3710,19 +3711,19 @@ msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 
 #: ../../admin/addons.rst:853
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Git véglegesítések összevonása a változtatások felküldése előtt."
+msgstr "Git véglegesítések összevonása a változások feltöltése előtt."
 
 #: ../../admin/addons.rst:855
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
-"A Git commit-eket össze lehet vonni a módosítások feltöltése előtt az alábbi "
-"módok egyikében:"
+"A Git véglegesítéseket a változások feltöltése előtt az alábbi módok "
+"egyikével lehet összevonni:"
 
 #: ../../admin/addons.rst:858
 msgid "All commits into one"
-msgstr "Minden véglegesítést egybe"
+msgstr "Minden véglegesítés egybevonva"
 
 #: ../../admin/addons.rst:859
 msgid "Per language"
@@ -3741,17 +3742,17 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
-"Az eredeti commit üzenetek (verziókövetési megjegyzések) megmaradnak, de a "
-"szerzőség elveszik, hacsak nincs kijelölve a :guilabel:`Szerzőnkénti` opció "
-"vagy az üzenet nincs egyedileg úgy testreszabva, hogy tartalmazza azt."
+"Az eredeti véglegesítési üzenetek megmaradnak, de a szerzői adatok "
+"elvesznek, kivéve, ha a :guilabel:`Szerzőnként` beállítást választod vagy a "
+"véglegesítési üzenetet testreszabod, hogy tartalmazza ezeket."
 
 #: ../../admin/addons.rst:866
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
-"Az eredeti commit üzenetek opcionálisan felülírhatók egy egyedi commit "
-"üzenettel."
+"Az eredeti véglegesítési üzenetek helyett opcionálisan megadhatsz egy egyedi "
+"véglegesítési üzenetet is."
 
 #: ../../admin/addons.rst:868
 msgid ""
@@ -3760,14 +3761,14 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"A trailer-eket (olyan commit sorokat, mint például ``Co-authored-by: …``) "
-"opcionálisan el lehet távolítani az eredeti commit üzenetekből, és hozzá "
-"lehet fűzni az összevont commit üzenet végéhez. Ez biztosítja a megfelelő "
-"``Co-authored-by:`` elismerést minden fordítónak."
+"A trailer (záró) sorokat (például ``Co-authored-by: …`` típusú sorokat) az "
+"eredeti véglegesítési üzenetekből el lehet távolítani, és az összevont "
+"véglegesítési üzenet végére lehet fűzni. Így minden fordító megkapja a "
+"helyes ``Co-authored-by:`` elismerést."
 
 #: ../../admin/addons.rst:876
 msgid "Customize JSON output"
-msgstr "JSON kimenet személyre szabása"
+msgstr "JSON kimenet testreszabása"
 
 #: ../../admin/addons.rst:878
 msgid "``weblate.json.customize``"
@@ -3787,7 +3788,7 @@ msgstr "``indent``"
 
 #: ../../admin/addons.rst:882
 msgid "JSON indentation"
-msgstr "JSON behúzása"
+msgstr "JSON behúzás"
 
 #: ../../admin/addons.rst:884 ../../admin/machine.rst:182
 #: ../../admin/machine.rst:697
@@ -3796,7 +3797,7 @@ msgstr "``style``"
 
 #: ../../admin/addons.rst:884
 msgid "JSON indentation style"
-msgstr "JSON behúzási stílusa"
+msgstr "JSON behúzási stílus"
 
 #: ../../admin/addons.rst:886
 msgid "``spaces`` -- Spaces"
@@ -3810,12 +3811,12 @@ msgstr "``tabs`` -- Tabulátorok"
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Lehetővé teszi a JSON kimenet viselkedésének beállítását, például a behúzást "
-"vagy a rendezést."
+"Lehetővé teszi a JSON kimenet viselkedésének beállítását, például a kulcsok "
+"rendezését vagy a behúzást."
 
 #: ../../admin/addons.rst:897
 msgid "Format the Java properties file"
-msgstr "A Java properties fájl formázása"
+msgstr "Java properties fájl formázása"
 
 #: ../../admin/addons.rst:899
 msgid "``weblate.properties.sort``"
@@ -3831,32 +3832,34 @@ msgstr "Kis- és nagybetűérzékeny kulcsrendezés engedélyezése"
 
 #: ../../admin/addons.rst:905
 msgid "Formats and sorts the Java properties file."
-msgstr "Megformázza és rendezi a Java properties fájlt."
+msgstr "Formázza és rendezi a Java properties fájlt."
 
 #: ../../admin/addons.rst:907
 msgid "Consolidates newlines to Unix ones."
-msgstr "Az új sorokat Unix formátumúra alakítja."
+msgstr "Az új sorokat Unix-formátumra alakítja (LF)."
 
 #: ../../admin/addons.rst:908
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
-msgstr "A Unicode escape szekvenciák nagybetűs formázása (ha jelen vannak)."
+msgstr ""
+"A Unicode escape szekvenciákat nagybetűs formátumban írja ki (ha vannak "
+"ilyenek)."
 
 #: ../../admin/addons.rst:909
 msgid "Strips blank lines and comments."
-msgstr "Eltávolítja az üres sorokat és megjegyzéseket."
+msgstr "Eltávolítja az üres sorokat és a megjegyzéseket."
 
 #: ../../admin/addons.rst:910
 msgid "Sorts the strings by the keys."
-msgstr "A karakterláncokat a kulcsok alapján rendezi."
+msgstr "A szövegeket a kulcsok szerint rendezi."
 
 #: ../../admin/addons.rst:911
 msgid "Drops duplicate strings."
-msgstr "Eltávolítja a duplikált karakterláncokat."
+msgstr "Eltávolítja a duplikált szövegeket."
 
 #: ../../admin/addons.rst:916
 msgid "Stale comment removal"
-msgstr "Elavult megjegyzés eltávolítása"
+msgstr "Elavult megjegyzések eltávolítása"
 
 #: ../../admin/addons.rst:918
 msgid "``weblate.removal.comments``"
@@ -3868,7 +3871,7 @@ msgstr "``age``"
 
 #: ../../admin/addons.rst:920 ../../admin/addons.rst:937
 msgid "Days to keep"
-msgstr "Napok a megtartáshoz"
+msgstr "Megtartási napok száma"
 
 #: ../../admin/addons.rst:922 ../../admin/addons.rst:941
 msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
@@ -3884,13 +3887,13 @@ msgid ""
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
-"Ez hasznos lehet a régi megjegyzések eltávolítására, amelyek esetleg "
-"elavulttá váltak. Óvatosan használd, mivel attól, hogy egy megjegyzés régi, "
-"még nem veszíti el a fontosságát."
+"Ez hasznos lehet a régi, esetleg már elavult megjegyzések törlésére. Csak "
+"óvatosan használd, mert attól, hogy egy megjegyzés régi, még nem biztos, "
+"hogy elvesztette a jelentőségét."
 
 #: ../../admin/addons.rst:933
 msgid "Stale suggestion removal"
-msgstr "Elavult javaslat eltávolítása"
+msgstr "Elavult javaslatok eltávolítása"
 
 #: ../../admin/addons.rst:935
 msgid "``weblate.removal.suggestions``"
@@ -3902,17 +3905,17 @@ msgstr "``votes``"
 
 #: ../../admin/addons.rst:939
 msgid "Voting threshold"
-msgstr "Szavazási küszöbszint"
+msgstr "Szavazási küszöbérték"
 
 #: ../../admin/addons.rst:939
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
-"Küszöbszint az eltávolításhoz. Ennek a mezőnek nincs hatása a szavazások "
-"kikapcsolásával."
+"A törléshez szükséges szavazási küszöb. Ez a mező nem lesz hatással, ha a "
+"szavazás ki van kapcsolva."
 
 #: ../../admin/addons.rst:943
 msgid "Set a timeframe for removal of suggestions."
-msgstr "Időkeret beállítása a javaslatok eltávolításához."
+msgstr "Időkeret beállítása a javaslatok eltávolítására."
 
 #: ../../admin/addons.rst:945
 msgid ""
@@ -3920,9 +3923,9 @@ msgid ""
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
-"Nagyon hasznos lehet a javaslatok szavazásával kapcsolatban (lásd: :ref:"
-"`peer-review`) az olyan javaslatok eltávolítására, amelyek egy adott "
-"időkereten belül nem kapnak elég pozitív szavazatot."
+"Ez különösen hasznos lehet javaslatok szavazása esetén (lásd: :ref:`peer-"
+"review`), hogy automatikusan töröld azokat a javaslatokat, amelyek nem "
+"kapnak elegendő pozitív szavazatot a megadott időn belül."
 
 #: ../../admin/addons.rst:952
 msgid "Update RESX files"
@@ -3938,21 +3941,21 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Az összes fordítási fájl frissítése, hogy megegyezzen a távoli tároló "
-"egynyelvű alapfájljával. A nem használt szövegek eltávolításra kerülnek, és "
-"az újak hozzá lesznek adva a forrásszöveg másolataiként."
+"Minden fordítási fájl frissítése az egynyelvű forrásfájl alapján. A már nem "
+"használt szövegek eltávolításra kerülnek, az új szövegeket pedig a "
+"forrásszöveg másolataként adja hozzá."
 
 #: ../../admin/addons.rst:963
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
-"Használd a :ref:`addon-weblate.cleanup.generic`-t, ha csak a régi fordítási "
-"kulcsokat szeretnéd eltávolítani."
+"Ha csak a régi fordítási kulcsokat szeretnéd eltávolítani, használd a :ref"
+":`addon-weblate.cleanup.generic` kiegészítőt."
 
 #: ../../admin/addons.rst:973
 msgid "Webhook"
-msgstr "Webhorog"
+msgstr "Webhook"
 
 #: ../../admin/addons.rst:977
 msgid "``weblate.webhook.webhook``"
@@ -3964,7 +3967,7 @@ msgstr "``webhook_url``"
 
 #: ../../admin/addons.rst:979
 msgid "Webhook URL"
-msgstr "Webhorog URL"
+msgstr "Webhook URL"
 
 #: ../../admin/addons.rst:981 ../../admin/machine.rst:83
 #: ../../admin/machine.rst:144 ../../admin/machine.rst:213
@@ -3982,7 +3985,7 @@ msgstr "``events``"
 
 #: ../../admin/addons.rst:983
 msgid "Change events"
-msgstr "Változási események"
+msgstr "Eseményváltozások"
 
 #: ../../admin/addons.rst:985
 msgid "``0`` -- Resource updated"
@@ -21516,7 +21519,7 @@ msgstr "pushgit"
 #: ../../admin/management.rst:807
 msgid "Pushes committed changes to the upstream VCS repository."
 msgstr ""
-"A véglegesített változtatásokat feltölti a felsőbb szintű VCS (verziókezelő) "
+"A véglegesített változtatásokat feltölti a VCS (verziókezelő) forrás "
 "tárolóba."
 
 #: ../../admin/management.rst:811
@@ -24054,9 +24057,9 @@ msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
-"Beállíthatod, hogyan kezelje a frissítéseket a felsőbb szintű tárolóból. A "
-"konkrét megvalósítás a használt VCS (verziókezelő rendszer) típusától függ – "
-"lásd: :doc:`/vcs`."
+"Beállíthatod, hogyan kezelje a frissítéseket a forrás tárolóból. A konkrét "
+"megvalósítás a használt VCS (verziókezelő rendszer) típusától függ – lásd: "
+":doc:`/vcs`."
 
 #: ../../admin/projects.rst:815
 msgid "Rebase"
@@ -45185,7 +45188,7 @@ msgid ""
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
 "Alternatív megoldásként használhatod a :doc:`/api` felületet is a fordítások "
-"frissítésére, hogy azok megegyezzenek a távoli VCS (verziókövető) tárolóban "
+"frissítésére, hogy azok megegyezzenek a VCS (verziókövető) forrás tárolóban "
 "található legfrissebb verzióval."
 
 #: ../../devel/integration.rst:42
@@ -45203,7 +45206,7 @@ msgid ""
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"Ahhoz, hogy a távoli VCS (verziókövető) tárolóban frissen frissített "
+"Ahhoz, hogy a VCS (verziókövető) forrás tárolóban frissen frissített "
 "szövegek bekerüljenek a Weblate-be, engedélyezni kell, hogy a Weblate "
 "lekérje az adatokat a forrástárolóból. Ez megtehető a felhasználói felületen "
 "(:guilabel:`Tároló karbantartása`) vagy parancssorból a :ref:`wlc` "
