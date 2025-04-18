@@ -208,7 +208,11 @@
                       <ul class="dropdown-menu">
                         {% if user_can_delete %}
                           <li>
-                            <a href="" class="link-post" data-href="{% url "delete-unit" unit_id=unit.pk %}">{% trans "Delete string" %}</a>
+                            <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
+                            <a href=""
+                               class="link-post"
+                               data-href="{% url "delete-unit" unit_id=unit.pk %}"
+                               data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% trans "Delete string" %}</a>
                           </li>
                         {% endif %}
                         {% if user_can_edit_flags and flag_actions %}
