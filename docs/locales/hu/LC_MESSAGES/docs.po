@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-18 15:01+0000\n"
+"PO-Revision-Date: 2025-04-18 15:40+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -1762,9 +1762,10 @@ msgid ""
 "wladmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"A telepítés során (vagy a :wladmin:`setupgroups` futtatása után) a következő "
-"csapatok jönnek létre, és szabadon módosíthatod őket. Azonban, ha törlöd "
-"vagy átnevezed őket, a migráció újra létrehozza ezeket."
+"A következő csapatok jönnek létre a telepítés során (vagy a "
+":wladmin:`setupgroups` parancs futtatása után), és szabadon módosíthatod "
+"őket. Ha azonban törlöd vagy átnevezed őket, a migráció során újra "
+"létrejönnek."
 
 #: ../../admin/access.rst:778
 msgid "`Guests`"
@@ -1772,21 +1773,21 @@ msgstr "`Vendégek`"
 
 #: ../../admin/access.rst:779
 msgid "Defines permissions for non-authenticated users."
-msgstr "Meghatározza a nem hitelesített felhasználók jogosultságait."
+msgstr "A nem hitelesített felhasználók jogosultságait határozza meg."
 
 #: ../../admin/access.rst:781
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Ez a csapat csak anonim felhasználókat tartalmaz (lásd: :setting:"
-"`ANONYMOUS_USER_NAME`)."
+"Ez a csapat csak névtelen felhasználókat tartalmaz (lásd "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:783
 msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr ""
-"Távolítsd el a szerepköröket ebből a csapatból, hogy korlátozd a nem "
-"hitelesített felhasználók jogosultságait."
+"A jogosultságok korlátozásához távolítsd el a szerepköröket ebből a "
+"csapatból."
 
 #: ../../admin/access.rst:786
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1801,17 +1802,17 @@ msgid ""
 "This role ensures the visibility of public projects to all users. By "
 "default, all users are members of this team."
 msgstr ""
-"Ez a szerepkör biztosítja a nyilvános projektek láthatóságát minden "
-"felhasználó számára. Alapértelmezés szerint minden felhasználó tagja ennek a "
-"csapatnak."
+"Ez a szerepkör biztosítja, hogy a nyilvános projektek minden felhasználó "
+"számára láthatók legyenek. Alapértelmezetten minden felhasználó tagja ennek "
+"a csapatnak."
 
 #: ../../admin/access.rst:792 ../../admin/access.rst:800
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Alapértelmezés szerint a :ref:`automatic team assignment <autoteam>` minden "
-"új fiókot ennek a csapatnak a tagjává tesz, amikor csatlakoznak."
+"Alapértelmezés szerint az :ref:`automatic team assignment <autoteam>` minden "
+"új fiókot automatikusan ebbe a csapatba sorol be."
 
 #: ../../admin/access.rst:795
 msgid "Default roles: none"
@@ -1824,7 +1825,7 @@ msgstr "`Felhasználók`"
 
 #: ../../admin/access.rst:798
 msgid "Default team for all users."
-msgstr "Alapértelmezett csapat minden felhasználó számára."
+msgstr "Az összes felhasználó alapértelmezett csapata."
 
 #: ../../admin/access.rst:803
 msgid "Default roles: `Power user`"
@@ -1832,11 +1833,11 @@ msgstr "Alapértelmezett szerepkörök: `Képzett felhasználó`"
 
 #: ../../admin/access.rst:805 ../../workflows.rst:190
 msgid "`Reviewers`"
-msgstr "`Ellenőrök`"
+msgstr "`Felülvizsgálók`"
 
 #: ../../admin/access.rst:806
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr "Csoport a lektorok számára (lásd: :ref:`workflows`)."
+msgstr "A felülvizsgálók csoportja (lásd :ref:`workflows`)."
 
 #: ../../admin/access.rst:808
 msgid "Default roles: `Review strings`"
@@ -1848,7 +1849,7 @@ msgstr "`Kezelők`"
 
 #: ../../admin/access.rst:811
 msgid "Group for administrators."
-msgstr "Csoport adminisztrátorok számára."
+msgstr "Az adminisztrátorok csoportja."
 
 #: ../../admin/access.rst:813
 msgid "Default roles: `Administration`"
@@ -1860,7 +1861,7 @@ msgstr "`Projektlétrehozók`"
 
 #: ../../admin/access.rst:818
 msgid "Users who can create new projects."
-msgstr "Felhasználók, akik új projekteket hozhatnak létre."
+msgstr "Olyan felhasználók, akik jogosultak új projektek létrehozására."
 
 #: ../../admin/access.rst:820
 msgid "Default roles: `Add new projects`"
@@ -2120,7 +2121,7 @@ msgstr "Automatikus fordítási mód"
 #: ../../admin/machine.rst:834 ../../admin/machine.rst:914
 #: ../../admin/machine.rst:944 ../../admin/machine.rst:972
 msgid "Available choices:"
-msgstr "Elérhető választások:"
+msgstr "Elérhető lehetőségek:"
 
 #: ../../admin/addons.rst:137
 msgid "``suggest`` -- Add as suggestion"
@@ -2147,8 +2148,8 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Ne feledje, hogy az összes szöveg fordítása elveti az összes meglévő "
-"fordítást."
+"Kérlek vedd figyelembe, hogy ha minden szöveget lefordítasz, az összes "
+"meglévő fordítás felülíródik."
 
 #: ../../admin/addons.rst:147
 msgid "``all`` -- All strings"
@@ -2156,7 +2157,7 @@ msgstr "``all`` -- Minden szöveg"
 
 #: ../../admin/addons.rst:149
 msgid "``nottranslated`` -- Untranslated strings"
-msgstr "``nottranslated`` -- Nem lefordított szövegek"
+msgstr "``nottranslated`` – Lefordítatlan szövegek"
 
 #: ../../admin/addons.rst:151
 msgid "``todo`` -- Unfinished strings"
@@ -2164,7 +2165,7 @@ msgstr "``todo`` -- Befejezetlen szövegek"
 
 #: ../../admin/addons.rst:153
 msgid "``fuzzy`` -- Strings marked for edit"
-msgstr "``fuzzy`` -- Szerkesztésre jelölt szövegek"
+msgstr "``fuzzy`` – Szerkesztésre megjelölt szövegek"
 
 #: ../../admin/addons.rst:155
 msgid "``check:inconsistent`` -- Failing check: Inconsistent"
@@ -2172,7 +2173,7 @@ msgstr "``check:inconsistent`` -- Sikertelen ellenőrzés: Inkonzisztens"
 
 #: ../../admin/addons.rst:157
 msgid "``check:translated`` -- Failing check: Has been translated"
-msgstr "``check:translated`` -- Sikertelen ellenőrzés: Le lett fordítva"
+msgstr "``check:translated`` – Sikertelen ellenőrzés: Már le lett fordítva"
 
 #: ../../admin/addons.rst:159
 msgid "``auto_source``"
@@ -2184,7 +2185,7 @@ msgstr "Automatikus fordítások forrása"
 
 #: ../../admin/addons.rst:161
 msgid "``others`` -- Other translation components"
-msgstr "``others`` -- Egyéb fordítási összetevők"
+msgstr "``others`` – Más fordítási összetevők"
 
 #: ../../admin/addons.rst:163
 msgid "``mt`` -- Machine translation"
@@ -2964,11 +2965,11 @@ msgstr "Beállítandó állapot"
 
 #: ../../admin/addons.rst:456
 msgid "``-1`` -- Do not change"
-msgstr "``-1`` -- Ne változtasson"
+msgstr "``-1`` – Ne változtasd"
 
 #: ../../admin/addons.rst:458
 msgid "``10`` -- Needs editing"
-msgstr "``10`` -- Szerkesztésre van szükség"
+msgstr "``10`` – Szerkesztést igényel"
 
 #: ../../admin/addons.rst:460
 msgid "``20`` -- Translated"
