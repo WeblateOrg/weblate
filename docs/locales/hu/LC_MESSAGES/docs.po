@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-17 21:09+0000\n"
+"PO-Revision-Date: 2025-04-18 04:14+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -338,7 +338,7 @@ msgstr ""
 
 #: ../../admin/access.rst:150
 msgid "Team administrators"
-msgstr "Csapatrendszergazdák"
+msgstr "Csapatadminisztrátorok"
 
 #: ../../admin/access.rst:154
 msgid ""
@@ -360,11 +360,10 @@ msgid ""
 "mail. Invited users have to complete the registration process to get access "
 "to the project."
 msgstr ""
-"Meglévő felhasználók hozzáadásakor meghívót kapnak jóváhagyásra. Ha a "
-":setting:`REGISTRATION_OPEN` be van kapcsolva, a rendszergazda új "
-"felhasználókat is meghívhat e-mailben. A meghívott felhasználóknak végig "
-"kell menniük a regisztrációs folyamaton, hogy hozzáférést kapjanak a "
-"projekthez."
+"A meglévő felhasználók hozzáadásakor meghívót kapnak megerősítésre. A "
+":setting:`REGISTRATION_OPEN` beállítás mellett az adminisztrátor új "
+"felhasználókat is meghívhat e-mailben. A meghívott felhasználóknak a projekt "
+"eléréséhez végig kell vinniük a regisztrációs folyamatot."
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -437,13 +436,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"Alapértelmezés szerint ez megakadályozza, hogy a Weblate hozzáférést "
-"biztosítson a `Felhasználók` és `Megtekintők` :ref:`default teams <default-"
-"teams>` által, ezeknek a csapatoknak a saját beállításai miatt. Ez nem "
-"akadályoz meg abban, hogy oldalszinten adj hozzá jogosultságokat ezekhez a "
+"Alapértelmezés szerint ez megakadályozza, hogy a Weblate hozzáférést adjon a "
+"`Felhasználók` és `Megtekintők` :ref:`default teams <default-teams>` által, "
+"mivel ezek a csapatok saját beállításokkal rendelkeznek. Ez azonban nem "
+"akadályoz meg abban, hogy webhelyszinten adj jogosultságokat ezekhez a "
 "projektekhez az alapértelmezett csapatok módosításával, új csapat "
-"létrehozásával vagy további egyedi beállítások létrehozásával egyéni "
-"összetevőkhöz, ahogy az a :ref:`custom-acl` részben alább le van írva."
+"létrehozásával vagy egyedi beállítások létrehozásával az egyes "
+"összetevőkhöz, ahogy azt lentebb az :ref:`custom-acl` rész ismerteti."
 
 #: ../../admin/access.rst:208
 msgid ""
@@ -452,14 +451,14 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
-"Az egyik fő előnye annak, hogy a jogosultságokat a Weblate felhasználói "
-"felületén keresztül kezeled, az, hogy ezt más felhasználókra is átruházhatod "
-"anélkül, hogy szuperfelhasználói jogosultságokat kellene adnál nekik. Ehhez "
-"add hozzá őket a projekt `Adminisztráció` csapatához."
+"A jogosultságok Weblate felületén történő kezelésének egyik nagy előnye, "
+"hogy más felhasználókra is rábízhatod ezt anélkül, hogy rendszergazdai (SU) "
+"jogosultságot kellene adnod nekik. Ehhez egyszerűen vedd fel őket a projekt "
+"`Adminisztráció` csapatába."
 
 #: ../../admin/access.rst:216
 msgid "Per-project access tokens"
-msgstr "Projektalapú hozzáférési tokenek"
+msgstr "Projektszintű hozzáférési tokenek"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -467,10 +466,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
-"Projektre korlátozott hozzáférési tokeneket a :guilabel:`API hozzáférés` "
-"fülön lehet meghatározni. Az API-tokenekhez beállítható lejárati dátum és a "
-"jogosultságaik a felhasználókhoz hasonlóan testreszabhatók csapattagság "
-"alapján."
+"Projektszintű hozzáférési tokeneket a :guilabel:`API hozzáférés` fülön tudsz "
+"létrehozni. Az API tokenekhez beállítható lejárati dátum, és a "
+"jogosultságaik a csapat tagságok alapján ugyanúgy testre szabhatók, mint a "
+"felhasználók esetében."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -478,7 +477,7 @@ msgstr ":ref:`api-tokens`"
 
 #: ../../admin/access.rst:231
 msgid "Site-wide access control"
-msgstr "Webhely-szintű hozzáférés-vezérlés"
+msgstr "Webhelyszintű hozzáférés-vezérlés"
 
 #: ../../snippets/not-hosted.rst:3
 msgid "This feature is unavailable on Hosted Weblate."
@@ -490,10 +489,10 @@ msgid ""
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"A jogosultsági rendszer szerepeken alapul, amelyek egy adott "
-"jogosultságkészletet határoznak meg, és csapatokon keresztül kapcsolják "
-"össze a szerepeket a felhasználókkal és a fordításokkal. További "
-"részletekért olvasd el a :ref:`auth-model` részt."
+"A jogosultsági rendszer szerepkörökre épül, amelyek meghatározott "
+"jogosultságokat tartalmaznak, valamint csapatokra, amelyek a szerepköröket "
+"felhasználókhoz és fordításokhoz kapcsolják. További részletekért olvasd el "
+"a :ref:`auth-model` részt."
 
 #: ../../admin/access.rst:239
 msgid ""
@@ -503,11 +502,11 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"A Weblate hozzáférés-vezérlési rendszerének leghatékonyabb funkciói a :ref"
-":`management-interface` felületen konfigurálhatók. Ezt használhatod bármely "
-"projekt jogosultságainak kezelésére. Nem feltétlenül szükséges átkapcsolnod "
-":guilabel:`Egyéni` :ref:`access control <acl>` módra, hogy kihasználd. "
-"Azonban szuperuser jogosultságokra van szükséged a használatához."
+"A Weblate hozzáférés-vezérlési rendszerének leghatékonyabb funkcióit a :ref"
+":`management-interface` felületen lehet beállítani. Ezen keresztül bármelyik "
+"projekt jogosultságait kezelheted. Nem feltétlenül kell átváltanod "
+":guilabel:`Egyéni` :ref:`access control <acl>` módba a használatához. Fontos "
+"viszont, hogy rendelkezned kell rendszergazdai jogosultságokkal."
 
 #: ../../admin/access.rst:245
 msgid ""
@@ -517,11 +516,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
-"Ha nem érdekelnek a megvalósítás részletei, és csak egy elég egyszerű "
-"konfigurációt szeretnél létrehozni az alapértelmezések alapján vagy nincs "
-"teljes körű hozzáférésed a teljes Weblate telepítéshez (mint például a "
-"`Hosted Weblate <https://hosted.weblate.org/>`_ esetén), kérlek, tekintsd "
-"meg a :ref:`manage-acl` részt."
+"Ha nem szeretnél a megvalósítás részleteivel foglalkozni, csak egy "
+"egyszerűbb, alapértelmezett beállításokon alapuló konfigurációt szeretnél "
+"létrehozni vagy nincs teljes körű hozzáférésed a teljes Weblate telepítéshez "
+"(például a `Hosted Weblate <https://hosted.weblate.org/>`_ esetében), akkor "
+"nézd meg a :ref:`manage-acl` részt."
 
 #: ../../admin/access.rst:251
 msgid "Site-wide permission management"
@@ -556,8 +555,7 @@ msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
-"`Managers` (ha a legtöbb kezelési műveletet valaki másra szeretnéd "
-"átruházni)."
+"`Kezelők` (ha a legtöbb kezelési műveletet valaki másra szeretnéd átruházni)."
 
 #: ../../admin/access.rst:263
 msgid ""
@@ -565,9 +563,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"Minden projektet `Nyilvános` beállítással kell tartanod (lásd :ref:`acl`), "
-"különben a `Felhasználók` és `Reviewers` csapatok tagsága által biztosított "
-"oldalszintű jogosultságoknak nem lesz hatása."
+"Minden projektet érdemes `Nyilvános` beállítással hagyni (lásd :ref:`acl`), "
+"különben a `Felhasználók` és `Felülvizsgálók` csapatok tagságával járó "
+"általános jogosultságok nem fognak érvényesülni."
 
 #: ../../admin/access.rst:267
 msgid ""
@@ -575,9 +573,9 @@ msgid ""
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"További jogosultságokat is adhatsz az alapértelmezett csapatoknak saját "
-"választásod szerint. Például adhatsz jogosultságot az összes `Felhasználók` "
-"tag számára, hogy képernyőképeket kezelhessenek."
+"Lehetőséged van további jogosultságokat is adni az alapértelmezett "
+"csapatoknak. Például engedélyezheted, hogy minden `Felhasználó` kezelhesse a "
+"képernyőképeket."
 
 #: ../../admin/access.rst:271
 msgid ""
@@ -586,14 +584,14 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"Új egyedi csapatokat is létrehozhatsz. Ha ezeket a csapatokat is "
-"oldalszinten szeretnéd kezelni, válassz megfelelő értéket a :guilabel:"
-"`Project selection` opcióhoz (pl. :guilabel:`All projects` vagy :guilabel:"
-"`All public projects`)."
+"Új, egyedi csapatokat is létrehozhatsz. Ha ezekhez a csapatokhoz is "
+"szeretnéd webhely-szinten kezelni a jogosultságokat, akkor válassz megfelelő "
+"értéket a :guilabel:`Projekt kiválasztása` mezőben (például :guilabel:`"
+"Összes projekt` vagy :guilabel:`Összes nyilvános projekt`)."
 
 #: ../../admin/access.rst:277
 msgid "Custom permissions for languages, components or projects"
-msgstr "Egyéni jogosultságok nyelvekhez, összetevőkhez vagy projektekhez"
+msgstr "Egyedi jogosultságok nyelvekhez, összetevőkhöz vagy projektekhez"
 
 #: ../../admin/access.rst:279
 msgid ""
@@ -602,11 +600,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Létrehozhatod saját dedikált csapataidat, hogy különböző objektumok, mint "
-"például nyelvek, összetevők és projektek engedélyeit kezeld. Bár ezek a "
-"csapatok csak további jogosultságokat adhatnak, nem vonhatod vissza az "
-"oldalszintű vagy projektszintű csapatok által adott engedélyeket egy másik "
-"egyedi csapat hozzáadásával."
+"Létrehozhatsz saját, dedikált csapatokat, hogy különböző objektumokhoz – "
+"például nyelvekhez, összetevőkhöz vagy projektekhez – jogosultságokat "
+"kezelj. Ezek a csapatok azonban csak további jogosultságokat adhatnak, "
+"meglévő, webhelyszintű vagy projektszintű csapatok által biztosított "
+"jogosultságokat nem tudsz visszavonni egy új egyedi csapat hozzáadásával."
 
 #: ../../admin/access.rst:284 ../../admin/access.rst:412
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -628,8 +626,9 @@ msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
-"A `cseh` fordítás korlátozása egy kiválasztott fordítói csoportra (miközben "
-"a többi nyelvre való fordítást nyilvánosan elérhetővé tesszük):"
+"A `Cseh` nyelvre történő fordítást korlátozhatod egy kiválasztott fordítói "
+"csoportra (miközben a többi nyelvre való fordítást továbbra is nyilvánosan "
+"elérhetővé teszed):"
 
 #: ../../admin/access.rst:289
 msgid ""
@@ -637,9 +636,9 @@ msgid ""
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
-"Távolítsd el a `cseh` fordítási jogosultságot minden felhasználótól. Az "
-"alapértelmezett konfigurációban ezt a `Felhasználók` :ref:`default team "
-"<default-teams>` módosításával lehet megtenni."
+"Távolítsd el a `Cseh` nyelv fordítási jogosultságát minden felhasználótól. "
+"Alapértelmezett beállítások mellett ezt úgy tudod megtenni, hogy módosítod a "
+"`Felhasználók` :ref:`default-teams`."
 
 #: ../../admin/access.rst:293
 msgid "Group `Users`"
@@ -651,7 +650,7 @@ msgstr "Nyelvválasztás"
 
 #: ../../admin/access.rst:297 ../../admin/access.rst:311
 msgid "`As defined`"
-msgstr "`As defined` szerint"
+msgstr "`Meghatározás szerint`"
 
 #: ../../admin/access.rst:298 ../../admin/access.rst:312
 #: ../../admin/access.rst:425 ../../api.rst:748 ../../user/profile.rst:76
@@ -660,19 +659,19 @@ msgstr "Nyelvek"
 
 #: ../../admin/access.rst:299
 msgid "All but `Czech`"
-msgstr "Minden, kivéve `Czech`"
+msgstr "Minden, kivéve a `Cseh`"
 
 #: ../../admin/access.rst:301
 msgid "Add a dedicated team for `Czech` translators."
-msgstr "Adj hozzá egy dedikált csapatot a `Czech` fordítóknak."
+msgstr "Hozz létre egy dedikált csapatot a `Cseh` fordítók számára."
 
 #: ../../admin/access.rst:303
 msgid "Group `Czech translators`"
-msgstr "`Czech translators` csoport"
+msgstr "`Cseh fordítók` csoportja"
 
 #: ../../admin/access.rst:306 ../../admin/access.rst:421 ../../api.rst:679
 msgid "Roles"
-msgstr "Szerepek"
+msgstr "Szerepkörök"
 
 #: ../../admin/access.rst:307
 msgid "`Power users`"
@@ -688,22 +687,22 @@ msgstr "`Összes nyilvános projekt`"
 
 #: ../../admin/access.rst:313
 msgid "`Czech`"
-msgstr "`Czech`"
+msgstr "`Cseh`"
 
 #: ../../admin/access.rst:316
 msgid "Add users you wish to give the permissions to into this team."
 msgstr ""
-"Add hozzá azokat a felhasználókat ehhez a csapathoz, akiknek jogosultságot "
-"szeretnél adni."
+"Vedd fel ebbe a csapatba azokat a felhasználókat, akiknek szeretnéd megadni "
+"a jogosultságot."
 
 #: ../../admin/access.rst:318
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"A jogosultságok ilyen módon történő kezelése hatékony, de elég fáradságos "
-"munka lehet. Csak úgy ruházhatod át más felhasználókra, ha megadod nekik a "
-"Superuser státuszt."
+"A jogosultságok ilyen módon történő kezelése nagyon hatékony, de elég "
+"fárasztó feladat lehet. Más felhasználóknak csak úgy tudod átadni ezt a "
+"jogot, ha rendszergazdai jogosultságot adsz nekik."
 
 #: ../../admin/access.rst:324
 msgid "Users, roles, teams, and permissions"
@@ -727,7 +726,7 @@ msgstr ""
 
 #: ../../admin/access.rst:331
 msgid "`Role`"
-msgstr "`Role`"
+msgstr "`Szerepkör`"
 
 #: ../../admin/access.rst:332
 msgid ""
@@ -738,7 +737,7 @@ msgstr ""
 
 #: ../../admin/access.rst:334
 msgid "`User`"
-msgstr "`User`"
+msgstr "`Felhasználó`"
 
 #: ../../admin/access.rst:335
 msgid "A user can belong to several teams."
@@ -753,16 +752,17 @@ msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
 msgstr ""
-"A csoportok szerepköröket és felhasználókat kapcsolnak össze hitelesítési "
-"objektumokkal (projektek, nyelvek, összetevők és összetevőlisták)."
+"A csapatok a szerepköröket és a felhasználókat hitelesítési objektumokkal ("
+"projektek, nyelvek, összetevők és összetevőlisták) kapcsolják össze."
 
 #: ../../admin/access.rst:355
 msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
-"Egy csapathoz nem szükséges szerepköröket rendelni, ebben az esetben "
-"feltételezhető, hogy bárki hozzáférhet a projekt böngészéséhez (lásd alább)."
+"Egy csapathoz nem feltétlenül kell szerepkört hozzárendelni, ebben az "
+"esetben bárki számára engedélyezettnek tekintjük a projekt böngészését (lásd "
+"lejjebb)."
 
 #: ../../admin/access.rst:359
 msgid "Project-browsing access"
@@ -775,10 +775,11 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
-"Egy felhasználónak tagja kell lennie a projekthez vagy az adott projekten "
-"belüli bármely összetevőhöz kapcsolt csapatnak. A tagság elegendő, nincs "
-"szükség speciális jogosultságokra a projekt böngészéséhez (ez az "
-"alapértelmezett `Megtekintők` csapatban van így, lásd :ref:`default-teams`)."
+"Egy felhasználónak tagja kell lennie egy olyan csapatnak, amely kapcsolódik "
+"a projekthez vagy a projekt valamely összetevőjéhez. A tagság önmagában "
+"elegendő, nem szükséges külön jogosultság a projekt böngészéséhez (ezt "
+"használja az alapértelmezett `Megtekintők` csapat is, lásd :ref:`default-"
+"teams`)."
 
 #: ../../admin/access.rst:367
 msgid "Component-browsing access"
@@ -817,20 +818,20 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Ha a csapat megad bármilyen :guilabel:`Component list`-át, akkor a csapat "
-"tagjainak adott összes jogosultság érvényes az összes összetevőre, amely a "
-"csapathoz csatolt összetevőlistákban szerepel, és minden olyan projekthez "
-"hozzáférést kapnak, amelyekben ezek az összetevők megtalálhatók, de további "
-"jogosultságok nélkül. A(z) :guilabel:`Components` és :guilabel:`Projects` "
-"figyelmen kívül marad."
+"Ha a csapat megad valamely :guilabel:`Összetevőlista` értéket, akkor a "
+"csapat tagjai minden jogosultságot megkapnak az adott listához tartozó "
+"összetevőkön, és automatikusan hozzáférést kapnak (külön jogosultságok "
+"nélkül) azokhoz a projektekhez is, amelyekben ezek az összetevők "
+"szerepelnek. A :guilabel:`Összetevők` és :guilabel:`Projektek` mezők "
+"ilyenkor figyelmen kívül maradnak."
 
 #: ../../admin/access.rst:388
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
-"A hatalmas összetevőlisták használata teljesítménybeli hatással lehet, "
-"kérlek, fontold meg, hogy inkább projekteken keresztül adj hozzáférést."
+"A nagy összetevőlisták használata ronthatja a teljesítményt, ezért érdemes "
+"inkább projekteken keresztül adni a hozzáférést."
 
 #: ../../admin/access.rst:391
 msgid ""
@@ -839,11 +840,11 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"Ha a csapat megad bármilyen :guilabel:`Components`-t, akkor a csapat "
-"tagjainak adott összes jogosultság érvényes az összes, a csapathoz csatolt "
-"összetevőre, és minden olyan projekthez hozzáférést kapnak, amelyekben ezek "
-"az összetevők megtalálhatók, de további jogosultságok nélkül. A(z) :guilabel:"
-"`Projects` figyelmen kívül marad."
+"Ha a csapat megad valamilyen :guilabel:`Összetevők` értéket, akkor a csapat "
+"tagjai minden jogosultságot megkapnak az adott csapathoz rendelt "
+"összetevőkön, és automatikusan hozzáférést kapnak (külön jogosultságok "
+"nélkül) azokhoz a projektekhez is, amelyekben ezek az összetevők találhatók. "
+"A :guilabel:`Projektek` mező ilyenkor figyelmen kívül marad."
 
 #: ../../admin/access.rst:396
 msgid ""
@@ -853,12 +854,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"Ellenkező esetben, ha a csapat megad bármilyen :guilabel:`Projects`-et, akár "
-"közvetlen felsorolással, akár úgy, hogy a :guilabel:`Projects selection` "
-"értéke például :guilabel:`All public projects`, akkor ezek a jogosultságok "
-"az összes projektre érvényesek, ami gyakorlatilag ugyanazokat a "
-"jogosultságokat biztosítja az összes projekt :ref:`unrestricted components "
-"<component-restricted>` való hozzáféréshez."
+"Ellenkező esetben, ha a csapat megad bármilyen :guilabel:`Projektek` értéket "
+"– akár közvetlenül felsorolva őket, akár úgy, hogy a :guilabel:`Projektek "
+"kiválasztása` mező például :guilabel:`Összes nyilvános projekt` értékre van "
+"állítva –, akkor az összes megadott jogosultság érvényes lesz minden ilyen "
+"projektre. Ez gyakorlatilag ugyanazokat a jogosultságokat adja meg az összes "
+":ref:`component-restricted` projekthez."
 
 #: ../../admin/access.rst:402
 msgid ""
@@ -868,19 +869,19 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"A csapat :guilabel:`Languages` által szabott korlátozások külön kerülnek "
-"alkalmazásra, amikor ellenőrzik, hogy egy felhasználó jogosult-e bizonyos "
-"műveletek végrehajtására. Ezek a korlátozások kifejezetten a fordítási "
-"folyamathoz kapcsolódó műveletekre vonatkoznak, mint például az ellenőrzés, "
-"fordítások mentése, javaslatok hozzáadása stb."
+"A csapat :guilabel:`Nyelvek` mezőjében megadott korlátozások külön kerülnek "
+"alkalmazásra, amikor ellenőrizzük, hogy egy felhasználónak van-e "
+"jogosultsága bizonyos műveletek végrehajtására. Ezek a korlátozások csak a "
+"fordítási folyamathoz közvetlenül kapcsolódó műveletekre vonatkoznak, "
+"például ellenőrzésre, fordítások mentésére, javaslatok hozzáadására stb."
 
 #: ../../admin/access.rst:409
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"Használd a :guilabel:`Language selection` vagy a :guilabel:`Project "
-"selection` lehetőséget az összes nyelv vagy projekt automatikus bevonásához."
+"Használd a :guilabel:`Nyelvválasztás` vagy a :guilabel:`Projekt kiválasztása`"
+" mezőt, hogy automatikusan bevonj minden nyelvet vagy projektet."
 
 #: ../../admin/access.rst:414
 msgid ""
@@ -892,7 +893,7 @@ msgstr ""
 
 #: ../../admin/access.rst:418
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr "`Spanish Admin-Reviewers` csoport"
+msgstr "`Spanyol admin-felülvizsgálók` csoportja"
 
 #: ../../admin/access.rst:422
 msgid "`Review Strings`, `Manage repository`"
@@ -908,7 +909,7 @@ msgstr "foo/bar"
 
 #: ../../admin/access.rst:426
 msgid "`Spanish`"
-msgstr "`Spanish`"
+msgstr "`Spanyol`"
 
 #: ../../admin/access.rst:429
 msgid ""
@@ -929,7 +930,8 @@ msgstr ""
 #: ../../admin/access.rst:433
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
-"A ``foo/bar`` spanyol fordításának szövegeinek ellenőrzése (sehol máshol)."
+"Szövegek felülvizsgálata a ``foo/bar`` spanyol fordításában (más helyeken "
+"nem)."
 
 #: ../../admin/access.rst:434
 msgid ""
@@ -942,7 +944,7 @@ msgstr ""
 
 #: ../../admin/access.rst:440
 msgid "Automatic team assignments"
-msgstr "Automatikus csapatkiosztások"
+msgstr "Automatikus csapathoz rendelés"
 
 #: ../../admin/access.rst:442
 msgid ""
@@ -1038,7 +1040,7 @@ msgstr "Hatókör"
 
 #: ../../admin/access.rst:486
 msgid "Permission"
-msgstr "Engedély"
+msgstr "Jogosultság"
 
 #: ../../admin/access.rst:486
 msgid "Built-in roles"
@@ -1058,7 +1060,7 @@ msgstr ":guilabel:`Adminisztráció`, :guilabel:`Billing`"
 
 #: ../../admin/access.rst:490 ../../api.rst:2290
 msgid "Changes"
-msgstr "Változtatások"
+msgstr "Változások"
 
 #: ../../admin/access.rst:490
 msgid "Download changes"
@@ -1449,7 +1451,7 @@ msgstr "Felhasználók kezelése"
 
 #: ../../admin/access.rst:594
 msgid "Manage roles"
-msgstr "Szerepek kezelése"
+msgstr "Szerepkörök kezelése"
 
 #: ../../admin/access.rst:596
 msgid "Manage announcements"
@@ -18352,8 +18354,9 @@ msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
-"Hozz létre egy ``admin`` rendszergazda felhasználói fiókot, generálj neki "
-"jelszót, és másold a vágólapra; ne felejtsd el elmenteni későbbi használatra:"
+"Hozz létre egy ``admin`` nevű adminisztrátor felhasználói fiókot, generálj "
+"hozzá egy jelszót, és másold a vágólapra; ne felejtsd el elmenteni későbbi "
+"használatra:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
@@ -21276,7 +21279,7 @@ msgstr "install_machinery"
 
 #: ../../admin/management.rst:612
 msgid "Installs an site-wide automatic suggestion service."
-msgstr "Telepít egy webhely-szintű automatikus javaslat szolgáltatást."
+msgstr "Telepít egy webhelyszintű automatikus javaslat szolgáltatást."
 
 #: ../../admin/management.rst:616
 msgid "Name of the service to install. For example ``deepl``."
