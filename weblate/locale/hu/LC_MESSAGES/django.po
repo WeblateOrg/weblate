@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-18 23:22+0000\n"
+"PO-Revision-Date: 2025-04-19 02:24+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -533,26 +533,26 @@ msgstr "A felhasználót {username} eltávolította a(z) {team} csapatból."
 
 #: weblate/accounts/models.py:249
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "A kétfaktoros hitelesítés visszaszerzési kódjai elő lettek állítva"
+msgstr "A kétlépcsős hitelesítés visszaszerzési kódjai elő lettek állítva"
 
 #: weblate/accounts/models.py:252
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "A kétfaktoros hitelesítés visszaszerzési kódjai meg lettek tekintve"
+msgstr "A kétlépcsős hitelesítés visszaszerzési kódjai meg lettek tekintve"
 
 #: weblate/accounts/models.py:254
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "Kétfaktoros hitelesítés hozzáadva: {device}"
+msgstr "Kétlépcsős hitelesítés hozzáadva: {device}"
 
 #: weblate/accounts/models.py:255
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "Kétfaktoros hitelesítés eltávolítva: {device}"
+msgstr "Kétlépcsős hitelesítés eltávolítva: {device}"
 
 #: weblate/accounts/models.py:256
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "Kétfaktoros hitelesítéses bejelentkezés a(z) {device} használatával"
+msgstr "Kétlépcsős hitelesítéses bejelentkezés a(z) {device} használatával"
 
 #: weblate/accounts/models.py:261
 msgid "Configured password to sign in."
@@ -1665,7 +1665,7 @@ msgstr "Az egynyelvű alapfájl nevének megadása"
 
 #: weblate/addons/forms.py:307
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyd üresen, ha kétnyelvű fordítási fájlokat használsz."
+msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
 
 #: weblate/addons/forms.py:310
 msgid "Define the base file for new translations"
@@ -2796,11 +2796,11 @@ msgstr ""
 
 #: weblate/auth/models.py:198 weblate/trans/models/project.py:221
 msgid "Enforced two-factor authentication"
-msgstr "Kényszerített kétfaktoros hitelesítés"
+msgstr "Kényszerített kétlépcsős hitelesítés"
 
 #: weblate/auth/models.py:201
 msgid "Requires users to have two-factor authentication configured."
-msgstr "A felhasználóknak kétfaktoros hitelesítést kell beállítaniuk."
+msgstr "A felhasználóknak kétlépcsős hitelesítést kell beállítaniuk."
 
 #: weblate/auth/models.py:439 weblate/utils/forms.py:76
 #: weblate/utils/validators.py:176
@@ -2907,8 +2907,7 @@ msgstr "Ezt a műveletet nem lehet végrehajtani e-mail-cím nélkül."
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
-"Ez a projekt kétfaktoros hitelesítést igényel. Állítsa be a profiljában."
+msgstr "Ez a projekt kétlépcsős hitelesítést igényel. Állítsa be a profiljában."
 
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:192
 #: weblate/templates/translate.html:257
@@ -6489,15 +6488,16 @@ msgstr "Új felhasználói személyazonosság hozzáadása"
 #: weblate/templates/accounts/profile.html:258
 #: weblate/templates/accounts/user.html:393
 msgid "Two-factor authentication"
-msgstr "Kétfaktoros hitelesítés"
+msgstr "Kétlépcsős hitelesítés"
 
 #: weblate/templates/accounts/profile.html:263
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"A kétfaktoros hitelesítés egy újabb biztonsági réteget ad a fiókjához, mivel "
-"a bejelentkezéshez nem csak egy jelszóra van szükség."
+"A kétlépcsős azonosítás további biztonsági réteget ad a fiókjához azáltal, "
+"hogy a bejelentkezéshez nemcsak jelszót, hanem egyéb hitelesítést is "
+"megkövetel."
 
 #: weblate/templates/accounts/profile.html:268
 msgid "Security keys (WebAuthn)"
@@ -6548,7 +6548,7 @@ msgstr "Új hitelesítő alkalmazás regisztrálása"
 #: weblate/templates/accounts/recovery-codes.html:15
 #: weblate/templates/accounts/recovery-codes.html:39
 msgid "Recovery codes"
-msgstr "Visszaszerzési kódok"
+msgstr "Visszaállító kódok"
 
 #: weblate/templates/accounts/profile.html:337
 msgid "No recovery codes generated yet."
@@ -6744,16 +6744,15 @@ msgstr "Licencek az egyedi fordításokhoz"
 
 #: weblate/templates/accounts/recovery-codes.html:26
 msgid "Two-factor recovery codes"
-msgstr "Kétfaktoros visszaszerzési kódok"
+msgstr "Kétlépcsős visszaszerzési kódok"
 
 #: weblate/templates/accounts/recovery-codes.html:31
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"A visszaszerzési kódok használhatók a fiókjához való hozzáféréséhez, ha "
-"elveszti a hozzáférést az eszközéhez, és nem tud kétfaktoros hitelesítési "
-"kódokat fogadni."
+"Visszaállító kódok segítségével hozzáférhetsz a fiókodhoz, ha elveszted a "
+"készülékedet, és nem tudsz kétlépcsős azonosítási kódot fogadni."
 
 #: weblate/templates/accounts/recovery-codes.html:35
 msgid ""
@@ -7099,15 +7098,15 @@ msgstr "Felhasználó szerkesztése"
 
 #: weblate/templates/accounts/user.html:398
 msgid "The user has two-factor authentication."
-msgstr "A felhasználó rendelkezik kétfaktoros hitelesítéssel."
+msgstr "A felhasználó rendelkezik kétlépcsős hitelesítéssel."
 
 #: weblate/templates/accounts/user.html:400
 msgid "The user doesn't have two-factor authentication."
-msgstr "A felhasználó nem rendelkezik kétfaktoros hitelesítéssel."
+msgstr "A felhasználó nem rendelkezik kétlépcsős hitelesítéssel."
 
 #: weblate/templates/accounts/user.html:407
 msgid "Turn off two-factor authentication"
-msgstr "Kétfaktoros hitelesítés kikapcsolása"
+msgstr "Kétlépcsős hitelesítés kikapcsolása"
 
 #: weblate/templates/accounts/user.html:416
 msgid "Disables password authentication for the user."
@@ -7605,7 +7604,7 @@ msgstr "Automatikus hozzárendelés"
 
 #: weblate/templates/auth/teams-name.html:5
 msgid "Requires two-factor authentication"
-msgstr "Kétfaktoros hitelesítést igényel"
+msgstr "Kétlépcsős hitelesítést igényel"
 
 #: weblate/templates/auth/teams-roles.html:6
 msgid "Access only"
@@ -10887,23 +10886,23 @@ msgstr "Eredmények betöltése…"
 
 #: weblate/templates/snippets/enforced_2fa.html:9
 msgid "Configure two-factor authentication"
-msgstr "Kétfaktoros hitelesítés beállítása"
+msgstr "Kétlépcsős hitelesítés beállítása"
 
 #: weblate/templates/snippets/enforced_2fa.html:11
 msgid ""
 "This project requires two-factor authentication from all contributors. You "
 "won’t be able to contribute until you configure it."
 msgstr ""
-"Ez a projekt kétfaktoros hitelesítést igényel az összes közreműködőtől. "
-"Addig nem tud közreműködni, amíg be nem állítja."
+"Ez a projekt kétlépcsős hitelesítést igényel az összes közreműködőtől. Addig "
+"nem tud közreműködni, amíg be nem állítja."
 
 #: weblate/templates/snippets/enforced_2fa.html:13
 msgid ""
 "You are a member of the team that requires two-factor authentication. You "
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
-"Ön olyan csapat tagja, amely kétfaktoros hitelesítést igényel. Addig nem "
-"tudja használni a jogosultságait, amíg nem állítja be a kétfaktoros "
+"Ön olyan csapat tagja, amely kétlépcsős hitelesítést igényel. Addig nem "
+"tudja használni a jogosultságait, amíg nem állítja be a kétlépcsős "
 "hitelesítést."
 
 #: weblate/templates/snippets/git-info.html:10
@@ -14002,8 +14001,8 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Kérlek vedd figyelembe, hogy ha minden szöveget lefordítasz, az összes "
-"meglévő fordítás felülíródik."
+"Vegye figyelembe, hogy az összes szöveg lefordítása törölni fogja a meglévő "
+"fordításokat."
 
 #: weblate/trans/forms.py:917
 msgid "Source of automated translations"
@@ -14038,9 +14037,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Írd be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
-"szeretnél használni; hagyd üresen, ha az aktuális projekt összes "
-"összetevőjét használni szeretnéd."
+"Írja be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
+"szeretne használni; hagyja üresen, ha az aktuális projekt összes "
+"összetevőjét használni szeretné."
 
 #: weblate/trans/forms.py:992
 msgid "All components in current project"
@@ -15617,7 +15616,7 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
-"Megköveteli a közreműködőktől, hogy kétfaktoros hitelesítéssel "
+"Megköveteli a közreműködőktől, hogy kétlépcsős hitelesítéssel "
 "rendelkezzenek, mielőtt közreműködhetnének."
 
 #: weblate/trans/models/project.py:229 weblate/trans/models/workflow.py:23
