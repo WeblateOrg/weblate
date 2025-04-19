@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-18 23:22+0000\n"
+"PO-Revision-Date: 2025-04-19 02:24+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -2147,8 +2147,8 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Kérlek vedd figyelembe, hogy ha minden szöveget lefordítasz, az összes "
-"meglévő fordítás felülíródik."
+"Vegye figyelembe, hogy az összes szöveg lefordítása törölni fogja a meglévő "
+"fordításokat."
 
 #: ../../admin/addons.rst:147
 msgid "``all`` -- All strings"
@@ -2199,9 +2199,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Írd be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
-"szeretnél használni; hagyd üresen, ha az aktuális projekt összes "
-"összetevőjét használni szeretnéd."
+"Írja be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
+"szeretne használni; hagyja üresen, ha az aktuális projekt összes "
+"összetevőjét használni szeretné."
 
 #: ../../admin/addons.rst:167
 msgid "``engines``"
@@ -2558,7 +2558,7 @@ msgstr "Az egynyelvű alapfájl nevének megadása"
 
 #: ../../admin/addons.rst:304
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyd üresen, ha kétnyelvű fordítási fájlokat használsz."
+msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
 
 #: ../../admin/addons.rst:306
 msgid "``new_base_template``"
@@ -5550,9 +5550,10 @@ msgid ""
 "The example above and the Docker image define an IDP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
-"A fenti példa és a Docker kép egy ``weblate`` nevű IDP-t határoz meg. Lehet, "
-"hogy ezt a karakterláncot :guilabel:`Relay`-ként kell konfigurálnod az IDP-"
-"dben."
+"A fenti példa és a Docker-kép egy ``weblate`` nevű IDP "
+"(azonosításszolgáltató) definiálását mutatja be. Előfordulhat, hogy ezt a "
+"karakterláncot a :guilabel:`Relay` (átjátszó) mezőben kell megadnod az IDP-"
+"ben."
 
 #: ../../admin/auth.rst:552
 msgid ""
@@ -5569,15 +5570,15 @@ msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
-"Az LDAP hitelesítés legjobban a `django-auth-ldap` csomag használatával "
-"érhető el. Szokásos módon telepítheted:"
+"Az LDAP hitelesítést legjobban a `django-auth-ldap` csomag használatával "
+"lehet megoldani. Szokásos módon telepíthető:"
 
 #: ../../admin/auth.rst:573
 msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
-"Ez a csomag benne van a Docker konténerben, lásd :doc:`/admin/install/"
+"Ez a csomag a Docker-képen alapból benne van, lásd: :doc:`/admin/install/"
 "docker`."
 
 #: ../../admin/auth.rst:577
@@ -5587,17 +5588,19 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
-"Vannak némi inkompatibilitások a Python LDAP 3.1.0 moduljában, amelyek "
-"megakadályozhatják ennek a verziónak a használatát. Ha az `AttributeError: "
-"'module' object has no attribute '_trace_level' <https://github.com/python-"
-"ldap/python-ldap/issues/226>`_ hibát kapod, akkor a python-ldap 3.0.0 "
-"verzióra való visszalépés segíthet."
+"A Python LDAP 3.1.0 modulban néhány inkompatibilitás található, ami "
+"megakadályozhatja a működést. Ha az alábbi hibát kapod: `AttributeError: "
+"'module' object has no attribute '_trace_level' <https://github.com/"
+"python-ldap/python-ldap/issues/226>`_, akkor a python-ldap 3.0.0 verzióra "
+"való visszalépés segíthet."
 
 #: ../../admin/auth.rst:583
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
-msgstr "Miután telepítetted a csomagot, beépítheted a Django hitelesítésbe:"
+msgstr ""
+"Miután telepítetted a csomagot, az LDAP hitelesítést hozzá tudod kapcsolni a "
+"Django rendszeréhez:"
 
 #: ../../admin/auth.rst:620
 msgid ""
@@ -5609,14 +5612,14 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "wladmin:`createadmin`)."
 msgstr ""
-"El kell távolítanod a ``'social_core.backends.email.EmailAuth'`` elemet a :"
-"setting:`django:AUTHENTICATION_BACKENDS` beállításból, különben a "
-"felhasználók beállíthatják a jelszavukat a Weblate-ben, és azzal "
-"hitelesíthetnek. A ``'weblate.accounts.auth.WeblateUserBackend'`` megtartása "
-"továbbra is szükséges a jogosultságok kezeléséhez és az anonim felhasználók "
-"támogatásához. Ez lehetővé teszi, hogy bejelentkezz egy helyi "
-"adminisztrátori fiókkal, ha létrehoztad azt (például a :wladmin:"
-"`createadmin` használatával)."
+"Törölnöd kell a ``'social_core.backends.email.EmailAuth'`` bejegyzést a "
+":setting:`django:AUTHENTICATION_BACKENDS` beállításból, különben a "
+"felhasználók tudnának helyi jelszót beállítani a Weblate-ben, és azzal "
+"hitelesíteni magukat. A ``'weblate.accounts.auth.WeblateUserBackend'`` "
+"bejegyzést viszont továbbra is meg kell tartani, hogy a jogosultságkezelés "
+"és a névtelen felhasználók támogatása működjön. Ez lehetővé teszi azt is, "
+"hogy helyi adminisztrátor fiókkal is be tudj jelentkezni, ha ilyet hoztál "
+"létre (például a :wladmin:`createadmin` használatával)."
 
 #: ../../admin/auth.rst:629
 msgid "Using bind password"
@@ -5627,9 +5630,9 @@ msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
-"Ha nem tudod közvetlen bind-et használni a hitelesítéshez, akkor keresést "
-"kell használnod, és meg kell adnod egy felhasználót a kereséshez történő "
-"bind-hez. Például:"
+"Ha nem tudsz közvetlenül a bind szolgáltatással hitelesíteni, akkor keresést "
+"kell használnod, és ehhez meg kell adnod egy felhasználót, amellyel a "
+"keresést végrehajtod. Például:"
 
 #: ../../admin/auth.rst:646
 msgid "Active Directory integration"
@@ -5647,7 +5650,7 @@ msgstr "CAS hitelesítés"
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
-"A CAS hitelesítés megvalósítható olyan csomagok használatával, mint a "
+"CAS hitelesítést olyan csomagokkal tudsz megvalósítani, mint például a "
 "`django-cas-ng`."
 
 #: ../../admin/auth.rst:690
@@ -5656,28 +5659,27 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
-"Az első lépés az e-mail mező közzététele a felhasználó számára a CAS-en "
-"keresztül. Ezt a CAS szerveren kell beállítani, és legalább CAS v2 "
-"futtatását igényli, mivel a CAS v1 egyáltalán nem támogatja az "
-"attribútumokat."
+"Az első lépés az, hogy a CAS-on keresztül ki kell adnod a felhasználó e-mail "
+"mezőjét. Ezt a CAS szerveren kell beállítani, és legalább CAS v2 verzió "
+"szükséges hozzá, mert a CAS v1 még nem támogatja az attribútumokat."
 
 #: ../../admin/auth.rst:694
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
-"A második lépés a Weblate frissítése, hogy használja a CAS szerveredet és "
-"attribútumait."
+"A második lépés, hogy frissítsd a Weblate beállításait, hogy a saját CAS "
+"szerveredet és attribútumaidat használja."
 
 #: ../../admin/auth.rst:696
 msgid "To install `django-cas-ng`:"
-msgstr "A `django-cas-ng` telepítéséhez:"
+msgstr "A `django-cas-ng` csomag telepítéséhez:"
 
 #: ../../admin/auth.rst:702
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
-"Miután telepítetted a csomagot, összekapcsolhatod a Django hitelesítési "
-"rendszerrel a :file:`settings.py` fájl módosításával:"
+"Miután telepítetted, a Django hitelesítési rendszeréhez kell kapcsolnod a "
+":file:`settings.py` fájl módosításával:"
 
 #: ../../admin/auth.rst:720
 msgid ""
@@ -5686,21 +5688,24 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
-"Végül egy jel használható az e-mail mező felhasználói objektumhoz való "
-"hozzárendelésére. Ehhez importálnod kell a jelet a `django-cas-ng` "
-"csomagból, és összekapcsolnod a kódodat ezzel a jellel. Ha ezt a beállítások "
-"fájlban csinálod, az problémákat okozhat, ezért javasolt, hogy helyezd el:"
+"Végül egy jelzés (signal) is használható arra, hogy az e-mail mezőt "
+"hozzárendeljük a felhasználói objektumhoz. Ehhez importálni kell a jelet a "
+"`django-cas-ng` csomagból, és össze kell kötni a saját kódoddal. Fontos, "
+"hogy ezt ne a settings (beállítás) fájlban tedd, mert az problémákat "
+"okozhat. Ehelyett ajánlott:"
 
 #: ../../admin/auth.rst:725
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
-"Az alkalmazás konfigurációjában a :py:meth:`django:django.apps.AppConfig."
-"ready` metódusban"
+"Az alkalmazás konfigurációjának :py:meth:`django:django.apps.AppConfig.ready`"
+" metódusában elhelyezni,"
 
 #: ../../admin/auth.rst:726
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr "A projekt :file:`urls.py` fájljában (amikor nincsenek modellek)"
+msgstr ""
+"vagy a projekt :file:`urls.py` fájljában, ha az alkalmazás nem tartalmaz "
+"modelleket"
 
 #: ../../admin/auth.rst:743
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
@@ -5708,7 +5713,7 @@ msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:746
 msgid "Configuring third party Django authentication"
-msgstr "Harmadik fél Django hitelesítésének beállítása"
+msgstr "Harmadik féltől származó Django hitelesítések beállítása"
 
 #: ../../admin/auth.rst:748
 msgid ""
@@ -5716,9 +5721,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
-"Általában bármely Django hitelesítési plugin működnie kell a Weblate-tel. "
-"Csak kövesd a plugin utasításait, de ne felejtsd el, hogy a Weblate "
-"felhasználói háttérrendszerét telepítve tartsd."
+"Általánosságban bármilyen Django hitelesítési beépülőnek (plugin) működnie "
+"kell a Weblate-tel. Csak kövesd a plugin dokumentációját, és ne felejtsd el "
+"a Weblate felhasználói háttérmodulját bekapcsolva hagyni."
 
 #: ../../admin/auth.rst:754
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
@@ -5730,26 +5735,27 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
-"Általában a telepítés abból áll, hogy hozzáadsz egy hitelesítési "
-"háttérrendszert a :setting:`django:AUTHENTICATION_BACKENDS`-hez, és "
-"telepítesz egy hitelesítési alkalmazást (ha van ilyen) a :setting:`django:"
-"INSTALLED_APPS`-ba:"
+"Jellemzően a telepítés abból áll, hogy hozzáadod a hitelesítési háttérmodult "
+"a :setting:`django:AUTHENTICATION_BACKENDS` beállításhoz, illetve telepíted "
+"a hitelesítési alkalmazást (ha van ilyen) a :setting:`django:INSTALLED_APPS` "
+"közé:"
 
 #: ../../admin/auth.rst:776
 msgid "Two-factor authentication"
-msgstr "Kétfaktoros hitelesítés"
+msgstr "Kétlépcsős hitelesítés"
 
 #: ../../admin/auth.rst:782
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"A kétfaktoros hitelesítés egy újabb biztonsági réteget ad a fiókjához, mivel "
-"a bejelentkezéshez nem csak egy jelszóra van szükség."
+"A kétlépcsős azonosítás további biztonsági réteget ad a fiókjához azáltal, "
+"hogy a bejelentkezéshez nemcsak jelszót, hanem egyéb hitelesítést is "
+"megkövetel."
 
 #: ../../admin/auth.rst:784
 msgid "Weblate supports the following second factors:"
-msgstr "A Weblate az alábbi második tényezőket támogatja:"
+msgstr "A Weblate a következő másodlagos azonosítási módokat támogatja:"
 
 #: ../../admin/auth.rst:786
 msgid "Security keys (WebAuthn)"
@@ -5757,25 +5763,24 @@ msgstr "Biztonsági kulcsok (WebAuthn)"
 
 #: ../../admin/auth.rst:787
 msgid "Both, Passkeys and security keys are supported."
-msgstr "Mind a jelszavak, mind a biztonsági kulcsok támogatottak."
+msgstr "Támogatott a Passkey és a biztonsági kulcs is."
 
 #: ../../admin/auth.rst:789
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
-"A jelszavak ellenőrzik a személyazonosságodat érintéssel, arcfelismeréssel, "
-"készülékjelszóval vagy PIN-kóddal, mivel tartalmazzák a felhasználói "
-"hitelesítést."
+"A Passkey azonosítja a személyedet érintéssel, arcfelismeréssel, az eszköz "
+"jelszavával vagy PIN-kóddal, mivel tartalmaz felhasználóazonosítást is."
 
 #: ../../admin/auth.rst:791
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
-"A biztonsági kulcsok WebAuthn-hitelesítő adatok, amelyeket csak második "
-"hitelesítési tényezőként lehet használni, és ezek csak a felhasználó "
-"jelenlétét igazolják."
+"A biztonsági kulcs olyan WebAuthn hitelesítő adat, amelyek csak második "
+"azonosítási faktorként használható, és csak a felhasználó jelenlétét "
+"ellenőrzik."
 
 #: ../../admin/auth.rst:793
 msgid "Authenticator apps (TOTP)"
@@ -5788,58 +5793,56 @@ msgid ""
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
-"A hitelesítő alkalmazások és böngészőbővítmények, mint például az Aegis, a "
-"Bitwarden, a Google Authenticator, az 1Password, az Authy, a Microsoft "
-"Authenticator stb., időalapú egyszer használatos jelszavakat generálnak, "
-"amelyeket második tényezőként használnak az azonosításod megerősítésére "
-"bejelentkezéskor."
+"Hitelesítő alkalmazások és böngészőbővítmények, például az Aegis, Bitwarden, "
+"Google Authenticator, 1Password, Authy, Microsoft Authenticator stb. "
+"időalapú egyszeri jelszavakat (TOTP) generálnak, amelyeket második "
+"hitelesítési lépésként használsz bejelentkezéskor."
 
 #: ../../admin/auth.rst:799
 msgid "Recovery codes"
-msgstr "Visszaszerzési kódok"
+msgstr "Visszaállító kódok"
 
 #: ../../admin/auth.rst:800
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"A visszaszerzési kódok használhatók a fiókjához való hozzáféréséhez, ha "
-"elveszti a hozzáférést az eszközéhez, és nem tud kétfaktoros hitelesítési "
-"kódokat fogadni."
+"Visszaállító kódok segítségével hozzáférhetsz a fiókodhoz, ha elveszted a "
+"készülékedet, és nem tudsz kétlépcsős azonosítási kódot fogadni."
 
 #: ../../admin/auth.rst:802
 msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
-"Tartsd a helyreállítási kódjaidat ugyanolyan biztonságban, mint a "
-"jelszavadat. Javasoljuk, hogy jelszókezelővel, például a Bitwarden, "
-"1Password, Authy vagy Keeper alkalmazással mentsd el őket."
+"A visszaállító kódokat tartsd legalább olyan biztonságban, mint a "
+"jelszavadat. Javasoljuk, hogy jelszókezelő alkalmazásban (például Bitwarden, "
+"1Password, Authy vagy Keeper) tárold őket."
 
 #: ../../admin/auth.rst:804
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
-"Minden felhasználó beállíthatja ezt a(z) :ref:`profile-account` alatt, és a "
-"második tényezőre is szükség lesz a bejelentkezéshez a meglévő hitelesítési "
-"módszer mellett."
+"Minden felhasználó be tudja állítani ezt a :ref:`profile-account` résznél, "
+"és a második hitelesítési tényező kötelező lesz a bejelentkezéshez a meglévő "
+"hitelesítési módszer mellett."
 
 #: ../../admin/auth.rst:807
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
-"Ezt kötelezővé lehet tenni a felhasználók számára a projekt szintjén (lásd :"
-"ref:`project-enforced_2fa`) vagy a csapat szintjén."
+"Ezt kötelezővé lehet tenni a felhasználók számára projekt szinten (lásd: :ref"
+":`project-enforced_2fa`) vagy csapatszinten is."
 
 #: ../../admin/auth.rst:809
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
-"Az olyan csapat engedélyei, amelyeknél a kétfaktoros hitelesítés kötelező, "
-"nem lesznek érvényesek azokra a felhasználókra, akiknél ez nincs beállítva."
+"Azoknál a felhasználóknál, akiknél nincs beállítva kétlépcsős hitelesítés, a "
+"csapat jogosultságai nem lesznek érvényesek."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -5854,8 +5857,8 @@ msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
-"A biztonsági mentések visszaállítása csak akkor támogatott, ha PostgreSQL-t "
-"vagy MariaDB 10.5+-t használunk adatbázisként."
+"A biztonsági mentések visszaállítása csak PostgreSQL vagy MariaDB 10.5+ "
+"adatbázis használata esetén támogatott."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -5863,10 +5866,10 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
-"A projekt biztonsági mentése a Weblate összes fordítási tartalmát "
-"tartalmazza (projekt, összetevők, fordítások, szöveg megjegyzések, "
-"javaslatok vagy ellenőrzések). Alkalmas egy projekt átvitelére egy másik "
-"Weblate példányba."
+"A projekt biztonsági mentései tartalmazzák a Weblate összes fordítási "
+"tartalmát (projekt, összetevők, fordítások, szöveg megjegyzések, javaslatok "
+"vagy ellenőrzések). Ez alkalmas egy projekt áthelyezésére egy másik Weblate "
+"példányba."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -5874,16 +5877,16 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
-"A projekt biztonsági mentését a :guilabel:`Kezelés` ↓ :guilabel:`Backups` "
-"menüpontban végezheted el. A biztonsági mentés visszaállítható a projekt "
-"létrehozásakor (lásd: :ref:`adding-projects`)."
+"Projekt biztonsági mentést a :guilabel:`Kezelés` ↓ :guilabel:`Biztonsági "
+"mentések` menüpontban tudsz készíteni. A mentést vissza lehet állítani "
+"projekt létrehozásakor (lásd: :ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
-"A biztonsági mentések jelenleg nem tartalmaznak hozzáférés-vezérlési "
-"információkat és előzményeket."
+"A biztonsági mentések jelenleg nem tartalmazzák a hozzáférés-vezérlés "
+"adatait és az előzményeket."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -5891,10 +5894,11 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
-"A megjegyzések és javaslatok annak a felhasználónak a felhasználónevével "
-"együtt kerülnek mentésre, aki létrehozta azokat. Importáláskor egy megfelelő "
-"felhasználóhoz kerülnek hozzárendelésre. Ha nincs ilyen felhasználónévvel "
-"rendelkező felhasználó, akkor névtelen felhasználóhoz lesznek hozzárendelve."
+"A megjegyzéseket és javaslatokat az azt létrehozó felhasználó "
+"felhasználónevével együtt menti el a rendszer. Importáláskor ezek "
+"hozzárendelésre kerülnek a megfelelő felhasználóhoz. Ha nincs ilyen "
+"felhasználónév az új rendszerben, az hozzá lesz rendelve egy névtelen "
+"felhasználóhoz."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -5902,18 +5906,19 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
-"A generált biztonsági mentések a szerveren maradnak az :setting:"
-"`PROJECT_BACKUP_KEEP_DAYS` és az :setting:`PROJECT_BACKUP_KEEP_COUNT` "
-"beállítás szerint (alapértelmezés szerint legfeljebb 3 biztonsági mentés "
-"marad meg 30 napig)."
+"A létrehozott biztonsági mentések a szerveren kerülnek tárolásra, a "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` és :setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"beállítások alapján (alapértelmezés szerint maximum 3 mentést tárol 30 "
+"napig)."
 
 #: ../../admin/backup.rst:35
 msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
-"Használd a generált fájlt a projekt importálásához, amikor :ref:`adding-"
-"projects` vagy a :wladmin:`import_projectbackup` során."
+"A létrehozott fájlt felhasználhatod projekt importálásakor a :ref:`adding-"
+"projects` funkciónál vagy a :wladmin:`import_projectbackup` parancs "
+"segítségével."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -5922,15 +5927,14 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
-"A biztonsági mentés visszaállítása sikertelen lehet, ha a visszaállító "
-"szerver más :ref:`languages` készlettel vagy a :setting:`SIMPLIFY_LANGUAGES` "
-"eltérő konfigurációjával rendelkezik. A visszaállítás megmutatja, mely "
-"nyelvkódokat nem sikerült feldolgozni, és ezután manuálisan hozzáadhatod a "
-"hiányzó nyelvi definíciókat."
+"A visszaállítás sikertelen lehet, ha a visszaállító szerveren más "
+":ref:`languages` lista van vagy eltérő a :setting:`SIMPLIFY_LANGUAGES` "
+"konfiguráció. A rendszer ilyenkor megmutatja, mely nyelvi kódokat nem tudta "
+"feldolgozni, és ezeket manuálisan hozzáadhatod."
 
 #: ../../admin/backup.rst:46
 msgid "Automated backup using BorgBackup"
-msgstr "Automatizált biztonsági mentés a BorgBackup használatával"
+msgstr "Automatizált biztonsági mentés BorgBackup használatával"
 
 #: ../../admin/backup.rst:48
 msgid ""
@@ -5939,26 +5943,27 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
-"A Weblate beépített támogatást nyújt a `BorgBackup`_ használatával történő "
-"szolgáltatásmentések készítéséhez. A Borg helytakarékos, titkosított "
-"mentéseket hoz létre, amelyek biztonságosan tárolhatók a felhőben. A "
-"mentések a kezelőfelületen a :guilabel:`Backups` lapon vezérelhetők."
+"A Weblate beépítetten támogatja a szolgáltatás biztonsági mentések "
+"készítését a `BorgBackup`_ segítségével. A Borg helytakarékos, titkosított "
+"biztonsági mentéseket készít, amelyek biztonságosan tárolhatók a felhőben. A "
+"biztonsági mentéseket a kezelőfelületen, a :guilabel:`Biztonsági mentések` "
+"fül alatt tudod kezelni."
 
 #: ../../admin/backup.rst:55
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
-"Mind a PostgreSQL, mind a MySQL/MariaDB adatbázisok szerepelnek az "
-"automatikus biztonsági mentésekben."
+"Az automatizált mentések tartalmazzák a PostgreSQL és a MySQL/MariaDB "
+"adatbázisokat is."
 
 #: ../../admin/backup.rst:57
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
-"A Borg használatával készült biztonsági mentések inkrementálisak, és a "
-"Weblate úgy van beállítva, hogy a következő biztonsági mentéseket tartsa meg:"
+"A Borg által készített mentések inkrementálisak, és a Weblate az alábbi "
+"mentési rendet alkalmazza:"
 
 #: ../../admin/backup.rst:59
 msgid "Daily backups for 14 days back"
@@ -5982,17 +5987,19 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"A `BorgBackup`_ titkosított mentéseket készít, és nem tudod visszaállítani "
-"őket a jelszó nélkül. A jelszó egy új mentési szolgáltatás hozzáadásakor "
-"generálódik, és másold le, majd tárold biztonságos helyen."
+"A `BorgBackup`_ titkosított biztonsági mentéseket készít, és a "
+"visszaállításhoz szükség lesz a jelszóra. A jelszó akkor kerül létrehozásra, "
+"amikor új biztonsági mentési szolgáltatást adsz hozzá – ilyenkor ezt a "
+"jelszót ki kell másolnod és biztonságos helyen megőrizned."
 
 #: ../../admin/backup.rst:74
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
-"Ha a :ref:`cloudbackup`-ot használod, kérlek, készíts biztonsági mentést a "
-"privát SSH kulcsodról is, mivel ez szükséges a mentéseid eléréséhez."
+"Ha a :ref:`cloudbackup` szolgáltatást használod, akkor érdemes a saját "
+"privát SSH-kulcsodat is lementeni, mivel ez szükséges a biztonsági mentések "
+"eléréséhez."
 
 #: ../../admin/backup.rst:79
 msgid ":doc:`borg:usage/init`"
@@ -6005,14 +6012,14 @@ msgstr "Biztonsági mentés testreszabása"
 #: ../../admin/backup.rst:84
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Az adatbázis biztonsági mentése a(z) :setting:`DATABASE_BACKUP` segítségével "
-"konfigurálható."
+"Az adatbázis biztonsági mentését a :setting:`DATABASE_BACKUP` beállítással "
+"tudod konfigurálni."
 
 #: ../../admin/backup.rst:85
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
-"A biztonsági mentés létrehozása a(z) :setting:`BORG_EXTRA_ARGS` "
-"használatával testreszabható."
+"A biztonsági mentés létrehozásának részletei a :setting:`BORG_EXTRA_ARGS` "
+"beállítással szabhatók testre."
 
 #: ../../admin/backup.rst:90
 msgid "Weblate provisioned backup storage"
@@ -6024,43 +6031,44 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"A legegyszerűbb módja a Weblate példányod mentésének, ha megvásárolod a "
-"`backup service at weblate.org <https://weblate.org/support/#backup>`_. Így "
-"állíthatod be:"
+"A legegyszerűbb módja a Weblate példányod biztonsági mentésének, ha "
+"megvásárolod a `biztonsági mentési szolgáltatást a weblate.org oldalon "
+"<https://weblate.org/support/#backup>`_ szolgáltatást. A beállítás menete:"
 
 #: ../../admin/backup.rst:96
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
-"Vásárold meg a `Backup service`-t a https://weblate.org/support/#backup "
-"oldalon."
+"Vásárold meg a `Biztonsági mentési szolgáltatás` csomagot a https://"
+"weblate.org/support/#backup oldalon."
 
 #: ../../admin/backup.rst:97
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
-"Írd be a megszerzett kulcsot a kezelőfelületen, lásd: :ref:`activate-"
-"support`."
+"Írd be a kapott kulcsot a kezelőfelületen, lásd: :ref:`activate-support`."
 
 #: ../../admin/backup.rst:98
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
-"A Weblate csatlakozik a felhőszolgáltatáshoz, és megszerzi a mentésekhez "
-"szükséges hozzáférési információkat."
+"A Weblate csatlakozik a felhőszolgáltatáshoz és hozzáférési információkat "
+"szerez a biztonsági mentésekhez."
 
 #: ../../admin/backup.rst:99
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr "Kapcsold be az új mentési konfigurációt a :guilabel:`Backups` lapon."
+msgstr ""
+"Kapcsold be az új biztonsági mentési beállítást a :guilabel:`Biztonsági "
+"mentések` fülön."
 
 #: ../../admin/backup.rst:100
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
-"Készíts biztonsági mentést a Borg hitelesítő adataidról, hogy vissza tudd "
-"állítani a mentéseket, lásd: :ref:`borg-keys`."
+"Készíts biztonsági másolatot a Borg hitelesítő adataidról is, hogy a "
+"mentéseket vissza tudd állítani, lásd: :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:104
 msgid ""
@@ -6068,13 +6076,13 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
-"Az, hogy mindent manuálisan kell bekapcsolni, a te biztonságodat szolgálja. "
-"A beleegyezésed nélkül semmilyen adat nem kerül elküldésre a regisztrációs "
-"folyamat során megszerzett mentési tárhelyre."
+"Az, hogy kézzel kell bekapcsolnod mindent, a biztonságodat szolgálja. A "
+"hozzájárulásod nélkül semmilyen adat nem kerül elküldésre a regisztráció "
+"során létrejött biztonsági mentési tárolóba."
 
 #: ../../admin/backup.rst:111
 msgid "Using custom backup storage"
-msgstr "Egyedi biztonsági mentési tárhely használata"
+msgstr "Saját biztonsági mentési tárhely használata"
 
 #: ../../admin/backup.rst:113
 msgid ""
@@ -6082,13 +6090,13 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
-"A saját tárhelyedet is használhatod a mentésekhez. Az SSH segítségével "
-"tárolhatod a mentéseket a távoli célállomáson, és a cél szerveren telepítve "
-"kell lennie a `BorgBackup`_-nak."
+"Használhatsz saját tárhelyet is a biztonsági mentésekhez. SSH-n keresztül "
+"tudod a mentéseket távoli célhelyre tárolni, ehhez a célszerveren telepítve "
+"kell lennie a `BorgBackup`_ programnak."
 
 #: ../../admin/backup.rst:119
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ":doc:`borg:usage/general` a Borg dokumentációjában"
+msgstr "Lásd a Borg dokumentációjában: :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:122
 msgid "Local filesystem"
@@ -6101,11 +6109,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"Ajánlott megadni a helyi mentés abszolút elérési útját, például `/path/to/"
-"backup`. A könyvtárnak írhatónak kell lennie a Weblate-et futtató "
-"felhasználó számára (lásd: :ref:`file-permissions`). Ha nem létezik, a "
-"Weblate megpróbálja létrehozni, de ehhez megfelelő jogosultságokra van "
-"szüksége."
+"Ajánlott az abszolút elérési út megadása a helyi biztonsági mentéshez, "
+"például: `/path/to/backup`. A megadott könyvtárnak írhatónak kell lennie a "
+"Weblate-et futtató felhasználó számára (lásd: :ref:`file-permissions`). Ha a "
+"könyvtár nem létezik, a Weblate megpróbálja létrehozni, de ehhez megfelelő "
+"jogosultságokra van szükség."
 
 #: ../../admin/backup.rst:131
 msgid ""
@@ -6113,33 +6121,35 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
-"Amikor a Weblate-et Dockerben futtatod, kérlek, győződj meg róla, hogy a "
-"mentési hely ki van téve kötetként a Weblate konténerből. Ellenkező esetben "
-"a Docker a konténer újraindításakor törölni fogja a mentéseket."
+"Ha a Weblate-et Dockerben futtatod, gondoskodj róla, hogy a biztonsági "
+"mentési hely kötetként legyen csatolva a Weblate konténerhez. Ellenkező "
+"esetben a Docker újraindításkor törölni fogja a konténerrel együtt a "
+"mentéseket."
 
 #: ../../admin/backup.rst:135
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
-"Az egyik lehetőség, hogy a mentéseket egy meglévő kötetbe helyezed, például "
-"a :file:`/app/data/borgbackup` alá. Ez egy meglévő kötet a konténerben."
+"Az egyik lehetőség, hogy a biztonsági mentéseket egy meglévő kötetbe "
+"helyezed, például a :file:`/app/data/borgbackup` könyvtárba. Ez egy meglévő "
+"kötet a konténeren belül."
 
 #: ../../admin/backup.rst:138
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
-"Hozzáadhatsz egy új konténert a mentésekhez a Docker Compose fájlban, "
-"például a :file:`/borgbackup` használatával:"
+"Hozzáadhatsz új kötetet is a biztonsági mentésekhez a Docker Compose "
+"fájlban, például a :file:`/borgbackup` útvonallal:"
 
 #: ../../admin/backup.rst:149
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
-"A könyvtárnak, ahova a mentések kerülnek, a 1000-es UID tulajdonában kell "
-"lennie, különben a Weblate nem tudja odaírni a mentéseket."
+"A könyvtárnak, ahová a biztonsági mentések kerülnek, a 1000-es UID-hez kell "
+"tartoznia, különben a Weblate nem tudja odaírni a mentéseket."
 
 #: ../../admin/backup.rst:153
 msgid "Remote backups"
@@ -6151,61 +6161,59 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
-"Távoli biztonsági mentések létrehozásához telepítened kell a `BorgBackup`_-"
-"ot egy másik szerverre, amely SSH-n keresztül elérhető a Weblate telepítésed "
-"számára a Weblate SSH kulcs használatával:"
+"Ha távoli biztonsági mentést szeretnél készíteni, telepítened kell a "
+"`BorgBackup`_ programot egy másik szerverre, amely SSH-n keresztül elérhető "
+"a Weblate példány számára, a Weblate SSH-kulcs használatával:"
 
 #: ../../admin/backup.rst:159
 msgid "Prepare a server where your backups will be stored."
-msgstr "Készíts elő egy szervert, ahol a biztonsági mentéseid tárolva lesznek."
+msgstr "Készíts elő egy szervert, ahol a biztonsági mentéseket tárolni fogod."
 
 #: ../../admin/backup.rst:160
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
-"Telepítsd rá az SSH szervert (a legtöbb Linux disztribúciónál "
-"alapértelmezetten megkapod)."
+"Telepíts rá SSH szervert (a legtöbb Linux-disztribúcióban alapból elérhető)."
 
 #: ../../admin/backup.rst:161
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
-"Telepítsd a `BorgBackup`_-ot arra a szerverre; a legtöbb Linux "
-"disztribúciónál elérhetők a csomagok (lásd :doc:`borg:installation`)."
+"Telepítsd a `BorgBackup`_ programot ezen a szerveren is; a legtöbb Linux-"
+"disztribúcióban elérhető csomagként (lásd: :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:162
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
-"Válassz egy meglévő felhasználót vagy hozz létre egy új felhasználót, "
-"amelyet a biztonsági mentéshez fogsz használni."
+"Válassz ki egy meglévő felhasználót vagy hozz létre egy újat, akivel a "
+"mentéseket kezelni fogod."
 
 #: ../../admin/backup.rst:163
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
-"Add hozzá a Weblate SSH kulcsot a felhasználóhoz, így a Weblate jelszó "
-"nélkül tud SSH kapcsolatot létesíteni a szerverrel (lásd :ref:`weblate-ssh-"
-"key`)."
+"Add hozzá a Weblate SSH-kulcsát ehhez a felhasználóhoz, hogy a Weblate "
+"jelszó nélkül tudjon csatlakozni (lásd: :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:164
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups`` "
 "or ``ssh://user@host:port/path/to/backups``."
 msgstr ""
-"Állítsd be a biztonsági mentés helyét a Weblate-ben ``user@host:/path/to/"
-"backups`` vagy ``ssh://user@host:port/path/to/backups`` formában."
+"Állítsd be a biztonsági mentési helyet a Weblate-ben így: ``user@host:/path/"
+"to/backups`` vagy ``ssh://user@host:port/path/to/backups``."
 
 #: ../../admin/backup.rst:168
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
-"A :ref:`cloudbackup` automatikus távoli biztonsági mentéseket biztosít "
-"számodra minden erőfeszítés nélkül."
+"A :ref:`cloudbackup` szolgáltatás automatikusan biztosít távoli biztonsági "
+"mentést különösebb beavatkozás nélkül."
 
 #: ../../admin/backup.rst:172
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
@@ -6213,20 +6221,20 @@ msgstr ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:175
 msgid "Restoring from BorgBackup"
-msgstr "Visszaállítás BorgBackupból"
+msgstr "Visszaállítás a BorgBackupból"
 
 #: ../../admin/backup.rst:177
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
-"Állítsd vissza a hozzáférést a biztonsági mentési tárhelyedhez, és készítsd "
-"elő a biztonsági mentés jelszavát."
+"Állítsd vissza a hozzáférést a biztonsági mentési tárolóhoz, és készítsd elő "
+"a biztonsági mentés jelszavát."
 
 #: ../../admin/backup.rst:179
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
-"Listázd az összes mentést a szerveren a ``borg list REPOSITORY`` parancs "
-"használatával."
+"Listázd ki az összes mentést a szerveren a ``borg list REPOSITORY`` "
+"paranccsal."
 
 #: ../../admin/backup.rst:181
 msgid ""
@@ -6234,23 +6242,23 @@ msgid ""
 "REPOSITORY::ARCHIVE``."
 msgstr ""
 "Állítsd vissza a kívánt mentést az aktuális könyvtárba a ``borg extract "
-"REPOSITORY::ARCHIVE`` parancs segítségével."
+"REPOSITORY::ARCHIVE`` paranccsal."
 
 #: ../../admin/backup.rst:183
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
-"Állítsd vissza az adatbázist az SQL dömpingből, amely a ``backup`` "
-"könyvtárban található a Weblate adatkönyvtárában (lásd: :ref:`backup-dumps`)."
+"Állítsd vissza az adatbázist az SQL-dumpból, amely a Weblate adatkönyvtárán "
+"belüli ``backup`` könyvtárban található (lásd: :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:185
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"Másold a Weblate konfigurációt (:file:`backups/settings.py`, lásd: :ref:"
-"`backup-dumps`) a megfelelő helyre, lásd: :ref:`configuration`."
+"Másold vissza a Weblate konfigurációs fájlját (:file:`backups/settings.py`, "
+"lásd: :ref:`backup-dumps`) a megfelelő helyre, lásd: :ref:`configuration`."
 
 #: ../../admin/backup.rst:188
 msgid ""
@@ -6259,38 +6267,38 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
-"Ha Docker konténert használsz, a beállítások fájl már benne van a "
-"konténerben, és vissza kell állítanod az eredeti környezeti változókat. "
-"Ehhez segítséget nyújthat a :file:`environment.yml` fájl (lásd: :ref:`backup-"
-"dumps`)."
+"Ha Docker konténeren belül használod a Weblate-et, akkor a beállítási fájl "
+"már eleve benne van a konténerben, és az eredeti környezeti változókat kell "
+"visszaállítani. Ehhez a :file:`environment.yml` fájl is segítségedre lehet "
+"(lásd: :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:192
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
-"Másold az egész visszaállított adatkönyvtárat a :setting:`DATA_DIR` által "
-"beállított helyre."
+"Másold át a teljes visszaállított adatkönyvtárat a :setting:`DATA_DIR` által "
+"megadott helyre."
 
 #: ../../admin/backup.rst:195
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
-"Ha Docker konténert használsz, helyezd az adatokat az adat kötetbe, lásd: :"
-"ref:`docker-volume`."
+"Ha Docker konténert használsz, az adatokat a megfelelő kötetbe kell "
+"helyezned, lásd: :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:198
 msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
-"Kérlek, győződj meg róla, hogy a fájlok tulajdonjoga és jogosultságai "
-"helyesen vannak beállítva, lásd: :ref:`file-permissions`."
+"Ügyelj rá, hogy a fájlok tulajdonjoga és jogosultságai helyesek legyenek, "
+"lásd: :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:200
 msgid "The Borg session might look like this:"
-msgstr "A Borg munkamenet valahogy így nézhet ki:"
+msgstr "A Borg-munkamenet például így nézhet ki:"
 
 #: ../../admin/backup.rst:212
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
@@ -6305,8 +6313,8 @@ msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
-"Attól függően, hogy mit szeretnél menteni, készíts biztonsági mentést "
-"azokról az adattípusokról, amelyeket a Weblate az egyes helyeken tárol."
+"Attól függően, hogy mit szeretnél elmenteni, készíts biztonsági másolatot "
+"arról az adattípusról, amit a Weblate az adott helyeken tárol."
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -6315,11 +6323,11 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
-"Ha manuálisan készítesz biztonsági mentéseket, érdemes lehet elnémítani a "
-"Weblate figyelmeztetését a mentések hiányáról azzal, hogy hozzáadod a "
-"``weblate.I028``-t a :setting:`django:SILENCED_SYSTEM_CHECKS`-hez a :file:"
-"`settings.py`-ban vagy a :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS`-hez Docker "
-"esetében."
+"Ha kézzel végzed a biztonsági mentést, érdemes lehet letiltani a Weblate "
+"figyelmeztetését a hiányzó mentésekről azzal, hogy a ``weblate.I028`` kódot "
+"hozzáadod a :setting:`django:SILENCED_SYSTEM_CHECKS` beállításhoz a "
+":file:`settings.py` fájlban vagy Docker használata esetén a "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` környezeti változóban."
 
 #: ../../admin/backup.rst:236 ../../admin/install.rst:142
 msgid "Database"
@@ -6334,8 +6342,8 @@ msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
-"Az adatbázis a legfontosabb tároló. Állíts be rendszeres adatbázis-"
-"mentéseket. Adatbázis nélkül minden fordítás elveszik."
+"Az adatbázis a legfontosabb tároló. Állíts be rendszeres adatbázis-mentést, "
+"mert az adatbázis nélkül az összes fordítás elveszik."
 
 #: ../../admin/backup.rst:246
 msgid "Native database backup"
@@ -6348,10 +6356,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"Az ajánlott megközelítés az, hogy ments el egy adatbázis-dumpot adatbázis-"
-"specifikus eszközökkel, mint például a :program:`pg_dump` vagy a :program:"
-"`mysqldump`. Ez általában jobban teljesít, mint a Django mentés, és az "
-"összes adatukkal együtt állítja vissza a teljes táblákat."
+"Az ajánlott módszer az, hogy adatbázis-specifikus eszközökkel készítesz "
+"mentést, például :program:`pg_dump` vagy :program:`mysqldump` segítségével. "
+"Ez általában jobb teljesítményt nyújt, mint a Django biztonsági mentés, és a "
+"táblákat teljes adatmennyiségükkel együtt állítja vissza."
 
 #: ../../admin/backup.rst:252
 msgid ""
@@ -6359,10 +6367,10 @@ msgid ""
 "the necessary migrations when running in :wladmin:`migrate`. Please consult :"
 "doc:`upgrade` on more detailed info on how to upgrade between versions."
 msgstr ""
-"Ezt a biztonsági mentést visszaállíthatod egy újabb Weblate kiadásban, amely "
-"elvégzi az összes szükséges migrációt, amikor a :wladmin:`migrate` fut. "
-"Kérlek, nézd meg a :doc:`upgrade` részt a verziók közötti frissítés "
-"részletesebb információiért."
+"Ezeket a mentéseket újabb Weblate verziókban is vissza tudod állítani, "
+"ilyenkor a szükséges adatbázis-migrációk automatikusan lefutnak a "
+":wladmin:`migrate` parancs futtatásakor. Részletesebb információt az új "
+"verziókra való frissítésről itt találsz: :doc:`upgrade`."
 
 #: ../../admin/backup.rst:257
 msgid "Django database backup"
@@ -6374,10 +6382,9 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
-"Alternatívaként készíthetsz biztonsági mentést az adatbázisodról a Django :"
-"djadmin:`django:dumpdata` parancsával. Így a mentés adatbázis-független "
-"lesz, és használható abban az esetben, ha meg akarod változtatni az "
-"adatbázis háttérét."
+"Alternatívaként használhatod a Django saját :djadmin:`django:dumpdata` "
+"parancsát az adatbázis mentésére. Így a mentés adatbázis-független lesz, ami "
+"akkor lehet hasznos, ha később adatbázis-motort szeretnél váltani."
 
 #: ../../admin/backup.rst:263
 msgid ""
@@ -6387,11 +6394,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
-"A database visszaállítása előtt pontosan ugyanazt a Weblate verziót kell "
-"futtatnod, amelyen a biztonsági mentés készült. Ez azért szükséges, mert az "
-"adatbázis szerkezete változik a kiadások között, és valamilyen módon "
-"megsérülhetnek az adatok. Miután telepítetted ugyanazt a verziót, futtasd le "
-"az összes adatbázis-migrációt a :wladmin:`migrate` használatával."
+"Fontos: az adatbázis visszaállítása előtt ugyanazt a Weblate verziót kell "
+"futtatnod, mint amelyiken a mentés készült. Erre azért van szükség, mert az "
+"adatbázis-struktúra változhat a verziók között, és különben sérülhet az "
+"adat. Miután telepítetted a megfelelő verziót, futtasd az összes adatbázis-"
+"migrációt a :wladmin:`migrate` parancs segítségével."
 
 #: ../../admin/backup.rst:269
 msgid ""
@@ -6400,10 +6407,10 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"Ezt követően néhány bejegyzés már létre lesz hozva az adatbázisban, és ezek "
-"benne lesznek az adatbázis mentésében is. Az ajánlott módszer az, hogy "
-"ezeket a bejegyzéseket manuálisan töröld a kezelési shell használatával "
-"(lásd: :ref:`invoke-manage`):"
+"Ezt követően néhány bejegyzés már létrejön az adatbázisban, és ezek a "
+"mentésben is szerepelhetnek. A javasolt megközelítés, hogy az ilyen "
+"bejegyzéseket manuálisan törlöd a kezelőfelület parancssorából (shell) "
+"keresztül (lásd: :ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:280
 msgid "Files"
@@ -6416,26 +6423,27 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
-"Ha elegendő tárhelyed van a biztonsági mentéshez, egyszerűen készíts mentést "
-"a teljes :setting:`DATA_DIR`-ről. Ez biztos megoldás, még akkor is, ha "
-"tartalmaz néhány olyan fájlt, amit nem szeretnél. A következő szakaszok "
-"részletesen leírják, hogy mit kell mentened és mit hagyhatsz ki."
+"Ha elegendő hely áll rendelkezésedre, egyszerűen mentsd le az egész "
+":setting:`DATA_DIR` könyvtárat. Ez biztonságos megoldás még akkor is, ha "
+"néhány olyan fájlt is tartalmaz, amit egyébként nem feltétlenül szeretnél "
+"menteni. A következő szakaszok részletesen bemutatják, hogy pontosan mit "
+"érdemes menteni és mit lehet kihagyni."
 
 #: ../../admin/backup.rst:290
 msgid "Dumped data for backups"
-msgstr "Biztonsági mentésekhez kidumpolt adatok"
+msgstr "Mentéshez kiírt (dump) adatok"
 
 #: ../../admin/backup.rst:294
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
-"A környezeti mentés :file:`environment.yml` néven lett hozzáadva, hogy "
-"segítsen a Docker környezetek visszaállításában."
+"A környezeti dump fájl :file:`environment.yml` néven lett hozzáadva, hogy "
+"segítsen a visszaállításban Docker környezetekben."
 
 #: ../../admin/backup.rst:297
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr "A :setting:`DATA_DIR` ``/backups`` könyvtárban tárolva."
+msgstr "Tárolási helye: :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:299
 msgid ""
@@ -6443,42 +6451,42 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
-"A Weblate különféle adatokat dumpol ide, és ezeket a fájlokat beillesztheted "
-"a teljesebb biztonsági mentésekhez. A fájlok naponta frissülnek (ehhez futó "
-"Celery beats szerver szükséges, lásd: :ref:`celery`). Jelenleg ez magában "
-"foglalja:"
+"A Weblate itt különféle adatokat ment, és ezeknek a fájloknak a bevonásával "
+"teljesebb biztonsági mentést készíthetsz. A fájlok naponta frissülnek (ehhez "
+"futó Celery beats szerver szükséges, lásd: :ref:`celery`). Jelenleg a "
+"következőket tartalmazza:"
 
 #: ../../admin/backup.rst:303
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
-"Weblate beállításai mint :file:`settings.py` (van egy kibővített változat is "
-"a :file:`settings-expanded.py` fájlban)."
+"Weblate beállítások :file:`settings.py` formátumban (illetve kibővített "
+"verzióban :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:304
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr "PostgreSQL adatbázis biztonsági mentése mint :file:`database.sql`."
+msgstr "PostgreSQL adatbázis-mentés :file:`database.sql` formátumban."
 
 #: ../../admin/backup.rst:305
 msgid "Environment dump as :file:`environment.yml`."
-msgstr "Környezeti mentés :file:`environment.yml` néven."
+msgstr "Környezeti dump :file:`environment.yml` fájlként."
 
 #: ../../admin/backup.rst:307
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Az adatbázis mentések alapértelmezés szerint egyszerű szövegként kerülnek "
-"mentésre, de tömöríthetők is vagy teljesen kihagyhatók a :setting:"
-"`DATABASE_BACKUP` használatával."
+"Az adatbázis mentések alapértelmezés szerint egyszerű szöveges fájlként "
+"kerülnek mentésre, de tömörítve is elmenthetők vagy akár teljesen ki is "
+"hagyhatók a :setting:`DATABASE_BACKUP` beállítással."
 
 #: ../../admin/backup.rst:310
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
-"Az adatbázis mentésének visszaállításához töltsd be adatbázis eszközökkel, "
-"például:"
+"Az adatbázis mentés visszaállításához töltsd be azt az adatbáziskezelő "
+"eszközökkel, például így:"
 
 #: ../../admin/backup.rst:317
 msgid "Version control repositories"
@@ -6486,7 +6494,7 @@ msgstr "Verziókezelő tárolók"
 
 #: ../../admin/backup.rst:319
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr "A :setting:`DATA_DIR` ``/vcs`` könyvtárban tárolva."
+msgstr "Tárolási hely: :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:321
 msgid ""
@@ -6497,22 +6505,23 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location with no "
 "data loss."
 msgstr ""
-"A verziókezelő tárolók tartalmazzák az upstream tárolóid másolatát a Weblate "
-"változtatásokkal. Ha minden fordítási összetevőhöz be van kapcsolva a :ref:"
-"`component-push_on_commit`, akkor minden Weblate változtatás bekerül az "
-"upstreambe. Nincs szükség a tárolók mentésére a Weblate oldalán, mivel "
-"azokat újra lehet klónozni az upstream helyről adatvesztés nélkül."
+"A verziókezelő tárolók tartalmazzák a forrás tárolóid másolatát a Weblate "
+"módosításaival együtt. Ha minden fordítási összetevődnél engedélyezve van a "
+":ref:`component-push_on_commit`, akkor minden Weblate módosítás visszakerül "
+"a forrás tárolóba is. Ebben az esetben nincs szükség külön mentésre a "
+"Weblate oldalán, mivel a forrásból újraklónozhatók az adatok adatvesztés "
+"nélkül."
 
 #: ../../admin/backup.rst:328
 msgid "SSH and GPG keys"
-msgstr "SSH és GPG kulcsok"
+msgstr "SSH- és GPG-kulcsok"
 
 #: ../../admin/backup.rst:330
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
-"A :setting:`DATA_DIR` ``/ssh`` és a :setting:`DATA_DIR` ``/home`` "
-"könyvtárban tárolva."
+"Tárolási helyek: :setting:`DATA_DIR` ``/ssh`` és :setting:`DATA_DIR` "
+"``/home``."
 
 #: ../../admin/backup.rst:332
 msgid ""
@@ -6520,9 +6529,9 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
-"Ha a Weblate által generált SSH vagy GPG kulcsokat használod, érdemes ezeket "
-"a helyeket lementeni. Ellenkező esetben elveszíted a privát kulcsokat, és "
-"újakat kell generálnod."
+"Ha a Weblate által generált SSH- vagy GPG-kulcsokat használod, ezeket a "
+"helyeket mindenképp mentsd le. Ellenkező esetben elveszíted a privát "
+"kulcsokat, és újakat kell majd létrehoznod."
 
 #: ../../admin/backup.rst:337
 msgid "User uploaded files"
@@ -6530,13 +6539,13 @@ msgstr "Felhasználók által feltöltött fájlok"
 
 #: ../../admin/backup.rst:339
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr "A :setting:`DATA_DIR` ``/media`` könyvtárban tárolva."
+msgstr "Tárolási hely: :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:341
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Mentsd le az összes felhasználó által feltöltött fájlt (pl. :ref:"
-"`screenshots`)."
+"Mentsd le az összes felhasználói feltöltött fájlt (például "
+":ref:`screenshots`)."
 
 #: ../../admin/backup.rst:344
 msgid "Celery tasks"
@@ -6549,11 +6558,11 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
-"A Celery feladatkiszolgáló tartalmazhat némi információt, de általában nincs "
-"szükség rá a biztonsági mentéshez. Legfeljebb azokat a frissítéseket "
-"veszíted el, amelyek még nem kerültek feldolgozásra a fordítási memóriába. "
-"Ajánlott a teljes szöveg vagy a tároló frissítését elvégezni a "
-"visszaállításkor, így ezek elvesztése nem jelent problémát."
+"A Celery várólistában lehetnek adatok, de általában ezek nem szükségesek a "
+"biztonsági mentéshez. Legfeljebb néhány, még nem feldolgozott frissítés "
+"veszik el a fordítási memóriában. Mindenképp ajánlott teljes szövegkeresési "
+"vagy tárolófrissítést végezni visszaállítás után, így ez nem jelent "
+"problémát."
 
 #: ../../admin/backup.rst:353
 msgid ":ref:`celery`"
@@ -6561,24 +6570,24 @@ msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:356
 msgid "Command-line for manual backup"
-msgstr "Parancssor kézi biztonsági mentéshez"
+msgstr "Parancssori mentés készítése kézzel"
 
 #: ../../admin/backup.rst:358
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
-"Egy cron feladat használatával beállíthatsz egy Bash parancsot, amelyet "
-"naponta hajt végre, például:"
+"Egy cron feladattal beállíthatsz egy Bash parancsot, amely naponta lefut, "
+"például így:"
 
 #: ../../admin/backup.rst:364
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
-"A mappák és fájlok listáját az igényeidhez igazíthatod. Ha el szeretnéd "
-"kerülni a fordítási memória mentését (a mentések mappájában), használhatod a "
-"következőt:"
+"A könyvtárak és fájlok listáját igény szerint módosíthatod. Ha szeretnéd "
+"kihagyni a fordítási memória mentését (a backups könyvtárban), használhatod "
+"az alábbi megoldást:"
 
 #: ../../admin/backup.rst:371
 msgid "Restoring manual backup"
@@ -6586,23 +6595,24 @@ msgstr "Kézi biztonsági mentés visszaállítása"
 
 #: ../../admin/backup.rst:373
 msgid "Restore all data you have backed up."
-msgstr "Állítsd vissza az összes adatot, amit biztonsági mentettél."
+msgstr "Állítsd vissza az összes adatot, amit elmentettél."
 
 #: ../../admin/backup.rst:375
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "Frissítsd az összes tárolót a :wladmin:`updategit` használatával."
+msgstr ""
+"Frissítsd az összes tárolót a :wladmin:`updategit` parancs segítségével."
 
 #: ../../admin/backup.rst:382
 msgid "Moving a Weblate installation"
-msgstr "Egy Weblate telepítés áthelyezése"
+msgstr "Weblate telepítés áthelyezése"
 
 #: ../../admin/backup.rst:384
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
-"Helyezd át a telepítésedet egy másik rendszerre a fent említett biztonsági "
-"mentési és visszaállítási útmutatásokat követve."
+"A telepítés áthelyezése egy másik rendszerre a fenti biztonsági mentési és "
+"visszaállítási lépések követésével történik."
 
 #: ../../admin/backup.rst:389
 msgid ""
@@ -6610,7 +6620,7 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
-"`Frissítés Python 2-ről Python 3-ra a Weblate 3.11.1 dokumentációban "
+"`Frissítés Python 2-ről Python 3-ra a Weblate 3.11.1 dokumentációjában "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 
@@ -6627,37 +6637,38 @@ msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
-"A saját automatikus javításaidat is megvalósíthatod a standardok mellett, és "
-"ezeket belefoglalhatod a :setting:`AUTOFIX_LIST` beállításba."
+"A Weblate szabványos automatikus javításai mellett saját automatikus "
+"javításokat is implementálhatsz, és hozzáadhatod őket a "
+":setting:`AUTOFIX_LIST` beállításhoz."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage; be careful when "
 "writing one."
 msgstr ""
-"Az automatikus javítások hatékonyak, de kárt is okozhatnak; légy óvatos, "
-"amikor ilyet írsz."
+"Az automatikus javítások hatékonyak, de károkat is okozhatnak, ezért írásuk "
+"során körültekintőnek kell lenni."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
-"Például a következő automatikus javítás minden előfordulását a ``foo`` "
-"karakterláncnak egy fordításban ``bar``-ra cserélné:"
+"Például az alábbi automatikus javítás minden fordításban kicseréli a ``foo`` "
+"szöveget ``bar`` szövegre:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Egyéni ellenőrzések telepítéséhez adj meg egy teljesen minősített elérési "
-"utat a Python osztályhoz a :setting:`AUTOFIX_LIST` beállításban, lásd: :ref:"
-"`custom-check-modules`."
+"Egyedi ellenőrzések telepítéséhez a Python osztály teljes elérési útját kell "
+"megadni a :setting:`AUTOFIX_LIST` beállításban, lásd: :ref:`custom-check-"
+"modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr "Viselkedés testreszabása zászlók segítségével"
+msgstr "Viselkedés testreszabása jelzők használatával"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -6665,21 +6676,21 @@ msgid ""
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
 msgstr ""
-"Az Weblate viselkedését zászlók használatával finomhangolhatod. A zászlók "
-"vizuális visszajelzést adnak a fordítóknak, és segítenek javítani a "
-"fordításukat. A zászlók az alábbi forrásokból kerülnek összevonásra:"
+"A Weblate működését finomhangolhatod jelzők használatával. A jelzők vizuális "
+"visszajelzést adnak a fordítóknak, és segítenek a fordítások javításában. A "
+"jelzők a következő forrásokból származnak:"
 
 #: ../../admin/checks.rst:33
 msgid "Source string additional flags:"
-msgstr "Forrás szöveg – további jelzők:"
+msgstr "Forrásszöveghez tartozó további jelzők:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ":ref:`additional`, ami részletezi a kézi szerkesztést."
+msgstr ":ref:`additional` a kézi szerkesztéshez."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr "A :ref:`bulk-edit` használható a jelzők tömeges alkalmazására."
+msgstr "Tömeges alkalmazásra: lásd: :ref:`bulk-edit`."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
@@ -22951,7 +22962,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:206
 msgid "Enforced two-factor authentication"
-msgstr "Kényszerített kétfaktoros hitelesítés"
+msgstr "Kényszerített kétlépcsős hitelesítés"
 
 #: ../../admin/projects.rst:210
 msgid ""
