@@ -56,7 +56,7 @@ jobs:
       run: |
         uv venv --python python3.13 .venv
         source .venv/bin/activate
-        uv sync --no-sources --frozen --all-extras --dev
+        uv sync --no-sources --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
     - name: Test with Django
       run: |
         # shellcheck disable=SC2155
