@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-19 07:04+0000\n"
+"Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -453,10 +453,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Účet bol uzamknutý kvôli príliš mnohým chybným prihláseniam."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Správa nemohla byť odoslaná administrátorovi."
+msgstr "Účet bol uzamknutý správcom webu."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1084,10 +1082,8 @@ msgid "Could not send message to administrator."
 msgstr "Správa nemohla byť odoslaná administrátorovi."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Bolo odoslaných príliš veľa správ, skúste to prosím neskôr."
+msgstr "Nepodarilo sa otvoriť ticket, skúste to prosím neskôr."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1812,20 +1808,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Povolenie zoradenia kľúčov podľa veľkosti písmen"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Zmena licencie"
+msgstr "Zmeniť udalosti"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL webovej stránky"
+msgstr "Adresa webhooku"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Tajný kľúč"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1995,13 +1987,12 @@ msgstr "Doplnok nainštalovaný, prečítajte si prosím pokyny na integráciu."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Odoslanie oznámenia prihláseným používateľom."
+msgstr ""
+"Pošle oznámenie na externú službu v závislosti na vybraných udalostiach."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2072,7 +2063,7 @@ msgstr "Nepodarilo sa získať uzamknutie na vykonanie operácie."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Zadané ID jednotky nie je jednotka zdroja prekladov."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3200,10 +3191,8 @@ msgid "Double space"
 msgstr "Dvojitá medzera"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Preklad obsahuje dvojitú medzeru"
+msgstr "Preklad obsahuje dvojitú medzeru."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
