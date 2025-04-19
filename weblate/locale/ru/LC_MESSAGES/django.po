@@ -17,7 +17,7 @@
 # Michael Rusakov <mrusakov@gmail.com>, 2024.
 # Алексей Колчанов <lilkong6@gmail.com>, 2024.
 # Artemka <anonymous58630@gmail.com>, 2024.
-# Сергей <asvmail.as@gmail.com>, 2024.
+# Сергей <asvmail.as@gmail.com>, 2024, 2025.
 # Vin <k3kelm4vw@mozmail.com>, 2024, 2025.
 # Andrey <andrey@mailbox.org>, 2024.
 # Victor K <ktrace@yandex.ru>, 2024.
@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-19 02:24+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -483,10 +483,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Учётная запись заблокирована из-за множества неудачных попыток входа."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Не удалось отправить сообщение администратору."
+msgstr "Аккаунт заблокирован администратором сайта."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1038,14 +1036,12 @@ msgstr[2] ""
 "символов."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Ваш пароль должен содержать не более %(min_length)d символа."
-msgstr[1] "Ваш пароль должен содержать не более %(min_length)d символов."
-msgstr[2] "Ваш пароль должен содержать не более %(min_length)d символов."
+msgstr[0] "Ваш пароль должен содержать не более %(max_length)d символа."
+msgstr[1] "Ваш пароль должен содержать не более %(max_length)d символов."
+msgstr[2] "Ваш пароль должен содержать не более %(max_length)d символов."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -2122,7 +2118,7 @@ msgstr "Не удалось получить блокировку для вып�
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Указанный идентификатор блока не является исходным блоком перевода."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3195,10 +3191,8 @@ msgid "AngularJS interpolation string"
 msgstr "Интерполяционная строка AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Интерполяционные строки AngularJS не соответствуют источнику"
+msgstr "Интерполяционные строки AngularJS не соответствуют источнику."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3217,201 +3211,162 @@ msgid "Starting newline"
 msgstr "Пустая строка в начале"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Источник и перевод не начинаются оба с новой строки"
+msgstr "Источник и перевод не начинаются оба с новой строки."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Пустая строка в конце"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Источник и перевод не заканчиваются оба новой строкой"
+msgstr "Источник и перевод не заканчиваются оба новой строкой."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Пробелы в начале"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "Источник и перевод не начинаются оба одинаковым числом пробелов"
+msgstr "Источник и перевод не начинаются оба одинаковым числом пробелов."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Пробелы в конце"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Источник и перевод не заканчиваются оба пробелом"
+msgstr "Источник и перевод не заканчиваются оба пробелом."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Двойной пробел"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Перевод содержит двойной пробел"
+msgstr "Перевод содержит двойной пробел."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Несовпадающие точки"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Источник и перевод не заканчиваются оба точкой"
+msgstr "Источник и перевод не заканчиваются оба точкой."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Несовпадающие двоеточия"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Источник и перевод не заканчиваются оба двоеточием"
+msgstr "Источник и перевод не заканчиваются оба двоеточием."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Несовпадающие вопросительные знаки"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Источник и перевод не заканчиваются оба вопросительным знаком"
+msgstr "Источник и перевод не заканчиваются оба вопросительным знаком."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Несовпадающие восклицательные знаки"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Источник и перевод не заканчиваются оба восклицательным знаком"
+msgstr "Источник и перевод не заканчиваются оба восклицательным знаком."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Несовпадающий интерробанг"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Источник и перевод не заканчиваются знаком интерробанга"
+msgstr "Источник и перевод не заканчиваются знаком интерробанга."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Несовпадающие многоточия"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Источник и перевод не заканчиваются оба многоточием"
+msgstr "Источник и перевод не заканчиваются оба многоточием."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Несовпадающие \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "Число литералов \\n в переводе не соответствует источнику"
+msgstr ""
+"Число литералов \\n"
+" в переводе не соответствует источнику."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Несовпадающие переводы строк"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Количество символов новой строки в переводе не соответствует источнику"
+msgstr "Количество символов новой строки в переводе не соответствует источнику."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Пробел нулевой ширины"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "Перевод содержит лишние символы пробела нулевой ширины"
+msgstr "Перевод содержит лишние символы пробела нулевой ширины."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Максимальная длина перевода"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "Перевод не должен превышать заданную длину"
+msgstr "Перевод не должен превышать заданную длину."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Несовпадающие точки с запятой"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Источник и перевод не заканчиваются оба точкой с запятой"
+msgstr "Источник и перевод не заканчиваются оба точкой с запятой."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Используется кашида"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Декоративные буквы кашиды не должны использоваться"
+msgstr "Декоративные буквы кашиды не должны использоваться."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Пробелы и пунктуация"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "Отсутствует неразрывный пробел перед знаком двойной пунктуации"
+msgstr "Отсутствует неразрывный пробел перед двойным знаком пунктуации."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Нет форм множественного числа"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Некоторые формы множественного числа не переведены"
+msgstr "Некоторые формы множественного числа не переведены."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Одинаковые формы множественного числа"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "Некоторые формы множественного числа переведены одинаково"
+msgstr "Некоторые формы множественного числа переведены одинаково."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3451,10 +3406,8 @@ msgid "Has been translated"
 msgstr "уже переведено"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "Эта строка уже переводилась"
+msgstr "Эта строка уже переводилась."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3466,10 +3419,8 @@ msgid "Consecutive duplicated words"
 msgstr "Повторяющиеся слова"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "Одно и то же слово повторяется в тексте дважды подряд"
+msgstr "Одно и то же слово повторяется в тексте дважды подряд."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3731,10 +3682,8 @@ msgid "Fluent source inner HTML"
 msgstr "Исходный внутренний HTML Fluent"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Исходный код Fluent должен быть допустимым внутренним HTML"
+msgstr "Исходный код Fluent должен быть допустимым внутренним HTML."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3797,12 +3746,10 @@ msgid "Fluent translation inner HTML"
 msgstr "Внутренний HTML Fluent перевода"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
 msgstr ""
 "Цель Fluent должна быть допустимой внутренним HTML-кодом, который "
-"соответствует"
+"соответствует."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3827,10 +3774,8 @@ msgid "Fluent parts"
 msgstr "Части Fluent"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Части Fluent должны соответствовать"
+msgstr "Части Fluent должны соответствовать."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3959,10 +3904,8 @@ msgid "Fluent references"
 msgstr "Ссылки Fluent"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "Ссылки Fluent должны соответствовать"
+msgstr "Ссылки Fluent должны соответствовать."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3974,20 +3917,16 @@ msgid "Fluent source syntax"
 msgstr "Синтаксис исходного кода Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Синтаксическая ошибка в исходном коде Fluent"
+msgstr "Синтаксическая ошибка в исходном коде Fluent."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Синтаксис перевода Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Синтаксическая ошибка при переводе Fluent"
+msgstr "Синтаксическая ошибка при переводе Fluent."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3999,100 +3938,80 @@ msgid "Python format"
 msgstr "Python-формат"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "Строка в формате Python не соответствует источнику"
+msgstr "Строка в формате Python не соответствует источнику."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "PHP- формат"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "Строка в формате PHP не соответствует источнику"
+msgstr "Строка в формате PHP не соответствует источнику."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "C-формат"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "Строка в формате C не соответствует источнику"
+msgstr "Строка в формате C не соответствует источнику."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "Формат скобок Perl"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "Формат скобок Perl не соответствует источнику"
+msgstr "Формат скобок Perl не соответствует источнику."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "Perl-формат"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "Строка в формате Perl’а не соответствует источнику"
+msgstr "Строка в формате Perl’а не соответствует источнику."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "JavaScript-формат"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "Строка в формате JavaScript не соответствует источнику"
+msgstr "Строка в формате JavaScript не соответствует источнику."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "Lua-формат"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "Строка в формате Lua не соответствует источнику"
+msgstr "Строка в формате Lua не соответствует источнику."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "Формат Object Pascal"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Строка в формате Object Pascal не соответствует источнику"
+msgstr "Строка в формате Object Pascal не соответствует источнику."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "Формат схемы"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "Строка формата схемы не соответствует источнику"
+msgstr "Строка формата схемы не соответствует источнику."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "Python-формат: фигурные скобки"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "Форматирование фигурных скобок в Python не соответствует источнику"
+msgstr "Форматирование фигурных скобок в Python не соответствует источнику."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4103,30 +4022,24 @@ msgid "C# format"
 msgstr "C#-формат"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "Строка в формате C# не соответствует источнику"
+msgstr "Строка в формате C# не соответствует источнику."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "Java-формат"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "Строка в формате Java не соответствует источнику"
+msgstr "Строка в формате Java не соответствует источнику."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "Строка в формате Java MessageFormat не соответствует источнику"
+msgstr "Строка в формате Java MessageFormat не соответствует источнику."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4137,52 +4050,40 @@ msgid "i18next interpolation"
 msgstr "Интерполяция i18next"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "Интерполяция i18next не соответствует источнику"
+msgstr "Интерполяция i18next не соответствует источнику."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "Шаблонные литералы ECMAScript"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "Шаблонные литералы ECMAScript не соответствует источнику"
+msgstr "Шаблонные литералы ECMAScript не соответствует источнику."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "Символы-заполнители в процентной нотации"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "Символы-заполнители в процентной нотации не соответствуют источнику"
+msgstr "Символы-заполнители в процентной нотации не соответствуют источнику."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Форматирование Vue I18n"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Форматирование Vue I18n не соответствует источнику"
+msgstr "Форматирование Vue I18n не соответствует источнику."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic Components"
-msgstr "Автоматические назначения"
+msgstr "Автоматические компоненты"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Символы-заполнители в процентной нотации не соответствуют источнику"
+msgstr "Заполнители компонентов Automattic не отвечают источнику."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
@@ -4213,10 +4114,8 @@ msgid "Prohibited initial character"
 msgstr "Запрещённый начальный символ"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "Строка начинается с запрещённого символа в CSV"
+msgstr "Строка начинается с запрещённого символа в CSV."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4311,30 +4210,24 @@ msgid "BBCode markup"
 msgstr "BBCode-разметка"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode в переводе не соответствует источнику"
+msgstr "BBCode в переводе не соответствует источнику."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "Синтаксис XML"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "Перевод не является корректным XML"
+msgstr "Перевод не является корректным XML."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "XML-разметка"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "XML-теги в переводе не соответствуют источнику"
+msgstr "XML-теги в переводе не соответствуют источнику."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
@@ -4357,26 +4250,20 @@ msgid "Markdown syntax"
 msgstr "Синтаксис Markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Синтаксис Markdown-разметки не соответствует источнику"
+msgstr "Синтаксис Markdown-разметки не соответствует источнику."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "Перевод не содержит URL"
+msgstr "Перевод не содержит URL."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Небезопасный HTML-код"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "Перевод использует небезопасную HTML-разметку"
+msgstr "Перевод использует небезопасную HTML-разметку."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4409,20 +4296,16 @@ msgid "Placeholders"
 msgstr "Символы-заполнители"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "В переводе пропущены некоторые символы-заполнители"
+msgstr "В переводе пропущены некоторые символы-заполнители."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "Регулярное выражение"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "Перевод не соответствует регулярному выражению"
+msgstr "Перевод не соответствует регулярному выражению."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4433,30 +4316,24 @@ msgid "Qt format"
 msgstr "Qt-формат"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "Строка в формате Qt не соответствует источнику"
+msgstr "Строка в формате Qt не соответствует источнику."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Формат множественного числа Qt"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "Строка в формате множественного числа Qt не соответствует источнику"
+msgstr "Строка в формате множественного числа Qt не соответствует источнику."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "Максимальный размер перевода"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "Отрисованный текст перевода не должен превышать заданный размер"
+msgstr "Отрисованный текст перевода не должен превышать заданный размер."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4469,54 +4346,43 @@ msgid "Ruby format"
 msgstr "Ruby-формат"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "Строка формата Ruby не соответствует источнику"
+msgstr "Строка формата Ruby не соответствует источнику."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Перевод без изменения"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Источник и перевод тождественны"
+msgstr "Источник и перевод тождественны."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "Формы единственного числа"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
 msgstr ""
 "Строка содержит множественное число, но не использует формы множественного "
-"числа"
+"числа."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "Многоточие"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
 msgstr ""
-"В этой строке используются три точки (...) вместо символа многоточия (…)"
+"В этой строке используются три точки (...) вместо символа многоточия (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "Множество неудачных проверок"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "Переводы на несколько языков имеют неудачные проверки"
+msgstr "Переводы на несколько языков имеют неудачные проверки."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4527,10 +4393,8 @@ msgid "Long untranslated"
 msgstr "Давно не переводилась"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "Строка давно не переводилась"
+msgstr "Строка давно не переводилась."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -5388,11 +5252,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Не удалось получить перевод: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Текст на исходном языке"
+msgstr "Выбор исходного языка"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5721,26 +5583,19 @@ msgid "The model's unique deployment name."
 msgstr "Уникальное имя развёртывания модели."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Автоматический выбор"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Переименован элемент"
+msgstr "Исходный язык компонента"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Новый язык добавлен в %(component)s"
+msgstr "Дополнительный язык, определенный в проекте или компоненте"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7287,16 +7142,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Отключить двухфакторную авторизацию"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Включите авторизацию по паролю для защиты своей учётной записи."
+msgstr "Выключение аутентификации пользователя паролем."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Новый пароль"
+msgstr "Отключить пароль"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9830,6 +9681,8 @@ msgstr "Компонент %(component)s был разблокирован"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Примечание: эта сводка была сокращена, поскольку получено более 100 "
+"уведомлений."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -12113,11 +11966,6 @@ msgstr ""
 "проверьте, доступен ли он для Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
@@ -13865,17 +13713,13 @@ msgstr "Распространённое изменение"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Режим загрузки файла"
+msgstr "Файл загружен"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Обновлено"
+msgstr "Обновлены дополнительные флаги"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14325,20 +14169,16 @@ msgid "Report period"
 msgstr "Период отчёта"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Сортировать по"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Нет строк для перевода"
+msgstr "Перевод строк"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Порядок сортировки"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -14906,10 +14746,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "В %(time)s %(action)s на %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Режим загрузки файла"
+msgstr "Режим загрузки файла:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15406,26 +15244,20 @@ msgstr ""
 "только для одноязычных форматов."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Вспомогательные языки"
+msgstr "Вторичный язык"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "Вторичные языки отображаются после строки-исходника при переводе."
+msgstr ""
+"Дополнительный язык, который будет отображаться вместе с языком оригинала "
+"при переводе."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Строки не были импортированы из загруженного файла."
+msgstr "Если оставить этот параметр пустым, он будет унаследован из проекта."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15869,20 +15701,19 @@ msgstr "Не удалось разобрать файл %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "«{}»"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Не удалось найти объединённые строки."
-msgstr[1] "Не удалось найти объединённые строки."
-msgstr[2] "Не удалось найти объединённые строки."
+msgstr[0] "Не удалось найти %d строку:"
+msgstr[1] "Не удалось найти %d строки:"
+msgstr[2] "Не удалось найти %d строк:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15927,13 +15758,12 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Строка не может быть добавлена в %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "Строка не может быть добавлена в %(component)s: %(reason)s"
-msgstr[1] "Строка не может быть добавлена в %(component)s: %(reason)s"
-msgstr[2] "Строка не может быть добавлена в %(component)s: %(reason)s"
+msgstr[0] "Строка не может быть добавлена в %d компонент."
+msgstr[1] "Строка не может быть добавлена в %d компонента."
+msgstr[2] "Строка не может быть добавлена в %d компонентов."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16833,19 +16663,15 @@ msgid "Horizontal language bar chart"
 msgstr "Горизонтальная гистограмма по языкам"
 
 #: weblate/trans/widgets.py:527
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Код языка"
+msgstr "Значок количества языков"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Языки"
-msgstr[1] "Языки"
-msgstr[2] "Языки"
+msgstr[0] "Язык"
+msgstr[1] "Языка"
+msgstr[2] "Языков"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -17098,10 +16924,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Недействительный адрес эл. почты: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Такой адрес эл. почты недопустим."
+msgstr "Одноразовые домены электронной почты запрещены."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
@@ -17136,10 +16960,8 @@ msgid "This URL is prohibited"
 msgstr "Этот URL-адрес запрещён"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Недопустимая строка поиска!"
+msgstr "Недопустимая строка в кодировке base64"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
