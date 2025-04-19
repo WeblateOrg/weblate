@@ -11,6 +11,8 @@ Weblate 5.11.1
 
 .. rubric:: Bug fixes
 
+* :ref:`addon-weblate.webhook.webhook` is now enabled in Docker.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
