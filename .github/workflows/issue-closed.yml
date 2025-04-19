@@ -1,0 +1,64 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Release" label when resolving an issue
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+concurrency:
+  # Avoid double execution as this can be triggered from commit and pull request
+  # causing two closing events being delivered to the issue.
+  group: ${{ github.workflow }}-${{ github.event.issue.id }}
+  cancel-in-progress: true
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/github-script@v7.0.1
+      if: github.event.issue.state_reason == 'completed' && github.event.issue.milestone
+      with:
+        script: |
+          const labels = github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          for (const label of labels) {
+            if (label.name.startsWith('Waiting for: ')) {
+              github.rest.issues.removeLabel({
+
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+              })
+            }
+          }
+          if (context.issue.milestone.state == 'open') {
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Release']
+            })
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+          Thank you for your report; the issue you have reported has just been resolved and
+          the solution will be released in Weblate ${github.event.issue.milestone.title}.
+
+          * In case you see a problem with the fix, please comment on this issue.
+          * In case you see a similar problem, please open a separate issue.
+          * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
+          `
+            })
+          }
