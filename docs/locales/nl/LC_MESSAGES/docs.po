@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-19 12:40+0000\n"
+"PO-Revision-Date: 2025-04-19 13:11+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -6834,15 +6834,16 @@ msgstr "Locatie van brontekenreeks"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` beschrijft handmatig bewerken."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr ""
+msgstr ":ref:`bulk-edit` kan worden gebruikt om vlaggen in batch toe te passen."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+":ref:`addon-weblate.flags.bulk` add-on kan automatisch vlaggen toepassen."
 
 #: ../../admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
@@ -6915,6 +6916,11 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"De vlaggen, die zijn gedefinieerd op een hoger niveau, kunnen worden "
+"genegeerd met de syntaxis ``discard:NAME``. Bijvoorbeeld als een onderdeel "
+"is geconfigureerd voor ``safe-html``, kunt u ``discard:safe-html`` toevoegen "
+"aan de vlaggen van de tekenreeks om die voor deze bepaalde tekenreeks over "
+"te slaan."
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -7138,7 +7144,7 @@ msgstr "``discard:NAME``"
 
 #: ../../admin/checks.rst:123
 msgid "Discards flag defined on a higher level."
-msgstr ""
+msgstr "Vlaggen op een hoger niveau negeren."
 
 #: ../../admin/checks.rst:124
 msgid "``forbidden``"
@@ -23308,22 +23314,15 @@ msgstr ""
 "codes`"
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:990
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Secundaire talen"
+msgstr "Secundaire taal"
 
 #: ../../admin/projects.rst:285 ../../admin/projects.rst:994
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
-"De secundaire talen worden bij het vertalen weergegeven naast de "
-"brontekenreeks."
+"Extra taal om samen met de brontaal te worden weergegeven bij het vertalen."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
 #, fuzzy
@@ -24657,10 +24656,8 @@ msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgstr ":ref:`faq-vcs`, :ref:`alerts`"
 
 #: ../../admin/projects.rst:1000
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Er zijn geen tekenreeksen geïmporteerd uit het geüploade bestand."
+msgstr "Deze instelling wordt geërfd van het project, indien leeg gelaten."
 
 #: ../../admin/projects.rst:1010
 msgid "Priority"
@@ -51485,10 +51482,8 @@ msgid "Summary"
 msgstr "Samenvatting; overzicht"
 
 #: ../../user/checks.rst:116
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "De BBCode in de vertaling komt niet overeen met de bron"
+msgstr "De BBCode in de vertaling komt niet overeen met de bron."
 
 #: ../../user/checks.rst:117 ../../user/checks.rst:146
 #: ../../user/checks.rst:167 ../../user/checks.rst:192
@@ -51702,10 +51697,8 @@ msgid "Fluent parts"
 msgstr "Fluent-onderdelen"
 
 #: ../../user/checks.rst:208
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "De Fluent-onderdelen dienen overeen te komen"
+msgstr "De Fluent-delen zouden overeen moeten komen."
 
 #: ../../user/checks.rst:210
 msgid "``weblate.checks.fluent.parts.FluentPartsCheck``"
@@ -51761,10 +51754,8 @@ msgid "Fluent references"
 msgstr "Fluent-referenties"
 
 #: ../../user/checks.rst:248
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "De Fluent-referenties dienen overeen te komen"
+msgstr "De Fluent-referenties zouden overeen moeten komen."
 
 #: ../../user/checks.rst:250
 msgid "``weblate.checks.fluent.references.FluentReferencesCheck``"
@@ -51872,10 +51863,8 @@ msgid "Fluent translation inner HTML"
 msgstr "Fluent-vertaling binnen html"
 
 #: ../../user/checks.rst:319
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "Het Fluent-doel dient geldige html te bevatten"
+msgstr "Het Fluent-doel dient geldige HTML te bevatten."
 
 #: ../../user/checks.rst:321
 msgid "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
@@ -51975,10 +51964,8 @@ msgid "Fluent translation syntax"
 msgstr "Fluent-vertaalsyntaxis"
 
 #: ../../user/checks.rst:387
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Fout in syntaxis van Fluent in de vertaling"
+msgstr "Fout in syntaxis van Fluent in de vertaling."
 
 #: ../../user/checks.rst:389
 msgid "``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``"
@@ -52125,10 +52112,10 @@ msgid "Automattic components formatting"
 msgstr "Automatische toewijzingen"
 
 #: ../../user/checks.rst:462
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "De procentaanduidingen komen niet overeen met de bron"
+msgstr ""
+"De plaatsvervangers voor de Automattic onderdelen komen niet overeen met de "
+"bron."
 
 #: ../../user/checks.rst:464
 msgid "``weblate.checks.format.AutomatticComponentsCheck``"
@@ -52171,10 +52158,8 @@ msgid "C format"
 msgstr "C-opmaak"
 
 #: ../../user/checks.rst:480
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "Het c-patroon komt niet overeen met de bron"
+msgstr "De tekenreeks voor het patroon in C komt niet overeen met de bron."
 
 #: ../../user/checks.rst:482
 msgid "``weblate.checks.format.CFormatCheck``"
@@ -52220,10 +52205,10 @@ msgid "C# format"
 msgstr "C#-opmaak"
 
 #: ../../user/checks.rst:500
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "Het C#-patroon komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het patroon van C# komt niet overeen met de "
+"bron."
 
 #: ../../user/checks.rst:502
 msgid "``weblate.checks.format.CSharpFormatCheck``"
@@ -52256,10 +52241,8 @@ msgid "ECMAScript template literals"
 msgstr "ECMAScript-sjabloonletters"
 
 #: ../../user/checks.rst:518
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "Het ECMAScript-sjabloon komt niet overeen met de bron"
+msgstr "Het sjabloon ECMAScript komt niet overeen met de bron."
 
 #: ../../user/checks.rst:520
 msgid "``weblate.checks.format.ESTemplateLiteralsCheck``"
@@ -52290,10 +52273,8 @@ msgid "i18next interpolation"
 msgstr "i18next-interpolatie"
 
 #: ../../user/checks.rst:538
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "De i18next-interpolatie komt niet overeen met de bron"
+msgstr "De i18next-interpolatie komt niet overeen met de bron."
 
 #: ../../user/checks.rst:540
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
@@ -52482,10 +52463,10 @@ msgid "Java format"
 msgstr "Java-opmaak"
 
 #: ../../user/checks.rst:625
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "Het java-patroon komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het patroon van Java komt niet overeen met "
+"de bron."
 
 #: ../../user/checks.rst:627
 msgid "``weblate.checks.format.JavaFormatCheck``"
@@ -52516,10 +52497,10 @@ msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:649
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "Het Java MessageFormat-patroon komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het patroon van Java MessageFormat komt "
+"niet overeen met de bron."
 
 #: ../../user/checks.rst:651
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -52582,10 +52563,10 @@ msgid "JavaScript format"
 msgstr "JavaScript-opmaak"
 
 #: ../../user/checks.rst:678
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "Het JavaScript-patroon komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het patroon van JavaScript komt niet "
+"overeen met de bron."
 
 #: ../../user/checks.rst:680
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
@@ -52608,10 +52589,8 @@ msgid "Lua format"
 msgstr "Lua-opmaak"
 
 #: ../../user/checks.rst:696
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "De Lua-opmaak komt niet overeen met de bron"
+msgstr "De opmaak van de tekenreeks voor Lua komt niet overeen met de bron."
 
 #: ../../user/checks.rst:698
 msgid "``weblate.checks.format.LuaFormatCheck``"
@@ -52634,10 +52613,10 @@ msgid "Object Pascal format"
 msgstr "Object Pascal-formaat"
 
 #: ../../user/checks.rst:714
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Object Pascal format string komt niet overeen met bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het object Pascal komt niet overeen met "
+"bron."
 
 #: ../../user/checks.rst:716
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
@@ -52668,10 +52647,8 @@ msgid "Percent placeholders"
 msgstr "Procentaanduidingen"
 
 #: ../../user/checks.rst:736
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "De procentaanduidingen komen niet overeen met de bron"
+msgstr "De plaatsvervangers voor procent komen niet overeen met de bron."
 
 #: ../../user/checks.rst:738
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
@@ -52690,10 +52667,10 @@ msgid "Perl brace format"
 msgstr "Perl-haakjes opmaak"
 
 #: ../../user/checks.rst:753
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "De Perl-haakjes opmaak komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor de haakjes van Perl komt niet overeen met "
+"de bron."
 
 #: ../../user/checks.rst:755
 msgid "``weblate.checks.format.PerlBraceFormatCheck``"
@@ -52720,10 +52697,10 @@ msgid "Perl format"
 msgstr "Perl-opmaak"
 
 #: ../../user/checks.rst:771
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "Het perl-patroon komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het patroon van Perl komt niet overeen met "
+"de bron."
 
 #: ../../user/checks.rst:773
 msgid "``weblate.checks.format.PerlFormatCheck``"
@@ -52748,10 +52725,8 @@ msgid "PHP format"
 msgstr "PHP-opmaak"
 
 #: ../../user/checks.rst:791
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "Het php-patroon komt niet overeen met de bron"
+msgstr "De tekenreeks voor het patroon van PHP komt niet overeen met de bron."
 
 #: ../../user/checks.rst:793
 msgid "``weblate.checks.format.PHPFormatCheck``"
@@ -52776,10 +52751,10 @@ msgid "Python brace format"
 msgstr "Python-haakjesopmaak"
 
 #: ../../user/checks.rst:811
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "De Python-haakjesopmaak komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor de haakjes van Python komt niet overeen met "
+"de bron."
 
 #: ../../user/checks.rst:813
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
@@ -52816,10 +52791,8 @@ msgid "Python format"
 msgstr "Python-opmaak"
 
 #: ../../user/checks.rst:831
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "De Python-opmaak komt niet overeen met de bron"
+msgstr "De tekenreeks voor opmaak van Python komt niet overeen met de bron."
 
 #: ../../user/checks.rst:833
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -52848,10 +52821,8 @@ msgid "Qt format"
 msgstr "Qt indeling"
 
 #: ../../user/checks.rst:851
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "De Qt-indelingstekenreeks komt niet overeen met de bron"
+msgstr "De opmaak van de tekenreeks voor Qt komt niet overeen met de bron."
 
 #: ../../user/checks.rst:853
 msgid "``weblate.checks.qt.QtFormatCheck``"
@@ -52878,10 +52849,10 @@ msgid "Qt plural format"
 msgstr "Qt meervoudsformaat"
 
 #: ../../user/checks.rst:869
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "De Qt-meervoudstekenreeks komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor meervoud in Qt komt niet overeen met de "
+"bron."
 
 #: ../../user/checks.rst:871
 msgid "``weblate.checks.qt.QtPluralCheck``"
@@ -52912,10 +52883,8 @@ msgid "Ruby format"
 msgstr "Ruby-opmaak"
 
 #: ../../user/checks.rst:887
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "De Ruby-tekenreeks komt niet overeen met de bron"
+msgstr "De opmaak van de tekenreeks voor Ruby komt niet overeen met de bron."
 
 #: ../../user/checks.rst:889
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
@@ -52954,10 +52923,9 @@ msgid "Scheme format"
 msgstr "Schemaformaat"
 
 #: ../../user/checks.rst:908
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "Het schemaformaat komt niet overeen met de bron"
+msgstr ""
+"De opmaak van de tekenreeks voor het schema komt niet overeen met de bron."
 
 #: ../../user/checks.rst:910
 msgid "``weblate.checks.format.SchemeFormatCheck``"
@@ -52988,10 +52956,8 @@ msgid "Vue I18n formatting"
 msgstr "Vue i18n-opmaak"
 
 #: ../../user/checks.rst:928
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "De Vue i18n-opmaak komt niet overeen met de bron"
+msgstr "De opmaak van Vue i18n komt niet overeen met de bron."
 
 #: ../../user/checks.rst:930
 msgid "``weblate.checks.format.VueFormattingCheck``"
@@ -53273,10 +53239,8 @@ msgid "Markdown syntax"
 msgstr "Markdown-syntaxis"
 
 #: ../../user/checks.rst:1088
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "De Markdown-syntaxis komt niet overeen met de bron"
+msgstr "De Markdown-syntaxis komt niet overeen met de bron."
 
 #: ../../user/checks.rst:1090
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
@@ -53358,11 +53322,10 @@ msgid "Maximum size of translation"
 msgstr "Maximumomvang van de vertaling"
 
 #: ../../user/checks.rst:1135
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
 msgstr ""
-"De vertaling van de getoonde tekst mag de opgegeven omvang niet overschrijden"
+"De vertaling van de getoonde tekst mag de opgegeven grootte niet "
+"overschrijden."
 
 #: ../../user/checks.rst:1137
 msgid "``weblate.checks.render.MaxSizeCheck``"
@@ -53738,10 +53701,8 @@ msgid "Placeholders"
 msgstr "Tijdelijke aanduidingen"
 
 #: ../../user/checks.rst:1358
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "Er ontbreekt een aantal aanduidingen in de vertaling"
+msgstr "Er ontbreekt een aantal plaatsvervangers in de vertaling."
 
 #: ../../user/checks.rst:1360
 msgid "``weblate.checks.placeholders.PlaceholderCheck``"
@@ -53795,10 +53756,8 @@ msgid "Prohibited initial character"
 msgstr "Verboden initiële teken"
 
 #: ../../user/checks.rst:1404
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "De tekenreeks begint met een verboden teken in CSV"
+msgstr "De tekenreeks begint met een verboden teken in CSV."
 
 #: ../../user/checks.rst:1405
 msgid "glossary strings"
@@ -53866,10 +53825,8 @@ msgstr ""
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:1446
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "De vertaling komt niet overeen met de reguliere uitdrukking"
+msgstr "De vertaling komt niet overeen met de reguliere uitdrukking."
 
 #: ../../user/checks.rst:1448
 msgid "``weblate.checks.placeholders.RegexCheck``"
@@ -54098,10 +54055,8 @@ msgid "Unchanged translation"
 msgstr "ongewijzigde vertaling"
 
 #: ../../user/checks.rst:1600
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "de bron en vertaling zijn identiek"
+msgstr "De bron en vertaling zijn identiek."
 
 #: ../../user/checks.rst:1602
 msgid "``weblate.checks.same.SameCheck``"
@@ -54163,10 +54118,8 @@ msgid "Unsafe HTML"
 msgstr "Onveilige html"
 
 #: ../../user/checks.rst:1635
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "De vertaling gebruikt onveilige html-opmaak"
+msgstr "De vertaling gebruikt onveilige HTML-opmaak."
 
 #: ../../user/checks.rst:1637
 msgid "``weblate.checks.markup.SafeHTMLCheck``"
@@ -54204,10 +54157,8 @@ msgid "URL"
 msgstr "URL"
 
 #: ../../user/checks.rst:1662
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "De vertaling bevat geen url"
+msgstr "De vertaling bevat geen URL."
 
 #: ../../user/checks.rst:1664
 msgid "``weblate.checks.markup.URLCheck``"
@@ -54228,10 +54179,8 @@ msgid "XML markup"
 msgstr "XML-opmaak"
 
 #: ../../user/checks.rst:1678
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "De xml-tags in de vertaling komen niet overeen met de bron"
+msgstr "De XML-tags in de vertaling komen niet overeen met de bron."
 
 #: ../../user/checks.rst:1680
 msgid "``weblate.checks.markup.XMLTagsCheck``"
@@ -54281,10 +54230,8 @@ msgid "XML syntax"
 msgstr "xml-syntaxis"
 
 #: ../../user/checks.rst:1702
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "De vertaling is geen geldige xml"
+msgstr "De vertaling is geen geldige XML."
 
 #: ../../user/checks.rst:1704
 msgid "``weblate.checks.markup.XMLValidityCheck``"
@@ -54402,10 +54349,8 @@ msgid "Fluent source inner HTML"
 msgstr "Fluent interne html"
 
 #: ../../user/checks.rst:1772
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "De Fluent-broncode dient geldige interne html te bevatten"
+msgstr "De Fluent-broncode dient geldige interne HTML te bevatten."
 
 #: ../../user/checks.rst:1774
 msgid "``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``"
@@ -54666,10 +54611,8 @@ msgid "Fluent source syntax"
 msgstr "Fluent-syntaxis bron"
 
 #: ../../user/checks.rst:1905
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Fout in syntaxis van Fluent in de bron"
+msgstr "Fout in syntaxis van Fluent in de bron."
 
 #: ../../user/checks.rst:1907
 msgid "``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``"
@@ -54725,10 +54668,8 @@ msgid "Long untranslated"
 msgstr "Al lange tijd onvertaald"
 
 #: ../../user/checks.rst:1946
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "Deze tekenreeks is al lange tijd onvertaald"
+msgstr "Deze tekenreeks is al lange tijd onvertaald."
 
 #: ../../user/checks.rst:1948
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
@@ -54751,10 +54692,8 @@ msgid "Multiple failing checks"
 msgstr "Meerdere foutmeldingen"
 
 #: ../../user/checks.rst:1961
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "De vertalingen in verschillende talen bevatten foutmeldingen"
+msgstr "De vertalingen in verschillende talen bevatten foutmeldingen."
 
 #: ../../user/checks.rst:1963
 msgid "``weblate.checks.source.MultipleFailingCheck``"
@@ -54817,11 +54756,10 @@ msgid "Unpluralised"
 msgstr "geen meervoud"
 
 #: ../../user/checks.rst:1998
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
 msgstr ""
-"De tekenreeks is gebruikt als meervoud, maar gebruikt geen meervoudsvormen"
+"De tekenreeks wordt gebruikt als meervoud, maar gebruikt geen "
+"meervoudsvormen."
 
 #: ../../user/checks.rst:2000
 msgid "``weblate.checks.source.OptionalPluralCheck``"
