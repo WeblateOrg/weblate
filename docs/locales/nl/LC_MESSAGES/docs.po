@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-19 13:12+0000\n"
+"PO-Revision-Date: 2025-04-19 13:55+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -13184,18 +13184,26 @@ msgid ""
 "introspection-1.0`` and since then, it requires ``gobject-"
 "introspection-2.0``."
 msgstr ""
+"Het geïnstalleerde pakket ``PyGobject`` kan geen overeenkomende bibliotheek "
+"GObject Introspection vinden. Voor de uitgave 3.52 had het ``gobject-"
+"introspection-1.0``nodig en vanaf toen heeft het ``gobject-"
+"introspection-2.0`` nodig."
 
 #: ../../admin/install.rst:311
 msgid ""
 "In case your operating system provides both, it is recommended to install "
 "the newer version and retry the installation."
 msgstr ""
+"In het geval uw besturingssysteem beide verschaft, aanbevolen wordt om de "
+"nieuwere versie te installeren en de installatie opnieuw te proberen."
 
 #: ../../admin/install.rst:314
 msgid ""
 "When the newer version is not available, please install the older release of "
 "PyGobject before installing Weblate:"
 msgstr ""
+"Wanneer de nieuwere versie niet beschikbaar is, installeer dan de oudere "
+"uitgave van PyGobject voordat u Weblate installeert:"
 
 #: ../../admin/install.rst:321
 msgid ""
@@ -18675,6 +18683,8 @@ msgid ""
 ":ref:`troubleshoot-pip-install` describes frequent issues while installing "
 "Python dependencies."
 msgstr ""
+":ref:`troubleshoot-pip-install` beschrijft veel voorkomende problemen bij "
+"het installeren van afhankelijkheden van Python."
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -18735,6 +18745,9 @@ msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Oudere distributies hebben geen ``libgirepository-2.0-dev``, gebruik in "
+"plaats daarvan ``libgirepository1.0-dev``. Bekijk ook :ref:`troubleshoot-pip-"
+"install`."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -19191,6 +19204,11 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+":ref:`mt-weblate-translation-memory` overeenkomsten met 100%-score hebben "
+"voorrang boven services van machinevertaling. Als een 100%-overeenkomst "
+"wordt gevonden in het vertaalgeheugen, wordt geen machinevertaling "
+"uitgevoerd. Als er verschillende 100%-overeenkomsten optreden, zal de "
+"eerste, die door de database wordt teruggegeven, worden gebruikt."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -19200,6 +19218,12 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Elke service voor machinevertaling heeft een vooraf gedefinieerde maximale "
+"score die het kan produceren. Het gebruiken van geïnstalleerde services voor "
+"vertalingen is in de volgorde van hun maximale score. Voor elke tekenreeks "
+"met een score voor de vertaling die lager is dan het maximum van de service, "
+"wordt de service gevraagd een vertaling te produceren. Vertalingen met een "
+"score die hoger is dan de huidige worden geaccepteerd."
 
 #: ../../admin/machine.rst:43
 #, fuzzy
@@ -19213,6 +19237,10 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"De oorsprong voor alle brontekenreeksen van services van derde partijen "
+"kunnen worden geconfigureerd. Dat kan worden gebruikt om de service aan te "
+"passen om de beste resultaten te krijgen. De volgende keuzes zijn "
+"beschikbaar:"
 
 #: ../../admin/machine.rst:50
 #, fuzzy
@@ -19222,7 +19250,7 @@ msgstr ":guilabel:`Automatische suggesties gebruiken`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "Kiest automatisch de beste brontaal."
 
 #: ../../admin/machine.rst:53
 #, fuzzy
@@ -19244,7 +19272,7 @@ msgstr "Onderdeelnaam gewijzigd"
 
 #: ../../admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
-msgstr ""
+msgstr "Dat was het gedrag voor de uitgave 5.11."
 
 #: ../../admin/machine.rst:58
 #, fuzzy
@@ -19265,6 +19293,8 @@ msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
 msgstr ""
+"Valt terug op het automatisch selecteren van de brontaal, als de secundaire "
+"taal niet is geconfigureerd."
 
 #: ../../admin/machine.rst:66
 msgid "Alibaba"
@@ -19276,7 +19306,7 @@ msgstr "Service ID"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "Maximale score"
 
 #: ../../admin/machine.rst:71
 msgid "80"
@@ -20360,19 +20390,19 @@ msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
 msgid "``o3-mini`` -- OpenAI o3-mini"
-msgstr ""
+msgstr "``o3-mini`` -- OpenAI o3-mini"
 
 #: ../../admin/machine.rst:711
 msgid "``o3`` -- OpenAI o3"
-msgstr ""
+msgstr "``o3`` -- OpenAI o3"
 
 #: ../../admin/machine.rst:713
 msgid "``o1-mini`` -- OpenAI o1-mini"
-msgstr ""
+msgstr "``o1-mini`` -- OpenAI o1-mini"
 
 #: ../../admin/machine.rst:715
 msgid "``o1`` -- OpenAI o1"
-msgstr ""
+msgstr "``o1`` -- OpenAI o1"
 
 #: ../../admin/machine.rst:717
 #, fuzzy
@@ -21577,6 +21607,8 @@ msgstr "list_addons"
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
+"Vermeld add-ons in reStructuredText als een sjabloon voor :doc:`/admin/"
+"addons`."
 
 #: ../../admin/management.rst:645 ../../admin/management.rst:656
 #: ../../admin/management.rst:667 ../../admin/management.rst:689
@@ -21591,6 +21623,8 @@ msgstr "list_permissions"
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
+"Vermeld rechten in reStructuredText als een sjabloon voor :doc:`/admin/"
+"access`."
 
 #: ../../admin/management.rst:659
 msgid "list_checks"
@@ -21601,6 +21635,8 @@ msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
+"Vermeld kwaliteitscontroles in reStructuredText als een sjabloon voor :doc:`/"
+"admin/checks` en :doc:`/user/checks`."
 
 #: ../../admin/management.rst:671
 msgid "list_languages"
@@ -21631,6 +21667,8 @@ msgid ""
 "Lists automatic suggestions services in reStructuredText as a template for :"
 "doc:`/admin/machine`."
 msgstr ""
+"Vermeld services voor automatische suggesties in reStructuredText als een "
+"sjabloon voor :doc:`/admin/machine`."
 
 #: ../../admin/management.rst:692
 msgid "list_translators"
@@ -29198,6 +29236,8 @@ msgid ""
 "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
 "all target translation units for the given source translation unit."
 msgstr ""
+"Toegevoegd :http:get:`/api/units/(int:id)/translations/` om een lijst met "
+"alle doel-vertaaleenheden op te halen voor de opgegeven bron-vertaaleenheid."
 
 #: ../../changes.rst:9
 #, fuzzy
@@ -29210,6 +29250,7 @@ msgstr "Toegevoegd :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 #: ../../changes.rst:10
 msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgstr ""
+":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
 
 #: ../../changes.rst:11
 #, fuzzy
@@ -29262,6 +29303,8 @@ msgid ""
 "Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:"
 "`api`."
 msgstr ""
+"Weblate gebruikt nu OpenAPI Specification 3.1.1 om het schema te maken voor "
+":ref:`api`."
 
 #: ../../changes.rst:19
 msgid ""
@@ -29269,20 +29312,25 @@ msgid ""
 "Additionally, both reports can be sorted either by the join date or the "
 "number of strings translated."
 msgstr ""
+":ref:`credits` en :ref:`stats` bevatten de datum van intreden van de "
+"vertaler. Aanvullend kunnen beide rapporten worden gesorteerd, ofwel op de "
+"datum van intreden of het aantal vertaalde tekenreeksen."
 
 #: ../../changes.rst:20
 msgid "Widgets show more precise stats."
-msgstr ""
+msgstr "Widgets geven meer precieze statistieken weer."
 
 #: ../../changes.rst:21
 msgid ":ref:`upload` is now tracked in history with details."
-msgstr ""
+msgstr ":ref:`upload` wordt nu met details in de geschiedenis bijgehouden."
 
 #: ../../changes.rst:22
 msgid ""
 ":ref:`check-c-sharp-format` now supports ``csharp-format`` flag for "
 "compatibility with GNU gettext."
 msgstr ""
+":ref:`check-c-sharp-format` ondersteunt nu de vlag ``csharp-format`` voor "
+"compatibiliteit met GNU gettext."
 
 #: ../../changes.rst:23
 #, fuzzy
@@ -29309,6 +29357,8 @@ msgstr ""
 #: ../../changes.rst:26
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
 msgstr ""
+"Uitschakelen van :ref:`checks` werkt nu automatisch doorgevoerde "
+"tekenreeksen bij."
 
 #: ../../changes.rst:27
 #, fuzzy
@@ -29323,18 +29373,24 @@ msgid ""
 "Improved rendering of :ref:`additional-flags` and :ref:`additional-"
 "explanation` changes in history."
 msgstr ""
+"Verbeterd renderen van wijzigingen :ref:`additional-flags` en :ref"
+":`additional-explanation` in geschiedenis."
 
 #: ../../changes.rst:29
 msgid ""
 ":ref:`mt-cyrtranslit` now automatically transliterates from a matching "
 "translation instead of the source strings."
 msgstr ""
+":ref:`mt-cyrtranslit` translitereert nu automatisch vanuit een "
+"overeenkomende vertaling, in plaats van uit de brontekenreeksen."
 
 #: ../../changes.rst:30
 msgid ""
 "Errors from creating a duplicate glossary and failure to delete a glossary "
 "are now handled gracefully."
 msgstr ""
+"Fouten bij het maken van een duplicaat-woordenlijst en mislukken van het "
+"verwijderen van een woordenlijst worden nu netjes afgehandeld."
 
 #: ../../changes.rst:33 ../../changes.rst:61 ../../changes.rst:88
 #: ../../changes.rst:117 ../../changes.rst:151 ../../changes.rst:200
@@ -29395,7 +29451,7 @@ msgstr "Compatibiliteit"
 
 #: ../../changes.rst:41
 msgid "Registration now disallows disposable e-mail domains."
-msgstr ""
+msgstr "Registreren staat nu geen domeinen van wegwerp-e-mailadressen toe."
 
 #: ../../changes.rst:44 ../../changes.rst:69 ../../changes.rst:96
 #: ../../changes.rst:128 ../../changes.rst:157 ../../changes.rst:219
@@ -29449,6 +29505,8 @@ msgstr ""
 msgid ""
 "The database migration updates indexes and this might take considerable time."
 msgstr ""
+"De migratie van de database werkt indexen bij en dat zou behoorlijk lang "
+"kunnen duren."
 
 #: ../../changes.rst:50 ../../changes.rst:73 ../../changes.rst:100
 #: ../../changes.rst:134 ../../changes.rst:161 ../../changes.rst:226
@@ -29510,6 +29568,8 @@ msgstr "Gerepareerd add-on crash van pagina in sommige randgevallen."
 #: ../../changes.rst:66
 msgid ":ref:`search-strings` now properly finds exact match on the component."
 msgstr ""
+":ref:`search-strings` zoekt nu op de juiste wijze een exacte overeenkomst in "
+"het onderdeel."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29674,6 +29734,8 @@ msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
 msgstr ""
+"Weblate gebruikt proactieve authenticatie met Git 2.46.0 en nieuwer als "
+"inloggegevens van HTTP worden opgegeven."
 
 #: ../../changes.rst:131
 msgid ""
@@ -41853,6 +41915,8 @@ msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
 msgstr ""
+"Verscheidene gedeelten van de documentatie gebruiken sjablonen die worden "
+"gegenereerd uit de code. De volgende opdrachten voor beheer zijn beschikbaar:"
 
 #: ../../contributing/documentation.rst:47
 msgid ":wladmin:`list_addons`"
@@ -41876,6 +41940,10 @@ msgid ""
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
 msgstr ""
+"Al deze opdrachten voeren reStructuredText uit die als sjabloon wordt "
+"gebruikt voor de documentatie. De gemakkelijkste manier om wijzigingen aan "
+"de documentatie te maken is door visuele verschillen in uw bewerker te "
+"gebruiken."
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -43882,6 +43950,9 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate is geconfigureerd om de container :program:`maildev` als een e-"
+"mailserver te gebruiken. De afgeleverde e-mails zijn te zien op "
+"<http://127.0.0.1:1080/>."
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -55667,6 +55738,9 @@ msgid ""
 "secondary_language`) or component (:ref:`component-secondary_language`). In "
 "that case it can be used for :ref:`secondary-language-workflow`."
 msgstr ""
+"Dit kan ook worden geconfigureerd in het project (:ref:`project-"
+"secondary_language`) of onderdeel (:ref:`component-secondary_language`). In "
+"dat geval kan het worden gebruikt voor :ref:`secondary-language-workflow`."
 
 #: ../../user/profile.rst:115
 msgid "Preferences"
@@ -58113,6 +58187,8 @@ msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
 msgstr ""
+"Dit maakt het mogelijk om toegang te verkrijgen tot opslagplaatsen van Azure "
+"DevOps en maakt toegang tot geauthenticeerde opslagplaatsen sneller."
 
 #: ../../vcs.rst:238
 msgid ""
