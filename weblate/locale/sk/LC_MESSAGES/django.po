@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-19 08:12+0000\n"
+"PO-Revision-Date: 2025-04-19 09:20+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -1000,14 +1000,12 @@ msgstr[2] ""
 "Toto heslo je príliš dlhé. Môže obsahovať maximálne %(max_length)d znakov."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Vaše heslo môže obsahovať maximálne %(min_length)d znak."
-msgstr[1] "Vaše heslo môže obsahovať maximálne %(min_length)d znaky."
-msgstr[2] "Vaše heslo môže obsahovať maximálne %(min_length)d znakov."
+msgstr[0] "Vaše heslo môže obsahovať maximálne %(max_length)d znak."
+msgstr[1] "Vaše heslo môže obsahovať maximálne %(max_length)d znaky."
+msgstr[2] "Vaše heslo môže obsahovať maximálne %(max_length)d znakov."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -3129,10 +3127,8 @@ msgid "AngularJS interpolation string"
 msgstr "Interpolačný reťazec AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Interpolačné reťazce AngularJS nezodpovedajú zdroju"
+msgstr "Interpolačné reťazce AngularJS nezodpovedajú zdroju."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -7042,10 +7038,8 @@ msgid "Turn off two-factor authentication"
 msgstr "Vypnúť dvojfaktorové overovanie"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Pre zabezpečenie účtu zapnite, prosím, overovanie heslom."
+msgstr "Vypnúť autentifikáciu heslom pre používateľa."
 
 #: weblate/templates/accounts/user.html:420
 msgid "Disable password"
@@ -11841,11 +11835,6 @@ msgstr ""
 "prosím, či je prístupný pre Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
@@ -15076,10 +15065,8 @@ msgid ""
 msgstr "Alternatívny jazyk je pri preklade zobrazený vedľa zdrojového reťazca."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Zo súboru neboli importované žiadne reťazce."
+msgstr "Toto nastavenie sa zdedí z projektu, ak zostane prázdne."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15518,13 +15505,12 @@ msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Nedarí sa nájsť zlúčený reťazec."
-msgstr[1] "Nedarí sa nájsť zlúčený reťazec."
-msgstr[2] "Nedarí sa nájsť zlúčený reťazec."
+msgstr[0] "Nepodarilo sa nájsť %d reťazec:"
+msgstr[1] "Nepodarilo sa nájsť %d reťazce:"
+msgstr[2] "Nepodarilo sa nájsť %d reťazcov:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15569,13 +15555,12 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Reťazec nemohol byť rozšírený do %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "Reťazec nemohol byť rozšírený do %(component)s: %(reason)s"
-msgstr[1] "Reťazec nemohol byť rozšírený do %(component)s: %(reason)s"
-msgstr[2] "Reťazec nemohol byť rozšírený do %(component)s: %(reason)s"
+msgstr[0] "Reťazec nemohol byť rozšírený do %d súčasti."
+msgstr[1] "Reťazec nemohol byť rozšírený do %d súčastí."
+msgstr[2] "Reťazec nemohol byť rozšírený do %d súčastí."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
