@@ -1076,7 +1076,7 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
         return redirect(unit)
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)
-    return redirect(unit.translation)
+    return redirect_next(request.POST.get("next"), unit.translation)
 
 
 def browse(request: AuthenticatedHttpRequest, path):
