@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-19 12:39+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -461,10 +461,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Uw account is geblokkeerd vanwege teveel mislukte inlogpogingen."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Het bericht kan niet naar de beheerder worden gestuurd."
+msgstr "Account vergrendeld door de beheerder van de site."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1010,13 +1008,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Uw wachtwoord moet ten minste %(min_length)d tekens hebben."
-msgstr[1] ""
+msgstr[0] "Uw wachtwoord moet ten hoogste %(max_length)d tekens hebben."
+msgstr[1] "Uw wachtwoord moet ten hoogste %(max_length)d tekens hebben."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1094,10 +1090,8 @@ msgid "Could not send message to administrator."
 msgstr "Het bericht kan niet naar de beheerder worden gestuurd."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Teveel berichten verzonden; probeer het later opnieuw."
+msgstr "Kon geen ticket openen; probeer het later opnieuw."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1824,20 +1818,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Sorteren met sleutel Hoofdlettergevoelig inschakelen"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Gewijzigde licentie"
+msgstr "Gebeurtenissen wijzigen"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL website"
+msgstr "URL webhaak"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Geheim"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2009,13 +1999,13 @@ msgstr "De uitbreiding is geïnstalleerd - neem de integratie-instructies door."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhaak"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Notificatie versturen aan geabonneerde gebruikers."
+msgstr ""
+"Stuurt notificatie aan externe service, gebaseerd op geselecteerde "
+"gebeurtenissen."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2085,7 +2075,7 @@ msgstr "Kon geen vergrendeling krijgen om de bewerking uit te voeren."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Gespecificeerde ID voor eenheid is geen broneenheid van de vertaling."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3163,10 +3153,9 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS-interpolatietekenreeks"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "De AngularJS-interpolatietekenreeksen komen niet overeen met de bron"
+msgstr ""
+"De AngularJS tekenreeksen voor interpolatie komen niet overeen met de bron."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3185,173 +3174,139 @@ msgid "Starting newline"
 msgstr "Nieuwe regel aan het begin"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Bron en vertaling beginnen niet met een nieuwe regel"
+msgstr "Bron en vertaling beginnen niet beide met een nieuwe regel."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Nieuwe regel aan het einde"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Bron en vertaling eindigen niet met een nieuwe regel"
+msgstr "Bron en vertaling eindigen niet beide met een nieuwe regel."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Spaties aan het begin"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "Bron en vertaling beginnen niet met hetzelfde aantal spaties"
+msgstr "Bron en vertaling beginnen niet beide met hetzelfde aantal spaties."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "spatie aan het einde"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Bron en vertaling eindigen niet met een spatie"
+msgstr "Bron en vertaling eindigen niet beide met een spatie."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Dubbele spatie"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "De vertaling bevat een dubbele spatie"
+msgstr "De vertaling bevat een dubbele spatie."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Niet overeenkomende punt"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Bron en vertaling eindigen niet beide met een punt"
+msgstr "Bron en vertaling eindigen niet beide met een punt."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Niet overeenkomende dubbele punt"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Bron en vertaling eindigen niet beide met een dubbele punt"
+msgstr "Bron en vertaling eindigen niet beide met een dubbele punt."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Niet overeenkomend vraagteken"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Bron en vertaling eindigen niet beide met een vraagteken"
+msgstr "Bron en vertaling eindigen niet beide met een vraagteken."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Niet overeenkomend uitroepteken"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Bron en vertaling eindigen niet met een uitroepteken"
+msgstr "Bron en vertaling eindigen niet met een uitroepteken."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Niet overeenkomende interrobang (‽)"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
 msgstr ""
-"Bron en vertaling eindigen niet met een uitdrukking met een interrobang (‽)"
+"Bron en vertaling eindigen niet met een uitdrukking met een interrobang (‽)."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Niet overeenkomend beletselteken"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Bron en vertaling eindigen niet beide met een beletselteken (…)"
+msgstr "Bron en vertaling eindigen niet beide met een beletselteken (…)."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "niet-overeenkomende \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
 msgstr ""
-"Het aantal regeleinden (\\n) in de vertaling komt niet overeen met de bron"
+"Het aantal regeleinden (\\n"
+") in de vertaling komt niet overeen met de bron."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Het aantal witruimtes komt niet overeen"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Het aantal regeleinden in de vertaling komt niet overeen met de bron"
+msgstr "Het aantal nieuwe regels in de vertaling komt niet overeen met de bron."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Spatie zonder breedte"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "De vertaling bevat een extra spatie zonder breedte"
+msgstr "De vertaling bevat een extra teken spatie zonder breedte."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Maximumlengte van de vertaling"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "de vertaling mag de opgegeven lengte niet overschrijden"
+msgstr "De vertaling mag de opgegeven lengte niet overschrijden."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "niet-overeenkomende puntkomma"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Bron en vertaling eindigen niet met een puntkomma"
+msgstr "Bron en vertaling eindigen niet beide met een puntkomma."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Gebruikte kashida-letter"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "De decoratieve kashida-letters mogen niet gebruikt worden"
+msgstr "De decoratieve kashida-letters mogen niet gebruikt worden."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
@@ -3547,7 +3502,7 @@ msgstr "Fluent-type"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Vlag negeren"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -9781,6 +9736,8 @@ msgstr "Het onderdeel ‘%(component)s’ is ontgrendeld"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Opmerking: Deze samenvatting is afgebroken omdat er meer dan 100 "
+"notificaties waren."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -14265,7 +14222,7 @@ msgstr "Er zijn geen tekenreeksen om te vertalen"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Sorteervolgorde"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15798,7 +15755,7 @@ msgstr "%(file)s kan niet worden verwerkt: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
