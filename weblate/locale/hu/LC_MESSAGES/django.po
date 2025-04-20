@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-19 02:24+0000\n"
+"PO-Revision-Date: 2025-04-20 00:59+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -1353,7 +1353,7 @@ msgstr "Üres szövegek eltávolítása"
 #: weblate/addons/cleanup.py:80
 msgid "Removes strings without a translation from translation files."
 msgstr ""
-"Eltávolítja a fordítási fájlokból azokat a szövegeket, amelyekhez nincs "
+"Eltávolítja azokat a szövegeket a fordítási fájlokból, amelyekhez nincs "
 "fordítás."
 
 #: weblate/addons/consistency.py:22
@@ -1365,8 +1365,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Gondoskodik arról, hogy a projekt összes összetevője következetes "
-"nyelvkészletet használjon."
+"Biztosítja, hogy a projekt minden összetevőjénél egységes nyelvkészlet "
+"legyen használatban."
 
 #: weblate/addons/discovery.py:25
 msgid "Component discovery"
@@ -1522,7 +1522,7 @@ msgstr "A lefordított szövegek helyinformációinak eltávolítása"
 
 #: weblate/addons/forms.py:164
 msgid "Use fuzzy matching"
-msgstr "Bizonytalan (fuzzy) egyezések használata"
+msgstr "Szerkesztést igénylő (zavaros) egyezések használata"
 
 #: weblate/addons/forms.py:170
 msgid "Commit squashing"
@@ -1632,7 +1632,7 @@ msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:272
 msgid "Days to keep"
-msgstr "Megtartási napok száma"
+msgstr "Megőrzési idő (napokban)"
 
 #: weblate/addons/forms.py:278
 msgid "Voting threshold"
@@ -1646,7 +1646,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:289
 msgid "Regular expression to match translation files against"
-msgstr "Reguláris kifejezés, amellyel a fordítási fájlok egyezését vizsgáljuk"
+msgstr "Reguláris kifejezés, amellyel a fordítási fájlokat egyezteti"
 
 #: weblate/addons/forms.py:293
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -1661,23 +1661,23 @@ msgstr "Az összetevő nevének testreszabása"
 
 #: weblate/addons/forms.py:304
 msgid "Define the monolingual base filename"
-msgstr "Az egynyelvű alapfájl nevének megadása"
+msgstr "Az egynyelvű alapfájlnév meghatározása"
 
 #: weblate/addons/forms.py:307
 msgid "Leave empty for bilingual translation files."
-msgstr "Hagyja üresen a kétnyelvű fordítási fájloknál."
+msgstr "Hagyja üresen, ha kétnyelvű fordítási fájlt használ."
 
 #: weblate/addons/forms.py:310
 msgid "Define the base file for new translations"
-msgstr "Az új fordítások alapfájljának meghatározása"
+msgstr "Új fordítások alapfájljának meghatározása"
 
 #: weblate/addons/forms.py:314 weblate/trans/models/component.py:520
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Az új fordítások létrehozásához használt fájl neve. Gettext esetén válassz "
-".pot fájlt."
+"Az új fordítások létrehozásához használt fájl neve; gettext esetén például a "
+".pot fájl."
 
 #: weblate/addons/forms.py:319
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -1692,7 +1692,8 @@ msgid ""
 "source strings."
 msgstr ""
 "A köztes fordítási fájl neve. A legtöbb esetben ez egy fejlesztők által "
-"biztosított fordítási fájl, amit a forrásszövegek létrehozásakor használnak."
+"biztosított fordítási fájl, amelyet az eredeti forrásszövegek létrehozásakor "
+"használnak."
 
 #: weblate/addons/forms.py:330 weblate/trans/models/component.py:731
 msgid "Language filter"
@@ -1856,23 +1857,23 @@ msgstr ""
 
 #: weblate/addons/generate.py:134
 msgid "Pseudolocale generation"
-msgstr "Ál-lokáció (pseudolocale) generálása"
+msgstr "Álnyelvi (pseudolocale) generálás"
 
 #: weblate/addons/generate.py:136
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Fordítást generál azáltal, hogy automatikusan előtagot és utótagot ad a "
-"forrásszövegekhez."
+"Fordítást generál úgy, hogy automatikusan hozzáadja a forrásszövegekhez a "
+"megadott elő- és utótagokat."
 
 #: weblate/addons/generate.py:208
 msgid "Prefill translation with source"
-msgstr "Fordítás előzetes kitöltése a forrással"
+msgstr "Fordítás előzetes kitöltése forrásszöveggel"
 
 #: weblate/addons/generate.py:209
 msgid "Fills in translation strings with source string."
-msgstr "A fordítási szövegek automatikus kitöltése a forrásszöveggel."
+msgstr "A fordítási szövegeket a forrásszöveggel tölti ki."
 
 #: weblate/addons/generate.py:239
 msgid "Fill read-only strings with source"
@@ -1958,13 +1959,13 @@ msgstr "Git véglegesítések összevonása a változások feltöltése előtt."
 
 #: weblate/addons/json.py:13
 msgid "Customize JSON output"
-msgstr "JSON kimenet testreszabása"
+msgstr "JSON-kimenet testreszabása"
 
 #: weblate/addons/json.py:15
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Lehetővé teszi a JSON kimenet viselkedésének beállítását, például a kulcsok "
+"Lehetővé teszi a JSON-kimenet viselkedésének beállítását, például a kulcsok "
 "rendezését vagy a behúzást."
 
 #: weblate/addons/properties.py:142
@@ -6495,7 +6496,7 @@ msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"A kétlépcsős azonosítás további biztonsági réteget ad a fiókjához azáltal, "
+"A kétlépcsős hitelesítés további biztonsági réteget ad a fiókjához azáltal, "
 "hogy a bejelentkezéshez nemcsak jelszót, hanem egyéb hitelesítést is "
 "megkövetel."
 
@@ -6548,7 +6549,7 @@ msgstr "Új hitelesítő alkalmazás regisztrálása"
 #: weblate/templates/accounts/recovery-codes.html:15
 #: weblate/templates/accounts/recovery-codes.html:39
 msgid "Recovery codes"
-msgstr "Visszaállító kódok"
+msgstr "Helyreállítási kódok"
 
 #: weblate/templates/accounts/profile.html:337
 msgid "No recovery codes generated yet."
@@ -6751,8 +6752,8 @@ msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"Visszaállító kódok segítségével hozzáférhetsz a fiókodhoz, ha elveszted a "
-"készülékedet, és nem tudsz kétlépcsős azonosítási kódot fogadni."
+"A helyreállítási kódok lehetővé teszik a fiókhoz való hozzáférést akkor is, "
+"ha elveszíti az eszközét, és nem tud kétlépcsős hitelesítési kódot fogadni."
 
 #: weblate/templates/accounts/recovery-codes.html:35
 msgid ""
@@ -7981,7 +7982,7 @@ msgstr "Bármely hitelesített felhasználó hozzájárulhat."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
 msgid "VCS repository might be exposed to everybody."
-msgstr "A VCS (verziókezelő) tároló mindenki számára elérhetővé válhat."
+msgstr "A VCS (verziókezelő) tároló mindenki számára elérhető lehet."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -10138,7 +10139,7 @@ msgstr "Celery feladatsorok"
 
 #: weblate/templates/manage/performance.html:136
 msgid "System encoding"
-msgstr "Rendszer kódolása"
+msgstr "Rendszerkódolás"
 
 #: weblate/templates/manage/performance.html:143
 msgid "Web server"
@@ -14001,7 +14002,7 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Vegye figyelembe, hogy az összes szöveg lefordítása törölni fogja a meglévő "
+"Ne feledje, hogy az összes szöveg újrafordítása törölni fogja a meglévő "
 "fordításokat."
 
 #: weblate/trans/forms.py:917
@@ -14037,9 +14038,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Írja be annak az összetevőnek a URL-azonosítóját (slug), amelyet forrásként "
-"szeretne használni; hagyja üresen, ha az aktuális projekt összes "
-"összetevőjét használni szeretné."
+"Adja meg annak az összetevőnek az URL-azonosítóját (slug), amelyet "
+"forrásként szeretne használni; hagyja üresen, ha az aktuális projekt összes "
+"összetevőjét kívánja használni."
 
 #: weblate/trans/forms.py:992
 msgid "All components in current project"
