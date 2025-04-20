@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-20 14:05+0000\n"
+"PO-Revision-Date: 2025-04-21 07:29+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -7895,9 +7895,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
-"Általában az a szabály, hogy bármely ellenőrzéshez a ``ignore-*`` nevet "
-"használjuk az azonosítójával együtt, így még az egyéni ellenőrzéseidhez is "
-"használhatod ezt."
+"Általánosan igaz, hogy bármely ellenőrzés esetében az ``ignore-*`` "
+"elnevezést kell használni az azonosító alapján, így ezt saját egyedi "
+"ellenőrzéseknél is alkalmazhatja."
 
 #: ../../admin/checks.rst:348
 msgid ""
@@ -7905,13 +7905,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
-"Ezeket a jelzőket megértik mind a :ref:`component` beállításokban, a forrás "
-"stringenkénti beállításokban, mind magában a fordítási fájlban (például a "
-"GNU gettext esetében)."
+"Ezeket a jelzőket a :ref:`component` beállításaiban, egyes forrásszöveg-"
+"beállításokban, valamint magában a fordítási fájlban is értelmezi a rendszer "
+"(például a GNU gettext esetében)."
 
 #: ../../admin/checks.rst:354
 msgid "Enforcing checks"
-msgstr "Ellenőrzések érvényesítése"
+msgstr "Ellenőrzések kötelezővé tétele"
 
 #: ../../admin/checks.rst:356
 msgid ""
@@ -7920,20 +7920,20 @@ msgid ""
 "be dismissed in the user interface and any string failing this check is "
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Beállíthatsz egy olyan ellenőrzési listát, amelyet nem lehet figyelmen kívül "
-"hagyni a :ref:`component-enforced_checks` beállítással a :ref:`component` "
-"szinten. A listában szereplő ellenőrzések nem hagyhatók jóvá a felhasználói "
-"felületen, és minden olyan szöveg, amely nem megy át ezeken, :guilabel:`"
-"Szerkesztést igényel` állapottal lesz megjelölve (lásd: :ref:`states`)."
+"A :ref:`component-enforced_checks` beállítás megadásával meghatározható, "
+"hogy mely ellenőrzéseket nem lehet figyelmen kívül hagyni az adott "
+":ref:`component` szinten. Az itt megadott ellenőrzések nem hagyhatók jóvá a "
+"felhasználói felületen, és az ezekben hibázó szövegek :guilabel:`"
+"Szerkesztést igényel` állapotúak lesznek (lásd: :ref:`states`)."
 
 #: ../../admin/checks.rst:363
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
-"Az ellenőrzés kikényszerítésének bekapcsolása nem aktiválja automatikusan. "
-"Az ellenőrzés a megfelelő jelző hozzáadásával kapcsolható be a szöveg- vagy "
-"összetevőjelzőkhöz."
+"Az ellenőrzések kötelezővé tétele önmagában még nem kapcsolja be őket. Az "
+"ellenőrzés aktiválásához hozzá kell adni a megfelelő jelzőt a szöveg vagy az "
+"összetevő jelzői közé."
 
 #: ../../admin/checks.rst:368
 msgid ":ref:`additional`, :ref:`component-check_flags`"
@@ -7949,8 +7949,8 @@ msgid ""
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
 "A Weblate-be feltöltött betűtípusok kizárólag a :ref:`check-max-size` "
-"ellenőrzés céljából kerülnek felhasználásra, nem befolyásolják a Weblate "
-"felhasználói felületét."
+"ellenőrzéshez szükségesek, a Weblate felhasználói felületének megjelenését "
+"nem befolyásolják."
 
 #: ../../admin/checks.rst:382
 msgid ""
@@ -7958,10 +7958,10 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"A :ref:`check-max-size` ellenőrzés, amely a megjelenített szöveg méreteinek "
-"kiszámítására szolgál, megköveteli, hogy a betűtípus be legyen töltve a "
-"Weblate-be, és egy fordítási jelölővel legyen kiválasztva (lásd: :ref:"
-"`custom-checks`)."
+"A :ref:`check-max-size` ellenőrzés, amely a megjelenített szöveg méretét "
+"számítja ki, megköveteli a megfelelő betűtípus betöltését a Weblate-be, és "
+"annak kiválasztását egy fordítási jelzőn keresztül (lásd: :ref:`custom-"
+"checks`)."
 
 #: ../../admin/checks.rst:386
 msgid ""
@@ -7970,28 +7970,27 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
-"A Weblate a fordítási projekted :guilabel:`Kezelés` menüje alatt található "
-":guilabel:`Fonts` eszközével lehetőséget biztosít a betűtípusok feltöltésére "
-"és kezelésére. Feltölthetsz TrueType vagy OpenType betűtípusokat, "
-"létrehozhatsz betűtípus-csoportokat, és ezeket használhatod az ellenőrzés "
-"során."
+"A Weblate :guilabel:`Kezelés` menüjében, a :guilabel:`Betűtípusok` alatt "
+"elérhető betűtípus-kezelő felület lehetőséget ad betűtípusok feltöltésére és "
+"kezelésére. TrueType vagy OpenType formátumú betűtípusok tölthetők fel, "
+"betűcsoportok hozhatók létre, és ezek használhatók az ellenőrzések során."
 
 #: ../../admin/checks.rst:391
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
-"A font-csoportok lehetővé teszik, hogy különböző nyelvekhez különböző "
-"betűtípusokat határozz meg, ami általában a nem latin nyelveknél szükséges:"
+"A betűcsoportok lehetővé teszik, hogy különböző nyelvekhez eltérő "
+"betűtípusokat rendeljen, ami jellemzően nem latin alapú nyelveknél szükséges:"
 
 #: ../../admin/checks.rst:396
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
-"A font-csoportokat név alapján azonosítják, amely nem tartalmazhat szóközt "
-"vagy speciális karaktereket, így könnyen használható az ellenőrzés "
-"meghatározásában:"
+"A betűcsoportokat névvel kell azonosítani, amely nem tartalmazhat szóközt "
+"vagy speciális karaktert, hogy könnyen lehessen hivatkozni rájuk az "
+"ellenőrzésekben:"
 
 #: ../../admin/checks.rst:401
 msgid "Font-family and style is automatically recognized after uploading them:"
@@ -8001,16 +8000,16 @@ msgstr ""
 
 #: ../../admin/checks.rst:405
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr "Több betűtípust is betölthetsz a Weblate-be:"
+msgstr "Több betűtípus is betölthető a Weblate-be:"
 
 #: ../../admin/checks.rst:409
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
-"Ahhoz, hogy a betűtípusokat a string hosszának ellenőrzésére használd, add "
-"át a megfelelő jelzőket (lásd: :ref:`custom-checks`). Valószínűleg a "
-"következőkre lesz szükséged:"
+"A szöveghossz ellenőrzéséhez a megfelelő jelzők segítségével kell beállítani "
+"a használandó betűtípust (lásd: :ref:`custom-checks`). Általában az alábbi "
+"beállításokra lesz szükség:"
 
 #: ../../admin/checks.rst:412
 msgid "``max-size:500`` / ``max-size:300:5``"
@@ -8021,8 +8020,8 @@ msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
-"Meghatározza a maximális szélességet pixelben, és opcionálisan a maximális "
-"sorok számát (a szavak tördelése alkalmazva van)."
+"Maximális szélesség pixelben, és opcionálisan a maximális sorok száma ("
+"szövegtördelés figyelembevételével)."
 
 #: ../../admin/checks.rst:414
 msgid "``font-family:ubuntu``"
@@ -8030,8 +8029,7 @@ msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:415
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
-"Meghatározza a használni kívánt font csoportot az azonosítója megadásával."
+msgstr "A használandó betűcsoport azonosítójának megadása."
 
 #: ../../admin/checks.rst:416
 msgid "``font-size:22``"
@@ -8039,11 +8037,11 @@ msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:417
 msgid "Defines font size in pixels."
-msgstr "Meghatározza a betűméretet pixelben."
+msgstr "A betűméret pixelben."
 
 #: ../../admin/checks.rst:423
 msgid "Writing own checks"
-msgstr "Saját ellenőrzések írása"
+msgstr "Egyedi ellenőrzések írása"
 
 #: ../../admin/checks.rst:425
 msgid ""
@@ -8052,27 +8050,27 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
-"Széles körű minőségellenőrzések vannak beépítve (lásd: :ref:`checks`), bár "
-"lehet, hogy nem fedik le mindazt, amit ellenőrizni szeretnél. Az elvégzett "
-"ellenőrzések listája a :setting:`CHECK_LIST` segítségével módosítható, és "
-"egyedi ellenőrzéseket is hozzáadhatsz."
+"Számos minőségellenőrzés be van építve (lásd: :ref:`checks`), de ezek nem "
+"feltétlenül fednek le minden egyedi igényt. Az elvégzett ellenőrzések "
+"listája a :setting:`CHECK_LIST` beállítással módosítható, és saját egyedi "
+"ellenőrzéseket is hozzá lehet adni."
 
 #: ../../admin/checks.rst:429
 msgid "Subclass the `weblate.checks.Check`"
-msgstr "Származtass osztályt a `weblate.checks.Check` osztályból"
+msgstr "Ehhez származtasson egy osztályt a `weblate.checks.Check` osztályból"
 
 #: ../../admin/checks.rst:430
 msgid "Set a few attributes."
-msgstr "Állíts be néhány attribútumot."
+msgstr "Állítson be néhány attribútumot."
 
 #: ../../admin/checks.rst:431
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
-"Valósítsd meg vagy a ``check`` metódust (ha a kódban szeretnéd kezelni a "
-"többes számokat) vagy a ``check_single`` metódust (ami ezt elvégzi "
-"helyetted)."
+"Valósítsa meg vagy a ``check`` metódust (ha a többes számok kezelését is "
+"saját kódban szeretné végezni), vagy a ``check_single`` metódust (ami ezt "
+"automatikusan elintézi)."
 
 #: ../../admin/checks.rst:434
 msgid "Some examples:"
@@ -8083,36 +8081,34 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Egyedi ellenőrzések telepítéséhez add meg a Python osztály teljesen "
-"meghatározott útvonalát a :setting:`CHECK_LIST`-ben, lásd: :ref:`custom-"
-"check-modules`."
+"Egyedi ellenőrzések telepítéséhez adja meg a Python osztály teljes elérési "
+"útját a :setting:`CHECK_LIST` beállításban, részletek: :ref:`custom-check-"
+"modules`."
 
 #: ../../admin/checks.rst:440
 msgid "Checking translation text does not contain \"foo\""
 msgstr ""
-"Annak ellenőrzése, hogy a fordítás szövege nem tartalmazza a \"foo\" szót"
+"Ellenőrzés: a fordítás szövege nem tartalmazhatja a \"foo\" karakterláncot"
 
 #: ../../admin/checks.rst:442
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
-"Ez egy meglehetősen egyszerű ellenőrzés, amely csak azt vizsgálja, hogy a "
-"fordításból hiányzik-e a \"foo\" karakterlánc."
+"Ez egy egyszerű ellenőrzés, amely csak azt vizsgálja, hogy a fordításból "
+"hiányzik-e a \"foo\" szöveg."
 
 #: ../../admin/checks.rst:449
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
-"Annak ellenőrzése, hogy a cseh fordítás szövegének többes számai különböznek-"
-"e egymástól"
+msgstr "Ellenőrzés: a cseh fordítás többes számai eltérnek-e"
 
 #: ../../admin/checks.rst:451
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
-"Ellenőrzés a nyelvi információk felhasználásával, hogy megbizonyosodj arról, "
-"hogy a cseh nyelv két többes száma nem azonos."
+"Ez az ellenőrzés nyelvi információ alapján ellenőrzi, hogy a cseh nyelv két "
+"többes számú alakja nem azonos-e."
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
@@ -8124,15 +8120,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
-"Adj meg több összetevőlistát, amelyek lehetőségként jelennek meg a "
-"felhasználói irányítópulton, ahonnan a felhasználók kiválaszthatják az egyik "
-"alapértelmezett nézetként. További információkért lásd: :ref:`dashboard`."
+"Több összetevőlistát is megadhat, amelyek közül a felhasználók "
+"kiválaszthatják az alapértelmezett nézetüket a felhasználói irányítópulton. "
+"További részletekért lásd: :ref:`dashboard`."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr "Minden összetevőlistához egy állapot jelenik meg az irányítópulton."
+msgstr ""
+"Az irányítópulton megjelenő minden egyes összetevőlistához státuszt is "
+"megjelenít a rendszer."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -8141,19 +8139,19 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
-"Az összetevőlisták nevei és tartalma megadható az admin felületen, a :"
-"guilabel:`Component lists` szekcióban. Minden összetevőlistának rendelkeznie "
-"kell egy, a felhasználó számára megjelenített névvel és egy, a URL-ben "
-"megjelenő sluggal."
+"Az összetevőlisták nevét és tartalmát az adminisztrációs felületen, a "
+":guilabel:`Összetevőlisták` szekcióban lehet megadni. Minden "
+"összetevőlistának rendelkeznie kell egy névvel (amit a felhasználók látnak) "
+"és egy URL-azonosítóval (slug)."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
-"Módosítsd az anonim felhasználók irányítópult beállításait az "
-"adminisztrációs felületen, megváltoztatva, hogy milyen irányítópult jelenik "
-"meg a hitelesítetlen felhasználóknak."
+"Az anonim felhasználók számára megjelenő irányítópult beállításait az "
+"adminisztrációs felületen lehet módosítani, így megadható, milyen "
+"irányítópult jelenjen meg a nem hitelesített látogatóknak."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -8164,8 +8162,9 @@ msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
-"Adj hozzá összetevőket a listához automatikusan a slugjuk alapján, a :"
-"guilabel:`Automatic component list assignment` szabályok létrehozásával."
+"Összetevőket automatikusan is hozzáadhat listákhoz az URL-azonosítójuk (slug)"
+" alapján, ha létrehozza a :guilabel:`Automatikus összetevőlista "
+"hozzárendelés` szabályokat."
 
 #: ../../admin/componentlists.rst:31
 msgid ""
@@ -8173,17 +8172,16 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"Hasznos lehet nagy telepítések összetevőlistáinak karbantartásához vagy ha "
-"egyetlen összetevőlistát szeretnél az összes összetevővel a Weblate "
-"telepítéseden."
+"Ez különösen hasznos nagyobb telepítések kezeléséhez vagy ha minden "
+"összetevőt tartalmazó közös összetevőlistát szeretne létrehozni."
 
 #: ../../admin/componentlists.rst:36
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
-"Készíts egy összetevőlistát, amely tartalmazza a Weblate telepítésed összes "
-"összetevőjét."
+"Így készíthet egy összetevőlistát, amely tartalmazza a Weblate telepítés "
+"összes összetevőjét."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
@@ -8191,48 +8189,48 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. Határozd meg a :guilabel:`Automatic component list assignment`-et ``^."
-"*$`` reguláris kifejezéssel mind a projekt, mind az összetevő mezőkben, "
-"ahogy az ezen a képen látható:"
+"1. Hozzon létre egy :guilabel:`Automatikus összetevőlista hozzárendelés` "
+"szabályt, ahol mind a projekt, mind az összetevő mezőben a ``^.*$`` "
+"reguláris kifejezést adja meg, ahogy az alábbi képen látható:"
 
 #: ../../admin/componentlists.rst:41
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
-"Kép, amely a Weblate adminisztrációs paneljét mutatja a fent kitöltött "
-"konfigurációval."
+"A kép a Weblate adminisztrációs paneljét mutatja, a fenti konfigurációval "
+"kitöltve."
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
 "Minden beállítás a :file:`settings.py` fájlban van tárolva (ahogy az a "
-"Django esetében szokásos)."
+"Django rendszernél szokásos)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
 msgstr ""
-"Bármelyik beállítás módosítása után újra kell indítanod a Weblate-et — mind "
-"a WSGI, mind a Celery folyamatokat."
+"A beállítások módosítása után újra kell indítani a Weblate-et — mind a WSGI, "
+"mind a Celery folyamatokat."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
-"Ha ``mod_wsgi``-ként fut, újra kell indítanod az Apache-ot a konfiguráció "
-"újratöltéséhez."
+"Ha ``mod_wsgi`` alatt futtatja a Weblate-et, az Apache szervert is újra kell "
+"indítani a konfiguráció betöltéséhez."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"Kérlek, nézd meg a :doc:`Django dokumentációját <django:ref/settings>` is a "
-"Django saját konfigurálására szolgáló paraméterekért."
+"Érdemes áttekinteni a :doc:`Django dokumentációját <django:ref/settings>` "
+"is, amely a Django saját beállításait ismerteti."
 
 #: ../../admin/config.rst:24
 msgid "ADMINS_CONTACT"
@@ -8243,12 +8241,13 @@ msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
 "addresses from :setting:`ADMINS` are used."
 msgstr ""
-"Beállítja, hogy a kapcsolatfelvételi űrlap hova küldje az e-maileket. Ha "
-"nincs beállítva, akkor a :setting:`ADMINS` e-mail címeket használja."
+"Ez határozza meg, hova küldje a kapcsolatfelvételi űrlap az e-maileket. Ha "
+"nincs külön megadva, a :setting:`ADMINS` beállításban szereplő e-mail címek "
+"lesznek használva."
 
 #: ../../admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
-msgstr "Állítsd be ezt e-mail címek listájaként:"
+msgstr "A beállítást egy e-mail címekből álló listaként kell megadni:"
 
 #: ../../admin/config.rst:37
 msgid ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
@@ -8264,10 +8263,9 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
-"A Weblate használhatja az Akismet szolgáltatást, hogy ellenőrizze a beérkező "
-"névtelen javaslatokat spam szempontjából. Látogass el az `akismet.com "
-"<https://akismet.com/>`_ oldalra, hogy megvásárolj egy API kulcsot és "
-"társítsd azt egy webhellyel."
+"A Weblate képes az Akismet szolgáltatást használni az anonim javaslatok "
+"spamek elleni ellenőrzésére. API kulcs vásárlásához és regisztrációhoz "
+"látogasson el az `akismet.com <https://akismet.com/>`_ oldalra."
 
 #: ../../admin/config.rst:52
 msgid "ALTCHA_MAX_NUMBER"
@@ -8275,7 +8273,7 @@ msgstr "ALTCHA_MAX_NUMBER"
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr "Beállítja az ALTCHA proof-of-work mechanizmus maximális számát."
+msgstr "A maximális szám konfigurálása az ALTCHA proof-of-work mechanizmushoz."
 
 #: ../../admin/config.rst:60
 msgid ""
@@ -8289,7 +8287,7 @@ msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:67
 msgid "Username of users that are not signed in."
-msgstr "A be nem jelentkezett felhasználók felhasználóneve."
+msgstr "A nem bejelentkezett felhasználók felhasználóneve."
 
 #: ../../admin/config.rst:71
 msgid ":ref:`access-control`"
@@ -8304,12 +8302,12 @@ msgid ""
 "The maximum number of days Weblate will keep audit logs containing "
 "information about the account activity."
 msgstr ""
-"A maximális napok száma, ameddig a Weblate megőrzi a fióktevékenységre "
-"vonatkozó naplókat."
+"A naplózási adatokban tárolt fióktevékenységi információk maximális "
+"megőrzési ideje napokban számolva."
 
 #: ../../admin/config.rst:81 ../../admin/config.rst:172
 msgid "Defaults to 180 days."
-msgstr "Alapértelmezés szerint 180 nap."
+msgstr "Alapértelmezett érték: 180 nap."
 
 #: ../../admin/config.rst:86
 msgid "AUTH_LOCK_ATTEMPTS"
@@ -8320,33 +8318,32 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
-"A sikertelen hitelesítési kísérletek maximális száma, mielőtt a "
-"sebességkorlátozás érvénybe lép."
+"A hibás hitelesítési kísérletek maximális száma, mielőtt a rendszer "
+"korlátozást alkalmaz."
 
 #: ../../admin/config.rst:90
 msgid "This is currently applied in the following locations:"
-msgstr "Ez jelenleg a következő helyeken van alkalmazva:"
+msgstr "Jelenleg az alábbi esetekben érvényesül:"
 
 #: ../../admin/config.rst:92
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
-"Jelentkezz be. Törli a fiók jelszavát, megakadályozva, hogy a felhasználó új "
-"jelszó kérése nélkül bejelentkezzen."
+"Bejelentkezés: Törli a fiók jelszavát, így a felhasználó nem tud "
+"bejelentkezni, amíg új jelszót nem igényel."
 
 #: ../../admin/config.rst:94
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
 msgstr ""
-"Jelszó visszaállítása. Megakadályozza, hogy új e-mailek legyenek küldve, így "
-"elkerülve, hogy a felhasználók túl sok jelszó-visszaállítási kísérlettel "
-"legyenek zaklatva."
+"Jelszó visszaállítása: új visszaállító e-mailek küldését tiltja le, "
+"elkerülve a visszaélésből eredő spamküldést."
 
 #: ../../admin/config.rst:97
 msgid "Defaults to 10."
-msgstr "Alapértelmezés szerint 10."
+msgstr "Alapértelmezett érték: 10 hibás próbálkozás."
 
 #: ../../admin/config.rst:101
 msgid ":ref:`rate-limit`"
@@ -8358,27 +8355,27 @@ msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:108
 msgid "Updates all repositories on a daily basis."
-msgstr "Minden nap frissíti az összes tárolót."
+msgstr "Minden tárolót napi rendszerességgel frissít."
 
 #: ../../admin/config.rst:112
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
-"Hasznos, ha nem használod a(z) :ref:`hooks`-ot a Weblate tárolók automatikus "
-"frissítésére."
+"Ez akkor lehet hasznos, ha nem használja a :ref:`hooks` funkciót a Weblate "
+"tárolók automatikus frissítésére."
 
 #: ../../admin/config.rst:116
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
-"Be- és kikapcsolási lehetőségek is léteznek a karakterlánc kiválasztása "
-"mellett a visszamenőleges kompatibilitás érdekében."
+"A kompatibilitás megőrzése érdekében a karakterlánc-választás mellett ki- és "
+"bekapcsolási lehetőségek is elérhetők."
 
 #: ../../admin/config.rst:118
 msgid "The options are:"
-msgstr "A lehetőségek a következők:"
+msgstr "Az elérhető opciók:"
 
 #: ../../admin/config.rst:120 ../../admin/config.rst:475
 msgid "``\"none\"``"
@@ -8386,11 +8383,11 @@ msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:121
 msgid "No daily updates."
-msgstr "Nincsenek napi frissítések."
+msgstr "Napi frissítések kikapcsolása."
 
 #: ../../admin/config.rst:122
 msgid "``\"remote\"`` also ``False``"
-msgstr "``\"remote\"`` illetve ``False``"
+msgstr "``\"remote\"`` — ugyanaz, mint a ``False`` érték"
 
 #: ../../admin/config.rst:123
 msgid "Only update remotes."
@@ -8398,19 +8395,19 @@ msgstr "Csak a távoli tárolók frissítése."
 
 #: ../../admin/config.rst:124
 msgid "``\"full\"`` also ``True``"
-msgstr "``\"full\"`` illetve ``True``"
+msgstr "``\"full\"`` — ugyanaz, mint a ``True`` érték"
 
 #: ../../admin/config.rst:125
 msgid "Update remotes and merge working copy."
-msgstr "Távoli tárolók frissítése és a munkapéldány egyesítése."
+msgstr "A távoli tárolók frissítése és a munkapéldány összeolvasztása."
 
 #: ../../admin/config.rst:129
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
-"Ez megköveteli, hogy a(z) :ref:`celery` működjön, és a módosítás az "
-"újraindítás után lép életbe."
+"Ez a beállítás csak akkor működik, ha a :ref:`celery` megfelelően fut, és a "
+"módosítás után újra kell indítani."
 
 #: ../../admin/config.rst:134
 msgid "AVATAR_URL_PREFIX"
@@ -8421,13 +8418,12 @@ msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
-"Az avatar URL-ek felépítéséhez használt prefix: ``${AVATAR_URL_PREFIX}/"
-"avatar/${MAIL_HASH}?${PARAMS}``. Az alábbi szolgáltatások ismertek, hogy "
-"működnek:"
+"Avatar URL-ek előtagja, az alábbi formátumban: ``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``. Az alábbi szolgáltatásokkal működik:"
 
 #: ../../admin/config.rst:140
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr "Gravatar (alapértelmezett), a https://gravatar.com/ szerint"
+msgstr "Gravatar (alapértelmezett), lásd: https://gravatar.com/"
 
 #: ../../admin/config.rst:141
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
@@ -8435,7 +8431,7 @@ msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:142
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr "Libravatar, a https://www.libravatar.org/ szerint"
+msgstr "Libravatar, lásd: https://www.libravatar.org/"
 
 #: ../../admin/config.rst:143
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
@@ -8457,9 +8453,9 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
-"Meddig érvényes a hitelesítési token és az ideiglenes jelszó a jelszó-"
-"visszaállító e-mailekből. Másodpercekben megadva, alapértelmezés szerint "
-"172800 (2 nap)."
+"Az hitelesítő tokenek és a jelszó-visszaállító e-mailekben küldött "
+"ideiglenes jelszavak érvényességi ideje másodpercben megadva. "
+"Alapértelmezett érték: 172800 másodperc (2 nap)."
 
 #: ../../admin/config.rst:161
 msgid "AUTH_PASSWORD_DAYS"
@@ -8469,16 +8465,16 @@ msgstr "AUTH_PASSWORD_DAYS"
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
 msgstr ""
-"Hány napig utasítja el a Weblate, hogy egy felhasználó újra használja egy "
-"korábban használt jelszavát."
+"A napok száma, ameddig a Weblate nem engedi egy korábban használt jelszó "
+"újrafelhasználását ugyanazon felhasználó számára."
 
 #: ../../admin/config.rst:165
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
-"Az ellenőrzés az audit naplóra épül, a :setting:`AUDITLOG_EXPIRY` "
-"beállításnak legalább ugyanannyi ideig kell lennie, mint ennek."
+"Az ellenőrzés az auditnaplón alapul, így a :setting:`AUDITLOG_EXPIRY` "
+"beállítás értékének legalább ekkorának kell lennie."
 
 #: ../../admin/config.rst:170
 msgid ""
@@ -8493,25 +8489,23 @@ msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:179
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
-"Az automatikus javítások listája, amelyek alkalmazásra kerülnek egy szöveg "
-"mentésekor."
+msgstr "Automatikusan alkalmazott javítások listája szöveg mentésekor."
 
 #: ../../admin/config.rst:183
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
 msgstr ""
-"Adj meg egy teljesen meghatározott elérési utat ahhoz a Python osztályhoz, "
-"amely megvalósítja az autofixer interfészt."
+"Adja meg az automatikus javítót megvalósító Python osztály teljes elérési "
+"útját."
 
 #: ../../admin/config.rst:186
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr "Az elérhető javítások a(z) :ref:`autofix` részben vannak leírva."
+msgstr "Az elérhető javításokat a :ref:`autofix` rész tartalmazza."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
-msgstr "Kiválaszthatod, melyiket szeretnéd használni:"
+msgstr "Kiválaszthatja, hogy mely javításokat kívánja használni:"
 
 #: ../../admin/config.rst:199
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -8526,24 +8520,24 @@ msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
-"Meghatározza, hogy milyen gyakran legyenek elindítva a hosszadalmas "
-"karbantartási feladatok egy összetevő esetében."
+"Meghatározza, hogy milyen gyakran indítsa el a rendszer a hosszabb "
+"karbantartási feladatokat egy összetevőnél."
 
 #: ../../admin/config.rst:211
 msgid "Right now this controls:"
-msgstr "Jelenleg ez szabályozza:"
+msgstr "Jelenleg az alábbiak vezérlésére szolgál:"
 
 #: ../../admin/config.rst:213
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` extra"
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate` kiegészítő"
 
 #: ../../admin/config.rst:214
 msgid ":doc:`checks` recalculation"
-msgstr "A :doc:`checks` újraszámítása"
+msgstr ":doc:`checks` újraszámítása"
 
 #: ../../admin/config.rst:216
 msgid "Possible choices:"
-msgstr "Lehetséges választások:"
+msgstr "Lehetséges beállítások:"
 
 #: ../../admin/config.rst:218
 msgid "``monthly`` (this is the default)"
@@ -8566,8 +8560,8 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
-"Nem ajánlott növelni a gyakoriságot, ha a Weblate több ezer összetevőt "
-"tartalmaz."
+"A gyakoriság növelése nem ajánlott, ha a Weblate telepítés több ezer "
+"összetevőt tartalmaz."
 
 #: ../../admin/config.rst:231
 msgid "BASIC_LANGUAGES"
@@ -8579,10 +8573,9 @@ msgid ""
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
-"Azoknak a nyelveknek a listája, amelyeket a felhasználóknak felajánlanak egy "
-"új fordítás indításakor. Ha nincs megadva, egy beépített lista kerül "
-"használatra (amely tartalmazza az összes gyakran használt nyelvet, de ország "
-"specifikus változatok nélkül)."
+"A felhasználók számára felkínált nyelvek listája új fordítás indításakor. Ha "
+"nincs megadva, a beépített lista lesz használva (amely minden elterjedt "
+"nyelvet tartalmaz, de ország-specifikus változatok nélkül)."
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -8590,17 +8583,18 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
-"Ez csak a nem privilegizált felhasználókat korlátozza abban, hogy nem kívánt "
-"nyelveket adjanak hozzá. A projekt adminisztrátorok továbbra is megkapják a "
-"Weblate-ben meghatározott teljes nyelvválasztékot."
+"Ez a beállítás csak a az adminisztrációs joggal nem rendelkező felhasználók "
+"számára korlátozza a nem kívánt nyelvek hozzáadását. A projekt "
+"adminisztrátorok továbbra is a Weblate által definiált teljes nyelvlistát "
+"látják."
 
 #: ../../admin/config.rst:244
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
 msgstr ""
-"Ez nem határoz meg új nyelveket a Weblate számára — csak a meglévőket szűri "
-"az adatbázisban."
+"Ez a beállítás nem hoz létre új nyelveket a Weblate-ben — csupán az "
+"adatbázisban meglévő nyelvek szűrését szabályozza."
 
 #: ../../admin/config.rst:255 ../../faq.rst:376
 msgid ":ref:`languages`"
@@ -8615,8 +8609,8 @@ msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
-"További argumentumokat adhatsz meg a :command:`borg create` parancshoz, "
-"amikor a beépített biztonsági mentések elindulnak."
+"További argumentumokat adhat meg a :command:`borg create` parancshoz, amikor "
+"a beépített biztonsági mentések elindulnak."
 
 #: ../../admin/config.rst:274
 msgid ":ref:`backup`, :doc:`borg:usage/create`"
@@ -8631,28 +8625,27 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
-"Az a könyvtár, ahol a Weblate a gyorsítótár fájlokat tárolja. Alapértelmezés "
-"szerint a :setting:`DATA_DIR` könyvtár :file:`cache` almappájában található."
+"A könyvtár, ahol a Weblate a gyorsítótár fájlokat tárolja. Alapértelmezett "
+"hely: a :setting:`DATA_DIR` könyvtár :file:`cache` almappája."
 
 #: ../../admin/config.rst:287
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
-"Változtasd meg ezt helyi vagy ideiglenes fájlrendszerre, ha a :setting:"
-"`DATA_DIR` hálózati fájlrendszeren van."
+"Érdemes helyi vagy ideiglenes fájlrendszert megadni erre a célra, ha a "
+":setting:`DATA_DIR` hálózati fájlrendszeren található."
 
 #: ../../admin/config.rst:290 ../../admin/config.rst:444
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
-"A Docker-konténer külön kötetet használ erre a célra, lásd: :ref:`docker-"
-"volume`."
+"A Docker-konténer külön kötetet használ ehhez, lásd: :ref:`docker-volume`."
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
-msgstr "A következő alkönyvtárak általában léteznek:"
+msgstr "A következő alkönyvtárak jellemzően léteznek:"
 
 #: ../../admin/config.rst:294
 msgid ":file:`fonts`"
@@ -8660,7 +8653,7 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:295
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ":program:`font-config` gyorsítótára a :ref:`fonts` számára."
+msgstr ":program:`font-config` gyorsítótár a :ref:`fonts` kezeléséhez."
 
 #: ../../admin/config.rst:296
 msgid ":file:`avatar`"
@@ -8668,7 +8661,7 @@ msgstr ":file:`avatar`"
 
 #: ../../admin/config.rst:297
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Gyorsítótárazott felhasználói avatarok, lásd: :ref:`avatars`."
+msgstr "Gyorsítótárazott felhasználói avatárok, lásd: :ref:`avatars`."
 
 #: ../../admin/config.rst:298
 msgid ":file:`static`"
@@ -8679,8 +8672,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
-"A statikus Django fájlok alapértelmezett helye, amit a :setting:`django:"
-"STATIC_ROOT` határoz meg. Lásd: :ref:`static-files`."
+"Alapértelmezett hely a statikus Django-fájlok számára, amit a "
+":setting:`django:STATIC_ROOT` határoz meg. Lásd: :ref:`static-files`."
 
 #: ../../admin/config.rst:300
 msgid ":file:`tesseract`"
@@ -8688,7 +8681,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:301
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr "OCR tanított adatok a :ref:`screenshots` számára."
+msgstr "OCR betanított adatok a :ref:`screenshots` funkcióhoz."
 
 #: ../../admin/config.rst:311
 msgid ""
@@ -8704,21 +8697,21 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Testre szabhatod a :http:header:`Content-Security-Policy` fejlécet a Weblate "
-"számára. A fejléc automatikusan generálódik a harmadik féltől származó "
-"szolgáltatásokkal (Matomo, Google Analytics, Sentry, …) való engedélyezett "
-"integrációk alapján."
+"A Weblate :http:header:`Content-Security-Policy` fejlécének testreszabása. "
+"Az alapértelmezett fejléc automatikusan generálódik az engedélyezett "
+"harmadik fél integrációk (például Matomo, Google Analytics, Sentry stb.) "
+"alapján."
 
 #: ../../admin/config.rst:317
 msgid "All these default to empty list."
-msgstr "Ezek mind alapértelmezetten üres listák."
+msgstr "Minden ilyen beállítás alapértelmezés szerint üres lista."
 
 #: ../../admin/config.rst:328
 msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/Guides/CSP>`_"
 msgstr ""
-":ref:`csp`, `Tartalombiztonsági irányelv (CSP) <https://"
+"További információ: :ref:`csp`, `Tartalombiztonsági irányelv (CSP) <https://"
 "developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>`_"
 
 #: ../../admin/config.rst:334
@@ -8727,21 +8720,19 @@ msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:336
 msgid "List of quality checks to perform on a translation."
-msgstr "A minőségellenőrzések listája, amelyeket a fordításon kell elvégezni."
+msgstr "A fordításokon végrehajtandó minőségellenőrzések listája."
 
 #: ../../admin/config.rst:340
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
-"Adj meg egy teljesen kvalifikált elérési utat a Python osztályhoz, amely "
-"megvalósítja az ellenőrzési interfészt."
+"Adja meg az ellenőrzési felületet megvalósító Python osztály teljes elérési "
+"útját."
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr ""
-"Állítsd be az ellenőrzések listáját, hogy tartalmazza a számodra "
-"relevánsakat."
+msgstr "A saját igényei szerint állítsa össze az ellenőrzések listáját."
 
 #: ../../admin/config.rst:345
 msgid ""
@@ -8750,19 +8741,18 @@ msgid ""
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
-"Alapértelmezetten az összes beépített :ref:`checks` be van kapcsolva, innen "
-"változtathatod meg ezeket a beállításokat. Alapértelmezetten ki vannak "
-"kommentelve a :ref:`sample-configuration`-ben, így az alapértelmezett "
-"értékek kerülnek használatra. Az új Weblate verziók esetén új ellenőrzések "
-"kerülnek végrehajtásra."
+"Minden beépített :ref:`checks` alapértelmezetten be van kapcsolva, ezeket a "
+":ref:`sample-configuration` fájlban tudja módosítani, ahol kezdetben ki "
+"vannak kommentelve, így az alapértékek érvényesülnek. Minden új Weblate "
+"verzióval az új ellenőrzések automatikusan lefutnak."
 
 #: ../../admin/config.rst:349
 msgid "You can turn off all checks:"
-msgstr "Kikapcsolhatod az összes ellenőrzést:"
+msgstr "Az összes ellenőrzést ki is kapcsolhatja:"
 
 #: ../../admin/config.rst:355
 msgid "You can turn on only a few:"
-msgstr "Bekapcsolhatsz csak néhányat:"
+msgstr "Csak néhány ellenőrzést is engedélyezhet:"
 
 #: ../../admin/config.rst:367
 msgid ""
@@ -8770,10 +8760,9 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
-"Ennek a beállításnak a módosítása csak az újonnan megváltoztatott "
-"fordításokra van hatással. A meglévő ellenőrzések továbbra is az "
-"adatbázisban maradnak. Ha a tárolt fordításokra is alkalmazni szeretnéd a "
-"módosításokat, futtasd a :wladmin:`updatechecks` parancsot."
+"A beállítás módosítása csak az újonnan módosított fordításokra lesz "
+"hatással. A meglévő ellenőrzések továbbra is az adatbázisban maradnak. Ha "
+"ezeket is szeretné frissíteni, futtassa a :wladmin:`updatechecks` parancsot."
 
 #: ../../admin/config.rst:373 ../../admin/translating.rst:88
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -8788,8 +8777,8 @@ msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
-"Töröld a megjegyzéseket egy adott nap elteltével. Alapértelmezés szerint "
-"``None``, vagyis egyáltalán nem törli őket."
+"Kommentek törlése egy meghatározott nap után. Alapértelmezés szerint ``None``"
+", azaz nem törlődik semmi automatikusan."
 
 #: ../../admin/config.rst:386
 msgid "COMMIT_PENDING_HOURS"
@@ -8800,16 +8789,16 @@ msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
-"Az órák száma a függőben lévő változtatások háttérfeladat általi "
-"elkötelezése között."
+"A háttérfeladatként történő függőben lévő változtatások véglegesítése "
+"közötti órák száma."
 
 #: ../../admin/config.rst:392
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :wladmin:`commit_pending`"
 msgstr ""
-":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
-"cron`, :wladmin:`commit_pending`"
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :wladmin:`commit_pending`"
 
 #: ../../admin/config.rst:401
 msgid "CONTACT_FORM"
@@ -8820,9 +8809,9 @@ msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
 msgstr ""
-"Beállítja, hogyan kerülnek elküldésre a kapcsolatfelvételi űrlap e-mailjei. "
-"Válassz egy olyan konfigurációt, amely megfelel a levelezőszervered "
-"beállításainak."
+"Beállítja, hogyan küldje a Weblate az e-maileket a kapcsolatfelvételi "
+"űrlapról. Olyan beállítást válasszon, amely megfelel a saját levelezőszerver "
+"konfigurációjának."
 
 #: ../../admin/config.rst:408
 msgid "``\"reply-to\"``"
@@ -8833,8 +8822,8 @@ msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
-"A feladó a :mailheader:`Reply-To` mezőben kerül felhasználásra, ez az "
-"alapértelmezett viselkedés."
+"Az alapértelmezett viselkedés szerint a feladó az :mailheader:`Reply-To` "
+"mezőben kerül feltüntetésre."
 
 #: ../../admin/config.rst:410
 msgid "``\"from\"``"
@@ -8845,8 +8834,8 @@ msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
-"A feladó a :mailheader:`From` mezőben kerül felhasználásra. A "
-"levelezőszerverednek engedélyeznie kell az ilyen e-mailek küldését."
+"Alternatív megoldásként a feladó a :mailheader:`From` mezőben szerepelhet. "
+"Ehhez a levelezőszervernek engedélyeznie kell az ilyen e-mailek küldését."
 
 #: ../../admin/config.rst:417
 msgid ":setting:`ADMINS_CONTACT`"
@@ -8862,9 +8851,9 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
-"A mappa, amelyben a Weblate minden adatot tárol. Tartalmazza a VCS "
-"(verziókezelő) tárolókra mutató hivatkozásokat, egy teljes szövegű indexet, "
-"valamint különféle külső eszközökhöz tartozó konfigurációs fájlokat."
+"A könyvtár, amelyben a Weblate minden adatát tárolja. Tartalmazza a VCS "
+"(verziókezelő) tárolók linkjeit, a teljes szöveges keresőindexet és külső "
+"eszközök különböző konfigurációs fájljait."
 
 #: ../../admin/config.rst:429
 msgid ":file:`home`"
@@ -8872,7 +8861,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:430
 msgid "Home directory used for invoking scripts."
-msgstr "A szkriptek futtatásához használt saját könyvtár."
+msgstr "A parancsfájlok futtatásakor használt induló (home) könyvtár."
 
 #: ../../admin/config.rst:431
 msgid ":file:`ssh`"
@@ -8880,7 +8869,7 @@ msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:432
 msgid "SSH keys and configuration."
-msgstr "SSH kulcsok és konfiguráció."
+msgstr "SSH kulcsok és konfigurációk helye."
 
 #: ../../admin/config.rst:433
 msgid ":file:`media`"
@@ -8891,9 +8880,9 @@ msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
-"A Django médiafájlok alapértelmezett helye, amelyet a :setting:`django:"
-"MEDIA_ROOT` határoz meg. Tartalmazza a feltöltött képernyőképeket, lásd: :"
-"ref:`screenshots`."
+"A Django médiatartalom alapértelmezett helye, amit a "
+":setting:`django:MEDIA_ROOT` ad meg. Ide kerülnek a feltöltött képernyőképek "
+"is, lásd: :ref:`screenshots`."
 
 #: ../../admin/config.rst:435
 msgid ":file:`vcs`"
@@ -8901,7 +8890,7 @@ msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:436
 msgid "Version-control repositories for translations."
-msgstr "Fordítások verziókezelő tárai."
+msgstr "Fordítások verziókezelő tárolói."
 
 #: ../../admin/config.rst:437
 msgid ":file:`backups`"
@@ -8909,9 +8898,7 @@ msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:438
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
-msgstr ""
-"Napi biztonsági mentési adatok. A részletekért kérlek nézd meg a :ref:"
-"`backup-dumps` részt."
+msgstr "Napi biztonsági mentések adatai. Részletek: :ref:`backup-dumps`."
 
 #: ../../admin/config.rst:439
 msgid ":file:`fonts`:"
@@ -8919,7 +8906,7 @@ msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:440
 msgid "User-uploaded fonts, see :ref:`fonts`."
-msgstr "Felhasználó által feltöltött betűtípusok, lásd: :ref:`fonts`."
+msgstr "Felhasználók által feltöltött betűtípusok, lásd: :ref:`fonts`."
 
 #: ../../admin/config.rst:441
 msgid ":file:`cache`"
@@ -8928,31 +8915,32 @@ msgstr ":file:`cache`"
 #: ../../admin/config.rst:442
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
-"Különböző gyorsítótárak. A :setting:`CACHE_DIR` használatával máshova is "
-"elhelyezhetők."
+"Különféle gyorsítótárak, amelyek másik helyre is helyezhetők a "
+":setting:`CACHE_DIR` beállítással."
 
 #: ../../admin/config.rst:448
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
-"Ennek a könyvtárnak írhatónak kell lennie a Weblate számára. Ha WSGI-ként "
-"futtatod, akkor a ``www-data`` felhasználónak kell írási hozzáféréssel "
-"rendelkeznie hozzá."
+"Ennek a könyvtárnak írhatónak kell lennie a Weblate számára. Ha WSGI-n "
+"keresztül futtatja, akkor a ``www-data`` felhasználónak kell írási "
+"jogosultsággal rendelkeznie."
 
 #: ../../admin/config.rst:451
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
-"A legegyszerűbb módja ennek az, ha a felhasználót tesszük a könyvtár "
-"tulajdonosává:"
+"A legegyszerűbb módja ennek az, ha a megfelelő felhasználót teszi meg a "
+"könyvtár tulajdonosává:"
 
 #: ../../admin/config.rst:457
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
-"Alapértelmezés szerint ``/home/weblate/data``, de várhatóan be kell állítani."
+"Alapértelmezett hely: ``/home/weblate/data``, de ajánlott testreszabni a "
+"beállítást."
 
 #: ../../admin/config.rst:461
 msgid ":ref:`file-permissions`, :doc:`backup`, :setting:`CACHE_DIR`"
@@ -8967,8 +8955,8 @@ msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
-"Hogy az adatbázis mentéseket sima szövegként, tömörítve vagy kihagyva "
-"tároljuk-e. Az engedélyezett értékek a következők:"
+"Meghatározza, hogy az adatbázis-mentések szöveges formátumban, tömörítve "
+"vagy egyáltalán ne kerüljenek-e tárolásra. Az engedélyezett értékek:"
 
 #: ../../admin/config.rst:473
 msgid "``\"plain\"``"
@@ -8988,7 +8976,7 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:486
 msgid "The default access-control setting for new projects:"
-msgstr "Az új projektek alapértelmezett hozzáférés-ellenőrzési beállítása:"
+msgstr "Az új projektek alapértelmezett hozzáférés-vezérlési beállítása:"
 
 #: ../../admin/config.rst:488
 msgid "``0``"
@@ -9011,8 +8999,8 @@ msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
-"Használd a(z) :guilabel:`Egyéni` beállítást, ha manuálisan kezeled az ACL-t, "
-"vagyis nem támaszkodsz a Weblate belső kezelésére."
+"Ha az ACL-t manuálisan kívánja kezelni, válassza a :guilabel:`Egyéni` "
+"beállítást, ekkor nem a Weblate belső jogosultságkezelésére támaszkodik."
 
 #: ../../admin/config.rst:502
 msgid ":ref:`acl`, :ref:`project-access_control`"
@@ -9027,9 +9015,9 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
-"Beállítja, hogy az új felhasználók számára be legyen-e kapcsolva a :guilabel:"
-"`Automatically watch projects on contribution`. Alapértelmezés szerint "
-"``True``."
+"Beállítja, hogy az új felhasználóknál alapértelmezetten be legyen-e "
+"kapcsolva a :guilabel:`Projektek automatikus követése közreműködéskor` "
+"funkció. Alapértelmezett érték: ``True``."
 
 #: ../../admin/config.rst:517
 msgid ":ref:`subscriptions`"
@@ -9041,7 +9029,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:526
 msgid "The default value for component restriction."
-msgstr "Az alapértelmezett érték az összetevő korlátozásához."
+msgstr "Az összetevők korlátozásának alapértelmezett értéke."
 
 #: ../../admin/config.rst:530
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
@@ -9060,8 +9048,8 @@ msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
-"Alapértelmezett commit üzenetek különböző műveletekhez, kérlek nézd meg a :"
-"ref:`component` a részletekért."
+"A különböző műveletekhez tartozó alapértelmezett véglegesítési (commit) "
+"üzenetek. További részletekért lásd: :ref:`component`."
 
 #: ../../admin/config.rst:547
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -9074,12 +9062,12 @@ msgstr "DEFAULT_ADDONS"
 #: ../../admin/config.rst:557
 msgid "Default add-ons to install for every created component."
 msgstr ""
-"Alapértelmezett bővítmények, amelyeket minden létrehozott összetevőhöz "
-"telepíteni kell."
+"Az alapértelmezett kiegészítők, amelyeket minden új összetevőhöz telepíteni "
+"kell."
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
-msgstr "Ez a beállítás csak az újonnan létrehozott összetevőkre van hatással."
+msgstr "Ez a beállítás csak az újonnan létrehozott összetevőket érinti."
 
 #: ../../admin/config.rst:563 ../../admin/config.rst:1155
 #: ../../admin/config.rst:1417 ../../admin/config.rst:1616
@@ -9087,7 +9075,7 @@ msgstr "Ez a beállítás csak az újonnan létrehozott összetevőkre van hatá
 #: ../../admin/management.rst:92 ../../admin/management.rst:146
 #: ../../admin/management.rst:792 ../../wlc.rst:51
 msgid "Example:"
-msgstr "Például:"
+msgstr "Példa:"
 
 #: ../../admin/config.rst:583
 msgid ":wladmin:`install_addon`, :doc:`addons`, :setting:`WEBLATE_ADDONS`"
@@ -9100,7 +9088,8 @@ msgstr "DEFAULT_COMMITER_EMAIL"
 #: ../../admin/config.rst:592
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
-"A committer e-mail címe, alapértelmezés szerint ``noreply@weblate.org``."
+"A véglegesítő (committer) e-mail címe, alapértelmezésben: "
+"``noreply@weblate.org``."
 
 #: ../../admin/config.rst:596
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
@@ -9112,7 +9101,7 @@ msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:603
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr "A committer neve, alapértelmezés szerint ``Weblate``."
+msgstr "A véglegesítő neve, alapértelmezésben: ``Weblate``."
 
 #: ../../admin/config.rst:607
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
@@ -9124,14 +9113,15 @@ msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:616
 msgid ":ref:`component-source_language` for any new components."
-msgstr "Az új összetevők :ref:`component-source_language` beállítása."
+msgstr ""
+"Az új összetevők alapértelmezett :ref:`component-source_language` beállítása."
 
 #: ../../admin/config.rst:618
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
-"Alapértelmezett értéke `en`. A megfelelő nyelvi objektumnak léteznie kell az "
+"Alapértelmezett érték: `en`. A megfelelő nyelvi objektumnak léteznie kell az "
 "adatbázisban."
 
 #: ../../admin/config.rst:622
@@ -9144,11 +9134,12 @@ msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:630
 msgid ":ref:`component-merge_style` for any new components."
-msgstr "Az új összetevők :ref:`component-merge_style` beállítása."
+msgstr ""
+"Az új összetevők alapértelmezett :ref:`component-merge_style` beállítása."
 
 #: ../../admin/config.rst:632
 msgid "`rebase` - default"
-msgstr "`rebase` - alapértelmezett"
+msgstr "``rebase`` — alapértelmezett érték"
 
 #: ../../admin/config.rst:633
 msgid "`merge`"
@@ -9167,8 +9158,8 @@ msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
 msgstr ""
-"A :ref:`project-use_shared_tm` és a :ref:`project-contribute_shared_tm` "
-"alapértelmezett értékének beállítása."
+"A :ref:`project-use_shared_tm` és :ref:`project-contribute_shared_tm` "
+"alapértelmezett beállításainak konfigurálása."
 
 #: ../../admin/config.rst:650
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
@@ -9177,7 +9168,7 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 #: ../../admin/config.rst:652
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
-"Az alapértelmezett beállítás a fordítás terjesztésére, alapértelmezettként "
+"Az alapértelmezett beállítás a fordítási terjesztéshez, alapértelmezésben: "
 "``True``."
 
 #: ../../admin/config.rst:656
@@ -9190,7 +9181,9 @@ msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:666
 msgid "Configures the default title and message for pull requests."
-msgstr "Beállítja az alapértelmezett címet és üzenetet a pull requestekhez."
+msgstr ""
+"Az alapértelmezett cím és üzenet beállítása beküldött módosítási kérelemhez ("
+"pull request)."
 
 #: ../../admin/config.rst:671
 msgid "ENABLE_AVATARS"
@@ -9199,16 +9192,16 @@ msgstr "ENABLE_AVATARS"
 #: ../../admin/config.rst:673
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
-"A Gravatar-alapú avatarok bekapcsolása a felhasználók számára. "
-"Alapértelmezés szerint be van kapcsolva."
+"A Gravatar-alapú avatárok bekapcsolása felhasználók számára. "
+"Alapértelmezésben engedélyezve van."
 
 #: ../../admin/config.rst:675
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
-"Az avatarok a szerveren kerülnek lekérésre és gyorsítótárazásra, csökkentve "
-"ezzel a privát információk kiszivárgásának kockázatát és felgyorsítva a "
+"Az avatárokat a szerver tölti le és gyorsítótárazza, így csökkenti a "
+"személyes adatok kiszivárgásának kockázatát, és gyorsabbá teszi a "
 "felhasználói élményt."
 
 #: ../../admin/config.rst:680
@@ -9223,7 +9216,7 @@ msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:689
 msgid "Whether to turn on anonymous remote hooks."
-msgstr "Az anonim távoli hookok bekapcsolása."
+msgstr "Az anonim távoli (remote) hookok bekapcsolása."
 
 #: ../../admin/config.rst:693
 msgid ":ref:`hooks`"
@@ -9235,16 +9228,16 @@ msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:702
 msgid "Weblate now requires https for WebAuthn support."
-msgstr "A Weblate mostantól https-t igényel a WebAuthn támogatásához."
+msgstr "A Weblate mostantól HTTPS-t igényel a WebAuthn támogatásához."
 
 #: ../../admin/config.rst:704
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
-"Meghatározza, hogy a Weblate-re mutató linkeket HTTPS vagy HTTP formátumban "
-"küldjük-e. Ez a beállítás hatással van a küldött e-mailekre és a generált "
-"abszolút URL-ekre."
+"Beállítja, hogy a Weblate által küldött hivatkozások HTTPS vagy HTTP "
+"protokollt használjanak. Ez a beállítás hatással van a küldött e-mailekre és "
+"a generált abszolút URL-ekre."
 
 #: ../../admin/config.rst:707
 msgid ""
@@ -9252,9 +9245,9 @@ msgid ""
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
 "redirection to a HTTPS URL."
 msgstr ""
-"Az alapértelmezett konfigurációban ezt több, a HTTPS-hez kapcsolódó Django "
-"beállításhoz is használják — lehetővé teszi a biztonságos sütiket, kapcsolja "
-"a HSTS-t vagy engedélyezi az átirányítást egy HTTPS URL-re."
+"Az alapértelmezett konfigurációban ez több Django HTTPS-hez kapcsolódó "
+"beállítást is vezérel — például a biztonságos sütik (secure cookies) "
+"használatát, a HSTS engedélyezését vagy a HTTPS-re való átirányítást."
 
 #: ../../admin/config.rst:711
 msgid ""
@@ -9266,13 +9259,13 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
-"Az HTTPS átirányítás néhány esetben problémás lehet, és végtelen "
-"átirányítási problémába ütközhetsz, ha SSL-lezárást végző fordított proxy-t "
-"használsz, amely nem adja át helyesen a protokoll fejléceket a Django-nak. "
-"Kérlek, finomítsd a fordított proxy konfigurációját, hogy kibocsássa a :http:"
-"header:`X-Forwarded-Proto` vagy :http:header:`Forwarded` fejléceket vagy "
-"állítsd be a :setting:`django:SECURE_PROXY_SSL_HEADER`-t, hogy a Django "
-"helyesen érzékelje az SSL státuszt."
+"A HTTPS átirányítás problémát okozhat bizonyos esetekben, például ha SSL-"
+"terminációt végző reverse proxy mögött fut a Weblate, és az nem adja át "
+"helyesen a protokoll fejlécet a Django számára. Ilyenkor érdemes a proxy "
+"konfigurációját úgy módosítani, hogy az :http:header:`X-Forwarded-Proto` "
+"vagy a :http:header:`Forwarded` fejlécet küldje, de lehet a "
+":setting:`django:SECURE_PROXY_SSL_HEADER` beállítást is konfigurálni a "
+"helyes SSL-észlelés érdekében."
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -9281,10 +9274,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
-"Ha ez le van tiltva, a Weblate nem fog elindulni, és ``otp_webauthn.E031`` "
-"hibát jelez. Ezt a hibát elnémíthatod, ha hozzáadod a :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` beállításhoz, de a WebAuthn továbbra sem fog működni "
-"HTTPS nélküli webhelyek esetén."
+"Ha ez a beállítás le van tiltva, a Weblate nem fog elindulni, és "
+"``otp_webauthn.E031`` hibát ad. Az ellenőrzés elnémítható úgy, hogy "
+"hozzáadja a :setting:`django:SILENCED_SYSTEM_CHECKS` listához, de HTTPS "
+"nélkül a WebAuthn akkor sem fog működni."
 
 #: ../../admin/config.rst:725
 msgid ""
@@ -9292,9 +9285,9 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
-":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
-"CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
-"SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:734
 msgid "ENABLE_SHARING"
@@ -9305,8 +9298,8 @@ msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
-"Kapcsold be vagy ki a :guilabel:`Megosztás` menüt, hogy a felhasználók "
-"megoszthassák a fordítási előrehaladást a közösségi hálózatokon."
+"A :guilabel:`Megosztás` menü be- vagy kikapcsolása, amely lehetővé teszi, "
+"hogy a felhasználók megosszák a fordítási haladást közösségi hálózatokon."
 
 #: ../../admin/config.rst:741
 msgid "EXTRA_HTML_HEAD"
@@ -9317,16 +9310,16 @@ msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
-"További jelölés beillesztése a HTML fejlécebe. Használható például a webhely "
-"tulajdonjogának ellenőrzésére:"
+"További HTML kód beszúrása a HTML fejlécbe. Ez például webhelytulajdon-"
+"ellenőrzés céljára használható:"
 
 #: ../../admin/config.rst:753
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
 msgstr ""
-"A szövegen nem történik semmilyen tisztítás. Úgy kerül beillesztésre a HTML "
-"fejlécebe, ahogy van."
+"A megadott sztringen nincs semmilyen szűrés vagy tisztítás, így az "
+"változatlanul kerül beillesztésre a HTML fejlécbe."
 
 #: ../../admin/config.rst:758
 msgid "GET_HELP_URL"
@@ -9334,7 +9327,8 @@ msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:762
 msgid "URL where support for your Weblate instance can be found."
-msgstr "URL, ahol a Weblate példányodhoz találhatsz támogatást."
+msgstr ""
+"A támogatási oldal URL-je, ahol a Weblate példányhoz támogatás található."
 
 #: ../../admin/config.rst:767
 msgid "GITEA_CREDENTIALS"
@@ -9342,7 +9336,7 @@ msgstr "GITEA_CREDENTIALS"
 
 #: ../../admin/config.rst:771
 msgid "List for credentials for Gitea servers."
-msgstr "Gitea szerverekhez tartozó hitelesítő adatok listája."
+msgstr "Gitea szerverekhez használt hitelesítő adatok listája."
 
 #: ../../snippets/vcs-credentials.rst:1
 msgid ""
@@ -9350,9 +9344,9 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"A konfigurációs szótár az egyes API hosztokhoz meghatározott hitelesítő "
-"adatokat tartalmazza. A felépítés szinte minden verziókezelő integrációnál "
-"azonos, és a(z) :ref:`settings-credentials` részben van leírva."
+"A konfigurációs szótár a megadott API-hosztonkénti hitelesítő adatokból áll. "
+"A felépítése szinte minden verziókezelő integráció esetén ugyanaz, részletek:"
+" :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:786
 msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
@@ -9364,7 +9358,7 @@ msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:798
 msgid "List for credentials for GitLab servers."
-msgstr "A GitLab szerverek hitelesítő adatainak listája."
+msgstr "GitLab szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:813
 msgid ""
@@ -9380,29 +9374,31 @@ msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:823
 msgid "List for credentials for GitHub servers."
-msgstr "A GitHub szerverek hitelesítő adatainak listája."
+msgstr "GitHub szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:836
 msgid ""
 "When creating a fine-grained personal access token, grant read and write "
 "access to :guilabel:`Contents` and :guilabel:`Pull requests`."
 msgstr ""
-"Amikor részletes személyes hozzáférési tokent hozol létre, adj olvasási és "
-"írási jogosultságot a következőkhöz: :guilabel:`Tartalom` és :guilabel:`Pull "
-"kérelmek`."
+"Finomhangolt személyes hozzáférési token létrehozásakor adjon olvasási és "
+"írási jogosultságot a :guilabel:`Tartalom` (Contents) és a :guilabel:`"
+"Módosítási kérelmek` (Pull requests) számára."
 
 #: ../../admin/config.rst:839
 msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
-"Előfordulhat, hogy a :guilabel:`Adminisztráció` is szükséges egy tároló fork-"
-"olásához, ha fork-olást tervezel, és az eredeti tároló nem nyilvános."
+"A :guilabel:`Adminisztráció` jogosultság is szükséges lehet, ha másolatot "
+"szeretne készíteni a tárolóról (forkolni a tárolót), és az eredeti tároló "
+"nem nyilvános."
 
 #: ../../admin/config.rst:844
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgstr ""
-"Használd az ``api.github.com``-t API gazdaként a https://github.com/ számára."
+"Használja az ``api.github.com`` címet API-hosztként a https://github.com/ "
+"eléréséhez."
 
 #: ../../admin/config.rst:850
 msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
@@ -9414,7 +9410,7 @@ msgstr "BITBUCKETSERVER_CREDENTIALS"
 
 #: ../../admin/config.rst:862
 msgid "List for credentials for Bitbucket Data Center."
-msgstr "Lista a Bitbucket Data Center hitelesítő adatairól."
+msgstr "Bitbucket Data Center szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:877
 msgid ""
@@ -9431,7 +9427,7 @@ msgstr "BITBUCKETCLOUD_CREDENTIALS"
 
 #: ../../admin/config.rst:887
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr "A(z) Bitbucket Cloud szerverek hitelesítő adatainak listája."
+msgstr "Bitbucket Cloud szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:899 ../../admin/config.rst:939
 #: ../../admin/config.rst:2211
@@ -9440,14 +9436,14 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
-"A konfigurációs szótár az egyes API-hosztokhoz meghatározott hitelesítési "
-"adatokat tartalmazza. Az API-hoszt eltérhet attól, amit a webböngészőben "
-"használsz, például a GitHub API-t az ``api.github.com`` címen éred el."
+"A konfigurációs szótár API-hosztonként meghatározott hitelesítő adatokat "
+"tartalmaz. Az API-hoszt eltérhet attól, amit a böngészőben használ, például "
+"a GitHub API az ``api.github.com`` címen érhető el."
 
 #: ../../admin/config.rst:903 ../../admin/config.rst:943
 #: ../../admin/config.rst:2219
 msgid "The following configuration is available for each host:"
-msgstr "A következő konfiguráció érhető el minden hoszthoz:"
+msgstr "Az alábbi beállítások érhetők el minden hoszthoz:"
 
 #: ../../admin/config.rst:905 ../../admin/config.rst:945
 #: ../../admin/config.rst:2221 ../../admin/machine.rst:629
@@ -9465,7 +9461,7 @@ msgstr "``workspace``"
 
 #: ../../admin/config.rst:908
 msgid "The user workspace slug."
-msgstr "A felhasználói munkaterület \"slug\"-ja."
+msgstr "A felhasználói munkaterület URL-azonosítója (slug)."
 
 #: ../../admin/config.rst:909 ../../admin/config.rst:952
 #: ../../admin/config.rst:2223
@@ -9474,15 +9470,13 @@ msgstr "``token``"
 
 #: ../../admin/config.rst:910
 msgid "The App password with `pullrequest:write` permission."
-msgstr "Az alkalmazásjelszó `pullrequest:write` jogosultsággal."
+msgstr "Alkalmazásjelszó, amely rendelkezik `pullrequest:write` jogosultsággal."
 
 #: ../../admin/config.rst:912 ../../admin/config.rst:955
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
-msgstr ""
-"További beállításokat, amelyek itt nincsenek leírva, a(z) :ref:`settings-"
-"credentials` alatt találhatsz."
+msgstr "További beállítások a :ref:`settings-credentials` résznél találhatók."
 
 #: ../../admin/config.rst:916
 msgid ""
@@ -9491,10 +9485,10 @@ msgid ""
 "permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-"
 "permissions/>`_"
 msgstr ""
-":ref:`vcs-bitbucket-cloud`, `Alkalmazásjelszó létrehozása <https://support."
-"atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, "
-"`Alkalmazásjelszó jogosultságai <https://support.atlassian.com/bitbucket-"
-"cloud/docs/app-password-permissions/>`_"
+":ref:`vcs-bitbucket-cloud`, `Alkalmazásjelszó létrehozása <https://"
+"support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_, `"
+"Alkalmazásjelszó jogosultságai <https://support.atlassian.com/"
+"bitbucket-cloud/docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:923
 msgid "AZURE_DEVOPS_CREDENTIALS"
@@ -9502,11 +9496,11 @@ msgstr "AZURE_DEVOPS_CREDENTIALS"
 
 #: ../../admin/config.rst:927
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Lista az Azure DevOps szerverek hitelesítő adataihoz."
+msgstr "Azure DevOps szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:946
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr "Az Azure DevOps projekt neve. Ez nem a tároló neve."
+msgstr "Az Azure DevOps projekt neve. Ez nem azonos a tároló nevével."
 
 #: ../../admin/config.rst:947
 msgid "``organization``"
@@ -9525,13 +9519,13 @@ msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
-"Egy opcionális lista a szervezet munkafolyamat-elemeinek azonosítóival. Ha "
-"meg van adva, az új módosítási (pull) kérelmekhez ezek automatikusan "
-"csatolva lesznek."
+"Opcionálisan megadható a szervezet munkafolyamat-azonosítóinak listája. Ha "
+"meg van adva, az új módosítási kérelmekhez (pull request) ezek automatikusan "
+"csatolódnak."
 
 #: ../../admin/config.rst:953 ../../admin/config.rst:2224
 msgid "API token for the API user, required."
-msgstr "API token az API felhasználóhoz, kötelező."
+msgstr "API token az API-felhasználóhoz (kötelező)."
 
 #: ../../admin/config.rst:959
 msgid ""
@@ -9552,16 +9546,16 @@ msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
-"Google Analytics azonosító, amivel bekapcsolható a Weblate figyelése a "
-"Google Universal Analytics segítségével."
+"Google Analytics azonosító a Weblate megfigyelésének bekapcsolásához Google "
+"Universal Analytics segítségével."
 
 #: ../../admin/config.rst:971
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
-"A Google Analytics 4 integráció jelenleg nem elérhető a Weblate számára, "
-"kérlek, nézd meg a https://github.com/WeblateOrg/weblate/issues/14015 oldalt."
+"Jelenleg a Google Analytics 4 integráció nem érhető el a Weblate-ben. "
+"Bővebben lásd: https://github.com/WeblateOrg/weblate/issues/14015"
 
 #: ../../admin/config.rst:977
 msgid "HIDE_REPO_CREDENTIALS"
@@ -9573,9 +9567,9 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
-"Rejtsd el a tároló hitelesítési adatait a webes felületen. Ha a tároló URL-"
-"je tartalmazza a felhasználónevet és jelszót, a Weblate elrejti ezeket, "
-"amikor a kapcsolódó információ megjelenik a felhasználóknak."
+"A tároló hitelesítő adatok elrejtése a webes felületről. Ha a tároló URL-je "
+"tartalmaz felhasználónevet és jelszót, a Weblate ezeket eltávolítja, amikor "
+"a felhasználók számára megjeleníti az adatokat."
 
 #: ../../admin/config.rst:983
 msgid ""
@@ -9583,13 +9577,13 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
-"Például a ``https://user:password@git.example.com/repo.git`` helyett csak a "
-"``https://git.example.com/repo.git`` jelenik meg. Hasonló módon megpróbálja "
-"megtisztítani a VCS (verziókezelő rendszer) hibaüzeneteit is."
+"Például a ``https://user:password@git.example.com/repo.git`` helyett csak "
+"``https://git.example.com/repo.git`` jelenik meg. A rendszer hasonló módon "
+"igyekszik megtisztítani a verziókezelő rendszer hibaüzeneteit is."
 
 #: ../../admin/config.rst:989
 msgid "On by default."
-msgstr "Alapértelmezés szerint be van kapcsolva."
+msgstr "Ez a beállítás alapértelmezetten be van kapcsolva."
 
 #: ../../admin/config.rst:994
 msgid "HIDE_VERSION"
@@ -9601,23 +9595,23 @@ msgid ""
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
 msgstr ""
-"Elrejti a verzióinformációkat a nem hitelesített felhasználók elől. Ez azt "
-"is eredményezi, hogy az összes dokumentációs link a legújabb verzióra mutat, "
-"ahelyett, hogy a jelenleg telepített verziónak megfelelő dokumentációra "
-"irányítana."
+"A verzióinformációk elrejtése a nem hitelesített felhasználók elől. Ez "
+"egyben azt is eredményezi, hogy a dokumentációra mutató linkek mindig a "
+"legújabb verzióra irányítanak, nem pedig az aktuálisan telepített verzióhoz "
+"tartozóra."
 
 #: ../../admin/config.rst:1002
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
 msgstr ""
-"A verzió elrejtése bizonyos vállalatoknál ajánlott biztonsági gyakorlat, de "
-"nem akadályozza meg, hogy egy támadó a viselkedés vizsgálatával kiderítse a "
-"verziót."
+"A verzió elrejtése egyes vállalati környezetekben ajánlott biztonsági "
+"gyakorlat, de nem akadályozza meg teljesen, hogy egy támadó a rendszer "
+"viselkedése alapján kiderítse a használt verziót."
 
 #: ../../admin/config.rst:1007
 msgid "This is turned off by default."
-msgstr "Ez alapértelmezés szerint ki van kapcsolva."
+msgstr "Ez a funkció alapértelmezés szerint ki van kapcsolva."
 
 #: ../../admin/config.rst:1012
 msgid "INTERLEDGER_PAYMENT_BUILTIN"
@@ -9626,8 +9620,8 @@ msgstr "INTERLEDGER_PAYMENT_BUILTIN"
 #: ../../admin/config.rst:1016
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
 msgstr ""
-"Bekapcsolja a Weblate finanszírozásához használható beépített Interledger "
-"fizetési azonosítót (IPP)."
+"A Weblate támogatására szolgáló beépített Interledger fizetési azonosító ("
+"Payment Pointer) ki- vagy bekapcsolása."
 
 #: ../../admin/config.rst:1020 ../../admin/install/docker.rst:724
 msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
@@ -9640,29 +9634,28 @@ msgstr "INTERLEDGER_PAYMENT_POINTERS"
 #: ../../admin/config.rst:1030
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
 msgstr ""
-"Az Interledger fizetési mutatók (ILP-k) listája a webes bevételszerzéshez."
+"A Web Monetization számára megadott Interledger fizetési azonosítók (ILP) "
+"listája."
 
 #: ../../admin/config.rst:1032
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
-"Ha többet adsz meg, a valószínűségi bevételmegosztás úgy valósul meg, hogy "
-"egyet véletlenszerűen kiválasztanak."
+"Ha több címet ad meg, a rendszer véletlenszerűen választ közülük, így "
+"valósul meg a valószínűségi bevételmegosztás."
 
 #: ../../admin/config.rst:1035
 msgid "Please check <https://webmonetization.org/> for more details."
-msgstr ""
-"További részletekért kérlek, nézd meg a <https://webmonetization.org/> "
-"oldalt."
+msgstr "További információ: <https://webmonetization.org/>."
 
 #: ../../admin/config.rst:1039
 msgid ""
 "A pointer to fund Weblate itself is automatically added unless turned off "
 "by :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 msgstr ""
-"A Weblate finanszírozására mutató hivatkozás automatikusan hozzáadásra "
-"kerül, hacsak a :setting:`INTERLEDGER_PAYMENT_BUILTIN` nincs letiltva."
+"A Weblate saját finanszírozási címét automatikusan hozzáadja, kivéve, ha ezt "
+"a :setting:`INTERLEDGER_PAYMENT_BUILTIN` beállítással letiltja."
 
 #: ../../admin/config.rst:1045
 msgid ":setting:`INTERLEDGER_PAYMENT_BUILTIN`"
@@ -9674,7 +9667,7 @@ msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:1052
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr "Jelzi, hogy a Weblate egy fordított proxy mögött fut-e."
+msgstr "Annak jelzése, hogy a Weblate reverse proxy mögött fut-e."
 
 #: ../../admin/config.rst:1054
 msgid ""
@@ -9682,28 +9675,27 @@ msgid ""
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
 "Ha ``True`` értékre van állítva, a Weblate a :setting:`IP_PROXY_HEADER` "
-"által meghatározott fejlécből szerzi meg az IP-címet."
+"által meghatározott fejlécből olvassa ki a felhasználó IP-címét."
 
 #: ../../admin/config.rst:1059
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
-"Győződj meg róla, hogy valóban használsz fordított proxy-t, és hogy az "
-"beállítja ezt a fejléct, különben a felhasználók képesek lesznek "
-"meghamisítani az IP-címet."
+"Fontos, hogy valóban reverse proxy-t használjon, és az megfelelően állítsa "
+"be ezt a fejlécet, különben a felhasználók hamis IP-címeket is megadhatnak."
 
 #: ../../admin/config.rst:1064
 msgid "This is not on by default."
-msgstr "Ez alapértelmezés szerint nincs bekapcsolva."
+msgstr "Ez a beállítás alapértelmezés szerint ki van kapcsolva."
 
 #: ../../admin/config.rst:1068
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
-"setting:`IP_PROXY_OFFSET`"
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1076
 msgid "IP_PROXY_HEADER"
@@ -9714,12 +9706,12 @@ msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
-"Jelzi, hogy melyik fejlécből kell a Weblate-nek lekérnie az IP-címet, amikor "
-"a :setting:`IP_BEHIND_REVERSE_PROXY` be van kapcsolva."
+"Azt határozza meg, hogy a Weblate melyik fejlécből olvassa ki az IP-címet, "
+"ha a :setting:`IP_BEHIND_REVERSE_PROXY` be van kapcsolva."
 
 #: ../../admin/config.rst:1081
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr "Alapértelmezés szerint ``HTTP_X_FORWARDED_FOR``."
+msgstr "Alapértelmezett érték: ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1085
 msgid ""
@@ -9727,9 +9719,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
-"SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
-"`IP_PROXY_OFFSET`"
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1094
 msgid "IP_PROXY_OFFSET"
@@ -9744,8 +9736,8 @@ msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
-"Jelzi, hogy a :setting:`IP_PROXY_HEADER` melyik része kerül felhasználásra "
-"kliens IP-címként."
+"Azt jelzi, hogy a :setting:`IP_PROXY_HEADER` fejlécben melyik IP-címet kell "
+"felhasználni a kliens IP-címeként."
 
 #: ../../admin/config.rst:1103
 msgid ""
@@ -9753,9 +9745,9 @@ msgid ""
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
-"A beállításaidtól függően ez a fejléc több IP-címből is állhat (például ``X-"
-"Forwarded-For: client-ip, proxy-a, proxy-b``), és itt beállíthatod, hogy a "
-"fejléc melyik címét használják kliens IP-címként."
+"A beállítástól függően ez a fejléc több IP-címet is tartalmazhat (például: "
+"``X-Forwarded-For: client-ip, proxy-a, proxy-b``), és itt adható meg, hogy "
+"melyik címet használja a rendszer."
 
 #: ../../admin/config.rst:1109
 msgid ""
@@ -9764,10 +9756,10 @@ msgid ""
 "check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-"
 "Forwarded-For#security_and_privacy_concerns> for more details."
 msgstr ""
-"Ennek a beállításnak hatása van a telepítés biztonságára. Csak akkor "
-"konfiguráld, ha megbízható proxykat használsz az IP-cím meghatározásához. "
-"További részletekért lásd: <https://developer.mozilla.org/en-US/docs/Web/"
-"HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns>."
+"Ennek a beállításnak a módosítása befolyásolja a telepítés biztonságát. Csak "
+"megbízható proxyk IP-címének meghatározásához állítsa be. További "
+"információk: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/"
+"Headers/X-Forwarded-For#security_and_privacy_concerns>."
 
 #: ../../admin/config.rst:1113
 msgid "Defaults to -1."
@@ -9779,9 +9771,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
-":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
-"SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
-"`IP_PROXY_HEADER`"
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:1126
 msgid "LEGAL_TOS_DATE"
@@ -9789,16 +9781,17 @@ msgstr "LEGAL_TOS_DATE"
 
 #: ../../admin/config.rst:1132
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "Szükséged van a :ref:`legal` telepítésére, hogy ez működjön."
+msgstr ""
+"A működéshez szükséges, hogy a :ref:`legal` kiegészítő telepítve legyen."
 
 #: ../../admin/config.rst:1134
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
-"A szolgáltatási feltételek dokumentumainak legutóbbi frissítési dátuma. "
-"Amikor a dátum megváltozik, a felhasználóknak el kell fogadniuk a frissített "
-"szolgáltatási feltételeket."
+"A szolgáltatási feltételek dokumentumok utolsó frissítési dátuma. A dátum "
+"módosításakor a felhasználóknak újra el kell fogadniuk a frissített "
+"feltételeket."
 
 #: ../../admin/config.rst:1146
 msgid "LEGAL_URL"
@@ -9806,16 +9799,15 @@ msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:1148
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr "Az URL, ahol a Weblate példányod megjeleníti a jogi dokumentumait."
+msgstr "Az URL, ahol a Weblate példány jogi dokumentumai elérhetők."
 
 #: ../../admin/config.rst:1152
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
-"Hasznos, ha a jogi dokumentumokat a Weblate-en kívül tárolod, hogy "
-"beágyazhasd őket a Weblate-be. További részletekért kérlek nézd meg a :ref:"
-"`legal` részt."
+"Ez hasznos, ha a jogi dokumentumokat Weblate-en kívül tárolja, de Weblate-be "
+"ágyazza be őket. További részletekért lásd: :ref:`legal`."
 
 #: ../../admin/config.rst:1163
 msgid ":setting:`PRIVACY_URL`"
@@ -9827,15 +9819,16 @@ msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:1170
 msgid "Additional licenses to include in the license choices."
-msgstr "További licencek, amelyeket be lehet vonni a licencválasztékba."
+msgstr "További licencek megadása a licencválasztási lehetőségek között."
 
 #: ../../admin/config.rst:1174
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
-"Minden licencdefiníciónak egy rövid névből, egy hosszú névből és egy URL-ből "
-"álló tuple-nek kell lennie."
+"Minden licencdefiníció egy tuple (fix hosszúságú, sorrendhez kötött "
+"adatszerkezet), amely egy rövid nevet, egy hosszú nevet és egy URL-t "
+"tartalmaz."
 
 #: ../../admin/config.rst:1176 ../../admin/config.rst:1204
 #: ../../admin/config.rst:1331 ../../admin/projects.rst:490
@@ -9849,23 +9842,23 @@ msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:1195
 msgid "Setting this to blank value now disables license alert."
-msgstr "Ha ezt üres értékre állítod, letiltja a licenc figyelmeztetést."
+msgstr "Ha ezt az értéket üresre állítja, a licencfigyelmeztetés kikapcsolódik."
 
 #: ../../admin/config.rst:1197
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
-"Szűrd le a megjelenítendő licencek listáját. Ha üresre állítod, ez is "
-"letiltja a licenc figyelmeztetést."
+"A megjelenített licencek listájának szűrése. Üres lista esetén a "
+"licencfigyelmeztetés is letiltásra kerül."
 
 #: ../../admin/config.rst:1202
 msgid "This filter uses the short license names."
-msgstr "Ez a szűrő a licenc rövid neveit használja."
+msgstr "Ez a szűrő a licenc rövid nevét használja."
 
 #: ../../admin/config.rst:1210
 msgid "Following disables the license alert:"
-msgstr "A következő letiltja a licenc figyelmeztetést:"
+msgstr "A következő módon tiltható le a licencfigyelmeztetés:"
 
 #: ../../admin/config.rst:1218 ../../admin/config.rst:1717
 msgid ":ref:`alerts`"
@@ -9877,11 +9870,13 @@ msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:1225
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr "Meghatározza, hogy a :ref:`component` licence attribútuma kötelező-e."
+msgstr ""
+"Beállítja, hogy a :ref:`component` elemeknél kötelező legyen-e a licenc "
+"attribútum megadása."
 
 #: ../../admin/config.rst:1229
 msgid "This is off by default."
-msgstr "Ez alapértelmezés szerint ki van kapcsolva."
+msgstr "Ez az opció alapértelmezetten ki van kapcsolva."
 
 #: ../../admin/config.rst:1234
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
@@ -9892,20 +9887,20 @@ msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
-"Meg legyen-e szabva egy adott fordítás hossza. A korlátozás a forrásszöveg "
-"hosszának tízszerese karakterekben."
+"Meghatározza, hogy egy adott fordítás hosszát korlátozni kell-e. Az "
+"alapértelmezett korlát a forrásszöveg hossza × 10 karakter."
 
 #: ../../admin/config.rst:1241
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
-"Állítsd ezt ``False`` értékre, hogy engedélyezd a hosszabb fordításokat "
-"(legfeljebb 10 000 karakterig), függetlenül a forrásszöveg hosszától."
+"Ha ``False`` értékre állítja, a fordítások hossza a forrásszöveg hosszától "
+"függetlenül akár 10 000 karakterig is engedélyezett lesz."
 
 #: ../../admin/config.rst:1245
 msgid "Defaults to ``True``."
-msgstr "Alapértelmezett értéke ``True``."
+msgstr "Alapértelmezett érték: ``True``."
 
 #: ../../admin/config.rst:1251
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -9918,15 +9913,15 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"Ezek a beállítások a :ref:`addon-weblate.cdn.cdnjs` extra konfigurálását "
-"szolgálják. A :setting:`LOCALIZE_CDN_URL` határozza meg azt az alap URL-t, "
-"ahol a lokalizációs CDN elérhető, míg a :setting:`LOCALIZE_CDN_PATH` azt az "
-"útvonalat definiálja, ahol a Weblate-nak tárolnia kell a generált fájlokat, "
-"amelyeket a :setting:`LOCALIZE_CDN_URL` alatt fognak kiszolgálni."
+"Ezek a beállítások a :ref:`addon-weblate.cdn.cdnjs` kiegészítőt "
+"konfigurálják. A :setting:`LOCALIZE_CDN_URL` adja meg a lokalizációs CDN "
+"elérési gyökér URL-jét. A :setting:`LOCALIZE_CDN_PATH` adja meg azt az "
+"útvonalat, ahol a Weblate a generált fájlokat tárolja, amelyek a "
+":setting:`LOCALIZE_CDN_URL` alatt lesznek elérhetők."
 
 #: ../../admin/config.rst:1260
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr "A Hosted Weblate-en ez a ``https://weblate-cdn.com/`` URL-t használja."
+msgstr "A Hosted Weblate esetében ez a ``https://weblate-cdn.com/`` URL."
 
 #: ../../admin/config.rst:1264
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -9941,19 +9936,18 @@ msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
-"Azoknak az URL-eknek a listája, amelyeknél bejelentkezést szeretnél "
-"megkövetelni. (A Weblate-be beépített standard szabályok mellett)."
+"Azoknak az URL-eknek a listája, amelyekhez kötelező bejelentkezést kíván "
+"megkövetelni (a Weblate beépített szabályain felül)."
 
 #: ../../admin/config.rst:1275
 msgid "This allows you to password protect a whole installation using:"
-msgstr "Ez lehetővé teszi, hogy az egész telepítést jelszóval védd:"
+msgstr "Így akár egy teljes Weblate telepítést is jelszóval védhet:"
 
 #: ../../admin/config.rst:1286
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
-msgstr ""
-"Kívánatos az API hozzáférés korlátozása is, ahogy a fenti példában látható."
+msgstr "Ajánlott az API-hozzáférést is lezárni, ahogy a fenti példában látható."
 
 #: ../../admin/config.rst:1290
 msgid ":setting:`REQUIRE_LOGIN`"
@@ -9968,16 +9962,14 @@ msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
 msgstr ""
-"Kivételek listája a :setting:`LOGIN_REQUIRED_URLS` számára. Ha nincs "
-"megadva, a felhasználók hozzáférhetnek a bejelentkezési oldalhoz."
+"A :setting:`LOGIN_REQUIRED_URLS` beállítás alóli kivételek listája. Ha nincs "
+"megadva, a felhasználók továbbra is hozzáférnek a bejelentkezési oldalhoz."
 
 #: ../../admin/config.rst:1300
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
-msgstr ""
-"Lásd a :ref:`sample-configuration` részt a beállítás ajánlott "
-"konfigurációjáért."
+msgstr "A javasolt beállításhoz lásd: :ref:`sample-configuration`."
 
 #: ../../admin/config.rst:1306
 msgid "MATOMO_SITE_ID"
@@ -9988,12 +9980,12 @@ msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
-"A Matomo (korábban Piwik) webhely azonosítója, amelyet a Weblate nyomon "
-"követésére szeretnél használni."
+"A Matomo (korábban Piwik) szolgáltatásban használt site azonosító, amellyel "
+"a Weblate használatát követni szeretné."
 
 #: ../../admin/config.rst:1312 ../../admin/config.rst:1329
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr "Ez az integráció nem támogatja a Matomo Tag Manager-t."
+msgstr "Ez az integráció nem támogatja a Matomo Tag Manager funkciót."
 
 #: ../../admin/config.rst:1316
 msgid ":setting:`MATOMO_URL`"
@@ -10009,10 +10001,9 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
-"A Matomo (korábban Piwik) telepítés teljes URL-je (beleértve a záró "
-"perjelet), amelyet a Weblate használatának nyomon követésére szeretnél "
-"használni. További részletekért látogasd meg a <https://matomo.org/> "
-"weboldalt."
+"A Matomo (korábban Piwik) telepítésének teljes URL-je (záró perjellel), "
+"amelyet a Weblate követéséhez szeretne használni. További részletek: "
+"<https://matomo.org/>."
 
 #: ../../admin/config.rst:1340
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -10025,15 +10016,14 @@ msgstr "NEARBY_MESSAGES"
 #: ../../admin/config.rst:1347
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"Mindkét irányban megjelenítendő szomszédos szövegek száma a teljes "
-"szerkesztőben."
+"A teljes szerkesztőben megjelenítendő közeli szövegek száma minden irányban."
 
 #: ../../admin/config.rst:1349
 msgid ""
 "This is just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
-"Ez csak egy alapértelmezett érték, a felhasználók ezt módosíthatják a(z) :"
-"ref:`user-profile` alatt."
+"Ez csak egy alapértelmezett érték, a felhasználók saját :ref:`user-profile` "
+"beállításukban módosíthatják."
 
 #: ../../admin/config.rst:1354
 msgid "DEFAULT_PAGE_LIMIT"
@@ -10041,8 +10031,7 @@ msgstr "DEFAULT_PAGE_LIMIT"
 
 #: ../../admin/config.rst:1358
 msgid "Default number of elements to display when pagination is active."
-msgstr ""
-"Az elemek alapértelmezett száma, amelyet megjelenítünk, ha a lapozás aktív."
+msgstr "Lapozás esetén megjelenítendő elemek alapértelmezett száma."
 
 #: ../../admin/config.rst:1363
 msgid "PAGURE_CREDENTIALS"
@@ -10050,7 +10039,7 @@ msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1367
 msgid "List for credentials for Pagure servers."
-msgstr "A Pagure szerverek hitelesítő adatainak listája."
+msgstr "Pagure szerverekhez használt hitelesítő adatok listája."
 
 #: ../../admin/config.rst:1382
 msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
@@ -10065,14 +10054,14 @@ msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
-"Minimális jelszó pontszám, ahogy azt a `zxcvbn <https://github.com/dwolfhub/"
-"zxcvbn-python>`_ jelszó erősségbecslő kiértékeli."
+"A minimálisan elvárt jelszóerősség, a `zxcvbn <https://github.com/dwolfhub/"
+"zxcvbn-python>`_ jelszó ellenőrző értékelése alapján."
 
 #: ../../admin/config.rst:1395
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
-"Alapértelmezés szerint 0, ami azt jelenti, hogy az erősség ellenőrzése le "
-"van tiltva."
+"Alapértelmezett érték: 0, ami azt jelenti, hogy az erősség-ellenőrzés nincs "
+"bekapcsolva."
 
 #: ../../admin/config.rst:1399
 msgid ":ref:`password-authentication`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
@@ -10084,16 +10073,16 @@ msgstr "PRIVACY_URL"
 
 #: ../../admin/config.rst:1410
 msgid "URL where your Weblate instance shows its privacy policy."
-msgstr ""
-"Az URL, ahol a Weblate példányod megjeleníti az adatvédelmi irányelveit."
+msgstr "Az URL, ahol a Weblate példány adatvédelmi szabályzata elérhető."
 
 #: ../../admin/config.rst:1414
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
-"Hasznos, ha a jogi dokumentumaidat a Weblate-en kívül tárolod, hogy "
-"beágyazhasd őket a Weblate-be, kérlek nézd meg a :ref:`legal` a részletekért."
+"Ez akkor hasznos, ha a jogi dokumentumokat Weblate-en kívül tárolja, de be "
+"szeretné ágyazni őket a Weblate felületére is. További részletek: "
+":ref:`legal`."
 
 #: ../../admin/config.rst:1425
 msgid ":setting:`LEGAL_URL`"
@@ -10108,8 +10097,9 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
-"Beállítja, hogy a privát commit e-mail feliratkozásos vagy leiratkozásos "
-"legyen-e (alapértelmezés szerint feliratkozásos)."
+"Beállítja, hogy az egyéni véglegesítési (commit) e-mail alapértelmezetten "
+"opt-in (felhasználói jóváhagyást igényel) vagy opt-out (leiratkozós) legyen ("
+"alapértelmezetten opt-in)."
 
 #: ../../admin/config.rst:1438
 msgid ""
@@ -10117,7 +10107,7 @@ msgid ""
 "e-mail."
 msgstr ""
 "Ez a beállítás csak azokra a felhasználókra vonatkozik, akik nem "
-"választottak kifejezetten egy commit e-mail címet."
+"választottak ki kifejezetten véglegesítési e-mail címet."
 
 #: ../../admin/config.rst:1442
 msgid ":ref:`profile`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`"
@@ -10132,12 +10122,12 @@ msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Sablon a privát commit e-mail generálásához egy felhasználó számára. "
-"Alapértelmezett érték: ``\"{username}@users.noreply.{site_domain}\"``."
+"Az egyéni véglegesítési e-mailek generálásához használt sablon. "
+"Alapértelmezés: ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1454
 msgid "Set to blank string to disable."
-msgstr "Állítsd üres karakterláncra a letiltáshoz."
+msgstr "Üres sztring megadásával letiltható."
 
 #: ../../admin/config.rst:1458
 msgid ""
@@ -10145,9 +10135,10 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
-"Az eltérő commit e-mail használata felhasználói választás alapján történik, "
-"hacsak nincs beállítva a :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. A "
-"felhasználók a commit e-mailt a :ref:`profile` alatt állíthatják be."
+"A különböző véglegesítési e-mail címek használata alapértelmezetten opt-in ("
+"felhasználói jóváhagyást igényel), kivéve ha a "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` másként van beállítva. A felhasználók "
+"a :ref:`profile` oldalon módosíthatják a véglegesítési e-mail címüket."
 
 #: ../../admin/config.rst:1465
 msgid "PROJECT_BACKUP_KEEP_COUNT"
@@ -10157,8 +10148,8 @@ msgstr "PROJECT_BACKUP_KEEP_COUNT"
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
-"Meghatározza, hogy hány biztonsági mentést tárolnak projektenként a "
-"szerveren. Alapértelmezés szerint 3."
+"Meghatározza, hogy projektenként hány biztonsági mentést tároljon a szerver. "
+"Alapértelmezett érték: 3."
 
 #: ../../admin/config.rst:1473 ../../admin/config.rst:1486
 msgid ":ref:`projectbackup`"
@@ -10173,8 +10164,8 @@ msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
-"Meghatározza, hogy mennyi ideig maradnak a projekt biztonsági mentései a "
-"szerveren. Alapértelmezés szerint 30 napig."
+"Meghatározza, hogy mennyi ideig őrizze meg a projektbiztonsági mentéseket a "
+"szerver. Alapértelmezett érték: 30 nap."
 
 #: ../../admin/config.rst:1491
 msgid "PROJECT_NAME_RESTRICT_RE"
@@ -10185,8 +10176,8 @@ msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
-"Meghatároz egy reguláris kifejezést a projektnevek korlátozására. Bármely "
-"egyező nevet elutasít a rendszer."
+"Reguláris kifejezéssel korlátozható a projektek elnevezése. A szabálynak "
+"megfelelő neveket a rendszer elutasítja."
 
 #: ../../admin/config.rst:1499
 msgid ":ref:`project-name`"
@@ -10203,11 +10194,11 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
-"Bizonyos hosztok használatának elutasítása a projekt weboldalán. Bármely "
-"aldomain egyezést mutat, tehát ha ``example.com`` szerepel a listán, az "
-"blokkolni fogja a ``test.example.com``-ot is. A listának csak kisbetűs "
-"karakterláncokat kell tartalmaznia, mivel az elemzett domain kisbetűssé van "
-"alakítva az egyeztetés előtt."
+"Meghatározza, hogy mely hosztnevek használatát utasítsa el a projekt "
+"weboldal mezőjében. Minden aldomainre is érvényes, például ha ``example.com``"
+" szerepel a listában, akkor ``test.example.com`` is blokkolva lesz. A "
+"listának kisbetűs karaktereket kell tartalmaznia, és az ellenőrzés előtt a "
+"domain neveket is kisbetűssé alakítja a rendszer."
 
 #: ../../admin/config.rst:1513
 msgid "Default configuration:"
@@ -10218,8 +10209,8 @@ msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
-":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:"
-"`PROJECT_WEB_RESTRICT_RE`,"
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1529
 msgid "PROJECT_WEB_RESTRICT_NUMERIC"
@@ -10228,16 +10219,16 @@ msgstr "PROJECT_WEB_RESTRICT_NUMERIC"
 #: ../../admin/config.rst:1533
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
-"A projekt weboldalán a numerikus IP-cím használatának elutasítása. "
-"Alapértelmezés szerint be van kapcsolva."
+"A szám formátumú IP-címek használatának elutasítása a projekt weboldal "
+"mezőjében. Alapértelmezés szerint be van kapcsolva."
 
 #: ../../admin/config.rst:1537
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_RE`,"
 msgstr ""
-":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
-"`PROJECT_WEB_RESTRICT_RE`,"
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_RE`,"
 
 #: ../../admin/config.rst:1544
 msgid "PROJECT_WEB_RESTRICT_RE"
@@ -10248,17 +10239,16 @@ msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
-"Meghatároz egy reguláris kifejezést, amely korlátozza, hogy mi adható meg "
-"a(z) :ref:`project-web` mezőbe. A bármilyen egyező URL-ek el lesznek "
-"utasítva."
+"Reguláris kifejezéssel korlátozható, hogy milyen URL adható meg a :ref"
+":`project-web` mezőben. A szabálynak megfelelő URL-ek el lesznek utasítva."
 
 #: ../../admin/config.rst:1552
 msgid ""
 ":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`"
 msgstr ""
-":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
-"`PROJECT_WEB_RESTRICT_NUMERIC`"
+":ref:`project-web` :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
 
 #: ../../admin/config.rst:1559
 msgid "RATELIMIT_ATTEMPTS"
@@ -10268,8 +10258,8 @@ msgstr "RATELIMIT_ATTEMPTS"
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
-"A hitelesítési kísérletek maximális száma, mielőtt az ütemkorlátozás "
-"érvénybe lép."
+"A hitelesítési kísérletek maximális száma a korlátozás (rate limiting) "
+"alkalmazása előtt."
 
 #: ../../admin/config.rst:1563
 msgid "Defaults to 5."
@@ -10287,21 +10277,19 @@ msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1576
 msgid "How long authentication is accepted after rate limiting applies."
-msgstr ""
-"Mennyi ideig fogadott el a hitelesítés az ütemkorlátozás érvénybe lépése "
-"után."
+msgstr "A hitelesítés elfogadásának időtartama a korlátozás alkalmazása után."
 
 #: ../../admin/config.rst:1578
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
-msgstr "Másodpercek száma, alapértelmezés szerint 300 (5 perc)."
+msgstr "Másodpercben megadva, alapértelmezett érték: 300 másodperc (5 perc)."
 
 #: ../../admin/config.rst:1582
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
-":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
-"`RATELIMIT_LOCKOUT`"
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, "
+":setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1589
 msgid "RATELIMIT_LOCKOUT"
@@ -10309,13 +10297,11 @@ msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1591
 msgid "How long authentication is locked after rate limiting applies."
-msgstr ""
-"Mennyi ideig van zárolva a hitelesítés az ütemkorlátozás érvénybe lépése "
-"után."
+msgstr "A hitelesítés zárolásának időtartama a korlátozás alkalmazása után."
 
 #: ../../admin/config.rst:1593
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr "Másodpercekben megadva, alapértelmezett érték: 600 (10 perc)."
+msgstr "Másodpercben megadva, alapértelmezett érték: 600 másodperc (10 perc)."
 
 #: ../../admin/config.rst:1597
 msgid ""
@@ -10333,10 +10319,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
-"Azoknak a hitelesítési háttérrendszereknek a listája, amelyekből "
+"Azon hitelesítési háttérrendszerek (backends) listája, amelyekből új "
 "regisztráció engedélyezett. Ez csak az új regisztrációkat korlátozza, a "
-"felhasználók továbbra is hitelesíthetnek és hozzáadhatják a hitelesítést az "
-"összes beállított hitelesítési háttérrendszer használatával."
+"meglévő felhasználók továbbra is használhatják a már beállított hitelesítési "
+"módokat."
 
 #: ../../admin/config.rst:1612
 msgid ""
@@ -10344,16 +10330,16 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
-"Ajánlott a :setting:`REGISTRATION_OPEN` bekapcsolva tartása, miközben "
-"korlátozod a regisztrációs háttérrendszereket, különben a felhasználók "
-"képesek lesznek regisztrálni, de a Weblate nem fog regisztrációs linkeket "
-"mutatni a felhasználói felületen."
+"Ajánlott a :setting:`REGISTRATION_OPEN` beállítást bekapcsolva hagyni a "
+"hitelesítési háttérrendszerek korlátozása mellett, különben a regisztráció "
+"technikailag lehetséges marad, de nem lesznek láthatók a regisztrációs "
+"linkek a felhasználói felületen."
 
 #: ../../admin/config.rst:1624
 msgid "The backend names match names used in the URL for authentication."
 msgstr ""
-"A háttérrendszer nevei megegyeznek az URL-ben használt nevekkel az "
-"autentikáció során."
+"A háttérrendszer nevei megegyeznek az azonosításhoz (hitelesítéshez) "
+"használt URL-ben szereplő nevekkel."
 
 #: ../../admin/config.rst:1628
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
@@ -10368,16 +10354,16 @@ msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
-"Hogy az új fiókok regisztrációját védi-e CAPTCHA. Alapértelmezés szerint "
-"engedélyezve van."
+"Új fiókok regisztrációjának CAPTCHA védelemmel való ellátása. "
+"Alapértelmezetten be van kapcsolva."
 
 #: ../../admin/config.rst:1638
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
-"Ha be van kapcsolva, egy CAPTCHA kerül hozzáadásra minden olyan oldalhoz, "
-"ahol a felhasználó megadja az e-mail címét:"
+"Ha be van kapcsolva, CAPTCHA jelenik meg minden olyan oldalon, ahol a "
+"felhasználók e-mail címet adnak meg:"
 
 #: ../../admin/config.rst:1640
 msgid "New account registration."
@@ -10385,11 +10371,11 @@ msgstr "Új fiók regisztrációja."
 
 #: ../../admin/config.rst:1641
 msgid "Password recovery."
-msgstr "Jelszó helyreállítása."
+msgstr "Jelszó-visszaállítás."
 
 #: ../../admin/config.rst:1642
 msgid "Adding e-mail to an account."
-msgstr "E-mail hozzáadása egy fiókhoz."
+msgstr "E-mail cím hozzáadása egy fiókhoz."
 
 #: ../../admin/config.rst:1643
 msgid "Contact form for users that are not signed in."
@@ -10397,19 +10383,19 @@ msgstr "Kapcsolatfelvételi űrlap nem bejelentkezett felhasználók számára."
 
 #: ../../admin/config.rst:1645
 msgid "The protection currently consists of following steps:"
-msgstr "A védelem jelenleg a következő lépésekből áll:"
+msgstr "A védelem jelenleg az alábbi lépésekből áll:"
 
 #: ../../admin/config.rst:1647
 msgid "Mathematical captcha to be solved by the user."
-msgstr "Matematikai captcha, amelyet a felhasználónak kell megoldania."
+msgstr "Matematikai CAPTCHA megoldása a felhasználó által."
 
 #: ../../admin/config.rst:1648
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgstr ""
-"Munkaigazolás kihívás, amelyet a böngésző számít ki. A nehézségi szint a :"
-"setting:`ALTCHA_MAX_NUMBER` használatával állítható be."
+"A böngésző által kiszámított proof of work kihívás. A nehézségi szint az "
+":setting:`ALTCHA_MAX_NUMBER` beállítással módosítható."
 
 #: ../../admin/config.rst:1653
 msgid "REGISTRATION_EMAIL_MATCH"
@@ -10417,18 +10403,19 @@ msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1655
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr "Lehetővé teszi, hogy szűrd, mely e-mail címek regisztrálhatnak."
+msgstr "Lehetővé teszi, hogy szűrje, milyen e-mail címekről lehet regisztrálni."
 
 #: ../../admin/config.rst:1657
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
-"Alapértelmezés szerint ``.*``, ami bármilyen e-mail cím regisztrációját "
+"Alapértelmezett érték: ``.*``, ami bármilyen e-mail cím regisztrációját "
 "engedélyezi."
 
 #: ../../admin/config.rst:1659
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
-"Használhatod arra, hogy a regisztrációt egyetlen e-mail domainre korlátozd:"
+"Használható arra is, hogy a regisztrációt egyetlen e-mail domainre "
+"korlátozza:"
 
 #: ../../admin/config.rst:1668
 msgid "REGISTRATION_OPEN"
@@ -10439,8 +10426,8 @@ msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
-"Hogy az új fiókok regisztrációja jelenleg engedélyezett-e. Alapértelmezés "
-"szerint engedélyezve van."
+"Meghatározza, hogy az új fiókok regisztrációja jelenleg engedélyezett-e. "
+"Alapértelmezés szerint engedélyezett."
 
 #: ../../admin/config.rst:1673
 msgid ""
@@ -10448,9 +10435,9 @@ msgid ""
 "the Python Social Auth (you can allow certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"Ez a beállítás hatással van a beépített e-mail cím általi hitelesítésre vagy "
-"a Python Social Auth-ra (bizonyos háttereket engedélyezhetsz a :setting:"
-"`REGISTRATION_ALLOW_BACKENDS` használatával)."
+"Ez a beállítás az e-mail címmel történő beépített hitelesítést, illetve a "
+"Python Social Auth használatát érinti (bizonyos háttérrendszereket külön "
+"engedélyezhet a :setting:`REGISTRATION_ALLOW_BACKENDS` segítségével)."
 
 #: ../../admin/config.rst:1679
 msgid ""
@@ -10458,17 +10445,17 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
-"Ha harmadik fél által biztosított hitelesítési módszereket használsz, mint "
-"például a :ref:`ldap-auth`, akkor csak a regisztrációs űrlapot rejti el, de "
-"az új felhasználók még mindig be tudnak jelentkezni és fiókot létrehozhatnak."
+"Ha harmadik fél által biztosított hitelesítési módszereket használ, például "
+":ref:`ldap-auth`, akkor csak a regisztrációs űrlapot rejti el, de az új "
+"felhasználók továbbra is be tudnak jelentkezni és fiókot tudnak létrehozni."
 
 #: ../../admin/config.rst:1685
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-"`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1692
 msgid "REGISTRATION_REBIND"
@@ -10479,8 +10466,9 @@ msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
-"Engedélyezd a hitelesítési háttérrendszerek újrakötését meglévő felhasználók "
-"számára. Kapcsold be ezt, amikor hitelesítési szolgáltatók között migrálsz."
+"Engedélyezi a hitelesítési háttérrendszerek újrakapcsolását (rebind) meglévő "
+"felhasználók esetén. Kapcsolja be ezt az opciót, ha hitelesítési "
+"szolgáltatók közötti átállás (migráció) történik."
 
 #: ../../admin/config.rst:1701
 msgid ""
@@ -10488,10 +10476,10 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
-"Alapértelmezés szerint ki van kapcsolva, hogy ne engedélyezze más "
-"hitelesítési háttérrendszerek hozzáadását egy meglévő fiókhoz. Az újrakötés "
-"fiókvesztést okozhat, ha több harmadik fél által biztosított hitelesítési "
-"háttérrendszert használsz."
+"Alapértelmezés szerint ki van kapcsolva, hogy ne lehessen más hitelesítési "
+"háttérrendszert hozzáadni egy meglévő fiókhoz. Az újrakapcsolás (rebind) "
+"fiókfeltöréshez vezethet, ha több külső hitelesítési háttérrendszert is "
+"használ a rendszer."
 
 #: ../../admin/config.rst:1708
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -10502,8 +10490,8 @@ msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
-"A küszöbérték, amely riasztást vált ki elavult tárolók vagy túl sok "
-"változást tartalmazó tárolók esetén. Alapértelmezett értéke 25."
+"Küszöbérték az elavult tárolók vagy túl sok változást tartalmazó tárolók "
+"figyelmeztetésének aktiválásához. Alapértelmezett érték: 25."
 
 #: ../../admin/config.rst:1722
 msgid "REQUIRE_LOGIN"
@@ -10514,16 +10502,17 @@ msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
 msgstr ""
-"Ez engedélyezi a(z) :setting:`LOGIN_REQUIRED_URLS`-t, és konfigurálja a REST "
-"keretrendszert, hogy az összes API végponthoz hitelesítést kérjen."
+"Ez a beállítás bekapcsolja a :setting:`LOGIN_REQUIRED_URLS` használatát, és "
+"beállítja a REST keretrendszert úgy, hogy az összes API végponthoz "
+"hitelesítést követeljen meg."
 
 #: ../../admin/config.rst:1731
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
-"Ez a :ref:`sample-configuration`-ben van megvalósítva. Docker esetén "
-"használd a :envvar:`WEBLATE_REQUIRE_LOGIN`-t."
+"Ez megvalósításra került a :ref:`sample-configuration` példában. Docker "
+"használatakor állítsa be a :envvar:`WEBLATE_REQUIRE_LOGIN` változót."
 
 #: ../../admin/config.rst:1737
 msgid "SENTRY_DSN"
@@ -10531,14 +10520,14 @@ msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1739
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr "A Sentry DSN, amelyet a(z) :ref:`collecting-errors`-hez használunk."
+msgstr "Sentry DSN beállítása a :ref:`collecting-errors` funkcióhoz."
 
 #: ../../admin/config.rst:1743
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
-"`Django integráció a Sentryhez <https://docs.sentry.io/platforms/python/"
+"`Django integráció a Sentry-vel <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 
 #: ../../admin/config.rst:1748
@@ -10547,8 +10536,7 @@ msgstr "SENTRY_ENVIRONMENT"
 
 #: ../../admin/config.rst:1750
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr ""
-"Beállítja a környezetet a Sentry számára. Alapértelmezett érték: ``devel``."
+msgstr "A Sentry környezetének beállítása. Alapértelmezett érték: ``devel``."
 
 #: ../../admin/config.rst:1755
 msgid "SENTRY_PROFILES_SAMPLE_RATE"
@@ -10559,9 +10547,9 @@ msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Konfiguráld a mintavételi arányt a teljesítményfigyeléshez. Állítsd 1-re, "
-"hogy minden eseményt nyomon kövess, 0 (az alapértelmezett) letiltja a nyomon "
-"követést."
+"A teljesítményfigyelés mintavételezési arányának beállítása. Állítsa 1-re az "
+"összes esemény nyomon követéséhez, 0-ra (alapértelmezett) a követés "
+"kikapcsolásához."
 
 #: ../../admin/config.rst:1761
 msgid ""
@@ -10580,14 +10568,14 @@ msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
-"Engedélyezd a Sentry számára bizonyos személyazonosításra alkalmas "
-"információk gyűjtését. Alapértelmezés szerint kikapcsolva."
+"Személyes adatok gyűjtésének engedélyezése Sentry számára. Alapértelmezés "
+"szerint ki van kapcsolva."
 
 #: ../../admin/config.rst:1772
 msgid "This is turned off by default now, used to be turned on by default."
 msgstr ""
-"Most már alapértelmezés szerint ki van kapcsolva, korábban alapértelmezés "
-"szerint be volt kapcsolva."
+"Ez alapértelmezés szerint ki van kapcsolva, korábban verziókban alapból be "
+"volt kapcsolva."
 
 #: ../../admin/config.rst:1777
 msgid "SENTRY_TRACES_SAMPLE_RATE"
@@ -10598,9 +10586,9 @@ msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Konfiguráld a mintavételi arányt a profilozási figyeléshez. Állítsd 1-re, "
-"hogy minden eseményt nyomon kövess, 0 (az alapértelmezett) letiltja a nyomon "
-"követést."
+"A profilfigyelés mintavételezési arányának beállítása. Állítsa 1-re az "
+"összes esemény nyomon követéséhez, 0-ra (alapértelmezett) a követés "
+"kikapcsolásához."
 
 #: ../../admin/config.rst:1783
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
@@ -10616,9 +10604,9 @@ msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"Állítsd be az authentikált felhasználók munkamenet-lejáratát. Ez kiegészíti "
-"a :setting:`django:SESSION_COOKIE_AGE` beállítást, amely a nem authentikált "
-"felhasználókra vonatkozik."
+"Hitelesített felhasználók munkamenetének lejárati idejének beállítása. Ez "
+"kiegészíti a :setting:`django:SESSION_COOKIE_AGE` beállítást, amely a nem "
+"hitelesített felhasználókra vonatkozik."
 
 #: ../../admin/config.rst:1797
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
@@ -10635,15 +10623,14 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
-"Egyszerű nyelvkódok használata az alapértelmezett nyelv/ország "
-"kombinációkhoz. Például egy ``fr_FR`` fordítás az ``fr`` nyelvkódot fogja "
-"használni. Ez általában a kívánt viselkedés, mivel egyszerűsíti a nyelvek "
-"felsorolását ezeknél az alapértelmezett kombinációknál."
+"Egyszerű nyelvkódok használata alapértelmezett nyelv/ország kombinációk "
+"esetén. Például egy ``fr_FR`` fordítás ``fr`` nyelvkódot használ majd. Ez "
+"általában kívánatos viselkedés, mert egyszerűsíti a nyelvlisták kezelését."
 
 #: ../../admin/config.rst:1809
 msgid "Turn this off if you want to different translations for each variant."
 msgstr ""
-"Kapcsold ki ezt, ha külön fordításokat szeretnél minden egyes változathoz."
+"Kapcsolja ki, ha minden nyelvi változathoz külön fordítást szeretne kezelni."
 
 #: ../../admin/config.rst:1814
 msgid "SITE_DOMAIN"
@@ -10654,13 +10641,13 @@ msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
-"Beállítja a webhely domainjét. Szükséges a helyes abszolút linkek "
-"előállításához számos területen (például aktiválási e-mailek, értesítések "
-"vagy RSS-hírcsatornák)."
+"A webhely domainjének beállítása. Ez szükséges a helyes abszolút linkek "
+"előállításához sok helyzetben (például aktiváló e-mailek, értesítések vagy "
+"RSS hírcsatornák esetén)."
 
 #: ../../admin/config.rst:1819
 msgid "If Weblate is running on a non-standard port, include it here as well."
-msgstr "Ha a Weblate nem szabványos porton fut, itt is add meg."
+msgstr "Ha a Weblate nem szabványos porton fut, azt is adja meg itt."
 
 #: ../../admin/config.rst:1833
 msgid ""
@@ -10668,25 +10655,26 @@ msgid ""
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
-"Ez a beállítás csak a domain nevet tartalmazza. A protokoll beállításához "
-"(HTTPS bekapcsolása és érvényesítése) használd a :setting:`ENABLE_HTTPS`-t, "
-"és az URL megváltoztatásához a :setting:`URL_PREFIX`-t."
+"Ez a beállítás csak a domain nevet tartalmazza. A protokoll beállításához ("
+"pl. HTTPS engedélyezése és kötelezővé tétele) használja az "
+":setting:`ENABLE_HTTPS` beállítást, az URL módosításához pedig a "
+":setting:`URL_PREFIX` értéket."
 
 #: ../../admin/config.rst:1839
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
-"Egy Docker-konténerben a webhelydomaint a :envvar:`WEBLATE_ALLOWED_HOSTS` "
-"segítségével lehet beállítani."
+"Docker konténer esetén a webhely domainje a :envvar:`WEBLATE_ALLOWED_HOSTS` "
+"változón keresztül van konfigurálva."
 
 #: ../../admin/config.rst:1844
 msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
-":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
-"envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
+":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/config.rst:1853
 msgid "SITE_TITLE"
@@ -10695,7 +10683,7 @@ msgstr "SITE_TITLE"
 #: ../../admin/config.rst:1855
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
-"Az oldal címe, amelyet a weboldalon és a kiküldött e-mailekben használnak."
+"A webhely és a kiküldött e-mailek címében megjelenő webhelynév beállítása."
 
 #: ../../admin/config.rst:1860
 msgid "SPECIAL_CHARS"
@@ -10705,7 +10693,9 @@ msgstr "SPECIAL_CHARS"
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
-msgstr "További karakterek a vizuális billentyűzethez, :ref:`visual-keyboard`."
+msgstr ""
+"További karakterek hozzáadása a vizuális billentyűzethez, lásd: :ref:`visual-"
+"keyboard`."
 
 #: ../../admin/config.rst:1864
 msgid "The default value is:"
@@ -10722,11 +10712,11 @@ msgid ""
 "actually only single project in Weblate. Alternatively, set the project "
 "slug, and it will redirect unconditionally to this project."
 msgstr ""
-"A felhasználókat közvetlenül egy projekthez vagy összetevőhöz irányítja át a "
-"vezérlőpult megjelenítése helyett. Beállíthatod ``True``-ra, így csak akkor "
-"működik, ha ténylegesen csak egyetlen projekt van a Weblate-ben. Alternatív "
-"megoldásként megadhatod a projekt azonosítóját (slug), és akkor feltétel "
-"nélkül átirányít erre a projektre."
+"A felhasználók közvetlen átirányítása egy projektre vagy összetevőre az "
+"irányítópult helyett. Beállítható ``True`` értékre, hogy csak akkor "
+"történjen meg, ha valóban csak egy projekt van a Weblate-ben. "
+"Alternatívaként megadható egy projekt URL-azonosító (slug), és ekkor mindig "
+"arra irányít át."
 
 #: ../../admin/config.rst:1889
 msgid "SSH_EXTRA_ARGS"
@@ -10737,9 +10727,9 @@ msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
 msgstr ""
-"Lehetővé teszi egyedi paraméterek hozzáadását, amikor a Weblate SSH-t hív "
-"meg. Hasznos, ha régi típusú titkosítást vagy más nem szabványos funkciókat "
-"használó szerverekhez csatlakozol."
+"Lehetővé teszi egyéni paraméterek hozzáadását, amikor a Weblate SSH "
+"kapcsolatot létesít. Ez hasznos, ha régi titkosítást vagy egyéb nem "
+"szabványos jellemzőket használó szerverekhez kell csatlakozni."
 
 #: ../../admin/config.rst:1896
 msgid ""
@@ -10747,22 +10737,22 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can turn that on using:"
 msgstr ""
-"Például, ha a Weblate SSH kapcsolata sikertelen a következő hibaüzenettel: "
-"`Unable to negotiate with legacyhost: no matching key exchange method found. "
-"Their offer: diffie-hellman-group1-sha1`, akkor ezt bekapcsolhatod a "
-"következő módon:"
+"Például, ha a Weblate SSH kapcsolata hibával megszakad (`Unable to negotiate "
+"with legacyhost: no matching key exchange method found. Their offer: diffie-"
+"hellman-group1-sha1`) (Nem sikerült kulcscsere-módszert egyeztetni), ezt így "
+"lehet kezelni:"
 
 #: ../../admin/config.rst:1905
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
 msgstr ""
-"A karakterláncot a shell értékeli ki, ezért ügyelj arra, hogy minden szóköz "
-"és speciális karakter idézőjelbe kerüljön."
+"A megadott sztringet a shell értékeli ki, ezért ügyeljen rá, hogy minden "
+"szóközt és speciális karaktert idézőjelek közé tegyen."
 
 #: ../../admin/config.rst:1910
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
-msgstr "`OpenSSH régi beállítások <https://www.openssh.com/legacy.html>`_"
+msgstr "`OpenSSH örökölt beállítások <https://www.openssh.com/legacy.html>`_"
 
 #: ../../admin/config.rst:1915
 msgid "STATUS_URL"
@@ -10770,7 +10760,7 @@ msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1917
 msgid "The URL where your Weblate instance reports its status."
-msgstr "Az URL-cím, ahol a Weblate példányod jelentést tesz az állapotáról."
+msgstr "Az URL, ahol a Weblate példány állapotjelentése elérhető."
 
 #: ../../admin/config.rst:1922
 msgid "SUGGESTION_CLEANUP_DAYS"
@@ -10781,8 +10771,8 @@ msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
-"Automatikusan törli a javaslatokat egy megadott napok utáni időszakban. "
-"Alapértelmezett értéke ``None``, ami azt jelenti, hogy nincs törlés."
+"Javaslatok automatikus törlése egy meghatározott számú nap elteltével. "
+"Alapértelmezett érték: ``None``, azaz nincs automatikus törlés."
 
 #: ../../admin/config.rst:1930
 msgid "SUPPORT_STATUS_CHECK"
@@ -10793,17 +10783,18 @@ msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
-"Letiltja a féléves támogatási állapot ellenőrzést, és megakadályozza, hogy a "
-"szuperfelhasználókat bejelentkezéskor átirányítsa az adományozási oldalra, "
-"ha nincs aktív támogatási előfizetés."
+"Féléves támogatási státuszellenőrzés és a rendszergazdák adományozási "
+"oldalra történő átirányításának letiltása bejelentkezéskor, ha nincs aktív "
+"támogatási előfizetés."
 
 #: ../../admin/config.rst:1939
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
 msgstr ""
-"Javítsd a Weblate élményedet egy támogatási előfizetés megvásárlásával, és "
-"támogasd a Weblate fejlődését ahelyett, hogy ezt kikapcsolnád."
+"A Weblate élményének javítása érdekében ajánlott inkább támogatási "
+"előfizetést vásárolni és ezzel a Weblate fejlődését segíteni, ahelyett hogy "
+"ezt kikapcsolná."
 
 #: ../../admin/config.rst:1944
 msgid "UNUSED_ALERT_DAYS"
@@ -10813,12 +10804,12 @@ msgstr "UNUSED_ALERT_DAYS"
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr ""
-"Beállítja, hogy mikor váltódik ki a :guilabel:`Component seems unused` "
-"figyelmeztetés."
+"Annak beállítása, hogy mikor jelenjen meg az :guilabel:`Összetevő "
+"használaton kívülinek tűnik` figyelmeztetés."
 
 #: ../../admin/config.rst:1950
 msgid "Defaults to 365 days, set to 0 to turn it off."
-msgstr "Alapértelmezés szerint 365 nap, állítsd 0-ra a kikapcsoláshoz."
+msgstr "Alapértelmezett érték: 365 nap. 0-ra állítva a funkció kikapcsolható."
 
 #: ../../admin/config.rst:1955
 msgid "UPDATE_LANGUAGES"
@@ -10830,9 +10821,9 @@ msgid ""
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
 msgstr ""
-"Szabályozza, hogy a nyelvi adatbázis frissüljön-e az adatbázis migráció "
-"futtatásakor, és alapértelmezés szerint be van kapcsolva. Ez a beállítás "
-"nincs hatással a :wladmin:`setuplang` meghívására."
+"Szabályozza, hogy az adatbázis migrációja során frissüljön-e a nyelvi "
+"adatbázis. Alapértelmezés szerint be van kapcsolva. Ez a beállítás nincs "
+"hatással a :wladmin:`setuplang` parancsra."
 
 #: ../../admin/config.rst:1965
 msgid ""
@@ -10840,9 +10831,9 @@ msgid ""
 "definitions expand over time and it will not display language code for the "
 "defined languages."
 msgstr ""
-"A nyelvek megjelenítése ettől következetlenné válhat. A Weblate nyelvi "
-"definíciói idővel bővülnek, és nem fogja megjeleníteni a nyelvkódot a "
-"meghatározott nyelvek esetében."
+"Ha ezt kikapcsolja, a nyelvek megjelenítése eltérhet a valóságtól, mivel a "
+"Weblate nyelvi definíciói idővel bővülnek, és a nem definiált nyelvkódok nem "
+"fognak megjelenni."
 
 #: ../../admin/config.rst:1971
 msgid ":ref:`included-languages`"
@@ -10857,8 +10848,8 @@ msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
-"Ez a beállítás lehetővé teszi, hogy a Weblate-et egy adott útvonal alatt "
-"futtasd (különben a webszerver gyökeréből való futtatásra támaszkodik)."
+"Ez a beállítás lehetővé teszi, hogy a Weblate egy adott elérési úton fusson ("
+"ellenkező esetben a webszerver gyökérkönyvtárából kell futnia)."
 
 #: ../../admin/config.rst:1983
 msgid ""
@@ -10866,9 +10857,9 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
-"Ahhoz, hogy ezt a beállítást használd, a szerveredet is konfigurálnod kell, "
-"hogy eltávolítsa ezt az előtagot. Például WSGI esetén ezt a "
-"``WSGIScriptAlias`` beállításával érheted el."
+"A beállítás használatához a szervert is úgy kell konfigurálni, hogy "
+"eltávolítsa ezt az előtagot. WSGI esetében például a ``WSGIScriptAlias`` "
+"beállítás használható erre."
 
 #: ../../admin/config.rst:1988
 msgid "The prefix should start with a ``/``."
@@ -10879,8 +10870,8 @@ msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
-"Ez a beállítás nem működik a Django beépített szerverével, módosítanod kell "
-"a :file:`urls.py` fájlt, hogy tartalmazza ezt az előtagot."
+"Ez a beállítás nem működik a Django beépített szerverével, ilyenkor az "
+":file:`urls.py` fájlt kell módosítani, hogy tartalmazza az előtagot."
 
 #: ../../admin/config.rst:2004
 msgid "VCS_API_DELAY"
@@ -10892,29 +10883,30 @@ msgid ""
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
-"Beállítja a minimális késleltetést másodpercekben a harmadik fél API-hívásai "
-"között a(z) :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:"
-"`vcs-pagure`, és a(z) :ref:`vcs-azure-devops` esetében."
+"A harmadik féltől származó API hívások közötti minimális késleltetés "
+"beállítása másodpercben, a következő szolgáltatások esetén: :ref:`vcs-github`"
+", :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` és :ref:`vcs-azure-"
+"devops`."
 
 #: ../../admin/config.rst:2012
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
-"Ez korlátozza az API-hívások gyakoriságát a Weblate-ből ezekhez a "
-"szolgáltatásokhoz, hogy elkerülje azok túlterhelését."
+"Ez a beállítás korlátozza a Weblate által ezekre a szolgáltatásokra küldött "
+"API hívások gyakoriságát, elkerülve a túlterhelést."
 
 #: ../../admin/config.rst:2014
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
 msgstr ""
-"Ha a GitHub másodlagos sebességkorlátozója korlátoz téged, ennek növelése "
-"segíthet."
+"Ha a GitHub másodlagos korlátozó mechanizmusa (rate-limiter) miatt tapasztal "
+"korlátozást, az érték növelése segíthet."
 
 #: ../../admin/config.rst:2016
 msgid "The default value is 10."
-msgstr "Az alapértelmezett érték 10."
+msgstr "Alapértelmezett érték: 10 másodperc."
 
 #: ../../admin/config.rst:2021
 msgid "VCS_BACKENDS"
@@ -10922,20 +10914,19 @@ msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:2023
 msgid "Configuration of available VCS backends."
-msgstr ""
-"A rendelkezésre álló VCS (verziókezelő) háttérrendszerek konfigurációja."
+msgstr "Az elérhető VCS (verziókezelő) háttérrendszerek konfigurációja."
 
 #: ../../admin/config.rst:2027
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
-"A Weblate megpróbál minden támogatott háttérrendszert használni, amelyhez "
-"megvannak az eszközeid."
+"A Weblate megpróbálja használni az összes olyan háttérrendszert, amelyhez a "
+"szükséges eszközök telepítve vannak."
 
 #: ../../admin/config.rst:2031
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
-"Ezzel korlátozhatod a választási lehetőségeket vagy hozzáadhatsz egyedi VCS "
-"(verziókezelő) háttérrendszereket."
+"Ezzel korlátozhatja az elérhető választási lehetőségeket vagy saját "
+"verziókezelő háttérrendszereket adhat hozzá."
 
 #: ../../admin/config.rst:2039 ../../faq.rst:525
 msgid ":ref:`vcs`"
@@ -10947,7 +10938,8 @@ msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:2046
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr "Meghatározza, hogy a Weblate milyen mélyen klónozza a tárolókat."
+msgstr ""
+"Beállítja, milyen mélységű klónozást végezzen a Weblate a tárolók esetén."
 
 #: ../../admin/config.rst:2050
 msgid ""
@@ -10957,11 +10949,11 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
-"Jelenleg ez csak a :ref:`vcs-git` esetén támogatott. Alapértelmezés szerint "
-"a Weblate sekély klónozást végez a tárolókon, hogy gyorsabb legyen a "
-"klónozás és kevesebb lemezterületet foglaljon. A használatodtól függően "
-"(például ha egyedi :ref:`addons`-t használsz), érdemes lehet növelni a "
-"mélységet vagy teljesen kikapcsolni a sekély klónozást, ha ezt 0-ra állítod."
+"Jelenleg ez csak a :ref:`vcs-git` esetén támogatott. Alapértelmezésben a "
+"Weblate sekély (shallow) klónozást végez, hogy gyorsabb legyen a másolás és "
+"kevesebb helyet foglaljon. Ha például egyéni :ref:`kiegészítőket <addons>` "
+"használ, érdemes lehet növelni a klónozás mélységét vagy teljes klónozást "
+"választani az érték 0-ra állításával."
 
 #: ../../admin/config.rst:2057
 msgid ""
@@ -10969,9 +10961,9 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
-"Ha a Weblate-ból való feltöltéskor ``fatal: protocol error: expected old/new/"
-"ref, got 'shallow <commit hash>'`` hibát kapsz, teljesen kapcsold ki a "
-"sekély klónozást az alábbi beállítással:"
+"Ha a feltöltés során ilyen hibát kap: ``fatal: protocol error: expected old/"
+"new/ref, got 'shallow <commit hash>'``, akkor állítsa a klónozás mélységét "
+"0-ra:"
 
 #: ../../admin/config.rst:2067
 msgid "WEBLATE_ADDONS"
@@ -10984,10 +10976,10 @@ msgid ""
 "ons, when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
-"Az elérhető extrák listája. Ahhoz, hogy használhasd őket, engedélyezni kell "
-"őket egy adott fordítási összetevőhöz. Alapértelmezés szerint ez magában "
-"foglalja az összes beépített extrát, és amikor bővíted a listát, "
-"valószínűleg szeretnéd, hogy a meglévők engedélyezve maradjanak, például:"
+"A használható kiegészítők listája. Ezek használatához az adott fordítási "
+"összetevőhöz is engedélyezni kell őket. Alapértelmezésben az összes "
+"beépített kiegészítő elérhető. Ha bővíti a listát, érdemes a meglévő "
+"kiegészítőket is benne hagyni, például:"
 
 #: ../../admin/config.rst:2109
 msgid ""
@@ -10995,17 +10987,17 @@ msgid ""
 "Weblate will crash in that case. Please uninstall the add-on from all "
 "components prior to removing it from this list."
 msgstr ""
-"Ha eltávolítod az addont a listáról, az nem távolítja el az összetevőkből. "
-"Ebben az esetben a Weblate összeomlik. Kérlek, távolítsd el az addont minden "
-"összetevőből, mielőtt eltávolítod a listáról."
+"A kiegészítő eltávolítása a listából nem távolítja el azt az összetevőkből! "
+"Ebben az esetben a Weblate hibát ad. Ezért a listából való eltávolítás előtt "
+"minden összetevőből törölje a kiegészítőt."
 
 #: ../../admin/config.rst:2115
 msgid ""
 ":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
 "`ADDON_ACTIVITY_LOG_EXPIRY`"
 msgstr ""
-":ref:`addons`, :setting:`DEFAULT_ADDONS`, :setting:"
-"`ADDON_ACTIVITY_LOG_EXPIRY`"
+":ref:`addons`, :setting:`DEFAULT_ADDONS`, "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`"
 
 #: ../../admin/config.rst:2122
 msgid "ADDON_ACTIVITY_LOG_EXPIRY"
@@ -11015,8 +11007,8 @@ msgstr "ADDON_ACTIVITY_LOG_EXPIRY"
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
 msgstr ""
-"Beállítja, hogy az add-onok aktivitásnaplói mennyi ideig maradnak meg. "
-"Alapértelmezés szerint 180 napig."
+"Beállítja, hogy mennyi ideig őrizze meg a rendszer a kiegészítők "
+"tevékenységi naplóit. Alapértelmezett érték: 180 nap."
 
 #: ../../admin/config.rst:2131
 msgid "WEBLATE_EXPORTERS"
@@ -11027,8 +11019,8 @@ msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
-"A rendelkezésre álló exportálók listája, amelyek különböző fájlformátumokban "
-"kínálják a fordítások vagy szójegyzékek letöltését."
+"A rendelkezésre álló exportálók listája, amelyekkel különféle "
+"fájlformátumokban lehet letölteni fordításokat vagy szójegyzékeket."
 
 #: ../../admin/config.rst:2140 ../../admin/config.rst:2155
 msgid ":ref:`formats`"
@@ -11044,7 +11036,7 @@ msgstr "A használható fájlformátumok listája."
 
 #: ../../admin/config.rst:2151
 msgid "The default list already has the common formats."
-msgstr "Az alapértelmezett lista már tartalmazza a gyakori formátumokat."
+msgstr "Az alapértelmezett lista már tartalmazza a leggyakoribb formátumokat."
 
 #: ../../admin/config.rst:2161
 msgid "WEBLATE_MACHINERY"
@@ -11052,7 +11044,7 @@ msgstr "WEBLATE_MACHINERY"
 
 #: ../../admin/config.rst:2165
 msgid "List of machinery services available for use."
-msgstr "A használatra rendelkezésre álló fordítószolgáltatások listája."
+msgstr "A használható gépi fordító szolgáltatások listája."
 
 #: ../../admin/config.rst:2169
 msgid ":doc:`/admin/machine`"
@@ -11065,7 +11057,7 @@ msgstr "WEBLATE_GPG_IDENTITY"
 #: ../../admin/config.rst:2176
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
-"Az azonosító, amit a Weblate a Git commitok aláírására használ, például:"
+"A Weblate által a Git véglegesítések aláírására használt azonosító, például:"
 
 #: ../../admin/config.rst:2182
 msgid ""
@@ -11073,9 +11065,9 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
-"A Weblate GPG kulcstartóban keres egy megfelelő kulcsot (:file:`home/.gnupg` "
-"a(z) :setting:`DATA_DIR` alatt). Ha nem található, akkor generál egy "
-"kulcsot, kérlek nézd meg a :ref:`gpg-sign` a további részletekért."
+"A Weblate a GPG kulcstartóban (a :setting:`DATA_DIR` alatti :file:`home/"
+".gnupg` mappában) keres megfelelő kulcsot. Ha nem talál, automatikusan "
+"létrehoz egyet. További információ: :ref:`gpg-sign`."
 
 #: ../../admin/config.rst:2188 ../../admin/install/docker.rst:867
 msgid ":ref:`gpg-sign`"
@@ -11090,13 +11082,13 @@ msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
 msgstr ""
-"Meghatározza, hogy a(z) :ref:`project-web`-et meg kell-e adni projekt "
-"létrehozásakor. Alapértelmezés szerint be van kapcsolva, mivel ez "
-"illeszkedik a nyilvános szerver beállításokhoz."
+"Meghatározza, hogy a :ref:`project-web` kitöltése kötelező legyen-e új "
+"projekt létrehozásakor. Alapértelmezés szerint kötelező, ami a nyilvános "
+"kiszolgálókhoz ideális."
 
 #: ../../admin/config.rst:2202
 msgid "Configuring version control credentials"
-msgstr "A verziókezelési hitelesítő adatok beállítása"
+msgstr "Verziókezelő hitelesítési adatok beállítása"
 
 #: ../../admin/config.rst:2206
 msgid ""
@@ -11105,10 +11097,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Ez a szakasz a VCS (verziókezelő rendszer) hitelesítő adatokat tartalmazó "
-"változóit írja le, mint például :setting:`GITHUB_CREDENTIALS`, "
-":setting:`GITLAB_CREDENTIALS`, :setting:`GITEA_CREDENTIALS`, "
-":setting:`PAGURE_CREDENTIALS`, :setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Ez a rész a következő hitelesítési változókat írja le: "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2215
 msgid ""
@@ -11116,13 +11108,13 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
-"A hitelesítő adatok felülírhatók a :ref:`component-push` vagy a :ref:"
-"`component-repo` alatt is (ha a push URL nincs konfigurálva), ezek "
-"elsőbbséget élveznek a konfigurációs fájlban megadottakkal szemben."
+"A hitelesítő adatok a :ref:`component-push` vagy :ref:`component-repo` "
+"szinten is felülírhatók (ha nincs külön feltöltési (push) URL megadva), ezek "
+"előnyt élveznek a konfigurációs fájlban megadottakkal szemben."
 
 #: ../../admin/config.rst:2222
 msgid "API user, required."
-msgstr "API felhasználó, kötelező."
+msgstr "API felhasználó megadása (kötelező)."
 
 #: ../../admin/config.rst:2225
 msgid "``scheme``"
@@ -11134,22 +11126,21 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
-"Séma felülírás. A Weblate megpróbálja a sémát a tároló URL-jéből kinyerni, "
-"és alapértelmezésben az ``https``-t használja. Ha belsőleg futtatod az API "
-"szervert, érdemes lehet ``http``-t használni helyette, de vedd figyelembe a "
-"biztonságot."
+"Séma felülírása. A Weblate megpróbálja az URL-ből kinyerni a sémát, ha nem "
+"sikerül, a ``https``-t használja. Ha belsőleg futtatja az API szervert, "
+"megadhatja az ``http``-t is, de ügyeljen a biztonságra."
 
 #: ../../admin/config.rst:2234
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"A Docker konténerben a hitelesítő adatokat környezeti változók használatával "
-"lehet beállítani, lásd a(z) :ref:`docker-vcs-config`."
+"Docker konténer esetén a hitelesítő adatokat környezeti változókkal lehet "
+"beállítani, lásd: :ref:`docker-vcs-config`."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "Folyamatos honosítás"
+msgstr "Folyamatos lokalizáció"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -11157,73 +11148,74 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
-"Van egy infrastruktúra, amely lehetővé teszi, hogy a fordítás szorosan "
-"kövesse a fejlesztést. Így a fordítók folyamatosan dolgozhatnak a "
-"fordításokon, ahelyett, hogy közvetlenül a kiadás előtt hatalmas mennyiségű "
-"új szövegen kellene dolgozniuk."
+"Olyan infrastruktúra áll rendelkezésre, amely biztosítja, hogy a fordítások "
+"szorosan kövessék a fejlesztést. Így a fordítók folyamatosan dolgozhatnak a "
+"fordításokon, ahelyett hogy a kiadás előtt kellene egyszerre nagy mennyiségű "
+"új szöveget lefordítaniuk."
 
 #: ../../admin/continuous.rst:12
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
 msgstr ""
-"A :doc:`/devel/integration` leírja az alapvető módokat a fejlesztésed "
-"Weblate-be való integrálására."
+"Az alapvető integrációs lehetőségeket a fejlesztési folyamattal a :doc:`/"
+"devel/integration` dokumentáció ismerteti."
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
-msgstr "Ez a folyamat:"
+msgstr "A folyamat a következő:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
-"A fejlesztők módosításokat végeznek, majd feltöltik azokat a VCS "
+"A fejlesztők módosításokat hajtanak végre, majd feltöltik azokat a VCS "
 "(verziókezelő) tárolóba."
 
 #: ../../admin/continuous.rst:18
 msgid ""
 "Optionally the translation files are updated, see :ref:`translations-update`."
 msgstr ""
-"Opcionálisan a fordítási fájlok frissülnek, lásd: :ref:`translations-update`."
+"Igény esetén frissítik a fordítási fájlokat, lásd: :ref:`translations-"
+"update`."
 
 #: ../../admin/continuous.rst:19
 msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
-"A Weblate lekéri a módosításokat a VCS (verziókezelő) tárolóból, feldolgozza "
-"a fordítási fájlokat, és frissíti az adatbázisát, lásd :ref:`update-vcs`."
+"A Weblate letölti a változásokat a VCS (verziókezelő) tárolóból, feldolgozza "
+"a fordítási fájlokat és frissíti az adatbázisát, lásd: :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
 msgstr ""
-"A fordítók a Weblate webes felületén keresztül nyújtják be a fordításokat "
-"vagy feltöltik az offline módosításokat."
+"A fordítók a Weblate webes felületén keresztül vagy offline módosítások "
+"feltöltésével végzik a fordításokat."
 
 #: ../../admin/continuous.rst:21
 msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
 msgstr ""
-"Miután a fordítók befejezték a munkát, a Weblate véglegesíti a "
-"változtatásokat a helyi tárolóban (lásd: :ref:`lazy-commit`)."
+"Amint a fordítók elkészülnek, a Weblate véglegesíti a módosításokat a helyi "
+"tárolóban (lásd: :ref:`lazy-commit`)."
 
 #: ../../admin/continuous.rst:22
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
 msgstr ""
-"A változtatások visszakerülnek a felsőbb szintű tárolóba (lásd: :ref:`push-"
-"changes`)."
+"A változások visszatöltésre kerülnek a forrás tárolóba, lásd: :ref:`push-"
+"changes`."
 
 #: ../../admin/continuous.rst:73
 msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
-"A felsőbb szintű kódtároló nem szükséges, használhatod a Weblate-et :ref"
-":`vcs-local` módban is, ahol a tároló csak a Weblate-en belül létezik."
+"Nincs feltétlenül szükség külső kódtárolóra, a Weblate használható :ref:`vcs-"
+"local` módban is, amikor a tároló csak a Weblate-en belül létezik."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
@@ -11234,15 +11226,15 @@ msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
 msgstr ""
-"Be kell állítanod egy módszert, amellyel frissítheted a háttértárolókat a "
-"forrásukból."
+"Érdemes beállítani valamilyen módszert a háttérrendszeri tárolók "
+"frissítésére az eredeti forrásból."
 
 #: ../../admin/continuous.rst:84
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
-"Használd a(z) :ref:`hooks` funkciót a legtöbb közismert kódtárhely "
-"szolgáltatással való integrációhoz:"
+"Használhatja a :ref:`hooks` funkciót, hogy integrálódjon a legnépszerűbb "
+"kódtároló szolgáltatásokkal:"
 
 #: ../../admin/continuous.rst:86 ../../api.rst:2819
 msgid ":ref:`github-setup`"
@@ -11271,44 +11263,44 @@ msgstr ":ref:`gitea-setup`"
 #: ../../admin/continuous.rst:93
 msgid "You must also :ref:`project-enable_hooks` for this to work."
 msgstr ""
-"A(z) :ref:`project-enable_hooks` opciót is be kell kapcsolnod, hogy ez "
-"működjön."
+"A működéshez a projektben is engedélyezni kell a :ref:`project-enable_hooks` "
+"funkciót."
 
 #: ../../admin/continuous.rst:95
 msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
-"Manuálisan indíthatod el a frissítést a tároló kezelésében vagy a :ref:`api` "
-"vagy a :ref:`wlc` használatával"
+"Frissítést manuálisan is indíthat a tárolókezelő felületen,vagy az :ref:`api`"
+" illetve a :ref:`wlc` parancssori eszköz használatával"
 
 #: ../../admin/continuous.rst:97
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
-"Engedélyezd a :setting:`AUTO_UPDATE` beállítást, hogy automatikusan "
-"frissítsd az összes összetevőt a Weblate példányodon"
+"Engedélyezze az :setting:`AUTO_UPDATE` beállítást, hogy automatikusan "
+"frissítse az összes összetevőt a Weblate példányában"
 
 #: ../../admin/continuous.rst:99
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
-"Hajtsd végre a :wladmin:`updategit` parancsot (válassz projektet vagy "
-"használd a ``--all`` kapcsolót az összes frissítéséhez)"
+"Futtassa a :wladmin:`updategit` parancsot (egy adott projekt kiválasztásával "
+"vagy a ``--all`` opcióval az összes projekt frissítéséhez)"
 
 #: ../../admin/continuous.rst:101
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
-"Amikor a Weblate frissíti a tárolót, a frissítés utáni kiegészítők "
-"aktiválódnak, lásd :ref:`addons`."
+"Amikor a Weblate frissíti a tárolót, a frissítés utáni kiegészítők is "
+"automatikusan lefutnak, lásd: :ref:`addons`."
 
 #: ../../admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
-msgstr "Az egyesítési konfliktusok elkerülése"
+msgstr "Ütközések (merge conflict) elkerülése"
 
 #: ../../admin/continuous.rst:109
 msgid ""
@@ -11316,9 +11308,9 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"A Weblate-ből származó összeolvasztási konfliktusok akkor merülnek fel, "
-"amikor ugyanazt a fájlt megváltoztatták a Weblate-ben és azon kívül is. A "
-"helyzettől függően több megközelítés is segíthet itt:"
+"A Weblate-ben fellépő összeolvasztási ütközések (merge conflicts) akkor "
+"fordulnak elő, ha ugyanazt a fájlt módosítják Weblate-ben **és** azon kívül "
+"is. A helyzettől függően többféle módszer is segíthet ennek kezelésében:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -11335,8 +11327,8 @@ msgstr ":ref:`merge-weblate-git`"
 #: ../../admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr ""
-"Az ütközések elkerülése érdekében csak a fordítási fájlokat módosítsd a "
-"Weblate-ben"
+"Ütközések elkerülése azzal, hogy a fordítási fájlokat kizárólag Weblate-ben "
+"szerkeszti"
 
 #: ../../admin/continuous.rst:121
 msgid ""
@@ -11346,42 +11338,39 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"Könnyű elkerülni a Weblate-en kívüli szerkesztéseket az egynyelvű fájlokkal "
-"— új stringeket adhatsz hozzá a Weblate-en belül, és az egész "
-"fájlszerkesztést ott hagyhatod. A kétnyelvű fájlok esetében általában van "
-"valamilyen üzenetkivonási folyamat, amely a forráskódból generál fordítható "
-"fájlokat. Bizonyos esetekben ez két részre osztható:"
+"Ha elkerüli a Weblate-en kívüli módosításokat, különösen egynyelvű fájlok "
+"esetén, akkor az új szövegeket közvetlenül a Weblate-ben lehet hozzáadni, és "
+"a teljes fájlszerkesztés ott történhet. Kétnyelvű fájloknál általában "
+"valamilyen üzenetkinyerési folyamat állítja elő a lefordítható fájlokat a "
+"forráskódból. Ez sokszor két lépésre bontható:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
-"A kivonás sablont generál (például a gettext POT a :program:`xgettext` "
-"használatával van generálva)."
+"Az első lépés során sablon (például gettext POT fájl) készül, például az "
+":program:`xgettext` programmal."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
-"A további folyamat a tényleges fordításokba egyesíti (a gettext PO fájlok a :"
-"program:`msgmerge` használatával frissülnek)."
+"A második lépés a sablon összeolvasztása a meglévő fordításokkal (például a "
+"gettext PO fájlok frissítése az :program:`msgmerge` használatával)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
-"A második lépést elvégezheted a Weblate-en belül, és ez biztosítja, hogy "
-"minden függőben lévő változtatás bekerüljön azelőtt, hogy ez a művelet "
-"megtörténne."
+"A második lépést a Weblate-en belül is el lehet végezni, így biztosítva, "
+"hogy minden függő változtatás beépüljön a művelet előtt."
 
 #: ../../admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr ""
-"Kerüld el az összeolvadási konfliktusokat azáltal, hogy zárolod a Weblate-"
-"et, miközben külső változtatásokat hajtasz végre"
+msgstr "Ütközések elkerülése Weblate zárolásával külső módosítások idejére"
 
 #: ../../admin/continuous.rst:138
 msgid ""
@@ -11390,23 +11379,22 @@ msgid ""
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
-"A Weblate integrálása a frissítési folyamatodba úgy, hogy az frissítés előtt "
-"kiüríti a változtatásokat a Weblate-en kívüli fájlokban, elérhető a :ref:"
-"`api` használatával. Ez arra kényszeríti a Weblate-et, hogy minden függőben "
-"lévő módosítást feltöltsön, és zárolja a fordítást, miközben saját oldaladon "
-"végzel változtatásokat."
+"Weblate integrálása a frissítési folyamatába úgy, hogy előtte kényszeríti a "
+"Weblate-et minden függő módosítás feltöltésére, majd zárolja a fordítást, "
+"amíg kívülről változtatásokat végez. Ehhez használhatja az :ref:`api` "
+"segítségével történő távoli vezérlést."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
-msgstr "A frissítések végrehajtásához használt szkript így nézhet ki:"
+msgstr "Az ilyen frissítési szkript például így nézhet ki:"
 
 #: ../../admin/continuous.rst:163
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
-"Ha több összetevő osztozik ugyanazon a tárolón, mindegyiket külön kell "
-"zárolnod:"
+"Ha több összetevő osztozik ugyanazon a tárolón, mindegyiket külön zárolni "
+"kell:"
 
 #: ../../admin/continuous.rst:174
 msgid ""
@@ -11414,16 +11402,13 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
-"A példa a :ref:`wlc`-t használja, amelynek konfigurációra (API kulcsokra) "
-"van szüksége ahhoz, hogy távolról irányítani tudja a Weblate-et. Ezt "
-"bármilyen HTTP klienssel is elérheted a :ref:`wlc` helyett, például a curl "
-"használatával, lásd: :ref:`api`."
+"A példa a :ref:`wlc` eszközt használja, amely API-kulcsokat igényel a "
+"Weblate távoli vezérléséhez. A :ref:`wlc` helyett bármilyen HTTP kliens ("
+"például curl) is használható, lásd: :ref:`api`."
 
 #: ../../admin/continuous.rst:181
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr ""
-"Kerüld el az összeolvadási konfliktusokat azzal, hogy a Git műveletekre "
-"összpontosítasz"
+msgstr "Ütközések elkerülése Git műveletekre fókuszálva"
 
 #: ../../admin/continuous.rst:183
 msgid ""
@@ -11433,11 +11418,12 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
-"Még akkor is előfordulhatnak ütközések a fordítási fájlokban, ha a Weblate "
-"az egyetlen forrása a változtatásoknak, például ha a :ref:`addon-"
-"weblate.git.squash` kiegészítőt használod, a :ref:`component-merge_style` "
-"beállítása :guilabel:`Újraalapozás` vagy a Weblate-en kívül vonod végzel "
-"commit-összevonást (például egy pull kérés összevonásakor)."
+"Még akkor is felléphetnek ütközések, ha csak a Weblate végzi a fordítási "
+"fájlok módosítását, például ha használja a :ref:`addon-weblate.git.squash` "
+"kiegészítőt vagy ha a :ref:`component-merge_style` beállítása "
+":guilabel:`Rebase` értékre van állítva, illetve ha Weblate-en kívül squash "
+"műveletet végez. (módosítási kérelmek (pull request) összevonása egy "
+"véglegesítésbe (commit))."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -11447,12 +11433,11 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
-"A merge konfliktusok oka ebben az esetben más - változások történtek a "
-"Weblate-ben, miután összevontad a Weblate commitokat. Ez általában akkor "
-"fordul elő, ha az összevonás nem automatikus, és napokig vagy hetekig vár "
-"egy emberi átvizsgálásra. Ilyenkor a Git néha már nem képes felismerni az "
-"upstream változásokat, hogy azok megegyeznek-e a Weblate változásaival, és "
-"megtagadja a rebase végrehajtását."
+"Ebben az esetben az ütközések oka más: a Weblate-ben történtek módosítások "
+"azután, hogy a Weblate véglegesítéseit már összevonták. Ez gyakran akkor "
+"fordul elő, ha az összeolvasztás nem automatizált, és napokig vagy hetekig "
+"manuális ellenőrzésre vár. Ilyenkor a Git nem tudja felismerni a Weblate "
+"változtatásait és megtagadja a rebase műveletet."
 
 #: ../../admin/continuous.rst:194
 msgid ""
@@ -11460,48 +11445,50 @@ msgid ""
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
 "by not squashing changes."
 msgstr ""
-"Ennek kezeléséhez vagy minimalizálnod kell a függőben lévő változások számát "
-"a Weblate-ben, amikor összeolvasztasz egy pull requestet vagy teljesen "
-"elkerülöd a konfliktusokat azáltal, hogy nem vonod össze a változtatásokat."
+"Ennek kezelésére vagy minimalizálni kell a Weblate-ben függőben lévő "
+"változtatások számát, amikor egy módosítási kérelmet (pull request) összevon "
+"vagy teljesen elkerülheti az ütközéseket azzal, hogy nem vonja össze a "
+"változtatásokat egyetlen véglegesítésbe (commitba) (azaz nem végez squash-"
+"olást)."
 
 #: ../../admin/continuous.rst:198
 msgid "Here are few options how to avoid that:"
-msgstr "Íme néhány lehetőség, hogyan kerülheted el ezt:"
+msgstr "Ennek kezelésére a következő lehetőségek állnak rendelkezésre:"
 
 #: ../../admin/continuous.rst:200
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
-"Ne használd sem a(z) :ref:`addon-weblate.git.squash`, sem az egyesítés során "
-"történő összesítést. Ez az alapvető oka annak, hogy a git nem ismeri fel a "
-"változtatásokat az egyesítés után."
+"Ne használja sem a :ref:`addon-weblate.git.squash` kiegészítőt, sem a squash "
+"összeolvasztási módszert. Ezek a fő okai annak, hogy a Git nem ismeri fel a "
+"változtatásokat."
 
 #: ../../admin/continuous.rst:201
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
 msgstr ""
-"Hagyd, hogy a Weblate elkötelezze a függőben lévő változásokat az "
-"összeolvasztás előtt. Ez frissíti a pull requestet minden változtatással, és "
-"mindkét tároló szinkronban lesz."
+"Hagyja, hogy a Weblate véglegesítse a függő változtatásokat még a módosítási "
+"kérelem (pull request) összeolvasztása előtt. Így a módosítási kérelem "
+"frissül az összes változással, és a két tároló szinkronban marad."
 
 #: ../../admin/continuous.rst:202
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
-"Használd a Weblate ellenőrzési funkcióit (lásd :doc:`/workflows`), így "
-"automatikusan össze tudod olvasztani a GitHub pull requesteket, miután a CI "
-"sikeresen lefutott."
+"Használja a Weblate beépített felülvizsgálati funkcióit (lásd: "
+":doc:`/workflows`), így automatikusan összeolvaszthatja a GitHub módosítási "
+"kérelmeket (pull requests), amint a CI tesztek sikeresen lefutottak."
 
 #: ../../admin/continuous.rst:203
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
 msgstr ""
-"Használj zárolást a Weblate-ben, hogy elkerüld a változtatásokat, amíg a "
-"GitHub pull request felülvizsgálat alatt van."
+"Használjon Weblate zárolást, hogy elkerülje a változtatásokat a GitHub "
+"módosítási kérelem (pull request) felülvizsgálata közben."
 
 #: ../../admin/continuous.rst:207
 msgid ":ref:`wlc`"
@@ -11522,10 +11509,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
-"Ha a Hosted Weblate-et használod, a javasolt megoldás a `Weblate app "
-"<https://github.com/apps/weblate>`_ telepítése, így anélkül kapod meg a "
-"helyes beállítást, hogy sok mindent be kellene állítanod. Ezt a "
-"változtatások visszatöltésére is lehet használni."
+"Ha a Hosted Weblate szolgáltatást használja, a javasolt megoldás a `Weblate "
+"alkalmazás <https://github.com/apps/weblate>`_ telepítése. Így megfelelően "
+"beállított környezetet kap, minimális konfigurációval. Ez az alkalmazás a "
+"változások visszatöltésére is használható."
 
 #: ../../admin/continuous.rst:221
 msgid ""
@@ -11533,9 +11520,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
-"Ahhoz, hogy értesítéseket kapj minden GitHub tárolóra történő feltöltésről, "
-"add hozzá a Weblate Webhook-ot a tároló beállításaiban (:guilabel:"
-"`Webhooks`), ahogy az alábbi képen látható:"
+"Ahhoz, hogy minden feltöltési (push) művelet után értesítést kapjon egy "
+"GitHub tárolóból, adjon hozzá Weblate Webhook-ot a tároló beállításainál "
+"(:guilabel:`Webhooks`), az alábbi képnek megfelelően:"
 
 #: ../../admin/continuous.rst:227
 msgid ""
@@ -11543,17 +11530,17 @@ msgid ""
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-"A :guilabel:`Payload URL` a Weblate URL-ből áll, amelyhez hozzá van fűzve a "
-"``/hooks/github/``, például a Hosted Weblate szolgáltatás esetén ez "
-"``https://hosted.weblate.org/hooks/github/``."
+"A :guilabel:`Payload URL` (adatküldési URL) a Weblate címe után ``/hooks/"
+"github/`` útvonallal bővül, például Hosted Weblate esetén: ``https://"
+"hosted.weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:231
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
-"A többi értéket hagyhatod az alapértelmezett beállításokon (a Weblate képes "
-"kezelni mindkét tartalomtípust, és csak a `push` eseményt használja)."
+"A többi beállítás maradhat az alapértelmezett értékeken (a Weblate mindkét "
+"tartalomtípust kezeli, és csak a `push` eseményt használja)."
 
 #: ../../admin/continuous.rst:236
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
@@ -11561,7 +11548,7 @@ msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:241
 msgid "Automatically receiving changes from Bitbucket"
-msgstr "Változások automatikus fogadása a Bitbucket-ről"
+msgstr "Változások automatikus fogadása Bitbucket-ről"
 
 #: ../../admin/continuous.rst:243
 msgid ""
@@ -11570,10 +11557,10 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
-"A Weblate támogatja a Bitbucket webhooks használatát. Adj hozzá egy webhook-"
-"ot, amely a tároló feltöltésekor aktiválódik, és állítsd be a cél URL-t a "
-"Weblate telepítésednél ``/hooks/bitbucket/``-re (például ``https://hosted."
-"weblate.org/hooks/bitbucket/``)."
+"A Weblate támogatja a Bitbucket webhook-okat. Hozzon létre egy webhook-ot, "
+"amely a tárolóba történő feltöltés (push) eseményre indul, és amely a "
+"Weblate telepítésén a ``/hooks/bitbucket/`` URL-re irányít (például "
+"``https://hosted.weblate.org/hooks/bitbucket/``)."
 
 #: ../../admin/continuous.rst:252
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -11581,7 +11568,7 @@ msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:257
 msgid "Automatically receiving changes from GitLab"
-msgstr "Változások automatikus fogadása a GitLab-ról"
+msgstr "Változások automatikus fogadása GitLab-ról"
 
 #: ../../admin/continuous.rst:259
 msgid ""
@@ -11589,8 +11576,8 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
-"A Weblate támogatja a GitLab hookokat. Adj hozzá egy projekt webhookot, "
-"amelynek cél URL-je a Weblate telepítéseden ``/hooks/gitlab/`` (például "
+"A Weblate támogatja a GitLab webhook-okat. Adjon hozzá egy projekt webhook-"
+"ot, amely a ``/hooks/gitlab/`` URL-re mutat a Weblate telepítésén (például "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:265
@@ -11599,7 +11586,7 @@ msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:270
 msgid "Automatically receiving changes from Pagure"
-msgstr "Változások automatikus fogadása a Pagure-ról"
+msgstr "Változások automatikus fogadása Pagure-ról"
 
 #: ../../admin/continuous.rst:272
 msgid ""
@@ -11608,10 +11595,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"A Weblate támogatja a Pagure hookokat. Adj hozzá egy webhookot, amelynek cél "
-"URL-je a Weblate telepítéseden ``/hooks/pagure/`` (például ``https://hosted."
-"weblate.org/hooks/pagure/``). Ezt a :guilabel:`Activate Web-hooks` alatt "
-"lehet megtenni a :guilabel:`Project options` résznél:"
+"A Weblate támogatja a Pagure webhook-okat. Hozzon létre egy webhook-ot, "
+"amely a ``/hooks/pagure/`` URL-re mutat a Weblate telepítésén (például "
+"``https://hosted.weblate.org/hooks/pagure/``). Ezt a :guilabel:`Activate Web-"
+"hooks` menüpontban, a :guilabel:`Project options` alatt teheti meg:"
 
 #: ../../admin/continuous.rst:281
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -11619,7 +11606,7 @@ msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:286
 msgid "Automatically receiving changes from Azure Repos"
-msgstr "Változások automatikus fogadása az Azure Repos-ról"
+msgstr "Változások automatikus fogadása Azure Repos-ról"
 
 #: ../../admin/continuous.rst:288
 msgid ""
@@ -11629,11 +11616,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
-"A Weblate támogatja az Azure Repos webhorgokat – adj hozzá egy webhorgot a "
-":guilabel:`Kód feltöltve` eseményhez, amely a Weblate telepítéseden belüli "
-"``/hooks/azure/`` URL-re mutat (például ``https://hosted.weblate.org/hooks/"
-"azure/``). Ezt a :guilabel:`Szolgáltatáshorgok` menüpontban tudod megtenni a "
-":guilabel:`Projekt beállításai` alatt."
+"A Weblate támogatja az Azure Repos webhook-okat. Hozzon létre egy webhook-ot "
+"a :guilabel:`Code pushed` (kód feltöltésre került) eseményre, amely a ``/"
+"hooks/azure/`` URL-re mutat a Weblate telepítésén (például ``https://"
+"hosted.weblate.org/hooks/azure/``). Ezt a :guilabel:`Service hooks` alatt, a "
+":guilabel:`Project settings` résznél tudja beállítani."
 
 #: ../../admin/continuous.rst:297
 msgid ""
@@ -11641,13 +11628,13 @@ msgid ""
 "devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
 "hooks/azure/`, :ref:`hosted-push`"
 msgstr ""
-"`Webhorgok az Azure DevOps kézikönyvben <https://learn.microsoft.com/en-us/"
-"azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:"
-"post:`/hooks/azure/`, :ref:`hosted-push`"
+"`Webhook-ok az Azure DevOps kézikönyvben <https://learn.microsoft.com/en-us/"
+"azure/devops/service-hooks/services/webhooks?view=azure-devops>`_, "
+":http:post:`/hooks/azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:303
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr "Változások automatikus fogadása a Gitea Repos-ról"
+msgstr "Változások automatikus fogadása Gitea Repos-ról"
 
 #: ../../admin/continuous.rst:305
 msgid ""
@@ -11657,23 +11644,23 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
-"A Weblate támogatja a Gitea webhooks használatát. Adj hozzá egy :guilabel:"
-"`Gitea Webhook`-ot a :guilabel:`Push events` eseményhez, amelynek cél URL-je "
-"a Weblate telepítéseden ``/hooks/gitea/`` (például ``https://hosted.weblate."
-"org/hooks/gitea/``). Ezt a :guilabel:`Webhooks` alatt lehet megtenni a "
-"tároló :guilabel:`Settings` részénél."
+"A Weblate támogatja a Gitea webhook-okat. Adjon hozzá egy :guilabel:`Gitea "
+"Webhook`-ot a :guilabel:`Push events` (feltöltési) eseményre, amely a ``/"
+"hooks/gitea/`` URL-re mutat a Weblate telepítésén (például ``https://"
+"hosted.weblate.org/hooks/gitea/``). Ezt a tároló :guilabel:`Settings` "
+"részében, a :guilabel:`Webhooks` alatt lehet megtenni."
 
 #: ../../admin/continuous.rst:312
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
-"`Webhorgok a Gitea kézikönyvben <https://docs.gitea.io/en-us/webhooks/>`_, :"
-"http:post:`/hooks/gitea/`, :ref:`hosted-push`"
+"`Webhook-ok a Gitea kézikönyvben <https://docs.gitea.io/en-us/webhooks/>`_, "
+":http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:318
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr "Változások automatikus fogadása a Gitee Repos-ról"
+msgstr "Változások automatikus fogadása Gitee Repos-ról"
 
 #: ../../admin/continuous.rst:320
 msgid ""
@@ -11683,23 +11670,23 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
-"A Weblate támogatja a Gitee webhooks használatát. Adj hozzá egy :guilabel:"
-"`WebHook`-ot a :guilabel:`Push` eseményhez, amelynek cél URL-je a Weblate "
-"telepítéseden ``/hooks/gitee/`` (például ``https://hosted.weblate.org/hooks/"
-"gitee/``). Ezt a :guilabel:`WebHooks` alatt lehet megtenni a tároló :"
-"guilabel:`Management` részénél."
+"A Weblate támogatja a Gitee webhook-okat. Adjon hozzá egy "
+":guilabel:`WebHook`-ot a :guilabel:`Push` (feltöltés) eseményre, amely a ``/"
+"hooks/gitee/`` URL-re mutat a Weblate telepítésén (például ``https://"
+"hosted.weblate.org/hooks/gitee/``). Ezt a tároló :guilabel:`Management` "
+"részében, a :guilabel:`WebHooks` alatt tudja megtenni."
 
 #: ../../admin/continuous.rst:327
 msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
-"`Webhorgok a Gitee kézikönyvben <https://gitee.com/help/categories/40>`_, :"
-"http:post:`/hooks/gitee/`, :ref:`hosted-push`"
+"`Webhook-ok a Gitee kézikönyvben <https://gitee.com/help/categories/40>`_, "
+":http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:331
 msgid "Automatically updating repositories nightly"
-msgstr "Tárolók automatikus frissítése éjszakánként"
+msgstr "Tárolók éjszakai automatikus frissítése"
 
 #: ../../admin/continuous.rst:333
 msgid ""
@@ -11707,14 +11694,14 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
-"A Weblate éjszakánként automatikusan lekéri a távoli tárolókat, hogy javítsa "
-"a teljesítményt a későbbi változások egyesítésekor. Opcionálisan ezt "
-"kiegészítheted éjszakai egyesítésekkel is, ha engedélyezed a :setting:"
-"`AUTO_UPDATE` beállítást."
+"A Weblate éjszakánként automatikusan letölti a távoli tárolók frissítéseit, "
+"hogy a későbbi változások összeolvasztása gyorsabb legyen. Opcionálisan "
+"engedélyezheti az éjszakai összeolvasztást is a :setting:`AUTO_UPDATE` "
+"bekapcsolásával."
 
 #: ../../admin/continuous.rst:340
 msgid "Pushing changes from Weblate"
-msgstr "Változások feltöltése a Weblate-ből"
+msgstr "Változások feltöltése Weblate-ből"
 
 #: ../../admin/continuous.rst:342
 msgid ""
@@ -11727,21 +11714,20 @@ msgid ""
 "push`."
 msgstr ""
 "Minden fordítási összetevőhöz beállítható egy feltöltési URL (lásd: :ref"
-":`component-push`), ebben az esetben a Weblate képes lesz a változtatásokat "
-"a távoli tárolóba továbbítani. A Weblate úgy is beállítható, hogy minden "
-"commit után automatikusan feltöltse a változásokat (ez az alapértelmezett "
-"viselkedés, lásd: :ref:`component-push_on_commit`). Ha nem szeretnéd, hogy a "
-"változások automatikusan kerüljenek feltöltésre, ezt megteheted manuálisan a "
-":guilabel:`Tároló karbantartása` menüpont alatt vagy az API használatával, a "
-":option:`wlc push` opcióval."
+":`component-push`), így a Weblate képes lesz visszaküldeni a módosításokat a "
+"távoli tárolóba. A Weblate alapértelmezetten minden véglegesítés után "
+"automatikusan feltölti a változásokat (lásd: :ref:`component-push_on_commit`)"
+". Ha nem szeretné, hogy a feltöltés automatikus legyen, manuálisan is "
+"indíthatja a :guilabel:`Tároló karbantartás` alatt, vagy az API-n keresztül, "
+"például a :option:`wlc push` paranccsal."
 
 #: ../../admin/continuous.rst:349
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
-"A feltöltési lehetőségek a használt :ref:`vcs` alapján különböznek, további "
-"részletek az adott fejezetben találhatók."
+"A feltöltési lehetőségek a használt :ref:`vcs` típusától függően változnak, "
+"részletesebben lásd az adott fejezetben."
 
 #: ../../admin/continuous.rst:351
 msgid ""
@@ -11752,13 +11738,13 @@ msgid ""
 "`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` "
 "as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Ha nem szeretnél közvetlen feltöltést a Weblate-től, lehetőséged van "
-"használni a :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref"
-":`vcs-pagure`, :ref:`vcs-azure-devops` pull kérelmeket vagy a :ref:`vcs-"
-"gerrit` felülvizsgálatokat. Ezeket úgy aktiválhatod, hogy az :ref:`component`"
-" beállításai között a :ref:`component-vcs` opcióhoz a következők egyikét "
-"választod: :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
-":guilabel:`Gerrit`, :guilabel:`Azure DevOps` vagy :guilabel:`Pagure`."
+"Ha nem szeretne közvetlen feltöltést a Weblate-ből, támogatott a :ref:`vcs-"
+"github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:`vcs-"
+"azure-devops` módosítási kérelmek (pull requests) vagy :ref:`vcs-gerrit` "
+"felülvizsgálatok használata is. Ezeket úgy aktiválhatja, hogy "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`"
+", :guilabel:`Azure DevOps` vagy :guilabel:`Pagure` értéket választ a :ref"
+":`component-vcs` beállításban az (:ref:`összetevőnél <component>`)."
 
 #: ../../admin/continuous.rst:357
 msgid ""
@@ -11766,9 +11752,9 @@ msgid ""
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
-"Összességében a következő lehetőségek állnak rendelkezésre a Git, a "
-"Mercurial, a GitHub, a GitLab, a Gitea, a Pagure, az Azure DevOps, a "
-"Bitbucket Data Center és a Bitbucket Cloud esetében:"
+"Összességében a következő lehetőségek érhetők el Git, Mercurial, GitHub, "
+"GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center és Bitbucket "
+"Cloud esetén:"
 
 #: ../../admin/continuous.rst:363
 msgid "Desired setup"
@@ -11788,7 +11774,7 @@ msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:368 ../../admin/continuous.rst:383
 msgid "No push"
-msgstr "Nincs feltöltés"
+msgstr "Nincs feltöltés (No push)"
 
 #: ../../admin/continuous.rst:369 ../../admin/continuous.rst:374
 #: ../../admin/continuous.rst:379
@@ -11810,7 +11796,7 @@ msgstr "`üres`"
 
 #: ../../admin/continuous.rst:373 ../../admin/continuous.rst:388
 msgid "Push directly"
-msgstr "Közvetlen feltöltés"
+msgstr "Közvetlen feltöltés (Push directly)"
 
 #: ../../admin/continuous.rst:375 ../../admin/continuous.rst:380
 #: ../../admin/continuous.rst:390 ../../admin/continuous.rst:395
@@ -11819,7 +11805,7 @@ msgstr "SSH URL"
 
 #: ../../admin/continuous.rst:378 ../../admin/continuous.rst:393
 msgid "Push to separate branch"
-msgstr "Küldés külön ágra"
+msgstr "Feltöltés külön ágra (Push to separate branch)"
 
 #: ../../admin/continuous.rst:381 ../../admin/continuous.rst:396
 #: ../../admin/continuous.rst:406 ../../admin/continuous.rst:416
@@ -11827,7 +11813,7 @@ msgstr "Küldés külön ágra"
 #: ../../admin/continuous.rst:446 ../../admin/continuous.rst:456
 #: ../../admin/continuous.rst:466
 msgid "Branch name"
-msgstr "Branch név"
+msgstr "Ágnév megadása (Branch name)"
 
 #: ../../admin/continuous.rst:384 ../../admin/continuous.rst:389
 #: ../../admin/continuous.rst:394 ../../admin/install.rst:244
@@ -11836,7 +11822,7 @@ msgstr ":ref:`vcs-mercurial`"
 
 #: ../../admin/continuous.rst:398
 msgid "GitHub pull request from fork"
-msgstr "GitHub pull request forkból"
+msgstr "GitHub módosítási kérelem külső másolatból (pull request from fork)"
 
 #: ../../admin/continuous.rst:399 ../../admin/continuous.rst:404
 msgid ":ref:`vcs-github`"
@@ -11844,7 +11830,7 @@ msgstr ":ref:`vcs-github`"
 
 #: ../../admin/continuous.rst:403
 msgid "GitHub pull request from branch"
-msgstr "GitHub pull request branchekből"
+msgstr "GitHub módosítási kérelem saját ágról (pull request from branch)"
 
 #: ../../admin/continuous.rst:405 ../../admin/continuous.rst:415
 #: ../../admin/continuous.rst:425 ../../admin/continuous.rst:435
@@ -11855,7 +11841,7 @@ msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:408
 msgid "GitLab merge request from fork"
-msgstr "GitLab merge request forkból"
+msgstr "GitLab egyesítési kérelem külső másolatból (merge request from fork)"
 
 #: ../../admin/continuous.rst:409 ../../admin/continuous.rst:414
 msgid ":ref:`vcs-gitlab`"
@@ -11863,11 +11849,11 @@ msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/continuous.rst:413
 msgid "GitLab merge request from branch"
-msgstr "GitLab összeolvasztási kérelem ágról"
+msgstr "GitLab egyesítési kérelem saját ágról (merge request from branch)"
 
 #: ../../admin/continuous.rst:418
 msgid "Gitea merge request from fork"
-msgstr "Gitea merge kérés forkról"
+msgstr "Gitea egyesítési kérelem külső másolatból (merge request from fork)"
 
 #: ../../admin/continuous.rst:419 ../../admin/continuous.rst:424
 msgid ":ref:`vcs-gitea`"
@@ -11875,7 +11861,7 @@ msgstr ":ref:`vcs-gitea`"
 
 #: ../../admin/continuous.rst:423
 msgid "Gitea merge request from branch"
-msgstr "Gitea merge kérés ágból"
+msgstr "Gitea egyesítési kérelem saját ágról (merge request from branch)"
 
 #: ../../admin/continuous.rst:428
 msgid "Pagure merge request from fork"
@@ -26863,7 +26849,7 @@ msgstr "type projekt"
 
 #: ../../api.rst:1226 ../../api.rst:1235 ../../api.rst:1247 ../../api.rst:2561
 msgid "string"
-msgstr "karakterlánc"
+msgstr "szöveg"
 
 #: ../../api.rst:1232
 msgid "Returns labels for a project."
