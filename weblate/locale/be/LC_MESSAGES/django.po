@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-20 01:42+0000\n"
+"PO-Revision-Date: 2025-04-21 07:29+0000\n"
 "Last-Translator: Yauhen <bugomol@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
@@ -62,7 +62,7 @@ msgstr "Імя таксама выкарыстоўваецца ва ўнёска
 
 #: weblate/accounts/forms.py:196 weblate/accounts/models.py:718
 msgid "Commit e-mail"
-msgstr "Эл. пошта аўтара для ўнёскаў"
+msgstr "Эл. пошта для ўнёскаў"
 
 #: weblate/accounts/forms.py:197
 msgid "Use account e-mail address"
@@ -73,6 +73,9 @@ msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
+"Выкарыстоўваецца ў сістэме кантролю версій, каб пазначаць аўтара ўнёску. "
+"Калі Weblate аднойчы запіша змены ў рэпазіторый, гэты адрас застанецца там "
+"назаўсёды."
 
 #: weblate/accounts/forms.py:231 weblate/accounts/models.py:712
 msgid "Public e-mail"
@@ -1326,7 +1329,7 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"Гэты рэпазіторый састарэў. Хутчэй за ўсё вы не атрымаеце чаканых вынікаў, "
+"Гэты рэпазіторый састарэў, хутчэй за ўсё вы не атрымаеце чаканых вынікаў, "
 "пакуль не абновіце яго."
 
 #: weblate/addons/cdn.py:35
@@ -1812,7 +1815,6 @@ msgid "Variable string suffix"
 msgstr "Зменны суфікс радка"
 
 #: weblate/addons/forms.py:609
-#, fuzzy
 msgid "Variable part multiplier"
 msgstr "Множнік зменнай часткі"
 
@@ -3927,14 +3929,12 @@ msgid "Python brace format"
 msgstr "Фармат дужак Python"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "Фарматаванне дужак у Python не адпавядае зыходнаму тэксту"
+msgstr "Фарматаванне дужак Python не адпавядае зыходнаму."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "У радку фарматавання сустракаецца няпарны знак {}."
 
 #: weblate/checks/format.py:712
 msgid "C# format"
@@ -4030,7 +4030,7 @@ msgstr "Пераклад не змяшчае тэрмінаў з гласары�
 
 #: weblate/checks/glossary.py:82
 msgid "Following terms are not translated according to glossary: {}"
-msgstr "Наступныя тэрміны не перакладзены ў адпаведнасці з гласарыем: {}"
+msgstr "Пераклад наступных тэрмінаў не адпавядае гласарыю: {}"
 
 #: weblate/checks/glossary.py:90
 msgid "Prohibited initial character"
@@ -4128,10 +4128,8 @@ msgid "BBCode markup"
 msgstr "Разметка BBCode"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BB-код у перакладзе не адпавядае зыходнаму тэксту"
+msgstr "Элементы BBCode у перакладзе не адпавядаюць зыходным."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
@@ -4166,36 +4164,28 @@ msgid "Markdown links"
 msgstr "Спасылкі Markdown"
 
 #: weblate/checks/markup.py:297
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "Спасылкі Markdown не адпавядаюць зыходнаму тэксту"
+msgstr "Спасылкі Markdown не адпавядаюць зыходным."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "Сінтаксіс Markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Сінтаксіс Markdown не адпавядае зыходнаму тэксту"
+msgstr "Сінтаксіс Markdown не адпавядае зыходнаму."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "У перакладзе адсутнічае URL"
+msgstr "У перакладзе адсутнічае URL."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Небяспечны код HTML"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "У перакладзе выкарыстоўваецца небяспечная разметка HTML"
+msgstr "У перакладзе выкарыстоўваецца небяспечная разметка HTML."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4256,13 +4246,11 @@ msgstr "Qt-фарматаванне радка не адпавядае зыхо�
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
-msgstr "Фармат Qt множнага ліку"
+msgstr "Фармат множнага ліку Qt"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "Qt-фарматаванне радка не адпавядае зыходнаму тэксту"
+msgstr "Qt-фарматаванне радка не адпавядае зыходнаму."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
@@ -4284,20 +4272,16 @@ msgid "Ruby format"
 msgstr "Фармат Ruby"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "Ruby-фарматаванне радка не адпавядае зыходнаму тэксту"
+msgstr "Ruby-фарматаванне радка не адпавядае зыходнаму."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
-msgstr "Пераклад без змен"
+msgstr "Пераклад не адрозніваецца"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Зыходны тэкст і пераклад супадаюць"
+msgstr "Зыходны тэкст і пераклад супадаюць."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
@@ -5593,7 +5577,7 @@ msgstr "Не ўдалося знайсці мову %s!"
 
 #: weblate/memory/models.py:370
 msgid "Unsupported file!"
-msgstr "Непадтрымліваемы файл!"
+msgstr "Файл не падтрымліваецца!"
 
 #: weblate/memory/models.py:374
 msgid "Monolingual format not supported for memory upload"
@@ -5832,16 +5816,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/403_csrf.html:33
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, you need to enable "
 "saving them (at least for this site, or 'same-origin' requests)."
 msgstr ""
-"Калі вы наладзілі ваш браўзер так, каб ён не працаваў з cookies, калі ласка "
-"дазвольце іх хоць для гэтага сайту ці для запытаў \"same-origin\"."
+"Калі вы наладзілі браўзер, каб ён не захоўваў файлы cookies, дазвольце іх "
+"прынамсі для гэтага сайта або для запытаў «same-origin»."
 
 #: weblate/templates/403_csrf.html:37
 #, python-format
@@ -6106,17 +6086,12 @@ msgstr ""
 "Перайдзіце на ўкладку праекта «Інфармацыя» і звярніцеся да суправаджальніка."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "please check support offerings at %(weblate_link)s or use this form on the "
 "correct server."
 msgstr ""
-"Калі вам треба дапамоhа з Веблате аĺбо ви žадажекие павиедаміć пра памилку, "
-"звиарнікиесиа на сайт [Х98Х]."
 
 #: weblate/templates/accounts/contact.html:35
 #, python-format
@@ -6176,29 +6151,20 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:45
 #: weblate/templates/mail/shared-registration.html:12
-#, fuzzy, python-format
-#| msgid "The confirmation URL will expire after %(count)s hour."
-#| msgid_plural "The confirmation URL will expire after %(count)s hours."
+#, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] ""
-"Спасылка для пацвярджэння будзе сапраўдная цягам наступнай %(count)s гадзіны."
-msgstr[1] ""
-"Спасылка для пацвярджэння будзе сапраўдная цягам наступных %(count)s гадзін."
-msgstr[2] ""
-"Спасылка для пацвярджэння будзе сапраўдная цягам наступных %(count)s гадзін."
+msgstr[0] "Спасылка для пацвярджэння будзе дзейнічаць %(count)s гадзіну."
+msgstr[1] "Спасылка для пацвярджэння будзе дзейнічаць %(count)s гадзіны."
+msgstr[2] "Спасылка для пацвярджэння будзе дзейнічаць %(count)s гадзін."
 
 #: weblate/templates/accounts/email-sent.html:47
 msgid "Request a new confirmation link if it expires."
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:49
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr ""
-"Калі ласка, праверце паштовую скрыню на наяўнасць ліста са спасылкай для "
-"пацвярджэння."
+msgstr "Калі тэрмін дзеяння спасылкі скончыцца, трэба зарэгістравацца зноў."
 
 #: weblate/templates/accounts/email-sent.html:54
 msgid ""
@@ -6352,7 +6318,7 @@ msgstr "Ліцэнзіі"
 #: weblate/templates/accounts/profile.html:494
 #: weblate/templates/accounts/user.html:186
 msgid "Audit log"
-msgstr "Журнал аўдыта"
+msgstr "Журнал аўдыту"
 
 #: weblate/templates/accounts/profile.html:64
 #: weblate/templates/accounts/profile.html:530
@@ -6420,10 +6386,8 @@ msgid "Remove this notification setting"
 msgstr "Выдаліць гэтую наладу апавяшчэння"
 
 #: weblate/templates/accounts/profile.html:181
-#, fuzzy
-#| msgid "Choose commit e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Выберыце электронную пошту аўтара ўнёску з правераных адрасоў."
+msgstr "Можна выбраць толькі пацверджаны адрас электроннай пошты."
 
 #: weblate/templates/accounts/profile.html:195
 msgid "Current user identities"
@@ -6587,15 +6551,12 @@ msgid "Description"
 msgstr "Апісанне"
 
 #: weblate/templates/accounts/profile.html:487
-#, fuzzy
-#| msgid ""
-#| "Contact us immediately if you see anything suspicious in the audit log."
 msgid ""
 "Get in contact immediately if you notice anything suspicious in the audit "
 "log."
 msgstr ""
-"Неадкладна звяжыцеся з намі, калі ўбачыце ў журнале праверкі што-небудзь "
-"падазронае."
+"Калі вы заўважылі ў журнале аўдыту нешта падазронае, неадкладна звяжыцеся з "
+"намі."
 
 #: weblate/templates/accounts/profile.html:499
 #: weblate/templates/accounts/user.html:299
@@ -6616,7 +6577,7 @@ msgstr "Агент карыстальніка"
 
 #: weblate/templates/accounts/profile.html:515
 msgid "No recent activity found."
-msgstr "Ниадаŭниай актиŭнаски ние знойдзиена!"
+msgstr "Нядаўніх дзеянняў не знойдзена."
 
 #: weblate/templates/accounts/profile.html:521
 msgid "Report suspicious activity"
@@ -6958,7 +6919,7 @@ msgstr "Нядаўнія змены"
 
 #: weblate/templates/accounts/user.html:175
 msgid "User identities"
-msgstr "Киапиераšнижа каристаĺникижа идентиčнаски"
+msgstr "Ідэнтыфікацыйныя даныя карыстальніка"
 
 #: weblate/templates/accounts/user.html:182
 #: weblate/templates/billing/detail.html:14
@@ -7260,13 +7221,12 @@ msgid "Add-ons can also be installed at the project and the component levels."
 msgstr "Дапаўненні таксама можна ўсталёўваць на ўзроўні праектаў і кампанентаў."
 
 #: weblate/templates/addons/addon_list.html:77
-#, fuzzy, python-format
-#| msgid "There are no addons currently installed."
+#, python-format
 msgid "Manage project-wide add-ons (%(count)s installed)"
 msgid_plural "Manage project-wide add-ons (%(count)s installed)"
-msgstr[0] "Ниама ŭсталиаванич дадаткаŭ."
-msgstr[1] "Ниама ŭсталиаванич дадаткаŭ."
-msgstr[2] "Ниама ŭсталиаванич дадаткаŭ."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/addons/addon_list.html:85
 #, python-format
@@ -7572,10 +7532,8 @@ msgid "Automatic assignment"
 msgstr "Аўтаматычнае прызначэнне"
 
 #: weblate/templates/auth/teams-name.html:5
-#, fuzzy
-#| msgid "The server does not allow authentication."
 msgid "Requires two-factor authentication"
-msgstr "Сервер не дазваляе аўтэнтыфікацыю."
+msgstr "Патрабуецца двухфактарная аўтэнтыфікацыя"
 
 #: weblate/templates/auth/teams-roles.html:6
 msgid "Access only"
@@ -8221,7 +8179,7 @@ msgstr "Згенераваць"
 #: weblate/templates/category.html:338 weblate/templates/component.html:394
 #: weblate/templates/dashboard/user.html:161 weblate/templates/project.html:421
 msgid "Contributor stats"
-msgstr "Статыстыка ўдзельніка"
+msgstr "Статыстыка ўдзельнікаў"
 
 #: weblate/templates/category.html:342 weblate/templates/component.html:398
 #: weblate/templates/dashboard/user.html:165 weblate/templates/project.html:425
@@ -8317,7 +8275,7 @@ msgstr "Прадубліраваць гэты кампанент"
 #: weblate/templates/component.html:159 weblate/templates/guide.html:11
 #: weblate/templates/guide.html:29
 msgid "Community localization checklist"
-msgstr "Кантрольны спіс лакалізацыі супольнасці"
+msgstr "Спіс задач для лакалізацыі супольнасцю"
 
 #: weblate/templates/component.html:202 weblate/templates/manage/alerts.html:30
 msgid "dismissed"
@@ -8910,24 +8868,20 @@ msgid "Push"
 msgstr "Адправіць"
 
 #: weblate/templates/js/git-status.html:47
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "[Х0Х] hолас"
-msgstr[1] "[Х0Х] hаласи"
-msgstr[2] "[Х0Х] hаласоŭ"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/js/git-status.html:49
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "[Х0Х] hолас"
-msgstr[1] "[Х0Х] hаласи"
-msgstr[2] "[Х0Х] hаласоŭ"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/js/git-status.html:60
 msgid "Update"
@@ -8946,14 +8900,12 @@ msgid "Update with merge without fast-forward"
 msgstr "Абнаўленне праз аб'яднанне без перамотвання наперад"
 
 #: weblate/templates/js/git-status.html:89
-#, fuzzy, python-format
-#| msgid "%(count)s comment"
-#| msgid_plural "%(count)s comments"
+#, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "[Х0Х] hолас"
-msgstr[1] "[Х0Х] hаласи"
-msgstr[2] "[Х0Х] hаласоŭ"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/js/git-status.html:91
 msgid "This will update the Weblate repository with the upstream changes."
@@ -9201,7 +9153,7 @@ msgstr "Паказаць укладку «Аўтаматычныя прапан�
 #: weblate/templates/keyboard-shortcuts.html:154
 msgctxt "between keyboard shortcuts"
 msgid "to"
-msgstr "да"
+msgstr "…"
 
 #: weblate/templates/keyboard-shortcuts.html:134
 msgid "Copies placeable of a given number from source string."
@@ -11110,7 +11062,7 @@ msgstr "Дынаміка за апошнія 30 дзён"
 
 #: weblate/templates/snippets/info.html:469
 msgid "Quick numbers"
-msgstr "Беглыя лічбы"
+msgstr "Выбарачныя лічбы"
 
 #: weblate/templates/snippets/info.html:502
 #: weblate/templates/snippets/info.html:540
@@ -11211,10 +11163,10 @@ msgid "The project has had active development for at least three months."
 msgstr "Праект актыўна развіваецца прынамсі 3 месяцы."
 
 #: weblate/templates/snippets/libre-checklist.html:18
-#, fuzzy
-#| msgid "Unmet guidelines from the community localization checklist:"
 msgid "Review guidelines from the community localization checklist."
-msgstr "Нявыкананыя рэкамендацыі з кантрольнага спіса лакалізацыі супольнасці:"
+msgstr ""
+"Азнаёмцеся са спісам задач для лакалізацыі супольнасцю і з рэкамендацыямі у "
+"ім."
 
 #: weblate/templates/snippets/list-objects.html:46
 msgid "Add project"
@@ -11866,11 +11818,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid "Some linked components have the same filemask."
 msgid ""
 "Some linked components have the same file mask or share some of the files."
-msgstr "У некаторых звязаных кампанентаў аднолькавыя маскі файлаў."
+msgstr ""
+"У некаторых звязаных кампанентаў аднолькавыя маскі файлаў або некаторыя "
+"файлы выкарыстаны некалькімі кампанетамі."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:5
 msgid "Please fix this by removing one of them."
@@ -11908,29 +11860,19 @@ msgstr ""
 "наладах кампанента."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:20
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr ""
-"Калі файл перакладу для зыходнай мовы непатрэбны, то выдаліце яго з "
-"рэпазіторыя."
+"Калі файл перакладу для зыходнай мовы непатрэбны, выдаліце яго з рэпазіторыя."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:23
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Калі файл перакладу для зыходнай мовы неабходны, але Weblate павінен "
-"праігнараваць, наладзьце моўны фільтр, каб выключыць яго."
+"Калі файл перакладу для зыходнай мовы патрэбны, але Weblate павінен "
+"ігнараваць файл, наладзьце моўны фільтр, каб яго выключыць."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:32
 msgid ""
@@ -12733,30 +12675,30 @@ msgstr "Адрозненне ад бягучага"
 #: weblate/templates/translate.html:395
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
-msgstr[0] "Гэты радок мае такі ж кантэкст і крыніцу."
-msgstr[1] "Гэтыя радкі маюць такі ж кантэкст і крыніцу."
-msgstr[2] "Гэтыя радкі маюць такі ж кантэкст і крыніцу."
+msgstr[0] "Гэты радок мае аднолькавы кантэкст і аднолькавую крыніцу."
+msgstr[1] "Гэтыя радкі маюць аднолькавы кантэкст і аднолькавую крыніцу."
+msgstr[2] "Гэтыя радкі маюць аднолькавы кантэкст і аднолькавую крыніцу."
 
 #: weblate/templates/translate.html:407
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
-msgstr[0] "Гэты радок мае іншы кантэкст, але такую ж крыніцу."
-msgstr[1] "Гэтыя радкі маюць іншы кантэкст, але такую ж крыніцу."
-msgstr[2] "Гэтыя радкі маюць іншы кантэкст, але такую ж крыніцу."
+msgstr[0] "Гэты радок мае іншы кантэкст, але аднолькавую крыніцу."
+msgstr[1] "Гэтыя радкі маюць іншы кантэкст, але аднолькавую крыніцу."
+msgstr[2] "Гэтыя радкі маюць іншы кантэкст, але аднолькавую крыніцу."
 
 #: weblate/templates/translate.html:419
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
-msgstr[0] "Гэты радок мае іншую крыніцу, але такі ж кантэкст."
-msgstr[1] "Гэтыя радкі маюць іншую крыніцу, але такі ж кантэкст."
-msgstr[2] "Гэтыя радкі маюць іншую крыніцу, але такі ж кантэкст."
+msgstr[0] "Гэты радок мае іншую крыніцу, але аднолькавы кантэкст."
+msgstr[1] "Гэтыя радкі маюць іншую крыніцу, але аднолькавы кантэкст."
+msgstr[2] "Гэтыя радкі маюць іншую крыніцу, але аднолькавы кантэкст."
 
 #: weblate/templates/translate.html:431
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
-msgstr[0] "Гэтыя радок мае іншую крыніцу і кантэкст."
-msgstr[1] "Гэтыя радкі маюць іншую крыніцу і кантэкст."
-msgstr[2] "Гэтыя радкі маюць іншую крыніцу і кантэкст."
+msgstr[0] "Гэтыя радок мае іншую крыніцу і іншы кантэкст."
+msgstr[1] "Гэтыя радкі маюць іншую крыніцу і іншы кантэкст."
+msgstr[2] "Гэтыя радкі маюць іншую крыніцу і іншы кантэкст."
 
 #: weblate/templates/translate.html:444
 msgid "Apply selected translation to all propagated strings"
@@ -12821,24 +12763,20 @@ msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
 
 #: weblate/templates/translate.html:655
-#, fuzzy, python-format
-#| msgid "There is %(count)s comment for this string."
-#| msgid_plural "There are %(count)s comments for this string."
+#, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
-msgstr[0] "У пиеракладзие [Х15Х] ниепиеракладзиени радок."
-msgstr[1] "У пиеракладзие [Х15Х] ниепиеракладзиенижа радкі."
-msgstr[2] "У пиеракладзие [Х15Х] ниепиеракладзиенич радкоŭ."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/translate.html:671
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "У пиеракладзие [Х15Х] ниепиеракладзиени радок."
-msgstr[1] "У пиеракладзие [Х15Х] ниепиеракладзиенижа радкі."
-msgstr[2] "У пиеракладзие [Х15Х] ниепиеракладзиенич радкоŭ."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: weblate/templates/translate.html:689
 #, python-format
@@ -15054,7 +14992,7 @@ msgstr "Колер гласарыя"
 
 #: weblate/trans/models/component.py:796
 msgid "Key filter"
-msgstr "Фільтр пошуку"
+msgstr "Ключавы фільтр"
 
 #: weblate/trans/models/component.py:800
 msgid ""
@@ -15176,18 +15114,15 @@ msgid "The file mask did not match any files."
 msgstr "Маска не адпавядае ніводнаму файлу."
 
 #: weblate/trans/models/component.py:2871
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Знойдзиена ниекаĺки файлаŭ длиа адной мови ([Х44Х]). Кали ласка, "
-"адреhулиуйкие маску и викаристоŭвайкие кампаниенти длиа пиеракладу рознич "
-"файлаŭ."
+"Знойдзена некалькі файлаў для адной мовы — %(language)s:%(filename1)s, "
+"%(filename2)s. Наладзьце маску файла і выкарыстоўвайце кампаненты для "
+"перакладу розных рэсурсаў."
 
 #: weblate/trans/models/component.py:2889
 msgid "Could not find any matching language, please check the file mask."
@@ -15262,7 +15197,6 @@ msgstr "Репазіторий зичоднаhа кода"
 #: weblate/trans/models/component.py:3058
 msgid "Push URL is not used without a remote repository."
 msgstr ""
-"УРЛ длиа адсиланниа ние викаристоŭважекка длиа звиазанаhа репазіторижа!"
 
 #: weblate/trans/models/component.py:3072
 msgid ""
@@ -15277,7 +15211,7 @@ msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
 #: weblate/trans/models/component.py:3086
 msgid "Pull and push branches cannot be the same when using merge requests."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/trans/models/component.py:3099
 msgid ""
@@ -15357,7 +15291,7 @@ msgstr "Дадаць новы радок перакладу"
 
 #: weblate/trans/models/component.py:3921
 msgid "Could not get repository status!"
-msgstr "Ние атрималасиа абжаднаć репазиторий."
+msgstr "Не ўдалося атрымаць статус рэпазіторыя!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15533,14 +15467,13 @@ msgstr[2] "Не ўдалося знайсці %d радкоў:"
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
 #: weblate/trans/models/translation.py:1363
-#, fuzzy, python-format
-#| msgid "Failed to commit pending changes: %s"
+#, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "Записаć čарhу змиен"
+msgstr ""
 
 #: weblate/trans/models/translation.py:1873
 msgid "Plurals are not supported by the file format!"
-msgstr "Ниепадтримливажеми фармат файла."
+msgstr "Фармат файла не падтрымлівае формы множнага ліку!"
 
 #: weblate/trans/models/translation.py:1878 weblate/trans/models/unit.py:753
 #: weblate/utils/forms.py:126
@@ -15569,31 +15502,17 @@ msgid "Failed adding string, no translation found."
 msgstr "Дублиавани радок длиа пиеракладу."
 
 #: weblate/trans/models/unit.py:1102
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr ""
-"Удзиел у hетим пиеракладзие патрабуже ад вас жоди з паhадниеннием з "
-"удзиеĺникам."
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid ""
-#| "String could not be propagated to %(component)s because you have not "
-#| "agreed with a contributor agreement."
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] ""
-"Удзиел у hетим пиеракладзие патрабуже ад вас жоди з паhадниеннием з "
-"удзиеĺникам."
 msgstr[1] ""
-"Удзиел у hетим пиеракладзие патрабуже ад вас жоди з паhадниеннием з "
-"удзиеĺникам."
 msgstr[2] ""
-"Удзиел у hетим пиеракладзие патрабуже ад вас жоди з паhадниеннием з "
-"удзиеĺникам."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16345,7 +16264,7 @@ msgstr "Цяпер кампанент адкрыты для абнаўлення
 
 #: weblate/trans/views/lock.py:60
 msgid "All components are now open for translation updates."
-msgstr "Усе кампаненты цяпер заблакаваныя для абнаўлення перакладаў!"
+msgstr "Усе кампаненты цяпер адкрыты для абнаўлення перакладаў."
 
 #: weblate/trans/views/search.py:117
 msgid "Search and replace completed, no strings were updated."
@@ -16781,10 +16700,8 @@ msgid "This URL is prohibited"
 msgstr "Гэты URL-адрас забаронены"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Хібны радок пошуку!"
+msgstr "Няправільны радок з кадаваннем base64"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
@@ -16845,11 +16762,11 @@ msgstr "Веблате ние змоh атримаć змиени при абн�
 
 #: weblate/vcs/git.py:1279
 msgid "Azure DevOps pull request"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1287
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1531
 msgid "GitHub pull request"
@@ -16857,15 +16774,15 @@ msgstr ""
 
 #: weblate/vcs/git.py:1536
 msgid "This will push changes and create a GitHub pull request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1648
 msgid "Gitea pull request"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1652
 msgid "This will push changes and create a Gitea pull request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1723
 msgid "No remote repository"
@@ -16877,7 +16794,7 @@ msgstr "Запыт на аб’яднанне ў GitLab"
 
 #: weblate/vcs/git.py:1834
 msgid "This will push changes and create a GitLab merge request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:1986
 msgid "Pagure merge request"
@@ -16885,20 +16802,20 @@ msgstr "Запыт на аб’яднанне ў Pagure"
 
 #: weblate/vcs/git.py:1991
 msgid "This will push changes and create a Pagure merge request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2090
 msgid "Bitbucket Data Center pull request"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:2096
 msgid "This will push changes and create a Bitbucket Data Center pull request."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/git.py:2236
 msgid "Bitbucket Cloud merge request"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr ""
 
 #: weblate/vcs/mercurial.py:47
 msgid "This will push changes to the upstream Mercurial repository."
