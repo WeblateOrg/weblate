@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-21 15:47+0000\n"
+"PO-Revision-Date: 2025-04-22 02:54+0000\n"
 "Last-Translator: dedakir923 <dedakir923@exoular.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -241,7 +241,7 @@ msgstr "Aprovar traduções em uma revisão."
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
-"Disponível somente se :ref:`fluxo de trabalho de revisão <reviews>` estiver "
+"Disponível somente se :ref:`fluxo de trabalho e revisão <reviews>` estiver "
 "ativado."
 
 #: ../../admin/access.rst:107
@@ -553,7 +553,7 @@ msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
-"`Revisores` (se você estiver usando :ref:`fluxo de trabalho de revisão "
+"`Revisores` (se você estiver usando :ref:`fluxo de trabalho e revisão "
 "<reviews>` com revisores dedicados)."
 
 #: ../../admin/access.rst:260
@@ -1908,23 +1908,23 @@ msgid ""
 "`Add-ons` menu of each respective translation project or component. Add-ons "
 "can be also installed site-wide in :ref:`management-interface`."
 msgstr ""
-"As extensões fornecem maneiras de personalizar e automatizar o fluxo de "
-"trabalho de tradução. Os administradores podem adicionar e gerenciar os add-"
-"ons no menu :guilabel:`Gerenciar` ↓ :guilabel:`Extensões` de cada projeto ou "
-"componente de tradução respectivo. Os add-ons também podem ser instalados em "
-"todo o site em :ref:`management-interface`."
+"Os complementos fornecem maneiras de personalizar e automatizar o fluxo de "
+"trabalho e tradução. Os administradores podem adicionar e gerenciar os "
+"complementos no menu :guilabel:`Gerenciar` ↓ :guilabel:`Complementos` para "
+"cada projeto ou componente de tradução respectivo. Os complementos também "
+"podem ser instalados em todo o site em :ref:`management-interface`."
 
 #: ../../admin/addons.rst:12
 msgid ""
 "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
 "`DEFAULT_ADDONS`, or :wladmin:`install_addon`."
 msgstr ""
-"Você também pode configurar extensões usando :ref:`API <addons-api>`, :"
-"setting:`DEFAULT_ADDONS` ou :wladmin:`install_addon`."
+"Você também pode configurar complementos usando :ref:`API <addons-api>`, "
+":setting:`DEFAULT_ADDONS` ou :wladmin:`install_addon`."
 
 #: ../../admin/addons.rst:18
 msgid "Events that trigger add-ons"
-msgstr "Eventos que acionam extensões"
+msgstr "Eventos que acionam complementos"
 
 #: ../../admin/addons.rst:23
 msgid "Add-on installation"
@@ -1964,7 +1964,7 @@ msgid ""
 "Triggered daily, but add-ons usually split the daily load between components "
 "depending on :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"Acionado diariamente, mas as extensões geralmente dividem a carga diária "
+"Acionado diariamente, mas os complementos geralmente dividem a carga diária "
 "entre os componentes, dependendo de :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:48
@@ -2605,7 +2605,7 @@ msgstr "``copy_addons``"
 
 #: ../../admin/addons.rst:312
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Clonar extensões do componente principal para as recém-criadas"
+msgstr "Clonar complementos do componente principal para as recém-criadas"
 
 #: ../../admin/addons.rst:314
 msgid "``remove``"
@@ -2645,7 +2645,7 @@ msgstr ""
 "A correspondência é feita usando expressões regulares que permitem uma "
 "configuração complexa, mas é necessário algum conhecimento para fazê-la. "
 "Alguns exemplos para casos de uso comum podem ser encontrados na seção de "
-"ajuda de extensões."
+"ajuda de complementos."
 
 #: ../../admin/addons.rst:328
 msgid ""
@@ -4357,20 +4357,20 @@ msgstr ""
 
 #: ../../admin/addons.rst:1187
 msgid "Customizing list of add-ons"
-msgstr "Personalizando a lista de extensões"
+msgstr "Personalizando a lista de complementos"
 
 #: ../../admin/addons.rst:1189
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
-"A lista de extensões é configurada por :setting:`WEBLATE_ADDONS`. Para "
+"A lista de complementos é configurada por :setting:`WEBLATE_ADDONS`. Para "
 "adicionar outro complemento, basta incluir o nome absoluto da classe nesta "
 "configuração."
 
 #: ../../admin/addons.rst:1196
 msgid "Writing add-on"
-msgstr "Escrevendo extensões"
+msgstr "Escrevendo complementos"
 
 #: ../../admin/addons.rst:1198
 msgid ""
@@ -4378,9 +4378,9 @@ msgid ""
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"Você pode escrever suas próprias extensões também. Crie uma subclasse de "
+"Você também pode escrever seus próprios complementos, criar uma subclasse de "
 ":class:`weblate.addons.base.BaseAddon` para definir os metadados do "
-"complemento e, então, implemente uma função de retorno que vai fazer o "
+"complemento e, então, implementar um retorno de chamada para fazer o "
 "processamento."
 
 #: ../../admin/addons.rst:1204
@@ -4389,7 +4389,7 @@ msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:1209
 msgid "Executing scripts from add-on"
-msgstr "Escrevendo scripts para extensões"
+msgstr "Escrevendo scripts para complementos"
 
 #: ../../admin/addons.rst:1211
 msgid ""
@@ -5780,10 +5780,11 @@ msgid ""
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
-"Aplicativos autenticadores e extensões de navegador como Aegis, Bitwarden, "
-"Google Authenticator, 1Password, Authy, Microsoft Authenticator etc. geram "
-"senhas de uso único baseadas em tempo que são usadas como um segundo fator "
-"para verificar sua identidade quando solicitado durante o login."
+"Aplicativos autenticadores e complementos de navegador como Aegis, "
+"Bitwarden, Google Authenticator, 1Password, Authy, Microsoft Authenticator "
+"etc. geram senhas de uso único baseadas em tempo que são usadas como um "
+"segundo fator para verificar sua identidade quando solicitado durante o "
+"login."
 
 #: ../../admin/auth.rst:799
 msgid "Recovery codes"
@@ -10909,10 +10910,10 @@ msgid ""
 "ons, when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
-"Lista de extensões disponíveis para uso. Para usá-las, elas devem ser "
-"habilitadas para um determinado componente de tradução. Por padrão, isso "
-"inclui todas as extensões embutidas, ao estender a lista, você provavelmente "
-"vai querer manter as existentes habilitadas, por exemplo:"
+"Lista de complementos disponíveis para uso. Para usá-los, eles precisam "
+"estar habilitados para um determinado componente de tradução. Por padrão, "
+"isso inclui todos os complementos integrados. Ao expandir a lista, você "
+"provavelmente desejará manter os existentes habilitados, por exemplo:"
 
 #: ../../admin/config.rst:2109
 msgid ""
@@ -11226,7 +11227,7 @@ msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
-"Sempre que o Weblate atualizar o repositório, as extensões de pós-"
+"Sempre que o Weblate atualizar o repositório, os complementos de pós-"
 "atualização serão acionadas, consulte :ref:`addons`."
 
 #: ../../admin/continuous.rst:107
@@ -11988,9 +11989,9 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
-"A maneira de personalizar como o Weblate interage com o repositório é com :"
-"ref:`addons`. Consulte :ref:`addon-script` para obter informações sobre como "
-"executar scripts externos através de extensões."
+"A maneira de personalizar como o Weblate interage com o repositório é com "
+":ref:`addons`. Consulte :ref:`addon-script` para obter informações sobre "
+"como executar scripts externos através de complementos."
 
 #: ../../admin/continuous.rst:547
 msgid "Keeping translations same across components"
@@ -12273,7 +12274,8 @@ msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 #: ../../admin/customize.rst:128
 msgid "Custom quality checks, add-ons and auto-fixes"
 msgstr ""
-"Verificações de qualidade personalizadas, extensões e correções automáticas"
+"Verificações de qualidade personalizadas, complementos e correções "
+"automáticas"
 
 #: ../../admin/customize.rst:130
 msgid ""
@@ -14893,9 +14895,9 @@ msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
-"Executar tarefas de manutenção regulares como backups, limpezas, extensões "
-"diárias ou atualizações (veja :ref:`backup`, :setting:`BACKGROUND_TASKS`, :"
-"ref:`addons`)."
+"Executar tarefas de manutenção regulares como backups, limpezas, "
+"complementos diários ou atualizações (veja :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1590
 msgid "Running :ref:`auto-translation`."
@@ -17296,7 +17298,7 @@ msgstr ""
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
-"Alterando aplicativos, verificações, extensões, tradução automática, ou "
+"Alterando aplicativos, verificações, complementos, tradução automática, ou "
 "correções automáticas habilitados"
 
 #: ../../admin/install/docker.rst:1830
@@ -17304,8 +17306,8 @@ msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
-"A configuração embutida de verificações, extensões ou correções automática "
-"habilitados pode ser ajustada pelas seguintes variáveis:"
+"A configuração embutida de verificações, complementos ou correções "
+"automática habilitados pode ser ajustada pelas seguintes variáveis:"
 
 #: ../../admin/install/docker.rst:1859
 msgid ""
@@ -22830,7 +22832,7 @@ msgstr "Habilitar revisões"
 #: ../../admin/projects.rst:218
 msgid "Enable review workflow for translations, see :ref:`reviews`."
 msgstr ""
-"Habilita o fluxo de trabalho de revisão para traduções, veja :ref:`reviews`."
+"Habilita o fluxo de trabalho e revisão para traduções, veja :ref:`reviews`."
 
 #: ../../admin/projects.rst:222 ../../admin/projects.rst:626
 #: ../../admin/projects.rst:637 ../../admin/projects.rst:648
@@ -22844,7 +22846,7 @@ msgstr "Habilitar revisões de fontes"
 #: ../../admin/projects.rst:229
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
-"Habilita o fluxo de trabalho de revisão para textos fonte, veja :ref:`source-"
+"Habilita o fluxo de trabalho e revisão para textos fonte, veja :ref:`source-"
 "reviews`."
 
 #: ../../admin/projects.rst:233 ../../faq.rst:326
@@ -22988,8 +22990,8 @@ msgid ""
 "apps or add-ons, book chapters or websites)."
 msgstr ""
 "Recomenda-se manter os componentes de tradução em um tamanho razoável -- "
-"divida a tradução por qualquer coisa que faça sentido no seu caso "
-"(aplicativos ou extensões individuais, capítulos de livros ou sites)."
+"divida a tradução por qualquer coisa que faça sentido no seu caso ("
+"aplicativos ou complementos individuais, capítulos de livros ou sites)."
 
 #: ../../admin/projects.rst:325
 msgid ""
@@ -23678,7 +23680,7 @@ msgid ""
 msgstr ""
 "Configura se os usuários no Weblate terão permissão para adicionar novos "
 "textos e remover os existentes. Ajuste isso para corresponder ao seu fluxo "
-"de trabalho de localização -- como os novos textos devem ser introduzidos."
+"de trabalho e localização -- como os novos textos devem ser introduzidos."
 
 #: ../../admin/projects.rst:730
 msgid ""
@@ -24387,7 +24389,7 @@ msgstr "Formatação de mensagens de commit, veja :ref:`component`"
 
 #: ../../admin/projects.rst:1107
 msgid "Several add-ons"
-msgstr "Várias extensões"
+msgstr "Vários complementos"
 
 #: ../../admin/projects.rst:1108
 msgid ":ref:`addon-weblate.discovery.discovery`"
@@ -27767,8 +27769,8 @@ msgid ""
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
 "estado da unidade, 0 - não traduzida, 10 - necessita edição, 20 - traduzida, "
-"30 - aprovada (fluxo de trabalho de exigência de revisão habilitado, veja :"
-"ref:`reviews`)"
+"30 - aprovada (fluxo de trabalho com exigência de revisão habilitado, veja "
+":ref:`reviews`)"
 
 #: ../../api.rst:2258 ../../api.rst:2272
 msgid "labels, available on source units"
@@ -27958,7 +27960,7 @@ msgstr "Exclui captura de tela."
 
 #: ../../api.rst:2447
 msgid "Returns a list of add-ons."
-msgstr "Retorna uma lista de extensões."
+msgstr "Retorna uma lista de complementos."
 
 #: ../../api.rst:2451
 msgid ""
@@ -31431,7 +31433,7 @@ msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
 msgstr ""
-":ref:`workflow-customization` permite ajustar o fluxo de trabalho de "
+":ref:`workflow-customization` permite ajustar o fluxo de trabalho e "
 "localização por idioma."
 
 #: ../../changes.rst:1083
@@ -33093,7 +33095,7 @@ msgstr ""
 #: ../../changes/v2.rst:56
 msgid "Added add-ons to customize translation workflows."
 msgstr ""
-"Adicionadas extensões para personalizar fluxos de trabalho de tradução."
+"Adicionados complementos para personalizar fluxos de trabalho e tradução."
 
 #: ../../changes/v2.rst:59
 msgid "Weblate 2.18"
@@ -33151,7 +33153,7 @@ msgstr ""
 #: ../../changes/v2.rst:73
 msgid "Added support for translation workflows with dedicated reviewers."
 msgstr ""
-"Adicionado suporte para fluxos de trabalho de tradução com revisores "
+"Adicionado suporte para fluxos de trabalho e tradução com revisores "
 "dedicados."
 
 #: ../../changes/v2.rst:76
@@ -33989,7 +33991,9 @@ msgstr "Adicionado suporte para mesclar comentários ao enviar arquivo."
 
 #: ../../changes/v2.rst:339
 msgid "Added support for some GNU extensions to C printf format."
-msgstr "Adicionado suporte para algumas extensões GNU para o formato C printf."
+msgstr ""
+"Adicionado suporte para alguns complementos GNU ao formato printf da "
+"linguagem C."
 
 #: ../../changes/v2.rst:341
 msgid "Added support for generating translator credits."
@@ -34584,7 +34588,7 @@ msgstr "Inclusão de filas do Celery na visão geral de desempenho."
 
 #: ../../changes/v3.rst:19
 msgid "Fixed documentation links for add-ons."
-msgstr "Corrigidos os links da documentação para extensões."
+msgstr "Corrigidos os links da documentação para complementos."
 
 #: ../../changes/v3.rst:20
 msgid "Reduced false negatives for unchanged translation check."
@@ -35232,7 +35236,7 @@ msgstr "Registra as exceções no log do Celery."
 
 #: ../../changes/v3.rst:210
 msgid "Improve performance of repository scoped add-ons."
-msgstr "Melhoria no desempenho de extensões com escopo de repositório."
+msgstr "Melhoria no desempenho de complementos com escopo de repositório."
 
 #: ../../changes/v3.rst:212
 msgid "Fixed password reset behavior."
@@ -35248,7 +35252,7 @@ msgstr "Corrigida a lista de idiomas não conhecidos pelo Weblate."
 
 #: ../../changes/v3.rst:215
 msgid "Add support for cloning add-ons to discovered components."
-msgstr "Adiciona suporte para clonar extensões para componentes descobertos."
+msgstr "Adiciona suporte para clonar complementos para componentes descobertos."
 
 #: ../../changes/v3.rst:216
 msgid "Add support for replacing file content with uploaded."
@@ -35427,7 +35431,7 @@ msgstr "Página de destino atualizada para novos colaboradores."
 
 #: ../../changes/v3.rst:264
 msgid "Add support for configuring msgmerge add-on."
-msgstr "Adiciona suporte para configurar extensões de msgmerge."
+msgstr "Adiciona suporte para configurar complementos de msgmerge."
 
 #: ../../changes/v3.rst:265
 msgid "Delay opening SMTP connection when sending notifications."
@@ -35443,7 +35447,7 @@ msgstr "Permite local personalizado no complemento de geração de MO."
 
 #: ../../changes/v3.rst:268
 msgid "Added add-ons to cleanup old suggestions or comments."
-msgstr "Adicionadas extensões para limpar sugestões ou comentários antigos."
+msgstr "Adicionados complementos para limpar sugestões ou comentários antigos."
 
 #: ../../changes/v3.rst:269
 msgid "Added option to enable horizontal mode in the Zen editor."
@@ -35586,7 +35590,7 @@ msgid ""
 "Admins and consistency add-ons can now add translations even if disabled for "
 "users."
 msgstr ""
-"Os administradores e extensões de consistência agora podem adicionar "
+"Os administradores e complementos de consistência agora podem adicionar "
 "traduções, mesmo se desativado para os usuários."
 
 #: ../../changes/v3.rst:311
@@ -35889,7 +35893,7 @@ msgstr "Definições de idioma atualizadas."
 
 #: ../../changes/v3.rst:399
 msgid "Improve documentation for add-ons, LDAP and Celery."
-msgstr "Melhora a documentação para extensões, LDAP e Celery."
+msgstr "Melhora a documentação para complementos, LDAP e Celery."
 
 #: ../../changes/v3.rst:400
 msgid "Fixed enabling new dos-eol and auto-java-messageformat flags."
@@ -36216,7 +36220,7 @@ msgstr ""
 msgid "The per component hook scripts are removed, use add-ons instead."
 msgstr ""
 "Os scripts de gancho por componente foram removidos; em vez disso, use "
-"extensões."
+"complementos."
 
 #: ../../changes/v3.rst:500
 msgid "Add support for collecting contributor agreements."
@@ -37139,7 +37143,7 @@ msgid ""
 "Fixed progress bar display for read-only strings in the review workflow."
 msgstr ""
 "Corrigida a exibição da barra de progresso para textos somente leitura no "
-"fluxo de trabalho de revisão."
+"fluxo de trabalho e revisão."
 
 #: ../../changes/v4.rst:289 ../../changes/v4.rst:484
 msgid "Improved punctuation checks for Burmese."
@@ -37167,7 +37171,7 @@ msgstr "*Lançado em 22 de agosto de 2022.*"
 
 #: ../../changes/v4.rst:301
 msgid "Track add-on changes in a history."
-msgstr "Rastreia as alterações de extensões em um histórico."
+msgstr "Rastreia as alterações de complementos em um histórico."
 
 #: ../../changes/v4.rst:302
 msgid "Fixed parsing translation from Windows RC, HTML and text files."
@@ -37208,7 +37212,7 @@ msgstr "Estendida a API para cobrir a memória de tradução."
 
 #: ../../changes/v4.rst:310
 msgid "Improved document translation workflow."
-msgstr "Melhorado o fluxo de tradução de documentos."
+msgstr "Melhorado o fluxo de tradução e documentos."
 
 #: ../../changes/v4.rst:311
 msgid "Improved reliability of HTML and text files translation."
@@ -38170,7 +38174,7 @@ msgstr "Corrigida a remoção de usuário na interface administrativa do Django.
 
 #: ../../changes/v4.rst:608
 msgid "Document add-on parameters in greater detail."
-msgstr "Documentados os parâmetros de extensões com mais detalhes."
+msgstr "Documentados os parâmetros de complementos com mais detalhes."
 
 #: ../../changes/v4.rst:609
 msgid "Fixed JavaScript error in glossary."
@@ -38188,7 +38192,7 @@ msgstr "Melhorado o manuseio de espaços reservados em traduções automáticas.
 
 #: ../../changes/v4.rst:612
 msgid "Fixed creating add-ons using the API."
-msgstr "Corrigida a criação de extensões usando API."
+msgstr "Corrigida a criação de complementos usando API."
 
 #: ../../changes/v4.rst:613
 msgid ""
@@ -38425,7 +38429,7 @@ msgstr "Corrigida a criação automática de idiomas de glossário."
 
 #: ../../changes/v4.rst:689
 msgid "Extended documentation about add-ons."
-msgstr "Estendida a documentação sobre extensões."
+msgstr "Estendida a documentação sobre complementos."
 
 #: ../../changes/v4.rst:690
 msgid "Performance improvements for components with linked repositories."
@@ -38560,7 +38564,7 @@ msgstr "Corrigida a criação de pull requests no Pagure."
 
 #: ../../changes/v4.rst:734
 msgid "Fixed triggering automatically installed add-ons."
-msgstr "Corrigido acionamento automático de extensões instaladas."
+msgstr "Corrigido acionamento automático para complementos instalados."
 
 #: ../../changes/v4.rst:735
 msgid "Fixed possible caching issues on upgrade."
@@ -39107,7 +39111,7 @@ msgstr "Corrigida a quebra do complemento de limpeza ao adicionar novos textos."
 
 #: ../../changes/v4.rst:898
 msgid "Added API for add-ons."
-msgstr "Adicionada API para extensões."
+msgstr "Adicionada API para complementos."
 
 #: ../../changes/v4.rst:900
 msgid ""
@@ -39191,7 +39195,7 @@ msgstr "Estendidos os recursos de busca para mudanças no histórico."
 #: ../../changes/v4.rst:920
 msgid "Improved billing detail pages and Libre hosting workflow."
 msgstr ""
-"Melhoradas as páginas de detalhes de cobrança e fluxo de trabalho de "
+"Melhoradas as páginas de detalhes de cobrança e fluxo de trabalho e "
 "hospedagem Livre."
 
 #: ../../changes/v4.rst:921
@@ -39593,7 +39597,7 @@ msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
 msgstr ""
-"O método ``post_update`` de extensões agora leva o parâmetro extra "
+"O método ``post_update`` de complementos agora leva o parâmetro extra "
 "``skip_push``."
 
 #: ../../changes/v4.rst:1041
@@ -39858,7 +39862,8 @@ msgstr "*Lançado em 19 de junho de 2020.*"
 #: ../../changes/v4.rst:1113
 msgid "Fixed changing autofix or add-ons configuration in Docker."
 msgstr ""
-"Corrigida a alteração da configuração do autofix ou de extensões no Docker."
+"Corrigida a alteração da configuração do autofix ou de complementos no "
+"Docker."
 
 #: ../../changes/v4.rst:1114
 msgid "Fixed possible crash in \"About\" page."
@@ -40004,7 +40009,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1148
 msgid "Add support for configuring default add-ons to enable."
-msgstr "Adiciona suporte para configurar extensões padrão para habilitar."
+msgstr "Adiciona suporte para configurar complementos padrão para habilitar."
 
 #: ../../changes/v4.rst:1149
 msgid "Fixed editor keyboard shortcut to dismiss checks."
@@ -40476,17 +40481,17 @@ msgstr ""
 
 #: ../../contributing/addons.rst:2
 msgid "Developing add-ons"
-msgstr "Desenvolvendo extensões"
+msgstr "Desenvolvendo complementos"
 
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgstr ""
-":ref:`addons` são uma forma de personalizar o fluxo de trabalho de "
+":ref:`addons` são uma forma de personalizar o fluxo de trabalho e "
 "localização no Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of weblate.addons.base.BaseAddon:1
 msgid "Base class for Weblate add-ons."
-msgstr "Classe base para as extensões do Weblate."
+msgstr "Classe base para complementos do Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.can_install:1
@@ -40655,7 +40660,7 @@ msgstr "Invólucro do arquivo de tradução."
 
 #: ../../contributing/addons.rst:45
 msgid "Base form for configuring add-ons."
-msgstr "Forma base para configuração de extensões."
+msgstr "Forma base para configuração de complementos."
 
 #: ../../contributing/addons.rst:47
 msgid "Here is an example add-on:"
@@ -45304,8 +45309,8 @@ msgstr "`Aprovado`"
 #: ../../devel/reporting.rst:91
 msgid "Amount of strings approved in the review workflow (see :ref:`reviews`)."
 msgstr ""
-"Quantidade de textos aprovados no fluxo de trabalho de revisão (consulte :"
-"ref:`reviews`)."
+"Quantidade de textos aprovados no fluxo de trabalho e revisão (consulte "
+":ref:`reviews`)."
 
 #: ../../devel/reporting.rst:92
 msgid "`Edited`"
@@ -46461,8 +46466,8 @@ msgid ""
 "(depending on your development workflow) discarding differences:"
 msgstr ""
 "Uma vez mescladas as mudanças do Weblate, você pode ter que mesclar esses "
-"ramos (dependendo do seu fluxo de trabalho de desenvolvimento) descartando "
-"as diferenças:"
+"ramos (dependendo do seu fluxo de trabalho para o desenvolvimento) "
+"descartando as diferenças:"
 
 #: ../../faq.rst:176
 msgid "How to translate multi-platform projects?"
@@ -49700,7 +49705,7 @@ msgid ""
 "File format used when translating extensions for Mozilla Firefox or Google "
 "Chromium."
 msgstr ""
-"Formato de arquivo usado ao traduzir extensões para Mozilla Firefox ou "
+"Formato de arquivo usado ao traduzir complementos para Mozilla Firefox ou "
 "Google Chromium."
 
 #: ../../formats/webextension.rst:10
@@ -49828,7 +49833,7 @@ msgstr ""
 
 #: ../../formats/xliff.rst:24
 msgid "`XLIFF 1.2 with gettext extensions`"
-msgstr "`XLIFF 1.2 com extensões gettext`"
+msgstr "`XLIFF 1.2 com complementos gettext`"
 
 #: ../../formats/xliff.rst:25
 msgid ""
@@ -54027,7 +54032,7 @@ msgstr "gettext PO (``po``)"
 
 #: ../../user/files.rst:31
 msgid "XLIFF 1.1 with gettext extensions (``xliff``)"
-msgstr "XLIFF 1.1 com extensões gettext (``xliff``)"
+msgstr "XLIFF 1.1 com complementos gettext (``xliff``)"
 
 #: ../../user/files.rst:32
 msgid "XLIFF 1.1 (``xliff11``)"
@@ -55652,8 +55657,8 @@ msgid ""
 "more details."
 msgstr ""
 "As expressões regulares são avaliadas pelo backend do banco de dados e podem "
-"usar extensões diferentes. Consulte a documentação do banco de dados abaixo "
-"para obter mais detalhes."
+"usar complementos diferentes. Consulte a documentação do banco de dados "
+"abaixo para obter mais detalhes."
 
 #: ../../user/search.rst:193
 msgid ""
@@ -55989,8 +55994,8 @@ msgid ""
 "the localization workflow (for example to define categories of strings)."
 msgstr ""
 "As etiquetas são usadas para categorizar textos dentro de um projeto para "
-"personalizar ainda mais o fluxo de trabalho de localização (por exemplo, "
-"para definir categorias de textos)."
+"personalizar ainda mais o fluxo de trabalho e localização (por exemplo, para "
+"definir categorias de textos)."
 
 #: ../../user/translating.rst:102
 msgid "Following labels are used by Weblate:"
@@ -57209,7 +57214,7 @@ msgid ""
 "Some add-ons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
 msgstr ""
-"Algumas extensões podem operar em vários componentes compartilhando um "
+"Alguns complementos podem operar em vários componentes compartilhando um "
 "repositório; por exemplo, :ref:`addon-weblate.git.squash`."
 
 #: ../../vcs.rst:219
@@ -58283,7 +58288,7 @@ msgstr ""
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr "Fluxos de trabalho de tradução"
+msgstr "Fluxos de trabalho e tradução"
 
 #: ../../workflows.rst:6
 msgid ""
@@ -58306,7 +58311,7 @@ msgstr ""
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
-msgstr "Personalização de fluxo de trabalho"
+msgstr "Personalização do fluxo de trabalho"
 
 #: ../../workflows.rst:18
 msgid ""
@@ -58315,10 +58320,10 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
-"Além da configuração em :ref:`project` e :ref:`component` (como :ref:"
-"`project-translation_review`, :ref:`component-enable_suggestions`, :ref:"
-"`component-suggestion_voting` e :ref:`component-suggestion_autoaccept`), o "
-"fluxo de trabalho de tradução pode ser personalizado por idioma."
+"Além da configuração em :ref:`project` e :ref:`component` (como :ref"
+":`project-translation_review`, :ref:`component-enable_suggestions`, :ref"
+":`component-suggestion_voting` e :ref:`component-suggestion_autoaccept`), o "
+"fluxo de trabalho e tradução pode ser personalizado por idioma."
 
 #: ../../workflows.rst:24
 msgid ""
@@ -58340,7 +58345,7 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in the per-language customization."
 msgstr ""
-"Todas as configurações de fluxo de trabalho podem ser substituídas, a única "
+"Todas as configurações do fluxo de trabalho podem ser substituídas, a única "
 "limitação é que :ref:`project-translation_review` precisa ser ativado e só "
 "pode ser desativado na personalização por idioma."
 
