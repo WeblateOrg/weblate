@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-21 15:47+0000\n"
+"PO-Revision-Date: 2025-04-22 02:54+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -9260,10 +9260,10 @@ msgid ""
 "SSL status."
 msgstr ""
 "A HTTPS átirányítás problémát okozhat bizonyos esetekben, például ha SSL-"
-"terminációt végző reverse proxy mögött fut a Weblate, és az nem adja át "
-"helyesen a protokoll fejlécet a Django számára. Ilyenkor érdemes a proxy "
-"konfigurációját úgy módosítani, hogy az :http:header:`X-Forwarded-Proto` "
-"vagy a :http:header:`Forwarded` fejlécet küldje, de lehet a "
+"terminációt végző fordított (reverse) proxy mögött fut a Weblate, és az nem "
+"adja át helyesen a protokoll fejlécet a Django számára. Ilyenkor érdemes a "
+"proxy konfigurációját úgy módosítani, hogy az :http:header:`X-Forwarded-"
+"Proto` vagy a :http:header:`Forwarded` fejlécet küldje, de lehet a "
 ":setting:`django:SECURE_PROXY_SSL_HEADER` beállítást is konfigurálni a "
 "helyes SSL-észlelés érdekében."
 
@@ -9667,7 +9667,7 @@ msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:1052
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr "Annak jelzése, hogy a Weblate reverse proxy mögött fut-e."
+msgstr "Annak jelzése, hogy a Weblate fordított (reverse) proxy mögött fut-e."
 
 #: ../../admin/config.rst:1054
 msgid ""
@@ -9682,8 +9682,9 @@ msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
-"Fontos, hogy valóban reverse proxy-t használjon, és az megfelelően állítsa "
-"be ezt a fejlécet, különben a felhasználók hamis IP-címeket is megadhatnak."
+"Fontos, hogy valóban fordított (reverse) proxy-t használjon, és az "
+"megfelelően állítsa be ezt a fejlécet, különben a felhasználók hamis IP-"
+"címeket is megadhatnak."
 
 #: ../../admin/config.rst:1064
 msgid "This is not on by default."
@@ -11922,29 +11923,28 @@ msgstr ""
 
 #: ../../admin/continuous.rst:468
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr "Üresen hagyható, ha a(z) :ref:`component-repo` támogatja a feltöltést."
+msgstr "Lehet üres, ha a :ref:`component-repo` támogatja a feltöltést."
 
 #: ../../admin/continuous.rst:473
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
-"A változtatások automatikus feltöltését is engedélyezheted, miután a Weblate "
-"elkötelezte azokat, ezt a :ref:`component-push_on_commit` beállításnál "
-"teheted meg."
+"A Weblate-ben be lehet állítani, hogy minden véglegesítés után automatikusan "
+"töltse fel a változásokat; ezt a :ref:`component-push_on_commit` "
+"beállítással lehet elérni."
 
 #: ../../admin/continuous.rst:478
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
-"Nézd meg a :ref:`vcs-repos` részt az SSH kulcsok beállításához, és a :ref:"
-"`lazy-commit` részt, hogy megtudd, mikor dönt úgy a Weblate, hogy elkötelezi "
-"a változtatásokat."
+"SSH kulcsok beállításához lásd: :ref:`vcs-repos`, a Weblate véglegesítési "
+"döntéseiről pedig a :ref:`lazy-commit` szakaszban talál további információt."
 
 #: ../../admin/continuous.rst:482
 msgid "Protected branches"
-msgstr "Védett branchek"
+msgstr "Védett ágak (Protected branches)"
 
 #: ../../admin/continuous.rst:484
 msgid ""
@@ -11953,15 +11953,15 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
-"Ha védett ágon használod a Weblate-et, beállíthatod, hogy pull kéréseket "
-"használjon, és végezzen tényleges felülvizsgálatot a fordításokon (ami "
-"problémás lehet olyan nyelvek esetén, amelyeket nem ismersz). Egy alternatív "
-"megközelítés az, hogy ezt a korlátozást felmented a Weblate push felhasználó "
-"számára."
+"Ha Weblate-et védett ágon használ, konfigurálható, hogy módosítási "
+"kérelmeken (pull request) keresztül történjenek a fordítások "
+"felülvizsgálatai (ez problémás lehet, ha a célnyelvet nem ismeri). "
+"Alternatív megoldásként felmentheti a Weblate-felhasználót ez alól a "
+"korlátozás alól, és közvetlenül feltöltheti a változtatásokat."
 
 #: ../../admin/continuous.rst:489
 msgid "For example on GitHub this can be done in the repository configuration:"
-msgstr "Például a GitHubon ezt a repository konfigurációjában lehet megtenni:"
+msgstr "Például GitHub-on ezt a tároló beállításainál lehet megadni:"
 
 #: ../../admin/continuous.rst:494
 msgid "Interacting with others"
@@ -11969,8 +11969,7 @@ msgstr "Kapcsolattartás másokkal"
 
 #: ../../admin/continuous.rst:496
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
-"A Weblate API-jának használatával egyszerűen kapcsolatba léphetsz másokkal."
+msgstr "A Weblate egyszerűvé teszi az együttműködést az API használatával."
 
 #: ../../admin/continuous.rst:500
 msgid ":ref:`api`"
@@ -11978,7 +11977,7 @@ msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:505
 msgid "Lazy commits"
-msgstr "Lusta elkötelezések"
+msgstr "Késleltetett véglegesítések (Lazy commits)"
 
 #: ../../admin/continuous.rst:507
 msgid ""
@@ -11988,45 +11987,44 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
-"A Weblate működése során, ha lehetséges, ugyanattól a szerzőtől származó "
-"módosításokat egy véglegesítésbe (commit) vonja össze. Ez jelentősen "
-"csökkenti a véglegesítések számát, azonban előfordulhat, hogy manuálisan "
-"kell kezdeményezned a véglegesítést, ha szeretnéd a VCS (verziókezelő) "
-"tárolót szinkronba hozni, például egy összevonás miatt (ez alapértelmezetten "
-"engedélyezett a :guilabel:`Kezelők` csoport számára, lásd: "
-":ref:`privileges`)."
+"A Weblate viselkedése az, hogy azonos szerzőtől származó módosításokat "
+"lehetőség szerint egyetlen véglegesítésbe vonja össze. Ez jelentősen "
+"csökkenti a véglegesítések számát, de ha a VCS (verziókezelő) tárolót "
+"szinkronban szeretné tartani (például összeolvasztás előtt), előfordulhat, "
+"hogy manuálisan kell kérni a véglegesítést. Alapértelmezés szerint ezt a "
+":guilabel:`Kezelők` csoport teheti meg, lásd: :ref:`privileges`."
 
 #: ../../admin/continuous.rst:513
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
-"Ebben a módban a változtatások az alábbi feltételek valamelyikének "
-"teljesülésekor kerülnek elkötelezésre:"
+"Ebben a módban a változtatások véglegesítése az alábbi esetekben történik "
+"meg:"
 
 #: ../../admin/continuous.rst:516
 msgid "Somebody else changes an already changed string."
-msgstr "Valaki más megváltoztat egy már módosított stringet."
+msgstr "Valaki más módosít egy már megváltoztatott szöveget."
 
 #: ../../admin/continuous.rst:517
 msgid "A merge from upstream occurs."
-msgstr "Egy upstream merge történik."
+msgstr "Egy forráság (upstream) összeolvasztás történik."
 
 #: ../../admin/continuous.rst:518
 msgid "An explicit commit is requested."
-msgstr "Kifejezett elkötelezést kérnek."
+msgstr "Kifejezett kérés érkezik a véglegesítésre."
 
 #: ../../admin/continuous.rst:519
 msgid "A file download is requested."
-msgstr "Egy fájl letöltése van kérve."
+msgstr "Fájlletöltés történik."
 
 #: ../../admin/continuous.rst:520
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
-"A változás régebbi, mint a :ref:`component`-on meghatározott :ref:`component-"
-"commit_pending_age` periódus."
+"A változás régebbi, mint az :ref:`component` beállításnál megadott :ref"
+":`component-commit_pending_age` időszak."
 
 #: ../../admin/continuous.rst:524
 msgid ""
@@ -12034,9 +12032,9 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` add-on in that case."
 msgstr ""
-"Minden összetevőhöz készülnek commitok. Tehát, ha sok összetevőd van, akkor "
-"is sok commitot fogsz látni. Ilyen esetben hasznos lehet a :ref:`addon-"
-"weblate.git.squash` extra használata."
+"A véglegesítések minden összetevőhöz külön jönnek létre, tehát ha sok "
+"összetevője van, így is sok véglegesítést fog látni. Ilyenkor érdemes lehet "
+"a :ref:`addon-weblate.git.squash` kiegészítőt használni."
 
 #: ../../admin/continuous.rst:528
 msgid ""
@@ -12047,18 +12045,18 @@ msgid ""
 "and choose ``weblate.trans.tasks.commit_pending`` as :guilabel:`Task` with "
 "``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` and desired interval."
 msgstr ""
-"Ha gyakrabban szeretnéd elkötelezni a változtatásokat, és nem akarod "
-"ellenőrizni azok korát, ütemezhetsz egy rendszeres feladatot a változtatások "
-"elkötelezésére. Ezt megteheted a :guilabel:`Periodic Tasks` segítségével a :"
-"ref:`admin-interface`-ben. Először hozz létre egy kívánt :guilabel:"
-"`Interval`-t (például 120 másodpercet). Ezután adj hozzá egy új rendszeres "
-"feladatot, és válaszd ki a ``weblate.trans.tasks.commit_pending``-t :"
-"guilabel:`Task`-ként, ``{\"hours\": 0}``-val mint :guilabel:`Keyword "
-"Arguments`, és a kívánt intervallummal."
+"Ha gyakrabban szeretné a változtatásokat véglegesíteni, korosodási "
+"ellenőrzés nélkül, ütemezhet rendszeres feladatot. Ez a :ref:`admin-"
+"interface` felületén, a :guilabel:`Időzített feladatok` menüpontban "
+"végezhető el. Először hozzon létre egy :guilabel:`Időközt` (például 120 "
+"másodperc). Ezután adjon hozzá új időzített feladatot, válassza a "
+"``weblate.trans.tasks.commit_pending`` értéket a :guilabel:`Feladat` "
+"mezőben, {\"hours\": 0} :guilabel:`Kulcsszó argumentummal`, valamint a "
+"kívánt időközzel."
 
 #: ../../admin/continuous.rst:538
 msgid "Processing repository with scripts"
-msgstr "Repository feldolgozása scriptekkel"
+msgstr "Tároló kezelése szkriptekkel"
 
 #: ../../admin/continuous.rst:540
 msgid ""
@@ -12066,14 +12064,14 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through add-ons."
 msgstr ""
-"A Weblate és a tároló közötti együttműködés testreszabásának módja a "
-":ref:`addons`. További információt arról, hogyan hajthatsz végre külső "
-"parancsfájlokat kiegészítőkön keresztül, a :ref:`addon-script` részben "
-"találsz."
+"A Weblate és a tároló közötti egyedi integrációkhoz a :ref:`addons` "
+"használható. További információért lásd: :ref:`addon-script`, ahol "
+"bemutatjuk, hogyan lehet külső szkripteket végrehajtani kiegészítőkön "
+"keresztül."
 
 #: ../../admin/continuous.rst:547
 msgid "Keeping translations same across components"
-msgstr "Fordítások egységesítése az összetevők között"
+msgstr "Fordítások egységesítése összetevők között"
 
 #: ../../admin/continuous.rst:549
 msgid ""
@@ -12081,13 +12079,12 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
-"Amint több fordítási összetevővel rendelkezel, érdemes lehet biztosítani, "
-"hogy ugyanazok a stringek azonos fordítással rendelkezzenek. Ezt több "
-"szinten is el lehet érni."
+"Ha több fordítási összetevője van, érdemes lehet biztosítani, hogy az azonos "
+"szövegek ugyanazt a fordítást kapják. Erre többféle megoldás is létezik."
 
 #: ../../admin/continuous.rst:555
 msgid "Translation propagation"
-msgstr "Fordítás terjesztése"
+msgstr "Fordítási terjesztés"
 
 #: ../../admin/continuous.rst:557
 msgid ""
@@ -12096,24 +12093,24 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
-"Ha a :ref:`component-allow_translation_propagation` engedélyezve van (ami az "
-"alapértelmezett, lásd :ref:`component`), akkor minden új fordítás "
-"automatikusan megtörténik minden olyan összetevőben, ahol egyező szövegek "
-"vannak. Az ilyen fordítások helyesen a jelenleg fordító felhasználónak "
-"lesznek jóváírva minden összetevőben."
+"Ha a :ref:`component-allow_translation_propagation` beállítás engedélyezve "
+"van (ami alapértelmezés szerint így van, lásd :ref:`component`), akkor az új "
+"fordítások automatikusan megjelennek minden olyan összetevőben, ahol a "
+"szövegek megegyeznek. Az ilyen módon terjesztett fordítások minden "
+"összetevőben a fordítást végző felhasználó nevéhez lesznek rögzítve."
 
 #: ../../admin/continuous.rst:564
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
-"A fordítás terjesztése megköveteli, hogy az egynyelvű fordítási formátumok "
-"esetén a kulcsok egyezzenek, ezért ezt tartsd szem előtt a fordítási kulcsok "
+"Fontos: az egynyelvű fordítási formátumok esetében a kulcsoknak is egyezniük "
+"kell a fordítás terjesztéséhez, erre figyeljen a fordítási kulcsok "
 "létrehozásakor."
 
 #: ../../admin/continuous.rst:568
 msgid "Consistency check"
-msgstr "Konzisztencia ellenőrzés"
+msgstr "Konzisztencia-ellenőrzés"
 
 #: ../../admin/continuous.rst:570
 msgid ""
@@ -12121,9 +12118,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
-"A :ref:`check-inconsistent` ellenőrzés akkor jelez, amikor a stringek "
-"különbözőek. Ezt felhasználhatod arra, hogy manuálisan áttekinthesd az ilyen "
-"eltéréseket, és kiválaszthasd a megfelelő fordítást."
+"A :ref:`check-inconsistent` ellenőrzés akkor jelez hibát, ha a szövegek "
+"eltérnek egymástól. Ez a funkció lehetőséget ad arra, hogy manuálisan "
+"felülvizsgálja az eltéréseket, és kiválassza a helyes fordítást."
 
 #: ../../admin/continuous.rst:579
 msgid ""
@@ -12133,15 +12130,15 @@ msgid ""
 "repository update using add-on (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
-"Az automatikus fordítás különböző összetevők alapján lehetőséget nyújt a "
-"fordítások szinkronizálására az összetevők között. Ezt manuálisan is "
-"elindíthatod (lásd: :ref:`auto-translation`) vagy beállíthatod, hogy "
-"automatikusan fusson az adattár frissítésekor egy extra segítségével (lásd: :"
-"ref:`addon-weblate.autotranslate.autotranslate`)."
+"Más összetevőkön alapuló automatikus fordítással szinkronban tartható a "
+"fordítások állapota az egyes összetevők között. Ez a folyamat manuálisan is "
+"elindítható (lásd :ref:`auto-translation`) vagy automatikusan is "
+"lefuttatható a tároló frissítésekor kiegészítő segítségével (lásd :ref"
+":`addon-weblate.autotranslate.autotranslate`)."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr "Weblate testreszabása"
+msgstr "A Weblate testreszabása"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -12150,15 +12147,18 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
-"Bővítsd és szabjad testre a Django és Python használatával. Küldd be a "
-"változtatásaidat upstream, hogy mindenki profitálhasson belőlük. Ez "
-"csökkenti a karbantartási költségeidet; a Weblate kódját gondozzák, amikor a "
-"belső interfészek változnak vagy a kódot újraszervezik."
+"A Weblate bővíthető és testreszabható Django és Python segítségével. A "
+"módosítások forrásba történő visszajuttatásával mindenki számára előnyös "
+"lehetőségeket teremthet, valamint csökkentheti saját karbantartási "
+"költségeit. A Weblate kódját aktívan gondozzák, így a belső interfészek "
+"változása vagy a kód átalakítása során a testreszabott megoldások is "
+"naprakészek maradhatnak."
 
 #: ../../admin/customize.rst:11
 msgid "You can also customize Weblate look in :ref:`manage-appearance`."
 msgstr ""
-"Weblate kinézetét is testreszabhatod a(z) :ref:`manage-appearance` oldalon."
+"A Weblate megjelenése is testreszabható a :ref:`manage-appearance` oldalon "
+"keresztül."
 
 #: ../../admin/customize.rst:16
 msgid ""
@@ -12166,9 +12166,10 @@ msgid ""
 "Please review your customizations for every upgrade, the interfaces or their "
 "semantics might change without notice."
 msgstr ""
-"Sem a belső felületek, sem a sablonok nem tekinthetők stabil API-nak. "
-"Kérlek, minden frissítésnél vizsgáld felül a testreszabásaidat, mert a "
-"felületek vagy azok szemantikája előzetes értesítés nélkül változhat."
+"Fontos megjegyezni, hogy sem a belső interfészek, sem a sablonok nem "
+"tekinthetők stabil API-nak. Érdemes minden frissítés után átvizsgálni a "
+"testreszabásokat, mivel az interfészek vagy azok működése értesítés nélkül "
+"is változhat."
 
 #: ../../admin/customize.rst:22
 msgid ":ref:`contributing`"
@@ -12184,9 +12185,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
-"Ha nem vagy jártas a Pythonban, érdemes lehet megnézni a `Python For "
-"Beginners <https://www.python.org/about/gettingstarted/>`_ oldalt, amely "
-"elmagyarázza az alapokat és további útmutatókat ajánl."
+"Amennyiben nem ismeri a Pythont, érdemes először megismerkedni az alapokkal, "
+"például a `Python kezdőknek <https://www.python.org/about/gettingstarted/>`_ "
+"útmutató segítségével, amely további oktatóanyagokat is ajánl."
 
 #: ../../admin/customize.rst:33
 msgid ""
@@ -12195,11 +12196,10 @@ msgid ""
 "lib/python3.12/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
-"Ahhoz, hogy egyedi Python kódot (amit modulnak nevezünk) tartalmazó fájlt "
-"írj, szükség van egy helyre, ahol tárolhatod azt, akár a rendszer útvonalán "
-"(általában valami ilyesmi: :file:`/usr/lib/python3.12/site-packages/`), akár "
-"a Weblate könyvtárban, amely szintén hozzáadódik az értelmező keresési "
-"útvonalához."
+"Egyedi Python kód (modul) írásához szükséges egy hely, ahol ezt tárolni "
+"tudja – például a rendszer elérési útvonalán (általában valami hasonló: "
+":file:`/usr/lib/python3.12/site-packages/`) vagy a Weblate könyvtárában, "
+"amely szintén hozzá van adva az értelmező keresési útvonalához."
 
 #: ../../admin/customize.rst:40
 msgid ""
@@ -12208,87 +12208,88 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"Amikor a :ref:`using Docker <docker-deploy>`-t használod, Python modulokat "
-"helyezhetsz el a(z) :file:`/app/data/python/` könyvtárban (lásd: :ref:"
-"`docker-volume`), így ezek betölthetőek lesznek a Weblate által, például "
-"egy :ref:`settings override file <docker-settings-override>` segítségével."
+":ref:`Docker használata <docker-deploy>` esetén Python modulokat a :file:`/"
+"app/data/python/` könyvtárba is helyezhet (lásd :ref:`docker-volume`), így "
+"ezek betölthetők a Weblate által, például egy :ref:`beállítás felülírási "
+"fájl <docker-settings-override>` segítségével."
 
 #: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr ""
-"Még jobb, ha a testreszabásodat egy megfelelő Python csomaggá alakítod:"
+"Még jobb megoldás, ha a testreszabását egy megfelelő Python csomag "
+"formájában készíti el:"
 
 #: ../../admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
-"Hozz létre egy mappát a csomagodnak (mi a `weblate_customization` nevet "
-"fogjuk használni)."
+"Hozzon létre egy mappát a csomag számára (például `weblate_customization` "
+"néven)."
 
 #: ../../admin/customize.rst:48
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr "Ezen belül hozz létre egy :file:`setup.py` fájlt a csomag leírására:"
+msgstr ""
+"Ebben a mappában hozzon létre egy :file:`setup.py` fájlt a csomag leírására:"
 
 #: ../../admin/customize.rst:65
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
-"Hozz létre egy mappát a Python modul számára (szintén "
-"``weblate_customization`` néven) a testreszabási kódhoz."
+"A testreszabási kódok számára hozzon létre egy mappát (szintén "
+"``weblate_customization`` néven)."
 
 #: ../../admin/customize.rst:67
 msgid ""
 "Within it, create a :file:`__init__.py` file to ensure Python can import the "
 "module."
 msgstr ""
-"Hozz létre benne egy :file:`__init__.py` fájlt, hogy a Python be tudja "
-"importálni a modult."
+"Ebben a mappában hozzon létre egy :file:`__init__.py` fájlt, hogy a Python "
+"importálni tudja a modult."
 
 #: ../../admin/customize.rst:68
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
-"Ez a csomag most már telepíthető a :command:`pip install -e` parancs "
-"használatával. További információ található a :ref:`pip:editable-installs` "
-"részben."
+"Az így létrehozott csomag :command:`pip install -e` paranccsal telepíthető. "
+"Erről bővebb információ a :ref:`pip:editable-installs` oldalon található."
 
 #: ../../admin/customize.rst:69
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
-"Amint telepítve van, a modul használható a Weblate konfigurációjában "
-"(például ``weblate_customization.checks.FooCheck``)."
+"Miután telepítette, a modult már használhatja a Weblate konfigurációjában "
+"(például: ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:72
 msgid "Your package structure should look like this:"
-msgstr "A csomagstruktúrádnak így kell kinéznie:"
+msgstr "A csomagstruktúrája a így kell, hogy kinézzen:"
 
 #: ../../admin/customize.rst:83
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
-"A Weblate testreszabásának példáját megtalálhatod a <https://github.com/"
-"WeblateOrg/customize-example> oldalon, amely lefedi az alábbiakban leírt "
-"összes témát."
+"A Weblate testreszabására egy példát talál a következő címen: <https://"
+"github.com/WeblateOrg/customize-example>, amely az alábbi témákat is "
+"bemutatja."
 
 #: ../../admin/customize.rst:88
 msgid "Changing the logo"
-msgstr "A logó megváltoztatása"
+msgstr "Logó módosítása"
 
 #: ../../admin/customize.rst:90
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
 msgstr ""
-"Hozz létre egy egyszerű Django alkalmazást, amely tartalmazza a felülírni "
-"kívánt statikus fájlokat (lásd: :ref:`custom-module`)."
+"Hozzon létre egy egyszerű Django alkalmazást, amely tartalmazza a "
+"lecserélendő statikus fájlokat (lásd: :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:93
 msgid "Branding appears in the following files:"
-msgstr "A márkajelzés a következő fájlokban jelenik meg:"
+msgstr "A márkajelzés a következő helyeken jelenik meg:"
 
 #: ../../admin/customize.rst:95
 msgid ":file:`icons/weblate.svg`"
@@ -12304,7 +12305,7 @@ msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr "Webikonok a képernyőfelbontástól és a webböngészőtől függően."
+msgstr "Különböző felbontásokhoz és böngészőkhöz igazodó webikonok."
 
 #: ../../admin/customize.rst:99
 msgid ":file:`favicon.ico`"
@@ -12312,7 +12313,7 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
-msgstr "Régebbi böngészők által használt webikon."
+msgstr "Régebbi böngészők által használt webikonok."
 
 #: ../../admin/customize.rst:101
 msgid ":file:`weblate-*.png`"
@@ -12323,8 +12324,8 @@ msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
-"Botok vagy névtelen felhasználók profilképei. Néhány webböngésző ezeket "
-"használja parancsikon ikonként."
+"Botok vagy anonim felhasználók avatárjai (amelyeket néhány böngésző "
+"parancsikonnál is megjeleníthet)."
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
@@ -12332,19 +12333,20 @@ msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:104
 msgid "Used in notifications e-mails."
-msgstr "Értesítő e-mailekben használatos."
+msgstr "Értesítő e-mailekben használt ikonok."
 
 #: ../../admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr "Add hozzá a :setting:`django:INSTALLED_APPS`-hoz:"
+msgstr ""
+"Adja hozzá az alkalmazást a :setting:`django:INSTALLED_APPS` beállításhoz:"
 
 #: ../../admin/customize.rst:116
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
-"Futtasd a :samp:`weblate collectstatic --noinput` parancsot a statikus "
-"fájlok összegyűjtéséhez, amelyeket az ügyfelek kiszolgálására használnak."
+"Futtassa a :samp:`weblate collectstatic --noinput` parancsot a statikus "
+"fájlok összegyűjtéséhez és kiszolgálásához."
 
 #: ../../admin/customize.rst:121
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
@@ -12352,32 +12354,32 @@ msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:128
 msgid "Custom quality checks, add-ons and auto-fixes"
-msgstr "Egyéni minőségellenőrzések, extrák és automatikus javítások"
+msgstr "Egyedi minőségellenőrzések, kiegészítők és automatikus javítások"
 
 #: ../../admin/customize.rst:130
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` in Weblate:"
 msgstr ""
-"A kódod telepítéséhez a(z) :ref:`custom-autofix`, :ref:`own-checks` vagy :"
-"ref:`own-addon` használatához a Weblate-ben:"
+"Ha saját kódot szeretne telepíteni :ref:`custom-autofix`, :ref:`own-checks` "
+"vagy :ref:`own-addon` céljára a Weblate-ben:"
 
 #: ../../admin/customize.rst:133
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
-"Helyezd el a fájlokat a Python modulodban, amely a Weblate testreszabást "
-"tartalmazza (lásd: :ref:`custom-module`)."
+"Helyezze el a fájlokat a Weblate testreszabására létrehozott Python modulban "
+"(lásd: :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:135
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
-"Add hozzá a teljes elérési útját a Python osztályhoz az erre a célra "
-"szolgáló beállításokban (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` "
-"vagy :setting:`AUTOFIX_LIST`):"
+"Adja meg az osztály teljesen kvalifikált útvonalát a megfelelő "
+"beállításokban (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` vagy "
+":setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:151
 msgid ""
@@ -12396,8 +12398,8 @@ msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
 msgstr ""
-"A Weblate könnyen telepíthető a felhődbe. Kérlek, keresd meg a részletes "
-"útmutatót a platformodhoz:"
+"A Weblate könnyen telepíthető felhőalapú környezetbe. Az egyes platformokra "
+"vonatkozó részletes útmutatókat itt találja:"
 
 #: ../../admin/deployments.rst:8
 msgid ":doc:`install/docker`"
@@ -12413,15 +12415,16 @@ msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr "Harmadik fél általi Weblate telepítések"
+msgstr "Harmadik féltől származó Weblate telepítések"
 
 #: ../../admin/deployments.rst:17
 msgid ""
 "Following deployments are not developed or supported by Weblate team. Parts "
 "of the setup might vary from what is described in this documentation."
 msgstr ""
-"A következő telepítéseket nem a Weblate csapata fejlesztette vagy támogatja. "
-"A beállítás egyes részei eltérhetnek a jelen dokumentációban leírtaktól."
+"A következő telepítési megoldásokat nem a Weblate csapata fejleszti vagy "
+"támogatja. Az egyes beállítások részletei eltérhetnek a dokumentációban "
+"leírtaktól."
 
 #: ../../admin/deployments.rst:21
 msgid "Weblate Cloudron Package"
@@ -12434,18 +12437,18 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
-"A `Cloudron <https://www.cloudron.io/>`_ egy platform webalkalmazások önálló "
-"hosztolására. A Cloudronnal telepített Weblate automatikusan naprakész "
-"marad. A csomagot a Cloudron csapata karbantartja a saját `Weblate package "
-"repo <https://git.cloudron.io/cloudron/weblate-app>`_ nevű tárolójukban."
+"A `Cloudron <https://www.cloudron.io/>`_ egy saját üzemeltetésű "
+"webalkalmazás-platform. A Cloudronnal telepített Weblate automatikusan "
+"naprakészen tartja magát. A csomagot a Cloudron csapata tartja karban saját `"
+"Weblate csomag tárolójukban <https://git.cloudron.io/cloudron/weblate-app>`_."
 
 #: ../../admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
-msgstr "Weblate telepítése Cloudronnal"
+msgstr "Weblate telepítése Cloudron segítségével"
 
 #: ../../admin/deployments.rst:32
 msgid "Weblate in YunoHost"
-msgstr "Weblate a YunoHostban"
+msgstr "Weblate a YunoHost rendszerben"
 
 #: ../../admin/deployments.rst:34
 msgid ""
@@ -12455,36 +12458,36 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
-"Az önálló hosztolású projekt, a `YunoHost <https://yunohost.org/>`_, "
-"biztosít egy csomagot a Weblate-hez. Miután telepítetted a YunoHostot, a "
-"Weblate-et bármely más alkalmazásként telepítheted. Ez egy teljesen "
-"működőképes rendszert biztosít neked biztonsági mentéssel és "
-"visszaállítással, de lehet, hogy még mindig szerkesztened kell a beállítási "
-"fájlodat bizonyos felhasználásokhoz."
+"A `YunoHost <https://yunohost.org/>`_ önálló üzemeltetésre szánt projekt, "
+"amelyhez Weblate csomag is elérhető. Miután telepítette a YunoHostot, a "
+"Weblate az egyéb alkalmazásokhoz hasonlóan telepíthető. A csomag egy "
+"teljesen működő rendszert biztosít, amely tartalmaz biztonsági mentést és "
+"visszaállítást is, ugyanakkor bizonyos felhasználási eseteknél szükség lehet "
+"a beállítási fájlok kézi módosítására."
 
 #: ../../admin/deployments.rst:40
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr ""
-"Használhatod az adminisztrációs felületedet vagy ezt a gombot (ez elvisz a "
-"szerveredre):"
+"A telepítést elvégezheti az adminisztrációs felületen keresztül vagy "
+"használhatja ezt a gombot (amely a saját szerverére irányítja):"
 
 #: ../../admin/deployments.rst:42
 msgid "Install Weblate with YunoHost"
-msgstr "Weblate telepítése YunoHosttal"
+msgstr "Weblate telepítése YunoHost segítségével"
 
 #: ../../admin/deployments.rst:46
 msgid "It also is possible to use the command-line interface:"
-msgstr "Lehetőség van a parancssori felület használatára is:"
+msgstr "Lehetőség van a parancssoros felületen keresztüli telepítésre is:"
 
 #: ../../admin/install.rst:9
 msgid "Quick setup guide"
-msgstr "Gyors beállítási útmutató"
+msgstr "Gyors telepítési útmutató"
 
 #: ../../admin/install.rst:4
 msgid "Configuration instructions"
-msgstr "Konfigurációs utasítások"
+msgstr "Konfigurációs útmutató"
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
@@ -12495,8 +12498,8 @@ msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
-"A beállításaidtól és tapasztalataidtól függően válaszd ki a megfelelő "
-"telepítési módszert számodra:"
+"A tapasztalattól és a környezettől függően válassza ki az Ön számára "
+"megfelelő telepítési módot:"
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
@@ -12504,7 +12507,9 @@ msgstr ":doc:`install/docker`, ajánlott éles környezetekhez."
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv telepítés, amit a gyártási környezetekhez ajánlunk:"
+msgstr ""
+"Virtuális környezetbe történő telepítés, szintén ajánlott éles "
+"környezetekhez:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -12524,64 +12529,65 @@ msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ":doc:`install/source`, ajánlott fejlesztéshez."
+msgstr ":doc:`install/source`, ajánlott fejlesztési célokra."
 
 #: ../../admin/install.rst:43
 msgid "Architecture overview"
-msgstr "Architektúra áttekintése"
+msgstr "Rendszer-architektúra áttekintése"
 
 #: ../../admin/install.rst:130
 msgid "Web server"
-msgstr "Webkiszolgáló"
+msgstr "Webszerver"
 
 #: ../../admin/install.rst:131
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
-msgstr "Bejövő HTTP kérések kezelése, :ref:`static-files`."
+msgstr "A bejövő HTTP-kérések kezelése, lásd :ref:`static-files`."
 
 #: ../../admin/install.rst:132
 msgid "Celery workers"
-msgstr "Celery munkavállalók"
+msgstr "Celery munkafolyamatok"
 
 #: ../../admin/install.rst:133
 msgid ":ref:`celery` are executed here."
-msgstr "A(z) :ref:`celery` itt kerül végrehajtásra."
+msgstr "A :ref:`celery` feladatok is itt kerülnek végrehajtásra."
 
 #: ../../admin/install.rst:135
 msgid ""
 "Depending on your workload, you might want to customize the number of "
 "workers."
 msgstr ""
-"A munkaterhelésedtől függően érdemes lehet testre szabni a munkások számát."
+"A munkaterheléstől függően érdemes lehet testreszabni a munkafolyamatok "
+"(workers) számát."
 
 #: ../../admin/install.rst:137 ../../admin/install.rst:141
 #: ../../admin/install.rst:149
 msgid "Use dedicated node when scaling Weblate horizontally."
-msgstr ""
-"Használj dedikált csomópontot, amikor horizontálisan skálázod a Weblate-et."
+msgstr "Weblate vízszintes skálázásakor használjon dedikált csomópontot."
 
 #: ../../admin/install.rst:138
 msgid "WSGI server"
-msgstr "WSGI szerver"
+msgstr "WSGI-szerver"
 
 #: ../../admin/install.rst:139
 msgid "A WSGI server serving web pages to users."
-msgstr "Egy WSGI szerver, amely weboldalakat szolgáltat a felhasználóknak."
+msgstr ""
+"A WSGI-szerver biztosítja a weboldalak kiszolgálását a felhasználók számára."
 
 #: ../../admin/install.rst:143
 msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
 msgstr ""
-"PostgreSQL adatbázis-szerver az összes tartalom tárolására, lásd: :ref:"
-"`database-setup`."
+"PostgreSQL adatbázis-szerver az összes tartalom tárolására szolgál, lásd :ref"
+":`database-setup`."
 
 #: ../../admin/install.rst:145
 msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
-"Használj dedikált adatbázis csomópontot olyan oldalakhoz, amelyek több "
-"százmillió tárolt szót tartalmaznak."
+"Nagy, több százmillió szót tartalmazó oldalak esetében célszerű dedikált "
+"adatbázis-csomópontot használni."
 
 #: ../../admin/install.rst:146
 msgid "Redis"
@@ -12590,8 +12596,8 @@ msgstr "Redis"
 #: ../../admin/install.rst:147
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgstr ""
-"Redis szerver a gyorsítótárhoz és a feladatok várólistájához, lásd: :ref:"
-"`celery`."
+"Redis szerver a gyorsítótár és feladatütemezés céljából szükséges, lásd "
+":ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -12602,13 +12608,13 @@ msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
-"Fájlrendszer tároló a VCS (verziókezelő) tárolók és a feltöltött "
-"felhasználói adatok tárolására. Ezt minden folyamat közösen használja."
+"A VCS (verziókezelő) tárolók és a felhasználók által feltöltött adatok "
+"tárolására szolgál. Ezt minden folyamat közösen használja."
 
 #: ../../admin/install.rst:153
 msgid "Use networked storage when scaling Weblate horizontally."
 msgstr ""
-"Használj hálózati tárolót, amikor a Weblate-et horizontálisan méretezed."
+"A Weblate vízszintes skálázásakor hálózati fájltárolás használata javasolt."
 
 #: ../../admin/install.rst:154
 msgid "E-mail server"
@@ -12619,16 +12625,16 @@ msgid ""
 "SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided "
 "externally."
 msgstr ""
-"Kimenő e-mailekhez használt SMTP szerver, lásd: :ref:`out-mail`. Külsőleg is "
-"biztosítható."
+"Kimenő e-mailekhez SMTP szerver szükséges, lásd :ref:`out-mail`. Ez akár "
+"külső szolgáltatásként is biztosítható."
 
 #: ../../admin/install.rst:159
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
 "installation easier."
 msgstr ""
-"A :doc:`/admin/install/docker` tartalmazza a PostgreSQL-t és a Redist, ami "
-"megkönnyíti a telepítést."
+"A :doc:`/admin/install/docker` csomag tartalmaz PostgreSQL és Redis "
+"szervereket is, így a telepítés egyszerűbbé válik."
 
 #: ../../admin/install.rst:164
 msgid "Software requirements"
@@ -12643,24 +12649,24 @@ msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
 msgstr ""
-"A Weblate ismerten működik Linuxon, FreeBSD-n és macOS-en. Más Unix-szerű "
-"rendszerek is nagy valószínűséggel működni fognak."
+"A Weblate ismerten működik Linux, FreeBSD és macOS rendszereken. Más Unix-"
+"szerű rendszereken is valószínűleg problémamentesen használható."
 
 #: ../../admin/install.rst:172
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
 msgstr ""
-"A Weblate nem támogatott Windows rendszeren. De ettől függetlenül működhet, "
-"és a javításokat szívesen fogadjuk."
+"A Weblate Windows rendszeren hivatalosan nem támogatott. Ettől függetlenül "
+"működhet, és a javításokat szívesen fogadják."
 
 #: ../../admin/install.rst:177
 msgid ""
 ":ref:`architecture` describes overall Weblate architecture and required "
 "services."
 msgstr ""
-"A :ref:`architecture` leírja a Weblate általános architektúráját és a "
-"szükséges szolgáltatásokat."
+"Az :ref:`architecture` rész ismerteti a Weblate általános architektúráját és "
+"az ehhez szükséges szolgáltatásokat."
 
 #: ../../admin/install.rst:182
 msgid "Python dependencies"
@@ -12672,14 +12678,14 @@ msgid ""
 "Python 3.11 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"A Weblate `Python <https://www.python.org/>`_ nyelven íródott, és támogatja "
-"a Python 3.11 vagy újabb verzióit. A függőségeket telepítheted pip "
-"segítségével vagy a disztribúciós csomagokból, a teljes lista a :file:"
-"`requirements.txt` fájlban található."
+"A Weblate `Python <https://www.python.org/>`_ nyelven íródott, és a 3.11-es "
+"vagy újabb Python verziókat támogatja. A szükséges függőségek telepíthetők "
+"pip segítségével vagy a disztribúció csomagkezelőjéből. A teljes lista a "
+":file:`requirements.txt` fájlban található."
 
 #: ../../admin/install.rst:188
 msgid "Most notable dependencies:"
-msgstr "A legjelentősebb függőségek:"
+msgstr "Legfontosabb függőségek:"
 
 #: ../../admin/install.rst:190
 msgid "Django"
@@ -12707,7 +12713,7 @@ msgstr "https://toolkit.translatehouse.org/"
 
 #: ../../admin/install.rst:196
 msgid "translation-finder"
-msgstr "fordítás-kereső"
+msgstr "translation-finder"
 
 #: ../../admin/install.rst:197
 msgid "https://github.com/WeblateOrg/translation-finder"
@@ -12735,7 +12741,7 @@ msgstr "Opcionális függőségek"
 
 #: ../../admin/install.rst:208
 msgid "Optional dependency specifier"
-msgstr "Opcionális függőségi megjelölő"
+msgstr "Opcionális függőség-megjelölések"
 
 #: ../../admin/install.rst:209
 msgid "Python Packages"
@@ -12825,12 +12831,11 @@ msgstr ""
 
 #: ../../admin/install.rst:0
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
-msgstr ""
-"`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
+msgstr "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:236
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3` szótár támogatással"
+msgstr ":ref:`mt-google-translate-api-v3` szójegyzék-támogatással"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -12923,7 +12928,7 @@ msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
 msgid "Hosted Weblate integration"
-msgstr "A Hosted Weblate integrációja"
+msgstr "Hosted Weblate integráció"
 
 #: ../../admin/install.rst:270
 msgid "``wllegal``"
@@ -12943,7 +12948,7 @@ msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
 msgid "wsgi server for Weblate"
-msgstr "wsgi szerver a Weblate-hez"
+msgstr "wsgi server (Weblate-hez)"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
@@ -12964,20 +12969,20 @@ msgid ""
 "When installing using pip, you can directly specify desired features when "
 "installing:"
 msgstr ""
-"Amikor pip segítségével telepítesz, közvetlenül megadhatod a kívánt "
-"funkciókat a telepítés során:"
+"Amennyiben pip segítségével történik a telepítés, a kívánt funkciók "
+"közvetlenül is megadhatók:"
 
 #: ../../admin/install.rst:288
 msgid "Or you can install Weblate with all optional features:"
-msgstr "Vagy telepítheted a Weblate-et az összes választható funkcióval:"
+msgstr "Vagy telepíthető a Weblate az összes opcionális funkcióval:"
 
 #: ../../admin/install.rst:294
 msgid "Or you can install Weblate without any optional features:"
-msgstr "Vagy telepítheted a Weblate-et opcionális funkciók nélkül is:"
+msgstr "Vagy telepíthető a Weblate opcionális funkciók nélkül is:"
 
 #: ../../admin/install.rst:303
 msgid "Troubleshooting pip install"
-msgstr "Hibaelhárítás: pip install parancs használata"
+msgstr "Hibaelhárítás pip telepítés esetén"
 
 #: ../../admin/install.rst:305
 msgid ""
@@ -12992,25 +12997,25 @@ msgid ""
 "introspection-1.0`` and since then, it requires ``gobject-"
 "introspection-2.0``."
 msgstr ""
-"A telepített ``PyGobject`` csomag nem talál megfelelő GObject Introspection "
+"A telepített ``PyGobject`` csomag nem talál hozzáillő GObject Introspection "
 "könyvtárat. A 3.52-es kiadás előtt a ``gobject-introspection-1.0``, azóta "
-"pedig a ``gobject-introspection-2.0`` szükséges."
+"pedig a ``gobject-introspection-2.0`` könyvtár szükséges."
 
 #: ../../admin/install.rst:311
 msgid ""
 "In case your operating system provides both, it is recommended to install "
 "the newer version and retry the installation."
 msgstr ""
-"Ha az operációs rendszered mindkettőt biztosítja, ajánlott az újabb verziót "
-"telepíteni, majd újra megpróbálni a telepítést."
+"Amennyiben az operációs rendszer mindkét verziót biztosítja, javasolt a "
+"frissebb verzió telepítése és a telepítési folyamat megismétlése."
 
 #: ../../admin/install.rst:314
 msgid ""
 "When the newer version is not available, please install the older release of "
 "PyGobject before installing Weblate:"
 msgstr ""
-"Ha az újabb verzió nem elérhető, telepítsd a PyGobject régebbi verzióját a "
-"Weblate telepítése előtt:"
+"Ha az újabb verzió nem érhető el, a Weblate telepítése előtt kérjük, a "
+"régebbi PyGobject kiadást telepítse:"
 
 #: ../../admin/install.rst:321
 msgid ""
@@ -13028,9 +13033,9 @@ msgid ""
 "with the distribution. To address this, you need to rebuild the package on "
 "your system:"
 msgstr ""
-"Ezt az okozza, hogy a PyPI által terjesztett bináris csomagok nem "
-"kompatibilisek a disztribúcióval. Ennek megoldására újra kell építened a "
-"csomagot a rendszereden:"
+"Ez az inkompatibilis bináris csomagok miatt történik, amelyeket a PyPI "
+"terjeszt. A probléma megoldásához újra kell építeni a csomagot a saját "
+"rendszerén:"
 
 #: ../../admin/install.rst:331
 msgid "Other system requirements"
@@ -13051,7 +13056,7 @@ msgstr "https://git-scm.com/"
 #: ../../admin/install.rst:337
 msgid "Pango, Cairo and related header files and GObject introspection data"
 msgstr ""
-"Pango, Cairo és kapcsolódó fejlécfájlok, valamint GObject introspekciós "
+"Pango, Cairo és a kapcsolódó fejlécfájlok, valamint GObject introspection "
 "adatok"
 
 #: ../../admin/install.rst:338
@@ -13060,7 +13065,7 @@ msgid ""
 "see :ref:`pangocairo`"
 msgstr ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
-"lásd :ref:`pangocairo`"
+"lásd: :ref:`pangocairo`"
 
 #: ../../admin/install.rst:339
 msgid "``git-review`` (optional for Gerrit support)"
@@ -13083,8 +13088,8 @@ msgid ""
 "``tesseract`` (needed only if :program:`tesserocr` binary wheels are not "
 "available for your system)"
 msgstr ""
-"``tesseract`` (csak akkor szükséges, ha a :program:`tesserocr` bináris kerék "
-"nem érhető el a rendszeredhez)"
+"``tesseract`` (csak akkor szükséges, ha a :program:`tesserocr` bináris "
+"csomagok nem érhetők el a rendszerére)"
 
 #: ../../admin/install.rst:344
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -13093,7 +13098,8 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 #: ../../admin/install.rst:345
 msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
-"``licensee`` (opcionális a licenc felismeréséhez összetevő létrehozásakor)"
+"``licensee`` (opcionális az összetevő létrehozásakor, a licenc automatikus "
+"felismeréséhez)"
 
 #: ../../admin/install.rst:346
 msgid "https://github.com/licensee/licensee"
@@ -13101,7 +13107,7 @@ msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:349
 msgid "Build-time dependencies"
-msgstr "Fordítási időbeli függőségek"
+msgstr "Fordítási (build) időbeli függőségek"
 
 #: ../../admin/install.rst:351
 msgid ""
@@ -13111,11 +13117,11 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-"Néhány :ref:`python-deps` felépítéséhez lehet, hogy telepítened kell a "
-"függőségeiket. Ez attól függ, hogyan telepíted őket, ezért kérlek, nézd meg "
-"az egyes csomagok dokumentációját. Ezekre nem lesz szükséged, ha előre "
-"összeállított ``Wheels``-t használsz a ``pip`` telepítésekor vagy ha "
-"disztribúciós csomagokat használsz."
+"Bizonyos :ref:`python-deps` összetevők fordításához szükség lehet azok "
+"függőségeinek telepítésére. Ez attól függ, hogyan történik a telepítés, "
+"ezért olvassa el az egyes csomagok dokumentációját. Ha előre elkészített "
+"`Wheels` fájlokat használ pip telepítéskor, vagy ha disztribúciós csomagokat "
+"alkalmaz, akkor ezekre nem lesz szükség."
 
 #: ../../admin/install.rst:359
 msgid "Pango and Cairo"
@@ -13129,12 +13135,13 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"A Weblate a Pango-t és a Cairo-t használja a bitmap widgetek megjelenítésére "
-"(lásd :ref:`promotion`) és az ellenőrzések megjelenítésére (lásd :ref:"
-"`fonts`). Ahhoz, hogy megfelelően telepítsd ezek Python kötéseit, először a "
-"rendszerkönyvtárakat kell telepítened - szükséged lesz a Cairo-ra és a Pango-"
-"ra, amelyekhez GLib is kell. Ezeket mind fejlesztői fájlokkal és GObject "
-"introspection adatokkal együtt kell telepíteni."
+"A Weblate a Pango és Cairo könyvtárakat használja bitmap widgetek (grafikus "
+"vezérlők) megjelenítésére (lásd: :ref:`promotion`) és ellenőrzések "
+"megjelenítésére (lásd: :ref:`fonts`). A Python kötéseik helyes telepítéséhez "
+"először a rendszerkönyvtárakat kell telepíteni – szükség van a Cairo és a "
+"Pango könyvtárakra is, amelyek viszont a GLib könyvtárat igénylik. Minden "
+"könyvtárhoz szükség van a fejlesztői fájlok és a GObject introspection "
+"adatok telepítésére."
 
 #: ../../admin/install.rst:369
 msgid ""
@@ -13154,9 +13161,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and web server):"
 msgstr ""
-"A Weblate-nek bármilyen modern hardveren problémamentesen kell futnia, az "
-"alábbiakban a minimális konfiguráció található, amely szükséges a Weblate "
-"futtatásához egyetlen gazdagépen (Weblate, adatbázis és webszerver):"
+"A Weblate bármilyen korszerű hardveren problémamentesen működik, az alábbi "
+"minimális konfiguráció szükséges a Weblate (adatbázis és webszerverrel "
+"együtt) egyetlen gépen történő futtatásához:"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "3 GB of RAM"
@@ -13175,8 +13182,8 @@ msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
-"A Weblate telepítésének tényleges követelményei nagyban függenek a kezelt "
-"fordítások méretétől."
+"A Weblate telepítésének tényleges követelményei nagymértékben függnek a "
+"kezelt fordítások méretétől."
 
 #: ../../admin/install/steps/hw.rst:18
 msgid "Memory usage"
@@ -13188,25 +13195,25 @@ msgid ""
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
-"Minél több memória, annál jobb – minden szinten (fájlrendszer, adatbázis és "
-"Weblate) gyorsítótárazásra használja. Több száz fordítási összetevő esetén "
-"legalább 4 GB RAM ajánlott."
+"Minél több memória áll rendelkezésre, annál jobb – a memória minden szinten "
+"gyorsítótárazásra szolgál (fájlrendszer, adatbázis és Weblate). Több száz "
+"fordítási összetevő esetén legalább 4 GB RAM ajánlott."
 
 #: ../../admin/install/steps/hw.rst:27
 msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
 msgstr ""
-"Az ajánlottnál kevesebb memóriával rendelkező rendszerek számára a(z) :ref:"
-"`minimal-celery` javasolt."
+"Ha kevesebb memória áll rendelkezésre, mint az ajánlott, a :ref:`minimal-"
+"celery` használata javasolt."
 
 #: ../../admin/install/steps/hw.rst:30
 msgid "CPU usage"
-msgstr "CPU használat"
+msgstr "CPU-használat"
 
 #: ../../admin/install/steps/hw.rst:32
 msgid "Many concurrent users increase the amount of needed CPU cores."
-msgstr "Sok egyidejű felhasználó növeli a szükséges CPU magok számát."
+msgstr "Sok egyidejű felhasználó esetén nő a szükséges CPU magok száma."
 
 #: ../../admin/install/steps/hw.rst:35
 msgid "Storage usage"
@@ -13217,16 +13224,17 @@ msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words."
 msgstr ""
-"A tipikus adatbázis tárhelyhasználat körülbelül 300 MB 1 millió tárolt szó "
-"esetén."
+"Az adatbázis tipikus tárhelyigénye körülbelül 300 MB 1 millió tárolt szóra "
+"vetítve."
 
 #: ../../admin/install/steps/hw.rst:39
 msgid ""
 "Storage space needed for cloned repositories varies, but Weblate tries to "
 "keep their size minimal by doing shallow clones."
 msgstr ""
-"A klónozott adattárakhoz szükséges tárhely változó, de a Weblate igyekszik "
-"minimalizálni a méretüket sekély klónozás alkalmazásával."
+"A klónozott tárolók tárhelyigénye változó, de a Weblate igyekszik a "
+"méretüket minimálisra csökkenteni sekély (shallow ) klónozások "
+"alkalmazásával."
 
 #: ../../admin/install/steps/hw.rst:43
 msgid "Nodes"
@@ -13237,21 +13245,21 @@ msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
-"Kis- és közepes méretű oldalak esetén (milliónyi tárolt szó) a Weblate "
-"összes összetevője (lásd: :ref:`architecture`) futtatható egyetlen gépen."
+"Kis és közepes méretű webhelyek esetén (milliós nagyságrendű tárolt szavak) "
+"az összes Weblate összetevő (lásd: :ref:`architecture`) egyetlen csomóponton "
+"is futtatható."
 
 #: ../../admin/install/steps/hw.rst:48
 msgid ""
 "When you grow to hundreds of millions of hosted words, it is recommended to "
 "have a dedicated node for database (see :ref:`database-setup`)."
 msgstr ""
-"Amikor a tárolt szavak száma eléri a több száz milliót, javasolt egy "
-"dedikált csomópontot fenntartani az adatbázis számára (lásd a(z) :ref:"
-"`database-setup`)."
+"Amikor a tárolt szavak száma százmilliók fölé nő, ajánlott külön csomópontot "
+"biztosítani az adatbázis számára (lásd: :ref:`database-setup`)."
 
 #: ../../admin/install.rst:379
 msgid "Verifying release signatures"
-msgstr "Kiadási aláírások ellenőrzése"
+msgstr "Kiadások aláírásának ellenőrzése"
 
 #: ../../admin/install.rst:381
 msgid ""
@@ -13259,9 +13267,9 @@ msgid ""
 "<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub "
 "release."
 msgstr ""
-"A Weblate kiadások kriptográfiailag alá vannak írva a `Sigstore signatures "
-"<https://www.sigstore.dev/>`_ segítségével. Az aláírások a GitHub kiadáshoz "
-"vannak csatolva."
+"A Weblate kiadásait kriptográfiai aláírással látják el `Sigstore aláírások "
+"<https://www.sigstore.dev/>`_ segítségével. Az aláírások a GitHub-"
+"kiadásokhoz csatoltan érhetők el."
 
 #: ../../admin/install.rst:385
 msgid ""
@@ -13269,8 +13277,9 @@ msgid ""
 "project/sigstore/>`_. The following example verifies signature of the 5.4 "
 "release:"
 msgstr ""
-"Az ellenőrzés a `sigstore package <https://pypi.org/project/sigstore/>`_ "
-"segítségével végezhető el. Az alábbi példa az 5.4 kiadás aláírását ellenőrzi:"
+"Az ellenőrzés a `sigstore csomag <https://pypi.org/project/sigstore/>`_ "
+"segítségével végezhető el. Az alábbi példa az 5.4-es kiadás aláírásának "
+"ellenőrzését mutatja be:"
 
 #: ../../admin/install.rst:399
 msgid "Filesystem permissions"
@@ -13283,11 +13292,11 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
-"A Weblate folyamatnak képesnek kell lennie olvasni és írni abban a "
-"könyvtárban, ahol az adatokat tárolja - :setting:`DATA_DIR`. Az ebben a "
-"könyvtárban lévő összes fájlnak annak a felhasználónak a tulajdonában kell "
-"lennie és írhatónak kell lennie, aki az összes Weblate folyamatot futtatja "
-"(jellemzően WSGI és Celery, lásd: :ref:`server` és :ref:`celery`)."
+"A Weblate folyamatnak olvasási és írási jogosultsággal kell rendelkeznie "
+"ahhoz a könyvtárhoz, ahol az adatokat tárolja - :setting:`DATA_DIR`. A "
+"könyvtárban található összes fájlnak a Weblate folyamatokat futtató "
+"felhasználó tulajdonában kell lennie, és számára írhatónak kell lennie ("
+"általában WSGI és Celery, lásd: :ref:`server` és :ref:`celery`)."
 
 #: ../../admin/install.rst:405
 msgid ""
@@ -13295,17 +13304,17 @@ msgid ""
 "sources, however you might prefer to move these to a better location such "
 "as: :file:`/var/lib/weblate`."
 msgstr ""
-"Az alapértelmezett konfiguráció ugyanabba a könyvtárba helyezi őket, mint a "
-"Weblate forrásait, azonban érdemes lehet áthelyezni ezeket egy megfelelőbb "
-"helyre, például ide: :file:`/var/lib/weblate`."
+"Az alapértelmezett konfigurációban, ezek ugyanabban a könyvtárstruktúrában "
+"helyezkednek el, mint a Weblate forrásai, azonban célszerű lehet ezeket "
+"áthelyezni egy megfelelőbb helyre, például ide: :file:`/var/lib/weblate`."
 
 #: ../../admin/install.rst:409
 msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
 msgstr ""
-"A Weblate megpróbálja automatikusan létrehozni ezeket a könyvtárakat, de nem "
-"fog sikerülni, ha nincs megfelelő jogosultsága hozzá."
+"A Weblate megpróbálja ezeket a könyvtárakat automatikusan létrehozni, de ha "
+"nincs megfelelő jogosultsága, a művelet meghiúsul."
 
 #: ../../admin/install.rst:412
 msgid ""
@@ -13313,18 +13322,18 @@ msgid ""
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
-"Arra is ügyelned kell, amikor a :ref:`manage` parancsot futtatod, hogy "
-"ugyanazzal a felhasználóval történjen, mint amivel a Weblate fut, különben "
-"néhány fájl jogosultsága hibás lehet."
+"Ügyelni kell a :ref:`manage` futtatásakor is, mivel ezt ugyanazzal a "
+"felhasználóval kell végrehajtani, mint amelyikkel a Weblate fut, különben "
+"bizonyos fájlok jogosultságai helytelenek lehetnek."
 
 #: ../../admin/install.rst:416
 msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by the ``weblate`` user inside the container (UID 1000)."
 msgstr ""
-"A Docker-konténerben a :file:`/app/data` kötet összes fájljának a "
-"``weblate`` felhasználó tulajdonában kell lennie a konténeren belül (UID "
-"1000)."
+"A Docker-konténerben a :file:`/app/data` kötetben található összes fájlnak a "
+"konténeren belüli ``weblate`` felhasználó (UID 1000) tulajdonában kell "
+"lennie."
 
 #: ../../admin/install.rst:421
 msgid ":ref:`static-files`"
@@ -13332,30 +13341,30 @@ msgstr ":ref:`static-files`"
 
 #: ../../admin/install.rst:426
 msgid "Database setup for Weblate"
-msgstr "Adatbázis beállítása a Weblate-hez"
+msgstr "Adatbázis beállítása Weblate-hez"
 
 #: ../../admin/install.rst:428
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
-msgstr "Ajánlott a Weblate-et PostgreSQL adatbázis szerverrel futtatni."
+msgstr "Ajánlott a Weblate-et PostgreSQL adatbázis-kiszolgálóval futtatni."
 
 #: ../../admin/install.rst:430
 msgid ""
 "PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended."
 msgstr ""
-"A PostgreSQL 13 és újabb verziók támogatottak. A PostgreSQL 15 vagy újabb "
-"használata ajánlott."
+"A PostgreSQL 13-as vagy újabb verziói támogatottak. A PostgreSQL 15 vagy "
+"újabb verziók használata javasolt."
 
 #: ../../admin/install.rst:432
 msgid ":ref:`mysql` is supported, but not recommended for new installs."
-msgstr "A(z) :ref:`mysql` támogatott, de nem ajánlott új telepítésekhez."
+msgstr "A :ref:`mysql` támogatott, de új telepítésekhez nem ajánlott."
 
 #: ../../admin/install.rst:438
 msgid ""
 "No other database servers are currently supported, but support for other "
 "Django supported databases should be possible to implement."
 msgstr ""
-"Jelenleg nincs másik adatbázis-kiszolgáló támogatva, de a Django által "
-"támogatott egyéb adatbázisok támogatása megvalósítható lehet."
+"Más adatbázis-kiszolgálók jelenleg nem támogatottak, de más, a Django által "
+"támogatott adatbázisokhoz történő illesztésük megvalósítható lehet."
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -13377,15 +13386,15 @@ msgid ""
 "Please consult :setting:`django:CONN_MAX_AGE` and :ref:`django:persistent-"
 "database-connections` for more info."
 msgstr ""
-"Az alapértelmezett konfigurációban minden Weblate folyamat tartós "
-"kapcsolatot tart fenn az adatbázissal. A tartós kapcsolatok javítják a "
-"Weblate reakciókészségét, de több erőforrást igényelhetnek az adatbázis "
-"szerveren. További információkért kérlek nézd meg a :setting:`django:"
-"CONN_MAX_AGE` és :ref:`django:persistent-database-connections` részeket."
+"Az alapértelmezett konfiguráció szerint minden Weblate folyamat folyamatos "
+"adatbázis-kapcsolatot tart fenn. A folyamatos kapcsolatok javítják a Weblate "
+"válaszidejét, de több erőforrást igényelhetnek az adatbázis-kiszolgálótól. "
+"További információkért lásd: :setting:`django:CONN_MAX_AGE` és :ref:`django"
+":persistent-database-connections`."
 
 #: ../../admin/install.rst:458
 msgid "Weblate needs at least the following number of connections:"
-msgstr "A Weblate-nek legalább a következő számú kapcsolatra van szüksége:"
+msgstr "A Weblate-nek legalább a következő számú kapcsolat szükséges:"
 
 #: ../../admin/install.rst:460
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
@@ -13393,7 +13402,7 @@ msgstr ":math:`(4 \\times \\mathit{nCPUs}) + 2` a Celery folyamatokhoz"
 
 #: ../../admin/install.rst:461
 msgid ":math:`\\mathit{nCPUs} + 1` for WSGI workers"
-msgstr ":math:`\\mathit{nCPUs} + 1` a WSGI munkavállalókhoz"
+msgstr ":math:`\\mathit{nCPUs} + 1` a WSGI munkafolyamatokhoz (workers)"
 
 #: ../../admin/install.rst:463
 msgid ""
@@ -13401,30 +13410,29 @@ msgid ""
 "provided in this documentation, but the numbers will change once you "
 "customize the amount of WSGI workers or adjust parallelism of Celery."
 msgstr ""
-"Ez vonatkozik a Docker konténer alapértelmezett beállításaira és a "
-"dokumentációban szereplő példakonfigurációkra is, azonban a számok "
-"megváltoznak, ha módosítod a WSGI munkafolyamatok számát vagy a Celery "
-"párhuzamosítását állítod."
+"Ez a Docker-konténerek alapértelmezett beállításaira és a dokumentációban "
+"szereplő példakonfigurációkra vonatkozik, de a számok módosulnak, ha "
+"testreszabja a WSGI munkafolyamatok számát vagy a Celery párhuzamosítását."
 
 #: ../../admin/install.rst:467
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
 msgstr ""
-"Az adatbázis-kapcsolatok számának tényleges határértékének magasabbnak kell "
-"lennie a következő helyzetek figyelembevételéhez:"
+"Az adatbázis-kapcsolatok tényleges korlátját magasabbra kell állítani az "
+"alábbi helyzetek figyelembevételével:"
 
 #: ../../admin/install.rst:470
 msgid ":ref:`manage` need their connection as well."
-msgstr "A(z) :ref:`manage` is igényli a saját kapcsolatát."
+msgstr "A :ref:`manage` futtatása is igényel kapcsolatot."
 
 #: ../../admin/install.rst:471
 msgid ""
 "If case process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
-"Ha a folyamat leáll (például az OOM killer miatt), az meglévő kapcsolatot "
-"blokkolhatja a timeoutig."
+"Ha egy folyamat megszakad (például egy OOM killer miatt), az meglévő "
+"kapcsolatot is blokkolhatja a timeout lejártáig."
 
 #: ../../admin/install.rst:474
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -13439,8 +13447,8 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
-"A PostgreSQL általában a legjobb választás a Django-alapú webhelyekhez. Ez a "
-"referencia-adatbázis, amelyet a Django adatbázisrétegének megvalósításához "
+"A PostgreSQL általában a legjobb választás Django-alapú webhelyekhez. Ez a "
+"referencia-adatbázis, amelyet a Django adatbázisrétegének fejlesztéséhez "
 "használnak."
 
 #: ../../admin/install.rst:488
@@ -13449,7 +13457,7 @@ msgid ""
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
 "A Weblate trigram kiterjesztést használ, amelyet bizonyos esetekben külön "
-"kell telepíteni. Keresd a ``postgresql-contrib`` vagy hasonló nevű csomagot."
+"kell telepíteni. Keresse a ``postgresql-contrib`` vagy hasonló nevű csomagot."
 
 #: ../../admin/install.rst:493
 msgid ":ref:`django:postgresql-notes`"
@@ -13473,18 +13481,18 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
-"Ha nem szeretnéd, hogy a Weblate felhasználó szuperfelhasználó legyen a "
-"PostgreSQL-ben, ezt kihagyhatod. Ebben az esetben a migrációs lépések egy "
-"részét manuálisan kell végrehajtanod PostgreSQL szuperfelhasználóként abban "
-"a sémában, amelyet a Weblate használni fog:"
+"Ha nem szeretné a Weblate felhasználót PostgreSQL superuser (teljes körű) "
+"jogokkal ellátni ,ez a lépés kihagyható. Ebben az esetben bizonyos migrációs "
+"lépéseket kézzel kell végrehajtani PostgreSQL teljes körű jogosultságokkal "
+"azon a sémanéven, amelyet a Weblate használni fog:"
 
 #: ../../admin/install.rst:527
 msgid "Configuring Weblate to use PostgreSQL"
-msgstr "Weblate beállítása PostgreSQL használatára"
+msgstr "Weblate konfigurálása PostgreSQL használatára"
 
 #: ../../admin/install.rst:529
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr "A :file:`settings.py` részlet PostgreSQL-hez:"
+msgstr "A :file:`settings.py` fájlban a PostgreSQL-hez tartozó kódrészlet:"
 
 #: ../../admin/install.rst:555
 msgid ""
@@ -13498,16 +13506,16 @@ msgid ""
 "environment. Please set ``ALTER_ROLE`` to change the name of the role "
 "Weblate should alter during the database migration."
 msgstr ""
-"Az adatbázis-migráció végrehajtja az `ALTER ROLE <https://www.postgresql.org/"
-"docs/16/sql-alterrole.html>`_ parancsot a Weblate által használt adatbázis "
-"szerepkörön. A legtöbb esetben a szerepkör neve megegyezik a "
-"felhasználónévvel. Bonyolultabb beállításoknál a szerepkör neve eltér a "
-"felhasználónévtől, és hibát kapsz a nem létező szerepkör miatt az adatbázis-"
-"migráció során (``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" "
-"does not exist``). Ez ismert probléma az Azure Database for PostgreSQL "
-"használata esetén, de nem korlátozódik erre a környezetre. Kérlek, állítsd "
-"be az ``ALTER_ROLE`` értéket, hogy megváltoztasd a Weblate által módosítandó "
-"szerepkör nevét az adatbázis-migráció során."
+"Az adatbázis-migráció során a `ALTER ROLE <https://www.postgresql.org/docs/"
+"16/sql-alterrole.html>`_ parancsot hajtja végre a Weblate által használt "
+"adatbázis-szerepkörön. A legtöbb esetben a szerepkör neve megegyezik a "
+"felhasználónévvel. Összetettebb beállításoknál a szerepkör neve eltérhet a "
+"felhasználónévtől, ilyenkor a migráció során hibaüzenetet kap "
+"(``psycopg2.errors.UndefinedObject: role \\\"weblate@hostname\\\" does not "
+"exist``). Ez ismert probléma például az Azure Database for PostgreSQL "
+"környezetben, de nem kizárólag ott fordul elő. Ilyen esetben kérjük, állítsa "
+"be az ``ALTER_ROLE`` változót a megfelelő szerepkörnév megadásához az "
+"adatbázis-migráció során."
 
 #: ../../admin/install.rst:567 ../../admin/install.rst:644
 #: ../../admin/install.rst:683
@@ -13525,10 +13533,10 @@ msgid ""
 "and to migrate existing installs to PostgreSQL, see :ref:`database-"
 "migration`."
 msgstr ""
-"Bár a MySQL és a MariaDB támogatását még mindig fenntartjuk a Weblate-ben, a "
-"fő fókuszunk a PostgreSQL. Ajánlott az új telepítéseknél a PostgreSQL "
-"használata, valamint a meglévő telepítések migrálása PostgreSQL-re, lásd: :"
-"ref:`database-migration`."
+"Bár a MySQL és MariaDB támogatása továbbra is fennáll a Weblate-ben, "
+"elsődleges fókuszunk a PostgreSQL-en van. Új telepítésekhez a PostgreSQL "
+"használata ajánlott, illetve meglévő telepítések esetén is javasolt áttérni "
+"rá, lásd: :ref:`database-migration`."
 
 #: ../../admin/install.rst:581
 msgid ""
@@ -13536,10 +13544,9 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
-"Néhány Weblate-funkció jobban teljesít :ref:`postgresql` használatával. "
-"Ilyenek például a keresés és a fordítási memória, amelyek a teljes szövegű "
-"keresési funkciókat használják az adatbázisban – ezek PostgreSQL alatt "
-"hatékonyabban működnek."
+"Bizonyos Weblate funkciók jobban teljesítenek :ref:`postgresql` alatt. Ilyen "
+"például a keresés és a fordítási memória, amelyek teljes szöveges keresési "
+"funkciókat használnak, és ezek PostgreSQL alatt hatékonyabbak."
 
 #: ../../admin/install.rst:585
 msgid ""
@@ -13548,42 +13555,42 @@ msgid ""
 "those. Because of the limitations it is recommended to use :ref:`postgresql` "
 "for new installations."
 msgstr ""
-"A Weblate használható MySQL vagy MariaDB adatbázisokkal is, kérlek nézd meg "
-"a :ref:`django:mysql-notes` és :ref:`django:mariadb-notes` részeket a Django "
-"használatával kapcsolatos figyelmeztetésekért. A korlátozások miatt új "
-"telepítésekhez a :ref:`postgresql` használatát javasoljuk."
+"A Weblate használható MySQL-lel vagy MariaDB-vel is, további részletekért "
+"lásd: :ref:`django:mysql-notes` és :ref:`django:mariadb-notes`. Az ismert "
+"korlátozások miatt azonban új telepítések esetén a :ref:`postgresql` "
+"használata javasolt."
 
 #: ../../admin/install.rst:590
 msgid "Weblate requires MySQL at least 8 or MariaDB at least 10.5."
-msgstr "A Weblate legalább MySQL 8 vagy MariaDB 10.5 verziót igényel."
+msgstr "A Weblate legalább MySQL 8 vagy legalább MariaDB 10.5 verziót igényel."
 
 #: ../../admin/install.rst:592
 msgid "Following configuration is recommended for Weblate:"
-msgstr "A következő konfiguráció ajánlott a Weblate-hez:"
+msgstr "A Weblate számára az alábbi konfiguráció ajánlott:"
 
 #: ../../admin/install.rst:594
 msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
-"Használd az ``utf8mb4`` karakterkészletet a magasabb Unicode síkok (például "
-"emojik) megjelenítésének engedélyezéséhez."
+"Az ``utf8mb4`` karakterkészlet használata, hogy magasabb Unicode síkok ("
+"például emojik) is kezelhetők legyenek."
 
 #: ../../admin/install.rst:595
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
 msgstr ""
-"Állítsd be a szervert az ``innodb_large_prefix`` segítségével, hogy "
-"engedélyezd a hosszabb indexeket a szövegmezőkön."
+"Az ``innodb_large_prefix`` beállítás engedélyezése, hogy hosszabb indexek "
+"legyenek megengedettek a szöveges mezőkön."
 
 #: ../../admin/install.rst:596
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr "Állítsd az izolációs szintet ``READ COMMITTED``-re."
+msgstr "Állítsa be az izolációs szintet ``READ COMMITTED`` értékre."
 
 #: ../../admin/install.rst:597
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr "Az SQL módot ``STRICT_TRANS_TABLES``-re kell állítani."
+msgstr "Az SQL módot állítsa ``STRICT_TRANS_TABLES`` értékre."
 
 #: ../../admin/install.rst:599
 msgid ""
@@ -13591,9 +13598,9 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
-"A MySQL 8.x, MariaDB 10.5.x vagy újabb verziók ésszerű alapértelmezett "
-"konfigurációval rendelkeznek, így nem szükséges a szerver beállítása, és "
-"minden szükséges dolgot be lehet állítani a kliens oldalon."
+"A MySQL 8.x, MariaDB 10.5.x vagy újabb verziók alapértelmezett "
+"konfigurációja megfelelő, így nincs szükség szerveroldali finomhangolásra, "
+"minden szükséges beállítás elvégezhető kliensoldalon."
 
 #: ../../admin/install.rst:603
 msgid ""
@@ -13604,12 +13611,12 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"Az alábbiakban egy példa található a :file:`/etc/my.cnf.d/server.cnf` fájlra "
-"egy 8 GB RAM-mal rendelkező szerver esetében. Ezek a beállítások a legtöbb "
-"telepítéshez elegendőek. A MySQL és a MariaDB rendelkezik olyan hangolható "
-"beállításokkal, amelyek növelhetik a szerver teljesítményét, de ezek nem "
-"szükségesek, hacsak nem tervezel nagy számú egyidejű felhasználót a "
-"rendszerhez. A részletekért lásd a különböző gyártók dokumentációját."
+"Az alábbiakban egy példa található egy 8 GB RAM-mal rendelkező szerver "
+":file:`/etc/my.cnf.d/server.cnf` fájljára. Ezek a beállítások a legtöbb "
+"telepítéshez elegendőek. A MySQL és a MariaDB további hangolható "
+"paramétereket is kínál, amelyek a teljesítmény növelését szolgálják, de ezek "
+"csak akkor szükségesek, ha nagy számú egyidejű felhasználó hozzáférését "
+"tervezi. Részletekért lásd a gyártók dokumentációját."
 
 #: ../../admin/install.rst:610
 msgid ""
@@ -13617,9 +13624,9 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
-"Teljesen kritikus a telepítési problémák csökkentése érdekében, hogy az "
-"``innodb_file_per_table`` beállítás megfelelően legyen konfigurálva, és hogy "
-"a MySQL/MariaDB újra legyen indítva, mielőtt elkezded a Weblate telepítését."
+"A telepítés során rendkívül fontos, hogy az ``innodb_file_per_table`` "
+"beállítás megfelelő legyen, és a MySQL/MariaDB újraindításra kerüljön a "
+"Weblate telepítése előtt."
 
 #: ../../admin/install.rst:633
 msgid ""
@@ -13627,33 +13634,35 @@ msgid ""
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
-"Ha ``#1071 - Specified key was too long; max key length is 767 bytes`` hibát "
-"kapsz, kérlek, frissítsd a konfigurációdat a fenti ``innodb`` "
-"beállításokkal, és indítsd újra a telepítést."
+"Ha ``#1071 - Specified key was too long; max key length is 767 bytes`` "
+"hibaüzenetet kap, frissítse a konfigurációt a fenti ``innodb`` "
+"beállításokkal, majd indítsa újra a telepítést."
 
 #: ../../admin/install.rst:639
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
-"Ha a ``#2006 - MySQL server has gone away`` hibát kapod, a :setting:`django:"
-"CONN_MAX_AGE` beállítása segíthet."
+"Ha ``#2006 - MySQL server has gone away`` hibát tapasztal, a "
+":setting:`django:CONN_MAX_AGE` beállítása segíthet."
 
 #: ../../admin/install.rst:647
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "A Weblate konfigurálása MySQL/MariaDB használatához"
+msgstr "Weblate konfigurálása MySQL/MariaDB használatára"
 
 #: ../../admin/install.rst:649
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr "A :file:`settings.py` részlet MySQL és MariaDB esetén:"
+msgstr ""
+"A :file:`settings.py` fájlban a MySQL és MariaDB konfigurációjához tartozó "
+"kódrészlet:"
 
 #: ../../admin/install.rst:673
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
 msgstr ""
-"A telepítés megkezdése előtt létre kell hoznod a ``weblate`` felhasználói "
-"fiókot a MySQL-ben vagy a MariaDB-ben. Az alábbi parancsokkal érheted el ezt:"
+"A telepítés megkezdése előtt érdemes létrehozni a ``weblate`` felhasználói "
+"fiókot MySQL-ben vagy MariaDB-ben. Az alábbi parancsokkal teheti ezt meg:"
 
 #: ../../admin/install.rst:686
 msgid "Other configurations"
@@ -13669,9 +13678,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
-"A Weblate különböző alkalmakkor küld e-maileket - például fiókaktiváláshoz "
-"és a felhasználók által beállított különféle értesítésekhez. Ehhez SMTP "
-"szerverhez való hozzáférésre van szüksége."
+"A Weblate különböző események alkalmával küld e-maileket – például "
+"fiókaktiváláskor vagy a felhasználók által beállított értesítésekről. Ehhez "
+"SMTP szerverhez való hozzáférés szükséges."
 
 #: ../../admin/install.rst:697
 msgid ""
@@ -13681,12 +13690,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"A levelezőszerver beállítása az alábbi beállításokkal történik: :setting:"
-"`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:"
-"EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, :setting:`django:"
-"EMAIL_HOST_USER` és :setting:`django:EMAIL_PORT`. A nevük meglehetősen "
-"magától értetődő, de további információt a Django dokumentációjában "
-"találhatsz."
+"A levelezőszerver beállítása az alábbi paraméterekkel történik: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER` és :setting:`django:EMAIL_PORT`. Ezek "
+"elnevezése önmagáért beszél, de további információkat a Django "
+"dokumentációjában talál."
 
 #: ../../admin/install.rst:706
 msgid ""
@@ -13695,32 +13704,31 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"Ha nem támogatott hitelesítéssel kapcsolatos hibát kapsz (például ``SMTP "
-"AUTH extension not supported by server``), akkor valószínűleg a nem "
-"biztonságos kapcsolat használata okozza, és a szerver nem hajlandó így "
-"hitelesíteni. Ilyen esetben próbáld meg engedélyezni a :setting:`django:"
-"EMAIL_USE_TLS` beállítást."
+"Ha olyan hibaüzenetet kap, amely a hitelesítés nem támogatottságára utal ("
+"például ``SMTP AUTH extension not supported by server``), az általában egy "
+"nem biztonságos kapcsolat miatt történik, amelyet a szerver nem tud "
+"hitelesíteni. Ilyen esetben próbálja meg engedélyezni a "
+":setting:`django:EMAIL_USE_TLS` beállítást."
 
 #: ../../admin/install.rst:713
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
-":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
+":ref:`debug-mails`, :ref:`Kimenő e-mailek beállítása Docker-konténerben "
 "<docker-mail>`"
 
 #: ../../admin/install.rst:719
 msgid "Running behind reverse proxy"
-msgstr "Futás fordított proxy mögött"
+msgstr "Fordított (reverse) proxy mögötti futtatás"
 
 #: ../../admin/install.rst:721
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
-"A Weblate több funkciója is azon alapul, hogy képes legyen megszerezni a "
-"kliens IP-címét. Ilyenek például a :ref:`rate-limit`, a :ref:`spam-"
-"protection` vagy az :ref:`audit-log`."
+"A Weblate több funkciója is igényli a kliens IP-címének elérését. Ilyen "
+"például a :ref:`rate-limit`, :ref:`spam-protection` vagy az :ref:`audit-log`."
 
 #: ../../admin/install.rst:724
 msgid ""
@@ -13729,10 +13737,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with "
 "client IP address."
 msgstr ""
-"A Weblate az IP-címet a ``REMOTE_ADDR``-ből olvassa ki, amelyet a WSGI "
-"kezelő állít be. Ez lehet, hogy üres lesz (amikor socketet használunk a WSGI-"
-"hez) vagy tartalmazhat egy fordított proxy címet, ezért a Weblate-nek "
-"szüksége van egy további HTTP fejlécet az ügyfél IP címével."
+"A Weblate a WSGI handler által beállított ``REMOTE_ADDR`` változóból olvassa "
+"ki az IP-címet. Ez üres lehet (ha socketet használ WSGI-hez) vagy a "
+"fordított proxy IP-címét tartalmazhatja, ezért a Weblate-nek szüksége van "
+"egy további HTTP fejlécben érkező kliens IP-címre."
 
 #: ../../admin/install.rst:729
 msgid ""
@@ -13741,11 +13749,11 @@ msgid ""
 "setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` "
 "and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container)."
 msgstr ""
-"Az :setting:`IP_BEHIND_REVERSE_PROXY` engedélyezése elegendő lehet a "
-"leggyakoribb beállításokhoz, de szükség lehet az :setting:`IP_PROXY_HEADER` "
-"és a(z) :setting:`IP_PROXY_OFFSET` módosítására is (használd a(z) "
+"Az :setting:`IP_BEHIND_REVERSE_PROXY` bekapcsolása elegendő lehet a legtöbb "
+"szokásos beállításnál, de szükség lehet az :setting:`IP_PROXY_HEADER` és az "
+":setting:`IP_PROXY_OFFSET` módosítására is (Docker-konténer esetén a "
 ":envvar:`WEBLATE_IP_PROXY_HEADER` és a :envvar:`WEBLATE_IP_PROXY_OFFSET` "
-"változókat a Docker konténerben)."
+"változókat kell használni)."
 
 #: ../../admin/install.rst:736
 msgid ""
@@ -13753,9 +13761,8 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
-"Ezt a beállítást nem lehet alapértelmezés szerint bekapcsolni, mert lehetővé "
-"tenné az IP-cím hamisítást olyan telepítéseken, amelyeknél nincs megfelelően "
-"konfigurálva a fordított proxy."
+"Ezt a konfigurációt alapértelmezetten nem lehet bekapcsolni, mert egy nem "
+"megfelelően beállított proxy esetén IP-cím hamisításra adna lehetőséget."
 
 #: ../../admin/install.rst:740
 msgid ""
@@ -13765,11 +13772,11 @@ msgid ""
 "``ProxyPreserveHost On`` for Apache or ``proxy_set_header Host $host;`` with "
 "nginx)."
 msgstr ""
-"Egy másik dolog, amire figyelni kell, az a :http:header:`Host` fejléc. Ennek "
-"meg kell egyeznie azzal, amit a :setting:`SITE_DOMAIN`-ként beállítottál. "
-"További konfigurációra lehet szükség a fordított proxyban (például használd "
-"a ``ProxyPreserveHost On`` beállítást Apache esetén vagy a "
-"``proxy_set_header Host $host;`` beállítást nginx esetén)."
+"Egy másik fontos beállítás a :http:header:`Host` fejléc. Ennek meg kell "
+"egyeznie a :setting:`SITE_DOMAIN` értékével. Szükség lehet további "
+"konfigurációra a fordított proxyn (például az Apache esetén ``"
+"ProxyPreserveHost On``, nginx esetén pedig ``proxy_set_header Host $host;`` "
+"használatával)."
 
 #: ../../admin/install.rst:747
 msgid ""
@@ -13779,11 +13786,11 @@ msgid ""
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, "
+":ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, "
+":envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:762
 msgid "HTTP proxy"
@@ -13795,9 +13802,9 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
-"A Weblate VCS (verziókezelő rendszer) parancsokat hajt végre és ezek "
-"elfogadják a környezeti proxy beállításokat. Az ajánlott megközelítés az, "
-"hogy a proxy beállításokat a :file:`settings.py` fájlban definiáljuk:"
+"A Weblate VCS (verziókezelő rendszer) parancsokat is futtat, amelyek "
+"elfogadják a proxybeállításokat a környezeti változókból. Ajánlott a "
+"proxybeállításokat a :file:`settings.py` fájlban definiálni:"
 
 #: ../../admin/install.rst:777
 msgid ""
@@ -13821,9 +13828,9 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
-"Másold a :file:`weblate/settings_example.py` fájlt a :file:`weblate/settings."
-"py` helyre, és igazítsd a saját beállításaidhoz. Valószínűleg a következő "
-"opciókat szeretnéd módosítani:"
+"Másolja a :file:`weblate/settings_example.py` fájlt :file:`weblate/"
+"settings.py` néven, és igazítsa a rendszere környezetéhez. Valószínűleg az "
+"alábbi beállításokat kell majd módosítani:"
 
 #: ../../admin/install.rst:794
 msgid "``ADMINS``"
@@ -13834,16 +13841,16 @@ msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
-"Az oldal adminisztrátorainak listája, akik értesítést kapnak, ha valami "
-"probléma adódik, például sikertelen egyesítésekről vagy Django hibákról."
+"A webhely adminisztrátorainak listája, akik értesítést kapnak, ha valami "
+"hiba történik, például sikertelen egyesítésekről vagy Django hibákról."
 
 #: ../../admin/install.rst:799
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
-"A kapcsolatfelvételi űrlap ezekre is e-mailt küld, hacsak az "
-":setting:`ADMINS_CONTACT` nincs beállítva."
+"A kapcsolatfelvételi űrlap is ezekre az e-mail címekre küld üzenetet, hacsak "
+"nincs külön megadva :setting:`ADMINS_CONTACT`."
 
 #: ../../admin/install.rst:804
 msgid ""
@@ -13860,20 +13867,19 @@ msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
-"Ezt be kell állítanod, hogy felsorold azokat a hosztokat, amelyeket az "
-"oldaladnak ki kell szolgálnia. Például:"
+"Meg kell adnia, hogy a webhely milyen hosztneveket szolgálhat ki. Például:"
 
 #: ../../admin/install.rst:819
 msgid "Alternatively you can include wildcard:"
-msgstr "Alternatívaként használhatsz helyettesítő karaktert is:"
+msgstr "Alternatívaként használhat helyettesítő karaktereket is:"
 
 #: ../../admin/install.rst:827
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
-":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
-"`production-hosts`"
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:833
 msgid "``SESSION_ENGINE``"
@@ -13885,9 +13891,9 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
-"Állítsd be, hogyan tárolódjanak a munkamenetek. Ha az alapértelmezett "
-"adatbázis backend motort használod, ütemezned kell a :command:`weblate "
-"clearsessions` parancsot, hogy eltávolítsd a lejárt munkamenet adatokat az "
+"Állítsa be, hogy a munkamenetek (sessions) hol legyenek tárolva. Ha az "
+"alapértelmezett adatbázis-háttérmotort használja, akkor ütemezze a :command:`"
+"weblate clearsessions` parancsot a régi munkamenet-adatok törlésére az "
 "adatbázisból."
 
 #: ../../admin/install.rst:840
@@ -13895,8 +13901,8 @@ msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
-"Ha Redis-t használsz gyorsítótárként (lásd: :ref:`production-cache`), "
-"ajánlott azt a munkamenetekhez is használni:"
+"Ha a Redis-t használja gyorsítótárazásra (lásd: :ref:`production-cache`), "
+"akkor ajánlott azt munkamenetek tárolására is beállítani:"
 
 #: ../../admin/install.rst:849
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
@@ -13911,8 +13917,8 @@ msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
-"Kapcsolódás az adatbázis szerverhez, további részletekért kérlek nézd meg a "
-"Django dokumentációját."
+"Az adatbázis-kiszolgálóhoz való csatlakozás részleteiért kérjük, olvassa el "
+"a Django dokumentációját."
 
 #: ../../admin/install.rst:861
 msgid ""
@@ -13932,17 +13938,17 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"Kapcsold ki ezt minden éles szerveren. Ha a hibakeresési mód be van "
-"kapcsolva, a Django hibák esetén visszakövetési információkat mutat a "
-"felhasználóknak, ha letiltod, a hibák e-mailben lesznek elküldve az "
-"``ADMINS`` címre (lásd feljebb)."
+"A debug módot tiltsa le bármely éles (production) szerveren. Ha a debug mód "
+"engedélyezve van, a Django részletes hibakövetési adatokat jelenít meg a "
+"felhasználóknak hiba esetén; ha letiltja, a hibákról e-mail értesítést "
+"kapnak az ``ADMINS`` csoport tagjai. (lásd fentebb)."
 
 #: ../../admin/install.rst:873
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
-"A hibakeresési mód lelassítja a Weblate-et is, mivel a Django ilyenkor "
+"A debug mód lelassítja a Weblate működését is, mivel a Django ilyenkor "
 "sokkal több információt tárol belsőleg."
 
 #: ../../admin/install.rst:878
@@ -13956,7 +13962,7 @@ msgstr "``DEFAULT_FROM_EMAIL``"
 #: ../../admin/install.rst:885
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
-msgstr "Kimenő e-mailek feladó címe, például regisztrációs e-mailekhez."
+msgstr "A kimenő e-mailek (például regisztrációs üzenetek) feladó e-mail címe."
 
 #: ../../admin/install.rst:889
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
@@ -13971,8 +13977,8 @@ msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
-"A kulcs, amelyet a Django használ néhány információ aláírására a sütikben, "
-"további információért lásd: :ref:`production-secret`."
+"A Django által egyes cookie-k aláírására használt kulcs, további "
+"információért lásd: :ref:`production-secret`."
 
 #: ../../admin/install.rst:900
 msgid ":setting:`django:SECRET_KEY`"
@@ -13987,8 +13993,8 @@ msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
-"Az az e-mail cím, amelyet feladóként használnak az adminisztrátornak küldött "
-"e-mailekhez, például sikertelen egyesítések értesítéseihez."
+"Az adminisztrátornak küldött e-mailek (például sikertelen egyesítések "
+"értesítései) feladó e-mail címe."
 
 #: ../../admin/install.rst:911
 msgid ":setting:`django:SERVER_EMAIL`"
@@ -14004,9 +14010,9 @@ msgid ""
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
-"Miután a konfigurációd elkészült, futtathatod a :wladmin:`migrate` parancsot "
-"az adatbázis struktúrájának létrehozásához. Most már képesnek kell lenned "
-"fordítási projektek létrehozására az admin felületen keresztül."
+"Miután elkészült a konfigurációval, futtassa a :wladmin:`migrate` parancsot "
+"az adatbázis-struktúra létrehozásához. Ezt követően az adminisztrációs "
+"felületen keresztül létrehozhat fordítási projekteket."
 
 #: ../../admin/install.rst:922
 msgid ""
@@ -14014,9 +14020,9 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
-"Miután végeztél, érdemes megnézni az adminisztrációs felületen a :guilabel:"
-"`Performance report`-ot is, amely tippeket adhat az esetleges nem optimális "
-"konfigurációkra a webhelyeden."
+"Ha ezzel készen van, érdemes megnézni az adminisztrációs felületen a "
+":guilabel:`Teljesítményjelentés` oldalt is, amely javaslatokat adhat a nem "
+"optimális beállítások javítására."
 
 #: ../../admin/install.rst:928
 msgid ":ref:`config`, :ref:`privileges`"
@@ -14033,9 +14039,9 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"Az éles környezet beállításához el kell végezni az alábbi szakaszokban leírt "
-"módosításokat. A legkritikusabb beállítások figyelmeztetést váltanak ki, "
-"amelyet egy felkiáltójel jelez a felső sávban, ha szuperfelhasználóként vagy "
+"Éles környezethez a következő szakaszokban leírt módosításokat kell "
+"elvégezni. A legkritikusabb beállítások figyelmeztetést váltanak ki, amelyet "
+"egy felkiáltójel jelez a felső sávban, ha rendszergazdaként van "
 "bejelentkezve:"
 
 #: ../../admin/install.rst:942
@@ -14043,16 +14049,16 @@ msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
-"Ajánlott továbbá ellenőrizni a Django által kiváltott ellenőrzéseket is (bár "
-"lehet, hogy nem szükséges mindegyiket javítani):"
+"Ajánlott továbbá ellenőrizni a Django által jelzett figyelmeztetéseket is ("
+"bár nem szükséges mindet kijavítani):"
 
 #: ../../admin/install.rst:949
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
-"Ugyanezt a listát áttekintheted a(z) :ref:`manage-performance` résznél a(z) :"
-"ref:`management-interface` felületen."
+"Ugyanezt az ellenőrzőlistát áttekintheti a :ref:`manage-performance` résznél "
+"a :ref:`management-interface` felületen."
 
 #: ../../admin/install.rst:953
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -14060,21 +14066,21 @@ msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:958
 msgid "Disable debug mode"
-msgstr "A hibakeresési mód kikapcsolása"
+msgstr "A hibakeresési (debug) mód kikapcsolása"
 
 #: ../../admin/install.rst:960
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
 msgstr ""
-"Kapcsold ki a Django hibakeresési módját (:setting:`DEBUG`) az alábbi módon:"
+"Tiltsa le a Django hibakeresési módját (:setting:`DEBUG`) az alábbi módon:"
 
 #: ../../admin/install.rst:966
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
-"Ha a hibakeresési mód be van kapcsolva, a Django tárolja az összes "
-"végrehajtott lekérdezést, és megjeleníti a felhasználóknak a hibák "
-"visszakövetését, ami nem kívánatos egy éles környezetben."
+"Ha a hibakeresési mód engedélyezve van, a Django eltárolja az összes "
+"végrehajtott lekérdezést, és hibák esetén részletes hibakövetést jelenít meg "
+"a felhasználóknak, ami éles környezetben nem kívánatos."
 
 #: ../../admin/install.rst:971 ../../admin/install.rst:987
 msgid ":ref:`configuration`"
@@ -14082,7 +14088,7 @@ msgstr ":ref:`configuration`"
 
 #: ../../admin/install.rst:976
 msgid "Properly configure admins"
-msgstr "Az adminisztrátorok megfelelő konfigurálása"
+msgstr "Adminisztrátorok helyes beállítása"
 
 #: ../../admin/install.rst:978
 msgid ""
@@ -14090,13 +14096,13 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
-"Állítsd be a megfelelő adminisztrátori címeket a :setting:`ADMINS` "
-"beállításban, hogy meghatározd, ki kapjon e-maileket, ha valami hiba "
-"történik a szerveren, például:"
+"Állítsa be a megfelelő adminisztrátori e-mail címeket a :setting:`ADMINS` "
+"beállításban, hogy probléma esetén (például szerverhiba) az értesítések "
+"ezekre a címekre érkezzenek, például így:"
 
 #: ../../admin/install.rst:992
 msgid "Set correct site domain"
-msgstr "Állítsd be a megfelelő webhelydomaint"
+msgstr "Webhely domain helyes beállítása"
 
 #: ../../admin/install.rst:994
 msgid ""
@@ -14104,30 +14110,30 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
-"Állítsd be a webhely nevét és domainjét az admin felületen, különben az RSS-"
-"ben vagy regisztrációs e-mailekben található linkek nem fognak működni. Ezt "
-"a :setting:`SITE_DOMAIN` beállítással lehet konfigurálni, amelynek "
-"tartalmaznia kell a webhely domainnevét."
+"Állítsa be a webhely nevét és domainjét az adminisztrációs felületen, "
+"különben az RSS-linkek és a regisztrációs e-mailek nem fognak megfelelően "
+"működni. Ezt a :setting:`SITE_DOMAIN` beállítással adhatja meg, amely a "
+"webhely domain nevét kell, hogy tartalmazza."
 
 #: ../../admin/install.rst:1000
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
-"A 4.2-es kiadás előtt a Django sites keretrendszert használták helyette, "
-"kérlek nézd meg a :doc:`django:ref/contrib/sites` dokumentációt."
+"A 4.2-es kiadás előtt a Django sites framework-öt használták erre a célra, "
+"részletekért lásd: :doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:1005
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
-":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
-"envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:1014
 msgid "Correctly configure HTTPS"
-msgstr "Az HTTPS megfelelő konfigurálása"
+msgstr "HTTPS helyes konfigurálása"
 
 #: ../../admin/install.rst:1016
 msgid ""
@@ -14135,16 +14141,17 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
-"Nagyon ajánlott a Weblate-et titkosított HTTPS protokollal futtatni. Miután "
-"engedélyezted, be kell állítanod a :setting:`ENABLE_HTTPS` beállítást:"
+"Nyomatékosan ajánlott a Weblate-et titkosított HTTPS protokollon keresztül "
+"futtatni. Ennek bekapcsolása után állítsa be a :setting:`ENABLE_HTTPS` "
+"értékét a beállításokban:"
 
 #: ../../admin/install.rst:1025
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
-"Érdemes lehet beállítani a HSTS-t is, további részletekért lásd: :ref:"
-"`django:security-recommendation-ssl`."
+"Érdemes HSTS-t is beállítani, részletekért lásd: :ref:`django:security-"
+"recommendation-ssl`."
 
 #: ../../admin/install.rst:1030
 msgid ""
@@ -14154,7 +14161,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1036
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr "Állítsd be megfelelően a SECURE_HSTS_SECONDS értékét"
+msgstr "SECURE_HSTS_SECONDS helyes beállítása"
 
 #: ../../admin/install.rst:1038
 msgid ""
@@ -14162,10 +14169,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"Ha az oldaladat SSL-en keresztül szolgálják ki, fontolóra kell venned a :"
-"setting:`django:SECURE_HSTS_SECONDS` értékének beállítását a :file:`settings."
-"py` fájlban, hogy engedélyezd a HTTP Strict Transport Security-t. "
-"Alapértelmezésben ez 0-ra van állítva, ahogyan az alább látható."
+"Ha a webhely SSL-en keresztül érhető el, fontolja meg a "
+":setting:`django:SECURE_HSTS_SECONDS` érték beállítását a :file:`settings.py`"
+" fájlban a HTTP Strict Transport Security (szigorú biztonságos átvitel) "
+"engedélyezéséhez. Alapértelmezésben ez 0-ra van állítva, az alábbiak szerint."
 
 #: ../../admin/install.rst:1046
 msgid ""
@@ -14173,76 +14180,77 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
-"Ha nem nulla egész értékre van állítva, a :class:`django:django.middleware."
-"security.SecurityMiddleware` beállítja a :ref:`django:http-strict-transport-"
-"security` fejlécet minden olyan válaszra, amely még nem tartalmazza azt."
+"Ha nem nulla értékre állítja, a "
+":class:`django:django.middleware.security.SecurityMiddleware` beállítja a "
+":ref:`django:http-strict-transport-security` HTTP-fejlécet minden olyan "
+"válaszra, amelyen ez még nem szerepel."
 
 #: ../../admin/install.rst:1051
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
-"Ha ezt helytelenül állítod be, az (egy ideig) visszafordíthatatlanul "
-"tönkreteheti a webhelyedet. Először olvasd el a :ref:`django:http-strict-"
-"transport-security` dokumentációt."
+"Ennek helytelen beállítása hosszabb időre visszafordíthatatlanul "
+"elérhetetlenné teheti az oldalát. Előtte olvassa el a :ref:`django:http-"
+"strict-transport-security` dokumentációt."
 
 #: ../../admin/install.rst:1058
 msgid "Use a powerful database engine"
-msgstr "Használj egy erős adatbázismotort"
+msgstr "Használjon erős adatbázismotort"
 
 #: ../../admin/install.rst:1060
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
-"Használj PostgreSQL-t éles környezetben, további információkért lásd: :ref:"
-"`database-setup`."
+"Kérjük, használjon PostgreSQL-t éles környezetben, részletekért lásd: :ref"
+":`database-setup`."
 
 #: ../../admin/install.rst:1062
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
-"Használj közeli helyet az adatbázis szerver futtatásához, különben a "
-"hálózati teljesítmény vagy megbízhatóság tönkreteheti a Weblate "
-"használatának élményét."
+"Az adatbázis-kiszolgálót lehetőség szerint közeli helyen futtassa, mert a "
+"hálózati teljesítmény vagy megbízhatóság problémái rontanák a Weblate "
+"használati élményét."
 
 #: ../../admin/install.rst:1064
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
-"Ellenőrizd az adatbázis szerver teljesítményét vagy finomhangold a "
+"Ellenőrizze az adatbázis-kiszolgáló teljesítményét vagy optimalizálja annak "
 "konfigurációját, például a `PGTune <https://pgtune.leopard.in.ua/>`_ "
-"használatával."
+"segítségével."
 
 #: ../../admin/install.rst:1069
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
-":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
-"`django:ref/databases`"
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:1077
 msgid "Enable caching"
-msgstr "Kapcsold be a gyorsítótárazást"
+msgstr "Gyorsítótárazás engedélyezése"
 
 #: ../../admin/install.rst:1079
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
-"Ha lehetséges, használd a Redist a Django-ból a ``CACHES`` konfigurációs "
-"változó beállításával, például:"
+"Ha lehetséges, használja a Redis-t a Django gyorsítótárazásához a ``CACHES`` "
+"konfigurációs változó beállításával, például:"
 
 #: ../../admin/install.rst:1100
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
-"Ha megváltoztatod a Redis beállításait a gyorsítótárhoz, lehet, hogy a "
-"Celery esetében is módosítanod kell azokat, lásd: :ref:`celery`."
+"Ha módosítja a Redis beállításait a gyorsítótárhoz, akkor előfordulhat, hogy "
+"a Celery számára is módosítani kell ezeket, lásd: :ref:`celery`."
 
 #: ../../admin/install.rst:1105
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
@@ -14250,15 +14258,15 @@ msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1111
 msgid "Avatar caching"
-msgstr "Avatar gyorsítótárazás"
+msgstr "Avatárok gyorsítótárazása"
 
 #: ../../admin/install.rst:1113
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
-"A Django gyorsítótárazása mellett a Weblate is végzi az avatarok "
-"gyorsítótárazását. Ehhez ajánlott egy külön, fájl alapú gyorsítótár "
+"A Django gyorsítótárazása mellett a Weblate az avatárokat is "
+"gyorsítótárazza. Erre a célra ajánlott külön, fájl-alapú gyorsítótár "
 "használata:"
 
 #: ../../admin/install.rst:1140
@@ -14266,12 +14274,12 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
-":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
-"ref:`production-cache`, :doc:`django:topics/cache`"
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:1149
 msgid "Configure e-mail sending"
-msgstr "Az e-mail küldés beállítása"
+msgstr "E-mailek küldésének konfigurálása"
 
 #: ../../admin/install.rst:1151
 msgid ""
@@ -14280,26 +14288,25 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
-"A Weblate-nek több alkalommal is e-maileket kell küldenie, és ezeknek az e-"
-"maileknek a megfelelő feladó címmel kell rendelkezniük. Kérlek, állítsd be "
-"a :setting:`SERVER_EMAIL` és a :setting:`DEFAULT_FROM_EMAIL` címeket a "
-"környezetedhez igazítva, például:"
+"A Weblate több alkalommal is küld e-maileket, és ezeknek helyes feladócímmel "
+"kell rendelkezniük. Állítsa be a :setting:`SERVER_EMAIL` és "
+":setting:`DEFAULT_FROM_EMAIL` értékeket a környezetének megfelelően, például:"
 
 #: ../../admin/install.rst:1163
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
-"Ha le szeretnéd tiltani az e-mailek küldését Weblate által, állítsd a :"
-"setting:`django:EMAIL_BACKEND` értékét ``django.core.mail.backends.dummy."
-"EmailBackend``-re."
+"Ha szeretné letiltani a Weblate általi e-mail küldést, állítsa a "
+":setting:`django:EMAIL_BACKEND` értékét "
+"``django.core.mail.backends.dummy.EmailBackend`` értékre."
 
 #: ../../admin/install.rst:1166
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
-"Ez letilt *minden* e-mail kézbesítést, beleértve a regisztrációs vagy jelszó-"
+"Ez *minden* e-mail küldést letilt, beleértve a regisztrációs és jelszó-"
 "visszaállítási e-maileket is."
 
 #: ../../admin/install.rst:1171
@@ -14307,8 +14314,8 @@ msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
-":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
-"std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1181
 msgid "Allowed hosts setup"
@@ -14319,9 +14326,9 @@ msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
-"A Django megköveteli, hogy a :setting:`ALLOWED_HOSTS` tartalmazza azon "
-"domain nevek listáját, amelyeket az oldalad kiszolgálhat. Ha üresen hagyod, "
-"az minden kérést blokkolni fog."
+"A Django megköveteli, hogy a :setting:`ALLOWED_HOSTS` listában szerepeljenek "
+"azok a domainnevek, amelyeket a webhely kiszolgálhat, ennek üresen hagyása "
+"minden kérést blokkolni fog."
 
 #: ../../admin/install.rst:1186
 msgid ""
@@ -14329,15 +14336,16 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
-"Ha nincs megfelelően beállítva a HTTP szerveredhez, olyan hibákat kaphatsz, "
-"mint például :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
-"'1.1.1.1' to ALLOWED_HOSTS.`"
+"Ha ez nincs megfelelően beállítva a HTTP-kiszolgálóval összhangban, ilyen "
+"hibát kaphat: :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to "
+"add '1.1.1.1' to ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:1192
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
-"Docker-konténer esetében ez :envvar:`WEBLATE_ALLOWED_HOSTS` néven érhető el."
+"Docker-konténer esetén ez a következő környezeti változóval adható meg: "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:1196
 msgid ""
@@ -14357,17 +14365,17 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
-"A :setting:`SECRET_KEY` beállítást a Django a sütik aláírására használja, és "
-"igazán érdemes saját értéket generálnod, ahelyett, hogy a példa beállításból "
-"származót használnád."
+"A :setting:`SECRET_KEY` beállítást a Django sütik aláírására használja, "
+"ezért mindenképp saját értéket kell generálni, és nem a példa-"
+"konfigurációban szereplőt használni."
 
 #: ../../admin/install.rst:1208
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
-"Új kulcsot generálhatsz a Weblate-tel együtt szállított :program:`weblate-"
-"generate-secret-key` használatával."
+"Új kulcsot a Weblate-hez mellékelt :program:`weblate-generate-secret-key` "
+"programmal generálhat."
 
 #: ../../admin/install.rst:1213
 msgid ":setting:`SECRET_KEY`"
@@ -14383,20 +14391,20 @@ msgid ""
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
-"Az optimális teljesítmény érdekében érdemes néhány karbantartási feladatot a "
-"háttérben futtatni. Ezt a :ref:`celery` automatikusan végzi, és a következő "
-"feladatokat fedi le:"
+"Az optimális teljesítmény érdekében érdemes néhány karbantartási feladatot "
+"háttérben futtatni. Ezt automatikusan a :ref:`celery` végzi, amely a "
+"következő feladatokat fedi le:"
 
 #: ../../admin/install.rst:1223
 msgid "Configuration health check (hourly)."
-msgstr "Konfigurációs állapot ellenőrzése (óránként)."
+msgstr "Konfigurációs állapotellenőrzés (óránként)."
 
 #: ../../admin/install.rst:1224
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :wladmin:"
 "`commit_pending`."
 msgstr ""
-"A függőben lévő változások elkötelezése (óránként), lásd: :ref:`lazy-commit` "
+"Függőben lévő módosítások véglegesítése (óránként), lásd: :ref:`lazy-commit` "
 "és :wladmin:`commit_pending`."
 
 #: ../../admin/install.rst:1225
@@ -14405,25 +14413,25 @@ msgstr "Összetevő riasztások frissítése (naponta)."
 
 #: ../../admin/install.rst:1226
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
-msgstr "Távoli ágak frissítése (éjszakánként), lásd :setting:`AUTO_UPDATE`."
+msgstr "Távoli ágak frissítése (éjszakánként), lásd: :setting:`AUTO_UPDATE`."
 
 #: ../../admin/install.rst:1227
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
-"A fordítási memória biztonsági mentése JSON formátumba (naponta), lásd: :"
-"wladmin:`dump_memory`."
+"Fordítási memória biztonsági mentése JSON formátumba (naponta), lásd: "
+":wladmin:`dump_memory`."
 
 #: ../../admin/install.rst:1228
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
-"Teljes szöveges és adatbázis karbantartási feladatok (napi és heti "
-"feladatok), lásd: :wladmin:`cleanuptrans`."
+"Szövegkeresési és adatbázis-karbantartási feladatok (napi és heti feladatok)"
+", lásd: :wladmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:1233
 msgid "System locales and encoding"
-msgstr "Rendszer helyi beállítások és kódolás"
+msgstr "Rendszernyelvi beállítások és karakterkódolás"
 
 #: ../../admin/install.rst:1235
 msgid ""
@@ -14431,18 +14439,18 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
-"A rendszer helyi beállításait olyanra kell konfigurálni, amely képes az "
-"UTF-8 kódolásra. A legtöbb Linux disztribúcióban ez az alapértelmezett "
-"beállítás. Ha a rendszereden ez nem így van, kérlek, állítsd át a helyi "
-"beállításokat UTF-8 változatra."
+"A rendszernyelvi beállításoknak UTF-8 kompatibilisnek kell lenniük. A "
+"legtöbb Linux disztribúcióban ez az alapértelmezett beállítás. Ha a "
+"rendszerében nem így van, kérjük, állítson át minden nyelvi beállítást UTF-8 "
+"változatra."
 
 #: ../../admin/install.rst:1239
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
-"Például szerkeszd a :file:`/etc/default/locale` fájlt, és állítsd be benne a "
-"``LANG=\"C.UTF-8\"`` értéket."
+"Például a :file:`/etc/default/locale` fájl szerkesztésével és a ``LANG=\\"
+"\"C.UTF-8\\\"`` beállítás megadásával."
 
 #: ../../admin/install.rst:1242
 msgid ""
@@ -14450,27 +14458,26 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
-"Bizonyos esetekben az egyes szolgáltatásoknak külön konfigurációjuk van a "
-"területi beállításokhoz. Ez a disztribúciók és webszerverek között "
-"változhat, ezért nézd meg a webszerver csomagjainak dokumentációját ezzel "
-"kapcsolatban."
+"Bizonyos esetekben az egyes szolgáltatásoknak külön nyelvi konfigurációjuk "
+"lehet. Ez disztribúciótól és webszervertől függ, ezért nézze meg az adott "
+"webszerver csomag dokumentációját."
 
 #: ../../admin/install.rst:1246
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
 msgstr ""
-"Az Ubuntu-n futó Apache a :file:`/etc/apache2/envvars` fájlt használja:"
+"Ubuntu rendszeren az Apache a :file:`/etc/apache2/envvars` fájlt használja:"
 
 #: ../../admin/install.rst:1253
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
-"A CentOS-on futó Apache a :file:`/etc/sysconfig/httpd` (vagy a :file:`/opt/"
-"rh/httpd24/root/etc/sysconfig/httpd`) fájlt használja:"
+"CentOS rendszeren az Apache a :file:`/etc/sysconfig/httpd` fájlt használja ("
+"vagy :file:`/opt/rh/httpd24/root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1263
 msgid "Using custom certificate authority"
-msgstr "Egyedi hitelesítésszolgáltató használata"
+msgstr "Egyéni tanúsítványkiadó használata"
 
 #: ../../admin/install.rst:1265
 msgid ""
@@ -14478,9 +14485,9 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
-"A Weblate ellenőrzi az SSL tanúsítványokat a HTTP kérések során. Ha egyedi "
-"hitelesítésszolgáltatót használsz, amely nem szerepel az alapértelmezett "
-"megbízható csomagokban, hozzá kell adnod a tanúsítványát megbízhatóként."
+"A Weblate HTTP-kérések során ellenőrzi az SSL tanúsítványokat. Ha egyéni "
+"tanúsítványkiadót (CA) használ, amely nem szerepel az alapértelmezett "
+"csomagokban, akkor a tanúsítványát megbízhatóként kell hozzáadnia."
 
 #: ../../admin/install.rst:1269
 msgid ""
@@ -14489,27 +14496,27 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
-"Az előnyben részesített megközelítés, hogy ezt rendszerszinten végezd el, "
-"kérlek, nézd meg a disztribúciód dokumentációját a részletekért (például "
-"Debian rendszeren ezt úgy teheted meg, hogy a CA tanúsítványt elhelyezed a :"
-"file:`/usr/local/share/ca-certificates/` könyvtárban, majd futtatod a :"
-"command:`update-ca-certificates` parancsot)."
+"A javasolt módszer a rendszer szintű telepítés, kérjük, ellenőrizze a "
+"disztribúció dokumentációját a részletekért (például Debian rendszeren a CA "
+"tanúsítványt a :file:`/usr/local/share/ca-certificates/` könyvtárba kell "
+"másolni, majd a :command:`update-ca-certificates` parancsot kell futtatni)."
 
 #: ../../admin/install.rst:1276
 msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
-"A Weblate konténer nem tartalmazza azt a keresési útvonalban, ezért meg kell "
-"adnod a teljes elérési utat a futtatáshoz. Például:"
+"A Weblate konténerben ez nem szerepel az alapértelmezett keresési "
+"útvonalban, így a teljes elérési utat meg kell adni a parancsok "
+"futtatásakor. Például:"
 
 #: ../../admin/install.rst:1283
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
-"Miután ez megtörtént, a rendszer eszközei megbíznak a tanúsítványban, "
-"beleértve a Git-et is."
+"Ha ez megtörtént, a rendszer eszközei megbíznak a tanúsítványban, beleértve "
+"a Git-et is."
 
 #: ../../admin/install.rst:1286
 msgid ""
@@ -14517,14 +14524,14 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
-"A Python kód esetében be kell állítanod, hogy a requests a rendszer CA "
-"csomagját használja a vele szállított helyett. Ezt az alábbi kódrészlet :"
-"file:`settings.py` fájlba való elhelyezésével érheted el (az útvonal Debian "
-"specifikus):"
+"Python kód esetén be kell állítani, hogy a requests modul a rendszer CA "
+"csomagját használja a saját helyett. Ezt úgy teheti meg, hogy a következő "
+"kódrészletet helyezi el a :file:`settings.py` fájlban (az útvonal Debianra "
+"jellemző):"
 
 #: ../../admin/install.rst:1300
 msgid "Compressing client assets"
-msgstr "Kliens eszközök tömörítése"
+msgstr "Kliensoldali fájlok tömörítése"
 
 #: ../../admin/install.rst:1302
 msgid ""
@@ -14535,12 +14542,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
-"A Weblate számos JavaScript és CSS fájllal érkezik. Teljesítmény okokból "
-"érdemes ezeket tömöríteni, mielőtt elküldenénk a kliensnek. Alapértelmezett "
-"konfigurációban ez valós időben történik, egy kis többletterhelés árán. Nagy "
-"telepítéseknél ajánlott az offline tömörítési mód engedélyezése. Ezt a "
-"konfigurációban kell beállítani, és minden Weblate frissítésnél újra kell "
-"indítani a tömörítést."
+"A Weblate számos JavaScript- és CSS-fájllal érkezik. Teljesítményjavítás "
+"céljából érdemes ezeket tömöríteni, mielőtt az ügyfélhez kerülnének. "
+"Alapértelmezett konfigurációban ez valós időben történik, minimális "
+"teljesítményveszteséggel. Nagyobb telepítések esetén ajánlott az offline "
+"tömörítési mód engedélyezése. Ehhez módosítani kell a konfigurációt, és "
+"minden Weblate frissítéskor újra kell futtatni a tömörítést."
 
 #: ../../admin/install.rst:1309
 msgid ""
@@ -14549,20 +14556,21 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
-"A konfigurációs váltás egyszerű, csak engedélyezni kell a :attr:`compressor:"
-"django.conf.settings.COMPRESS_OFFLINE` beállítást, és konfigurálni a :attr:"
-"`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` elemet (utóbbi "
-"már benne van a példakonfigurációban):"
+"A konfiguráció egyszerű: engedélyezni kell a "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` beállítást, és meg "
+"kell adni a :attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` "
+"értékeit is (ez utóbbi már szerepel a példa konfigurációban):"
 
 #: ../../admin/install.rst:1318
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
-"Minden telepítéskor tömörítened kell a fájlokat, hogy megfeleljenek az "
-"aktuális verziónak:"
+"Minden egyes telepítéskor tömöríteni kell a fájlokat, hogy azok az aktuális "
+"verzióhoz illeszkedjenek:"
 
 #: ../../admin/install.rst:1326
 msgid "The official Docker image has this feature already enabled."
-msgstr "A hivatalos Docker képben ez a funkció már engedélyezve van."
+msgstr ""
+"A hivatalos Docker-képben ez a funkció már alapértelmezésben engedélyezett."
 
 #: ../../admin/install.rst:1330
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
@@ -14577,36 +14585,36 @@ msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
-"Ha nem vagy jártas az alább leírt szolgáltatásokban, érdemes lehet "
-"kipróbálni a :doc:`install/docker` telepítést."
+"Ha nem ismeri a lentebb bemutatott szolgáltatásokat, érdemes lehet "
+"kipróbálni a :doc:`install/docker` megoldást."
 
 #: ../../admin/install.rst:1342
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
-"A Weblate futtatásához több szolgáltatásra lesz szükséged, az ajánlott "
-"beállítás a következőkből áll:"
+"A Weblate futtatásához több szolgáltatásra lesz szüksége, az ajánlott "
+"összeállítás a következőkből áll:"
 
 #: ../../admin/install.rst:1344
 msgid "Database server (see :ref:`database-setup`)"
-msgstr "Adatbázis szerver (lásd: :ref:`database-setup`)"
+msgstr "Adatbázis-kiszolgáló (lásd: :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1345
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr "Gyorsítótár szerver (lásd: :ref:`production-cache`)"
+msgstr "Gyorsítótár-kiszolgáló (lásd: :ref:`production-cache`)"
 
 #: ../../admin/install.rst:1346
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
-"Frontend webszerver statikus fájlokhoz és SSL lezáráshoz (lásd: :ref:`static-"
-"files`)"
+"Frontend webszerver a statikus fájlokhoz és az SSL-kezeléshez (lásd: :ref"
+":`static-files`)"
 
 #: ../../admin/install.rst:1347
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
-msgstr "WSGI szerver dinamikus tartalomhoz (lásd: :ref:`uwsgi`)"
+msgstr "WSGI szerver a dinamikus tartalom kiszolgálásához (lásd: :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1348
 msgid "Celery for executing background tasks (see :ref:`celery`)"
@@ -14617,9 +14625,9 @@ msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
-"Vannak bizonyos függőségek a szolgáltatások között, például a gyorsítótárnak "
-"és az adatbázisnak futnia kell, amikor a Celery vagy uwsgi folyamatokat "
-"indítod el."
+"A szolgáltatások között vannak függőségek is, például a cache és az "
+"adatbázis szervereknek működniük kell, mielőtt a Celery vagy a uwsgi "
+"folyamatok elindulnak."
 
 #: ../../admin/install.rst:1355
 msgid ""
@@ -14628,10 +14636,10 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
-"A legtöbb esetben minden szolgáltatás egyetlen (virtuális) szerveren fut "
-"majd, de ha a példányod nagy terhelés alatt áll, a szolgáltatásokat szét is "
-"választhatod. Az egyetlen megkötés, hogy a Celery és a WSGI szervereknek "
-"hozzáférést kell biztosítani a :setting:`DATA_DIR` könyvtárhoz."
+"A legtöbb esetben minden szolgáltatást egyetlen (virtuális) szerveren "
+"futtat, de ha a telepítés nagy terhelésű, szétválaszthatja az egyes "
+"szolgáltatásokat. Egyetlen megkötés van: a Celery és a WSGI szervereknek "
+"hozzáféréssel kell rendelkezniük a :setting:`DATA_DIR` könyvtárhoz."
 
 #: ../../admin/install.rst:1362
 msgid ""
@@ -14639,9 +14647,9 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
-"A WSGI folyamatot ugyanazon felhasználó alatt kell futtatni, mint a Celery "
-"folyamatot, különben a :setting:`DATA_DIR` fájljai vegyes tulajdonjoggal "
-"lesznek tárolva, ami futásidejű problémákhoz vezethet."
+"A WSGI folyamatot ugyanazzal a felhasználóval kell futtatni, mint a Celery "
+"folyamatot, különben a :setting:`DATA_DIR` fájljai eltérő tulajdonossal "
+"jönnek létre, ami futásidejű problémákat okozhat."
 
 #: ../../admin/install.rst:1366
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
@@ -14657,13 +14665,13 @@ msgid ""
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
-"A Weblate futtatása nem különbözik más Django alapú program futtatásától. A "
-"Djangót általában WSGI vagy fcgi formájában futtatják (lásd az alábbi "
-"példákat különböző webszerverekhez)."
+"A Weblate futtatása nem különbözik más Django-alapú alkalmazások "
+"futtatásától. A Django-t általában WSGI-n vagy fcgi-n keresztül futtatják ("
+"lásd a különböző webszerverekhez tartozó példákat lentebb)."
 
 #: ../../admin/install.rst:1375
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr "Tesztelési célokra használhatod a Django beépített webszerverét:"
+msgstr "Tesztelési célokra használhatja a Django beépített webszerverét is:"
 
 #: ../../admin/install.rst:1383
 msgid ""
@@ -14671,9 +14679,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
-"NE HASZNÁLD EZT A SZERVERT ÉLES KÖRNYEZETBEN. Nem ment keresztül biztonsági "
-"ellenőrzéseken vagy teljesítményteszteken. További információért lásd a "
-"Django dokumentációját: :djadmin:`django:runserver`."
+"NE HASZNÁLJA EZT A SZERVERKÖRNYEZETET ÉLES ÜZEMBEN! Nem esett át biztonsági "
+"auditon vagy teljesítményteszteken. Lásd még a Django dokumentációját: "
+":djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1389
 msgid ""
@@ -14683,10 +14691,9 @@ msgid ""
 "ref:`static-files`."
 msgstr ""
 "A Django beépített szervere csak akkor szolgál ki statikus fájlokat, ha a "
-":setting:`DEBUG` engedélyezve van, mivel ez kizárólag fejlesztési célokra "
-"van szánva. Éles környezetben történő használathoz kérlek nézd meg a WSGI "
-"beállításokat az :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, és :ref"
-":`static-files` részekben."
+":setting:`DEBUG` engedélyezve van, mivel kizárólag fejlesztési célra "
+"készült. Éles használathoz tekintse meg a WSGI konfigurációkat: :ref:`uwsgi`"
+", :ref:`apache`, :ref:`apache-gunicorn`, és :ref:`static-files`."
 
 #: ../../admin/install.rst:1397
 msgid "Serving static files"
@@ -14700,19 +14707,19 @@ msgid ""
 "setting (this defaults to a ``static`` directory inside :setting:"
 "`CACHE_DIR`)."
 msgstr ""
-"Djangónak össze kell gyűjtenie a statikus fájljait egyetlen könyvtárba. "
-"Ehhez hajtsd végre a következőt: :samp:`weblate collectstatic --noinput`. Ez "
-"átmásolja a statikus fájlokat a :setting:`django:STATIC_ROOT` beállítás "
-"által meghatározott könyvtárba (alapértelmezés szerint ez a ``static`` "
-"könyvtár a :setting:`CACHE_DIR`-en belül)."
+"A Django-nak egyetlen könyvtárba kell gyűjtenie a statikus fájlokat. Ehhez "
+"futtassa a következő parancsot: :samp:`weblate collectstatic --noinput`. Ez "
+"átmásolja a statikus fájlokat a :setting:`django:STATIC_ROOT` által "
+"meghatározott könyvtárba (alapértelmezés szerint ez a :setting:`CACHE_DIR` "
+"mappán belüli ``static`` könyvtár)."
 
 #: ../../admin/install.rst:1404
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
-"Ajánlott a statikus fájlokat közvetlenül a webszerverről kiszolgálni, ehhez "
-"az alábbi útvonalakat használd:"
+"Ajánlott a statikus fájlokat közvetlenül a webszerverről kiszolgálni, az "
+"alábbi útvonalakon:"
 
 #: ../../admin/install.rst:1407
 msgid ":file:`/static/`"
@@ -14723,8 +14730,8 @@ msgid ""
 "Serves static files for Weblate and the admin interface (from defined by :"
 "setting:`django:STATIC_ROOT`)."
 msgstr ""
-"A Weblate és az admin felület statikus fájljait szolgálja ki (a :setting:"
-"`django:STATIC_ROOT` által meghatározott helyről)."
+"A Weblate és az adminisztrációs felület statikus fájljainak kiszolgálása (a "
+":setting:`django:STATIC_ROOT` által meghatározott helyről)."
 
 #: ../../admin/install.rst:1410
 msgid ":file:`/media/`"
@@ -14732,7 +14739,8 @@ msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1411
 msgid "Used for user media uploads (e.g. screenshots)."
-msgstr "Felhasználói média feltöltésekhez használatos (pl. képernyőképek)."
+msgstr ""
+"A felhasználók által feltöltött médiafájlok kiszolgálása (pl. képernyőképek)."
 
 #: ../../admin/install.rst:1412
 msgid ":file:`/favicon.ico`"
@@ -14742,8 +14750,7 @@ msgstr ":file:`/favicon.ico`"
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
-"Újra kell írni, hogy egy szabályt írjon át a :file:`/static/favicon.ico` "
-"kiszolgálására."
+"A :file:`/static/favicon.ico` kiszolgálása átírási szabállyal (RewriteRule)."
 
 #: ../../admin/install.rst:1417
 msgid ""
@@ -14752,12 +14759,12 @@ msgid ""
 "files/deployment`"
 msgstr ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
-"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
-"files/deployment`"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1427
 msgid "Content security policy"
-msgstr "Tartalombiztonsági irányelv"
+msgstr "Tartalomvédelmi irányelvek"
 
 #: ../../admin/install.rst:1429
 msgid ""
@@ -14767,12 +14774,12 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
-"A Weblate alapértelmezett beállítása engedélyezi a(z) ``weblate.middleware."
-"SecurityMiddleware`` middleware-t, amely biztonsággal kapcsolatos HTTP-"
-"fejléceket állít be, mint például a :http:header:`Content-Security-Policy` "
-"vagy a :http:header:`X-XSS-Protection`. Ezek alapértelmezés szerint úgy "
-"vannak beállítva, hogy működjenek a Weblate-tel és annak konfigurációjával, "
-"de lehet, hogy testreszabásra lesz szükség a környezetedhez."
+"A Weblate alapértelmezett konfigurációja engedélyezi a "
+"``weblate.middleware.SecurityMiddleware`` köztes réteget, amely biztonsággal "
+"kapcsolatos HTTP-fejléceket állít be, például :http:header:`Content-Security-"
+"Policy` vagy :http:header:`X-XSS-Protection`. Ezek alapértelmezett értékei a "
+"Weblate-hez és annak konfigurációjához igazodnak, de előfordulhat, hogy "
+"környezetéhez igazítva testreszabásra szorulnak."
 
 #: ../../admin/install.rst:1436
 msgid ""
@@ -14780,13 +14787,12 @@ msgid ""
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-"`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :"
-"setting:`CSP_FORM_SRC`"
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install.rst:1446
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr "Példa konfiguráció NGINX és Gunicorn számára"
+msgstr "Minta konfiguráció NGINX és Gunicorn használatával"
 
 #: ../../admin/install.rst:1448
 msgid ""
@@ -14794,9 +14800,9 @@ msgid ""
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
-"A következő konfiguráció a Weblate-et a Gunicorn segítségével futtatja az "
-"NGINX webszerver alatt (elérhető a(z) :file:`weblate/examples/weblate.nginx."
-"gunicorn.conf` fájlként is):"
+"Az alábbi konfiguráció a Weblate-et Gunicorn segítségével futtatja az NGINX "
+"webszerver alatt (elérhető itt is: :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1457 ../../admin/install.rst:1527
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -14804,7 +14810,7 @@ msgstr ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1463
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr "Minta konfiguráció NGINX és uWSGI számára"
+msgstr "Minta konfiguráció NGINX és uWSGI használatával"
 
 #: ../../admin/install.rst:1466
 msgid ""
@@ -14814,35 +14820,34 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"A Weblate éles webszerverként való futtatásához használd a Weblate-tel "
-"együtt telepített WSGI-wrappert (virtuális környezet esetén ez a következő "
-"helyen található: :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
-"wsgi.py`). Ne felejtsd el beállítani a Python keresési útvonalát is a "
-"virtuális környezetedre (például az ``virtualenv = /home/user/weblate-env`` "
-"beállítással uWSGI esetén)."
+"Éles webszerver futtatásához használja a Weblate-tel telepített WSGI wrapper-"
+"t (virtuális környezet esetén például: :file:`~/weblate-env/lib/python3.9/"
+"site-packages/weblate/wsgi.py`). Ne felejtse el beállítani a Python keresési "
+"útvonalát a virtuális környezetre (például ``virtualenv = /home/user/weblate-"
+"env`` beállítással az uWSGI konfigurációban)."
 
 #: ../../admin/install.rst:1472
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
-"A következő konfiguráció a Weblate-et uWSGI-ként futtatja az NGINX "
-"webszerver alatt."
+"Az alábbi konfiguráció a Weblate-et uWSGI alatt futtatja az NGINX "
+"webszerverrel."
 
 #: ../../admin/install.rst:1474
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
-"Konfiguráció NGINX-hez (elérhető a(z) :file:`weblate/examples/weblate.nginx."
-"conf` fájlban is):"
+"NGINX konfiguráció (elérhető itt is: :file:`weblate/examples/"
+"weblate.nginx.conf`):"
 
 #: ../../admin/install.rst:1479
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
-"Konfiguráció uWSGI-hez (elérhető a(z) :file:`weblate/examples/weblate.uwsgi."
-"ini` fájlban is):"
+"uWSGI konfiguráció (elérhető itt is: :file:`weblate/examples/"
+"weblate.uwsgi.ini`):"
 
 #: ../../admin/install.rst:1486
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -14850,12 +14855,11 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1491
 msgid "Sample configuration for Apache"
-msgstr "Minta konfiguráció Apache-hoz"
+msgstr "Minta konfiguráció Apache használatával"
 
 #: ../../admin/install.rst:1493 ../../admin/install.rst:1564
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
-"Ajánlott a prefork MPM használata, amikor a WSGI-t használod a Weblate-tel."
+msgstr "Ajánlott a prefork MPM használata, ha a Weblate-et WSGI-vel futtatja."
 
 #: ../../admin/install.rst:1495
 msgid ""
