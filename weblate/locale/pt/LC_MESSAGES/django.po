@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-22 12:49+0000\n"
+"PO-Revision-Date: 2025-04-22 13:47+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -1020,13 +1020,11 @@ msgstr[1] ""
 "carateres."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "A sua palavra-passe deve ter apenas %(min_length)d caráter."
-msgstr[1] "A sua palavra-passe deve ter apenas %(min_length)d carateres."
+msgstr[0] "A sua palavra-passe deve ter apenas %(max_length)d caráter."
+msgstr[1] "A sua palavra-passe deve ter apenas%(max_length)d carateres."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1105,10 +1103,9 @@ msgid "Could not send message to administrator."
 msgstr "Não foi possível enviar a mensagem para o administrador."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Muitas mensagens enviadas, por favor, tente novamente mais tarde."
+msgstr ""
+"Não foi possível abrir um pedido, por favor, tente novamente mais tarde."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1838,20 +1835,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Ativar a ordenação de chaves sensível a maiúsculas e minúsculas"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Licença alterada"
+msgstr "Eventos de alteração"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL do sítio Web"
+msgstr "URL de Webhook"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Segredo"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2024,13 +2017,13 @@ msgstr "Extensão instalada, reveja as instruções de integração."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Enviar notificação aos utilizadores subscritos."
+msgstr ""
+"Envia uma notificação para o serviço extermno baseado nos eventos "
+"elecionados."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2103,6 +2096,8 @@ msgstr "Não foi possível obter o bloqueio para executar a operação."
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
 msgstr ""
+"A identificação da unidade especificada não é uma unidade de origem de "
+"tradução."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3177,10 +3172,8 @@ msgid "AngularJS interpolation string"
 msgstr "Cadeia de interpolação AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "As cadeias de interpolação AngularJS não correspondem à fonte"
+msgstr "As cadeias de interpolação AngularJS não correspondem com a fonte"
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3199,20 +3192,16 @@ msgid "Starting newline"
 msgstr "Nova linha no início"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "A fonte e a tradução não iniciam ambas com uma nova linha"
+msgstr "A fonte e a tradução não começam ambas com uma nova linha."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Nova linha no final"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "A fonte e a tradução não terminam ambas com uma nova linha"
+msgstr "A fonte e a tradução não terminam ambas com uma nova linha."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
@@ -3561,7 +3550,7 @@ msgstr "Tipo Fluent"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Rejeitar marcador"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -7253,27 +7242,23 @@ msgstr "O utilizador tem autenticação a dois fatores."
 
 #: weblate/templates/accounts/user.html:400
 msgid "The user doesn't have two-factor authentication."
-msgstr "O utilizador não possui autenticação a dois fatores."
+msgstr "O utilizador não tem a autenticação de dois fatores."
 
 #: weblate/templates/accounts/user.html:407
 msgid "Turn off two-factor authentication"
-msgstr "Desligar autenticação a dois fatores"
+msgstr "Desativar a autenticação de dois fatores"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Ative a autenticação por palavra-passe para proteger a sua conta."
+msgstr "Desativa a autenticação por palavra-passe para o utilizador."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Nova palavra-passe"
+msgstr "Desativar palavra-passe"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
-msgstr "A remoção da conta apaga todos os dados privados do utilizador."
+msgstr "A remoção da conta elimina todos os dados privados do utilizador."
 
 #: weblate/templates/accounts/user.html:432
 #: weblate/templates/accounts/user.html:459
@@ -7294,7 +7279,7 @@ msgstr "A remoção da conta apaga todos os dados privados do utilizador."
 #: weblate/templates/trans/project-access.html:239
 #: weblate/templates/trans/project-access.html:267
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Eliminar"
 
 #: weblate/templates/accounts/user.html:448
 #: weblate/templates/auth/team.html:187 weblate/templates/auth/team.html:219
@@ -7330,12 +7315,12 @@ msgstr "Fechar"
 #: weblate/templates/trans/project-access.html:258
 #: weblate/templates/translate.html:507
 msgid "Are you absolutely sure?"
-msgstr "Tem certeza absoluta?"
+msgstr "Tem a certeza absoluta?"
 
 #: weblate/templates/accounts/user.html:454
 #, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "Isto removerá <b>%(user)s</b> do Weblate."
+msgstr "Isto irá remover o <b>%(user)s</b> do Weblate."
 
 #: weblate/templates/accounts/user_contributions.html:20
 msgid "Translations with contribution"
@@ -7343,11 +7328,11 @@ msgstr "Traduções com contribuição"
 
 #: weblate/templates/accounts/webauthn.html:8
 msgid "Sign in using the security key"
-msgstr "Autentique-se usando a chave de segurança"
+msgstr "Inicie a sessão com a chave de segurança"
 
 #: weblate/templates/accounts/webauthn.html:14
 msgid "Unfortunately, your browser has no WebAuthn support."
-msgstr "Infelizmente, o seu navegador não tem suporte ao WebAuthn."
+msgstr "Infelizmente, o seu navegador não tem suporte para WebAuthn."
 
 #: weblate/templates/addons/addon_detail.html:12
 #: weblate/templates/addons/addon_detail.html:16
@@ -7367,7 +7352,7 @@ msgstr "Configurar extensão"
 
 #: weblate/templates/addons/addon_detail.html:51
 msgid "This add-on has no settings."
-msgstr "Esta extensão não tem configurações."
+msgstr "Esta extensão não tem definições."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "The add-on can only be installed on the component."
@@ -7431,7 +7416,7 @@ msgstr "Desinstalar"
 
 #: weblate/templates/addons/addon_list.html:61
 msgid "View Logs"
-msgstr "Ver registos"
+msgstr "Ver Registos"
 
 #: weblate/templates/addons/addon_list.html:63 weblate/templates/guide.html:61
 #: weblate/templates/machinery/list.html:59
@@ -7442,7 +7427,7 @@ msgstr "Configurar"
 #: weblate/templates/addons/addon_list.html:72
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr ""
-"Extensões também podem ser instaladas ao nível do projeto e do componente."
+"As extensões também podem ser instaladas ao nível do projeto e do componente."
 
 #: weblate/templates/addons/addon_list.html:77
 #, python-format
@@ -7492,7 +7477,7 @@ msgstr "Explorar todas as alterações de extensões"
 
 #: weblate/templates/addons/addon_logs.html:33
 msgid "Add-on Activity Logs"
-msgstr "Registos de atividades complementares"
+msgstr "Registos da Atividade das Extensões"
 
 #: weblate/templates/addons/addon_logs.html:38
 msgid "Status"
@@ -9791,7 +9776,7 @@ msgstr "Componente %(component)s foi desbloqueado"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "Nota: este resumo foi truncado, pois houve mais de 100 notificações."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -14283,7 +14268,7 @@ msgstr "Nova cadeia para traduzir"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Ordenação"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15812,19 +15797,18 @@ msgstr "Não foi possível analisar o ficheiro %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Não foi possível encontrar a cadeia unida."
-msgstr[1] "Não foi possível encontrar a cadeia unida."
+msgstr[0] "Não foi possível encontrar %d cadeia:"
+msgstr[1] "Não foi possível encontrar %d cadeias:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
