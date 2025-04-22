@@ -11,6 +11,7 @@ Weblate 5.11.1
 
 .. rubric:: Bug fixes
 
+* :ref:`vcs-gitlab` integration now detects merge‑request conflicts more robustly.
 * :ref:`addon-weblate.webhook.webhook` is now enabled in Docker.
 
 .. rubric:: Compatibility
