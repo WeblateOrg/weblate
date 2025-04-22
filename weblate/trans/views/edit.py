@@ -1074,6 +1074,7 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
         unit.translation.component.update_import_alerts(delete=False)
         messages.error(request, gettext("Could not remove the string: %s") % error)
         return redirect(unit)
+    messages.success(request, gettext("String was removed."))
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)
     return redirect_next(request.POST.get("next"), unit.translation)
