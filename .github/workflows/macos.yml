@@ -29,6 +29,8 @@ jobs:
       CI_SKIP_SAML: 1
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        persist-credentials: false
     - run: brew update
     - run: brew uninstall openssl@1.1
     - run: brew untap homebrew/cask

@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   apply-label:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: |
       ! github.event.issue.pull_request &&
       contains(github.event.issue.labels.*.name, 'Waiting for: Community')
