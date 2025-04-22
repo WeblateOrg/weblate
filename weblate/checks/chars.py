@@ -99,6 +99,7 @@ class BeginSpaceCheck(TargetCheck):
         replacement = source[:spaces] if spaces else ""
         return [("^ *", replacement, "u")]
 
+
 class KabyleCharacterNormalizationCheck(TargetCheck):
     """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
 
@@ -114,7 +115,7 @@ class KabyleCharacterNormalizationCheck(TargetCheck):
         "\u03b5": "\u025b",
         "\u0395": "\u0190",
         "\u011f": "\u01e7",
-        "\u011E": "\u01E6",
+        "\u011e": "\u01e6",
     }
 
     def should_skip(self, unit: Unit) -> bool:
@@ -130,6 +131,7 @@ class KabyleCharacterNormalizationCheck(TargetCheck):
             (re.escape(confusable), standard, "gu")
             for confusable, standard in self.confusable_to_standard.items()
         ]
+
 
 class EndSpaceCheck(TargetCheck):
     """Whitespace check."""
