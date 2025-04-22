@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-16 13:13+0000\n"
-"Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
+"PO-Revision-Date: 2025-04-22 02:54+0000\n"
+"Last-Translator: xuars <yago.rana.gayoso@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
 "Language: gl\n"
@@ -2083,6 +2083,7 @@ msgstr "Non foi posíbel obter o bloqueo para realizar a operación."
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
 msgstr ""
+"O id de unidades especificado non é unha unidades de orixe de tradución."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3262,101 +3263,83 @@ msgid "Mismatched ellipsis"
 msgstr "Os puntos suspensivos (elipse) non coinciden"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
 msgstr ""
-"Orixe e tradución non rematan ámbalas dúas con puntos suspensivos (elipse)"
+"Orixe e tradución non rematan ámbalas dúas con puntos suspensivos (elipse)."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "O \\n non coincide"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "O número de literais \\n na tradución non coincide coa orixe"
+msgstr ""
+"O número de literais \\n"
+" na tradución non coincide coa orixe."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Non coinciden os saltos de liña"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "O número de liñas novas na tradución non coincide coa orixe"
+msgstr "O número de liñas novas na tradución non coincide coa orixe."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Espazo de largo cero"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "A tradución contén un espazo adicional de largo cero"
+msgstr "A tradución contén un espazo adicional de largo cero."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Lonxitude máxima da tradución"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "A tradución non debe exceder a lonxitude indicada"
+msgstr "A tradución non debe exceder a lonxitude indicada."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "O punto e coma non coinciden"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Orixe e tradución non rematan ámbalas dúas cun punto e coma"
+msgstr "Orixe e tradución non rematan ámbalas dúas cun punto e coma."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Usouse unha letra kashida"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Non se deben usar as letras decorativas kashida"
+msgstr "Non se deben usar as letras decorativas kashida."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Espazado da puntuación"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "Falta un espazo irrompíbel antes do signo de puntuación duplo"
+msgstr "Falta un espazo irrompíbel antes do signo de puntuación duplo."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Faltan plurais"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Algunhas formas de plural non están traducidas"
+msgstr "Algunhas formas de plural non están traducidas."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Os mesmos plurais"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "Algunhas formas de plural tradúcense do mesmo xeito"
+msgstr "Algunhas formas de plural tradúcense do mesmo xeito."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3519,7 +3502,7 @@ msgstr "Tipo Fluent"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Desbotar marcador"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -5580,18 +5563,14 @@ msgid "Automatic selection"
 msgstr "Selección automática"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Compoñente renomeado"
+msgstr "Lingua de orixe do compoñente"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Engadiuse un novo idioma a %(component)s"
+msgstr "Segunda lingua definida no proxecto ou compoñente"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7124,10 +7103,8 @@ msgid "Turn off two-factor authentication"
 msgstr "Desactivar a autenticación con segundo factor"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Active a autenticación por contrasinal para asegurar a súa conta."
+msgstr "Deshabilita a autenticación por contrasinal para o usuario."
 
 #: weblate/templates/accounts/user.html:420
 msgid "Disable password"
@@ -9647,7 +9624,7 @@ msgstr "O compoñente %(component)s foi desbloqueado"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "Nota: Este resumo foi truncado xa que había máis de 100 notificacións."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -11927,17 +11904,12 @@ msgstr ""
 "para Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Gerrit prohibiu este «push». É posíbel que necesite unha conta de Gerrit que "
+"Gerrit prohibiu este «push». É posible que precise unha conta de Gerrit que "
 "teña os permisos de autor de forxa para o repositorio/póla ou que teña que "
 "usar o engadido de concentración neste compoñente en Weblate."
 
@@ -13674,17 +13646,13 @@ msgstr "Cambio propagado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Modo de envío do ficheiro"
+msgstr "Ficheiro subido"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Última actualización"
+msgstr "Marcadores extra actualizados"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14126,20 +14094,16 @@ msgid "Report period"
 msgstr "Período do informe"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Ordenar por"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Non hai ningunha cadea pendente de tradución"
+msgstr "Cadeas traducidas"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Orde de clasificación"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -14719,10 +14683,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s ás %(time)s en %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Modo de envío do ficheiro"
+msgstr "Modo de envío do ficheiro:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15217,22 +15179,18 @@ msgstr ""
 "para formatos monolingües."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Idiomas secundarios"
+msgstr "Idioma secundario"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr ""
+msgstr "Idioma adicional a mostrar co idioma da orixe mentres se traduce."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Non foi importada ningunha cadea do ficheiro enviado."
+msgstr "Esta configuración é herdada do proxecto se foi deixada vacía."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15681,19 +15639,18 @@ msgstr "Non foi posíbel analizar o ficheiro %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "«{}»"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Non foi posíbel atopar a cadea fusionada."
-msgstr[1] "Non foi posíbel atopar a cadea fusionada."
+msgstr[0] "Non foi posíbel atopar a cadea %d:"
+msgstr[1] "Non foi posíbel atopar as cadeas %d:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15741,12 +15698,11 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Non foi posíbel propagar a cadea a %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "Non foi posíbel propagar a cadea a %(component)s: %(reason)s"
-msgstr[1] "Non foi posíbel propagar a cadea a %(component)s: %(reason)s"
+msgstr[0] "Non foi posíbel propagar a cadea ao compoñente %d."
+msgstr[1] "Non foi posíbel propagar a cadea aos compoñentes %d."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16635,18 +16591,14 @@ msgid "Horizontal language bar chart"
 msgstr "Gráfico de barras horizontal dos idiomas"
 
 #: weblate/trans/widgets.py:527
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Código de idioma"
+msgstr "Insignia de número de idiomas"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Idiomas"
-msgstr[1] "Idiomas"
+msgstr[0] "idioma"
+msgstr[1] "idiomas"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -16894,10 +16846,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "O enderezo de correo non é válido: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Este enderezo de correo electrónico non está permitido."
+msgstr "Non están permitidos os correos electrónicos desbotables."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"

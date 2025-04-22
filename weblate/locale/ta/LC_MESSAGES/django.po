@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-21 07:29+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
 "application/ta/>\n"
 "Language: ta\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -452,10 +452,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "பல தோல்வியுற்ற அடையாளங்கள் காரணமாக கணக்கு பூட்டப்பட்டுள்ளது."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "நிர்வாகிக்கு செய்தியை அனுப்ப முடியவில்லை."
+msgstr "தள நிர்வாகியால் கணக்கு பூட்டப்பட்டது."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1001,13 +999,13 @@ msgstr[1] ""
 "வேண்டும்."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "உங்கள் கடவுச்சொல்லில் அதிகபட்சம் %(min_length)d எழுத்து இருக்க வேண்டும்."
-msgstr[1] "உங்கள் கடவுச்சொல்லில் அதிகபட்சம் %(min_length)d எழுத்துகள் இருக்க வேண்டும்."
+msgstr[0] ""
+"உங்கள் கடவுச்சொல்லில் அதிகபட்சம் %(max_length)d எழுத்து இருக்க வேண்டும்."
+msgstr[1] ""
+"உங்கள் கடவுச்சொல்லில் அதிகபட்சம் %(max_length)d எழுத்துகள் இருக்க வேண்டும்."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1084,10 +1082,8 @@ msgid "Could not send message to administrator."
 msgstr "நிர்வாகிக்கு செய்தியை அனுப்ப முடியவில்லை."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
+msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1806,20 +1802,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "வழக்கு-உணர்திறன் விசை வரிசையாக்கத்தை இயக்கவும்"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Change"
 msgid "Change events"
-msgstr "மாற்றுக"
+msgstr "நிகழ்வுகள் மாற்று"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "வலைத்தள முகவரி"
+msgstr "வலைகொக்கி முகவரி"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "மறைபொருள்"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1988,13 +1980,12 @@ msgstr "நிறுவப்பட்ட கூடுதல், தயவுச
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "வலைகொக்கி"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "குழுசேர்ந்த பயனர்களுக்கு அறிவிப்பை அனுப்பு."
+msgstr ""
+"தேர்ந்தெடுக்கப்பட்ட நிகழ்வுகளின் அடிப்படையில் வெளிப்புற சேவைக்கு அறிவிப்பை அனுப்புகிறது."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -3152,10 +3143,8 @@ msgid "AngularJS interpolation string"
 msgstr "angularjs இடைக்கணிப்பு சரம்"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "angularjs இடைக்கணிப்பு சரங்கள் மூலத்துடன் பொருந்தவில்லை"
+msgstr "angularjs இடைக்கணிப்பு சரங்கள் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3176,201 +3165,165 @@ msgid "Starting newline"
 msgstr "நியூலைன் தொடங்குகிறது"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு புதிய வரியுடன் தொடங்குவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு புதிய வரியுடன் தொடங்குவதில்லை."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "புதிய லைன் பின்னால்"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு புதிய வரியுடன் முடிவடையாது"
+msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு புதிய வரியுடன் முடிவடையாது."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "தொடக்க இடங்கள்"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரே எண்ணிக்கையிலான இடைவெளிகளுடன் தொடங்குவதில்லை"
+msgstr ""
+"மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரே எண்ணிக்கையிலான இடைவெளிகளுடன் தொடங்குவதில்லை."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "பின்தங்கிய இடம்"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு இடத்துடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு இடத்துடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "இரட்டை இடம்"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "மொழிபெயர்ப்பில் இரட்டை இடம் உள்ளது"
+msgstr "மொழிபெயர்ப்பில் இரட்டை இடம் உள்ளது."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "பொருந்தாத முழு நிறுத்தம்"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் முழு நிறுத்தத்துடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் முழு நிறுத்தத்துடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "பொருந்தாத பெருங்குடல்"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு பெருங்குடலுடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் ஒரு பெருங்குடலுடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "பொருந்தாத கேள்விக்குறி"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு கேள்விக்குறியுடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு கேள்விக்குறியுடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "பொருந்தாத ஆச்சரியக் குறி"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு ஆச்சரியக் குறியுடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு ஆச்சரியக் குறியுடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "பொருந்தாத இன்டரோபாங்"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு இன்டர்பாங் வெளிப்பாட்டுடன் முடிவடையாது"
+msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு இடையேஇடைவேளை வெளிப்பாட்டுடன் முடிவடையாது."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "பொருந்தாத நீள்வட்டங்கள்"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "மூலமும் மொழிபெயர்ப்பும் இரண்டும் நீள்வட்டத்துடன் முடிவதில்லை"
+msgstr ""
+"மூலமும் மொழிபெயர்ப்பும் இரண்டும் வாக்கியச் சொல் எச்சத்துடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "பொருந்தாத \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "மொழிபெயர்ப்பில் \\n எழுத்தாளர்களின் எண்ணிக்கை மூலத்துடன் பொருந்தவில்லை"
+msgstr ""
+"மொழிபெயர்ப்பில் \\n"
+" எழுத்துகளின் எண்ணிக்கை மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "பொருந்தாத வரி முறிவுகள்"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "மொழிபெயர்ப்பில் புதிய வரிகளின் எண்ணிக்கை மூலத்துடன் பொருந்தவில்லை"
+msgstr "மொழிபெயர்ப்பில் புதிய வரிகளின் எண்ணிக்கை மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "சுழிய அகல இடம்"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "மொழிபெயர்ப்பில் கூடுதல் சுழிய அகல விண்வெளி தன்மை உள்ளது"
+msgstr "மொழிபெயர்ப்பில் கூடுதல் சுழிய அகல வெளி எழுத்து உள்ளது."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "மொழிபெயர்ப்பின் அதிகபட்ச நீளம்"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "மொழிபெயர்ப்பு கொடுக்கப்பட்ட நீளத்தை விட அதிகமாக இருக்கக்கூடாது"
+msgstr "மொழிபெயர்ப்பு கொடுக்கப்பட்ட நீளத்தை விட அதிகமாக இருக்கக் கூடாது."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "பொருந்தாத அரைக்காற்புள்ளி"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு அரைக்காற்புள்ளியுடன் முடிவதில்லை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரு அரைக்காற்புள்ளியுடன் முடிவதில்லை."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "காசிடா கடிதம் பயன்படுத்தப்பட்டது"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "அலங்கார காசிடா கடிதங்களைப் பயன்படுத்தக்கூடாது"
+msgstr "அலங்கார காசிடா எழுத்துகளைப் பயன்படுத்தக் கூடாது."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "நிறுத்தற்குறி இடைவெளி"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "இரட்டை நிறுத்தற்குறி அடையாளத்திற்கு முன் உடைக்க முடியாத இடத்தைக் காணவில்லை"
+msgstr ""
+"இரட்டை நிறுத்தற்குறி அடையாளத்திற்கு முன் உடைக்க முடியாத இடத்தைக் காணவில்லை."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "பன்மைகளைக் காணவில்லை"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "சில பன்மை வடிவங்கள் மொழிபெயர்க்கப்படாதவை"
+msgstr "சில பன்மை வடிவங்கள் மொழிபெயர்க்கப்படாதவை."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "அதே பன்மை"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "சில பன்மை வடிவங்கள் அதே வழியில் மொழிபெயர்க்கப்படுகின்றன"
+msgstr "சில பன்மை வடிவங்கள் அதே வழியில் மொழிபெயர்க்கப்படுகின்றன."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3409,10 +3362,8 @@ msgid "Has been translated"
 msgstr "மொழிபெயர்க்கப்பட்டுள்ளது"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "இந்த சரம் கடந்த காலத்தில் மொழிபெயர்க்கப்பட்டுள்ளது"
+msgstr "இந்தச் சரம் கடந்த காலத்தில் மொழிபெயர்க்கப்பட்டுள்ளது."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3424,10 +3375,8 @@ msgid "Consecutive duplicated words"
 msgstr "தொடர்ச்சியான நகல் சொற்கள்"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "உரையில் ஒரே சொல் ஒரு வரிசையில் இரண்டு முறை கொண்டுள்ளது"
+msgstr "உரையில் ஒரே சொல் ஒரு வரிசையில் இரண்டு முறை கொண்டுள்ளது."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3689,10 +3638,8 @@ msgid "Fluent source inner HTML"
 msgstr "சரளமாக மூல உள் html"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "ஃப்ளூயண்ட் சோர்ச் செல்லுபடியாகும் உள் html ஆக இருக்க வேண்டும்"
+msgstr "சரளமாக மூலம் செல்லுபடியாகும் உள் உஉகுமொ ஆக இருக்க வேண்டும்."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3754,10 +3701,9 @@ msgid "Fluent translation inner HTML"
 msgstr "சரளமாக மொழிபெயர்ப்பு உள் html"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "சரளமாக இலக்கு பொருந்தக்கூடிய செல்லுபடியாகும் உள் html ஆக இருக்க வேண்டும்"
+msgstr ""
+"சரளமாக இலக்கு பொருந்தக்கூடிய செல்லுபடியாகும் உள் உஉகுமொ ஆக இருக்க வேண்டும்."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3782,10 +3728,8 @@ msgid "Fluent parts"
 msgstr "சரளமாக பாகங்கள்"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "சரளமாக பாகங்கள் பொருந்த வேண்டும்"
+msgstr "சரளமாகப் பாகங்கள் பொருந்த வேண்டும்."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3912,10 +3856,8 @@ msgid "Fluent references"
 msgstr "சரளமான குறிப்புகள்"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "சரளமான குறிப்புகள் பொருந்த வேண்டும்"
+msgstr "சரளமான குறிப்புகள் பொருந்த வேண்டும்."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3927,20 +3869,16 @@ msgid "Fluent source syntax"
 msgstr "சரளமாக மூல தொடரியல்"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in source"
 msgid "Fluent syntax error in the source."
-msgstr "மூலத்தில் சரளமான தொடரியல் பிழை"
+msgstr "மூலத்தில் சரளமான தொடரியல் பிழை."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "சரள மொழிபெயர்ப்பு தொடரியல்"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in translation"
 msgid "Fluent syntax error in the translation."
-msgstr "மொழிபெயர்ப்பில் சரளமான தொடரியல் பிழை"
+msgstr "மொழிபெயர்ப்பில் சரளமான தொடரியல் பிழை."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3952,100 +3890,80 @@ msgid "Python format"
 msgstr "பைதான் வடிவம்"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "பைதான் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பைதான் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "php வடிவம்"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "php வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பிஎச்பி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "சி வடிவம்"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "சி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "சி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "பெர்ல் அடைப்புக்குறி வடிவம்"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "பெர்ல் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பெர்ள் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "பெர்ல் வடிவம்"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "பெர்ல் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பெர்ள் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "சாவாச்கிரிப்ட் வடிவம்"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "சாவாச்கிரிப்ட் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "சாவாகைஉரை வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "லுவா வடிவம்"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "lua வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "இரண்டு வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "பொருள் பாச்கல் வடிவம்"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "பொருள் பாச்கல் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பொருள் பாச்கல் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "திட்ட வடிவம்"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "திட்ட வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "திட்ட வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "பைதான் அடைப்புக்குறி வடிவம்"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "பைதான் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "பைதான் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4056,30 +3974,24 @@ msgid "C# format"
 msgstr "சி# வடிவம்"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "சி# வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "சி# வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "சாவா வடிவம்"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "சாவா வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "சாவா வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "சாவா செய்தி"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "சாவா செய்தி வடிவ சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "சாவா செய்தி வடிவ சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4090,40 +4002,32 @@ msgid "i18next interpolation"
 msgstr "i18next இடைக்கணிப்பு"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "i18next இடைக்கணிப்பு மூலத்துடன் பொருந்தவில்லை"
+msgstr "ப18ல்நீட் இடைக்கணிப்பு மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "ecmascript வார்ப்புரு எழுத்துக்கள்"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "ecmascript வார்ப்புரு எழுத்தாளர்கள் மூலத்துடன் பொருந்தவில்லை"
+msgstr "இசிஎம்எகைஉரை வார்ப்புரு எழுத்தாளர்கள் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "விழுக்காடு ஒதுக்கிடங்கள்"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "விழுக்காடு ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை"
+msgstr "விழுக்காடு ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "vue ப18ல் வடிவமைப்பு"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "vue ப18ல் வடிவமைப்பு மூலத்துடன் பொருந்தவில்லை"
+msgstr "பார்வை ப18ல் வடிவமைப்பு மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:827
 #, fuzzy
@@ -4132,10 +4036,8 @@ msgid "Automattic Components"
 msgstr "தானியங்கி பணிகள்"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "விழுக்காடு ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை"
+msgstr "தானி பாகங்களின் ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
@@ -4166,10 +4068,8 @@ msgid "Prohibited initial character"
 msgstr "ஆரம்ப தன்மை தடைசெய்யப்பட்டது"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "சி.எச்.வி.யில் தடைசெய்யப்பட்ட எழுத்துடன் சரம் தொடங்குகிறது"
+msgstr "காபிமாவில் தடைசெய்யப்பட்ட எழுத்துடன் சரம் தொடங்குகிறது."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4267,30 +4167,25 @@ msgid "BBCode markup"
 msgstr "பிபிகோட் மார்க்அப்"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "மொழிபெயர்ப்பில் பிபி கோட் மூலத்துடன் பொருந்தவில்லை"
+msgstr "மொழிபெயர்ப்பில் பிபிகோட் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "எக்ச்எம்எல் தொடரியல்"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "மொழிபெயர்ப்பு செல்லுபடியாகும் எக்ச்எம்எல் அல்ல"
+msgstr "மொழிபெயர்ப்பு செல்லுபடியாகும் எக்ச்எம்எல் அல்ல."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "எக்ச்எம்எல் மார்க்அப்"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "மொழிபெயர்ப்பில் உள்ள எக்ச்எம்எல் குறிச்சொற்கள் மூலத்துடன் பொருந்தவில்லை"
+msgstr ""
+"மொழிபெயர்ப்பில் உள்ள எக்ச்எம்எல் குறிச்சொற்கள் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
@@ -4313,26 +4208,20 @@ msgid "Markdown syntax"
 msgstr "மார்க் பேரூர் தொடரியல்"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "மார்க் பேரூர் தொடரியல் மூலத்துடன் பொருந்தவில்லை"
+msgstr "குறைகுறி தொடரியல் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "மொழிபெயர்ப்பில் முகவரி இல்லை"
+msgstr "மொழிபெயர்ப்பில் முகவரி இல்லை."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "பாதுகாப்பற்ற html"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "மொழிபெயர்ப்பு பாதுகாப்பற்ற html மார்க்அப்பைப் பயன்படுத்துகிறது"
+msgstr "மொழிபெயர்ப்பு பாதுகாப்பற்ற உஉகுமொ குறைகுறியைப் பயன்படுத்துகிறது."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4372,20 +4261,16 @@ msgid "Placeholders"
 msgstr "இடம் வைத்திருப்பவர்கள்"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "மொழிபெயர்ப்பு சில ஒதுக்கிடங்களைக் காணவில்லை"
+msgstr "மொழிபெயர்ப்பு சில ஒதுக்கிடங்களைக் காணவில்லை."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "வழக்கமான வெளிப்பாடு"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "மொழிபெயர்ப்பு வழக்கமான வெளிப்பாட்டுடன் பொருந்தவில்லை"
+msgstr "மொழிபெயர்ப்பு வழக்கமான வெளிப்பாட்டுடன் பொருந்தவில்லை."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4396,30 +4281,25 @@ msgid "Qt format"
 msgstr "கியுடி வடிவம்"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "கியுடி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "கியுடி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "கியுடி பன்மை வடிவம்"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "கியுடி பன்மை வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "கியுடி பன்மை வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "மொழிபெயர்ப்பின் அதிகபட்ச அளவு"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "மொழிபெயர்ப்பு வழங்கப்பட்ட உரை கொடுக்கப்பட்ட அளவை விட அதிகமாக இருக்கக்கூடாது"
+msgstr ""
+"மொழிபெயர்ப்பு வழங்கப்பட்ட உரை கொடுக்கப்பட்ட அளவைவிட அதிகமாக இருக்கக் கூடாது."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4432,51 +4312,43 @@ msgid "Ruby format"
 msgstr "ரூபி வடிவம்"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "ரூபி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை"
+msgstr "மாணிக்கம் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "மாறாத மொழிபெயர்ப்பு"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரே மாதிரியானவை"
+msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரே மாதிரியானவை."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "பயப்படாதது"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr "சரம் பன்மையாக பயன்படுத்தப்படுகிறது, ஆனால் பன்மை வடிவங்களைப் பயன்படுத்தவில்லை"
+msgstr ""
+"சரம் பன்மையாகப் பயன்படுத்தப்படுகிறது, ஆனால் பன்மை வடிவங்களைப் பயன்படுத்தவில்லை."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "நீள்வட்டங்கள்"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "நீள்வட்ட எழுத்துக்கு பதிலாக சரம் மூன்று புள்ளிகளை (...) பயன்படுத்துகிறது (…)"
+msgstr ""
+"வாக்கியச் சொல் எச்ச (…) எழுத்துக்குப் பதிலாகச் சரம் மூன்று புள்ளிகளை(...) "
+"பயன்படுத்துகிறது."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "பல தோல்வியுற்ற சோதனைகள்"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "பல மொழிகளில் மொழிபெயர்ப்புகள் தோல்வியுற்ற சோதனைகளைக் கொண்டுள்ளன"
+msgstr "பல மொழிகளில் மொழிபெயர்ப்புகள் தோல்வியுற்ற சோதனைகளைக் கொண்டுள்ளன."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4487,10 +4359,8 @@ msgid "Long untranslated"
 msgstr "நீண்ட மொழிபெயர்க்கப்படாதது"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "சரம் நீண்ட காலமாக மொழிபெயர்க்கப்படவில்லை"
+msgstr "சரம் நீண்ட காலமாக மொழிபெயர்க்கப்படவில்லை."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -14767,10 +14637,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s %(time)s மீது %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "கோப்பு பதிவேற்ற பயன்முறை"
+msgstr "கோப்பு பதிவேற்ற பயன்முறை:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15691,19 +15559,18 @@ msgstr "கோப்பு %(file)s: %(error)s அலச முடியவி�
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr ""
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "இணைக்கப்பட்ட சரம் கண்டுபிடிக்க முடியவில்லை."
-msgstr[1] "இணைக்கப்பட்ட சரம் கண்டுபிடிக்க முடியவில்லை."
+msgstr[0] "%d சரம் கண்டுபிடிக்க முடியவில்லை:"
+msgstr[1] "%d சரங்களை கண்டுபிடிக்க முடியவில்லை:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15748,12 +15615,11 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "சரத்தை %(component)s: %(reason)s பரப்ப முடியாது"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "சரத்தை %(component)s: %(reason)s பரப்ப முடியாது"
-msgstr[1] "சரத்தை %(component)s: %(reason)s பரப்ப முடியாது"
+msgstr[0] "சரத்தை %d கூறுக்கு பரப்ப முடியவில்லை."
+msgstr[1] "சரங்களை %d கூறுக்கு பரப்ப முடியவில்லை."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16639,11 +16505,9 @@ msgid "Language count badge"
 msgstr "மொழி குறியீடு"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "மொழிகள்"
+msgstr[0] "மொழி"
 msgstr[1] "மொழிகள்"
 
 #. Translators: Name of a color
@@ -16928,10 +16792,8 @@ msgid "This URL is prohibited"
 msgstr "இந்த முகவரி தடைசெய்யப்பட்டுள்ளது"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "தவறான தேடல் சரம்!"
+msgstr "தவறான அடிப்படை64 குறிமுறையாக்கப்பட்டசரம்"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"

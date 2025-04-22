@@ -1,0 +1,47 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Remove "Waiting for: *" labels when closing a milestone
+
+on:
+  milestone:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      with:
+        script: |
+          const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              milestone: context.milestone.id,
+              state: 'closed',
+          });
+
+          console.log(`Fetched ${issues.length} issues.`);
+
+          for (const issue of issues) {
+            console.log(`Working on issue #${issue.number}...`);
+            const labels = await github.rest.issues.listLabelsOnIssue({
+              issue_number: issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            for (const label of labels) {
+              if (label.name.startsWith('Waiting for: ')) {
+                github.rest.issues.removeLabel({
+                  issue_number: issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                })
+              }
+            }
+          }

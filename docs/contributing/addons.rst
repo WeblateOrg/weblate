@@ -32,6 +32,10 @@ Developing add-ons
 
    ORM object for an unit.
 
+.. class:: Change
+
+   ORM object for an change.
+
 .. class:: User
 
    ORM object for an user.
