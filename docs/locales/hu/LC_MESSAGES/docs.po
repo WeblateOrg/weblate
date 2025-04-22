@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-22 21:55+0000\n"
+"PO-Revision-Date: 2025-04-22 22:50+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -16889,19 +16889,19 @@ msgstr "Azure Active Directory"
 #: ../../admin/install/docker.rst:1345
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
-"Engedélyezi az Azure Active Directory hitelesítést, lásd: :ref:`azure-auth`."
+"Az Azure Active Directory hitelesítés engedélyezése, lásd: :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1348
 msgid "Azure Active Directory with Tenant support"
-msgstr "Azure Active Directory bérlői támogatással"
+msgstr "Azure Active Directory Tenant (bérlői) támogatással"
 
 #: ../../admin/install/docker.rst:1354
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
-"Engedélyezi az Azure Active Directory hitelesítést bérlői támogatással, "
-"lásd: :ref:`azure-auth`."
+"Az Azure Active Directory hitelesítés Tenant (bérlői) támogatással való "
+"engedélyezése, lásd: :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1358
 msgid "Keycloak"
@@ -16910,24 +16910,23 @@ msgstr "Keycloak"
 #: ../../admin/install/docker.rst:1369
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
 msgstr ""
-"Engedélyezi a Keycloak hitelesítést, lásd :doc:`psa:backends/keycloak`."
+"A Keycloak-hitelesítés engedélyezése, lásd: :doc:`psa:backends/keycloak`."
 
 #: ../../admin/install/docker.rst:1372
 msgid "Linux vendors"
-msgstr "Linux forgalmazók"
+msgstr "Linux-forgalmazók"
 
 #: ../../admin/install/docker.rst:1374
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
-"A hitelesítést a Linux forgalmazók hitelesítési szolgáltatásainak "
-"használatával engedélyezheted, ha a következő változókat bármilyen értékre "
-"állítod."
+"A Linux-forgalmazók hitelesítési szolgáltatásainak használata engedélyezhető "
+"a megfelelő változók tetszőleges értékre állításával."
 
 #: ../../admin/install/docker.rst:1388
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr "Engedélyezi a Slack hitelesítést, lásd: :ref:`slack-auth`."
+msgstr "A Slack-hitelesítés engedélyezése, lásd: :ref:`slack-auth`."
 
 #: ../../admin/install/docker.rst:1392
 msgid "OpenID Connect"
@@ -16935,7 +16934,7 @@ msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1401
 msgid "Configures generic OpenID Connect integration."
-msgstr "Az általános OpenID Connect integráció konfigurálása."
+msgstr "Általános OpenID Connect integráció konfigurálása."
 
 #: ../../admin/install/docker.rst:1405
 msgid ":doc:`psa:backends/oidc`"
@@ -16951,10 +16950,10 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
-"Az önaláírt SAML kulcsok automatikusan generálódnak az első konténer "
-"indításakor. Ha saját kulcsokat szeretnél használni, helyezd el a "
-"tanúsítványt és a magánkulcsot a :file:`/app/data/ssl/saml.crt` és a :file:`/"
-"app/data/ssl/saml.key` fájlokba."
+"Az önaláírt SAML kulcsok az első konténer indításkor automatikusan "
+"létrejönnek. Ha saját kulcsokat kíván használni, helyezze el a tanúsítványt "
+"és a privát kulcsot a következő helyekre: :file:`/app/data/ssl/saml.crt` és "
+":file:`/app/data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1422
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -16962,7 +16961,7 @@ msgstr "SAML Identity Provider beállítások, lásd: :ref:`saml-auth`."
 
 #: ../../admin/install/docker.rst:1431
 msgid "SAML attributes mapping."
-msgstr "SAML attribútumok leképezése."
+msgstr "SAML attribútumok hozzárendelése (mapping)."
 
 #: ../../admin/install/docker.rst:1435
 msgid "Other authentication settings"
@@ -16973,8 +16972,8 @@ msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
-"Kikapcsolja az e-mail hitelesítést, ha bármilyen értékre van állítva. Lásd: :"
-"ref:`disable-email-auth`."
+"Bármilyen értékre állítva letiltja az e-mailes hitelesítést. Lásd: :ref"
+":`disable-email-auth`."
 
 #: ../../admin/install/docker.rst:1445
 msgid ""
@@ -16982,9 +16981,9 @@ msgid ""
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
-"Minimális jelszó pontszám, amit a `zxcvbn <https://github.com/dwolfhub/"
-"zxcvbn-python>`_ jelszó erősség becslő értékel. Alapértelmezett értéke 3, "
-"állítsd 0-ra az erősség ellenőrzés kikapcsolásához."
+"A jelszavak minimális erősségi pontszáma a `zxcvbn <https://github.com/"
+"dwolfhub/zxcvbn-python>`_ értékelése alapján. Alapértelmezés: 3. Állítsa 0-"
+"ra az ellenőrzés kikapcsolásához."
 
 #: ../../admin/install/docker.rst:1451
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
@@ -17000,7 +16999,7 @@ msgid ""
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
 "Az adatbázist a :file:`docker-compose.yml` hozza létre, így ezek a "
-"beállítások mind a Weblate, mind a PostgreSQL konténerekre hatással vannak."
+"beállítások a Weblate és a PostgreSQL konténerekre egyaránt érvényesek."
 
 #: ../../admin/install/docker.rst:1461
 msgid ":ref:`database-setup`"
@@ -17020,17 +17019,17 @@ msgstr "PostgreSQL felhasználónév."
 
 #: ../../admin/install/docker.rst:1477
 msgid "PostgreSQL database name."
-msgstr "PostgreSQL adatbázis neve."
+msgstr "PostgreSQL adatbázisnév."
 
 #: ../../admin/install/docker.rst:1481
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
-"PostgreSQL szerver hosztnév vagy IP-cím. Alapértelmezett érték: ``database``."
+"PostgreSQL szerver hosztneve vagy IP-címe. Alapértelmezés: ``database``."
 
 #: ../../admin/install/docker.rst:1485
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
-"PostgreSQL szerver port. Alapértelmezés szerint nincs megadva (az "
+"PostgreSQL szerver portja. Alapértelmezés szerint nincs megadva (az "
 "alapértelmezett értéket használja)."
 
 #: ../../admin/install/docker.rst:1489
@@ -17039,46 +17038,42 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
-"Konfiguráld, hogyan kezeli a PostgreSQL az SSL-t a szerverhez való "
-"kapcsolódás során, a lehetséges választási lehetőségekért lásd `SSL Mode "
-"Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-"
-"SSLMODE-STATEMENTS>`_."
+"Meghatározza, hogyan kezelje a PostgreSQL az SSL-kapcsolatokat. A "
+"választható módokról bővebben: `SSL Mode Descriptions <https://"
+"www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: ../../admin/install/docker.rst:1494
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
-"Beállítja az adatbázis-migráció során módosítandó PostgreSQL szerepkör "
-"nevét, lásd: :ref:`config-postgresql`."
+"Annak a PostgreSQL szerepkörnek a nevét adja meg, amelyet az adatbázis-"
+"migráció során módosítani kell. Lásd: :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1496
 msgid "Defaults to :envvar:`POSTGRES_USER`."
-msgstr "Alapértelmezés szerint: :envvar:`POSTGRES_USER`."
+msgstr "Alapértelmezett érték: :envvar:`POSTGRES_USER`."
 
 #: ../../admin/install/docker.rst:1502
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
-"Az adatbázis-kapcsolat élettartama másodpercben megadott egész számként. "
-"Használj 0-t az adatbázis-kapcsolatok lezárásához minden kérés végén."
+"Az adatbázis-kapcsolat élettartama másodpercben. 0 esetén a kapcsolat minden "
+"kérés végén bezáródik."
 
 #: ../../admin/install/docker.rst:1507
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
-msgstr ""
-"Az alapértelmezett viselkedés az, hogy korlátlan számú tartós adatbázis-"
-"kapcsolat van."
+msgstr "Alapértelmezés szerint a kapcsolatok időkorlát nélkül fennmaradnak."
 
 #: ../../admin/install/docker.rst:1509
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
-"A kapcsolat folyamatos fenntartásának engedélyezése általában több nyitott "
-"kapcsolatot eredményez az adatbázissal. Kérlek, állítsd be az adatbázis "
-"konfigurációját, mielőtt engedélyeznéd."
+"A kapcsolat folyamatos fenntartásának engedélyezése több nyitott kapcsolatot "
+"eredményezhet. Előtte érdemes az adatbázis konfigurációját módosítani."
 
 #: ../../admin/install/docker.rst:1521
 msgid ""
@@ -17091,8 +17086,8 @@ msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
-"Kapcsold ki a szerveroldali kurzorokat az adatbázisban. Ez szükséges néhány :"
-"command:`pgbouncer` beállításnál."
+"Letiltja az adatbázison belüli szerveroldali kurzorokat. Erre bizonyos "
+":command:`pgbouncer` konfigurációk esetén szükség lehet."
 
 #: ../../admin/install/docker.rst:1539
 msgid ""
@@ -17110,9 +17105,9 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
-"Állítsd hamisra az adatbázis-kapcsolat környezeti alapú konfigurációjának "
-"letiltásához. Használd a :ref:`docker-settings-override`-t az adatbázis-"
-"kapcsolat manuális konfigurálásához."
+"Hamísra állítva kikapcsolja az adatbázis-kapcsolat környezeti változókon "
+"alapuló beállítását. Kézi konfiguráláshoz használja: :ref:`docker-settings-"
+"override`."
 
 #: ../../admin/install/docker.rst:1551
 msgid "MySQL or MariaDB server"
@@ -17124,14 +17119,13 @@ msgid ""
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
-"Sem a MySQL, sem a MariaDB nem konfigurálható környezeti változókon "
-"keresztül. További információért a Weblate-tel való használatukról lásd: :"
-"ref:`mysql`. Használd a :envvar:`WEBLATE_DATABASES`-t az adatbázis-kapcsolat "
-"manuális konfigurálásához."
+"A MySQL és a MariaDB nem konfigurálhatók környezeti változókon keresztül. A "
+"Weblate-tel való használatról lásd: :ref:`mysql`. Kézi konfiguráláshoz "
+"használja a :envvar:`WEBLATE_DATABASES` változót."
 
 #: ../../admin/install/docker.rst:1558
 msgid "Database backup settings"
-msgstr "Adatbázis biztonsági mentési beállítások"
+msgstr "Adatbázis-mentési beállítások"
 
 #: ../../admin/install/docker.rst:1561
 msgid ":ref:`backup-dumps`"
@@ -17142,20 +17136,20 @@ msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
-"A napi adatbázis dumpot a :setting:`DATABASE_BACKUP` segítségével állítja "
-"be. Alapértelmezett érték: ``plain``."
+"A napi adatbázis-mentés beállítása a :setting:`DATABASE_BACKUP` "
+"segítségével. Alapértelmezett érték: ``plain``."
 
 #: ../../admin/install/docker.rst:1569
 msgid "Caching server setup"
-msgstr "Gyorsítótárazó szerver beállítása"
+msgstr "Gyorsítótár-szerver beállítása"
 
 #: ../../admin/install/docker.rst:1571
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
-"A Weblate erősen ajánlja a Redis használatát, és kötelező Redis példányt "
-"biztosítani, ha a Weblate-et Dockerben futtatod."
+"A Redis használatát a Weblate kifejezetten ajánlja, Docker-környezetben "
+"kötelező Redis példány biztosítása."
 
 #: ../../admin/install/docker.rst:1574 ../../admin/projects.rst:1216
 msgid ":ref:`production-cache`"
@@ -17163,49 +17157,44 @@ msgstr ":ref:`production-cache`"
 
 #: ../../admin/install/docker.rst:1578
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
-msgstr ""
-"A Redis szerver hosztneve vagy IP-címe. Alapértelmezett érték: ``cache``."
+msgstr "A Redis szerver gépneve vagy IP-címe. Alapértelmezés: ``cache``."
 
 #: ../../admin/install/docker.rst:1582
 msgid "The Redis server port. Defaults to ``6379``."
-msgstr "A Redis szerver portja. Alapértelmezett érték: ``6379``."
+msgstr "A Redis szerver portja. Alapértelmezés: ``6379``."
 
 #: ../../admin/install/docker.rst:1586
 msgid "The Redis database number, defaults to ``1``."
-msgstr "A Redis adatbázis száma, alapértelmezett érték: ``1``."
+msgstr "A Redis adatbázis száma. Alapértelmezett érték: ``1``."
 
 #: ../../admin/install/docker.rst:1590
 msgid "The Redis server password, not used by default."
-msgstr "A Redis szerver jelszava, alapértelmezés szerint nincs használatban."
+msgstr "A Redis szerver jelszava. Alapértelmezés szerint nem használt."
 
 #: ../../admin/install/docker.rst:1598
 msgid "Enables using SSL for Redis connection."
-msgstr "Engedélyezi az SSL használatát a Redis kapcsolathoz."
+msgstr "A Redis-kapcsolat SSL-használatának engedélyezése."
 
 #: ../../admin/install/docker.rst:1602
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
-msgstr ""
-"Használható az SSL tanúsítvány ellenőrzésének letiltására a Redis "
-"kapcsolathoz."
+msgstr "A Redis SSL-tanúsítvány ellenőrzésének letiltására használható."
 
 #: ../../admin/install/docker.rst:1607
 msgid "Email server setup"
-msgstr "Email szerver beállítása"
+msgstr "E-mail szerver beállítása"
 
 #: ../../admin/install/docker.rst:1609
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
-"Ahhoz, hogy a kimenő e-mailek működjenek, meg kell adnod egy "
-"levelezőszervert."
+msgstr "A kimenő e-mailek működéséhez e-mail szerver szükséges."
 
 #: ../../admin/install/docker.rst:1611
 msgid "Example TLS configuration:"
-msgstr "Példa TLS konfiguráció:"
+msgstr "Példa TLS-konfigurációra:"
 
 #: ../../admin/install/docker.rst:1620
 msgid "Example SSL configuration:"
-msgstr "Példa SSL konfiguráció:"
+msgstr "Példa SSL-konfigurációra:"
 
 #: ../../admin/install/docker.rst:1633
 msgid ":ref:`out-mail`"
@@ -17220,12 +17209,12 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
-"`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
 #: ../../admin/install/docker.rst:1648
 msgid "Mail server port, defaults to 25."
-msgstr "A levelezőszerver portja, alapértelmezés szerint 25."
+msgstr "Levelezőszerver portja. Alapértelmezés: 25."
 
 #: ../../admin/install/docker.rst:1650
 msgid ":setting:`django:EMAIL_PORT`"
@@ -17233,7 +17222,7 @@ msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:1654
 msgid "E-mail authentication user."
-msgstr "E-mail hitelesítési felhasználó."
+msgstr "E-mail hitelesítési felhasználónév."
 
 #: ../../admin/install/docker.rst:1656
 msgid ":setting:`django:EMAIL_HOST_USER`"
@@ -17255,27 +17244,26 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
-"Hogy használjunk-e implicit TLS (biztonságos) kapcsolatot, amikor az SMTP "
-"szerverrel kommunikálunk. A legtöbb e-mail dokumentációban ezt a fajta TLS "
-"kapcsolatot SSL-ként említik. Általában a 465-ös porton használják. Ha "
-"problémák merülnek fel, nézd meg az explicit TLS beállítást: :envvar:"
-"`WEBLATE_EMAIL_USE_TLS`."
+"Megadja, hogy implicit TLS (biztonságos) kapcsolatot használjon-e az SMTP "
+"szerverrel. Az ilyen TLS-kapcsolatot a legtöbb dokumentáció SSL néven "
+"említi, jellemzően a 465-ös porton működik. Ha problémát tapasztal, próbálja "
+"meg az explicit TLS beállítást: :envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: ../../admin/install/docker.rst:1676 ../../admin/install/docker.rst:1694
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
-"Az SSL/TLS támogatás automatikusan engedélyezve van a :envvar:"
-"`WEBLATE_EMAIL_PORT` alapján."
+"Az SSL/TLS támogatás automatikusan engedélyezésre kerül a "
+":envvar:`WEBLATE_EMAIL_PORT` alapján."
 
 #: ../../admin/install/docker.rst:1681
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
-"`django:EMAIL_USE_SSL`"
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`"
 
 #: ../../admin/install/docker.rst:1687
 msgid ""
@@ -17284,22 +17272,22 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
-"Hogy használjunk-e TLS (biztonságos) kapcsolatot, amikor az SMTP szerverrel "
-"kommunikálunk. Ezt explicit TLS kapcsolatokhoz használják, általában a 587-"
-"es vagy a 25-ös porton. Ha akadozó kapcsolatokkal találkozol, nézd meg az "
-"implicit TLS beállítást: :envvar:`WEBLATE_EMAIL_USE_SSL`."
+"Meghatározza, hogy TLS (biztonságos) kapcsolatot használjon-e az SMTP "
+"szerverrel. Ez az explicit TLS-kapcsolatokra vonatkozik, jellemzően a 587-es "
+"vagy 25-ös porton. Ha a kapcsolat elakad, nézze meg az implicit TLS "
+"beállítást: :envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: ../../admin/install/docker.rst:1699
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 msgstr ""
-":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
-"`django:EMAIL_USE_TLS`"
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_USE_TLS`"
 
 #: ../../admin/install/docker.rst:1705
 msgid "Configures Django back-end to use for sending e-mails."
-msgstr "Beállítja a Django háttérrendszert az e-mailek küldésére."
+msgstr "A Django háttérrendszer konfigurálása e-mailek küldéséhez."
 
 #: ../../admin/install/docker.rst:1710
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
@@ -17307,7 +17295,7 @@ msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1715
 msgid "Configures if and how Weblate should update repositories."
-msgstr "Beállítja, hogy a Weblate frissítse-e és hogyan a tárolókat."
+msgstr "Meghatározza, hogy a Weblate frissítse-e a tárolókat, és milyen módon."
 
 #: ../../admin/install/docker.rst:1719
 msgid ":setting:`AUTO_UPDATE`"
@@ -17316,48 +17304,48 @@ msgstr ":setting:`AUTO_UPDATE`"
 #: ../../admin/install/docker.rst:1721
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
-"Ez egy logikai beállítás (használd a ``\"true\"`` vagy ``\"false\"`` "
+"Ez logikai értékű beállítás (használja a ``\"true\"`` vagy ``\"false\"`` "
 "értékeket)."
 
 #: ../../admin/install/docker.rst:1724
 msgid "Site integration"
-msgstr "Webhely integrációja"
+msgstr "Webhely-integráció"
 
 #: ../../admin/install/docker.rst:1728
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr "Beállítja a(z) :setting:`GET_HELP_URL` értékét."
+msgstr "A :setting:`GET_HELP_URL` beállítása."
 
 #: ../../admin/install/docker.rst:1732
 msgid "Configures :setting:`STATUS_URL`."
-msgstr "Beállítja a(z) :setting:`STATUS_URL` értékét."
+msgstr "A :setting:`STATUS_URL` beállítása."
 
 #: ../../admin/install/docker.rst:1736
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr "Beállítja a(z) :setting:`LEGAL_URL` értékét."
+msgstr "A :setting:`LEGAL_URL` beállítása."
 
 #: ../../admin/install/docker.rst:1740
 msgid "Configures :setting:`PRIVACY_URL`."
-msgstr "Beállítja a(z) :setting:`PRIVACY_URL`-t."
+msgstr "A :setting:`PRIVACY_URL` beállítása."
 
 #: ../../admin/install/docker.rst:1745
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
-"Ajánlott az installáció során keletkező hibák rendszeres gyűjtése, lásd: :"
-"ref:`collecting-errors`."
+"Javasolt a telepítés során fellépő hibák rendszerszintű gyűjtése, lásd: :ref"
+":`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1748
 msgid "To enable support for Rollbar, set the following:"
-msgstr "A Rollbar támogatásának engedélyezéséhez állítsd be a következőket:"
+msgstr "A Rollbar támogatás engedélyezéséhez állítsa be a következőket:"
 
 #: ../../admin/install/docker.rst:1752
 msgid "Your Rollbar post server access token."
-msgstr "A Rollbar post server hozzáférési tokened."
+msgstr "A Rollbar hozzáférési tokenje a jelentések küldéséhez."
 
 #: ../../admin/install/docker.rst:1756
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr "A Rollbar környezeted, alapértelmezetten ``production``."
+msgstr "A Rollbar környezete. Alapértelmezés: ``production``."
 
 #: ../../admin/install/docker.rst:1758
 msgid "To enable support for Sentry, set following:"
