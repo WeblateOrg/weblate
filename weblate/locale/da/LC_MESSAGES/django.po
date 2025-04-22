@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-15 21:09+0000\n"
+"PO-Revision-Date: 2025-04-22 13:47+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -467,10 +467,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Konto låst grundet for mange mislykkede loginforsøg."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Kunne ikke sende besked til administrator."
+msgstr "Konto låst af webstedsadministratoren."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1012,13 +1010,11 @@ msgstr[1] ""
 "Adgangskoden er for lang. Den må højst indeholde %(max_length)d tegn."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Din adgangskode må højst indeholde %(min_length)d tegn."
-msgstr[1] "Din adgangskode må højst indeholde %(min_length)d tegn."
+msgstr[0] "Din adgangskode må højst indeholde %(max_length)d tegn."
+msgstr[1] "Din adgangskode må højst indeholde %(max_length)d tegn."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1095,10 +1091,8 @@ msgid "Could not send message to administrator."
 msgstr "Kunne ikke sende besked til administrator."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "For mange beskeder sendt. Prøv venligst igen senere."
+msgstr "Kunne ikke åbne en billet. Prøv venligst igen senere."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1819,20 +1813,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Aktivér sortering mellem store og små bogstaver"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Ændret licens"
+msgstr "Ændr hændelser"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "Websted-URL"
+msgstr "Webhook-URL"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Hemmelighed"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1999,13 +1989,11 @@ msgstr "Tilføjelse installeret. Læs venligst integrationsvejledningen."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Underret abonnerede brugere."
+msgstr "Sender notifikation til ekstern tjeneste baseret på valgte hændelser."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2074,7 +2062,7 @@ msgstr "Kunne ikke få låsen til at udføre handlingen."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Angivet enheds-ID er ikke en oversættelseskildeenhed."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3133,10 +3121,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS interpolationsstreng"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "AngularJS interpolationsstrenge matcher ikke kilden"
+msgstr "AngularJS-interpolationsstrenge matcher ikke kilden."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3155,131 +3141,106 @@ msgid "Starting newline"
 msgstr "Indledende linjeskift"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Kilde og oversættelse starter ikke begge med et linjeskift"
+msgstr "Kilde og oversættelse starter ikke begge med et linjeskift."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Efterstillede linjeskift"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Kilde og oversættelse slutter ikke begge med et linjeskift"
+msgstr "Kilde og oversættelse slutter ikke begge med et linjeskift."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Indledende mellemrum"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "Kilde og oversættelse starter ikke begge med samme antal mellemrum"
+msgstr "Kilde og oversættelse starter ikke begge med samme antal mellemrum."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Efterstillede mellemrum"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Kilde og oversættelse slutter ikke begge med et mellemrum"
+msgstr "Kilde og oversættelse slutter ikke begge med et mellemrum."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Dobbelt mellemrum"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Oversættelsen indeholder dobbelt mellemrum"
+msgstr "Oversættelsen indeholder dobbelt mellemrum."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Upassende punktum"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Kilde og oversættelse slutter ikke begge med et punktum"
+msgstr "Kilde og oversættelse slutter ikke begge med et punktum."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Upassende kolon"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Kilde og oversættelse slutter ikke begge med et kolon"
+msgstr "Kilde og oversættelse slutter ikke begge med et kolon."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Upassende spørgsmålstegn"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Kilde og oversættelse slutter ikke begge med et spørgsmålstegn"
+msgstr "Kilde og oversættelse slutter ikke begge med et spørgsmålstegn."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Upassende udråbstegn"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Kilde og oversættelse slutter ikke begge med et udråbstegn"
+msgstr "Kilde og oversættelse slutter ikke begge med et udråbstegn."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Upassende interrobang"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Kilde og oversættelse slutter ikke begge med et interrobang-udtryk"
+msgstr "Kilde og oversættelse slutter ikke begge med et interrobang-udtryk."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Upassende ellipse"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Kilde og oversættelse slutter ikke begge med en ellipse"
+msgstr "Kilde og oversættelse slutter ikke begge med en ellipse."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Upassende \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "Antallet af \\n-literaler i oversættelsen matcher ikke kilden"
+msgstr ""
+"Antallet af \\n"
+"-literaler i oversættelsen matcher ikke kilden."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Upassende linjeskift"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Antallet af linjeskift i oversættelse matcher ikke kilde"
+msgstr "Antallet af linjeskift i oversættelse matcher ikke kilde."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
