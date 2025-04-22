@@ -99,6 +99,37 @@ class BeginSpaceCheck(TargetCheck):
         replacement = source[:spaces] if spaces else ""
         return [("^ *", replacement, "u")]
 
+class KabyleCharacterNormalizationCheck(TargetCheck):
+    """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
+
+    check_id = "kab_character_normalization"
+    name = gettext_lazy("Non‑standard characters in Kabyle")
+    description = gettext_lazy(
+        "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
+    )
+
+    confusable_to_standard = {
+        "\u03b3": "\u0263",
+        "\u0393": "\u0194",
+        "\u03b5": "\u025b",
+        "\u0395": "\u0190",
+        "\u011f": "\u01e7",
+        "\u011E": "\u01E6",
+    }
+
+    def should_skip(self, unit: Unit) -> bool:
+        # Only run on Kabyle (covers 'kab' plus any variants)
+        return not unit.translation.language.is_base({"kab"})
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        # by now we know it's Kabyle, so just look for confusables
+        return any(char in target for char in self.confusable_to_standard)
+
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]]:
+        return [
+            (re.escape(confusable), standard, "gu")
+            for confusable, standard in self.confusable_to_standard.items()
+        ]
 
 class EndSpaceCheck(TargetCheck):
     """Whitespace check."""
@@ -463,36 +494,6 @@ class PunctuationSpacingCheck(TargetCheck):
     description = gettext_lazy(
         "Missing non breakable space before double punctuation sign."
     )
-
-
-class KabyleCharacterNormalizationCheck(TargetCheck):
-    """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
-
-    check_id = "kab_character_normalization"
-    name = gettext_lazy("Non-standard characters in Kabyle")
-    description = gettext_lazy(
-        "Use standardized latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
-    )
-
-    confusable_to_standard = {
-        "\u03b3": "\u0263",
-        "\u0393": "\u0194",
-        "\u03b5": "\u025b",
-        "\u0395": "\u0190",
-        "\u011f": "\u01e7",
-        "\u011e": "\u01e6",
-    }
-
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        if unit.translation.language.code != "kab":
-            return False
-        return any(char in target for char in self.confusable_to_standard)
-
-    def get_fixup(self, unit: Unit):
-        return [
-            (re.escape(confusable), standard, "gu")
-            for confusable, standard in self.confusable_to_standard.items()
-        ]
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if (
