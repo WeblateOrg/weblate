@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-22 02:54+0000\n"
+"PO-Revision-Date: 2025-04-22 13:47+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -5882,7 +5882,7 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
-"Projektmentést a :guilabel:`Kezelés` ˇ :guilabel:`Biztonsági mentések` alatt "
+"Projektmentést a :guilabel:`Kezelés` ↓ :guilabel:`Biztonsági mentések` alatt "
 "végezhet. A mentést projekt létrehozásakor lehet visszaállítani (lásd: :ref"
 ":`adding-projects`)."
 
@@ -14866,9 +14866,9 @@ msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"A következő konfiguráció a Weblate-et WSGI-ként futtatja, ehhez "
-"engedélyezned kell a ``mod_wsgi``-t (elérhető a :file:`weblate/examples/"
-"apache.conf` fájlként):"
+"Az alábbi konfiguráció a Weblate-et WSGI-ként futtatja, ehhez engedélyezni "
+"kell a ``mod_wsgi`` modult (elérhető itt is: :file:`weblate/examples/"
+"apache.conf`):"
 
 #: ../../admin/install.rst:1503
 msgid ""
@@ -14876,35 +14876,33 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
-"A Weblate Python 3-at igényel, így kérlek, győződj meg róla, hogy a modwsgi "
-"Python 3-as változatát futtatod. Általában külön csomagként elérhető, "
-"például ``libapache2-mod-wsgi-py3`` néven."
+"A Weblate Python 3-at igényel, ezért győződjön meg róla, hogy a Python 3 "
+"változatát használja a mod_wsgi modulnak. Ez általában külön csomagként "
+"érhető el, például ``libapache2-mod-wsgi-py3`` néven."
 
 #: ../../admin/install.rst:1507
 msgid "Use matching Python version to install Weblate."
-msgstr "Használj megfelelő Python verziót a Weblate telepítéséhez."
+msgstr "A Weblate telepítéséhez használjon azonos Python-verziót."
 
 #: ../../admin/install.rst:1511
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
-msgstr ""
-":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1517
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr "Minta konfiguráció Apache és Gunicorn számára"
+msgstr "Minta konfiguráció Apache és Gunicorn használatával"
 
 #: ../../admin/install.rst:1519
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
-"A következő konfiguráció a Weblate-et a Gunicorn és Apache 2.4 alatt "
-"futtatja (elérhető a(z) :file:`weblate/examples/apache.gunicorn.conf` "
-"fájlban):"
+"Az alábbi konfiguráció a Weblate-et Gunicorn és Apache 2.4 alatt futtatja ("
+"elérhető itt: :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1534
 msgid "Sample configuration to start Gunicorn"
-msgstr "Példa konfiguráció a Gunicorn elindításához"
+msgstr "Minta konfiguráció Gunicorn indításához"
 
 #: ../../admin/install.rst:1536
 msgid ""
@@ -14912,18 +14910,18 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
-"A Weblate-nek van egy `wsgi` opcionális függősége (lásd: :ref:`python-deps`)"
-", ami mindent telepít, amire szükséged van a Gunicorn futtatásához. Amikor a "
-"Weblate-et telepíted, megadhatod így:"
+"A Weblate ``wsgi`` opcionális függőséggel rendelkezik (lásd: :ref:`python-"
+"deps`), amely mindent telepít, amire a Gunicorn futtatásához szüksége lehet. "
+"A Weblate telepítésekor ezt így adhatja meg:"
 
 #: ../../admin/install.rst:1544
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
-"Miután telepítetted a Gunicorn-t, elindíthatod. Ez általában rendszer "
-"szinten történik. Az alábbi példák a systemd-n keresztüli indítást mutatják "
-"be:"
+"Ha telepítette a Gunicorn-t, akkor futtathatja is. Ez általában "
+"rendszerszinten történik. Az alábbi példák a systemd használatával történő "
+"indítást mutatják be:"
 
 #: ../../admin/install.rst:1547
 msgid "/etc/systemd/system/gunicorn.socket"
@@ -14939,7 +14937,7 @@ msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1562
 msgid "Running Weblate under path"
-msgstr "Weblate futtatása útvonal alatt"
+msgstr "Weblate futtatása útvonal megadásával"
 
 #: ../../admin/install.rst:1566
 msgid ""
@@ -14947,17 +14945,17 @@ msgid ""
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
-"Egy példa Apache konfiguráció a Weblate kiszolgálására a ``/weblate`` alatt. "
-"Szintén a ``mod_wsgi`` használatával (elérhető a :file:`weblate/examples/"
-"apache-path.conf` fájlként is):"
+"Minta Apache konfiguráció a Weblate kiszolgálására ``/weblate`` útvonal "
+"alatt, ismét a ``mod_wsgi`` használatával (elérhető itt: :file:`weblate/"
+"examples/apache-path.conf`):"
 
 #: ../../admin/install.rst:1572
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr "Ezenkívül módosítanod kell a(z) :file:`weblate/settings.py` fájlt:"
+msgstr "Ezen kívül módosítani kell a :file:`weblate/settings.py` fájlt is:"
 
 #: ../../admin/install.rst:1581
 msgid "Background tasks using Celery"
-msgstr "Háttérfeladatok a Celery használatával"
+msgstr "Háttérfeladatok futtatása Celery-vel"
 
 #: ../../admin/install.rst:1583
 msgid ""
