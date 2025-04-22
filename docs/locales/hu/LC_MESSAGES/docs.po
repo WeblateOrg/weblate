@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-22 13:47+0000\n"
+"PO-Revision-Date: 2025-04-22 21:34+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -14441,7 +14441,7 @@ msgid ""
 msgstr ""
 "A rendszernyelvi beállításoknak UTF-8 kompatibilisnek kell lenniük. A "
 "legtöbb Linux disztribúcióban ez az alapértelmezett beállítás. Ha a "
-"rendszerében nem így van, kérjük, állítson át minden nyelvi beállítást UTF-8 "
+"rendszerében nem így van, állítson át minden nyelvi beállítást UTF-8 "
 "változatra."
 
 #: ../../admin/install.rst:1239
@@ -14955,7 +14955,7 @@ msgstr "Ezen kívül módosítani kell a :file:`weblate/settings.py` fájlt is:"
 
 #: ../../admin/install.rst:1581
 msgid "Background tasks using Celery"
-msgstr "Háttérfeladatok futtatása Celery-vel"
+msgstr "Háttérfeladatok Celery használatával"
 
 #: ../../admin/install.rst:1583
 msgid ""
@@ -14964,50 +14964,49 @@ msgid ""
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
 "A Weblate a Celery-t használja a rendszeres és háttérfeladatok "
-"végrehajtására. Elvárás, hogy futtass egy Celery szolgáltatást, amely ezeket "
-"végrehajtja. Például ez felelős a következő műveletek kezeléséért (a lista "
-"nem teljes):"
+"végrehajtására. Ehhez egy Celery szolgáltatást kell futtatni, amely ezeket a "
+"feladatokat végrehajtja. Például az alábbi műveletek kezeléséért felel (a "
+"lista nem teljes):"
 
 #: ../../admin/install.rst:1587
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr "Webhooks fogadása külső szolgáltatásoktól (lásd: :ref:`hooks`)."
+msgstr "Webhookok fogadása külső szolgáltatásokból (lásd: :ref:`hooks`)."
 
 #: ../../admin/install.rst:1588
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
-"Rendszeres karbantartási feladatok futtatása, mint például biztonsági "
-"mentések, tisztítások, napi kiegészítők vagy frissítések (lásd: :ref:"
-"`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
+"Rendszeres karbantartási feladatok futtatása, például biztonsági mentések, "
+"tisztítások, napi kiegészítők vagy frissítések (lásd: :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1590
 msgid "Running :ref:`auto-translation`."
-msgstr "A :ref:`auto-translation` futtatása."
+msgstr ":ref:`auto-translation` futtatása."
 
 #: ../../admin/install.rst:1591
 msgid "Sending digest notifications."
-msgstr "Kivonatos értesítések küldése."
+msgstr "Összesített értesítések küldése."
 
 #: ../../admin/install.rst:1592
 msgid "Offloading expensive operations from the WSGI process."
-msgstr "A költséges műveletek kihelyezése a WSGI folyamatból."
+msgstr "Erőforrás-igényes műveletek áthelyezése a WSGI folyamatból."
 
 #: ../../admin/install.rst:1593
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "Függőben lévő változások elkötelezése (lásd: :ref:`lazy-commit`)."
+msgstr "Függőben lévő módosítások véglegesítése (lásd: :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1595
 msgid "A typical setup using Redis as a backend looks like this:"
-msgstr ""
-"Egy tipikus beállítás, amely a Redis-t használja háttérként, így néz ki:"
+msgstr "Egy tipikus beállítás, amely Redis háttérrendszert használ, így néz ki:"
 
 #: ../../admin/install.rst:1605
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
-":ref:`Redis broker configuration in Celery <celery:broker-redis-"
+":ref:`Redis broker konfigurálása a Celery-ben <celery:broker-redis-"
 "configuration>`"
 
 #: ../../admin/install.rst:1607
@@ -15016,9 +15015,10 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
-"El kell indítanod a Celery munkavállalót is a feladatok feldolgozásához és "
-"az ütemezett feladatok elindításához, ezt közvetlenül a parancssorban "
-"teheted meg (ami főleg hibakeresésnél vagy fejlesztéskor hasznos):"
+"A Celery munkafolyamatok feldolgozásához és az ütemezett feladatok "
+"indításához el kell indítani a Celery worker-t is, amit közvetlenül "
+"parancssorból is megtehet (ez leginkább hibakeresésnél vagy fejlesztéskor "
+"hasznos):"
 
 #: ../../admin/install.rst:1618
 msgid ""
@@ -15026,17 +15026,17 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
-"A Celery folyamatot ugyanazon felhasználó alatt kell futtatni, mint a WSGI "
-"folyamatot, különben a :setting:`DATA_DIR` fájljai vegyes tulajdonjoggal "
-"lesznek tárolva, ami futásidejű problémákhoz vezethet."
+"A Celery folyamatot ugyanazzal a felhasználóval kell futtatni, mint a WSGI "
+"folyamatot, különben a :setting:`DATA_DIR` könyvtárban lévő fájlok vegyes "
+"tulajdonúak lesznek, ami futásidejű hibákhoz vezethet."
 
 #: ../../admin/install.rst:1622
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr "Lásd még: :ref:`file-permissions` és :ref:`server`."
+msgstr "További információ: :ref:`file-permissions` és :ref:`server`."
 
 #: ../../admin/install.rst:1625
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr "A Celery feladatok végrehajtása a WSGI-ben eager módban"
+msgstr "Celery feladatok végrehajtása a WSGI folyamatban gyors (eager) módban"
 
 #: ../../admin/install.rst:1629
 msgid ""
@@ -15044,22 +15044,22 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
-"Ez komoly teljesítményhatással lesz a webes felületre, és meg fogja zavarni "
-"azokat a funkciókat, amelyek rendszeres indítást igényelnek (például "
-"függőben lévő változások elkötelezése, összesítő értesítések vagy biztonsági "
-"mentések)."
+"Ez komoly teljesítménycsökkenést okoz a webes felületen, és olyan funkciók "
+"működését akadályozhatja, amelyek rendszeres indítást igényelnek (például "
+"függőben lévő módosítások véglegesítése, összesített értesítések vagy "
+"biztonsági mentések)."
 
 #: ../../admin/install.rst:1633
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
-"Fejlesztéshez érdemes lehet az eager konfigurációt használni, amely az "
-"összes feladatot helyben dolgozza fel:"
+"Fejlesztési célokra ajánlott a gyors (eager) konfiguráció, amely helyben "
+"hajtja végre az összes feladatot:"
 
 #: ../../admin/install.rst:1643
 msgid "Running Celery as system service"
-msgstr "A Celery futtatása rendszerszolgáltatásként"
+msgstr "Celery futtatása rendszerszolgáltatásként"
 
 #: ../../admin/install.rst:1645
 msgid ""
@@ -15068,25 +15068,26 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
-"Valószínűleg daemonként szeretnéd futtatni a Celery-t, amiről a :doc:`celery:"
-"userguide/daemonizing` dokumentumban olvashatsz. A leggyakoribb, systemd-t "
-"használó Linux beállításhoz használhatod az alábbiakban felsorolt :file:"
-"`examples` mappában található példafájlokat."
+"A legtöbb esetben érdemes a Celery-t háttérszolgáltatásként (daemon) "
+"futtatni, amelyről részletesen a :doc:`celery:userguide/daemonizing` "
+"dokumentáció ismertet. A leggyakoribb Linux környezetben, amely systemd-t "
+"használ, az alábbiakban felsorolt :file:`examples` mappában található "
+"példafájlokat használhatja."
 
 #: ../../admin/install.rst:1650
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
-"Systemd egység, amelyet a(z) :file:`/etc/systemd/system/celery-weblate."
-"service` helyre kell elhelyezni:"
+"Systemd egységfájl, amelyet a :file:`/etc/systemd/system/celery-"
+"weblate.service` helyre kell elhelyezni:"
 
 #: ../../admin/install.rst:1655
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
-"Környezeti konfiguráció, amelyet a(z) :file:`/etc/default/celery-weblate` "
+"Környezeti konfigurációs fájl, amelyet a :file:`/etc/default/celery-weblate` "
 "helyre kell elhelyezni:"
 
 #: ../../admin/install.rst:1660
@@ -15095,27 +15096,28 @@ msgid ""
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
 "További konfiguráció a Celery naplók forgatásához a :command:`logrotate` "
-"használatával, elhelyezendő a :file:`/etc/logrotate.d/celery` fájlként:"
+"segítségével, amelyet a :file:`/etc/logrotate.d/celery` helyre kell "
+"elhelyezni:"
 
 #: ../../admin/install.rst:1667
 msgid "Periodic tasks using Celery beat"
-msgstr "Időszakos feladatok a Celery beat használatával"
+msgstr "Időzített feladatok a Celery beat használatával"
 
 #: ../../admin/install.rst:1669
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"A Weblate beépített ütemezési lehetőségeket kínál az időzített feladatokhoz. "
-"A feladatok ütemezése az adatbázisban van tárolva, és a Celery beat démon "
-"hajtja végre őket."
+"A Weblate beépített támogatást nyújt az ütemezett feladatok kezelésére. A "
+"feladatütemezés az adatbázisban tárolódik, a végrehajtásért pedig a Celery "
+"beat daemon felel."
 
 #: ../../admin/install.rst:1674
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
-"További feladatokat határozhatsz meg a :file:`settings.py` fájlban, például "
+"További feladatokat is definiálhat a :file:`settings.py` fájlban, például "
 "lásd: :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1680
@@ -15129,10 +15131,10 @@ msgid ""
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
-"Megtalálhatod a Celery feladat sorok aktuális hosszát a(z) :ref:`management-"
-"interface` felületen vagy használhatod a :wladmin:`celery_queues` parancsot "
-"a parancssorban. Ha a sor túl hosszú lesz, a konfigurációs hibát is kapni "
-"fogsz az admin felületen."
+"A Celery feladatok várósorainak aktuális hosszát megtekintheti a :ref"
+":`management-interface` felületen vagy parancssorban a "
+":wladmin:`celery_queues` parancs segítségével. Ha a sor hossza túlságosan "
+"megnő, a rendszergazdai felületen konfigurációs hibajelzést kap."
 
 #: ../../admin/install.rst:1689
 msgid ""
@@ -15140,9 +15142,9 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
-"A Celery hibák alapértelmezetten csak a Celery naplóba kerülnek, és nem "
-"láthatók a felhasználó számára. Ha szeretnél rálátást kapni ezekre a "
-"hibákra, ajánlott a :ref:`collecting-errors` konfigurálása."
+"A Celery hibák alapértelmezetten csak a Celery naplóba kerülnek, a "
+"felhasználó számára nem láthatók. Amennyiben szeretné áttekinteni ezeket a "
+"hibákat, javasolt a :ref:`collecting-errors` konfigurálása."
 
 #: ../../admin/install.rst:1695
 msgid ""
@@ -15156,7 +15158,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1706
 msgid "Single-process Celery setup"
-msgstr "Egyszálas Celery beállítás"
+msgstr "Egyszálú Celery beállítás"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -15164,25 +15166,25 @@ msgid ""
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
-"Ha nagyon kevés memóriád van, érdemes csökkenteni a Weblate folyamatok "
-"számát. Minden Celery feladat végrehajtható egyetlen folyamatban a "
-"következővel:"
+"Ha korlátozott memóriakapacitás áll rendelkezésre, célszerű lehet "
+"csökkenteni a Weblate folyamatok számát. Minden Celery feladat egyetlen "
+"folyamatban is végrehajtható az alábbi módon:"
 
 #: ../../admin/install.rst:1715
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
-"A Docker használatával telepített rendszer konfigurálható egy egyfolyamatos "
-"Celery beállításra az :envvar:`CELERY_SINGLE_PROCESS` megadásával."
+"Docker-alapú telepítés esetén az egyszálú Celery működés beállítható a "
+":envvar:`CELERY_SINGLE_PROCESS` környezeti változó megadásával."
 
 #: ../../admin/install.rst:1719
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr "Ez észrevehetően hatással lesz a Weblate teljesítményére."
+msgstr "Ez érezhető teljesítménycsökkenést eredményez a Weblate működésében."
 
 #: ../../admin/install.rst:1724
 msgid "Monitoring Weblate"
-msgstr "A Weblate figyelése"
+msgstr "Weblate monitorozása"
 
 #: ../../admin/install.rst:1726
 msgid ""
@@ -15190,17 +15192,17 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
-"A Weblate biztosítja a ``/healthz/`` URL-t egyszerű állapotellenőrzésekhez, "
-"például Kubernetes használatakor. A Docker-konténer beépített "
-"állapotellenőrzéssel rendelkezik ezen URL használatával."
+"A Weblate a ``/healthz/`` URL-t biztosítja egyszerű állapotellenőrzésekhez, "
+"például Kubernetes környezetben. A Docker-konténer beépített épség "
+"ellenőrzést (health check) végez ezen az URL-en keresztül."
 
 #: ../../admin/install.rst:1729
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
-"A Weblate metrikáinak monitorozásához használhatod a :http:get:`/api/metrics/"
-"` API végpontot."
+"A Weblate működési metrikáinak monitorozására használható az :http:get:`/api/"
+"metrics/` API végpont."
 
 #: ../../admin/install.rst:1733
 msgid ""
@@ -15212,7 +15214,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1740 ../../admin/install/docker.rst:1743
 msgid "Collecting error reports and monitoring performance"
-msgstr "Hibajelentések gyűjtése és teljesítmény figyelése"
+msgstr "Hibajelentések gyűjtése és teljesítmény monitorozása"
 
 #: ../../admin/install.rst:1742
 msgid ""
@@ -15222,12 +15224,11 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
-"A Weblate, mint bármely más szoftver, meghibásodhat. Annak érdekében, hogy "
-"hasznos hibastátuszokat gyűjtsünk, javasoljuk harmadik féltől származó "
-"szolgáltatások használatát az ilyen információk összegyűjtésére. Ez "
-"különösen hasznos a Celery feladatok meghibásodása esetén, amelyek egyébként "
-"csak a naplókban jeleznék a hibát, és nem kapnál róluk értesítést. A Weblate "
-"a következő szolgáltatásokat támogatja:"
+"Mint minden más szoftver, a Weblate is meghibásodhat. A hasznos "
+"hibaállapotok összegyűjtése érdekében javasolt külső szolgáltatások "
+"használata. Ez különösen hasznos a Celery feladatok meghibásodása esetén, "
+"amelyek egyébként csak naplóban jelennének meg, és nem kapna róla "
+"értesítést. A Weblate az alábbi szolgáltatásokat támogatja:"
 
 #: ../../admin/install.rst:1749
 msgid "Sentry"
@@ -15239,8 +15240,8 @@ msgid ""
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
 "A Weblate beépített támogatást nyújt a `Sentry <https://sentry.io/>`_ "
-"számára. Használatához elegendő beállítani a :setting:`SENTRY_DSN`-t a :file:"
-"`settings.py` fájlban:"
+"szolgáltatáshoz. Használatához elegendő a :setting:`SENTRY_DSN` beállítása a "
+":file:`settings.py` fájlban:"
 
 #: ../../admin/install.rst:1758
 msgid ""
@@ -15249,10 +15250,10 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
-"A Sentry arra is használható, hogy figyelje a Weblate teljesítményét "
-"azáltal, hogy nyomkövetéseket és profilokat gyűjt a műveletek meghatározott "
-"százalékára. Ezt a(z) :setting:`SENTRY_TRACES_SAMPLE_RATE` és a(z) :setting:"
-"`SENTRY_PROFILES_SAMPLE_RATE` beállításokkal lehet konfigurálni."
+"A Sentry használható a Weblate teljesítményének monitorozására is, műveletek "
+"adott százalékáról származó nyomkövetési adatok és profilok gyűjtésével. Ez "
+"a :setting:`SENTRY_TRACES_SAMPLE_RATE` és a "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE` beállításokkal konfigurálható."
 
 #: ../../admin/install.rst:1764
 msgid ""
@@ -15275,33 +15276,33 @@ msgid ""
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
 "A Weblate beépített támogatást nyújt a `Rollbar <https://rollbar.com/>`_ "
-"számára. Használatához elegendő követni a `Rollbar notifier for Python "
-"<https://docs.rollbar.com/docs/python/>`_ útmutatásait."
+"szolgáltatáshoz is. Használatához kövesse a `Rollbar notifier for Python "
+"<https://docs.rollbar.com/docs/python/>`_ útmutatását."
 
 #: ../../admin/install.rst:1775
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr "Röviden, módosítanod kell a :file:`settings.py` fájlt:"
+msgstr "Röviden, módosítani kell a :file:`settings.py` fájlt:"
 
 #: ../../admin/install.rst:1793
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
-"Minden más automatikusan integrálódik, így mostantól a szerver- és "
-"kliensoldali hibákat is gyűjteni fogod."
+"Minden más automatikusan integrálásra kerül, így a szerver- és kliensoldali "
+"hibák gyűjtése is megtörténik."
 
 #: ../../admin/install.rst:1798
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
-"A hibajegyzőkönyv olyan kivételeket is tartalmaz, amelyeket zökkenőmentesen "
-"kezeltek, de problémát jelezhetnek - például egy feltöltött fájl sikertelen "
-"elemzése."
+"A hibanaplózás magában foglalja azokat a kivételeket is, amelyeket ugyan "
+"kezelt a rendszer, de problémára utalhatnak – például egy feltöltött fájl "
+"sikertelen feldolgozását."
 
 #: ../../admin/install.rst:1804
 msgid "Graylog log management"
-msgstr "Graylog naplókezelés"
+msgstr "Graylog-alapú naplókezelés"
 
 #: ../../admin/install.rst:1808
 msgid ""
@@ -15309,22 +15310,22 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
-"A Weblate úgy konfigurálható, hogy a GELF TCP protokollt használva "
-"naplózzon. Ezt eredetileg a Graylog integrációhoz fejlesztették ki, de "
-"bármilyen kompatibilis naplózási platformmal használható."
+"A Weblate konfigurálható úgy, hogy a naplózást a GELF TCP protokoll "
+"használatával végezze. Ezt eredetileg a Graylog integrációhoz fejlesztették, "
+"de bármely megfelelően kompatibilis naplózási platformmal használható."
 
 #: ../../admin/install.rst:1811
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"A konfigurációs sablon megtalálható a(z) :ref:`sample-configuration`-ban, "
-"Docker esetén pedig a(z) :envvar:`WEBLATE_LOG_GELF_HOST` segítségével "
-"konfigurálható."
+"A konfigurációs sablon megtalálható a :ref:`sample-configuration` részben, "
+"Docker használata esetén a :envvar:`WEBLATE_LOG_GELF_HOST` változóval "
+"állítható be."
 
 #: ../../admin/install.rst:1815
 msgid "Migrating Weblate to another server"
-msgstr "A Weblate átköltöztetése egy másik szerverre"
+msgstr "Weblate áthelyezése másik szerverre"
 
 #: ../../admin/install.rst:1817
 msgid ""
@@ -15332,14 +15333,13 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
-"A Weblate átköltöztetése egy másik szerverre viszonylag egyszerű kellene, "
-"hogy legyen, azonban néhány helyen tárol adatokat, amelyeket óvatosan kell "
-"átmenteni. A legjobb megoldás az, ha a költöztetés idejére leállítod a "
-"Weblate-et."
+"A Weblate átköltöztetése másik szerverre általában egyszerű, azonban több "
+"helyen is tárol adatokat, amelyeket körültekintően kell átvinni. A legjobb "
+"megközelítés, ha az áthelyezés idejére leállítja a Weblate szolgáltatást."
 
 #: ../../admin/install.rst:1822
 msgid "Migrating database"
-msgstr "Az adatbázis migrálása"
+msgstr "Adatbázis költöztetése"
 
 #: ../../admin/install.rst:1824
 msgid ""
@@ -15349,21 +15349,20 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
-"Az adatbázis háttértárától függően több lehetőséged is lehet az adatbázis "
-"migrálására. A legegyszerűbb megközelítés az adatbázis natív eszközeinek "
-"használata, mivel ezek általában a leghatékonyabbak (pl. :command:"
-"`mysqldump` vagy :command:`pg_dump`). Alternatívaként használhatsz "
-"replikációt is, ha az adatbázisod támogatja."
+"Az adatbázis háttérfolyamatától függően többféle lehetőség is rendelkezésre "
+"áll az adatbázis átköltöztetésére. A legegyszerűbb módszer a natív adatbázis-"
+"eszközök használata, mivel ezek általában a leghatékonyabbak (például "
+":command:`mysqldump` vagy :command:`pg_dump`). Alternatív megoldásként "
+"használható replikáció, amennyiben az adatbázis ezt támogatja."
 
 #: ../../admin/install.rst:1832
 msgid "Migrating between databases described in :ref:`database-migration`."
 msgstr ""
-"Az adatbázisok közötti migrálás le van írva az :ref:`database-migration` "
-"részben."
+"Az adatbázisok közötti migráció részleteit lásd: :ref:`database-migration`."
 
 #: ../../admin/install.rst:1835
 msgid "Migrating VCS repositories"
-msgstr "VCS (verziókezelő rendszer) tárolók migrálása"
+msgstr "VCS (verziókezelő) tárolók költöztetése"
 
 #: ../../admin/install.rst:1837
 msgid ""
@@ -15371,9 +15370,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
-"A :setting:`DATA_DIR` alatt tárolt VCS (verziókezelő) tárolókat is át kell "
-"költöztetni. Egyszerűen átmásolhatod őket vagy a költöztetés hatékonyabb "
-"elvégzéséhez használhatod a :command:`rsync` parancsot."
+"A :setting:`DATA_DIR` alatt tárolt VCS tárolókat is át kell vinni. Ezeket "
+"egyszerűen átmásolhatja vagy használhatja a hatékonyabb :command:`rsync` "
+"parancsot."
 
 #: ../../admin/install.rst:1842
 msgid "Other notes"
@@ -15384,9 +15383,9 @@ msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Ne felejtsd el átköltöztetni az egyéb szolgáltatásokat, amelyeket a Weblate "
-"használhatott, mint például a Redis, a Cron feladatok vagy az egyedi "
-"hitelesítési hátterek."
+"Ne feledje átköltöztetni az egyéb, Weblate által használt szolgáltatásokat "
+"is, például a Redis-t, a Cron-feladatokat vagy az egyedi hitelesítési "
+"háttérrendszereket (backend)."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
@@ -15399,10 +15398,10 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Redis as "
 "a caching backend."
 msgstr ""
-"A dockerizált Weblate telepítéssel pillanatok alatt elindíthatod a saját "
-"Weblate példányodat. A Weblate összes függősége már be van építve. A "
-"PostgreSQL az alapértelmezett adatbázis, és a Redis a gyorsítótárazási "
-"háttér."
+"Dockeres Weblate telepítéssel néhány másodperc alatt elindíthatja saját "
+"Weblate példányát. A Weblate összes függősége előre telepítve van. "
+"Alapértelmezett adatbázisként a PostgreSQL van beállítva, a "
+"gyorsítótárazáshoz pedig a Redis szolgál háttérrendszerként."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -15419,9 +15418,9 @@ msgid ""
 "``docker-compose-plugin`` installed. Please check the Docker documentation "
 "for instructions."
 msgstr ""
-"A következő példák feltételezik, hogy van egy működő Docker környezeted, a "
-"``docker-compose-plugin`` telepítve van. Kérlek, nézd meg a Docker "
-"dokumentációját az utasításokért."
+"A következő példák feltételezik, hogy működő Docker környezettel "
+"rendelkezik, és telepítve van a ``docker-compose-plugin``. A részletes "
+"telepítési útmutatóért tekintse meg a Docker dokumentációját."
 
 #: ../../admin/install/docker.rst:21
 msgid ""
@@ -15430,53 +15429,53 @@ msgid ""
 "ref:`docker-https-portal`. For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
-"Ez létrehoz egy Weblate telepítési szervert HTTP-n keresztül, így érdemes "
-"HTTPS végződtető proxy mögé helyezni. HTTPS proxyval is telepítheted, lásd :"
-"ref:`docker-https-portal`. Nagyobb rendszerekhez kérlek nézd meg a(z) :ref:"
-"`docker-scaling` részt."
+"Ez a beállítás egy Weblate kiszolgálót hoz létre HTTP-n keresztül, ezért "
+"érdemes egy HTTPS-forgalmat lezáró (termináló) proxy mögé helyezni. "
+"Telepíthető közvetlenül HTTPS-proxyval is, erről bővebben lásd: :ref:`docker-"
+"https-portal`. Nagyobb rendszerekhez tekintse meg a :ref:`docker-scaling` "
+"részt."
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
-msgstr "Klónozd a weblate-docker repót:"
+msgstr "Klónozza a weblate-docker tárolót:"
 
 #: ../../admin/install/docker.rst:33
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
-"Hozz létre egy :file:`docker-compose.override.yml` fájlt a beállításaiddal. "
-"A környezeti változók teljes listájáért lásd a :ref:`docker-environment` "
-"részt."
+"Hozza létre a saját beállításaival a :file:`docker-compose.override.yml` "
+"fájlt. A környezeti változók teljes listáját lásd: :ref:`docker-environment`."
 
 #: ../../admin/install/docker.rst:55
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
-"Ha nincs beállítva a :envvar:`WEBLATE_ADMIN_PASSWORD`, akkor az admin "
-"felhasználó egy véletlenszerű jelszóval jön létre, amely az első indításkor "
-"jelenik meg."
+"Amennyiben a :envvar:`WEBLATE_ADMIN_PASSWORD` nincs beállítva, az "
+"adminisztrátor felhasználó véletlenszerű jelszóval jön létre, amely az első "
+"indításkor jelenik meg."
 
 #: ../../admin/install/docker.rst:58
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
-"A megadott példa szerint a Weblate a 80-as porton figyel, a porttérképezést "
-"a :file:`docker-compose.override.yml` fájlban módosíthatod, ha meg szeretnéd "
-"változtatni."
+"A mellékelt példa alapján a Weblate a 80-as porton hallgatózik. Ha "
+"módosítani szeretné a port-hozzárendelést, szerkessze a :file:`docker-"
+"compose.override.yml` fájlt."
 
 #: ../../admin/install/docker.rst:61
 msgid "Start Weblate containers:"
-msgstr "Indítsd el a Weblate konténereket:"
+msgstr "Indítsa el a Weblate konténereket:"
 
 #: ../../admin/install/docker.rst:67
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
-"Élvezd a Weblate telepítését, amely a ``weblate`` konténer 80-as portján "
-"érhető el."
+"Élvezze a saját Weblate telepítését, amely a ``weblate`` konténer 80-as "
+"portján érhető el."
 
 #: ../../admin/install/docker.rst:69
 msgid ":ref:`invoke-manage`"
@@ -15484,11 +15483,11 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:72
 msgid "Choosing Docker image registry"
-msgstr "Docker képregiszter kiválasztása"
+msgstr "Docker képtároló kiválasztása"
 
 #: ../../admin/install/docker.rst:74
 msgid "Weblate containers are published to following registries:"
-msgstr "A Weblate konténerek a következő regiszterekbe vannak publikálva:"
+msgstr "A Weblate konténerek az alábbi tárolókba kerülnek feltöltésre:"
 
 #: ../../admin/install/docker.rst:76
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
@@ -15507,21 +15506,20 @@ msgid ""
 "All examples currently fetch images from Docker Hub, please adjust the "
 "configuration accordingly to use a different registry."
 msgstr ""
-"Minden példa jelenleg a Docker Hub-ról tölti le a képeket, kérlek, állítsd "
-"be ennek megfelelően a konfigurációt, ha más regisztert szeretnél használni."
+"Minden példában a Docker Hub-ról történik a képek letöltése, ha másik "
+"tárolót szeretne használni, módosítsa ennek megfelelően a konfigurációt."
 
 #: ../../admin/install/docker.rst:85
 msgid "Choosing Docker image tag"
-msgstr "Docker képcímke kiválasztása"
+msgstr "Docker kép címkéjének kiválasztása"
 
 #: ../../admin/install/docker.rst:87
 msgid "Please choose a tag that matches your environment and expectations:"
-msgstr ""
-"Kérlek, válassz egy címkét, amely megfelel a környezetednek és elvárásaidnak:"
+msgstr "Válasszon olyan címkét, amely megfelel a környezetének és elvárásainak:"
 
 #: ../../admin/install/docker.rst:90
 msgid "Tag name"
-msgstr "Címkenév"
+msgstr "Címke neve"
 
 #: ../../admin/install/docker.rst:90 ../../user/translating.rst:186
 #: ../../wlc.rst:102
@@ -15530,7 +15528,7 @@ msgstr "Leírás"
 
 #: ../../admin/install/docker.rst:90 ../../devel/translations.rst:129
 msgid "Use case"
-msgstr "Felhasználási eset"
+msgstr "Használati eset"
 
 #: ../../admin/install/docker.rst:92
 msgid "``latest``"
@@ -15538,11 +15536,11 @@ msgstr "``latest``"
 
 #: ../../admin/install/docker.rst:92
 msgid "Weblate stable release, matches latest tagged release"
-msgstr "Weblate stabil kiadás, megegyezik a legutóbbi címkézett kiadással"
+msgstr "Weblate stabil kiadás, amely megfelel a legutóbbi címkézett kiadásnak"
 
 #: ../../admin/install/docker.rst:92
 msgid "Rolling updates in a production environment"
-msgstr "Folyamatos frissítések éles környezetben"
+msgstr "Folyamatos frissítések egy éles környezetben"
 
 #: ../../admin/install/docker.rst:94
 msgid "``<MAJOR>``"
@@ -15555,7 +15553,7 @@ msgstr "Weblate stabil kiadás"
 
 #: ../../admin/install/docker.rst:94
 msgid "Rolling updates within a major version in a production environment"
-msgstr "Folyamatos frissítések egy főverzión belül a termelési környezetben"
+msgstr "Folyamatos frissítések egy főverzión belül éles környezetben"
 
 #: ../../admin/install/docker.rst:96
 msgid "``<MAJOR>.<MINOR>``"
@@ -15563,7 +15561,7 @@ msgstr "``<MAJOR>.<MINOR>``"
 
 #: ../../admin/install/docker.rst:96
 msgid "Rolling updates within a minor version in a production environment"
-msgstr "Folyamatos frissítések egy alverzión belül a termelési környezetben"
+msgstr "Folyamatos frissítések egy alverzión belül éles környezetben"
 
 #: ../../admin/install/docker.rst:98
 msgid "``<VERSION>.<PATCH>``"
@@ -15571,7 +15569,7 @@ msgstr "``<VERSION>.<PATCH>``"
 
 #: ../../admin/install/docker.rst:98
 msgid "Well defined deploy in a production environment"
-msgstr "Jól meghatározott telepítés éles környezetben"
+msgstr "Jól definiált telepítés éles környezetben"
 
 #: ../../admin/install/docker.rst:100
 msgid "``edge``"
@@ -15582,8 +15580,8 @@ msgid ""
 "Weblate stable release with development changes in the Docker container (for "
 "example updated dependencies)"
 msgstr ""
-"Weblate stabil kiadás fejlesztési változásokkal a Docker konténerben "
-"(például frissített függőségek)"
+"Weblate stabil kiadás, amely fejlesztési változtatásokat is tartalmaz a "
+"Docker konténerben (például frissített függőségek)"
 
 #: ../../admin/install/docker.rst:100
 msgid "Rolling updates in a staging environment"
@@ -15595,7 +15593,7 @@ msgstr "``edge-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:102
 msgid "Well defined deploy in a staging environment"
-msgstr "Jól meghatározott telepítés tesztkörnyezetben"
+msgstr "Jól definiált telepítés tesztkörnyezetben"
 
 #: ../../admin/install/docker.rst:104
 msgid "``bleeding``"
@@ -15603,11 +15601,11 @@ msgstr "``bleeding``"
 
 #: ../../admin/install/docker.rst:104 ../../admin/install/docker.rst:106
 msgid "Development version Weblate from Git"
-msgstr "Fejlesztői verzió, Weblate a Gitből"
+msgstr "Fejlesztői változat a Weblate Git tárolójából"
 
 #: ../../admin/install/docker.rst:104
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr "Folyamatos frissítések a közelgő Weblate funkciók tesztelésére"
+msgstr "Folyamatos frissítések a közelgő Weblate funkciók teszteléséhez"
 
 #: ../../admin/install/docker.rst:106
 msgid "``bleeding-<DATE>-<SHA>``"
@@ -15615,20 +15613,19 @@ msgstr "``bleeding-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:106
 msgid "Well defined deploy to test upcoming Weblate features"
-msgstr "Jól meghatározott telepítés a közelgő Weblate funkciók tesztelésére"
+msgstr "Jól definiált telepítés a közelgő Weblate funkciók tesztelésére"
 
 #: ../../admin/install/docker.rst:109
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
-"Minden képet letesztel a CI rendszerünk, mielőtt közzétesszük, így még a "
-"`bleeding` verzió használata is eléggé biztonságos kellene, hogy legyen."
+"Minden képet CI rendszerrel tesztelünk, mielőtt publikálnánk, így még a "
+"`bleeding` változat használata is viszonylag biztonságos."
 
 #: ../../admin/install/docker.rst:111
 msgid "Full list of published tags can be found at `GitHub Packages`_"
-msgstr ""
-"A közzétett címkék teljes listája megtalálható a `GitHub Packages`_ oldalon"
+msgstr "A közzétett címkék teljes listája elérhető a `GitHub Packages`_ oldalon"
 
 #: ../../admin/install/docker.rst:118
 msgid "Docker container with HTTPS support"
@@ -15639,9 +15636,8 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
-"Kérlek, nézd meg a :ref:`docker-deploy` részt az általános telepítési "
-"útmutatókért, ez a szakasz csak az ahhoz képest fennálló különbségeket "
-"említi."
+"Az általános telepítési útmutatóért lásd: :ref:`docker-deploy`. Ez a szakasz "
+"csak a különbségeket ismerteti."
 
 #: ../../admin/install/docker.rst:124
 msgid "Using own SSL certificates"
@@ -15652,20 +15648,20 @@ msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
-"Ha van saját SSL tanúsítványod, amit használni szeretnél, egyszerűen helyezd "
-"el a fájlokat a Weblate adat kötetébe (lásd: :ref:`docker-volume`):"
+"Ha saját SSL tanúsítványt szeretne használni, egyszerűen helyezze el a "
+"fájlokat a Weblate adatkötetére (lásd: :ref:`docker-volume`):"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
-"A :file:`ssl/fullchain.pem` fájl tartalmazza a tanúsítványt, beleértve a "
-"szükséges CA tanúsítványokat is"
+":file:`ssl/fullchain.pem` fájl tartalmazza a tanúsítványt és a szükséges CA "
+"(hitelesítésszolgáltatói) tanúsítványokat"
 
 #: ../../admin/install/docker.rst:130
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr "A :file:`ssl/privkey.pem` fájl tartalmazza a privát kulcsot"
+msgstr ":file:`ssl/privkey.pem` fájl pedig a privát kulcsot tartalmazza"
 
 #: ../../admin/install/docker.rst:132
 msgid ""
@@ -15673,9 +15669,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
-"Mindkét fájlnak ugyanahhoz a felhasználóhoz kell tartoznia, mint aki a "
-"Docker konténert indítja, és a fájlmaszknak ``600``-ra kell lennie állítva "
-"(csak a tulajdonos felhasználó számára olvasható és írható)."
+"Mindkét fájlnak ugyanahhoz a felhasználóhoz kell tartoznia, aki a Docker "
+"konténert indítja, és a fájlmaszknak ``600`` értékűnek kell lennie (csak a "
+"tulajdonos számára olvasható és írható)."
 
 #: ../../admin/install/docker.rst:134
 msgid ""
@@ -15683,9 +15679,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
-"Ezenkívül a Weblate konténer most már elfogadja az SSL kapcsolódásokat a "
-"4443-as porton, ezért érdemes beilleszteni a HTTPS port továbbítást a docker "
-"compose felülírásba:"
+"Ezen felül a Weblate konténer mostantól SSL-kapcsolatokat is fogad a 4443-as "
+"porton, ezért érdemes az HTTPS porttovábbítást is belefoglalni a Docker "
+"Compose felülírásba (override):"
 
 #: ../../admin/install/docker.rst:146
 msgid ""
@@ -15694,18 +15690,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
-"Ha már más webhelyeket is üzemeltetsz ugyanazon a szerveren, valószínű, hogy "
-"a ``80``-as és a ``443``-as portokat egy fordított proxy, például az NGINX "
-"használja. Az HTTPS kapcsolat NGINX-ből a docker konténerbe történő "
-"továbbításához a következő konfigurációt használhatod:"
+"Ha ugyanazon a kiszolgálón más webhelyeket is üzemeltet, valószínű, hogy a "
+"``80`` és ``443`` portokat már egy fordított proxy (például NGINX) "
+"használja. Ahhoz, hogy az NGINX-en keresztül átadja a HTTPS kapcsolatot a "
+"Docker konténernek, a következő konfigurációt alkalmazhatja:"
 
 #: ../../admin/install/docker.rst:168
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
-"Cseréld le a ``<SITE_URL>``, ``<SITE>`` és ``<EXPOSED_DOCKER_PORT>`` "
-"elemeket a környezeted valós értékeire."
+"Cserélje ki a ``<SITE_URL>``, ``<SITE>`` és ``<EXPOSED_DOCKER_PORT>`` "
+"értékeket a saját környezetének megfelelő adatokra."
 
 #: ../../admin/install/docker.rst:174
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -15720,25 +15716,25 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file. Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
-"Ha nyilvános telepítés esetén automatikusan generált `Let’s Encrypt <https://"
-"letsencrypt.org/>`_ SSL tanúsítványokat szeretnél használni, egy fordított "
-"HTTPS proxy hozzáadása szükséges egy további Docker konténerként – erre a "
-"célra a `https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_ "
-"kerül felhasználásra. Ez a :file:`docker-compose-https.yml` fájlban van "
-"megvalósítva. Ezután hozz létre egy :file:`docker-compose-https.override.yml`"
-" fájlt a saját beállításaiddal:"
+"Ha nyilvános telepítés esetén automatikusan generált SSL tanúsítványokat "
+"szeretne használni a `Let’s Encrypt <https://letsencrypt.org/>`_ "
+"szolgáltatással, akkor egy fordított HTTPS proxyval egészítse ki a rendszert "
+"egy további Docker konténer segítségével. Ehhez az `https-portal <https://"
+"hub.docker.com/r/steveltn/https-portal/>`_ konténer használható. Ezt a :file"
+":`docker-compose-https.yml` fájl tartalmazza. Ezután hozza létre a saját "
+"beállításaival a :file:`docker-compose-https.override.yml` fájlt:"
 
 #: ../../admin/install/docker.rst:198
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
-"Amikor a :program:`docker compose` parancsot használod, mindkét fájlt át "
-"kell adnod neki, majd hajtsd végre a következőt:"
+"Valahányszor használja a :program:`docker compose` parancsot, mindkét fájlt "
+"meg kell adni hozzá, majd hajtsa végre az alábbiakat:"
 
 #: ../../admin/install/docker.rst:209
 msgid "Upgrading the Docker container"
-msgstr "A Docker konténer frissítése"
+msgstr "Docker konténer frissítése"
 
 #: ../../admin/install/docker.rst:211
 msgid ""
@@ -15746,9 +15742,9 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
-"Általában jó ötlet csak a Weblate konténert frissíteni, és a PostgreSQL "
-"konténert az aktuális verzión hagyni, mivel a PostgreSQL frissítése eléggé "
-"nehézkes, és a legtöbb esetben nem hoz sok előnyt."
+"Általában célszerű csak a Weblate konténert frissíteni és a PostgreSQL "
+"konténert az aktuális verzión tartani, mivel a PostgreSQL frissítése elég "
+"körülményes, és legtöbbször nem jár jelentős előnnyel."
 
 #: ../../admin/install/docker.rst:217
 msgid ""
@@ -15756,26 +15752,26 @@ msgid ""
 "PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`docker-postgres-upgrade`."
 msgstr ""
-"A Weblate 4.17-1 verziójától kezdve a Docker-konténer a Django 4.2-t "
-"használja, ami PostgreSQL 12-t vagy újabbat igényel. Kérlek, frissítsd azt a "
-"Weblate frissítése előtt. További információért lásd: :ref:`docker-postgres-"
-"upgrade`."
+"A Weblate 4.17-1 verziójától kezdődően a Docker konténer a Django 4.2-t "
+"használja, amely PostgreSQL 12-es vagy újabb verziót igényel. Kérjük, a "
+"Weblate frissítése előtt frissítse a PostgreSQL-t. Lásd: :ref:`docker-"
+"postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:221
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
 msgstr ""
-"Ezt úgy teheted meg, hogy maradsz a meglévő docker-compose-nál, csak "
-"letöltöd a legújabb képeket, majd újraindítod:"
+"Ezt úgy is megteheti, hogy a meglévő docker-compose fájlt használja, lehúzza "
+"a legfrissebb képeket, majd újraindítja a konténereket:"
 
 #: ../../admin/install/docker.rst:235
 msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
-"A Weblate adatbázisnak automatikusan migrálódnia kell az első indításkor, és "
-"nincs szükség további kézi műveletekre."
+"A Weblate adatbázis első indításkor automatikusan migrálásra kerül, nincs "
+"szükség további manuális beavatkozásra."
 
 #: ../../admin/install/docker.rst:240
 msgid ""
@@ -15784,10 +15780,10 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
-"A fő verziók közötti frissítéseket a Weblate nem támogatja. Például, ha a 3."
-"x sorozaton vagy, és a 4.x-re szeretnél frissíteni, először frissíts a "
-"legújabb 4.0.x-y képre (e sorok írásakor ez a ``4.0.4-5``), ami elvégzi a "
-"migrációt, majd folytasd a frissítést az újabb verziókra."
+"A főverziók közötti frissítéseket a Weblate nem támogatja. Például, ha a 3.x "
+"sorozatot használja, és 4.x-re szeretne frissíteni, először frissítsen a "
+"legutóbbi 4.0.x-y verzióra (jelenleg ez a ``4.0.4-5``), amely végrehajtja a "
+"migrációt, és ezután folytassa a frissítést újabb verziókra."
 
 #: ../../admin/install/docker.rst:245
 msgid ""
@@ -15795,13 +15791,13 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
-"Előfordulhat, hogy frissíteni szeretnéd a ``docker-compose`` adattárat is, "
-"bár a legtöbb esetben erre nincs szükség. A PostgreSQL szerver frissítéséhez "
-"lásd: :ref:`docker-postgres-upgrade`."
+"Érdemes lehet frissíteni a ``docker-compose`` tárolót is, bár ez a legtöbb "
+"esetben nem szükséges. A PostgreSQL kiszolgáló frissítéséhez lásd: :ref"
+":`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:251
 msgid "Upgrading PostgreSQL container"
-msgstr "A PostgreSQL konténer frissítése"
+msgstr "PostgreSQL konténer frissítése"
 
 #: ../../admin/install/docker.rst:253
 msgid ""
@@ -15810,8 +15806,8 @@ msgid ""
 "options of upgrading."
 msgstr ""
 "A PostgreSQL konténerek nem támogatják a verziók közötti automatikus "
-"frissítést, a frissítést manuálisan kell végrehajtanod. Az alábbi lépések "
-"bemutatják a frissítés egyik lehetőségét."
+"frissítést, a frissítést manuálisan kell elvégezni. Az alábbi lépések egy "
+"lehetséges módszert mutatnak be."
 
 #: ../../admin/install/docker.rst:259
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -15819,47 +15815,47 @@ msgstr "https://github.com/docker-library/postgres/issues/37"
 
 #: ../../admin/install/docker.rst:261
 msgid "Stop Weblate container:"
-msgstr "Állítsd le a Weblate konténert:"
+msgstr "Állítsa le a Weblate konténert:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Backup the database:"
-msgstr "Készíts biztonsági másolatot az adatbázisról:"
+msgstr "Készítsen biztonsági mentést az adatbázisról:"
 
 #: ../../admin/install/docker.rst:273
 msgid "Stop the database container:"
-msgstr "Állítsd le az adatbázis konténert:"
+msgstr "Állítsa le az adatbázis konténert:"
 
 #: ../../admin/install/docker.rst:279
 msgid "Remove the PostgreSQL volume:"
-msgstr "Távolítsd el a PostgreSQL kötetet:"
+msgstr "Távolítsa el a PostgreSQL kötetet:"
 
 #: ../../admin/install/docker.rst:288
 msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
-"A kötet neve tartalmazza a Docker Compose projekt nevét, ami alapértelmezés "
-"szerint a könyvtár neve, ami ebben a dokumentációban ``weblate-docker``."
+"A kötet neve a Docker Compose projekt nevéből képződik, amely alapértelmezés "
+"szerint a könyvtár neve – ebben a dokumentációban ez ``weblate-docker``."
 
 #: ../../admin/install/docker.rst:291
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
-"Állítsd be a :file:`docker-compose.yml` fájlt az új PostgreSQL verzió "
+"Módosítsa a :file:`docker-compose.yml` fájlt az új PostgreSQL verzió "
 "használatára."
 
 #: ../../admin/install/docker.rst:293
 msgid "Start the database container:"
-msgstr "Indítsd el az adatbázis konténert:"
+msgstr "Indítsa el az adatbázis konténert:"
 
 #: ../../admin/install/docker.rst:299
 msgid "Restore the database from the backup:"
-msgstr "Állítsd vissza az adatbázist a biztonsági másolatból:"
+msgstr "Állítsa vissza az adatbázist a biztonsági mentésből:"
 
 #: ../../admin/install/docker.rst:307 ../../admin/install/docker.rst:317
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
-"Kérlek, ellenőrizd, hogy az adatbázis neve megegyezik a :envvar:"
-"`POSTGRES_DB` értékével."
+"Ellenőrizze, hogy az adatbázis neve megegyezik-e a :envvar:`POSTGRES_DB` "
+"értékével."
 
 #: ../../admin/install/docker.rst:309
 msgid ""
@@ -15867,17 +15863,17 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
-"(Opcionális) Frissítsd a jelszót a Weblate felhasználó számára. Erre szükség "
-"lehet, amikor PostgreSQL 14-re vagy 15-re migrálsz, mivel a jelszavak "
-"tárolásának módja megváltozott:"
+"(Opcionális) Frissítse a Weblate felhasználó jelszavát. Ez szükséges lehet a "
+"PostgreSQL 14-es vagy 15-ös verziójára történő migráció során, mivel "
+"megváltozott a jelszavak tárolásának módja:"
 
 #: ../../admin/install/docker.rst:319
 msgid "Start all remaining containers:"
-msgstr "Indítsd el az összes fennmaradó konténert:"
+msgstr "Indítsa el az összes fennmaradó konténert:"
 
 #: ../../admin/install/docker.rst:328
 msgid "Admin sign in"
-msgstr "Admin bejelentkezés"
+msgstr "Adminisztrátori bejelentkezés"
 
 #: ../../admin/install/docker.rst:330
 msgid ""
@@ -15885,29 +15881,29 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
-"A konténer beállítása után bejelentkezhetsz `admin` felhasználóként a :"
-"envvar:`WEBLATE_ADMIN_PASSWORD` változóban megadott jelszóval vagy ha ez nem "
-"volt beállítva, akkor az első indításkor generált véletlenszerű jelszóval."
+"A konténerek beállítása után jelentkezzen be `admin` felhasználóként a "
+":envvar:`WEBLATE_ADMIN_PASSWORD` változóban megadott jelszóval vagy ha az "
+"nem volt beállítva, az első indításkor generált véletlenszerű jelszóval."
 
 #: ../../admin/install/docker.rst:334
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
-"Az `admin` jelszó visszaállításához indítsd újra a konténert úgy, hogy a :"
-"envvar:`WEBLATE_ADMIN_PASSWORD` új jelszóra van beállítva."
+"Az `admin` jelszó visszaállításához indítsa újra a konténert úgy, hogy a "
+":envvar:`WEBLATE_ADMIN_PASSWORD` változóban megadja az új jelszót."
 
 #: ../../admin/install/docker.rst:339
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:344
 msgid "Number of processes and memory consumption"
-msgstr "Folyamatok száma és memóriafogyasztás"
+msgstr "Folyamatok száma és memóriahasználat"
 
 #: ../../admin/install/docker.rst:346
 msgid ""
@@ -15915,28 +15911,29 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"A WSGI és a Celery munkafolyamatainak számát automatikusan határozzák meg a "
-"CPU-k száma alapján. Ez jól működik a legtöbb felhő alapú virtuális gépen, "
-"mivel ezek általában kevés CPU-val és elegendő memóriával rendelkeznek."
+"A WSGI és Celery munkafolyamatok számát automatikusan a CPU-k száma alapján "
+"határozza meg a rendszer. Ez jól működik a legtöbb felhőalapú virtuális "
+"gépen, mivel ezek általában kevés CPU-val, de nagy mennyiségű memóriával "
+"rendelkeznek."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
 msgstr ""
-"Ha sok CPU maggal rendelkezel, és memóriahiányos problémákba ütközöl, "
-"próbáld meg csökkenteni a munkavégzők számát:"
+"Ha sok CPU mag áll rendelkezésére, de memóriahiányt tapasztal, próbálja meg "
+"csökkenteni a munkafolyamatok számát:"
 
 #: ../../admin/install/docker.rst:358
 msgid "You can also fine-tune individual worker categories:"
-msgstr "Egyéni munkás kategóriákat is finomhangolhatsz:"
+msgstr "Az egyes munkafolyamat-kategóriák számát is finomhangolhatja:"
 
 #: ../../admin/install/docker.rst:368
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
-"A memóriahasználat tovább csökkenthető azáltal, hogy csak egyetlen Celery "
-"folyamatot futtatunk:"
+"A memóriahasználat tovább csökkenthető, ha csak egyetlen Celery folyamatot "
+"futtat:"
 
 #: ../../admin/install/docker.rst:377
 msgid ""
@@ -15945,10 +15942,11 @@ msgid ""
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, :envvar:`WEB_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`CELERY_SINGLE_PROCESS`, "
+":envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:390
 msgid "Scaling horizontally"
@@ -15961,11 +15959,11 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
-"Több Weblate konténert is futtathatsz a szolgáltatás vízszintes "
-"skálázásához. Az összes konténernek meg kell osztania a :file:`/app/data` "
-"kötetet, ehhez ajánlott klaszter fájlrendszert használni, mint például a "
-"GlusterFS. A :file:`/app/cache` kötetnek különállónak kell lennie minden "
-"konténer esetében."
+"A szolgáltatás vízszintes skálázása érdekében több Weblate konténert is "
+"futtathat. A :file:`/app/data` kötetet közösen kell használniuk a "
+"konténereknek – ehhez ajánlott klaszterezett fájlrendszert, például "
+"GlusterFS-t alkalmazni. A :file:`/app/cache` kötet viszont konténerenként "
+"külön példányban szükséges."
 
 #: ../../admin/install/docker.rst:399
 msgid ""
@@ -15974,10 +15972,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"Minden egyes Weblate konténer szerepköre a :envvar:`WEBLATE_SERVICE` "
-"környezeti változóval van meghatározva. Kérlek, alaposan kövesd a "
-"dokumentációt, mivel néhány szolgáltatásnak csak egyszer kell futnia a "
-"klaszterben, és a szolgáltatások sorrendje is számít."
+"Minden Weblate konténer szerepe a :envvar:`WEBLATE_SERVICE` környezeti "
+"változóval van meghatározva. Kérjük, figyelmesen kövesse a dokumentációt, "
+"mivel bizonyos szolgáltatásokat csak egyszer szabad futtatni a klaszterben, "
+"és a szolgáltatások indítási sorrendje is fontos."
 
 #: ../../admin/install/docker.rst:404
 msgid ""
@@ -15985,9 +15983,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
-"Találsz példabeállítást a ``docker-compose`` repóban `docker-compose-split."
-"yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-"
-"split.yml>`__ néven."
+"Példabeállítást talál a ``docker-compose`` tárolóban: `docker-compose-"
+"split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
+"compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:411
 msgid "Docker environment variables"
@@ -15998,41 +15996,40 @@ msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
-"A Weblate számos :ref:`config`-ja beállítható a Docker-konténerben az "
-"alábbiakban leírt környezeti változók segítségével."
+"A Weblate számos :ref:`beállítása <config>` megadható Docker konténeren "
+"belül, az alábbiakban ismertetett környezeti változók segítségével."
 
 #: ../../admin/install/docker.rst:416
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
-"Ha olyan beállítást kell meghatároznod, amelyet nem érhetsz el Docker "
-"környezeti változókon keresztül, nézd meg a :ref:`docker-custom-config` "
-"részt."
+"Ha olyan beállítást kell megadnia, amely nem érhető el Docker környezeti "
+"változón keresztül, lásd: :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:422
 msgid "Passing secrets"
-msgstr "Titkok átadása"
+msgstr "Titkos adatok átadása (passing secrets)"
 
 #: ../../admin/install/docker.rst:426
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
-"A Weblate konténer támogatja a titkok fájlként való átadását. Ennek "
-"kihasználásához adj hozzá ``_FILE`` utótagot a környezeti változóhoz, és add "
-"át a titkos fájlt a Docker segítségével."
+"A Weblate konténer támogatja a titkos adatok fájlon keresztüli átadását. "
+"Ehhez adja hozzá a környezeti változó nevéhez a ``_FILE`` utótagot, és adja "
+"át a titkos fájlt a Docker konténernek."
 
 #: ../../admin/install/docker.rst:429
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr "A kapcsolódó :file:`docker-compose.yml` így nézhet ki:"
+msgstr "A kapcsolódó :file:`docker-compose.yml` például így nézhet ki:"
 
 #: ../../admin/install/docker.rst:452
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/how-"
 "tos/use-secrets/>`_"
 msgstr ""
-"`Hogyan használjunk titkokat a Docker Compose-ban <https://docs.docker.com/"
+"`Titkos adatok használata a Docker Compose-ban <https://docs.docker.com/"
 "compose/how-tos/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:455
@@ -16042,7 +16039,7 @@ msgstr "Általános beállítások"
 #: ../../admin/install/docker.rst:459
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr ""
-"A Django hibakeresési módját a :setting:`DEBUG` használatával konfigurálja."
+"A Django hibakeresési módját a :setting:`DEBUG` beállításával konfigurálja."
 
 #: ../../admin/install/docker.rst:470 ../../admin/projects.rst:1218
 msgid ":ref:`production-debug`"
@@ -16053,27 +16050,27 @@ msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
 msgstr ""
-"Beállítja a naplózás részletességét. Állítsd ezt ``DEBUG``-ra, hogy "
-"részletesebb naplókat kapj."
+"A naplózás részletességi szintjét szabályozza. Állítsa ``DEBUG`` értékre a "
+"részletesebb naplók megtekintéséhez."
 
 #: ../../admin/install/docker.rst:476
 msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
 msgstr ""
-"Alapértelmezés szerint ``INFO``, amikor a :envvar:`WEBLATE_DEBUG` ki van "
-"kapcsolva, ``DEBUG`` módot használ, amikor a hibakeresési mód be van "
-"kapcsolva."
+"Alapértelmezés szerint ``INFO`` szintre van állítva, amikor a "
+":envvar:`WEBLATE_DEBUG` ki van kapcsolva, és ``DEBUG`` szintre, amikor a "
+"hibakeresési mód be van kapcsolva."
 
 #: ../../admin/install/docker.rst:478
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
 msgstr ""
-"Ha csendesebb naplózást szeretnél, használd az ``ERROR`` vagy ``WARNING`` "
-"szintet."
+"Ha csendesebb naplózást szeretne, használja az ``ERROR`` vagy ``WARNING`` "
+"szinteket."
 
 #: ../../admin/install/docker.rst:482
 msgid "Configures the logging of the database queries verbosity."
-msgstr "Beállítja az adatbázis-lekérdezések részletességének naplózását."
+msgstr "Az adatbázis-lekérdezések naplózásának részletességét szabályozza."
 
 #: ../../admin/install/docker.rst:488
 msgid ""
@@ -16081,26 +16078,26 @@ msgid ""
 "integrate with Graylog."
 msgstr ""
 "Távoli naplózást konfigurál GELF TCP kapcsolaton keresztül. Használható "
-"Graylog integrációhoz."
+"például Graylog integrációhoz."
 
 #: ../../admin/install/docker.rst:494
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
-"Használj egyéni portot a(z) :envvar:`WEBLATE_LOG_GELF_HOST` számára, "
-"alapértelmezettként 12201 van beállítva."
+"Egyedi portot is beállíthat a :envvar:`WEBLATE_LOG_GELF_HOST` számára, "
+"alapértelmezésben a 12201 portot használja."
 
 #: ../../admin/install/docker.rst:498
 msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
-"Megváltoztatja a webhely címét, amely az összes oldal fejlécében látható."
+"Megváltoztatja a webhely-címet, amely az összes oldal fejlécében jelenik meg."
 
 #: ../../admin/install/docker.rst:502
 msgid "Configures the site domain. This parameter is required."
-msgstr "Beállítja a webhely domainjét. Ez a paraméter kötelező."
+msgstr "A webhely domainjét állítja be. Ez a paraméter kötelező."
 
 #: ../../admin/install/docker.rst:504
 msgid "Include port if using a non-standard one."
-msgstr "Add meg a portot, ha nem szabványosat használsz."
+msgstr "Nem szabványos port használata esetén a portot is meg kell adni."
 
 #: ../../admin/install/docker.rst:515
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -16112,10 +16109,10 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
-"Beállítja az oldaladminisztrátor nevét és e-mail címét. Ez mind a :setting:"
-"`ADMINS` beállításhoz, mind az `admin` felhasználó létrehozásához "
-"használatos (erről bővebben a :envvar:`WEBLATE_ADMIN_PASSWORD` részben "
-"olvashatsz)."
+"A webhely adminisztrátorának nevét és e-mail címét állítja be. Ez a "
+":setting:`ADMINS` beállításhoz, valamint az `admin` felhasználó "
+"létrehozásához is használatos (további részletekért lásd: "
+":envvar:`WEBLATE_ADMIN_PASSWORD`)."
 
 #: ../../admin/install/docker.rst:535
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
@@ -16123,21 +16120,21 @@ msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:541
 msgid "Sets the password for the `admin` user."
-msgstr "Beállítja az `admin` felhasználó jelszavát."
+msgstr "Az `admin` felhasználó jelszavát állítja be."
 
 #: ../../admin/install/docker.rst:543
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
-"Ha nincs beállítva, és az `admin` felhasználó nem létezik, akkor az első "
-"konténer indításakor egy véletlenszerű jelszóval jön létre, amely megjelenik."
+"Ha nincs beállítva, és az `admin` felhasználó nem létezik, a rendszer "
+"véletlenszerű jelszóval hozza létre az első konténerindításkor."
 
 #: ../../admin/install/docker.rst:545
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
-"Ha nincs beállítva és az `admin` felhasználó létezik, akkor nem történik "
-"semmilyen művelet."
+"Ha nincs beállítva, de az `admin` felhasználó létezik, nem történik "
+"semmilyen módosítás."
 
 #: ../../admin/install/docker.rst:546
 msgid ""
@@ -16145,9 +16142,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
-"Ha be van állítva, az `admin` felhasználó minden konténer indításakor "
-"hozzáigazításra kerül a :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
-"`WEBLATE_ADMIN_NAME` és :envvar:`WEBLATE_ADMIN_EMAIL` értékekhez."
+"Ha be van állítva, az `admin` felhasználó minden konténerindításkor "
+"frissítésre kerül, hogy megfeleljen a :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME` és :envvar:`WEBLATE_ADMIN_EMAIL` értékeknek."
 
 #: ../../admin/install/docker.rst:552
 msgid ""
@@ -16156,9 +16153,9 @@ msgid ""
 "random password on initial startup) or for password recovery."
 msgstr ""
 "Biztonsági kockázatot jelenthet a jelszó tárolása a konfigurációs fájlban. "
-"Fontold meg, hogy ezt a változót csak kezdeti beállításhoz használd (vagy "
-"hagyd, hogy a Weblate véletlenszerű jelszót generáljon az első indításkor) "
-"vagy jelszó-visszaállításhoz."
+"Ezt a változót érdemes csak a kezdeti beállításhoz használni (vagy hagyni, "
+"hogy a Weblate automatikusan véletlenszerű jelszót generáljon az első "
+"indításkor), illetve jelszó-visszaállításhoz."
 
 #: ../../admin/install/docker.rst:559
 msgid ""
@@ -16166,36 +16163,37 @@ msgid ""
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
-"`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
-"`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`, :ref:`docker-secrets`, "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:567
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
-"Eldöntheted, hogy küldjön-e e-mailt az adminoknak szerverhiba esetén. "
-"Alapértelmezetten be van kapcsolva."
+"Beállítja, hogy a szerverhibák esetén küldjön-e e-mailt az "
+"adminisztrátoroknak. Ez alapértelmezés szerint be van kapcsolva."
 
 #: ../../admin/install/docker.rst:569
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
-"Lehet, hogy inkább más hibagyűjtő eszközt szeretnél használni, mint a Sentry "
-"vagy a Rollbar, és kikapcsolnád ezt a funkciót."
+"Előfordulhat, hogy inkább más hibagyűjtő rendszert, például a Sentryt vagy a "
+"Rollbart szeretné használni, ebben az esetben érdemes ezt a funkciót "
+"kikapcsolni."
 
 #: ../../admin/install/docker.rst:573
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
-":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
-"`SENTRY_DSN`"
+":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, "
+":envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:579
 msgid "The email address that error messages are sent from."
-msgstr "Az az email cím, amelyről a hibaüzeneteket küldik."
+msgstr "Az e-mail cím, ahonnan a hibajelentések küldésre kerülnek."
 
 #: ../../admin/install/docker.rst:583
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
@@ -16203,7 +16201,7 @@ msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:588
 msgid "Configures the address for outgoing e-mails."
-msgstr "Beállítja a kimenő e-mailek címét."
+msgstr "A kimenő e-mailek küldő címét állítja be."
 
 #: ../../admin/install/docker.rst:592
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
@@ -16211,23 +16209,23 @@ msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:597
 msgid "Configures :setting:`ADMINS_CONTACT`."
-msgstr "Beállítja a(z) :setting:`ADMINS_CONTACT` értéket."
+msgstr "Az :setting:`ADMINS_CONTACT` beállítását konfigurálja."
 
 #: ../../admin/install/docker.rst:601
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
-"A kapcsolatfelvételi űrlap működését konfigurálja, lásd: :setting:"
-"`CONTACT_FORM`."
+"A kapcsolatfelvételi űrlap viselkedését állítja be, lásd: "
+":setting:`CONTACT_FORM`."
 
 #: ../../admin/install/docker.rst:605
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
-"A megengedett HTTP hosztneveket a :setting:`ALLOWED_HOSTS` beállítással "
-"konfigurálja."
+"Az engedélyezett HTTP hosztneveket állítja be az :setting:`ALLOWED_HOSTS` "
+"segítségével."
 
 #: ../../admin/install/docker.rst:607
 msgid "Defaults to ``*`` which allows all hostnames."
-msgstr "Alapértelmezés szerint ``*``, ami minden hosztnevet engedélyez."
+msgstr "Alapértelmezés szerint ``*``, amely minden hosztnevet engedélyez."
 
 #: ../../admin/install/docker.rst:618
 msgid ""
@@ -16240,43 +16238,44 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
-"Beállítja, hogy a regisztrációk nyitottak-e a :std:setting:"
-"`REGISTRATION_OPEN` kapcsolásával."
+"A regisztrációs lehetőség elérhetőségét szabályozza a "
+":std:setting:`REGISTRATION_OPEN` állításával."
 
 #: ../../admin/install/docker.rst:637
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
-"Beállítja, hogy a captcha használatban van-e a regisztrációhoz és más nem "
-"hitelesített műveletekhez, lásd: :std:setting:`REGISTRATION_CAPTCHA`."
+"Beállítja, hogy a regisztrációhoz és egyéb hitelesítést nem igénylő "
+"műveletekhez használjon-e captcha-t, lásd: "
+":std:setting:`REGISTRATION_CAPTCHA`."
 
 #: ../../admin/install/docker.rst:648
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
-"Állítsd be, hogy mely hitelesítési módszerek használhatók új fiók "
+"Beállítja, hogy mely hitelesítési módszerek használhatók új fiók "
 "létrehozására a :setting:`REGISTRATION_ALLOW_BACKENDS` segítségével."
 
 #: ../../admin/install/docker.rst:664
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr "Beállítja a(z) :std:setting:`REGISTRATION_REBIND` értékét."
+msgstr "A :std:setting:`REGISTRATION_REBIND` beállítását konfigurálja."
 
 #: ../../admin/install/docker.rst:668
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
-"Beállítja a Weblate-ben használt időzónát, lásd: :std:setting:`django:"
-"TIME_ZONE`."
+"A Weblate által használt időzónát állítja be, lásd: "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:672
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
-"A Docker konténer időzónájának megváltoztatásához használd a ``TZ`` "
+"Ha a Docker konténer időzónáját szeretné megváltoztatni, használja a ``TZ`` "
 "környezeti változót."
 
 #: ../../admin/install/docker.rst:684
@@ -16284,35 +16283,36 @@ msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
-"Ez alapján a Weblate úgy működik, mintha egy fordított HTTPS proxy mögött "
-"üzemelne, így a Weblate HTTPS-t használ az e-mailekben és API linkekben vagy "
-"biztonsági jelzéseket állít be a sütiken."
+"Beállítja, hogy a Weblate feltételezze, hogy egy fordított (reverse) HTTPS "
+"proxy mögött működik, így HTTPS-t használ az e-mailekben és az API "
+"linkekben, illetve biztonsági jelzőket állít be a sütiknél."
 
 #: ../../admin/install/docker.rst:689
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
-"Kérlek, nézd meg a :setting:`ENABLE_HTTPS` dokumentációját az esetleges "
-"buktatókért."
+"Az esetleges problémák miatt tekintse meg az :setting:`ENABLE_HTTPS` "
+"dokumentációját."
 
 #: ../../admin/install/docker.rst:693
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
-"Ez nem teszi lehetővé, hogy a Weblate konténer HTTPS kapcsolatokat fogadjon, "
-"ezt külön be kell állítanod. Példákért lásd: :ref:`docker-ssl`."
+"Ez önmagában nem teszi lehetővé, hogy a Weblate konténer közvetlenül HTTPS "
+"kapcsolaton keresztül fogadjon kéréseket, ehhez külön konfiguráció "
+"szükséges. Ezekre példákat itt talál: :ref:`docker-ssl`."
 
 #: ../../admin/install/docker.rst:705
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
-":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
-"`WEBLATE_SECURE_PROXY_SSL_HEADER`"
+":setting:`ENABLE_HTTPS` :ref:`production-site`, "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:713
 msgid "Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
-msgstr "Beállítja a :setting:`INTERLEDGER_PAYMENT_BUILTIN` értéket."
+msgstr "Az :setting:`INTERLEDGER_PAYMENT_BUILTIN` beállítását konfigurálja."
 
 #: ../../admin/install/docker.rst:719
 msgid ""
@@ -16320,24 +16320,25 @@ msgid ""
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
 "Lehetővé teszi, hogy a Weblate beállítsa a `meta[name=monetization]` mezőt a "
-"dokumentum fej részében. Ha többet adsz meg, véletlenszerűen választ egyet."
+"dokumentum fejléce részében. Ha több érték van megadva, véletlenszerűen "
+"választ egyet közülük."
 
 #: ../../admin/install/docker.rst:728
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
-"Lehetővé teszi, hogy a Weblate bármely megadott HTTP fejlécből lekérje az IP-"
-"címet. Ezt akkor használd, ha fordított proxy található a Weblate konténer "
-"előtt."
+"Lehetővé teszi, hogy a Weblate egy megadott HTTP fejlécből olvassa ki az IP "
+"címet. Ezt akkor használja, ha a Weblate konténer előtt fordított proxy "
+"működik."
 
 #: ../../admin/install/docker.rst:731
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
-"Engedélyezi a :setting:`IP_BEHIND_REVERSE_PROXY`-t és beállítja a :setting:"
-"`IP_PROXY_HEADER`-t."
+"Engedélyezi az :setting:`IP_BEHIND_REVERSE_PROXY` funkciót, és beállítja az "
+":setting:`IP_PROXY_HEADER` értékét."
 
 #: ../../admin/install/docker.rst:735
 msgid ""
@@ -16345,30 +16346,31 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
-"A formátumnak meg kell felelnie a Django elvárásainak. A Django a nyers HTTP "
-"fejlécneveket így `alakítja át <https://docs.djangoproject.com/en/2.2/ref/"
-"request-response/#django.http.HttpRequest.META>`_:"
+"A megadott formátumnak meg kell felelnie a Django által elvárt szabályoknak. "
+"A Django a nyers HTTP-fejlécneveket az alábbiak szerint `alakítja át "
+"<https://docs.djangoproject.com/en/2.2/ref/request-response/"
+"#django.http.HttpRequest.META>`_:"
 
 #: ../../admin/install/docker.rst:739
 msgid "converts all characters to uppercase"
-msgstr "minden karaktert nagybetűssé alakít át"
+msgstr "az összes karaktert nagybetűssé alakítja"
 
 #: ../../admin/install/docker.rst:740
 msgid "replaces any hyphens with underscores"
-msgstr "minden kötőjelet aláhúzásra cserél"
+msgstr "a kötőjeleket aláhúzásjelekké cseréli"
 
 #: ../../admin/install/docker.rst:741
 msgid "prepends ``HTTP_`` prefix"
-msgstr "hozzáadja az ``HTTP_`` előtagot"
+msgstr "``HTTP_`` előtagot ad a név elé"
 
 #: ../../admin/install/docker.rst:743
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
-"Tehát az ``X-Forwarded-For`` az ``HTTP_X_FORWARDED_FOR``-ra lenne leképezve."
+"Így például az ``X-Forwarded-For`` fejlécből ``HTTP_X_FORWARDED_FOR`` lesz."
 
 #: ../../admin/install/docker.rst:756
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr "Beállítja a :setting:`IP_PROXY_OFFSET` értéket."
+msgstr "Az :setting:`IP_PROXY_OFFSET` beállítását konfigurálja."
 
 #: ../../admin/install/docker.rst:762
 msgid ""
@@ -16388,8 +16390,7 @@ msgstr ":setting:`django:USE_X_FORWARDED_PORT`"
 #: ../../admin/install/docker.rst:770
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
-"Ez egy logikai beállítás (használd a ``\"true\"`` vagy ``\"false\"`` "
-"értékeket)."
+"Ez egy logikai típusú beállítás (``\"true\"`` vagy ``\"false\"`` értékkel)."
 
 #: ../../admin/install/docker.rst:774
 msgid ""
@@ -16397,9 +16398,10 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
-"Egy tuple, amely egy HTTP fejléc/érték kombinációt képvisel, ami jelzi, hogy "
-"a kérés biztonságos. Erre akkor van szükség, ha a Weblate egy SSL "
-"megszakítást végző fordított proxy mögött fut, amely nem továbbítja a "
+"Egy olyan tuple-t (fix hosszúságú, sorrendhez kötött adatszerkezetet) "
+"határoz meg, amely egy HTTP fejléc/érték kombinációt tartalmaz, és azt "
+"jelzi, hogy a kérés biztonságos. Erre akkor van szükség, ha a Weblate egy "
+"SSL forgalmat lezáró (termináló) proxy mögött fut, amely nem továbbítja a "
 "szabványos HTTPS fejléceket."
 
 #: ../../admin/install/docker.rst:787
@@ -16410,46 +16412,47 @@ msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
-"Engedélyezi a(z) :setting:`REQUIRE_LOGIN`-t, hogy a teljes Weblate-en "
-"kényszerítse a hitelesítést."
+"A :setting:`REQUIRE_LOGIN` beállításának engedélyezésével kötelezővé teheti "
+"a bejelentkezést a teljes Weblate telepítésre."
 
 #: ../../admin/install/docker.rst:804
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
-"Hozzáad URL kivételeket, amikor a teljes Weblate telepítéshez hitelesítés "
-"szükséges a(z) :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` használatával."
+"A :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` segítségével URL-kivétel(ek) "
+"adható meg a teljes telepítésre kötelező bejelentkezés alól."
 
 #: ../../admin/install/docker.rst:807
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
-"Teljes beállításokat cserélhetsz le vagy az alapértelmezett értéket "
-"módosíthatod az ``ADD`` és ``REMOVE`` változók használatával."
+"Lehetőség van a teljes beállítás cseréjére vagy az alapérték módosítására "
+"``ADD`` és ``REMOVE`` változók segítségével."
 
 #: ../../admin/install/docker.rst:809
 msgid "To enforce authentication for the contact form, do:"
 msgstr ""
-"Ahhoz, hogy a kapcsolatfelvételi űrlaphoz hitelesítést követelj meg, tedd a "
-"következőt:"
+"A kapcsolatfelvételi űrlapra vonatkozó kötelező bejelentkezés beállításához "
+"tegye a következőt:"
 
 #: ../../admin/install/docker.rst:818
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
-"Beállítja a Google Analytics azonosítót a :setting:`GOOGLE_ANALYTICS_ID` "
-"módosításával."
+"A Google Analytics azonosítót a :setting:`GOOGLE_ANALYTICS_ID` "
+"megváltoztatásával konfigurálja."
 
 #: ../../admin/install/docker.rst:822
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"Beállítja az alapértelmezett címet és üzenetet a pull requestekhez az API-n "
-"keresztül a :setting:`DEFAULT_PULL_MESSAGE` módosításával."
+"Az alapértelmezett cím és üzenet beállítása az API-n keresztül történő "
+"módosítási kérelmekhez (pull requests) a :setting:`DEFAULT_PULL_MESSAGE` "
+"módosításával történik."
 
 #: ../../admin/install/docker.rst:827
 msgid ":ref:`config-pull-message`"
@@ -16460,24 +16463,24 @@ msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
-"Beállítja a nyelv egyszerűsítési irányelvet, lásd :setting:"
-"`SIMPLIFY_LANGUAGES`."
+"A nyelvi egyszerűsítési szabályokat a :setting:`SIMPLIFY_LANGUAGES` "
+"segítségével állíthatja be."
 
 #: ../../admin/install/docker.rst:835
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Beállítja az alapértelmezett :ref:`project-access_control`-t az új "
-"projektekhez, lásd :setting:`DEFAULT_ACCESS_CONTROL`."
+"Új projektekhez az alapértelmezett :ref:`project-access_control` beállítást "
+"a :setting:`DEFAULT_ACCESS_CONTROL` módosításával konfigurálja."
 
 #: ../../admin/install/docker.rst:839
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
-"Beállítja az alapértelmezett értéket az új összetevők :ref:`component-"
-"restricted`-jéhez, lásd :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"Új összetevőknél a :ref:`component-restricted` alapértelmezett értékét a "
+":setting:`DEFAULT_RESTRICTED_COMPONENT` beállítás szabályozza."
 
 #: ../../admin/install/docker.rst:843
 msgid ""
@@ -16485,51 +16488,53 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Beállítja az alapértelmezett értéket az új összetevők :ref:`component-"
-"allow_translation_propagation` számára, lásd :setting:"
-"`DEFAULT_TRANSLATION_PROPAGATION`."
+"Új összetevőknél a :ref:`component-allow_translation_propagation` "
+"alapértelmezett értékét a :setting:`DEFAULT_TRANSLATION_PROPAGATION` "
+"beállítás szabályozza."
 
 #: ../../admin/install/docker.rst:847
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr "Beállítja a :setting:`DEFAULT_COMMITER_EMAIL` értékét."
+msgstr ""
+"Az alapértelmezett :setting:`DEFAULT_COMMITER_EMAIL` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:851
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr "Beállítja a :setting:`DEFAULT_COMMITER_NAME` értékét."
+msgstr "A :setting:`DEFAULT_COMMITER_NAME` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:855
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr "Beállítja a :setting:`DEFAULT_SHARED_TM`-et."
+msgstr "A :setting:`DEFAULT_SHARED_TM` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:859
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
-msgstr "Beállítja az Akismet API kulcsot, lásd :setting:`AKISMET_API_KEY`."
+msgstr "Az Akismet API-kulcsot konfigurálja, lásd: :setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:863
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
-"Beállítja a commit-ek GPG aláírását, lásd :setting:`WEBLATE_GPG_IDENTITY`."
+"A véglegesítések GPG-aláírását konfigurálja, lásd: "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:871
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
-"Beállítja azt az URL előtagot, ahol a Weblate fut, lásd :setting:"
-"`URL_PREFIX`."
+"Az URL-előtagot konfigurálja, amely alatt a Weblate fut, lásd: "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:875
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
-"Beállítja azokat az ellenőrzéseket, amelyeket nem szeretnél megjeleníteni, "
-"lásd :setting:`django:SILENCED_SYSTEM_CHECKS`."
+"A nem kívánt ellenőrzések megjelenítését konfigurálja, lásd: "
+":setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:885
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
 msgstr ""
-"Lehetővé teszi a :http:header:`Content-Security-Policy` HTTP fejléc "
-"testreszabását."
+"A :http:header:`Content-Security-Policy` HTTP fejléc testreszabását teszi "
+"lehetővé."
 
 #: ../../admin/install/docker.rst:889
 msgid ""
@@ -16537,45 +16542,45 @@ msgid ""
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
 "setting:`CSP_FORM_SRC`"
 msgstr ""
-":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
-"`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :"
-"setting:`CSP_FORM_SRC`"
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
+" :setting:`CSP_FORM_SRC`"
 
 #: ../../admin/install/docker.rst:899
 msgid "Configures :setting:`LICENSE_FILTER`."
-msgstr "Beállítja a :setting:`LICENSE_FILTER`-t."
+msgstr "A :setting:`LICENSE_FILTER` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:903
 msgid "Configures :setting:`LICENSE_REQUIRED`."
-msgstr "Beállítja a :setting:`LICENSE_REQUIRED` értékét."
+msgstr "A :setting:`LICENSE_REQUIRED` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:907
 msgid "Configures :setting:`WEBSITE_REQUIRED`."
-msgstr "Beállítja a :setting:`WEBSITE_REQUIRED` értékét."
+msgstr "A :setting:`WEBSITE_REQUIRED` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:911
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr "Beállítja a :setting:`HIDE_VERSION`-t."
+msgstr "A :setting:`HIDE_VERSION` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:915
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr "Beállítja a(z) :setting:`BASIC_LANGUAGES`-t."
+msgstr "A :setting:`BASIC_LANGUAGES` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:919
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr "Beállítja a(z) :setting:`DEFAULT_AUTO_WATCH` értékét."
+msgstr "A :setting:`DEFAULT_AUTO_WATCH` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:927
 msgid "Configures rate limiter."
-msgstr "A sebességkorlátozót konfigurálja."
+msgstr "A sebességkorlátozás (rate limiter) konfigurálását végzi."
 
 #: ../../admin/install/docker.rst:931
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
-"Bármelyik sebességkorlátozó hatókörhöz beállíthatsz konfigurációt. Ehhez adj "
-"hozzá ``WEBLATE_`` előtagot bármelyik, a :ref:`rate-limit` részben leírt "
+"Bármely sebességkorlátozási tartomány beállítását megadhatja. Ehhez adjon "
+"``WEBLATE_`` előtagot a :ref:`rate-limit` részben ismertetett bármely "
 "beállításhoz."
 
 #: ../../admin/install/docker.rst:936
@@ -16583,16 +16588,16 @@ msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
-":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
-"`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
+", :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:947
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
-"Beállítja az API sebességkorlátozását. Alapértelmezés szerint ``100/nap`` "
-"névtelen és ``5000/óra`` hitelesített felhasználók számára."
+"Az API sebességkorlátozását konfigurálja. Alapértelmezés szerint ``100/nap`` "
+"névtelen és ``5000/óra`` hitelesített felhasználók esetén."
 
 #: ../../admin/install/docker.rst:952
 msgid ":ref:`api-rate`"
@@ -16600,80 +16605,83 @@ msgstr ":ref:`api-rate`"
 
 #: ../../admin/install/docker.rst:958
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr "Beállítja a(z) :setting:`ENABLE_HOOKS`-t."
+msgstr "Az :setting:`ENABLE_HOOKS` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:964
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr "Beállítja a :setting:`ENABLE_AVATARS` értékét."
+msgstr "Az :setting:`ENABLE_AVATARS` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:970
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr "Beállítja a(z) :setting:`AVATAR_URL_PREFIX` értéket."
+msgstr "Az :setting:`AVATAR_URL_PREFIX` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:976
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr "Beállítja a :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`-t."
+msgstr ""
+"A :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:982
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr "Beállítja a :setting:`SSH_EXTRA_ARGS`-t."
+msgstr "Az :setting:`SSH_EXTRA_ARGS` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:988
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
-"A :setting:`BORG_EXTRA_ARGS` beállítás konfigurálása vesszővel elválasztott "
-"argumentumok listájaként történik."
+"A :setting:`BORG_EXTRA_ARGS` értékét konfigurálja, vesszővel elválasztott "
+"argumentumok listájaként."
 
 #: ../../admin/install/docker.rst:1001
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr "Beállítja a(z) :setting:`ENABLE_SHARING` opciót."
+msgstr "Az :setting:`ENABLE_SHARING` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1007
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
-msgstr "Beállítja a(z) :setting:`SUPPORT_STATUS_CHECK`-et."
+msgstr "A :setting:`SUPPORT_STATUS_CHECK` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1013
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr "Beállítja a(z) :setting:`EXTRA_HTML_HEAD` értéket."
+msgstr "Az :setting:`EXTRA_HTML_HEAD` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1019
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr "Beállítja a(z) :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` értéket."
+msgstr "A :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1025
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr "Beállítja a(z) :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` értéket."
+msgstr "A :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1031
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr "Beállítja a(z) :setting:`UNUSED_ALERT_DAYS` értékét."
+msgstr "A :setting:`UNUSED_ALERT_DAYS` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1037
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr "Beállítja a(z) :setting:`UPDATE_LANGUAGES` értékét."
+msgstr "A :setting:`UPDATE_LANGUAGES` értékét konfigurálja."
 
 #: ../../admin/install/docker.rst:1043
 msgid "Allow CORS requests to API from given origins."
-msgstr "Engedélyezd a CORS kéréseket az API-hoz a megadott forrásokból."
+msgstr ""
+"A CORS kérések API-hoz történő engedélyezését konfigurálja megadott "
+"forrásokból."
 
 #: ../../admin/install/docker.rst:1056
 msgid "Allows CORS requests to API from all origins."
-msgstr "Engedélyezi a CORS kéréseket az API-hoz minden forrásból."
+msgstr ""
+"A CORS kérések API-hoz történő engedélyezését konfigurálja minden forrásból."
 
 #: ../../admin/install/docker.rst:1063
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
-"Beállítja a beépített webszerver által elfogadott maximális törzsméretet."
+"A beépített webszerver által elfogadható maximális törzsméretet konfigurálja."
 
 #: ../../admin/install/docker.rst:1072
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
 msgstr ""
-"Ennél a változónál szándékosan hiányzik a ``WEBLATE_`` előtag, mivel azt "
-"harmadik fél által használt konténerrel osztja meg a(z) :ref:`docker-https-"
-"portal`-ban."
+"Ezt a változót szándékosan nem előzi meg a ``WEBLATE_`` előtag, mivel a :ref"
+":`docker-https-portal` során használt külső konténerrel közösen használatos."
 
 #: ../../admin/install/docker.rst:1079
 msgid "Code hosting sites credentials"
