@@ -1777,7 +1777,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 # Delete the removed unit from the database
                 cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
-                self.notify_deletion(translation_unit, user)
+                translation.notify_deletion(translation_unit, user)
                 # Skip file processing on source language without a storage
                 if not translation.filename:
                     continue
