@@ -29,7 +29,7 @@ jobs:
 
           for (const issue of issues) {
             console.log(`Working on issue #${issue.number}...`);
-            const labels = github.rest.issues.listLabelsOnIssue({
+            const labels = await github.rest.issues.listLabelsOnIssue({
               issue_number: issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
