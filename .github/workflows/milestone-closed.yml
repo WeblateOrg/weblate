@@ -34,7 +34,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            for (const label of labels) {
+            for (const label of labels.data) {
               if (label.name.startsWith('Waiting for: ')) {
                 github.rest.issues.removeLabel({
                   issue_number: issue.number,
