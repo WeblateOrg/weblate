@@ -1783,21 +1783,24 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                     continue
                 # Does unit exist in the file?
                 try:
-                    pounit, add = translation.store.find_unit(unit.context, unit.source)
+                    pounit, needs_add = translation.store.find_unit(
+                        unit.context, unit.source
+                    )
                 except UnitNotFoundError:
-                    continue
-                if add:
-                    continue
-                # Commit changed file
-                extra_files = translation.store.remove_unit(pounit.unit)
-                translation.addon_commit_files.extend(extra_files)
-                translation.drop_store_cache()
-                translation.git_commit(user, user.get_author_name(), store_hash=False)
-                # Adjust position as it will happen in most formats
-                if translation_unit.position:
-                    translation.unit_set.filter(
-                        position__gt=translation_unit.position
-                    ).update(position=F("position") - 1)
+                    needs_add = True
+                if not needs_add:
+                    # Commit changed file
+                    extra_files = translation.store.remove_unit(pounit.unit)
+                    translation.addon_commit_files.extend(extra_files)
+                    translation.drop_store_cache()
+                    translation.git_commit(
+                        user, user.get_author_name(), store_hash=False
+                    )
+                    # Adjust position as it will happen in most formats
+                    if translation_unit.position:
+                        translation.unit_set.filter(
+                            position__gt=translation_unit.position
+                        ).update(position=F("position") - 1)
                 # Delete stale source units
                 if not self.is_source and translation == self:
                     source_unit = translation_unit.source_unit

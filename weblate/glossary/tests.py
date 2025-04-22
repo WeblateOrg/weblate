@@ -4,6 +4,8 @@
 
 """Test for glossary manipulations."""
 
+from __future__ import annotations
+
 import csv
 import json
 from io import StringIO
@@ -17,7 +19,7 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import TransactionsTestMixin
@@ -553,3 +555,26 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Prohibited initial character")
+
+    def removal_test(self, translation: Translation, *, commit: bool = False) -> None:
+        self.assertEqual(translation.unit_set.count(), 0)
+        self.add_term("hello", "ahoj")
+        if commit:
+            self.glossary_component.commit_pending("test", None)
+        self.assertEqual(translation.unit_set.count(), 1)
+        unit = translation.unit_set.get(source="hello")
+        translation.delete_unit(None, unit)
+        self.assertEqual(translation.unit_set.count(), 0)
+        self.assertEqual(self.glossary_component.source_translation.unit_set.count(), 0)
+
+    def test_string_removal(self) -> None:
+        self.removal_test(self.glossary)
+
+    def test_source_string_removal(self) -> None:
+        self.removal_test(self.glossary_component.source_translation)
+
+    def test_string_removal_commmit(self) -> None:
+        self.removal_test(self.glossary, commit=True)
+
+    def test_source_string_removal_commit(self) -> None:
+        self.removal_test(self.glossary_component.source_translation, commit=True)
