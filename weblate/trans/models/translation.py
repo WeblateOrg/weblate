@@ -1834,15 +1834,22 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     @transaction.atomic
     def sync_terminology(self) -> None:
+        from weblate.auth.models import User
+
         if not self.is_source or not self.component.manage_units:
             return
         expected_count = self.component.translation_set.count()
+        author: User | None = None
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
             if source.unit_set.count() == expected_count:
                 continue
+            if author is None:
+                author = User.objects.get_or_create_bot(
+                    scope="glossary", username="sync", verbose="Glossary sync"
+                )
             # Add unit
             self.add_unit(
                 None,
@@ -1851,7 +1858,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 "",
                 is_batch_update=True,
                 skip_existing=True,
+                author=author,
             )
+        self.store_update_changes()
 
     def validate_new_unit_data(
         self,
