@@ -37,7 +37,8 @@ jobs:
           });
           for (const label of labels.data) {
             if (label.name.startsWith('Waiting for: ')) {
-              github.rest.issues.removeLabel({
+              console.log(`Removing label ${label.name}`);
+              await github.rest.issues.removeLabel({
 
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -47,13 +48,13 @@ jobs:
             }
           }
           if (context.payload.issue.milestone.state == 'open') {
-            github.rest.issues.addLabels({
+            await github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['Waiting for: Release']
             })
-            github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,

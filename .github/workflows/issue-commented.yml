@@ -31,7 +31,7 @@ jobs:
           for (const label of labels.data) {
             if (label.name.startsWith('Waiting for: ')) {
               console.log(`Removing label ${label.name}`);
-              github.rest.issues.removeLabel({
+              await github.rest.issues.removeLabel({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -39,7 +39,7 @@ jobs:
               })
             }
           }
-          github.rest.issues.addLabels({
+          await github.rest.issues.addLabels({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
