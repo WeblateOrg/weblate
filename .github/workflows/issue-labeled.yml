@@ -1,0 +1,40 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Remove "Waiting for: Triage" label when "Waiting for:" label is added
+
+name: 'Issues: Remove previous waiting labels'
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  cleanup-labels:
+    runs-on: ubuntu-24.04
+    if: |
+      ! github.event.issue.pull_request &&
+      contains(github.event.label.name, 'Waiting for:')
+    steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      with:
+        script: |
+          const labels = await github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ') and label.name != context.event.label.name) {
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+              })
+            }
+          }
