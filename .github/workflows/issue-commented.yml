@@ -18,30 +18,43 @@ jobs:
     runs-on: ubuntu-24.04
     if: |
       ! github.event.issue.pull_request &&
-      contains(github.event.issue.labels.*.name, 'Waiting for: Community')
+      contains(github.event.issue.labels.*.name, 'Waiting for: Community') &&
+      github.event.sender.type != 'Bot' &&
+      github.event.sender.login != 'github-actions' &&
+      github.event.sender.login != 'weblate' &&
+      ! endsWith(github.event.sender.login, '[bot]') &&
+      ! endsWith(github.event.sender.login, 'bot')
     steps:
     - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
         script: |
-          const labels = await github.rest.issues.listLabelsOnIssue({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          });
-          for (const label of labels.data) {
-            if (label.name.startsWith('Waiting for: ')) {
-              console.log(`Removing label ${label.name}`);
-              await github.rest.issues.removeLabel({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: label.name,
-              })
+          const is_member = await github.rest.orgs.checkMembershipForUser(
+            org: 'WeblateOrg',
+            username: context.payload.sender.login
+          );
+          if (is_member) {
+            console.log(`User ${context.payload.sender.login} is member of WeblateOrg, skipping state update`);
+          } else {
+            const labels = await github.rest.issues.listLabelsOnIssue({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            for (const label of labels.data) {
+              if (label.name.startsWith('Waiting for: ')) {
+                console.log(`Removing label ${label.name}`);
+                await github.rest.issues.removeLabel({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                })
+              }
             }
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Triage']
+            })
           }
-          await github.rest.issues.addLabels({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            labels: ['Waiting for: Triage']
-          })
