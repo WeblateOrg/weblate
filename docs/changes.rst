@@ -8,6 +8,7 @@ Weblate 5.11.1
 .. rubric:: Improvements
 
 * :ref:`projectbackup` now include teams and categories.
+* Docker health check is now supported in non-web service containers.
 
 .. rubric:: Bug fixes
 
