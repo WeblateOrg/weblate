@@ -28,10 +28,19 @@ jobs:
     - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
         script: |
-          const is_member = await github.rest.orgs.checkMembershipForUser({
-            org: 'WeblateOrg',
-            username: context.payload.sender.login
-          });
+          var is_member = false;
+          try {
+            const response = await github.rest.orgs.checkMembershipForUser({
+              org: 'WeblateOrg',
+              username: context.payload.sender.login
+            });
+            is_member = (response.status == 204);
+          } catch (error) {
+            console.log(
+              `Failed requesting GitHub organization "${org}" membership status of user "${username}": ${error.message}`,
+            );
+            is_member = false;
+          }
           if (is_member) {
             console.log(`User ${context.payload.sender.login} is member of WeblateOrg, skipping state update`);
           } else {
