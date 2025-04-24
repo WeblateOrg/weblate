@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-24 01:03+0000\n"
+"PO-Revision-Date: 2025-04-25 09:32+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -20633,49 +20633,52 @@ msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
 msgstr ""
-"Meghatározza azt az összetevőt, amelyet forrásként használnak a fordításhoz. "
-"Ha nincs megadva, a projekt összes összetevője használatban lesz."
+"Meghatározza az összetevőt, amely forrásként szolgál a fordításhoz. Ha nincs "
+"megadva, a projekt összes összetevője felhasználásra kerül."
 
 #: ../../admin/management.rst:117
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
-"Add meg a fordítások szerzőjeként feltüntetett felhasználónevet. Ha nincs "
-"megadva, az \"Anonymous user\" lesz használva."
+"A fordítások szerzőjeként feltüntetendő felhasználónév. Ha nincs megadva, az "
+"„Anonymous user” kerül felhasználásra."
 
 #: ../../admin/management.rst:122
 msgid "Whether to overwrite existing translations."
-msgstr "Felülírja-e a meglévő fordításokat."
+msgstr "Meglévő fordítások felülírásának engedélyezése."
 
 #: ../../admin/management.rst:126
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
 msgstr ""
-"Felülírja-e a meglévő, nem konzisztens fordításokat (lásd: :ref:`check-"
-"inconsistent`)."
+"Az inkonzisztens (lásd :ref:`check-inconsistent`) meglévő fordítások "
+"felülírásának engedélyezése."
 
 #: ../../admin/management.rst:131
 msgid "Automatically add language if a given translation does not exist."
-msgstr "Automatikusan hozzáadja a nyelvet, ha egy adott fordítás nem létezik."
+msgstr ""
+"A rendszer automatikusan hozzáadja a nyelvet, ha az adott fordítás még nem "
+"létezik."
 
 #: ../../admin/management.rst:135
 msgid ""
 "Use machine translation instead of other components as machine translations."
-msgstr "Használj gépi fordítást más összetevők helyett gépi fordításként."
+msgstr ""
+"Gépi fordítás használata más összetevők helyett gépi fordítási forrásként."
 
 #: ../../admin/management.rst:139
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr "A gépi fordítás hasonlósági küszöbértéke, alapértelmezés szerint 80."
+msgstr "Gépi fordítási hasonlósági küszöb, alapértelmezetten 80."
 
 #: ../../admin/management.rst:143
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
 msgstr ""
-"Add meg a fordítási módot, az alapértelmezett a ``translate``, de "
-"használhatod a ``fuzzy`` vagy ``suggest`` módokat is."
+"Fordítási mód megadása, alapértelmezetten ``translate``, de használható a "
+"``fuzzy`` vagy a ``suggest`` is."
 
 #: ../../admin/management.rst:154
 msgid ":ref:`auto-translation`"
@@ -20687,7 +20690,7 @@ msgstr "celery_queues"
 
 #: ../../admin/management.rst:161
 msgid "Displays length of Celery task queues."
-msgstr "Megjeleníti a Celery feladat sorok hosszát."
+msgstr "Megjeleníti a Celery feladat várósorok hosszát."
 
 #: ../../admin/management.rst:164
 msgid "checkgit"
@@ -20695,7 +20698,7 @@ msgstr "checkgit"
 
 #: ../../admin/management.rst:168
 msgid "Prints current state of the back-end Git repository."
-msgstr "Kiírja a back-end Git tároló jelenlegi állapotát."
+msgstr "Kiírja a háttérben működő Git-tároló aktuális állapotát."
 
 #: ../../admin/management.rst:170 ../../admin/management.rst:191
 #: ../../admin/management.rst:736 ../../admin/management.rst:756
@@ -20705,9 +20708,9 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
-"Megadhatod, hogy melyik projektet vagy összetevőt szeretnéd frissíteni "
-"(például ``weblate/application``) vagy használhatod a ``--all`` kapcsolót az "
-"összes meglévő összetevő frissítésére."
+"Meghatározható, hogy melyik projekt vagy összetevő frissüljön (például ``"
+"weblate/application``) vagy a ``--all`` opcióval az összes meglévő összetevő "
+"frissíthető."
 
 #: ../../admin/management.rst:174
 msgid "commitgit"
@@ -20715,9 +20718,7 @@ msgstr "commitgit"
 
 #: ../../admin/management.rst:178
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
-"Elkötelezi az esetleges függőben lévő változtatásokat a back-end Git "
-"tárolóban."
+msgstr "Minden függőben lévő módosítás véglegesítése a háttér Git-tárolóban."
 
 #: ../../admin/management.rst:180
 msgid ""
@@ -20725,10 +20726,10 @@ msgid ""
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"Megadhatod, hogy melyik projektet vagy összetevőt szeretnéd frissíteni "
-"(például ``weblate/application``) vagy használhatod a ``--all`` opciót az "
-"összes meglévő összetevő frissítéséhez vagy a ``--file-format`` opciót a "
-"fájlformátum szerinti szűréshez."
+"Meghatározható, hogy melyik projekt vagy összetevő frissüljön (például ``"
+"weblate/application``) vagy a ``--all`` opcióval az összes meglévő "
+"összetevő, illetve a ``--file-format`` opcióval fájlformátum alapján is "
+"szűrhető."
 
 #: ../../admin/management.rst:185
 msgid "commit_pending"
@@ -20736,15 +20737,15 @@ msgstr "commit_pending"
 
 #: ../../admin/management.rst:189
 msgid "Commits pending changes older than a given age."
-msgstr "Elkötelezi a megadott kornál régebbi függőben lévő változtatásokat."
+msgstr "A megadott korhatárnál régebbi függő módosítások véglegesítése."
 
 #: ../../admin/management.rst:196
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
 msgstr ""
-"Az elkötelezéshez szükséges életkor órában. Ha nincs megadva, a :ref:"
-"`component`-ben beállított érték kerül felhasználásra."
+"A véglegesítéshez megadott idő (órában). Ha nincs megadva, akkor az :ref:`"
+"összetevő <component>` beállításaiban megadott érték kerül felhasználásra."
 
 #: ../../admin/management.rst:201
 msgid ""
@@ -20752,9 +20753,9 @@ msgid ""
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
 msgstr ""
-"Ezt a Weblate automatikusan elvégzi a háttérben, így nincs valódi szükség "
-"ennek kézi meghívására, kivéve, ha korábbi commitot szeretnél "
-"kikényszeríteni, mint amit a :ref:`component` meghatároz."
+"Ez a művelet a háttérben automatikusan történik a Weblate által, így nincs "
+"feltétlenül szükség kézi futtatására – kivéve ha az :ref:`component` által "
+"meghatározottnál korábbi véglegesítést kíván végrehajtani."
 
 #: ../../admin/management.rst:207
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
@@ -20770,9 +20771,8 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
-"Törli az árván maradt ellenőrzéseket és fordítási javaslatokat. Általában "
-"nincs szükség arra, hogy ezt kézzel futtasd, mivel a tisztítások "
-"automatikusan megtörténnek a háttérben."
+"Elárvult ellenőrzések és fordítási javaslatok tisztítása. Általában nincs "
+"szükség kézi futtatásra, mivel ez automatikusan megtörténik a háttérben."
 
 #: ../../admin/management.rst:220
 msgid ":ref:`production-cron`"
@@ -20784,19 +20784,19 @@ msgstr "cleanup_ssh_keys"
 
 #: ../../admin/management.rst:229
 msgid "Performs cleanup of stored SSH host keys:"
-msgstr "Elvégzi a tárolt SSH kiszolgáló kulcsok tisztítását:"
+msgstr "Elmentett SSH-kulcsok tisztítása:"
 
 #: ../../admin/management.rst:231
 msgid ""
 "Removes deprecated RSA keys for GitHub which might cause issues connecting "
 "to GitHub."
 msgstr ""
-"Eltávolítja az elavult RSA kulcsokat a GitHub számára, amelyek problémákat "
-"okozhatnak a GitHubhoz való csatlakozáskor."
+"Eltávolítja az elavult RSA kulcsokat a GitHubhoz, amelyek problémát "
+"okozhatnak a kapcsolódás során."
 
 #: ../../admin/management.rst:232
 msgid "Removes duplicate entries in host keys."
-msgstr "Eltávolítja a duplikált bejegyzéseket a kiszolgáló kulcsoknál."
+msgstr "Eltávolítja a hosztkulcsok duplikált bejegyzéseit."
 
 #: ../../admin/management.rst:236
 msgid ":ref:`ssh-repos`"
@@ -20811,35 +20811,34 @@ msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
 msgstr ""
 "Létrehoz egy ``admin`` fiókot véletlenszerű jelszóval, hacsak nincs megadva "
-"másképp."
+"másként."
 
 #: ../../admin/management.rst:247
 msgid "Provides a password on the command-line, to not generate a random one."
 msgstr ""
-"Megad egy jelszót a parancssorban, hogy ne véletlenszerű jelszó legyen "
-"generálva."
+"Jelszó megadása parancssori paraméterként, így nem generálódik véletlenszerű "
+"jelszó."
 
 #: ../../admin/management.rst:251
 msgid "Do not set password, this can be useful with `--update`."
-msgstr "Ne állíts be jelszót, ez hasznos lehet a `--update` használatakor."
+msgstr ""
+"Ne állítson be jelszót – ez hasznos lehet a `--update` kapcsolóval együtt."
 
 #: ../../admin/management.rst:255
 msgid "Use the given name instead of ``admin``."
-msgstr "Használd a megadott nevet az ``admin`` helyett."
+msgstr "Az ``admin`` helyett megadott név használata."
 
 #: ../../admin/management.rst:259
 msgid "Specify the admin e-mail address."
-msgstr "Add meg az admin e-mail címét."
+msgstr "Adminisztrátori e-mail-cím megadása."
 
 #: ../../admin/management.rst:263
 msgid "Specify the admin name (visible)."
-msgstr "Add meg az admin nevét (látható)."
+msgstr "Adminisztrátor neve (megjelenített név) megadása."
 
 #: ../../admin/management.rst:267
 msgid "Update the existing user (you can use this to change passwords)."
-msgstr ""
-"Frissítsd a meglévő felhasználót (ezt használhatod jelszavak "
-"megváltoztatására)."
+msgstr "Létező felhasználó frissítése (pl. jelszó módosítására is használható)."
 
 #: ../../admin/management.rst:270
 msgid "dump_memory"
@@ -20847,9 +20846,7 @@ msgstr "dump_memory"
 
 #: ../../admin/management.rst:274
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
-"Exportálj egy JSON fájlt, amely Weblate fordítási memória tartalmát "
-"tartalmazza."
+msgstr "Weblate fordítási memória exportálása JSON-fájlba."
 
 #: ../../admin/management.rst:278 ../../admin/management.rst:381
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
@@ -20862,12 +20859,12 @@ msgstr "dumpuserdata"
 #: ../../admin/management.rst:286
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
 msgstr ""
-"Felhasználói adatokat ment egy fájlba, amelyet később a :wladmin:"
-"`importuserdata` segítségével lehet használni."
+"Felhasználói adatok mentése fájlba, hogy később a :wladmin:`importuserdata` "
+"paranccsal visszatölthetők legyenek."
 
 #: ../../admin/management.rst:290
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr "Ez jól jön, amikor Weblate példányokat migrálsz vagy egyesítesz."
+msgstr "Hasznos lehet Weblate példányok migrálásánál vagy összevonásánál."
 
 #: ../../admin/management.rst:293
 msgid "import_demo"
@@ -20879,9 +20876,9 @@ msgid ""
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
-"Létrehoz egy demóprojektet a(z) <https://github.com/WeblateOrg/demo> alapján "
-"összetevőkkel. Győződj meg róla, hogy a celery feladatok futnak, mielőtt ezt "
-"a parancsot lefuttatnád."
+"Demó projekt létrehozása a következő alapján: <https://github.com/WeblateOrg/"
+"demo>. A parancs futtatása előtt győződjön meg arról, hogy a Celery-"
+"feladatok futnak."
 
 #: ../../admin/management.rst:302
 msgid "This can be useful when developing Weblate."
@@ -20889,7 +20886,7 @@ msgstr "Ez hasznos lehet a Weblate fejlesztése során."
 
 #: ../../admin/management.rst:306
 msgid "Removes existing demo project."
-msgstr "Eltávolítja a meglévő demó projektet."
+msgstr "Létező demó projekt eltávolítása."
 
 #: ../../admin/management.rst:310
 msgid "import_json"
@@ -20897,7 +20894,7 @@ msgstr "import_json"
 
 #: ../../admin/management.rst:314
 msgid "Batch import of components based on JSON data."
-msgstr "Összetevők tömeges importálása JSON adatok alapján."
+msgstr "Összetevők kötegelt importálása JSON-adatok alapján."
 
 #: ../../admin/management.rst:316
 msgid ""
@@ -20905,31 +20902,30 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
-"Az importált JSON fájl struktúrája nagyrészt megfelel az összetevő "
-"objektumnak (lásd :http:get:`/api/components/(string:project)/(string:"
-"component)/`). Tartalmaznod kell a ``name`` és ``filemask`` mezőket."
+"Az importált JSON fájl felépítése nagyrészt megfelel az összetevő "
+"objektumnak (lásd: :http:get:`/api/components/"
+"(string:project)/(string:component)/`). Kötelező megadni a ``name`` és "
+"``filemask`` mezőket."
 
 #: ../../admin/management.rst:322
 msgid "Specifies where the components will be imported from."
-msgstr "Meghatározza, honnan lesznek importálva az összetevők."
+msgstr "Megadja, honnan történjen az összetevők importálása."
 
 #: ../../admin/management.rst:326
 msgid "Use the given VCS repository from this component for all of them."
-msgstr ""
-"Használd az adott összetevőhöz tartozó VCS (verziókezelő) tárolót "
-"mindegyikhez."
+msgstr "A megadott VCS tároló használata minden összetevő esetén."
 
 #: ../../admin/management.rst:330
 msgid "Skip (already) imported components."
-msgstr "Hagyd ki a (már) importált összetevőket."
+msgstr "A már importált összetevők kihagyása."
 
 #: ../../admin/management.rst:334
 msgid "Update (already) imported components."
-msgstr "Frissítsd a (már) importált összetevőket."
+msgstr "A már importált összetevők frissítése."
 
 #: ../../admin/management.rst:336
 msgid "Example of JSON file:"
-msgstr "JSON fájl példa:"
+msgstr "JSON-fájl példa:"
 
 #: ../../admin/management.rst:343 ../../admin/memory.rst:121
 msgid ":wladmin:`import_memory`"
@@ -20941,62 +20937,60 @@ msgstr "import_memory"
 
 #: ../../admin/management.rst:351
 msgid "Imports a file into the Weblate translation memory."
-msgstr "Egy fájlt importál a Weblate fordítási memóriájába."
+msgstr "Fájl importálása a Weblate fordítási memóriába."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr "A támogatott fájlformátumok: TMX, JSON, XLIFF, PO, CSV."
+msgstr "Támogatott fájlformátumok: TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:355
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
-"A JSON és TMX formátumokon kívüli formátumoknál szükséges lehet a forrás- és "
-"célnyelv megadása."
+"A JSON és TMX kívüli formátumoknál szükséges lehet a forrás- és célnyelv "
+"megadása."
 
 #: ../../admin/management.rst:360
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
 msgstr ""
-"Lehetővé teszi a TMX nyelveinek hozzárendelését a Weblate fordítási "
-"memóriájához. A nyelvi kódok hozzárendelése a Weblate által általában "
-"végzett normalizálás után történik."
+"Lehetővé teszi a TMX-ben szereplő nyelvek hozzárendelését a Weblate "
+"fordítási memóriához. A nyelvkódok hozzárendelése a Weblate által végzett "
+"normalizálás után történik."
 
 #: ../../admin/management.rst:363
 msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
-"A ``--language-map en_US:en`` például az összes ``en_US`` szöveget ``en``-"
-"ként fogja importálni."
+"Például: ``--language-map en_US:en`` hatására minden ``en_US`` szöveg ``en``-"
+"ként kerül importálásra."
 
 #: ../../admin/management.rst:366
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
 msgstr ""
-"Ez hasznos lehet, ha a TMX fájlod helyi beállításai nem egyeznek meg azzal, "
-"amit a Weblate-ben használsz."
+"Ez akkor lehet hasznos, ha a TMX fájlban használt területi beállítások "
+"(locale-ok) nem egyeznek meg a Weblate-ben használttal."
 
 #: ../../admin/management.rst:371
 msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
-"Meghatározza a forrásnyelvet az importált fordításokhoz. Általában olyan "
-"formátumoknál szükséges, ahol a nyelvek nem állapíthatók meg magából a "
-"fájlból."
+"Az importált fordítások forrásnyelvének megadása. Általában olyan "
+"formátumoknál szükséges, amelyekből nem állapítható meg a nyelv."
 
 #: ../../admin/management.rst:376
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
-"Meghatározza a célnyelvet az importált fordításokhoz. Általában olyan "
-"formátumoknál szükséges, ahol a nyelvek nem állapíthatók meg magából a "
-"fájlból."
+"Az importált fordítások célnyelvének megadása. Általában olyan formátumoknál "
+"szükséges, amelyekből nem állapítható meg a nyelv."
 
 #: ../../admin/management.rst:385
 msgid "import_project"
@@ -21008,17 +21002,17 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
-"Tömegesen importálja az összetevőket a projektbe a fájlmaszk alapján. Ez a :"
-"ref:`addon-weblate.discovery.discovery` kiegészítőn alapul, így lehet, hogy "
-"inkább azt szeretnéd használni."
+"Összetevők kötegelt importálása egy projekthez fájlmaszk alapján. Ez a :ref"
+":`addon-weblate.discovery.discovery` kiegészítőn alapul, ezért célszerű "
+"lehet azt használni helyette."
 
 #: ../../admin/management.rst:393
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
-"A `<project>` egy meglévő projektet nevez meg, amelybe az összetevők "
-"importálásra kerülnek."
+"A `<project>` egy létező projekt neve, amelybe az összetevők kerülnek "
+"importálásra."
 
 #: ../../admin/management.rst:396
 msgid ""
@@ -21027,10 +21021,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
-"A `<gitrepo>` határozza meg a használni kívánt Git adattár URL-jét, míg a "
-"`<branch>` a Git ágat jelöli. Ha további fordítási összetevőket szeretnél "
-"importálni egy meglévő Weblate összetevőből, használd a `weblate://<project>/"
-"<component>` URL-t a `<gitrepo>` helyett."
+"A `<gitrepo>` a használandó Git-tároló URL-je, a `<branch>` pedig az adott "
+"Git ág. Ha meglévő Weblate-összetevőből szeretne további fordítási "
+"összetevőket importálni, a következő URL-formátumot használja: "
+"`weblate://<project>/<component>`."
 
 #: ../../admin/management.rst:401
 msgid ""
@@ -21038,17 +21032,17 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
-"A `<filemask>` határozza meg a fájlok felfedezését az adattárban. Egyszerűen "
-"meg lehet adni helyettesítő karakterekkel vagy a reguláris kifejezések "
-"teljes erejével is használható."
+"A `<filemask>` határozza meg a fájlok felismerését a tárolóban. Lehet "
+"egyszerű, helyettesítő karaktereket használó forma vagy teljes értékű "
+"reguláris kifejezés."
 
 #: ../../admin/management.rst:404
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
-"Az egyszerű illesztés a ``**``-t használja az összetevő nevéhez és a ``*``-t "
-"a nyelvhez, például: ``**/*.po``"
+"Az egyszerű illesztésnél a ``**`` jelöli az összetevőt, a ``*`` pedig a "
+"nyelvet, például: ``**/*.po``"
 
 #: ../../admin/management.rst:407
 msgid ""
@@ -21056,28 +21050,27 @@ msgid ""
 "`language`, for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 msgstr ""
 "A reguláris kifejezésnek tartalmaznia kell `component` és `language` nevű "
-"csoportokat, például: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
+"csoportokat, például: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\\\.po``."
 
 #: ../../admin/management.rst:410
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
-"Az importálás a fájlok alapján illeszti a meglévő összetevőket, és hozzáadja "
-"azokat, amelyek még nem léteznek. A már meglévőket nem módosítja."
+"Az import a meglévő fájlok alapján illeszti a már létező összetevőket, és "
+"hozzáadja azokat, amelyek még nem léteznek. A meglévőket nem módosítja."
 
 #: ../../admin/management.rst:415
 msgid "Customize the name of a component using Django template syntax."
-msgstr ""
-"Testreszabhatod egy összetevő nevét a Django sablonszintaxis segítségével."
+msgstr "Az összetevő nevének testreszabása Django sablonszintaxis segítségével."
 
 #: ../../admin/management.rst:417
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr "Például: ``Documentation: {{ component }}``"
+msgstr "Például: ``Dokumentáció: {{ component }}``"
 
 #: ../../admin/management.rst:421
 msgid "Customize the base file for monolingual translations."
-msgstr "Testreszabhatod az egynyelvű fordítások alapfájlját."
+msgstr "Az egynyelvű fordítások alapfájljának testreszabása."
 
 #: ../../admin/management.rst:423
 msgid "For example: ``{{ component }}/res/values/string.xml``"
@@ -21085,7 +21078,7 @@ msgstr "Például: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:427
 msgid "Customize the base file for addition of new translations."
-msgstr "Testreszabhatod az új fordítások hozzáadásának alapfájlját."
+msgstr "Új fordítások hozzáadásának alapfájlja is testreszabható."
 
 #: ../../admin/management.rst:429
 msgid "For example: ``{{ component }}/ts/en.ts``"
@@ -21096,52 +21089,53 @@ msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
-"Megadhatod a használni kívánt fájlformátumot is (lásd: :ref:`formats`), az "
-"alapértelmezett az automatikus észlelés."
+"A használandó fájlformátum is megadható (lásd: :ref:`formats`), "
+"alapértelmezetten automatikus felismerést alkalmaz."
 
 #: ../../admin/management.rst:438
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
 msgstr ""
-"Ezzel a paraméterrel megadhatod a nyelvi szűrést (lásd: :ref:`component`). "
-"Ennek egy érvényes reguláris kifejezésnek kell lennie."
+"Megadható nyelvi szűrés (lásd: :ref:`component`) ezzel a paraméterrel. "
+"Érvényes reguláris kifejezésnek kell lennie."
 
 #: ../../admin/management.rst:443
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
-"Megadhatod, hogy melyik összetevő legyen a fő – vagyis az, amelyik "
-"ténylegesen tartalmazza a VCS (verziókezelő) tárolót."
+"Kiválasztható, melyik összetevő legyen az elsődleges – az, amely ténylegesen "
+"tartalmazza a VCS tárolót."
 
 #: ../../admin/management.rst:448
 msgid "Specify the overall, project or component translation license."
-msgstr "Add meg az átfogó, projekt vagy összetevő fordítási licencet."
+msgstr "Megadható az általános, projekt- vagy összetevőszintű fordítási licenc."
 
 #: ../../admin/management.rst:452
 msgid "Specify the URL where the translation license is to be found."
-msgstr "Add meg azt az URL-t, ahol a fordítási licenc megtalálható."
+msgstr "Megadható a licenc URL-je, ahol a fordítási licenc elérhető."
 
 #: ../../admin/management.rst:456
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
-"Ha meg kell adnod, hogy melyik verziókezelő rendszert használd, itt "
-"megteheted. Az alapértelmezett verziókezelő a Git."
+"Ha szükséges megadni, hogy melyik verziókezelő rendszert használja a "
+"rendszer, azt itt teheti meg. Az alapértelmezett verziókezelő rendszer a Git."
 
 #: ../../admin/management.rst:459
 msgid "To give you some examples, let's try importing two projects."
-msgstr "Hogy néhány példát adjak, próbáljunk meg importálni két projektet."
+msgstr ""
+"Hogy szemléltessük a folyamatot, próbáljunk meg importálni két projektet."
 
 #: ../../admin/management.rst:461
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
-"Először a Debian kézikönyv fordításai, ahol minden nyelv külön mappában "
-"található, és tartalmazza az egyes fejezetek fordításait:"
+"Először a Debian kézikönyv fordításait, ahol minden nyelv külön mappában "
+"van, és az egyes fejezetek fordításait tartalmazza:"
 
 #: ../../admin/management.rst:472
 msgid ""
@@ -21149,8 +21143,8 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
-"Ezután a Tanaguru eszköz, ahol meg kell adni a fájlformátumot, az "
-"alapfájlsablont, valamint azt, hogy minden összetevő és fordítás egyetlen "
+"Ezután a Tanaguru eszközt, ahol a fájlformátumot is meg kell adni, valamint "
+"az alapfájl sablonját, és azt, hogy minden összetevő és fordítás egyetlen "
 "mappában található:"
 
 #: ../../admin/management.rst:486
@@ -21159,30 +21153,30 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
-"Összetettebb példa a fájlnevek elemzésére, hogy a megfelelő összetevőt és "
-"nyelvet kinyerjük egy olyan fájlnévből, mint ``src/security/"
+"Bonyolultabb példa fájlnevek elemzésére, ahol a fájlnév alapján az összetevő "
+"és a nyelv is meghatározható, például: ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 
 #: ../../admin/management.rst:497
 msgid "Filtering only translations in a chosen language:"
-msgstr "Csak a kiválasztott nyelv fordításainak szűrése:"
+msgstr "Csak egy kiválasztott nyelv fordításainak szűrése:"
 
 #: ../../admin/management.rst:507
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr "Sphinx dokumentáció importálása, amely több fájlra van bontva:"
+msgstr "Sphinx dokumentáció importálása, amely több fájlra van osztva:"
 
 #: ../../admin/management.rst:516
 msgid "Importing Sphinx documentation split to multiple files and directories:"
 msgstr ""
-"Sphinx dokumentáció importálása, amely több fájlra és könyvtárra van bontva:"
+"Sphinx dokumentáció importálása, amely több fájlra és mappára van osztva:"
 
 #: ../../admin/management.rst:531
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :wladmin:`import_json`."
 msgstr ""
-"Részletesebb példákat a :ref:`starting` fejezetben találsz, alternatívaként "
-"használhatod a :wladmin:`import_json` parancsot is."
+"További részletes példák a :ref:`starting` fejezetben találhatók, illetve "
+"használható a :wladmin:`import_json` parancs is."
 
 #: ../../admin/management.rst:535
 msgid "import_projectbackup"
@@ -21190,14 +21184,14 @@ msgstr "import_projectbackup"
 
 #: ../../admin/management.rst:541
 msgid "Imports :ref:`projectbackup`."
-msgstr "Importálja a(z) :ref:`projectbackup`-ot."
+msgstr ":ref:`projectbackup` importálása."
 
 #: ../../admin/management.rst:545
 msgid ""
 "Usually it is more comfortable to import project when :ref:`adding-projects`."
 msgstr ""
-"Általában kényelmesebb a projekt importálása, amikor a(z) :ref:`adding-"
-"projects` történik."
+"Általában kényelmesebb a projekt importálása a :ref:`projektek hozzáadása "
+"<adding-projects>` során."
 
 #: ../../admin/management.rst:548
 msgid "importuserdata"
@@ -21206,8 +21200,8 @@ msgstr "importuserdata"
 #: ../../admin/management.rst:552
 msgid "Imports user data from a file created by :wladmin:`dumpuserdata`."
 msgstr ""
-"Felhasználói adatokat importál a :wladmin:`dumpuserdata` által létrehozott "
-"fájlból."
+"Felhasználói adatok importálása a :wladmin:`dumpuserdata` paranccsal "
+"létrehozott fájlból."
 
 #: ../../admin/management.rst:555
 msgid "importusers"
@@ -21215,21 +21209,22 @@ msgstr "importusers"
 
 #: ../../admin/management.rst:559
 msgid "Imports users from JSON dump of the Django auth_users database."
-msgstr "Felhasználókat importál a Django auth_users adatbázis JSON dumpjából."
+msgstr ""
+"Felhasználók importálása a Django `auth_users` adatbázis JSON-dumpjából."
 
 #: ../../admin/management.rst:564
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
-"Ezzel az opcióval csak azt ellenőrzi, hogy egy adott fájl importálható-e, és "
-"jelenti a felhasználónevekből vagy e-mailekből adódó lehetséges ütközéseket."
+"Ezzel az opcióval csak ellenőrzi a rendszer, hogy egy megadott fájl "
+"importálható-e, és jelzi az esetleges ütközéseket (felhasználónevek vagy e"
+"-mail-címek alapján)."
 
 #: ../../admin/management.rst:567
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
-"A meglévő Django telepítésből a felhasználókat a következő módon "
-"exportálhatod:"
+"A meglévő Django telepítésből a felhasználók exportálhatók a következő módon:"
 
 #: ../../admin/management.rst:574
 msgid "install_addon"
@@ -21237,20 +21232,20 @@ msgstr "install_addon"
 
 #: ../../admin/management.rst:578
 msgid "Installs an add-on to a set of components."
-msgstr "Bővítmény telepítése az összetevők egy csoportjára."
+msgstr "Kiegészítő telepítése összetevők egy csoportjához."
 
 #: ../../admin/management.rst:582
 msgid ""
 "Name of the add-on to install. For example ``weblate.gettext.customize``."
-msgstr "A telepítendő bővítmény neve. Például ``weblate.gettext.customize``."
+msgstr "A telepítendő kiegészítő neve. Például: ``weblate.gettext.customize``."
 
 #: ../../admin/management.rst:586
 msgid "JSON encoded configuration of an add-on."
-msgstr "Egy bővítmény JSON kódolású konfigurációja."
+msgstr "A kiegészítő JSON formátumú konfigurációja."
 
 #: ../../admin/management.rst:590
 msgid "Update the existing add-on configuration."
-msgstr "A meglévő bővítmény konfigurációjának frissítése."
+msgstr "A meglévő kiegészítő konfigurációjának frissítése."
 
 #: ../../admin/management.rst:592
 msgid ""
@@ -21258,15 +21253,14 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
-"Megadhatod, hogy melyik projektbe vagy összetevőbe szeretnéd telepíteni a "
-"bővítményt (például ``weblate/application``) vagy használhatod a ``--all`` "
-"kapcsolót, hogy az összes meglévő összetevőt belefoglalja."
+"Megadható, hogy melyik projektbe vagy összetevőbe történjen a telepítés ("
+"például ``weblate/application``) vagy használható a ``--all`` opció az "
+"összes meglévő összetevő bevonásához."
 
 #: ../../admin/management.rst:595
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
 msgstr ""
-"A(z) :ref:`addon-weblate.gettext.customize` telepítéséhez az összes "
-"összetevőhöz:"
+"A :ref:`addon-weblate.gettext.customize` telepítése minden összetevőhöz:"
 
 #: ../../admin/management.rst:603
 msgid ":doc:`addons`"
@@ -21278,23 +21272,23 @@ msgstr "install_machinery"
 
 #: ../../admin/management.rst:612
 msgid "Installs an site-wide automatic suggestion service."
-msgstr "Telepít egy webhelyszintű automatikus javaslat szolgáltatást."
+msgstr "Webhelyszintű automatikus javaslatszolgáltatás telepítése."
 
 #: ../../admin/management.rst:616
 msgid "Name of the service to install. For example ``deepl``."
-msgstr "A telepítendő szolgáltatás neve. Például ``deepl``."
+msgstr "A telepítendő szolgáltatás neve. Például: ``deepl``."
 
 #: ../../admin/management.rst:620
 msgid "JSON encoded configuration of a service."
-msgstr "Egy szolgáltatás JSON kódolású konfigurációja."
+msgstr "A szolgáltatás JSON-kódolt konfigurációja."
 
 #: ../../admin/management.rst:624
 msgid "Update the existing service configuration."
-msgstr "Frissítsd a meglévő szolgáltatás konfigurációját."
+msgstr "A meglévő szolgáltatáskonfiguráció frissítése."
 
 #: ../../admin/management.rst:626
 msgid "To install :ref:`mt-deepl`:"
-msgstr "A :ref:`mt-deepl` telepítéséhez:"
+msgstr "A :ref:`mt-deepl` telepítése:"
 
 #: ../../admin/management.rst:634
 msgid ":doc:`machine`"
@@ -21308,8 +21302,8 @@ msgstr "list_addons"
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
-"Kiegészítők listázása reStructuredText formátumban sablonként a következőhöz:"
-" :doc:`/admin/addons`."
+"Kiegészítők listázása reStructuredText formátumban, sablonként a :doc:`/"
+"admin/addons` dokumentációhoz."
 
 #: ../../admin/management.rst:645 ../../admin/management.rst:656
 #: ../../admin/management.rst:667 ../../admin/management.rst:689
@@ -21324,8 +21318,8 @@ msgstr "list_permissions"
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
-"Jogosultságok listázása reStructuredText formátumban sablonként a "
-"következőhöz: :doc:`/admin/access`."
+"Hozzáférési jogosultságok listázása reStructuredText formátumban, sablonként "
+"a :doc:`/admin/access` dokumentációhoz."
 
 #: ../../admin/management.rst:659
 msgid "list_checks"
@@ -21336,8 +21330,8 @@ msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
-"Minőségellenőrzések felsorolása reStructuredText formátumban sablonként a "
-"következő dokumentumokhoz: :doc:`/admin/checks` és :doc:`/user/checks`."
+"Minőségellenőrzések listázása reStructuredText formátumban, sablonként a "
+":doc:`/admin/checks` és :doc:`/user/checks` oldalakhoz."
 
 #: ../../admin/management.rst:671
 msgid "list_languages"
@@ -21348,16 +21342,16 @@ msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
-"Felsorolja a támogatott nyelveket MediaWiki jelöléssel - nyelvkódok, angol "
-"nevek és lokalizált nevek."
+"Támogatott nyelvek listázása MediaWiki formátumban – nyelvkódokkal, angol és "
+"lokalizált nevekkel."
 
 #: ../../admin/management.rst:678
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/"
 "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
-"Ezt a <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF> "
-"generálására használják."
+"Ez a következő oldal generálásához használatos: <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 
 #: ../../admin/management.rst:681
 msgid "list_machinery"
@@ -21368,8 +21362,8 @@ msgid ""
 "Lists automatic suggestions services in reStructuredText as a template for :"
 "doc:`/admin/machine`."
 msgstr ""
-"Automatikus javaslatszolgáltatások felsorolása reStructuredText formátumban "
-"sablonként a következőhöz: :doc:`/admin/machine`."
+"Automatikus javaslatszolgáltatók listázása reStructuredText formátumban, "
+"sablonként a :doc:`/admin/machine` dokumentációhoz."
 
 #: ../../admin/management.rst:692
 msgid "list_translators"
@@ -21377,13 +21371,11 @@ msgstr "list_translators"
 
 #: ../../admin/management.rst:696
 msgid "Lists translators by contributed language for the given project:"
-msgstr ""
-"Listázza a fordítókat a hozzájárulásul szolgáló nyelv alapján a megadott "
-"projekthez:"
+msgstr "Fordítók listázása a hozzájárulás nyelve szerint az adott projektben:"
 
 #: ../../admin/management.rst:707
 msgid "List names by language code instead of language name."
-msgstr "A neveket nyelvkód szerint listázza a nyelv neve helyett."
+msgstr "Nevek listázása a nyelv neve helyett a nyelvkód alapján."
 
 #: ../../admin/management.rst:709
 msgid ""
@@ -21391,9 +21383,9 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
-"Meghatározhatod, hogy melyik projektet vagy összetevőt szeretnéd használni "
-"(például ``weblate/application``) vagy használhatod a ``--all`` opciót, hogy "
-"az összes létező összetevő fordítóit listázd."
+"Megadható, hogy melyik projektet vagy összetevőt használja (például ``"
+"weblate/application``) vagy a ``--all`` opcióval az összes meglévő összetevő "
+"fordítóit listázhatja."
 
 #: ../../admin/management.rst:714
 msgid "list_versions"
@@ -21401,7 +21393,7 @@ msgstr "list_versions"
 
 #: ../../admin/management.rst:718
 msgid "Lists all Weblate dependencies and their versions."
-msgstr "Felsorolja az összes Weblate függőséget és azok verzióit."
+msgstr "Az összes Weblate-függőség és azok verzióinak listázása."
 
 #: ../../admin/management.rst:721
 msgid "loadpo"
@@ -21412,18 +21404,16 @@ msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
 msgstr ""
-"Újratölti a fordításokat a lemezről (például ha frissítéseket végeztél a VCS "
-"(verziókezelő) tárolóban)."
+"Fordítások újratöltése lemezről (például ha manuálisan végzett frissítést a "
+"VCS-tárolóban)."
 
 #: ../../admin/management.rst:730
 msgid "Force update, even if the files should be up-to-date."
-msgstr ""
-"Frissítés kényszerítése akkor is, ha a fájlok naprakészek kellene, hogy "
-"legyenek."
+msgstr "Frissítés kényszerítése akkor is, ha a fájlok naprakésznek tűnnek."
 
 #: ../../admin/management.rst:734
 msgid "Limit processing to a single language."
-msgstr "A feldolgozást korlátozza egyetlen nyelvre."
+msgstr "A feldolgozás korlátozása egyetlen nyelvre."
 
 #: ../../admin/management.rst:741
 msgid ""
@@ -21432,10 +21422,10 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
-"Erre ritkán van szükség, mivel a Weblate automatikusan betölti a módosított "
-"fájlokat minden VCS (verziókezelő) frissítésnél. Akkor lehet szükséges, ha "
-"manuálisan módosítottad a Weblate mögötti VCS tárolót vagy bizonyos "
-"speciális esetekben egy frissítés után."
+"Ezt a parancsot ritkán kell kézzel futtatni, mivel a Weblate automatikusan "
+"betölti a módosított fájlokat minden VCS frissítés után. Kézi futtatásra "
+"csak akkor lehet szükség, ha manuálisan módosították a Weblate alatti VCS-"
+"tárolót vagy egyes speciális esetekben, például frissítés után."
 
 #: ../../admin/management.rst:746
 msgid "lock_translation"
@@ -21443,13 +21433,14 @@ msgstr "lock_translation"
 
 #: ../../admin/management.rst:750
 msgid "Prevents further translation of a component."
-msgstr "Megakadályozza egy összetevő további fordítását."
+msgstr "Egy összetevő további fordításának letiltása."
 
 #: ../../admin/management.rst:754 ../../admin/management.rst:830
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
 msgstr ""
-"Hasznos, ha karbantartást szeretnél végezni az alapul szolgáló tárhelyen."
+"Ez akkor lehet hasznos, ha karbantartást szeretne végezni az alapul szolgáló "
+"tárolón."
 
 #: ../../admin/management.rst:761
 msgid ":wladmin:`unlock_translation`"
@@ -21464,8 +21455,8 @@ msgid ""
 "Migrates database to current Weblate schema. The command line options are "
 "described at Django :djadmin:`django:migrate`."
 msgstr ""
-"Az adatbázist a jelenlegi Weblate séma szerint migrálja. A parancssori "
-"opciók a Django :djadmin:`django:migrate` részében vannak leírva."
+"Adatbázis migrálása az aktuális Weblate séma szerint. A parancssori opciók a "
+"Django :djadmin:`django:migrate` dokumentációjában találhatók."
 
 #: ../../admin/management.rst:773
 msgid ""
@@ -21473,9 +21464,9 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :wladmin:"
 "`createadmin` command."
 msgstr ""
-"Ha nem interaktív módon szeretnéd futtatni a telepítést, használhatod a :"
-"samp:`weblate migrate --noinput` parancsot, majd létrehozhatsz egy admin "
-"felhasználót a :wladmin:`createadmin` parancs segítségével."
+"Nem interaktív telepítéshez használható a :samp:`weblate migrate --noinput` "
+"parancs, majd az admin felhasználó létrehozható a :wladmin:`createadmin` "
+"paranccsal."
 
 #: ../../admin/management.rst:779
 msgid ":djadmin:`django:migrate`, :ref:`tables-setup`"
@@ -21492,10 +21483,11 @@ msgid ""
 "been created with the `(generated)` suffix. It moves all content from the "
 "`source` language to the `target` one."
 msgstr ""
-"Lehetővé teszi a nyelvi tartalom összevonását. Ez akkor hasznos, amikor "
-"frissítesz egy új verzióra, amely tartalmaz aliasokat korábban ismeretlen "
-"nyelvekhez, amelyeket a `(generated)` utótaggal hoztak létre. Áthelyezi az "
-"összes tartalmat a `source` nyelvről a `target` nyelvre."
+"Nyelvi tartalmak egyesítése. Ez akkor hasznos, ha egy új verzióra frissít, "
+"amelyben korábban ismeretlen nyelvekhez rendelt álnevek kerülnek "
+"bevezetésre, amelyek `(automatikusan létrehozott)` utótaggal lettek "
+"létrehozva. A parancs áthelyezi a `forrás` nyelv összes tartalmát a `cél` "
+"nyelvhez."
 
 #: ../../admin/management.rst:798
 msgid ""
@@ -21503,9 +21495,9 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the `(generated)` language."
 msgstr ""
-"A tartalom áthelyezése után ellenőrizd, hogy maradt-e valami (ez "
-"versenyhelyzeteknek lehet kitéve, ha valaki közben frissíti a tárolót), és "
-"távolítsd el a `(generated)` nyelvet."
+"Miután áthelyezte a tartalmat, ellenőrizze, hogy nem maradt-e hátra semmi ("
+"ez előfordulhat, ha időközben más módosította a tárolót), majd távolítsa el "
+"az „(automatikusan létrehozott)” nyelvi megjelölést."
 
 #: ../../admin/management.rst:803
 msgid "pushgit"
@@ -21514,22 +21506,20 @@ msgstr "pushgit"
 #: ../../admin/management.rst:807
 msgid "Pushes committed changes to the upstream VCS repository."
 msgstr ""
-"A véglegesített változtatásokat feltölti a VCS (verziókezelő) forrás "
-"tárolóba."
+"Véglegesített változások feltöltése a távoli VCS (verziókezelő) tárolóba."
 
 #: ../../admin/management.rst:811
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
-"A feltöltés előtt kényszeríti a függőben lévő változtatások véglegesítését."
+msgstr "Bármely függőben lévő módosítás véglegesítése a feltöltés előtt."
 
 #: ../../admin/management.rst:818
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
-"A Weblate automatikusan továbbítja a változásokat, ha a(z) :ref:`component`-"
-"ban a :ref:`component-push_on_commit` be van kapcsolva, ami az "
-"alapértelmezett beállítás."
+"A Weblate automatikusan feltölti a változásokat, ha a :ref:`component-"
+"push_on_commit` beállítás engedélyezve van az adott :ref:`component` "
+"esetében – ez az alapértelmezett viselkedés."
 
 #: ../../admin/management.rst:822
 msgid "unlock_translation"
@@ -21537,8 +21527,7 @@ msgstr "unlock_translation"
 
 #: ../../admin/management.rst:826
 msgid "Unlocks a given component, making it available for translation."
-msgstr ""
-"Feloldja a megadott összetevő zárolását, így az elérhetővé válik fordításra."
+msgstr "Egy összetevő feloldása, így ismét elérhetővé válik fordításra."
 
 #: ../../admin/management.rst:837
 msgid ":wladmin:`lock_translation`"
@@ -21553,13 +21542,13 @@ msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
 msgstr ""
-"Beállítja az alapértelmezett csoportokat, és opcionálisan hozzárendel minden "
-"felhasználót ehhez az alapértelmezett csoporthoz."
+"Alapértelmezett csoportok konfigurálása, és opcionálisan minden felhasználó "
+"hozzárendelése ehhez a csoporthoz."
 
 #: ../../admin/management.rst:848
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
 msgstr ""
-"Kikapcsolja a meglévő csoportok automatikus frissítését (csak újakat ad "
+"Megakadályozza a meglévő csoportok automatikus frissítését (csak újakat ad "
 "hozzá)."
 
 #: ../../admin/management.rst:852
@@ -21567,9 +21556,9 @@ msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
-"Megakadályozza a csoportok automatikus frissítését a meglévő projektek "
-"esetén. Ez lehetővé teszi az újonnan hozzáadott csoportok hozzáadását a "
-"meglévő projektekhez, lásd :ref:`acl`."
+"Megakadályozza a meglévő projektek csoportjainak automatikus frissítését. Ez "
+"lehetővé teszi az újonnan létrehozott csoportok hozzáadását meglévő "
+"projektekhez, lásd: :ref:`acl`."
 
 #: ../../admin/management.rst:857
 msgid ":ref:`privileges`"
@@ -21581,12 +21570,13 @@ msgstr "setuplang"
 
 #: ../../admin/management.rst:864
 msgid "Updates list of defined languages in Weblate."
-msgstr "Frissíti a Weblate-ben meghatározott nyelvek listáját."
+msgstr "A Weblate-ben definiált nyelvek listájának frissítése."
 
 #: ../../admin/management.rst:868
 msgid "Turns off automatic updates of existing languages (only adds new ones)."
 msgstr ""
-"Kikapcsolja a meglévő nyelvek automatikus frissítését (csak újakat ad hozzá)."
+"Megakadályozza a meglévő nyelvek automatikus frissítését (csak újakat ad "
+"hozzá)."
 
 #: ../../admin/management.rst:871
 msgid "updatechecks"
@@ -21594,21 +21584,21 @@ msgstr "updatechecks"
 
 #: ../../admin/management.rst:875
 msgid "Updates all checks for all strings."
-msgstr "Frissíti az összes ellenőrzést minden szövegre."
+msgstr "Az összes ellenőrzés frissítése az összes szövegre."
 
 #: ../../admin/management.rst:879
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
-"Hasznos olyan frissítésekhez, amelyek jelentős változtatásokat hajtanak "
-"végre az ellenőrzéseken."
+"Hasznos nagyobb változásokat hozó frissítések esetén, amelyek jelentősen "
+"módosítják az ellenőrzések működését."
 
 #: ../../admin/management.rst:886
 msgid ""
 "Checks are recalculated regularly by Weblate in the background, the "
 "frequency can be configured via :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"A Weblate rendszeresen újraszámolja az ellenőrzéseket a háttérben, a "
-"gyakoriságot a :setting:`BACKGROUND_TASKS` segítségével lehet konfigurálni."
+"A Weblate rendszeresen újraszámolja az ellenőrzéseket a háttérben, ennek "
+"gyakorisága a :setting:`BACKGROUND_TASKS` beállítással konfigurálható."
 
 #: ../../admin/management.rst:890
 msgid "updategit"
@@ -21616,18 +21606,16 @@ msgstr "updategit"
 
 #: ../../admin/management.rst:894
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr ""
-"Lekérdezi a távoli VCS (verziókezelő) tárolókat és frissíti a belső "
-"gyorsítótárat."
+msgstr "Távoli VCS-tárolók letöltése és a belső gyorsítótár frissítése."
 
 #: ../../admin/management.rst:901
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular triggering the updates by :wladmin:`updategit`."
 msgstr ""
-"Általában jobb, ha a hookokat a tárolóban konfigurálod, hogy :ref:`hooks`-et "
-"indítsanak el, ahelyett, hogy rendszeresen a :wladmin:`updategit`-tel "
-"indítanád a frissítéseket."
+"Általában jobb, ha a tárolóban hookokat konfigurál a :ref:`hooks` "
+"eléréséhez, ahelyett hogy rendszeresen a :wladmin:`updategit` paranccsal "
+"frissítené."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -21636,7 +21624,7 @@ msgstr "Fordítási memória"
 #: ../../admin/memory.rst:7
 msgid "Weblate comes with a built-in translation memory consisting of:"
 msgstr ""
-"A Weblate beépített fordítási memóriával rendelkezik, amely a következőkből "
+"A Weblate beépített fordítási memóriával rendelkezik, amely az alábbiakból "
 "áll:"
 
 #: ../../admin/memory.rst:9
@@ -21648,8 +21636,8 @@ msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
 msgstr ""
-"Automatikusan eltárolt fordítások, amelyeket a Weblate-ben hajtottak végre "
-"(a(z) :ref:`memory-scopes` függvényében)."
+"A Weblate-ben végzett fordítások automatikus mentése (a :ref:`memory-scopes` "
+"beállítástól függően)."
 
 #: ../../admin/memory.rst:11
 msgid "Automatically imported past translations."
@@ -21659,7 +21647,7 @@ msgstr "Automatikusan importált korábbi fordítások."
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
 msgstr ""
-"A fordítási memóriában lévő tartalom többféleképpen is alkalmazható a "
+"A fordítási memóriában található tartalom többféleképpen alkalmazható a "
 "szövegekre:"
 
 #: ../../admin/memory.rst:15
@@ -21667,44 +21655,44 @@ msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
 msgstr ""
-"A felhasználó elfogadhatja a javaslatokat a(z) :ref:`machine-translation` "
-"fülről, miközben a szöveget szerkeszti."
+"A felhasználó elfogadhat javaslatokat a :ref:`machine-translation` fülön, "
+"miközben szerkeszti a szöveget."
 
 #: ../../admin/memory.rst:16
 msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Tools` menu."
 msgstr ""
-"A kiválasztott szövegek feldolgozhatók az :ref:`auto-translation` funkcióval "
-"a :guilabel:`Eszközök` menüből."
+"A kiválasztott szövegek feldolgozhatók :ref:`automatikus fordítással <auto-"
+"translation>` a :guilabel:`Eszközök` menüben."
 
 #: ../../admin/memory.rst:17
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"A(z) :ref:`addon-weblate.autotranslate.autotranslate` kiegészítő "
-"automatikusan alkalmazhat változtatásokat az új és meglévő szövegekre."
+"A :ref:`addon-weblate.autotranslate.autotranslate` kiegészítő automatikusan "
+"alkalmazhat változásokat új és meglévő szövegekre."
 
 #: ../../admin/memory.rst:19
 msgid ""
 "For installation tips, see :ref:`mt-weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
-"Telepítési tippekért lásd a(z) :ref:`mt-weblate-translation-memory`, amely "
-"alapértelmezés szerint be van kapcsolva."
+"Telepítési tippekért lásd: :ref:`mt-weblate-translation-memory`, amely "
+"alapértelmezetten be van kapcsolva."
 
 #: ../../admin/memory.rst:26
 msgid "Translation-memory scopes"
-msgstr "Fordítási memória hatókörök"
+msgstr "Fordítási memória hatókörei"
 
 #: ../../admin/memory.rst:28
 msgid ""
 "The translation-memory scopes ensure privacy for different projects and "
 "users. Sharing of translations is also available."
 msgstr ""
-"A fordítási memória hatókörök biztosítják a különböző projektek és "
-"felhasználók adatainak védelmét. A fordítások megosztása is lehetséges."
+"A fordítási memória hatókörei biztosítják a különböző projektek és "
+"felhasználók adatvédelmét. A fordítások megosztása is elérhető."
 
 #: ../../admin/memory.rst:32
 msgid "Imported translation memory"
@@ -21716,9 +21704,9 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
-"Az önkényes fordítási memória adatok importálása a :wladmin:`import_memory` "
-"parancs segítségével a memória tartalmát minden felhasználó és projekt "
-"számára elérhetővé teszi."
+"A :wladmin:`import_memory` paranccsal tetszőleges fordítási memóriaadatok "
+"importálhatók, amelyek ezután minden felhasználó és projekt számára "
+"elérhetők lesznek."
 
 #: ../../admin/memory.rst:38
 msgid "Per-user translation memory"
@@ -21729,8 +21717,8 @@ msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
-"Az összes felhasználói fordítást automatikusan eltárolja az egyes "
-"felhasználók személyes fordítási memóriájában."
+"Az összes felhasználói fordítást automatikusan elmenti az adott felhasználó "
+"saját fordítási memóriájába."
 
 #: ../../admin/memory.rst:43
 msgid "Per-project translation memory"
@@ -21741,8 +21729,8 @@ msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
-"A projekt összes fordítása automatikusan eltárolódik a projekt fordítási "
-"memóriájában, amely csak ehhez a projekthez érhető el."
+"A projekt összes fordítása automatikusan a projekthez tartozó fordítási "
+"memóriába kerül mentésre, amely csak az adott projekt számára elérhető."
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
@@ -21753,8 +21741,8 @@ msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects."
 msgstr ""
-"Azokban a projektekben, ahol a megosztott fordítási memória be van "
-"kapcsolva, minden fordítás egy megosztott fordítási memóriában tárolódik, "
+"Azoknak a projekteknek a fordításai, amelyeknél a megosztott fordítási "
+"memória engedélyezve van, egy közös fordítási memóriába kerülnek mentésre, "
 "amely minden projekt számára elérhető."
 
 #: ../../admin/memory.rst:56
@@ -21762,20 +21750,20 @@ msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
 msgstr ""
-"Kérlek, gondosan fontold meg, hogy bekapcsolod-e ezt a funkciót megosztott "
-"Weblate telepítések esetén, mivel komoly következményekkel járhat:"
+"Kérjük, gondosan mérlegelje ennek a funkciónak a bekapcsolását megosztott "
+"Weblate-telepítések esetén, mivel komoly következményekkel járhat:"
 
 #: ../../admin/memory.rst:59
 msgid "The translations can be used by anybody else."
-msgstr "A fordításokat bárki más is használhatja."
+msgstr "A fordításokat mások is felhasználhatják."
 
 #: ../../admin/memory.rst:60
 msgid "This might lead to disclosing secret information."
-msgstr "Ez titkos információk kiszivárgásához vezethet."
+msgstr "Titkos információk is kiszivároghatnak."
 
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
-msgstr "Győződj meg róla, hogy a megosztott fordítások jó minőségűek."
+msgstr "Csak jó minőségű fordításokat osszon meg."
 
 #: ../../admin/memory.rst:65
 msgid ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
@@ -21783,7 +21771,7 @@ msgstr ":ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`"
 
 #: ../../admin/memory.rst:68
 msgid "Managing the Translation Memory"
-msgstr "A fordítási memória kezelése"
+msgstr "Fordítási memória kezelése"
 
 #: ../../admin/memory.rst:73
 msgid "User interface"
@@ -21797,12 +21785,12 @@ msgid ""
 "in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
-"A személyes fordítási memória kezelése elérhető a felhasználói avatarra "
-"kattintva a felület jobb felső sarkában, majd a legördülő menüből a "
-"\"Fordítási memória\" lehetőséget választva. A felhasználóhoz rendelt "
-"bejegyzések hatókörök szerint vannak listázva – összesen, valamint az egyes "
-"projektek, összetevők vagy nyelvek esetében, amelyekhez hozzájárult. "
-"Lehetőség van ezek letöltésére (JSON vagy TMX formátumban) vagy törlésére."
+"A személyes fordítási memória a felhasználói felület jobb felső sarkában "
+"lévő avatar ikonra kattintva érhető el, a lenyíló menüből a „Fordítási "
+"memória” lehetőséget választva. A felhasználóhoz rendelt bejegyzések "
+"hatókörök szerint listázva jelennek meg – összesítve, valamint "
+"projektenként, összetevőnként vagy nyelvenként –, letöltési (JSON vagy TMX "
+"formátumban) és törlési lehetőségekkel."
 
 #: ../../admin/memory.rst:82
 msgid ""
@@ -21810,16 +21798,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
-"Az alap felhasználói felületen kezelheted a felhasználónkénti és "
-"projektenkénti fordítási memóriákat. Használható a fordítási memória "
-"letöltésére, törlésére vagy importálására."
+"Az alapértelmezett felületen keresztül kezelhetők a felhasználói és projekt "
+"szintű fordítási memóriák. Lehetőség van letöltésre, törlésre vagy "
+"importálásra is."
 
 #: ../../admin/memory.rst:85
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
 msgstr ""
-"Több lehetőség is van az egész példány fordítási memóriájának letöltésére."
+"Számos lehetőség áll rendelkezésre a teljes példány fordítási memóriájának "
+"letöltésére."
 
 #: ../../admin/memory.rst:88
 msgid ""
@@ -21827,9 +21816,9 @@ msgid ""
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
-"Különböző formátumú fordítási memóriák importálhatók a Weblate-be, a TMX "
-"formátumot az egyéb eszközökkel való együttműködés érdekében biztosítják. Az "
-"összes támogatott formátum: TMX, JSON, XLIFF, PO, CSV."
+"Többféle formátumban importálhatók fordítási memóriák a Weblate-be, a TMX "
+"formátum az interoperabilitás miatt támogatott. Az összes támogatott "
+"formátum: TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/memory.rst:93
 msgid ":ref:`schema-memory`"
@@ -21838,15 +21827,18 @@ msgstr ":ref:`schema-memory`"
 #: ../../admin/memory.rst:97
 msgid "You can search for translations in the view built for this."
 msgstr ""
-"Kereshetsz fordításokat a kifejezetten erre a célra kialakított nézetben."
+"A beépített nézetben kereshet a fordítási memóriában tárolt fordítások "
+"között."
 
 #: ../../admin/memory.rst:100
 msgid "Admin interface"
-msgstr "Admin felület"
+msgstr "Adminisztrátori felület"
 
 #: ../../admin/memory.rst:102
 msgid "There is a platform-wide interface to manage the translation memory."
-msgstr "Van egy platformszintű felület a fordítási memória kezelésére."
+msgstr ""
+"A teljes platformra kiterjedő felület áll rendelkezésre a fordítási memória "
+"kezelésére."
 
 #: ../../admin/memory.rst:106
 msgid ""
@@ -21856,12 +21848,12 @@ msgid ""
 "from amidst the different tabs at the top of the screen, and then "
 "\"Translation memory\"."
 msgstr ""
-"Ugyanazok a lehetőségek állnak rendelkezésre, mint a felhasználói felületen, "
-"de ez lehetővé teszi a fordítási memória részeinek vagy egészének "
-"újraépítését is. Minden régi bejegyzést törölhetsz és újra létrehozhatsz egy "
-"összetevőből vagy projektből, ha a képernyő tetején található különböző "
-"fülek közül az \"Adminisztráció\", majd a \"Fordítási memória\" lehetőséget "
-"választod."
+"Ugyanazokat a lehetőségeket biztosítja, mint a felhasználói felület, de ezen "
+"felül lehetőséget ad a fordítási memória részeinek vagy egészének "
+"újragenerálására is. Minden régi bejegyzés törölhető és újragenerálható egy "
+"összetevő vagy projekt alapján az adminisztrációs felület tetején található "
+"lapfülek közül az „Adminisztráció”, majd a „Fordítási memória” "
+"kiválasztásával."
 
 #: ../../admin/memory.rst:115
 msgid ""
