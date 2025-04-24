@@ -744,6 +744,7 @@ for Apache or ``proxy_set_header Host $host;`` with nginx).
 
 .. seealso::
 
+    :ref:`docker-ssl-proxy`,
     :ref:`spam-protection`,
     :ref:`rate-limit`,
     :ref:`audit-log`,

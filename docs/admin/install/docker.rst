@@ -120,6 +120,36 @@ Docker container with HTTPS support
 Please see :ref:`docker-deploy` for generic deployment instructions, this
 section only mentions differences compared to it.
 
+
+.. _docker-ssl-proxy:
+
+SSL terminating proxy
++++++++++++++++++++++
+
+SSL can be terminated outside Weblate container. To make this work well
+together, several headers need to be passed to the container so that it is
+aware of actual environment. In more detail these headers are described in
+:ref:`reverse-proxy`.
+
+.. code-block:: nginx
+   :caption: Example nginx reverse proxy configuration for a Docker container.
+
+   location / {
+       proxy_pass http://127.0.0.1:8080;
+       proxy_read_timeout 3600s;
+       proxy_set_header Host $host;
+       proxy_set_header X-Forwarded-Proto https;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Host $server_name;
+   }
+
+.. code-block:: sh
+   :caption: Docker container environment for external SSL termination.
+
+   WEBLATE_ENABLE_HTTPS=1
+   WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR
+
 Using own SSL certificates
 ++++++++++++++++++++++++++
 
