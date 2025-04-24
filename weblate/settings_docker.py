@@ -173,7 +173,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
-MEDIA_URL = f"{URL_PREFIX}/media/"
+MEDIA_URL = get_env_str("WEBLATE_MEDIA_URL", f"{URL_PREFIX}/media/")
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -181,7 +181,7 @@ MEDIA_URL = f"{URL_PREFIX}/media/"
 STATIC_ROOT = os.path.join(CACHE_DIR, "static")
 
 # URL prefix for static files.
-STATIC_URL = f"{URL_PREFIX}/static/"
+STATIC_URL = get_env_str("WEBLATE_STATIC_URL", f"{URL_PREFIX}/static/")
 
 # Additional locations of static files
 STATICFILES_DIRS = (
