@@ -214,7 +214,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             )
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
-            .order_by("target__md5")[:20]
+            .order_by("target__lower__md5")[:20]
         )
 
         if not matches:
