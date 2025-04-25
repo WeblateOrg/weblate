@@ -1,9 +1,7 @@
 Weblate 5.11.1
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on April 25th 2025.*
 
 .. rubric:: Improvements
 
@@ -15,8 +13,6 @@ Weblate 5.11.1
 * :ref:`vcs-gitlab` integration now detects merge‑request conflicts more robustly.
 * :ref:`addon-weblate.webhook.webhook` is now enabled in Docker.
 * Removing pending glossary terms.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
