@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-25 09:32+0000\n"
+"Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -469,10 +469,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Akun dikunci karena banyak upaya pemasukan yang gagal."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Pesan tidak dapat dikirim ke administrator."
+msgstr "Akun dikunci oleh administrator situs."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1018,12 +1016,10 @@ msgstr[0] ""
 "karakter."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Kata sandi Anda harus berisi setidaknya %(min_length)d karakter."
+msgstr[0] "Kata sandi Anda harus berisi paling banyak %(max_length)d karakter."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1103,10 +1099,8 @@ msgid "Could not send message to administrator."
 msgstr "Pesan tidak dapat dikirim ke administrator."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Terlalu banyak pesan yang dikirim, silakan coba lagi nanti."
+msgstr "Tidak dapat membuka tiket, silakan coba lagi nanti."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1833,20 +1827,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Mengaktifkan penyortiran tombol yang peka huruf kapital"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Lisensi yang diubah"
+msgstr "Ubah peristiwa"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL Situs Web"
+msgstr "URL Webhook"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Rahasia"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2017,13 +2007,12 @@ msgstr "Pengaya terpasang, silakan tinjau instruksi integrasi."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Kirim notifikasi ke pengguna yang berlangganan."
+msgstr ""
+"Mengirim notifikasi ke layanan eksternal berdasarkan peristiwa yang dipilih."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2094,13 +2083,13 @@ msgstr "Tidak dapat mendapatkan kunci untuk melalukan tindakan."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Id unit yang ditentukan bukan unit sumber terjemahan."
 
 #: weblate/api/views.py:170
 #, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr ""
-"Tidak dapat mendapatkan kunci repositori untuk %s untuk melalukan tindakan."
+"Tidak dapat mendapatkan kunci repositori untuk %s untuk melakukan tindakan."
 
 #: weblate/api/views.py:178
 #, python-format
@@ -2568,7 +2557,7 @@ msgstr "Penagihan"
 #: weblate/auth/data.py:230
 msgctxt "Access-control role"
 msgid "Add new projects"
-msgstr "Menambah proyek baru"
+msgstr "Tambahkan proyek baru"
 
 #: weblate/auth/data.py:236
 msgctxt "Access-control team name"
@@ -3161,10 +3150,8 @@ msgid "AngularJS interpolation string"
 msgstr "String interpolasi AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "String interpolasi AngularJS tidak sama dengan sumber"
+msgstr "String interpolasi AngularJS tidak cocok dengan sumber."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3183,201 +3170,164 @@ msgid "Starting newline"
 msgstr "Mulai baris baru"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Sumber dan terjemahan tidak diawali dengan baris baru"
+msgstr "Sumber dan terjemahan tidak keduanya dimulai dengan baris baru."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Baris baru di akhir"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan baris baru"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan baris baru."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Spasi di awal"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "Sumber dan terjemahan tidak diawali dengan nomor spasi yang sama"
+msgstr ""
+"Sumber dan terjemahan tidak keduanya dimulai dengan jumlah spasi yang sama."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Spasi di belakang"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Sumber dan terjemahan diakhiri dengan spasi"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan spasi."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Spasi ganda"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Terjemahan memuat spasi ganda"
+msgstr "Terjemahan mengandung spasi ganda."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Tanda titik tidak cocok"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan tanda titik"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan tanda titik."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Tanda titik dua tidak cocok"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan tanda titik dua"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan titik dua."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Tanda tanya tidak cocok"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Sumber dan terjemahan tidak berakhir dengan tanda tanya"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan tanda tanya."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Tanda seru tidak cocok"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Sumber dan terjemahan tidak berakhir dengan tanda seru"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan tanda seru."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Ketidakcocokan interrobang"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan ekspresi interrobang"
+msgstr ""
+"Sumber dan terjemahan tidak keduanya diakhiri dengan ekspresi interrobang."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Tanda elipsis tidak cocok"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan tanda elipsis"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan elipsis."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Ketidakcocokan \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "Jumlah \\n literal dalam terjemahan tidak sesuai dengan sumber"
+msgstr ""
+"Jumlah literal \\n"
+" dalam terjemahan tidak cocok dengan sumber."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Jeda baris tidak cocok"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Jumlah baris baru di dalam terjemahan tidak cocok dengan sumber"
+msgstr "Jumlah baris baru dalam terjemahan tidak cocok dengan sumber."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Spasi lebar-nol"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "Terjemahan memiliki karakter spasi lebar-nol tambahan"
+msgstr "Terjemahan mengandung karakter spasi tanpa lebar tambahan."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Panjang maksimal terjemahan"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "Terjemahan tidak boleh melebihi panjang yang diberikan"
+msgstr "Terjemahan tidak boleh melebihi panjang yang diberikan."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Tanda titik koma tidak cocok"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Sumber dan terjemahan tidak diakhiri dengan tanda titik koma"
+msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan titik koma."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Huruf tatwil digunakan"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Huruf tatwil dekoratif tidak boleh digunakan"
+msgstr "Huruf kashida dekoratif tidak boleh digunakan."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Spasi pada tanda baca"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "Tidak ada spasi tetap (NBSP) sebelum tanda baca ganda"
+msgstr "Tidak ada spasi yang tidak dapat dipatahkan sebelum tanda baca ganda."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Bentuk jamak tidak ada"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Beberapa bentuk jamak tidak diterjemahkan"
+msgstr "Beberapa bentuk jamak tidak diterjemahkan."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Bentuk jamak yang sama"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "Beberapa bentuk jamak diterjemahkan dengan cara yang sama"
+msgstr "Beberapa bentuk jamak diterjemahkan dengan cara yang sama."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3415,10 +3365,8 @@ msgid "Has been translated"
 msgstr "Telah diterjemahkan"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "String ini telah diterjemahkan di masa lalu"
+msgstr "String ini telah diterjemahkan di masa lalu."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3430,10 +3378,8 @@ msgid "Consecutive duplicated words"
 msgstr "Kata duplikat berulang"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "Teks berisi kata yang sama dua kali berturut-turut"
+msgstr "Teks mengandung kata yang sama dua kali berturut-turut."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3541,7 +3487,7 @@ msgstr "Jenis Fluent"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Buang flag"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -3692,10 +3638,8 @@ msgid "Fluent source inner HTML"
 msgstr "HTML dalam sumber Fluent"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Sumber Fluent seharusnya HTML dalam yang valid"
+msgstr "Sumber Fluent harus berupa HTML bagian dalam yang valid."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3759,10 +3703,8 @@ msgid "Fluent translation inner HTML"
 msgstr "HTML dalam terjemahan Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "Target Fluent harus berupa HTML bagian dalam yang valid yang cocok"
+msgstr "Target Fluent harus berupa HTML bagian dalam yang valid yang cocok."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3787,10 +3729,8 @@ msgid "Fluent parts"
 msgstr "Bagian Fluent"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Bagian Fluent harus cocok"
+msgstr "Bagian Fluent harus cocok."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3921,10 +3861,8 @@ msgid "Fluent references"
 msgstr "Referensi Fluent"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "Referensi Fluent harus cocok"
+msgstr "Referensi Fluent harus cocok."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3936,20 +3874,16 @@ msgid "Fluent source syntax"
 msgstr "Sintaks sumber Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Kesalahan sintaks Fluent dalam sumber"
+msgstr "Kesalahan sintaks Fluent dalam sumber."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Sintaks sumber Fluent"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Kesalahan sintaks Fluent dalam terjemahan"
+msgstr "Kesalahan sintaks Fluent dalam terjemahan."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3961,100 +3895,80 @@ msgid "Python format"
 msgstr "Format Python"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "String yang berformat Python tidak cocok dengan sumber"
+msgstr "String format Python tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "Format PHP"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "String yang berformat PHP tidak cocok dengan sumber"
+msgstr "String format PHP tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "Format C"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "String yang berformat C tidak cocok dengan sumber"
+msgstr "String format C tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "Format kurung kurawal Perl"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "String yang berformat kurung kurawal Perl tidak cocok dengan sumber"
+msgstr "String format kurung kurawal Perl tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "Format Perl"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "String yang berformat Perl tidak cocok dengan sumber"
+msgstr "String format Perl tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "Format JavaScript"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "String yang berformat JavaScript tidak cocok dengan sumber"
+msgstr "String format JavaScript tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "Format Lua"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "String yang berformat Lua tidak cocok dengan sumber"
+msgstr "String format Lua tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "Format Object Pascal"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "String yang berformat Object Pascal tidak cocok dengan sumber"
+msgstr "String format Object Pascal tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "Format Scheme"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "String yang berformat Scheme tidak cocok dengan sumber"
+msgstr "String format Scheme tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "Format Python bertanda kurung"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "String format Python bertanda kurung tidak cocok dengan sumber"
+msgstr "String format kurung Python tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4065,30 +3979,24 @@ msgid "C# format"
 msgstr "Format C#"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "String yang berformat C# tidak cocok dengan sumber"
+msgstr "String format C# tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "Format Java"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "String yang berformat Java tidak cocok dengan sumber"
+msgstr "String format Java tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "String Java MessageFormat tidak cocok dengan sumber"
+msgstr "String Java MessageFormat tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4099,68 +4007,52 @@ msgid "i18next interpolation"
 msgstr "Interpolasi i18next"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "Interpolasi i18next tidak cocok dengan sumber"
+msgstr "Interpolasi i18next tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "Literal templat ECMAScript"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "Literal templat ECMAScript tidak cocok dengan sumber"
+msgstr "Literal templat ECMAScript tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "Persentase placeholder"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "Persentase placeholder tidak cocok dengan sumber"
+msgstr "Tempat penampung persen tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Pemformatan Vue I18n"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Pemformatan Vue I18n tidak cocok dengan sumber"
+msgstr "Pemformatan Vue I18n tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic Components"
-msgstr "Penetapan otomatis"
+msgstr "Komponen Automattic"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Persentase placeholder tidak cocok dengan sumber"
+msgstr "Tempat penampung komponen Automattic tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
 msgstr "Beberapa variabel tanpa nama"
 
 #: weblate/checks/format.py:849
-#, fuzzy
-#| msgid ""
-#| "There are multiple unnamed variables in the string, making it impossible "
-#| "for translators to reorder them"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
-"Ada beberapa variabel yang tidak dinamai dalam string, sehingga tidak "
-"mungkin bagi penerjemah untuk mengurutkannya kembali"
+"Ada beberapa variabel tanpa nama dalam string, sehingga tidak mungkin bagi "
+"penerjemah untuk menyusunnya kembali."
 
 #: weblate/checks/glossary.py:24
 msgid "Does not follow glossary"
@@ -4179,10 +4071,8 @@ msgid "Prohibited initial character"
 msgstr "Karakter awal tidak diperbolehkan"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "String berawal dengan karakter yang tidak diperbolehkan dalam CSV"
+msgstr "String dimulai dengan karakter terlarang dalam CSV."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4277,76 +4167,60 @@ msgid "BBCode markup"
 msgstr "Markup BBCode"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode di dalam terjemahan tidak cocok dengan sumber"
+msgstr "BBCode dalam terjemahan tidak cocok dengan sumber."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "Sintaksis XML"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "Terjemahan bukan XML yang valid"
+msgstr "Terjemahan bukan XML yang valid."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "Markup XML"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "Tag XML di dalam terjemahan tidak cocok dengan sumber"
+msgstr "Tag XML dalam terjemahan tidak cocok dengan sumber."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
 msgstr "Referensi Markdown"
 
 #: weblate/checks/markup.py:280
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
-msgstr "Referensi link markdown tidak cocok dengan sumber"
+msgstr "Referensi tautan Markdown tidak cocok dengan sumber."
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
 msgstr "Tautan markdown"
 
 #: weblate/checks/markup.py:297
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "Tautan markdown tidak cocok dengan sumber"
+msgstr "Tautan Markdown tidak cocok dengan sumber."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "Sintaksis Markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Sintaksis markdown tidak cocok dengan sumber"
+msgstr "Sintaks Markdown tidak cocok dengan sumber."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "Terjemahan tidak berisi URL"
+msgstr "Terjemahan tidak mengandung URL."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML Tidak Aman"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "Terjemahan menggunakan HTML markup yang tidak aman"
+msgstr "Terjemahan menggunakan markup HTML yang tidak aman."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4379,20 +4253,16 @@ msgid "Placeholders"
 msgstr "Placeholder"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "Terjemahan kurang beberapa placeholder"
+msgstr "Terjemahan kehilangan beberapa tempat penampung."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "Ekspresi reguler"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "Terjemahan tidak cocok dengan ekspresi reguler"
+msgstr "Terjemahan tidak cocok dengan ekspresi reguler."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4403,30 +4273,25 @@ msgid "Qt format"
 msgstr "Format Qt"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "String format Qt tidak cocok dengan sumber"
+msgstr "String format Qt tidak cocok dengan sumber."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Format jamak Qt"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "String format jamak Qt tidak cocok dengan sumber"
+msgstr "String format jamak Qt tidak cocok dengan sumber."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "Panjang terjemahan maksimal"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "Teks terjemahan tidak boleh melebihi ukuran yang ditentukan"
+msgstr ""
+"Teks terjemahan yang dirender tidak boleh melebihi ukuran yang diberikan."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4440,52 +4305,40 @@ msgid "Ruby format"
 msgstr "Format Ruby"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "String format Ruby tidak cocok dengan sumber"
+msgstr "String format Ruby tidak cocok dengan sumber."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Terjemahan tidak berubah"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Sumber dan terjemahan identik"
+msgstr "Sumber dan terjemahan identik."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "Tidak ada bentuk jamak"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr ""
-"String ini digunakan sebagai plural, tetapi tidak menggunakan bentuk jamak"
+msgstr "String digunakan sebagai jamak, tetapi tidak menggunakan bentuk jamak."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "Elipsis"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "String ini menggunakan tiga titik (...) bukannya karakter elipsis (…)"
+msgstr "String menggunakan tiga titik (...) alih-alih karakter elipsis (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "Beberapa pemeriksaan gagal"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "Terjemahan pada beberapa bahasa memiliki pemeriksaan yang gagal"
+msgstr "Terjemahan dalam beberapa bahasa memiliki pemeriksaan yang gagal."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4496,10 +4349,8 @@ msgid "Long untranslated"
 msgstr "Lama tidak diterjemahkan"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "String ini sudah lama tidak diterjemahkan"
+msgstr "String belum diterjemahkan untuk waktu yang lama."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -5352,11 +5203,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Tidak dapat mengambil terjemahan: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Teks sumber bahasa"
+msgstr "Pemilihan bahasa sumber"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5682,26 +5531,19 @@ msgid "The model's unique deployment name."
 msgstr "Nama penyebaran unik model."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
-msgstr "Seleksi otomatis"
+msgstr "Pemilihan otomatis"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Komponen diubah namanya"
+msgstr "Bahasa sumber komponen"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Bahasa baru ditambahkan ke %(component)s"
+msgstr "Bahasa sekunder yang ditentukan dalam proyek atau komponen"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7223,16 +7065,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Matikan autentikasi dua faktor"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Harap aktifkan autentikasi kata sandi untuk mengamankan akun Anda."
+msgstr "Menonaktifkan autentikasi kata sandi untuk pengguna."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Kata sandi baru"
+msgstr "Nonaktifkan kata sandi"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9726,6 +9564,8 @@ msgstr "Komponen %(component)s tidak terkunci"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Catatan: Ringkasan ini telah dipotong karena ada lebih dari 100 "
+"pemberitahuan."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -11983,19 +11823,14 @@ msgstr ""
 "Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Gerrit melarangkan dorongan ini. Anda mungkin memerlukan akun Gerrit yang "
-"memiliki perizinan pembuat forge untuk repositori/cabang atau memerlukan "
-"tambahan squash di komponen ini di Weblate."
+"Gerrit melarang push ini. Anda mungkin memerlukan akun gerrit yang memiliki "
+"izin penulis forge untuk repositori/cabang atau harus menggunakan add-on "
+"squash pada komponen ini di Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid ""
@@ -13705,17 +13540,13 @@ msgstr "Perubahan tersebar"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Mode unggah berkas"
+msgstr "Berkas diunggah"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Terakhir diperbarui"
+msgstr "Bendera tambahan diperbarui"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14159,20 +13990,16 @@ msgid "Report period"
 msgstr "Periode laporan"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
-msgstr "Urutkan Berdasarkan"
+msgstr "Urutkan berdasarkan"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Tidak ada string untuk diterjemahkan"
+msgstr "String diterjemahkan"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Urutan pengurutan"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -14743,10 +14570,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s saat %(time)s pada %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Mode unggah berkas"
+msgstr "Mode unggah berkas:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15235,27 +15060,20 @@ msgstr ""
 "format ekabahasa."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
 msgstr "Bahasa sekunder"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
-"Bahasa kedua akan ditampilkan disamping string sumber saat menerjemahkan."
+"Bahasa tambahan untuk ditampilkan bersama dengan bahasa sumber saat "
+"menerjemahkan."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Tidak ada string yang diimpor dari berkas yang diunggah."
+msgstr "Pengaturan ini diwarisi dari proyek jika dibiarkan kosong."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15691,18 +15509,17 @@ msgstr "Tidak dapat untuk mengurai berkas %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Tidak dapat menemukan string yang digabung."
+msgstr[0] "Tidak dapat menemukan %d string:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15747,11 +15564,10 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "String tidak dapat disebarkan ke %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "String tidak dapat disebarkan ke %(component)s: %(reason)s"
+msgstr[0] "String tidak dapat disebarkan ke %d komponen."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16611,17 +16427,13 @@ msgid "Horizontal language bar chart"
 msgstr "Grafik batang bahasa horizontal"
 
 #: weblate/trans/widgets.py:527
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Kode bahasa"
+msgstr "Lencana jumlah bahasa"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Bahasa"
+msgstr[0] "bahasa"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -16866,10 +16678,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Alamat surel tidak valid: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Alamat surel ini tidak diizinkan."
+msgstr "Domain email sekali pakai tidak diizinkan."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
@@ -16902,10 +16712,8 @@ msgid "This URL is prohibited"
 msgstr "URL ini tidak diperbolehkan"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Pencarian string tidak valid!"
+msgstr "String yang dikodekan base64 tidak valid"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
