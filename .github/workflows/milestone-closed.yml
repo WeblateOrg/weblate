@@ -21,7 +21,7 @@ jobs:
           const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              milestone: context.milestone.id,
+              milestone: context.payload.milestone.id,
               state: 'closed',
           });
 
