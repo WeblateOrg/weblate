@@ -330,15 +330,6 @@ if SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY:
         "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
     )
 
-
-SOCIAL_AUTH_BITBUCKET_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY")
-if SOCIAL_AUTH_BITBUCKET_KEY:
-    SOCIAL_AUTH_BITBUCKET_SECRET = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET", required=True
-    )
-    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
-    AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth",)
-
 SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = get_env_str(
     "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY"
 )
