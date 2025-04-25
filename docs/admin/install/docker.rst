@@ -128,7 +128,7 @@ SSL terminating proxy
 
 SSL can be terminated outside Weblate container. To make this work well
 together, several headers need to be passed to the container so that it is
-aware of actual environment. In more detail these headers are described in
+aware of its actual environment. In more detail, these headers are described in
 :ref:`reverse-proxy`.
 
 .. code-block:: nginx
