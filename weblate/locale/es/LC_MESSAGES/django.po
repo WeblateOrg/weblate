@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-26 15:51+0000\n"
+"PO-Revision-Date: 2025-04-26 16:13+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -2105,34 +2105,35 @@ msgid "Weblate's REST API"
 msgstr "API REST de Weblate"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr "No se ha podido obtener el bloqueo para realizar la operación."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "ID de unidad especificada no es una unidad de origen de traducción."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo del repositorio para %s al realizar la "
+"operación."
 
 #: weblate/api/views.py:178
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo de actualización para el componente %s "
+"que realiza la operación."
 
 #: weblate/api/views.py:185
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo de %(scope)s para %(origin)s que realiza "
+"la operación."
 
 #: weblate/api/views.py:2420 weblate/auth/models.py:964
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2221,17 +2222,17 @@ msgstr "Descargar cambios"
 #. Translators: Permission name
 #: weblate/auth/data.py:25
 msgid "Post comment"
-msgstr "Enviar comentario"
+msgstr "Declarar comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "Eliminar comentario"
+msgstr "Borrar comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
 msgid "Resolve comment"
-msgstr "Resolver el comentario"
+msgstr "Resolver comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
@@ -2246,7 +2247,7 @@ msgstr "Bloquear componente, impidiendo traducciones"
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Añadir palabra al glosario"
+msgstr "Añadir apunte al glosario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
@@ -2281,7 +2282,7 @@ msgstr "Editar la memoria de traducción"
 #. Translators: Permission name
 #: weblate/auth/data.py:49
 msgid "Delete translation memory"
-msgstr "Eliminar memoria de traducción"
+msgstr "Borrar memoria de traducción"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:51
@@ -2438,7 +2439,7 @@ msgstr "Deshacer los cambios del repositorio interno"
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "View upstream repository location"
-msgstr "Ver la ubicación del repositorio originario"
+msgstr "Ver el lugar del repositorio originario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:113
@@ -2468,12 +2469,12 @@ msgstr "Gestionar definiciones de idioma"
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/teams.html:24
 msgid "Manage teams"
-msgstr "Dirigir equipos"
+msgstr "Gestionar equipos"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131 weblate/templates/manage/users.html:23
 msgid "Manage users"
-msgstr "Administrar usuarios"
+msgstr "Gestionar usuarios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
@@ -3570,7 +3571,7 @@ msgstr "Tipo de fluido"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Descartar indicador"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -5056,11 +5057,11 @@ msgstr "Cantidad de personas que hablan esta lengua."
 
 #: weblate/lang/models.py:850
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Distinguir MAYÚS/minus"
 
 #: weblate/lang/models.py:851
 msgid "Case-insensitive"
-msgstr ""
+msgstr "No distinguir MAYÚS/minús"
 
 #: weblate/lang/models.py:887
 msgctxt "Plural type"
@@ -9259,7 +9260,7 @@ msgstr[1] "Se bloqueó el componente %(component)s"
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:203
 msgctxt "Joins a list of values"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
 #, fuzzy, python-format
@@ -9898,6 +9899,8 @@ msgstr "Se desbloqueó el componente %(component)s"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Nota: Este resumen numérico ha sido truncado como estos fueron superados 100 "
+"notificaciones."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -14418,7 +14421,7 @@ msgstr "No hay ninguna cadena pendiente de traducir"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Ordenación breve"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15973,7 +15976,7 @@ msgstr "No se pudo analizar el archivo %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
@@ -16569,6 +16572,8 @@ msgstr "Cambios en %s"
 #: weblate/trans/views/create.py:70
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
+"La configuración proporcionada es incorrecta. Compruebe los errores a "
+"continuación."
 
 #: weblate/trans/views/create.py:295
 #, python-format
