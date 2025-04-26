@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-26 15:25+0000\n"
+"PO-Revision-Date: 2025-04-26 15:51+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -23078,12 +23078,12 @@ msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
 "checks`."
 msgstr ""
-"A minőségellenőrzések és más Weblate viselkedés testreszabása, lásd: :ref:"
-"`custom-checks`."
+"A minőségellenőrzések és más Weblate viselkedések testreszabása, lásd :ref"
+":`custom-checks`."
 
 #: ../../admin/projects.rst:307 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr "Összetevő konfigurációja"
+msgstr "Összetevő konfiguráció"
 
 #: ../../admin/projects.rst:309
 msgid ""
@@ -23092,16 +23092,15 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
-"Egy összetevő egy fordítandó egységcsoportot jelöl. Megadod a VCS "
-"(verziókezelő) tároló helyét és a fájlmaszkot, hogy mely fájlokat szeretnéd "
-"fordítani, a Weblate pedig automatikusan letölti ezeket a VCS-ből, és "
-"megkeresi az összes megfelelő fordítható fájlt."
+"Az összetevő egy fordítandó egységcsoportot jelent. Meg kell adnia egy VCS "
+"(verziókezelő) tároló helyét és egy fájlmaszkot azon fájlokhoz, amelyeket "
+"fordítani szeretne; a Weblate automatikusan letölti ezeket a fájlokat a VCS-"
+"ből, és megtalálja az összes megfelelő fordítható fájlt."
 
 #: ../../admin/projects.rst:317
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
-msgstr ""
-"Néhány tipikus konfiguráció példáját megtalálhatod a :ref:`formats` részben."
+msgstr "Néhány tipikus konfigurációs példát a :ref:`formats` alatt talál."
 
 #: ../../admin/projects.rst:321
 msgid ""
@@ -23109,9 +23108,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or add-ons, book chapters or websites)."
 msgstr ""
-"Ajánlott a fordítási összetevőket ésszerű méretűekre bontani - oszd fel a "
-"fordítást bármi alapján, ami számodra logikus (például egyes alkalmazások "
-"vagy extrák, könyvfejezetek vagy weboldalak)."
+"Ajánlott, hogy a fordítási összetevők mérete ésszerű keretek között maradjon "
+"– érdemes a fordítást logikusan felosztani (például egyes alkalmazásokra "
+"vagy kiegészítőkre, könyvfejezetekre vagy weboldalakra)."
 
 #: ../../admin/projects.rst:325
 msgid ""
@@ -23119,9 +23118,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
-"A Weblate könnyedén kezeli a több ezer sztringes fordításokat, de nehezebb "
-"megosztani a munkát és koordinálni a fordítók között ilyen nagy fordítási "
-"összetevők esetén."
+"A Weblate könnyedén kezeli a több tízezer szöveget tartalmazó fordításokat "
+"is, de az ilyen nagy összetevők esetén nehezebb a munka megosztása és a "
+"fordítók közötti koordináció."
 
 #: ../../admin/projects.rst:328
 msgid ""
@@ -23130,19 +23129,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
-"Ha egy fordítás nyelvi meghatározása hiányzik, egy üres meghatározás jön "
-"létre, amely \"cs_CZ (generated)\" néven szerepel. Állítsd be a "
-"meghatározást, és jelezd vissza a Weblate készítőinek, hogy a hiányzó "
-"nyelvek bekerülhessenek a következő kiadásba."
+"Ha egy fordítás nyelvi definíciója hiányzik, egy üres definíció jön létre „"
+"cs_CZ (automatikusan létrehozott)” néven. Ezt a definíciót módosítani kell, "
+"majd visszajelzést adni a Weblate fejlesztőinek, hogy a hiányzó nyelvek "
+"bekerülhessenek a következő kiadásba."
 
 #: ../../admin/projects.rst:333
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
-"Az összetevő tartalmazza az összes fontos beállítást, amelyek a VCS ("
-"verziókezelő rendszer) használatához és a fordítások kinyeréséhez "
-"szükségesek:"
+"Az összetevő tartalmazza az összes fontos paramétert a VCS használatához és "
+"a fordítások kezeléséhez:"
 
 #: ../../admin/projects.rst:339 ../../admin/projects.rst:1119
 msgid "Component name"
@@ -23150,34 +23148,34 @@ msgstr "Összetevő neve"
 
 #: ../../admin/projects.rst:341
 msgid "Verbose component name, used to display the component name."
-msgstr ""
-"Részletes összetevőnév, amely az összetevő nevének megjelenítésére szolgál."
+msgstr "Az összetevő megjelenítésére szolgáló részletes név."
 
 #: ../../admin/projects.rst:346 ../../admin/projects.rst:1121
 #: ../../api.rst:2402 ../../api.rst:2472 ../../api.rst:2579
 msgid "Component slug"
-msgstr "Összetevő azonosító"
+msgstr "Összetevő URL-azonosítója (slug)"
 
 #: ../../admin/projects.rst:348
 msgid "Component name suitable for URLs."
-msgstr "URL-ekhez alkalmas összetevőnév."
+msgstr ""
+"URL-ekhez megfelelő összetevő név. (kisbetűs, ékezet nélküli, nem tartalmaz "
+"szóközt és minél rövidebb, de érthető.)"
 
 #: ../../admin/projects.rst:353
 msgid "Component project"
-msgstr "Összetevő projekt"
+msgstr "Összetevő projektje"
 
 #: ../../admin/projects.rst:355
 msgid ":ref:`project` where the component belongs."
-msgstr "A(z) :ref:`project`, amelyhez az összetevő tartozik."
+msgstr "Az a :ref:`project`, amelyhez az összetevő tartozik."
 
 #: ../../admin/projects.rst:360
 msgid "Version control system"
-msgstr "Verziókövető rendszer"
+msgstr "Verziókezelő rendszer"
 
 #: ../../admin/projects.rst:362
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
-"A használandó VCS (verziókezelő rendszer), részletekért lásd: :ref:`vcs`."
+msgstr "Használni kívánt VCS, részletekért lásd :ref:`vcs`."
 
 #: ../../admin/projects.rst:366 ../../admin/projects.rst:452
 msgid ":ref:`push-changes`"
@@ -23185,16 +23183,15 @@ msgstr ":ref:`push-changes`"
 
 #: ../../admin/projects.rst:371 ../../devel/gettext.rst:224
 msgid "Source code repository"
-msgstr "Forráskód tárolója"
+msgstr "Forráskód tároló"
 
 #: ../../admin/projects.rst:373
 msgid "VCS repository used to pull changes."
-msgstr "A módosítások lekérésére használt VCS (verziókezelő) tároló."
+msgstr "A változtatások letöltésére használt VCS tároló."
 
 #: ../../admin/projects.rst:377
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
-"Az URL-ek megadásával kapcsolatos további részletekért lásd :ref:`vcs-repos`."
+msgstr "Az URL-ek megadásáról részletesebben lásd: :ref:`vcs-repos`."
 
 #: ../../admin/projects.rst:381
 msgid ""
