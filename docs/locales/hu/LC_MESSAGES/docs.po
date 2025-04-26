@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-26 13:58+0000\n"
+"PO-Revision-Date: 2025-04-26 14:39+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -22355,17 +22355,17 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
-"A Weblate-ben több művelet is sebességkorlátozás alá esik. Legfeljebb :"
-"setting:`RATELIMIT_ATTEMPTS` próbálkozás engedélyezett :setting:"
-"`RATELIMIT_WINDOW` másodpercen belül. Ezután a felhasználó blokkolva lesz :"
-"setting:`RATELIMIT_LOCKOUT` időtartamra. Vannak olyan beállítások is, "
-"amelyek kifejezetten bizonyos hatókörökre vonatkoznak, például "
-"``RATELIMIT_CONTACT_ATTEMPTS`` vagy ``RATELIMIT_TRANSLATE_ATTEMPTS``. Az "
-"alábbi táblázat a rendelkezésre álló hatókörök teljes listáját tartalmazza."
+"A Weblate-ben több művelet is sebességkorlátozás alá esik. Legfeljebb "
+":setting:`RATELIMIT_ATTEMPTS` próbálkozás engedélyezett "
+":setting:`RATELIMIT_WINDOW` másodpercen belül. Ezt követően a felhasználó "
+"zárolásra kerül :setting:`RATELIMIT_LOCKOUT` időtartamra. Vannak speciális "
+"beállítások is egyes műveleti körökre, például ``RATELIMIT_CONTACT_ATTEMPTS``"
+" vagy ``RATELIMIT_TRANSLATE_ATTEMPTS``. Az alábbi táblázat tartalmazza az "
+"összes elérhető műveleti kört."
 
 #: ../../admin/optionals.rst:282
 msgid "The following operations are subject to rate limiting:"
-msgstr "A következő műveletek sebességkorlátozás alá esnek:"
+msgstr "Az alábbi műveletek esnek sebességkorlátozás alá:"
 
 #: ../../admin/optionals.rst:285
 msgid "Name"
@@ -22381,7 +22381,7 @@ msgstr "Sebességkorlátozási időablak"
 
 #: ../../admin/optionals.rst:285
 msgid "Lockout period"
-msgstr "Kizárási időszak"
+msgstr "Zárolási időszak"
 
 #: ../../admin/optionals.rst:287 ../../user/profile.rst:5
 msgid "Registration"
@@ -22410,7 +22410,7 @@ msgstr "600"
 
 #: ../../admin/optionals.rst:289
 msgid "Sending message to admins"
-msgstr "Üzenet küldése az adminoknak"
+msgstr "Üzenetküldés az adminisztrátoroknak"
 
 #: ../../admin/optionals.rst:289
 msgid "``MESSAGE``"
@@ -22431,7 +22431,7 @@ msgstr "``LOGIN``"
 
 #: ../../admin/optionals.rst:293
 msgid "Sitewide search"
-msgstr "Oldalszintű keresés"
+msgstr "Teljes oldalas keresés"
 
 #: ../../admin/optionals.rst:293
 msgid "``SEARCH``"
@@ -22460,7 +22460,7 @@ msgstr "30"
 
 #: ../../admin/optionals.rst:297
 msgid "Adding to glossary"
-msgstr "Hozzáadás a szójegyzékhez"
+msgstr "Szójegyzék bővítése"
 
 #: ../../admin/optionals.rst:297
 msgid "``GLOSSARY``"
@@ -22468,7 +22468,7 @@ msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:299
 msgid "Starting translation into a new language"
-msgstr "Fordítás megkezdése egy új nyelvre"
+msgstr "Új nyelvre történő fordítás megkezdése"
 
 #: ../../admin/optionals.rst:299
 msgid "``LANGUAGE``"
@@ -22487,8 +22487,8 @@ msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
 msgstr ""
-"Az ütemezési korlátozás a bejelentkezett felhasználók esetében munkamenetek "
-"alapján történik, és IP-cím alapján, ha nincs bejelentkezve."
+"Bejelentkezett felhasználóknál a sebességkorlátozás munkamenet-alapú, míg "
+"nem bejelentkezett felhasználóknál az IP-címen alapul."
 
 #: ../../admin/optionals.rst:307
 msgid ""
@@ -22497,8 +22497,8 @@ msgid ""
 "the process of having its password reset."
 msgstr ""
 "Ha egy felhasználó :setting:`AUTH_LOCK_ATTEMPTS` alkalommal sikertelenül "
-"próbál bejelentkezni, a jelszóval történő hitelesítés ki lesz kapcsolva a "
-"fiókon, amíg a jelszó visszaállításának folyamatán nem megy keresztül."
+"próbál bejelentkezni, a jelszavas hitelesítés le lesz tiltva az adott "
+"fióknál, amíg a jelszó helyreállítási folyamaton nem megy végig."
 
 #: ../../admin/optionals.rst:309
 msgid ""
@@ -22506,14 +22506,14 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
-"A beállítások a Docker-konténerben is alkalmazhatók, ha a beállítás nevéhez "
-"``WEBLATE_`` előtagot adsz, például a :setting:`RATELIMIT_ATTEMPTS` így "
-"alakul: :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
+"A beállítások Docker-konténerben is alkalmazhatók, ilyenkor a változónév elé "
+"``WEBLATE_`` előtagot kell adni, például a :setting:`RATELIMIT_ATTEMPTS` így "
+"lesz :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:311
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
-"Az API külön sebességkorlátozási beállításokkal rendelkezik, lásd: :ref:`api-"
+"Az API-hoz külön sebességkorlátozási beállítások tartoznak, lásd: :ref:`api-"
 "rate`."
 
 #: ../../admin/optionals.rst:315
@@ -22530,9 +22530,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
-"A Fedora Messaging egy AMQP-alapú kiadó a Weblate-ben történő összes "
-"változás számára. Ezt használva további szolgáltatásokat kapcsolhatsz a "
-"Weblate-ben történő változásokhoz."
+"A Fedora Messaging egy AMQP-alapú üzenetküldő rendszer, amely rögzíti a "
+"Weblate-ben bekövetkező változásokat. Ezzel a megoldással további "
+"szolgáltatásokat kapcsolhat a Weblate-ben történő eseményekhez."
 
 #: ../../admin/optionals.rst:327
 msgid ""
@@ -22540,9 +22540,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
-"A Fedora Messaging integráció különálló Python modul formájában érhető el, "
-"``weblate-fedora-messaging`` néven. A beállítási útmutatót lásd a következő "
-"oldalon: <https://github.com/WeblateOrg/fedora_messaging/>."
+"A Fedora Messaging integráció külön Python-modulként, ``weblate-fedora-"
+"messaging`` néven érhető el. A beállítási útmutató a következő címen "
+"található: <https://github.com/WeblateOrg/fedora_messaging/>."
 
 #: ../../admin/optionals.rst:333
 msgid ":ref:`schema-messaging`"
@@ -22554,7 +22554,7 @@ msgstr "Fordítási projektek"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr "Fordítási szervezet"
+msgstr "Fordítási szervezés"
 
 #: ../../admin/projects.rst:7
 msgid ""
@@ -22562,9 +22562,9 @@ msgid ""
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
-"A Weblate fa szerkezetben rendezi a projekt/összetevők fordítható VCS ("
-"verziókezelő rendszer) tartalmát. Emellett az összetevőket kategóriák "
-"segítségével is rendszerezheted egy projekten belül."
+"A Weblate a projektek és összetevők verziókezelő rendszerben tárolt "
+"fordítható tartalmát fa struktúrába szervezi, amely tovább finomítható az "
+"összetevők projekten belüli kategorizálásával."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -22572,17 +22572,17 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
-"A legalsó szintű objektum a(z) :ref:`project`, amelynek tartalmaznia kell az "
-"összes összetartozó fordítást (például egy alkalmazás fordítását több "
-"verzióban és/vagy a hozzá tartozó dokumentációt)."
+"A legalacsonyabb szintű objektum a :ref:`project`, amelyhez az összetartozó "
+"fordításokat kell hozzárendelni (például egy alkalmazás több verziójának és "
+"a hozzájuk tartozó dokumentációnak a fordítását)."
 
 #: ../../admin/projects.rst:15
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
-"A középső szintet opcionálisan a :ref:`category` hozza létre. A kategóriák "
-"egymásba ágyazhatók, hogy bonyolultabb struktúrát érj el."
+"A középső szint opcionálisan :ref:`category` létrehozásával építhető ki. A "
+"kategóriák egymásba ágyazhatók az összetettebb struktúrák kialakításához."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -22590,9 +22590,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
-"Az :ref:`component` szintjén, ami valójában a lefordítandó összetevő, "
-"megadod a használandó VCS (verziókezelő) tárolót, valamint a fordítandó "
-"fájlok mintáját."
+"A felette lévő szint az :ref:`component`, amely maga a lefordítandó "
+"összetevő. Itt adja meg a használt VCS tárolót és a fordítandó fájlok "
+"mintáját."
 
 #: ../../admin/projects.rst:22
 msgid ""
@@ -22600,10 +22600,10 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
-"Az :ref:`component` felett találhatók az egyes fordítások, amelyeket a "
-"Weblate automatikusan kezel fordítási fájlként – ezek a fájlok a VCS "
-"(verziókezelő) tárolóban jelennek meg, és megfelelnek az :ref:`component` "
-"alatt megadott :ref:`component-filemask` beállításnak."
+"Az :ref:`component` szintje fölött az egyes fordítások helyezkednek el, "
+"amelyeket a Weblate automatikusan kezel, ahogy a verziókezelő tárolóban "
+"megjelennek a megfelelő a :ref:`component` részben megadott :ref:`component-"
+"filemask` alapján azonosított fordítási fájlok."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -22611,8 +22611,8 @@ msgid ""
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
 "A Weblate számos fordítási formátumot támogat (mind kétnyelvű, mind "
-"egynyelvű formátumokat), amelyeket a Translate Toolkit támogat, lásd: :ref:"
-"`formats`."
+"egynyelvű formátumokat) a Translate Toolkit segítségével, lásd: "
+":ref:`formats`."
 
 #: ../../admin/projects.rst:30
 msgid ""
@@ -22620,10 +22620,10 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
-"Megoszthatod a klónozott VCS (verziókezelő) tárolókat a :ref:`internal-urls` "
-"használatával. Ennek a funkciónak a használata erősen ajánlott, ha több "
-"összetevő is ugyanazt a VCS-t használja. Ez javítja a teljesítményt és "
-"csökkenti a szükséges lemezterületet."
+"A klónozott VCS tárolók megosztása :ref:`internal-urls` használatával "
+"lehetséges. Ezt a funkciót kifejezetten ajánlott használni, ha sok összetevő "
+"osztozik ugyanazon VCS-en, mivel növeli a teljesítményt és csökkenti a "
+"lemezhasználatot."
 
 #: ../../admin/projects.rst:38
 msgid "Adding translation projects and components"
@@ -22637,25 +22637,25 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
-"A jogosultságaid alapján új fordítási projektek és összetevők hozhatók "
-"létre. Az :guilabel:`Add new projects` jogosultsággal rendelkező "
-"felhasználók számára ez mindig engedélyezett, és ha az instanciád számlázást "
-"használ (például mint a https://hosted.weblate.org/ lásd: :ref:`billing`), "
-"akkor a számlázást kezelő felhasználói fiókból is létrehozhatod ezeket a "
-"csomagterved alapján."
+"A jogosultságai alapján új fordítási projektek és összetevők hozhatók létre. "
+"Az :guilabel:`Új projektek hozzáadása` jogosultsággal rendelkező "
+"felhasználók számára ez mindig engedélyezett, és ha a példánya díjfizetést "
+"alkalmaz (például a https://hosted.weblate.org/ oldalhoz hasonlóan, lásd: "
+":ref:`billing`), akkor a számlázást kezelő felhasználói fiók csomagkerete "
+"alapján is létrehozhatók új projektek és összetevők."
 
 #: ../../admin/projects.rst:48
 msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
 msgstr ""
-"Ahhoz, hogy minden felhasználónak engedélyt adj új projektek létrehozására, "
-"hozz létre egy új :ref:`autoteam` a :guilabel:`Project creators` csapat "
-"számára."
+"Amennyiben minden felhasználónak szeretné megadni az új projektek "
+"létrehozásának lehetőségét, hozzon létre új :ref:`autoteam` csapatot a "
+":guilabel:`Projektlétrehozók` csapat számára."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr "Megnézheted az aktuális számlázási tervedet egy külön oldalon:"
+msgstr "A jelenlegi számlázási csomagját külön oldalon tekintheti meg:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -22663,13 +22663,13 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
-"A projekt létrehozását innen vagy a navigációs sáv menüjéből is "
-"elindíthatod, a fordítási projekttel kapcsolatos alapvető információk "
-"kitöltésével fejezheted be a hozzáadását:"
+"Innen vagy a navigációs menüben elérhető lehetőség használatával indítható "
+"az új projekt létrehozása, ahol az alapadatok megadásával fejezheti be a "
+"projekt hozzáadását:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr "A projekt létrehozása után közvetlenül a projekt oldalára kerülsz:"
+msgstr "A projekt létrehozása után közvetlenül a projekt oldalára kerül:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -22678,18 +22678,18 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
-"Új fordítási összetevőt egyetlen kattintással hozzá lehet adni ott. Az "
-"összetevő létrehozása több lépcsős folyamat, és automatikusan észleli a "
-"legtöbb fordítási paramétert. Többféle megközelítés létezik az összetevő "
-"létrehozására:"
+"Új fordítási összetevő létrehozása onnan egyetlen kattintással "
+"kezdeményezhető. Az összetevő létrehozása több lépésből áll, és a rendszer "
+"automatikusan felismeri a legtöbb fordítási paramétert. Többféle "
+"megközelítés is létezik az összetevő létrehozására:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
-msgstr "Verziókövetőből"
+msgstr "Verziókezelő rendszeren keresztül"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr "Összetevőt hoz létre távoli verziókezelő tárolóból."
+msgstr "Új összetevő létrehozása távoli verziókezelő tárolóból."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -22699,8 +22699,7 @@ msgstr "Meglévő összetevőből"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
-"További összetevőt hoz létre egy meglévőhöz, különböző fájlok "
-"kiválasztásával."
+"Meglévő összetevőhöz ad hozzá új összetevőt, más fájlok kiválasztásával."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -22709,8 +22708,7 @@ msgstr "További ág"
 #: ../../admin/projects.rst:73
 msgid ""
 "Creates additional component to existing one, just for different branch."
-msgstr ""
-"További összetevőt hoz létre egy meglévőhöz, csak egy másik ág számára."
+msgstr "Meglévő összetevőhöz ad hozzá új összetevőt, egy másik ág számára."
 
 #: ../../admin/projects.rst:74
 msgid "Upload translations files"
@@ -22722,9 +22720,10 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
-"Töltsd fel a fordítási fájlokat a Weblate-re, ha nincs verziókezelésed vagy "
-"nem akarod integrálni azt a Weblate-tel. Később frissítheted a tartalmat a "
-"webes felületen vagy az :ref:`api` segítségével."
+"Ha nincs verziókezelő rendszere vagy nem kívánja azt a Weblate-hez "
+"integrálni, feltöltheti a fordítási fájlokat közvetlenül Weblate-be. A "
+"tartalmat később a webes felületen vagy az :ref:`api` segítségével "
+"frissítheti."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -22733,42 +22732,44 @@ msgstr "Dokumentum fordítása"
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
 msgstr ""
-"Tölts fel egyetlen dokumentumot vagy fordítási fájlt, és fordítsd le azt."
+"Egyetlen dokumentumot vagy fordítási fájlt tölthet fel, és annak fordítását "
+"végezheti el."
 
 #: ../../admin/projects.rst:80
 msgid "Start from scratch"
-msgstr "Kezdés a semmiből"
+msgstr "Új üres projekt kezdése"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr "Üres fordítási projekt létrehozása, és a szövegek manuális hozzáadása."
+msgstr ""
+"Üres fordítási projekt létrehozása, amelyhez manuálisan adhat szövegeket."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
-"Ha már vannak meglévő fordítási összetevőid, könnyedén hozzáadhatsz újakat "
-"további fájlokhoz vagy ágakhoz ugyanazon tároló használatával."
+"Amint rendelkezik meglévő fordítási összetevőkkel, könnyedén hozzáadhat "
+"újakat további fájlok vagy ágak számára ugyanazon tároló használatával."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr "Először ki kell töltened a nevet és a tároló helyét:"
+msgstr "Először meg kell adnia a nevet és a tároló helyét:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
-"A következő oldalon a felfedezett fordítható erőforrások listáját láthatod:"
+"A következő oldalon megjelenik a felfedezett fordítható erőforrások listája:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
-"Utolsó lépésként átnézed a fordítási összetevő adatait, és kitöltöd az "
-"opcionális részleteket:"
+"Az utolsó lépésben áttekintheti a fordítási összetevő adatait, és megadhat "
+"opcionális részleteket is:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -22776,7 +22777,7 @@ msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr "Projekt konfigurációja"
+msgstr "Projektkonfiguráció"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -22787,12 +22788,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
-"Hozz létre egy fordítási projektet, majd adj hozzá egy új összetevőt a "
-"fordításhoz. A projekt olyan, mint egy polc, amelyre a tényleges fordítások "
-"vannak felhalmozva. Az azonos projektben lévő összes összetevő megosztja a "
-"javaslatokat és a szótárukat; a fordítások automatikusan átterjednek az "
-"összes összetevőre egyetlen projekten belül (hacsak az összetevő "
-"konfigurációjában nincs kikapcsolva), lásd: :ref:`memory`."
+"Hozzon létre egy fordítási projektet, majd adjon hozzá egy új összetevőt a "
+"fordításhoz. A projekt olyan, mint egy polc, amelyen a valódi fordítások "
+"sorakoznak. Egy projekt összes összetevője közösen használja a javaslatokat "
+"és a szójegyzéket; a fordítások automatikusan átvitelre kerülnek az összes "
+"összetevő között ugyanazon projektben (kivéve, ha az összetevő "
+"beállításaiban ez ki van kapcsolva), lásd :ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:315
 msgid ":doc:`/devel/integration`"
@@ -22801,8 +22802,8 @@ msgstr ":doc:`/devel/integration`"
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr ""
-"Ezek az alapvető attribútumok beállítják és tájékoztatják a fordítókat egy "
-"projektről:"
+"Ezek az alapvető attribútumok határozzák meg és tájékoztatják a fordítókat "
+"egy projektről:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:1123 ../../api.rst:869
 #: ../../contributing/about.rst:11
@@ -22811,8 +22812,7 @@ msgstr "Projekt neve"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr ""
-"Részletes projekt név, amely a projekt nevének megjelenítésére szolgál."
+msgstr "A projekt megjelenítésére szolgáló részletes projekt neve."
 
 #: ../../admin/projects.rst:130
 msgid ":setting:`PROJECT_NAME_RESTRICT_RE`"
@@ -22820,11 +22820,13 @@ msgstr ":setting:`PROJECT_NAME_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
-msgstr "Keresőbarát URL"
+msgstr "URL-azonosító (slug)"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
-msgstr "URL-ekhez megfelelő projekt név."
+msgstr ""
+"URL-ekhez megfelelő projekt név. (kisbetűs, ékezet nélküli, nem tartalmaz "
+"szóközt és minél rövidebb, de érthető.)"
 
 #: ../../admin/projects.rst:142 ../../api.rst:873
 #: ../../contributing/about.rst:16
@@ -22833,27 +22835,28 @@ msgstr "Projekt webhelye"
 
 #: ../../admin/projects.rst:144
 msgid "URL where translators can find more info about the project."
-msgstr "URL, ahol a fordítók további információkat találhatnak a projektről."
+msgstr ""
+"Az az URL, ahol a fordítók további információt találhatnak a projektről."
 
 #: ../../admin/projects.rst:146
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
-"Ez egy kötelező paraméter, hacsak nincs kikapcsolva a(z) :setting:"
-"`WEBSITE_REQUIRED` által."
+"Ez egy kötelező paraméter, kivéve, ha a :setting:`WEBSITE_REQUIRED` "
+"beállítással le van tiltva."
 
 #: ../../admin/projects.rst:150
 msgid ""
 ":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
 "`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_RE`"
 msgstr ""
-":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:"
-"`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_RE`"
+":setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`"
+", :setting:`PROJECT_WEB_RESTRICT_RE`"
 
 #: ../../admin/projects.rst:157
 msgid "Translation instructions"
-msgstr "Fordítási utasítások"
+msgstr "Fordítási útmutató"
 
 #: ../../admin/projects.rst:159
 msgid ""
