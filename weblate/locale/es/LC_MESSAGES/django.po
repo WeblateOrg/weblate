@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-26 15:25+0000\n"
+"PO-Revision-Date: 2025-04-26 15:51+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -476,10 +476,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Cuenta bloqueada por muchos intentos de acceso fallidos."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "No se pudo enviar el mensaje al administrador."
+msgstr "Cuenta bloqueada por el administrador del sitio."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1016,22 +1014,24 @@ msgstr ""
 "blanco."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Esta contraseña se compone de un único carácter."
-msgstr[1] "Esta contraseña se compone de un único carácter."
+msgstr[0] ""
+"Esta contraseña es demasiado larga. Debe contener como mucho %(max_length)d "
+"carácter."
+msgstr[1] ""
+"Esta contraseña es demasiado larga. Debe contener como mucho %(max_length)d "
+"caracteres."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Su contraseña no puede contener palabras o caracteres repetidos."
-msgstr[1] "Su contraseña no puede contener palabras o caracteres repetidos."
+msgstr[0] "Su contraseña debe contener como mucho %(max_length)d carácter."
+msgstr[1] "Su contraseña debe contener como mucho %(max_length)d caracteres."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1111,10 +1111,8 @@ msgid "Could not send message to administrator."
 msgstr "No se pudo enviar el mensaje al administrador."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Se enviaron demasiados mensajes. Inténtelo de nuevo más tarde."
+msgstr "No se pudo abrir un ticket, intente otro más tarde."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1850,16 +1848,12 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Activar la clasificación por mayúsculas y minúsculas"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Licencia modificada"
+msgstr "Eventos modificados"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL de sitio web"
+msgstr "URL de Webhook"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
@@ -2034,13 +2028,13 @@ msgstr "Se instaló el complemento. Consulte las instrucciones de integración."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Enviar notificación a los usuarios suscritos."
+msgstr ""
+"Enviar notificación a los servicios externos basados en eventos "
+"seleccionados."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2072,13 +2066,15 @@ msgstr ""
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autenticación basada en vales con prefijo `%s` requerido."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Cada usuario tiene un vale de acceso personal el cual puede obtener desde su "
+"respectivo perfil de usuario. Estos vales tienen el prefijo `wfu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2086,6 +2082,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Es posible crear vales de proyecto cuyo acceso a los API están limitados "
+"para operaciones a su proyecto asociado. Estos vales tienen el prefijo "
+"`wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
