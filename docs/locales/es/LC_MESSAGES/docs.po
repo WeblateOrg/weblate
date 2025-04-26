@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-22 21:55+0000\n"
+"PO-Revision-Date: 2025-04-26 15:25+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.1-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -821,8 +821,8 @@ msgstr ""
 "los permisos otorgados a los miembros de ese equipo se conceden para todos "
 "los componentes de las listas de componentes adjuntas al equipo, y se "
 "concede un acceso sin permisos adicionales para todos los proyectos en los "
-"que estén estos componentes. :guilabel:`Componentes` y :guilabel:`Proyectos` "
-"se ignoran."
+"que estén estos componentes. Los :guilabel:`Componentes` y "
+":guilabel:`Proyectos` se ignoran."
 
 #: ../../admin/access.rst:388
 msgid ""
@@ -904,7 +904,7 @@ msgstr "Componentes"
 
 #: ../../admin/access.rst:424
 msgid "foo/bar"
-msgstr "foobar"
+msgstr "esto/otro"
 
 #: ../../admin/access.rst:426
 msgid "`Spanish`"
@@ -1005,15 +1005,15 @@ msgstr ""
 
 #: ../../admin/access.rst:468
 msgid "Default teams and roles"
-msgstr "Equipos y funciones predeterminadas"
+msgstr "Equipos y roles predeterminados"
 
 #: ../../admin/access.rst:470
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Tras la instalación, se crea un conjunto de equipos por defecto (véase :ref:"
-"`default-teams`)."
+"Tras la instalación, se crea un conjunto de equipos por defecto (consulte "
+":ref:`default-teams`)."
 
 #: ../../admin/access.rst:472
 msgid ""
@@ -1046,7 +1046,7 @@ msgstr "Roles integrados"
 
 #: ../../admin/access.rst:488
 msgid "Billing (see :ref:`billing`)"
-msgstr "Facturación (vea :ref:`billing`)"
+msgstr "Facturación (consulte :ref:`billing`)"
 
 #: ../../admin/access.rst:488
 msgid "View billing info"
@@ -2039,10 +2039,8 @@ msgstr ""
 "proyecto originario."
 
 #: ../../admin/addons.rst:77
-#, fuzzy
-#| msgid "repository post-update"
 msgid "Repository post-update"
-msgstr "repositorio posterior al ser actualizado"
+msgstr "Repositorio posterior al ser actualizado"
 
 #: ../../admin/addons.rst:79
 #, fuzzy
@@ -2080,20 +2078,16 @@ msgstr ""
 "proyecto originario."
 
 #: ../../admin/addons.rst:98
-#, fuzzy
-#| msgid "repository post-update"
 msgid "Repository pre-update"
-msgstr "repositorio posterior al ser actualizado"
+msgstr "Repositorio pre-actualizado"
 
 #: ../../admin/addons.rst:100
 msgid "Triggered just before the repository update is attempted."
 msgstr ""
 
 #: ../../admin/addons.rst:105
-#, fuzzy
-#| msgid "storage post-load"
 msgid "Storage post-load"
-msgstr "poscarga de almacenamiento"
+msgstr "Poscarga de almacenamiento"
 
 #: ../../admin/addons.rst:107
 #, fuzzy
@@ -2112,10 +2106,8 @@ msgid "Triggered just after the string is saved."
 msgstr ""
 
 #: ../../admin/addons.rst:119
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit pre-create"
-msgstr "unidad posterior a la creación"
+msgstr "Unidad pre-creación"
 
 #: ../../admin/addons.rst:121
 msgid "Triggered just after the newly created string is saved."
@@ -2262,7 +2254,7 @@ msgstr "``engines``"
 
 #: ../../admin/addons.rst:167 ../../api.rst:2067
 msgid "Machine translation engines"
-msgstr "Motores de traducción automática"
+msgstr "Motores de máquinas de traducción"
 
 #: ../../admin/addons.rst:169 ../../admin/addons.rst:190
 msgid "``threshold``"
@@ -3253,7 +3245,7 @@ msgid ""
 "`markup` for a detailed markup description."
 msgstr ""
 "Es posible utilizar una plantilla de Django tanto en el nombre de archivo "
-"como en el contenido; vea :ref:`markup` para obtener una descripción a "
+"como en el contenido; consulte :ref:`markup` para obtener una descripción a "
 "detalle de la marcación."
 
 #: ../../admin/addons.rst:597
@@ -4047,7 +4039,7 @@ msgstr "``secret``"
 
 #: ../../admin/addons.rst:981
 msgid "Secret"
-msgstr ""
+msgstr "Secreto"
 
 #: ../../admin/addons.rst:983
 msgid "``events``"
@@ -4644,7 +4636,8 @@ msgstr ""
 #: ../../admin/addons.rst:1218
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
-"Para obtener instrucciones de instalación, vea :ref:`custom-addon-modules`."
+"Para obtener instrucciones de instalación, consulte :ref:`custom-addon-"
+"modules`."
 
 #: ../../admin/addons.rst:1220
 msgid ""
@@ -4819,22 +4812,16 @@ msgid "It includes basic overview of your Weblate:"
 msgstr "Incluye un resumen básico de tu Weblate:"
 
 #: ../../admin/admin.rst:14
-#, fuzzy
-#| msgid "Support status, see :doc:`support`"
 msgid "Support status, see :doc:`support`."
-msgstr "Estado de servicio técnico; vea :doc:`support`"
+msgstr "Estado de servicio técnico; consulte :doc:`support`."
 
 #: ../../admin/admin.rst:15
-#, fuzzy
-#| msgid "Backups, see :doc:`backup`"
 msgid "Backups, see :doc:`backup`."
-msgstr "Copias de respaldo; vea :doc:`backup`"
+msgstr "Copias de respaldo; consulte :doc:`backup`."
 
 #: ../../admin/admin.rst:16
-#, fuzzy
-#| msgid "Shared translation memory, see :doc:`memory`"
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr "Memoria de traducción compartida; vea :doc:`memory`"
+msgstr "Memoria de traducción compartida; consulte :doc:`memory`."
 
 #: ../../admin/admin.rst:17
 #, fuzzy
@@ -4849,22 +4836,16 @@ msgstr ""
 "de la cola de Celery"
 
 #: ../../admin/admin.rst:18
-#, fuzzy
-#| msgid "SSH keys management, see :ref:`ssh-repos`"
 msgid "SSH keys management, see :ref:`ssh-repos`."
-msgstr "Gestión de claves SSH; vea :ref:`ssh-repos`"
+msgstr "Gestión de claves SSH; consulte :ref:`ssh-repos`."
 
 #: ../../admin/admin.rst:19
-#, fuzzy
-#| msgid "Alerts overview for all components, see :ref:`alerts`"
 msgid "Alerts overview for all components, see :ref:`alerts`."
-msgstr "Resumen de alertas para todos los componentes, consulte :ref:`alerts`"
+msgstr "Resumen de alertas para todos los componentes, consulte :ref:`alerts`."
 
 #: ../../admin/admin.rst:20
-#, fuzzy
-#| msgid "Users and teams, see :ref:`custom-acl`"
 msgid "Users and teams, see :ref:`custom-acl`."
-msgstr "Usuarios y equipos, véase :ref:`custom-acl`."
+msgstr "Usuarios y equipos, consulte :ref:`custom-acl`."
 
 #: ../../admin/admin.rst:21
 msgid ":ref:`manage-appearance`."
@@ -4876,7 +4857,7 @@ msgstr "Configura :ref:`machine-translation-setup`."
 
 #: ../../admin/admin.rst:23
 msgid "Configure site-wide addons, see :ref:`addons`."
-msgstr "Configurar addons para todo el sitio, ver :ref:`addons`."
+msgstr "Configurar addons para todo el sitio, consulte :ref:`addons`."
 
 #: ../../admin/admin.rst:28
 msgid "Performance report"
@@ -4891,12 +4872,6 @@ msgstr ""
 "el estado de su rendimiento."
 
 #: ../../admin/admin.rst:32
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Configuration errors` indicate issues present in your "
-#| "environment. It covers missing optional dependencies (see :ref:`python-"
-#| "deps`), configuration issues or delayed processing of background tasks  "
-#| "(see :ref:`celery`)."
 msgid ""
 ":guilabel:`Configuration errors` indicate issues present in your "
 "environment. It covers missing optional dependencies (see :ref:`python-"
@@ -4904,9 +4879,9 @@ msgid ""
 "ref:`celery`)."
 msgstr ""
 ":guilabel:`Los errores de configuración` indican problemas presentes en su "
-"entorno. Se trata de dependencias opcionales que faltan (véase :ref:`python-"
-"deps`), problemas de configuración o retrasos en el procesamiento de tareas "
-"en segundo plano (véase :ref:`celery`)."
+"entorno. Se trata de dependencias opcionales que faltan (consulte :ref"
+":`python-deps`), problemas de configuración o retrasos en el procesamiento "
+"de tareas en segundo plano (consulte :ref:`celery`)."
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -4915,9 +4890,9 @@ msgid ""
 "`django:howto/deployment/checklist`."
 msgstr ""
 ":guilabel:`Comprobaciones del sistema` lista posibles problemas de "
-"configuración. Pueden silenciarse utilizando :setting:`django:"
-"SILENCED_SYSTEM_CHECKS`, véase también :doc:`django:howto/deployment/"
-"checklist`."
+"configuración. Pueden silenciarse utilizando "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, consulte también :doc:`django:"
+"howto/deployment/checklist`."
 
 #: ../../admin/admin.rst:40
 msgid ""
@@ -6404,9 +6379,9 @@ msgid ""
 msgstr ""
 "Es recomendable especificar una ruta absoluta para la copia de respaldo "
 "local, como `/ruta/al/respaldo`. El directorio debe ser escribible por la "
-"cuenta de usuario que ejecute Weblate (vea :ref:`file-permissions`). Si no "
-"existe la ubicación, Weblate intentará crearla, pero necesita permiso para "
-"hacerlo."
+"cuenta de usuario que ejecute Weblate (consulte :ref:`file-permissions`). Si "
+"no existe la ubicación, Weblate intentará crearla, pero necesita permiso "
+"para hacerlo."
 
 #: ../../admin/backup.rst:131
 msgid ""
@@ -7127,8 +7102,8 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
-"La cadena es de solo lectura y no debe editarse en Weblate; vea :ref:`read-"
-"only-strings`."
+"La cadena es de solo lectura y no debe editarse en Weblate; consulte :ref"
+":`read-only-strings`."
 
 #: ../../admin/checks.rst:89
 msgid "``terminology``"
@@ -7255,7 +7230,7 @@ msgstr "``placeholders:NAME:NAME2:...``"
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
-"Cadenas sustitutivas esperadas en la traducción; vea :ref:`check-"
+"Cadenas sustitutivas esperadas en la traducción; consulte :ref:`check-"
 "placeholders`."
 
 #: ../../admin/checks.rst:113
@@ -7294,8 +7269,8 @@ msgstr "``regex:REGEX``"
 #: ../../admin/checks.rst:121
 msgid "Regular expression to match translation, see :ref:`check-regex`."
 msgstr ""
-"Expresión regular utilizada para relacionar traducciones; vea :ref:`check-"
-"regex`."
+"Expresión regular utilizada para relacionar traducciones; consulte :ref"
+":`check-regex`."
 
 #: ../../admin/checks.rst:122
 msgid "``discard:NAME``"
@@ -12953,10 +12928,8 @@ msgid "`mysqlclient <https://pypi.org/project/mysqlclient>`_"
 msgstr ""
 
 #: ../../admin/install.rst:248
-#, fuzzy
-#| msgid "Database server (see :ref:`database-setup`)"
 msgid "MySQL or MariaDB, see :ref:`database-setup`"
-msgstr "Servidor de base de datos (vea :ref:`database-setup`)"
+msgstr "MySQL o MariaDB, consulte :ref:`database-setup`"
 
 #: ../../admin/install.rst:250 ../../admin/machine.rst:682
 msgid "``openai``"
@@ -14396,11 +14369,11 @@ msgstr ""
 
 #: ../../admin/install.rst:1344
 msgid "Database server (see :ref:`database-setup`)"
-msgstr "Servidor de base de datos (vea :ref:`database-setup`)"
+msgstr "Servidor de base de datos (consulte :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1345
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr "Servidor de antememoria (vea :ref:`production-cache`)"
+msgstr "Servidor de antememoria (consulte :ref:`production-cache`)"
 
 #: ../../admin/install.rst:1346
 msgid ""
@@ -14410,11 +14383,12 @@ msgstr ""
 
 #: ../../admin/install.rst:1347
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
-msgstr "Servidor WSGI para el contenido dinámico (vea :ref:`uwsgi`)"
+msgstr "Servidor WSGI para el contenido dinámico (consulte :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1348
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr "Celery para ejecutar las tareas en segundo plano (vea :ref:`celery`)"
+msgstr ""
+"Celery para ejecutar las tareas en segundo plano (consulte :ref:`celery`)"
 
 #: ../../admin/install.rst:1352
 msgid ""
@@ -15759,8 +15733,8 @@ msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
-"Configura el huso horario utilizado en Weblate; vea :std:setting:`django:"
-"TIME_ZONE`."
+"Configura el huso horario utilizado en Weblate; consulte "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:672
 msgid ""
@@ -15961,13 +15935,14 @@ msgstr "Configura :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/install/docker.rst:859
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
-msgstr "Configura la clave de API de Akismet; vea :setting:`AKISMET_API_KEY`."
+msgstr ""
+"Configura la clave de API de Akismet; consulte :setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:863
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
-"Configura la firma con GPG de las consignas; vea :setting:"
-"`WEBLATE_GPG_IDENTITY`."
+"Configura la firma con GPG de las consignas; consulte "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:871
 msgid ""
@@ -16767,7 +16742,7 @@ msgid ""
 "see :ref:`collecting-errors`."
 msgstr ""
 "Se recomienda recopilar sistemáticamente los errores que se producen en la "
-"instalación; vea :ref:`collecting-errors`."
+"instalación; consulte :ref:`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1748
 msgid "To enable support for Rollbar, set the following:"
@@ -17704,7 +17679,7 @@ msgid ""
 "(see :ref:`python-deps`):"
 msgstr ""
 "Instale las dependencias opcionales que desee en función de las "
-"funcionalidades que vaya a utilizar (vea :ref:`optional-deps`):"
+"funcionalidades que vaya a utilizar (consulte :ref:`optional-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -25057,23 +25032,23 @@ msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
-"URL a la lista de componentes; vea :http:get:`/api/projects/(string:project)/"
-"components/`"
+"URL a la lista de componentes; consulte :http:get:`/api/projects/"
+"(string:project)/components/`"
 
 #: ../../api.rst:886
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
-"URL al estado del repositorio; vea :http:get:`/api/projects/(string:project)/"
-"repository/`"
+"URL al estado del repositorio; consulte :http:get:`/api/projects/"
+"(string:project)/repository/`"
 
 #: ../../api.rst:887
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
-"URL a la lista de cambios; vea :http:get:`/api/projects/(string:project)/"
-"changes/`"
+"URL a la lista de cambios; consulte :http:get:`/api/projects/"
+"(string:project)/changes/`"
 
 #: ../../api.rst:888
 #, fuzzy
@@ -25084,8 +25059,8 @@ msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"URL al estado del repositorio; vea :http:get:`/api/projects/(string:project)/"
-"repository/`"
+"URL al listado de créditos del contribuidor; consulte :http:get:`/api/"
+"projects/(string:project)//credits/`"
 
 #: ../../api.rst:889
 msgid ":ref:`project-translation_review`"
@@ -25501,7 +25476,8 @@ msgstr "Devuelve información relativa al componente de traducción."
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
-"el proyecto de traducción; vea :http:get:`/api/projects/(string:project)/`"
+"el proyecto de traducción; consulte :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:1317 ../../devel/sphinx.rst:32
 msgid ":ref:`component-name`"
@@ -25587,7 +25563,8 @@ msgstr ":ref:`component-language_code_style`"
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
-"objeto de idioma de origen; vea :http:get:`/api/languages/(string:language)/`"
+"objeto de idioma de origen; consulte :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:1337 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
@@ -25698,16 +25675,16 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
-"URL al estado del repositorio; vea :http:get:`/api/components/(string:"
-"project)/(string:component)/repository/`"
+"URL al estado del repositorio; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1363
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
-"URL a la lista de traducciones; vea :http:get:`/api/components/(string:"
-"project)/(string:component)/translations/`"
+"URL a la lista de traducciones; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1364
 msgid ""
@@ -25737,8 +25714,8 @@ msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"URL al estado del repositorio; vea :http:get:`/api/components/(string:"
-"project)/(string:component)/repository/`"
+"URL al reconocimiento del contribuidor del listado; consulte :http:get:`/api/"
+"components/(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1415
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -25918,7 +25895,8 @@ msgstr "Devuelve proyectos vinculados con un componente."
 
 #: ../../api.rst:1827
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr "proyectos asociados; vea :http:get:`/api/projects/(string:project)/`"
+msgstr ""
+"proyectos asociados; consulte :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1831
 msgid "Associate project with a component."
@@ -28285,24 +28263,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:286
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr ""
-"URL a la lista de cambios; vea :http:get:`/api/projects/(string:project)/"
-"changes/`"
+msgstr "Añadido :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:287
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr ""
-"URL a la lista de cambios; vea :http:get:`/api/projects/(string:project)/"
-"changes/`"
+msgstr "Añade :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:289
 #, fuzzy
@@ -29581,14 +29547,8 @@ msgstr ""
 "project)/(string:component)/`"
 
 #: ../../changes.rst:781
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr ""
-"URL a la lista de cambios; vea :http:get:`/api/projects/(string:project)/"
-"changes/`"
+msgstr "Añadido :http:get:`/api/projects/(string:project)/file/`"
 
 #: ../../changes.rst:782
 #, fuzzy
@@ -30104,15 +30064,11 @@ msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr "Servicios de sugerencias automáticas disponibles"
 
 #: ../../changes.rst:951
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"URL a la lista de cambios; vea :http:get:`/api/projects/(string:project)/"
-"changes/`"
+"Añadidas etiquetas API, consulte :http:get:`/api/projects/(string:project)/"
+"labels/`."
 
 #: ../../changes.rst:952
 #, fuzzy
@@ -39336,8 +39292,8 @@ msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
 msgstr ""
-"El dominio de Weblate se establece ahora en la configuración; vea :setting:"
-"`SITE_DOMAIN`."
+"El dominio de Weblate se establece ahora en la configuración; consulte "
+":setting:`SITE_DOMAIN`."
 
 #: ../../changes/v4.rst:1092
 msgid "Add support for searching by component and project."
@@ -40436,10 +40392,9 @@ msgid "Things to check in that case:"
 msgstr "Elementos que revisar en este caso:"
 
 #: ../../contributing/debugging.rst:56
-#, fuzzy
-#| msgid "Celery for executing background tasks (see :ref:`celery`)"
 msgid "Check that the Celery process is running, see :ref:`celery`"
-msgstr "Celery para ejecutar las tareas en segundo plano (vea :ref:`celery`)"
+msgstr ""
+"Compruebe que el proceso Celery esté ejecutándose, consulte :ref:`celery`"
 
 #: ../../contributing/debugging.rst:57
 msgid ""
@@ -41183,7 +41138,7 @@ msgid ""
 "admin/optionals`):"
 msgstr ""
 "Weblate se compone de varias aplicaciones de Django (algunas son opcionales; "
-"vea :doc:`/admin/optionals`):"
+"consulte :doc:`/admin/optionals`):"
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
@@ -42602,16 +42557,13 @@ msgid "Create a virtualenv:"
 msgstr "Cree un entorno virtual:"
 
 #: ../../contributing/start.rst:37
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (for this you need some system dependencies, see :doc:`../"
-#| "admin/install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`) and all dependencies useful for development:"
 msgstr ""
-"Instale Weblate (para esto necesitará algunas dependencias de sistema; vea :"
-"doc:`../admin/install/source`):"
+"Instale Weblate (para esto necesitará algunas dependencias de sistema; "
+"consulte :doc:`../admin/install/source`) y todas las dependencias útiles "
+"para desarrollo:"
 
 #: ../../contributing/start.rst:43
 msgid "Start a development server:"
@@ -43211,10 +43163,8 @@ msgid "Parse errors in the translation files"
 msgstr ""
 
 #: ../../devel/alerts.rst:15
-#, fuzzy
-#| msgid "Billing (see :ref:`billing`)"
 msgid "Billing limits (see :ref:`billing`)"
-msgstr "Facturación (vea :ref:`billing`)"
+msgstr "Límites de facturación (consulte :ref:`billing`)"
 
 #: ../../devel/alerts.rst:16
 #, fuzzy
@@ -44017,7 +43967,7 @@ msgid ""
 "ref:`wlc`."
 msgstr ""
 "Antes de esto, puede que quiera confirmar cualquier cambio local pendiente "
-"hecho en Weblate (vea :ref:`lazy-commit`). Esto puede hacerse desde la "
+"hecho en Weblate (consulte :ref:`lazy-commit`). Esto puede hacerse desde la "
 "interfaz de usuario (en la etiqueta :guilabel:`Mantenimiento del "
 "repositorio`), o desde la línea de comandos usando :ref:`wlc`."
 
@@ -45418,9 +45368,9 @@ msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
 msgstr ""
-"Weblate admite una amplia gama de formatos de archivo (vea :doc:`formats`) y "
-"el camino más sencillo consiste en utilizar el formato nativo para cada "
-"plataforma."
+"Weblate admite una amplia gama de formatos de archivo (consulte "
+":doc:`formats`) y el camino más sencillo consiste en utilizar el formato "
+"nativo para cada plataforma."
 
 #: ../../faq.rst:181
 msgid ""
@@ -49459,8 +49409,8 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
-"Esta comprobación se debe activar mediante el indicador ``check-glossary`` "
-"(vea :ref:`custom-checks`). Considere lo siguiente antes de activarla:"
+"Esta comprobación se debe activar mediante el indicador ``check-glossary`` ("
+"consulte :ref:`custom-checks`). Considere lo siguiente antes de activarla:"
 
 #: ../../user/checks.rst:176
 msgid ""
@@ -54690,8 +54640,8 @@ msgstr ":kbd:`⌘+M`"
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
 msgstr ""
-"Muestra la pestaña :guilabel:`Sugerencias automáticas` ; vea :ref:`machine-"
-"translation`."
+"Muestra la pestaña :guilabel:`Sugerencias automáticas` ; consulte :ref"
+":`machine-translation`."
 
 #: ../../user/translating.rst:234
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
@@ -55297,7 +55247,7 @@ msgid ""
 "please see :ref:`hosted-push`."
 msgstr ""
 "En un Hosted Weblate, esto está preconfigurado para la mayoría de los sitios "
-"públicos, por favor vea :ref:`hosted-push`."
+"públicos, por favor consulte :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
