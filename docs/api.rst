@@ -2286,6 +2286,18 @@ and XLIFF.
 
    Returns a list of all target translation units for the given source translation unit.
 
+.. http:post:: /api/units/(int:id)/comments/
+
+    .. versionadded:: 5.12
+
+    Create a new comment on the given translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :<json string scope: comment scope - global, translation (available on all non-source units), report (need review workflow enabled, see :ref:`reviews`)
+    :<json string comment: content of the new comment, you can use Markdown and mention users by @username.
+
+
 Changes
 +++++++
 
