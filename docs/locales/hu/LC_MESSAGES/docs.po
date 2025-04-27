@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-27 00:59+0000\n"
+"PO-Revision-Date: 2025-04-28 03:34+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -25263,16 +25263,16 @@ msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
 msgstr ""
-"Miután egy képernyőkép feltöltésre került, ez a felület kezeli a "
-"menedzsmentet és a forrás string társítását:"
+"A képernyőkép feltöltése után ezen a felületen kezelheti és társíthatja a "
+"forrásszövegeket:"
 
 #: ../../admin/translating.rst:138
 msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
 msgstr ""
-"Képernyőképeket közvetlenül a verziókezelő rendszered (VCS) tárolójából is "
-"hozzáadhatsz vagy frissíthetsz."
+"Közvetlenül a verziókezelő rendszer (VCS) tárolójából is hozzáadhat vagy "
+"frissíthet képernyőképeket."
 
 #: ../../admin/translating.rst:141
 msgid ""
@@ -25280,9 +25280,10 @@ msgid ""
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
 msgstr ""
-"A funkció engedélyezéséhez beállíthatsz egy képernyőkép fájlmaszkot az "
-"összetevő létrehozásakor, amely figyelni fogja a frissítéseket a tárolóban "
-"vagy manuális feltöltéskor adhatsz hozzá vagy frissíthetsz képernyőképeket."
+"A funkció bekapcsolásához beállíthat képernyőkép fájlmaszkot az összetevő "
+"létrehozásakor, így a Weblate figyelni fogja a tárolóban bekövetkező "
+"frissítéseket. Alternatívaként manuális feltöltéskor is hozzáadhat vagy "
+"frissíthet képernyőképeket."
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -25291,10 +25292,9 @@ msgid ""
 "screenshots matching the specified screenshot file mask will be added to the "
 "component."
 msgstr ""
-"Amikor a tároló frissül, a rendszer automatikusan ellenőrzi a "
-"változtatásokat. A tárolóban lévő meglévő képernyőképek frissülnek, és a "
-"megadott képernyőkép fájlmaszknak megfelelő új képernyőképek hozzáadódnak az "
-"összetevőhöz."
+"A tároló frissítésekor a rendszer automatikusan megkeresi a változásokat. A "
+"meglévő képernyőképek frissülnek, az új, a megadott fájlmaszknak megfelelő "
+"képek pedig hozzáadódnak az összetevőhöz."
 
 #: ../../admin/translating.rst:154
 msgid ":ref:`component-screenshot_filemask`"
@@ -25306,7 +25306,7 @@ msgstr "Weblate frissítése"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr "Docker image frissítések"
+msgstr "Docker képfájlok frissítése"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
@@ -25314,9 +25314,9 @@ msgid ""
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
-"A hivatalos Weblate Docker kép (lásd :doc:`install/docker`) integrálja az "
-"összes frissítési lépést. Általában nincs szükség kézi beavatkozásra azon "
-"túl, hogy letöltöd a legújabb (vagy legalább újabb) verziót."
+"A hivatalos Weblate Docker-kép (lásd :doc:`install/docker`) minden "
+"frissítési lépést integrál. Általában nincs szükség manuális beavatkozásra "
+"azon kívül, hogy letölti a legújabb (vagy legalább újabb) verziót."
 
 #: ../../admin/upgrade.rst:13
 msgid ":ref:`upgrading-docker`"
@@ -25333,11 +25333,10 @@ msgid ""
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
-"Mindig keresd meg az új változásokat a(z) :ref:`requirements` előtt, mielőtt "
-"frissítesz. Miután az összes követelmény telepítve vagy frissítve lett, "
-"ellenőrizd, hogy a(z) :file:`settings.py` megfelel-e a konfiguráció "
-"változásainak (a helyes értékekért nézd meg a(z) :file:`settings_example.py` "
-"fájlt)."
+"Mindig ellenőrizze a :ref:`requirements` változásait frissítés előtt. Miután "
+"az összes követelményt telepítette vagy frissítette, győződjön meg róla, "
+"hogy a :file:`settings.py` megfelel az új beállításoknak (ehhez használja a "
+":file:`settings_example.py` fájlt mintának)."
 
 #: ../../admin/upgrade.rst:25
 msgid ""
@@ -25348,88 +25347,85 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"Mindig ellenőrizd a(z) :ref:`version-specific-instructions` részt frissítés "
-"előtt. Ha bármilyen verziót kihagysz, győződj meg róla, hogy az összes "
-"kihagyott verzióhoz tartozó utasítást követted a frissítés során. Néha jobb "
-"fokozatosan, egy köztes verzióra frissíteni, hogy a migráció zökkenőmentesen "
-"menjen. Több kiadáson átívelő frissítésnek működnie kell, de ez nem olyan "
-"alaposan tesztelt, mint az egy verzióra történő frissítés!"
+"Mindig nézze meg a :ref:`version-specific-instructions` részt is frissítés "
+"előtt. Ha verziókat kihagyva frissít, kövesse az összes kimaradó verzióhoz "
+"tartozó útmutatót. Néha érdemes köztes verziók telepítésével fokozatosan "
+"haladni a zökkenőmentes átállás érdekében. Több verzió átugrásával is lehet "
+"frissíteni, de ez kevésbé van tesztelve, mint az egy verzión belüli "
+"frissítés!"
 
 #: ../../admin/upgrade.rst:33
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"Mindig készíts teljes adatbázis-mentést frissítés előtt, hogy vissza tudd "
-"állítani az adatbázist, ha a frissítés nem sikerül, lásd: :doc:`backup`."
+"Mindig készítsen teljes adatbázis-mentést frissítés előtt, hogy sikertelen "
+"frissítés esetén vissza tudjon állni, lásd :doc:`backup`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
-"Állítsd le a WSGI és Celery folyamatokat, hogy elkerüld a régi folyamatok "
-"futását frissítés közben. Ellenkező esetben inkompatibilis változások "
-"történhetnek az adatbázisban."
+"Állítsa le a WSGI- és Celery-folyamatokat a frissítés idejére, hogy "
+"elkerülje a régi folyamatok futását. Ellenkező esetben inkompatibilis "
+"adatbázisváltozások léphetnek fel."
 
 #: ../../admin/upgrade.rst:39
 msgid "Upgrade Weblate"
-msgstr "Weblate frissítése"
+msgstr "A Weblate frissítése"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
-msgstr "Pip telepítések esetén ezt így érheted el:"
+msgstr "Pip-es telepítés esetén a következő módon frissíthet:"
 
 #: ../../admin/upgrade.rst:47
 msgid "Or, if you just want to get the latest released version:"
-msgstr "Vagy, ha csak a legújabb kiadott verziót szeretnéd megszerezni:"
+msgstr "Vagy, ha a legújabb kiadott verziót szeretné:"
 
 #: ../../admin/upgrade.rst:53
 msgid "If you don't want to install all of the optional dependencies do:"
-msgstr ""
-"Ha nem szeretnéd az összes opcionális függőséget telepíteni, tedd a "
-"következőt:"
+msgstr "Ha nem kívánja az összes opcionális függőséget telepíteni, tegye ezt:"
 
 #: ../../admin/upgrade.rst:59
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
 msgstr ""
-"A Git checkout használatával le kell töltened az új forráskódot, és "
-"frissítened kell a telepítésedet:"
+"Git-es klónozás esetén töltse le az új forráskódot és frissítse a telepítést:"
 
 #: ../../admin/upgrade.rst:72
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
 msgstr ""
-"Az új Weblate kiadások tartalmazhatnak új :ref:`python-deps` elemeket, "
-"ellenőrizd, hogy ezek lefedik-e az általad kívánt funkciókat."
+"Az új Weblate kiadások új :ref:`python-deps` függőségeket is "
+"tartalmazhatnak, ellenőrizze, hogy ezek lefedik-e a kívánt funkciókat."
 
 #: ../../admin/upgrade.rst:75
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
-"Frissítsd a konfigurációs fájlt a :file:`settings_example.py` vagy a :ref:"
-"`version-specific-instructions` útmutatásai alapján."
+"Frissítse a konfigurációs fájlt a :file:`settings_example.py` vagy a :ref"
+":`version-specific-instructions` útmutatásai szerint."
 
 #: ../../admin/upgrade.rst:78
 msgid "Upgrade the database:"
-msgstr "Frissítsd az adatbázist:"
+msgstr "Frissítse az adatbázist:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
 msgstr ""
-"Gyűjtsd össze a frissített statikus fájlokat (lásd: :ref:`server` és :ref:"
-"`static-files`):"
+"Gyűjtse össze a frissített statikus fájlokat (lásd :ref:`server` és :ref"
+":`static-files`):"
 
 #: ../../admin/upgrade.rst:90
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
-"Tömörítsd a JavaScript és CSS fájlokat (opcionális, lásd: :ref:`production-"
+"Tömörítse a JavaScript- és CSS-fájlokat (opcionális, lásd :ref:`production-"
 "compress`):"
 
 #: ../../admin/upgrade.rst:96
@@ -25437,34 +25433,33 @@ msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
-"Ha Git-ből futtatod az installációt, minden frissítéskor újra kell "
-"generálnod a lokális fájlokat is. Ezt a következő parancs kiadásával teheted "
-"meg:"
+"Ha Git-alapú telepítést használ, minden frissítés után újra kell generálnia "
+"a lokalizációs fájlokat. Ezt az alábbi paranccsal teheti meg:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
-"Ellenőrizd, hogy a beállításod ésszerű-e (lásd még: :ref:`production`):"
+"Ellenőrizze, hogy a beállítások helyesek-e (lásd még :ref:`production`):"
 
 #: ../../admin/upgrade.rst:109
 msgid "Restart the Celery worker (see :ref:`celery`)."
-msgstr "Indítsd újra a Celery munkafolyamatot (lásd: :ref:`celery`)."
+msgstr "Indítsa újra a Celery-munkafolyamatot (lásd :ref:`celery`)."
 
 #: ../../admin/upgrade.rst:114
 msgid "Version-specific instructions"
-msgstr "Verzióspecifikus utasítások"
+msgstr "Verzióspecifikus útmutatások"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
 "Version specific instructions are now included in the release notes, see :"
 "doc:`/changes`."
 msgstr ""
-"A verzióspecifikus utasítások most már benne vannak a kiadási "
-"megjegyzésekben, lásd: :doc:`/changes`."
+"A verzióspecifikus útmutatások mostantól a kiadási megjegyzésekben "
+"találhatók, lásd :doc:`/changes`."
 
 #: ../../admin/upgrade.rst:122
 msgid "Upgrade from an older major version"
-msgstr "Frissítés egy régebbi főverzióról"
+msgstr "Frissítés régebbi főverzióról"
 
 #: ../../admin/upgrade.rst:124
 msgid ""
@@ -25472,27 +25467,25 @@ msgid ""
 "latest patch level for the initial major release. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
-"A főverziók közötti frissítések nem támogatottak. Mindig frissítsd a kezdeti "
-"főverzió legújabb javítási szintjére. Az ezt a lépést kihagyó frissítések "
-"nem támogatottak, és hibát okozhatnak."
+"Főverziók közötti frissítés nem támogatott. Mindig frissítsen először az "
+"adott főverzió legújabb javítókiadására. A köztes lépés kihagyása nem "
+"támogatott, és rendszerhibát okozhat."
 
 #: ../../admin/upgrade.rst:128
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
-msgstr ""
-"Ha a 2.x verzióról frissítesz, mindig először a 3.0.1 verzióra frissíts."
+msgstr "Ha a 2.x kiadásról frissít, először mindig a 3.0.1 verzióra frissítsen."
 
 #: ../../admin/upgrade.rst:129
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
-msgstr ""
-"Ha a 3.x verzióról frissítesz, mindig először a 4.0.4 verzióra frissíts."
+msgstr "Ha a 3.x kiadásról frissít, először mindig a 4.0.4 verzióra frissítsen."
 
 #: ../../admin/upgrade.rst:130
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgstr ""
-"Ha a 4.x verzióról frissítesz, mindig először az 5.0.2 verzióra frissíts."
+"Ha a 4.x kiadásról frissít, először mindig az 5.0.2 verzióra frissítsen."
 
 #: ../../admin/upgrade.rst:134
 msgid ""
@@ -25503,16 +25496,16 @@ msgid ""
 "in Weblate 5.0 documentation <https://docs.weblate.org/en/weblate-5.0.2/"
 "changes.html>`_"
 msgstr ""
-"`Frissítés 2.20-ról 3.0-ra a Weblate 3.0 dokumentációban <https://docs."
-"weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `Frissítés "
-"3.11-ről 4.0-ra a Weblate 4.0 dokumentációban <https://docs.weblate.org/en/"
-"weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_,, `Frissítés 4."
-"x-ről 5.0.2-re a Weblate 5.0 dokumentációban <https://docs.weblate.org/en/"
-"weblate-5.0.2/changes.html>`_"
+"`Frissítés 2.20-ról 3.0-ra a Weblate 3.0 dokumentációjában <https://"
+"docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_, `"
+"Frissítés 3.11-ről 4.0-ra a Weblate 4.0 dokumentációjában <https://"
+"docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-"
+"from-3-11-to-4-0>`_, `Frissítés 4.x-ről 5.0.2-re a Weblate 5.0 "
+"dokumentációjában <https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_"
 
 #: ../../admin/upgrade.rst:141
 msgid "Migrating from other databases to PostgreSQL"
-msgstr "Migrálás más adatbázisokból PostgreSQL-re"
+msgstr "Más adatbázisról PostgreSQL-re való átállás"
 
 #: ../../admin/upgrade.rst:143
 msgid ""
@@ -25521,40 +25514,40 @@ msgid ""
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Ha Weblate-et más adatbázissal futtatod, mint a PostgreSQL, fontold meg az "
-"átköltözést a PostgreSQL-re a jobb teljesítmény érdekében az alábbi lépések "
-"végrehajtásával. Ne felejtsd el előtte leállítani mind a web-, mind a Celery "
-"szervereket, különben következetlen adatokkal találkozhatsz."
+"Ha nem PostgreSQL adatbázist használ Weblate futtatásához, érdemes áttérni "
+"PostgreSQL-re a jobb teljesítmény érdekében az alábbi lépések követésével. "
+"Ne feledje, hogy előtte állítsa le mind a web-, mind a Celery-szervert, "
+"különben adatintegritási problémák léphetnek fel."
 
 #: ../../admin/upgrade.rst:151
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
 msgstr ""
-"Általában jó ötlet külön adatbázisban és külön felhasználói fiókban futtatni "
-"a Weblate-et:"
+"Általában jó ötlet külön adatbázist és külön felhasználói fiókot használni "
+"Weblate számára:"
 
 #: ../../admin/upgrade.rst:167
 msgid "Migrating to PostgreSQL using pgloader"
-msgstr "Migrálás PostgreSQL-re a pgloader használatával"
+msgstr "Átállás PostgreSQL-re pgloader használatával"
 
 #: ../../admin/upgrade.rst:169
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
-"A `pgloader`_ egy általános migrációs eszköz, amely az adatok PostgreSQL-be "
-"való áthelyezésére szolgál. Használhatod a Weblate adatbázisod migrálására."
+"A `pgloader`_ egy általános migrációs eszköz, amely lehetővé teszi adatok "
+"áthelyezését PostgreSQL-re. Ezzel migrálhatja Weblate adatbázisát is."
 
 #: ../../admin/upgrade.rst:172
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
 msgstr ""
-"Állítsd be a :file:`settings.py` fájlt úgy, hogy a PostgreSQL-t használja "
-"adatbázisként."
+"Állítsa be a :file:`settings.py` fájlt úgy, hogy PostgreSQL adatbázist "
+"használjon."
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr "A séma migrálása a PostgreSQL adatbázisban:"
+msgstr "Migrálja az adatbázissémát a PostgreSQL adatbázisba:"
 
 #: ../../admin/upgrade.rst:181
 msgid ""
@@ -25562,14 +25555,13 @@ msgid ""
 "to migrate the database, but you might want to learn more about `pgloader`_ "
 "to better understand what it does, and tweak it to match your setup:"
 msgstr ""
-"3. Futtasd a pgloader-t az adatok átvitelére. A következő szkript "
-"használható az adatbázis migrálásához, de érdemes többet megtudnod a "
-"`pgloader`_-ről, hogy jobban megértsd, mit csinál, és finomhangolhasd a "
-"saját beállításaidhoz:"
+"3. Futtassa a pgloader-t az adatok átvitelére. Az alábbi szkript használható "
+"az adatbázis migrálásához, de érdemes jobban megismerkedni a `pgloader`_ "
+"működésével, hogy testre tudja szabni a saját környezetének megfelelően:"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating from Pootle"
-msgstr "Migrálás Pootle-ról"
+msgstr "Átállás Pootle rendszerről"
 
 #: ../../admin/upgrade.rst:205
 msgid ""
@@ -25577,10 +25569,10 @@ msgid ""
 "supported to migrate the user accounts from it. You can dump the users from "
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
-"Mivel a Weblate eredetileg a Pootle helyettesítésére lett írva, támogatott a "
-"felhasználói fiókok átvitele róla. A Pootle-ből lementheted a "
-"felhasználókat, majd importálhatod őket a :wladmin:`importusers` "
-"használatával."
+"Mivel a Weblate eredetileg a Pootle helyettesítésére készült, támogatott a "
+"felhasználói fiókok migrálása onnan. A felhasználókat a Pootle rendszerből "
+"ki lehet exportálni, majd a :wladmin:`importusers` parancs segítségével "
+"lehet importálni."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -25593,16 +25585,16 @@ msgid ""
 "directly or by :ref:`wlc`."
 msgstr ""
 "Az API a ``/api/`` URL-en érhető el, és a `Django REST framework <https://"
-"www.django-rest-framework.org/>`_-re épül. Közvetlenül vagy a(z) :ref:`wlc` "
-"használatával is elérheted."
+"www.django-rest-framework.org/>`_ alapjaira épül. Közvetlenül vagy a "
+":ref:`wlc` segítségével használható."
 
 #: ../../api.rst:14
 msgid ""
 "The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, "
 "you can browse at ``/api/docs/``."
 msgstr ""
-"Az API dokumentálása az OpenAPI 3.1 szabvány szerint történt a ``/api/schema/"
-"`` URL-en, böngészhető a ``/api/docs/`` címen."
+"Az API dokumentációja az OpenAPI 3.1 szabvány szerint a ``/api/schema/`` URL-"
+"en található, böngészhető formában a ``/api/docs/`` alatt érhető el."
 
 #: ../../api.rst:19
 msgid ""
@@ -25610,9 +25602,9 @@ msgid ""
 "incomplete at this point and subject to change. Please consult the "
 "documentation below for more detailed information on the API."
 msgstr ""
-"Az OpenAPI elérhető funkcióelőzetesként. A dokumentáció valószínűleg még nem "
-"teljes, és változhat. Kérlek, olvasd el az alábbi dokumentációt az API-val "
-"kapcsolatos részletesebb információkért."
+"Az OpenAPI funkció előzetes verzióban érhető el. A dokumentáció ebben a "
+"szakaszban még hiányos lehet és változhat. A részletesebb információkért "
+"nézze meg az alábbi dokumentációt."
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
@@ -25626,19 +25618,19 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
-"A nyilvános projekt API elérhető hitelesítés nélkül is, bár a nem "
-"hitelesített kérések erősen korlátozottak (alapértelmezés szerint napi 100 "
-"kérésre), ezért ajánlott a hitelesítés használata. A hitelesítés egy tokent "
-"használ, amelyet a profilodban szerezhetsz meg. Használd ezt az "
-"``Authorization`` fejlécben:"
+"A nyilvános projektek API-ja hitelesítés nélkül is elérhető, ugyanakkor a "
+"hitelesítetlen kérések erősen korlátozottak (alapértelmezés szerint napi 100 "
+"kérés). Ezért ajánlott a hitelesítés használata. A hitelesítéshez token "
+"szükséges, amely a profiljában igényelhető. A tokent az ``Authorization`` "
+"fejlécben kell megadni:"
 
 #: ../../api.rst:35
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
 msgstr ""
-"Az API általános kérési viselkedése, a fejléc, státuszkódok és paraméterek "
-"minden végpontra vonatkoznak."
+"Általános kéréskezelési szabályok az API-hoz: a fejléc, státuszkódok és "
+"paraméterek minden végpontra érvényesek."
 
 #: ../../api.rst:0
 msgid "Query Parameters"
@@ -25650,18 +25642,18 @@ msgid ""
 "on REST framework setup, by default ``json``, ``csv`` and ``api`` are "
 "supported. The latter provides web browser interface for API."
 msgstr ""
-"Válaszformátum (felülírja a :http:header:`Accept`). A lehetséges értékek a "
-"REST keretrendszer beállításaitól függnek, alapértelmezés szerint a "
-"``json``, ``csv`` és ``api`` támogatott. Az utóbbi web böngésző felületet "
-"biztosít az API-hoz."
+"Válaszformátum (felülírja az :http:header:`Accept` fejlécet). Az elérhető "
+"értékek a REST framework beállításától függenek, alapértelmezés szerint "
+"``json``, ``csv`` és ``api`` támogatott. Az ``api`` formátum webböngészős "
+"API-felületet biztosít."
 
 #: ../../api.rst:42
 msgid ""
 "Returns given page of paginated results (use `next` and `previous` fields in "
 "response to automate the navigation)."
 msgstr ""
-"Visszaadja a megadott oldalt a lapozott eredmények közül (használd a "
-"válaszban a `next` és `previous` mezőket a navigáció automatizálásához)."
+"Visszaadja az adott oldal eredményeit lapozható formában (a `next` és "
+"`previous` mezők segítségével automatizálható a navigáció)."
 
 #: ../../api.rst:43
 msgid ""
@@ -25670,100 +25662,99 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
-"A megadott számú elemet adja vissza lekérdezésenként. Az alapértelmezett "
-"érték 50, a maximum pedig 1000. A `units` végpontok esetén az "
-"alapértelmezett 100, a maximum pedig 10000. Az alapértelmezett érték a "
-"`PAGE_SIZE` beállítással is konfigurálható."
+"Visszaadja a kért számú elemet lekérésenként. Az alapértelmezett érték 50, "
+"maximum 1000. Az `units` végpontoknál az alapértelmezés 100, maximum 10000. "
+"Az alapértelmezés módosítható a `PAGE_SIZE` beállítással."
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr "Kérés fejlécek"
+msgstr "Kérésfejlécek"
 
 #: ../../api.rst:48
 msgid "the response content type depends on :http:header:`Accept` header"
 msgstr ""
-"a válasz tartalomtípusa a :http:header:`Accept` fejléc alapján változik"
+"a válasz tartalomtípusa az :http:header:`Accept` fejléc alapján kerül "
+"meghatározásra"
 
 #: ../../api.rst:50
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr ""
-"opcionális token az ``Authorization: Token YOUR-TOKEN`` autentikációhoz"
+msgstr "hitelesítéshez opcionális token: ``Authorization: Token YOUR-TOKEN``"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr "Válasz fejlécek"
+msgstr "Válaszfejlécek"
 
 #: ../../api.rst:52
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr "ez a kérés :http:header:`Accept` fejléce alapján változik"
+msgstr "ez a kérés az :http:header:`Accept` fejlécétől függ"
 
 #: ../../api.rst:54
 msgid "list of allowed HTTP methods on object"
-msgstr "az objektumon engedélyezett HTTP metódusok listája"
+msgstr "az objektumon engedélyezett HTTP-módszerek listája"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr "Válasz JSON objektum"
+msgstr "Válasz JSON-objektum"
 
 #: ../../api.rst:55
 msgid ""
 "verbose description of the result (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
-"részletes leírás az eredményről (az :http:statuscode:`200`-tól eltérő HTTP "
-"státuszkódok esetén)"
+"az eredmény részletes leírása (HTTP státuszkódok esetén, amelyek nem "
+":http:statuscode:`200`)"
 
 #: ../../api.rst:56
 msgid "total item count for object lists"
-msgstr "az objektumlisták összes elemeinek száma"
+msgstr "objektumlisták teljes elem száma"
 
 #: ../../api.rst:57
 msgid "next page URL for object lists"
-msgstr "az objektumlisták következő oldalának URL-je"
+msgstr "objektumlisták következő oldalának URL-je"
 
 #: ../../api.rst:58
 msgid "previous page URL for object lists"
-msgstr "az objektumlisták előző oldalának URL-je"
+msgstr "objektumlisták előző oldalának URL-je"
 
 #: ../../api.rst:59
 msgid "results for object lists"
-msgstr "eredmények az objektumlistákhoz"
+msgstr "objektumlisták eredményei"
 
 #: ../../api.rst:60
 msgid "URL to access this resource using the API"
-msgstr "Az API használatával elérhető erőforrás URL-je"
+msgstr "URL az erőforrás eléréséhez API-n keresztül"
 
 #: ../../api.rst:61
 msgid "URL to access this resource using web browser"
-msgstr "Erőforrás elérési URL webböngészőn keresztüli megtekintéshez"
+msgstr "URL az erőforrás eléréséhez webböngészőn keresztül"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr "Állapotkódok"
+msgstr "Státuszkódok"
 
 #: ../../api.rst:62
 msgid "when request was correctly handled"
-msgstr "amikor a kérés helyesen lett kezelve"
+msgstr "a kérés helyes feldolgozásakor"
 
 #: ../../api.rst:63
 msgid "when a new object was created successfully"
-msgstr "amikor egy új objektum sikeresen létrejött"
+msgstr "új objektum sikeres létrehozásakor"
 
 #: ../../api.rst:64
 msgid "when an object was deleted successfully"
-msgstr "amikor egy objektumot sikeresen töröltek"
+msgstr "objektum sikeres törlésekor"
 
 #: ../../api.rst:65
 msgid "when form parameters are missing"
-msgstr "amikor a űrlap paraméterei hiányoznak"
+msgstr "hiányzó űrlapparaméterek esetén"
 
 #: ../../api.rst:66
 msgid "when access is denied"
-msgstr "amikor a hozzáférés megtagadva"
+msgstr "hozzáférés megtagadása esetén"
 
 #: ../../api.rst:67
 msgid "when throttling is in place"
-msgstr "amikor korlátozás van érvényben"
+msgstr "kéréskorlátozás esetén"
 
 #: ../../api.rst:72
 msgid "Authentication tokens"
@@ -25771,15 +25762,15 @@ msgstr "Hitelesítési tokenek"
 
 #: ../../api.rst:76
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr "A projekt szintű tokenek a 4.10-es kiadásban lettek bevezetve."
+msgstr "A projekt szintű tokenek a 4.10-es kiadásban kerültek bevezetésre."
 
 #: ../../api.rst:78
 msgid ""
 "Each user has a personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
-"Minden felhasználónak van egy személyes hozzáférési tokenje, amely a "
-"felhasználói profilban szerezhető be. Az újonnan generált felhasználói "
+"Minden felhasználónak van személyes hozzáférési tokenje, amely a "
+"felhasználói profiljában szerezhető be. Az újonnan generált felhasználói "
 "tokenek ``wlu_`` előtaggal rendelkeznek."
 
 #: ../../api.rst:81
@@ -25787,9 +25778,9 @@ msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
-"Lehetőség van projekt szintű tokenek létrehozására, amelyek csak az adott "
-"projekthez biztosítanak API hozzáférést. Ezek a tokenek a ``wlp_`` előtag "
-"alapján azonosíthatók."
+"Lehetőség van projekt szintű tokenek létrehozására, amelyek kizárólag az "
+"adott projekthez biztosítanak API-hozzáférést. Ezek a tokenek ``wlp_`` "
+"előtaggal azonosíthatók."
 
 #: ../../api.rst:86
 msgid ":doc:`/user/profile`, :ref:`project-api`, :ref:`acl`"
@@ -25815,7 +25806,7 @@ msgstr "**CURL példa:**"
 
 #: ../../api.rst:131
 msgid "Passing Parameters Examples"
-msgstr "Paraméterátadás példák"
+msgstr "Paraméterek átadásának példái"
 
 #: ../../api.rst:133
 msgid ""
@@ -25823,18 +25814,18 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
-"A :http:method:`POST` metódus esetében a paraméterek megadhatók űrlap "
-"beküldésként (:mimetype:`application/x-www-form-urlencoded`) vagy JSON "
+"A :http:method:`POST` módszer esetén a paraméterek megadhatók "
+"űrlapbeküldéssel (:mimetype:`application/x-www-form-urlencoded`) vagy JSON "
 "formátumban (:mimetype:`application/json`)."
 
 #: ../../api.rst:137
 msgid "**Form request example:**"
-msgstr "**Űrlap kérés példa:**"
+msgstr "**Űrlap alapú kérés példa:**"
 
 #: ../../api.rst:149 ../../api.rst:998 ../../api.rst:1437 ../../api.rst:1600
 #: ../../api.rst:1667 ../../api.rst:1743
 msgid "**JSON request example:**"
-msgstr "**JSON kérés példa:**"
+msgstr "**JSON alapú kérés példa:**"
 
 #: ../../api.rst:171
 msgid "**CURL JSON example:**"
@@ -25852,16 +25843,16 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
-"Ahhoz, hogy elérj egy :ref:`category`-ben található, beágyazott összetevőt, "
-"a kategória nevét URL-kódolással kell az összetevő nevébe helyezned, és "
-"perjellel elválasztanod. Például a ``docs`` kategóriában elhelyezett "
-"``usage``-t így kell használni: ``docs%252Fusage``. A teljes URL ebben az "
-"esetben például így néz ki: ``https://example.com/api/components/hello/"
-"docs%252Fusage/repository/``."
+"Ha olyan összetevőhöz szeretne hozzáférni, amely egy :ref:`kategóriába "
+"<category>` van ágyazva, a kategórianév URL-kódolásával, perjellel "
+"elválasztva kell megadni az összetevő nevét. Például egy ``usage`` nevű "
+"összetevő, amely a ``docs`` kategóriában található, így használható: "
+"``docs%252Fusage`` (docs/usage). A teljes URL például így nézne ki: "
+"``https://example.com/api/components/hello/docs%252Fusage/repository/``."
 
 #: ../../api.rst:195
 msgid "API rate limiting"
-msgstr "API sebességkorlátozás"
+msgstr "API lekérdezési korlátozás"
 
 #: ../../api.rst:197
 msgid ""
@@ -25869,9 +25860,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
-"Az API kérések sebessége korlátozott; az alapértelmezett konfiguráció "
-"szerint anonim felhasználók számára napi 100 kérés, míg hitelesített "
-"felhasználók számára óránként 5000 kérés engedélyezett."
+"Az API kérések korlátozva vannak; az alapértelmezett beállítások szerint "
+"anonim felhasználók napi 100 kérést, hitelesített felhasználók óránként 5000 "
+"kérést indíthatnak."
 
 #: ../../api.rst:201
 msgid ""
@@ -25879,22 +25870,22 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
-"A sebességkorlátozás a :file:`settings.py` fájlban állítható be; további "
-"részletekért a beállításáról lásd a `Throttling in Django REST framework "
-"documentation <https://www.django-rest-framework.org/api-guide/throttling/"
-">`_ oldalt."
+"A korlátozás beállítható a :file:`settings.py` fájlban; részletes "
+"konfigurációs útmutatóért lásd a `Django REST framework dokumentációját a "
+"Throttling fejezetben <https://www.django-rest-framework.org/api-guide/"
+"throttling/>`_."
 
 #: ../../api.rst:205
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgstr ""
-"A Docker konténerben ez beállítható a :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"és a :envvar:`WEBLATE_API_RATELIMIT_USER` használatával."
+"Docker-konténer használata esetén a :envvar:`WEBLATE_API_RATELIMIT_ANON` és "
+":envvar:`WEBLATE_API_RATELIMIT_USER` változókkal szabályozható."
 
 #: ../../api.rst:208
 msgid "The status of rate limiting is reported in following headers:"
-msgstr "A sebességkorlátozás állapotát a következő fejlécek jelzik:"
+msgstr "A korlátozási állapotot az alábbi fejlécek jelentik:"
 
 #: ../../api.rst:211
 msgid "``X-RateLimit-Limit``"
@@ -25902,7 +25893,7 @@ msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:211
 msgid "Allowed number of requests to perform"
-msgstr "Végrehajtandó kérések engedélyezett száma"
+msgstr "Az engedélyezett kérések száma"
 
 #: ../../api.rst:213
 msgid "``X-RateLimit-Remaining``"
@@ -25910,7 +25901,7 @@ msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:213
 msgid "Remaining number of requests to perform"
-msgstr "Végrehajtandó kérések hátralévő száma"
+msgstr "A fennmaradó kérések száma"
 
 #: ../../api.rst:215
 msgid "``X-RateLimit-Reset``"
@@ -25918,20 +25909,19 @@ msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:215
 msgid "Number of seconds until the rate-limit window resets"
-msgstr ""
-"A sebességkorlátozás ablakának visszaállításáig hátralévő másodpercek száma"
+msgstr "Másodpercek száma a korlátozási ablak visszaállásáig"
 
 #: ../../api.rst:220
 msgid "Added ratelimiting status headers."
-msgstr "Sebességkorlátozási állapotfejlécek hozzáadva."
+msgstr "Hozzáadva a lekérdezési korlátozás állapotát jelző fejlécek."
 
 #: ../../api.rst:224
 msgid ""
 ":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, :"
 "envvar:`WEBLATE_API_RATELIMIT_USER`"
 msgstr ""
-":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, :"
-"envvar:`WEBLATE_API_RATELIMIT_USER`"
+":ref:`rate-limit`, :ref:`user-rate`, :envvar:`WEBLATE_API_RATELIMIT_ANON`, "
+":envvar:`WEBLATE_API_RATELIMIT_USER`"
 
 #: ../../api.rst:232
 msgid "Error responses"
@@ -25939,15 +25929,15 @@ msgstr "Hibaválaszok"
 
 #: ../../api.rst:236
 msgid "Error responses were endpoint specific before this release."
-msgstr "A hibaválaszok a kiadás előtt végpontspecifikusak voltak."
+msgstr "A hibaválaszok korábban végpontspecifikusak voltak."
 
 #: ../../api.rst:238
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-error:"
 "error_response`."
 msgstr ""
-"A Weblate hibaválaszai a :doc:`drf-standardized-error:error_response` "
-"alapján vannak formázva."
+"A Weblate hibaválaszai mostantól a :doc:`drf-standardized-"
+"error:error_response` szabvány alapján kerülnek formázásra."
 
 #: ../../api.rst:242
 msgid "API Entry Point"
@@ -25966,24 +25956,25 @@ msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
 msgstr ""
-"Visszaadja a felhasználók listáját, ha van jogosultságod a felhasználók "
-"kezelésére. Ha nincs, akkor csak a saját adataidat láthatod."
+"A felhasználók listáját adja vissza, ha rendelkezik a felhasználók "
+"kezelésére vonatkozó jogosultsággal. Ha nem, akkor csak a saját adatait "
+"láthatja."
 
 #: ../../api.rst:288
 msgid "Username to search for"
-msgstr "A(z) keresendő felhasználónév"
+msgstr "Keresés felhasználónév alapján"
 
 #: ../../api.rst:289
 msgid "User ID to search for"
-msgstr "A(z) keresendő felhasználóazonosító"
+msgstr "Keresés felhasználói azonosító (ID) alapján"
 
 #: ../../api.rst:293
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
-"A felhasználói objektum attribútumai a :http:get:`/api/users/(str:username)/"
-"` dokumentumban találhatók."
+"A felhasználó objektum attribútumai dokumentálva vannak itt: :http:get:`/api/"
+"users/(str:username)/`."
 
 #: ../../api.rst:297
 msgid "Creates a new user."
@@ -25999,19 +25990,19 @@ msgstr "Felhasználó e-mail címe"
 
 #: ../../api.rst:305
 msgid "Is user superuser? (optional)"
-msgstr "Felhasználó szuperfelhasználó? (opcionális)"
+msgstr "Rendszergazda jogosultságú felhasználó? (opcionális)"
 
 #: ../../api.rst:307
 msgid "Is user active? (optional)"
-msgstr "Felhasználó aktív? (opcionális)"
+msgstr "Aktív felhasználó? (opcionális)"
 
 #: ../../api.rst:309
 msgid "Is user bot? (optional) (used for project scoped tokens)"
-msgstr "Felhasználó bot? (opcionális) (projekt szintű tokenekhez használva)"
+msgstr "Bot felhasználó? (opcionális) (projekt szintű tokenekhez használható)"
 
 #: ../../api.rst:314
 msgid "Returns information about users."
-msgstr "Információt ad vissza a felhasználókról."
+msgstr "Felhasználók adatainak lekérdezése."
 
 #: ../../api.rst:316 ../../api.rst:352 ../../api.rst:366 ../../api.rst:380
 #: ../../api.rst:387 ../../api.rst:397 ../../api.rst:405 ../../api.rst:417
@@ -26022,27 +26013,27 @@ msgstr "Felhasználó felhasználóneve"
 
 #: ../../api.rst:318 ../../api.rst:354 ../../api.rst:368
 msgid "username of a user"
-msgstr "egy felhasználó felhasználóneve"
+msgstr "felhasználóneve egy felhasználónak"
 
 #: ../../api.rst:319 ../../api.rst:355 ../../api.rst:369
 msgid "full name of a user"
-msgstr "egy felhasználó teljes neve"
+msgstr "felhasználó teljes neve"
 
 #: ../../api.rst:320 ../../api.rst:356 ../../api.rst:370
 msgid "email of a user"
-msgstr "egy felhasználó e-mail címe"
+msgstr "felhasználó e-mail címe"
 
 #: ../../api.rst:321 ../../api.rst:357 ../../api.rst:371
 msgid "whether the user is a super user"
-msgstr "hogy a felhasználó szuperfelhasználó-e"
+msgstr "a felhasználó rendszergazda-e"
 
 #: ../../api.rst:322 ../../api.rst:358 ../../api.rst:372
 msgid "whether the user is active"
-msgstr "hogy a felhasználó aktív-e"
+msgstr "a felhasználó aktív-e"
 
 #: ../../api.rst:323 ../../api.rst:359 ../../api.rst:373
 msgid "whether the user is bot (used for project scoped tokens)"
-msgstr "hogy a felhasználó bot-e (projekt szintű tokenekhez használva)"
+msgstr "a felhasználó bot-e (projekt szintű tokenekhez használható)"
 
 #: ../../api.rst:324 ../../api.rst:360 ../../api.rst:374
 msgid "date the user is created"
@@ -26050,39 +26041,38 @@ msgstr "a felhasználó létrehozásának dátuma"
 
 #: ../../api.rst:325
 msgid "date the user last signed in"
-msgstr "az utolsó bejelentkezés dátuma"
+msgstr "a felhasználó utolsó bejelentkezésének dátuma"
 
 #: ../../api.rst:326
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr "link a kapcsolódó csoportokhoz; lásd :http:get:`/api/groups/(int:id)/`"
+msgstr ""
+"kapcsolódó csoportok hivatkozása; lásd :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:328 ../../api.rst:515 ../../api.rst:708 ../../api.rst:785
 #: ../../api.rst:896 ../../api.rst:968 ../../api.rst:1369 ../../api.rst:1570
 #: ../../api.rst:1921
 msgid "**Example JSON data:**"
-msgstr "**Példa JSON adat:**"
+msgstr "**Példa JSON adatok:**"
 
 #: ../../api.rst:350 ../../api.rst:364
 msgid "Changes the user parameters."
-msgstr "Megváltoztatja a felhasználó paramétereit."
+msgstr "Felhasználói paraméterek módosítása."
 
 #: ../../api.rst:378
 msgid "Deletes all user information and marks the user inactive."
-msgstr ""
-"Törli az összes felhasználói információt, és inaktívnak jelöli a "
-"felhasználót."
+msgstr "Felhasználói adatok törlése és a felhasználó inaktívvá tétele."
 
 #: ../../api.rst:385
 msgid "Associate groups with a user."
-msgstr "Csoportokat társít egy felhasználóhoz."
+msgstr "Felhasználó társítása csoportokhoz."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr "Űrlap paraméterek"
+msgstr "Űrlapparaméterek"
 
 #: ../../api.rst:389 ../../api.rst:399
 msgid "The unique group ID"
-msgstr "Az egyedi csoportazonosító"
+msgstr "A csoport egyedi azonosítója"
 
 #: ../../api.rst:395
 msgid "Remove user from a group."
@@ -26090,11 +26080,11 @@ msgstr "Felhasználó eltávolítása egy csoportból."
 
 #: ../../api.rst:403
 msgid "List statistics of a user."
-msgstr "Egy felhasználó statisztikáinak listázása."
+msgstr "Felhasználó statisztikáinak listázása."
 
 #: ../../api.rst:407
 msgid "Number of translations by user"
-msgstr "Felhasználó által készített fordítások száma"
+msgstr "Felhasználó által végzett fordítások száma"
 
 #: ../../api.rst:408
 msgid "Number of suggestions by user"
@@ -26102,55 +26092,55 @@ msgstr "Felhasználó által tett javaslatok száma"
 
 #: ../../api.rst:409
 msgid "Number of uploads by user"
-msgstr "Felhasználó által feltöltött fájlok száma"
+msgstr "Felhasználó által végzett feltöltések száma"
 
 #: ../../api.rst:410
 msgid "Number of comments by user"
-msgstr "Felhasználó által írt hozzászólások száma"
+msgstr "Felhasználó által írt megjegyzések száma"
 
 #: ../../api.rst:411
 msgid "Number of languages user can translate"
-msgstr "Azoknak a nyelveknek a száma, amelyeket a felhasználó fordíthat"
+msgstr "Felhasználó által fordítható nyelvek száma"
 
 #: ../../api.rst:415
 msgid "List subscriptions of a user."
-msgstr "Egy felhasználó előfizetéseinek listázása."
+msgstr "Felhasználó előfizetéseinek listázása."
 
 #: ../../api.rst:422
 msgid "Associate subscriptions with a user."
-msgstr "Előfizetéseket rendel egy felhasználóhoz."
+msgstr "Felhasználó előfizetéseinek társítása."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr "Kérés JSON objektum"
+msgstr "Kérés JSON-objektum"
 
 #: ../../api.rst:426 ../../api.rst:447 ../../api.rst:459 ../../api.rst:469
 msgid "Name of notification registered"
-msgstr "A regisztrált értesítés neve"
+msgstr "Regisztrált értesítés neve"
 
 #: ../../api.rst:427 ../../api.rst:448 ../../api.rst:460
 msgid "Scope of notification from the available choices"
-msgstr "Az értesítés hatóköre a rendelkezésre álló lehetőségek közül"
+msgstr "Értesítés hatóköre a megadott lehetőségek közül"
 
 #: ../../api.rst:428 ../../api.rst:449 ../../api.rst:461
 msgid "Frequency choices for notifications"
-msgstr "Értesítések gyakorisági lehetőségei"
+msgstr "Értesítések gyakorisági beállításai"
 
 #: ../../api.rst:432
 msgid "Get a subscription associated with a user."
-msgstr "Egy felhasználóhoz társított előfizetés lekérése."
+msgstr "Felhasználóhoz társított előfizetés lekérdezése."
 
 #: ../../api.rst:436 ../../api.rst:445 ../../api.rst:457
 msgid "ID of notification registered"
-msgstr "Bejegyzett értesítés azonosítója"
+msgstr "Regisztrált értesítés azonosítója"
 
 #: ../../api.rst:441 ../../api.rst:453
 msgid "Edit a subscription associated with a user."
-msgstr "Egy felhasználóhoz társított előfizetés szerkesztése."
+msgstr "Felhasználóhoz társított előfizetés szerkesztése."
 
 #: ../../api.rst:465
 msgid "Delete a subscription associated with a user."
-msgstr "Egy felhasználóhoz társított előfizetés törlése."
+msgstr "Felhasználóhoz társított előfizetés törlése."
 
 #: ../../api.rst:470 ../../api.rst:2739 ../../api.rst:2749 ../../api.rst:2759
 msgid "int"
@@ -26165,16 +26155,16 @@ msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
 msgstr ""
-"Visszaad egy csoportlistát, ha van jogosultságod a csoportok kezelésére. Ha "
-"nincs, akkor csak azokat a csoportokat láthatod, amelyeknek a felhasználó "
-"tagja."
+"A csoportok listáját adja vissza, ha rendelkezik a csoportok kezelésére "
+"vonatkozó jogosultsággal. Ha nem, akkor csak azokat a csoportokat látja, "
+"amelyeknek a felhasználó tagja."
 
 #: ../../api.rst:485
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
-"A csoport objektum attribútumai a :http:get:`/api/groups/(int:id)/` "
-"dokumentációban találhatók."
+"A csoport objektum attribútumai dokumentálva vannak itt: :http:get:`/api/"
+"groups/(int:id)/`."
 
 #: ../../api.rst:489
 msgid "Creates a new group."
@@ -26186,23 +26176,24 @@ msgstr "Csoport neve"
 
 #: ../../api.rst:493
 msgid "Group of project selection from given options"
-msgstr "Projektcsoport kiválasztása a megadott lehetőségek közül"
+msgstr "Projektválasztási lehetőségek a csoport számára"
 
 #: ../../api.rst:495
 msgid "Group of languages selected from given options"
-msgstr "Nyelvcsoport kiválasztása a megadott lehetőségek közül"
+msgstr "Nyelvválasztási lehetőségek a csoport számára"
 
 #: ../../api.rst:497 ../../api.rst:513
 msgid ""
 "link to the defining project, used for :ref:`manage-acl`; see :http:get:`/"
 "api/projects/(string:project)/`"
 msgstr ""
-"link a meghatározó projekthez, amit a :ref:`manage-acl` használ; lásd: :http:"
-"get:`/api/projects/(string:project)/`"
+"A meghatározó projektre mutató hivatkozás, amely a :ref:`hozzáférés-vezérlés "
+"kezelésére <manage-acl>` szolgál; lásd :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:502
 msgid "Returns information about the group."
-msgstr "Visszaadja a csoporttal kapcsolatos információkat."
+msgstr "A csoport adatait adja vissza."
 
 #: ../../api.rst:504 ../../api.rst:547 ../../api.rst:557 ../../api.rst:567
 #: ../../api.rst:574 ../../api.rst:582 ../../api.rst:591 ../../api.rst:599
@@ -26213,75 +26204,76 @@ msgstr "Csoport azonosítója"
 
 #: ../../api.rst:506 ../../api.rst:549 ../../api.rst:559
 msgid "name of a group"
-msgstr "egy csoport neve"
+msgstr "csoport neve"
 
 #: ../../api.rst:507 ../../api.rst:550 ../../api.rst:560
 msgid "integer corresponding to group of projects"
-msgstr "projektek csoportjának megfelelő egész szám"
+msgstr "a projektek csoportjához tartozó egész szám"
 
 #: ../../api.rst:508 ../../api.rst:551 ../../api.rst:561
 msgid "integer corresponding to group of languages"
-msgstr "nyelvek csoportjának megfelelő egész szám"
+msgstr "a nyelvek csoportjához tartozó egész szám"
 
 #: ../../api.rst:509
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
 msgstr ""
-"kapcsolódó szerepkörökre mutató link; lásd :http:get:`/api/roles/(int:id)/`"
+"kapcsolódó szerepkörökre mutató hivatkozás; lásd :http:get:`/api/roles/"
+"(int:id)/`"
 
 #: ../../api.rst:510
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
-"kapcsolódó projektekre mutató link; lásd :http:get:`/api/projects/(string:"
-"project)/`"
+"kapcsolódó projektekre mutató hivatkozás; lásd :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:511 ../../api.rst:2524
 msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
-"kapcsolódó összetevőkre mutató link; lásd :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"kapcsolódó összetevőkre mutató hivatkozás; lásd :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:512
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
 msgstr ""
-"kapcsolódó összetevőlistára mutató link; lásd :http:get:`/api/component-"
-"lists/(str:slug)/`"
+"kapcsolódó összetevőlistára mutató hivatkozás; lásd :http:get:`/api/"
+"component-lists/(str:slug)/`"
 
 #: ../../api.rst:545 ../../api.rst:555
 msgid "Changes the group parameters."
-msgstr "Módosítja a csoport paramétereit."
+msgstr "Csoport paramétereinek módosítása."
 
 #: ../../api.rst:565
 msgid "Deletes the group."
-msgstr "Törli a csoportot."
+msgstr "Csoport törlése."
 
 #: ../../api.rst:572
 msgid "Associate roles with a group."
-msgstr "Szerepköröket társít egy csoporthoz."
+msgstr "Szerepkörök társítása egy csoporthoz."
 
 #: ../../api.rst:576 ../../api.rst:584
 msgid "The unique role ID"
-msgstr "Az egyedi szerepkörazonosító"
+msgstr "A szerepkör egyedi azonosítója"
 
 #: ../../api.rst:580
 msgid "Delete role from a group."
-msgstr "Szerepkör törlése egy csoportból."
+msgstr "Szerepkör eltávolítása a csoportból."
 
 #: ../../api.rst:589
 msgid "Associate components with a group."
-msgstr "Összetevőket társít egy csoporthoz."
+msgstr "Összetevők társítása egy csoporthoz."
 
 #: ../../api.rst:593 ../../api.rst:601
 msgid "The unique component ID"
-msgstr "Az egyedi összetevőazonosító"
+msgstr "Az összetevő egyedi azonosítója"
 
 #: ../../api.rst:597
 msgid "Delete component from a group."
-msgstr "Összetevő törlése egy csoportból."
+msgstr "Összetevő eltávolítása a csoportból."
 
 #: ../../api.rst:606
 msgid "Associate projects with a group."
@@ -26289,11 +26281,11 @@ msgstr "Projektek társítása egy csoporthoz."
 
 #: ../../api.rst:610 ../../api.rst:618
 msgid "The unique project ID"
-msgstr "Az egyedi projektazonosító"
+msgstr "A projekt egyedi azonosítója"
 
 #: ../../api.rst:614
 msgid "Delete project from a group."
-msgstr "Projekt törlése egy csoportból."
+msgstr "Projekt eltávolítása a csoportból."
 
 #: ../../api.rst:623
 msgid "Associate languages with a group."
@@ -26301,11 +26293,11 @@ msgstr "Nyelvek társítása egy csoporthoz."
 
 #: ../../api.rst:627 ../../api.rst:635
 msgid "The unique language code"
-msgstr "Az egyedi nyelvkód"
+msgstr "A nyelv egyedi kódja"
 
 #: ../../api.rst:631
 msgid "Delete language from a group."
-msgstr "Nyelv törlése egy csoportból."
+msgstr "Nyelv eltávolítása a csoportból."
 
 #: ../../api.rst:640
 msgid "Associate componentlists with a group."
@@ -26313,15 +26305,15 @@ msgstr "Összetevőlisták társítása egy csoporthoz."
 
 #: ../../api.rst:644 ../../api.rst:652
 msgid "The unique componentlist ID"
-msgstr "Az egyedi összetevőlista-azonosító"
+msgstr "Az összetevőlista egyedi azonosítója"
 
 #: ../../api.rst:648
 msgid "Delete componentlist from a group."
-msgstr "Összetevőlista törlése egy csoportból."
+msgstr "Összetevőlista eltávolítása a csoportból."
 
 #: ../../api.rst:659
 msgid "Add user to team admins."
-msgstr "Adja hozzá a felhasználót a csapat adminjaihoz."
+msgstr "Felhasználó hozzáadása a csapat adminisztrátoraihoz."
 
 #: ../../api.rst:663 ../../api.rst:673
 msgid "The user's ID"
@@ -26329,22 +26321,22 @@ msgstr "A felhasználó azonosítója"
 
 #: ../../api.rst:669
 msgid "Delete user from team admins."
-msgstr "Felhasználó törlése a csapat adminisztrátorai közül."
+msgstr "Felhasználó eltávolítása a csapat adminisztrátorai közül."
 
 #: ../../api.rst:683
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
 msgstr ""
-"Visszaadja az összes szerepkört, amely a felhasználóhoz van társítva. Ha a "
-"felhasználó szuperfelhasználó, akkor az összes létező szerepkört visszaadja."
+"A felhasználóhoz társított összes szerepkör listázása. Ha a felhasználó "
+"rendszergazda, akkor az összes létező szerepkör megjelenik."
 
 #: ../../api.rst:688
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
-"A szerepkör objektum attribútumai a :http:get:`/api/roles/(int:id)/` "
-"dokumentumban vannak leírva."
+"A szerepkör objektum attribútumai dokumentálva vannak itt: :http:get:`/api/"
+"roles/(int:id)/`."
 
 #: ../../api.rst:692
 msgid "Creates a new role."
@@ -26356,19 +26348,19 @@ msgstr "Szerepkör neve"
 
 #: ../../api.rst:696
 msgid "List of codenames of permissions"
-msgstr "Engedélyek kódneveinek listája"
+msgstr "A jogosultságok kódneveinek listája"
 
 #: ../../api.rst:701
 msgid "Returns information about the role."
-msgstr "Visszaadja a szerepkörrel kapcsolatos információkat."
+msgstr "A szerepkör adatainak visszaadása."
 
 #: ../../api.rst:703 ../../api.rst:725 ../../api.rst:734 ../../api.rst:743
 msgid "Role's ID"
-msgstr "Szerepkör azonosítója"
+msgstr "A szerepkör azonosítója"
 
 #: ../../api.rst:706 ../../api.rst:728 ../../api.rst:737
 msgid "list of codenames of permissions"
-msgstr "engedélyek kódneveinek listája"
+msgstr "a jogosultságok kódneveinek listája"
 
 #: ../../api.rst:723 ../../api.rst:732
 msgid "Changes the role parameters."
@@ -26380,15 +26372,15 @@ msgstr "A szerepkör törlése."
 
 #: ../../api.rst:752
 msgid "Returns a list of all languages."
-msgstr "Visszaadja az összes nyelv listáját."
+msgstr "Az összes nyelv listázása."
 
 #: ../../api.rst:756
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
-"A nyelv objektum attribútumai a :http:get:`/api/languages/(string:language)/"
-"` dokumentumban vannak leírva."
+"A nyelv objektum attribútumai dokumentálva vannak itt: :http:get:`/api/"
+"languages/(string:language)/`."
 
 #: ../../api.rst:760
 msgid "Creates a new language."
@@ -26396,57 +26388,57 @@ msgstr "Új nyelv létrehozása."
 
 #: ../../api.rst:770
 msgid "Language plural formula and number"
-msgstr "Nyelvi többes szám formula és szám"
+msgstr "Nyelv többes szám képlete és száma"
 
 #: ../../api.rst:775
 msgid "Returns information about the language."
-msgstr "Visszaadja a nyelvvel kapcsolatos információkat."
+msgstr "A nyelv adatainak visszaadása."
 
 #: ../../api.rst:782
 msgid "Object of language plural information"
-msgstr "Többes számú nyelvi információ objektuma"
+msgstr "A nyelv többes szám adatait tartalmazó objektum"
 
 #: ../../api.rst:783
 msgid "Array of aliases for language"
-msgstr "Nyelvi aliasok tömbje"
+msgstr "A nyelvhez tartozó álnevek tömbje"
 
 #: ../../api.rst:815 ../../api.rst:826
 msgid "Changes the language parameters."
-msgstr "A nyelvi paraméterek módosítása."
+msgstr "A nyelv paramétereinek módosítása."
 
 #: ../../api.rst:817 ../../api.rst:828 ../../api.rst:839
 msgid "Language's code"
-msgstr "Nyelv kódja"
+msgstr "A nyelv kódja"
 
 #: ../../api.rst:822 ../../api.rst:833
 msgid "Language plural details"
-msgstr "Nyelvi többes szám részletei"
+msgstr "A nyelv többes szám információi"
 
 #: ../../api.rst:837
 msgid "Deletes the language."
-msgstr "Törli a nyelvet."
+msgstr "A nyelv törlése."
 
 #: ../../api.rst:844
 msgid "Returns statistics for a language."
-msgstr "Visszaadja egy nyelv statisztikáit."
+msgstr "A nyelv statisztikáinak visszaadása."
 
 #: ../../api.rst:851 ../../api.rst:1217 ../../api.rst:1815 ../../api.rst:2162
 #: ../../api.rst:2772
 msgid "Returned attributes are described in :ref:`api-statistics`."
 msgstr ""
-"A visszaadott attribútumok a :ref:`api-statistics` részben vannak leírva."
+"A visszaadott attribútumok leírása itt található: :ref:`api-statistics`."
 
 #: ../../api.rst:859
 msgid "Returns a list of all projects."
-msgstr "Visszaadja az összes projekt listáját."
+msgstr "Az összes projekt listázása."
 
 #: ../../api.rst:863
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
-"A projekt objektum attribútumai a :http:get:`/api/projects/(string:project)/"
-"` alatt vannak dokumentálva."
+"A projekt objektum attribútumai dokumentálva vannak itt: :http:get:`/api/"
+"projects/(string:project)/`."
 
 #: ../../api.rst:867
 msgid "Creates a new project."
@@ -26454,7 +26446,7 @@ msgstr "Új projekt létrehozása."
 
 #: ../../api.rst:878
 msgid "Returns information about the project."
-msgstr "Visszaadja a projekttel kapcsolatos információkat."
+msgstr "A projekt adatainak visszaadása."
 
 #: ../../api.rst:880 ../../api.rst:914 ../../api.rst:925 ../../api.rst:932
 #: ../../api.rst:940 ../../api.rst:950 ../../api.rst:962 ../../api.rst:984
@@ -26470,7 +26462,7 @@ msgstr "Visszaadja a projekttel kapcsolatos információkat."
 #: ../../api.rst:2088 ../../api.rst:2099 ../../api.rst:2127 ../../api.rst:2140
 #: ../../api.rst:2153
 msgid "Project URL slug"
-msgstr "Projekt keresőbarát URL-e"
+msgstr "Projekt URL-azonosítója (slug)"
 
 #: ../../api.rst:882
 msgid "project name"
@@ -26478,7 +26470,7 @@ msgstr "projekt neve"
 
 #: ../../api.rst:883
 msgid "project slug"
-msgstr "projekt slug"
+msgstr "projekt URL-azonosítója (slug)"
 
 #: ../../api.rst:884
 msgid "project website"
@@ -26489,30 +26481,30 @@ msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
-"Az alkatrészek listájának URL-je; lásd: :http:get:`/api/projects/(string:"
-"project)/components/`"
+"Összetevőlista URL-je; lásd :http:get:`/api/projects/(string:project)/"
+"components/`"
 
 #: ../../api.rst:886
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
-"A tárhely állapotának URL-je; lásd: :http:get:`/api/projects/(string:"
-"project)/repository/`"
+"Tárolóállapot URL-je; lásd :http:get:`/api/projects/(string:project)/"
+"repository/`"
 
 #: ../../api.rst:887
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
-"A változások listájának URL-je; lásd: :http:get:`/api/projects/(string:"
-"project)/changes/`"
+"Változások listájának URL-je; lásd :http:get:`/api/projects/(string:project)/"
+"changes/`"
 
 #: ../../api.rst:888
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"URL a közreműködők krediteinek listázásához; lásd :http:get:`/api/projects/"
+"Közreműködők elismerésének listája URL-en; lásd :http:get:`/api/projects/"
 "(string:project)/credits/`"
 
 #: ../../api.rst:889
@@ -26541,7 +26533,7 @@ msgstr ":ref:`project-language_aliases`"
 
 #: ../../api.rst:912
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr "Egy projektet egy :http:method:`PATCH` kéréssel szerkeszthetsz."
+msgstr "Projekt szerkesztése :http:method:`PATCH` kérés segítségével."
 
 #: ../../api.rst:916 ../../api.rst:1314 ../../api.rst:1419 ../../api.rst:1503
 #: ../../api.rst:1521 ../../api.rst:1531 ../../api.rst:1544 ../../api.rst:1555
@@ -26552,36 +26544,35 @@ msgstr "Egy projektet egy :http:method:`PATCH` kéréssel szerkeszthetsz."
 #: ../../api.rst:2036 ../../api.rst:2059 ../../api.rst:2090 ../../api.rst:2101
 #: ../../api.rst:2129 ../../api.rst:2142 ../../api.rst:2155
 msgid "Component URL slug"
-msgstr "Összetevő keresőbarát URL-e"
+msgstr "Összetevő URL-azonosítója (slug)"
 
 #: ../../api.rst:923
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "Egy projektet egy :http:method:`PUT` kéréssel szerkeszthetsz."
+msgstr "Projekt szerkesztése :http:method:`PUT` kérés segítségével."
 
 #: ../../api.rst:930
 msgid "Deletes a project."
-msgstr "Egy projekt törlése."
+msgstr "Projekt törlése."
 
 #: ../../api.rst:937
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
-"Visszaadja a projekt változásainak listáját. Ez lényegében egy projektre "
-"korlátozott :http:get:`/api/changes/`, amely ugyanazokat a paramétereket "
-"fogadja el."
+"Projektváltozások listájának visszaadása. Ez lényegében egy projekt szintű "
+":http:get:`/api/changes/`, azonos paraméterekkel."
 
 #: ../../api.rst:942 ../../api.rst:1533 ../../api.rst:2013
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr "összetevő objektumok tömbje; lásd: :http:get:`/api/changes/(int:id)/`"
+msgstr "összetevő objektumok tömbje; lásd :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:948
 msgid ""
 "Downloads all available translations associated with the project as an "
 "archive file using the requested format and language."
 msgstr ""
-"Letölti az összes elérhető fordítást, amely a projekthez kapcsolódik, egy "
-"archív fájlként a kért formátumban és nyelven."
+"Az összes elérhető fordítás letöltése a projekthez archivált "
+"fájlformátumban, a megadott formátumban és nyelven."
 
 #: ../../api.rst:953 ../../api.rst:1547
 msgid ""
@@ -26589,15 +26580,14 @@ msgid ""
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
 msgstr ""
-"A használandó archív formátum; Ha nincs megadva, alapértelmezés szerint "
-"``zip``; Támogatott formátumok: ``zip`` és ``zip:CONVERSION``, ahol a "
-"``CONVERSION`` az egyik a :ref:`download` alatt felsorolt konverterek közül."
+"A használandó archívumformátum; ha nincs megadva, az alapértelmezett a "
+"``zip``. Támogatott formátumok: ``zip`` és ``zip:CONVERSION``, ahol a "
+"``CONVERSION`` az átalakítók közül választható, lásd :ref:`download`."
 
 #: ../../api.rst:954
 msgid ""
 "The language code to download; If not specified, all languages are included."
-msgstr ""
-"A letöltendő nyelvi kód; ha nincs megadva, akkor az összes nyelv belekerül."
+msgstr "A letöltendő nyelv kódja; ha nincs megadva, minden nyelv belekerül."
 
 #: ../../api.rst:958
 msgid ""
@@ -26606,27 +26596,26 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
-"Visszaadja a VCS (verziókezelő) tároló állapotára vonatkozó információkat. "
-"Ez a végpont csak egy összefoglaló áttekintést tartalmaz a projekt összes "
-"tárolójáról. Részletesebb állapotinformációkért használd a következőt: "
-":http:get:`/api/components/(string:project)/(string:component)/repository/`."
+"A VCS-tároló állapotának visszaadása. Ez a végpont csak általános "
+"összefoglalót tartalmaz a projekt minden tárolójára nézve. Részletesebb "
+"állapotért használja: :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:964 ../../api.rst:1638
 msgid "whether there are any pending changes to commit"
-msgstr "vannak-e függőben lévő változtatások, amelyeket el kell kötelezni"
+msgstr "vannak-e függőben lévő véglegesítések (commit)"
 
 #: ../../api.rst:965 ../../api.rst:1639
 msgid "whether there are any upstream changes to merge"
-msgstr ""
-"vannak-e bármilyen upstream változtatások, amelyeket össze kell olvasztani"
+msgstr "vannak-e a forrás tárolóból származó egyesítendő változások (merge)"
 
 #: ../../api.rst:966 ../../api.rst:1640
 msgid "whether there are any local changes to push"
-msgstr "vannak-e helyi változtatások, amelyeket fel kell tölteni"
+msgstr "vannak-e helyi módosítások, amelyeket fel kell tölteni (push)"
 
 #: ../../api.rst:981 ../../api.rst:2136
 msgid "Performs given operation on the VCS repository."
-msgstr "Végrehajtja a megadott műveletet a VCS (verziókezelő) tárolón."
+msgstr "A megadott művelet végrehajtása a VCS-tárolón."
 
 #: ../../api.rst:986
 msgid ""
@@ -26643,19 +26632,19 @@ msgstr "a művelet eredménye"
 #: ../../api.rst:1011 ../../api.rst:1147 ../../api.rst:1452 ../../api.rst:1613
 #: ../../api.rst:1680 ../../api.rst:1756
 msgid "**JSON response example:**"
-msgstr "**JSON válasz példa:**"
+msgstr "**Példa JSON válasz:**"
 
 #: ../../api.rst:1029
 msgid "Returns a list of translation components in the given project."
-msgstr "Visszaadja a fordítási összetevők listáját a megadott projektben."
+msgstr "A megadott projekt fordítási összetevőinek listáját adja vissza."
 
 #: ../../api.rst:1033 ../../api.rst:2563
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"összetevő objektumok tömbje; lásd: :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"összetevő objektumok tömbje; lásd :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1039
 msgid ""
@@ -26663,41 +26652,42 @@ msgid ""
 "components, see :ref:`vcs-local`."
 msgstr ""
 "A ``zipfile`` és ``docfile`` paraméterek mostantól VCS nélküli összetevők "
-"esetén is használhatók, lásd: :ref:`vcs-local`."
+"esetében is használhatók, lásd :ref:`vcs-local`."
 
 #: ../../api.rst:1043
 msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
-"A klónozott tárolók mostantól automatikusan megosztásra kerülnek egy "
-"projekten belül a :ref:`internal-urls` segítségével. Használd a "
-"``disable_autoshare`` parancsot ennek kikapcsolásához."
+"A klónozott tárolók mostantól automatikusan megosztásra kerülnek a projekten "
+"belül a :ref:`internal-urls` használatával. A megosztás kikapcsolásához "
+"használja a ``disable_autoshare`` beállítást."
 
 #: ../../api.rst:1045
 msgid "Creates translation components in the given project."
-msgstr "Fordítási összetevőket hoz létre a megadott projektben."
+msgstr "Új fordítási összetevők létrehozása a megadott projektben."
 
 #: ../../api.rst:1049
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
-"Használd a :ref:`internal-urls` hivatkozást, amikor több összetevőt hozol "
-"létre egyetlen VCS (verziókezelő) tárolóból."
+"Több összetevő létrehozása esetén használja a :ref:`internal-urls` funkciót "
+"egyetlen VCS tárolóból való létrehozáshoz."
 
 #: ../../api.rst:1053
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
-"Az összetevő létrehozásának nagy része a háttérben zajlik. Ellenőrizd a "
-"létrehozott összetevő ``task_url`` attribútumát, és kövesd ott a folyamatot."
+"Az összetevők többségének létrehozása háttérfolyamatban történik. Az "
+"elkészült összetevő ``task_url`` attribútumát követve ellenőrizhető a "
+"folyamat állapota."
 
 #: ../../api.rst:1059
 msgid "ZIP file to upload into Weblate for translations initialization"
 msgstr ""
-"ZIP fájl, amit fel kell tölteni a Weblate-be a fordítások inicializálásához"
+"ZIP-fájl feltöltése a Weblate rendszerébe a fordítások inicializálásához"
 
 #: ../../api.rst:1060
 msgid "Document to translate"
@@ -26706,24 +26696,23 @@ msgstr "Lefordítandó dokumentum"
 #: ../../api.rst:1061
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
-"Letiltja az automatikus tároló-megosztást a :ref:`internal-urls` "
-"használatával."
+"Automatikus tárolómegosztás letiltása a :ref:`internal-urls` használatával."
 
 #: ../../api.rst:1062
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"Összetevő paraméterek, lásd: :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"Összetevő paraméterei, lásd :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1063
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"Létrehozott összetevő objektum; lásd: :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"A létrehozott összetevő objektuma; lásd :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1065
 msgid ""
@@ -26731,13 +26720,13 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
-"A JSON nem használható, amikor a fájlokat a ``zipfile`` és ``docfile`` "
-"paraméterekkel töltöd fel. Az adatokat :mimetype:`multipart/form-data` "
+"A fájlok feltöltésekor (``zipfile`` és ``docfile`` paraméterek használatával)"
+" a JSON nem alkalmazható. Az adatokat :mimetype:`multipart/form-data` "
 "formátumban kell feltölteni."
 
 #: ../../api.rst:1069
 msgid "**CURL form request example:**"
-msgstr "**CURL űrlap kérés példa:**"
+msgstr "**CURL űrlap alapú kérés példa:**"
 
 #: ../../api.rst:1082
 msgid "**CURL JSON request example:**"
@@ -26745,17 +26734,16 @@ msgstr "**CURL JSON kérés példa:**"
 
 #: ../../api.rst:1102
 msgid "**JSON request to create a new component from Git:**"
-msgstr "**JSON kérés egy új összetevő létrehozásához Git-ből:**"
+msgstr "**JSON kérés új összetevő létrehozására Git tárolóból:**"
 
 #: ../../api.rst:1125
 msgid "**JSON request to create a new component from another one:**"
-msgstr "**JSON kérés egy új összetevő létrehozásához egy másikból:**"
+msgstr "**JSON kérés új összetevő létrehozására meglévő összetevőből:**"
 
 #: ../../api.rst:1194
 msgid "Returns paginated statistics for all languages within a project."
 msgstr ""
-"Visszaadja az összes nyelv oldalakra bontott statisztikáit egy projekten "
-"belül."
+"Lapozott statisztikák visszaadása a projekt összes nyelvére vonatkozóan."
 
 #: ../../api.rst:1198
 msgid "array of translation statistics objects"
@@ -26771,19 +26759,19 @@ msgstr "nyelv kódja"
 
 #: ../../api.rst:1201 ../../api.rst:1910 ../../api.rst:2622
 msgid "total number of strings"
-msgstr "karakterláncok teljes száma"
+msgstr "összes szöveg száma"
 
 #: ../../api.rst:1202 ../../api.rst:1913 ../../api.rst:2626
 msgid "number of translated strings"
-msgstr "lefordított karakterláncok száma"
+msgstr "lefordított szövegek száma"
 
 #: ../../api.rst:1203 ../../api.rst:1914 ../../api.rst:2627
 msgid "percentage of translated strings"
-msgstr "lefordított karakterláncok százaléka"
+msgstr "lefordított szövegek aránya"
 
 #: ../../api.rst:1204 ../../api.rst:1911 ../../api.rst:2623
 msgid "total number of words"
-msgstr "szavak teljes száma"
+msgstr "összes szó száma"
 
 #: ../../api.rst:1205 ../../api.rst:1915 ../../api.rst:2628
 msgid "number of translated words"
@@ -26791,19 +26779,19 @@ msgstr "lefordított szavak száma"
 
 #: ../../api.rst:1206 ../../api.rst:2629
 msgid "percentage of translated words"
-msgstr "lefordított szavak százaléka"
+msgstr "lefordított szavak aránya"
 
 #: ../../api.rst:1210
 msgid "Returns statistics for a project."
-msgstr "Visszaadja egy projekt statisztikáit."
+msgstr "Projekt statisztikáinak visszaadása."
 
 #: ../../api.rst:1223
 msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
-"Visszaadja a kategóriákat egy projekthez. Lásd a :http:get:`/api/categories/"
-"(int:id)/` meződefiníciókért."
+"Projekt kategóriáinak visszaadása. A mezők leírását lásd: :http:get:`/api/"
+"categories/(int:id)/`."
 
 #: ../../api.rst:0
 msgid "param project"
@@ -26811,7 +26799,7 @@ msgstr "param projekt"
 
 #: ../../api.rst:0
 msgid "type project"
-msgstr "type projekt"
+msgstr "típus projekt"
 
 #: ../../api.rst:1226 ../../api.rst:1235 ../../api.rst:1247 ../../api.rst:2561
 msgid "string"
@@ -26819,7 +26807,7 @@ msgstr "szöveg"
 
 #: ../../api.rst:1232
 msgid "Returns labels for a project."
-msgstr "Visszaadja a projekt címkéit."
+msgstr "Projekt címkéinek visszaadása."
 
 #: ../../api.rst:0
 msgid ">json int id"
@@ -26827,7 +26815,7 @@ msgstr ">json int id"
 
 #: ../../api.rst:1236
 msgid "ID of the label"
-msgstr "A(z) címke azonosítója"
+msgstr "címke azonosítója"
 
 #: ../../api.rst:0
 msgid ">json string name"
@@ -26847,7 +26835,7 @@ msgstr "címke színe"
 
 #: ../../api.rst:1244
 msgid "Creates a label for a project."
-msgstr "Létrehoz egy címkét a projekthez."
+msgstr "Címke létrehozása egy projekthez."
 
 #: ../../api.rst:0
 msgid "<json string name"
@@ -26859,48 +26847,48 @@ msgstr "<json string color"
 
 #: ../../api.rst:1253 ../../api.rst:1856
 msgid "Returns contributor credits for a project."
-msgstr "Visszaadja a közreműködők kreditjeit egy projekthez."
+msgstr "Közreműködők elismeréseinek visszaadása egy projekthez."
 
 #: ../../api.rst:1259 ../../api.rst:1862
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr "Alsó korlátú ISO 8601 időbélyeg (kötelező)"
+msgstr "Alsó (kezdő) időbélyeg-határ ISO 8601 formátumban (kötelező)"
 
 #: ../../api.rst:1261 ../../api.rst:1864
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr "Felső korlátú ISO 8601 időbélyeg (kötelező)"
+msgstr "Felső időbélyeg-határ ISO 8601 formátumban (kötelező)"
 
 #: ../../api.rst:1263 ../../api.rst:1866
 msgid "Language code to search for"
-msgstr "Nyelvi kód a kereséshez"
+msgstr "Nyelvkód keresése"
 
 #: ../../api.rst:1265 ../../api.rst:1868
 msgid "Email of the contributor"
-msgstr "A közreműködő email címe"
+msgstr "Közreműködő e-mail címe"
 
 #: ../../api.rst:1266 ../../api.rst:1869
 msgid "Full name of the contributor"
-msgstr "A közreműködő teljes neve"
+msgstr "Közreműködő teljes neve"
 
 #: ../../api.rst:1267 ../../api.rst:1870
 msgid "Number of changes done in the time range"
-msgstr "A változtatások száma az adott időszakban"
+msgstr "Módosítások száma az adott időszakban"
 
 #: ../../api.rst:1274
 msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
-"Visszaadja egy projekt automatikus javaslati beállításait, amely az egyes "
-"telepített fordítási szolgáltatásokhoz meghatározott konfigurációkból áll."
+"Projekt automatikus javaslataihoz tartozó beállítások visszaadása, amelyek "
+"az egyes telepített fordítási szolgáltatások megadott konfigurációiból "
+"állnak."
 
 #: ../../api.rst:1278
 msgid "Configuration for all installed services."
-msgstr "Az összes telepített szolgáltatás konfigurációja."
+msgstr "Összes telepített szolgáltatás konfigurációja."
 
 #: ../../api.rst:1285
 msgid "Create or update the service configuration for a project."
-msgstr ""
-"Hozd létre vagy frissítsd a szolgáltatás konfigurációját egy projekthez."
+msgstr "Szolgáltatáskonfiguráció létrehozása vagy frissítése projekt számára."
 
 #: ../../api.rst:1289
 msgid "Service name"
@@ -26908,31 +26896,31 @@ msgstr "Szolgáltatás neve"
 
 #: ../../api.rst:1290
 msgid "Service configuration in JSON"
-msgstr "Szolgáltatás konfiguráció JSON formátumban"
+msgstr "Szolgáltatás konfigurációja JSON formátumban"
 
 #: ../../api.rst:1298
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
-"Használd a :http:post:`/api/projects/(string:project)/components/` végpontot "
-"új összetevők létrehozásához."
+"Új összetevő létrehozása a :http:post:`/api/projects/(string:project)/"
+"components/` végpont használatával."
 
 #: ../../api.rst:1302
 msgid "Returns a list of translation components."
-msgstr "Visszaadja a fordítási összetevők listáját."
+msgstr "Fordítási összetevők listájának visszaadása."
 
 #: ../../api.rst:1306
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
-"Az összetevő objektum attribútumai dokumentálva vannak a :http:get:`/api/"
-"components/(string:project)/(string:component)/` címen."
+"Összetevő objektum attribútumainak dokumentációja: :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
 
 #: ../../api.rst:1310
 msgid "Returns information about the translation component."
-msgstr "Visszaadja a fordítási összetevővel kapcsolatos információkat."
+msgstr "Fordítási összetevő adatainak visszaadása."
 
 #: ../../api.rst:1316
 msgid ""
@@ -26950,17 +26938,17 @@ msgstr ":ref:`component-slug`"
 #: ../../api.rst:1320
 msgid "component whose repository is linked via :ref:`internal-urls`"
 msgstr ""
-"olyan összetevő, amelynek a tárolója a(z) :ref:`internal-urls` segítségével "
-"van összekapcsolva"
+"olyan összetevő, amelynek tárolója :ref:`internal-urls` használatával van "
+"összekapcsolva"
 
 #: ../../api.rst:1321
 msgid ""
 ":ref:`component-repo`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used, use ``linked_component`` to detect this situation"
 msgstr ""
-":ref:`component-repo`, ez a tényleges tároló URL, még akkor is, ha a(z) :ref:"
-"`internal-urls` van használatban, használd a ``linked_component``-et ennek a "
-"helyzetnek a felismerésére"
+":ref:`component-repo`, a tényleges tároló URL-je még :ref:`internal-urls` "
+"használata esetén is; az ilyen esetek felismeréséhez használja a "
+"``linked_component`` mezőt"
 
 #: ../../api.rst:1322
 msgid ":ref:`component-git_export`"
@@ -26971,24 +26959,24 @@ msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
-":ref:`component-branch`, ez a tényleges tároló ág, még akkor is, ha a(z) :"
-"ref:`internal-urls` van használatban"
+":ref:`component-branch`, a tényleges tároló ága még :ref:`internal-urls` "
+"használata esetén is"
 
 #: ../../api.rst:1324
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used"
 msgstr ""
-":ref:`component-push`, ez a tényleges tároló URL, még akkor is, ha a(z) :ref:"
-"`internal-urls` van használatban"
+":ref:`component-push`, a tényleges tároló URL-je még :ref:`internal-urls` "
+"használata esetén is"
 
 #: ../../api.rst:1325
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
-"A :ref:`component-push_branch` a tényleges tároló ága akkor is, ha :ref:"
-"`internal-urls` van használva"
+":ref:`component-push_branch`, a tényleges tároló ága még :ref:`internal-urls`"
+" használata esetén is"
 
 #: ../../api.rst:1326 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
@@ -27113,7 +27101,7 @@ msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"A összetevő zárolva van-e, ez a mező csak olvasható; lásd :http:get:`/api/"
+"Az összetevő zárolva van-e; ez a mező csak olvasható; lásd: :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1356
@@ -27145,32 +27133,32 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
-"URL a tároló állapotához; lásd: :http:get:`/api/components/(string:project)/"
-"(string:component)/repository/`"
+"URL a tároló állapotához; lásd: :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1363
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
-"URL a fordítások listájához; lásd: :http:get:`/api/components/(string:"
-"project)/(string:component)/translations/`"
+"URL a fordítások listájához; lásd: :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1364
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
-"URL a zárolási állapothoz; lásd: :http:get:`/api/components/(string:project)/"
-"(string:component)/lock/`"
+"URL a zárolási állapothoz; lásd: :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1365
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
-"URL a változások listájához; lásd: :http:get:`/api/components/(string:"
-"project)/(string:component)/changes/`"
+"URL a változások listájához; lásd: :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1366
 msgid ""
