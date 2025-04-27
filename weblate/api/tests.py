@@ -4141,6 +4141,82 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["code"], "not-a-source-unit")
 
+    def test_comments(self):
+        self.authenticate()
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Thank you for using Weblate."
+        )
+
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            data={"scope": "global"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "This field is required."
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "comment")
+
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            data={"scope": "xyz", "comment": "Hello World!"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"], '"xyz" is not a valid choice.'
+        )
+
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            data={"scope": "translation", "comment": "Hello World!"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            '"translation" is not a valid choice for source units.',
+        )
+
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            data={"scope": "report", "comment": "Hello World!"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            '"report" is not a valid choice as source review is disabled.',
+        )
+
+        # Enable reviews
+        project = unit.translation.component.project
+        project.source_review = True
+        project.save()
+
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            data={"scope": "report", "comment": "Hello World!"},
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, {"result": True})
+
+        unit_cs = Unit.objects.get(
+            translation__language_code="cs", source="Thank you for using Weblate."
+        )
+        response = self.client.post(
+            reverse("api:unit-comments", kwargs={"pk": unit_cs.pk}),
+            data={"scope": "global", "comment": "Hello World Global!"},
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, {"result": True})
+
+        # Reload the object from database
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Thank you for using Weblate."
+        )
+        self.assertCountEqual(
+            unit.all_comments.values_list("comment", flat=True).all(),
+            ["Hello World!", "Hello World Global!"],
+        )
+
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self) -> None:
