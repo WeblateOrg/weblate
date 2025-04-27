@@ -14,6 +14,7 @@ from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import Subscription
+from weblate.api.serializers import CommentSerializer
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
@@ -4254,6 +4255,13 @@ class UnitAPITest(APIBaseTest):
             method="post",
             code=403,
         )
+
+    def test_comment_serializer(self):
+        # test CommentSerializer works even if unit is not provided in context
+        serializer = CommentSerializer(
+            data={"scope": "translation", "comment": "note"},
+        )
+        self.assertTrue(serializer.is_valid())
 
 
 class ScreenshotAPITest(APIBaseTest):
