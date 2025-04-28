@@ -7,6 +7,8 @@ Weblate 5.12
 
 .. rubric:: Improvements
 
+* :ref:`check-same` is now skipped for Toki Pona.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
