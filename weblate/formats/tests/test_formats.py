@@ -1136,6 +1136,39 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             self.EXPECTED_PATH,
         )
 
+    def test_new_language(self) -> None:
+        self.maxDiff = None
+        out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
+        language = Language.objects.get(code="fr")
+        self.format_class.add_language(out, language, self.BASE)
+        template_storage = self.parse_file(self.SOURCE_FILE)
+        new_language = self.format_class(out, template_storage, language.code)
+        unit, add = new_language.find_unit("XWiki.XWikiPreferences_auth_active_check.hint", "")
+        self.assertTrue(add)
+        unit.set_target('Si rempli à "Oui"...')
+        expected_translation = (
+            "L'utilisateur que vous êtes sur le point de "
+            "supprimer est le dernier auteur de "
+            "{0}{1,choice,1#1 page|1<{1} pages}{2}."
+        )
+        unit, add = new_language.find_unit("administration.section.programmingRightsWarning", "")
+        self.assertTrue(add)
+        unit.set_target(expected_translation)
+        unit, add = new_language.find_unit("administration.section.users.disableUser.failed", "")
+        self.assertTrue(add)
+        unit.set_target('Erreur lors de la désactivation du compte.')
+        new_language.add_unit(unit)
+        new_language.save()
+
+        # Read new content
+        with open(out) as handle:
+            newdata = handle.read()
+
+        with open(self.FILE) as handle:
+            expected = handle.read()
+
+        self.assertEqual(expected , newdata)
+
     def _test_save(self, edit=False) -> None:
         self.maxDiff = None
         super()._test_save(edit)
