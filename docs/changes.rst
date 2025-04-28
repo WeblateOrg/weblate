@@ -11,6 +11,8 @@ Weblate 5.12
 
 .. rubric:: Bug fixes
 
+* :ref:`dashboard` translations ordering when paginating.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
