@@ -72,7 +72,7 @@
         {% if usersubscriptions %}
           {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Translation") hide_completed=user.profile.hide_completed name_source="translation" %}
 
-          {% include "paginator.html" with page_obj=usersubscriptions %}
+          {% include "paginator.html" with page_obj=usersubscriptions anchor="your-subscriptions" %}
         {% else %}
           {% include "list-projects.html" with projects=watched_projects %}
         {% endif %}

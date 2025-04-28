@@ -55,7 +55,11 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    return instance.name if hasattr(instance, "name") else instance.component.name
+    from weblate.trans.templatetags.translations import get_breadcrumbs
+
+    return "/".join(
+        str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
+    )
 
 
 def key_translated(instance):
