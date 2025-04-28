@@ -25,6 +25,7 @@ permissions:
 
 jobs:
   uv-update:
+    if: startsWith(github.repository, 'WeblateOrg/')
     runs-on: ubuntu-24.04
 
     steps:
