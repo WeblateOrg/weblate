@@ -29,9 +29,10 @@ jobs:
       with:
         script: |
           var is_member = false;
+          const org = 'WeblateOrg';
           try {
             const response = await github.rest.orgs.checkMembershipForUser({
-              org: 'WeblateOrg',
+              org: org,
               username: context.payload.sender.login
             });
             is_member = (response.status == 204);
