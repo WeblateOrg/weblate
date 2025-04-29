@@ -1,23 +1,20 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load static %}
-{% load compress %}
+{% load compress i18n static %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'home' %}">{% trans "Internal Server Error" %}</a>
+    <a href="{% url 'home' %}">{% translate "Internal Server Error" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
-  <h2>{% trans "Server Error" %}</h2>
+  <h2>{% translate "Server Error" %}</h2>
 
   {% if sentry_event_id %}
 
     <p>
-      {% blocktrans with error_id=sentry_event_id %}The server had serious problems serving your request, and this error has been recorded as {{ error_id }}.{% endblocktrans %}
+      {% blocktranslate with error_id=sentry_event_id %}The server had serious problems serving your request, and this error has been recorded as {{ error_id }}.{% endblocktranslate %}
     </p>
 
     {% if sentry_dsn %}
@@ -37,9 +34,9 @@
   {% else %}
 
     <p>
-      {% blocktrans %}The server had serious problems serving your request. You might want to contact server admins in case the error persists.{% endblocktrans %}
+      {% blocktranslate %}The server had serious problems serving your request. You might want to contact server admins in case the error persists.{% endblocktranslate %}
     </p>
 
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

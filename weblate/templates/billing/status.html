@@ -1,53 +1,49 @@
-{% load i18n %}
-{% load translations %}
-{% load humanize %}
-{% load icons %}
-{% load permissions %}
+{% load humanize i18n icons permissions translations %}
 
 {% perm 'billing.manage' billing as user_can_manage_billing %}
 
 {% with plan=billing.plan %}
   <table class="table">
     <tr>
-      <th>{% trans "Current plan" %}</th>
+      <th>{% translate "Current plan" %}</th>
       <td>{{ plan.name }} ({{ billing.get_state_display }})</td>
       <td>
-        {% if  payment_enabled and billing.can_be_paid %}
+        {% if payment_enabled and billing.can_be_paid %}
           <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
-             class="btn btn-primary pull-right flip">{% trans "Change plan" %}</a>
+             class="btn btn-primary pull-right flip">{% translate "Change plan" %}</a>
         {% endif %}
       </td>
     </tr>
     {% if billing.expiry %}
       <tr>
-        <th>{% trans "Trial expiry date" %}</th>
+        <th>{% translate "Trial expiry date" %}</th>
         <td>{{ billing.expiry|naturaltime }}</td>
         <td>
           {% if user_can_manage_billing %}
             <a href=""
                class="btn btn-primary pull-right flip link-post"
                data-href="{{ billing.get_absolute_url }}"
-               data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+               data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
           {% endif %}
         </td>
       </tr>
     {% endif %}
     {% if billing.removal %}
       <tr>
-        <th>{% trans "Scheduled removal" %}</th>
+        <th>{% translate "Scheduled removal" %}</th>
         <td>{{ billing.removal|naturaltime }}</td>
         <td>
           {% if user_can_manage_billing %}
             <a href=""
                class="btn btn-primary pull-right flip link-post"
                data-href="{{ billing.get_absolute_url }}"
-               data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+               data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
           {% endif %}
         </td>
       </tr>
     {% endif %}
     <tr>
-      <th>{% trans "Monthly price" %}</th>
+      <th>{% translate "Monthly price" %}</th>
       <td>{{ plan.price|intcomma }} EUR</td>
       <td>
         {% if payment_enabled and billing.can_be_paid and plan.price %}
@@ -57,14 +53,14 @@
             <input type="hidden" name="billing" value="{{ billing.id }}" />
             <input type="hidden" name="period" value="m" />
             <input type="submit"
-                   value="{% trans "New payment" %}"
+                   value="{% translate "New payment" %}"
                    class="btn btn-primary pull-right flip" />
           </form>
         {% endif %}
       </td>
     </tr>
     <tr>
-      <th>{% trans "Yearly price" %}</th>
+      <th>{% translate "Yearly price" %}</th>
       <td>{{ plan.yearly_price|intcomma }} EUR</td>
       <td>
         {% if payment_enabled and billing.can_be_paid and plan.yearly_price %}
@@ -74,7 +70,7 @@
             <input type="hidden" name="billing" value="{{ billing.id }}" />
             <input type="hidden" name="period" value="y" />
             <input type="submit"
-                   value="{% trans "New payment" %}"
+                   value="{% translate "New payment" %}"
                    class="btn btn-primary pull-right flip" />
           </form>
         {% endif %}
@@ -82,30 +78,30 @@
     </tr>
     {% if plan.display_limit_hosted_strings %}
       <tr>
-        <th>{% trans "Hosted strings limit" %}</th>
+        <th>{% translate "Hosted strings limit" %}</th>
         {% include "billing/used.html" with max=plan.limit_hosted_strings total=plan.display_limit_hosted_strings used=billing.count_hosted_strings %}
       </tr>
     {% endif %}
     {% if plan.display_limit_strings %}
       <tr>
-        <th>{% trans "Strings limit" %}</th>
+        <th>{% translate "Strings limit" %}</th>
         {% include "billing/used.html" with max=plan.limit_strings total=plan.display_limit_strings used=billing.count_strings %}
       </tr>
     {% endif %}
     {% if plan.display_limit_languages %}
       <tr>
-        <th>{% trans "Languages limit" %}</th>
+        <th>{% translate "Languages limit" %}</th>
         {% include "billing/used.html" with max=plan.limit_languages total=plan.display_limit_languages used=billing.count_languages %}
       </tr>
     {% endif %}
     {% if plan.display_limit_project %}
       <tr>
-        <th>{% trans "Projects limit" %}</th>
+        <th>{% translate "Projects limit" %}</th>
         {% include "billing/used.html" with max=plan.limit_projects total=plan.display_limit_projects used=billing.all_projects|length %}
       </tr>
     {% endif %}
     <tr>
-      <th>{% trans "Last invoice" %}</th>
+      <th>{% translate "Last invoice" %}</th>
       <td colspan="2">{{ billing.last_invoice }}</td>
     </tr>
     {% if billing.all_projects %}
@@ -114,21 +110,21 @@
       </tr>
     {% else %}
       <tr>
-        <th>{% trans "Projects" %}</th>
+        <th>{% translate "Projects" %}</th>
         <td>
-          <em>{% trans "No projects currently assigned!" %}</em>
+          <em>{% translate "No projects currently assigned!" %}</em>
         </td>
         <td>
           {% if billing.is_active %}
             <a class="btn btn-primary billing-add-project pull-right flip"
-               href="{% url 'create-project' %}?billing={{ billing.pk }}">{% trans "Add new translation project" %}</a>
+               href="{% url 'create-project' %}?billing={{ billing.pk }}">{% translate "Add new translation project" %}</a>
           {% endif %}
         </td>
       </tr>
     {% endif %}
     {% if user_can_manage_billing %}
       <tr>
-        <th>{% trans "Owners" %}</th>
+        <th>{% translate "Owners" %}</th>
         <td colspan="2">
           {% for owner in billing.owners.all %}
             <p>
@@ -142,7 +138,7 @@
               </span>
               {% if user_can_manage_billing %}
                 <span class="middle-dot-divider">
-                  <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% trans "Check user access" %}</a>
+                  <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% translate "Check user access" %}</a>
                 </span>
               {% endif %}
             </p>

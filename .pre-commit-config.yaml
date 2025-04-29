@@ -22,6 +22,11 @@ repos:
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
+- repo: https://github.com/adamchainz/djade-pre-commit
+  rev: 1.4.0
+  hooks:
+  - id: djade
+    args: [--target-version, '5.1']
 - repo: https://github.com/adrienverge/yamllint
   rev: v1.37.0
   hooks:

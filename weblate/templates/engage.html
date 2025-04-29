@@ -1,75 +1,71 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load static %}
-{% load translations %}
-{% load humanize %}
+{% load humanize i18n static translations %}
 
 {% block breadcrumbs_container %}{% endblock %}
-
 
 {% block content %}
 
   <div class="engage container">
 
     <h1>
-      {% blocktrans %}Get involved in <strong>{{ project }}</strong>{% endblocktrans %}
+      {% blocktranslate %}Get involved in <strong>{{ project }}</strong>{% endblocktranslate %}
     </h1>
 
     <h2>
-      <strong>{% trans "Hello and thank you for your interest" %}</strong>
+      <strong>{% translate "Hello and thank you for your interest" %}</strong>
       —
-      {% blocktrans with project=project_link %}{{ project }} is being translated using {{ weblate_name_link }}, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
+      {% blocktranslate with project=project_link %}{{ project }} is being translated using {{ weblate_name_link }}, a web tool designed to ease translating for both developers and translators.{% endblocktranslate %}
     </h2>
 
     <div class="row bignumbers">
       <div class="col-md-4">
         <strong>{{ strings_count|intcomma }}</strong>
         <p>
-          {% blocktrans count count=strings_count context "Label on engage page" %}String{% plural %}Strings{% endblocktrans %}
+          {% blocktranslate count count=strings_count context "Label on engage page" %}String{% plural %}Strings{% endblocktranslate %}
         </p>
       </div>
       <div class="col-md-4">
         <strong>{{ languages_count|intcomma }}</strong>
         <p>
-          {% blocktrans count count=languages_count context "Label on engage page" %}Language{% plural %}Languages{% endblocktrans %}
+          {% blocktranslate count count=languages_count context "Label on engage page" %}Language{% plural %}Languages{% endblocktranslate %}
         </p>
       </div>
       <div class="col-md-4">
-        <strong>{% blocktrans context "Translated percents" %}{{percent}}%{% endblocktrans %}</strong>
-        <p>{% trans "Translated" %}</p>
+        <strong>{% blocktranslate context "Translated percents" %}{{ percent }}%{% endblocktranslate %}</strong>
+        <p>{% translate "Translated" %}</p>
       </div>
     </div>
 
 
     <p>
       {% if language %}
-        {% blocktrans count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+        {% blocktranslate count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktranslate %}
       {% else %}
         {% comment %}This is split into sentences to allow proper localization of plurals.{% endcomment %}
-        {% blocktrans count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktrans %}
+        {% blocktranslate count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktranslate %}
 
-        {% blocktrans count cnt=languages_count with count=languages_count|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
+        {% blocktranslate count cnt=languages_count with count=languages_count|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktranslate %}
 
-        {% blocktrans %}Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+        {% blocktranslate %}Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktranslate %}
       {% endif %}
 
-      {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
+      {% blocktranslate %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktranslate %}
       {% if project.access_control %}
-        {% trans "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
+        {% translate "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
       {% endif %}
       {% if not user.is_authenticated %}
-        {% blocktrans %}Once you have activated your account, proceed to the translation section.{% endblocktrans %}
+        {% blocktranslate %}Once you have activated your account, proceed to the translation section.{% endblocktranslate %}
       {% endif %}
     </p>
 
     <p class="buttons">
       {% if not user.is_authenticated %}
-        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">{% trans "Register" %}</a>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">{% translate "Register" %}</a>
       {% endif %}
       {% if translate_object %}
         <a href="{% url 'translate' path=translate_object.get_url_path %}?q=state:%3Ctranslated"
-           class="btn btn-primary btn-lg">{% trans "Translate" context "Call to action on engage page" %}</a>
+           class="btn btn-primary btn-lg">{% translate "Translate" context "Call to action on engage page" %}</a>
       {% endif %}
       {% if language %}
         <a id="engage-project"
@@ -78,9 +74,9 @@
       {% else %}
         <a id="engage-project"
            href="{{ project.get_absolute_url }}#languages"
-           class="btn btn-primary btn-lg">{% trans "View project languages" %}</a>
+           class="btn btn-primary btn-lg">{% translate "View project languages" %}</a>
       {% endif %}
     </p>
 
   </div>
-{% endblock %}
+{% endblock content %}

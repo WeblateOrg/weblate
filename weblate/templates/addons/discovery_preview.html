@@ -3,15 +3,15 @@
 <table class="table">
   <thead>
     <tr>
-      <th>{% trans "Component" %}</th>
+      <th>{% translate "Component" %}</th>
       <th></th>
-      <th>{% trans "Matched files" %}</th>
+      <th>{% translate "Matched files" %}</th>
     </tr>
   </thead>
   <tbody>
     {% if matches_deleted %}
       <tr>
-        <th colspan="3" class="danger">{% trans "The following components would be deleted" %}</th>
+        <th colspan="3" class="danger">{% translate "The following components would be deleted" %}</th>
       </tr>
       {% for match in matches_deleted %}
         <tr>
@@ -25,7 +25,7 @@
     {% endif %}
     {% if matches_created %}
       <tr>
-        <th colspan="3" class="info">{% trans "The following components would be created" %}</th>
+        <th colspan="3" class="info">{% translate "The following components would be created" %}</th>
       </tr>
       {% for match in matches_created %}
         <tr>
@@ -34,10 +34,10 @@
           </th>
           <td colspan="2">
             {% if match.0.base_file %}
-              <strong>{% trans "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
             {% endif %}
-            <strong>{% trans "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
             <br />
             {% for file, lang in match.0.files_langs %}
               <code>{{ file }}</code> ({{ lang }})
@@ -49,7 +49,7 @@
     {% endif %}
     {% if matches_matched %}
       <tr>
-        <th colspan="3" class="info">{% trans "The following components matched existing ones" %}</th>
+        <th colspan="3" class="info">{% translate "The following components matched existing ones" %}</th>
       </tr>
       {% for match in matches_matched %}
         <tr>
@@ -58,10 +58,10 @@
           </th>
           <td colspan="2">
             {% if match.0.base_file %}
-              <strong>{% trans "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
             {% endif %}
-            <strong>{% trans "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
             <br />
             {% for file, lang in match.0.files_langs %}
               <code>{{ file }}</code> ({{ lang }})
@@ -73,7 +73,7 @@
     {% endif %}
     {% if matches_skipped %}
       <tr>
-        <th colspan="3" class="danger">{% trans "The following components could not be created" %}</th>
+        <th colspan="3" class="danger">{% translate "The following components could not be created" %}</th>
       </tr>
       {% for match in matches_skipped %}
         <tr>
@@ -85,10 +85,10 @@
           </td>
           <td>
             {% if match.0.base_file %}
-              <strong>{% trans "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
             {% endif %}
-            <strong>{% trans "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
             <br />
             {% for file, lang in match.0.files_langs %}
               <code>{{ file }}</code> ({{ lang }})
@@ -100,7 +100,7 @@
     {% endif %}
     {% if not matches_deleted and not matches_created and not matches_matched and not matches_skipped %}
       <tr>
-        <th colspan="3" class="danger">{% trans "No matching components were found!" %}</th>
+        <th colspan="3" class="danger">{% translate "No matching components were found!" %}</th>
       </tr>
     {% endif %}
   </tbody>

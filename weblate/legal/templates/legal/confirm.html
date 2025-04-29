@@ -1,32 +1,30 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <form method="post" action="{% url 'legal:confirm' %}">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "You have to agree to the General Terms and Conditions" %}</h4>
+        <h4 class="panel-title">{% translate "You have to agree to the General Terms and Conditions" %}</h4>
       </div>
       <div class="panel-body">
-        <p>{% trans "Please read following General Terms and Conditions document:" %}</p>
+        <p>{% translate "Please read following General Terms and Conditions document:" %}</p>
         <div class="list-group-item pre-scrollable tos">{% include "legal/documents/tos.html" %}</div>
         {{ form|crispy }}
         {% csrf_token %}
       </div>
       <div class="panel-footer">
-        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+        <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
       </div>
     </div>
   </form>
 
-{% endblock %}
+{% endblock content %}

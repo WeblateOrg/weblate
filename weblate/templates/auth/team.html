@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load humanize %}
-{% load icons %}
+{% load crispy_forms_tags humanize i18n icons permissions translations %}
 
 {% block breadcrumbs %}
   {% if object.defining_project %}
@@ -13,21 +8,20 @@
       <a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a>
     </li>
     <li>
-      <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% trans "Access control" %}</a>
+      <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
     </li>
   {% else %}
     <li>
-      <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
     <li>
-      <a href="{% url 'manage-teams' %}">{% trans "Teams" %}</a>
+      <a href="{% url 'manage-teams' %}">{% translate "Teams" %}</a>
     </li>
   {% endif %}
   <li>
     <a href="{% url 'team' pk=object.pk %}">{{ object.name }}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   {% perm "meta:team.users" object as user_can_edit_team_users %}
@@ -36,16 +30,16 @@
     {% csrf_token %}
     <ul class="nav nav-pills">
       <li role="presentation" class="active">
-        <a href="#basic" role="tab" data-toggle="tab">{% trans "Settings" %}</a>
+        <a href="#basic" role="tab" data-toggle="tab">{% translate "Settings" %}</a>
       </li>
       {% if form %}
         <li role="presentation">
-          <a href="#auto" role="tab" data-toggle="tab">{% trans "Automatic assignments" %}</a>
+          <a href="#auto" role="tab" data-toggle="tab">{% translate "Automatic assignments" %}</a>
         </li>
       {% endif %}
       {% if user_can_edit_team_users %}
         <li role="presentation">
-          <a href="#users" role="tab" data-toggle="tab">{% trans "Members" %}</a>
+          <a href="#users" role="tab" data-toggle="tab">{% translate "Members" %}</a>
         </li>
       {% endif %}
     </ul>
@@ -53,24 +47,24 @@
     <div class="tab-content">
       <div class="tab-pane active" id="basic">
         {% if form %}
-          {{ form | crispy }}
+          {{ form|crispy }}
         {% else %}
 
           <table class="table">
             <tr>
-              <th>{% trans "Roles" %}</th>
+              <th>{% translate "Roles" %}</th>
               <td>{% include "auth/teams-roles.html" with group=object %}</td>
             </tr>
             <tr>
-              <th>{% trans "Languages" %}</th>
+              <th>{% translate "Languages" %}</th>
               <td>{% include "auth/teams-languages.html" with group=object %}</td>
             </tr>
             <tr>
-              <th>{% trans "Projects" %}</th>
+              <th>{% translate "Projects" %}</th>
               <td>{% include "auth/teams-projects.html" with group=object %}</td>
             </tr>
             <tr>
-              <th>{% trans "Components" %}</th>
+              <th>{% translate "Components" %}</th>
               <td>{% include "auth/teams-components.html" with group=object %}</td>
             </tr>
           </table>
@@ -79,11 +73,13 @@
       {% if form %}
         <div class="tab-pane" id="auto">
           <p>
-            {% trans "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+            {% translate "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
           </p>
-          {{ auto_formset | crispy }}
-          <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form | crispy }}</div>
-          <button class="btn btn-info add-multifield" data-prefix="autogroup_set">{% trans "Add automatic assignment" %}</button>
+          {{ auto_formset|crispy }}
+          <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form|crispy }}</div>
+          <button class="btn btn-info add-multifield" data-prefix="autogroup_set">
+            {% translate "Add automatic assignment" %}
+          </button>
           <br />
           <br />
           <br />
@@ -95,15 +91,15 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'admin/access' 'groups' right=True %}
-                {% trans "Users" %}
+                {% translate "Users" %}
               </h4>
             </div>
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>{% trans "Username" %}</th>
-                  <th>{% trans "Full name" %}</th>
-                  <th>{% trans "Last sign in" %}</th>
+                  <th>{% translate "Username" %}</th>
+                  <th>{% translate "Full name" %}</th>
+                  <th>{% translate "Last sign in" %}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -113,7 +109,7 @@
                     <td>
                       <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
                       {% if user in admins %}
-                        <span class="badge">{% trans "Team administrator" %}</span>
+                        <span class="badge">{% translate "Team administrator" %}</span>
                       {% endif %}
                     </td>
                     <td>{{ user.full_name }}</td>
@@ -121,7 +117,7 @@
                       {% if user.last_login %}
                         {{ user.last_login|naturaltime }}
                       {% else %}
-                        {% trans "Not yet signed in" %}
+                        {% translate "Not yet signed in" %}
                       {% endif %}
                     </td>
                     <td class="number">
@@ -131,7 +127,7 @@
                            data-action="{{ object.get_absolute_url }}"
                            data-params='{"add_user": 1, "user": "{{ user.username|escapejs }}"}'>
                           {% icon 'account-supervisor.svg' %}
-                          {% trans "Revoke administration" %}
+                          {% translate "Revoke administration" %}
                         </a>
                       {% else %}
                         <a href="#"
@@ -139,14 +135,14 @@
                            data-action="{{ object.get_absolute_url }}"
                            data-params='{"add_user": 1, "make_admin": 1, "user": "{{ user.username|escapejs }}"}'>
                           {% icon 'account-supervisor.svg' %}
-                          {% trans "Grant administration" %}
+                          {% translate "Grant administration" %}
                         </a>
                       {% endif %}
                       <a href="#"
                          data-toggle="modal"
                          data-target="#delete_user_{{ user.id }}"
                          class="btn btn-link btn-xs red"
-                         title="{% trans "Remove" %}">{% icon 'delete.svg' %} {% trans "Remove" %}</a>
+                         title="{% translate "Remove" %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
                     </td>
                   </tr>
                 {% endfor %}
@@ -161,7 +157,7 @@
               <a href="#"
                  data-toggle="modal"
                  data-target="#add_user_popup"
-                 class="btn btn-primary">{% trans "Add a user" %}</a>
+                 class="btn btn-primary">{% translate "Add a user" %}</a>
             </div>
           </div>
         </div>
@@ -169,7 +165,7 @@
     </div>
 
     {% if form %}
-      <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+      <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
     {% endif %}
   </form>
 
@@ -184,19 +180,19 @@
               <button type="button"
                       class="close"
                       data-dismiss="modal"
-                      aria-label="{% trans "Close" %}">
+                      aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
             </div>
             <div class="modal-body">
-              {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktrans %}
+              {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
             </div>
             <div class="modal-footer">
               <input type="submit"
                      class="btn btn-danger"
                      name="remove_user"
-                     value="{% trans "Remove" %}" />
+                     value="{% translate "Remove" %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -216,15 +212,18 @@
             <button type="button"
                     class="close"
                     data-dismiss="modal"
-                    aria-label="{% trans "Close" %}">
+                    aria-label="{% translate "Close" %}">
               <span aria-hidden="true">×</span>
             </button>
-            {% trans "Add a user" %}
+            {% translate "Add a user" %}
             {% documentation_icon 'admin/access' 'invite-user' %}
           </div>
           <div class="modal-body">{{ add_user_form|crispy }}</div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" name="add_user" value="{% trans "Add" %}" />
+            <input type="submit"
+                   class="btn btn-primary"
+                   name="add_user"
+                   value="{% translate "Add" %}" />
           </div>
         </div>
         <!-- /.modal-content -->
@@ -235,4 +234,4 @@
   </form>
   <form method="get" id="paginator-form">
   </form>
-{% endblock %}
+{% endblock content %}

@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load metrics %}
+{% load i18n metrics permissions translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'languages' %}">{% trans "Languages" %}</a>
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
   </li>
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
@@ -16,8 +13,7 @@
   <a class="pull-right flip">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -27,24 +23,24 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% trans "Projects" %}</a>
+      <a href="#overview" data-toggle="tab">{% translate "Projects" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% trans "Information" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Information" %}</a>
     </li>
     <li>
-      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
     </li>
     <li>
-      <a href="#history" data-toggle="tab">{% trans "History" %}</a>
+      <a href="#history" data-toggle="tab">{% translate "History" %}</a>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Tools" %} <span class="caret"></span>
+        {% translate "Tools" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if user_can_edit_language %}
           <li role="separator" class="divider"></li>
@@ -52,11 +48,11 @@
             <li>
               <a href=""
                  class="link-post"
-                 data-href="{% url 'show_language' lang=object.code %}">{% trans "Delete" %}</a>
+                 data-href="{% url 'show_language' lang=object.code %}">{% translate "Delete" %}</a>
             </li>
           {% endif %}
           <li>
-            <a href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a>
+            <a href="{% url 'edit-language' pk=object.pk %}">{% translate "Edit" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -77,7 +73,7 @@
 
     <div class="tab-pane" id="history">
       {% include "last-changes-content.html" %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     <div class="tab-pane" id="search">
@@ -88,4 +84,4 @@
 
   </div>
 
-{% endblock %}
+{% endblock content %}

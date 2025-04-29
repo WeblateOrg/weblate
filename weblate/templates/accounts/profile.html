@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
-{% load compress %}
-{% load i18n %}
-{% load static %}
-{% load translations %}
-{% load authnames %}
-{% load crispy_forms_tags %}
-{% load icons %}
-{% load otp_webauthn %}
+{% load authnames compress crispy_forms_tags i18n icons otp_webauthn static translations %}
 
 {% block extra_script %}
   {% compress js %}
@@ -15,19 +8,18 @@
             data-cfasync="false"
             src="{% static 'js/accounts/profile/index.js' %}{{ cache_param }}"></script>
   {% endcompress %}
-{% endblock %}
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'profile' %}">{% trans "Your profile" %}</a>
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   {% if form.errors or userform.errors or subscriptionform.errors %}
-    {% trans "Please fix errors in the form." as msg %}
+    {% translate "Please fix errors in the form." as msg %}
     {% show_message "error" msg %}
   {% endif %}
 
@@ -37,31 +29,31 @@
 
     <ul class="nav nav-pills">
       <li class="active">
-        <a data-toggle="tab" href="#languages">{% trans "Languages" %}</a>
+        <a data-toggle="tab" href="#languages">{% translate "Languages" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a>
+        <a data-toggle="tab" href="#preferences">{% translate "Preferences" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a>
+        <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#account">{% trans "Account" %}</a>
+        <a data-toggle="tab" href="#account">{% translate "Account" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#profile">{% trans "Profile" %}</a>
+        <a data-toggle="tab" href="#profile">{% translate "Profile" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#teams">{% trans "Teams" %}</a>
+        <a data-toggle="tab" href="#teams">{% translate "Teams" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a>
+        <a data-toggle="tab" href="#licenses">{% translate "Licenses" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a>
+        <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#api">{% trans "API access" %}</a>
+        <a data-toggle="tab" href="#api">{% translate "API access" %}</a>
       </li>
     </ul>
 
@@ -70,16 +62,16 @@
       <div class="tab-pane active" id="languages">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% trans "Languages" %}</h4>
+            <h4 class="panel-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
           </div>
           <div class="panel-body">
             {% crispy languagesform %}
             <p class="help-block">
-              {% blocktrans %}Send a request to the project you want to translate to add a missing language.{% endblocktrans %}
+              {% blocktranslate %}Send a request to the project you want to translate to add a missing language.{% endblocktranslate %}
             </p>
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
       </div>
@@ -87,14 +79,16 @@
       <div class="tab-pane" id="preferences">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'user/profile' 'preferences' right=True %}{% trans "Preferences" %}</h4>
+            <h4 class="panel-title">
+              {% documentation_icon 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
+            </h4>
           </div>
           <div class="panel-body">
             {{ usersettingsform|crispy }}
             {{ dashboardsettingsform|crispy }}
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
       </div>
@@ -104,24 +98,24 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Watched projects" %}
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
             </h4>
           </div>
           <div class="panel-body">
             {% crispy subscriptionform %}
             <p class="help-block">
-              {% trans "Add all projects you want to translate to see them as watched projects on the dashboard." %}
+              {% translate "Add all projects you want to translate to see them as watched projects on the dashboard." %}
             </p>
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% trans "Notification settings" %}
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
             </h4>
           </div>
           <div class="panel-body">
@@ -134,7 +128,7 @@
                     {% if form.removable %}
                       <button type="button"
                               class="close"
-                              title="{% trans "Remove this notification setting" %}">
+                              title="{% translate "Remove this notification setting" %}">
                         <span aria-hidden="true">×</span>
                       </button>
                     {% endif %}
@@ -156,7 +150,7 @@
 
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
       </div>
@@ -164,7 +158,7 @@
       <div class="tab-pane" id="account">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% trans "Account" %}</h4>
+            <h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% translate "Account" %}</h4>
           </div>
           <div class="panel-body">
 
@@ -178,11 +172,11 @@
                    class="link-post pull-right flip btn btn-link"
                    data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
               {% endif %}
-              {% trans "The e-mail address can be chosen from verified addresses only." %}
+              {% translate "The e-mail address can be chosen from verified addresses only." %}
             </p>
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
 
@@ -192,7 +186,7 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  {% documentation_icon 'user/profile' 'authentication' right=True %}{% trans "Current user identities" %}
+                  {% documentation_icon 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
                 </h4>
               </div>
               <ul class="list-group">
@@ -200,9 +194,9 @@
                   <li class="list-group-item auth-list">
                     <a href="{% url 'password' %}" class="btn btn-primary pull-right flip">
                       {% if request.user.has_usable_password %}
-                        {% trans "Change password" %}
+                        {% translate "Change password" %}
                       {% else %}
-                        {% trans "Set password" %}
+                        {% translate "Set password" %}
                       {% endif %}
                     </a>
 
@@ -218,7 +212,7 @@
                   <li class="list-group-item auth-list">
                     {% if associated.count > 1 %}
                       <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account"
-                         class="disconnect btn btn-danger pull-right flip">{% trans "Disconnect" %}</a>
+                         class="disconnect btn btn-danger pull-right flip">{% translate "Disconnect" %}</a>
                     {% endif %}
 
                     {% auth_name assoc.provider only="icon" %}
@@ -237,7 +231,7 @@
             <div class="col-sm-6">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title">{% trans "Add new user identity" %}</h4>
+                  <h4 class="panel-title">{% translate "Add new user identity" %}</h4>
                 </div>
                 <div class="panel-body">
                   {% for name in new_backends %}
@@ -255,20 +249,20 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               {% documentation_icon 'admin/auth' '2fa' right=True %}
-              {% trans "Two-factor authentication" %}
+              {% translate "Two-factor authentication" %}
             </h4>
           </div>
           <div class="panel-body second-factor">
             <p class="help-block">
-              {% trans "Two-factor authentication adds another layer of security to your account by requiring more than just a password to sign in." %}
+              {% translate "Two-factor authentication adds another layer of security to your account by requiring more than just a password to sign in." %}
             </p>
 
             <div class="row">
               <div class="col-sm-4">
-                <h5>{% trans "Security keys (WebAuthn)" %}</h5>
+                <h5>{% translate "Security keys (WebAuthn)" %}</h5>
                 {% if not webauthn_keys %}
                   <p>
-                    <em>{% trans "No WebAuthn keys registered yet." %}</em>
+                    <em>{% translate "No WebAuthn keys registered yet." %}</em>
                   </p>
                 {% else %}
                   <ul class="list-group">
@@ -277,7 +271,7 @@
                         <a href=""
                            class="btn btn-danger pull-right flip link-post"
                            data-href="{% url "webauthn-detail" pk=key.id %}"
-                           data-params='{"delete": 1}'>{% trans "Remove" %}</a>
+                           data-params='{"delete": 1}'>{% translate "Remove" %}</a>
                         {% key_name key %}
                         <div class="clearfix"></div>
                       </li>
@@ -292,16 +286,16 @@
                            name="passkey-device-name"
                            maxlength="64"
                            data-href="{% url "webauthn-detail" pk="000000" %}"
-                           placeholder="{% trans "Name your security key" %}" />
+                           placeholder="{% translate "Name your security key" %}" />
                     <button type="button" class="btn btn-primary" id="passkey-register-button">
-                      {% trans "Register new security key" %}
+                      {% translate "Register new security key" %}
                     </button>
                     <div id="passkey-register-status-message"></div>
                   </div>
                 </template>
 
                 <template id="passkey-registration-unavailable-template">
-                  <p>{% trans "Your web browser lacks WebAuthn support." %}</p>
+                  <p>{% translate "Your web browser lacks WebAuthn support." %}</p>
                 </template>
 
                 <span id="passkey-registration-placeholder"></span>
@@ -309,10 +303,10 @@
                 {% render_otp_webauthn_register_scripts %}
               </div>
               <div class="col-sm-4">
-                <h5>{% trans "Authenticator apps (TOTP)" %}</h5>
+                <h5>{% translate "Authenticator apps (TOTP)" %}</h5>
                 {% if not totp_keys %}
                   <p>
-                    <em>{% trans "No authenticator apps registered yet." %}</em>
+                    <em>{% translate "No authenticator apps registered yet." %}</em>
                   </p>
                 {% else %}
                   <ul class="list-group">
@@ -321,24 +315,24 @@
                         <a href=""
                            class="btn btn-danger pull-right flip link-post"
                            data-href="{% url "totp-detail" pk=key.id %}"
-                           data-params='{"delete": 1}'>{% trans "Remove" %}</a>
+                           data-params='{"delete": 1}'>{% translate "Remove" %}</a>
                         {% key_name key %}
                         <div class="clearfix"></div>
                       </li>
                     {% endfor %}
                   </ul>
                 {% endif %}
-                <a href="{% url 'totp' %}" class="btn btn-primary">{% trans "Register new authenticator app" %}</a>
+                <a href="{% url 'totp' %}" class="btn btn-primary">{% translate "Register new authenticator app" %}</a>
               </div>
               <div class="col-sm-4">
-                <h5>{% trans "Recovery codes" %}</h5>
+                <h5>{% translate "Recovery codes" %}</h5>
                 {% if recovery_keys_count == 0 %}
                   <p>
-                    <em>{% trans "No recovery codes generated yet." %}</em>
+                    <em>{% translate "No recovery codes generated yet." %}</em>
                   </p>
                   <a href=""
                      data-href="{% url "recovery-codes" %}"
-                     class="btn btn-primary link-post">{% trans "Generate new recovery codes" %}</a>
+                     class="btn btn-primary link-post">{% translate "Generate new recovery codes" %}</a>
                 {% else %}
                   <p>
                     {% blocktranslate count count=recovery_keys_count trimmed %}
@@ -347,7 +341,7 @@
                       {{ count }} recovery codes available.
                     {% endblocktranslate %}
                   </p>
-                  <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% trans "View recovery codes" %}</a>
+                  <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% translate "View recovery codes" %}</a>
                 {% endif %}
               </div>
             </div>
@@ -360,14 +354,14 @@
           <div class="col-sm-6">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "User data" %}</h4>
+                <h4 class="panel-title">{% translate "User data" %}</h4>
               </div>
               <div class="panel-body">
 
-                <p>{% trans "You can download all your private data." %}</p>
+                <p>{% translate "You can download all your private data." %}</p>
               </div>
               <div class="panel-footer">
-                <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% trans "Download user data" %}</a>
+                <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
               </div>
             </div>
           </div>
@@ -375,14 +369,14 @@
           <div class="col-sm-6">
             <div class="panel panel-danger">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Removal" %}</h4>
+                <h4 class="panel-title">{% translate "Removal" %}</h4>
               </div>
               <div class="panel-body">
 
-                <p>{% trans "Account removal deletes all your private data." %}</p>
+                <p>{% translate "Account removal deletes all your private data." %}</p>
               </div>
               <div class="panel-footer">
-                <a class="btn btn-danger" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
+                <a class="btn btn-danger" href="{% url 'remove' %}">{% translate "Remove my account" %}</a>
               </div>
             </div>
           </div>
@@ -395,32 +389,32 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'public-profile' right=True %}{% trans "Public profile" %}
+              {% documentation_icon 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
             </h4>
           </div>
           <div class="panel-body">
             {% crispy profileform %}
             <p class="help-block">
-              {% blocktrans %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktrans %}
+              {% blocktranslate %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktranslate %}
             </p>
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
         {% if enable_avatars %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4>
+              <h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
             </div>
             <div class="panel-body">
               <p class="border">
                 <img class="avatar w128"
-                     alt="{% trans "User avatar" %}"
+                     alt="{% translate "User avatar" %}"
                      src="{% url 'user_avatar' user=request.user.username size=128 %}" />
               </p>
               <p>
-                <a href="{{ avatar_url_prefix }}">{% blocktrans %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktrans %}</a>
+                <a href="{{ avatar_url_prefix }}">{% blocktranslate %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktranslate %}</a>
               </p>
             </div>
           </div>
@@ -432,11 +426,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th>{% trans "Team" %}</th>
-              <th>{% trans "Roles" %}</th>
-              <th>{% trans "Projects" %}</th>
-              <th>{% trans "Languages" %}</th>
-              <th>{% trans "Components" %}</th>
+              <th>{% translate "Team" %}</th>
+              <th>{% translate "Roles" %}</th>
+              <th>{% translate "Projects" %}</th>
+              <th>{% translate "Languages" %}</th>
+              <th>{% translate "Components" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -480,26 +474,26 @@
       <div class="tab-pane" id="audit">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% trans "Description" %}</h4>
+            <h4 class="panel-title">{% translate "Description" %}</h4>
           </div>
           <div class="panel-body">
             <p>
-              {% blocktrans %}Get in contact immediately if you notice anything suspicious in the audit log.{% endblocktrans %}
+              {% blocktranslate %}Get in contact immediately if you notice anything suspicious in the audit log.{% endblocktranslate %}
             </p>
           </div>
         </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% trans "Audit log" %}</h4>
+            <h4 class="panel-title">{% translate "Audit log" %}</h4>
           </div>
           <table class="table">
             <thead>
               <tr>
-                <th>{% trans "When" %}</th>
-                <th>{% trans "Account activity" %}</th>
-                <th>{% trans "IP address" %}</th>
-                <th>{% trans "User agent" %}</th>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Account activity" %}</th>
+                <th>{% translate "IP address" %}</th>
+                <th>{% translate "User agent" %}</th>
               </tr>
             </thead>
             <tbody>
@@ -512,13 +506,13 @@
                 </tr>
               {% empty %}
                 <tr>
-                  <td colspan="4">{% trans "No recent activity found." %}</td>
+                  <td colspan="4">{% translate "No recent activity found." %}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
           <div class="panel-footer">
-            <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% trans "Report suspicious activity" %}</a>
+            <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
           </div>
         </div>
 
@@ -527,42 +521,42 @@
       <div class="tab-pane" id="api">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'api' right=True %}{% trans "API access" %}</h4>
+            <h4 class="panel-title">{% documentation_icon 'api' right=True %}{% translate "API access" %}</h4>
           </div>
           <table class="table">
             <tr>
               <td colspan="2">
                 <p>
-                  {% blocktrans %}The API key can be used to control Weblate via the HTTP REST API and to access Weblate Git repositories.{% endblocktrans %}
+                  {% blocktranslate %}The API key can be used to control Weblate via the HTTP REST API and to access Weblate Git repositories.{% endblocktranslate %}
                 </p>
               </td>
             </tr>
             <tr>
-              <th>{% trans "Your personal API key:" %}</th>
+              <th>{% translate "Your personal API key:" %}</th>
               <td>
                 <span class="auth-token">{{ user.auth_token.key }}</span>
                 <button type="button"
                         class="btn btn-link btn-xs"
                         data-visibility=".auth-token"
-                        title="{% trans "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
+                        title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
                 <button type="button"
                         class="btn btn-link btn-xs"
                         data-clipboard-value="{{ user.auth_token.key }}"
-                        data-clipboard-message="{% trans "API key copied to clipboard." %}"
-                        title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                        data-clipboard-message="{% translate "API key copied to clipboard." %}"
+                        title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
                 <a href=""
                    class="pull-right flip btn btn-primary link-post"
-                   data-href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
+                   data-href="{% url 'reset-api-key' %}">{% translate "Regenerate API key" %}</a>
               </td>
             </tr>
             <tr>
-              <th>{% trans "API root URL:" %}</th>
+              <th>{% translate "API root URL:" %}</th>
               <td>
                 <a href="{{ site_url }}{% url 'api:api-root' %}">{{ site_url }}{% url 'api:api-root' %}</a>
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon 'api' right=True %}{% trans "API usage example:" %}</th>
+              <th colspan="2">{% documentation_icon 'api' right=True %}{% translate "API usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
@@ -574,7 +568,7 @@ curl \
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon 'wlc' right=True %}{% trans "CLI usage example:" %}</th>
+              <th colspan="2">{% documentation_icon 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
@@ -593,12 +587,12 @@ wlc \
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                {% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% trans "Accessing Git repositories" %}
+                {% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
               </h4>
             </div>
             <div class="panel-body">
               <p>
-                {% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}
+                {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
               <pre dir="ltr">
 git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
@@ -611,17 +605,17 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
       <div class="tab-pane" id="licenses">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% trans "Licenses" %}</h4>
+            <h4 class="panel-title">{% translate "Licenses" %}</h4>
           </div>
           <div class="panel-body">
-            <p>{% trans "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
+            <p>{% translate "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
             <p>
-              {% trans "By registering you agree to use your name and e-mail in the commits, and provide your contribution under the license defined by each localization project." %}
+              {% translate "By registering you agree to use your name and e-mail in the commits, and provide your contribution under the license defined by each localization project." %}
             </p>
 
             {% with agreements=user.contributoragreement_set.order %}
               {% if agreements %}
-                <p>{% trans "You have agreed to the following as a contributor:" %}</p>
+                <p>{% translate "You have agreed to the following as a contributor:" %}</p>
                 <ul>
                   {% for agreement in agreements %}
                     <li>
@@ -639,7 +633,7 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
           <div class="tab-pane" id="licenses">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Licenses for individual translations" %}</h4>
+                <h4 class="panel-title">{% translate "Licenses for individual translations" %}</h4>
               </div>
               <div class="panel-body">
                 {% for dummy, items in license_list %}
@@ -668,4 +662,4 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
     {% csrf_token %}
   </form>
 
-{% endblock %}
+{% endblock content %}

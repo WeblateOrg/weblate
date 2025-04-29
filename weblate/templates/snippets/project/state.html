@@ -1,9 +1,7 @@
-{% load translations %}
-{% load permissions %}
-{% load i18n %}
+{% load i18n permissions translations %}
 
 {% if not object.paid %}
-  {% trans "Pay the bills to unlock this project." as msg %}
+  {% translate "Pay the bills to unlock this project." as msg %}
   {% show_message "warning" msg %}
 {% endif %}
 

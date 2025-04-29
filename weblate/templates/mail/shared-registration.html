@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <p>
-  {% blocktrans %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktrans %}
+  {% blocktranslate %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktranslate %}
 </p>
 
 <code>
@@ -9,21 +9,21 @@
 </code>
 
 <p>
-  {% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
+  {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
 </p>
 
 <div class="line buttons">
   {% if action == "reset" %}
-    <a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
+    <a class="button" href="{{ url }}">{% translate "Confirm password reset" %}</a>
   {% elif action == "remove" %}
-    <a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
+    <a class="button" href="{{ url }}">{% translate "Confirm account removal" %}</a>
   {% elif action == "invite" %}
-    <a class="button" href="{{ url }}">{% trans "Confirm invitation" %}</a>
+    <a class="button" href="{{ url }}">{% translate "Confirm invitation" %}</a>
   {% else %}
-    <a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
+    <a class="button" href="{{ url }}">{% translate "Confirm registration" %}</a>
   {% endif %}
 </div>
 
 <p>
-  <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
+  <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
 </p>

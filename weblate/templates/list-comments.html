@@ -1,7 +1,4 @@
-{% load translations %}
-{% load i18n %}
-{% load permissions %}
-{% load icons %}
+{% load i18n icons permissions translations %}
 
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
@@ -10,11 +7,11 @@
         <strong>{{ comment.get_user_display }}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
-            {% trans "Resolved comment" %}
+            {% translate "Resolved comment" %}
           {% elif comment.unit.is_source %}
-            {% trans "Source string comment" %}
+            {% translate "Source string comment" %}
           {% else %}
-            {% trans "Translation comment" %}
+            {% translate "Translation comment" %}
           {% endif %}
         </p>
       </div>
@@ -28,7 +25,7 @@
                   class="auto-save-translation inlineform">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
-              <button class="btn btn-link green" title="{% trans "Resolve" %}">{% icon "check.svg" %}</button>
+              <button class="btn btn-link green" title="{% translate "Resolve" %}">{% icon "check.svg" %}</button>
             </form>
           {% endif %}
           {% if user_can_delete_comment %}
@@ -42,9 +39,9 @@
                         class="btn btn-link red"
                         name="spam"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Mark as spam" %}">{% icon "spam.svg" %}</button>
+                        title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
               {% endif %}
-              <button class="btn btn-link red" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
+              <button class="btn btn-link red" title="{% translate "Delete" %}">{% icon "delete.svg" %}</button>
             </form>
           {% endif %}
         </div>

@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load metrics %}
+{% load crispy_forms_tags i18n metrics permissions translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
@@ -12,8 +8,7 @@
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -28,103 +23,103 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#components" data-toggle="tab">{% trans "Components" %}</a>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
     </li>
     <li>
-      <a href="#languages" data-toggle="tab">{% trans "Languages" %}</a>
+      <a href="#languages" data-toggle="tab">{% translate "Languages" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% trans "Info" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
     </li>
     <li>
-      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Insights" %} <span class="caret"></span>
+        {% translate "Insights" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href="#history" data-toggle="tab">{% trans "History" %}</a>
+          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         {% if last_announcements %}
           <li>
-            <a href="#announcement-history" data-toggle="tab">{% trans "Announcements" %}</a>
+            <a href="#announcement-history" data-toggle="tab">{% translate "Announcements" %}</a>
           </li>
         {% endif %}
         {% if user.is_authenticated %}
           <li>
-            <a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a>
+            <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Files" %} <span class="caret"></span>
+        {% translate "Files" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translation files as ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as CSV in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLSX in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Tools" %} <span class="caret"></span>
+        {% translate "Tools" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a>
+            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a>
+            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
       </ul>
     </li>
     {% if user_can_edit_project %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Manage" %} <span class="caret"></span>
+          {% translate "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
           {% if add_form %}
             <li>
-              <a href="#add-category" data-toggle="tab">{% trans "Add new category" %}</a>
+              <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
             </li>
           {% endif %}
           <li>
-            <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+            <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
           </li>
           {% if announcement_form %}
             <li>
-              <a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a>
+              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
             </li>
           {% endif %}
           {% if delete_form or rename_form %}
             <li role="separator" class="divider"></li>
             <li>
-              <a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a>
+              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
             </li>
           {% endif %}
         </ul>
@@ -154,14 +149,14 @@
 
     <div class="tab-pane" id="history">
       {% include "last-changes-content.html" %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all project changes" %}</a>
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
         {% include "last-changes-content.html" with last_changes=last_announcements %}
         <a class="btn btn-primary"
-           href="{% url 'changes' path=object.get_url_path %}?action=46">{% trans "Browse all project changes" %}</a>
+           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>
     {% endif %}
 
@@ -184,12 +179,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% trans "Search and replace" %}
+                {% translate "Search and replace" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy replace_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -205,12 +200,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
-                {% trans "Bulk edit" %}
+                {% translate "Bulk edit" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy bulk_state_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -225,14 +220,14 @@
         <form method="post" action="{% url 'add-category' path=object.get_url_path %}">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">{% trans "Add a category" %}</h4>
+              <h4 class="panel-title">{% translate "Add a category" %}</h4>
             </div>
             <div class="panel-body">
               <div class="form-group"></div>
               {% crispy add_form %}
             </div>
             <div class="panel-footer">
-              <input type="submit" class="btn btn-warning" value="{% trans "Add" %}">
+              <input type="submit" class="btn btn-warning" value="{% translate "Add" %}">
             </div>
           </div>
         </form>
@@ -247,19 +242,19 @@
           <form method="post" action="{% url 'rename' path=object.get_url_path %}">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Organize category" %}</h4>
+                <h4 class="panel-title">{% translate "Organize category" %}</h4>
               </div>
               <div class="panel-body">
                 <div class="form-group">
                   <div class="alert alert-warning" role="alert">
-                    {% trans "Moving or renaming the category will also change URLs for all its components." %}
-                    {% trans "Users will need to update their bookmarks, references in cloned repositories, or API calls!" %}
+                    {% translate "Moving or renaming the category will also change URLs for all its components." %}
+                    {% translate "Users will need to update their bookmarks, references in cloned repositories, or API calls!" %}
                   </div>
                 </div>
                 {% crispy rename_form %}
               </div>
               <div class="panel-footer">
-                <input type="submit" class="btn btn-warning" value="{% trans "Organize" %}">
+                <input type="submit" class="btn btn-warning" value="{% translate "Organize" %}">
               </div>
             </div>
           </form>
@@ -279,18 +274,18 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'admin/announcements' right=True %}
-                {% trans "Post announcement" %}
+                {% translate "Post announcement" %}
               </h4>
             </div>
             <div class="panel-body">
               {% csrf_token %}
               {{ announcement_form|crispy }}
               <p class="help-block">
-                {% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
+                {% translate "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
               </p>
             </div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -300,7 +295,7 @@
     {% if user.is_authenticated %}
       <div class="tab-pane" id="reports">
         {% if not user_can_view_reports %}
-          {% trans "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+          {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
           {% show_message "warning" msg %}
         {% endif %}
         <div class="row">
@@ -312,17 +307,17 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     {% documentation_icon 'devel/reporting' 'credits' right=True %}
-                    {% trans "Credits" %}
+                    {% translate "Credits" %}
                   </h4>
                 </div>
                 <div class="panel-body">
                   <p>
-                    {% trans "Lists all translators contributing to this project in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
+                    {% translate "Lists all translators contributing to this project in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
                   </p>
                   {% crispy reports_form %}
                 </div>
                 <div class="panel-footer">
-                  <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
                 </div>
               </div>
             </form>
@@ -335,15 +330,15 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     {% documentation_icon 'devel/reporting' 'stats' right=True %}
-                    {% trans "Contributor stats" %}
+                    {% translate "Contributor stats" %}
                   </h4>
                 </div>
                 <div class="panel-body">
-                  <p>{% trans "Reports the number of strings and words translated by each translator." %}</p>
+                  <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
                   {% crispy reports_form %}
                 </div>
                 <div class="panel-footer">
-                  <input type="submit" value="{% trans "Generate" %}" class="btn btn-primary" />
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
                 </div>
               </div>
             </form>
@@ -354,4 +349,4 @@
 
   </div>
 
-{% endblock %}
+{% endblock content %}

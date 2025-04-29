@@ -4,20 +4,19 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "About Weblate" %}</h4>
+      <h4 class="panel-title">{% translate "About Weblate" %}</h4>
     </div>
     <div class="panel-body">{% include "snippets/about.html" %}</div>
     <div class="panel-footer">
-      <a class="btn btn-primary" href="https://weblate.org/donate/">{% trans "Donate to Weblate" %}</a>
+      <a class="btn btn-primary" href="https://weblate.org/donate/">{% translate "Donate to Weblate" %}</a>
     </div>
   </div>
 
@@ -25,22 +24,24 @@
   {% if offer_hosting %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Hosting translations" %}</h4>
+        <h4 class="panel-title">{% translate "Hosting translations" %}</h4>
       </div>
       <div class="panel-body">
         <p>
-          {% trans "This Weblate instance hosts translations for various libre software projects." %}
-          {% blocktrans %}Weblate can host your project as well, please get in touch.{% endblocktrans %}
+          {% translate "This Weblate instance hosts translations for various libre software projects." %}
+          {% blocktranslate %}Weblate can host your project as well, please get in touch.{% endblocktranslate %}
         </p>
-        <p>{% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}</p>
+        <p>
+          {% translate "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
+        </p>
       </div>
       <div class="panel-footer">
-        <a class="btn btn-primary" href="{% url 'hosting' %}">{% trans "Ask for Libre hosting" %}</a>
-        <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+        <a class="btn btn-primary" href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
+        <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
         {% if payment_enabled %}
-          <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% trans "Gratis trial for commercial hosting" %}</a>
+          <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% translate "Gratis trial for commercial hosting" %}</a>
         {% else %}
-          <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
+          <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% translate "Contact us for commercial hosting" %}</a>
         {% endif %}
       </div>
     </div>
@@ -49,7 +50,7 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Weblate is built on libre software" %}</h4>
+      <h4 class="panel-title">{% translate "Weblate is built on libre software" %}</h4>
     </div>
     <div class="panel-body formats">
       {% for ver in versions %}
@@ -60,4 +61,4 @@
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

@@ -1,5 +1,4 @@
-{% load translations %}
-{% load humanize %}
+{% load humanize translations %}
 
 <tr>
   <td>{% get_filter_name "all" %}</td>
@@ -19,7 +18,7 @@
   </td>
   <td>
     {% if url %}<a href="{{ url }}?q=state:&gt;=translated">{% endif %}
-      {{ stats.translated_percent |percent_format }}
+      {{ stats.translated_percent|percent_format }}
       {% if url %}</a>{% endif %}
   </td>
 </tr>
@@ -32,7 +31,7 @@
   </td>
   <td>
     {% if url %}<a href="{{ url }}?q=state:empty">{% endif %}
-      {{ stats.nottranslated_percent |percent_format }}
+      {{ stats.nottranslated_percent|percent_format }}
       {% if url %}</a>{% endif %}
   </td>
 </tr>
@@ -45,7 +44,7 @@
   </td>
   <td>
     {% if url %}<a href="{{ url }}?q=state:&lt;translated">{% endif %}
-      {{ stats.todo_percent |percent_format }}
+      {{ stats.todo_percent|percent_format }}
       {% if url %}</a>{% endif %}
   </td>
 </tr>
@@ -58,7 +57,7 @@
   </td>
   <td>
     {% if url %}<a href="{{ url }}?q=state:needs-editing">{% endif %}
-      {{ stats.fuzzy_percent |percent_format }}
+      {{ stats.fuzzy_percent|percent_format }}
       {% if url %}</a>{% endif %}
   </td>
 </tr>
