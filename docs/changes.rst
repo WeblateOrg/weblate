@@ -9,6 +9,7 @@ Weblate 5.12
 
 .. rubric:: Improvements
 
+* :ref:`check-same` is now skipped for Toki Pona.
 * :ref:`search-strings` supports ``has:location`` lookup.
 
 .. rubric:: Bug fixes
