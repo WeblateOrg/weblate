@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block content %}
 
 
   {% if form.errors %}
-    {% trans "Please fix errors in the registration form." as msg %}
+    {% translate "Please fix errors in the registration form." as msg %}
     {% show_message "error" msg %}
   {% endif %}
 
@@ -16,7 +14,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Verify new e-mail address" %}</h4>
+        <h4 class="panel-title">{% translate "Verify new e-mail address" %}</h4>
       </div>
       <div class="panel-body">
 
@@ -24,9 +22,9 @@
         {{ form|crispy }}
       </div>
       <div class="panel-footer">
-        <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />
+        <input type="submit" value="{% translate 'Register' %}" class="btn btn-primary" />
       </div>
     </div>
   </form>
 
-{% endblock %}
+{% endblock content %}

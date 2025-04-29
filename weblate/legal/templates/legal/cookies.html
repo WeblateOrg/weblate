@@ -4,13 +4,12 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
   <li>
-    <a href="{% url 'legal:cookies' %}">{% trans "Cookies" %}</a>
+    <a href="{% url 'legal:cookies' %}">{% translate "Cookies" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -18,41 +17,41 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Cookies Policy" %}</h4>
+      <h4 class="panel-title">{% translate "Cookies Policy" %}</h4>
     </div>
     <div class="panel-body">
 
       <p>
-        {% blocktrans %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
+        {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
       </p>
 
       <ul>
         <li>
-          <a href="{% url 'legal:terms' %}">{% trans "General Terms and Conditions" %}</a>
+          <a href="{% url 'legal:terms' %}">{% translate "General Terms and Conditions" %}</a>
         </li>
         <li>
-          <a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a>
+          <a href="{% url 'legal:privacy' %}">{% translate "Privacy Policy" %}</a>
         </li>
       </ul>
 
       <p>
-        {% blocktrans %}Cookies are used on this site for the following:{% endblocktrans %}
+        {% blocktranslate %}Cookies are used on this site for the following:{% endblocktranslate %}
       </p>
 
       <ul>
-        <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
-        <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
+        <li>{% translate "Authentication cookies which are required for recognizing authenticated users." %}</li>
+        <li>{% translate "Preferences cookie to store user preferences in certain situations." %}</li>
         {% if matomo_site_id and matomo_url %}
           <li>
-            {% blocktrans %}This site uses Matomo to analyze website traffic. It honours "Do Not Track" settings in your browser.{% endblocktrans %}
+            {% blocktranslate %}This site uses Matomo to analyze website traffic. It honours "Do Not Track" settings in your browser.{% endblocktranslate %}
           </li>
         {% endif %}
         {% if google_analytics_id %}
-          <li>{% trans "This site uses Google Analytics to analyze website traffic." %}</li>
+          <li>{% translate "This site uses Google Analytics to analyze website traffic." %}</li>
         {% endif %}
       </ul>
 
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

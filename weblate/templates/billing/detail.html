@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 
-{% load translations %}
-{% load icons %}
-{% load crispy_forms_tags %}
-{% load i18n %}
-{% load permissions %}
+{% load crispy_forms_tags i18n icons permissions translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'profile' %}">{% trans "Your profile" %}</a>
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
   <li>
-    <a href="{% url 'billing' %}">{% trans "Billing" %}</a>
+    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -27,16 +22,16 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a class="pull-right flip doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
-            {% trans "Billing plan" %}
+            {% translate "Billing plan" %}
             {% if billing.payment.recurring %}
-              <span class="badge">{% trans "Recurring payment" %}</span>
+              <span class="badge">{% translate "Recurring payment" %}</span>
             {% endif %}
             {% if not billing.is_active %}
-              <span class="badge">{% trans "Expired" %}</span>
+              <span class="badge">{% translate "Expired" %}</span>
             {% elif not billing.paid %}
-              <span class="badge">{% trans "Past due date" %}</span>
+              <span class="badge">{% translate "Past due date" %}</span>
             {% elif not billing.in_limits %}
-              <span class="badge">{% trans "Exceeds limits" %}</span>
+              <span class="badge">{% translate "Exceeds limits" %}</span>
             {% endif %}
           </h4>
         </div>
@@ -44,25 +39,25 @@
         {% if billing.is_active %}
           <div class="panel-footer">
             {% if billing.all_projects %}
-              <p class="text-danger">{% trans "To terminate billing you have to remove all projects first." %}</p>
+              <p class="text-danger">{% translate "To terminate billing you have to remove all projects first." %}</p>
             {% endif %}
             <form method="post">
               {% csrf_token %}
               {% if payment_enabled and billing.can_be_paid %}
                 <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
-                   class="btn btn-primary">{% trans "Change plan or payment method" %}</a>
+                   class="btn btn-primary">{% translate "Change plan or payment method" %}</a>
               {% endif %}
               {% if billing.payment.recurring %}
                 <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">
-                  {% trans "Terminate recurring payment" %}
+                  {% translate "Terminate recurring payment" %}
                 </button>
               {% endif %}
               <button type="submit"
                       name="terminate"
                       value="{{ billing.pk }}"
                       class="btn btn-danger"
-                      {% if billing.all_projects %} title="{% trans "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
-                {% trans "Terminate billing plan" %}
+                      {% if billing.all_projects %} title="{% translate "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
+                {% translate "Terminate billing plan" %}
               </button>
             </form>
           </div>
@@ -75,14 +70,14 @@
         {% if invoices %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">{% trans "Invoices" %}</h4>
+              <h4 class="panel-title">{% translate "Invoices" %}</h4>
             </div>
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>{% trans "Invoice period" %}</th>
-                  <th>{% trans "Invoice amount" %}</th>
-                  <th>{% trans "Download invoice" %}</th>
+                  <th>{% translate "Invoice period" %}</th>
+                  <th>{% translate "Invoice amount" %}</th>
+                  <th>{% translate "Download invoice" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,13 +91,13 @@
                       {% elif invoice.ref %}
                         {{ invoice.filename }}
                       {% else %}
-                        {% trans "Not available" %}
+                        {% translate "Not available" %}
                       {% endif %}
                     </td>
                   </tr>
                 {% empty %}
                   <tr>
-                    <td colspan="3">{% trans "No invoices found." %}</td>
+                    <td colspan="3">{% translate "No invoices found." %}</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -116,9 +111,9 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                {% trans "Libre hosting" %}
+                {% translate "Libre hosting" %}
                 {% if billing.is_libre_trial and billing.payment.libre_request %}
-                  <span class="badge">{% trans "Pending approval" %}</span>
+                  <span class="badge">{% translate "Pending approval" %}</span>
                 {% endif %}
               </h4>
             </div>
@@ -128,7 +123,7 @@
                 <input type="submit"
                        class="btn btn-primary pull-right flip"
                        name="request"
-                       value="{% trans "Request approval for Libre hosting" %}" />
+                       value="{% translate "Request approval for Libre hosting" %}" />
               {% endif %}
               {% include "snippets/libre-checklist.html" %}
             </div>
@@ -142,19 +137,19 @@
                       <input type="submit"
                              class="btn btn-primary"
                              name="approve"
-                             value="{% trans "Approve as libre" %}" />
+                             value="{% translate "Approve as libre" %}" />
                     {% endif %}
                     {% if not billing.payment.libre_request %}
                       {{ hosting_form|crispy }}
                       <input type="submit"
                              class="btn btn-primary"
                              name="request"
-                             value="{% trans "Request approval for Libre hosting" %}" />
+                             value="{% translate "Request approval for Libre hosting" %}" />
                     {% endif %}
                   {% endif %}
                 {% else %}
                   <p>
-                    {% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}
+                    {% translate "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}
                   </p>
                 {% endif %}
               </div>
@@ -166,4 +161,4 @@
     </div>
 
   </div>
-{% endblock %}
+{% endblock content %}

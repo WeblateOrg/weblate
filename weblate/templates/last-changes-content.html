@@ -1,7 +1,4 @@
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load icons %}
+{% load i18n icons permissions translations %}
 
 <table id="changes-table" class="table table-autowidth">
   <tbody id="changes-list">
@@ -17,7 +14,7 @@
                 {% if user_can_translate %}
                   <a class="btn btn-link"
                      href="{{ change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}"
-                     title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
+                     title="{% translate "Revert" %}">{% icon "undo.svg" %}</a>
                 {% endif %}
               {% endif %}
               {% if change.user and not change.user.is_anonymous and change.project %}
@@ -25,17 +22,17 @@
                 {% if user_can_edit_permissions %}
                   <a class="btn btn-link red"
                      href="{% url 'manage-access' project=change.project.slug %}?block_user={{ change.user.username }}#block-user"
-                     title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
+                     title="{% translate "Block user" %}">{% icon "account-cancel.svg" %}</a>
                 {% endif %}
               {% endif %}
               {% if debug %}
                 <a class="btn btn-link"
                    href="{% url 'show_change' pk=change.pk %}"
-                   title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
+                   title="{% translate "View notification" %}">{% icon "bell.svg" %}</a>
               {% endif %}
               <a class="btn btn-link"
                  href="{{ change.get_absolute_url }}"
-                 title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
+                 title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
             </div>
           {% endif %}
           <strong>{{ change.get_user_display }}</strong>
@@ -58,7 +55,7 @@
                 {{ details }}
               {% elif change.show_content and change.unit %}
                 {% if change.details.rejection_reason %}
-                  <label>{% trans "Rejection reason" %}</label>
+                  <label>{% translate "Rejection reason" %}</label>
                   <div class="list-group">
                     <div class="list-group-item sidebar-button">{{ change.details.rejection_reason }}</div>
                   </div>
@@ -68,9 +65,9 @@
                 <label class="tags-list">
                   {{ change.unit.translation.language }}
                   {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
-                  <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
+                  <span class="badge">{% blocktranslate count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktranslate %}</span>
                   {% if change.unit.target == change.target %}
-                    <span class="badge">{% trans "Current translation" %}</span>
+                    <span class="badge">{% translate "Current translation" %}</span>
                   {% endif %}
                   {% if change.show_unit_state %}<span class="badge">{{ change.get_state_display }}</span>{% endif %}
                 </label>
@@ -79,7 +76,7 @@
                 <label>
                   {{ change.unit.translation.component.source_language }}
                   {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
-                  <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
+                  <span class="badge">{% blocktranslate count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktranslate %}</span>
                   {% if change.show_unit_state %}<span class="badge">{{ change.get_state_display }}</span>{% endif %}
                 </label>
                 {% if change.target %}
@@ -90,7 +87,7 @@
               {% elif change.show_diff %}
                 <label>
                   {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
-                  <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
+                  <span class="badge">{% blocktranslate count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktranslate %}</span>
                 </label>
                 {% format_unit_source change.unit value=change.target diff=change.old %}
               {% elif change.show_removed_string %}
@@ -110,14 +107,14 @@
             <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
           </div>
           {% if in_email %}
-            <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
+            <a class="button" href="{{ change.get_absolute_url }}">{% translate "View" %}</a>
           {% endif %}
         </td>
       </tr>
     {% empty %}
       <tr>
         <td colspan="2">
-          <em>{% trans "No matching activity found." %}</em>
+          <em>{% translate "No matching activity found." %}</em>
         </td>
       </tr>
     {% endfor %}

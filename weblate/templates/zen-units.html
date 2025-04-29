@@ -1,8 +1,4 @@
-{% load translations %}
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load permissions %}
-{% load icons %}
+{% load crispy_forms_tags i18n icons permissions translations %}
 
 {% for item in unitdata %}
   <tbody class="zen-unit">
@@ -19,12 +15,12 @@
           <a class="btn btn-link btn-xs"
              href="{{ site_url }}{{ item.unit.get_absolute_url }}"
              data-clipboard-value="{{ site_url }}{{ item.unit.get_absolute_url }}"
-             data-clipboard-message="{% trans "Permalink copied to clipboard." %}"
-             title="{% trans "Copy permalink" %}"
+             data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
+             title="{% translate "Copy permalink" %}"
              tabindex="-1">{% icon "link.svg" %}</a>
           <a class="btn btn-link btn-xs"
              href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}&amp;offset={{ item.offset }}"
-             title="{% trans "Open in full editor" %}"
+             title="{% translate "Open in full editor" %}"
              tabindex="-1">{% icon "pencil-mini.svg" %}</a>
         </div>
         {% get_location_links user item.unit %}
@@ -36,7 +32,7 @@
       <tr id="row-explanation-{{ item.unit.checksum }}">
         <td class="unit-state-cell"></td>
         <td colspan="2" class="translatetext">
-          <label>{% trans "Explanation" %}</label>
+          <label>{% translate "Explanation" %}</label>
           <div class="list-group">
             <div class="list-group-item">
               <div class="list-group-item-text">{{ item.unit.source_unit.explanation|markdown }}</div>
@@ -67,7 +63,7 @@
 
         {% if item.unit.previous_source and item.unit.fuzzy %}
           <div class="form-group">
-            <label>{% trans "Source change" %}</label>
+            <label>{% translate "Source change" %}</label>
             {% format_unit_source item.unit diff=item.unit.previous_source %}
           </div>
         {% endif %}
@@ -97,7 +93,7 @@
       {% endif %}
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
-        <button class="btn btn-light btn-sm hide-sticky" title="{% trans "Collapse" %}">{% icon "close.svg" %}</button>
+        <button class="btn btn-light btn-sm hide-sticky" title="{% translate "Collapse" %}">{% icon "close.svg" %}</button>
         {% crispy item.form %}
       </td>
     </tr>
@@ -110,7 +106,7 @@
   <tbody>
     <tr>
       <td colspan="3" id="last-section">
-        {% trans 'The translation has come to an end.' as msg %}
+        {% translate 'The translation has come to an end.' as msg %}
         {% show_message 'info' msg %}
       </td>
     </tr>

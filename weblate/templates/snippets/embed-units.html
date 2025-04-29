@@ -1,6 +1,4 @@
-{% load i18n %}
-{% load translations %}
-{% load icons %}
+{% load i18n icons translations %}
 
 {% any_unit_has_context units as any_unit_has_context %}
 
@@ -9,10 +7,10 @@
     <tr>
       <th class="unit-state-cell"></th>
       {% if show_translation %}
-        <th>{% trans "Translation" %}</th>
+        <th>{% translate "Translation" %}</th>
       {% endif %}
       {% if show_language %}
-        <th>{% trans "Language" %}</th>
+        <th>{% translate "Language" %}</th>
       {% endif %}
       {% if not hide_context and any_unit_has_context %}
         <th {% if include_search %}class="sort-cell"{% endif %}>
@@ -27,7 +25,7 @@
         </th>
       {% endif %}
       {% if force_source %}
-        <th>{% trans "Source string" %}</th>
+        <th>{% translate "Source string" %}</th>
       {% elif not hide_source and not translation.is_source %}
 
         <th {% if include_search %}class="sort-cell"{% endif %}>
@@ -42,7 +40,7 @@
         </th>
       {% endif %}
       {% if show_language or not translation %}
-        <th>{% trans "Target string" %}</th>
+        <th>{% translate "Target string" %}</th>
       {% else %}
         <th {% if include_search %}class="sort-cell"{% endif %}>
           {% if include_search %}
@@ -56,13 +54,13 @@
         </th>
       {% endif %}
       {% if show_location %}
-        <th>{% trans "Location" %}</th>
+        <th>{% translate "Location" %}</th>
       {% endif %}
       {% if show_screenshots %}
-        <th>{% trans "Assigned screenshots" %}</th>
+        <th>{% translate "Assigned screenshots" %}</th>
       {% endif %}
       {% if actions_template %}
-        <th>{% trans "Actions" %}</th>
+        <th>{% translate "Actions" %}</th>
       {% endif %}
     </tr>
   </thead>
@@ -71,7 +69,7 @@
       <tr>
         <td colspan="5">
           {% loading_icon hidden=False %}
-          {% trans "Loading results…" %}
+          {% translate "Loading results…" %}
         </td>
       </tr>
     </tbody>
@@ -123,7 +121,7 @@
     {% empty %}
       <tr class="warning">
         <td colspan="5">
-          <em>{% trans "No matching strings found." %}</em>
+          <em>{% translate "No matching strings found." %}</em>
         </td>
       </tr>
     {% endfor %}

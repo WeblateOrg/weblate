@@ -24,13 +24,13 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext, gettext_noop
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
@@ -807,8 +807,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
-    scope = unit = get_object_or_404(Unit, pk=pk)
-    component = unit.translation.component
+    unit = get_object_or_404(Unit, pk=pk)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
@@ -816,26 +815,9 @@ def comment(request: AuthenticatedHttpRequest, pk):
     form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
-        # Is this source or target comment?
-        if form.cleaned_data["scope"] in {"global", "report"}:
-            scope = unit.source_unit
-        # Create comment object
-        Comment.objects.add(scope, request, form.cleaned_data["comment"])
-        # Add review label/flag
-        if form.cleaned_data["scope"] == "report":
-            if component.has_template():
-                if scope.translated and not scope.readonly:
-                    scope.translate(
-                        request.user,
-                        scope.target,
-                        STATE_FUZZY,
-                        change_action=ActionEvents.MARKED_EDIT,
-                    )
-            else:
-                label = component.project.label_set.get_or_create(
-                    name=gettext_noop("Source needs review"), defaults={"color": "red"}
-                )[0]
-                scope.labels.add(label)
+        text = form.cleaned_data["comment"]
+        scope = form.cleaned_data["scope"]
+        Comment.objects.add(request, unit, text, scope)
         messages.success(request, gettext("Posted new comment"))
     else:
         messages.error(request, gettext("Could not add comment!"))
@@ -896,6 +878,7 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][offset : offset + 20]
     )
+    fetch_glossary_terms(units)
 
     unitdata = [
         {

@@ -1,7 +1,4 @@
-{% load i18n %}
-{% load translations %}
-{% load icons %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n icons translations %}
 
 <tr>
   {% if not user.is_bot %}
@@ -18,7 +15,7 @@
       {% if user.last_login %}
         {{ user.last_login|naturaltime }}
       {% else %}
-        <em>{% trans "Not yet signed in" %}</em>
+        <em>{% translate "Not yet signed in" %}</em>
       {% endif %}
     {% endif %}
   </td>
@@ -30,12 +27,12 @@
        data-toggle="modal"
        data-target="#edit_user_{{ user.id }}"
        class="btn btn-link btn-xs"
-       title="{% trans "Edit" %}">{% icon 'pencil.svg' %}</a>
+       title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
     <a href="#"
        data-toggle="modal"
        data-target="#delete_user_{{ user.id }}"
        class="btn btn-link btn-xs red"
-       title="{% trans "Remove" %}">{% icon 'delete.svg' %}</a>
+       title="{% translate "Remove" %}">{% icon 'delete.svg' %}</a>
     <form action="{% url "delete-user" project=object.slug %}"
           method="post"
           class="inlineform">
@@ -48,16 +45,16 @@
               <button type="button"
                       class="close"
                       data-dismiss="modal"
-                      aria-label="{% trans "Close" %}">
+                      aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
             </div>
             <div class="modal-body">
-              {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktrans %}
+              {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
             </div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-danger" value="{% trans "Remove" %}" />
+              <input type="submit" class="btn btn-danger" value="{% translate "Remove" %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -78,16 +75,16 @@
               <button type="button"
                       class="close"
                       data-dismiss="modal"
-                      aria-label="{% trans "Close" %}">
+                      aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
               <h4 class="modal-title">
-                {% blocktrans with username=user.username %}Edit team membership for {{ username }}{% endblocktrans %}
+                {% blocktranslate with username=user.username %}Edit team membership for {{ username }}{% endblocktranslate %}
               </h4>
             </div>
-            <div class="modal-body">{{ user.group_edit_form| crispy }}</div>
+            <div class="modal-body">{{ user.group_edit_form|crispy }}</div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
             </div>
           </div>
           <!-- /.modal-content -->

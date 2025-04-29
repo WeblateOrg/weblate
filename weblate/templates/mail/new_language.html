@@ -1,33 +1,32 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block content %}
   {% if was_added %}
 
-    <h2>{% trans "Added language" %}</h2>
+    <h2>{% translate "Added language" %}</h2>
 
   {% else %}
     <p>
-      {% blocktrans with user=user.get_visible_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
+      {% blocktranslate with user=user.get_visible_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktranslate %}
     </p>
 
-    <p>{% trans "Please add the language file to VCS, Weblate will automatically discover it upon next update." %}</p>
+    <p>{% translate "Please add the language file to VCS, Weblate will automatically discover it upon next update." %}</p>
 
     <p>
       <a href="{% documentation 'devel/translations' 'adding-translation' %}">
-        {% trans "More information on adding new language files is to be found in the documentation." %}
+        {% translate "More information on adding new language files is to be found in the documentation." %}
       </a>
     </p>
 
-    <h2>{% trans "Requested language" %}</h2>
+    <h2>{% translate "Requested language" %}</h2>
   {% endif %}
 
   <p>{{ language }} ({{ language.code }})</p>
 
   <div class="line buttons">
-    <a class="button" href="{{ component.get_absolute_url }}">{% trans "View translation component" %}</a>
+    <a class="button" href="{{ component.get_absolute_url }}">{% translate "View translation component" %}</a>
   </div>
 
-{% endblock %}
+{% endblock content %}

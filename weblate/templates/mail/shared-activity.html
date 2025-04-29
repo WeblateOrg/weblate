@@ -2,11 +2,11 @@
 
 <table>
   <tr>
-    <td>{% trans "IP address" %}</td>
+    <td>{% translate "IP address" %}</td>
     <td>{{ address }}</td>
   </tr>
   <tr>
-    <td>{% trans "User agent" %}</td>
+    <td>{% translate "User agent" %}</td>
     <td>{{ user_agent }}</td>
   </tr>
   <tr>
@@ -18,9 +18,9 @@
 </table>
 
 <p>
-  {% blocktrans %}If you didn’t initiate this, please report it to the server administrators by clicking the button below.{% endblocktrans %}
+  {% blocktranslate %}If you didn’t initiate this, please report it to the server administrators by clicking the button below.{% endblocktranslate %}
 </p>
 
 <div class="line buttons">
-  <a class="button" href="{% url 'contact' %}?t=account">{% trans "Report" %}</a>
+  <a class="button" href="{% url 'contact' %}?t=account">{% translate "Report" %}</a>
 </div>

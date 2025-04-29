@@ -1,33 +1,25 @@
 {% extends "base.html" %}
 
-{% load compress %}
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load translations %}
-{% load icons %}
-{% load static %}
+{% load compress crispy_forms_tags i18n icons static translations %}
 
 {% block extra_script %}
   {% compress js %}
     <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
     <script defer data-cfasync="false" src="{% static 'editor/zen.js' %}{{ cache_param }}"></script>
   {% endcompress %}
-{% endblock %}
-
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
   <li>
-    <a href="{% url 'zen' path=object.get_url_path %}">{% trans "Zen" %}</a>
+    <a href="{% url 'zen' path=object.get_url_path %}">{% translate "Zen" %}</a>
   </li>
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content_class %}js-editor{% endblock %}
-
 
 {% block content %}
 
@@ -43,12 +35,12 @@
 
     <a href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}"
        data-params="{{ search_url }}"
-       title="{% trans "Edit in single string mode" %}"
-       class="btn btn-link">{% icon "close.svg" %} {% trans "Exit Zen" %}</a>
+       title="{% translate "Edit in single string mode" %}"
+       class="btn btn-link">{% icon "close.svg" %} {% translate "Exit Zen" %}</a>
 
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
-       title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
+       title="{% translate "Configure editor" %}">{% icon "settings.svg" %}</a>
   </div>
 
   <div class="query-container">
@@ -72,4 +64,4 @@
     </tfoot>
   </table>
 
-{% endblock %}
+{% endblock content %}

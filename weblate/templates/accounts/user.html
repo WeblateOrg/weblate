@@ -1,24 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load humanize %}
-{% load icons %}
-{% load urlformat %}
-{% load metrics %}
-{% load permissions %}
-{% load authnames %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url "user_list" %}">{% trans "Users" %}</a>
+    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
   </li>
   <li>
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   {% with billings=page_user.billing_set.prefetch %}
@@ -28,17 +19,17 @@
     <div class="user-page text-center">
       <img class="avatar w128"
            src="{% url 'user_avatar' user=page_user.username size=128 %}"
-           alt="{% trans "User avatar" %}" />
+           alt="{% translate "User avatar" %}" />
       <h3>{{ page_user }}</h3>
       <p>
         <span class="middle-dot-divider">@{{ page_user.username }}</span>
-        <span class="middle-dot-divider">{% blocktrans with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
+        <span class="middle-dot-divider">{% blocktranslate with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktranslate %}</span>
         {% if can_edit_user or page_user == user %}
           <span class="middle-dot-divider">
             {% if page_user.last_login %}
-              {% blocktrans with date=page_user.last_login|date:"DATE_FORMAT" %}Last sign-in on {{ date }}{% endblocktrans %}
+              {% blocktranslate with date=page_user.last_login|date:"DATE_FORMAT" %}Last sign-in on {{ date }}{% endblocktranslate %}
             {% else %}
-              <em>{% trans "Never signed-in" %}</em>
+              <em>{% translate "Never signed-in" %}</em>
             {% endif %}
           </span>
         {% endif %}
@@ -58,14 +49,14 @@
           {% if page_profile.translated %}
             <span class="middle-dot-divider">
               <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=2&amp;action=5">
-                {% blocktrans count cnt=page_profile.translated with count=page_profile.translated|intcomma %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}
+                {% blocktranslate count cnt=page_profile.translated with count=page_profile.translated|intcomma %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktranslate %}
               </a>
             </span>
           {% endif %}
           {% if page_profile.suggested %}
             <span class="middle-dot-divider">
               <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=4">
-                {% blocktrans count cnt=page_profile.suggested with count=page_profile.suggested|intcomma %}{{ count }} suggestion{% plural %}{{ count }} suggestions{% endblocktrans %}
+                {% blocktranslate count cnt=page_profile.suggested with count=page_profile.suggested|intcomma %}{{ count }} suggestion{% plural %}{{ count }} suggestions{% endblocktranslate %}
               </a>
             </span>
           {% endif %}
@@ -73,7 +64,7 @@
             {% if pending_suggestions %}
               <span class="middle-dot-divider">
                 <a href="{% url 'user_suggestions' user=page_user.username %}">
-                  {% blocktrans count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
+                  {% blocktranslate count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktranslate %}
                 </a>
               </span>
             {% endif %}
@@ -81,14 +72,14 @@
           {% if page_profile.uploaded %}
             <span class="middle-dot-divider">
               <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=57">
-                {% blocktrans count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshot{% plural %}{{ count }} screenshots{% endblocktrans %}
+                {% blocktranslate count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshot{% plural %}{{ count }} screenshots{% endblocktranslate %}
               </a>
             </span>
           {% endif %}
           {% if page_profile.commented %}
             <span class="middle-dot-divider">
               <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=3">
-                {% blocktrans count cnt=page_profile.commented with count=page_profile.commented|intcomma %}{{ count }} comment{% plural %}{{ count }} comments{% endblocktrans %}
+                {% blocktranslate count cnt=page_profile.commented with count=page_profile.commented|intcomma %}{{ count }} comment{% plural %}{{ count }} comments{% endblocktranslate %}
               </a>
             </span>
           {% endif %}
@@ -98,7 +89,7 @@
         <p>
           {% if page_profile.website %}
             <span class="middle-dot-divider">
-              <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website | urlformat }}</a>
+              <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website|urlformat }}</a>
             </span>
           {% endif %}
           {% if page_profile.public_email %}
@@ -118,7 +109,7 @@
           {% endif %}
           {% if page_profile.fediverse %}
             <span class="middle-dot-divider">
-              <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc me">{{ page_profile.fediverse | urlformat }}</a>
+              <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
             </span>
           {% endif %}
           {% if page_profile.github %}
@@ -128,7 +119,7 @@
           {% endif %}
           {% if page_profile.codesite %}
             <span class="middle-dot-divider">
-              <span class="profile-icon">{% icon "source.svg" %}</span> <a href="{{ page_profile.codesite }}" rel="ugc">{{ page_profile.codesite | urlformat }}</a>
+              <span class="profile-icon">{% icon "source.svg" %}</span> <a href="{{ page_profile.codesite }}" rel="ugc">{{ page_profile.codesite|urlformat }}</a>
             </span>
           {% endif %}
           {% if page_profile.twitter %}
@@ -156,40 +147,40 @@
 
     <ul class="nav nav-pills nav-center">
       <li class="active">
-        <a data-toggle="tab" href="#contributed">{% trans "Contributed to" %}</a>
+        <a data-toggle="tab" href="#contributed">{% translate "Contributed to" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#managed">{% trans "Managed projects" %}</a>
+        <a data-toggle="tab" href="#managed">{% translate "Managed projects" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#watched">{% trans "Watched projects" %}</a>
+        <a data-toggle="tab" href="#watched">{% translate "Watched projects" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#activity">{% trans "Activity" %}</a>
+        <a data-toggle="tab" href="#activity">{% translate "Activity" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#changes">{% trans "Recent changes" %}</a>
+        <a data-toggle="tab" href="#changes">{% translate "Recent changes" %}</a>
       </li>
       {% if can_edit_user %}
         <li>
-          <a data-toggle="tab" href="#identities">{% trans "User identities" %}</a>
+          <a data-toggle="tab" href="#identities">{% translate "User identities" %}</a>
         </li>
         <li>
-          <a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a>
+          <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
         </li>
         {% if billings %}
           <li>
-            <a data-toggle="tab" href="#billing">{% trans "Billing" %}</a>
+            <a data-toggle="tab" href="#billing">{% translate "Billing" %}</a>
           </li>
         {% endif %}
         <li>
-          <a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a>
+          <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
         </li>
         <li>
-          <a data-toggle="tab" href="#groups">{% trans "Teams" %}</a>
+          <a data-toggle="tab" href="#groups">{% translate "Teams" %}</a>
         </li>
         <li>
-          <a data-toggle="tab" href="#edit">{% trans "Edit" %}</a>
+          <a data-toggle="tab" href="#edit">{% translate "Edit" %}</a>
         </li>
       {% endif %}
     </ul>
@@ -198,9 +189,9 @@
 
       <div class="tab-pane active" id="contributed">
         <div class="list-group">
-          {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True  name_source="translation" empty_message=_("No recent contributions found.") %}
+          {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True name_source="translation" empty_message=_("No recent contributions found.") %}
           <a href="{% url 'user_contributions' user=page_user.username %}"
-             class="btn btn-primary">{% trans "Browse all translations with contribution" %}</a>
+             class="btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
         </div>
       </div>
 
@@ -209,7 +200,7 @@
           {% include "list-projects.html" with projects=page_owned_projects %}
           {% if page_owned_projects_more %}
             <a href="{% url 'projects' %}?owned={{ page_user.username }}"
-               class="btn btn-primary">{% trans "Browse all managed projects" %}</a>
+               class="btn btn-primary">{% translate "Browse all managed projects" %}</a>
           {% endif %}
         </div>
       </div>
@@ -219,7 +210,7 @@
           {% include "list-projects.html" with projects=page_watched_projects %}
           {% if page_watched_projects_more %}
             <a href="{% url 'projects' %}?watched={{ page_user.username }}"
-               class="btn btn-primary">{% trans "Browse all watched projects" %}</a>
+               class="btn btn-primary">{% translate "Browse all watched projects" %}</a>
           {% endif %}
         </div>
       </div>
@@ -228,7 +219,7 @@
 
       <div class="tab-pane" id="changes">
         {% include "last-changes-content.html" %}
-        <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes made by this user" %}</a>
+        <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
       </div>
 
 
@@ -237,9 +228,9 @@
           <table class="table table-listing">
             <thead>
               <tr>
-                <th>{% trans "Identity" %}</th>
-                <th>{% trans "User ID" %}</th>
-                <th>{% trans "E-mail" %}</th>
+                <th>{% translate "Identity" %}</th>
+                <th>{% translate "User ID" %}</th>
+                <th>{% translate "E-mail" %}</th>
               </tr>
             </thead>
             <tbody>
@@ -263,12 +254,12 @@
           <table class="table table-listing">
             <thead>
               <tr>
-                <th>{% trans "Notification" %}</th>
-                <th>{% trans "Scope" %}</th>
-                <th>{% trans "Frequency" %}</th>
-                <th>{% trans "Project" %}</th>
-                <th>{% trans "Component" %}</th>
-                <th>{% trans "One-time" %}</th>
+                <th>{% translate "Notification" %}</th>
+                <th>{% translate "Scope" %}</th>
+                <th>{% translate "Frequency" %}</th>
+                <th>{% translate "Project" %}</th>
+                <th>{% translate "Component" %}</th>
+                <th>{% translate "One-time" %}</th>
               </tr>
             </thead>
             <tbody>
@@ -296,10 +287,10 @@
           <table class="table table-listing">
             <thead>
               <tr>
-                <th>{% trans "When" %}</th>
-                <th>{% trans "Account activity" %}</th>
-                <th>{% trans "IP address" %}</th>
-                <th>{% trans "User agent" %}</th>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Account activity" %}</th>
+                <th>{% translate "IP address" %}</th>
+                <th>{% translate "User agent" %}</th>
               </tr>
             </thead>
             <tbody>
@@ -319,9 +310,9 @@
           <table class="table table-listing">
             <thead>
               <tr>
-                <th>{% trans "Project" %}</th>
-                <th>{% trans "Team" %}</th>
-                <th class="number">{% trans "Members" %}</th>
+                <th>{% translate "Project" %}</th>
+                <th>{% translate "Team" %}</th>
+                <th class="number">{% translate "Members" %}</th>
                 <th></th>
               </tr>
             </thead>
@@ -332,7 +323,7 @@
                     <th>{{ group.defining_project }}</th>
                   {% else %}
                     <td>
-                      <em>{% trans "Site-wide team" %}</em>
+                      <em>{% translate "Site-wide team" %}</em>
                     </td>
                   {% endif %}
                   <th>{{ group }}</th>
@@ -342,7 +333,7 @@
                        class="btn btn-link btn-xs red link-post"
                        data-href="{{ page_user.get_absolute_url }}"
                        data-params='{"remove_group": {{ group.pk }} }'
-                       title="{% trans "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                       title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
                   </td>
                 </tr>
               {% endfor %}
@@ -352,9 +343,9 @@
                   <td></td>
                   <td>
                     {% if userblock.expiry %}
-                      {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
+                      {% blocktranslate with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktranslate %}
                     {% else %}
-                      {% trans "Blocked permanently" %}
+                      {% translate "Blocked permanently" %}
                     {% endif %}
                   </td>
                   <td>
@@ -362,7 +353,7 @@
                        class="btn btn-link btn-xs link-post"
                        data-href="{% url 'unblock-user' project=userblock.project.slug %}"
                        data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
-                       title="{% trans "Unblock user" %}">{% icon 'close.svg' %}</a>
+                       title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
                   </td>
                 </tr>
               {% endfor %}
@@ -376,11 +367,11 @@
             {% csrf_token %}
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Edit user" %}</h4>
+                <h4 class="panel-title">{% translate "Edit user" %}</h4>
               </div>
               <div class="panel-body">{{ form|crispy }}</div>
               <div class="panel-footer">
-                <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+                <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -390,46 +381,46 @@
               <div class="panel-heading">
                 <h4 class="panel-title">
                   {% documentation_icon 'admin/auth' '2fa' right=True %}
-                  {% trans "Two-factor authentication" %}
+                  {% translate "Two-factor authentication" %}
                 </h4>
               </div>
               <div class="panel-body">
                 {% if page_user.profile.has_2fa %}
-                  {% trans "The user has two-factor authentication." %}
+                  {% translate "The user has two-factor authentication." %}
                 {% else %}
-                  {% trans "The user doesn't have two-factor authentication." %}
+                  {% translate "The user doesn't have two-factor authentication." %}
                 {% endif %}
               </div>
               {% if page_user.profile.has_2fa %}
                 <div class="panel-footer">
                   <input type="submit"
                          name="remove_2fa"
-                         value="{% trans "Turn off two-factor authentication" %}"
+                         value="{% translate "Turn off two-factor authentication" %}"
                          class="btn-danger red">
                 </div>
               {% endif %}
             </div>
             <div class="panel panel-danger">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Password reset" %}</h4>
+                <h4 class="panel-title">{% translate "Password reset" %}</h4>
               </div>
-              <div class="panel-body">{% trans "Disables password authentication for the user." %}</div>
+              <div class="panel-body">{% translate "Disables password authentication for the user." %}</div>
               <div class="panel-footer">
                 <input type="submit"
                        name="disable_password"
-                       value="{% trans "Disable password" %}"
+                       value="{% translate "Disable password" %}"
                        class="btn-danger red">
               </div>
             </div>
             <div class="panel panel-danger">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Removal" %}</h4>
+                <h4 class="panel-title">{% translate "Removal" %}</h4>
               </div>
-              <div class="panel-body">{% trans "Account removal deletes all user private data." %}</div>
+              <div class="panel-body">{% translate "Account removal deletes all user private data." %}</div>
               <div class="panel-footer">
                 <input type="button"
                        name="remove_user"
-                       value="{% trans "Delete" %}"
+                       value="{% translate "Delete" %}"
                        class="btn-danger red"
                        data-toggle="modal"
                        data-target="#delete_user_{{ page_user.id }}">
@@ -445,18 +436,18 @@
                     <button type="button"
                             class="close"
                             data-dismiss="modal"
-                            aria-label="{% trans "Close" %}">
+                            aria-label="{% translate "Close" %}">
                       <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                    <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                   </div>
                   <div class="modal-body">
-                    {% blocktrans with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktrans %}
+                    {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
                   </div>
                   <div class="modal-footer">
                     <input type="submit"
                            name="remove_user"
-                           value="{% trans "Delete" %}"
+                           value="{% translate "Delete" %}"
                            class="btn btn-danger" />
                   </div>
                 </div>
@@ -472,4 +463,4 @@
 
     </div>
   {% endwith %}
-{% endblock %}
+{% endblock content %}

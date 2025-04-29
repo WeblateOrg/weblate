@@ -1,7 +1,6 @@
-{% load i18n %}
-{% load permissions %}
+{% load i18n permissions %}
 
-<p>{% trans "Weblate could not fetch upstream changes when updating the repository." %}</p>
+<p>{% translate "Weblate could not fetch upstream changes when updating the repository." %}</p>
 
 <pre>{{ error }}</pre>
 
@@ -12,6 +11,6 @@
   <p>
     <a href=""
        class="btn btn-primary link-post"
-       data-href="{% url "update" path=component.get_url_path %}">{% trans "Update the repository" %}</a>
+       data-href="{% url "update" path=component.get_url_path %}">{% translate "Update the repository" %}</a>
   </p>
 {% endif %}

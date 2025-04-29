@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 
-{% load translations %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load i18n %}
-{% load humanize %}
-{% load metrics %}
+{% load crispy_forms_tags humanize i18n metrics permissions translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
@@ -13,8 +8,7 @@
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -30,81 +24,81 @@
   {% perm 'unit.add' object as user_can_add_unit %}
 
   {% get_translate_url object as translate_url %}
-  {% url 'translate' path=object.get_url_path  as edit_url %}
-  {% url 'zen' path=object.get_url_path  as zen_url %}
-  {% url 'browse' path=object.get_url_path  as browse_url %}
+  {% url 'translate' path=object.get_url_path as edit_url %}
+  {% url 'zen' path=object.get_url_path as zen_url %}
+  {% url 'browse' path=object.get_url_path as browse_url %}
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% trans "Overview" %}</a>
+      <a href="#overview" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% trans "Info" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
     </li>
     <li>
-      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Insights" %} <span class="caret"></span>
+        {% translate "Insights" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href="#history" data-toggle="tab">{% trans "History" %}</a>
+          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=csv">{% trans "Download statistics (CSV)" %}</a>
+          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=csv">{% translate "Download statistics (CSV)" %}</a>
         </li>
         <li>
-          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% trans "Download statistics (JSON)" %}</a>
+          <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
         </li>
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Files" %} <span class="caret"></span>
+        {% translate "Files" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if object.filename %}
           <li>
-            <a href="{% url 'download' path=object.get_url_path %}">{% trans "Download translation" %}</a>
+            <a href="{% url 'download' path=object.get_url_path %}">{% translate "Download translation" %}</a>
           </li>
         {% endif %}
         <li>
-          <a href="#download" data-toggle="tab">{% trans "Customize download" %}</a>
+          <a href="#download" data-toggle="tab">{% translate "Customize download" %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a>
+            <a href="#upload" data-toggle="tab">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Tools" %} <span class="caret"></span>
+        {% translate "Tools" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a>
+            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a>
+            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if autoform %}
           <li>
-            <a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a>
+            <a href="#auto" data-toggle="tab">{% translate "Automatic translation" %}</a>
           </li>
         {% endif %}
         <li>
-          <a href="{% url 'data_project' project=object.component.project.slug %}">{% trans "Data exports" %}</a>
+          <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
         </li>
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if user_can_add_unit %}
           <li>
@@ -116,26 +110,26 @@
     {% if user_can_see_repository_status %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Manage" %} <span class="caret"></span>
+          {% translate "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
           {% if user_can_see_repository_status %}
             <li>
               <a href="#repository"
                  data-toggle="tab"
-                 data-href="{% url 'git_status' path=object.get_url_path %}">{% trans "Repository maintenance" %}</a>
+                 data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
             </li>
           {% endif %}
           {% if announcement_form %}
             <li role="separator" class="divider"></li>
             <li>
-              <a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a>
+              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
             </li>
           {% endif %}
           {% if delete_form %}
             <li role="separator" class="divider"></li>
             <li>
-              <a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a>
+              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
             </li>
           {% endif %}
         </ul>
@@ -152,9 +146,9 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             {% if object.is_source %}
-              {% trans "Source strings" %}
+              {% translate "Source strings" %}
             {% else %}
-              {% trans "Translation status" %}
+              {% translate "Translation status" %}
             {% endif %}
           </h4>
         </div>
@@ -162,7 +156,7 @@
         <table class="table table-autowidth">
           <tr>
             <th class="number">{{ object.stats.all|intcomma }}</th>
-            <td>{% trans "Strings" %}</td>
+            <td>{% translate "Strings" %}</td>
             <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
             <td class="percent">{{ object.stats.translated_without_checks_percent|percent_format }}</td>
             <td rowspan="3" class="buttons-cell full-cell">
@@ -170,30 +164,32 @@
                 {% if user_can_add_unit %}
                   <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
                 {% endif %}
-                <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
+                <a href="{{ browse_url }}" class=" btn btn-info">{% translate "Browse" %}</a>
                 <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
-                   class="btn btn-primary">{% trans "Translate" %}</a>
+                   class="btn btn-primary">{% translate "Translate" %}</a>
               </div>
             </td>
           </tr>
 
           <tr>
             <th class="number">{{ object.stats.all_words|intcomma }}</th>
-            <td>{% trans "Words" %}</td>
+            <td>{% translate "Words" %}</td>
             <td class="progress-cell hidden-xs">{% words_progress object %}</td>
             <td class="percent">{{ object.stats.translated_without_checks_words_percent|percent_format }}</td>
           </tr>
 
           <tr>
             <th class="number">{{ object.stats.all_chars|intcomma }}</th>
-            <td>{% trans "Characters" %}</td>
+            <td>{% translate "Characters" %}</td>
             <td class="progress-cell hidden-xs">{% chars_progress object %}</td>
             <td class="percent">{{ object.stats.translated_without_checks_chars_percent|percent_format }}</td>
           </tr>
         </table>
 
         {% if object.is_source %}
-          <div class="panel-footer">{% trans "This translation is being used as source strings within this component." %}</div>
+          <div class="panel-footer">
+            {% translate "This translation is being used as source strings within this component." %}
+          </div>
         {% endif %}
 
       </div>
@@ -202,16 +198,16 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             {% documentation_icon 'user/translating' 'strings-to-check' right=True %}
-            {% trans "Strings status" %}
+            {% translate "Strings status" %}
           </h4>
         </div>
         <table class="table table-autowidth table-listing">
           <thead>
             <tr>
               <th class="number split-cell wrap-cell">
-                <span>{% trans "Strings" %}</span>
-                <span>{% trans "Words" %}</span>
-                <span>{% trans "Characters" %}</span>
+                <span>{% translate "Strings" %}</span>
+                <span>{% translate "Words" %}</span>
+                <span>{% translate "Characters" %}</span>
               </th>
             </tr>
           </thead>
@@ -240,9 +236,9 @@
                 <a href="{{ translate_url }}?q={{ query }}">{{ name }}</a>
               </td>
               <td class="wrap-cell">
-                <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
-                <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Translate" %}</a>
-                <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
+                <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% translate "Browse" %}</a>
+                <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% translate "Translate" %}</a>
+                <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% translate "Zen" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -252,12 +248,12 @@
       {% if other_translations %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% trans "Other components" %}</h4>
+            <h4 class="panel-title">{% translate "Other components" %}</h4>
           </div>
           {% include "snippets/list-objects.html" with objects=other_translations name_source="component_name" label=_("Component") %}
           <div class="panel-footer">
             {% get_projectlanguage object.component.project object.language as project_language %}
-            <a href="{{ project_language.get_absolute_url }}" class="btn btn-primary">{% trans "Browse all components" %}</a>
+            <a href="{{ project_language.get_absolute_url }}" class="btn btn-primary">{% translate "Browse all components" %}</a>
           </div>
         </div>
       {% endif %}
@@ -271,7 +267,7 @@
 
     <div class="tab-pane" id="history">
       {% include "last-changes-content.html" %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all translation changes" %}</a>
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
     </div>
 
 
@@ -285,20 +281,20 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'auto-translation' right=True %}
-                {% trans "Automatic translation" %}
+                {% translate "Automatic translation" %}
               </h4>
             </div>
             <div class="panel-body">
               <p>
-                {% trans "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}
+                {% translate "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}
               </p>
               <p>
-                {% trans "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}
+                {% translate "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}
               </p>
               {% crispy autoform %}
             </div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -315,12 +311,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% trans "Search and replace" %}
+                {% translate "Search and replace" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy replace_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -336,12 +332,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
-                {% trans "Bulk edit" %}
+                {% translate "Bulk edit" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy bulk_state_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -358,7 +354,7 @@
               </div>
               <div class="panel-body">
                 {% if obj.is_source %}
-                  <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+                  <p>{% translate "You can add a new translation string here, it will automatically appear in all translations." %}</p>
                 {% endif %}
                 {% csrf_token %}
                 {{ new_unit_form|crispy }}
@@ -369,16 +365,16 @@
                            id="show-singular"
                            value="singular"
                            checked>
-                    {% trans "Singular" %}
+                    {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">
                     <input type="radio" name="new-unit-form-type" id="show-plural" value="plural">
-                    {% trans "Plural" %}
+                    {% translate "Plural" %}
                   </label>
                 {% endif %}
               </div>
               <div class="panel-footer">
-                <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+                <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
               </div>
             </div>
           </form>
@@ -392,21 +388,21 @@
                 </div>
                 <div class="panel-body">
                   {% if obj.is_source %}
-                    <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+                    <p>{% translate "You can add a new translation string here, it will automatically appear in all translations." %}</p>
                   {% endif %}
                   {% csrf_token %}
                   {{ new_unit_plural_form|crispy }}
                   <label class="radio-inline">
                     <input type="radio" name="new-unit-form-type" id="show-singular" value="singular">
-                    {% trans "Singular" %}
+                    {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">
                     <input type="radio" name="new-unit-form-type" id="show-plural" value="plural">
-                    {% trans "Plural" %}
+                    {% translate "Plural" %}
                   </label>
                 </div>
                 <div class="panel-footer">
-                  <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+                  <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
                 </div>
               </div>
             </form>
@@ -420,14 +416,14 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             {% documentation_icon 'user/files' 'download' right=True %}
-            {% trans "Quick downloads" %}
+            {% translate "Quick downloads" %}
           </h4>
         </div>
         <table class="table table-listing table-striped">
           {% if object.filename %}
             <tr>
               <th class="number">{{ object.stats.all|intcomma }}</th>
-              <td>{% trans "File in original format as translated in the repository" %}</td>
+              <td>{% translate "File in original format as translated in the repository" %}</td>
               <td class="number" colspan="{{ exporters|length }}">
                 <a class="btn-inline" href="{% url 'download' path=object.get_url_path %}">{{ object.component.file_format_name }}</a>
               </td>
@@ -435,7 +431,7 @@
           {% endif %}
           <tr>
             <th class="number">{{ object.stats.all|intcomma }}</th>
-            <td>{% trans "All strings, converted files enriched with comments; suitable for offline translation" %}</td>
+            <td>{% translate "All strings, converted files enriched with comments; suitable for offline translation" %}</td>
             {% for exporter in exporters %}
               <td class="formats">
                 <a class="btn-inline"
@@ -446,7 +442,7 @@
           {% if object.stats.todo %}
             <tr>
               <th class="number">{{ object.stats.todo|intcomma }}</th>
-              <td>{% trans "Unfinished strings, converted files enriched with comments; suitable for offline translation" %}</td>
+              <td>{% translate "Unfinished strings, converted files enriched with comments; suitable for offline translation" %}</td>
               {% for exporter in exporters %}
                 <td class="formats">
                   <a class="btn-inline"
@@ -466,12 +462,12 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               {% documentation_icon 'user/files' 'download' right=True %}
-              {% trans "Customize download" %}
+              {% translate "Customize download" %}
             </h4>
           </div>
           <div class="panel-body">{% crispy download_form %}</div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Download" %}" class="btn btn-primary" />
           </div>
         </div>
       </form>
@@ -487,21 +483,21 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/files' 'upload' right=True %}
-                {% trans "Upload" %}
+                {% translate "Upload" %}
               </h4>
             </div>
             <div class="panel-body">
               <p>
-                {% trans "The uploaded file will be merged with the current translation." %}
+                {% translate "The uploaded file will be merged with the current translation." %}
                 {% if user_can_overwrite_translation %}
-                  {% trans "Select it from the dropdown menu if you want to overwrite already translated strings." %}
+                  {% translate "Select it from the dropdown menu if you want to overwrite already translated strings." %}
                 {% endif %}
               </p>
               {% csrf_token %}
               {% crispy form %}
             </div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Upload" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Upload" %}" class="btn btn-primary" />
             </div>
           </form>
 
@@ -516,18 +512,18 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'admin/announcements' right=True %}
-                {% trans "Post announcement" %}
+                {% translate "Post announcement" %}
               </h4>
             </div>
             <div class="panel-body">
               {% csrf_token %}
               {{ announcement_form|crispy }}
               <p class="help-block">
-                {% trans "The message is shown on the translation page, until its given expiry, or deletion." %}
+                {% translate "The message is shown on the translation page, until its given expiry, or deletion." %}
               </p>
             </div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
             </div>
           </form>
 
@@ -541,7 +537,7 @@
 
     {% if user_can_see_repository_status %}
       <div class="tab-pane" id="repository">
-        <p>{% trans "Loading…" %}</p>
+        <p>{% translate "Loading…" %}</p>
       </div>
     {% endif %}
 
@@ -555,4 +551,4 @@
 
   </div>
 
-{% endblock %}
+{% endblock content %}

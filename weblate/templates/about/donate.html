@@ -1,54 +1,51 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load static %}
-{% load translations %}
-{% load humanize %}
+{% load humanize i18n static translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
   <li>
-    <a href="{% url 'donate' %}">{% trans "Support Weblate" %}</a>
+    <a href="{% url 'donate' %}">{% translate "Support Weblate" %}</a>
   </li>
-{% endblock %}
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="engage container">
 
     <h1>
-      {% blocktrans %}Help <strong>Weblate</strong> keep thriving{% endblocktrans %}
+      {% blocktranslate %}Help <strong>Weblate</strong> keep thriving{% endblocktranslate %}
     </h1>
 
     <h2>
       {% if support_status.has_support %}
-        <strong>{% trans "Welcome and thank you for supporting Weblate" %}</strong>
+        <strong>{% translate "Welcome and thank you for supporting Weblate" %}</strong>
       {% else %}
-        <strong>{% trans "Welcome and thank you for choosing Weblate" %}</strong>
+        <strong>{% translate "Welcome and thank you for choosing Weblate" %}</strong>
       {% endif %}
       —
-      {% trans "the privacy-respecting localization platform committed to open-source values." %}
+      {% translate "the privacy-respecting localization platform committed to open-source values." %}
     </h2>
 
     <div class="row bignumbers">
       <div class="col-md-4">
         <strong>{{ stars|intcomma }}</strong>
         <p>
-          {% blocktrans count count=stars context "Label on donate page" %}GitHub star{% plural %}GitHub stars{% endblocktrans %}
+          {% blocktranslate count count=stars context "Label on donate page" %}GitHub star{% plural %}GitHub stars{% endblocktranslate %}
         </p>
       </div>
       <div class="col-md-4">
         <strong>{{ issues|intcomma }}</strong>
         <p>
-          {% blocktrans count count=issues context "Label on donate page" %}Open issue{% plural %}Open issues{% endblocktrans %}
+          {% blocktranslate count count=issues context "Label on donate page" %}Open issue{% plural %}Open issues{% endblocktranslate %}
         </p>
       </div>
       <div class="col-md-4">
-        <strong>{{ commits |intcomma }}</strong>
+        <strong>{{ commits|intcomma }}</strong>
         <p>
-          {% blocktrans count count=commits context "Label on donate page" %}Recent change{% plural %}Recent changes{% endblocktrans %}
+          {% blocktranslate count count=commits context "Label on donate page" %}Recent change{% plural %}Recent changes{% endblocktranslate %}
         </p>
       </div>
     </div>
@@ -56,4 +53,4 @@
     {% include "snippets/donate.html" %}
 
   </div>
-{% endblock %}
+{% endblock content %}

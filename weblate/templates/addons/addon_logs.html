@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
-{% load permissions %}
+{% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
   {% if object %}
     {% path_object_breadcrumbs object %}
     <li>
-      <a href="{% url 'addons' path=object.get_url_path %}">{% trans "Add-ons" %}</a>
+      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
     </li>
   {% else %}
     <li>
-      <a href="{% url 'manage-addons' %}">{% trans "Add-ons" %}</a>
+      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
     </li>
   {% endif %}
   <li>
@@ -23,22 +20,21 @@
       {{ addon.verbose }}
     {% endif %}
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Add-on Activity Logs" %}</h4>
+      <h4 class="panel-title">{% translate "Add-on Activity Logs" %}</h4>
     </div>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th width="30">{% trans "Status" %}</th>
-          <th>{% trans "Event" %}</th>
-          <th>{% trans "Details" %}</th>
-          <th>{% trans "Timestamp" %}</th>
+          <th width="30">{% translate "Status" %}</th>
+          <th>{% translate "Event" %}</th>
+          <th>{% translate "Details" %}</th>
+          <th>{% translate "Timestamp" %}</th>
         </tr>
       </thead>
       <tbody>
@@ -59,7 +55,7 @@
           </tr>
         {% empty %}
           <tr>
-            <td colspan="4">{% trans "No add-on activity logs available." %}</td>
+            <td colspan="4">{% translate "No add-on activity logs available." %}</td>
           </tr>
         {% endfor %}
       </tbody>
@@ -73,12 +69,12 @@
             <ul class="pagination">
               {% if addon_activity_log.has_previous %}
                 <li>
-                  <a href="?page={{ addon_activity_log.previous_page_number }}">« {% trans "Previous" %}</a>
+                  <a href="?page={{ addon_activity_log.previous_page_number }}">« {% translate "Previous" %}</a>
                 </li>
               {% endif %}
               {% if addon_activity_log.has_next %}
                 <li>
-                  <a href="?page={{ addon_activity_log.next_page_number }}">{% trans "Next" %} »</a>
+                  <a href="?page={{ addon_activity_log.next_page_number }}">{% translate "Next" %} »</a>
                 </li>
               {% endif %}
             </ul>
@@ -88,4 +84,4 @@
     {% endif %}
   </div>
 
-{% endblock %}
+{% endblock content %}

@@ -1,15 +1,13 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load humanize %}
+{% load humanize i18n translations %}
 
 {% block content %}
   <table>
     <thead>
       <tr>
-        <th>{% trans "Translation" %}</th>
-        <th colspan="2">{% trans "Strings with suggestions" %}</th>
+        <th>{% translate "Translation" %}</th>
+        <th colspan="2">{% translate "Strings with suggestions" %}</th>
       </tr>
     </thead>
     {% for summary in changes %}
@@ -18,9 +16,9 @@
         <td>{{ summary.translation.stats.suggestions|intcomma }}</td>
         <td>
           <a class="button"
-             href="{{ summary.translation.get_translate_url }}?q=has:suggestion">{% trans "View" %}</a>
+             href="{{ summary.translation.get_translate_url }}?q=has:suggestion">{% translate "View" %}</a>
         </td>
       </tr>
     {% endfor %}
   </table>
-{% endblock %}
+{% endblock content %}
