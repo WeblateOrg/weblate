@@ -9,7 +9,7 @@ are geared toward delivering timely security updates to Weblate.
 
 Most normal bugs in Weblate are reported to our public `GitHub issues tracker
 <https://github.com/WeblateOrg/weblate/issues>`_, but due to the sensitive
-nature of security issues, we ask that they not be publicly reported in this
+nature of security issues, we ask them not to be publicly reported in this
 fashion.
 
 Instead, if you believe you’ve found something in Weblate that has security
