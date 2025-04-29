@@ -46,6 +46,7 @@ jobs:
               })
             }
           }
+          console.log(context.payload);
           if (context.payload.issue.state_reason == 'completed' && context.payload.issue.milestone && context.payload.issue.milestone.state == 'open') {
             await github.rest.issues.addLabels({
               issue_number: context.issue.number,
