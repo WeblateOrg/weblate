@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-29 00:39+0000\n"
+"PO-Revision-Date: 2025-04-29 20:50+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -29297,7 +29297,8 @@ msgid ""
 msgstr ""
 "Több változás történt a :file:`settings_example.py` fájlban, a "
 "legfontosabbak a ``AUTH_PASSWORD_VALIDATORS`` és ``INSTALLED_APPS`` "
-"beállítások módosítása; ellenőrizze a beállításait."
+"beállítások módosítása; célszerű ezek alapján frissíteni a saját "
+"konfigurációt."
 
 #: ../../changes.rst:137
 msgid ""
@@ -29483,8 +29484,8 @@ msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
 msgstr ""
-"A :ref:`check-reused` ellenőrzés kíméletesen kezeli a kis- és nagybetűket "
-"nem megkülönböztető nyelveket."
+"A :ref:`check-reused` ellenőrzés zökkenőmentesen kezeli a kis- és "
+"nagybetűket nem megkülönböztető nyelveket."
 
 #: ../../changes.rst:193
 msgid ""
@@ -29514,7 +29515,7 @@ msgstr ""
 #: ../../changes.rst:197
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
 msgstr ""
-"A :ref:`check-same` ellenőrzés mostantól kíméletesen kezeli a kis- és "
+"A :ref:`check-same` ellenőrzés mostantól zökkenőmentesen kezeli a kis- és "
 "nagybetűket nem megkülönböztető nyelveket."
 
 #: ../../changes.rst:201
@@ -29608,7 +29609,7 @@ msgstr ""
 "Több változás is történt a :file:`settings_example.py` fájlban, "
 "legfontosabbak az új :ref:`api` beállítások a ``REST_FRAMEWORK``, "
 "``SPECTACULAR_SETTINGS``, ``DRF_STANDARDIZED_ERRORS`` és ``INSTALLED_APPS`` "
-"részekben; igazítsa ezekhez a saját beállításait."
+"részekben; célszerű ezek alapján frissíteni a saját konfigurációt."
 
 #: ../../changes.rst:223
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
@@ -29814,8 +29815,8 @@ msgstr "Újonnan hozzáadott szövegek mentése egyes formátumokban javítva."
 #: ../../changes.rst:311
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
 msgstr ""
-"A :ref:`check-java-printf-format` mostantól kíméletesen kezeli a karakterek "
-"kódolását."
+"A :ref:`check-java-printf-format` mostantól zökkenőmentesen kezeli a "
+"karakterek kódolását."
 
 #: ../../changes.rst:315
 msgid ""
@@ -29879,7 +29880,7 @@ msgstr "Javítva az alkalmi összeomlás az :ref:`rss` funkcióban."
 #: ../../changes.rst:343
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr ""
-"Az :ref:`check-icu-message-format` mostantól kíméletesen kezeli a többes "
+"Az :ref:`check-icu-message-format` mostantól zökkenőmentesen kezeli a többes "
 "számú szövegeket."
 
 #: ../../changes.rst:344
@@ -29988,27 +29989,27 @@ msgstr "Weblate 5.8"
 
 #: ../../changes.rst:426
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "Hozzáadva a(z) :ref:`component-key_filter` az összetevőhöz."
+msgstr "Hozzáadva: :ref:`component-key_filter` az összetevő beállításai közé."
 
 #: ../../changes.rst:427
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-"A :doc:`/user/search` mostantól támogatja a szűrést objektum útvonal és :ref:"
-"`date-search` alapján."
+"A :doc:`/user/search` mostantól támogatja a keresést objektumútvonal és :ref"
+":`date-search` alapján is."
 
 #: ../../changes.rst:428
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
 msgstr ""
-"A merge kérések hitelesítő adatai most már átadhatók a tároló URL-jében, "
-"lásd: :ref:`settings-credentials`."
+"Az egyesítési (merge) kérésekhez szükséges hitelesítési adatok mostantól "
+"megadhatók közvetlenül a tároló URL-jében, lásd: :ref:`settings-credentials`."
 
 #: ../../changes.rst:429
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
-msgstr "A :ref:`mt-azure-openai` automatikus javaslatszolgáltatás."
+msgstr "Új :ref:`mt-azure-openai` automatikus javaslat szolgáltatás."
 
 #: ../../changes.rst:430
 msgid ":ref:`vcs-bitbucket-cloud`."
@@ -30016,89 +30017,93 @@ msgstr ":ref:`vcs-bitbucket-cloud`."
 
 #: ../../changes.rst:434
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
-msgstr "A :ref:`mt-modernmt` támogatja a :ref:`glossary-mt`-t."
+msgstr ""
+"A :ref:`mt-modernmt` mostantól támogatja a :ref:`glossary-mt` használatát."
 
 #: ../../changes.rst:435
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "A :ref:`mt-deepl` most már támogatja a fordítási kontextus megadását."
+msgstr "A :ref:`mt-deepl` lehetővé teszi a fordítási kontextus megadását."
 
 #: ../../changes.rst:436
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
-msgstr "A :ref:`mt-aws` most már támogatja a :ref:`glossary-mt` használatát."
+msgstr "Az :ref:`mt-aws` mostantól támogatja a :ref:`glossary-mt` használatát."
 
 #: ../../changes.rst:437
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
-"A :ref:`autofix` a Devanagari danda esetében most már jobban kezeli a latin "
-"írást."
+"A dévanágari „danda” (।) :ref:`automatikus javítása <autofix>` mostantól "
+"jobban kezeli a latin betűs szövegeket."
 
 #: ../../changes.rst:438
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
-"A :ref:`autofix` a francia és breton esetében mostantól nem törhető szóközt "
-"használ a kettőspontok előtt a keskeny helyett."
+"A francia és breton nyelvek esetén az :ref:`autofix` mostantól keskeny "
+"szóköz helyett nem törhető szóközt használ a kettőspont előtt."
 
 #: ../../changes.rst:439
 msgid ":ref:`api` now has a preview OpenAPI specification."
-msgstr ""
-"A :ref:`api` mostantól rendelkezik egy előnézeti OpenAPI specifikációval."
+msgstr "Az :ref:`api` előnézeti OpenAPI specifikációt is tartalmaz."
 
 #: ../../changes.rst:440
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr ""
-"A régi, üres szójegyzékek mostantól automatikusan eltávolításra kerülnek."
+"Az üresen maradt és elavult szójegyzékek automatikusan eltávolításra "
+"kerülnek."
 
 #: ../../changes.rst:441
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
-msgstr ":kbd:`?` now displays available :ref:`keyboard`."
+msgstr ""
+"A :kbd:`?` most megjeleníti az elérhető :ref:`billentyűparancsokat "
+"<keyboard>`."
 
 #: ../../changes.rst:442
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr ""
-"A projektben a fordítás és a nyelv nézete most már tartalmaz alapvető "
-"információkat a nyelvről és a többes számokról."
+"A projekt nyelvi és fordítási nézetei mostantól alapvető információkat "
+"mutatnak a nyelvről és a többes szám kezeléséről."
 
 #: ../../changes.rst:443
 msgid ":ref:`search-replace` shows a preview of matched strings."
-msgstr ""
-"A :ref:`search-replace` megmutatja az egyező karakterláncok előnézetét."
+msgstr "A :ref:`search-replace` funkció előnézetet mutat az egyező szövegekből."
 
 #: ../../changes.rst:444
 msgid ":ref:`aresource` now support translatable attribute in its strings."
 msgstr ""
-"A :ref:`aresource` mostantól támogatja a fordítható attribútumot a "
-"sztringjeiben."
+"Az :ref:`aresource` mostantól támogatja a „translatable” attribútumot a "
+"szövegeiben."
 
 #: ../../changes.rst:445
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr ""
-"Az összetevő létrehozása fájlfeltöltésen keresztül (Fordítás dokumentum) "
-"most már támogatja a kétnyelvű fájlokat."
+"Az összetevők fájl feltöltésével történő létrehozása (Dokumentum fordítása) "
+"mostantól támogatja a kétnyelvű fájlokat is."
 
 #: ../../changes.rst:449
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr ""
-"Bizonyos esetekben megjeleníti a(z) :ref:`workflow-customization` beállítást."
+"Bizonyos esetekben mostantól megjelenik a :ref:`workflow-customization` "
+"beállítás."
 
 #: ../../changes.rst:450
 msgid "Users can add component in any language already existing in a project."
 msgstr ""
-"A felhasználók bármilyen, a projektben már létező nyelven hozzáadhatnak az "
-"összetevőt."
+"A felhasználók mostantól bármely, a projektben már létező nyelven hozhatnak "
+"létre új összetevőt."
 
 #: ../../changes.rst:451
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
 msgstr ""
-"A(z) :ref:`check-unnamed-format` jobban kezeli bizonyos szövegeket, mint "
-"például a :ref:`check-python-brace-format`."
+"A :ref:`Több névtelen változó <check-unnamed-format>` ellenőrzése mostantól "
+"jobban kezel egyes szövegeket, például a :ref:`Python kapcsos formátum "
+"<check-python-brace-format>` esetét."
 
 #: ../../changes.rst:455
 msgid "Weblate now requires Python 3.11 or newer."
@@ -30106,7 +30111,8 @@ msgstr "A Weblate mostantól Python 3.11 vagy újabb verziót igényel."
 
 #: ../../changes.rst:456
 msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
-msgstr "A :ref:`mt-aws` mostantól `TranslateFullAccess` jogosultságot igényel."
+msgstr ""
+"Az :ref:`mt-aws` mostantól a `TranslateFullAccess` jogosultságot igényli."
 
 #: ../../changes.rst:462
 msgid ""
@@ -30115,18 +30121,18 @@ msgid ""
 "``REST_FRAMEWORK`` and ``INSTALLED_APPS``; please adjust your settings "
 "accordingly."
 msgstr ""
-"A :file:`settings_example.py` fájlban több változás is történt, a "
-"legjelentősebbek az :ref:`api` új beállításai a ``SPECTACULAR_SETTINGS``-"
-"ben, valamint a változások a ``REST_FRAMEWORK`` és az ``INSTALLED_APPS`` "
-"részekben; kérlek, igazítsd ehhez a beállításaidat."
+"Számos változás történt a :file:`settings_example.py` fájlban, különösen a "
+":ref:`api` beállításaiban a ``SPECTACULAR_SETTINGS`` alatt, valamint "
+"módosultak a ``REST_FRAMEWORK`` és ``INSTALLED_APPS`` szekciók; célszerű "
+"ezek alapján frissíteni a saját konfigurációt."
 
 #: ../../changes.rst:468
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"122?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/122?closed=1>`__."
 
 #: ../../changes.rst:471
 msgid "Weblate 5.7.2"
@@ -30138,32 +30144,36 @@ msgstr "*Kiadva: 2024. szeptember 5.*"
 
 #: ../../changes.rst:477
 msgid ":ref:`2fa` remembers last method used by user."
-msgstr "A :ref:`2fa` megjegyzi a felhasználó által utoljára használt módszert."
+msgstr ""
+"A :ref:`2fa` mostantól megjegyzi a felhasználó által legutóbb használt "
+"hitelesítési módot."
 
 #: ../../changes.rst:478
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr ""
-"Ahelyett, hogy átirányítana, a kijelentkezés most egy oldalt jelenít meg."
+"A kijelentkezés mostantól nem átirányít, hanem külön oldalon jelenik meg."
 
 #: ../../changes.rst:479
 msgid "Improved readability of exception logs."
-msgstr "Javítottuk a kivételnaplók olvashatóságát."
+msgstr "Javult a kivételnaplók olvashatósága."
 
 #: ../../changes.rst:483
 msgid "Updating of translations from the repository in linked components."
-msgstr "Fordítások frissítése a tárhelyről a kapcsolt összetevőkben."
+msgstr ""
+"A fordítások frissítése a tárolóból mostantól működik az összekapcsolt "
+"összetevők esetében is."
 
 #: ../../changes.rst:484
 msgid "Improved rendering of digest notification e-mails."
-msgstr "Javítottuk az összefoglaló értesítő e-mailek megjelenítését."
+msgstr "Javult az összefoglaló értesítő e-mailek megjelenítése."
 
 #: ../../changes.rst:494
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"126?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/126?closed=1>`__."
 
 #: ../../changes.rst:497
 msgid "Weblate 5.7.1"
@@ -30178,8 +30188,8 @@ msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
-"A nyelvnevek frissítve lettek, hogy jobban leírják a különböző "
-"írásrendszereket és a szintic nyelveket."
+"A nyelvneveket frissítettük, hogy pontosabban tükrözzék a különböző "
+"írásrendszereket és a kínai nyelveket."
 
 #: ../../changes.rst:504
 msgid ""
@@ -30187,45 +30197,44 @@ msgid ""
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-"A :ref:`addon-weblate.cleanup.generic` mostantól automatikusan telepítve van "
+"A :ref:`addon-weblate.cleanup.generic` mostantól automatikusan települ "
 "azokhoz a formátumokhoz, amelyeknél szükséges a nem fordítási tartalmak "
-"frissítése a fordított fájlokban."
+"frissítése a lefordított fájlokban."
 
 #: ../../changes.rst:508
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr ""
-"Támogatás a Docker hálózati nevek használatához az automatikus javaslati "
-"beállításokban."
+"Támogatott a Docker hálózati nevek használata az automatikus "
+"javaslatbeállításokban."
 
 #: ../../changes.rst:509
 msgid "Fixed authentication using some third-party providers such as Azure."
-msgstr ""
-"Javítva az autentikáció néhány külső szolgáltatóval, például az Azure-ral."
+msgstr "Javítva a hitelesítés néhány külső szolgáltatóval, például: MS Azure."
 
 #: ../../changes.rst:510
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
-"Támogatás a formális és informális portugál nyelvhez a :ref:`mt-deepl`-ben."
+"Támogatás a formális és informális portugál nyelvváltozatokhoz a :ref:`mt-"
+"deepl` esetében."
 
 #: ../../changes.rst:511
 msgid "QR code for TOTP is now black/white even in dark mode."
-msgstr "A TOTP QR-kód most már fekete/fehér még sötét módban is."
+msgstr "A TOTP QR-kód mostantól fekete-fehér még sötét módban is."
 
 #: ../../changes.rst:512
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr ""
-"Javítva a TOTP hitelesítés, amikor a WebAuthn is be van állítva a "
-"felhasználónak."
+"Javítva a TOTP hitelesítés, ha a felhasználónál a WebAuthn is be van állítva."
 
 #: ../../changes.rst:522
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"125?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/125?closed=1>`__."
 
 #: ../../changes.rst:525
 msgid "Weblate 5.7"
@@ -30240,74 +30249,77 @@ msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
-"A(z) :ref:`2fa` mostantól támogatott Passkeys, WebAuthn, hitelesítési "
-"alkalmazások (TOTP) és helyreállítási kódok használatával."
+"A :ref:`2fa` mostantól támogatja a Passkey-t, WebAuthn-t, hitelesítő "
+"alkalmazásokat (TOTP), valamint a helyreállítási kódokat."
 
 #: ../../changes.rst:532
 msgid ":ref:`2fa` can be enforced at the team or project level."
-msgstr "A(z) :ref:`2fa` kötelezővé tehető csapat- vagy projekt szinten."
+msgstr "A :ref:`2fa` kötelezővé tehető csapat- vagy projektszinten."
 
 #: ../../changes.rst:533
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
 msgstr ""
-"A(z) :ref:`adding-new-strings` most már képes többes számú sztringeket "
-"létrehozni a felhasználói felületen."
+"A :ref:`adding-new-strings` funkcióval mostantól többes számú szövegek is "
+"létrehozhatók a felhasználói felületen."
 
 #: ../../changes.rst:534
 msgid ":ref:`labels` now include description to explain them."
 msgstr ""
-"A(z) :ref:`labels` most már tartalmaz leírást, hogy megmagyarázza őket."
+"A :ref:`labels` mostantól magyarázattal ellátott leírásokat is tartalmaznak."
 
 #: ../../changes.rst:535
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "Új :ref:`subscriptions` a befejezett fordításhoz és az összetevőhöz."
+msgstr ""
+"Új :ref:`értesítések <subscriptions>` állnak rendelkezésre a lefordított "
+"tartalmak és összetevők esetében."
 
 #: ../../changes.rst:536
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
 msgstr ""
-"A :ref:`mt-openai` most már támogatja az egyedi modelleket és URL-eket, "
-"valamint lehetőséget kínál a meglévő szövegek átfogalmazására."
+"Az :ref:`mt-openai` mostantól támogatja az egyedi modellek és URL-ek "
+"használatát, valamint képes meglévő szövegek újrafogalmazására."
 
 #: ../../changes.rst:537
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr "A :ref:`mt-cyrtranslit` automatikus javaslatszolgáltatás."
+msgstr "Új :ref:`mt-cyrtranslit` automatikus javaslatszolgáltatás."
 
 #: ../../changes.rst:541
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
-"A :ref:`addon-weblate.properties.sort` mostantól képes a kis- és "
-"nagybetűérzékeny rendezésre."
+"A :ref:`addon-weblate.properties.sort` mostantól érzékeny lehet a kis- és "
+"nagybetűkre a rendezésnél."
 
 #: ../../changes.rst:542
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
-"Az állapot widgetek mostantól webhely-szinten és nyelv-szinten is "
-"támogatottak, lásd :ref:`promotion`."
+"A státusz widgetek mostantól elérhetők teljes oldalon és nyelvi szinten is, "
+"lásd: :ref:`promotion`."
 
 #: ../../changes.rst:543
 msgid ":ref:`reports` are now available for categories."
-msgstr "A(z) :ref:`reports` mostantól elérhetők a kategóriákhoz."
+msgstr "A :ref:`reports` mostantól kategóriákhoz is elérhetők."
 
 #: ../../changes.rst:544
 msgid "Highlight newlines in the editor."
-msgstr "Emeld ki az új sorokat a szerkesztőben."
+msgstr "A szerkesztőben kiemelésre kerülnek az újsor karakterek."
 
 #: ../../changes.rst:545
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ""
-"A :doc:`/formats/csv` jobban kezeli a csak két mezőt tartalmazó fájlokat."
+"A :doc:`/formats/csv` mostantól jobban kezeli a csak két mezőt tartalmazó "
+"fájlokat."
 
 #: ../../changes.rst:546
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
-"A böngészési mód mostantól navigálható billentyűzettel, lásd: :ref:"
-"`keyboard`."
+"A böngésző mód mostantól billentyűzettel is vezérelhető, lásd: "
+":ref:`keyboard`."
 
 #: ../../changes.rst:547
 msgid ""
@@ -30315,83 +30327,86 @@ msgid ""
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
-"A :http:get:`/api/components/(string:project)/(string:component)/credits/` "
-"és a :http:get:`/api/projects/(string:project)/credits/` API végpontok az "
-"összetevők és projektek számára."
+"Új API végpontok: :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/` és :http:get:`/api/projects/"
+"(string:project)/credits/` az összetevők és projektek hitelesítési adatainak "
+"lekérdezésére."
 
 #: ../../changes.rst:548
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
 msgstr ""
-"A szójegyzékben található :ref:`glossary-terminology` bejegyzéseket "
-"mostantól csak azok a felhasználók hozhatják létre, akik rendelkeznek a "
-":guilabel:`Szójegyzék bejegyzés hozzáadása` jogosultsággal."
+"A :ref:`glossary-terminology` bejegyzéseket mostantól csak azok a "
+"felhasználók hozhatják létre, akik rendelkeznek a :guilabel:`Szójegyzék "
+"bejegyzés hozzáadása` jogosultsággal."
 
 #: ../../changes.rst:549
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ""
-"A(z) :ref:`check-python-brace-format` észleli a felesleges kapcsos "
+"A :ref:`check-python-brace-format` mostantól felismeri a felesleges kapcsos "
 "zárójeleket."
 
 #: ../../changes.rst:550
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr ""
-"Most már a vágólapról beilleszthetők a képernyőképek a :ref:`screenshots` "
-"oldalon."
+"A :ref:`screenshots` részben mostantól közvetlenül a vágólapról is "
+"beilleszthetők képernyőképek."
 
 #: ../../changes.rst:554
 msgid "Accessibility of keyboard navigation."
-msgstr "A billentyűzetes navigáció akadálymentessége."
+msgstr "Billentyűzetes navigáció akadálymentesítése javítva."
 
 #: ../../changes.rst:555
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ""
-"A :ref:`git-exporter` most már minden Git alapú :ref:`vcs`-szel működik."
+"A :ref:`git-exporter` mostantól minden Git-alapú :ref:`vcs` rendszerrel "
+"működik."
 
 #: ../../changes.rst:556
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
-msgstr "A :ref:`check-max-size` néha nem tudta megjeleníteni a képernyőképet."
+msgstr ""
+"A :ref:`check-max-size` időnként nem tudta megjeleníteni a képernyőképet."
 
 #: ../../changes.rst:560
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr ""
-"A Weblate mostantól a mistletoe-t használja a misaka helyett Markdown "
-"rendereléshez."
+"A Weblate mostantól a *mistletoe* könyvtárat használja a Markdown "
+"rendereléshez a korábbi *misaka* helyett."
 
 #: ../../changes.rst:561
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
-"A :ref:`csp` most szigorúbb, ami akadályozhatja harmadik fél általi "
-"testreszabásokat."
+"A :ref:`csp` mostantól szigorúbb, ami egyes külső testreszabásokat "
+"blokkolhat."
 
 #: ../../changes.rst:562
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
 msgstr ""
-"Az egynyelvű formátumok már nem másolják a megjegyzéseket a :ref:`component-"
-"template`-ből, amikor karakterláncokat adnak hozzá a fordításhoz."
+"Egynyelvű formátumok esetén többé nem másolja át a megjegyzéseket a :ref"
+":`component-template` sablonból, amikor új szövegeket ad hozzá a fordításhoz."
 
 #: ../../changes.rst:563
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
 msgstr ""
-"A :ref:`machine-translation-setup`-ban megszűnt az Amagama támogatása, mivel "
-"a szolgáltatást már nem tartják karban."
+"Az Amagama szolgáltatás megszűnése miatt kivezetésre került a támogatása a "
+":ref:`machine-translation-setup` részből."
 
 #: ../../changes.rst:564
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
-msgstr "A(z) :setting:`SENTRY_SEND_PII` alapértelmezett értéke megváltozott."
+msgstr "A :setting:`SENTRY_SEND_PII` alapértelmezett értéke megváltozott."
 
 #: ../../changes.rst:565
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
-"A JSON formátumú fordítási kreditjelentések bejegyzései most már más "
-"formátumot követnek."
+"A JSON formátumú fordítói jelentések mostantól eltérő struktúrát használnak "
+"a bejegyzésekhez."
 
 #: ../../changes.rst:571
 msgid ""
@@ -30400,10 +30415,10 @@ msgid ""
 "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
 "accordingly."
 msgstr ""
-"Számos változás történt a(z) :file:`settings_example.py` fájlban, a "
-"legjelentősebbek az új beállítások a(z) :ref:`2fa` kapcsán, valamint a "
-"változások az ``INSTALLED_APPS``, ``SOCIAL_AUTH_PIPELINE`` és ``MIDDLEWARE`` "
-"elemekben; kérlek, ennek megfelelően igazítsd a beállításaidat."
+"Számos változás történt a :file:`settings_example.py` fájlban, különösen a "
+":ref:`2fa` beállításaiban, valamint módosultak az ``INSTALLED_APPS``, "
+"``SOCIAL_AUTH_PIPELINE`` és ``MIDDLEWARE`` szekciók; célszerű ezek alapján "
+"frissíteni a saját konfigurációt."
 
 #: ../../changes.rst:572
 msgid ""
@@ -30412,16 +30427,16 @@ msgid ""
 "`ENABLE_HTTPS` documentation."
 msgstr ""
 "A :setting:`ENABLE_HTTPS` beállítás mostantól kötelező a WebAuthn "
-"támogatásához. Ha nem tudod használni a HTTPS-t, a kapcsolódó ellenőrzést "
-"elnémíthatod a :setting:`ENABLE_HTTPS` dokumentációjában leírtak szerint."
+"támogatásához. Ha nem tud HTTPS-t használni, a kapcsolódó ellenőrzést "
+"elnémíthatja az :setting:`ENABLE_HTTPS` dokumentációban leírtak szerint."
 
 #: ../../changes.rst:578
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"116?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/116?closed=1>`__."
 
 #: ../../changes.rst:581
 msgid "Weblate 5.6.2"
@@ -30433,41 +30448,43 @@ msgstr "*Kiadva: 2024. július 1.*"
 
 #: ../../changes.rst:587
 msgid "Rendering of :ref:`labels` color selection widget."
-msgstr "A(z) :ref:`labels` színválasztó widget megjelenítése."
+msgstr ""
+"Javítva a :ref:`szöveg címkékhez <labels>` tartozó színválasztó widget "
+"megjelenítése."
 
 #: ../../changes.rst:588
 msgid "Detection of pending outgoing commits."
-msgstr "A függőben lévő kimenő commitok észlelése."
+msgstr "A kimenő, függőben lévő véglegesítések (commit) felismerése."
 
 #: ../../changes.rst:589
 msgid ":ref:`addons` button layout."
-msgstr "A(z) :ref:`addons` gomb elrendezése."
+msgstr "A :ref:`addons` gombkiosztása módosítva."
 
 #: ../../changes.rst:590
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
-"Összeomlás a(z) :ref:`addon-weblate.discovery.discovery` kiegészítő "
+"Javítva az összeomlás a :ref:`addon-weblate.discovery.discovery` kiegészítő "
 "telepítésekor."
 
 #: ../../changes.rst:591
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "Forráskarakterláncok eltávolítása a(z) :ref:`glossary` szójegyzékből."
+msgstr "Forrásszövegek eltávolítása a :ref:`szójegyzékből <glossary>`."
 
 #: ../../changes.rst:592
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
 msgstr ""
-"A(z) :ref:`projectbackup` ZIP fájl érvényesítése visszaállításkor "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"A :ref:`projectbackup` ZIP fájl érvényesítése visszaállításkor (CVE-2024-"
+"39303 / GHSA-jfgp-674x-6q4p)."
 
 #: ../../changes.rst:598
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"124?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/124?closed=1>`__."
 
 #: ../../changes.rst:601
 msgid "Weblate 5.6.1"
@@ -30483,27 +30500,28 @@ msgid ""
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
 "envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` for CORS handling in API."
 msgstr ""
-"A Docker konténer elfogadja a(z) :envvar:`WEBLATE_REMOVE_ADDONS` és :envvar:"
-"`WEBLATE_ADD_MACHINERY` változókat az automatikus javaslatszolgáltatások "
-"testreszabására, valamint a(z) :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` "
-"változót a CORS kezelésére az API-ban."
+"A Docker konténer mostantól elfogadja a :envvar:`WEBLATE_REMOVE_ADDONS` és "
+":envvar:`WEBLATE_ADD_MACHINERY` változókat az automatikus "
+"javaslatszolgáltatások testreszabására, valamint a "
+":envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` változót az API CORS-kezeléséhez."
 
 #: ../../changes.rst:608
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
-"Hozzáadva az OpenMetrics kompatibilitás a(z) :http:get:`/api/metrics/`-hez."
+"Hozzáadva az OpenMetrics kompatibilitás a :http:get:`/api/metrics/` "
+"végponthoz."
 
 #: ../../changes.rst:612
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr "Nyelvi álnevek a következő részben: :doc:`/admin/machine`."
+msgstr "Nyelvi álnevek kezelése a :doc:`/admin/machine` dokumentumban."
 
 #: ../../changes.rst:618
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"123?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/123?closed=1>`__."
 
 #: ../../changes.rst:621
 msgid "Weblate 5.6"
@@ -30516,45 +30534,47 @@ msgstr "*Kiadva: 2024. június 19.*"
 #: ../../changes.rst:627
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
-"A(z) :ref:`addons` tevékenységi napló az add-on aktivitás nyomon követésére."
+":ref:`addons` tevékenységnapló a kiegészítők eseményeinek nyomon követésére."
 
 #: ../../changes.rst:628
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Fejlesztett dátumtartomány-kiválasztás a(z) :ref:`reports` részben."
+msgstr ""
+"Továbbfejlesztett dátumtartomány-választó a :ref:`tevékenységjelentésekben "
+"<reports>`."
 
 #: ../../changes.rst:632
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ""
-"A(z) :ref:`subscriptions` most már tartalmaznak frissítésre szoruló "
-"stringeket."
+"A :ref:`subscriptions` mostantól tartalmazzák a frissítést igénylő "
+"szövegeket is."
 
 #: ../../changes.rst:633
 msgid "Improved compatibility with password managers."
-msgstr "Javított kompatibilitás a jelszókezelőkkel."
+msgstr "Javult a kompatibilitás jelszókezelőkkel."
 
 #: ../../changes.rst:634
 msgid "Improved tracking of uploaded changes."
-msgstr "Javított feltöltött változások nyomon követése."
+msgstr "Továbbfejlesztett a feltöltött változások nyomon követése."
 
 #: ../../changes.rst:635
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr ""
-"Kezeld zökkenőmentesen az ideiglenes gépi fordítási hibákat az automatikus "
-"javaslatokban."
+"A gépi fordítás ideiglenes hibáit mostantól zökkenőmentesen kezeli az "
+"automatikus javaslatszolgáltatás."
 
 #: ../../changes.rst:636
 msgid ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgstr ""
-"A :http:get:`/api/units/(int:id)/` mostantól tartalmazza a `last_updated` "
-"időbélyeget."
+"A :http:get:`/api/units/(int:id)/` végpont mostantól tartalmazza a "
+"`last_updated` időbélyeget."
 
 #: ../../changes.rst:637
 msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgstr ""
-"A(z) :http:get:`/api/changes/(int:id)/` most már tartalmazza az `old` és "
-"`details` elemeket."
+"A :http:get:`/api/changes/(int:id)/` végpont mostantól tartalmazza az `old` "
+"és `details` mezőket."
 
 #: ../../changes.rst:638
 msgid "Reduced memory usage and increased performance of some views."
@@ -30563,30 +30583,32 @@ msgstr ""
 
 #: ../../changes.rst:642
 msgid "Loading of strings with many glossary matches."
-msgstr "Olyan szövegek betöltése, amelyekhez sok szójegyzék találat tartozik."
+msgstr "Javítva a sok szójegyzék-egyezést tartalmazó szövegek betöltése."
 
 #: ../../changes.rst:643
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Néhány webhelyszintű :ref:`addons` viselkedésének javítása."
+msgstr "Javítva néhány, teljes oldalt érintő :ref:`addons` viselkedése."
 
 #: ../../changes.rst:644
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr "Szerkesztést igénylő szövegek mentése ide: :doc:`/formats/winrc`."
+msgstr ""
+"Javítva a szerkesztésre szoruló szövegek mentése :doc:`/formats/winrc` "
+"formátumba."
 
 #: ../../changes.rst:645
 msgid ":ref:`check-xml-tags` better handle XML entities."
-msgstr "A(z) :ref:`check-xml-tags` jobban kezeli az XML entitásokat."
+msgstr "A :ref:`check-xml-tags` mostantól jobban kezeli az XML entitásokat."
 
 #: ../../changes.rst:646
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr ""
-"Az automatikus javaslatok összekeverhetik a fordított szövegek "
-"helyettesítéseit."
+"Javítva egy hiba, amely miatt az automatikus javaslatok összekeverhették a "
+"helyettesítéseket a különböző fordított szövegek között."
 
 #: ../../changes.rst:650
 msgid "Compatibility with Django 5.1."
-msgstr "Kompatibilitás a(z) Django 5.1-gyel."
+msgstr "Kompatibilitás biztosítva a Django 5.1 verzióval."
 
 #: ../../changes.rst:656
 msgid ""
@@ -30607,19 +30629,19 @@ msgstr "*Kiadva: 2024. május 13.*"
 #: ../../changes.rst:665
 msgid "False-positive merge failure alert when using push branch."
 msgstr ""
-"Hamis pozitív egyesítési hiba figyelmeztetés, amikor a push branch-t "
-"használod."
+"Javítva egy téves egyesítési hiba figyelmeztetés, a feltöltési ág használata "
+"esetén."
 
 #: ../../changes.rst:666
 msgid "Cleanup of stale repositories."
-msgstr "Lejárt adattárak törlése."
+msgstr "Eltávolításra kerültek az elavult tárolók."
 
 #: ../../changes.rst:672
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
 msgstr ""
-"`Összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
 "milestone/121?closed=1>`__."
 
 #: ../../changes.rst:675
@@ -30632,34 +30654,35 @@ msgstr "*Kiadva: 2024. május 10.*"
 
 #: ../../changes.rst:681
 msgid "Visually highlight explanation in :ref:`glossary`."
-msgstr "Vizualisan emeld ki a magyarázatot a(z) :ref:`glossary` részben."
+msgstr "Magyarázat vizuális kiemelése a :ref:`szójegyzékben <glossary>`."
 
 #: ../../changes.rst:682
 msgid "Add :ref:`addons` history tab in management."
-msgstr "Adj hozzá egy :ref:`addons` előzmények fület a kezelőfelületen."
+msgstr "Új :ref:`addons` előzmények fül a kezelőfelületen."
 
 #: ../../changes.rst:683
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
-"Új :ref:`alerts`, amikor a(z) :ref:`glossary` nem működik a vártnak "
-"megfelelően."
+"Új :ref:`fordítási összetevő figyelmeztetések <alerts>`, ha a :ref:`glossary`"
+" működése nem a várt módon történik."
 
 #: ../../changes.rst:684
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
-"A :doc:`/admin/announcements` közzétehető projektszinten vagy nyelvi szinten."
+"A :doc:`/admin/announcements` értesítések mostantól közzétehetők projekt- "
+"vagy nyelviszinten is."
 
 #: ../../changes.rst:688
 msgid "Improved handling placeables in :ref:`mt-openai`."
-msgstr "Javítottuk a helyettesíthetők kezelését a :ref:`mt-openai`-ban."
+msgstr "Javítva a helyettesíthető elemek kezelése az :ref:`mt-openai` modulban."
 
 #: ../../changes.rst:694
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"120?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/120?closed=1>`__."
 
 #: ../../changes.rst:697
 msgid "Weblate 5.5.3"
@@ -30671,23 +30694,22 @@ msgstr "*Kiadva: 2024. május 3.*"
 
 #: ../../changes.rst:703
 msgid "Improved performance of rendering large lists of objects."
-msgstr "Javított teljesítmény a nagy objektumlisták megjelenítésénél."
+msgstr "Javult a teljesítmény nagy objektumlisták megjelenítésekor."
 
 #: ../../changes.rst:704
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr ""
-"Összetevőkezelés: hozzáadva linkek a projekt-/webhelyszintű :ref:`addons` "
-"kezeléséhez."
+"Összetevők kezelése: új linkek kerültek hozzáadásra a projekt- és teljes "
+"webhelyszintű :ref:`addons` kezeléséhez."
 
 #: ../../changes.rst:708
 msgid "Fixed crashes with librsvg older than 2.46."
-msgstr ""
-"Javítva a librsvg 2.46-nál régebbi verzióival kapcsolatos összeomlások."
+msgstr "Javítva az összeomlás a 2.46 és régebbi librsvg könyvtár használatakor."
 
 #: ../../changes.rst:709
 msgid "Daily execution of some :ref:`addons`."
-msgstr "Néhány :ref:`addons` napi végrehajtása."
+msgstr "Napi végrehajtás néhány :ref:`addons` esetében."
 
 #: ../../changes.rst:715
 msgid ""
@@ -30707,7 +30729,7 @@ msgstr "*Kiadva: 2024. április 26.*"
 
 #: ../../changes.rst:724
 msgid "Fixed publishing packages to PyPI."
-msgstr "Javítva a csomagok közzététele a PyPI-re."
+msgstr "Javítva a csomagok közzététele a PyPI-n."
 
 #: ../../changes.rst:730
 msgid ""
@@ -30724,38 +30746,40 @@ msgstr "Weblate 5.5.1"
 #: ../../changes.rst:739
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
 msgstr ""
-"A :doc:`/user/search` támogatja a ``source_changed:DATETIME`` funkciót."
+"A :doc:`/user/search` mostantól támogatja a ``source_changed:DATETIME`` "
+"keresési szűrőt."
 
 #: ../../changes.rst:740
 msgid "Added several new :ref:`component-language_code_style`."
-msgstr "Hozzáadva több új :ref:`component-language_code_style`."
+msgstr "Több új :ref:`component-language_code_style` került hozzáadásra."
 
 #: ../../changes.rst:744
 msgid "Display more details on source string change in history."
 msgstr ""
-"Több részlet megjelenítése a forrás szöveg változásáról az előzményekben."
+"Részletesebb információ jelenik meg a forrásszöveg változásairól az "
+"előzményekben."
 
 #: ../../changes.rst:745
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ""
-"A :ref:`mt-microsoft-translator` mostantól támogatja az egyéni fordítók "
+"A :ref:`mt-microsoft-translator` mostantól támogatja egyedi fordítók "
 "használatát."
 
 #: ../../changes.rst:746
 msgid "Improved error handling in :ref:`invite-user`."
-msgstr "Javított hiba kezelés a :ref:`invite-user` funkcióban."
+msgstr "Javult a hiba kezelés a :ref:`invite-user` funkcióban."
 
 #: ../../changes.rst:747
 msgid "Added PNG status badge."
-msgstr "Hozzáadva PNG állapotjelvény."
+msgstr "Hozzáadva PNG formátumú állapotjelvény."
 
 #: ../../changes.rst:748
 msgid "Added list of managed projects to the dashboard view."
-msgstr "Hozzáadva a kezelt projektek listája a vezérlőpult nézethez."
+msgstr "Hozzáadva a kezelt projektek listája az irányítópulthoz."
 
 #: ../../changes.rst:749
 msgid "More detailed status of outgoing commits."
-msgstr "Részletesebb állapota a kimenő commitoknak."
+msgstr "Részletesebb állapotjelentés a kimenő véglegesítésekről."
 
 #: ../../changes.rst:750 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
@@ -30764,33 +30788,37 @@ msgstr "Csökkentett memóriahasználat."
 #: ../../changes.rst:754
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr ""
-"Javítva a kihagyott összetevő frissítés néhány bővítmény engedélyezése "
-"esetén."
+"Javítva, hogy bizonyos kiegészítők engedélyezésekor egyes összetevők "
+"frissítése kimaradt."
 
 #: ../../changes.rst:755
 msgid "Daily execution of project and site wide add-ons."
-msgstr "Napi végrehajtása a projekt és a webhely szintű kiegészítőknek."
+msgstr ""
+"A projekt- és teljes webhelyszintű kiegészítők napi végrehajtása biztosított."
 
 #: ../../changes.rst:756
 msgid "Allow editing strings when the source is marked for editing."
 msgstr ""
-"Engedélyezd a szövegek szerkesztését, ha a forrás szerkesztésre van jelölve."
+"Lehetővé vált a szövegek szerkesztése akkor is, ha a forrás szerkesztésre "
+"van megjelölve."
 
 #: ../../changes.rst:757
 msgid "Updates of the last updated timestamp of a string."
-msgstr "Egy sztring legutóbbi frissítési időbélyegének frissítései."
+msgstr "Frissül a szöveg utolsó módosításának időbélyege."
 
 #: ../../changes.rst:758
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
 msgstr ""
-"Javítva a(z) :ref:`addon-weblate.git.squash` és a(z) :ref:`addon-weblate."
-"discovery.discovery` bővítmények projekt és webhely szintű telepítése."
+"Javítva a :ref:`addon-weblate.git.squash` és :ref:`addon-"
+"weblate.discovery.discovery` kiegészítők projekt- és webhelyszintű "
+"telepítése."
 
 #: ../../changes.rst:759
 msgid "Graceful handling of locking errors in the :ref:`api`."
-msgstr "A zárolási hibák zökkenőmentes kezelése az :ref:`api`-ban."
+msgstr ""
+"Kíméletes hibakezelés a zárolási hibák esetén az :ref:`api` használatakor."
 
 #: ../../changes.rst:765
 msgid ""
@@ -30805,8 +30833,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"117?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/117?closed=1>`__."
 
 #: ../../changes.rst:770
 msgid "Weblate 5.5"
@@ -30819,8 +30847,7 @@ msgstr "*Kiadva: 2024. április 20.*"
 #: ../../changes.rst:776
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
-"A(z) :ref:`addons` most már projekt szinten és weboldal szinten is "
-"telepíthető."
+"A :ref:`addons` mostantól telepíthetők projekt- és teljes webhelyszinten is."
 
 #: ../../changes.rst:778
 msgid "API improvements."
@@ -30847,34 +30874,37 @@ msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-"Fejlesztve: :http:post:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/units/`."
+"Javítva a :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/` működése."
 
 #: ../../changes.rst:786
 msgid "Added :ref:`mt-systran` automatic translation support."
-msgstr "Hozzáadva a(z) :ref:`mt-systran` automatikus fordítási támogatás."
+msgstr "Hozzáadva: :ref:`mt-systran` automatikus fordítási támogatás."
 
 #: ../../changes.rst:790
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
-"A Docker konténer mostantól alapértelmezés szerint ellenőrzi a felhasználói "
-"jelszó erősségét, lásd: :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
+"A Docker konténer mostantól alapértelmezetten ellenőrzi a felhasználói "
+"jelszavak erősségét, lásd: :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
 #: ../../changes.rst:791
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
-msgstr "Javított hibaüzenet a(z) :ref:`machine-translation-setup` részben."
+msgstr ""
+"Javult a hibaüzenetek megjelenítése a :ref:`machine-translation-setup` során."
 
 #: ../../changes.rst:792
 msgid ":ref:`check-max-size` better displays rendered text."
-msgstr "A(z) :ref:`check-max-size` jobban megjeleníti a renderelt szöveget."
+msgstr ""
+"A :ref:`fordítás maximális méretének <check-max-size>` megjelenítése "
+"mostantól jobban kezeli a feldolgozott szöveget."
 
 #: ../../changes.rst:793
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
-"Az adminok most már megadhatják a felhasználónevet és a teljes nevet, "
-"amikor :ref:`invite-user`."
+"A adminisztrátorok mostantól megadhatják a felhasználónevet és a teljes "
+"nevet a :ref:`a felhasználók meghívása <invite-user>` funkció használatakor."
 
 #: ../../changes.rst:794
 msgid "Added :ref:`check-end-interrobang`."
@@ -30883,61 +30913,66 @@ msgstr "Hozzáadva: :ref:`check-end-interrobang`."
 #: ../../changes.rst:795
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr ""
-"A :ref:`alerts` mostantól szükség szerint frissülnek, nem csak naponta "
-"egyszer."
+"A :ref:`fordítási komponens figyelmeztetései <alerts>` mostantól szükség "
+"esetén frissülnek, nem csak napi egyszer."
 
 #: ../../changes.rst:796
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr ""
-"A :doc:`/devel/reporting` speciális szószámot használ a CJK nyelvekhez."
+"A :doc:`/devel/reporting` mostantól külön szószámlálást használ a CJK "
+"nyelvekhez."
 
 #: ../../changes.rst:797
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr ""
-"A csapat tagsági változásait mostantól követheted a :ref:`audit-log`-ban."
+"A csapattagsági változások mostantól rögzítésre kerülnek az :ref:`"
+"Ellenőrzési naplóban <audit-log>`."
 
 #: ../../changes.rst:801
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ""
-"A :ref:`check-check-glossary` jobban működik azoknál a nyelveknél, amelyek "
-"nem használnak szóközt."
+"A :ref:`Szójegyzék ellenőrzése <check-check-glossary>` mostantól jobban "
+"működik azoknál a nyelveknél, amelyek nem használnak szóközt."
 
 #: ../../changes.rst:802
 msgid ":ref:`alerts` better handle non-latin source languages."
-msgstr "A :ref:`alerts` jobban kezeli a nem latin forrásnyelveket."
+msgstr ""
+"A :ref:`alerts` mostantól jobban kezelik a nem latin betűs forrásszövegeket."
 
 #: ../../changes.rst:803
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ""
-"A :ref:`check-max-size` néha figyelmen kívül hagyta a ``font-spacing:"
-"SPACING`` jelzőt."
+"A :ref:`check-max-size` időnként figyelmen kívül hagyta a ``font-"
+"spacing:SPACING`` jelölőt."
 
 #: ../../changes.rst:804
 msgid "Fixed per-language statistics on nested categories."
-msgstr "Javítva a nyelvenkénti statisztika a beágyazott kategóriákban."
+msgstr ""
+"Javítva a nyelvenkénti statisztikák számítása beágyazott kategóriák esetén."
 
 #: ../../changes.rst:805
 msgid "Fixed categories listing on per-language pages."
-msgstr "Javítva a kategóriák listázása a nyelvenkénti oldalakon."
+msgstr "Javítva a kategóriák listázása a nyelvspecifikus oldalakon."
 
 #: ../../changes.rst:806
 msgid "Fixed :guilabel:`Needs editing` state calculation."
-msgstr "Javítva a :guilabel:`Szerkesztést igényel` állapot kiszámítása."
+msgstr ""
+"Javítva a :guilabel:`Szerkesztést igényel` állapot helytelen meghatározása."
 
 #: ../../changes.rst:807
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr ""
-"Javítva a(z) :ref:`component-push` módosítása a(z) :ref:`vcs-gerrit` "
-"segítségével."
+"Javítva a :ref:`component-push` beállítás módosítása a :ref:`vcs-gerrit` "
+"használatakor."
 
 #: ../../changes.rst:808
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
 msgstr ""
-"Javítva a kategorizált összetevők használata a(z) :ref:`manage`, a(z) :ref:"
-"`memory` vagy a(z) :ref:`auto-translation` esetében."
+"Javítva a kategorizált összetevők használata a :ref:`manage`, :ref:`memory` "
+"vagy :ref:`auto-translation` felületeken."
 
 #: ../../changes.rst:812
 msgid ""
@@ -30945,25 +30980,25 @@ msgid ""
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
 "project)/components/`."
 msgstr ""
-"Számos API-hívást érinthet a boolean mezők szigorúbb ellenőrzése a Django "
-"REST Framework által. Például :http:post:`/api/projects/(string:project)/"
-"components/`."
+"Számos API-hívást érinthet a Django REST Framework által bevezetett "
+"szigorúbb logikai mező érvényesítés. Például: :http:post:`/api/projects/"
+"(string:project)/components/`."
 
 #: ../../changes.rst:813
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
 msgstr ""
-"Az összetevő nevének és slugjának egyediségét mostantól az adatbázis "
-"szintjén biztosítják a PostgreSQL 15+-on."
+"Mostantól az összetevők neve és URL-azonosítója (slug) egyediségének "
+"ellenőrzése PostgreSQL 15+ rendszeren adatbázis szinten történik."
 
 #: ../../changes.rst:814
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
 msgstr ""
-"A Docker image mostantól a Python csomagokat a :file:`/app/venv` könyvtárban "
-"tartalmazza, és a :program:`uv` használatával telepíti azokat."
+"A Docker image mostantól a Python csomagokat a :file:`/app/venv` útvonalon "
+"tartalmazza, és :program:`uv` segítségével telepíti azokat."
 
 #: ../../changes.rst:820
 msgid ""
@@ -30971,21 +31006,21 @@ msgid ""
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
 "your settings accordingly."
 msgstr ""
-"Számos változás történt a :file:`settings_example.py` fájlban, a "
-"legjelentősebbek az ``INSTALLED_APPS`` és a ``LOGOUT_REDIRECT_URL`` "
-"változások. Kérlek, ennek megfelelően igazítsd a beállításaidat."
+"Számos változás történt a :file:`settings_example.py` fájlban, különösen az "
+"``INSTALLED_APPS`` és a ``LOGOUT_REDIRECT_URL`` beállításoknál; célszerű "
+"ezek alapján frissíteni a saját konfigurációt."
 
 #: ../../changes.rst:821
 msgid "Weblate now requires Python 3.10 and Django 5.0."
-msgstr "A Weblate most már Python 3.10 és Django 5.0 verziókat igényel."
+msgstr "A Weblate mostantól Python 3.10 és Django 5.0 verziókat igényel."
 
 #: ../../changes.rst:823
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"111?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/111?closed=1>`__."
 
 #: ../../changes.rst:826
 msgid "Weblate 5.4.3"
@@ -30998,61 +31033,62 @@ msgstr "*Kiadva: 2024. március 26.*"
 #: ../../changes.rst:832
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr ""
-"Szuperfelhasználói hozzáférés a(z) :ref:`component-restricted` összetevőkhöz."
+"A rendszergazdák mostantól hozzáférhetnek a :ref:`component-restricted` "
+"jelölésű összetevőkhöz is."
 
 #: ../../changes.rst:833
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
 msgstr ""
-"Az alapértelmezett :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` módosítva lett "
-"úgy, hogy ne blokkolja a(z) :ref:`manage-appearance`-t."
+"Alapértelmezés szerint módosult a :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` "
+"beállítás, hogy ne akadályozza a :ref:`manage-appearance` használatát."
 
 #: ../../changes.rst:834
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr ""
-"Kerüld el az összeomlást, amikor módosításokat próbálsz feltölteni egy "
-"eltérő tárolóba."
+"Elkerülve az összeomlás, ha eltérő állapotú tárolóba történik a feltöltés."
 
 #: ../../changes.rst:835
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ""
-"Kerüld el az összeomlást, amikor a(z) :ref:`addon-weblate.generate."
-"pseudolocale` telepítése történik."
+"Elkerülve az összeomlás a :ref:`addon-weblate.generate.pseudolocale` "
+"kiegészítő telepítésekor."
 
 #: ../../changes.rst:836
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
-"A(z) :ref:`azure-setup` elegánsan kezeli azokat a tárakat, amelyek URL-jében "
-"szóközök vannak."
+"Az :ref:`azure-setup` mostantól megfelelően kezeli az URL-ben szóközt "
+"tartalmazó tárolókat."
 
 #: ../../changes.rst:837
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ""
-"A(z) :ref:`mt-deepl` elegánsan kezeli a szójegyzékeket a nyelvi "
-"változatokhoz."
+"A :ref:`DeepL gépi fordítás <mt-deepl>` mostantól zökkenőmentesen kezeli a "
+"szójegyzékeket a nyelvi változatok esetén is."
 
 #: ../../changes.rst:838
 msgid ":doc:`/formats/excel` better handles blank cells."
-msgstr "A(z) :doc:`/formats/excel` jobban kezeli az üres cellákat."
+msgstr ""
+"A :doc:`/formats/excel` formátum mostantól jobban kezeli az üres cellákat."
 
 #: ../../changes.rst:839
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
-"Kijavítottuk a lehetséges adatvesztést, amikor a gettext PO fájl változásait "
-"Git-ben egyesítjük."
+"Javítva az esetleges adatvesztés, amikor a gettext PO fájl változásait "
+"egyesítik a Git-ben."
 
 #: ../../changes.rst:840
 msgid "Repository operations on project could have skipped some components."
-msgstr "A projekt adattár műveletei kihagyhattak néhány összetevőt."
+msgstr "A projekt tárműveletei során egyes összetevők kimaradhattak."
 
 #: ../../changes.rst:846
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"115?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/115?closed=1>`__."
 
 #: ../../changes.rst:849
 msgid "Weblate 5.4.2"
@@ -31064,12 +31100,13 @@ msgstr "*Kiadva: 2024. február 22.*"
 
 #: ../../changes.rst:855
 msgid "Displaying debugging page in case of database connection issues."
-msgstr ""
-"Hibakeresési oldal megjelenítése adatbázis-kapcsolati problémák esetén."
+msgstr "Hibakereső oldal jelenik meg adatbázis-kapcsolati problémák esetén."
 
 #: ../../changes.rst:856 ../../changes.rst:872
 msgid "Gracefully handle migration with duplicate built-in teams."
-msgstr "Kezeld zökkenőmentesen a migrációt duplikált beépített csapatokkal."
+msgstr ""
+"Javítva a migrációs folyamat, hogy ne okozzon hibát, ha duplikált beépített "
+"csapatokat talál."
 
 #: ../../changes.rst:862
 msgid ""
@@ -31092,16 +31129,16 @@ msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
 msgstr ""
-"Lehetséges összeomlás a Weblate frissítés ellenőrzésénél, ha az előző "
-"verziókból van gyorsítótárazva."
+"Korábbi verziókból származó gyorsítótár esetén a Weblate frissítési "
+"ellenőrzése összeomolhatott."
 
 #: ../../changes.rst:878
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
 msgstr ""
-"`Változások részletesen <https://github.com/WeblateOrg/weblate/milestone/"
-"112?closed=1>`__."
+"`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
+"milestone/112?closed=1>`__."
 
 #: ../../changes.rst:881
 msgid "Weblate 5.4"
@@ -31126,42 +31163,45 @@ msgstr ":doc:`/formats/formatjs`."
 #: ../../changes.rst:890
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
-"A keresési mező mostantól szintaxiskiemeléssel rendelkezik, lásd: :doc:`/"
-"user/search`."
+"A keresési mező mostantól szintaxiskiemelést használ, lásd: :doc:`/user/"
+"search`."
 
 #: ../../changes.rst:891
 msgid "Weblate is now available in தமிழ்."
-msgstr "A Weblate most már elérhető தமிழ் nyelven."
+msgstr "A Weblate mostantól elérhető tamil (தமிழ்) nyelven."
 
 #: ../../changes.rst:895
 msgid "Better logging in :wladmin:`createadmin`."
-msgstr "Jobb naplózás a(z) :wladmin:`createadmin` alatt."
+msgstr "Jobb naplózás a :wladmin:`createadmin` parancsban."
 
 #: ../../changes.rst:896
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ""
-"A(z) :ref:`addon-weblate.discovery.discovery` most már jelenti a kihagyott "
+"A :ref:`addon-weblate.discovery.discovery` mostantól jelzi a kihagyott "
 "bejegyzéseket."
 
 #: ../../changes.rst:897
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
-msgstr "Egy szöveg hozzáadása a tárolóban elindítja a(z) :ref:`subscriptions`."
+msgstr ""
+"Szöveg hozzáadása a tárolóban mostantól aktiválja a :ref:`subscriptions` "
+"értesítéseket."
 
 #: ../../changes.rst:898
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ""
-"A(z) :ref:`mt-openai` jobban kezeli a kötegelt fordításokat és a "
+"Az :ref:`mt-openai` mostantól jobban kezeli a kötegelt fordításokat és a "
 "szójegyzékeket."
 
 #: ../../changes.rst:899
 msgid ":ref:`mt-libretranslate` better handles batch translations."
-msgstr "A(z) :ref:`mt-libretranslate` jobban kezeli a kötegelt fordításokat."
+msgstr ""
+"A :ref:`mt-libretranslate` mostantól jobban kezeli a kötegelt fordításokat."
 
 #: ../../changes.rst:900
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
-"Az értesítő e-mailek szöveges változata most már megfelelően jelzi a "
+"Az értesítő e-mailek szöveges változata mostantól helyesen jelzi a "
 "megváltozott szövegeket."
 
 #: ../../changes.rst:901
