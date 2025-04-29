@@ -1170,7 +1170,7 @@ class ProjectViewSet(
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            translations.prefetch_meta(),
+            translations.prefetch(),
             [instance],
             requested_format,
             name=instance.slug,
