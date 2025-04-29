@@ -7,6 +7,8 @@ Weblate 5.12
 
 .. rubric:: Improvements
 
+* :ref:`search-strings` supports ``has:location`` lookup.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
