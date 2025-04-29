@@ -57,6 +57,7 @@ from weblate.api.serializers import (
     BilingualUnitSerializer,
     CategorySerializer,
     ChangeSerializer,
+    CommentSerializer,
     ComponentListSerializer,
     ComponentSerializer,
     FullUserSerializer,
@@ -100,6 +101,7 @@ from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Category,
     Change,
+    Comment,
     Component,
     ComponentList,
     Project,
@@ -2041,6 +2043,27 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             translation_units, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+    @extend_schema(
+        description="Add a comment to the unit.",
+        methods=["post"],
+        request=CommentSerializer,
+    )
+    @action(detail=True, methods=["post"], serializer_class=CommentSerializer)
+    def comments(self, request, *args, **kwargs):
+        """Add a new comment to a unit."""
+        unit = self.get_object()
+
+        if not request.user.has_perm("comment.add", unit.translation):
+            self.permission_denied(request)
+
+        serializer = CommentSerializer(data=request.data, context={"unit": unit})
+        serializer.is_valid(raise_exception=True)
+
+        text = serializer.validated_data["comment"]
+        scope = serializer.validated_data["scope"]
+        Comment.objects.add(request, unit, text, scope)
+        return Response(data={"result": True}, status=HTTP_201_CREATED)
 
 
 @extend_schema_view(

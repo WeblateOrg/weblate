@@ -24,7 +24,7 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext, gettext_noop
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.auth.models import AuthenticatedHttpRequest
@@ -807,8 +807,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
-    scope = unit = get_object_or_404(Unit, pk=pk)
-    component = unit.translation.component
+    unit = get_object_or_404(Unit, pk=pk)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
@@ -816,26 +815,9 @@ def comment(request: AuthenticatedHttpRequest, pk):
     form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
-        # Is this source or target comment?
-        if form.cleaned_data["scope"] in {"global", "report"}:
-            scope = unit.source_unit
-        # Create comment object
-        Comment.objects.add(scope, request, form.cleaned_data["comment"])
-        # Add review label/flag
-        if form.cleaned_data["scope"] == "report":
-            if component.has_template():
-                if scope.translated and not scope.readonly:
-                    scope.translate(
-                        request.user,
-                        scope.target,
-                        STATE_FUZZY,
-                        change_action=ActionEvents.MARKED_EDIT,
-                    )
-            else:
-                label = component.project.label_set.get_or_create(
-                    name=gettext_noop("Source needs review"), defaults={"color": "red"}
-                )[0]
-                scope.labels.add(label)
+        text = form.cleaned_data["comment"]
+        scope = form.cleaned_data["scope"]
+        Comment.objects.add(request, unit, text, scope)
         messages.success(request, gettext("Posted new comment"))
     else:
         messages.error(request, gettext("Could not add comment!"))
