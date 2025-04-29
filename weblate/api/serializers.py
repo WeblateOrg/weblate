@@ -332,8 +332,22 @@ class CommentSerializer(serializers.Serializer):
     )
     comment = serializers.CharField(
         max_length=1000,
-        label=gettext_lazy("New comment"),
+        label=gettext_lazy("Comment text"),
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
+    )
+    timestamp = serializers.DateTimeField(
+        required=False,
+        label=gettext_lazy("Creation timestamp"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can set the explicit timestamp at which the comment was created."
+        ),
+    )
+    user_email = serializers.EmailField(
+        required=False,
+        label=gettext_lazy("Commenter’s email"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can attribute this comment to another user by their email."
+        ),
     )
 
     def validate_scope(self, value):

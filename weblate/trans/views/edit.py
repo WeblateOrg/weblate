@@ -817,7 +817,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
     if form.is_valid():
         text = form.cleaned_data["comment"]
         scope = form.cleaned_data["scope"]
-        Comment.objects.add(request, unit, text, scope)
+        Comment.objects.add(request, unit, text, scope, request.user)
         messages.success(request, gettext("Posted new comment"))
     else:
         messages.error(request, gettext("Could not add comment!"))
