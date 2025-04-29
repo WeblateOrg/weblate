@@ -1,21 +1,17 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load permissions %}
-{% load translations %}
-{% load icons %}
+{% load i18n icons permissions translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
   <li>
-    <a href="{% url 'guide' path=object.get_url_path %}">{% trans "Community localization checklist" %}</a>
+    <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
   </li>
 
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -26,9 +22,9 @@
   {% perm 'component.edit' object as user_can_edit_component %}
 
   <div class="panel panel-default">
-    <div class="panel-heading">{% trans "Community localization checklist" %}</div>
+    <div class="panel-heading">{% translate "Community localization checklist" %}</div>
     <div class="panel-body">
-      {% trans "Here you can find guidance to make your localization project attractive to the community." %}
+      {% translate "Here you can find guidance to make your localization project attractive to the community." %}
     </div>
 
     <table class="table table-striped">
@@ -58,7 +54,7 @@
               </td>
               <td class="buttons-cell">
                 {% if user_can_edit_component %}
-                  <a class="btn btn-primary" href="{{ guide.get_url }}">{% trans "Configure" %}</a>
+                  <a class="btn btn-primary" href="{{ guide.get_url }}">{% translate "Configure" %}</a>
                 {% endif %}
               </td>
             </tr>
@@ -67,8 +63,8 @@
       {% endfor %}
     </table>
     <div class="panel-footer">
-      <a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% trans "Return to the component" %}</a>
+      <a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% translate "Return to the component" %}</a>
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

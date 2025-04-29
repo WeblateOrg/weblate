@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% if unit.context %}
   <h2>{{ unit.translation.component.context_label }}</h2>
@@ -7,12 +6,12 @@
   {% format_source_string unit.context unit %}
 {% endif %}
 
-<h2>{% trans "Source string" %}</h2>
+<h2>{% translate "Source string" %}</h2>
 
 {% format_unit_source unit %}
 
 {% if unit.note %}
-  <h2>{% trans "Source string description" %}</h2>
+  <h2>{% translate "Source string description" %}</h2>
 
   {% format_source_string unit.note unit %}
 {% endif %}

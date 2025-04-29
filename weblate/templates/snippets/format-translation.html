@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load icons %}
+{% load i18n icons %}
 
 {% if simple %}
   <span lang="{{ language.code }}"
@@ -21,12 +20,12 @@
             <button type="button"
                     class="btn btn-link btn-xs pull-right flip"
                     data-clipboard-value="{{ item.copy }}"
-                    title="{% trans "Copy to clipboard" %}"
+                    title="{% translate "Copy to clipboard" %}"
                     tabindex="-1">{% icon "copy.svg" %}</button>
             <button type="button"
                     class="btn btn-link btn-xs btn-sidebar pull-right flip"
                     data-clone-value="{{ item.copy }}"
-                    title="{% trans "Clone to translation" %}"
+                    title="{% translate "Clone to translation" %}"
                     tabindex="-1">{% icon "clone.svg" %}</button>
           {% endif %}
           <span class="{% if wrap and item.content|length > 25 %}wrap-text{% endif %}">{{ item.content }}</span>

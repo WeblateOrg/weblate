@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load humanize %}
-{% load icons %}
+{% load crispy_forms_tags humanize i18n icons permissions translations %}
 
 {% block breadcrumbs %}
   {% if project %}
@@ -13,25 +8,24 @@
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
     <li>
-      <a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a>
+      <a href="{% url 'memory' project=project.slug %}">{% translate "Translation memory" %}</a>
     </li>
   {% elif from_file %}
     <li>
-      <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
     <li>
-      <a href="{% url 'manage-memory' %}">{% trans "Translation memory" %}</a>
+      <a href="{% url 'manage-memory' %}">{% translate "Translation memory" %}</a>
     </li>
   {% else %}
     <li>
       <a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a>
     </li>
     <li>
-      <a href="{% url 'memory' %}">{% trans "Translation memory" %}</a>
+      <a href="{% url 'memory' %}">{% translate "Translation memory" %}</a>
     </li>
   {% endif %}
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -39,30 +33,30 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         {% documentation_icon 'admin/memory' 'memory-user' right=True %}
-        {% trans "Translation memory status" %}
+        {% translate "Translation memory status" %}
       </h4>
     </div>
     <table class="table table-condensed table-striped">
       <tr>
         <th>
           {% if project %}
-            {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
+            {% blocktranslate %}Number of entries for {{ project }}{% endblocktranslate %}
           {% elif from_file %}
-            {% trans "Number of uploaded shared entries" %}
+            {% translate "Number of uploaded shared entries" %}
           {% else %}
-            {% trans "Number of your entries" %}
+            {% translate "Number of your entries" %}
           {% endif %}
         </th>
         <td></td>
         <td class="number">{{ num_entries|intcomma }}</td>
         <td>
-          <a href="{{ download_url }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
-          <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+          <a href="{{ download_url }}" class="btn btn-primary">{% translate "Download as JSON" %}</a>
+          <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
           {% if delete_url %}
             <a href="#"
                data-toggle="modal"
                data-target="#delete_memory_form"
-               class="btn btn-danger">{% trans "Delete" %}</a>
+               class="btn btn-danger">{% translate "Delete" %}</a>
             <form action="{{ delete_url }}" method="post" class="inlineform">
               {% csrf_token %}
               <input type="hidden" name="confirm" value="1" />
@@ -73,16 +67,16 @@
                       <button type="button"
                               class="close"
                               data-dismiss="modal"
-                              aria-label="{% trans "Close" %}">
+                              aria-label="{% translate "Close" %}">
                         <span aria-hidden="true">×</span>
                       </button>
-                      <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                      <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                     </div>
                     <div class="modal-body">
-                      {% blocktrans count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
+                      {% blocktranslate count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                      <input type="submit" class="btn btn-danger" value="{% translate "Delete" %}" />
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -96,7 +90,7 @@
             <a href="#"
                data-toggle="modal"
                data-target="#rebuild_memory_form"
-               class="btn btn-warning">{% trans "Rebuild" %}</a>
+               class="btn btn-warning">{% translate "Rebuild" %}</a>
             <form action="{{ rebuild_url }}" method="post" class="inlineform">
               {% csrf_token %}
               <input type="hidden" name="confirm" value="1" />
@@ -107,17 +101,17 @@
                       <button type="button"
                               class="close"
                               data-dismiss="modal"
-                              aria-label="{% trans "Close" %}">
+                              aria-label="{% translate "Close" %}">
                         <span aria-hidden="true">×</span>
                       </button>
-                      <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                      <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                     </div>
                     <div class="modal-body">
-                      {% blocktrans count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
-                      {% trans "Memory will be then populated with the current translations." %}
+                      {% blocktranslate count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
+                      {% translate "Memory will be then populated with the current translations." %}
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-warning" value="{% trans "Rebuild" %}" />
+                      <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
                     </div>
                   </div>
                   <!-- /.modal-content -->
@@ -141,14 +135,14 @@
           </td>
           <td class="number">{{ item.id__count|intcomma }}</td>
           <td>
-            <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+            <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% translate "Download as JSON" %}</a>
             <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}"
-               class="btn btn-primary">{% trans "Download as TMX" %}</a>
+               class="btn btn-primary">{% translate "Download as TMX" %}</a>
             {% if delete_url %}
               <a href="#"
                  data-toggle="modal"
                  data-target="#delete_memory_form_{{ item.origin|hash_text }}"
-                 class="btn btn-danger">{% trans "Delete" %}</a>
+                 class="btn btn-danger">{% translate "Delete" %}</a>
               <form action="{{ delete_url }}" method="post" class="inlineform">
                 {% csrf_token %}
                 <input type="hidden" name="confirm" value="1" />
@@ -163,16 +157,16 @@
                         <button type="button"
                                 class="close"
                                 data-dismiss="modal"
-                                aria-label="{% trans "Close" %}">
+                                aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                       </div>
                       <div class="modal-body">
-                        {% blocktrans count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
+                        {% blocktranslate count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
                       </div>
                       <div class="modal-footer">
-                        <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                        <input type="submit" class="btn btn-danger" value="{% translate "Delete" %}" />
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -186,7 +180,7 @@
               <a href="#"
                  data-toggle="modal"
                  data-target="#rebuild_memory_form_{{ item.origin|hash_text }}"
-                 class="btn btn-warning">{% trans "Rebuild" %}</a>
+                 class="btn btn-warning">{% translate "Rebuild" %}</a>
               <form action="{{ rebuild_url }}" method="post" class="inlineform">
                 {% csrf_token %}
                 <input type="hidden" name="confirm" value="1" />
@@ -201,17 +195,17 @@
                         <button type="button"
                                 class="close"
                                 data-dismiss="modal"
-                                aria-label="{% trans "Close" %}">
+                                aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                       </div>
                       <div class="modal-body">
-                        {% blocktrans count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
-                        {% trans "Memory will be then populated with the current translations." %}
+                        {% blocktranslate count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
+                        {% translate "Memory will be then populated with the current translations." %}
                       </div>
                       <div class="modal-footer">
-                        <input type="submit" class="btn btn-warning" value="{% trans "Rebuild" %}" />
+                        <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -227,36 +221,36 @@
       {% for item in entries_languages %}
         <tr>
           <td>
-            {% blocktrans with source_language=item.source_language target_language=item.target_language %}Entries for {{ source_language }} to {{ target_language }}{% endblocktrans %}
+            {% blocktranslate with source_language=item.source_language target_language=item.target_language %}Entries for {{ source_language }} to {{ target_language }}{% endblocktranslate %}
           </td>
           <td></td>
           <td class="number">{{ item.id__count|intcomma }}</td>
           <td>
             <a href="{{ download_url }}?source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}"
-               class="btn btn-primary">{% trans "Download as JSON" %}</a>
+               class="btn btn-primary">{% translate "Download as JSON" %}</a>
             <a href="{{ download_url }}?format=tmx&amp;source_language={{ item.source_language.id }}&amp;target_language={{ item.target_language.id }}"
-               class="btn btn-primary">{% trans "Download as TMX" %}</a>
+               class="btn btn-primary">{% translate "Download as TMX" %}</a>
           </td>
         </tr>
       {% endfor %}
       {% if project %}
         <tr>
-          <th>{% trans "Shared translation memory" %}</th>
+          <th>{% translate "Shared translation memory" %}</th>
           <td></td>
           <td>
             {% if project.use_shared_tm %}
               {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
-              {% trans "on" %}
+              {% translate "on" %}
             {% else %}
               {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
-              {% trans "off" %}
+              {% translate "off" %}
             {% endif %}
           </td>
           <td>
             {% perm 'project.edit' project as user_can_edit_project %}
             {% if user_can_edit_project %}
               <a href="{% url 'settings' path=project.get_url_path %}#workflow"
-                 class="btn btn-primary">{% trans "Configure" %}</a>
+                 class="btn btn-primary">{% translate "Configure" %}</a>
             {% endif %}
 
           </td>
@@ -264,25 +258,25 @@
       {% endif %}
       {% if shared_entries %}
         <tr>
-          <th>{% trans "Number of shared entries in this Weblate instance" %}</th>
+          <th>{% translate "Number of shared entries in this Weblate instance" %}</th>
           <td></td>
           <td class="number">{{ shared_entries|intcomma }}</td>
           <td>
             {% if from_file %}
-              <a href="{{ download_url }}?kind=shared" class="btn btn-primary">{% trans "Download as JSON" %}</a>
-              <a href="{{ download_url }}?kind=shared&amp;format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+              <a href="{{ download_url }}?kind=shared" class="btn btn-primary">{% translate "Download as JSON" %}</a>
+              <a href="{{ download_url }}?kind=shared&amp;format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
             {% endif %}
           </td>
         </tr>
       {% endif %}
       <tr>
-        <th>{% trans "Total number of entries in this Weblate instance" %}</th>
+        <th>{% translate "Total number of entries in this Weblate instance" %}</th>
         <td></td>
         <td class="number">{{ total_entries|intcomma }}</td>
         <td>
           {% if from_file %}
-            <a href="{{ download_url }}?kind=all" class="btn btn-primary">{% trans "Download as JSON" %}</a>
-            <a href="{{ download_url }}?kind=all&amp;format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+            <a href="{{ download_url }}?kind=all" class="btn btn-primary">{% translate "Download as JSON" %}</a>
+            <a href="{{ download_url }}?kind=all&amp;format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
           {% endif %}
         </td>
       </tr>
@@ -294,14 +288,14 @@
       {% csrf_token %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">{% trans "Import translation memory" %}</h4>
+          <h4 class="panel-title">{% translate "Import translation memory" %}</h4>
         </div>
         <div class="panel-body">{{ upload_form|crispy }}</div>
         <div class="panel-footer">
-          <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
+          <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
         </div>
       </div>
     </form>
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

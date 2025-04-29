@@ -1,6 +1,4 @@
-{% load i18n %}
-{% load icons %}
-{% load translations %}
+{% load i18n icons translations %}
 
 <div class="btn-group search-group sort-field" role="group">
   <div class="btn-group" role="group">
@@ -13,7 +11,7 @@
       {% if sort_name %}
         <span class="search-label">{{ sort_name }}</span>
       {% else %}
-        <span class="search-label">{% trans "Sort By" %}</span>
+        <span class="search-label">{% translate "Sort By" %}</span>
       {% endif %}
       <span class="caret"></span>
     </button>
@@ -21,7 +19,7 @@
            id="id_sort_by"
            name="sort_by"
            value="{% if sort_query %}{{ sort_query }}{% else %}-priority,position{% endif %}"
-           aria-label="{% trans "Sort By" %}" />
+           aria-label="{% translate "Sort By" %}" />
     <ul class="dropdown-menu">
       {% sort_choices as sort_choices %}
       {% for key, name in sort_choices %}
@@ -33,8 +31,8 @@
   </div>
   <div class="btn-group" role="group">
     <button type="button" class="btn btn-default search-field query-sort-toggle">
-      <span title="{% trans 'Ascending' %}" class="search-icon asc active">{% icon "sort-ascending.svg" %}</span>
-      <span title="{% trans 'Descending' %}" class="search-icon desc">{% icon "sort-descending.svg" %}</span>
+      <span title="{% translate 'Ascending' %}" class="search-icon asc active">{% icon "sort-ascending.svg" %}</span>
+      <span title="{% translate 'Descending' %}" class="search-icon desc">{% icon "sort-descending.svg" %}</span>
     </button>
   </div>
 </div>

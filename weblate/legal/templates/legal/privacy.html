@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
   <li>
-    <a href="{% url 'legal:privacy' %}">{% trans "Privacy" %}</a>
+    <a href="{% url 'legal:privacy' %}">{% translate "Privacy" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -19,9 +17,9 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Privacy Policy" %}</h4>
+      <h4 class="panel-title">{% translate "Privacy Policy" %}</h4>
     </div>
     <div class="panel-body tos">{% include "legal/documents/privacy.html" %}</div>
   </div>
 
-{% endblock %}
+{% endblock content %}

@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 
-{% load compress %}
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load translations %}
-{% load icons %}
-{% load static %}
-{% load permissions %}
+{% load compress crispy_forms_tags i18n icons permissions static translations %}
 
 {% block extra_script %}
   {% compress js %}
@@ -14,20 +8,18 @@
             data-cfasync="false"
             src="{% static 'editor/browse.js' %}{{ cache_param }}"></script>
   {% endcompress %}
-{% endblock %}
-
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
 
   <li>
-    <a href="{% url 'browse' path=object.get_url_path %}">{% trans "Browse" %}</a>
+    <a href="{% url 'browse' path=object.get_url_path %}">{% translate "Browse" %}</a>
   </li>
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -50,9 +42,9 @@
   </form>
 
   {% if not units %}
-    <em>{% trans "No strings found!" %}</em>
+    <em>{% translate "No strings found!" %}</em>
   {% else %}
     {% include "snippets/embed-units.html" with translation=object include_search=True component=object.component %}
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

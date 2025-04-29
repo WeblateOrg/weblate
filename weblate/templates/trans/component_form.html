@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'create-component' %}">{% trans "Create component" %}</a>
+    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   {% if not projects %}
-    {% trans "You do not have permission to create components in any projects." as msg %}
+    {% translate "You do not have permission to create components in any projects." as msg %}
     {% show_message "warning" msg %}
 
     {% if has_billing %}
@@ -27,23 +24,23 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             {% documentation_icon 'admin/projects' 'component' right=True %}
-            {% trans "Add new translation component" %}
+            {% translate "Add new translation component" %}
           </h4>
         </div>
         <div class="panel-body">
           {% crispy form %}
           {% if stage == "create" %}
             <div class="alert alert-info">
-              {% trans "You will be able to edit more options in the component settings after creating it." %}
+              {% translate "You will be able to edit more options in the component settings after creating it." %}
             </div>
           {% endif %}
         </div>
         <div class="panel-footer">
           <input type="submit"
-                 value="{% if stage != "create" %}{% trans "Continue" %}{% else %}{% trans "Save" %}{% endif %}"
+                 value="{% if stage != "create" %}{% translate "Continue" %}{% else %}{% translate "Save" %}{% endif %}"
                  class="btn btn-primary" />
         </div>
       </div>
     </form>
   {% endif %}
-{% endblock %}
+{% endblock content %}

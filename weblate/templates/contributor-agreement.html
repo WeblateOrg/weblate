@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
   <li>
-    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% trans "Contributor license agreement" %}</a>
+    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% translate "Contributor license agreement" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   <form action="{% url 'contributor-agreement' path=object.get_url_path %}"
@@ -19,10 +16,10 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Please review the contributor license agreement" %}</h4>
+        <h4 class="panel-title">{% translate "Please review the contributor license agreement" %}</h4>
       </div>
       <div class="panel-body">
-        <p>{% trans "Please read the following contributor license agreement:" %}</p>
+        <p>{% translate "Please read the following contributor license agreement:" %}</p>
         <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
 
         {% csrf_token %}
@@ -31,13 +28,13 @@
       </div>
       <div class="panel-footer">
         {% if has_agreed %}
-          {% trans "You have already agreed to this agreement." %}
+          {% translate "You have already agreed to this agreement." %}
         {% else %}
-          <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+          <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
         {% endif %}
       </div>
     </div>
 
   </form>
 
-{% endblock %}
+{% endblock content %}

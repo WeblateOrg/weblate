@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'register' %}">{% trans "Registration" %}</a>
+    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
   </li>
   <li>
     <a>{{ title }}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -19,34 +17,34 @@
 
     <h2>
       {% if is_reset %}
-        {% trans "Password reset almost complete" %}
+        {% translate "Password reset almost complete" %}
       {% elif is_remove %}
-        {% trans "Account removal almost complete" %}
+        {% translate "Account removal almost complete" %}
       {% else %}
-        {% trans "Registration almost complete" %}
+        {% translate "Registration almost complete" %}
       {% endif %}
     </h2>
 
     <p>
       {% if is_reset %}
-        {% blocktrans %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktrans %}
+        {% blocktranslate %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktranslate %}
       {% elif is_remove %}
-        {% blocktrans %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktrans %}
+        {% blocktranslate %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktranslate %}
       {% else %}
-        {% blocktrans %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktrans %}
+        {% blocktranslate %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktranslate %}
       {% endif %}
     </p>
 
     <p>
-      {% blocktrans %}Please look into your spam folder if you cannot see it in your inbox.{% endblocktrans %}
+      {% blocktranslate %}Please look into your spam folder if you cannot see it in your inbox.{% endblocktranslate %}
     </p>
 
     <p>
-      {% blocktrans count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktrans %}
+      {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
       {% if is_reset or is_remove %}
-        {% blocktrans %}Request a new confirmation link if it expires.{% endblocktrans %}
+        {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}
       {% else %}
-        {% blocktrans %}Register again if the confirmation link expires.{% endblocktrans %}
+        {% blocktranslate %}Register again if the confirmation link expires.{% endblocktranslate %}
       {% endif %}
     </p>
 
@@ -55,8 +53,8 @@
     </p>
 
     <p>
-      <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
+      <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
     </p>
 
   </div>
-{% endblock %}
+{% endblock content %}

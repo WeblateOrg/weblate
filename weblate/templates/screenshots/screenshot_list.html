@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load permissions %}
-{% load compress %}
-{% load crispy_forms_tags %}
-{% load humanize %}
-{% load icons %}
-{% load static %}
-{% load translations %}
+{% load compress crispy_forms_tags humanize i18n icons permissions static translations %}
 
 {% block extra_script %}
   {% compress js %}
@@ -15,16 +8,14 @@
             data-cfasync="false"
             src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
   {% endcompress %}
-{% endblock %}
-
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
   <li>
-    <a href="{% url 'screenshots' path=object.get_url_path %}">{% trans "Screenshots" %}</a>
+    <a href="{% url 'screenshots' path=object.get_url_path %}">{% translate "Screenshots" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -38,13 +29,13 @@
       {% csrf_token %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">{% trans "Add new screenshot" %}</h4>
+          <h4 class="panel-title">{% translate "Add new screenshot" %}</h4>
         </div>
         <div class="panel-body">
           <div id="screenshot-form-container">{{ add_form|crispy }}</div>
         </div>
         <div class="panel-footer">
-          <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
+          <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
         </div>
       </div>
     </form>
@@ -53,9 +44,9 @@
   <table class="sort table">
     <thead>
       <tr>
-        <th>{% trans "Screenshot name" %}</th>
-        <th>{% trans "Image" %}</th>
-        <th>{% trans "Strings" %}</th>
+        <th>{% translate "Screenshot name" %}</th>
+        <th>{% translate "Image" %}</th>
+        <th>{% translate "Strings" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -69,22 +60,22 @@
           </td>
           {% with count=screenshot.units.count %}
             <td data-value="{{ count }}">
-              <a href="{{ screenshot.translation.get_translate_url }}?q={{ screenshot.filter_name }}">{{ count | intcomma }}</a>
+              <a href="{{ screenshot.translation.get_translate_url }}?q={{ screenshot.filter_name }}">{{ count|intcomma }}</a>
               {% if count == 0 %}
-                <span title="{% trans "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
+                <span title="{% translate "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
               {% endif %}
             </td>
           {% endwith %}
           <td>
             {% if user_can_edit_screenshot %}
-              <a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a>
+              <a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% translate "Edit" %}</a>
             {% endif %}
           </td>
           <td>
             {% if user_can_delete_screenshot %}
               <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
               </form>
             {% endif %}
           </td>
@@ -95,4 +86,4 @@
 
   {% include "paginator.html" %}
 
-{% endblock %}
+{% endblock content %}
