@@ -60,7 +60,7 @@ jobs:
               repo: context.repo.repo,
               body: `
           Thank you for your report; the issue you have reported has just been resolved and
-          the solution will be released in Weblate ${github.event.issue.milestone.title}.
+          the solution will be released in Weblate ${github.payload.issue.milestone.title}.
 
           * In case you see a problem with the fix, please comment on this issue.
           * In case you see a similar problem, please open a separate issue.
