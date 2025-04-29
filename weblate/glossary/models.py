@@ -196,7 +196,7 @@ def fetch_glossary_terms(  # noqa: C901
                 glossary_lookup[match.source.lower()].append(match)
 
             # Inject matches back to the units
-            for i, unit in enumerate(units):
+            for i, unit in enumerate(translation_units[translation_id]):
                 result: dict[int, Unit] = {}
                 for term, glossary_positions in positions[i].items():
                     try:
