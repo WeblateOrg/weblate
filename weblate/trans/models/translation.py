@@ -1587,7 +1587,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         parsed_flags = Flags(extra_flags)
 
-        user = request.user if request else None
+        user = request.user if request else author
         component = self.component
         add_terminology = False
         if is_plural(source) and not component.file_format_cls.supports_plural:
