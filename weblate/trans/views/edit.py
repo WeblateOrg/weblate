@@ -30,7 +30,7 @@ from django.views.decorators.http import require_POST
 from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
@@ -896,6 +896,7 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][offset : offset + 20]
     )
+    fetch_glossary_terms(units)
 
     unitdata = [
         {

@@ -309,7 +309,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
-            {("the red", ((1285, 1292),))},
+            {("the red", ((1287, 1294),))},
         )
 
     def test_get_dash(self) -> None:
