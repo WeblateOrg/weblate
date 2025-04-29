@@ -32,11 +32,14 @@ WLT.Utils = (() => ({
   /**
    * Indicate that the translation has changed
    * by appending a warning before the editor.
+   * @param {Event} [e] - The event object (optional)
    * @returns {void}
    */
-  indicateChanges: () => {
+  indicateChanges: (e) => {
     const $warning = $("<span class='text-warning'/>");
-    const $editorArea = $(".translator .translation-editor");
+    const $editorArea = e
+      ? $(e.target).closest(".translation-editor")
+      : $(".translator .translation-editor");
     $warning.text(gettext("Unsaved changes!"));
     if ($editorArea.next(".text-warning").length === 0) {
       $warning.insertAfter($editorArea);
@@ -58,7 +61,7 @@ WLT.Editor = (() => {
 
     this.$editor.on("input", translationAreaSelector, (e) => {
       WLT.Utils.markTranslated($(e.target).closest("form"));
-      WLT.Utils.indicateChanges();
+      WLT.Utils.indicateChanges(e);
       hasChanges = true;
     });
 
@@ -90,7 +93,7 @@ WLT.Editor = (() => {
     });
 
     /* Copy source text */
-    this.$editor.on("click", "[data-clone-value]", function (_e) {
+    this.$editor.on("click", "[data-clone-value]", function (e) {
       const $this = $(this);
       const $document = $(document);
       const cloneText = this.getAttribute("data-clone-value");
@@ -123,20 +126,20 @@ WLT.Editor = (() => {
         });
       }
       WLT.Utils.markFuzzy($this.closest("form"));
-      WLT.Utils.indicateChanges();
+      WLT.Utils.indicateChanges(e);
       hasChanges = true;
       return false;
     });
 
     /* Direction toggling */
-    this.$editor.on("change", ".direction-toggle", function () {
+    this.$editor.on("change", ".direction-toggle", function (e) {
       const $this = $(this);
       const direction = $this.find("input").val();
       const container = $this.closest(".translation-item");
 
       container.find(".translation-editor").attr("dir", direction);
       container.find(".highlighted-output").attr("dir", direction);
-      WLT.Utils.indicateChanges();
+      WLT.Utils.indicateChanges(e);
       hasChanges = true;
     });
 
@@ -150,7 +153,7 @@ WLT.Editor = (() => {
         .find(".translation-editor")
         .insertAtCaret(text);
       e.preventDefault();
-      WLT.Utils.indicateChanges();
+      WLT.Utils.indicateChanges(e);
       hasChanges = true;
     });
 
@@ -194,7 +197,7 @@ WLT.Editor = (() => {
       const $this = $(this);
       insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
-      WLT.Utils.indicateChanges();
+      WLT.Utils.indicateChanges(e);
       hasChanges = true;
     });
 
