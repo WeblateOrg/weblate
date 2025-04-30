@@ -661,13 +661,13 @@ class JsonAddonTest(ViewTestCase):
     def test_customize(self) -> None:
         JSONCustomizeAddon.create(
             component=self.component,
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
         self.asset_customize("        ")
 
     def test_customize_sitewide(self) -> None:
         JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
@@ -678,7 +678,7 @@ class JsonAddonTest(ViewTestCase):
     def test_customize_tabs(self) -> None:
         JSONCustomizeAddon.create(
             component=self.component,
-            configuration={"indent": 8, "sort": 1, "style": "tabs"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "tabs"},
         )
         self.asset_customize("\t\t\t\t\t\t\t\t")
 
@@ -687,7 +687,7 @@ class JsonAddonTest(ViewTestCase):
             component=self.component,
             configuration={
                 "indent": 4,
-                "sort": 1,
+                "sort_keys": 1,
                 "style": "spaces",
                 "use_compact_separators": 1,
             },
@@ -699,7 +699,7 @@ class JsonAddonTest(ViewTestCase):
             component=self.component,
             configuration={
                 "indent": 4,
-                "sort": 1,
+                "sort_keys": 1,
                 "style": "spaces",
                 "use_compact_separators": 0,
             },
@@ -1603,7 +1603,7 @@ class SiteWideAddonsTest(ViewTestCase):
 
     def test_json(self) -> None:
         JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
