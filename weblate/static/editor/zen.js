@@ -184,6 +184,8 @@
           addAlert(val.text, val.kind);
         });
         $row.removeClass("translation-modified").addClass("translation-saved");
+        $row.find("#unsaved-label").remove();
+        $row.find(".translation-editor").removeClass("has-changes");
         if (data.translationsum !== "") {
           $row.find("input[name=translationsum]").val(data.translationsum);
         }

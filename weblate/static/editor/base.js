@@ -36,7 +36,7 @@ WLT.Utils = (() => ({
    * @returns {void}
    */
   indicateChanges: (e) => {
-    const $warning = $("<span class='text-warning'/>");
+    const $warning = $("<span id='unsaved-label' class='text-warning'/>");
     const $editorArea = e
       ? $(e.target).closest(".translation-editor")
       : $(".translator .translation-editor");
@@ -46,11 +46,21 @@ WLT.Utils = (() => ({
       $editorArea.addClass("has-changes");
     }
   },
+  /**
+   * Check if the translation has any changes
+   * @param {Event} [e] - The event object (optional)
+   * @returns {boolean}
+   */
+  editorHasChanges: (e) => {
+    const $editorArea = e
+      ? $(e.target).closest(".translation-editor")
+      : $(".translator .translation-editor");
+    return $editorArea.hasClass("has-changes");
+  },
 }))();
 
 WLT.Editor = (() => {
   let lastEditor = null;
-  let hasChanges = false;
 
   function EditorBase() {
     const translationAreaSelector = ".translation-editor";
@@ -62,7 +72,6 @@ WLT.Editor = (() => {
     this.$editor.on("input", translationAreaSelector, (e) => {
       WLT.Utils.markTranslated($(e.target).closest("form"));
       WLT.Utils.indicateChanges(e);
-      hasChanges = true;
     });
 
     this.$editor.on("focusin", translationAreaSelector, function () {
@@ -127,7 +136,6 @@ WLT.Editor = (() => {
       }
       WLT.Utils.markFuzzy($this.closest("form"));
       WLT.Utils.indicateChanges(e);
-      hasChanges = true;
       return false;
     });
 
@@ -140,7 +148,6 @@ WLT.Editor = (() => {
       container.find(".translation-editor").attr("dir", direction);
       container.find(".highlighted-output").attr("dir", direction);
       WLT.Utils.indicateChanges(e);
-      hasChanges = true;
     });
 
     /* Special characters */
@@ -154,7 +161,6 @@ WLT.Editor = (() => {
         .insertAtCaret(text);
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
-      hasChanges = true;
     });
 
     this.initHighlight();
@@ -165,23 +171,24 @@ WLT.Editor = (() => {
     // Show confirmation dialog if changes have been made
     // when leaving the page
     addEventListener("beforeunload", (e) => {
-      if (hasChanges) {
+      if (WLT.Utils.editorHasChanges()) {
         e.preventDefault();
         return true; // Backwards compatibility
       }
     });
 
     // Skip confirmation
-    this.$editor.on("click", ".skip", (_e) => {
-      if (hasChanges) {
+    this.$editor.on("click", ".skip", (e) => {
+      if (WLT.Utils.editorHasChanges(e)) {
         return confirm(
           gettext("You have unsaved changes. Are you sure you want to skip?"),
         );
       }
     });
 
+    // Remove unsaved changes warning when submitting
     this.$editor.on("submit", () => {
-      hasChanges = false;
+      $(".translator .translation-editor").removeClass("has-changes");
     });
   }
 
@@ -198,7 +205,6 @@ WLT.Editor = (() => {
       insertEditor(this.getAttribute("data-value"), $this);
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
-      hasChanges = true;
     });
 
     /* and shortcuts */
