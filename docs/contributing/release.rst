@@ -1,20 +1,27 @@
 Releasing Weblate
 =================
 
-Releasing schedule
-------------------
+.. _release-cycle:
+
+Release cycle
+-------------
 
 Weblate has two month release cycle for releases (x.y). These are usually
 followed by a bunch of bugfix releases to fix issues which slip into them
-(x.y.z).
+(x.y.z). This includes bug fixes and addressing security issues.
 
 The change in the major version indicates that the upgrade process can not skip
 this version - you always have to upgrade to x.0 before upgrading to higher x.y
 releases.
 
+The Docker container includes additional digit in versioning to track changes
+in the container itself like dependencies. These updates might include security
+updates.
+
 .. seealso::
 
-    :doc:`../admin/upgrade`
+    :doc:`../admin/upgrade`,
+    :ref:`security-updates`
 
 Release planning
 ----------------

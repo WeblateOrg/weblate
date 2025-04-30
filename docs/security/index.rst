@@ -11,10 +11,16 @@ Development of Weblate adheres to the `Best Practices of the Linux Foundation's 
 
    Discovered a security issue in Weblate? Please read :ref:`security`.
 
+.. _security-updates:
+
 Security updates
 ----------------
 
-Only the latest release is guaranteed to receive security updates.
+Weblate provides security updates to address vulnerabilities and enhance the
+application’s security posture. Only the latest release is guaranteed to
+receive security updates. Users are encouraged to keep Weblate up to date to
+benefit from the latest security improvements. Learn more about :ref:`Weblate
+releases and the release life cycle <release-cycle>`.
 
 Tracking dependencies for vulnerabilities
 -----------------------------------------
