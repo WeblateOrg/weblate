@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load humanize %}
+{% load humanize i18n translations %}
 
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
     <li>
-      <a href="{% url 'checks' path=path_object.get_url_path name="-" %}">{% trans "Checks" %}</a>
+      <a href="{% url 'checks' path=path_object.get_url_path name="-" %}">{% translate "Checks" %}</a>
     </li>
     {% if check %}
       <li>
@@ -17,18 +15,17 @@
     {% endif %}
   {% elif check and not path_object %}
     <li>
-      <a href="{% url 'checks' %}">{% trans "Checks" %}</a>
+      <a href="{% url 'checks' %}">{% translate "Checks" %}</a>
     </li>
     <li>
       <a href="{% url 'checks' name=check.check_id %}">{{ check.name }}</a>
     </li>
   {% else %}
     <li>
-      <a href="{% url 'checks' %}">{% trans "Checks" %}</a>
+      <a href="{% url 'checks' %}">{% translate "Checks" %}</a>
     </li>
   {% endif %}
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -36,10 +33,10 @@
     <thead>
       <tr>
         <th>{{ column_title }}</th>
-        <th class="number">{% trans "Total" %}</th>
-        <th class="number">{% trans "Dismissed" %}</th>
-        <th class="number">{% trans "Active" %}</th>
-        <th class="number">{% trans "Translated" %}</th>
+        <th class="number">{% translate "Total" %}</th>
+        <th class="number">{% translate "Dismissed" %}</th>
+        <th class="number">{% translate "Active" %}</th>
+        <th class="number">{% translate "Translated" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -51,35 +48,35 @@
           <td class="number" data-value="{{ row.check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} OR dismissed_{{ row.check_obj.url_id }}">
-                {{ row.check_count | intcomma }}
+                {{ row.check_count|intcomma }}
               </a>
             {% else %}
-              {{ row.check_count | intcomma }}
+              {{ row.check_count|intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.dismissed_check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q=dismissed_{{ row.check_obj.url_id }}">
-                {{ row.dismissed_check_count | intcomma }}
+                {{ row.dismissed_check_count|intcomma }}
               </a>
             {% else %}
-              {{ row.dismissed_check_count | intcomma }}
+              {{ row.dismissed_check_count|intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.active_check_count }}">
             {% if translate_links %}
-              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }}">{{ row.active_check_count | intcomma }}</a>
+              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }}">{{ row.active_check_count|intcomma }}</a>
             {% else %}
-              {{ row.active_check_count | intcomma }}
+              {{ row.active_check_count|intcomma }}
             {% endif %}
           </td>
           <td class="number" data-value="{{ row.translated_check_count }}">
             {% if translate_links %}
               <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} AND state:&gt;=translated">
-                {{ row.translated_check_count | intcomma }}
+                {{ row.translated_check_count|intcomma }}
               </a>
             {% else %}
-              {{ row.translated_check_count | intcomma }}
+              {{ row.translated_check_count|intcomma }}
             {% endif %}
           </td>
         </tr>
@@ -101,7 +98,7 @@
 
   {% if check %}
     <p>
-      <a class="btn btn-primary" href="{% documentation check %}">{% trans "View check documentation" %}</a>
+      <a class="btn btn-primary" href="{% documentation check %}">{% translate "View check documentation" %}</a>
     </p>
   {% endif %}
-{% endblock %}
+{% endblock content %}

@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load authnames %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load authnames crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'register' %}">{% trans "Registration" %}</a>
+    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -26,7 +22,7 @@
       {% endif %}
 
       {% if form.errors %}
-        {% trans "Please fix errors in the registration form." as msg %}
+        {% translate "Please fix errors in the registration form." as msg %}
         {% show_message "error" msg %}
       {% endif %}
 
@@ -35,7 +31,7 @@
 
         <div class="col-sm-6 col-sm-push-6">
 
-          <h4>{% trans "Register in Weblate" %}</h4>
+          <h4>{% translate "Register in Weblate" %}</h4>
 
           <div class="panel panel-default">
             <div class="panel-body">
@@ -45,14 +41,16 @@
                 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
                   {% csrf_token %}
                   {{ form|crispy }}
-                  <input type="submit" value="{% trans 'Register' %}" class="btn btn-primary btn-full" />
+                  <input type="submit"
+                         value="{% translate 'Register' %}"
+                         class="btn btn-primary btn-full" />
                 </form>
 
               {% endif %}
 
               {% if registration_backends %}
 
-                <h5 class="login-label">{% trans "Create an account using:" %}</h5>
+                <h5 class="login-label">{% translate "Create an account using:" %}</h5>
 
                 {% for name in registration_backends %}
                   <div class="col-sm-6 col-xs-12 btn-auth">
@@ -77,9 +75,9 @@
 
     <p>
       {% url 'contact' as contact_url %}
-      {% trans "Sorry, new registrations are turned off on this site." %}
-      <a href="{{ contact_url }}">{% trans "You can contact us for more details." %}</a>
+      {% translate "Sorry, new registrations are turned off on this site." %}
+      <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
     </p>
 
   {% endif %}
-{% endblock %}
+{% endblock content %}

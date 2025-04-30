@@ -1,14 +1,13 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block content %}
   <table>
     <thead>
       <tr>
-        <th>{% trans "Translation" %}</th>
-        <th colspan="2">{% trans "Unfinished strings" %}</th>
+        <th>{% translate "Translation" %}</th>
+        <th colspan="2">{% translate "Unfinished strings" %}</th>
       </tr>
     </thead>
     {% for summary in changes %}
@@ -17,9 +16,9 @@
         <td>{{ summary.translation.stats.todo }}</td>
         <td>
           <a class="button"
-             href="{{ summary.translation.get_translate_url }}?q=state:&lt;translated">{% trans "View" %}</a>
+             href="{{ summary.translation.get_translate_url }}?q=state:&lt;translated">{% translate "View" %}</a>
         </td>
       </tr>
     {% endfor %}
   </table>
-{% endblock %}
+{% endblock content %}

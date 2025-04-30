@@ -1,8 +1,4 @@
-{% load crispy_forms_filters %}
-{% load l10n %}
-{% load i18n %}
-{% load translations %}
-{% load static %}
+{% load crispy_forms_filters i18n l10n static translations %}
 
 {% comment %}Modified version of radioselect_inline.html and radioselect.html from crispy_forms{% endcomment %}
 <div id="div_{{ field.auto_id }}"
@@ -38,34 +34,34 @@
                 {{ choice.1|unlocalize }}
               </h5>
               {% if choice_str == "0" %}
-                <p>{% trans "Visible to everybody." %}</p>
-                <p>{% trans "Any authenticated user can contribute." %}</p>
+                <p>{% translate "Visible to everybody." %}</p>
+                <p>{% translate "Any authenticated user can contribute." %}</p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "VCS repository might be exposed to everybody." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    {% translate "VCS repository might be exposed to everybody." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
               {% elif choice_str == "1" %}
-                <p>{% trans "Visible to everybody." %}</p>
-                <p>{% trans "Only chosen users can contribute." %}</p>
+                <p>{% translate "Visible to everybody." %}</p>
+                <p>{% translate "Only chosen users can contribute." %}</p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    {% translate "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
               {% elif choice_str == "100" %}
-                <p>{% trans "Visible only to chosen users." %}</p>
-                <p>{% trans "Only chosen users can contribute." %}</p>
+                <p>{% translate "Visible only to chosen users." %}</p>
+                <p>{% translate "Only chosen users can contribute." %}</p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    {% translate "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
               {% elif choice_str == "200" %}
-                <p>{% trans "Permissions are not managed in Weblate." %}</p>
+                <p>{% translate "Permissions are not managed in Weblate." %}</p>
                 <p>
                   <strong>
-                    {% trans "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}
+                    {% translate "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}
                   </strong>
                 </p>
               {% endif %}
@@ -77,9 +73,9 @@
     {% if "disabled" in flat_attrs %}
       <div>
         <p>
-          {% trans "You do not have permission to change project access control." %}
+          {% translate "You do not have permission to change project access control." %}
           {% if has_billing %}
-            <a href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+            <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
           {% endif %}
         </p>
       </div>

@@ -445,7 +445,7 @@ class CreateFromZip(CreateComponent):
 
         try:
             create_component_from_zip(form.cleaned_data)
-        except BadZipfile:
+        except (BadZipfile, OSError):
             form.add_error("zipfile", gettext("Could not parse uploaded ZIP file."))
             return self.form_invalid(form)
 

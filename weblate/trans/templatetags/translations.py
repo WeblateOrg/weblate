@@ -1485,49 +1485,72 @@ def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
     return ""
 
 
-def get_breadcrumbs(path_object, flags: bool = True):
+def get_breadcrumbs(path_object, *, flags: bool = True, only_names: bool = False):
+    def with_url(name, url=None):
+        if only_names:
+            return name
+        if url is None:
+            url = path_object.get_absolute_url()
+        return url, name
+
     if isinstance(path_object, Unit):
-        yield from get_breadcrumbs(path_object.translation)
-        yield path_object.get_absolute_url(), path_object.pk
+        yield from get_breadcrumbs(
+            path_object.translation, flags=flags, only_names=only_names
+        )
+        yield with_url(path_object.pk)
     elif isinstance(path_object, Translation):
-        yield from get_breadcrumbs(path_object.component)
-        yield path_object.get_absolute_url(), path_object.language
+        yield from get_breadcrumbs(
+            path_object.component, flags=flags, only_names=only_names
+        )
+        yield with_url(path_object.language)
     elif isinstance(path_object, Component):
         if path_object.category:
-            yield from get_breadcrumbs(path_object.category)
+            yield from get_breadcrumbs(
+                path_object.category, flags=flags, only_names=only_names
+            )
         else:
-            yield from get_breadcrumbs(path_object.project)
+            yield from get_breadcrumbs(
+                path_object.project, flags=flags, only_names=only_names
+            )
         name = path_object.name
         if flags:
             name = format_html("{}{}", name, get_glossary_badge(path_object))
-        yield path_object.get_absolute_url(), name
+        yield with_url(name)
     elif isinstance(path_object, Category):
         if path_object.category:
-            yield from get_breadcrumbs(path_object.category)
+            yield from get_breadcrumbs(
+                path_object.category, flags=flags, only_names=only_names
+            )
         else:
-            yield from get_breadcrumbs(path_object.project)
-        yield path_object.get_absolute_url(), path_object.name
+            yield from get_breadcrumbs(
+                path_object.project, flags=flags, only_names=only_names
+            )
+        yield with_url(path_object.name)
     elif isinstance(path_object, Project):
-        yield path_object.get_absolute_url(), path_object.name
+        yield with_url(path_object.name)
     elif isinstance(path_object, Language):
-        yield reverse("languages"), gettext("Languages")
-        yield path_object.get_absolute_url(), path_object
+        yield with_url(gettext("Languages"), url=reverse("languages"))
+        yield with_url(path_object)
     elif isinstance(path_object, ProjectLanguage):
         yield (
             f"{path_object.project.get_absolute_url()}#languages",
             path_object.project.name,
         )
-        yield path_object.get_absolute_url(), path_object.language
+        yield with_url(path_object.language)
     elif isinstance(path_object, CategoryLanguage):
         if path_object.category.category:
-            yield from get_breadcrumbs(path_object.category.category)
+            yield from get_breadcrumbs(
+                path_object.category.category, flags=flags, only_names=only_names
+            )
         else:
-            yield from get_breadcrumbs(path_object.category.project)
+            yield from get_breadcrumbs(
+                path_object.category.project, flags=flags, only_names=only_names
+            )
         yield (
             f"{path_object.category.get_absolute_url()}#languages",
             path_object.category.name,
         )
-        yield path_object.get_absolute_url(), path_object.language
+        yield with_url(path_object.language)
     else:
         msg = f"No breadcrumbs for {path_object}"
         raise TypeError(msg)
@@ -1536,7 +1559,7 @@ def get_breadcrumbs(path_object, flags: bool = True):
 @register.simple_tag
 def path_object_breadcrumbs(path_object, flags: bool = True):
     return format_html_join(
-        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object, flags)
+        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object, flags=flags)
     )
 
 

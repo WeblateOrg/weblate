@@ -24,10 +24,7 @@ jobs:
     permissions:
       issues: write
     runs-on: ubuntu-24.04
-    if: |
-      ! github.event.issue.pull_request &&
-      github.event.issue.state_reason == 'completed' &&
-      github.event.issue.milestone
+    if: '! github.event.issue.pull_request'
     steps:
     - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
@@ -49,7 +46,8 @@ jobs:
               })
             }
           }
-          if (context.payload.issue.milestone.state == 'open') {
+          console.log(context.payload);
+          if (context.payload.issue.state_reason == 'completed' && context.payload.issue.milestone && context.payload.issue.milestone.state == 'open') {
             await github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -62,39 +60,11 @@ jobs:
               repo: context.repo.repo,
               body: `
           Thank you for your report; the issue you have reported has just been resolved and
-          the solution will be released in Weblate ${github.event.issue.milestone.title}.
+          the solution will be released in Weblate ${github.payload.issue.milestone.title}.
 
           * In case you see a problem with the fix, please comment on this issue.
           * In case you see a similar problem, please open a separate issue.
           * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
           `
             })
-          }
-  remove-labels:
-    permissions:
-      issues: write
-    runs-on: ubuntu-24.04
-    if: |
-      ! github.event.issue.pull_request &&
-      github.event.issue.state_reason == 'not_planned'
-    steps:
-    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-      with:
-        script: |
-          const labels = await github.rest.issues.listLabelsOnIssue({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          });
-          for (const label of labels.data) {
-            if (label.name.startsWith('Waiting for: ')) {
-              console.log(`Removing label ${label.name}`);
-              await github.rest.issues.removeLabel({
-
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: label.name,
-              })
-            }
           }

@@ -1,28 +1,24 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load translations %}
+{% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
   <li>
-    <a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a>
+    <a href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#groups" data-toggle="tab" id="tab_groups">{% trans "Font groups" %}</a>
+      <a href="#groups" data-toggle="tab" id="tab_groups">{% translate "Font groups" %}</a>
     </li>
     <li>
-      <a href="#fonts" data-toggle="tab" id="tab_fonts">{% trans "Fonts" %}</a>
+      <a href="#fonts" data-toggle="tab" id="tab_fonts">{% translate "Fonts" %}</a>
     </li>
   </ul>
 
@@ -32,9 +28,9 @@
       <table class="table sort">
         <thead>
           <tr>
-            <th>{% trans "Group name" %}</th>
-            <th>{% trans "Default font" %}</th>
-            <th>{% trans "Language overrides" %}</th>
+            <th>{% translate "Group name" %}</th>
+            <th>{% translate "Default font" %}</th>
+            <th>{% translate "Language overrides" %}</th>
             <th></th>
           </tr>
         </thead>
@@ -50,7 +46,7 @@
                 {% endfor %}
               </td>
               <td>
-                <a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% trans "Edit" %}</a>
+                <a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% translate "Edit" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -63,17 +59,17 @@
             {% csrf_token %}
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">{% trans "Add font group" %}</h4>
+                <h4 class="panel-title">{% translate "Add font group" %}</h4>
               </div>
               <div class="panel-body">{{ group_form|crispy }}</div>
               <div class="panel-footer">
-                <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+                <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
               </div>
             </div>
           </form>
         {% endif %}
       {% else %}
-        {% trans "Please upload fonts to be able to define font groups." as msg %}
+        {% translate "Please upload fonts to be able to define font groups." as msg %}
         {% show_message "warning" msg %}
       {% endif %}
 
@@ -84,8 +80,8 @@
       <table class="sort table">
         <thead>
           <tr>
-            <th>{% trans "Font family" %}</th>
-            <th>{% trans "Font style" %}</th>
+            <th>{% translate "Font family" %}</th>
+            <th>{% translate "Font style" %}</th>
             <th></th>
           </tr>
         </thead>
@@ -95,7 +91,7 @@
               <td>{{ font.family }}</td>
               <td>{{ font.style }}</td>
               <td>
-                <a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% trans "Edit" %}</a>
+                <a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% translate "Edit" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -107,13 +103,13 @@
           {% csrf_token %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">{% trans "Add font" %}</h4>
+              <h4 class="panel-title">{% translate "Add font" %}</h4>
             </div>
             <div class="panel-body">{{ font_form|crispy }}</div>
             <div class="panel-footer">
               <input type="submit"
                      class="btn btn-primary"
-                     value="{% trans "Upload" %}"
+                     value="{% translate "Upload" %}"
                      id="upload_font_submit" />
             </div>
           </div>
@@ -124,4 +120,4 @@
 
   </div>
 
-{% endblock %}
+{% endblock content %}

@@ -1,11 +1,10 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block content %}
   <p>
-    {% blocktrans %}The following activity has occurred on your account at {{ site_title }}:{% endblocktrans %}
+    {% blocktranslate %}The following activity has occurred on your account at {{ site_title }}:{% endblocktranslate %}
   </p>
 
   <p>{{ message }}</p>
@@ -14,4 +13,4 @@
 
   {% include "mail/shared-activity.html" %}
 
-{% endblock %}
+{% endblock content %}

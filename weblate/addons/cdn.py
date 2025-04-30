@@ -37,6 +37,8 @@ class CDNJSAddon(BaseAddon):
         "Publishes translations into content delivery network "
         "for use in JavaScript or HTML localization."
     )
+    user_name = "cdn"
+    user_verbose = "CDN add-on"
 
     settings_form = CDNJSForm
     icon = "cloud-upload.svg"
@@ -126,11 +128,7 @@ class CDNJSAddon(BaseAddon):
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
-        cdn_parse_html.delay(
-            self.instance.configuration["files"],
-            self.instance.configuration["css_selector"],
-            component.id,
-        )
+        cdn_parse_html.delay(self.instance.id, component.id)
 
     def post_update(self, component, previous_head: str, skip_push: bool) -> None:
         self.daily(component)

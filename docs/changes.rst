@@ -5,9 +5,16 @@ Weblate 5.12
 
 .. rubric:: New features
 
+* Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
+
 .. rubric:: Improvements
 
+* :ref:`check-same` is now skipped for Toki Pona.
+* :ref:`search-strings` supports ``has:location`` lookup.
+
 .. rubric:: Bug fixes
+
+* :ref:`dashboard` translations ordering when paginating.
 
 .. rubric:: Compatibility
 

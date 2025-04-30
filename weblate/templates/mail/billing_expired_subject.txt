@@ -1,10 +1,10 @@
 {% load i18n %}
 {% if final_removal %}
-{% trans "Your translation project was removed" %}
+{% translate "Your translation project was removed" %}
 {% elif billing.removal %}
-{% trans "Your translation project is scheduled for removal" %}
+{% translate "Your translation project is scheduled for removal" %}
 {% elif billing.is_trial %}
-{% trans "Your trial period is about to expire" %}
+{% translate "Your trial period is about to expire" %}
 {% else %}
-{% trans "Your billing plan has expired" %}
+{% translate "Your billing plan has expired" %}
 {% endif %}

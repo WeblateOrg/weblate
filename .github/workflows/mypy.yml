@@ -42,7 +42,7 @@ jobs:
 
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@c7f87aa956e4c323abf06d5dec078e358f6b4d04 # v6.0.0
+    - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -53,7 +53,7 @@ jobs:
         python-version: '3.13'
 
     - name: Run mypy
-      run: uv run --no-sources --all-extras --group types mypy --show-column-numbers weblate > mypy.log
+      run: uv run --all-extras --group types mypy --show-column-numbers weblate > mypy.log
       # Temporary hack until we have this fully working
       continue-on-error: true
     - name: Report mypy

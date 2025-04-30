@@ -434,4 +434,5 @@ gettext_compact = "docs"
 
 redirects = {
     "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
+    "contributing/security": "security/index.html",
 }

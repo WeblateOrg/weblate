@@ -4,17 +4,16 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li>
-    <a href="{% url 'manage-repos' %}">{% trans "Status of repositories" %}</a>
+    <a href="{% url 'manage-repos' %}">{% translate "Status of repositories" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   <input type="checkbox" id="show-linked-repo-toggle" checked />
-  <label for="show-linked-repo-toggle">{% trans "Show components with linked repositories" %}</label>
+  <label for="show-linked-repo-toggle">{% translate "Show components with linked repositories" %}</label>
   {% for sp in components %}
     <div class="repo{% if sp.is_repo_link %}-linked{% endif %}">
       <h3 id="component-{{ sp.pk }}">
@@ -22,7 +21,7 @@
       </h3>
       {% if sp.is_repo_link %}
         <p>
-          {% trans "This repository is linked to:" %} <a href="#component-{{ sp.linked_component.pk }}">{{ sp.repo }}</a>
+          {% translate "This repository is linked to:" %} <a href="#component-{{ sp.linked_component.pk }}">{{ sp.repo }}</a>
         </p>
       {% else %}
         <pre>
@@ -31,4 +30,4 @@
       {% endif %}
     </div>
   {% endfor %}
-{% endblock %}
+{% endblock content %}

@@ -11,6 +11,7 @@ from zipfile import BadZipfile
 from django.conf import settings
 from django.db import models
 from django.db.models import Model
+from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import OpenApiSerializerExtension
 from drf_spectacular.plumbing import build_basic_type, build_object_type
 from drf_spectacular.utils import (
@@ -319,6 +320,38 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
                 Permission.objects.filter(codename__in=permissions_validated)
             )
         return instance
+
+
+class CommentSerializer(serializers.Serializer):
+    scope = serializers.ChoiceField(
+        choices=["report", "global", "translation"],
+        label=gettext_lazy("Scope"),
+        help_text=gettext_lazy(
+            "Is your comment specific to this translation, or generic for all of them?"
+        ),
+    )
+    comment = serializers.CharField(
+        max_length=1000,
+        label=gettext_lazy("New comment"),
+        help_text=gettext_lazy("You can use Markdown and mention users by @username."),
+    )
+
+    def validate_scope(self, value):
+        unit: Unit | None = self.context.get("unit", None)
+        if unit is None:
+            return value
+
+        # Remove bug-report in case source review is not enabled
+        if value == "report" and not unit.translation.component.project.source_review:
+            msg = f'"{value}" is not a valid choice as source review is disabled.'
+            raise serializers.ValidationError(msg)
+
+        # Remove translation comment when commenting on source
+        if value == "translation" and unit.translation.is_source:
+            msg = f'"{value}" is not a valid choice for source units.'
+            raise serializers.ValidationError(msg)
+
+        return value
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):

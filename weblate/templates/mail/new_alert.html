@@ -1,7 +1,6 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block content %}
 
@@ -12,7 +11,7 @@
   {% endwith %}
 
   <div class="line buttons">
-    <a class="button" href="{{ component.get_absolute_url }}#alerts">{% trans "View all alerts" %}</a>
+    <a class="button" href="{{ component.get_absolute_url }}#alerts">{% translate "View all alerts" %}</a>
   </div>
 
-{% endblock %}
+{% endblock content %}

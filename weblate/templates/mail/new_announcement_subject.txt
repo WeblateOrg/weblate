@@ -1,8 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
 {% if project %}
-{% blocktrans %}New announcement on {{ project }}{% endblocktrans %}
+{% blocktranslate %}New announcement on {{ project }}{% endblocktranslate %}
 {% else %}
-{% blocktrans %}New announcement at {{ site_title }}{% endblocktrans %}
+{% blocktranslate %}New announcement at {{ site_title }}{% endblocktranslate %}
 {% endif %}
 {% endautoescape %}
