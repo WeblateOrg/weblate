@@ -89,7 +89,7 @@ def fetch_glossary_terms(  # noqa: C901
     units: list[Unit], *, full: bool = False, include_variants: bool = True
 ) -> None:
     """Fetch glossary terms for list of units."""
-    from weblate.trans.models.component import Component
+    from weblate.trans.models import Component, Project
 
     if len(units) == 0:
         return
@@ -163,7 +163,16 @@ def fetch_glossary_terms(  # noqa: C901
                     Prefetch(
                         "translation__component",
                         queryset=Component.objects.only(
-                            "priority", "file_format", "check_flags"
+                            "priority",
+                            "file_format",
+                            "check_flags",
+                            "project",
+                        ),
+                    ),
+                    Prefetch(
+                        "translation__component__project",
+                        queryset=Project.objects.only(
+                            "check_flags",
                         ),
                     ),
                 )
