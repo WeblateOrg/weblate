@@ -92,4 +92,4 @@ def should_skip(location):
 
 def is_excluded(path):
     """Whether path should be excluded from zip extraction."""
-    return any(exclude in path for exclude in PATH_EXCLUDES)
+    return any(exclude in f"/{path}/" for exclude in PATH_EXCLUDES) or ".." in path
