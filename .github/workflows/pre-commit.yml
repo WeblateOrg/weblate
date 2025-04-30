@@ -46,7 +46,7 @@ jobs:
         fi
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
-      run: uv run --no-sources --only-group pre-commit pre-commit run --all --show-diff-on-failure
+      run: uv run --only-group pre-commit pre-commit run --all --show-diff-on-failure
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
