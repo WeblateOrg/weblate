@@ -6,6 +6,7 @@ Weblate 5.12
 .. rubric:: New features
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
+* :ref:`addon-weblate.json.customize` now has configurable compact mode.
 
 .. rubric:: Improvements
 
