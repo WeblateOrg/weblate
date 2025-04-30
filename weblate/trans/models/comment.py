@@ -30,7 +30,8 @@ class CommentManager(models.Manager):
         unit: Unit,
         text: str,
         scope: str,
-        user: User,
+        *,
+        user: User | None = None,
         timestamp: datetime | None = None,
     ) -> Comment:
         """Add comment to this unit."""
@@ -38,7 +39,7 @@ class CommentManager(models.Manager):
         unit_scope = unit.source_unit if scope in {"global", "report"} else unit
 
         kwargs = {
-            "user": user,
+            "user": user if user is not None else request.user,
             "unit": unit_scope,
             "comment": text,
             "userdetails": {

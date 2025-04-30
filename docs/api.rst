@@ -2299,6 +2299,9 @@ and XLIFF.
     :<json string user_email: commenter's email, can be set only by project admins and defaults to the authenticated user.
     :<json string timestamp: creation timestamp of the comment, can be set only by project admins and defaults to now.
     :>json int id: comment identifier
+    :>json string comment: content of the new comment
+    :>json string user: URL of the commenter's object
+    :>json string timestamp: creation timestamp of the comment
 
 
 Changes

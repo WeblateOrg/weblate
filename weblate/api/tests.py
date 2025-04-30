@@ -22,7 +22,6 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Category,
     Change,
-    Comment,
     Component,
     ComponentList,
     Project,
@@ -4202,6 +4201,11 @@ class UnitAPITest(APIBaseTest):
             code=201,
         )
         self.assertIn("id", response.data)
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], "Hello World!")
+        self.assertIn("timestamp", comment)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
         unit_cs = Unit.objects.get(
             translation__language_code="cs", source="Thank you for using Weblate."
@@ -4318,10 +4322,11 @@ class UnitAPITest(APIBaseTest):
             superuser=True,
             code=201,
         )
-        comment = Comment.objects.get(id=response.data["id"])
-        self.assertEqual(comment.comment, text)
-        self.assertEqual(comment.timestamp, timestamp)
-        self.assertEqual(comment.user, user2)
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/commentimport/")
 
         text = "test import comment with fallback user"
         timestamp += +timedelta(hours=1)
@@ -4337,10 +4342,11 @@ class UnitAPITest(APIBaseTest):
             superuser=True,
             code=201,
         )
-        comment = Comment.objects.get(id=response.data["id"])
-        self.assertEqual(comment.comment, text)
-        self.assertEqual(comment.timestamp, timestamp)
-        self.assertEqual(comment.user, self.user)
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
         text = "test import default timestamp"
         timestamp = datetime.now(UTC)
@@ -4355,10 +4361,11 @@ class UnitAPITest(APIBaseTest):
             superuser=True,
             code=201,
         )
-        comment = Comment.objects.get(id=response.data["id"])
-        self.assertEqual(comment.comment, text)
-        self.assertGreaterEqual(comment.timestamp, timestamp)
-        self.assertEqual(comment.user, self.user)
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertGreaterEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
     def test_comment_serializer(self):
         # test CommentSerializer works even if unit is not provided in context

@@ -101,7 +101,6 @@ from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Category,
     Change,
-    Comment,
     Component,
     ComponentList,
     Project,
@@ -2058,26 +2057,24 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if not user.has_perm("comment.add", unit.translation):
             self.permission_denied(request)
 
-        serializer = CommentSerializer(data=request.data, context={"unit": unit})
+        serializer = CommentSerializer(
+            data=request.data,
+            context={
+                "unit": unit,
+                "request": request,
+            },
+        )
         serializer.is_valid(raise_exception=True)
 
-        text = serializer.validated_data["comment"]
-        scope = serializer.validated_data["scope"]
         timestamp = serializer.validated_data.get("timestamp")
         user_email = serializer.validated_data.get("user_email")
-
         if (timestamp is not None or user_email is not None) and (
             not user.has_perm("project.edit", unit.translation.component.project)
         ):
             self.permission_denied(request)
 
-        if user_email is not None:
-            override_user = User.objects.filter(email=user_email).first()
-            if override_user is not None:
-                user = override_user
-
-        comment = Comment.objects.add(request, unit, text, scope, user, timestamp)
-        return Response(data={"id": comment.id}, status=HTTP_201_CREATED)
+        serializer.save()
+        return Response(serializer.data, status=HTTP_201_CREATED)
 
 
 @extend_schema_view(
