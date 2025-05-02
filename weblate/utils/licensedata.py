@@ -2134,6 +2134,12 @@ LICENSES = (
         False,
     ),
     (
+        "jove",
+        "Jove License",
+        "https://spdx.org/licenses/jove.html",
+        False,
+    ),
+    (
         "JPL-image",
         "JPL Image Use Policy",
         "https://spdx.org/licenses/JPL-image.html",
