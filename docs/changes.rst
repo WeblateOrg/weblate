@@ -1,9 +1,7 @@
 Weblate 5.11.2
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on May 3rd 2025.*
 
 .. rubric:: Improvements
 
@@ -16,8 +14,6 @@ Weblate 5.11.2
 * Improved error handling on ZIP upload.
 * Django 5.2 compatibility.
 * Avoid repeated glossary synchronizations.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
