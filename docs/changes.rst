@@ -28,6 +28,25 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?closed=1>`__.
 
+Weblate 5.11.3
+--------------
+
+*Released on May 3rd 2025.*
+
+.. rubric:: Bug fixes
+
+* Fixed release publishing.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?closed=1>`__.
+
 Weblate 5.11.2
 --------------
 
