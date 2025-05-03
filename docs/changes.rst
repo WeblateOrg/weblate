@@ -3,13 +3,9 @@ Weblate 5.11.3
 
 *Not yet released.*
 
-.. rubric:: New features
-
-.. rubric:: Improvements
-
 .. rubric:: Bug fixes
 
-.. rubric:: Compatibility
+* Fixed release publishing.
 
 .. rubric:: Upgrading
 
