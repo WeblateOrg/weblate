@@ -28,6 +28,37 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?closed=1>`__.
 
+Weblate 5.11.2
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Glossary performance in zen mode and automatic suggestions.
+* Extended supported formats for :ref:`addon-weblate.json.customize`.
+
+.. rubric:: Bug fixes
+
+* XML export no longer crashes on locations with special characters.
+* Improved error handling on ZIP upload.
+* Django 5.2 compatibility.
+* Avoid repeated glossary synchronizations.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?closed=1>`__.
+
 Weblate 5.11.1
 --------------
 
