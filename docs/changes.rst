@@ -7,7 +7,15 @@ Weblate 5.11.2
 
 .. rubric:: Improvements
 
+* Glossary performance in zen mode and automatic suggestions.
+* Extended supported formats for :ref:`addon-weblate.json.customize`.
+
 .. rubric:: Bug fixes
+
+* XML export no longer crashes on locations with special characters.
+* Improved error handling on ZIP upload.
+* Django 5.2 compatibility.
+* Avoid repeated glossary synchronizations.
 
 .. rubric:: Compatibility
 
