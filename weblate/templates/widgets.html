@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load static %}
+{% load i18n static %}
 
 {% block breadcrumbs %}
   <li>
@@ -32,6 +31,7 @@
     {% translate "You can use the following widgets to promote translation of your project. They can increase the visibility of your translation projects and bring in new contributors." %}
   </p>
 
+  <div id="widgets-data" data-json='{{ widgets_json }}' style="display: none;"></div>
   <div class="row mt-4">
     <div class="col-md-4">
       <div class="widget-card p-3">
@@ -93,6 +93,5 @@
 {% endblock content %}
 
 {% block extra_script %}
-  <script type="application/json" id="widgets-data" data-json="{{ widgets_json }}"></script>
   <script defer data-cfasync="false" src="{% static "js/widgets.js" %}{{ cache_param }}"></script>
-{% endblock %}
+{% endblock extra_script %}
