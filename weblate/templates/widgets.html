@@ -73,7 +73,7 @@
 
     <div class="col-md-8">
       <div class="widget-card p-3">
-        <h4>Live Preview</h4>
+        <h4>{% translate "Live Preview" %}</h4>
         <div class="preview-box" id="preview">
           <img id="widget-image"
                src="data:,"
@@ -83,8 +83,8 @@
       </div>
 
       <div class="widget-card p-3">
-        <h4>Embed Code</h4>
-        <textarea id="embedCode" class="code-example form-control" rows="3" readonly>
+        <h4 id="embedCodeLabel">{% translate "Embed Code" %}</h4>
+        <textarea id="embedCode" aria-labelledby="embedCodeLabel" class="code-example form-control" rows="3" readonly>
         </textarea>
       </div>
     </div>
