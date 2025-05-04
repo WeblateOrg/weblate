@@ -229,10 +229,8 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-                "illustriert die Verwendung von [Webspät](#weblate)",
+                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
             ),
         )
@@ -240,20 +238,16 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-                "illustriert die Verwendung von [Webspät](#Webspät)",
+                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
             ),
         )
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-                "illustriert die Verwendung von Webspät",
+                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von Webspät",
                 "md-text",
             ),
         )
@@ -669,6 +663,15 @@ class RSTSyntaxCheckTest(CheckTestCase):
         self.test_failure_1 = (base, "``foo`", "rst-text")
         self.test_failure_2 = (base, ":ref:`foo`bar", "rst-text")
         self.test_failure_3 = (base, ":ref:`foo bar` `", "rst-text")
+
+    def test_rst_syntax_inline_literal_no_space(self):
+        """Test check for inline literal without surrounding space."""
+        self.do_test(
+            expected=True,
+            source="Valid string",
+            target="一般``foo``，包括``foo / bar``和``foo / baz``。",
+            flags="rst-text",
+        )
 
     def test_roles(self) -> None:
         self.do_test(
