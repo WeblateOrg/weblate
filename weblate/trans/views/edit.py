@@ -921,7 +921,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_count": len(search_result["ids"]),
-            "filter_pos": 0,
+            "filter_pos": search_result["offset"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
             "offset": search_result["offset"],
