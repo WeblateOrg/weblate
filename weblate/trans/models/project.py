@@ -569,6 +569,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return User.objects.all_admins(self).select_related("profile")
 
+    def all_reviewers(self):
+        from weblate.auth.models import User
+
+        return User.objects.all_reviewers(self).select_related("profile")
+
     def get_child_components_access(self, user: User, filter_callback=None):
         """
         List child components.

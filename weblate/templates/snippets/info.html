@@ -50,6 +50,15 @@
                 </td>
               </tr>
             {% endif %}
+
+            {% if project.all_reviewers %}
+              <tr>
+                <th>{% translate "Project Reviewers" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% for reviewer in project.all_reviewers %}{{ reviewer.profile.get_user_display_link }}{% endfor %}
+                </td>
+              </tr>
+            {% endif %}
           {% endif %}
           {% if componentlist %}
             {% for auto in componentlist.autocomponentlist_set.all %}
