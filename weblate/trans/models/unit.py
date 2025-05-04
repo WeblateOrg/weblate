@@ -29,8 +29,10 @@ from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
+from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
+from weblate.trans.models.project import Project
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_pre_create
@@ -254,6 +256,7 @@ class UnitQuerySet(models.QuerySet):
             "source",
             "target",
             "location",
+            "component",
         ]
         countable_sort_choices: dict[str, dict[str, Any]] = {
             "num_comments": {"order_by": "comment__count", "filter": None},
@@ -274,12 +277,30 @@ class UnitQuerySet(models.QuerySet):
                     countable_sort_choices[unsigned_choice]["filter"],
                 )
             if unsigned_choice in available_sort_choices:
+                if unsigned_choice == "component":
+                    sign = "-" if choice[0] == "-" else ""
+                    sort_list.extend(
+                        [
+                            sign + "translation__component__priority",
+                            sign + "translation__component__is_glossary",
+                            sign + "translation__component__name",
+                        ]
+                    )
+                    continue
+
                 if unsigned_choice == "labels":
                     choice = choice.replace("labels", "max_labels_name")
                 sort_list.append(choice)
         if not sort_list:
             if hasattr(obj, "component") and obj.component.is_glossary:
                 sort_list = ["source"]
+            elif isinstance(obj, Project | Category):
+                sort_list = [
+                    "translation__component__priority",
+                    "translation__component__is_glossary",
+                    "translation__component__name",
+                    "-priority",
+                ]
             else:
                 sort_list = ["-priority", "position"]
         if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
