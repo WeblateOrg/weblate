@@ -229,8 +229,10 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von [Webspät](#weblate)",
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
             ),
         )
@@ -238,16 +240,20 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von [Webspät](#Webspät)",
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
             ),
         )
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "                "illustriert die Verwendung von Webspät",
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von Webspät",
                 "md-text",
             ),
         )
