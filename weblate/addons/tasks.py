@@ -190,22 +190,20 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
         "component", "project"
     )
 
-    def callback_wrapper(change: Change):
-        def addon_callback(addon: Addon, component: Component) -> None:
-            if change.component and change.component != component:
-                return
-            if addon.component and addon.component != change.component:
-                return
-            if addon.project and change.project and addon.project != change.project:
-                return
-            addon.addon.change_event(change)
-
-        return addon_callback
-
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
-        handle_addon_event(
-            AddonEvent.EVENT_CHANGE,
-            callback_wrapper(change),
-            addon_queryset=addons,
-            auto_scope=True,
-        )
+        # Filter addons for this change
+        change_addons = [
+            addon
+            for addon in addons
+            if (not addon.component or addon.component == change.component)
+            and (not addon.project or addon.project == change.project)
+        ]
+        if change_addons:
+            handle_addon_event(
+                AddonEvent.EVENT_CHANGE,
+                "change_event",
+                (change,),
+                addon_queryset=change_addons,
+                component=change.component,
+                translation=change.translation,
+            )
