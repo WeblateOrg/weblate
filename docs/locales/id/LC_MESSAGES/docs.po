@@ -3,17 +3,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Linerly <linerly@proton.me>, 2024, 2025.
-# Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>, 2024.
+# Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>, 2024, 2025.
 # Muhammad B Madara <um8503@gmail.com>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Dwi Cahyono <wongciecahyono@gmail.com>, 2025.
+# Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-04-25 09:33+0000\n"
-"Last-Translator: Linerly <linerly@proton.me>\n"
+"PO-Revision-Date: 2025-05-04 23:02+0000\n"
+"Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
 "Language: id\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.11.1-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -230,10 +231,8 @@ msgstr ""
 "Dapat menyetujui terjemahan selama proses peninjauan sedang berlangsung."
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr "Tinjau (hanya jika :ref:`tinjau alur kerja <reviews>` diaktifkan)"
+msgstr "Tersedia hanya jika :ref:`tinjau alur kerja <reviews>` diaktifkan"
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -305,8 +304,6 @@ msgid "`Memory`"
 msgstr "Memori"
 
 #: ../../admin/access.rst:123
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Manage translation memory."
 msgstr "Mengelola memori terjemahan"
 
@@ -356,8 +353,7 @@ msgstr "Penagihan"
 #, fuzzy
 #| msgid "Can access billing info and settings (see :ref:`billing`)."
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr ""
-"Dapat mengakses info dan pengaturan penagihan (lihat :ref:`penagihan`)."
+msgstr "Akses info dan pengaturan tagihan (lihat :ref:`tagihan`)."
 
 #: ../../admin/access.rst:140
 #, fuzzy
@@ -481,26 +477,15 @@ msgid "Per-project permission management"
 msgstr "Manajemen izin tiap proyek"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "You can set your projects to `Protected` or `Private`, and :ref:`manage "
-#| "users <manage-acl>` per-project in the Weblate user interface."
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Anda dapat menyetel proyek Anda ke `Dilindungi` atau `Privat`, dan :ref:"
-"`kelola pengguna <manage-acl>` tiap proyek di antarmuka pengguna Weblate."
+"Anda dapat mengatur proyek Anda sebagai :guilabel:`Dilindungi` atau "
+":guilabel:`Privat` (see :ref:`acl`), dan :ref:`kelola akses pengguna <manage-"
+"acl>` per proyek."
 
 #: ../../admin/access.rst:202
-#, fuzzy
-#| msgid ""
-#| "By default this prevents Weblate from granting access provided by `Users` "
-#| "and `Viewers` :ref:`default groups <default-groups>` due to these groups’ "
-#| "own configuration. This doesn’t prevent you from granting permissions to "
-#| "those projects site-wide by altering default groups, creating a new one, "
-#| "or creating additional custom settings for individual component as "
-#| "described in :ref:`custom-acl` below."
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -510,10 +495,10 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Secara bawaan, ini mencegah Weblate untuk memberikan akses yang disediakan "
-"oleh `Pengguna` dan `Pemirsa` :ref:`grup asali <default-groups>` karena "
+"oleh `Pengguna` dan `Pemirsa` :ref:`tim bawaan <default-teams>` karena "
 "konfigurasi grup ini sendiri. Ini tidak menghalangi Anda untuk memberikan "
-"izin kepada proyek tersebut di seluruh situs dengan mengubah grup asali, "
-"membuat grup baru, atau membuat pengaturan khusus tambahan untuk masing-"
+"izin kepada proyek tersebut di seluruh situs dengan mengubah tim bawaan, "
+"membuat tim baru, atau membuat pengaturan khusus tambahan untuk masing-"
 "masing komponen seperti yang dijelaskan dalam :ref:`custom-acl` di bawah ini."
 
 #: ../../admin/access.rst:208
@@ -971,14 +956,6 @@ msgstr ""
 "berikut:"
 
 #: ../../admin/access.rst:382
-#, fuzzy
-#| msgid ""
-#| "If the group specifies any :guilabel:`Component list`, all the "
-#| "permissions given to members of that group are granted for all the "
-#| "components in the component lists attached to the group, and an access "
-#| "with no additional permissions is granted for all the projects these "
-#| "components are in. :guilabel:`Components` and :guilabel:`Projects` are "
-#| "ignored."
 msgid ""
 "If the team specifies any :guilabel:`Component list`, all the permissions "
 "given to members of that team are granted for all the components in the "
@@ -986,11 +963,11 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Jika grup menentukan :guilabel:`Daftar Komponen`, semua izin yang diberikan "
-"kepada anggota grup tersebut diberikan untuk semua komponen yang ada di "
-"dalam daftar komponen yang dilampirkan ke grup, dan akses tanpa izin "
-"tambahan diberikan untuk semua proyek tempat komponen tersebut berada. :"
-"guilabel:`Komponen` dan :guilabel:`Proyek` diabaikan."
+"Jika tim menentukan :guilabel:`Component list`, semua izin yang diberikan "
+"kepada anggota tim tersebut diberikan untuk semua komponen dalam daftar "
+"komponen yang terlampir pada tim, dan akses tanpa izin tambahan diberikan "
+"untuk semua proyek tempat komponen tersebut berada. :guilabel:`Components` "
+"dan :guilabel:`Projects` diabaikan."
 
 #: ../../admin/access.rst:388
 msgid ""
@@ -1018,14 +995,6 @@ msgstr ""
 "itu berada. :guilabel:`Proyek` diabaikan."
 
 #: ../../admin/access.rst:396
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Projects selection` set to "
-#| "a value like :guilabel:`All public projects`, all those permissions are "
-#| "applied to all the projects, which effectively grants the same "
-#| "permissions to access all projects :ref:`unrestricted components "
-#| "<component-restricted>`."
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -1033,12 +1002,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"Sebaliknya, jika grup menentukan :guilabel:`Proyek`, baik dengan "
-"mendaftarkannya secara langsung atau dengan mengatur :guilabel:`Pemilihan "
-"proyek` ke nilai seperti :guilabel:`Semua proyek publik`, semua izin "
-"tersebut diterapkan ke semua proyek yang secara efektif memberikan izin yang "
-"sama untuk mengakses semua proyek :ref:`komponen tidak dibatasi <component-"
-"restricted>`."
+"Jika tidak, jika tim menentukan :guilabel:`Projects` apa pun, baik dengan "
+"mencantumkannya secara langsung atau dengan menyetel :guilabel:`Projects "
+"selection` ke nilai seperti :guilabel:`All public projects`, semua izin "
+"tersebut diterapkan ke semua proyek, yang secara efektif memberikan izin "
+"yang sama untuk mengakses semua proyek :ref:`unrestricted components "
+"<component-restricted>`."
 
 #: ../../admin/access.rst:402
 #, fuzzy
@@ -1283,11 +1252,11 @@ msgstr "Pengaya bawaan"
 
 #: ../../admin/access.rst:488
 msgid "Billing (see :ref:`billing`)"
-msgstr "Penagihan (lihat :ref:`billing`)"
+msgstr "Tagihan (lihat :ref:`billing`)"
 
 #: ../../admin/access.rst:488
 msgid "View billing info"
-msgstr "Lihat info penagihan"
+msgstr "Lihat info tagihan"
 
 #: ../../admin/access.rst:488
 #, fuzzy
@@ -1770,7 +1739,7 @@ msgstr "Daftar hak istimewa dan peran bawaan"
 #, fuzzy
 #| msgid "View billing info"
 msgid ":guilabel:`View billing info`"
-msgstr "Lihat info penagihan"
+msgstr "Lihat info tagihan"
 
 #: ../../admin/access.rst:625
 #, fuzzy
@@ -28127,10 +28096,8 @@ msgid "Weblate 5.8"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:426
-#, fuzzy
-#| msgid "Component name"
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "Nama komponen"
+msgstr "Menambahkan :ref:`component-key_filter` dalam komponen."
 
 #: ../../changes.rst:427
 msgid ""
@@ -28333,6 +28300,8 @@ msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
 msgstr ""
+"Nama-nama bahasa yang diperbarui agar lebih menggambarkan berbagai aksara "
+"dan bahasa Sintik."
 
 #: ../../changes.rst:504
 #, fuzzy
@@ -34201,7 +34170,7 @@ msgstr ""
 #: ../../changes/v3.rst:357
 msgid "Billing add-on now removes projects for unpaid billings after 45 days."
 msgstr ""
-"Pengaya penagihan sekarang menghapus proyek untuk tagihan yang belum dibayar "
+"Pengaya tagihan sekarang menghapus proyek untuk tagihan yang belum dibayar "
 "setelah 45 hari."
 
 #: ../../changes/v3.rst:360
@@ -37860,8 +37829,8 @@ msgid ""
 "Simplified setup of Git repositories with different default branch than "
 "\"master\"."
 msgstr ""
-"Penyiapan repositori Git yang disederhanakan dengan cabang standar berbeda "
-"selain \"master\"."
+"Penyederhanaan repositori Git dengan cabang bawaan yang berbeda dari "
+"\"master\"."
 
 #: ../../changes/v4.rst:959
 msgid "Newly created internal repositories now use main as the default branch."
@@ -53300,6 +53269,10 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"Untuk Hosted Weblate, ada pengguna push khusus yang terdaftar di GitHub, "
+"Bitbucket, Codeberg, dan GitLab (dengan nama pengguna :guilabel:`weblate`, "
+"email ``hosted@weblate.org``, dan nama atau deskripsi profil :guilabel:`"
+"Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""

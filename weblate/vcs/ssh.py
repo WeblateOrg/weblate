@@ -304,6 +304,8 @@ exec {command} \
     -o StrictHostKeyChecking=yes \
     -o HashKnownHosts=no \
     -o UpdateHostKeys=yes \
+    -o ConnectTimeout=20 \
+    -o BatchMode=yes \
     -F {config_file} \
     {extra_args} \
     "$@"
