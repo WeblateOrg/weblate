@@ -54,7 +54,8 @@ class WebhookAddon(ChangeBaseAddon):
     def change_event(self, change: Change) -> None:
         """Deliver notification message."""
         config = self.instance.configuration
-        if change.action in config["events"]:
+        events = {int(event) for event in config["events"]}
+        if change.action in events:
             try:
                 payload = self.build_webhook_payload(change)
             except (

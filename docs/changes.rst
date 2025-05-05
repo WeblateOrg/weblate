@@ -9,6 +9,8 @@ Weblate 5.11.4
 
 .. rubric:: Bug fixes
 
+* :ref:`addon-weblate.webhook.webhook` was not triggered in some situations.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
