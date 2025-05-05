@@ -15,7 +15,7 @@ this version - you always have to upgrade to x.0 before upgrading to higher x.y
 releases.
 
 The Docker container includes additional digit in versioning to track changes
-in the container itself like dependencies. These updates might include security
+in the container itself like dependencies. These updates may include security
 updates.
 
 .. seealso::
