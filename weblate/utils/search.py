@@ -410,6 +410,7 @@ class UnitTermExpr(BaseTermExpr):
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
+        "labels_count": "labels_count",
     }
     STRING_FIELD_MAP: dict[str, str] = {
         "suggestion": "suggestion__target",
@@ -522,6 +523,36 @@ class UnitTermExpr(BaseTermExpr):
             translation__component__name__icontains=text
         )
 
+    def labels_count_field(self, text: str, context: dict) -> Q:
+        from django.db.models import Count
+
+        from weblate.trans.models import Unit
+
+        try:
+            value = self.convert_labels_count(text)
+        except ValueError as error:
+            raise ValueError(f"Invalid value for labels_count: {text}") from error
+
+        suffix = OPERATOR_MAP.get(self.operator)
+        if suffix == "substring":
+            suffix = "exact"
+        filter_kwargs = {f"labels_count__{suffix}": value}
+
+        project = context.get("project")
+        base_query = Unit.objects.all()
+        if project:
+            base_query = base_query.filter(translation__component__project=project)
+
+        filtered_ids = (
+            base_query.annotate(
+                labels_count=Count("source_unit__labels") + Count("labels")
+            )
+            .filter(**filter_kwargs)
+            .values_list("id", flat=True)
+        )
+
+        return Q(id__in=filtered_ids)
+
     def path_field(self, text: str, context: dict) -> Q:
         try:
             obj = parse_path(
@@ -578,6 +609,9 @@ class UnitTermExpr(BaseTermExpr):
         return self.convert_int(text)
 
     def convert_priority(self, text: str) -> int:
+        return self.convert_int(text)
+
+    def convert_labels_count(self, text: str) -> int:
         return self.convert_int(text)
 
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
