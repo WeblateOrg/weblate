@@ -1606,7 +1606,7 @@ class WebhookAddonsTest(ViewTestCase):
         self.reset_addon_configuration()
 
     def reset_addon_configuration(self):
-        self.addon_configuration["events"] = [ActionEvents.NEW]
+        self.addon_configuration["events"] = [str(ActionEvents.NEW)]
 
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
