@@ -1386,7 +1386,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
