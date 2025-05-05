@@ -109,8 +109,6 @@ class ProhibitedInitialCharacterCheck(TargetCheck):
 
     def get_description(self, check_obj) -> str:
         """Return description of the check."""
-        from django.utils.html import escape
-
         return format_html(
             escape(
                 gettext(
