@@ -51,7 +51,7 @@ class WebhookAddon(ChangeBaseAddon):
     settings_form = WebhooksAddonForm
     icon = "webhook.svg"
 
-    def change_event(self, change: Change) -> None:
+    def change_event(self, change: Change) -> dict | None:
         """Deliver notification message."""
         config = self.instance.configuration
         if change.action in config["events"]:
@@ -63,6 +63,8 @@ class WebhookAddon(ChangeBaseAddon):
             ) as error:
                 raise MessageNotDeliveredError from error
 
+            headers = self.build_headers(change, payload)
+
             try:
                 response = requests.post(
                     url=config["webhook_url"],
@@ -73,8 +75,15 @@ class WebhookAddon(ChangeBaseAddon):
             except requests.exceptions.ConnectionError as error:
                 raise MessageNotDeliveredError from error
 
-            if not 200 <= response.status_code <= 299:
-                raise MessageNotDeliveredError
+            return {
+                "request": {"headers": headers, "payload": payload},
+                "response": {
+                    "status_code": response.status_code,
+                    "content": response.text,
+                    "headers": dict(response.headers),
+                },
+            }
+        return None
 
     def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
         """Build a Schema-valid payload from change event."""

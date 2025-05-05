@@ -7,6 +7,8 @@ Weblate 5.11.4
 
 .. rubric:: Improvements
 
+* :ref:`addon-weblate.webhook.webhook` logs requests and responses.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
