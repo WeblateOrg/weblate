@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:51+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-05-06 07:02+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
 "n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -470,10 +470,8 @@ msgstr ""
 "rath."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Níorbh fhéidir an teachtaireacht a sheoladh chuig an riarthóir."
+msgstr "Cuntas faoi ghlas ag riarthóir an tsuímh."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1032,21 +1030,14 @@ msgstr[4] ""
 "a bheith ann."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] ""
-"Caithfidh %(min_length)d carachtar ar a mhéad a bheith i do phasfhocal."
-msgstr[1] ""
-"Caithfidh %(min_length)d carachtair ar a mhéad a bheith i do phasfhocal."
-msgstr[2] ""
-"Caithfidh %(min_length)d carachtair ar a mhéad a bheith i do phasfhocal."
-msgstr[3] ""
-"Caithfidh %(min_length)d carachtair ar a mhéad a bheith i do phasfhocal."
-msgstr[4] ""
-"Caithfidh %(min_length)d carachtair ar a mhéad a bheith i do phasfhocal."
+msgstr[0] "Ní mór %(max_length)d carachtar ar a mhéad a bheith i do phasfhocal."
+msgstr[1] "Ní mór %(max_length)d carachtar ar a mhéad a bheith i do phasfhocal."
+msgstr[2] "Ní mór %(max_length)d carachtar ar a mhéad a bheith i do phasfhocal."
+msgstr[3] "Ní mór %(max_length)d carachtar ar a mhéad a bheith i do phasfhocal."
+msgstr[4] "Ní mór %(max_length)d carachtar ar a mhéad a bheith i do phasfhocal."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1127,10 +1118,8 @@ msgid "Could not send message to administrator."
 msgstr "Níorbh fhéidir an teachtaireacht a sheoladh chuig an riarthóir."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Seoladh an iomarca teachtaireachtaí, bain triail as arís níos déanaí."
+msgstr "Níorbh fhéidir ticéad a oscailt, déan iarracht arís ar ball."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1865,20 +1854,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Cumasaigh sórtáil eochrach cás-íogair"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changes"
 msgid "Change events"
-msgstr "Athruithe"
+msgstr "Athraigh imeachtaí"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL an suíomh gréasáin"
+msgstr "URL Webhook"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Rúnda"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2051,13 +2036,12 @@ msgstr "Suiteáilte an breiseán, athbhreithnigh na treoracha comhtháthaithe."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Crúca Gréasáin"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Seol fógra chuig úsáideoirí suibscríofa."
+msgstr ""
+"Seolann sé fógra chuig seirbhís sheachtrach bunaithe ar imeachtaí roghnaithe."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2131,7 +2115,7 @@ msgstr "Níorbh fhéidir an glas a fháil chun an oibríocht a dhéanamh."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Ní aonad foinse aistriúcháin é an t-aitheantas aonaid sonraithe."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3215,10 +3199,8 @@ msgid "AngularJS interpolation string"
 msgstr "Teaghrán idirshuíomh AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Ní mheaitseálann teaghráin idirshuímh AngularJS an fhoinse"
+msgstr "Ní hionann teaghráin idirshuíomh AngularJS agus an fhoinse."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3237,202 +3219,168 @@ msgid "Starting newline"
 msgstr "Líne nua a thosú"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Ní thosaíonn foinse agus aistriúchán araon le líne nua"
+msgstr "Ní thosaíonn an fhoinse agus an t-aistriúchán araon le líne nua."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Líne nua á lorg"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le líne nua"
+msgstr "Ní chríochnaíonn an fhoinse agus an t-aistriúchán araon le líne nua."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Spásanna tosaithe"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
 msgstr ""
-"Ní thosaíonn foinse agus aistriúchán araon leis an líon céanna spásanna"
+"Ní bhíonn an líon céanna spásanna ag tosú sa bhfoinse agus san aistriúchán."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Spás leantóir"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le spás"
+msgstr "Ní chríochnaíonn foinse agus aistriúchán le spás araon."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Spás dúbailte"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Tá spás dúbailte san aistriúchán"
+msgstr "Tá spás dúbailte san aistriúchán."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "lánstad mí-oiriúnach"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le lánstad"
+msgstr "Ní chríochnaíonn an fhoinse agus an t-aistriúchán le lánstad araon."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "colon mímheaitseála"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán le idirstad"
+msgstr "Ní chríochnaíonn foinse agus aistriúchán le colon araon."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Comhartha ceiste mímheaitseála"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le comhartha ceiste"
+msgstr ""
+"Ní chríochnaíonn an fhoinse agus an t-aistriúchán le comhartha ceiste araon."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Comhartha exclamation mímheaitseála"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le exclamation"
+msgstr ""
+"Ní chríochnaíonn an fhoinse agus an t-aistriúchán araon le comhartha eisce."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Interrobang mícheart"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le slonn interrobang"
+msgstr ""
+"Ní chríochnaíonn an fhoinse agus an t-aistriúchán araon le habairt "
+"interrobang."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Éipideas mímheaitseála"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le héilips"
+msgstr "Ní chríochnaíonn an fhoinse agus an t-aistriúchán araon le hailipsis."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Mímheaitseáilte \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "Ní mheaitseálann líon na litreach \\n san aistriúchán leis an bhfoinse"
+msgstr ""
+"Ní mheaitseálann líon na litreach \\n"
+" san aistriúchán leis an bhfoinse."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Briseadh líne mímheaitseála"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Ní mheaitseálann líon na línte nua san aistriúchán leis an bhfoinse"
+msgstr "Ní hionann líon na línte nua san aistriúchán agus an fhoinse."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Spás nialasach"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "Tá carachtar spáis nial-leithead sa bhreis san aistriúchán"
+msgstr "Tá carachtar spáis nial-leithead breise san aistriúchán."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Fad uasta an aistriúcháin"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "Níor chóir go mbeadh an t-aistriúchán níos faide ná an fad tugtha"
+msgstr "Níor cheart go mbeadh an t-aistriúchán níos faide ná an fad atá tugtha."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Leathstad mímheaitseála"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Ní chríochnaíonn foinse agus aistriúchán araon le leathstad"
+msgstr "Ní chríochnaíonn an fhoinse agus an t-aistriúchán le leathstad."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Litir Kashida a úsáideadh"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Níor cheart na litreacha kashida maisiúla a úsáid"
+msgstr "Níor cheart na litreacha kashida maisiúla a úsáid."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Spásáil poncaíochta"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "Spás neamhbhriste in easnamh roimh chomhartha poncaíochta dúbailte"
+msgstr ""
+"Spás neamh-inbhriste ar iarraidh roimh an gcomhartha poncaíochta dúbailte."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Iolra ar iarraidh"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Tá roinnt foirmeacha iolra gan aistriú"
+msgstr "Níl aistriúchán ar roinnt foirmeacha iolra."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Na foirmeacha iolra céanna"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "Aistrítear roinnt foirmeacha iolra ar an mbealach céanna"
+msgstr "Aistrítear roinnt foirmeacha iolra ar an mbealach céanna."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3474,10 +3422,8 @@ msgid "Has been translated"
 msgstr "Aistríodh"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "Aistríodh an teaghrán seo san am atá caite"
+msgstr "Aistríodh an teaghrán seo roimhe seo."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3489,10 +3435,8 @@ msgid "Consecutive duplicated words"
 msgstr "Focail dúblacha as a chéile"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "Tá an focal céanna sa téacs faoi dhó as a chéile"
+msgstr "Tá an focal céanna sa téacs faoi dhó as a chéile."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3604,7 +3548,7 @@ msgstr "Cineál líofa"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Bratach a scriosadh"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -3756,10 +3700,8 @@ msgid "Fluent source inner HTML"
 msgstr "HTML inmheánach foinse líofa"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Ba cheart go mbeadh foinse líofa HTML inmheánach bailí"
+msgstr "Ba chóir go mbeadh HTML inmheánach bailí sa fhoinse líofa."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3823,11 +3765,9 @@ msgid "Fluent translation inner HTML"
 msgstr "HTML inmheánach aistriúchán líofa"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
 msgstr ""
-"Ba cheart go mbeadh sprioc líofa ag HTML inmheánach bailí a mheaitseálann"
+"Ba chóir go mbeadh sprioc líofa ina HTML inmheánach bailí a mheaitseálann."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3852,10 +3792,8 @@ msgid "Fluent parts"
 msgstr "Páirteanna líofa"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Ba chóir go mbeadh páirteanna líofa ag teacht le chéile"
+msgstr "Ba chóir go mbeadh codanna líofa ag teacht le chéile."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3981,10 +3919,8 @@ msgid "Fluent references"
 msgstr "Tagairtí líofa"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "Ba cheart go mbeadh tagairtí líofa mar a chéile"
+msgstr "Ba chóir go mbeadh tagairtí líofa ag teacht leis na critéir."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3996,20 +3932,16 @@ msgid "Fluent source syntax"
 msgstr "Comhréir foinse líofa"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Earráid chomhréire líofa san fhoinse"
+msgstr "Earráid chomhréire líofa sa fhoinse."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Comhréir aistriúcháin líofa"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Earráid chomhréireachta líofa san aistriúchán"
+msgstr "Earráid chomhréire líofa san aistriúchán."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -4021,100 +3953,80 @@ msgid "Python format"
 msgstr "Formáid Python"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid Python leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide Python agus an foinse."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "Formáid PHP"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid PHP an fhoinse"
+msgstr "Ní hionann an teaghrán formáide PHP agus an foinse."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "Formáid C"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid C an fhoinse"
+msgstr "Ní hionann an teaghrán formáid C agus an foinse."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "Formáid perl brace"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáide brace Perl an fhoinse"
+msgstr "Ní hionann an teaghrán formáide lúibín Perl agus an foinse."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "Formáid Perl"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid Perl an fhoinse"
+msgstr "Ní hionann an teaghrán formáide Perl agus an foinse."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "Formáid javascript"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid JavaScript leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide JavaScript agus an fhoinse."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "Formáid Lua"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid Lua an fhoinse"
+msgstr "Ní hionann an teaghrán formáide Lua agus an fhoinse."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "Formáid Pascal saor in aisce,"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Ní mheaitseálann teaghrán fhormáid Object Pascal leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide Object Pascal agus an fhoinse."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "Formáid scéime"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid na scéime an fhoinse"
+msgstr "Ní hionann teaghrán formáide na scéime agus an fhoinse."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "Formáid brace python"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid brace Python leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide lúibín Python agus an foinse."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4125,30 +4037,24 @@ msgid "C# format"
 msgstr "Formáid C#"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid C# an fhoinse"
+msgstr "Ní hionann an teaghrán formáide C# agus an foinse."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "Formáid Java"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid Java leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide Java agus an foinse."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
 msgstr "Formáid Teachtaireacht Java"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "Ní mheaitseálann teaghrán Java MessageFormat an fhoinse"
+msgstr "Ní hionann an teaghrán Java MessageFormat agus an fhoinse."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4159,52 +4065,41 @@ msgid "i18next interpolation"
 msgstr "i18 chéad idirshuíomh eile"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "Ní mheaitseálann idirshuíomh i18next an fhoinse"
+msgstr "Ní hionann idirshuíomh i18next agus an fhoinse."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
 msgstr "Teimpléad ECMAScript litreach"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "Ní mheaitseálann litreacha teimpléid ECMAScript an fhoinse"
+msgstr "Ní hionann litriúla teimpléid ECMAScript agus an fhoinse."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
 msgstr "Céatadán sealbhóirí áitribh"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "Ní mheaitseálann na sealbhóirí áite faoin gcéad leis an bhfoinse"
+msgstr "Ní hionann na háitchoinneálaithe céatadáin agus an fhoinse."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Formáidiú Vue I18n"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Ní mheaitseálann formáidiú Vue I18n an fhoinse"
+msgstr "Ní hionann formáidiú Vue I18n agus an fhoinse."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic Components"
-msgstr "Tascanna uathoibríocha"
+msgstr "Comhpháirteanna Uathoibríocha"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Ní mheaitseálann na sealbhóirí áite faoin gcéad leis an bhfoinse"
+msgstr ""
+"Ní hionann áitchoimeádaithe na gcomhpháirteanna Automattic agus an fhoinse."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
@@ -4235,10 +4130,8 @@ msgid "Prohibited initial character"
 msgstr "Toirmiscthe carachtar tosaigh"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "Tosaíonn an teaghrán le carachtar toirmiscthe i CSV"
+msgstr "Tosaíonn an teaghrán le carachtar toirmiscthe i CSV."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4331,30 +4224,24 @@ msgid "BBCode markup"
 msgstr "Marcáil BBCode"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "Ní mheaitseálann BBCode san aistriúchán leis an bhfoinse"
+msgstr "Ní hionann an t-aistriúchán ar BBCode agus an fhoinse."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "Comhréir XML"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "Níl an t-aistriúchán bailí XML"
+msgstr "Ní XML bailí an t-aistriúchán."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "XML marcáil"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "Ní mheaitseálann clibeanna XML atá san aistriúchán leis an bhfoinse"
+msgstr "Ní hionann clibeanna XML san aistriúchán agus an fhoinse."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
@@ -4377,26 +4264,20 @@ msgid "Markdown syntax"
 msgstr "Comhréir Markdown"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Ní mheaitseálann comhréir Markdown an fhoinse"
+msgstr "Ní hionann comhréir an marcála síos agus an fhoinse."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "Níl URL san aistriúchán"
+msgstr "Níl URL san aistriúchán."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML neamhshábháilte"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "Úsáideann an t-aistriúchán marcáil HTML neamhshábháilte"
+msgstr "Úsáideann an t-aistriúchán marcáil HTML neamhshábháilte."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4430,20 +4311,16 @@ msgid "Placeholders"
 msgstr "Áitsealbhóirí"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "Tá roinnt sealbhóirí áite in easnamh ar an aistriúchán"
+msgstr "Tá roinnt áitchoinneoirí in easnamh san aistriúchán."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "Léiriú rialta"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "Ní hionann an t-aistriúchán le slonn rialta"
+msgstr "Ní hionann an t-aistriúchán agus an gnáthléiriú."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4454,31 +4331,26 @@ msgid "Qt format"
 msgstr "Formáid Qt"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáid Qt an fhoinse"
+msgstr "Ní hionann an teaghrán formáide Qt agus an foinse."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Qt formáid iolra"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáide iolra Qt leis an bhfoinse"
+msgstr "Ní hionann an teaghrán formáide iolra Qt agus an foinse."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "Uasmhéid an aistriúcháin"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
 msgstr ""
-"Níor cheart go mbeadh an t-aistriúchán rindreáilte níos mó ná an méid áirithe"
+"Níor cheart go mbeadh an téacs a chuirtear san aistriúchán níos mó ná an "
+"méid atá tugtha."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4491,51 +4363,41 @@ msgid "Ruby format"
 msgstr "Formáid Ruby"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "Ní mheaitseálann teaghrán formáide Ruby an fhoinse"
+msgstr "Ní hionann an teaghrán formáide Ruby agus an fhoinse."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Aistriúchán gan athrú"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Tá an fhoinse agus an t-aistriúchán comhionann"
+msgstr "Tá an fhoinse agus an t-aistriúchán mar a chéile."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "Neamhiolra"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr "Úsáidtear an téad mar iolra, ach ní úsáidtear foirmeacha iolra"
+msgstr "Úsáidtear an teaghrán mar iolra, ach ní úsáidtear foirmeacha iolra."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "Éilips"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "Úsáideann an téad trí phonc (...) in ionad carachtar éilips (…)"
+msgstr ""
+"Úsáideann an teaghrán trí phointe (...) in ionad carachtar eilipsis (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "Seiceálacha teip iolracha"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "Tá seiceálacha teipthe ar na haistriúcháin i dteangacha éagsúla"
+msgstr "Tá seiceálacha teipthe ar na haistriúcháin i roinnt teangacha."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4546,10 +4408,8 @@ msgid "Long untranslated"
 msgstr "Fada gan aistriúchán"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "Níl an teaghrán aistrithe le fada an lá"
+msgstr "Níor aistríodh an teaghrán le fada an lá."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -5409,11 +5269,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Níorbh fhéidir aistriúchán a fháil: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Téacs teanga foinse"
+msgstr "Rogha teanga foinse"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5744,26 +5602,19 @@ msgid "The model's unique deployment name."
 msgstr "Ainm imscaradh uathúil an tsamhail."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Roghnú uathoibríoch"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Comhpháirt athainmnithe"
+msgstr "Teanga foinse an chomhpháirte"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Teanga nua curtha le %(component)s"
+msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháirt"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7346,17 +7197,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Múch fíordheimhniú dhá-fhachtóir"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr ""
-"Cumasaigh fíordheimhniú an phasfhocail chun do chuntas a dhéanamh slán."
+msgstr "Díchumasaigh fíordheimhniú pasfhocail don úsáideoir."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Pasfhocal nua"
+msgstr "Díchumasaigh pasfhocal"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9960,7 +9806,7 @@ msgstr "Díghlasáladh comhpháirt %(component)s"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "Nóta: Gearradh an achoimre seo mar go raibh breis is 100 fógra ann."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -12287,19 +12133,14 @@ msgstr ""
 "thoil an bhfuil rochtain ag Weblate air."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Chuir Gerrit cosc ar an bhrú seo. Seans go mbeidh cuntas gerrit uait a "
-"bhfuil na ceadanna údair bhrionnaithe aige don stór/brainse nó go mbeidh ort "
-"an breiseán scuaise ar an gcomhpháirt seo in Weblate a úsáid."
+"Chuir Gerrit cosc ar an mbrú seo. B’fhéidir go mbeadh cuntas gerrit ag "
+"teastáil uait a bhfuil ceadanna údair forge aige don stór/bhrainse nó go "
+"mbeadh ort an breiseán squash a úsáid ar an gcomhpháirt seo i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:20
 msgid ""
@@ -14090,17 +13931,13 @@ msgstr "Athrú iomadaithe"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Modh uaslódáil comhad"
+msgstr "Comhad uaslódáilte"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Nuashonraithe is déanaí"
+msgstr "Bratacha breise nuashonraithe"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14554,20 +14391,16 @@ msgid "Report period"
 msgstr "Tréimhse tuairisce"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Sórtáil de réir"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Níl aon teaghráin le haistriú"
+msgstr "Teaghráin aistrithe"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Ord sórtála"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15149,10 +14982,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s ag %(time)s ar %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Modh uaslódáil comhad"
+msgstr "Mód uaslódála comhaid:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15648,22 +15479,21 @@ msgstr ""
 "ach i bhformáidí aonteangacha."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Teangacha tánaisteacha"
+msgstr "Teanga thánaisteach"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
+"Teanga bhreise le taispeáint in éineacht leis an teanga foinse agus an t-"
+"aistriúchán á dhéanamh."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Níor iompórtáladh aon teaghráin ón gcomhad uaslódáilte."
+msgstr ""
+"Faightear an socrú seo mar oidhreacht ón tionscadal má fhágtar folamh é."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -16109,22 +15939,21 @@ msgstr "Níorbh fhéidir comhad %(file)s a pharsáil: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
-msgstr[1] "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
-msgstr[2] "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
-msgstr[3] "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
-msgstr[4] "Níorbh fhéidir teaghrán cumaiscthe a aimsiú."
+msgstr[0] "Níorbh fhéidir %d teaghrán a aimsiú:"
+msgstr[1] "Níorbh fhéidir %d teaghrán a aimsiú:"
+msgstr[2] "Níorbh fhéidir %d teaghrán a aimsiú:"
+msgstr[3] "Níorbh fhéidir %d teaghrán a aimsiú:"
+msgstr[4] "Níorbh fhéidir %d teaghrán a aimsiú:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -16169,15 +15998,14 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
-msgstr[1] "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
-msgstr[2] "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
-msgstr[3] "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
-msgstr[4] "Níorbh fhéidir an teaghrán a iomadú go %(component)s: %(reason)s"
+msgstr[0] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirt."
+msgstr[1] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
+msgstr[2] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
+msgstr[3] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
+msgstr[4] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -17133,21 +16961,17 @@ msgid "Horizontal language bar chart"
 msgstr "Barrachairt teanga chothrománach"
 
 #: weblate/trans/widgets.py:527
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Cód teanga"
+msgstr "Suaitheantas comhairimh teanga"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Teangacha"
-msgstr[1] "Teangacha"
-msgstr[2] "Teangacha"
-msgstr[3] "Teangacha"
-msgstr[4] "Teangacha"
+msgstr[0] "teanga"
+msgstr[1] "teangacha"
+msgstr[2] "teangacha"
+msgstr[3] "teangacha"
+msgstr[4] "teangacha"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -17404,10 +17228,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Seoladh ríomhphoist neamhbhailí: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Tá an seoladh r-phoist seo dícheadaithe."
+msgstr "Ní cheadaítear fearainn ríomhphoist indiúscartha."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
@@ -17441,10 +17263,8 @@ msgid "This URL is prohibited"
 msgstr "Tá cosc ar an URL seo"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Teaghrán cuardaigh neamhbhailí!"
+msgstr "Teaghrán ionchódaithe base64 neamhbhailí"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
