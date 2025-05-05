@@ -22,6 +22,7 @@ from weblate_schemas import load_schema, validate_schema
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import WebhooksAddonForm
 from weblate.trans.util import split_plural
+from weblate.utils.requests import request
 
 if TYPE_CHECKING:
     from weblate.trans.models import Change
@@ -67,11 +68,13 @@ class WebhookAddon(ChangeBaseAddon):
             headers = self.build_headers(change, payload)
 
             try:
-                response = requests.post(
+                response = request(
+                    method="post",
                     url=config["webhook_url"],
                     json=payload,
                     headers=self.build_headers(change, payload),
                     timeout=15,
+                    raise_for_status=False,
                 )
             except requests.exceptions.ConnectionError as error:
                 raise MessageNotDeliveredError from error
