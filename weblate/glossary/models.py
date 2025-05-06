@@ -253,9 +253,7 @@ def render_glossary_units_tsv(units) -> str:
         """
         text = text.translate(CONTROLCHARS_TRANS)
         prohibited_initial_chars_pattern = (
-            "^("
-            r"\s"
-            "|" + "|".join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS) + ")*"
+            "^(" + "|".join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS) + ")*"
         )
 
         return re.sub(prohibited_initial_chars_pattern, "", text).strip()
