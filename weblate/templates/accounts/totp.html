@@ -1,21 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load authnames %}
-{% load crispy_forms_tags %}
-{% load icons %}
-{% load otp_webauthn %}
+{% load authnames crispy_forms_tags i18n icons otp_webauthn translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'profile' %}">{% trans "Your profile" %}</a>
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
   <li>
-    <a href="{% url 'totp' %}">{% trans "Register new authenticator app" %}</a>
+    <a href="{% url 'totp' %}">{% translate "Register new authenticator app" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -25,35 +19,35 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           {% documentation_icon 'admin/auth' '2fa' right=True %}
-          {% trans "Register new authenticator app" %}
+          {% translate "Register new authenticator app" %}
         </h4>
       </div>
       <div class="panel-body second-factor">
         <p class="help-block">
-          {% trans "Authenticator apps generate time-based one-time passwords that are used as a second factor to verify your identity when prompted during sign-in." %}
+          {% translate "Authenticator apps generate time-based one-time passwords that are used as a second factor to verify your identity when prompted during sign-in." %}
         </p>
 
-        <h5>{% trans "Scan the QR code" %}</h5>
+        <h5>{% translate "Scan the QR code" %}</h5>
 
         <div class="totp-qr">{{ totp_svg }}</div>
 
-        <p>{% trans "You can also enter the secret key manually:" %}</p>
+        <p>{% translate "You can also enter the secret key manually:" %}</p>
 
-        <pre dir="ltr"><button type="button" class="btn btn-link btn-xs pull-right" data-clipboard-value="{{ totp_key_b32 }}" data-clipboard-message="{% trans "Secret key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
+        <pre dir="ltr"><button type="button" class="btn btn-link btn-xs pull-right" data-clipboard-value="{{ totp_key_b32 }}" data-clipboard-message="{% translate "Secret key copied to clipboard." %}" title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>{{ totp_key_b32 }}</pre>
 
         {{ form|crispy }}
 
         <p>
           <input type="submit"
                  class="btn btn-primary"
-                 value="{% trans "Confirm registration" %}" />
+                 value="{% translate "Confirm registration" %}" />
         </p>
 
         <p>
-          <a class="btn btn-link" href="{% url "profile" %}#account">{% trans "Back to account settings" %}</a>
+          <a class="btn btn-link" href="{% url "profile" %}#account">{% translate "Back to account settings" %}</a>
         </p>
 
       </div>
     </div>
   </form>
-{% endblock %}
+{% endblock content %}

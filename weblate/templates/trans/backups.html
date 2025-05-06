@@ -1,18 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load humanize %}
-{% load translations %}
+{% load humanize i18n translations %}
 
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
   <li>
-    <a href="{% url 'backups' project=object.slug %}">{% trans "Backups" %}</a>
+    <a href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   <table class="table">
@@ -28,7 +25,7 @@
       {% empty %}
         <tr>
           <td colspan="2">
-            <em>{% trans "There are currently no backups." %}</em>
+            <em>{% translate "There are currently no backups." %}</em>
           </td>
         </tr>
       {% endfor %}
@@ -38,19 +35,19 @@
   <form method="post">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Trigger backup" %}</h4>
+        <h4 class="panel-title">{% translate "Trigger backup" %}</h4>
       </div>
       <div class="panel-body">
         {% csrf_token %}
         <p>
-          {% trans "Backup will be generated in the background." %}
-          {% blocktrans count count=keep_days %}Backups are removed after {{ keep_days }} day.{% plural %}Backups are removed after {{ keep_days }} days.{% endblocktrans %}
+          {% translate "Backup will be generated in the background." %}
+          {% blocktranslate count count=keep_days %}Backups are removed after {{ keep_days }} day.{% plural %}Backups are removed after {{ keep_days }} days.{% endblocktranslate %}
         </p>
       </div>
       <div class="panel-footer">
-        <input type="submit" class="btn btn-primary" value="{% trans "Trigger backup" %}" />
+        <input type="submit" class="btn btn-primary" value="{% translate "Trigger backup" %}" />
       </div>
     </div>
   </form>
 
-{% endblock %}
+{% endblock content %}

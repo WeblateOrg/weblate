@@ -1,23 +1,19 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
-{% load icons %}
+{% load crispy_forms_tags i18n icons translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'hosting' %}">{% trans "Hosting" %}</a>
+    <a href="{% url 'hosting' %}">{% translate "Hosting" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   {% if billings %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Trial subscriptions" %}</h4>
+        <h4 class="panel-title">{% translate "Trial subscriptions" %}</h4>
       </div>
       {% include "billing/list.html" with objects=billings %}
     </div>
@@ -31,22 +27,22 @@
         <input type="hidden" name="plan" value="libre" />
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">{% trans "Set up your libre project" %}</h4>
+            <h4 class="panel-title">{% translate "Set up your libre project" %}</h4>
           </div>
           <div class="panel-body">
 
             {% include "snippets/libre-basic.html" %}
-            <h4>{% trans "Your trial" %}</h4>
+            <h4>{% translate "Your trial" %}</h4>
             <ul>
-              <li>{% trans "You will have 14 days to set up your project." %}</li>
-              <li>{% trans "Please request project approval once you finish the setup." %}</li>
-              <li>{% trans "Unapproved projects will be removed." %}</li>
-              <li>{% trans "We reserve our right to reject inappropriate content (erotic, gambling, etc.)." %}</li>
+              <li>{% translate "You will have 14 days to set up your project." %}</li>
+              <li>{% translate "Please request project approval once you finish the setup." %}</li>
+              <li>{% translate "Unapproved projects will be removed." %}</li>
+              <li>{% translate "We reserve our right to reject inappropriate content (erotic, gambling, etc.)." %}</li>
             </ul>
 
           </div>
           <div class="panel-footer">
-            <input type="submit" value="{% trans "Get started" %}" class="btn btn-primary" />
+            <input type="submit" value="{% translate "Get started" %}" class="btn btn-primary" />
           </div>
         </div>
       </form>
@@ -55,16 +51,18 @@
     <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">{% trans "Looking for commercial hosting?" %}</h4>
+          <h4 class="panel-title">{% translate "Looking for commercial hosting?" %}</h4>
         </div>
         <div class="panel-body">
-          <p>{% trans "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}</p>
+          <p>
+            {% translate "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
+          </p>
         </div>
         <div class="panel-footer">
-          <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
+          <a class="btn btn-primary" href="{% url 'trial' %}">{% translate "Gratis trial" %}</a>
         </div>
       </div>
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

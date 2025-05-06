@@ -83,6 +83,7 @@ class MockTranslation:
         self.is_template = False
         self.is_source = False
         self.plural = self.language.plural
+        self.id = 1
 
     @staticmethod
     def log_debug(text, *args):

@@ -133,10 +133,12 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
             self.check.check_target(["glossary term"], ["glossary term"], valid_unit)
         )
 
-        term = self.get_term()
-        unit = self.add_glossary(term)
-        self.assertEqual(Check.objects.filter(name=self.check.check_id).count(), 2)
-        self.assertTrue(self.check.check_target([term], [term], unit))
+        for i, term in enumerate(PROHIBITED_INITIAL_CHARS, start=1):
+            unit = self.add_glossary(term)
+            self.assertEqual(
+                Check.objects.filter(name=self.check.check_id).count(), i * 2
+            )
+            self.assertTrue(self.check.check_target([term], [term], unit))
 
     def test_ignore_prohibited_initial_character(self) -> None:
         """Check that the check can be ignored with flag."""

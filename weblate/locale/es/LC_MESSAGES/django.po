@@ -14,13 +14,14 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 # xuars <yago.rana.gayoso@gmail.com>, 2025.
 # Amalia Nostalgia <cadenanostalgia@gmail.com>, 2025.
+# Francisco Serrador <fserrador@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-29 10:28+0000\n"
+"Last-Translator: xuars <yago.rana.gayoso@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -475,10 +476,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Cuenta bloqueada por muchos intentos de acceso fallidos."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "No se pudo enviar el mensaje al administrador."
+msgstr "Cuenta bloqueada por el administrador del sitio."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -1015,22 +1014,24 @@ msgstr ""
 "blanco."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "Esta contraseña se compone de un único carácter."
-msgstr[1] "Esta contraseña se compone de un único carácter."
+msgstr[0] ""
+"Esta contraseña es demasiado larga. Debe contener como mucho %(max_length)d "
+"carácter."
+msgstr[1] ""
+"Esta contraseña es demasiado larga. Debe contener como mucho %(max_length)d "
+"caracteres."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Su contraseña no puede contener palabras o caracteres repetidos."
-msgstr[1] "Su contraseña no puede contener palabras o caracteres repetidos."
+msgstr[0] "Su contraseña debe contener como mucho %(max_length)d carácter."
+msgstr[1] "Su contraseña debe contener como mucho %(max_length)d caracteres."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1110,10 +1111,8 @@ msgid "Could not send message to administrator."
 msgstr "No se pudo enviar el mensaje al administrador."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Se enviaron demasiados mensajes. Inténtelo de nuevo más tarde."
+msgstr "No se pudo abrir un ticket, intente otro más tarde."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1849,20 +1848,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Activar la clasificación por mayúsculas y minúsculas"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Licencia modificada"
+msgstr "Eventos modificados"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL de sitio web"
+msgstr "URL de Webhook"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Secreto"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1887,7 +1882,7 @@ msgstr ""
 
 #: weblate/addons/generate.py:208
 msgid "Prefill translation with source"
-msgstr "Prerrellenar traducción con original"
+msgstr "Prerellenar traducción con original"
 
 #: weblate/addons/generate.py:209
 msgid "Fills in translation strings with source string."
@@ -2033,13 +2028,13 @@ msgstr "Se instaló el complemento. Consulte las instrucciones de integración."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Enviar notificación a los usuarios suscritos."
+msgstr ""
+"Enviar notificación a los servicios externos basados en eventos "
+"seleccionados."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2071,13 +2066,15 @@ msgstr ""
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "Autenticación basada en vales con prefijo `%s` requerido."
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"Cada usuario tiene un vale de acceso personal el cual puede obtener desde su "
+"respectivo perfil de usuario. Estos vales tienen el prefijo `wfu_`."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2085,6 +2082,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"Es posible crear vales de proyecto cuyo acceso a los API están limitados "
+"para operaciones a su proyecto asociado. Estos vales tienen el prefijo "
+"`wlp_`."
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2105,34 +2105,35 @@ msgid "Weblate's REST API"
 msgstr "API REST de Weblate"
 
 #: weblate/api/views.py:153
-#, fuzzy
-#| msgid "Could not obtain repository lock to perform the operation."
 msgid "Could not obtain the lock to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr "No se ha podido obtener el bloqueo para realizar la operación."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "ID de unidad especificada no es una unidad de origen de traducción."
 
 #: weblate/api/views.py:170
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo del repositorio para %s al realizar la "
+"operación."
 
 #: weblate/api/views.py:178
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo de actualización para el componente %s "
+"que realiza la operación."
 
 #: weblate/api/views.py:185
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr ""
+"No se ha podido obtener el bloqueo de %(scope)s para %(origin)s que realiza "
+"la operación."
 
 #: weblate/api/views.py:2420 weblate/auth/models.py:964
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -2221,17 +2222,17 @@ msgstr "Descargar cambios"
 #. Translators: Permission name
 #: weblate/auth/data.py:25
 msgid "Post comment"
-msgstr "Enviar comentario"
+msgstr "Declarar comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "Eliminar comentario"
+msgstr "Borrar comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
 msgid "Resolve comment"
-msgstr "Resolver el comentario"
+msgstr "Resolver comentario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
@@ -2246,7 +2247,7 @@ msgstr "Bloquear componente, impidiendo traducciones"
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Añadir palabra al glosario"
+msgstr "Añadir apunte al glosario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
@@ -2281,7 +2282,7 @@ msgstr "Editar la memoria de traducción"
 #. Translators: Permission name
 #: weblate/auth/data.py:49
 msgid "Delete translation memory"
-msgstr "Eliminar memoria de traducción"
+msgstr "Borrar memoria de traducción"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:51
@@ -2438,7 +2439,7 @@ msgstr "Deshacer los cambios del repositorio interno"
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "View upstream repository location"
-msgstr "Ver la ubicación del repositorio originario"
+msgstr "Ver el lugar del repositorio originario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:113
@@ -2468,12 +2469,12 @@ msgstr "Gestionar definiciones de idioma"
 #. Translators: Permission name
 #: weblate/auth/data.py:129 weblate/templates/manage/teams.html:24
 msgid "Manage teams"
-msgstr "Dirigir equipos"
+msgstr "Gestionar equipos"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131 weblate/templates/manage/users.html:23
 msgid "Manage users"
-msgstr "Administrar usuarios"
+msgstr "Gestionar usuarios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
@@ -2509,7 +2510,7 @@ msgstr "Gestionar facturación"
 #. Translators: Permission name
 #: weblate/auth/data.py:145
 msgid "Manage site-wide add-ons"
-msgstr "Administrar complementos en todo el sitio"
+msgstr "Gestionar complementos en todo el sitio"
 
 #: weblate/auth/data.py:176
 msgctxt "Access-control role"
@@ -3032,10 +3033,8 @@ msgstr ""
 "La adición de cadenas está deshabilitada en la configuración del componente."
 
 #: weblate/auth/permissions.py:376
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "This component is currently locked."
-msgstr "Esta traducción está bloqueada en este momento."
+msgstr "Este componente está bloqueado en este momento."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3193,10 +3192,8 @@ msgid "AngularJS interpolation string"
 msgstr "Cadena de interpolación de AngularJS"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "La cadena de interpolación de AngularJS no coincide con la de origen"
+msgstr "La cadena de interpolación de AngularJS no coincide con la de origen."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3215,102 +3212,81 @@ msgid "Starting newline"
 msgstr "Salto de renglón al inicio"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "El original o la traducción no comienza con un salto de renglón"
+msgstr "El original o la traducción no comienza con un salto de renglón."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Salto de renglón al final"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "El original o la traducción no acaba con un salto de renglón"
+msgstr "El original o la traducción no acaba con un salto de renglón."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Espacios iniciales"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
 msgstr ""
-"El original y la traducción no comienzan con la misma cantidad de espacios"
+"El original y la traducción no comienzan con la misma cantidad de espacios."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Espacio al final"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "El original o la traducción no acaba con un espacio"
+msgstr "El original o la traducción no acaba con un espacio."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Espacio duplicado"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "La traducción contiene un espacio doble"
+msgstr "La traducción contiene un espacio doble."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Punto final desigual"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "El original o la traducción no acaba con un punto"
+msgstr "El original o la traducción no acaba con un punto."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Dos puntos desiguales"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "El original o la traducción no acaba con dos puntos"
+msgstr "El original o la traducción no acaba con dos puntos."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Signo de interrogación desigual"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "El original o la traducción no acaba con un signo de interrogación"
+msgstr "El original o la traducción no acaba con un signo de interrogación."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Signo de exclamación desigual"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "El original o la traducción no acaba con un signo de exclamación"
+msgstr "El original o la traducción no acaba con un signo de exclamación."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
 msgstr "Interrobang mal ajustado"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Las cadenas fuente y traducida no terminan con un interrobang"
+msgstr "Las cadenas fuente y traducida no terminan con un interrobang."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
@@ -3582,7 +3558,7 @@ msgstr "Tipo de fluido"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Descartar indicador"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -5068,11 +5044,11 @@ msgstr "Cantidad de personas que hablan esta lengua."
 
 #: weblate/lang/models.py:850
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Distinguir MAYÚS/minus"
 
 #: weblate/lang/models.py:851
 msgid "Case-insensitive"
-msgstr ""
+msgstr "No distinguir MAYÚS/minús"
 
 #: weblate/lang/models.py:887
 msgctxt "Plural type"
@@ -9271,7 +9247,7 @@ msgstr[1] "Se bloqueó el componente %(component)s"
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:203
 msgctxt "Joins a list of values"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: weblate/templates/js/git-status.html:118
 #, fuzzy, python-format
@@ -9910,6 +9886,8 @@ msgstr "Se desbloqueó el componente %(component)s"
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
 msgstr ""
+"Nota: Este resumen numérico ha sido truncado como estos fueron superados 100 "
+"notificaciones."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -14310,7 +14288,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:935
 msgid "Machine translation engines"
-msgstr "Motores de traducción automática"
+msgstr "Motores de máquinas de traducción"
 
 #: weblate/trans/forms.py:938
 msgid "Score threshold"
@@ -14430,7 +14408,7 @@ msgstr "No hay ninguna cadena pendiente de traducir"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Ordenación breve"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15985,7 +15963,7 @@ msgstr "No se pudo analizar el archivo %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
@@ -16581,6 +16559,8 @@ msgstr "Cambios en %s"
 #: weblate/trans/views/create.py:70
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
+"La configuración proporcionada es incorrecta. Compruebe los errores a "
+"continuación."
 
 #: weblate/trans/views/create.py:295
 #, python-format

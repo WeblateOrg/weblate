@@ -225,11 +225,11 @@ class SameCheck(TargetCheck):
 
         source_language = unit.translation.component.source_language.base_code
 
-        # Ignore the check for source language,
-        # English variants will have most things untranslated
-        # Interlingua is also quite often similar to English
-        return bool(
+        return (
+            # Ignore the check for source language,
             unit.translation.language.is_base({source_language})
+            # English variants will have most things untranslated
+            # Interlingua is also quite often similar to English
             or (
                 source_language == "en"
                 and unit.translation.language.is_base({"en", "ia"})

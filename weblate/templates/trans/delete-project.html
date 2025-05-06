@@ -1,9 +1,8 @@
-{% load i18n %}
-{% load icons %}
+{% load i18n icons %}
 
 <p>
-  {% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} category and all related content.{% endblocktrans %}
-  {% trans "This includes, but is not limited to, translation memory, glossaries, or user permissions." %}
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} category and all related content.{% endblocktranslate %}
+  {% translate "This includes, but is not limited to, translation memory, glossaries, or user permissions." %}
 </p>
 
 {% if components_count > 15 %}
@@ -11,7 +10,7 @@
     {% blocktranslate count count=components_count %}{{ count }} component will be removed by this.{% plural %}{{ count }} components will be removed by this.{% endblocktranslate %}
   </p>
 {% elif components_count > 0 %}
-  <p>{% trans "The following translation components will be removed:" %}</p>
+  <p>{% translate "The following translation components will be removed:" %}</p>
   <ul>
     {% for component in components %}
       <li>
@@ -24,7 +23,7 @@
 
 {% with categories=object.category_set.order %}
   {% if categories %}
-    <p>{% trans "The following translation categories will be removed:" %}</p>
+    <p>{% translate "The following translation categories will be removed:" %}</p>
     <ul>
       {% for category in categories %}
         <li>
@@ -36,14 +35,14 @@
 {% endwith %}
 
 <div class="form-group">
-  <label class="control-label">{% trans "Project to remove" %}</label>
+  <label class="control-label">{% translate "Project to remove" %}</label>
   <div class="list-group">
     <div class="list-group-item">
       <div class="list-group-item-text">
         <button type="button"
                 class="btn btn-link btn-xs pull-right flip"
                 data-clipboard-value="{{ object.full_slug }}"
-                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 
         {{ object.full_slug }}
       </div>

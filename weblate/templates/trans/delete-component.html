@@ -1,13 +1,12 @@
-{% load i18n %}
-{% load icons %}
+{% load i18n icons %}
 
 <p>
-  {% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} component and all related content.{% endblocktrans %}
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} component and all related content.{% endblocktranslate %}
 </p>
 
 {% with components=object.component_set.prefetch.order %}
   {% if components %}
-    <p>{% trans "The following translation components will be removed:" %}</p>
+    <p>{% translate "The following translation components will be removed:" %}</p>
     <ul>
       <li>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
@@ -23,14 +22,14 @@
 {% endwith %}
 
 <div class="form-group">
-  <label class="control-label">{% trans "Component to remove" %}</label>
+  <label class="control-label">{% translate "Component to remove" %}</label>
   <div class="list-group">
     <div class="list-group-item">
       <div class="list-group-item-text">
         <button type="button"
                 class="btn btn-link btn-xs pull-right flip"
                 data-clipboard-value="{{ object.full_slug }}"
-                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 
         {{ object.full_slug }}
       </div>

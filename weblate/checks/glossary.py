@@ -11,7 +11,10 @@ from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
+from weblate.utils.csv import (
+    PROHIBITED_INITIAL_CHARS,
+    PROHIBITED_INITIAL_CHARS_FOR_DISPLAY,
+)
 from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
@@ -112,5 +115,7 @@ class ProhibitedInitialCharacterCheck(TargetCheck):
                     "The string starts with one or more of the following forbidden characters: {}"
                 )
             ),
-            format_html_join_comma("<code>{}</code>", PROHIBITED_INITIAL_CHARS),
+            format_html_join_comma(
+                "<code>{}</code>", PROHIBITED_INITIAL_CHARS_FOR_DISPLAY
+            ),
         )

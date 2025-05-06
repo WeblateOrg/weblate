@@ -1,18 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li>
-    <a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a>
+    <a href="{% url 'manage-ssh' %}">{% translate "SSH keys" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -25,12 +22,12 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               {% documentation_icon 'vcs' 'ssh-repos' right=True %}
-              {% blocktrans with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktrans %}
+              {% blocktranslate with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktranslate %}
             </h4>
           </div>
           <div class="panel-body">
             <p>
-              {% blocktrans with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktrans %}
+              {% blocktranslate with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktranslate %}
             </p>
             {% csrf_token %}
             <input type="hidden" name="action" value="generate">
@@ -40,7 +37,7 @@
             <input type="submit"
                    id="generate-ssh-button"
                    class="btn btn-primary"
-                   value="{% blocktrans with key_type=ssh_key.name %}Generate new {{ key_type}} SSH key{% endblocktrans %}" />
+                   value="{% blocktranslate with key_type=ssh_key.name %}Generate new {{ key_type }} SSH key{% endblocktranslate %}" />
           </div>
         </div>
       </form>
@@ -52,16 +49,16 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           {% documentation_icon 'vcs' 'verify-ssh' right=True %}
-          {% trans "Known host keys" %}
+          {% translate "Known host keys" %}
         </h4>
       </div>
 
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>{% trans "Hostname" %}</th>
-            <th>{% trans "Key type" %}</th>
-            <th>{% trans "Fingerprint" %}</th>
+            <th>{% translate "Hostname" %}</th>
+            <th>{% translate "Key type" %}</th>
+            <th>{% translate "Fingerprint" %}</th>
           </tr>
         </thead>
         <tbody>
@@ -82,12 +79,12 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           {% documentation_icon 'vcs' 'verify-ssh' right=True %}
-          {% trans "Add host key" %}
+          {% translate "Add host key" %}
         </h4>
       </div>
       <div class="panel-body">
         <p>
-          {% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}
+          {% translate "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}
         </p>
         {% crispy add_form %}
         <input type="hidden" name="action" value="add-host" />
@@ -96,9 +93,9 @@
         <input type="submit"
                id="ssh-add-button"
                class="btn btn-primary"
-               value="{% trans "Submit" %}" />
+               value="{% translate "Submit" %}" />
       </div>
     </div>
   </form>
 
-{% endblock %}
+{% endblock content %}

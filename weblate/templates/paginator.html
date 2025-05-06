@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load icons %}
+{% load i18n icons %}
 
 {% if page_obj.paginator.num_pages > 1 %}
   <ul class="pagination">
@@ -30,10 +29,10 @@
       </a>
     </li>
     <li>
-      <a class="position-input" title="{% trans "Click to edit position" %}">
-        {% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}
+      <a class="position-input" title="{% translate "Click to edit position" %}">
+        {% blocktranslate with position=page_obj.number total=page_obj.paginator.num_pages %}{{ position }} / {{ total }}{% endblocktranslate %}
       </a>
-      <a class="position-input-editable" title="{% trans "Go to position" %}">
+      <a class="position-input-editable" title="{% translate "Go to position" %}">
         {% if not paginator_form %}<form method="get">{% endif %}
           {% for key, value in search_items %}
             <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
@@ -55,11 +54,11 @@
                    name="page"
                    class="form-control"
                    value="{{ page_obj.number }}"
-                   aria-label="{% trans "Jump to" %}"
+                   aria-label="{% translate "Jump to" %}"
                    id="position-input-editable-input">
             <span class="input-group-addon">
               {% comment %}Translators: This is partial position indicator shown when editing position{% endcomment %}
-              {% blocktrans with page_obj.paginator.num_pages as total %}/ {{ total }}{% endblocktrans %}
+              {% blocktranslate with total=page_obj.paginator.num_pages %}/ {{ total }}{% endblocktranslate %}
             </span>
           </div>
           {% if not paginator_form %}</form>{% endif %}

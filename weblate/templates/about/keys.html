@@ -1,18 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load icons %}
+{% load i18n icons translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
   <li>
-    <a href="{% url 'about' %}">{% trans "Weblate keys" %}</a>
+    <a href="{% url 'about' %}">{% translate "Weblate keys" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -22,7 +19,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         {% documentation_icon 'admin/optionals' 'gpg-sign' right=True %}
-        {% trans "Commit signing" %}
+        {% translate "Commit signing" %}
       </h4>
     </div>
 
@@ -31,16 +28,16 @@
         <button type="button"
                 class="btn btn-link btn-xs pull-right flip"
                 data-clipboard-value="{{ gpg_key }}"
-                data-clipboard-message="{% trans "Public key copied to clipboard." %}"
-                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                data-clipboard-message="{% translate "Public key copied to clipboard." %}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
         <p>
-          {% blocktrans %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktrans %}
+          {% blocktranslate %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktranslate %}
         </p>
         <div class="list-group-item pre-scrollable">{{ gpg_key|linebreaks }}</div>
       {% else %}
-        <p>{% trans "Commit signing is not configured." %}</p>
+        <p>{% translate "Commit signing is not configured." %}</p>
       {% endif %}
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

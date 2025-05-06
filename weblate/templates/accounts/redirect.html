@@ -1,21 +1,18 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load authnames %}
+{% load authnames i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
+    <a href="{% url 'login' %}">{% translate "Sign in" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="container">
 
-    {% trans "Redirecting you to the authentication provider." as msg %}
+    {% translate "Redirecting you to the authentication provider." as msg %}
     {% show_message "info" msg %}
 
     <div class="col-sm-6 col-xs-12 btn-auth">
@@ -26,4 +23,4 @@
     </div>
 
   </div>
-{% endblock %}
+{% endblock content %}

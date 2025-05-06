@@ -1,14 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Sveinn í Felli <sv1@fellsnet.is>, 2023, 2024.
+# Sveinn í Felli <sv1@fellsnet.is>, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:51+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-04-23 13:42+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
 "Language: is\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -3449,18 +3449,14 @@ msgid "Consecutive duplicated words"
 msgstr "Sömu orð í röð"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row."
-msgstr "Texti inniheldur sama orðið tvisvar í röð:"
+msgstr "Texti inniheldur sama orðið tvisvar í röð."
 
 #: weblate/checks/duplicate.py:96
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Eftirfarandi þýðingarhlutar yrðu búnir til"
-msgstr[1] "Eftirfarandi þýðingarhlutar yrðu búnir til"
+msgstr[0] "Eftirfarandi orð er tvítekið:"
+msgstr[1] "Eftirfarandi orð eru tvítekin:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
@@ -5659,10 +5655,8 @@ msgid "Source language"
 msgstr "Upprunatungumál"
 
 #: weblate/memory/forms.py:30
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Source language of the document when not specified in file"
-msgstr "Upprunatungumál er ekki skilgreint í TMX-skránni!"
+msgstr "Upprunatungumál skjalsins þegar það er ekki skilgreint í skrá"
 
 #: weblate/memory/forms.py:37 weblate/trans/forms.py:1897
 msgid "Target language"
@@ -5720,10 +5714,8 @@ msgid "Monolingual format not supported for memory upload"
 msgstr ""
 
 #: weblate/memory/models.py:384
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Missing source or target language in file!"
-msgstr "Eins-tungumáls grunntungumálsskrá"
+msgstr "Vantar uppruna- eða marktungumál í skrá!"
 
 #: weblate/memory/models.py:477
 msgctxt "Translation memory category"
@@ -6706,10 +6698,8 @@ msgid "User agent"
 msgstr "Kennisstrengur"
 
 #: weblate/templates/accounts/profile.html:515
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "Engin nýleg virkni fannst!"
+msgstr "Engin nýleg virkni fannst."
 
 #: weblate/templates/accounts/profile.html:521
 msgid "Report suspicious activity"
@@ -9024,12 +9014,11 @@ msgid "Lock"
 msgstr "Læsa"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "Þýðingarhluta %(component)s var læst"
-msgstr[1] "Þýðingarhluta %(component)s var læst"
+msgstr[0] "%(count)s þýðingarhluta var læst"
+msgstr[1] "%(count)s þýðingarhlutum var læst"
 
 #: weblate/templates/js/git-status.html:116 weblate/utils/html.py:203
 msgctxt "Joins a list of values"
@@ -13595,7 +13584,7 @@ msgstr "Þýddir strengir felldir í einhverri prófun"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with dismissed checks"
-msgstr "Þýddir strengir felldir í einhverri prófun"
+msgstr "Þýddir strengir með hunsaðar prófanir"
 
 #: weblate/trans/filter.py:51 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -14478,10 +14467,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s kl. %(time)s í %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Hamur við innsendingu skráa"
+msgstr "Hamur við innsendingu skráa:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15052,10 +15039,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr "Fann ekki neitt samsvarandi tungumál, athugaðu skráasíuna."
 
 #: weblate/trans/models/component.py:2908
-#, fuzzy, python-brace-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Mistókst að þátta skrána %(file)s: %(error)s"
+msgstr "Mistókst að þátta {file}: {error}"
 
 #: weblate/trans/models/component.py:2916
 #, python-format
@@ -15205,10 +15191,8 @@ msgid "Add new translation string"
 msgstr "Bæta við nýjum þýðingastreng"
 
 #: weblate/trans/models/component.py:3921
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
-msgstr "Ekki tókst að sameina gagnasafnið."
+msgstr "Ekki tókst að sjá stöðu gagnasafns!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15361,19 +15345,18 @@ msgstr "Mistókst að þátta skrána %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Gat ekki fundið sameinaða strenginn."
-msgstr[1] "Gat ekki fundið sameinaða strenginn."
+msgstr[0] "Gat ekki fundið %d streng:"
+msgstr[1] "Gat ekki fundið %d strengi:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -16590,10 +16573,8 @@ msgid "This URL is prohibited"
 msgstr "Þessi slóð er bönnuð"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Ógildur leitarstrengur!"
+msgstr "Ógildur base64-kóðaður strengur"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"

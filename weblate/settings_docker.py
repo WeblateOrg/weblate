@@ -173,7 +173,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
-MEDIA_URL = f"{URL_PREFIX}/media/"
+MEDIA_URL = get_env_str("WEBLATE_MEDIA_URL", f"{URL_PREFIX}/media/")
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -181,7 +181,7 @@ MEDIA_URL = f"{URL_PREFIX}/media/"
 STATIC_ROOT = os.path.join(CACHE_DIR, "static")
 
 # URL prefix for static files.
-STATIC_URL = f"{URL_PREFIX}/static/"
+STATIC_URL = get_env_str("WEBLATE_STATIC_URL", f"{URL_PREFIX}/static/")
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -329,15 +329,6 @@ if SOCIAL_AUTH_GITHUB_ENTERPRISE_KEY:
     AUTHENTICATION_BACKENDS += (
         "social_core.backends.github_enterprise.GithubEnterpriseOAuth2",
     )
-
-
-SOCIAL_AUTH_BITBUCKET_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY")
-if SOCIAL_AUTH_BITBUCKET_KEY:
-    SOCIAL_AUTH_BITBUCKET_SECRET = get_env_str(
-        "WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET", required=True
-    )
-    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
-    AUTHENTICATION_BACKENDS += ("social_core.backends.bitbucket.BitbucketOAuth",)
 
 SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY = get_env_str(
     "WEBLATE_SOCIAL_AUTH_BITBUCKET_OAUTH2_KEY"
@@ -1199,6 +1190,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.cdn.CDNJSAddon",
+    "weblate.addons.webhooks.WebhookAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
@@ -1394,12 +1386,13 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
+    "weblate.addons.tasks.addon_change": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
     "weblate.utils.tasks.database_backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup": {"queue": "backup"},

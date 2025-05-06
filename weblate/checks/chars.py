@@ -206,14 +206,17 @@ class EndStopCheck(TargetCheck):
             return False
         return self.check_chars(source, target, -1, {".", "။"})
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Thai and Lojban does not have a full stop
+        if unit.translation.language.is_base({"th", "jbo"}):
+            return True
+        return super().should_skip(unit)
+
     def check_single(self, source: str, target: str, unit: Unit):
         if len(source) <= 4:
             # Might need to use shortcut in translation
             return False
         if not target:
-            return False
-        # Thai and Lojban does not have a full stop
-        if unit.translation.language.is_base({"th", "jbo"}):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
@@ -251,6 +254,12 @@ class EndColonCheck(TargetCheck):
     name = gettext_lazy("Mismatched colon")
     description = gettext_lazy("Source and translation do not both end with a colon.")
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Thai and Lojban does not have a colon
+        if unit.translation.language.is_base({"th", "jbo"}):
+            return True
+        return super().should_skip(unit)
+
     def _check_hy(self, source: str, target: str):
         if source[-1] == ":":
             return self.check_chars(source, target, -1, {":", "՝", "`"})
@@ -265,8 +274,6 @@ class EndColonCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit):
         if not source or not target:
-            return False
-        if unit.translation.language.is_base({"jbo"}):
             return False
         if unit.translation.language.is_base({"hy"}):
             return self._check_hy(source, target)
@@ -285,6 +292,12 @@ class EndQuestionCheck(TargetCheck):
     )
     question_el = ("?", ";", ";")
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Thai and Lojban does not have a question mark
+        if unit.translation.language.is_base({"th", "jbo"}):
+            return True
+        return super().should_skip(unit)
+
     def _check_hy(self, source: str, target: str):
         if source[-1] == "?":
             return self.check_chars(source, target, -1, {"?", "՞", "։"})
@@ -302,8 +315,6 @@ class EndQuestionCheck(TargetCheck):
         if not source or not target:
             return False
         if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
-            return False
-        if unit.translation.language.is_base({"jbo"}):
             return False
         if unit.translation.language.is_base({"hy"}):
             return self._check_hy(source, target)
@@ -326,6 +337,12 @@ class EndExclamationCheck(TargetCheck):
         "Source and translation do not both end with an exclamation mark."
     )
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Thai and Lojban and Armenian does not have an exclamation mark
+        if unit.translation.language.is_base({"hy", "th", "jbo"}):
+            return True
+        return super().should_skip(unit)
+
     def check_single(self, source: str, target: str, unit: Unit):
         if not source or not target:
             return False
@@ -337,8 +354,6 @@ class EndExclamationCheck(TargetCheck):
             and "¡" in target
             and "!" in target
         ):
-            return False
-        if unit.translation.language.is_base({"hy", "jbo"}):
             return False
         if unit.translation.language.is_base({"my"}):
             return self.check_chars(source, target, -1, {"!", "႟"})
@@ -372,10 +387,14 @@ class EndEllipsisCheck(TargetCheck):
         "Source and translation do not both end with an ellipsis."
     )
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Thai and Lojban does not have a ellipsis
+        if unit.translation.language.is_base({"th", "jbo"}):
+            return True
+        return super().should_skip(unit)
+
     def check_single(self, source: str, target: str, unit: Unit):
         if not target:
-            return False
-        if unit.translation.language.is_base({"jbo"}):
             return False
         # Allow ... to be translated into ellipsis
         if source.endswith("...") and target[-1] == "…":
@@ -497,13 +516,15 @@ class PunctuationSpacingCheck(TargetCheck):
         "Missing non breakable space before double punctuation sign."
     )
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+    def should_skip(self, unit: Unit) -> bool:
         if (
             not unit.translation.language.is_base({"fr"})
             or unit.translation.language.code == "fr_CA"
         ):
-            return False
+            return True
+        return super().should_skip(unit)
 
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Remove possible markup
         target = strip_format(target, unit.all_flags)
         # Remove XML/HTML entities to simplify parsing

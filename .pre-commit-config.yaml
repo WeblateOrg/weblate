@@ -22,12 +22,17 @@ repos:
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
+- repo: https://github.com/adamchainz/djade-pre-commit
+  rev: 1.4.0
+  hooks:
+  - id: djade
+    args: [--target-version, '5.1']
 - repo: https://github.com/adrienverge/yamllint
-  rev: v1.37.0
+  rev: v1.37.1
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.11.5
+  rev: v0.11.8
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -136,6 +141,10 @@ repos:
   rev: 1.19.1
   hooks:
   - id: blacken-docs
+- repo: https://github.com/woodruffw/zizmor-pre-commit
+  rev: v1.6.0
+  hooks:
+  - id: zizmor
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock$
 ci:
   autoupdate_schedule: quarterly

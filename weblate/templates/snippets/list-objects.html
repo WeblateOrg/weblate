@@ -1,8 +1,4 @@
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
-{% load humanize %}
-{% load icons %}
+{% load humanize i18n icons permissions translations %}
 
 {% if objects or list_categories %}
   <table {% if objects.paginator.num_pages > 1 %} class="table progress-table autocolspan table-listing" {% else %} class="sort table progress-table autocolspan table-listing" {% endif %}>
@@ -15,39 +11,39 @@
                 <a class="btn btn-link btn-sm"
                    id="list-add-button"
                    href="{% url "new-language" path=object.get_url_path %}"
-                   title="{% trans "Start new translation" %}">{% icon "plus.svg" %}</a>
+                   title="{% translate "Start new translation" %}">{% icon "plus.svg" %}</a>
               {% endif %}
             {% elif add_link == "component" %}
               {% if user_can_edit_project %}
                 <a class="btn btn-link btn-sm"
                    id="list-add-button"
                    href="{% url 'create-component' %}?project={{ object.pk }}"
-                   title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+                   title="{% translate "Add new translation component" %}">{% icon "plus.svg" %}</a>
               {% endif %}
             {% elif add_link == "component-category" %}
               {% if user_can_edit_project %}
                 <a class="btn btn-link btn-sm"
                    id="list-add-button"
                    href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}"
-                   title="{% trans "Add new translation component" %}">{% icon "plus.svg" %}</a>
+                   title="{% translate "Add new translation component" %}">{% icon "plus.svg" %}</a>
               {% endif %}
             {% elif add_link == "language" %}
               {% if user_can_add_language %}
                 <a class="btn btn-link btn-sm"
                    id="list-add-button"
                    href="{% url 'create-language' %}"
-                   title="{% trans "Add language" %}">{% icon "plus.svg" %}</a>
+                   title="{% translate "Add language" %}">{% icon "plus.svg" %}</a>
               {% endif %}
             {% elif add_link == "project" %}
               {% if user.is_authenticated %}
                 <a class="btn btn-link btn-sm"
                    id="list-add-button"
                    href="{% url 'create-project' %}"
-                   title="{% trans "Add project" %}">{% icon "plus.svg" %}</a>
+                   title="{% translate "Add project" %}">{% icon "plus.svg" %}</a>
               {% endif %}
             {% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="sort-cell">
+          <th title="{% translate "Sort this column" %}" class="sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "name" %}-{% endif %}name">
               {% endif %}
@@ -56,76 +52,84 @@
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           {% if project and project.enable_review %}
-            <th title="{% trans "Sort this column" %}" class="number zero-width-540 sort-cell">
+            <th title="{% translate "Sort this column" %}"
+                class="number zero-width-540 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
                 <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved">
                 {% endif %}
-                {% trans "Approved" %}
+                {% translate "Approved" %}
                 <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}" />
                 {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
             </th>
           {% endif %}
-          <th title="{% trans "Sort this column" %}" class="number sort-cell">
+          <th title="{% translate "Sort this column" %}" class="number sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated">
               {% endif %}
-              {% trans "Translated" %}
+              {% translate "Translated" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "translated" %}sort-down{% elif objects.paginator.sort_by == "-translated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-640 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-640 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
               {% endif %}
-              {% trans "Unfinished" %}
+              {% translate "Unfinished" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-720 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-720 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
               {% endif %}
-              {% trans "Unfinished words" %}
+              {% translate "Unfinished words" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-1200 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-1200 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars">
               {% endif %}
-              {% trans "Unfinished characters" %}
+              {% translate "Unfinished characters" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-1400 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-1400 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated">
               {% endif %}
-              {% trans "Untranslated" %}
+              {% translate "Untranslated" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "nottranslated" %}sort-down{% elif objects.paginator.sort_by == "-nottranslated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-768 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-768 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "checks" %}-{% endif %}checks">
               {% endif %}
-              {% trans "Checks" %}
+              {% translate "Checks" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "checks" %}sort-down{% elif objects.paginator.sort_by == "-checks" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-900 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-900 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "suggestions" %}-{% endif %}suggestions">
               {% endif %}
-              {% trans "Suggestions" %}
+              {% translate "Suggestions" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "suggestions" %}sort-down{% elif objects.paginator.sort_by == "-suggestions" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          <th title="{% trans "Sort this column" %}" class="number zero-width-1000 sort-cell">
+          <th title="{% translate "Sort this column" %}"
+              class="number zero-width-1000 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "comments" %}-{% endif %}comments">
               {% endif %}
-              {% trans "Comments" %}
+              {% translate "Comments" %}
               <span class="sort-icon {% if objects.paginator.sort_by == "comments" %}sort-down{% elif objects.paginator.sort_by == "-comments" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
@@ -144,8 +148,8 @@
           <td class="actions" rowspan="2">
             <a href="{{ category.get_absolute_url }}"
                class="btn btn-link green"
-               title="{% trans "Browse" %}"
-               alt="{% trans "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
+               title="{% translate "Browse" %}"
+               alt="{% translate "Browse" %}">{% icon "folder-multiple-outline.svg" %}</a>
           </td>
           <th class="object-link">
             <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
@@ -153,7 +157,7 @@
           {% if project and project.enable_review %}
             {% review_percent category.stats %}
           {% endif %}
-          {% list_objects_percent percent=category.stats.translated_percent value=category.stats.translated search_url=search_url translate_url=translate_url  query="q=state:>=translated" total=category.stats.all checks=category.stats.allchecks %}
+          {% list_objects_percent percent=category.stats.translated_percent value=category.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=category.stats.all checks=category.stats.allchecks %}
           {% if not hide_details %}
             {% list_objects_number value=category.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated " css="zero-width-640" %} {% list_objects_number value=category.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %} {% list_objects_number value=category.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %} {% list_objects_number value=category.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %} {% list_objects_number value=category.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %} {% list_objects_number value=category.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %} {% list_objects_number value=category.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
           {% endif %}
@@ -178,13 +182,13 @@
                   {% csrf_token %}
                   <input type="hidden" name="lang" value="{{ object.language.code }}" />
                   <button type="submit"
-                          alt="{% trans "Create translation" %}"
-                          title="{% trans "Create translation" %}"
+                          alt="{% translate "Create translation" %}"
+                          title="{% translate "Create translation" %}"
                           class="btn btn-link green">{% icon "plus.svg" %}</button>
                 </form>
               {% else %}
                 <span class="gray"
-                      title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% trans "Cannot add translation right now" %}{% endif %}">{% icon "plus.svg" %}</span>
+                      title="{% if user_can_add_translation.reason %}{{ user_can_add_translation.reason }}{% else %}{% translate "Cannot add translation right now" %}{% endif %}">{% icon "plus.svg" %}</span>
               {% endif %}
 
             {% else %}
@@ -192,13 +196,13 @@
               {% if translate_url %}
                 <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}"
                    class="btn btn-link green"
-                   title="{% trans "Translate" %}"
-                   alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
+                   title="{% translate "Translate" %}"
+                   alt="{% translate "Translate" %}">{% icon "pencil.svg" %}</a>
               {% else %}
                 <a href="{{ browse_url }}"
                    class="btn btn-link green"
-                   title="{% trans "Browse" %}"
-                   alt="{% trans "Browse" %}">{% icon "folder-outline.svg" %}</a>
+                   title="{% translate "Browse" %}"
+                   alt="{% translate "Browse" %}">{% icon "folder-outline.svg" %}</a>
               {% endif %}
 
             {% endif %}
@@ -285,7 +289,7 @@
       {% if empty_message %}
         {{ empty_message }}
       {% else %}
-        {% trans "Nothing to list here." %}
+        {% translate "Nothing to list here." %}
       {% endif %}
     </em>
   </p>
@@ -295,29 +299,29 @@
       {% if user_can_add_translation %}
         <a class="btn btn-primary"
            id="list-add-button"
-           href="{% url "new-language" path=object.get_url_path %}">{% trans "Start new translation" %}</a>
+           href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
       {% else %}
         <a class="btn btn-primary"
            id="list-add-button"
            disabled
            href="#"
-           title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation" %}{% endif %}">{% trans "Start new translation" %}</a>
+           title="{% if user.is_authenticated %}{% translate "You don't have permission to start a new translation" %}{% else %}{% translate "Please sign in to start new translation" %}{% endif %}">{% translate "Start new translation" %}</a>
       {% endif %}
     {% elif add_link == "component" %}
       {% if user_can_edit_project %}
         {% if object.project %}
           <a class="btn btn-primary"
              id="list-add-button"
-             href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% trans "Add new translation component" %}</a>
+             href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
         {% else %}
           <a class="btn btn-primary"
              id="list-add-button"
-             href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+             href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
         {% endif %}
       {% endif %}
     {% elif add_link == "language" %}
       {% if user_can_add_language %}
-        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% trans "Add language" %}</a>
+        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% translate "Add language" %}</a>
       {% endif %}
     {% endif %}
   </p>

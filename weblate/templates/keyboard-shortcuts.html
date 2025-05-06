@@ -12,17 +12,17 @@
         <button type="button"
                 class="close"
                 data-dismiss="modal"
-                aria-label="{% trans "Close" %}">
+                aria-label="{% translate "Close" %}">
           <span aria-hidden="true">×</span>
         </button>
-        <h4 id="shortcutsModal" class="panel-title">{% trans "Keyboard shortcuts" %}</h4>
+        <h4 id="shortcutsModal" class="panel-title">{% translate "Keyboard shortcuts" %}</h4>
       </div>
       <div class="modal-body" id="shortcuts-table-container">
         <table class="table table-striped">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" id="t-head">{% trans "Shortcut" %}</th>
-              <th scope="col" id="t-head">{% trans "Action" %}</th>
+              <th scope="col" id="t-head">{% translate "Shortcut" %}</th>
+              <th scope="col" id="t-head">{% translate "Action" %}</th>
             </tr>
           </thead>
           <tbody>
@@ -30,19 +30,19 @@
               <td>
                 <kbd>?</kbd>
               </td>
-              <td>{% trans "Open available keyboard shortcuts." %}</td>
+              <td>{% translate "Open available keyboard shortcuts." %}</td>
             </tr>
             <tr>
               <td>
                 <kbd>Alt</kbd> + <kbd>Home</kbd>
               </td>
-              <td>{% trans "Navigate to the first translation in the current search." %}</td>
+              <td>{% translate "Navigate to the first translation in the current search." %}</td>
             </tr>
             <tr>
               <td>
                 <kbd>Alt</kbd> + <kbd>End</kbd>
               </td>
-              <td>{% trans "Navigate to the last translation in the current search." %}</td>
+              <td>{% translate "Navigate to the last translation in the current search." %}</td>
             </tr>
             <tr>
               <td>
@@ -55,7 +55,7 @@
                 <kbd>Cmd</kbd> + <kbd>↑</kbd> {% translate "or" context "between keyboard shortcuts" %}
                 <br>
               </td>
-              <td>{% trans "Navigate to the last translation in the current search." %}</td>
+              <td>{% translate "Navigate to the last translation in the current search." %}</td>
             </tr>
             <tr>
               <td>
@@ -68,7 +68,7 @@
                 <kbd>Cmd</kbd> + <kbd>↓</kbd> {% translate "or" context "between keyboard shortcuts" %}
                 <br>
               </td>
-              <td>{% trans "Navigate to the next translation in the current search." %}</td>
+              <td>{% translate "Navigate to the next translation in the current search." %}</td>
             </tr>
 
             <tr>
@@ -78,7 +78,7 @@
                 <kbd>Cmd</kbd> + <kbd>Enter</kbd>
               </td>
               <td>
-                {% trans "Submit current form; this works the same as pressing Save and continue while editing translation." %}
+                {% translate "Submit current form; this works the same as pressing Save and continue while editing translation." %}
               </td>
             </tr>
             <tr>
@@ -87,7 +87,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>Shift</kbd> +<kbd>Enter</kbd>
               </td>
-              <td>{% trans "Unmark translation as Needing edit and submit it." %}</td>
+              <td>{% translate "Unmark translation as Needing edit and submit it." %}</td>
             </tr>
             <tr>
               <td>
@@ -96,7 +96,7 @@
                 <kbd>Option</kbd> + <kbd>Enter</kbd>
               </td>
               <td>
-                {% trans "Submit the string as a suggestion; this works the same as pressing Suggest while editing translation." %}
+                {% translate "Submit the string as a suggestion; this works the same as pressing Suggest while editing translation." %}
               </td>
             </tr>
             <tr>
@@ -105,7 +105,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>E</kbd>
               </td>
-              <td>{% trans "Focus on translation editor." %}</td>
+              <td>{% translate "Focus on translation editor." %}</td>
             </tr>
             <tr>
               <td>
@@ -113,7 +113,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>U</kbd>
               </td>
-              <td>{% trans "Focus on comment editor." %}</td>
+              <td>{% translate "Focus on comment editor." %}</td>
             </tr>
             <tr>
               <td>
@@ -121,7 +121,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>M</kbd>
               </td>
-              <td>{% trans "Shows Automatic suggestions tab." %}</td>
+              <td>{% translate "Shows Automatic suggestions tab." %}</td>
             </tr>
             <tr>
               <td>
@@ -131,30 +131,30 @@
                 <kbd>Cmd</kbd> + <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
                 <kbd>Cmd</kbd> + <kbd>9</kbd>
               </td>
-              <td>{% trans "Copies placeable of a given number from source string." %}</td>
+              <td>{% translate "Copies placeable of a given number from source string." %}</td>
             </tr>
             <tr>
               <td>
-                <kbd>Ctrl</kbd> + <kbd>M</kbd> {% trans "followed by" %}
+                <kbd>Ctrl</kbd> + <kbd>M</kbd> {% translate "followed by" %}
                 <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %} <kbd>9</kbd> {% translate "or" context "between keyboard shortcuts" %}
                 <br>
-                <kbd>Cmd</kbd> + <kbd>M</kbd> {% trans "followed by" %}
+                <kbd>Cmd</kbd> + <kbd>M</kbd> {% translate "followed by" %}
                 <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
                 <kbd>9</kbd>
               </td>
-              <td>{% trans "Copy the machine translation of a given number to current translation." %}</td>
+              <td>{% translate "Copy the machine translation of a given number to current translation." %}</td>
             </tr>
             <tr>
               <td>
-                <kbd>Ctrl</kbd> + <kbd>I</kbd> {% trans "followed by" %}
+                <kbd>Ctrl</kbd> + <kbd>I</kbd> {% translate "followed by" %}
                 <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
                 <kbd>9</kbd> {% translate "or" context "between keyboard shortcuts" %}
                 <br>
-                <kbd>Cmd</kbd> + <kbd>I</kbd> {% trans "followed by" %}
+                <kbd>Cmd</kbd> + <kbd>I</kbd> {% translate "followed by" %}
                 <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
                 <kbd>9</kbd>
               </td>
-              <td>{% trans "Ignore one item in the list of failing checks." %}</td>
+              <td>{% translate "Ignore one item in the list of failing checks." %}</td>
             </tr>
             <tr>
               <td>
@@ -162,7 +162,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>J</kbd>
               </td>
-              <td>{% trans "Shows the Nearby strings tab." %}</td>
+              <td>{% translate "Shows the Nearby strings tab." %}</td>
             </tr>
             <tr>
               <td>
@@ -170,7 +170,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>S</kbd>
               </td>
-              <td>{% trans "Focus on search field." %}</td>
+              <td>{% translate "Focus on search field." %}</td>
             </tr>
             <tr>
               <td>
@@ -178,7 +178,7 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>O</kbd>
               </td>
-              <td>{% trans "Copy the source string." %}</td>
+              <td>{% translate "Copy the source string." %}</td>
             </tr>
             <tr>
               <td>
@@ -186,25 +186,25 @@
                 <br>
                 <kbd>Cmd</kbd> + <kbd>Y</kbd>
               </td>
-              <td>{% trans "Toggle the Needs editing checkbox." %}</td>
+              <td>{% translate "Toggle the Needs editing checkbox." %}</td>
             </tr>
             <tr>
               <td>
                 <kbd>→</kbd>
               </td>
-              <td>{% trans "Browse the next translation string." %}</td>
+              <td>{% translate "Browse the next translation string." %}</td>
             </tr>
             <tr>
               <td>
                 <kbd>←</kbd>
               </td>
-              <td>{% trans "Browse the previous translation string." %}</td>
+              <td>{% translate "Browse the previous translation string." %}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{% translate "Close" %}</button>
       </div>
     </div>
   </div>

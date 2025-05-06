@@ -1,30 +1,28 @@
-{% load i18n %}
-{% load icons %}
-{% load translations %}
+{% load i18n icons translations %}
 
 {% if languages_addon %}
-  {% trans 'The “Add missing languages” add-on is installed on this component, a removed language might be re-added by it again.' as msg %}
+  {% translate 'The “Add missing languages” add-on is installed on this component, a removed language might be re-added by it again.' as msg %}
   {% show_message 'warning' msg %}
 {% endif %}
 
 {% if object.component.is_glossary %}
-  {% trans 'The glossary component automatically maintains translation for each language used in the project, a removed language might be re-added again.' as msg %}
+  {% translate 'The glossary component automatically maintains translation for each language used in the project, a removed language might be re-added again.' as msg %}
   {% show_message 'warning' msg %}
 {% endif %}
 
 <p>
-  {% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} translation and all related content.{% endblocktrans %}
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} translation and all related content.{% endblocktranslate %}
 </p>
 
 <div class="form-group">
-  <label class="control-label">{% trans "Translation to remove" %}</label>
+  <label class="control-label">{% translate "Translation to remove" %}</label>
   <div class="list-group">
     <div class="list-group-item">
       <div class="list-group-item-text">
         <button type="button"
                 class="btn btn-link btn-xs pull-right flip"
                 data-clipboard-value="{{ object.full_slug }}"
-                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 
         {{ object.full_slug }}
       </div>

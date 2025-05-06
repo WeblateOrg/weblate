@@ -1,14 +1,13 @@
-{% load i18n %}
-{% load icons %}
+{% load i18n icons %}
 
 <p>
-  {% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} project and all related content.{% endblocktrans %}
-  {% trans "This includes, but is not limited to, translation memory, glossaries, or user permissions." %}
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} project and all related content.{% endblocktranslate %}
+  {% translate "This includes, but is not limited to, translation memory, glossaries, or user permissions." %}
 </p>
 
 {% with components=object.component_set.order %}
   {% if components %}
-    <p>{% trans "The following translation components will be removed:" %}</p>
+    <p>{% translate "The following translation components will be removed:" %}</p>
     <ul>
       {% for component in components %}
         <li>
@@ -20,7 +19,7 @@
 {% endwith %}
 {% with categories=object.category_set.order %}
   {% if categories %}
-    <p>{% trans "The following translation categories will be removed:" %}</p>
+    <p>{% translate "The following translation categories will be removed:" %}</p>
     <ul>
       {% for category in categories %}
         <li>
@@ -32,14 +31,14 @@
 {% endwith %}
 
 <div class="form-group">
-  <label class="control-label">{% trans "Project to remove" %}</label>
+  <label class="control-label">{% translate "Project to remove" %}</label>
   <div class="list-group">
     <div class="list-group-item">
       <div class="list-group-item-text">
         <button type="button"
                 class="btn btn-link btn-xs pull-right flip"
                 data-clipboard-value="{{ object.full_slug }}"
-                title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 
         {{ object.full_slug }}
       </div>

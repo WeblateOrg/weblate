@@ -30,14 +30,19 @@ IGNORED_TAGS = {"script", "style"}
 
 
 @app.task(trail=False)
-def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
+def cdn_parse_html(addon_id: int, component_id: int) -> None:
+    try:
+        addon = Addon.objects.get(pk=addon_id)
+    except Addon.DoesNotExist:
+        return
+
     component = Component.objects.get(pk=component_id)
     source_translation = component.source_translation
     source_units = set(source_translation.unit_set.values_list("source", flat=True))
     units = []
     errors = []
 
-    for filename in files.splitlines():
+    for filename in addon.configuration["files"].splitlines():
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
@@ -52,7 +57,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
 
         document = html.fromstring(content)
 
-        for element in document.cssselect(selector):
+        for element in document.cssselect(addon.configuration["css_selector"]):
             text = element.text
             if (
                 element.getchildren()
@@ -67,7 +72,13 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
 
     # Actually create units
     for text in units:
-        source_translation.add_unit(None, calculate_checksum(text), text, None)
+        source_translation.add_unit(
+            request=None,
+            context=calculate_checksum(text),
+            source=text,
+            target=None,
+            author=addon.addon.user,
+        )
 
     if errors:
         component.add_alert("CDNAddonError", occurrences=errors)
@@ -202,7 +213,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
 
         return addon_callback
 
-    for change in Change.objects.filter(pk__in=change_ids).prefetch():
+    for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         handle_addon_event(
             AddonEvent.EVENT_CHANGE,
             callback_wrapper(change),

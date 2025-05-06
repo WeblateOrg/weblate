@@ -136,11 +136,19 @@ Learn more about :ref:`contributing`.
     contributing/tests
     contributing/schemas
     contributing/release
-    contributing/security
     contributing/modules
     contributing/about
     contributing/license
     contributing/trademark
+
+.. toctree::
+   :caption: Secure Weblate
+   :maxdepth: 1
+   :hidden:
+
+   security/index
+   security/issues
+
 
 .. toctree::
    :caption: File formats

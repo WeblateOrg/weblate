@@ -7,20 +7,20 @@
     <p>{{ change.get_details_display }}</p>
   {% else %}
     <p>
-      {% blocktrans %}Contributor license agreement for component {{ component }} was changed.{% endblocktrans %}
+      {% blocktranslate %}Contributor license agreement for component {{ component }} was changed.{% endblocktranslate %}
     </p>
     {% if old %}
-      <p>{% trans "Old agreement:" %}</p>
+      <p>{% translate "Old agreement:" %}</p>
       <p>{{ old }}</p>
     {% else %}
-      <p>{% trans "There was no contributor license agreement before." %}</p>
+      <p>{% translate "There was no contributor license agreement before." %}</p>
     {% endif %}
     {% if target %}
-      <p>{% trans "New agreement:" %}</p>
+      <p>{% translate "New agreement:" %}</p>
       <p>{{ target }}</p>
     {% else %}
-      <p>{% trans "Contributor license agreement was removed." %}</p>
+      <p>{% translate "Contributor license agreement was removed." %}</p>
     {% endif %}
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

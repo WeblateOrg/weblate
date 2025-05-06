@@ -25,6 +25,7 @@ permissions:
 
 jobs:
   uv-update:
+    if: startsWith(github.repository, 'WeblateOrg/')
     runs-on: ubuntu-24.04
 
     steps:
@@ -32,11 +33,12 @@ jobs:
       if: github.event_name != 'pull_request'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
-
+        persist-credentials: true
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       if: github.event_name == 'pull_request'
-
-    - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+      with:
+        persist-credentials: true
+    - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -49,20 +51,20 @@ jobs:
         fi
 
     - name: Set up Python
-      uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
       with:
         python-version: '3.13'
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      run: uv lock --upgrade --no-sources
+      run: uv lock --upgrade
 
-    - run: uv sync --all-extras --no-sources
+    - run: uv sync --all-extras
       if: hashFiles('uv.lock') != ''
 
     - name: Update current branch
       if: ( github.event_name == 'pull_request' && github.actor != 'renovate[bot]' ) || ( github.event_name == 'push' && github.ref_name != 'main' )
-      uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
+      uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v5.2.0
       with:
         commit_message: 'chore(deps): update lockfile'
 

@@ -38,6 +38,12 @@ class DuplicateCheck(TargetCheck):
     name = gettext_lazy("Consecutive duplicated words")
     description = gettext_lazy("Text contains the same word twice in a row.")
 
+    def should_skip(self, unit: Unit) -> bool:
+        # Ignore the check for Toki Pona which often uses repeating words
+        if unit.translation.language.is_base({"tok"}):
+            return True
+        return super().should_skip(unit)
+
     def extract_groups(
         self, text: str, language_code: str
     ) -> tuple[list[int], list[str]]:

@@ -870,6 +870,7 @@ class Component(
         self._invalidate_scheduled = False
         self._alerts_scheduled = False
         self._template_check_done = False
+        self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
     def save(self, *args, **kwargs) -> None:
@@ -3820,7 +3821,8 @@ class Component(
             else:
                 for glossary in self.project.glossaries:
                     sync_glossary_languages(glossary.pk, component=glossary)
-        else:
+        elif not self._glossary_sync_scheduled:
+            self._glossary_sync_scheduled = True
             transaction.on_commit(self._schedule_sync_terminology)
 
     def _schedule_sync_terminology(self) -> None:
@@ -3831,6 +3833,7 @@ class Component(
         else:
             for glossary in self.project.glossaries:
                 sync_glossary_languages.delay_on_commit(glossary.pk)
+        self._glossary_sync_scheduled = False
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
         from weblate.trans.models import Unit

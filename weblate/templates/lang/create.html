@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'languages' %}">{% trans "Languages" %}</a>
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
   </li>
   <li>
-    <a href="{% url 'create-language' %}">{% trans "Add language" %}</a>
+    <a href="{% url 'create-language' %}">{% translate "Add language" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -19,7 +17,7 @@
     {% csrf_token %}
     {% crispy form.0 %}
     {% crispy form.1 %}
-    <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+    <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
   </form>
 
-{% endblock %}
+{% endblock content %}

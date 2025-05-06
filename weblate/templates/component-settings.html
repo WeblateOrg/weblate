@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
   <li>
-    <a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a>
+    <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   <form action="{% url 'settings' path=object.get_url_path %}"
@@ -19,8 +16,8 @@
 
     {% crispy form %}
 
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+    <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
 
   </form>
 
-{% endblock %}
+{% endblock content %}

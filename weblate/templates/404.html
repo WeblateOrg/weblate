@@ -4,25 +4,24 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'home' %}">{% trans "Page Not Found" %}</a>
+    <a href="{% url 'home' %}">{% translate "Page Not Found" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
   <div class="container">
 
-    <h2>{% trans "Page Not Found" %}</h2>
+    <h2>{% translate "Page Not Found" %}</h2>
     <p>
-      {% trans "The page you are looking for was not found." %}
-      {% trans "The project you are looking for does not exist or is not publicly available." %}
+      {% translate "The page you are looking for was not found." %}
+      {% translate "The project you are looking for does not exist or is not publicly available." %}
     </p>
 
     {% if not user.is_authenticated %}
-      <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Sign in" %}</a>
+      <a href="{% url 'login' %}" class="btn btn-primary">{% translate "Sign in" %}</a>
     {% endif %}
-    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
-    <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
+    <a href="{% url 'home' %}" class="btn btn-primary">{% translate "Dashboard" %}</a>
+    <a href="{% url 'projects' %}" class="btn btn-primary">{% translate "Browse all projects" %}</a>
 
   </div>
-{% endblock %}
+{% endblock content %}

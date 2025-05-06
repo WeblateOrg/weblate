@@ -1,31 +1,26 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load translations %}
-{% load humanize %}
+{% load crispy_forms_tags humanize i18n permissions translations %}
 
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
   <li>
-    <a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a>
+    <a href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <table class="table sort">
     <thead>
       <tr>
-        <th>{% trans "Label name" %}</th>
-        <th>{% trans "Color" %}</th>
-        <th>{% trans "Description" %}</th>
-        <th class="number">{% trans "Labeled source strings" %}</th>
-        <th>{% trans "Actions" %}</th>
+        <th>{% translate "Label name" %}</th>
+        <th>{% translate "Color" %}</th>
+        <th>{% translate "Description" %}</th>
+        <th class="number">{% translate "Labeled source strings" %}</th>
+        <th>{% translate "Actions" %}</th>
       </tr>
     </thead>
     <tbody>
@@ -41,10 +36,10 @@
           </td>
           <td>
             <a href="{% url 'label_edit' project=object.slug pk=label.pk %}"
-               class="btn btn-primary">{% trans "Edit" %}</a>
+               class="btn btn-primary">{% translate "Edit" %}</a>
             <a href=""
                class="btn btn-danger link-post"
-               data-href="{% url 'label_delete' project=object.slug pk=label.pk %}">{% trans "Delete" %}</a>
+               data-href="{% url 'label_delete' project=object.slug pk=label.pk %}">{% translate "Delete" %}</a>
           </td>
         </tr>
       {% endfor %}
@@ -54,13 +49,13 @@
   <form method="post">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">{% trans "Add label" %}</h4>
+        <h4 class="panel-title">{% translate "Add label" %}</h4>
       </div>
       <div class="panel-body">{% crispy form %}</div>
       <div class="panel-footer">
-        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+        <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
       </div>
     </div>
   </form>
 
-{% endblock %}
+{% endblock content %}

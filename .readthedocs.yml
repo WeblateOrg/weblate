@@ -24,7 +24,7 @@ build:
     - asdf install uv latest
     - asdf global uv latest
     install:
-    - uv sync --no-sources --only-group docs --frozen
+    - uv sync --only-group docs --frozen
     build:
       html:
       - .venv/bin/sphinx-build -T -b html -d docs/_build/doctrees docs $READTHEDOCS_OUTPUT/html

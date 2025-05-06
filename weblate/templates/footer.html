@@ -1,41 +1,40 @@
-{% load translations %}
-{% load i18n %}
+{% load i18n translations %}
 
 <footer>
   <ul>
     <li>
-      {% blocktrans %}Powered by {{ weblate_version_link }}{% endblocktrans %}
+      {% blocktranslate %}Powered by {{ weblate_version_link }}{% endblocktranslate %}
     </li>
     <li>
-      <a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a>
+      <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
     </li>
     {% if has_legal %}
       <li>
-        <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+        <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
       </li>
     {% elif legal_url %}
       <li>
-        <a href="{{ legal_url }}">{% trans "Legal" %}</a>
+        <a href="{{ legal_url }}">{% translate "Legal" %}</a>
       </li>
     {% endif %}
     {% if privacy_url %}
       <li>
-        <a href="{{ privacy_url }}">{% trans "Privacy policy" %}</a>
+        <a href="{{ privacy_url }}">{% translate "Privacy policy" %}</a>
       </li>
     {% endif %}
     {% if status_url %}
       <li>
-        <a href="{{ status_url }}">{% trans "Service status" %}</a>
+        <a href="{{ status_url }}">{% translate "Service status" %}</a>
       </li>
     {% endif %}
     <li>
-      <a href="{% url 'contact' %}">{% trans "Contact" %}</a>
+      <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
     </li>
     <li>
-      <a href="{% documentation 'index' %}">{% trans "Documentation" %}</a>
+      <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
     </li>
     <li>
-      <a href="{% url 'donate' %}">{% trans "Donate to Weblate" %}</a>
+      <a href="{% url 'donate' %}">{% translate "Donate to Weblate" %}</a>
     </li>
   </ul>
 </footer>
