@@ -763,7 +763,7 @@ class SearchForm(forms.Form):
         self,
         *,
         request: AuthenticatedHttpRequest,
-        language=None,
+        language : Language | None = None,
         show_builder=True,
         obj: type[Model | BaseURLMixin] | None = None,
         **kwargs,
