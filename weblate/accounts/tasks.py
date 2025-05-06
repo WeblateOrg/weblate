@@ -113,7 +113,7 @@ def notify_changes(change_ids: list[int]) -> None:
     changes = Change.objects.prefetch_for_render().filter(pk__in=change_ids)
     factory = NotificationFactory()
 
-    for change in changes:
+    for change in changes.iterator(chunk_size=200):
         for notification in factory.for_action(change.action):
             notification.notify_immediate(change)
         factory.send_queued()

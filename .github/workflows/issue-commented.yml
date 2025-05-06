@@ -30,10 +30,11 @@ jobs:
         script: |
           var is_member = false;
           const org = 'WeblateOrg';
+          const username =  context.payload.sender.login;
           try {
             const response = await github.rest.orgs.checkMembershipForUser({
               org: org,
-              username: context.payload.sender.login
+              username: username,
             });
             is_member = (response.status == 204);
           } catch (error) {

@@ -646,7 +646,7 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str, is_compact: bool = False) -> None:
+    def asset_customize(self, expected: str, is_compact: bool = False) -> str:
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
@@ -657,13 +657,33 @@ class JsonAddonTest(ViewTestCase):
             self.assertIn('":"', commit)
         else:
             self.assertIn(': "', commit)
+        return commit
 
     def test_customize(self) -> None:
         JSONCustomizeAddon.create(
             component=self.component,
             configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
-        self.asset_customize("        ")
+        commit = self.asset_customize("        ")
+        self.assertIn(
+            '''"orangutan": "",
++        "thanks": "",
++        "try": ""''',
+            commit,
+        )
+
+    def test_customize_no_sort(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={"indent": 8, "sort_keys": 0, "style": "spaces"},
+        )
+        commit = self.asset_customize("        ")
+        self.assertIn(
+            '''"orangutan": "",
++        "try": "",
++        "thanks": ""''',
+            commit,
 
     def test_customize_sitewide(self) -> None:
         JSONCustomizeAddon.create(

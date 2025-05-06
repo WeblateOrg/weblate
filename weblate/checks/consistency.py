@@ -9,7 +9,7 @@ from functools import reduce
 from typing import TYPE_CHECKING, Literal
 
 from django.db.models import Count, Prefetch, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
@@ -116,7 +116,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         # List strings with different targets
         # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
-            units.values("id_hash", "translation__plural")
+            units.values("id_hash", "translation__plural_id")
             .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
             .order_by("id_hash")[:100]
@@ -131,7 +131,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
                     lambda x, y: x
                     | (
                         Q(id_hash=y["id_hash"])
-                        & Q(translation__plural=y["translation__plural"])
+                        & Q(translation__plural_id=y["translation__plural_id"])
                     ),
                     matches,
                     Q(),
@@ -206,12 +206,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
         # List strings with different sources
         # Limit this to 20 strings, otherwise the resulting query is too slow
+        # Use ordering to make the limit deterministic
         matches = (
-            units.values(
-                "target__lower__md5",
-                "target",
-                "translation__plural",
-            )
+            units.values("target", "translation__plural_id")
             .annotate(source__count=Count("source", distinct=True))
             .filter(source__count__gt=1)
             .order_by("target__lower__md5")[:20]
@@ -225,9 +222,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                 reduce(
                     lambda x, y: x
                     | (
-                        Q(target__lower__md5=y["target__lower__md5"])
+                        Q(target__lower__md5=MD5(Lower(Value(y["target"]))))
                         & Q(target=y["target"])
-                        & Q(translation__plural=y["translation__plural"])
+                        & Q(translation__plural_id=y["translation__plural_id"])
                     ),
                     matches,
                     Q(),
