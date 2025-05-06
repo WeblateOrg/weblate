@@ -64,7 +64,6 @@ from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
-    get_sort_name,
     parse_path,
     parse_path_units,
     show_form_errors,
@@ -222,7 +221,9 @@ def search(
     """Perform search or returns cached search results."""
     now = int(time.time())
     # Possible new search
-    form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
+    form = PositionSearchForm(
+        request=request, data=request.GET, show_builder=False, obj=base
+    )
 
     # Process form
     form_valid = form.is_valid()
@@ -679,7 +680,6 @@ def translate(request: AuthenticatedHttpRequest, path):
 
     # Prepare form
     form = TranslationForm(user, unit)
-    sort = get_sort_name(request, obj)
 
     screenshot_form = None
     if user.has_perm("screenshot.add", unit.translation):
@@ -713,8 +713,6 @@ def translate(request: AuthenticatedHttpRequest, path):
             "search_items": search_result["items"],
             "search_query": search_result["query"],
             "offset": offset,
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
@@ -907,7 +905,6 @@ def zen(request: AuthenticatedHttpRequest, path):
     project = context["project"]
 
     search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
-    sort = get_sort_name(request, obj)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -924,9 +921,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_count": len(search_result["ids"]),
-            "filter_pos": 0,
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
+            "filter_pos": search_result["offset"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
             "offset": search_result["offset"],
@@ -1081,7 +1076,6 @@ def browse(request: AuthenticatedHttpRequest, path):
         search_result["url"],
     )
     num_results = ceil(len(search_result["ids"]) / page)
-    sort = get_sort_name(request, obj)
 
     return render(
         request,
@@ -1104,7 +1098,5 @@ def browse(request: AuthenticatedHttpRequest, path):
             else None,
             "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
             "is_in_browse": True,
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
         },
     )

@@ -214,6 +214,7 @@ SORT_CHOICES = {
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
     "location": gettext_lazy("String location"),
+    "component,-priority": gettext_lazy("Component and priority"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
@@ -221,7 +222,9 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
     """Get sort name."""
-    if hasattr(obj, "component") and obj.component.is_glossary:
+    if isinstance(obj, Project | Category):
+        default = "component,-priority"
+    elif hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:
         default = "-priority,position"
