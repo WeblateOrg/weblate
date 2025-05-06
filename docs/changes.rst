@@ -6,6 +6,7 @@ Weblate 5.12
 .. rubric:: New features
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
+* :ref:`sbom` is now being provided for Weblate.
 
 .. rubric:: Improvements
 
