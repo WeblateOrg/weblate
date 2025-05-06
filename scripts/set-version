@@ -17,7 +17,9 @@ if len(sys.argv) != 2:
     print("Usage: ./scripts/set-version VERSION")
     sys.exit(1)
 
-version = sys.argv[1]
+version = version_full = sys.argv[1]
+if version.count(".") == 1:
+    version_full = f"{version}.0"
 
 
 def replace_file(name, search, replace) -> None:
@@ -69,7 +71,9 @@ if milestone_url is None:
 replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
 replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
 replace_file("pyproject.toml", "^version = .*", f'version = "{version}"')
-replace_file("client/package.json", '  "version": ".*",', f'  "version": "{version}",')
+replace_file(
+    "client/package.json", '  "version": ".*",', f'  "version": "{version_full}",'
+)
 
 # Update changelog
 title = f"Weblate {version}"
