@@ -147,6 +147,7 @@ Learn more about :ref:`contributing`.
    :hidden:
 
    security/index
+   security/dependencies
    security/issues
    security/passwords
 
