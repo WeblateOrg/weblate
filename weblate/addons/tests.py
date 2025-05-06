@@ -684,6 +684,7 @@ class JsonAddonTest(ViewTestCase):
 +        "try": "",
 +        "thanks": ""''',
             commit,
+        )
 
     def test_customize_sitewide(self) -> None:
         JSONCustomizeAddon.create(
