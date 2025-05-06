@@ -60,11 +60,11 @@ jobs:
               repo: context.repo.repo,
               body: `
           Thank you for your report; the issue you have reported has just been resolved and
-          the solution will be released in Weblate ${github.payload.issue.milestone.title}.
+          the solution will be released in Weblate ${context.payload.issue.milestone.title}.
 
           * In case you see a problem with the fix, please comment on this issue.
           * In case you see a similar problem, please open a separate issue.
-          * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
+          * If you are happy with the outcome, don’t hesitate to [become a Weblate supporter](https://weblate.org/donate/).
           `
             })
           }
