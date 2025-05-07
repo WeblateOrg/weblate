@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-06 07:02+0000\n"
-"Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
+"PO-Revision-Date: 2025-05-08 00:03+0000\n"
+"Last-Translator: Taufik Adi Wicaksono <taufikadi.wicaksono@tutamail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
 "Language: id\n"
@@ -836,6 +836,10 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"Memberikan akses penelusuran kepada pengguna dalam satu proyek akan "
+"memberinya akses ke komponen apa pun dengan izin penelusuran turunan. Dengan "
+":ref:`component-restricted` aktif, akses ke komponen (atau daftar komponen) "
+"diberikan secara eksplisit."
 
 #: ../../admin/access.rst:377
 #, fuzzy
@@ -874,6 +878,8 @@ msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Menggunakan daftar komponen yang besar mungkin akan berdampak pada kinerja, "
+"harap pertimbangkan untuk memberikan akses melalui proyek sebagai gantinya."
 
 #: ../../admin/access.rst:391
 #, fuzzy
@@ -1038,6 +1044,10 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Kasus penggunaan yang paling umum untuk fitur ini adalah untuk menetapkan "
+"semua pengguna baru ke beberapa tim bawaan. Perilaku ini digunakan untuk tim "
+"`Pengguna` dan `Tamu` bawaan (lihat :ref:`default-teams`). Gunakan ekspresi "
+"reguler ``^.*$`` untuk mencocokkan semua pengguna."
 
 #: ../../admin/access.rst:451
 #, fuzzy
@@ -2294,6 +2304,8 @@ msgid ""
 "Triggered daily, but add-ons usually split the daily load between components "
 "depending on :setting:`BACKGROUND_TASKS`."
 msgstr ""
+"Dipicu setiap hari, tetapi pengaya biasanya membagi beban harian antar "
+"komponen tergantung pada :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:48
 #, fuzzy
@@ -2329,7 +2341,7 @@ msgstr "repositori post-commit"
 
 #: ../../admin/addons.rst:64
 msgid "Triggered just after the changes are committed."
-msgstr ""
+msgstr "Dipicu tepat setelah perubahan di-commit."
 
 #: ../../admin/addons.rst:70
 #, fuzzy
@@ -2367,7 +2379,7 @@ msgstr "repositori pra-commit"
 
 #: ../../admin/addons.rst:86
 msgid "Triggered just before the changes are committed."
-msgstr ""
+msgstr "Dipicu tepat sebelum perubahan di-commit."
 
 #: ../../admin/addons.rst:91
 #, fuzzy
@@ -2389,7 +2401,7 @@ msgstr "pasca-pembaruan repositori"
 
 #: ../../admin/addons.rst:100
 msgid "Triggered just before the repository update is attempted."
-msgstr ""
+msgstr "Dipicu tepat sebelum pembaruan repositori dicoba."
 
 #: ../../admin/addons.rst:105
 #, fuzzy
@@ -2399,7 +2411,7 @@ msgstr "pascapemuatan penyimpanan"
 
 #: ../../admin/addons.rst:107
 msgid "Triggered when file is parsed by Weblate."
-msgstr ""
+msgstr "Dipicu saat berkas diurai oleh Weblate."
 
 #: ../../admin/addons.rst:112
 #, fuzzy
@@ -2409,7 +2421,7 @@ msgstr "pascapembuatan unit"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the string is saved."
-msgstr ""
+msgstr "Dipicu tepat setelah string disimpan."
 
 #: ../../admin/addons.rst:119
 #, fuzzy
@@ -2419,7 +2431,7 @@ msgstr "pascapembuatan unit"
 
 #: ../../admin/addons.rst:121
 msgid "Triggered just after the newly created string is saved."
-msgstr ""
+msgstr "Dipicu tepat setelah string yang baru dibuat disimpan."
 
 #: ../../admin/addons.rst:125
 msgid "Built-in add-ons"
@@ -2668,6 +2680,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:200
 msgid ""
@@ -2701,12 +2715,20 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Pengaya ini membutuhkan konfigurasi tambahan pada server Weblate. "
+":setting:`LOCALIZE_CDN_PATH` mengatur di mana tempat berkas yang dihasilkan "
+"akan ditulis (pada sistem berkas), dan :setting:`LOCALIZE_CDN_URL` "
+"menentukan di mana tempat berkas akan disajikan (URL). Penyajian berkas "
+"tidak dilakukan oleh Weblate dan harus disiapkan secara eksternal (biasanya "
+"menggunakan layanan CDN)."
 
 #: ../../admin/addons.rst:217
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Pengaya ini diatur pada :guilabel:`Hosted Weblate` dan menyajikan berkas "
+"melalui ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:222
 msgid ""
@@ -2738,6 +2760,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref"
+":`addon-event-repository-post-update`"
 
 #: ../../admin/addons.rst:238
 msgid "Removes strings without a translation from translation files."
@@ -2771,6 +2795,8 @@ msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
+":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref"
+":`addon-event-repository-pre-commit`"
 
 #: ../../admin/addons.rst:257
 msgid ""
