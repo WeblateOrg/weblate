@@ -1,9 +1,7 @@
 Weblate 5.11.4
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on May 7th 2025.*
 
 .. rubric:: Improvements
 
@@ -12,8 +10,6 @@ Weblate 5.11.4
 .. rubric:: Bug fixes
 
 * :ref:`addon-weblate.webhook.webhook` was not triggered in some situations.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
