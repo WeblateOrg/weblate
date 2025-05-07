@@ -33,6 +33,7 @@ jobs:
         persist-credentials: false
     - run: brew update
     - run: brew uninstall openssl@1.1
+    - run: brew uninstall python@3.12
     - run: brew untap homebrew/cask
     - run: brew untap homebrew/core
     - run: brew untap aws/tap
