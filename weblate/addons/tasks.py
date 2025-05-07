@@ -215,6 +215,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
                 "change_event",
                 (change,),
                 addon_queryset=change_addons,
+                project=change.project,
                 component=change.component,
                 translation=change.translation,
             )
