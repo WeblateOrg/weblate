@@ -236,6 +236,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     )
     alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
+    compat = {"file_format": {"po"}}
 
     @classmethod
     def can_install(cls, component: Component, user: User | None):
