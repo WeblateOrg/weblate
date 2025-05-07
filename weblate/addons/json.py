@@ -43,5 +43,5 @@ class JSONCustomizeAddon(StoreBaseAddon):
         store.store.dump_args["sort_keys"] = bool(int(config.get("sort_keys", 0)))
         use_compact_separators = bool(int(config.get("use_compact_separators", 0)))
         store.store.dump_args["separators"] = (
-            (",", ":") if use_compact_separators else (", ", ": ")
+            (",", ":" if use_compact_separators else ": ")
         )
