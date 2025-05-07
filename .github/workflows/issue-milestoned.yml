@@ -8,7 +8,9 @@ name: 'Issues: Add waiting for implementation label'
 
 on:
   issues:
-    types: [milestoned]
+    types:
+    - milestoned
+    - assigned
 
 permissions:
   issues: write
