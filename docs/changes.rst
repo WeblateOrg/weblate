@@ -29,6 +29,33 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?closed=1>`__.
 
+Weblate 5.11.4
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* :ref:`addon-weblate.webhook.webhook` logs requests and responses.
+
+.. rubric:: Bug fixes
+
+* :ref:`addon-weblate.webhook.webhook` was not triggered in some situations.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?closed=1>`__.
+
 Weblate 5.11.3
 --------------
 
