@@ -121,7 +121,7 @@ class KabyleCharacterNormalizationCheck(TargetCheck):
     def should_skip(self, unit: Unit) -> bool:
         # Only run on Kabyle (covers 'kab' plus any variants)
         if not unit.translation.language.is_base({"kab"}):
-           return True
+            return True
         return super().should_skip(unit)
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
