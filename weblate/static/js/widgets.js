@@ -5,10 +5,7 @@
 $(document).ready(() => {
   const widgetsData = $("#widgets-data").data("json");
 
-  let jsonLanguage = widgetsData.language;
-  if (jsonLanguage === null) {
-    jsonLanguage = "";
-  }
+  const jsonLanguage = widgetsData.language || "";
   $("#translation-language").val(jsonLanguage);
 
   let jsonComponent = widgetsData.component;
