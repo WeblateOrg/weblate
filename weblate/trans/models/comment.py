@@ -38,8 +38,10 @@ class CommentManager(models.Manager):
         # Is this source or target comment?
         unit_scope = unit.source_unit if scope in {"global", "report"} else unit
 
+        if user is None:
+            user = request.user
         kwargs = {
-            "user": user if user is not None else request.user,
+            "user": user,
             "unit": unit_scope,
             "comment": text,
             "userdetails": {
