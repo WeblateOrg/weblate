@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n icons static %}
 
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
   <li>
-    <a href="{% url 'widgets' path=object.get_url_path %}">{% translate "Widgets" %}</a>
+    <a href="{% url "widgets" path=object.get_url_path %}">{% translate "Widgets" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
@@ -22,9 +22,8 @@
   <h3>{% translate "Promoting specific translations" %}</h3>
 
   <form class="autosubmit">
-    {% translate "Besides promoting the whole translation project, you can also choose a specific language or component to promote:" %} {{ form.lang }} {{ form.component }}
+    {% translate "Besides promoting the whole translation project, you can also choose a specific language or component to promote:" %}
   </form>
-
 
   <h3>{% translate "Image widgets" %}</h3>
 
@@ -32,100 +31,73 @@
     {% translate "You can use the following widgets to promote translation of your project. They can increase the visibility of your translation projects and bring in new contributors." %}
   </p>
 
-
-  <ul class="nav nav-pills widgets-selector">
-    {% for widget in widget_list %}
-      <li {% if forloop.first %}class="active"{% endif %}>
-        {% for color in widget.colors %}
-          {% if forloop.first %}
-            <a href="#{{ widget.name }}" data-toggle="tab">
-              <img src="{{ color.url }}" />
-              <br />
-              {{ widget.verbose }}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </li>
-    {% endfor %}
-  </ul>
-
-  <div class="tab-content">
-    {% for widget in widget_list %}
-      <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ widget.name }}">
-
-        <p>{% translate "Color variants:" %}</p>
-
-        <p>
-          {% for color in widget.colors %}
-            <a href="{{ engage_url }}">
-              <img src="{{ color.url }}" />
-            </a>
+  <div id="widgets-data" data-json='{{ widgets_json }}' style="display: none;"></div>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="widget-card p-3">
+        <h4>Widget Settings</h4>
+        <label for="widget-type" class="form-label mt-2">{% translate "Widget" %}</label>
+        <select id="widget-type" class="select-tab form-control">
+          {% for widget in widget_list %}
+            <option value="{{ widget.name }}">{% translate widget.verbose %}</option>
           {% endfor %}
-        </p>
-
-        <div>
-          <select class="select-tab form-control">
-            <option value="{{ widget.name }}-html-code">{% translate "HTML" %}</option>
-            <option value="{{ widget.name }}-bb-code">{% translate "BBCode" %}</option>
-            <option value="{{ widget.name }}-mdk-code">{% translate "Markdown" %}</option>
-            <option value="{{ widget.name }}-rst-code">{% translate "reStructuredText" %}</option>
-            <option value="{{ widget.name }}-textile-code">{% translate "Textile code" %}</option>
-            <option value="{{ widget.name }}-url-code">{% translate "Image URL" %}</option>
-          </select>
-
-          <div class="tab-content">
-            <div class="tab-pane active" id="{{ widget.name }}-html-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-&lt;a href="{{ engage_url }}"&gt;
-&lt;img src="{{ color.url }}" alt="{% translate "Translation status" %}" /&gt;
-&lt;/a&gt;</textarea>
-              {% endfor %}
-            </div>
-
-            <div class="tab-pane" id="{{ widget.name }}-bb-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-[url={{ engage_url }}][img alt="{% translate "Translation status" %}"]{{ color.url }}[/img][/url]</textarea>
-              {% endfor %}
-            </div>
-
-            <div class="tab-pane" id="{{ widget.name }}-mdk-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-[![{% translate "Translation status" %}]({{ color.url }})]({{ engage_url }})</textarea>
-              {% endfor %}
-            </div>
-
-            <div class="tab-pane" id="{{ widget.name }}-rst-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-.. image:: {{ color.url }}
-    :alt: {% translate "Translation status" %}
-    :target: {{ engage_url }}</textarea>
-              {% endfor %}
-            </div>
-
-            <div class="tab-pane" id="{{ widget.name }}-textile-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-!{{ color.url }}!:{{ engage_url }}</textarea>
-              {% endfor %}
-            </div>
-
-            <div class="tab-pane" id="{{ widget.name }}-url-code">
-              {% for color in widget.colors %}
-                <textarea class="code-example form-control">
-{{ color.url }}</textarea>
-              {% endfor %}
-            </div>
-
-          </div>
-
-        </div>
-
+        </select>
+        <label for="translation-language" class="form-label mt-2">{% translate "Language" %}</label>
+        <select id="translation-language" class="select-tab form-control">
+          {% for language in form.lang.field.choices %}
+            <option value="{{ language.0 }}">{% translate language.1 %}</option>
+          {% endfor %}
+        </select>
+        <label for="component" class="form-label mt-2">{% translate "Component" %}</label>
+        <select id="component" class="select-tab form-control">
+          {% for component in form.component.field.choices %}
+            <option value="{{ component.0 }}">{% translate component.1 %}</option>
+          {% endfor %}
+        </select>
+        <label for="code-language" class="form-label mt-2">{% translate "Code" %}</label>
+        <select id="code-language" class="select-tab form-control">
+          <option value="html">{% translate "HTML" %}</option>
+          <option value="bb-code">{% translate "BBCode" %}</option>
+          <option value="mdk">{% translate "Markdown" %}</option>
+          <option value="rst">{% translate "reStructuredText" %}</option>
+          <option value="textile-code">{% translate "Textile code" %}</option>
+          <option value="url">{% translate "Image URL" %}</option>
+        </select>
+        <label for="color-select" class="form-label mt-2">{% translate "Color" %}</label>
+        <select id="color-select" class="form-control">
+          <!-- Options will be populated dynamically -->
+        </select>
+        <div id="extra-parameters"></div>
       </div>
-    {% endfor %}
+    </div>
+
+    <div class="col-md-8">
+      <div class="widget-card p-3">
+        <h4>{% translate "Live Preview" %}</h4>
+        <div class="preview-box" id="preview">
+          <img id="widget-image"
+               src="data:,"
+               alt="{% translate "Translation status" %}"
+               style="max-width: 500px" />
+        </div>
+      </div>
+
+      <div class="widget-card p-3">
+        <button id="embed-code-copy-button"
+                type="button"
+                class="btn btn-link btn-xs pull-right flip"
+                data-clipboard-value=""
+                data-clipboard-message="{% translate "Embed code copied to clipboard." %}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        <p id="embed-code-label" class="fw-bold fs-4">{% translate "Embed Code" %}</p>
+        <textarea id="embed-code" aria-labelledby="embed-code-label" class="code-example form-control" rows="3" readonly>
+        </textarea>
+      </div>
+    </div>
   </div>
 
 {% endblock content %}
+
+{% block extra_script %}
+  <script defer data-cfasync="false" src="{% static "js/widgets.js" %}{{ cache_param }}"></script>
+{% endblock extra_script %}
