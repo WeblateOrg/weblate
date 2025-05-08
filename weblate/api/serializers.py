@@ -35,6 +35,7 @@ from weblate.trans.models import (
     AutoComponentList,
     Category,
     Change,
+    Comment,
     Component,
     ComponentList,
     Label,
@@ -322,19 +323,44 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
         return instance
 
 
-class CommentSerializer(serializers.Serializer):
+class CommentSerializer(serializers.Serializer[Comment]):
     scope = serializers.ChoiceField(
         choices=["report", "global", "translation"],
         label=gettext_lazy("Scope"),
         help_text=gettext_lazy(
             "Is your comment specific to this translation, or generic for all of them?"
         ),
+        write_only=True,
     )
     comment = serializers.CharField(
         max_length=1000,
-        label=gettext_lazy("New comment"),
+        label=gettext_lazy("Comment text"),
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
+    timestamp = serializers.DateTimeField(
+        required=False,
+        label=gettext_lazy("Creation timestamp"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can set the explicit timestamp at which the comment was created."
+        ),
+    )
+    user_email = serializers.EmailField(
+        required=False,
+        label=gettext_lazy("Commenter’s email"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can attribute this comment to another user by their email."
+        ),
+        write_only=True,
+    )
+
+    id = serializers.IntegerField(read_only=True)
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
+
+    class Meta:
+        model = Comment
+        fields = ["scope", "comment", "timestamp", "user_email", "id", "user"]
 
     def validate_scope(self, value):
         unit: Unit | None = self.context.get("unit", None)
@@ -352,6 +378,30 @@ class CommentSerializer(serializers.Serializer):
             raise serializers.ValidationError(msg)
 
         return value
+
+    def create(self, validated_data):
+        request = self.context["request"]
+        unit = self.context["unit"]
+
+        text = validated_data.pop("comment")
+        scope = validated_data.pop("scope")
+        timestamp = validated_data.pop("timestamp", None)
+        user_email = validated_data.pop("user_email", None)
+
+        user = request.user
+        if user_email:
+            override = User.objects.filter(email=user_email).first()
+            if override:
+                user = override
+
+        return Comment.objects.add(
+            request=request,
+            unit=unit,
+            text=text,
+            scope=scope,
+            user=user,
+            timestamp=timestamp,
+        )
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):

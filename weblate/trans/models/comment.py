@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from weblate_language_data.utils import gettext_noop
 
 from weblate.trans.actions import ActionEvents
@@ -17,25 +18,41 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_FUZZY
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from datetime import datetime
+
+    from weblate.auth.models import AuthenticatedHttpRequest, Unit, User
 
 
 class CommentManager(models.Manager):
-    def add(self, request: AuthenticatedHttpRequest, unit, text, scope) -> None:
+    def add(
+        self,
+        request: AuthenticatedHttpRequest,
+        unit: Unit,
+        text: str,
+        scope: str,
+        *,
+        user: User | None = None,
+        timestamp: datetime | None = None,
+    ) -> Comment:
         """Add comment to this unit."""
         # Is this source or target comment?
         unit_scope = unit.source_unit if scope in {"global", "report"} else unit
 
-        user = request.user
-        new_comment = self.create(
-            user=user,
-            unit=unit_scope,
-            comment=text,
-            userdetails={
+        if user is None:
+            user = request.user
+        kwargs = {
+            "user": user,
+            "unit": unit_scope,
+            "comment": text,
+            "userdetails": {
                 "address": get_ip_address(request),
                 "agent": get_user_agent_raw(request),
             },
-        )
+        }
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+
+        new_comment = self.create(**kwargs)
         user.profile.increase_count("commented")
         unit_scope.change_set.create(
             comment=new_comment,
@@ -63,6 +80,8 @@ class CommentManager(models.Manager):
                 )[0]
                 unit_scope.labels.add(label)
 
+        return new_comment
+
 
 class CommentQuerySet(models.QuerySet):
     def order(self):
@@ -78,7 +97,7 @@ class Comment(models.Model, UserDisplayMixin):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     resolved = models.BooleanField(default=False, db_index=True)
     userdetails = models.JSONField(default=dict)
 
