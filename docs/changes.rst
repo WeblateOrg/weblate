@@ -16,6 +16,7 @@ Weblate 5.12
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
+* :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 
 .. rubric:: Compatibility
 
