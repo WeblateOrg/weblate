@@ -9,7 +9,7 @@ $(document).ready(() => {
   if (jsonLanguage === null) {
     jsonLanguage = "";
   }
-  $("#translation_language").val(jsonLanguage);
+  $("#translation-language").val(jsonLanguage);
 
   let jsonComponent = widgetsData.component;
   if (jsonComponent === null) {
@@ -46,14 +46,14 @@ $(document).ready(() => {
   }
 
   function updateLivePreviewAndEmbedCode() {
-    const widgetName = $("#widget_type").val();
+    const widgetName = $("#widget-type").val();
     const componentId = $("#component").val();
     const component = widgetsData.components.find(
       (c) => String(c.id) === componentId,
     );
-    const language = $("#translation_language").val();
+    const language = $("#translation-language").val();
     const widget = widgetsData.widgets[widgetName];
-    const color = $("#color_select").val();
+    const color = $("#color-select").val();
 
     const engageUrl = widgetsData.engage_base_url;
     const widgetBaseUrl = widgetsData.widget_base_url;
@@ -76,24 +76,27 @@ $(document).ready(() => {
       }
     });
 
-    const newUrl = `${widgetUrl}/${widgetName}-${color}.${widget.extension}?${params.toString()}`;
+    const query = params.toString();
+    const suffix = query === "" ? "" : `?${query}`;
+    const newUrl = `${widgetUrl}/${widgetName}-${color}.${widget.extension}${suffix}`;
     $("#widget-image").attr("src", newUrl);
 
     const translationStatus = widgetsData.translation_status;
-    const codeLanguage = $("#code_language").val();
+    const codeLanguage = $("#code-language").val();
     const code = generateEmbedCode(
       codeLanguage,
       engageUrl,
       newUrl,
       translationStatus,
     );
-    $("#embedCode").val(code);
+    $("#embed-code-copy-button").attr("data-clipboard-value", code);
+    $("#embed-code").val(code);
   }
 
   function updateWidgetColors(widgetName) {
     const widgets = widgetsData.widgets;
     const colors = widgets[widgetName].colors;
-    const colorSelect = $("#color_select");
+    const colorSelect = $("#color-select");
     colorSelect.empty();
     $.each(colors, (_index, color) => {
       const option = $("<option></option>").val(color).text(color);
@@ -105,8 +108,10 @@ $(document).ready(() => {
   function updateQueryParams() {
     const params = new URLSearchParams(window.location.search);
     params.set("component", $("#component").val());
-    params.set("lang", $("#translation_language").val());
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    params.set("lang", $("#translation-language").val());
+    const query = params.toString();
+    const suffix = query === "" ? "" : `?${query}`;
+    const newUrl = `${window.location.pathname}${suffix}`;
     window.history.pushState({}, "", newUrl);
   }
 
@@ -147,23 +152,23 @@ $(document).ready(() => {
     }
   }
 
-  $("#widget_type").change(function () {
+  $("#widget-type").change(function () {
     const widgetName = $(this).val();
     updateWidgetColors(widgetName);
     renderExtraParameters(widgetName);
   });
 
-  $("#color_select").change(updateLivePreviewAndEmbedCode);
+  $("#color-select").change(updateLivePreviewAndEmbedCode);
   $("#component").change(() => {
     updateQueryParams();
     updateLivePreviewAndEmbedCode();
   });
-  $("#translation_language").change(() => {
+  $("#translation-language").change(() => {
     updateQueryParams();
     updateLivePreviewAndEmbedCode();
   });
-  $("#code_language").change(updateLivePreviewAndEmbedCode);
+  $("#code-language").change(updateLivePreviewAndEmbedCode);
 
-  updateWidgetColors($("#widget_type").val());
-  renderExtraParameters($("#widget_type").val());
+  updateWidgetColors($("#widget-type").val());
+  renderExtraParameters($("#widget-type").val());
 });
