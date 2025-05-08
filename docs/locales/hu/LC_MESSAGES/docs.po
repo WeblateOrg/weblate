@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-06 23:38+0000\n"
+"PO-Revision-Date: 2025-05-09 01:03+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -46403,26 +46403,25 @@ msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
-"A változatok hasznosak több sztring összecsoportosítására, így a fordítók "
-"egy helyen láthatják a sztring összes változatát."
+"A változatok lehetővé teszik, hogy több hasonló szöveget egy csoportba "
+"rendezzen, így a fordítók egy helyen láthatják az összes variációt."
 
 #: ../../devel/translations.rst:111
 msgid ""
 "Abbreviations (shortened forms, contractions) are a good example of variants."
-msgstr ""
-"A rövidítések (rövidített formák, összevonások) jó példák a variánsokra."
+msgstr "Jó példa erre a rövidítések vagy összevont alakok esete."
 
 #: ../../devel/translations.rst:114
 msgid "Automated key based variants"
-msgstr "Automatizált kulcs alapú változatok"
+msgstr "Automatikus, kulcs alapú változatok"
 
 #: ../../devel/translations.rst:116
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
 msgstr ""
-"Meghatározhatsz reguláris kifejezéseket, hogy a szövegeket a egynyelvű "
-"fordítások kulcsai alapján csoportosítsd az :ref:`component`-ben:"
+"Az :ref:`component` beállításainál reguláris kifejezéssel meghatározhatja, "
+"hogyan csoportosuljanak a szövegek az egynyelvű fordítások kulcsai alapján:"
 
 #: ../../devel/translations.rst:121
 msgid ""
@@ -46431,27 +46430,27 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
-"Ha a :guilabel:`Key` megegyezik a kifejezéssel, az egyező rész eltávolításra "
-"kerül, hogy létrehozza a változat gyökérkulcsát. Ezután az összes, "
-"ugyanazzal a gyökérkulccsal rendelkező szöveg egyetlen változatcsoport "
-"részévé válik, beleértve azt a szöveget is, amelynek kulcsa pontosan "
-"megegyezik a gyökérkulccsal."
+"Amennyiben egy szöveg :guilabel:`Kulcs` illeszkedik a kifejezésre, az "
+"illeszkedő rész eltávolításra kerül, és ez alapján jön létre az adott "
+"változat közös gyökérkulcsa. Minden szöveg, amely ugyanazt a gyökérkulcsot "
+"eredményezi, egy változatcsoportba kerül — beleértve azt a szöveget is, "
+"amelynek kulcsa pontosan megegyezik a gyökérkulccsal."
 
 #: ../../devel/translations.rst:126
 msgid "The following table lists some usage examples:"
-msgstr "Az alábbi táblázat néhány használati példát sorol fel:"
+msgstr "Az alábbi táblázat néhány példát mutat a használatra:"
 
 #: ../../devel/translations.rst:129
 msgid "Regular expression variant"
-msgstr "Reguláris kifejezés változat"
+msgstr "Reguláris kifejezéses változat"
 
 #: ../../devel/translations.rst:129
 msgid "Matched translation keys"
-msgstr "Illeszkedő fordítási kulcsok"
+msgstr "Egyező fordítási kulcsok"
 
 #: ../../devel/translations.rst:131
 msgid "Suffix identification"
-msgstr "Utótag azonosítás"
+msgstr "Utótag alapú azonosítás"
 
 #: ../../devel/translations.rst:131
 msgid "``(Short|Min)$``"
@@ -46463,7 +46462,7 @@ msgstr "``monthShort``, ``monthMin``, ``month``"
 
 #: ../../devel/translations.rst:133
 msgid "Inline identification"
-msgstr "Inline azonosítás"
+msgstr "Beágyazott azonosítás"
 
 #: ../../devel/translations.rst:133
 msgid "``#[SML]``"
@@ -46484,29 +46483,28 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
-"Manuálisan összekapcsolhatod az egyes szövegeket a ``variant:SOURCE`` jelző "
-"használatával. Ez hasznos lehet kétnyelvű fordítások esetén, amelyeknél "
-"nincsenek kulcsok a szövegek automatikus csoportosításához vagy olyan "
-"szövegek esetén, amelyek kulcsai nem egyeznek, de fordításkor együtt kell "
-"őket kezelni."
+"Meghatározott szövegek manuálisan is összekapcsolhatók a ``variant:SOURCE`` "
+"jelző használatával. Ez különösen hasznos lehet kétnyelvű fordítások esetén, "
+"ahol nincs kulcs, ami automatikusan csoportosítaná a szövegeket vagy olyan "
+"szövegek összekapcsolásához, amelyek kulcsai eltérnek ugyan, de fordításkor "
+"mégis együtt kell őket kezelni."
 
 #: ../../devel/translations.rst:146
 msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
-"Egy szöveg további variánsát a :guilabel:`Eszközök` segítségével is hozzá "
-"lehet adni a fordítás során (amikor a :ref:`component-manage_units` be van "
-"kapcsolva):"
+"További változat kézzel is hozzáadható a :guilabel:`Eszközök` menüponton "
+"keresztül a fordítószerkesztőben (amikor az :ref:`component-manage_units` "
+"engedélyezve van):"
 
 #: ../../devel/translations.rst:153
 msgid ""
 "The variant source string has to be at most 768 characters long. This is a "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
-"A változatos forrásszöveg legfeljebb 768 karakter hosszú lehet. Ez egy "
-"technikai korlátozás, amely a MySQL adatbázissal való kompatibilitás miatt "
-"van."
+"A változat forrásszövege legfeljebb 768 karakter hosszú lehet — ez technikai "
+"korlát a MySQL adatbázis-kompatibilitás miatt."
 
 #: ../../devel/translations.rst:158
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
@@ -46514,31 +46512,34 @@ msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:162
 msgid "Variants while translating"
-msgstr "Változatok fordítás közben"
+msgstr "Fordítás közbeni változatok"
 
 #: ../../devel/translations.rst:164
 msgid "The variant is later grouped when translating:"
-msgstr "A változat később kerül csoportosításra a fordítás során:"
+msgstr ""
+"A szövegváltozatok a fordítási felületen automatikusan csoportosítva "
+"jelennek meg:"
 
 #: ../../devel/translations.rst:171
 msgid "String labels"
-msgstr "Karakterlánc címkék"
+msgstr "Szövegcímkék"
 
 #: ../../devel/translations.rst:173
 msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
 msgstr ""
-"Oszd fel az összetevő fordítási szövegeit kategóriákra szöveg és szín "
-"alapján a projekt konfigurációjában."
+"A projekt beállításainál lehetőség van a fordítandó szövegeket címkékkel "
+"kategóriákba rendezni, szöveg és szín alapján."
 
 #: ../../devel/translations.rst:179
 msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` add-on."
 msgstr ""
-"Címkéket rendelhetsz az egységekhez a :ref:`additional` alatt tömeges "
-"szerkesztéssel vagy a :ref:`addon-weblate.flags.bulk` extra használatával."
+"Címkék rendelhetők a fordítási egységekhez a forrásszövegek :ref:`additional`"
+" mezőjén keresztül. Ezek tömegesen is szerkeszthetők kézzel vagy a :ref"
+":`addon-weblate.flags.bulk` kiegészítő segítségével."
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -46546,7 +46547,7 @@ msgstr "Gyakran Ismételt Kérdések"
 
 #: ../../faq.rst:10
 msgid "How to create an automated workflow?"
-msgstr "Hogyan hozz létre egy automatizált munkafolyamatot?"
+msgstr "Hogyan hozhatok létre automatizált munkafolyamatot?"
 
 #: ../../faq.rst:12
 msgid ""
@@ -46554,28 +46555,25 @@ msgid ""
 "you give it push access to your repository, the translations can happen "
 "without interaction, unless some merge conflict occurs."
 msgstr ""
-"A Weblate félautomatikusan elvégezheti neked a fordítással kapcsolatos "
-"teendőket. Ha push hozzáférést adsz a tárolódhoz, a fordítások beavatkozás "
-"nélkül megtörténhetnek, hacsak nem merül fel valamilyen összeolvasztási "
-"konfliktus."
+"A Weblate képes az összes fordítási feladatot félautomatikusan kezelni. Ha "
+"feltöltési (push) hozzáférést biztosít a tárolóhoz, a fordítások beavatkozás "
+"nélkül megtörténhetnek, kivéve ha ütközés (merge conflict) lép fel."
 
 #: ../../faq.rst:16
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
 msgstr ""
-"Állítsd be a Git tárolódat úgy, hogy értesítse a Weblate-et, ha bármilyen "
-"változás történik. Lásd :ref:`hooks` a részletekért, hogyan kell ezt "
-"megtenni."
+"Állítsa be a Git tárolóját úgy, hogy értesítse a Weblate-et minden "
+"változásról – lásd :ref:`hooks`, hogyan teheti ezt meg."
 
 #: ../../faq.rst:18
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
-"Állíts be egy feltöltési URL-t a Weblate-ben az adott :ref:`component` "
-"számára – ez lehetővé teszi, hogy a Weblate továbbítsa a változtatásokat a "
-"tárolódba."
+"Adjon meg egy feltöltési URL-t a Weblate-ben az adott :ref:`component` "
+"számára, így a Weblate képes lesz feltölteni a módosításokat a tárolóba."
 
 #: ../../faq.rst:20
 msgid ""
@@ -46583,9 +46581,9 @@ msgid ""
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Kapcsold be a :ref:`component-push_on_commit` lehetőséget a(z) :ref:"
-"`component` a Weblate-en belül, így a Weblate minden változáskor a repódba "
-"fogja tolni a módosításokat."
+"Kapcsolja be a :ref:`component-push_on_commit` lehetőséget az adott "
+":ref:`component` beállításainál a Weblate-ben – így a Weblate automatikusan "
+"feltölti a módosításokat, amikor azok megtörténnek."
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -46593,17 +46591,15 @@ msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
 #: ../../faq.rst:29
 msgid "How to access repositories over SSH?"
-msgstr "Hogyan férj hozzá a tárolókhoz SSH-n keresztül?"
+msgstr "Hogyan férhetek hozzá a tárolókhoz SSH-n keresztül?"
 
 #: ../../faq.rst:31
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
-msgstr ""
-"Kérlek, nézd meg a(z) :ref:`vcs-repos` részt az SSH kulcsok beállításával "
-"kapcsolatos információkért."
+msgstr "Lásd a :ref:`vcs-repos` részt az SSH-kulcsok beállításáról."
 
 #: ../../faq.rst:36
 msgid "How to fix merge conflicts in translations?"
-msgstr "Hogyan oldjuk meg az összeolvasztási konfliktusokat a fordításokban?"
+msgstr "Hogyan javíthatók a fordítási ütközések (merge conflict)?"
 
 #: ../../faq.rst:38
 msgid ""
@@ -46615,14 +46611,14 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
-"Összeolvasztási konfliktusok időről időre előfordulnak, amikor a fordítási "
-"fájl egyszerre változik a Weblate-ben és a felső szintű tárolóban. Ezt "
-"általában elkerülheted, ha a Weblate fordításait összeolvasztod, mielőtt "
-"változtatásokat végeznél a fordítási fájlokban (például mielőtt futtatnád a "
-"msgmerge-t). Csak mondd meg a Weblate-nek, hogy kötelezze el az összes függő "
-"fordítást (ezt megteheted a :guilabel:`Repository maintenance` alatt a "
-":guilabel:`Kezelés` menüben), és olvaszd össze a tárolót (ha az automatikus "
-"push nincs bekapcsolva)."
+"Ütközések időnként előfordulhatnak, ha a fordítási fájl egyszerre módosul a "
+"Weblate-ben és a forrás (upstream) tárolóban. Ez általában elkerülhető, ha a "
+"fordítási fájlok módosítása előtt véglegesíti a Weblate-ben lévő "
+"fordításokat (például mielőtt lefuttatja a `msgmerge` parancsot). Ehhez "
+"egyszerűen utasítsa a Weblate-et az összes függőben lévő fordítás "
+"véglegesítésére – ezt a :guilabel:`Tároló-karbantartás` menüpontban teheti "
+"meg, a :guilabel:`Kezelés` menün belül –, majd végezze el a tároló "
+"összevonását (merge) (ha az automatikus feltöltés nincs bekapcsolva)."
 
 #: ../../faq.rst:46
 msgid ""
@@ -46632,12 +46628,11 @@ msgid ""
 "Weblate will be able to use the merged version without any other special "
 "actions."
 msgstr ""
-"Ha már találkoztál egy összeolvasztási konfliktussal, a legegyszerűbb módja "
-"annak, hogy helyben oldd meg az összes konfliktust a gépeden, az, ha "
-"hozzáadod a Weblate-et távoli tárolóként, összeolvasztod az upstream-mel, és "
-"megoldod a konfliktusokat. Miután visszatöltöd a változtatásokat, a Weblate "
-"képes lesz használni az összeolvasztott verziót bármilyen különleges művelet "
-"nélkül."
+"Ha már ütközés történt, a legegyszerűbb megoldás, ha helyben, a saját gépén "
+"oldja fel a konfliktusokat: adja hozzá a Weblate-et távoli tárolóként, vonja "
+"össze az upstream tárolóval, majd oldja fel az esetleges ütközéseket. Miután "
+"visszatölti a módosításokat, a Weblate már képes lesz használni az összevont "
+"verziót, külön beavatkozás nélkül."
 
 #: ../../faq.rst:54
 msgid ""
@@ -46645,24 +46640,21 @@ msgid ""
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
-"A beállításaidtól függően a Weblate adattárhoz való hozzáférés hitelesítést "
-"igényelhet. Ha a beépített :ref:`git-exporter`-t használod a Weblate-ben, a "
-"felhasználóneveddel és az API kulcsoddal hitelesítesz."
+"Beállítástól függően a Weblate tárolóhoz való hozzáférés hitelesítést "
+"igényelhet. Ha a Weblate beépített :ref:`git-exporter` funkcióját használja, "
+"a felhasználónevével és API kulcsával tud hitelesíteni."
 
 #: ../../faq.rst:93
 msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
-msgstr ""
-"Ha több ágat használsz a Weblate-ben, ugyanezt megteheted mindegyikkel:"
+msgstr "Ha több ágat használ a Weblate-ben, ugyanezt megteheti mindegyikkel:"
 
 #: ../../faq.rst:117
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
-msgstr ""
-"Gettext PO fájlok esetén van egy mód az összeolvasztási konfliktusok "
-"félautomatikus megoldására:"
+msgstr "Gettext PO-fájlok esetén, van mód félautomatikus összevonásra:"
 
 #: ../../faq.rst:119
 msgid ""
@@ -46670,10 +46662,9 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
-"Töltsd le és tartsd meg a Weblate Git tárolójának egy helyi klónját. Szerezz "
-"be egy második, friss helyi klónt a felső szintű Git tárolóból is (azaz "
-"szükséged van két példányra a felső szintű Git tárolóból: egy érintetlen és "
-"egy munkapéldányra):"
+"Töltse le és tartsa meg helyben a Weblate Git tároló egy példányát. Emellett "
+"szüksége lesz egy második, friss helyi másolatra a forrás Git tárolóból ("
+"azaz két példányra: egy érintetlen és egy munkapéldányra):"
 
 #: ../../faq.rst:150
 msgid ""
@@ -46685,7 +46676,7 @@ msgstr ""
 
 #: ../../faq.rst:156
 msgid "How do I translate several branches at once?"
-msgstr "Hogyan fordítsak le egyszerre több ágat?"
+msgstr "Hogyan fordíthatok egyszerre több ágat?"
 
 #: ../../faq.rst:158
 msgid ""
@@ -46696,25 +46687,25 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"A Weblate támogatja a fordítási változtatások továbbítását egyetlen :ref:"
-"`project`-en belül. Minden :ref:`component` esetében, amelynél ez be van "
-"kapcsolva (ez az alapértelmezett viselkedés), a végrehajtott változás "
-"automatikusan továbbítódik a többiekhez. Így a fordítások szinkronizálva "
-"maradnak, még akkor is, ha az ágak maguk már jelentősen eltértek, és nem "
-"lehetséges egyszerűen összeolvasztani a fordítási változtatásokat közöttük."
+"A Weblate támogatja a fordítási változások feltöltését egyetlen "
+":ref:`project` keretében. Minden olyan :ref:`component` esetén, ahol ez be "
+"van kapcsolva (ez az alapértelmezett viselkedés), a végrehajtott módosítás "
+"automatikusan átvitelre kerül a többi összetevőbe is. Így a fordítások "
+"szinkronban maradnak még akkor is, ha az ágak már jelentősen eltértek, és a "
+"fordítási módosítások közvetlen összevonása nem lehetséges."
 
 #: ../../faq.rst:164
 msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
 msgstr ""
-"Miután összeolvasztod a Weblate-ből származó változtatásokat, előfordulhat, "
-"hogy össze kell olvasztanod ezeket az ágakat (attól függően, hogy milyen "
-"fejlesztési munkafolyamatot követsz), elvetve a különbségeket:"
+"Miután összevonta a Weblate-ből származó módosításokat, előfordulhat, hogy "
+"az ágakat is egyesítenie kell (a fejlesztési munkafolyamattól függően), "
+"figyelmen kívül hagyva az eltéréseket:"
 
 #: ../../faq.rst:176
 msgid "How to translate multi-platform projects?"
-msgstr "Hogyan fordítsuk le a többplatformos projekteket?"
+msgstr "Hogyan fordíthatók többplatformos projektek?"
 
 #: ../../faq.rst:178
 msgid ""
@@ -46722,8 +46713,8 @@ msgid ""
 "easiest approach is to use the native format for each platform."
 msgstr ""
 "A Weblate számos fájlformátumot támogat (lásd: :doc:`formats`), és a "
-"legegyszerűbb megközelítés az, ha minden platformhoz a natív formátumot "
-"használod."
+"legegyszerűbb megközelítés, ha minden platform esetében annak saját natív "
+"formátumát használja."
 
 #: ../../faq.rst:181
 msgid ""
@@ -46732,15 +46723,15 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
-"Miután hozzáadtad az összes platform fordítási fájljait egy projektben "
-"összetevőként (lásd: :ref:`adding-projects`), használhatod a fordítási "
-"továbbítás funkciót (alapértelmezés szerint be van kapcsolva, és "
-"kikapcsolható a :ref:`component`-ben), hogy egyszerre fordítsd le a "
-"szövegeket minden platformra."
+"Miután az összes platform fordítási fájlját hozzáadta egy projekthez "
+"összetevőként (lásd :ref:`adding-projects`), kihasználhatja a fordítási "
+"terjesztés funkciót (alapértelmezetten be van kapcsolva, de kikapcsolható az "
+":ref:`component` beállításainál), így egyszerre fordíthat szövegeket minden "
+"platformra."
 
 #: ../../faq.rst:193
 msgid "How to export the Git repository that Weblate uses?"
-msgstr "Hogyan exportáljuk a Git tárolót, amelyet a Weblate használ?"
+msgstr "Hogyan exportálható a Git tároló, amit a Weblate használ?"
 
 #: ../../faq.rst:195
 msgid ""
@@ -46748,62 +46739,61 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
-"A tárolóban nincs semmi különleges, a :setting:`DATA_DIR` könyvtár alatt "
-"található, és a neve :file:`vcs/<project>/<component>/`. Ha van SSH "
-"hozzáférésed ehhez a géphez, közvetlenül használhatod a tárolót."
+"A tároló nem tartalmaz semmi különöset, a :setting:`DATA_DIR` könyvtárban "
+"található, és a neve: :file:`vcs/<project>/<component>/`. Ha SSH hozzáférése "
+"van az adott géphez, közvetlenül is használhatja ezt a tárolót."
 
 #: ../../faq.rst:199
 msgid ""
 "For anonymous access, you might want to run a Git server and let it serve "
 "the repository to the outside world."
 msgstr ""
-"Anonim hozzáféréshez érdemes lehet egy Git szervert futtatni, és engedni, "
-"hogy a tárolót kiszolgálja a külvilág felé."
+"Anonim hozzáféréshez futtathat egy Git szervert, amely külső elérésre "
+"szolgál."
 
 #: ../../faq.rst:202
 msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
 msgstr ""
-"Alternatívaként használhatod a :ref:`git-exporter`-t a Weblate-en belül, "
-"hogy ezt automatizáld."
+"Alternatív megoldásként a Weblate beépített :ref:`git-exporter` funkcióját "
+"is használhatja az automatizáláshoz."
 
 #: ../../faq.rst:205
 msgid "What are the options for pushing changes back upstream?"
 msgstr ""
-"Milyen lehetőségek vannak a változtatások visszaküldésére az upstream "
-"irányába?"
+"Milyen lehetőségek vannak a módosítások visszatöltésére a forrás tárolóba?"
 
 #: ../../faq.rst:207
 msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
 msgstr ""
-"Ez nagymértékben függ a beállításaidtól, a Weblate elég rugalmas ezen a "
-"területen. Íme néhány példa a Weblate-tel használt munkafolyamatokra:"
+"Ez nagymértékben a beállításaitól függ – a Weblate ezen a téren igen "
+"rugalmas. Íme néhány példa a Weblate-tel használható munkafolyamatokra:"
 
 #: ../../faq.rst:210
 msgid ""
 "Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)."
 msgstr ""
-"A Weblate automatikusan továbbítja és egyesíti a változtatásokat (lásd: :ref:"
-"`auto-workflow`)."
+"A Weblate automatikusan feltölti (push) és egyesíti (merge) a módosításokat ("
+"lásd :ref:`auto-workflow`)."
 
 #: ../../faq.rst:211
 msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
 msgstr ""
-"Te magad mondod meg a Weblate-nek, hogy mikor küldje el a változtatásokat "
-"(ehhez szüksége van push hozzáférésre az upstream tárolóhoz)."
+"Manuálisan utasíthatja a Weblate-et a feltöltésre (ehhez a Weblate-nek "
+"feltöltési (push) hozzáférésre van szüksége a forrás tárolóhoz)."
 
 #: ../../faq.rst:212
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
 msgstr ""
-"Valaki manuálisan egyesíti a Weblate git tárolójából származó "
-"változtatásokat az upstream tárolóba."
+"Valaki manuálisan egyesíti a Weblate Git tárolójából származó módosításokat "
+"a forrás tárolóval."
 
 #: ../../faq.rst:214
 msgid ""
@@ -46811,54 +46801,55 @@ msgid ""
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
 msgstr ""
-"Valaki átírja a Weblate által létrehozott előzményeket (például az "
-"egyesítési commitok eltávolításával), egyesíti a változtatásokat, és "
-"utasítja a Weblate-et, hogy állítsa vissza a tartalmat az upstream tárolóban."
+"Valaki átírja a Weblate által generált előzményeket (pl. összevonási "
+"véglegesítések eltávolításával), egyesíti a módosításokat, majd utasítja a "
+"Weblate-et, hogy állítsa vissza a tartalmat a forrás tárolóban."
 
 #: ../../faq.rst:218
 msgid "Of course you are free to mix all of these as you wish."
-msgstr "Természetesen szabadon kombinálhatod mindezeket, ahogy szeretnéd."
+msgstr "Természetesen ezeket a módszereket tetszés szerint kombinálhatja is."
 
 #: ../../faq.rst:223
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
 msgstr ""
-"Hogyan korlátozhatom a Weblate hozzáférését csak a fordításokra anélkül, "
-"hogy kódot tennék elérhetővé számára?"
+"Hogyan korlátozható a Weblate hozzáférése kizárólag a fordításokra, anélkül "
+"hogy hozzáférne a forráskódhoz?"
 
 #: ../../faq.rst:225
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
 msgstr ""
-"Használhatod a `git submodule`_-t a fordítások elválasztására a "
-"forráskódtól, miközben továbbra is verziókövetés alatt tartod őket."
+"A `git submodule`_ használatával elkülönítheti a fordításokat a "
+"forráskódtól, miközben továbbra is verziókövetés alatt tarthatja azokat."
 
 #: ../../faq.rst:228
 msgid "Create a repository with your translation files."
-msgstr "Hozz létre egy tárolót a fordítási fájljaid számára."
+msgstr "Hozzon létre egy tárolót a fordítási fájlok számára."
 
 #: ../../faq.rst:229
 msgid "Add this as a submodule to your code:"
-msgstr "Add hozzá ezt a kódodhoz mint almodult:"
+msgstr "Adja ezt hozzá almodulként a kódjához:"
 
 #: ../../faq.rst:235
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
-"Csatold a Weblate-et ehhez a tárolóhoz, így már nem lesz szüksége "
-"hozzáférésre a forráskódot tartalmazó tárolóhoz."
+"Csatlakoztassa a Weblate-et ehhez a tárolóhoz – így már nem lesz szüksége a "
+"forráskódot tartalmazó tároló elérésére."
 
 #: ../../faq.rst:237
 msgid "You can update the main repository with translations from Weblate by:"
-msgstr "Frissítheted a fő tárolót a Weblate fordításaival a következő módon:"
+msgstr ""
+"A fő tárolót frissítheti a Weblate-ből származó fordításokkal a megszokott "
+"módon:"
 
 #: ../../faq.rst:243
 msgid "Please consult the `git submodule`_ documentation for more details."
-msgstr ""
-"Kérlek, nézd meg a `git submodule`_ dokumentációt a további részletekért."
+msgstr "További részletekért lásd a `git submodule`_ dokumentációját."
 
 #: ../../faq.rst:250
 msgid "How can I check whether my Weblate is set up properly?"
@@ -46870,10 +46861,10 @@ msgid ""
 "admin interface, just follow the :guilabel:`Performance report` link in the "
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
-"A Weblate tartalmaz egy sor konfigurációs ellenőrzést, amelyeket az "
-"adminisztrációs felületen láthatsz. Csak kövesd a :guilabel:`Performance "
-"report` linket az admin felületen vagy nyisd meg közvetlenül a ``/manage/"
-"performance/`` URL-t."
+"A Weblate tartalmaz egy sor beállítás-ellenőrzést, amelyek az "
+"adminisztrációs felületen érhetők el – csak kattintson az adminisztrációs "
+"felületen a :guilabel:`Teljesítményjelentés` hivatkozásra vagy nyissa meg "
+"közvetlenül a ``/manage/performance/`` URL-t."
 
 #: ../../faq.rst:258
 msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
@@ -46882,24 +46873,25 @@ msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
 #: ../../faq.rst:263
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
 msgstr ""
-"Miért minden commit a Weblate <noreply@weblate.org> által van elkövetve?"
+"Miért történik minden véglegesítés (commit) a Weblate <noreply@weblate.org> "
+"nevében?"
 
 #: ../../faq.rst:265
 msgid ""
 "This is the default committer name, configured by :setting:"
 "`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
-"Ez az alapértelmezett commit végrehajtó neve, amit a :setting:"
-"`DEFAULT_COMMITER_EMAIL` és a :setting:`DEFAULT_COMMITER_NAME` állít be."
+"Ez az alapértelmezett véglegesítő név, amely a "
+":setting:`DEFAULT_COMMITER_EMAIL` és a :setting:`DEFAULT_COMMITER_NAME` "
+"beállításokkal van konfigurálva."
 
 #: ../../faq.rst:268
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
 msgstr ""
-"Minden commit (véglegesítés) szerzője (ha az adott VCS (verziókövető) "
-"támogatja) továbbra is helyesen kerül rögzítésre: az a felhasználó lesz "
-"megadva, aki a fordítást végezte."
+"Minden véglegesítés szerzője (ha az adott VCS támogatja) továbbra is "
+"helyesen rögzítésre kerül – az a felhasználó, aki a fordítást végezte."
 
 #: ../../faq.rst:271
 msgid ""
@@ -46908,16 +46900,16 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
-"Azoknál a commiteknél, ahol a szerzőség nem ismert (például anonim "
-"javaslatok vagy gépi fordítás eredményei esetén), a szerzőséget az anonim "
-"felhasználónak tulajdonítják (lásd :setting:`ANONYMOUS_USER_NAME`). A nevet "
-"és az e-mail címet a kezelőfelületen módosíthatod."
+"Azoknál a véglegesítéseknél, ahol a szerző nem ismert (például névtelen "
+"javaslatok vagy gépi fordítás esetén), a szerzőséget az anonim "
+"felhasználónak tulajdonítja a rendszer (lásd: :setting:`ANONYMOUS_USER_NAME`)"
+". A név és e-mail cím módosítható a kezelőfelületen."
 
 #: ../../faq.rst:281
 msgid "How to move files in the repository without losing history in Weblate?"
 msgstr ""
-"Hogyan lehet áthelyezni fájlokat az adattárban anélkül, hogy elveszítenénk "
-"az előzményeket a Weblate-ben?"
+"Hogyan mozgathatok fájlokat a tárolóban anélkül, hogy elveszíteném az "
+"előzményeket a Weblate-ben?"
 
 #: ../../faq.rst:283
 msgid ""
@@ -46927,45 +46919,43 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
-"Ahhoz, hogy megőrizd az előzményeket, megjegyzéseket vagy képernyőképeket, "
-"amelyek a szövegekhez kapcsolódnak a fájlok helyének megváltoztatása után, "
-"biztosítanod kell, hogy ezek a szövegek soha ne legyenek törölve a Weblate-"
-"ben. Ezek a törlések akkor fordulhatnak elő, ha a Weblate adattár frissül, "
-"de az összetevő konfigurációja még mindig a régi fájlokra mutat. Ilyenkor a "
-"Weblate azt feltételezi, hogy az összes fordítást törölnie kellene."
+"Ahhoz, hogy a fájlok áthelyezése után is megmaradjanak az előzmények, "
+"megjegyzések vagy képernyőképek, biztosítani kell, hogy ezek a szövegek ne "
+"törlődjenek a Weblate-ben. A törlés akkor következhet be, ha a Weblate "
+"tárolója frissül, de az összetevő beállításai még mindig a régi fájlokra "
+"mutatnak – így a Weblate azt feltételezi, hogy minden fordítást törölni kell."
 
 #: ../../faq.rst:289
 msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr ""
-"A megoldás erre az, hogy a műveletet szinkronban hajtsd végre a Weblate-tel:"
+"A megoldás az, hogy a műveletet összehangoltan kell végrehajtani a Weblate-"
+"tel:"
 
 #: ../../faq.rst:291
 msgid "Lock the affected component in Weblate."
-msgstr "Zárd le az érintett összetevőt a Weblate-ben."
+msgstr "Zárja le az érintett összetevőt a Weblate-ben."
 
 #: ../../faq.rst:292
 msgid "Commit any pending changes and merge them into the upstream repository."
 msgstr ""
-"Commitáld a függőben lévő változásokat, és egyesítsd őket a felsőbb szintű "
-"adattárba."
+"Véglegesítse az összes függőben lévő módosítást, és egyesítse ezeket a "
+"forrás tárolóval."
 
 #: ../../faq.rst:293
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"Kapcsold ki a webhookok fogadását a(z) :ref:`project`-ben; ez "
-"megakadályozza, hogy a Weblate azonnal észlelje az adattárban bekövetkezett "
-"változásokat."
+"Tiltsa le a webhookokat a :ref:`project` beállításainál – ez megakadályozza, "
+"hogy a Weblate azonnal érzékelje a változásokat."
 
 #: ../../faq.rst:294
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
-"Hajtsd végre a szükséges változtatásokat az adattárban (például a :command:"
-"`git mv` parancsot használva), majd töltsd fel őket a felsőbb szintű "
-"adattárba."
+"Végezze el a szükséges módosításokat a tárolóban (például :command:`git mv` "
+"használatával), majd töltse fel őket a forrás tárolóba."
 
 #: ../../faq.rst:295
 msgid ""
@@ -46973,43 +46963,42 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"Módosítsd a(z) :ref:`component`-et, hogy megfeleljen az új beállításnak; a "
-"konfiguráció megváltoztatásakor a Weblate lekéri a frissített adattárat, és "
-"észreveszi a megváltozott helyeket, miközben megtartja a meglévő szövegeket."
+"Módosítsa az adott :ref:`component` beállításait, hogy azok megfeleljenek az "
+"új struktúrának – ekkor a Weblate letölti a frissített tárolót, és felismeri "
+"a fájlok új helyét, miközben megtartja a meglévő szövegeket."
 
 #: ../../faq.rst:296
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr ""
-"Oldd fel az összetevő zárolását, és kapcsold vissza a horgokat a projekt "
-"konfigurációjában."
+"Oldja fel az összetevő zárolását, és kapcsolja vissza a webhookokat a "
+"projekt beállításaiban."
 
 #: ../../faq.rst:300 ../../faq.rst:435
 msgid ""
 ":ref:`projectbackup` might be useful to perform prior to such disrupting "
 "changes."
 msgstr ""
-"Az ilyen zavaró változtatások előtt hasznos lehet elvégezni a(z) :ref:"
-"`projectbackup`-t."
+"A :ref:`projectbackup` hasznos lehet az ilyen kockázatos változtatások előtt."
 
 #: ../../faq.rst:306
 msgid "How do I review the translations of others?"
-msgstr "Hogyan tudom mások fordításait áttekinteni?"
+msgstr "Hogyan tudom mások fordításait felülvizsgálni?"
 
 #: ../../faq.rst:308
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
-"Több felülvizsgálatra épülő munkafolyamat érhető el a Weblate-ben, lásd: :"
-"ref:`workflows`."
+"A Weblate többféle ellenőrzés-alapú munkafolyamatot támogat, lásd: "
+":ref:`workflows`."
 
 #: ../../faq.rst:309
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
-"Feliratkozhatsz bármilyen módosításra a :ref:`subscriptions` alatt, és így e-"
-"mailben ellenőrizheted mások hozzájárulásait, amint beérkeznek."
+"Feliratkozhat bármely változásra a :ref:`subscriptions` segítségével, így e-"
+"mailben értesülhet mások hozzájárulásairól."
 
 #: ../../faq.rst:311
 msgid ""
@@ -47017,8 +47006,9 @@ msgid ""
 "where you can choose to browse translations made by others since a given "
 "date."
 msgstr ""
-"A fordítási nézet alján elérhető egy ellenőrző eszköz, ahol kiválaszthatod, "
-"hogy egy adott dátum óta készült fordításokat böngéssz mások által."
+"A felülvizsgáló eszköz a fordítási nézet alján található – ott beállíthatja, "
+"hogy csak a megadott dátum után történt fordításokat böngéssze más "
+"felhasználóktól."
 
 #: ../../faq.rst:316
 msgid ":ref:`workflows`"
@@ -47026,31 +47016,31 @@ msgstr ":ref:`workflows`"
 
 #: ../../faq.rst:319
 msgid "How do I provide feedback on a source string?"
-msgstr "Hogyan adhatok visszajelzést egy forrás szövegre?"
+msgstr "Hogyan adhatok visszajelzést egy forrásszöveghez?"
 
 #: ../../faq.rst:321
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
-"A fordítás alatti kontextusfülek között használhatod a :guilabel:`Comments` "
-"fület, hogy visszajelzést adj egy forrásszövegre vagy megvitassátok azt más "
-"fordítókkal."
+"A fordításhoz tartozó kontextusfülek alatt a :guilabel:`Megjegyzések` fülön "
+"keresztül adhat visszajelzést egy forrásszöveghez vagy meg is vitathatja azt "
+"más fordítókkal."
 
 #: ../../faq.rst:330
 msgid "How can I use existing translations while translating?"
-msgstr "Hogyan használhatom a meglévő fordításokat a fordítás során?"
+msgstr "Hogyan használhatom a meglévő fordításokat fordítás közben?"
 
 #: ../../faq.rst:332
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
 msgstr ""
-"A Weblate összes fordítása használható a megosztott fordítási memória révén."
+"A Weblate-en belül minden fordítás elérhető a közös fordítási memória révén."
 
 #: ../../faq.rst:333
 msgid "You can import existing translation memory files into Weblate."
-msgstr "Be tudod importálni a meglévő fordítási memória fájlokat a Weblate-be."
+msgstr "Importálhat meglévő fordítási memóriafájlokat is a Weblate-be."
 
 #: ../../faq.rst:334
 msgid ""
@@ -47058,10 +47048,10 @@ msgid ""
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
-"Használd az importálási funkciót, hogy a kompendiumot fordításként, "
-"javaslatként vagy átnézést igénylő fordításként töltsd be. Ez a legjobb "
-"megközelítés a kompendium vagy hasonló fordítási adatbázis egyszeri "
-"fordítására."
+"Az importálási funkcióval betölthet szójegyzékeket fordításként, "
+"javaslatként vagy szerkesztést igénylő fordításként. Ez a legjobb módszer, "
+"ha egyszeri fordítást végez egy szójegyzék vagy hasonló fordítási adatbázis "
+"alapján."
 
 #: ../../faq.rst:337
 msgid ""
@@ -47069,9 +47059,9 @@ msgid ""
 "Weblate use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
-"Beállíthatod a :ref:`mt-tmserver`-t az összes adatbázisoddal, és hagyhatod, "
-"hogy a Weblate használja azt. Ez akkor hasznos, ha többször szeretnéd "
-"használni a fordítás során."
+"Beállíthatja a :ref:`mt-tmserver` használatát az összes adatbázissal, és "
+"engedélyezheti, hogy a Weblate azokat használja – ez akkor hasznos, ha "
+"többször is szeretné ezeket alkalmazni fordítás során."
 
 #: ../../faq.rst:340
 msgid ""
@@ -47079,9 +47069,9 @@ msgid ""
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
-"Egy másik lehetőség, hogy az összes kapcsolódó projektet egyetlen Weblate "
-"példányban fordítod, így automatikusan átveszi a fordításokat más "
-"projektektől is."
+"Egy másik lehetőség, ha minden kapcsolódó projektet egyetlen Weblate "
+"példányban fordít – ekkor a Weblate automatikusan felhasználja a többi "
+"projekt fordításait is."
 
 #: ../../faq.rst:346
 msgid ""
@@ -47091,7 +47081,9 @@ msgstr ""
 
 #: ../../faq.rst:353
 msgid "Does Weblate update translation files besides translations?"
-msgstr "A Weblate frissíti a fordítási fájlokat a fordításokon kívül is?"
+msgstr ""
+"Frissíti a Weblate a fordítási fájlokat más módon is, nemcsak a "
+"fordításokkal?"
 
 #: ../../faq.rst:355
 msgid ""
@@ -47100,10 +47092,10 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
-"A Weblate igyekszik a fordítási fájlok módosításait minimálisra csökkenteni. "
-"Néhány fájlformátumnál ez sajnos a fájl újraformázásához vezethet. Ha "
-"szeretnéd a fájlt a saját formátumod szerint megtartani, kérlek, használj "
-"erre a célra pre-commit hookot."
+"A Weblate igyekszik a fordítási fájlokon végzett módosításokat minimálisra "
+"korlátozni. Bizonyos fájlformátumoknál ez sajnos újraformázáshoz vezethet. "
+"Ha szeretné megőrizni a fájl saját formázását, javasolt véglegesítés előtti "
+"(pre-commit) hookot használni erre."
 
 #: ../../faq.rst:361
 msgid ":ref:`updating-target-files`"
@@ -47111,8 +47103,7 @@ msgstr ":ref:`updating-target-files`"
 
 #: ../../faq.rst:365
 msgid "Where do language definitions come from and how can I add my own?"
-msgstr ""
-"Honnan származnak a nyelvi definíciók, és hogyan adhatom hozzá a sajátomat?"
+msgstr "Honnan származnak a nyelvi definíciók, és hogyan adhatok hozzá sajátot?"
 
 #: ../../faq.rst:367
 msgid ""
@@ -47120,51 +47111,53 @@ msgid ""
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
-"A nyelvi definíciók alapvető készlete a Weblate és a Translate-toolkit "
-"része. Ez több mint 150 nyelvet fed le, és tartalmaz információt a többes "
-"számú alakokról vagy a szöveg irányáról."
+"Az alapértelmezett nyelvi definíciókat a Weblate és a Translate-toolkit "
+"tartalmazza. Ez több mint 150 nyelvet fed le, és információt biztosít a "
+"többes szám formákról vagy a szövegirányról."
 
 #: ../../faq.rst:371
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
-"Szabadon definiálhatod a saját nyelveidet az adminisztratív felületen, csak "
-"információt kell megadnod róla."
+"Szabadon definiálhat saját nyelveket az adminisztrációs felületen – csak "
+"néhány alapadatot kell megadnia hozzá."
 
 #: ../../faq.rst:379
 msgid "Can Weblate highlight changes in a fuzzy string?"
-msgstr "A Weblate ki tudja emelni a változásokat egy fuzzy szövegben?"
+msgstr ""
+"Kitudja emelni a változásokat a Weblate egy szerkesztést igénylő (zavaros) "
+"szövegben?"
 
 #: ../../faq.rst:381
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
-"A Weblate támogatja ezt, azonban szüksége van az adatokra, hogy meg tudja "
-"mutatni a különbséget."
+"A Weblate támogatja ezt, de ehhez szükség van a megfelelő adatokra is a "
+"különbségek megjelenítéséhez."
 
 #: ../../faq.rst:383
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
-"Gettext PO fájlok esetén meg kell adnod a ``--previous`` paramétert a :"
-"command:`msgmerge` parancsnak, amikor a PO fájlokat frissíted, például:"
+"Gettext PO-fájlok esetén az ``--previous`` paramétert kell megadni a "
+":command:`msgmerge` futtatásakor a PO-fájlok frissítésekor, például:"
 
 #: ../../faq.rst:390
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
-"Egynyelvű fordítások esetén a Weblate azonosító alapján megtalálja az előző "
-"szöveget, így automatikusan megmutatja a különbségeket."
+"Egynyelvű fordítások esetén a Weblate képes azonosító alapján megtalálni az "
+"előző szöveget, így automatikusan meg tudja jeleníteni a különbségeket."
 
 #: ../../faq.rst:395
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
-"Miért mutat a Weblate még mindig régi fordítási szövegeket, amikor már "
+"Miért jeleníti meg a Weblate még mindig a régi fordításokat, amikor már "
 "frissítettem a sablont?"
 
 #: ../../faq.rst:397
@@ -47175,11 +47168,11 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
-"A Weblate nem próbálja meg manipulálni a fordítási fájlokat más módon, mint "
-"hogy lehetővé teszi a fordítók számára a fordítást. Ezért nem frissíti "
-"automatikusan a fordítható fájlokat, amikor a sablon vagy a forráskód "
-"megváltozik. Ezt manuálisan kell elvégezned, és a változtatásokat a tárolóba "
-"kell feltöltened, ekkor a Weblate automatikusan észleli a változásokat."
+"A Weblate semmilyen módon nem módosítja a fordítási fájlokat azon kívül, "
+"hogy lehetővé teszi a fordítók számára a fordítást. Ezért nem frissíti a "
+"fordítható fájlokat akkor sem, ha a sablon vagy a forráskód megváltozott. "
+"Ezt manuálisan kell elvégeznie, és feltöltenie a módosításokat a tárolóba – "
+"a Weblate ezután automatikusan érzékeli az új tartalmat."
 
 #: ../../faq.rst:405
 msgid ""
@@ -47187,10 +47180,9 @@ msgid ""
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
-"Általában jó ötlet azokat a változtatásokat összeolvasztani, amelyeket a "
-"Weblate-ben végeztek, mielőtt frissítenéd a fordítási fájlokat, mivel "
-"különben általában összeférhetetlenségekkel találkozhatsz, amelyeket össze "
-"kell vonni."
+"Általában jó ötlet a Weblate-ben végzett módosítások összevonása, mielőtt "
+"frissíti a fordítási fájlokat, különben jellemzően egyesítési ütközések "
+"léphetnek fel."
 
 #: ../../faq.rst:411
 msgid ""
@@ -47202,7 +47194,7 @@ msgstr ""
 
 #: ../../faq.rst:417
 msgid "How to handle renaming translation files?"
-msgstr "Hogyan kezeljük a fordítási fájlok átnevezését?"
+msgstr "Hogyan kezelhető a fordítási fájlok átnevezése?"
 
 #: ../../faq.rst:419
 msgid ""
@@ -47210,45 +47202,48 @@ msgid ""
 "as removal and adding of the files. This can lead to losing strings history, "
 "comments and suggestions."
 msgstr ""
-"Amikor fájlokat nevezel át a tárolóban, előfordulhat, hogy a Weblate ezt a "
-"fájlok eltávolításaként és hozzáadásaként érzékeli. Ez a sztringek "
-"előzményeinek, megjegyzéseinek és javaslatainak elvesztéséhez vezethet."
+"Ha a tárolóban átnevezi a fájlokat, előfordulhat, hogy a Weblate ezt "
+"törlésként és új fájl hozzáadásaként értelmezi. Ez a szövegek előzményeinek, "
+"megjegyzéseinek és javaslatainak elvesztéséhez vezethet."
 
 #: ../../faq.rst:423
 msgid "To avoid that, perform renaming in following steps:"
-msgstr ""
-"Ennek elkerülése érdekében az átnevezést a következő lépésekben hajtsd végre:"
+msgstr "Ennek elkerüléséhez kövesse az alábbi lépéseket:"
 
 #: ../../faq.rst:425
 msgid "Lock the translation component in :ref:`manage-vcs`."
-msgstr "Zárd le a fordítási összetevőt a :ref:`manage-vcs`-ben."
+msgstr "Zárja le a fordítási összetevőt a :ref:`manage-vcs` felületen."
 
 #: ../../faq.rst:426
 msgid "Commit pending changes in :ref:`manage-vcs`."
-msgstr "Kötelezd el a függőben lévő változtatásokat a :ref:`manage-vcs`-ben."
+msgstr ""
+"Véglegesítse az összes függőben lévő módosítást a :ref:`manage-vcs` "
+"felületen."
 
 #: ../../faq.rst:427
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "Olvaszd össze a Weblate változtatásait a felsőbb szintű tárhellyel."
+msgstr "Vonja össze a Weblate módosításait a forrás tárolóba."
 
 #: ../../faq.rst:428
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
 msgstr ""
-"Kapcsold ki a frissítések fogadását horgokon keresztül a :ref:`project-"
-"enable_hooks` használatával."
+"Tiltsa le a frissítések fogadását a hookokon keresztül a :ref:`project-"
+"enable_hooks` segítségével."
 
 #: ../../faq.rst:429
 msgid "Perform the renaming of the files in the repository."
-msgstr "Hajtsd végre a fájlok átnevezését a tárhelyen."
+msgstr "Végezze el a fájlok átnevezését a tárolóban."
 
 #: ../../faq.rst:430
 msgid "Update the component configuration to match new file names."
 msgstr ""
-"Frissítsd az összetevő konfigurációját, hogy illeszkedjen az új fájlnevekhez."
+"Frissítse az összetevő beállításait, hogy azok megfeleljenek az új "
+"fájlneveknek."
 
 #: ../../faq.rst:431
 msgid "Enable update hooks and unlock the component."
-msgstr "Kapcsold be a frissítési horgokat és oldd fel az összetevő zárolását."
+msgstr ""
+"Kapcsolja vissza a frissítési hookokat, és oldja fel az összetevő zárolását."
 
 #: ../../faq.rst:438
 msgid "Troubleshooting"
@@ -47256,19 +47251,19 @@ msgstr "Hibaelhárítás"
 
 #: ../../faq.rst:441
 msgid "Requests sometimes fail with \"too many open files\" error"
-msgstr "A kérések néha \"túl sok megnyitott fájl\" hibával sikertelenek"
+msgstr "A kérések néha „túl sok megnyitott fájl” hibával meghiúsulnak"
 
 #: ../../faq.rst:443
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
-"Ez néha akkor fordul elő, amikor a Git tárolód túlságosan megnő, és sok van "
-"belőlük. A Git tárolók tömörítése javíthat ezen a helyzeten."
+"Ez akkor fordulhat elő, ha a Git tárolók túl nagyra nőnek, és túl sok van "
+"belőlük. A tárolók tömörítése javítja a helyzetet."
 
 #: ../../faq.rst:446
 msgid "The easiest way to do this is to run:"
-msgstr "A legegyszerűbb módja ennek az, ha futtatod a következőt:"
+msgstr "A legegyszerűbb megoldás ennek futtatása:"
 
 #: ../../faq.rst:461 ../../vcs.rst:606
 msgid ":setting:`DATA_DIR`"
@@ -47276,7 +47271,7 @@ msgstr ":setting:`DATA_DIR`"
 
 #: ../../faq.rst:465
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr "Amikor megpróbálom elérni az oldalt, \"Hibás kérés (400)\" hibát kapok"
+msgstr "Az oldal elérésekor „Bad Request (400)” hibaüzenetet kapok"
 
 #: ../../faq.rst:467
 msgid ""
@@ -47284,9 +47279,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
-"Ezt nagy valószínűséggel egy helytelenül beállított :setting:`ALLOWED_HOSTS` "
-"okozza. Tartalmaznia kell minden olyan hosztnevet, amit el szeretnél érni a "
-"Weblate-en. Például:"
+"Ennek leggyakoribb oka, hogy az :setting:`ALLOWED_HOSTS` beállítás nincs "
+"megfelelően konfigurálva. Ebben szerepelnie kell minden olyan hosztnévnek, "
+"amelyen keresztül el kívánja érni a Weblate-et. Például:"
 
 #: ../../faq.rst:476
 msgid ":ref:`production-hosts`"
@@ -47294,7 +47289,9 @@ msgstr ":ref:`production-hosts`"
 
 #: ../../faq.rst:481
 msgid "What does mean \"There are more files for the single language (en)\"?"
-msgstr "Mit jelent az, hogy \"Több fájl van az egyetlen nyelvhez (en)\"?"
+msgstr ""
+"Mit jelent az, hogy „There are more files for the single language (en)” ("
+"Több fájl van az egyetlen nyelvhez.)?"
 
 #: ../../faq.rst:483
 msgid ""
@@ -47302,10 +47299,9 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
-"Ez általában akkor fordul elő, amikor van fordítási fájlod a forrásnyelvhez. "
-"A Weblate nyomon követi a forrás szövegeket, és erre fenntartja a "
-"forrásnyelvet. Az ugyanarra a nyelvre vonatkozó további fájlt nem dolgozza "
-"fel."
+"Ez általában akkor fordul elő, ha létezik fordítási fájl a forrásnyelvhez. A "
+"Weblate nyomon követi a forrásszövegeket, és ehhez lefoglalja a "
+"forrásnyelvet. A forrásnyelvhez tartozó további fájlt ezért nem dolgozza fel."
 
 #: ../../faq.rst:487
 msgid ""
@@ -47314,18 +47310,18 @@ msgid ""
 "want to use `English (Developer)` as a source language, or utilize :ref:"
 "`source-quality-gateway`."
 msgstr ""
-"Ha a forrásnyelvre történő fordítást szeretnéd, kérlek változtasd meg a(z) :"
-"ref:`component-source_language` beállítást az összetevő beállításainál. "
-"Használhatod a `English (Developer)` nyelvet forrásnyelvként vagy "
-"alkalmazhatod a :ref:`source-quality-gateway` funkciót."
+"Ha a forrásnyelvre is szeretne fordítást, módosítsa az adott összetevő "
+"beállításainál a :ref:`component-source_language` értékét. Ilyenkor célszerű "
+"lehet az `English (fejlesztői)` nyelvet használni forrásnyelvként vagy "
+"beállítani a :ref:`source-quality-gateway` ellenőrzéseket."
 
 #: ../../faq.rst:488
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
-"Ha a forrásnyelvhez tartozó fordítási fájlra nincs szükség, kérlek, "
-"távolítsd el a tárolóból."
+"Ha a forrásnyelvhez tartozó fordítási fájlra nincs szükség, távolítsa el a "
+"tárolóból."
 
 #: ../../faq.rst:489
 msgid ""
@@ -47333,9 +47329,9 @@ msgid ""
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
-"Ha szükség van a forrásnyelv fordítási fájljára, de azt a Weblate-nek "
-"figyelmen kívül kell hagynia, kérlek, állítsd be a :ref:`component-"
-"language_regex`-t, hogy kizárd azt."
+"Ha a fájlra szükség van, de azt a Weblate-nek figyelmen kívül kell hagynia, "
+"módosítsa a :ref:`component-language_regex` beállítást úgy, hogy kizárja ezt "
+"a fájlt."
 
 #: ../../faq.rst:493
 msgid ""
@@ -47343,8 +47339,8 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
-"Hasonló hibaüzenetet kaphatsz más nyelvek esetében is. Ilyenkor a "
-"legvalószínűbb ok az, hogy több fájl egyetlen nyelvre van leképezve a "
+"Más nyelvek esetén is előfordulhat hasonló hibaüzenet. Ilyenkor a "
+"legvalószínűbb ok az, hogy több fájl is ugyanahhoz a nyelvhez van rendelve a "
 "Weblate-ben."
 
 #: ../../faq.rst:497
@@ -47354,10 +47350,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
-"Ezt okozhatja az elavult nyelvi kódok használata az újakkal együtt (``ja`` "
-"és ``jp`` a japán esetében) vagy az ország specifikus és általános kódok "
-"együttes használata (``fr`` és ``fr_FR``). További részletekért lásd: :ref:"
-"`language-parsing-codes`."
+"Ez történhet elavult és új nyelvkódok együttes használata esetén (például "
+"``ja`` és ``jp`` a japánhoz) vagy ha az adott nyelvhez egyszerre szerepel "
+"általános és ország-specifikus kód is (például ``fr`` és ``fr_FR``). "
+"Részletekért lásd: :ref:`language-parsing-codes`."
 
 #: ../../faq.rst:503
 msgid "Features"
@@ -47366,8 +47362,8 @@ msgstr "Funkciók"
 #: ../../faq.rst:508
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr ""
-"Támogat a Weblate más verziókezelő rendszereket is, mint a Git és a "
-"Mercurial?"
+"Támogat-e a Weblate a Git-en és Mercurialon kívül más VCS-t (verziókezelő "
+"rendszert) is?"
 
 #: ../../faq.rst:510
 msgid ""
@@ -47376,21 +47372,21 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"A Weblate jelenleg csak a :ref:`vcs-git` rendszert támogatja natívan ("
-"kiterjesztett támogatással elérhető: a :ref:`vcs-github`, :ref:`vcs-gerrit` "
-"és az :ref:`vcs-git-svn`), valamint a :ref:`vcs-mercurial` rendszer, de "
-"lehetőség van arra, hogy más verziókezelő rendszerekhez is készítsünk "
-"háttérmodulokat."
+"A Weblate jelenleg nem rendelkezik natív támogatással más rendszerekhez, "
+"csak a :ref:`vcs-git` (kiterjesztett támogatással a :ref:`vcs-github`, :ref"
+":`vcs-gerrit` és :ref:`vcs-git-svn` rendszerekhez) és a :ref:`vcs-mercurial` "
+"esetén. Ugyanakkor lehetőség van más VCS-ekhez háttérrendszert (backendet) "
+"írni."
 
 #: ../../faq.rst:515
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
-"Használhatod a :ref:`vcs-git-helpers` elemet a Gitben, hogy elérj más "
-"verziókezelő rendszereket."
+"Git esetén használhatók a :ref:`vcs-git-helpers` segédeszközök más VCS-ek "
+"eléréséhez."
 
 #: ../../faq.rst:517
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
-msgstr "A Weblate VCS nélküli működést is támogat, lásd: :ref:`vcs-local`."
+msgstr "A Weblate támogatja a VCS nélküli működést is, lásd: :ref:`vcs-local`."
 
 #: ../../faq.rst:521
 msgid ""
@@ -47398,14 +47394,13 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
-"Ahhoz, hogy a Weblate natívan támogasson más VCS rendszereket, "
-"elengedhetetlen, hogy azok elosztott működésűek legyenek. Elvileg bármi "
-"mással is működhetne a Giten és a Mercurialon kívül, de ehhez valakinek meg "
-"kell valósítania a szükséges támogatást."
+"Más rendszerek natív támogatásához a Weblate elosztott VCS-t igényel – "
+"elvileg bármely rendszerhez hozzáigazítható, de ennek implementálását "
+"valakinek el kell végeznie."
 
 #: ../../faq.rst:528
 msgid "How does Weblate credit translators?"
-msgstr "Hogyan ismeri el a Weblate a fordítókat?"
+msgstr "Hogyan ismeri el a Weblate a fordítók munkáját?"
 
 #: ../../faq.rst:530
 msgid ""
@@ -47413,18 +47408,17 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
-"A Weblate-ben végzett minden módosítás a fordító nevében kerül "
-"véglegesítésre a verziókezelő rendszerben (VCS). Így minden egyes "
-"változtatás megfelelő szerzőséggel rendelkezik, és a szokásos, kódhoz "
-"használt VCS eszközökkel visszakövethető."
+"Minden módosítás, amit a Weblate-ben végeznek, a fordító nevében kerül "
+"véglegesítésre a verziókezelő rendszerben. Így minden egyes változtatásnak "
+"megvan a szerzője, és ez a szokásos VCS-eszközökkel visszakövethető."
 
 #: ../../faq.rst:534
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
-"Továbbá, amikor a fordítási fájl formátuma támogatja, a fájl fejlécei "
-"frissülnek, hogy tartalmazzák a fordító nevét."
+"Emellett, ha a fordítási fájl formátuma támogatja, a fájl fejlécébe is "
+"bekerül a fordító neve."
 
 #: ../../faq.rst:539
 msgid ":wladmin:`list_translators`, :doc:`../devel/reporting`"
@@ -47433,8 +47427,7 @@ msgstr ":wladmin:`list_translators`, :doc:`../devel/reporting`"
 #: ../../faq.rst:543
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
-"Miért kényszeríti a Weblate az összes PO fájl megjelenítését egyetlen fa "
-"struktúrában?"
+"Miért jeleníti meg a Weblate az összes PO-fájlt egyetlen fa struktúrában?"
 
 #: ../../faq.rst:545
 msgid ""
@@ -47442,22 +47435,22 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
-"A Weblate úgy lett tervezve, hogy minden PO fájl külön összetevőként jelenik "
-"meg. Ez előnyös a fordítók számára, így tudják, hogy valójában mit "
-"fordítanak."
+"A Weblate felépítése szerint minden PO-fájl egy önálló összetevőként "
+"szerepel. Ez segíti a fordítókat, hogy pontosan lássák, mit fordítanak."
 
 #: ../../faq.rst:551
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
 msgstr ""
-"A fordítók a projekt összes összetevőjét lefordíthatják egy adott nyelvre, "
-"egyben."
+"A fordítók így egy projekt összes összetevőjét le tudják fordítani egy adott "
+"nyelvre egységesen."
 
 #: ../../faq.rst:557
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr ""
-"Miért használ a Weblate olyan nyelvi kódokat, mint az sr_Latn vagy a zh_Hant?"
+"Miért használ a Weblate olyan nyelvkódokat, mint például `sr_Latn` vagy "
+"`zh_Hant`?"
 
 #: ../../faq.rst:559
 msgid ""
@@ -47465,10 +47458,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
-"Ezek a :rfc:`5646` által meghatározott nyelvi kódok, amelyek jobban jelzik, "
-"hogy valóban különböző nyelvekről van szó, szemben a korábban helytelenül "
-"használt módosítókkal (például a ``@latin`` változatoknál) vagy "
-"országkódokkal (például a kínai esetében)."
+"Ezek a nyelvkódok az :rfc:`5646` szabvány szerint vannak meghatározva, hogy "
+"pontosabban jelezzék a valóban eltérő nyelvváltozatokat, amelyeket korábban "
+"helytelenül módosítókkal (például ``@latin``) vagy országkódokkal (például a "
+"kínainál) jelöltek."
 
 #: ../../faq.rst:563
 msgid ""
@@ -47476,17 +47469,17 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
-"A Weblate még mindig érti a régi nyelvi kódokat, és átalakítja őket a "
-"jelenlegi megfelelőjükre - például a ``sr@latin`` kódot ``sr_Latn``-ként "
-"vagy a ``zh@CN`` kódot ``zh_Hans``-ként kezeli."
+"A Weblate továbbra is felismeri a régi nyelvkódokat, és automatikusan a "
+"megfelelő modern kódokra térképezi őket – például a ``sr@latin`` kódot "
+"``sr_Latn``-ként, vagy a ``zh@CN`` kódot ``zh_Hans``-ként kezeli."
 
 #: ../../faq.rst:569
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
 msgstr ""
-"A Weblate alapértelmezés szerint a POSIX stílusú nyelvi kódokat használja "
-"aláhúzásjellel, további részletekért lásd a :ref:`languages` részt."
+"Alapértelmezetten a POSIX-stílusú, aláhúzásos nyelvkódokat használja, lásd "
+":ref:`languages` a részletekért."
 
 #: ../../faq.rst:574
 msgid ""
@@ -47498,7 +47491,7 @@ msgstr ""
 
 #: ../../formats.rst:4
 msgid "Localization file formats"
-msgstr "Helyi nyelvi fájlformátumok"
+msgstr "Fordítási fájlformátumok"
 
 #: ../../formats.rst:6
 msgid ""
@@ -47506,7 +47499,7 @@ msgid ""
 "slightly different and provides a different set of capabilities."
 msgstr ""
 "A Weblate számos különböző fordítási formátumot támogat. Minden formátum "
-"kicsit eltérő, és más-más képességeket kínál."
+"kissé eltér, és más-más képességeket kínál."
 
 #: ../../formats.rst:11
 msgid ""
@@ -47515,10 +47508,10 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
-"Amikor fájlformátumot választasz az alkalmazásodhoz, jobb, ha a használt "
-"eszközkészlet/platform jól bevált formátumai közül választasz. Így a "
-"fordítóid használhatják az általuk megszokott eszközöket, és nagyobb "
-"valószínűséggel fognak hozzájárulni a projektedhez."
+"Amikor fájlformátumot választ az alkalmazásához, érdemes olyat használni, "
+"amely jól bevált és az adott eszközkészletben vagy platformon megszokott. "
+"Így a fordítók a számukra ismerős eszközökkel dolgozhatnak, és nagyobb "
+"valószínűséggel járulnak hozzá a projekthez."
 
 #: ../../formats.rst:18 ../../formats.rst:505
 msgid ":doc:`tt:formats/index`"
@@ -47535,19 +47528,19 @@ msgid ""
 "format (JSON, YAML, properties) or file encoding, so please verify that :ref:"
 "`component-file_format` is correct before creating the component."
 msgstr ""
-"A Weblate megpróbálja észlelni a fájlformátumot a :ref:`adding-projects` "
-"során. Az észlelés téves lehet ugyanazon sorozatformátum (JSON, YAML, "
-"properties) vagy fájlkódolás különböző változatai esetén, ezért kérlek, "
-"ellenőrizd, hogy a :ref:`component-file_format` helyes-e, mielőtt létrehozod "
-"az összetevőt."
+"A Weblate megpróbálja automatikusan felismerni a fájlformátumot a :ref"
+":`adding-projects` során. Az azonos formátumú, de különböző változatokat "
+"használó fájloknál (például JSON, YAML, properties) vagy eltérő kódolás "
+"esetén ez a felismerés téves lehet, ezért mindig ellenőrizze, hogy a :ref"
+":`component-file_format` beállítás helyes-e az összetevő létrehozása előtt."
 
 #: ../../formats.rst:32
 msgid "Translation types capabilities"
-msgstr "Fordítási típusok képességei"
+msgstr "Fordítástípusok képességei"
 
 #: ../../formats.rst:34
 msgid "Capabilities of all supported formats"
-msgstr "Az összes támogatott formátum képességei"
+msgstr "A támogatott formátumok képességei"
 
 #: ../../formats.rst:37
 msgid "Format"
@@ -47559,7 +47552,7 @@ msgstr "Nyelviség [#m]_"
 
 #: ../../formats.rst:39
 msgid "Plurals [#p]_"
-msgstr "Többes számok [#p]_"
+msgstr "Többes szám [#p]_"
 
 #: ../../formats.rst:40
 msgid "Descriptions [#n]_"
@@ -47567,15 +47560,15 @@ msgstr "Leírások [#n]_"
 
 #: ../../formats.rst:41
 msgid "Context [#c]_"
-msgstr "Konteksts [#c]_"
+msgstr "Kontextus [#c]_"
 
 #: ../../formats.rst:42
 msgid "Location [#l]_"
-msgstr "Helyszín [#l]_"
+msgstr "Hely [#l]_"
 
 #: ../../formats.rst:43
 msgid "Flags [#f]_"
-msgstr "Zászlók [#f]_"
+msgstr "Jelzők [#f]_"
 
 #: ../../formats.rst:44
 msgid "Additional states [#a]_"
@@ -47618,7 +47611,7 @@ msgstr "igen [#po]_"
 #: ../../formats.rst:52 ../../formats.rst:60 ../../formats.rst:108
 #: ../../formats.rst:204 ../../formats.rst:252
 msgid "needs editing"
-msgstr "szerkesztésre szorul"
+msgstr "szerkesztést igényel"
 
 #: ../../formats.rst:53
 msgid ":ref:`mono_gettext`"
@@ -47636,7 +47629,7 @@ msgstr ":ref:`mono_gettext`"
 #: ../../formats.rst:310 ../../formats.rst:326 ../../formats.rst:334
 #: ../../formats.rst:342
 msgid "mono"
-msgstr "mono"
+msgstr "egynyelvű"
 
 #: ../../formats.rst:61
 msgid ":ref:`xliff`"
@@ -47649,7 +47642,7 @@ msgstr "mindkettő"
 
 #: ../../formats.rst:68
 msgid "needs editing, approved"
-msgstr "szerkesztésre szorul, jóváhagyva"
+msgstr "szerkesztést igényel, jóváhagyva"
 
 #: ../../formats.rst:69
 msgid ":ref:`javaprop`"
@@ -47826,7 +47819,7 @@ msgstr ":ref:`fluent`"
 
 #: ../../formats.rst:343
 msgid "no [#fp]_"
-msgstr "nincs [#fp]_"
+msgstr "nem [#fp]_"
 
 #: ../../formats.rst:350
 msgid "See :ref:`bimono`"
@@ -47857,8 +47850,8 @@ msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
 msgstr ""
-"Az XML megjegyzés, amely a ``<string>`` elem előtt helyezkedik el, "
-"forrásszöveg leírásként kerül értelmezésre."
+"Az XML-megjegyzések, amelyek a ``<string>`` elem előtt helyezkednek el, "
+"forrásszöveg-leírásként kerülnek értelmezésre."
 
 #: ../../formats.rst:357
 msgid "See :ref:`format-flags`."
@@ -47866,27 +47859,27 @@ msgstr "Lásd: :ref:`format-flags`."
 
 #: ../../formats.rst:358
 msgid "The gettext type comments are used as flags."
-msgstr "A gettext típusú megjegyzések jelzésként szolgálnak."
+msgstr "A gettext típusú megjegyzések jelzőként működnek."
 
 #: ../../formats.rst:359
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
-"A többes szám csak a Laravel esetében támogatott, amely a szövegbeli "
-"szintaxist használja a meghatározásukhoz, lásd `Localization in Laravel`_."
+"Többes számot kizárólag a Laravel támogat, amely szövegbe ágyazott "
+"szintaxist használ ennek megadására – lásd: `Localization in Laravel`_."
 
 #: ../../formats.rst:360
 msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
-"A többes számokat a szövegek szintaxisában kezelik, és nem jelennek meg "
-"többes számként a Weblate-ben."
+"Ebben az esetben a többes szám kezelése a szövegek szintaxisán belül "
+"történik, nem külön entitásként jelenik meg a Weblate-ben."
 
 #: ../../formats.rst:367
 msgid "Bilingual and monolingual formats"
-msgstr "Kétnyelvű és egynyelvű formátumok"
+msgstr "Egynyelvű és kétnyelvű formátumok"
 
 #: ../../formats.rst:369
 msgid ""
@@ -47899,14 +47892,14 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
-"Mind az :index:`monolingual <pair: translation; monolingual>`, mind a :index:"
-"`bilingual <pair: translation; bilingual>` formátumok támogatottak. A "
-"kétnyelvű formátumok két nyelvet tárolnak egyetlen fájlban—az eredetit és a "
-"fordítást (tipikus példák a :ref:`gettext`, :ref:`xliff` vagy :ref:`apple`). "
-"Ezzel szemben az egynyelvű formátumok azonosítóval azonosítják a szöveget, "
-"és minden nyelvi fájl csak ezek hozzárendelését tartalmazza bármely adott "
-"nyelvhez (jellemzően :ref:`aresource`). Néhány fájlformátum mindkét "
-"változatban használatos, lásd az alábbi részletes leírást."
+"A Weblate támogatja az :index:`egynyelvű <pair: translation; monolingual>` "
+"és az :index:`kétnyelvű <pair: translation; bilingual>` formátumokat "
+"egyaránt. A kétnyelvű formátumok ugyanabban a fájlban tartalmazzák a forrás- "
+"és célnyelvi szövegeket (tipikus példák: :ref:`gettext`, :ref:`xliff`, "
+":ref:`apple`). Az egynyelvű formátumok azonosítóval jelölik a szöveget, és "
+"minden nyelv külön fájlban tárolja ezek fordítását (például: "
+":ref:`aresource`). Bizonyos fájlformátumok mindkét változatban "
+"előfordulhatnak – lásd lentebb a részletes leírást."
 
 #: ../../formats.rst:377
 msgid ""
@@ -47915,10 +47908,10 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
-"Az egynyelvű fájlok helyes használatához a Weblate hozzáférést igényel egy "
-"olyan fájlhoz, amely a lefordítandó szövegek teljes listáját tartalmazza az "
-"eredeti szöveggel együtt—ez a fájl a Weblate-ben :ref:`component-template` "
-"néven ismert, bár a megnevezés eltérhet a te paradigmádban."
+"Az egynyelvű fájlok helyes használatához a Weblate-nek szüksége van egy "
+"olyan fájlra, amely tartalmazza az összes fordítandó szöveget és azok "
+"forrását – ez a fájl a Weblate-ben :ref:`component-template` néven szerepel, "
+"bár más rendszerekben eltérő lehet az elnevezés."
 
 #: ../../formats.rst:382
 msgid ""
@@ -47926,13 +47919,13 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
-"Továbbá ez a munkafolyamat kiterjeszthető a :ref:`component-intermediate` "
-"használatával, hogy tartalmazza a fejlesztők által biztosított szövegeket, "
-"amelyeket azonban nem a végleges szövegekben kell használni."
+"Ez a munkafolyamat kibővíthető a :ref:`component-intermediate` használatával "
+"is, így azokat a fejlesztők által biztosított szövegeket is be lehet vonni, "
+"amelyek nem a végleges fordítási célra szolgálnak."
 
 #: ../../formats.rst:389
 msgid "String states"
-msgstr "Szöveg állapotok"
+msgstr "Szövegállapotok"
 
 #: ../../formats.rst:391
 msgid ""
@@ -47940,10 +47933,10 @@ msgid ""
 "strings. With some formats it is possible to store more fine-grained state "
 "information, such as \"Needs editing\" or \"Approved\"."
 msgstr ""
-"Számos fájlformátum csak az \"Nincs lefordítva\" és a \"Lefordítva\" "
-"szövegeket különbözteti meg. Néhány formátum esetében lehetőség van "
-"részletesebb állapotinformáció tárolására, mint például \"Szerkesztésre "
-"vár\" vagy \"Jóváhagyott\"."
+"Sok fájlformátum csak az „Nincs lefordítva” és a „Lefordítva” állapotot "
+"különbözteti meg. Bizonyos formátumok azonban lehetővé teszik részletesebb "
+"állapotinformációk tárolását is, például „Szerkesztést igényel” vagy "
+"„Jóváhagyva”."
 
 #: ../../formats.rst:398
 msgid "Source string description"
@@ -47954,8 +47947,8 @@ msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
 msgstr ""
-"A forrásszöveg leírásai felhasználhatók arra, hogy további információkat "
-"közöljenek a fordítandó szövegről."
+"A forrásszövegekhez fűzött leírások további információkat adhatnak a "
+"fordítónak."
 
 #: ../../formats.rst:402
 msgid ""
@@ -47965,23 +47958,23 @@ msgid ""
 "ref:`arb`, :ref:`dotnet`). Many other formats extract closest comment as "
 "source string description."
 msgstr ""
-"Számos formátum natívan támogatja a további információk biztosítását a "
-"fordítók számára (például :ref:`xliff`, :ref:`gettext`, :ref:`webex`, :ref:"
-"`csv`, :ref:`xlsx`, :ref:`qtling`, :ref:`go-i18n-json`, :ref:`gotext-json`, :"
-"ref:`arb`, :ref:`dotnet`). Sok más formátum a legközelebbi megjegyzést emeli "
-"ki forrásszöveg leírásként."
+"Számos formátum natív módon támogatja az ilyen kiegészítéseket (például: "
+":ref:`xliff`, :ref:`gettext`, :ref:`webex`, :ref:`csv`, :ref:`xlsx`, "
+":ref:`qtling`, :ref:`go-i18n-json`, :ref:`gotext-json`, :ref:`arb`, "
+":ref:`dotnet`). Sok más formátumnál pedig a legközelebbi megjegyzést "
+"értelmezi a rendszer forrásszöveg-leírásként."
 
 #: ../../formats.rst:413
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
 msgstr ""
-"A szövegekhez tartozó :ref:`additional-explanation` néhány fájlformátumból "
-"tárolható és elemezhető."
+"A :ref:`additional-explanation` kiegészítő információi néhány fájltípusban "
+"tárolhatók és értelmezhetők."
 
 #: ../../formats.rst:416
 msgid "Currently supported only in :ref:`tbx`."
-msgstr "Jelenleg csak a :ref:`tbx` formátumban támogatott."
+msgstr "Jelenleg ez kizárólag a :ref:`tbx` formátumban támogatott."
 
 #: ../../formats.rst:421
 msgid "Source string location"
@@ -47992,8 +47985,8 @@ msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
-"Egy szöveg forráskódbeli helye segíthet a gyakorlott fordítóknak megérteni, "
-"hogyan van használva a szöveg."
+"A szöveg forráskódbeli helye segítheti a gyakorlott fordítókat annak "
+"megértésében, hogy milyen kontextusban használatos az adott szöveg."
 
 #: ../../formats.rst:426
 msgid ""
@@ -48001,9 +47994,9 @@ msgid ""
 "are extracted from the source code using tools. For example :ref:`gettext` "
 "and :ref:`qtling`."
 msgstr ""
-"Ez az információ általában elérhető kétnyelvű formátumokban, ahol a "
-"szövegeket eszközök segítségével vonják ki a forráskódból. Például :ref:"
-"`gettext` és :ref:`qtling`."
+"Ez az információ jellemzően a kétnyelvű formátumokban érhető el, ahol a "
+"szövegeket forráskódból kinyerő eszközök használják – például: :ref:`gettext`"
+" és :ref:`qtling`."
 
 #: ../../formats.rst:434
 msgid ""
@@ -48011,13 +48004,16 @@ msgid ""
 "defining those in the translation file (you can always define them in the "
 "Weblate interface, see :ref:`custom-checks`)."
 msgstr ""
-"A fordítási jelzők lehetővé teszik a Weblate viselkedésének testreszabását. "
-"Néhány formátum támogatja ezek meghatározását a fordítási fájlban (mindig "
-"megadhatod őket a Weblate felületén is, lásd: :ref:`custom-checks`)."
+"A fordítási jelzők (segítségével testre szabható a Weblate viselkedése. "
+"Bizonyos formátumok lehetővé teszik ezek közvetlen megadását a fordítási "
+"fájlban (de ezeket bármikor megadhatja a Weblate felületén is, lásd: :ref"
+":`custom-checks`)."
 
 #: ../../formats.rst:438
 msgid "This feature is modelled on flags in :ref:`gettext`."
-msgstr "Ez a funkció a :ref:`gettext` jelzői alapján lett kialakítva."
+msgstr ""
+"Ez a funkció a :ref:`gettext` rendszerében használt jelzők alapján került "
+"kialakításra."
 
 #: ../../formats.rst:440
 msgid ""
@@ -48027,11 +48023,11 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Továbbá, minden XML alapú formátum esetében a jelölések a nem szabványos "
-"``weblate-flags`` attribútumból kerülnek kinyerésre. Ezenkívül a ``max-"
-"length:N`` támogatott a ``maxwidth`` `attribútum <https://docs.oasis-open."
-"org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ által, ahogyan azt az XLIFF "
-"szabvány meghatározza, lásd :ref:`xliff-flags`."
+"Ezenfelül minden XML-alapú formátum esetén a jelzők a nem szabványos "
+"``weblate-flags`` attribútumból kerülnek kiolvasásra. A ``max-length:N`` "
+"jelzés a ``maxwidth`` `attribútumon <https://docs.oasis-open.org/xliff/v1.2/"
+"os/xliff-core.html#maxwidth>`_ keresztül is támogatott az XLIFF szabvány "
+"szerint – lásd: :ref:`xliff-flags`."
 
 #: ../../formats.rst:448
 msgid ":ref:`custom-checks`, `PO files documentation`_"
@@ -48047,22 +48043,22 @@ msgid ""
 "used in different scopes (for example `Sun` can be used as an abbreviated "
 "name of the day \"Sunday\" or as the name of our closest star)."
 msgstr ""
-"A kontextust arra használják, hogy megkülönböztessék az azonos szövegeket "
-"egy kétnyelvű formátumban, amelyek különböző környezetekben használatosak "
-"(például a `Sun` lehet a \"Sunday\" nap rövidített neve vagy a legközelebbi "
-"csillagunk neve)."
+"A kontextust arra használjuk, hogy megkülönböztessük azonos szövegeket a "
+"kétnyelvű formátumokban, amelyek különböző szövegkörnyezetben fordulnak elő ("
+"például a `Sun` jelentheti a „Sunday” rövidítését vagy a Nap csillagunk "
+"nevét)."
 
 #: ../../formats.rst:463
 msgid ""
 "For monolingual formats the string identifier (often called key) can serve "
 "the same purpose and additional context is not necessary."
 msgstr ""
-"Egynyelvű formátumok esetén a szövegazonosító (gyakran kulcsnak nevezik) "
-"ugyanazt a célt szolgálhatja, és további kontextus nem szükséges."
+"Egynyelvű formátumoknál ezt a szerepet jellemzően az azonosító (kulcs) tölti "
+"be, így nincs szükség külön kontextusmezőre."
 
 #: ../../formats.rst:469
 msgid "Pluralized strings"
-msgstr "Többes számú sztringek"
+msgstr "Többes számú szövegek"
 
 #: ../../formats.rst:471
 msgid ""
@@ -48070,9 +48066,9 @@ msgid ""
 "rules depend on a target language and many formats follow CLDR specification "
 "for that."
 msgstr ""
-"A többes szám szükséges ahhoz, hogy a változó számú sztringeket megfelelően "
-"lokalizáljuk. A szabályok a célnyelvtől függenek, és sok formátum a CLDR "
-"specifikációt követi ehhez."
+"A többes számok kezelése elengedhetetlen a változó számosságú szövegek "
+"megfelelő lokalizálásához. A szabályok a célnyelvtől függenek, és sok "
+"fájlformátum a CLDR specifikációt követi ezen a téren."
 
 #: ../../formats.rst:477
 msgid ""
@@ -48080,9 +48076,9 @@ msgid ""
 "well. Choose native format of your platform such as :ref:`gettext`, :ref:"
 "`aresource` or :ref:`stringsdict`."
 msgstr ""
-"A többes számú sztringekhez az alkalmazás keretrendszerének megfelelő "
-"támogatásra is szüksége van. Válaszd a platformod natív formátumát, mint "
-"például a :ref:`gettext`, :ref:`aresource` vagy a :ref:`stringsdict`."
+"Ehhez azonban az alkalmazás keretrendszerének is támogatnia kell a többes "
+"számot. Érdemes az adott platform natív formátumát választani, például: "
+":ref:`gettext`, :ref:`aresource` vagy :ref:`stringsdict`."
 
 #: ../../formats.rst:484
 msgid "Read-only strings"
@@ -48095,14 +48091,14 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
-"A fordítási fájlok írásvédett sztringjei bekerülnek, de nem szerkeszthetők a "
-"Weblate-ben. Ezt a funkciót csak néhány formátum támogatja natívan (:ref:"
-"`xliff` és :ref:`aresource`), de más formátumokban is emulálható egy ``read-"
-"only`` zászló hozzáadásával, lásd :ref:`custom-checks`."
+"A fordítási fájlokban szereplő, csak olvasható szövegek megjelennek a "
+"Weblate-ben, de nem szerkeszthetők. Ezt a funkciót néhány formátum natívan "
+"is támogatja (például: :ref:`xliff` és :ref:`aresource`), más esetekben a "
+"``read-only`` jelző hozzáadásával szimulálható – lásd: :ref:`custom-checks`."
 
 #: ../../formats.rst:493
 msgid "Supporting other formats"
-msgstr "Más formátumok támogatása"
+msgstr "További formátumok támogatása"
 
 #: ../../formats.rst:495
 msgid ""
@@ -48111,18 +48107,19 @@ msgid ""
 "cases some thin layer is needed in Weblate to hide differences in behavior "
 "of different `translate-toolkit`_ storages."
 msgstr ""
-"A legtöbb, a `translate-toolkit`_ által támogatott formátum, amely támogatja "
-"a szerializálást, könnyen támogatható, de ezek még nem lettek tesztelve. A "
-"legtöbb esetben szükség van egy vékony rétegre a Weblate-ben, hogy elrejtse "
-"a `translate-toolkit`_ különböző tárolóinak viselkedésbeli különbségeit."
+"A legtöbb, a `translate-toolkit`_ által támogatott és kiírható formátum, "
+"viszonylag könnyen használható a Weblate-ben is – bár ezek közül nem "
+"mindegyiket tesztelték még. A legtöbb esetben a Weblate egy vékony "
+"illesztőréteget használ, hogy elrejtse a `translate-toolkit`_ adattárolóinak "
+"viselkedésbeli különbségeit."
 
 #: ../../formats.rst:500
 msgid ""
 "To add support for a new format, the preferred approach is to first "
 "implement support for it in the `translate-toolkit`_."
 msgstr ""
-"Ha új formátum támogatását szeretnéd hozzáadni, az előnyös megközelítés az, "
-"hogy először a `translate-toolkit`_-ben valósítod meg a támogatást."
+"Ha új formátum támogatására van szükség, a legjobb megoldás, ha először a "
+"`translate-toolkit`_-ben valósítják meg a támogatást."
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
@@ -48130,14 +48127,16 @@ msgstr "Android szövegerőforrások"
 
 #: ../../formats/android.rst:10
 msgid "Android specific file format for translating applications."
-msgstr "Android-specifikus fájlformátum alkalmazások fordításához."
+msgstr ""
+"Ez egy Android-specifikus fájlformátum, amelyet alkalmazások fordítására "
+"használnak."
 
 #: ../../formats/android.rst:12
 msgid ""
 "The same file format is also used by JetBrains Compose Multiplatform Kotlin "
 "Resources."
 msgstr ""
-"Ugyanez a fájlformátumot használja a JetBrains Compose Multiplatform Kotlin "
+"Ugyanezt a formátumot alkalmazza a JetBrains Compose Multiplatform Kotlin "
 "Resources is."
 
 #: ../../formats/android.rst:14
@@ -48146,70 +48145,68 @@ msgid ""
 "stored in a different location from the other files -- :file:`res/values/"
 "strings.xml`."
 msgstr ""
-"Az Android sztring erőforrások egynyelvűek, a :ref:`component-template` más "
-"helyen van tárolva, mint a többi fájl -- :file:`res/values/strings.xml`."
+"Az Android szövegforrások egynyelvűek, a :ref:`component-template` fájl "
+"pedig eltérő helyen található, mint a többi nyelvi fájl – jellemzően: :file:`"
+"res/values/strings.xml`."
 
 #: ../../formats/android.rst:17
 msgid "Weblate does following escaping of strings:"
-msgstr "A Weblate a következő módon végzi a karakterláncok escape-elését:"
+msgstr "A Weblate az alábbi módon kezeli a karakterek kódolását:"
 
 #: ../../formats/android.rst:19
 msgid "If a strings is valid XML, it is inserted as XML to translation."
 msgstr ""
-"Ha egy karakterlánc érvényes XML, akkor XML-ként kerül beillesztésre a "
-"fordításba."
+"Ha a szöveg érvényes XML, akkor XML-ként kerül beillesztésre a fordításba."
 
 #: ../../formats/android.rst:20
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid interpreting them as style or resource references."
 msgstr ""
-"A ``?`` és az ``@`` karaktereket egy-egy ``\\\\`` karakterrel látjuk el a "
-"karakterlánc elején, hogy elkerüljük azokat stílus- vagy "
-"erőforráshivatkozásként való értelmezésüket."
+"A ``?`` és ``@`` karaktereket ``\\\\\\\\`` előtaggal látja el, hogy "
+"elkerüljük stílus- vagy erőforráshivatkozásként való értelmezésüket."
 
 #: ../../formats/android.rst:21
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
-msgstr ""
-"Ha a karakterlánc több szóközt tartalmaz, akkor dupla idézőjelekkel (``\"``) "
-"van körülvéve."
+msgstr "Ha a szöveg több szóközt tartalmaz, idézőjelek közé kerül (``\\\"``)."
 
 #: ../../formats/android.rst:22
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
-"Az új sorokat ``\\\\n``-ként kezeljük, de a tényleges új sor is megmarad az "
-"olvashatóság érdekében."
+"A sortörések ``\\\\n"
+"`` formában kerülnek kódolásra, de az olvashatóság kedvéért maga a sortörés "
+"is megmarad."
 
 #: ../../formats/android.rst:26
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
-"Az Android `string-array` struktúrákat jelenleg nem támogatjuk. Ennek "
-"megkerülésére szétbonthatod a szövegtömböket:"
+"Az Android `string-array` struktúrák jelenleg nem támogatottak. Ennek "
+"megkerülésére felbonthatja a sztringtömböket különálló elemekre:"
 
 #: ../../formats/android.rst:36
 msgid "become:"
-msgstr "válik:"
+msgstr "…ből ez lesz:"
 
 #: ../../formats/android.rst:47
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
-"A `string-array`, amely a `string` elemekre mutat, egy külön fájlban legyen "
-"tárolva, és ne legyen elérhető fordításra."
+"Azokat a `string-array` elemeket, amelyek `string` elemekre hivatkoznak, "
+"külön fájlban célszerű tárolni, és nem szabad elérhetővé tenni fordításra."
 
 #: ../../formats/android.rst:50
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
-"Ez a szkript segíthet az existing strings.xml fájlok és fordítások "
+"Ez a szkript segíthet az `strings.xml` fájlok és a meglévő fordítások "
 "előfeldolgozásában: https://gist.github.com/paour/11291062"
 
 #: ../../formats/android.rst:54
@@ -48217,9 +48214,8 @@ msgid ""
 "To avoid translating some strings, these can be marked as non-translatable. "
 "This can be especially useful for string references:"
 msgstr ""
-"Annak érdekében, hogy elkerüld bizonyos szövegek fordítását, ezeket "
-"megjelölheted nem fordíthatóként. Ez különösen hasznos lehet "
-"szövegreferenciák esetén:"
+"Ha egyes szövegeket nem szeretne lefordíttatni, azokat megjelölheti nem "
+"fordíthatóként. Ez különösen hasznos lehet hivatkozott sztringek esetén:"
 
 #: ../../formats/android.rst:62
 msgid ""
@@ -48228,14 +48224,14 @@ msgid ""
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
 "multiplatform-resources.html>`_, :doc:`tt:formats/android`"
 msgstr ""
-"`Android string resources dokumentáció <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
+"`Android szövegforrások dokumentációja <https://developer.android.com/guide/"
+"topics/resources/string-resource>`_ `JetBrains Compose Multiplatform Kotlin "
 "Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_, :doc:`tt:formats/android`"
+"multiplatform-resources.html>`_ :doc:`tt:formats/android`"
 
 #: ../../formats/android.rst:67
 msgid "Weblate configuration for Android resource strings"
-msgstr "Weblate konfiguráció Android erőforrás stringekhez"
+msgstr "Weblate-beállítás Android szövegforrásokhoz"
 
 #: ../../formats/android.rst:70 ../../formats/android.rst:85
 #: ../../formats/apple.rst:26 ../../formats/appstore.rst:27
@@ -48286,13 +48282,14 @@ msgstr "`Üres`"
 
 #: ../../formats/android.rst:78 ../../formats/android.rst:93
 msgid "`Android String Resource`"
-msgstr "`Android szöveg erőforrás`"
+msgstr "`Android String Resource`"
 
 #: ../../formats/android.rst:82
 msgid ""
 "Weblate configuration for JetBrains Compose Multiplatform Kotlin Resources"
 msgstr ""
-"Weblate konfiguráció JetBrains Compose Multiplatform Kotlin erőforrásokhoz"
+"Weblate-beállítás a JetBrains Compose Multiplatform Kotlin Resources "
+"formátumhoz"
 
 #: ../../formats/android.rst:87
 msgid "``commonMain/composeResources/values-*/strings.xml``"
@@ -48304,7 +48301,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
-msgstr "Apple iOS szövegek"
+msgstr "Apple iOS sztringek"
 
 #: ../../formats/apple.rst:9
 msgid ""
@@ -48312,13 +48309,13 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
-"Fájlformátum, amelyet általában Apple :index:`iOS <pair: iOS; translation>` "
-"alkalmazások fordításához használnak, de a PWG 5100.13 is szabványosította, "
-"és a NeXTSTEP/OpenSTEP rendszereken is használják."
+"Ez a fájlformátum jellemzően Apple :index:`iOS <pair: iOS; translation>` "
+"alkalmazások fordításához használatos, de a PWG 5100.13 szabvány is rögzíti, "
+"és alkalmazták a NeXTSTEP/OpenSTEP rendszerekben is."
 
 #: ../../formats/apple.rst:13
 msgid "Apple iOS strings are usually used as monolingual."
-msgstr "Az Apple iOS szövegeket általában egynyelvűként használják."
+msgstr "Az iOS sztringek általában egynyelvűek."
 
 #: ../../formats/apple.rst:17
 msgid ""
@@ -48329,12 +48326,13 @@ msgid ""
 "pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :"
 "doc:`tt:formats/strings`"
 msgstr ""
-":ref:`stringsdict`, `Apple \"strings files\" dokumentáció <https://developer."
-"apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/"
-"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, "
-"`Üzenetkatalógus fájlformátum a PWG 5100.13-ban <https://ftp.pwg.org/pub/pwg/"
-"candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:"
-"formats/strings`"
+":ref:`stringsdict` `Apple „strings” fájlformátum dokumentációja <https://"
+"developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
+"BPInternational/MaintaingYourOwnStringsFiles/"
+"MaintaingYourOwnStringsFiles.html>`_ `Message Catalog fájlformátum a PWG "
+"5100.13 szabványban <https://ftp.pwg.org/pub/pwg/candidates/cs-"
+"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_ :doc:`tt:formats/"
+"strings`"
 
 #: ../../formats/apple.rst:23 ../../formats/appstore.rst:24
 #: ../../formats/arb.rst:27 ../../formats/csv.rst:61 ../../formats/dtd.rst:17
@@ -48372,19 +48370,19 @@ msgstr ""
 
 #: ../../formats/apple.rst:35
 msgid "`iOS Strings (UTF-8)`"
-msgstr "`iOS szövegek (UTF-8)`"
+msgstr "`iOS Strings (UTF-8)`"
 
 #: ../../formats/appstore.rst:4
 msgid "App store metadata files"
-msgstr "App store metaadatfájlok"
+msgstr "App Store metaadat fájlok"
 
 #: ../../formats/appstore.rst:6
 msgid ""
 "Metadata used for publishing apps in various app stores can be translated. "
 "Currently the following tools are compatible:"
 msgstr ""
-"Az alkalmazások különböző alkalmazásboltokban való közzétételéhez használt "
-"metaadatok fordíthatók. Jelenleg a következő eszközök kompatibilisek:"
+"A különböző alkalmazásboltokban való megjelenéshez használt metaadatok "
+"fordíthatók. Jelenleg az alábbi eszközökkel kompatibilis:"
 
 #: ../../formats/appstore.rst:9
 msgid ""
@@ -48415,8 +48413,8 @@ msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
 msgstr ""
-"A metaadatok több szövegfájlból állnak, amelyeket a Weblate különálló "
-"fordítandó szövegegységekként fog megjeleníteni."
+"A metaadat több szövegfájlból áll, amelyeket a Weblate különálló fordítandó "
+"szövegként jelenít meg."
 
 #: ../../formats/appstore.rst:18
 msgid ""
@@ -48425,10 +48423,10 @@ msgid ""
 "them read-only (see :ref:`custom-checks`). This can be automated by the :ref:"
 "`addon-weblate.flags.bulk`."
 msgstr ""
-"Ha nem szeretnél bizonyos szövegeket fordítani (például változásnaplókat), "
-"elrejtheted őket a :ref:`component-key_filter` használatával vagy "
-"megjelölheted őket csak olvashatóként (lásd: :ref:`custom-checks`). Ezt "
-"automatizálhatja a :ref:`addon-weblate.flags.bulk`."
+"Ha bizonyos szövegeket nem szeretne lefordítani (például a változásnaplókat)"
+", elrejtheti őket a :ref:`component-key_filter` használatával vagy "
+"megjelölheti őket csak olvashatóként (lásd: :ref:`custom-checks`). Ez "
+"automatizálható a :ref:`addon-weblate.flags.bulk` segítségével."
 
 #: ../../formats/appstore.rst:29
 msgid "``fastlane/metadata/android/*``"
@@ -48440,19 +48438,19 @@ msgstr "``fastlane/metadata/android/en-US``"
 
 #: ../../formats/appstore.rst:35
 msgid "`App store metadata files`"
-msgstr "`Alkalmazásbolt metaadatfájlok`"
+msgstr "`App store metadata files`"
 
 #: ../../formats/arb.rst:4
 msgid "ARB File"
-msgstr "ARB fájl"
+msgstr "ARB-fájl"
 
 #: ../../formats/arb.rst:11
 msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
-"Az ARB fordítások egynyelvűek, ezért ajánlott megadni egy alapfájlt az (ami "
-"leggyakrabban az) angol szövegekkel."
+"Az ARB fordítások egynyelvűek, ezért ajánlott megadni egy alapfájlt (ami "
+"leggyakrabban angol nyelvű szövegeket tartalmaz)."
 
 #: ../../formats/arb.rst:16
 msgid ""
@@ -48461,8 +48459,8 @@ msgid ""
 "`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
 ":doc:`tt:formats/json`, `Alkalmazás erőforráscsomag specifikáció`_, `Flutter "
-"alkalmazások honosítása`_, :ref:`updating-target-files`, :ref:`addon-weblate."
-"json.customize`, :ref:`addon-weblate.cleanup.generic`"
+"alkalmazások honosítása`_, :ref:`updating-target-files`, :ref:`addon-"
+"weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats/arb.rst:32
 msgid "``lib/l10n/intl_*.arb``"
@@ -48474,7 +48472,7 @@ msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats/arb.rst:38
 msgid "`ARB file`"
-msgstr "`ARB fájl`"
+msgstr "`ARB file`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -48485,8 +48483,8 @@ msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
-"A CSV fájlok tartalmazhatnak egy egyszerű listát a forrásról és a "
-"fordításról. A Weblate a következő fájlokat támogatja:"
+"A CSV-fájlok egyszerű forrás- és célnyelvi szövegpárokat tartalmazhatnak. A "
+"Weblate az alábbi fájltípusokat támogatja:"
 
 #: ../../formats/csv.rst:13
 msgid ""
@@ -48495,19 +48493,19 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
-"Fájlok, amelyek fejlécben meghatározott mezőket tartalmaznak (``location``, "
+"Fejlécet tartalmazó fájlok, amelyek mezőket definiálnak (``location``, "
 "``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
 "``translator_comments``, ``developer_comments``). Ez az ajánlott "
-"megközelítés, mivel ez a legkevésbé hajlamos a hibákra. Válaszd a :guilabel:"
-"`CSV file` fájlformátumot."
+"megközelítés, mivel ez a legkevésbé hajlamos hibára. Fájlformátumnak "
+"válassza a :guilabel:`CSV-fájl` lehetőséget."
 
 #: ../../formats/csv.rst:17
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
 msgstr ""
-"Két mezős fájlok—forrás és fordítás (ebben a sorrendben). Válaszd a :"
-"guilabel:`Simple CSV file` fájlformátumot."
+"Két mezőt tartalmazó fájlok – forrás és fordítás (ebben a sorrendben). "
+"Fájlformátumnak válassza a :guilabel:`Egyszerű CSV-fájl` lehetőséget."
 
 #: ../../formats/csv.rst:19
 msgid ""
@@ -48516,17 +48514,17 @@ msgid ""
 "``translator_comments``, ``developer_comments``. Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
-"Fejléc nélküli fájlok, amelyek mezői a `translate-toolkit`_ által "
-"meghatározott sorrendben vannak: ``location``, ``source``, ``target``, "
-"``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
-"``developer_comments``. Válaszd a :guilabel:`CSV file` fájlformátumot."
+"Fejléc nélküli fájlok, ahol a mezők sorrendjét a `translate-toolkit`_ "
+"határozza meg: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
+"``context``, ``translator_comments``, ``developer_comments``. "
+"Fájlformátumnak válassza a :guilabel:`CSV-fájl` lehetőséget."
 
 #: ../../formats/csv.rst:22
 msgid ""
 "Remember to define :ref:`component-template` when your files are monolingual "
 "(see :ref:`bimono`)."
 msgstr ""
-"Ne felejtsd el meghatározni a :ref:`component-template`-t, amikor a fájljaid "
+"Ne felejtse el megadni a :ref:`component-template` értékét, ha a fájlok "
 "egynyelvűek (lásd: :ref:`bimono`)."
 
 #: ../../formats/csv.rst:27
@@ -48536,11 +48534,10 @@ msgid ""
 "choose file format variant with encoding to avoid this (for example :"
 "guilabel:`CSV file (UTF-8)`)."
 msgstr ""
-"Alapértelmezés szerint a CSV formátum automatikusan észleli a fájl "
-"kódolását. Ez bizonyos esetekben megbízhatatlan lehet, és "
-"teljesítménycsökkenést okozhat. Kérlek, válassz kódolással rendelkező "
-"fájlformátum-változatot ennek elkerülése érdekében (például :guilabel:`CSV "
-"file (UTF-8)`)."
+"Alapértelmezetten a CSV formátum automatikusan felismeri a fájl kódolását. "
+"Ez bizonyos esetekben megbízhatatlan lehet, és teljesítményromláshoz "
+"vezethet. Kerülje el ezt azzal, hogy olyan fájlformátum-változatot választ, "
+"amely tartalmaz kódolást is (például :guilabel:`CSV -fájl (UTF-8)`)."
 
 #: ../../formats/csv.rst:34
 msgid ""
@@ -48549,11 +48546,10 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
-"A CSV formátum jelenleg automatikusan észleli a CSV fájl dialektusát. "
-"Bizonyos esetekben az automatikus észlelés nem sikerülhet, és vegyes "
-"eredményeket kaphatsz. Ez különösen igaz azokra a CSV fájlokra, amelyek új "
-"sorokat tartalmaznak az értékekben. Ezt elkerülendő, javasolt az idézőjelek "
-"mellőzése."
+"A CSV formátum jelenleg automatikusan felismeri a CSV fájl dialektusát. "
+"Egyes esetekben az automatikus felismerés hibás lehet, és vegyes "
+"eredményekhez vezethet. Ez különösen igaz, ha az értékek több sort "
+"tartalmaznak. Megoldásként javasolt az idézőjelek elhagyása."
 
 #: ../../formats/csv.rst:39
 msgid ":doc:`tt:formats/csv`"
@@ -48561,15 +48557,15 @@ msgstr ":doc:`tt:formats/csv`"
 
 #: ../../formats/csv.rst:46
 msgid "Multivalue CSV file"
-msgstr "Többértékű CSV fájl"
+msgstr "Többértékű CSV-fájl"
 
 #: ../../formats/csv.rst:50
 msgid ""
 "This variant of the CSV files allows storing multiple translations per "
 "string."
 msgstr ""
-"A CSV fájlok ezen változata lehetővé teszi több fordítás tárolását egy "
-"karakterlánchoz."
+"Ez a CSV-fájlformátum lehetővé teszi több fordítás tárolását egy-egy "
+"szöveghez."
 
 #: ../../formats/csv.rst:53 ../../formats/gettext.rst:61
 #: ../../formats/go-i18n.rst:33 ../../formats/json.rst:56
@@ -48612,7 +48608,7 @@ msgstr "Tipikus Weblate :ref:`component` egynyelvű CSV-hez"
 
 #: ../../formats/csv.rst:84
 msgid "`Simple CSV file`"
-msgstr "`Egyszerű CSV fájl`"
+msgstr "`Simple CSV file`"
 
 #: ../../formats/dtd.rst:4
 msgid "DTD files"
@@ -48624,7 +48620,7 @@ msgstr ":doc:`tt:formats/dtd`"
 
 #: ../../formats/dtd.rst:11
 msgid "Example DTD file:"
-msgstr "DTD fájl példa:"
+msgstr "Példa DTD-fájl:"
 
 #: ../../formats/dtd.rst:22
 msgid "``locale/*.dtd``"
@@ -48656,13 +48652,13 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
-"Amikor XLSX fájlokat töltesz fel fordításra, vedd figyelembe, hogy csak az "
-"aktív munkalap lesz figyelembe véve, és legalább egy ``source`` nevű "
-"oszlopnak kell lennie (ami a forrásszöveget tartalmazza) és egy ``target`` "
-"nevű oszlopnak (ami a fordítást tartalmazza). Ezenkívül legyen egy "
-"``context`` nevű oszlop is (ami a fordítandó szöveg kontextusát "
-"tartalmazza). Ha az XLSX letöltést használod a fordítások Excel munkafüzetbe "
-"való exportálásához, akkor már eleve a megfelelő fájlformátumú fájlt kapod."
+"XLSX-fájl feltöltésekor fordítás céljából vegye figyelembe, hogy csak az "
+"aktív munkalap kerül feldolgozásra, és legalább szükség van egy ``source`` "
+"nevű oszlopra (amely a forrásszöveget tartalmazza) és egy ``target`` nevű "
+"oszlopra (amely a fordítást tartalmazza). Emellett ajánlott egy ``context`` "
+"nevű oszlop is, amely a fordítandó szöveg kontextusát tartalmazza. Ha az "
+"XLSX-fájlt a Weblate-ből tölti le fordítás céljából, az már megfelelő "
+"formátumban lesz."
 
 #: ../../formats/excel.rst:22
 msgid "``path/*.xlsx``"
@@ -48678,7 +48674,7 @@ msgstr "`Excel Open XML`"
 
 #: ../../formats/flatxml.rst:4
 msgid "Flat XML files"
-msgstr "Sima XML-fájlok"
+msgstr "Egyszerű XML-fájlok"
 
 #: ../../formats/flatxml.rst:9
 msgid ":doc:`tt:formats/flatxml`"
@@ -48686,7 +48682,7 @@ msgstr ":doc:`tt:formats/flatxml`"
 
 #: ../../formats/flatxml.rst:11
 msgid "Example of a flat XML file:"
-msgstr "Egyszerű XML fájl példa:"
+msgstr "Egyszerű XML-fájl példa:"
 
 #: ../../formats/flatxml.rst:22
 msgid "``locale/*.xml``"
@@ -48698,7 +48694,7 @@ msgstr "``locale/en.xml``"
 
 #: ../../formats/flatxml.rst:28
 msgid "`Flat XML file`"
-msgstr "`Flat XML fájl`"
+msgstr "`Flat XML file`"
 
 #: ../../formats/fluent.rst:4
 msgid "Fluent format"
@@ -48710,10 +48706,9 @@ msgid ""
 "available and the behavior can change between releases. Feedback from "
 "testing is welcome."
 msgstr ""
-"Ennek a formátumnak a támogatása fejlesztés alatt áll. Előfordulhat, hogy "
-"néhány funkció még nem elérhető, és a viselkedés változhat a különböző "
-"kiadások között. Szívesen fogadjuk a teszteléssel kapcsolatos "
-"visszajelzéseket."
+"A formátum támogatása még fejlesztés alatt áll. Egyes funkciók esetleg még "
+"nem érhetők el, és működése változhat a verziók között. Tesztelési "
+"visszajelzéseket szívesen fogadunk."
 
 #: ../../formats/fluent.rst:10
 msgid ""
@@ -48722,8 +48717,9 @@ msgid ""
 "translation in another language."
 msgstr ""
 "A Fluent egy egynyelvű szövegformátum, amely az aszimmetrikus lokalizációra "
-"összpontosít: egy egyszerű szöveg az egyik nyelven egy összetett, több "
-"variánsú fordításhoz is társítható egy másik nyelven."
+"összpontosít: lehetővé teszi, hogy egy egyszerű szöveg az egyik nyelven egy "
+"másik nyelven egy összetettebb, több változatot tartalmazó fordítással "
+"feleljen meg."
 
 #: ../../formats/fluent.rst:18
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
@@ -48739,7 +48735,7 @@ msgstr "``locales/en/messages.ftl``"
 
 #: ../../formats/fluent.rst:36
 msgid "`Fluent file`"
-msgstr "`Fluent fájl`"
+msgstr "`Fluent file`"
 
 #: ../../formats/formatjs.rst:4
 msgid "Format.JS JSON file"
@@ -48749,16 +48745,15 @@ msgstr "Format.JS JSON-fájl"
 msgid ""
 "File format used when translating Format.JS and React-Intl applications."
 msgstr ""
-"Fájlformátum, amelyet a Format.JS és a React-Intl alkalmazások fordításakor "
-"használnak."
+"Ez a fájlformátum a Format.JS és React-Intl alkalmazások fordítására szolgál."
 
 #: ../../formats/formatjs.rst:12
 msgid ""
 ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
 "github.io/docs/getting-started/message-extraction>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Format.JS üzenet-kivonatolás <https://formatjs."
-"github.io/docs/getting-started/message-extraction>`_"
+":doc:`tt:formats/json`, `Format.JS üzenet-kivonatolás <https://"
+"formatjs.github.io/docs/getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:45
 msgid "``src/lang/*.json``"
@@ -48770,7 +48765,7 @@ msgstr "``src/extracted/en.json``"
 
 #: ../../formats/formatjs.rst:51
 msgid "`Format.JS JSON file`"
-msgstr "`Format.JS JSON fájl`"
+msgstr "`Format.JS JSON file`"
 
 #: ../../formats/gettext.rst:4
 msgid "GNU gettext PO (Portable Object)"
@@ -48778,8 +48773,7 @@ msgstr "GNU gettext PO (Portable Object)"
 
 #: ../../formats/gettext.rst:10
 msgid "Most widely used format for translating libre software."
-msgstr ""
-"A legszélesebb körben használt formátum szabad szoftverek fordításához."
+msgstr "A legszélesebb körben használt formátum szabad szoftverek fordításához."
 
 #: ../../formats/gettext.rst:12
 msgid ""
