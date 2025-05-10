@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-10 17:01+0000\n"
+"PO-Revision-Date: 2025-05-11 15:08+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -50657,15 +50657,15 @@ msgstr ""
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
-msgstr "A Weblate Python API-ja"
+msgstr "Weblate Python API"
 
 #: ../../python.rst:13
 msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc` "
 "(wlc) to have it."
 msgstr ""
-"A Python API külön kerül szállításra, a :ref:`wlc` (wlc) telepítésére van "
-"szükséged, hogy elérd."
+"A Python API külön csomagként érhető el, a használatához telepíteni kell a "
+"Weblate klienst (:ref:`wlc`)."
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
@@ -50677,7 +50677,7 @@ msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
-msgstr "Az összes kivétel alap osztálya."
+msgstr "Az összes kivétel alaposztálya."
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
@@ -50689,29 +50689,31 @@ msgstr "Felhasználói kulcs"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used."
-msgstr "API szerver URL, ha nincs megadva, az alapértelmezett lesz használva."
+msgstr ""
+"Az API szerver URL-je, ha nincs megadva, az alapértelmezett érték kerül "
+"használatra."
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
-msgstr "Konfigurációs objektum, amely felülír minden más paramétert."
+msgstr "Beállítási objektum, felülírja a többi paramétert."
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
 msgstr ""
-"Az API-hoz való hozzáférés osztálya, definiáld az API kulcsot, és "
-"opcionálisan az API URL-t."
+"API-hozzáférést biztosító osztály, amelyben megadható az API-kulcs és "
+"opcionálisan az API URL-je."
 
 #: ../../python.rst:49 ../../python.rst:57
 msgid "Request path"
-msgstr "Kérés útvonala"
+msgstr "A kérés útvonala"
 
 #: ../../python.rst:0
 msgid "Return type"
-msgstr "Visszatérési típus"
+msgstr "Visszatérési érték típusa"
 
 #: ../../python.rst:53 ../../python.rst:61
 msgid "Performs a single API GET call."
-msgstr "Egyetlen API GET hívást hajt végre."
+msgstr "Egyetlen API GET kérés végrehajtása."
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
@@ -50723,15 +50725,15 @@ msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
-msgstr "Használandó konfigurációs szekció"
+msgstr "A használandó konfigurációs szekció"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr "Konfigurációs fájl elemző az XDG-specifikáció szerint."
+msgstr "Konfigurációs fájl értelmező az XDG specifikáció szerint."
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
-msgstr "Az az útvonal, ahonnan a konfigurációt be kell tölteni."
+msgstr "Az a fájl, ahonnan a konfiguráció betöltésre kerül."
 
 #: ../../python.rst:86
 msgid ""
@@ -50739,9 +50741,9 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
-"Betölti a konfigurációt egy fájlból, ha nincs megadva, akkor a `wlc` "
-"konfigurációs fájlból (:file:`~/.config/wlc`) tölti be, amely az XDG-"
-"konfigurációs útvonaladon (:file:`/etc/xdg/wlc`) található."
+"Konfiguráció betöltése fájlból, ha nincs megadva fájl, akkor a `wlc` "
+"konfigurációs fájlából töltődik be (:file:`~/.config/wlc`), amely az XDG "
+"konfigurációs útvonalon található (:file:`/etc/xdg/wlc`)."
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
@@ -50749,19 +50751,18 @@ msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr "Felülírandó beállítások tuple-listaként"
+msgstr "Felülírandó beállítások listája tuple (rendezett párok) formában"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
 msgstr ""
-"stdout fájl objektum a kimenet nyomtatásához, alapértelmezés szerint ``sys."
-"stdout``-ot használ"
+"stdout fájlobjektum a kimenethez, alapértelmezés szerint: ``sys.stdout``"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
 msgstr ""
-"Parancssori argumentumok feldolgozásra, alapértelmezés szerint ``sys.args``-"
-"t használ"
+"Feldolgozandó parancssori argumentumok, alapértelmezésként a ``sys.args`` "
+"kerül használatra"
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
@@ -50772,8 +50773,8 @@ msgid ""
 "Decorator to register :class:`Command` class in main parser used by :func:"
 "`main`."
 msgstr ""
-"Dekorátor a :class:`Command` osztály regisztrálásához a fő elemzőben, "
-"amelyet a :func:`main` használ."
+"Dekorátor, amely egy :class:`Command` osztályt regisztrál a :func:`main` "
+"által használt fő parancsértelmezőben."
 
 #: ../../python.rst:114
 msgid ":class:`Command`"
@@ -50789,17 +50790,17 @@ msgid ""
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
 msgstr ""
-"A minőségellenőrzések segítenek a fordítók által elkövetett gyakori hibák "
-"kiszűrésében, biztosítva, hogy a fordítás megfelelő állapotban legyen. A "
-"hibásan jelzett eredmények esetén az ellenőrzések figyelmen kívül hagyhatók."
+"A minőségellenőrzések segítenek kiszűrni a gyakori fordítói hibákat, így "
+"biztosítva, hogy a fordítás megfelelő állapotban legyen. Az ellenőrzések "
+"figyelmen kívül hagyhatók téves pozitív találatok esetén."
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
 msgstr ""
-"Amikor egy hibás ellenőrzéssel rendelkező fordítást nyújtasz be, ez azonnal "
-"megjelenik a felhasználónak:"
+"Ha a fordítás véglegesítésekor egy hiba miatti ellenőrzés meghiúsul, azt a "
+"rendszer azonnal jelzi a felhasználónak:"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
@@ -50811,8 +50812,9 @@ msgid ""
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
-"A :ref:`checks` mellett a Weblate automatikusan javíthat néhány gyakori "
-"hibát a fordított szövegekben. Óvatosan használd, hogy ne okozzon hibákat."
+"Az :ref:`ellenőrzések <checks>` mellett a Weblate automatikusan képes "
+"kijavítani néhány gyakori hibát a lefordított szövegekben. A funkció "
+"használatakor legyen óvatos, nehogy új hibák kerüljenek be."
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
@@ -50820,11 +50822,11 @@ msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:27
 msgid "Trailing ellipsis replacer"
-msgstr "Végeken lévő hármaspont helyettesítő"
+msgstr "Hármaspont helyettesítő"
 
 #: ../../user/checks.rst:0
 msgid "Class name"
-msgstr "Osztály neve"
+msgstr "Osztálynév"
 
 #: ../../user/checks.rst:29
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -50835,8 +50837,8 @@ msgid ""
 "Replace trailing dots (``...``) with an ellipsis (``…``) to make it "
 "consistent with the source string."
 msgstr ""
-"Cseréld le a végén lévő pontokat (``...``) hármaspontra (``…``), hogy "
-"összhangban legyen a forrásszöveggel."
+"A záró pontsorozatokat (``...``) cseréli le hármaspont karakterre (``…``), "
+"hogy az egyezzen a forrásszöveggel."
 
 #: ../../user/checks.rst:35
 msgid "Zero-width space removal"
@@ -50864,7 +50866,8 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../user/checks.rst:47
 msgid "Removes control characters if the source does not contain any."
-msgstr "Eltávolítja a vezérlő karaktereket, ha a forrás nem tartalmaz ilyet."
+msgstr ""
+"Eltávolítja a vezérlőkaraktereket, ha a forrásszöveg nem tartalmaz ilyeneket."
 
 #: ../../user/checks.rst:50
 msgid "Devanagari danda"
@@ -50879,7 +50882,7 @@ msgid ""
 "Replaces sentence full stop in Bangla by the Devanagari danda character (``।"
 "``)."
 msgstr ""
-"A bangla mondatzáró pontot lecseréli a devanagari danda karakterre (``।``)."
+"A bangla mondatzáró pontokat lecseréli a Devanagari danda karakterre (``।``)."
 
 #: ../../user/checks.rst:59 ../../user/checks.rst:1418
 msgid "Punctuation spacing"
@@ -50892,19 +50895,20 @@ msgstr "``weblate.trans.autofixes.chars.PunctuationSpacing``"
 #: ../../user/checks.rst:65
 msgid "Ensures French uses correct punctuation spacing."
 msgstr ""
-"Biztosítja, hogy a francia nyelv a helyes írásjelezési szóközöket használja."
+"Biztosítja, hogy a francia nyelvhez megfelelő írásjelezési szóközöket "
+"használja a rendszer."
 
 #: ../../user/checks.rst:67
 msgid ""
 "This fixup can be disabled via ``ignore-punctuation-spacing`` flag (which "
 "also disables :ref:`check-punctuation-spacing`)."
 msgstr ""
-"Ez a javítás kikapcsolható az ``ignore-punctuation-spacing`` jelzővel (ami "
-"egyben letiltja a :ref:`check-punctuation-spacing` ellenőrzést is)."
+"Ez a javítás kikapcsolható az ``ignore-punctuation-spacing`` jelzővel (ez "
+"egyúttal kikapcsolja a :ref:`check-punctuation-spacing` ellenőrzést is)."
 
 #: ../../user/checks.rst:73
 msgid "Unsafe HTML cleanup"
-msgstr "Nem biztonságos HTML tisztítása"
+msgstr "Nem biztonságos HTML eltávolítása"
 
 #: ../../user/checks.rst:75
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -50913,8 +50917,8 @@ msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 #: ../../user/checks.rst:77
 msgid "Removes unsafe HTML markup from strings flagged as ``safe-html``."
 msgstr ""
-"Eltávolítja a nem biztonságos HTML jelöléseket a ``safe-html`` megjelölésű "
-"szövegekből."
+"Eltávolítja a nem biztonságos HTML-elemeket azokból a szövegekből, amelyek "
+"``safe-html`` megjelöléssel rendelkeznek."
 
 #: ../../user/checks.rst:81
 msgid ":ref:`check-safe-html`"
@@ -50922,7 +50926,7 @@ msgstr ":ref:`check-safe-html`"
 
 #: ../../user/checks.rst:84
 msgid "Trailing and leading whitespace fixer"
-msgstr "Végeken és elején lévő szóközök javítója"
+msgstr "Kezdő és záró szóközök egyeztetése"
 
 #: ../../user/checks.rst:86
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
@@ -50934,9 +50938,9 @@ msgid ""
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
-"Az elején és végén lévő szóközöket összhangba hozza a forrásszöveggel. A "
-"viselkedés finomhangolható az ``ignore-begin-space`` és ``ignore-end-space`` "
-"jelzőkkel, hogy kihagyja a szöveg bizonyos részeinek feldolgozását."
+"A forrásszöveggel egyezővé teszi a kezdő és záró szóközöket. A viselkedés az "
+"``ignore-begin-space`` és ``ignore-end-space`` jelzőkkel testreszabható, "
+"hogy a szöveg egyes részeit ne dolgozza fel."
 
 #: ../../user/checks.rst:95
 msgid "Quality checks"
