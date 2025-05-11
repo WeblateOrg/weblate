@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-11 15:08+0000\n"
+"PO-Revision-Date: 2025-05-12 17:01+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -50952,9 +50952,9 @@ msgid ""
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
 msgstr ""
-"A Weblate széles körű minőségellenőrzéseket alkalmaz a szövegeken. Az alábbi "
-"szakasz mindet részletesebben leírja. Vannak nyelvspecifikus ellenőrzések "
-"is. Kérlek, jelezz hibát, ha valamit tévesen jelent."
+"A Weblate széles körű minőségellenőrzéseket végez a szövegeken. Az alábbi "
+"szakasz részletesen ismerteti ezeket. Emellett nyelvspecifikus ellenőrzések "
+"is elérhetők. Ha hibás jelentést tapasztal, jelezze hibajeggyel."
 
 #: ../../user/checks.rst:103
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
@@ -50969,20 +50969,20 @@ msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
 msgstr ""
-"Minden fordítási változtatásnál végrehajtódik, segítve a fordítókat abban, "
-"hogy jó minőségű fordításokat tartsanak fenn."
+"Minden fordítási módosításkor lefutnak, segítve a fordítókat abban, hogy jó "
+"minőségű fordításokat hozzanak létre."
 
 #: ../../user/checks.rst:114
 msgid "BBCode markup"
-msgstr "BBCode jelölő"
+msgstr "BBCode jelölés"
 
 #: ../../user/checks.rst:0
 msgid "Summary"
-msgstr "Összefoglalás"
+msgstr "Összefoglaló"
 
 #: ../../user/checks.rst:116
 msgid "BBCode in translation does not match source."
-msgstr "A fordításban lévő BBCode nem egyezik a forrással."
+msgstr "A fordításban szereplő BBCode nem egyezik a forrással."
 
 #: ../../user/checks.rst:117 ../../user/checks.rst:146
 #: ../../user/checks.rst:167 ../../user/checks.rst:192
@@ -51021,7 +51021,7 @@ msgstr "lefordított szövegek"
 
 #: ../../user/checks.rst:0
 msgid "Check class"
-msgstr "Ellenőrzés osztály"
+msgstr "Ellenőrző osztály"
 
 #: ../../user/checks.rst:118
 msgid "``weblate.checks.markup.BBCodeCheck``"
@@ -51029,7 +51029,7 @@ msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Check identifier"
-msgstr "Azonosító ellenőrzése"
+msgstr "Ellenőrzés azonosítója"
 
 #: ../../user/checks.rst:119
 msgid "``bbcode``"
@@ -51037,11 +51037,11 @@ msgstr "``bbcode``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
-msgstr "Jelölő az engedélyezéshez"
+msgstr "Engedélyező jelző"
 
 #: ../../user/checks.rst:0
 msgid "Flag to ignore"
-msgstr "Jelölő a figyelmen kívül hagyáshoz"
+msgstr "Kihagyó jelző"
 
 #: ../../user/checks.rst:125
 msgid ""
@@ -51049,37 +51049,38 @@ msgid ""
 "to be turned on using the ``bbcode-text`` flag."
 msgstr ""
 "Ez az ellenőrzés már nem támaszkodik a megbízhatatlan automatikus "
-"észlelésre, most a ``bbcode-text`` zászlóval kell bekapcsolni."
+"felismerésre, mostantól manuálisan kell engedélyezni a ``bbcode-text`` "
+"jelzővel."
 
 #: ../../user/checks.rst:128
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
 msgstr ""
-"A BBCode egyszerű jelölőnyelvet képvisel, például egy üzenet fontos "
-"részeinek kiemelésére félkövér vagy dőlt betűtípussal."
+"A BBCode egyszerű jelölőnyelvet jelent, amely például lehetővé teszi egy "
+"üzenet fontos részeinek félkövérrel vagy dőlt betűvel történő kiemelését."
 
 #: ../../user/checks.rst:131
 msgid "This check ensures they are also found in translation."
 msgstr ""
-"Ez az ellenőrzés biztosítja, hogy ezek a fordításban is megtalálhatók "
-"legyenek."
+"Ez az ellenőrzés biztosítja, hogy ezek a jelölések a fordításban is "
+"megtalálhatók legyenek."
 
 #: ../../user/checks.rst:135
 msgid ""
 "The method for detecting BBCode is currently quite simple so this check "
 "might produce false positives."
 msgstr ""
-"A BBCode észlelésének módszere jelenleg eléggé egyszerű, így ez az "
-"ellenőrzés téves pozitívumokat eredményezhet."
+"A BBCode észlelésének módszere jelenleg meglehetősen egyszerű, ezért ez az "
+"ellenőrzés téves pozitív eredményeket is adhat."
 
 #: ../../user/checks.rst:141
 msgid "Consecutive duplicated words"
-msgstr "Egymás utáni kettőzött szavak"
+msgstr "Egymás utáni ismétlődő szavak"
 
 #: ../../user/checks.rst:145
 msgid "Text contains the same word twice in a row."
-msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer."
+msgstr "A szöveg ugyanazt a szót kétszer tartalmazza egymás után."
 
 #: ../../user/checks.rst:147
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
@@ -51094,8 +51095,8 @@ msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
 msgstr ""
-"Ellenőrzi, hogy a fordításban ne forduljanak elő egymást követő ismétlődő "
-"szavak. Ez általában fordítási hibára utal."
+"Az ellenőrzés biztosítja, hogy a fordításban ne szerepeljenek egymás után "
+"ismétlődő szavak. Ez általában fordítási hibára utal."
 
 #: ../../user/checks.rst:156
 msgid ""
@@ -51103,8 +51104,8 @@ msgid ""
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
 "Ez az ellenőrzés nyelvspecifikus szabályokat is tartalmaz a téves pozitív "
-"eredmények elkerülése érdekében. Ha esetleg tévesen jelezne nálad, kérlek, "
-"tudasd velünk. Lásd: :ref:`report-issue`."
+"találatok elkerülésére. Amennyiben téves hibajelzést tapasztal jelezze "
+"felénk. Lásd: :ref:`report-issue`."
 
 #: ../../user/checks.rst:162
 msgid "Does not follow glossary"
@@ -51127,16 +51128,15 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
-"Ezt az ellenőrzést a ``check-glossary`` zászlóval kell bekapcsolni (lásd: :"
-"ref:`custom-checks`). Kérlek, fontold meg az alábbiakat, mielőtt "
-"engedélyezed:"
+"Ez az ellenőrzés a ``check-glossary`` jelzővel kapcsolható be (lásd: :ref"
+":`custom-checks`). Engedélyezése előtt vegye figyelembe az alábbiakat:"
 
 #: ../../user/checks.rst:176
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
-"Pontos sztringegyezést végez, a szójegyzéknek várhatóan minden változatban "
+"Ez pontos szövegazonosítást végez, ezért a szójegyzéknek minden változatban "
 "tartalmaznia kell a kifejezéseket."
 
 #: ../../user/checks.rst:177
@@ -51145,15 +51145,15 @@ msgid ""
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
 msgstr ""
-"Minden sztring ellenőrzése a szójegyzék ellen költséges, és lelassítja a "
-"Weblate-ben azokat a műveleteket, amelyek ellenőrzések futtatását igénylik, "
-"mint például a sztringek importálása vagy a fordítás."
+"Minden egyes szöveg szójegyzékkel való összevetése erőforrás-igényes, ezért "
+"lelassíthatja a Weblate működését, például szövegek importálásakor vagy "
+"fordításkor."
 
 #: ../../user/checks.rst:178
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
 msgstr ""
-"Ez a lefordíthatatlan szójegyzéki kifejezéseket is használja a :ref:`check-"
-"same` során."
+"Ez az ellenőrzés a le nem fordítható szójegyzéki kifejezéseket is figyelembe "
+"veszi a :ref:`check-same` vizsgálatban."
 
 #: ../../user/checks.rst:182
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -51180,16 +51180,16 @@ msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
 msgstr ""
-"Ellenőrzi, hogy a fordításban van-e dupla szóköz, hogy elkerülje a téves "
-"pozitív eredményeket más szóközökkel kapcsolatos ellenőrzéseknél."
+"Ellenőrzi, hogy van-e dupla szóköz a fordításban, így elkerülhetők a téves "
+"pozitív találatok más, szóközzel kapcsolatos ellenőrzéseknél."
 
 #: ../../user/checks.rst:199
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
 msgstr ""
-"Az ellenőrzés hamis, amikor a forrásban dupla szóköz található, ami azt "
-"jelenti, hogy a dupla szóköz szándékos."
+"A vizsgálat nem jelez hibát, ha a dupla szóköz a forrásban is szerepel, "
+"mivel ebben az esetben az szándékosnak tekintendő."
 
 #: ../../user/checks.rst:204
 msgid "Fluent parts"
@@ -51214,10 +51214,10 @@ msgid ""
 "all these parts appear within the same block, using Fluent-like syntax to "
 "specify the attributes. For example:"
 msgstr ""
-"Minden Fluent üzenetnek lehet egy opcionális értéke (a fő szövegtartalom) és "
-"opcionális attribútumai, amelyek mindegyike az üzenet egy \"része\". A "
-"Weblate-ben ezek a részek mind ugyanabban a blokkban jelennek meg, Fluent-"
-"szerű szintaxissal megadva az attribútumokat. Például:"
+"Egy Fluent üzenet opcionálisan tartalmazhat értéket (azaz fő szövegtartalmat)"
+", valamint attribútumokat – ezek mindegyike az üzenet egy-egy „része”. A "
+"Weblate-ben ezek a részek egy blokkban jelennek meg, Fluent-szerű szintaxist "
+"használva az attribútumok megadásához. Például:"
 
 #: ../../user/checks.rst:226
 msgid ""
@@ -51226,10 +51226,10 @@ msgid ""
 "that the same attributes used in the source Message also appear in the "
 "translation, with no additions."
 msgstr ""
-"Ez az ellenőrzés biztosítja, hogy a fordított üzenetnek is legyen értéke, ha "
-"a forrás üzenetnek van vagy ne legyen értéke, ha a forrásnak sincs. "
-"Ezenkívül azt is ellenőrzi, hogy a forrás üzenetben használt attribútumok "
-"ugyanúgy megjelenjenek a fordításban is, kiegészítések nélkül."
+"Ez az ellenőrzés biztosítja, hogy ha a forrás üzenetnek van értéke, akkor a "
+"fordításnak is legyen, ha nincs, akkor ne legyen. Emellett ellenőrzi azt is, "
+"hogy a forrásban szereplő attribútumok mind megtalálhatók legyenek a "
+"fordításban, és ne szerepeljen bennük többlet."
 
 #: ../../user/checks.rst:233
 msgid ""
@@ -51237,17 +51237,17 @@ msgid ""
 "and Term attributes tend to be locale-specific (used for grammar rules, "
 "etc.), and are not expected to appear in all translations."
 msgstr ""
-"Ez az ellenőrzés nem vonatkozik a Fluent kifejezésekre, mivel a "
-"kifejezéseknek mindig van értékük, és a kifejezés attribútumai általában "
-"nyelvspecifikusak (nyelvtani szabályokhoz stb. használják őket), és nem "
-"várható el, hogy minden fordításban megjelenjenek."
+"Ez az ellenőrzés nem vonatkozik Fluent szakkifejezésekre (Terms), mivel azok "
+"mindig tartalmaznak értéket, attribútumaik pedig általában nyelvspecifikusak "
+"(pl. nyelvtani szabályokhoz), ezért nem feltétlenül kell megjelenniük minden "
+"fordításban."
 
 #: ../../user/checks.rst:239
 msgid ""
 "`Fluent Attributes <https://projectfluent.org/fluent/guide/attributes.html>`_"
 msgstr ""
-"`Fluent attribútumok <https://projectfluent.org/fluent/guide/attributes."
-"html>`_"
+"`Fluent attribútumok <https://projectfluent.org/fluent/guide/"
+"attributes.html>`_"
 
 #: ../../user/checks.rst:244
 msgid "Fluent references"
@@ -51270,8 +51270,8 @@ msgid ""
 "A Fluent Message or Term can reference another Message, Term, Attribute, or "
 "a variable. For example:"
 msgstr ""
-"Egy Fluent üzenet vagy kifejezés hivatkozhat egy másik üzenetre, "
-"kifejezésre, attribútumra vagy változóra. Például:"
+"Egy Fluent üzenet vagy szakkifejezés (Term) hivatkozhat másik üzenetre, "
+"szakkifejezésre, attribútumra vagy változóra. Például:"
 
 #: ../../user/checks.rst:263
 msgid ""
@@ -51282,13 +51282,14 @@ msgid ""
 "additions. For Messages, this will also check that each Attribute in the "
 "translation uses the same references as the matching Attribute in the source."
 msgstr ""
-"Általában elvárt, hogy a lefordított üzenetek vagy kifejezések ugyanazokat a "
-"hivatkozásokat tartalmazzák, mint a forrás, bár nem feltétlenül ugyanabban a "
-"megjelenési sorrendben. Ez az ellenőrzés biztosítja, hogy a fordítások "
-"ugyanazokat a hivatkozásokat használják az értékükben, mint a forrásérték, "
-"ugyanannyiszor, és ne legyenek hozzáadások. Az üzenetek esetében ez azt is "
-"ellenőrzi, hogy a fordítás minden attribútuma ugyanazokat a hivatkozásokat "
-"használja, mint a forrás megfelelő attribútuma."
+"Általánosságban elvárás, hogy a lefordított üzenetek vagy szakkifejezések "
+"ugyanazokat a hivatkozásokat tartalmazzák, mint a forrás, bár nem "
+"feltétlenül ugyanabban a sorrendben. Ez az ellenőrzés biztosítja, hogy a "
+"fordítás az értékekben ugyanazokat a hivatkozásokat használja, "
+"ugyanannyiszor, és ne tartalmazzon többletet. Üzenetek esetén az "
+"attribútumokra is vonatkozik ez az ellenőrzés: minden fordított "
+"attribútumnak ugyanazokat a hivatkozásokat kell tartalmaznia, mint a forrás "
+"megfelelő attribútumának."
 
 #: ../../user/checks.rst:270
 msgid ""
@@ -51296,9 +51297,10 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same references, and vice versa."
 msgstr ""
-"Ha a forrás vagy a fordítás Fluent választási kifejezéseket tartalmaz, akkor "
-"a forrás minden lehetséges változatát legalább egy változatnak meg kell "
-"felelnie a fordításban ugyanazokkal a hivatkozásokkal, és fordítva."
+"Ha a forrás vagy a fordítás Fluent választási kifejezéseket (Select "
+"Expressions) tartalmaz, akkor a forrásban szereplő minden egyes változatnak "
+"legalább egy olyan fordításbeli változattal kell egyeznie, amely ugyanazokat "
+"a hivatkozásokat tartalmazza, és fordítva is."
 
 #: ../../user/checks.rst:274
 msgid ""
@@ -51308,19 +51310,19 @@ msgid ""
 "the variant's key may have made the reference redundant for that variant. "
 "For example:"
 msgstr ""
-"Továbbá, ha egy változó hivatkozás megjelenik mind a választási kifejezés "
-"szeletorában, mind pedig valamelyik változatában, akkor minden változatot "
-"úgy lehet tekinteni, mintha tartalmazná azt a hivatkozást. Az a feltételezés "
-"áll fenn, hogy a változat kulcsa feleslegessé tehette a hivatkozást arra a "
-"változatra. Például:"
+"Továbbá, ha egy változóhivatkozás megjelenik a választási kifejezés választó "
+"részében (selector), és valamelyik változatban is, akkor feltételezhető, "
+"hogy minden változat tartalmazza azt a hivatkozást. Ez abból indul ki, hogy "
+"a változat kulcsa a konkrét változatban fölöslegessé teheti a hivatkozást. "
+"Például:"
 
 #: ../../user/checks.rst:287
 msgid ""
 "Here, for the purposes of this check, the ``[one]`` variant will also be "
 "considered to contain the ``$num`` reference."
 msgstr ""
-"Itt, ennek az ellenőrzésnek a céljából, a ``[one]`` változatot is úgy "
-"tekintjük, mintha tartalmazná a ``$num`` hivatkozást."
+"Ebben az esetben a ``[one]`` változatról úgy tekintjük, hogy az is "
+"tartalmazza a ``$num`` hivatkozást."
 
 #: ../../user/checks.rst:290
 msgid ""
@@ -51330,19 +51332,20 @@ msgid ""
 "content of the string that the end-user will see, and the presence of a "
 "Select Expression is considered locale-specific. For example:"
 msgstr ""
-"Azonban a választási kifejezés szeletorában lévő hivatkozás, amely Fluent "
-"szintaxisában csak egy kifejezés attribútumának változója lehet, önmagában "
-"nem számít kötelező hivatkozásnak, mert nem alkotja a szöveg tényleges "
-"tartalmát, amit a végfelhasználó látni fog, és a választási kifejezés "
-"jelenléte helyspecifikusnak tekinthető. Például:"
+"Ugyanakkor egy változóhivatkozás, amely kizárólag a választási kifejezés "
+"választó részében jelenik meg – amely a Fluent szintaxis szerint csak egy "
+"szakkifejezés attribútuma lehet –, önmagában nem számít kötelező "
+"hivatkozásnak. Ezek ugyanis nem képezik a végfelhasználó számára látható "
+"szövegtartalom részét, és a választási kifejezések megléte "
+"nyelvspecifikusnak tekintendő. Például:"
 
 #: ../../user/checks.rst:303
 msgid ""
 "Here a reference to ``-term.starts-with-vowel`` is not expected to appear in "
 "translations, but a reference to ``-term`` is."
 msgstr ""
-"Itt nem várható, hogy a ``-term.starts-with-vowel`` hivatkozás megjelenjen a "
-"fordításokban, de a ``-term`` hivatkozás igen."
+"Ebben az esetben a ``-term.starts-with-vowel`` hivatkozás nem elvárt a "
+"fordításban, de a ``-term`` hivatkozás igen."
 
 #: ../../user/checks.rst:308
 msgid ""
@@ -51351,18 +51354,18 @@ msgid ""
 "references.html>`_ `Fluent Select Expressions <https://projectfluent.org/"
 "fluent/guide/selectors.html>`_"
 msgstr ""
-"`Fluent változók <https://projectfluent.org/fluent/guide/variables.html>`_ "
-"`Fluent üzenet- és kifejezésreferenciák <https://projectfluent.org/fluent/"
+"`Fluent változók <https://projectfluent.org/fluent/guide/variables.html>`_ `"
+"Fluent üzenet- és kifejezésreferenciák <https://projectfluent.org/fluent/"
 "guide/references.html>`_ `Fluent szelekciós kifejezések <https://"
 "projectfluent.org/fluent/guide/selectors.html>`_"
 
 #: ../../user/checks.rst:315
 msgid "Fluent translation inner HTML"
-msgstr "Fluent-fordítás belső HTML-e"
+msgstr "Fluent-fordítás belső HTML"
 
 #: ../../user/checks.rst:319
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "A Fluent-célnak érvényes belső HTML-nek kell lennie, amely illeszkedik."
+msgstr "A Fluent célértéknek érvényes és egyező belső HTML-t kell tartalmaznia."
 
 #: ../../user/checks.rst:321
 msgid "``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``"
@@ -51377,8 +51380,8 @@ msgid ""
 "This check will verify that the translated value of a Message or Term "
 "contains the same HTML elements as the source value."
 msgstr ""
-"Ez az ellenőrzés biztosítja, hogy egy üzenet vagy kifejezés fordított értéke "
-"ugyanazokat a HTML elemeket tartalmazza, mint a forrás értéke."
+"Ez az ellenőrzés biztosítja, hogy egy üzenet vagy szakkifejezés lefordított "
+"értéke ugyanazokat a HTML-elemeket tartalmazza, mint a forrásérték."
 
 #: ../../user/checks.rst:329
 msgid ""
@@ -51386,9 +51389,10 @@ msgid ""
 "check, then this check will do nothing. Otherwise, the translated value will "
 "also be checked under the same conditions."
 msgstr ""
-"Először, ha a forrás érték nem felel meg a :ref:`check-fluent-source-inner-"
-"html` ellenőrzésnek, akkor ez az ellenőrzés nem fog semmit tenni. Ellenkező "
-"esetben a fordított érték is ellenőrzésre kerül ugyanazon feltételek mellett."
+"Először: ha a forrásérték nem felel meg a :ref:`check-fluent-source-inner-"
+"html` ellenőrzésnek, akkor ez az ellenőrzés nem kerül végrehajtásra. "
+"Ellenkező esetben a fordított értéket ugyanilyen feltételek szerint "
+"vizsgálja."
 
 #: ../../user/checks.rst:333
 msgid ""
@@ -51401,14 +51405,14 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
-"Másodszor, a fordított értékben található HTML elemeket összehasonlítják a "
-"forrás értékben található HTML elemekkel. Két elem akkor tekinthető "
-"egyezőnek, ha pontosan ugyanazzal a címkével rendelkeznek, ugyanazokkal az "
-"attribútumokkal és értékekkel, és minden ősük ugyanúgy egyezik. Ez az "
-"ellenőrzés biztosítja, hogy a forrásban lévő összes elem megjelenjen valahol "
-"a fordításban, ugyanannyi *számban*, és ne legyenek hozzáadott elemek. Ha az "
-"értékben több elem van, nem szükséges, hogy ugyanabban a sorrendben "
-"jelenjenek meg a fordított értékben."
+"Másodszor: a lefordított értékben található HTML-elemek össze lesznek "
+"hasonlítva a forrásértékben található HTML-elemekkel. Két elem akkor számít "
+"egyezőnek, ha pontosan megegyezik a címke (tag) nevük, az attribútumaik és "
+"azok értékei, valamint minden ősük is ugyanígy egyezik. Ez az ellenőrzés "
+"biztosítja, hogy a forrásban szereplő összes elem megtalálható legyen a "
+"fordításban is, *ugyanannyi* példányban, és ne legyenek benne plusz elemek. "
+"Ha az érték több elemet is tartalmaz, azoknak nem szükséges ugyanabban a "
+"sorrendben szerepelniük a fordításban."
 
 #: ../../user/checks.rst:342
 msgid ""
@@ -51416,9 +51420,9 @@ msgid ""
 "possible variant in the source must be matched with at least one variant in "
 "the translation with the same HTML elements, and vice versa."
 msgstr ""
-"Amikor a forrás vagy a fordítás Fluent Select Expressions-t tartalmaz, akkor "
-"a forrásban lévő minden lehetséges változatnak meg kell egyeznie legalább "
-"egy változattal a fordításban ugyanazokkal a HTML elemekkel, és fordítva is."
+"Ha a forrás vagy a fordítás Fluent választási kifejezéseket tartalmaz, akkor "
+"a forrás minden változatát legalább egy, azonos HTML-elemeket tartalmazó "
+"fordításbeli változattal kell összepárosítani, és fordítva is."
 
 #: ../../user/checks.rst:346
 msgid ""
@@ -51427,34 +51431,34 @@ msgid ""
 "name`` elements that appear in the source, or any of the allowed inline "
 "elements like ``<br>``."
 msgstr ""
-"Amikor a Fluentet a Fluent DOM csomaggal együtt használod, ez az ellenőrzés "
-"biztosítja, hogy a fordítás tartalmazza a forrásban megjelenő szükséges "
-"``data-l10n-name`` elemeket vagy bármely megengedett beágyazott elemet, mint "
-"például a ``<br>``."
+"Amikor a Fluent a Fluent DOM csomaggal együtt kerül használatra, ez az "
+"ellenőrzés azt is biztosítja, hogy a fordítás tartalmazza a forrásban "
+"szereplő szükséges ``data-l10n-name`` elemeket, valamint a megengedett "
+"beágyazott elemeket, például ``<br>``."
 
 #: ../../user/checks.rst:351
 msgid "For example, the following source:"
-msgstr "Például, a következő forrás:"
+msgstr "Például az alábbi forrás:"
 
 #: ../../user/checks.rst:357
 msgid "would match with:"
-msgstr "megfelelne ennek:"
+msgstr "illeszkedik a következőhöz:"
 
 #: ../../user/checks.rst:363
 msgid "but not:"
-msgstr "de nem ennek:"
+msgstr "de nem a következőhöz:"
 
 #: ../../user/checks.rst:369
 msgid "nor"
-msgstr "sem"
+msgstr "sem pedig ehhez"
 
 #: ../../user/checks.rst:377
 msgid ""
 ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
 "org/dom-l10n-documentation/overview.html>`_"
 msgstr ""
-":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://projectfluent."
-"org/dom-l10n-documentation/overview.html>`_"
+":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://"
+"projectfluent.org/dom-l10n-documentation/overview.html>`_"
 
 #: ../../user/checks.rst:383
 msgid "Fluent translation syntax"
@@ -51480,9 +51484,9 @@ msgid ""
 "translation will be valid for Fluent."
 msgstr ""
 "A Weblate-ben a Fluent szövegek Fluent szintaxist használnak a "
-"hivatkozásokhoz és változókhoz, de bonyolultabb funkciókhoz is, mint például "
-"az attribútumok és a választó változatok, beleértve a többes számokat is, "
-"meghatározására. Ez az ellenőrzés biztosítja, hogy a fordításban használt "
+"hivatkozásokhoz és változókhoz, valamint összetettebb elemekhez is, például "
+"attribútumok és választási változatok – beleértve a többes szám – "
+"meghatározásához. Ez az ellenőrzés biztosítja, hogy a fordításban használt "
 "szintaxis érvényes legyen a Fluent számára."
 
 #: ../../user/checks.rst:401
@@ -51493,13 +51497,13 @@ msgid ""
 "html>`_"
 msgstr ""
 ":ref:`check-fluent-source-syntax`, `Fluent szintaxis útmutató <https://"
-"projectfluent.org/fluent/guide/>`_ `Mozilla alap szintaxis útmutató <https://"
-"mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax."
-"html>`_"
+"projectfluent.org/fluent/guide/>`_ `Mozilla alap szintaxis útmutató <https"
+"://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
+"basic_syntax.html>`_"
 
 #: ../../user/checks.rst:408
 msgid "Formatted strings"
-msgstr "Formázott sztringek"
+msgstr "Formázott szövegek"
 
 #: ../../user/checks.rst:410
 msgid ""
@@ -51507,9 +51511,9 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
-"Ellenőrzi, hogy a formázás a forrásszövegben és a fordításban is meg van-e "
-"tartva. A formátum szövegek kihagyása a fordításban általában komoly "
-"problémákat okoz, ezért a szöveg formázásának általában meg kell egyeznie a "
+"Ellenőrzi, hogy a formázás a szövegekben megegyezik-e a forrás és a fordítás "
+"között. A formázási elemek kihagyása a fordításból általában súlyos "
+"problémákat okoz, ezért a formázásnak jellemzően meg kell egyeznie a "
 "forrással."
 
 #: ../../user/checks.rst:414
@@ -51520,12 +51524,12 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
-"A Weblate több nyelven is támogatja a formázott sztringek ellenőrzését. Az "
-"ellenőrzés nem aktiválódik automatikusan, csak akkor, ha egy sztring "
-"megfelelően van megjelölve (pl. `c-format` a C formátum esetén). A Gettext "
-"ezt automatikusan hozzáadja, de valószínűleg manuálisan kell hozzáadnod más "
-"fájlformátumok esetén vagy ha a PO-fájljaid nem a :program:`xgettext` által "
-"lettek generálva."
+"A Weblate több nyelvben is támogatja a formázási sztringek ellenőrzését. Ez "
+"az ellenőrzés nem engedélyezett automatikusan, csak akkor, ha a szöveg "
+"megfelelő jelöléssel van ellátva (például `c-format` C formátum esetén). A "
+"Gettext ezt automatikusan hozzáadja, de más fájlformátumoknál vagy ha a PO "
+"fájlokat nem a :program:`xgettext` generálta, ezt valószínűleg kézzel kell "
+"megadni."
 
 #: ../../user/checks.rst:420
 msgid ""
@@ -51534,11 +51538,11 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this off by adding "
 "``strict-format`` flag."
 msgstr ""
-"A legtöbb formátumellenőrzés megengedi a formátumkarakterláncok kihagyását "
-"olyan többes számú alakok esetén, ahol csak egy darab van. Ez lehetővé "
-"teszi, hogy a fordítók szebb karakterláncokat írjanak ezekre az esetekre "
-"(például `Egy alma` ahelyett, hogy `%d alma`). Ezt kikapcsolhatod a ``strict-"
-"format`` zászló hozzáadásával."
+"A legtöbb formátumellenőrzés engedélyezi a formázási elemek elhagyását olyan "
+"többes számú alakoknál, ahol csak egy számérték szerepel. Ez lehetővé teszi, "
+"hogy a fordítók természetesebb szöveget írjanak ezekhez az esetekhez ("
+"például `%d alma` helyett `Egy alma`). Ez a viselkedés a ``strict-format`` "
+"jelző hozzáadásával kikapcsolható."
 
 #: ../../user/checks.rst:424
 msgid ""
@@ -51547,34 +51551,35 @@ msgid ""
 "false positives in case the string is not interpreted as a formatting "
 "string, but format string syntax happens to be used."
 msgstr ""
-"A jelölések testreszabhatók szövegenként (lásd: :ref:`additional`) vagy egy :"
-"ref:`component`-ben. Az egyes összetevőkre történő meghatározás egyszerűbb, "
-"de hamis pozitív eredményekhez vezethet, ha a szöveg nem formázási "
-"szövegként van értelmezve, de a formátum szintaxisa véletlenül használva van."
+"A jelzők testreszabhatók egyes szövegekre külön-külön (lásd: "
+":ref:`additional`) vagy összetevőszinten is (lásd: :ref:`component`). Az "
+"összetevőszintű beállítás egyszerűbb, de téves pozitív találatokhoz "
+"vezethet, ha a szöveget nem formázási sztringként kellene értelmezni, de a "
+"szintaxisa hasonlít egy formázási mintára."
 
 #: ../../user/checks.rst:431
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
 msgstr ""
-"Ha a Weblate nem kínál konkrét formátumellenőrzést, használhatod az "
-"általános :ref:`check-placeholders` lehetőséget."
+"Ha egy adott formátumhoz nem érhető el külön ellenőrzés a Weblate-ben, "
+"használhatja az általános :ref:`check-placeholders` ellenőrzést."
 
 #: ../../user/checks.rst:434
 msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
-"Az ellenőrzés mellett ez kiemeli a formázási stringeket is, hogy könnyen "
-"beilleszthetők legyenek a fordított szövegekbe:"
+"Az ellenőrzés mellett a Weblate ki is emeli a formázási sztringeket, hogy "
+"azok könnyebben beszúrhatók legyenek a fordításba:"
 
 #: ../../user/checks.rst:442
 msgid "AngularJS interpolation string"
-msgstr "AngularJS interpolációs szöveg"
+msgstr "AngularJS-helyettesítési szöveg"
 
 #: ../../user/checks.rst:444
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Az AngularJS interpolációs szöveg nem egyezik meg a forrással."
+msgstr "Az AngularJS-helyettesítési szöveg nem egyezik a forrással."
 
 #: ../../user/checks.rst:446
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -51586,7 +51591,7 @@ msgstr "``angularjs_format``"
 
 #: ../../user/checks.rst:0
 msgid "Named format string example"
-msgstr "Névvel ellátott formátumszöveg példa"
+msgstr "Név szerinti formázási szöveg példa"
 
 #: ../../user/checks.rst:450
 msgid "``Your balance is {{amount}} {{ currency }}``"
@@ -51597,16 +51602,16 @@ msgid ""
 ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
 "guide/interpolation>`_"
 msgstr ""
-":ref:`check-formats`, `AngularJS szöveginterpoláció <https://angular.io/"
+":ref:`check-formats`, `AngularJS szöveghelyettesítés <https://angular.io/"
 "guide/interpolation>`_"
 
 #: ../../user/checks.rst:460
 msgid "Automattic components formatting"
-msgstr "Automattic összetevők formázása"
+msgstr "Automattic-összetevők formázása"
 
 #: ../../user/checks.rst:462
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Az Automattic összetevőinek helykitöltői nem egyeznek a forrással."
+msgstr "Az Automattic-összetevők helyőrzői nem egyeznek a forrással."
 
 #: ../../user/checks.rst:464
 msgid "``weblate.checks.format.AutomatticComponentsCheck``"
@@ -51626,7 +51631,7 @@ msgstr "``ignore-automattic-components-format``"
 
 #: ../../user/checks.rst:0
 msgid "Simple format string example"
-msgstr "Egyszerű formátumszöveg példa"
+msgstr "Egyszerű formázási szöveg példa"
 
 #: ../../user/checks.rst:468
 msgid "``They bought {{strong}}apples{{/strong}}.``"
@@ -51637,8 +51642,8 @@ msgid ""
 ":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
 "wp-calypso/tree/trunk/packages/interpolate-components>`_"
 msgstr ""
-":ref:`check-formats`, `Interpolate Components <https://github.com/Automattic/"
-"wp-calypso/tree/trunk/packages/interpolate-components>`_"
+":ref:`check-formats`, `Összetevők helyettesítése <https://github.com/"
+"Automattic/wp-calypso/tree/trunk/packages/interpolate-components>`_"
 
 #: ../../user/checks.rst:478
 msgid "C format"
@@ -51646,7 +51651,7 @@ msgstr "C formátum"
 
 #: ../../user/checks.rst:480
 msgid "C format string does not match source."
-msgstr "A C formátumszöveg nem egyezik a forrással."
+msgstr "A C formátumú szöveg nem egyezik a forrással."
 
 #: ../../user/checks.rst:482
 msgid "``weblate.checks.format.CFormatCheck``"
@@ -51666,7 +51671,7 @@ msgstr "``There are %d apples``"
 
 #: ../../user/checks.rst:0
 msgid "Position format string example"
-msgstr "Pozíciós formátumszöveg példa"
+msgstr "Pozíciós formátum példa"
 
 #: ../../user/checks.rst:487 ../../user/checks.rst:632
 #: ../../user/checks.rst:778 ../../user/checks.rst:798
@@ -51683,9 +51688,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
-"`C formátumú sztringek <https://www.gnu.org/software/gettext/manual/"
-"html_node/c_002dformat.html>`_, `C printf formátum <https://en.wikipedia.org/"
-"wiki/Printf_format_string>`_"
+"`C formátumú szövegek <https://www.gnu.org/software/gettext/manual/html_node/"
+"c_002dformat.html>`_, `C printf formátum <https://en.wikipedia.org/wiki/"
+"Printf_format_string>`_"
 
 #: ../../user/checks.rst:498
 msgid "C# format"
@@ -51693,7 +51698,7 @@ msgstr "C# formátum"
 
 #: ../../user/checks.rst:500
 msgid "C# format string does not match source."
-msgstr "A C# formátumszöveg nem egyezik a forrással."
+msgstr "A C# formátumú szöveg nem egyezik a forrással."
 
 #: ../../user/checks.rst:502
 msgid "``weblate.checks.format.CSharpFormatCheck``"
@@ -51716,8 +51721,8 @@ msgid ""
 ":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
 "dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgstr ""
-":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
-"dotnet/api/system.string.format?view=netframework-4.7.2>`_"
+":ref:`check-formats`, `C# formátumú szöveg <https://learn.microsoft.com/"
+"en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:516
 msgid "ECMAScript template literals"
@@ -51737,7 +51742,7 @@ msgstr "``es_format``"
 
 #: ../../user/checks.rst:0
 msgid "Interpolation example"
-msgstr "Interpolációs példa"
+msgstr "Helyettesítési példa"
 
 #: ../../user/checks.rst:524
 msgid "``There are ${number} apples``"
@@ -51748,16 +51753,16 @@ msgid ""
 ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/en-"
 "US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgstr ""
-":ref:`check-formats`, `Sablonliterálok <https://developer.mozilla.org/en-US/"
+":ref:`check-formats`, `Sablonszövegek <https://developer.mozilla.org/en-US/"
 "docs/Web/JavaScript/Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:534
 msgid "i18next interpolation"
-msgstr "i18next interpoláció"
+msgstr "i18next-helyettesítés"
 
 #: ../../user/checks.rst:538
 msgid "The i18next interpolation does not match source."
-msgstr "Az i18next interpoláció nem egyezik a forrással."
+msgstr "Az i18next-helyettesítés nem egyezik a forrással."
 
 #: ../../user/checks.rst:540
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
@@ -51784,7 +51789,7 @@ msgid ""
 ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
 "translation-function/interpolation>`_"
 msgstr ""
-":ref:`check-formats`, `i18next interpoláció <https://www.i18next.com/"
+":ref:`check-formats`, `i18next-helyettesítés <https://www.i18next.com/"
 "translation-function/interpolation>`_"
 
 #: ../../user/checks.rst:556
@@ -51795,8 +51800,8 @@ msgstr "ICU-üzenetformátum"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Szintaktikai hibák és/vagy helykitöltő egyezési problémák az ICU-"
-"üzenetformátum szövegeiben."
+"Szintaktikai hibák és/vagy helyőrző-eltérések találhatók az ICU-"
+"üzenetformátum szövegekben."
 
 #: ../../user/checks.rst:562
 msgid "``weblate.checks.icu.ICUMessageFormatCheck``"
@@ -51818,11 +51823,12 @@ msgid ""
 "certain sub-checks. For example, the following flag enables XML support "
 "while disabling validation of plural sub-messages:"
 msgstr ""
-"Ez az ellenőrzés támogatja mind a tiszta ICU MessageFormat üzeneteket, mind "
-"az ICU-t egyszerű XML címkékkel. Az ellenőrzés viselkedését az ``icu-flags:"
-"*`` használatával konfigurálhatod, akár XML támogatás engedélyezésével, akár "
-"bizonyos al-ellenőrzések letiltásával. Például a következő flag engedélyezi "
-"az XML támogatást, miközben letiltja a többes számú al-üzenetek ellenőrzését:"
+"Ez az ellenőrzés támogatja mind a tiszta ICU-üzenetformátumot, mind az "
+"egyszerű XML-címkéket tartalmazó ICU-üzeneteket. Az ellenőrzés működése az "
+"``icu-flags:*`` jelzőkkel testreszabható — például engedélyezhető az XML-"
+"támogatás vagy kikapcsolhatók bizonyos részfunkciók. Az alábbi jelző például "
+"engedélyezi az XML-támogatást, miközben kikapcsolja a többes számú "
+"üzenetrészek érvényesítését:"
 
 #: ../../user/checks.rst:578
 msgid "``xml``"
@@ -51833,9 +51839,10 @@ msgid ""
 "Enable support for simple XML tags. By default, XML tags are parsed loosely. "
 "Stray ``<`` characters are ignored if they are not reasonably part of a tag."
 msgstr ""
-"Egyszerű XML címkék támogatásának engedélyezése. Alapértelmezés szerint az "
-"XML címkék lazán kerülnek feldolgozásra. Az eltévedt ``<`` karakterek "
-"figyelmen kívül maradnak, ha nem tekinthetők ésszerűen egy címke részének."
+"Egyszerű XML-címkék támogatásának engedélyezése. Alapértelmezés szerint az "
+"XML-címkék laza szabályok szerint kerülnek feldolgozásra: az elszórt ``<`` "
+"karakterek figyelmen kívül maradnak, ha nem tekinthetők ésszerűen címke "
+"részének."
 
 #: ../../user/checks.rst:582
 msgid "``strict-xml``"
@@ -51846,8 +51853,8 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
-"Szigorú XML címkék támogatásának engedélyezése. Minden ``<`` karaktert el "
-"kell menekíteni, ha nem egy címke része."
+"Szigorú XML-címkék támogatásának bekapcsolása. Minden ``<`` karaktert kódolt "
+"formában kell szerepeltetni, ha nem címke része."
 
 #: ../../user/checks.rst:585
 msgid "``-highlight``"
