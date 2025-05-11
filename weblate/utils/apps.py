@@ -10,6 +10,7 @@ import sys
 import time
 from datetime import timedelta
 from itertools import chain
+from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError as CeleryTimeoutError
@@ -32,7 +33,7 @@ from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
-from .data import data_dir
+from .data import data_path
 from .db import (
     MySQLSearchLookup,
     PostgreSQLRegexLookup,
@@ -327,20 +328,19 @@ def check_data_writable(
                 "DATA_DIR is not configured.",
             )
         ]
-    dirs = [
-        settings.DATA_DIR,
-        data_dir("home"),
-        data_dir("ssh"),
-        data_dir("vcs"),
-        data_dir("backups"),
-        data_dir("fonts"),
-        data_dir("cache", "fonts"),
+    dirs: list[Path] = [
+        Path(settings.DATA_DIR),
+        data_path("home"),
+        data_path("ssh"),
+        data_path("vcs"),
+        data_path("backups"),
+        data_path("fonts"),
+        data_path("cache") / "fonts",
     ]
     message = "Path {} is not writable, check your DATA_DIR settings."
     for path in dirs:
-        if not os.path.exists(path):
-            os.makedirs(path)
-        elif not os.access(path, os.W_OK):
+        path.mkdir(parents=True, exist_ok=True)
+        if not os.access(path, os.W_OK):
             errors.append(weblate_check("weblate.E002", message.format(path)))
 
     return errors
