@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-12 17:01+0000\n"
+"PO-Revision-Date: 2025-05-12 22:53+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -51841,7 +51841,7 @@ msgid ""
 msgstr ""
 "Egyszerű XML-címkék támogatásának engedélyezése. Alapértelmezés szerint az "
 "XML-címkék laza szabályok szerint kerülnek feldolgozásra: az elszórt ``<`` "
-"karakterek figyelmen kívül maradnak, ha nem tekinthetők ésszerűen címke "
+"karakterek figyelmen kívül maradnak, ha nem tekinthetők érvényes címke "
 "részének."
 
 #: ../../user/checks.rst:582
@@ -51862,7 +51862,7 @@ msgstr "``-highlight``"
 
 #: ../../user/checks.rst:585
 msgid "Disable highlighting placeholders in the editor."
-msgstr "A helyőrzők kiemelésének letiltása a szerkesztőben."
+msgstr "Letiltja a helyőrzők kiemelését a szerkesztőben."
 
 #: ../../user/checks.rst:587
 msgid "``-require_other``"
@@ -51870,7 +51870,9 @@ msgstr "``-require_other``"
 
 #: ../../user/checks.rst:587
 msgid "Disable requiring sub-messages to have an ``other`` selector."
-msgstr "Az al-üzeneteknél az ``other`` szelekció megkövetelésének letiltása."
+msgstr ""
+"Letiltja annak megkövetelését, hogy az üzenetváltozatok tartalmazzanak "
+"„other” szelektort."
 
 #: ../../user/checks.rst:590
 msgid "``-submessage_selectors``"
@@ -51879,7 +51881,8 @@ msgstr "``-submessage_selectors``"
 #: ../../user/checks.rst:590
 msgid "Skip checking that sub-message selectors match the source."
 msgstr ""
-"Az al-üzenet szelekciók forrással való egyezésének ellenőrzésének kihagyása."
+"Mellőzi annak ellenőrzését, hogy az üzenetváltozatok szelektorai egyeznek-e "
+"a forrással."
 
 #: ../../user/checks.rst:592
 msgid "``-types``"
@@ -51888,7 +51891,7 @@ msgstr "``-types``"
 #: ../../user/checks.rst:592
 msgid "Skip checking that placeholder types match the source."
 msgstr ""
-"A helyőrző típusok forrással való egyezésének ellenőrzésének kihagyása."
+"Mellőzi annak ellenőrzését, hogy a helyőrzők típusai egyeznek-e a forrással."
 
 #: ../../user/checks.rst:594
 msgid "``-extra``"
@@ -51899,8 +51902,8 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
-"Az olyan helyőrzők ellenőrzésének kihagyása, amelyek nem szerepeltek a "
-"forrás szövegben."
+"Mellőzi annak ellenőrzését, hogy ne legyenek olyan helyőrzők, amelyek nem "
+"szerepeltek az eredeti szövegben."
 
 #: ../../user/checks.rst:597
 msgid "``-missing``"
@@ -51911,8 +51914,8 @@ msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
 msgstr ""
-"Az olyan helyőrzők hiányának ellenőrzésének kihagyása, amelyek jelen voltak "
-"a forrás szövegben."
+"Mellőzi annak ellenőrzését, hogy ne hiányozzanak olyan helyőrzők, amelyek "
+"szerepeltek az eredeti szövegben."
 
 #: ../../user/checks.rst:601
 msgid ""
@@ -51921,19 +51924,18 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
-"Továbbá, amikor a ``strict-xml`` nincs engedélyezve, de az ``xml`` igen, "
-"használhatod az ``icu-tag-prefix:PREFIX`` jelzőt annak megkövetelésére, hogy "
-"minden XML címke egy adott karakterlánccal kezdődjön. Például, a következő "
-"jelző csak akkor engedi az XML címkék egyezését, ha azok ``<x:``-el "
-"kezdődnek:"
+"Továbbá, ha a ``strict-xml`` nincs engedélyezve, de az ``xml`` igen, akkor "
+"az ``icu-tag-prefix:PREFIX`` kapcsolóval előírható, hogy minden XML-címke "
+"egy adott sztringgel kezdődjön. Például a következő kapcsoló csak azokat az "
+"XML-címkéket engedi érvényesnek, amelyek ``<x:`` előtaggal kezdődnek:"
 
 #: ../../user/checks.rst:610
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
-"Ez egyezne a ``<x:link>click here</x:link>`` címkével, de nem a "
-"``<strong>this</strong>`` címkével."
+"Ez megfelelne a ``<x:link>kattintson ide</x:link>`` címkére, de nem felelne "
+"meg a ``<strong>ez</strong>`` címkére."
 
 #: ../../user/checks.rst:614
 msgid ""
@@ -51944,8 +51946,8 @@ msgid ""
 msgstr ""
 ":ref:`check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: Üzenetek "
 "formázása <https://unicode-org.github.io/icu/userguide/format_parse/messages/"
-">`_, `Format.JS: Üzenet szintaxis <https://formatjs.github.io/docs/core-"
-"concepts/icu-syntax>`_"
+">`_, `Format.JS: Üzenet szintaxis <https://formatjs.github.io/docs/"
+"core-concepts/icu-syntax>`_"
 
 #: ../../user/checks.rst:623
 msgid "Java format"
@@ -51953,7 +51955,7 @@ msgstr "Java formátum"
 
 #: ../../user/checks.rst:625
 msgid "Java format string does not match source."
-msgstr "A Java formátumszöveg nem egyezik a forrással."
+msgstr "A Java formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:627
 msgid "``weblate.checks.format.JavaFormatCheck``"
@@ -51968,16 +51970,16 @@ msgid ""
 "This used to be toggled by the ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
-"Ezt korábban a ``java-format`` zászlóval lehetett kapcsolgatni, a GNU "
-"gettexttel való összhang érdekében megváltoztatták."
+"Ezt korábban a ``java-format`` kapcsoló vezérelte, később egységesítés "
+"céljából módosítva lett a GNU gettext-hez igazodva."
 
 #: ../../user/checks.rst:640
 msgid ""
 ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
 "docs/api/java/util/Formatter.html>`_"
 msgstr ""
-":ref:`check-formats`, `Java formátumú karakterláncok <https://docs.oracle."
-"com/javase/7/docs/api/java/util/Formatter.html>`_"
+":ref:`check-formats`, `Java formátumú szövegek <https://docs.oracle.com/"
+"javase/7/docs/api/java/util/Formatter.html>`_"
 
 #: ../../user/checks.rst:647
 msgid "Java MessageFormat"
@@ -51985,7 +51987,7 @@ msgstr "Java-üzenetformátum"
 
 #: ../../user/checks.rst:649
 msgid "Java MessageFormat string does not match source."
-msgstr "A Java-üzenetformátum szöveg nem egyezik a forrással."
+msgstr "A Java-üzenetformátum szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:651
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -51997,27 +51999,27 @@ msgstr "``java_format``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable unconditionally"
-msgstr "Zászló a feltétel nélküli engedélyezéshez"
+msgstr "Kapcsoló a feltétel nélküli engedélyezéshez"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable autodetection"
-msgstr "Jelölő az automatikus észlelés engedélyezéséhez"
+msgstr "Kapcsoló az automatikus felismerés engedélyezéséhez"
 
 #: ../../user/checks.rst:654
 msgid ""
 "``auto-java-messageformat`` enables check only if there is a format string "
 "in the source"
 msgstr ""
-"A(z) ``auto-java-messageformat`` csak akkor engedélyezi az ellenőrzést, ha "
-"van formátumszöveg a forrásban"
+"Az ``auto-java-messageformat`` csak akkor engedélyezi az ellenőrzést, ha a "
+"forrás szöveg formátumkaraktereket tartalmaz"
 
 #: ../../user/checks.rst:660
 msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
-"Ezt korábban a ``java-messageformat`` jelző kapcsolta be, a GNU gettexttel "
-"való következetesség érdekében változtatták meg."
+"Ezt korábban a ``java-messageformat`` kapcsoló vezérelte, később "
+"egységesítés céljából módosítva lett a GNU gettext-hez igazodva."
 
 #: ../../user/checks.rst:662
 msgid ""
@@ -52027,19 +52029,19 @@ msgid ""
 "it should be written as ``''``. When not paired, it is treated as beginning "
 "of quoting and will not be shown when rendering the string."
 msgstr ""
-"Ez az ellenőrzés igazolja, hogy a formátum string érvényes a Java "
-"MessageFormat osztályhoz. A formátum stringek azonosításán túl a kapcsos "
-"zárójelekben, az egyes idézőjeleket is ellenőrzi, mivel ezek különleges "
-"jelentéssel bírnak. Amikor egyes idézőjelet írsz, azt ``''`` formában kell "
-"írni. Ha nincs párban, idézés kezdeteként kezelik, és nem jelenik meg a "
-"string megjelenítésekor."
+"Ez az ellenőrzés érvényesíti, hogy a formátumkarakterek megfelelnek a Java-"
+"üzenetformátum osztály követelményeinek. A kapcsos zárójelekben megadott "
+"formátumokon túl ellenőrzi az egyszeres idézőjeleket is, mivel ezek külön "
+"jelentéssel bírnak. Ha idézőjelet szeretne megjeleníteni, azt ``''`` alakban "
+"kell írni. Ha nincs párja, idézetkezdésnek számít, és nem fog megjelenni a "
+"szöveg a megjelenítéskor."
 
 #: ../../user/checks.rst:670
 msgid ""
 ":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
 "docs/api/java/text/MessageFormat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
+":ref:`check-formats`, `Java-üzenetformátum <https://docs.oracle.com/javase/7/"
 "docs/api/java/text/MessageFormat.html>`_"
 
 #: ../../user/checks.rst:676
@@ -52048,7 +52050,7 @@ msgstr "JavaScript formátum"
 
 #: ../../user/checks.rst:678
 msgid "JavaScript format string does not match source."
-msgstr "A JavaScript formátumszöveg nem egyezik a forrással."
+msgstr "A JavaScript formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:680
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
@@ -52063,8 +52065,8 @@ msgid ""
 ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formázó karakterláncok <https://www.gnu."
-"org/software/gettext/manual/html_node/javascript_002dformat.html>`_"
+":ref:`check-formats`, `JavaScript formázási szövegek <https://www.gnu.org/"
+"software/gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:694
 msgid "Lua format"
@@ -52072,7 +52074,7 @@ msgstr "Lua formátum"
 
 #: ../../user/checks.rst:696
 msgid "Lua format string does not match source."
-msgstr "A Lua formátumszöveg nem egyezik a forrással."
+msgstr "A Lua formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:698
 msgid "``weblate.checks.format.LuaFormatCheck``"
@@ -52087,8 +52089,8 @@ msgid ""
 ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-":ref:`check-formats`, `Lua formázó karakterláncok <https://www.gnu.org/"
-"software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
+":ref:`check-formats`, `Lua formázási szövegek <https://www.gnu.org/software/"
+"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:712
 msgid "Object Pascal format"
@@ -52096,7 +52098,7 @@ msgstr "Object Pascal formátum"
 
 #: ../../user/checks.rst:714
 msgid "Object Pascal format string does not match source."
-msgstr "Az Object Pascal formátumszöveg nem egyezik a forrással."
+msgstr "Az Object Pascal formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:716
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
@@ -52115,20 +52117,20 @@ msgid ""
 "formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
-":ref:`check-formats`, `Object Pascal formázási sztringek <https://www.gnu."
-"org/software/gettext/manual/html_node/object_002dpascal_002dformat."
-"html#object_002dpascal_002dformat>`_, `Free Pascal formázási sztringek "
-"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
-"formázási sztringek <https://docwiki.embarcadero.com/Libraries/Sydney/en/"
-"System.SysUtils.Format>`_"
+":ref:`check-formats`, `Object Pascal formázási szövegek <https://www.gnu.org/"
+"software/gettext/manual/html_node/"
+"object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_, `Free "
+"Pascal formázási szövegek <https://www.freepascal.org/docs-html/rtl/sysutils/"
+"format.html>`_ `Delphi formázási szövegek <https://docwiki.embarcadero.com/"
+"Libraries/Sydney/en/System.SysUtils.Format>`_"
 
 #: ../../user/checks.rst:732
 msgid "Percent placeholders"
-msgstr "Százalékos helykitöltők"
+msgstr "Százalékos helyőrzők"
 
 #: ../../user/checks.rst:736
 msgid "The percent placeholders do not match source."
-msgstr "A százalékos helykitöltők nem egyeznek a forrással."
+msgstr "A százalékos helyőrzők nem egyeznek meg a forrással."
 
 #: ../../user/checks.rst:738
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
@@ -52144,11 +52146,13 @@ msgstr "``There are %number% apples``"
 
 #: ../../user/checks.rst:751
 msgid "Perl brace format"
-msgstr "Perl-zárójel formátum"
+msgstr "Perl kapcsos zárójeles formátum"
 
 #: ../../user/checks.rst:753
 msgid "Perl brace format string does not match source."
-msgstr "A Perl-zárójel formátumszöveg nem egyezik a forrással."
+msgstr ""
+"A Perl kapcsos zárójelben megadott formátumú szöveg nem egyezik meg a "
+"forrással."
 
 #: ../../user/checks.rst:755
 msgid "``weblate.checks.format.PerlBraceFormatCheck``"
@@ -52167,7 +52171,7 @@ msgid ""
 ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/perl_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Perl formátum stringek <https://www.gnu.org/software/"
+":ref:`check-formats`, `Perl formázási szövegek <https://www.gnu.org/software/"
 "gettext/manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:769
@@ -52176,7 +52180,7 @@ msgstr "Perl formátum"
 
 #: ../../user/checks.rst:771
 msgid "Perl format string does not match source."
-msgstr "A Perl formátumszöveg nem egyezik a forrással."
+msgstr "A Perl formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:773
 msgid "``weblate.checks.format.PerlFormatCheck``"
@@ -52193,8 +52197,8 @@ msgid ""
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
 ":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
-"sprintf>`_, `Perl formátumú karakterláncok <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"sprintf>`_, `Perl formázási szövegek <https://www.gnu.org/software/gettext/"
+"manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:789
 msgid "PHP format"
@@ -52202,7 +52206,7 @@ msgstr "PHP formátum"
 
 #: ../../user/checks.rst:791
 msgid "PHP format string does not match source."
-msgstr "A PHP formátumszöveg nem egyezik a forrással."
+msgstr "A PHP formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:793
 msgid "``weblate.checks.format.PHPFormatCheck``"
@@ -52219,16 +52223,18 @@ msgid ""
 "software/gettext/manual/html_node/php_002dformat.html>`_"
 msgstr ""
 ":ref:`check-formats`, `PHP sprintf dokumentáció <https://www.php.net/manual/"
-"en/function.sprintf.php>`_, `PHP formátumú karakterláncok <https://www.gnu."
-"org/software/gettext/manual/html_node/php_002dformat.html>`_"
+"en/function.sprintf.php>`_, `PHP formázási szövegek <https://www.gnu.org/"
+"software/gettext/manual/html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:809
 msgid "Python brace format"
-msgstr "Python-zárójel formátum"
+msgstr "Python kapcsos zárójeles formátum"
 
 #: ../../user/checks.rst:811
 msgid "Python brace format string does not match source."
-msgstr "A Python-zárójel formátumszöveg nem egyezik a forrással."
+msgstr ""
+"A Python kapcsos zárójelekben megadott formátumú szöveg nem egyezik meg a "
+"forrással."
 
 #: ../../user/checks.rst:813
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
@@ -52240,7 +52246,7 @@ msgstr "``python_brace_format``"
 
 #: ../../user/checks.rst:0
 msgid "Simple format string"
-msgstr "Egyszerű formázott sztring"
+msgstr "Egyszerű formázási szöveg"
 
 #: ../../user/checks.rst:817
 msgid "``There are {} apples``"
@@ -52256,9 +52262,9 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, :ref:`Python brace format <python:formatstrings>`, "
-"`Python formátumú karakterláncok <https://www.gnu.org/software/gettext/"
-"manual/html_node/python_002dformat.html>`_"
+":ref:`check-formats`, :ref:`Python kapcsos zárójeles formátum "
+"<python:formatstrings>`, `Python formázási szövegek <https://www.gnu.org/"
+"software/gettext/manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:829
 msgid "Python format"
@@ -52266,7 +52272,7 @@ msgstr "Python formátum"
 
 #: ../../user/checks.rst:831
 msgid "Python format string does not match source."
-msgstr "A Python formátumszöveg nem egyezik a forrással."
+msgstr "A Python formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:833
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -52286,8 +52292,8 @@ msgid ""
 "formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, :ref:`Python string formatting <python:old-string-"
-"formatting>`, `Python formátumú karakterláncok <https://www.gnu.org/software/"
+":ref:`check-formats`, :ref:`Python formázási szöveg <python:old-string-"
+"formatting>`, `Python formázási szöveg (gnu) <https://www.gnu.org/software/"
 "gettext/manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:849
@@ -52296,7 +52302,7 @@ msgstr "Qt formátum"
 
 #: ../../user/checks.rst:851
 msgid "Qt format string does not match source."
-msgstr "A Qt formátumszöveg nem egyezik a forrással."
+msgstr "A Qt formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:853
 msgid "``weblate.checks.qt.QtFormatCheck``"
@@ -52315,16 +52321,17 @@ msgid ""
 ":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
 "html#arg>`_"
 msgstr ""
-":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
-"html#arg>`_"
+":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/"
+"qstring.html#arg>`_"
 
 #: ../../user/checks.rst:867
 msgid "Qt plural format"
-msgstr "Qt többes számú formátum"
+msgstr "Qt többes szám formátum"
 
 #: ../../user/checks.rst:869
 msgid "Qt plural format string does not match source."
-msgstr "A Qt többes számú formátumszöveg nem egyezik a forrással."
+msgstr ""
+"A Qt többes számra vonatkozó formázási szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:871
 msgid "``weblate.checks.qt.QtPluralCheck``"
@@ -52336,7 +52343,7 @@ msgstr "``qt_plural_format``"
 
 #: ../../user/checks.rst:0
 msgid "Plural format string example"
-msgstr "Többes számú formátumszöveg példa"
+msgstr "Többes szám formátumú szöveg példa"
 
 #: ../../user/checks.rst:875
 msgid "``There are %Ln apple(s)``"
@@ -52356,7 +52363,7 @@ msgstr "Ruby formátum"
 
 #: ../../user/checks.rst:887
 msgid "Ruby format string does not match source."
-msgstr "A Ruby formátumszöveg nem egyezik a forrással."
+msgstr "A Ruby formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:889
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
@@ -52376,7 +52383,7 @@ msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
-msgstr "Névvel ellátott sablon string"
+msgstr "Névvel ellátott sablonszöveg"
 
 #: ../../user/checks.rst:896
 msgid "``Your balance is %{amount} %{currency}``"
@@ -52396,7 +52403,7 @@ msgstr "Scheme formátum"
 
 #: ../../user/checks.rst:908
 msgid "Scheme format string does not match source."
-msgstr "A Scheme formátumszöveg nem egyezik a forrással."
+msgstr "A Scheme formátumú szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:910
 msgid "``weblate.checks.format.SchemeFormatCheck``"
@@ -52417,8 +52424,8 @@ msgid ""
 "format>`_, `Guile Scheme formatted output <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 msgstr ""
-":ref:`check-formats`, `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28."
-"html>`_, `Chicken Scheme formátum <https://wiki.call-cc.org/eggref/5/"
+":ref:`check-formats`, `Srfi 28 <https://srfi.schemers.org/srfi-28/"
+"srfi-28.html>`_, `Chicken Scheme formázás <https://wiki.call-cc.org/eggref/5/"
 "format>`_, `Guile Scheme formázott kimenet <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 
@@ -52428,7 +52435,7 @@ msgstr "Vue I18n formázás"
 
 #: ../../user/checks.rst:928
 msgid "The Vue I18n formatting does not match source."
-msgstr "A Vue l18n formázás nem egyezik a forrással."
+msgstr "A Vue I18n formázási szöveg nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:930
 msgid "``weblate.checks.format.VueFormattingCheck``"
@@ -52440,7 +52447,7 @@ msgstr "``vue_format``"
 
 #: ../../user/checks.rst:0
 msgid "Named formatting"
-msgstr "Elnevezett formázás"
+msgstr "Névvel ellátott formázás"
 
 #: ../../user/checks.rst:934
 msgid "``There are {count} apples``"
@@ -52456,7 +52463,7 @@ msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:0
 msgid "Linked locale messages"
-msgstr "Kapcsolt helyi üzenetek"
+msgstr "Hivatkozott helyi nyelvi üzenetek"
 
 #: ../../user/checks.rst:936
 msgid "``@:message.dio @:message.the_world!``"
@@ -52469,16 +52476,16 @@ msgid ""
 "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
 ":ref:`check-formats`, `Vue I18n formázás <https://kazupon.github.io/vue-i18n/"
-"guide/formatting.html>`_, `Vue I18n összekapcsolt helyi üzenetek <https://"
+"guide/formatting.html>`_, `Vue I18n hivatkozott üzenetek <https://"
 "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 
 #: ../../user/checks.rst:947
 msgid "Has been translated"
-msgstr "Le lett fordítva"
+msgstr "Már le lett fordítva"
 
 #: ../../user/checks.rst:949
 msgid "This string has been translated in the past."
-msgstr "Ezt a szöveget a már régebben lefordították."
+msgstr "Ez a szöveg korábban már le lett fordítva."
 
 #: ../../user/checks.rst:950 ../../user/checks.rst:964
 msgid "all strings"
@@ -52497,21 +52504,21 @@ msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
-"Azt jelenti, hogy a szöveg már le lett fordítva. Ez akkor fordulhat elő, ha "
-"a fordításokat a VCS (verziókezelő rendszer) visszaállította vagy valamilyen "
-"más módon elvesztek."
+"Azt jelenti, hogy a szöveg már le volt fordítva. Ez akkor fordulhat elő, ha "
+"a fordításokat visszavonták a verziókezelő rendszerben (VCS) vagy valamilyen "
+"módon elvesztek."
 
 #: ../../user/checks.rst:961
 msgid "Inconsistent"
-msgstr "Következetlen"
+msgstr "Nem egységes"
 
 #: ../../user/checks.rst:963
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
-"Ennek a szövegnek egynél több fordítása van ebben a projektben, vagy nincs "
-"lefordítva néhány összetevőben."
+"Ez a szöveg több különböző fordítással is szerepel a projektben vagy néhány "
+"összetevőben nincs lefordítva."
 
 #: ../../user/checks.rst:965
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
@@ -52526,8 +52533,8 @@ msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
 msgstr ""
-"A Weblate ellenőrzi ugyanazon string fordításait a projekt összes fordításán "
-"belül, hogy segítsen neked következetes fordításokat fenntartani."
+"A Weblate ellenőrzi, hogy egyazon szöveg fordítása egységes-e a projekt "
+"minden fordításában, hogy következetes maradjon a terminológia."
 
 #: ../../user/checks.rst:972
 msgid ""
@@ -52535,26 +52542,27 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
-"Az ellenőrzés megbukik, ha egy szöveg fordítása eltér egy projekten belül. "
-"Ez megjelenített ellenőrzések következetlenségeihez is vezethet. Ennek a "
-"szövegnek más fordításait a :guilabel:`Other occurrences` fülön találhatod "
-"meg."
+"Ez az ellenőrzés akkor jelez hibát, ha egy szövegnek többféle fordítása is "
+"szerepel a projektben. Ez az ellenőrzések megjelenítésében is okozhat "
+"következetlenségeket. A szöveg többi fordítását az :guilabel:`Egyéb "
+"előfordulások` fülön tekintheti meg."
 
 #: ../../user/checks.rst:976
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
 msgstr ""
-"Ez az ellenőrzés a projekt összes olyan összetevőjére vonatkozik, amelyeknél "
-"be van kapcsolva a :ref:`component-allow_translation_propagation`."
+"Ez az ellenőrzés minden olyan összetevőre vonatkozik a projektben, ahol "
+"engedélyezve van a :ref:`fordítás terjesztése <component-"
+"allow_translation_propagation>`."
 
 #: ../../user/checks.rst:981
 msgid ""
 "For performance reasons, the check might not find all inconsistencies, it "
 "limits number of matches."
 msgstr ""
-"Teljesítmény okokból az ellenőrzés lehet, hogy nem talál meg minden "
-"következetlenséget, korlátozza a megegyezések számát."
+"Teljesítménybeli okokból az ellenőrzés nem biztos, hogy minden eltérést "
+"megtalál, mivel korlátozott számú egyezést vizsgál."
 
 #: ../../user/checks.rst:986
 msgid ""
@@ -52564,11 +52572,10 @@ msgid ""
 "`Use this translation` button displayed on each line in the :guilabel:`Other "
 "occurrences` tab."
 msgstr ""
-"Ez az ellenőrzés akkor is működik, ha a szöveg az egyik összetevőben le van "
-"fordítva, de a másikban nincs. Gyors módszerként használható a lefordítatlan "
-"szövegek manuális kezelésére néhány összetevőben, egyszerűen a :guilabel:"
-"`Use this translation` gomb megnyomásával, amely minden sorban megjelenik "
-"az :guilabel:`Other occurrences` fülön."
+"Ez az ellenőrzés akkor is jelezhet, ha egy szöveg le van fordítva az egyik "
+"összetevőben, de a másikban nincs. Ilyenkor egyszerűen kezelheti a "
+"különbséget azzal, hogy az :guilabel:`Egyéb előfordulások` fülön minden "
+"sorban rákattint az :guilabel:`Ezt a fordítást használja` gombra."
 
 #: ../../user/checks.rst:992
 msgid ""
@@ -52576,20 +52583,20 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
-"Használhatod a :ref:`addon-weblate.autotranslate.autotranslate` extrát, hogy "
-"automatizáld az újonnan hozzáadott, de már egy másik összetevőben "
-"lefordított szövegek fordítását."
+"A :ref:`addon-weblate.autotranslate.autotranslate` kiegészítővel "
+"automatizálhatja az újonnan hozzáadott, de máshol már lefordított szövegek "
+"másolását."
 
 #: ../../user/checks.rst:1003
 msgid "Inconsistent reStructuredText references"
-msgstr "Következetlen reStructuredText hivatkozások"
+msgstr "Nem egységes reStructuredText hivatkozások"
 
 #: ../../user/checks.rst:1007
 msgid ""
 "Inconsistent reStructuredText term references in the translated message."
 msgstr ""
-"Következetlen reStructuredText kifejezés-hivatkozások a lefordított "
-"üzenetben."
+"A fordított szövegben szereplő reStructuredText hivatkozások nem egyeznek a "
+"forrásban szereplőkkel."
 
 #: ../../user/checks.rst:1009
 msgid "``weblate.checks.markup.RSTReferencesCheck``"
@@ -52604,32 +52611,33 @@ msgid ""
 "reStructuredText term references do not match source, the typical causes for "
 "these errors are:"
 msgstr ""
-"A reStructuredText kifejezéshivatkozások nem egyeznek a forrással, ezeknek a "
-"hibáknak a tipikus okai a következők:"
+"A reStructuredText kifejezésre mutató hivatkozások nem egyeznek a forrásban "
+"szereplőkkel. Az ilyen hibák tipikus okai a következők:"
 
 #: ../../user/checks.rst:1016
 msgid "Mismatched or missing backticks."
-msgstr "Nem megfelelő vagy hiányzó backtick-ek."
+msgstr "Nem megfelelő vagy hiányzó fordított ékezet „`” (backtick) karakterek."
 
 #: ../../user/checks.rst:1017 ../../user/checks.rst:1491
 msgid ""
 "Missing spaces or interpunction around the reference. The reStructuredText "
 "inline blocks need to be separated by non-word characters."
 msgstr ""
-"Hiányzó szóközök vagy írásjelek a hivatkozás körül. A reStructuredText "
-"inline blokkokat nem betű karakterekkel kell elválasztani."
+"Hiányzó szóköz vagy írásjel a hivatkozás körül. A reStructuredText "
+"formázásban a beágyazott blokkokat olyan karakterrel kell elválasztani, ami "
+"nem betű vagy szám."
 
 #: ../../user/checks.rst:1018
 msgid "Space between inline tag and backticks."
-msgstr "Szóköz az inline tag és a backtickek között."
+msgstr "Szóköz a címke és a fordított ékezet „`” karakter között."
 
 #: ../../user/checks.rst:1019
 msgid "The reference name is not being translated."
-msgstr "A hivatkozás neve nincs lefordítva."
+msgstr "A hivatkozott kifejezés nincs lefordítva."
 
 #: ../../user/checks.rst:1020 ../../user/checks.rst:1492
 msgid "Using quotes instead of backticks."
-msgstr "Idézőjelek használata backtickek helyett."
+msgstr "Idézőjelek használata fordított ékezet „`” helyett."
 
 #: ../../user/checks.rst:1024
 msgid "`reStructuredText Primer`_, :ref:`check-rst-syntax`"
@@ -52637,11 +52645,11 @@ msgstr "`reStructuredText Primer`_, :ref:`check-rst-syntax`"
 
 #: ../../user/checks.rst:1030
 msgid "Kashida letter used"
-msgstr "Használt kasida betűk"
+msgstr "Kashida karakter használata"
 
 #: ../../user/checks.rst:1032
 msgid "The decorative kashida letters should not be used."
-msgstr "A dekoratív kasida betűket nem szabad használni."
+msgstr "A díszítő jellegű kashida karakterek használata nem megengedett."
 
 #: ../../user/checks.rst:1034
 msgid "``weblate.checks.chars.KashidaCheck``"
@@ -52656,8 +52664,8 @@ msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
 msgstr ""
-"A dekoratív Kashida betűket nem szabad használni a fordítás során. Ezeket "
-"Tatweel néven is ismerik."
+"A fordításban nem szabad díszítő célú kashida karaktereket használni. Ezeket "
+"más néven Tatweel néven is ismerik."
 
 #: ../../user/checks.rst:1044
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
@@ -52669,7 +52677,7 @@ msgstr "Markdown hivatkozások"
 
 #: ../../user/checks.rst:1051 ../../user/checks.rst:1058
 msgid "Markdown links do not match source."
-msgstr "A Markdown hivatkozások nem egyeznek a forrással."
+msgstr "A Markdown hivatkozások nem egyeznek meg a forrással."
 
 #: ../../user/checks.rst:1053
 msgid "``weblate.checks.markup.MarkdownLinkCheck``"
@@ -52681,15 +52689,15 @@ msgstr "``md-link``"
 
 #: ../../user/checks.rst:1062
 msgid "`Markdown links`_"
-msgstr "`Markdown links`_"
+msgstr "`Markdown hivatkozások`_"
 
 #: ../../user/checks.rst:1068
 msgid "Markdown references"
-msgstr "Markdown referenciák"
+msgstr "Markdown hivatkozási címkék"
 
 #: ../../user/checks.rst:1070 ../../user/checks.rst:1077
 msgid "Markdown link references do not match source."
-msgstr "A Markdown hivatkozás referenciái nem egyeznek a forrással."
+msgstr "A Markdown hivatkozási címkék nem egyeznek meg a forrással."
 
 #: ../../user/checks.rst:1072
 msgid "``weblate.checks.markup.MarkdownRefLinkCheck``"
@@ -52709,7 +52717,7 @@ msgstr "Markdown szintaxis"
 
 #: ../../user/checks.rst:1088
 msgid "Markdown syntax does not match source."
-msgstr "A Markdown szintaxis nem egyezik a forrással."
+msgstr "A Markdown szintaxis nem egyezik meg a forrással."
 
 #: ../../user/checks.rst:1090
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
@@ -52721,7 +52729,7 @@ msgstr "``md-syntax``"
 
 #: ../../user/checks.rst:1095
 msgid "Markdown syntax does not match source"
-msgstr "A Markdown szintaxis nem egyezik a forrással"
+msgstr "A Markdown szintaxisnak meg kell egyeznie a forrással"
 
 #: ../../user/checks.rst:1099
 msgid "`Markdown inlines <https://spec.commonmark.org/0.31.2/#inlines>`_"
@@ -52730,11 +52738,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1104
 msgid "Maximum length of translation"
-msgstr "Fordítás legnagyobb hossza"
+msgstr "Fordítás maximális hossza"
 
 #: ../../user/checks.rst:1106
 msgid "Translation should not exceed given length."
-msgstr "A fordítás nem lépheti túl a megadott hosszt."
+msgstr "A fordítás nem haladhatja meg a megadott hosszúságot."
 
 #: ../../user/checks.rst:1108
 msgid "``weblate.checks.chars.MaxLengthCheck``"
@@ -52749,17 +52757,17 @@ msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
 msgstr ""
-"Ellenőrzi, hogy a fordítások elfogadható hosszúságúak-e ahhoz, hogy "
-"beleférjenek a rendelkezésre álló helyre. Ez csak a fordítás karaktereinek "
-"hosszát ellenőrzi."
+"Ellenőrzi, hogy a fordítás hossza elfogadható-e a rendelkezésre álló helyhez "
+"képest. Ez az ellenőrzés kizárólag a karakterek számát vizsgálja a "
+"fordításban."
 
 #: ../../user/checks.rst:1116
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
 msgstr ""
-"Ellentétben a többi ellenőrzéssel, a jelzőt ``kulcs:érték`` párosként kell "
-"megadni, például ``max-length:100``."
+"Eltérően a többi ellenőrzéstől, itt a jelzőt ``key:value`` (kulcs-érték) "
+"párként kell megadni, például: ``max-length:100``."
 
 #: ../../user/checks.rst:1121
 msgid ""
@@ -52767,32 +52775,33 @@ msgid ""
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
 msgstr ""
-"Ez az ellenőrzés a karakterek számát nézi, ami nem feltétlenül a legjobb "
-"mérőszám, ha arányos betűtípusokat használsz a szöveg megjelenítéséhez. A :"
-"ref:`check-max-size` ellenőrzés a szöveg tényleges megjelenítését vizsgálja."
+"Ez az ellenőrzés a karakterek számát vizsgálja, ami nem feltétlenül a "
+"legjobb mérőszám, ha a szöveg arányos (proporcionális) betűtípussal van "
+"megjelenítve. A :ref:`check-max-size` ellenőrzés viszont a tényleges "
+"megjelenést is figyelembe veszi."
 
 #: ../../user/checks.rst:1125 ../../user/checks.rst:1164
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
 msgstr ""
-"A ``replacements:`` jelző is hasznos lehet a helyettesíthetők kibővítésére, "
-"mielőtt ellenőriznénk a szöveget."
+"A ``replacements:`` jelző hasznos lehet a helykitöltők kibontásához a "
+"hosszmérés előtt."
 
 #: ../../user/checks.rst:1128 ../../user/checks.rst:1167
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
-"Amikor az ``xml-text`` jelző is használatban van, a hosszúság számítás "
-"figyelmen kívül hagyja az XML címkéket."
+"Ha az ``xml-text`` jelző is használatban van, az XML-címkék nem számítanak "
+"bele a hosszúságba."
 
 #: ../../user/checks.rst:1133
 msgid "Maximum size of translation"
-msgstr "Fordítás legnagyobb mérete"
+msgstr "Fordítás maximális mérete"
 
 #: ../../user/checks.rst:1135
 msgid "Translation rendered text should not exceed given size."
-msgstr "A fordítás megjelenített szövege nem haladhatja meg az adott méretet."
+msgstr "A megjelenített fordítás nem haladhatja meg a megadott méretet."
 
 #: ../../user/checks.rst:1137
 msgid "``weblate.checks.render.MaxSizeCheck``"
@@ -52807,9 +52816,8 @@ msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
-"A lefordított szöveg nem haladhatja meg a megadott méretet. A szöveget "
-"sortöréssel jeleníti meg, és ellenőrzi, hogy belefér-e a megadott határok "
-"közé."
+"A lefordított szöveg nem haladhatja meg a megadott méretet. A szöveg "
+"sortörését figyelembe véve kiszámolja, hogy belefér-e a megadott határokba."
 
 #: ../../user/checks.rst:1145
 msgid ""
@@ -52817,9 +52825,9 @@ msgid ""
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
 msgstr ""
-"Ez az ellenőrzés egy vagy két paramétert igényel - a maximális szélességet "
-"és a maximális sorok számát. Ha a sorok száma nincs megadva, egy soros "
-"szövegnek tekintjük."
+"Ez az ellenőrzés egy vagy két paramétert igényel – maximális szélességet és "
+"opcionálisan a maximális sorszámot. Ha a sorszám nincs megadva, az "
+"ellenőrzés egysoros szövegként értelmezi a fordítást."
 
 #: ../../user/checks.rst:1149
 msgid ""
@@ -52827,10 +52835,10 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
-"A használt betűtípust a ``font-*`` utasításokkal is beállíthatod (lásd: :ref:"
-"`custom-checks`), például a következő fordítási jelzők azt mondják, hogy a "
-"ubuntu betűtípussal, 22-es méretben megjelenített szövegnek bele kell férnie "
-"két sorba és 500 pixelbe:"
+"A használt betűtípus is beállítható ``font-*`` jelzőkkel (lásd: :ref:`custom-"
+"checks`). Például az alábbi fordítási jelzők azt jelentik, hogy a szövegnek "
+"az Ubuntu betűtípussal, 22-es méretben, 500 képponton belül, legfeljebb két "
+"sorba kell beleférnie:"
 
 #: ../../user/checks.rst:1160
 msgid ""
@@ -52838,10 +52846,10 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
-"Érdemes lehet a :ref:`component`-ban ``font-*`` utasításokat beállítani, "
-"hogy az összes szöveg azonos betűtípussal legyen beállítva egy összetevően "
-"belül. Ezeket az értékeket szövegenként felülírhatod, ha egyedi beállításra "
-"van szükséged."
+"A ``font-*`` jelzőket érdemes az :ref:`component` beállításaiban megadni, "
+"hogy az összes szöveg azonos betűtípussal jelenjen meg az adott összetevőn "
+"belül. Ezeket az értékeket szükség esetén felül lehet bírálni egyedi "
+"szövegekre vonatkozóan is."
 
 #: ../../user/checks.rst:1171
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
