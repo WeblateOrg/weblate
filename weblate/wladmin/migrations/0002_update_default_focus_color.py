@@ -6,11 +6,12 @@
 
 from django.db import migrations
 
-from weblate.configuration.models import Setting, SettingCategory
+from weblate.configuration.models import SettingCategory
 
 
 def update_default_focus_color(apps, schema_editor):
     """Update the default focus color in the AppearanceForm."""
+    Setting = apps.get_model("configuration", "Setting")
     Setting.objects.filter(
         category=SettingCategory.UI, name="focus_color", value="#2eccaa,#1ebc9a"
     ).update(value="#2eccaa,#25303b")
