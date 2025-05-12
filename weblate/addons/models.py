@@ -593,3 +593,6 @@ class AddonActivityLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"
+
+    def get_details_display(self) -> str:
+        return self.addon.addon.render_activity_log(self)
