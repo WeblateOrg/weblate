@@ -876,20 +876,22 @@ Customize JSON output
 ---------------------
 
 :Add-on ID: ``weblate.json.customize``
-:Configuration: +---------------+------------------------+----------------------+
-                | ``sort_keys`` | Sort JSON keys         |                      |
-                +---------------+------------------------+----------------------+
-                | ``indent``    | JSON indentation       |                      |
-                +---------------+------------------------+----------------------+
-                | ``style``     | JSON indentation style | Available choices:   |
-                |               |                        |                      |
-                |               |                        | ``spaces`` -- Spaces |
-                |               |                        |                      |
-                |               |                        | ``tabs`` -- Tabs     |
-                +---------------+------------------------+----------------------+
+:Configuration: +----------------------------+------------------------------+-----------------------+
+                | ``sort_keys``              | Sort JSON keys                |                      |
+                +----------------------------+------------------------------+-----------------------+
+                | ``indent``                 | JSON indentation              |                      |
+                +----------------------------+------------------------------+-----------------------+
+                | ``style``                  | JSON indentation style        | Available choices:   |
+                |                            |                               |                      |
+                |                            |                               | ``spaces`` -- Spaces |
+                |                            |                               |                      |
+                |                            |                               | ``tabs`` -- Tabs     |
+                +----------------------------+------------------------------+-----------------------+
+                | ``use_compact_separators`` | Avoid spaces after separators | ``true`` or ``false``|
+                +----------------------------+------------------------------+-----------------------+
 :Triggers: :ref:`addon-event-storage-post-load`
 
-Allows adjusting JSON output behavior, for example indentation or sorting.
+Allows adjusting JSON output behavior, for example indentation, sorting or compact formatting using minimal whitespace.
 
 .. _addon-weblate.properties.sort:
 
