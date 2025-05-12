@@ -875,20 +875,24 @@ translator.
 Customize JSON output
 ---------------------
 
+.. versionchanged:: 5.12
+
+   :guilabel:`Avoid spaces after separators` option added.
+
 :Add-on ID: ``weblate.json.customize``
-:Configuration: +----------------------------+------------------------------+-----------------------+
+:Configuration: +----------------------------+-------------------------------+----------------------+
                 | ``sort_keys``              | Sort JSON keys                |                      |
-                +----------------------------+------------------------------+-----------------------+
+                +----------------------------+-------------------------------+----------------------+
+                | ``use_compact_separators`` | Avoid spaces after separators |                      |
+                +----------------------------+-------------------------------+----------------------+
                 | ``indent``                 | JSON indentation              |                      |
-                +----------------------------+------------------------------+-----------------------+
+                +----------------------------+-------------------------------+----------------------+
                 | ``style``                  | JSON indentation style        | Available choices:   |
                 |                            |                               |                      |
                 |                            |                               | ``spaces`` -- Spaces |
                 |                            |                               |                      |
                 |                            |                               | ``tabs`` -- Tabs     |
-                +----------------------------+------------------------------+-----------------------+
-                | ``use_compact_separators`` | Avoid spaces after separators | ``true`` or ``false``|
-                +----------------------------+------------------------------+-----------------------+
+                +----------------------------+-------------------------------+----------------------+
 :Triggers: :ref:`addon-event-storage-post-load`
 
 Allows adjusting JSON output behavior, for example indentation, sorting or compact formatting using minimal whitespace.
