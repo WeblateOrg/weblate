@@ -571,6 +571,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def all_reviewers(self):
         from weblate.auth.models import User
+
         if not self.enable_review:
             return User.objects.none()
         return User.objects.all_reviewers(self).select_related("profile")
