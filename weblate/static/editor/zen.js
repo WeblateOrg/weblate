@@ -152,14 +152,22 @@
       focusTimeout = null;
     }
   });
-
   $document.on("focusout", ".translation-editor", function () {
     editorHasFocus = false;
     const $this = $(this);
     focusTimeout = setTimeout(() => {
       if (!editorHasFocus) {
-        // Focus lost for over 1000ms, triggering save
-        handleTranslationChange.call($this[0]);
+        const $row = $this.closest("tr");
+        const checksum = $row.find("[name=checksum]").val();
+        const statusdiv = $(`#status-${checksum}`);
+        const form = $row.find("form");
+        const payload = form.serialize();
+        const lastPayload = statusdiv.data("last-payload");
+
+        // Trigger save if payload has changed or if it's the first save
+        if (payload && (lastPayload === undefined || payload !== lastPayload)) {
+          handleTranslationChange.call($this[0]);
+        }
       }
     }, 1000); // Grace period before saving
   });
@@ -175,6 +183,7 @@
     const statusdiv = $(`#status-${checksum}`);
     const form = $row.find("form");
     const payload = form.serialize();
+    const lastPayload = statusdiv.data("last-payload");
 
     // Cancel any previously scheduled save for this row
     const existingTimer = $row.data("save-timer");
@@ -182,11 +191,13 @@
       clearTimeout(existingTimer);
       $row.removeData("save-timer");
     }
-
     // Guard: skip if nothing has changed
-    if (payload === statusdiv.data("last-payload")) {
-      $row.find("#unsaved-label").remove();
-      $row.find(".translation-editor").removeClass("has-changes");
+    if (lastPayload === undefined) {
+      // First save, no need to check
+      statusdiv.data("last-payload", payload);
+      return;
+    }
+    if (payload === lastPayload) {
       return;
     }
 
@@ -200,12 +211,10 @@
     }
 
     $row.addClass("translation-modified");
-
     // Start a new save operation after delay
     const saveTimer = setTimeout(() => {
       statusdiv.addClass("unit-state-saving");
       statusdiv.data("last-payload", payload);
-
       $.ajax({
         type: "POST",
         url: form.attr("action"),
