@@ -492,6 +492,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
+        self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
         self.click("Manage")
@@ -552,6 +553,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
+        self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
         self.click("Manage")
@@ -1054,6 +1056,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
+        self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
         self.click("Alerts")
@@ -1197,6 +1200,7 @@ class SeleniumTests(
         # Navigate to component
         with self.wait_for_page_load():
             self.click("WeblateOrg")
+        self.click("Components")
         with self.wait_for_page_load():
             self.click("Android")
 
