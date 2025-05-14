@@ -22,6 +22,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
+from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
     TranslateTextResponse,
@@ -930,6 +931,41 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
+    def test_glossary_with_exception(self) -> None:
+        self.mock_languages()
+        self.mock_glossary_responses()
+        self.CONFIGURATION["bucket_name"] = "test-bucket"
+
+        mock_blob = self.mock_blob(fail_delete=True)
+        mock_bucket = self.mock_bucket(mock_blob)
+
+        with (
+            patch.object(
+                TranslationServiceClient,
+                "create_glossary",
+                Mock(
+                    side_effect=google_api_exceptions.AlreadyExists(
+                        "Glossary already exists"
+                    )
+                ),
+            ),
+            patch.object(
+                TranslationServiceClient,
+                "delete_glossary",
+                Mock(
+                    side_effect=google_api_exceptions.NotFound("Glossary was not found")
+                ),
+            ),
+            patch(
+                "google.cloud.storage.Client", new=self.mock_storage_client(mock_bucket)
+            ),
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
     def test_glossary_with_calls_check(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
@@ -1040,26 +1076,42 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         get_credentials_patcher.start()
         self.addCleanup(get_credentials_patcher.stop)
 
+        mock_blob = self.mock_blob()
+        mock_bucket = self.mock_bucket(mock_blob)
+        patcher = patch(
+            "google.cloud.storage.Client", new=self.mock_storage_client(mock_bucket)
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def mock_storage_client(self, mock_bucket: type[MagicMock]) -> type[MagicMock]:
+        class MockStorageClient(MagicMock):
+            def get_bucket(self, *args, **kwargs):
+                """google.cloud.storage.Client.get_bucket."""
+                return mock_bucket()
+
+        return MockStorageClient
+
+    def mock_bucket(self, mock_blob: type[MagicMock]) -> type[MagicMock]:
+        class MockBucket(MagicMock):
+            def blob(self, *args, **kwargs):
+                """Mock google.cloud.storage.Bucket.blob."""
+                return mock_blob()
+
+        return MockBucket
+
+    def mock_blob(self, *args, fail_delete: bool = False, **kwargs) -> type[MagicMock]:
         class MockBlob(MagicMock):
             def upload_from_string(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.upload_from_string."""
 
             def delete(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.delete."""
+                if fail_delete:
+                    faile_message = "Blob file was not found"
+                    raise google_api_exceptions.NotFound(faile_message)
 
-        class MockBucket(MagicMock):
-            def blob(self, *args, **kwargs):
-                """Mock google.cloud.storage.Bucket.blob."""
-                return MockBlob()
-
-        class MockStorageClient(MagicMock):
-            def get_bucket(self, *args, **kwargs):
-                """google.cloud.storage.Client.get_bucket."""
-                return MockBucket()
-
-        patcher = patch("google.cloud.storage.Client", new=MockStorageClient)
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        return MockBlob
 
 
 class TMServerTranslationTest(BaseMachineTranslationTest):
@@ -1490,7 +1542,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_glossary(self) -> None:
+    def test_glossary(self, fail_delete_glossary: bool = False) -> None:
         """Test that glossary is used in translation request when available."""
 
         def translate_request_callback(request: PreparedRequest):
@@ -1544,19 +1596,24 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-        # stale glossary delete
-        responses.add_callback(
-            responses.DELETE,
-            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=partial(delete_glossary_callback, expected_id=37785),
-        )
+        if fail_delete_glossary:
+            responses.delete(
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"), status=404
+            )
+        else:
+            # stale glossary delete
+            responses.add_callback(
+                responses.DELETE,
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+                callback=partial(delete_glossary_callback, expected_id=37785),
+            )
 
-        # oldest glossary delete
-        responses.add_callback(
-            responses.DELETE,
-            re.compile(r"https://api.modernmt.com/memories/(\d+)"),
-            callback=partial(delete_glossary_callback, expected_id=37782),
-        )
+            # oldest glossary delete
+            responses.add_callback(
+                responses.DELETE,
+                re.compile(r"https://api.modernmt.com/memories/(\d+)"),
+                callback=partial(delete_glossary_callback, expected_id=37782),
+            )
 
         # change count limit, check that the oldest glossary is deleted
         self.mock_list_glossaries(
@@ -1620,6 +1677,9 @@ class ModernMTHubTest(BaseMachineTranslationTest):
             self.assert_translate(
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
+
+    def test_glossary_with_delete_fail(self):
+        self.test_glossary(fail_delete_glossary=True)
 
     @responses.activate
     def test_context_vector(self) -> None:
@@ -1827,6 +1887,80 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         # Fetch from service
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary_with_failed_delete(self) -> None:
+        """Test handling of glossary deletion failure scenario."""
+        with patch(
+            "weblate.machinery.deepl.DeepLTranslation.glossary_count_limit",
+            new=1,
+        ):
+            self.mock_languages()
+            # list glossaries to find matching name
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                            "name": "weblate:1:EN:DE:4a8f2d980d32c9a5",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-02T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+            # list glossaries before deleting
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                            "name": "weblate:1:EN:DE:4a8f2d980d32c9a5",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-02T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+            # delete oldest glossary
+            responses.delete(
+                "https://api.deepl.com/v2/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                json={"message": "Invalid or missing glossary id"},
+                status=400,
+            )
+            # create new glossary
+            responses.post("https://api.deepl.com/v2/glossaries")
+            # list glossaries with new entry
+            responses.get(
+                "https://api.deepl.com/v2/glossaries",
+                json={
+                    "glossaries": [
+                        {
+                            "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                            "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                            "ready": True,
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "creation_time": "2021-08-03T14:16:18.329Z",
+                            "entry_count": 1,
+                        }
+                    ]
+                },
+            )
+
+            responses.post("https://api.deepl.com/v2/translate", json=DEEPL_RESPONSE)
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
 
     @responses.activate
     def test_replacements(self) -> None:
@@ -2092,131 +2226,152 @@ class AWSTranslationTest(BaseMachineTranslationTest):
         # Stubbing here is tricky
         self.skipTest("Not tested")
 
-    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_glossary(self) -> None:
-        """Test translation with glossary (terminology)."""
-        machine = self.get_machine()
+    def setup_stubber_with_glossaries(
+        self, machine: BatchMachineTranslation, fail_delete: bool = True
+    ) -> Stubber:
+        """Set up stubber for translation with glossary test."""
+        stubber = Stubber(machine.client)
 
-        with (
-            Stubber(machine.client) as stubber,
-            patch(
-                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
-                new=1,
-            ),
-        ):
-            stubber.add_response(
-                "list_languages",
-                AWS_LANGUAGES_RESPONSE,
-            )
-            # glossary list with stale glossary response
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["de"],
-                            "CreatedAt": "2021-03-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        }
-                    ]
-                },
-            )
+        stubber.add_response(
+            "list_languages",
+            AWS_LANGUAGES_RESPONSE,
+        )
+        # glossary list with stale glossary response
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["de"],
+                        "CreatedAt": "2021-03-03T14:16:18.329Z",
+                        "Directionality": "UNI",
+                        "Format": "TSV",
+                    }
+                ]
+            },
+        )
 
-            # glossary list with stale glossary response
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["de"],
-                            "CreatedAt": "2021-03-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        }
-                    ]
-                },
-            )
+        # glossary list with stale glossary response
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["de"],
+                        "CreatedAt": "2021-03-03T14:16:18.329Z",
+                        "Directionality": "UNI",
+                        "Format": "TSV",
+                    }
+                ]
+            },
+        )
 
-            # delete stale glossary response
+        # delete stale glossary response
+        if fail_delete:
+            stubber.add_client_error(
+                "delete_terminology", "ResourceNotFoundException", http_status_code=400
+            )
+        else:
             stubber.add_response(
                 "delete_terminology",
                 {},
                 {"Name": "weblate_-_1_-_en_-_de_-_a85e314d2f7614eb"},
             )
 
-            # create glossary response
-            stubber.add_response(
-                "import_terminology",
-                {
-                    "AuxiliaryDataLocation": {
-                        "Location": "location",
-                        "RepositoryType": "type",
-                    },
-                    "TerminologyProperties": {},
+        # create glossary response
+        stubber.add_response(
+            "import_terminology",
+            {
+                "AuxiliaryDataLocation": {
+                    "Location": "location",
+                    "RepositoryType": "type",
                 },
-                {
-                    "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                    "MergeStrategy": "OVERWRITE",
-                    "TerminologyData": {
-                        "File": b"en\tcs\nfoo\tbar",
-                        "Format": "TSV",
+                "TerminologyProperties": {},
+            },
+            {
+                "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                "MergeStrategy": "OVERWRITE",
+                "TerminologyData": {
+                    "File": b"en\tcs\nfoo\tbar",
+                    "Format": "TSV",
+                    "Directionality": "UNI",
+                },
+            },
+        )
+
+        # return glossary list with newly created glossary
+        stubber.add_response(
+            "list_terminologies",
+            {
+                "TerminologyPropertiesList": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                        "SourceLanguageCode": "en",
+                        "TargetLanguageCodes": ["cs"],
+                        "CreatedAt": "2021-08-03T14:16:18.329Z",
                         "Directionality": "UNI",
+                        "Format": "TSV",
                     },
-                },
-            )
+                ]
+            },
+        )
 
-            # return glossary list with newly created glossary
-            stubber.add_response(
-                "list_terminologies",
-                {
-                    "TerminologyPropertiesList": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                            "SourceLanguageCode": "en",
-                            "TargetLanguageCodes": ["cs"],
-                            "CreatedAt": "2021-08-03T14:16:18.329Z",
-                            "Directionality": "UNI",
-                            "Format": "TSV",
-                        },
-                    ]
-                },
-            )
+        # translate with glossary
+        stubber.add_response(
+            "translate_text",
+            {
+                "TranslatedText": "Ahoj",
+                "SourceLanguageCode": "en",
+                "TargetLanguageCode": "cs",
+                "AppliedTerminologies": [
+                    {
+                        "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
+                        "Terms": [
+                            {"SourceText": "foo", "TargetText": "bar"},
+                        ],
+                    },
+                ],
+            },
+            {
+                "SourceLanguageCode": ANY,
+                "TargetLanguageCode": ANY,
+                "Text": ANY,
+                "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
+            },
+        )
 
-            # translate with glossary
-            stubber.add_response(
-                "translate_text",
-                {
-                    "TranslatedText": "Ahoj",
-                    "SourceLanguageCode": "en",
-                    "TargetLanguageCode": "cs",
-                    "AppliedTerminologies": [
-                        {
-                            "Name": "weblate_-_1_-_en_-_cs_-_9e250d830c11d70f",
-                            "Terms": [
-                                {"SourceText": "foo", "TargetText": "bar"},
-                            ],
-                        },
-                    ],
-                },
-                {
-                    "SourceLanguageCode": ANY,
-                    "TargetLanguageCode": ANY,
-                    "Text": ANY,
-                    "TerminologyNames": ["weblate_-_1_-_en_-_cs_-_9e250d830c11d70f"],
-                },
-            )
+        return stubber
 
+    def test_glossary(self, fail_delete: bool = False) -> None:
+        """Test translation with glossary (terminology)."""
+        machine = self.get_machine()
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"),
+            patch(
+                "weblate.machinery.aws.AWSTranslation.glossary_count_limit",
+                new=1,
+            ),
+        ):
+            stubber = self.setup_stubber_with_glossaries(
+                machine, fail_delete=fail_delete
+            )
+            stubber.activate()
             self.assert_translate(
                 self.SUPPORTED,
                 self.SOURCE_TRANSLATED,
                 self.EXPECTED_LEN,
                 machine=machine,
             )
+            stubber.deactivate()
+
+    def test_glossary_delete_fail(self) -> None:
+        """Test translation with glossary with terminology delete fail."""
+        self.test_glossary(fail_delete=True)
 
 
 class AlibabaTranslationTest(BaseMachineTranslationTest):
@@ -2613,27 +2768,62 @@ class CyrTranslitTranslationTest(ViewTestCase):
         machine = self.get_machine()
 
         # Add translations and prepare units
-        self.component.add_new_language(Language.objects.get(code="ru"), None)
-        self.component.add_new_language(Language.objects.get(code="be"), None)
-        self.component.add_new_language(Language.objects.get(code="be_Latn"), None)
-        self.edit_unit("Hello, world!\n", "Прывітанне, свет!\n", "be")
-        self.edit_unit("Hello, world!\n", "Привет, мир!\n", "ru")
+        self.component.add_new_language(Language.objects.get(code="sr_Cyrl"), None)
+        self.component.add_new_language(Language.objects.get(code="sr@ijekavian"), None)
+        self.component.add_new_language(
+            Language.objects.get(code="sr@ijekavian_Latn"), None
+        )
+        self.edit_unit(
+            "Hello, world!\n", "Мој ховеркрафт је пун јегуља\n", "sr@ijekavian"
+        )
+        self.edit_unit("Hello, world!\n", "Мој ховеркрафт је пун\n", "sr_Cyrl")
 
-        unit = self.get_unit("Hello, world!\n", language="be_Latn")
+        unit = self.get_unit("Hello, world!\n", language="sr@ijekavian_Latn")
         results = machine.translate(unit, self.user)
         self.assertEqual(
             results,
             [
                 [
                     {
-                        "text": "Pry'vіtanne, svet!\n",
+                        "text": "Moj hoverkraft je pun jegulja\n",
                         "quality": 100,
                         "service": "CyrTranslit",
-                        "source": "Прывітанне, свет!\n",
-                        "original_source": "Прывітанне, свет!\n",
+                        "source": "Мој ховеркрафт је пун јегуља\n",
+                        "original_source": "Мој ховеркрафт је пун јегуља\n",
                     }
                 ]
             ],
+        )
+
+    def test_placeholders(self):
+        machine = self.get_machine()
+
+        # Add translations and prepare units
+        self.component.add_new_language(Language.objects.get(code="sr_Latn"), None)
+        self.component.add_new_language(Language.objects.get(code="sr_Cyrl"), None)
+        self.edit_unit(
+            "Orangutan has %d banana.\n", "Орангутан има %d банану.\n", "sr_Cyrl"
+        )
+
+        unit = self.get_unit("Orangutan has %d banana.\n", language="sr_Latn")
+
+        # check cyrillic to latin
+        results = machine.translate(unit, self.user)
+        self.assertEqual(
+            [
+                [
+                    {
+                        "original_source": "Орангутан има %d банану.\n",
+                        "quality": 100,
+                        "service": "CyrTranslit",
+                        "source": "Орангутан има %d банану.\n",
+                        "text": "Orangutan ima %d bananu.\n",
+                    }
+                ],
+                [],
+                [],
+            ],
+            results,
         )
 
 

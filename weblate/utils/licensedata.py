@@ -400,6 +400,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-2-Clause-pkgconf-disclaimer",
+        "BSD 2-Clause pkgconf disclaimer variant",
+        "https://spdx.org/licenses/BSD-2-Clause-pkgconf-disclaimer.html",
+        False,
+    ),
+    (
         "BSD-2-Clause-Views",
         "BSD 2-Clause with views sentence",
         "https://spdx.org/licenses/BSD-2-Clause-Views.html",
@@ -1186,6 +1192,12 @@ LICENSES = (
         True,
     ),
     (
+        "CryptoSwift",
+        "CryptoSwift License",
+        "https://spdx.org/licenses/CryptoSwift.html",
+        False,
+    ),
+    (
         "CrystalStacker",
         "CrystalStacker License",
         "https://spdx.org/licenses/CrystalStacker.html",
@@ -1267,6 +1279,12 @@ LICENSES = (
         "DOC",
         "DOC License",
         "https://spdx.org/licenses/DOC.html",
+        False,
+    ),
+    (
+        "DocBook-DTD",
+        "DocBook DTD License",
+        "https://spdx.org/licenses/DocBook-DTD.html",
         False,
     ),
     (
@@ -1498,6 +1516,18 @@ LICENSES = (
         False,
     ),
     (
+        "FSL-1.1-ALv2",
+        "Functional Source License, Version 1.1, ALv2 Future License",
+        "https://spdx.org/licenses/FSL-1.1-ALv2.html",
+        False,
+    ),
+    (
+        "FSL-1.1-MIT",
+        "Functional Source License, Version 1.1, MIT Future License",
+        "https://spdx.org/licenses/FSL-1.1-MIT.html",
+        False,
+    ),
+    (
         "Furuseth",
         "Furuseth License",
         "https://spdx.org/licenses/Furuseth.html",
@@ -1513,6 +1543,12 @@ LICENSES = (
         "fwlw",
         "fwlw License",
         "https://spdx.org/licenses/fwlw.html",
+        False,
+    ),
+    (
+        "Game-Programming-Gems",
+        "Game Programming Gems License",
+        "https://spdx.org/licenses/Game-Programming-Gems.html",
         False,
     ),
     (
@@ -2098,6 +2134,12 @@ LICENSES = (
         False,
     ),
     (
+        "jove",
+        "Jove License",
+        "https://spdx.org/licenses/jove.html",
+        False,
+    ),
+    (
         "JPL-image",
         "JPL Image Use Policy",
         "https://spdx.org/licenses/JPL-image.html",
@@ -2341,6 +2383,12 @@ LICENSES = (
         "MakeIndex",
         "MakeIndex License",
         "https://spdx.org/licenses/MakeIndex.html",
+        False,
+    ),
+    (
+        "man2html",
+        "man2html License",
+        "https://spdx.org/licenses/man2html.html",
         False,
     ),
     (
@@ -2689,6 +2737,12 @@ LICENSES = (
         "NRL",
         "NRL License",
         "https://spdx.org/licenses/NRL.html",
+        False,
+    ),
+    (
+        "NTIA-PD",
+        "NTIA Public Domain Notice",
+        "https://spdx.org/licenses/NTIA-PD.html",
         False,
     ),
     (

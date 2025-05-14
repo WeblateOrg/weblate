@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'contact' %}">{% trans "Contact" %}</a>
+    <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -18,21 +16,21 @@
       <ul>
         <li>
           {% if site_title != "Weblate" %}
-            {% blocktrans %}You can only contact administrators of {{ site_title }} server here.{% endblocktrans %}
+            {% blocktranslate %}You can only contact administrators of {{ site_title }} server here.{% endblocktranslate %}
           {% else %}
-            {% blocktrans %}You can only contact administrators of the whole server here.{% endblocktrans %}
+            {% blocktranslate %}You can only contact administrators of the whole server here.{% endblocktranslate %}
           {% endif %}
         </li>
         <li>
-          {% blocktrans %}For questions about a specific translation project, don’t use this form. Refer to the project’s Info tab and contact its maintainers.{% endblocktrans %}
+          {% blocktranslate %}For questions about a specific translation project, don’t use this form. Refer to the project’s Info tab and contact its maintainers.{% endblocktranslate %}
         </li>
         {% if offer_hosting %}
           <li>
-            {% blocktrans %}If you seek support for any other Weblate deployment than {{ site_title }}, please check support offerings at {{ weblate_link }} or use this form on the correct server.{% endblocktrans %}
+            {% blocktranslate %}If you seek support for any other Weblate deployment than {{ site_title }}, please check support offerings at {{ weblate_link }} or use this form on the correct server.{% endblocktranslate %}
           </li>
         {% endif %}
         <li>
-          {% blocktrans with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>'  %}Weblate development ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktrans %}
+          {% blocktranslate with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>' %}Weblate development ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktranslate %}
         </li>
       </ul>
     </div>
@@ -40,18 +38,18 @@
     <form method="post" action="{% url 'contact' %}">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">{% trans "Contact server administrators" %}</h4>
+          <h4 class="panel-title">{% translate "Contact server administrators" %}</h4>
         </div>
         <div class="panel-body">
           {% csrf_token %}
           {{ form|crispy }}
         </div>
         <div class="panel-footer">
-          <input type="submit" value="{% trans "Send" %}" class="btn btn-primary" />
+          <input type="submit" value="{% translate "Send" %}" class="btn btn-primary" />
         </div>
       </div>
     </form>
 
   </div>
 
-{% endblock %}
+{% endblock content %}

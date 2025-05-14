@@ -25,6 +25,8 @@ class JSONCustomizeAddon(StoreBaseAddon):
             "arb",
             "go-i18n-json",
             "go-i18n-json-v2",
+            "formatjs",
+            "gotext",
         }
     }
 
@@ -32,8 +34,15 @@ class JSONCustomizeAddon(StoreBaseAddon):
         config = self.instance.configuration
         style = config.get("style", "spaces")
         indent = int(config.get("indent", 4))
+
+        # dump_args are passed to json.dumps in translate-toolkit when saving the file
         if style == "spaces":
             store.store.dump_args["indent"] = indent
         else:
             store.store.dump_args["indent"] = "\t" * indent
         store.store.dump_args["sort_keys"] = bool(int(config.get("sort_keys", 0)))
+        use_compact_separators = bool(int(config.get("use_compact_separators", 0)))
+        store.store.dump_args["separators"] = (
+            ",",
+            ":" if use_compact_separators else ": ",
+        )

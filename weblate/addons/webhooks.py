@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import base64
 import hashlib
 import hmac
 import json
 from datetime import UTC, datetime, timedelta
 from math import floor
+from typing import TYPE_CHECKING
 
 import jsonschema.exceptions
 import requests
@@ -19,6 +22,10 @@ from weblate_schemas import load_schema, validate_schema
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import WebhooksAddonForm
 from weblate.trans.util import split_plural
+from weblate.utils.requests import request
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Change
 
 
 def hmac_data(key: bytes, data: bytes) -> bytes:
@@ -45,10 +52,11 @@ class WebhookAddon(ChangeBaseAddon):
     settings_form = WebhooksAddonForm
     icon = "webhook.svg"
 
-    def change_event(self, change) -> None:
+    def change_event(self, change: Change) -> dict | None:
         """Deliver notification message."""
         config = self.instance.configuration
-        if change.action in config["events"]:
+        events = {int(event) for event in config["events"]}
+        if change.action in events:
             try:
                 payload = self.build_webhook_payload(change)
             except (
@@ -57,26 +65,33 @@ class WebhookAddon(ChangeBaseAddon):
             ) as error:
                 raise MessageNotDeliveredError from error
 
+            headers = self.build_headers(change, payload)
+
             try:
-                response = requests.post(
+                response = request(
+                    method="post",
                     url=config["webhook_url"],
                     json=payload,
                     headers=self.build_headers(change, payload),
                     timeout=15,
+                    raise_for_status=False,
                 )
             except requests.exceptions.ConnectionError as error:
                 raise MessageNotDeliveredError from error
 
-            if not 200 <= response.status_code <= 299:
-                raise MessageNotDeliveredError
+            return {
+                "request": {"headers": headers, "payload": payload},
+                "response": {
+                    "status_code": response.status_code,
+                    "content": response.text,
+                    "headers": dict(response.headers),
+                },
+            }
+        return None
 
-    def build_webhook_payload(self, change) -> dict:
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
         """Build a Schema-valid payload from change event."""
-        from weblate.trans.models import Change
-
-        # reload change with prefetched content
-        change = Change.objects.prefetch_for_get().get(pk=change.pk)
-        data = {
+        data: dict[str, int | str | list[str]] = {
             "change_id": change.id,
             "action": change.get_action_display(),
             "timestamp": change.timestamp.isoformat(),
@@ -103,7 +118,9 @@ class WebhookAddon(ChangeBaseAddon):
         validate_schema(data, "weblate-messaging.schema.json")
         return data
 
-    def build_headers(self, change, payload: dict) -> dict:
+    def build_headers(
+        self, change: Change, payload: dict[str, int | str | list[str]]
+    ) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         wh = StandardWebhooksUtils(self.instance.configuration.get("secret", ""))
         webhook_id = change.get_uuid().hex

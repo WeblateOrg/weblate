@@ -8,37 +8,79 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+from weblate_language_data.utils import gettext_noop
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
+from weblate.utils.state import STATE_FUZZY
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from datetime import datetime
+
+    from weblate.auth.models import AuthenticatedHttpRequest, Unit, User
 
 
 class CommentManager(models.Manager):
-    def add(self, unit, request: AuthenticatedHttpRequest, text) -> None:
+    def add(
+        self,
+        request: AuthenticatedHttpRequest,
+        unit: Unit,
+        text: str,
+        scope: str,
+        *,
+        user: User | None = None,
+        timestamp: datetime | None = None,
+    ) -> Comment:
         """Add comment to this unit."""
-        user = request.user
-        new_comment = self.create(
-            user=user,
-            unit=unit,
-            comment=text,
-            userdetails={
+        # Is this source or target comment?
+        unit_scope = unit.source_unit if scope in {"global", "report"} else unit
+
+        if user is None:
+            user = request.user
+        kwargs = {
+            "user": user,
+            "unit": unit_scope,
+            "comment": text,
+            "userdetails": {
                 "address": get_ip_address(request),
                 "agent": get_user_agent_raw(request),
             },
-        )
+        }
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+
+        new_comment = self.create(**kwargs)
         user.profile.increase_count("commented")
-        unit.change_set.create(
+        unit_scope.change_set.create(
             comment=new_comment,
             action=ActionEvents.COMMENT,
             user=user,
             author=user,
             details={"comment": text},
         )
+
+        component = unit_scope.translation.component
+
+        # Add review label/flag
+        if scope == "report":
+            if component.has_template():
+                if unit_scope.translated and not unit_scope.readonly:
+                    unit_scope.translate(
+                        user,
+                        unit_scope.target,
+                        STATE_FUZZY,
+                        change_action=ActionEvents.MARKED_EDIT,
+                    )
+            else:
+                label = component.project.label_set.get_or_create(
+                    name=gettext_noop("Source needs review"), defaults={"color": "red"}
+                )[0]
+                unit_scope.labels.add(label)
+
+        return new_comment
 
 
 class CommentQuerySet(models.QuerySet):
@@ -55,7 +97,7 @@ class Comment(models.Model, UserDisplayMixin):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     resolved = models.BooleanField(default=False, db_index=True)
     userdetails = models.JSONField(default=dict)
 

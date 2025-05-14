@@ -1,17 +1,14 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load permissions %}
+{% load i18n permissions translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
 
   <li>
-    <a href="{% url 'show_progress' path=object.get_url_path %}">{% trans "Progress" %}</a>
+    <a href="{% url 'show_progress' path=object.get_url_path %}">{% translate "Progress" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -19,7 +16,7 @@
 
   <div class="panel panel-default"
        data-progress-url="{% url 'api:task-detail' pk=object.background_task %}">
-    <div class="panel-heading">{% trans "Component is being updated…" %}</div>
+    <div class="panel-heading">{% translate "Component is being updated…" %}</div>
     <div class="panel-body">
 
       <div class="progress">
@@ -42,15 +39,15 @@
              class="btn btn-primary"
              id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
           {% if user_can_edit_component %}
-            <a href="#" class="btn btn-danger" id="terminate-task-button">{% trans "Abort the update" %}</a>
+            <a href="#" class="btn btn-danger" id="terminate-task-button">{% translate "Abort the update" %}</a>
           {% endif %}
         </div>
         <div class="form-group">
           <input type="checkbox" id="progress-redirect" checked="checked">
-          <label for="progress-redirect">{% trans "Continue after completion" %}</label>
+          <label for="progress-redirect">{% translate "Continue after completion" %}</label>
         </div>
       </form>
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

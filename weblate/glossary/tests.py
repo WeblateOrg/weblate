@@ -4,6 +4,8 @@
 
 """Test for glossary manipulations."""
 
+from __future__ import annotations
+
 import csv
 import json
 from io import StringIO
@@ -17,12 +19,12 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
 TEST_TBX = get_test_file("terms.tbx")
 TEST_CSV = get_test_file("terms.csv")
@@ -307,7 +309,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
-            {("the red", ((1285, 1292),))},
+            {("the red", ((1287, 1294),))},
         )
 
     def test_get_dash(self) -> None:
@@ -372,6 +374,15 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.do_add_unit(terminology=1)
         # Should be added to all languages
         self.assertEqual(Unit.objects.count(), start + 4)
+
+    def test_add_untranslatable(self) -> None:
+        start = Unit.objects.count()
+        self.do_add_unit(read_only=1)
+        # Should be added to all languages
+        self.assertEqual(Unit.objects.count(), start + 2)
+        unit = Unit.objects.get(source="source", translation__language__code="cs")
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.target, "")
 
     def test_add_terminology_existing(self) -> None:
         self.make_manager()
@@ -544,3 +555,26 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Prohibited initial character")
+
+    def removal_test(self, translation: Translation, *, commit: bool = False) -> None:
+        self.assertEqual(translation.unit_set.count(), 0)
+        self.add_term("hello", "ahoj")
+        if commit:
+            self.glossary_component.commit_pending("test", None)
+        self.assertEqual(translation.unit_set.count(), 1)
+        unit = translation.unit_set.get(source="hello")
+        translation.delete_unit(None, unit)
+        self.assertEqual(translation.unit_set.count(), 0)
+        self.assertEqual(self.glossary_component.source_translation.unit_set.count(), 0)
+
+    def test_string_removal(self) -> None:
+        self.removal_test(self.glossary)
+
+    def test_source_string_removal(self) -> None:
+        self.removal_test(self.glossary_component.source_translation)
+
+    def test_string_removal_commmit(self) -> None:
+        self.removal_test(self.glossary, commit=True)
+
+    def test_source_string_removal_commit(self) -> None:
+        self.removal_test(self.glossary_component.source_translation, commit=True)

@@ -4,13 +4,12 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'profile' %}">{% trans "Your profile" %}</a>
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
   <li>
-    <a href="{% url 'billing' %}">{% trans "Billing" %}</a>
+    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -18,17 +17,17 @@
 
   {% if not billings %}
     <p>
-      {% trans "No subscriptions or due payments." %}
-      {% trans "If you miss access to billing of your project, please ask its admins to grant you access." %}
+      {% translate "No subscriptions or due payments." %}
+      {% translate "If you miss access to billing of your project, please ask its admins to grant you access." %}
     </p>
 
     {% if offer_hosting %}
-      <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+      <a class="btn btn-primary" href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
     {% endif %}
   {% endif %}
 
   {% if payment_enabled and not active_billing_count %}
-    <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+    <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

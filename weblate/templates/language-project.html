@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
-{% load metrics %}
-{% load permissions %}
+{% load crispy_forms_tags i18n metrics permissions translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
@@ -12,8 +8,7 @@
   <a class="pull-right flip" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -22,74 +17,74 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% trans "Components" %}</a>
+      <a href="#overview" data-toggle="tab">{% translate "Components" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% trans "Info" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
     </li>
     <li>
-      <a href="#search" data-toggle="tab">{% trans "Search" %}</a>
+      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Insights" %} <span class="caret"></span>
+        {% translate "Insights" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href="#history" data-toggle="tab">{% trans "History" %}</a>
+          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         {% if last_announcements %}
           <li>
-            <a href="#announcement-history" data-toggle="tab">{% trans "Announcements" %}</a>
+            <a href="#announcement-history" data-toggle="tab">{% translate "Announcements" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Files" %} <span class="caret"></span>
+        {% translate "Files" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as CSV in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
           <a href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-             title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translations as XLSX in a ZIP file{% endblocktrans %}</a>
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% trans "Tools" %} <span class="caret"></span>
+        {% translate "Tools" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a>
+            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a>
+            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% trans "Failing checks" %}</a>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if delete_form %}
           <li role="separator" class="divider"></li>
           <li>
-            <a href="#organize" data-toggle="tab">{% trans "Organize or remove" %}</a>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -97,15 +92,15 @@
     {% if user_can_edit_project %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Manage" %} <span class="caret"></span>
+          {% translate "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a href="{% url 'settings' path=object.get_url_path %}">{% trans "Settings" %}</a>
+            <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
           </li>
           {% if announcement_form %}
             <li>
-              <a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a>
+              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
             </li>
           {% endif %}
         </ul>
@@ -129,14 +124,14 @@
 
     <div class="tab-pane" id="history">
       {% include "last-changes-content.html" %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% trans "Browse all changes for this language" %}</a>
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
         {% include "last-changes-content.html" with last_changes=last_announcements %}
         <a class="btn btn-primary"
-           href="{% url 'changes' path=object.get_url_path %}?action=46">{% trans "Browse all project changes" %}</a>
+           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>
     {% endif %}
 
@@ -161,12 +156,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'search-replace' right=True %}
-                {% trans "Search and replace" %}
+                {% translate "Search and replace" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy replace_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -182,12 +177,12 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
-                {% trans "Bulk edit" %}
+                {% translate "Bulk edit" %}
               </h4>
             </div>
             <div class="panel-body">{% crispy bulk_state_form %}</div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -201,18 +196,18 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 {% documentation_icon 'admin/announcements' right=True %}
-                {% trans "Post announcement" %}
+                {% translate "Post announcement" %}
               </h4>
             </div>
             <div class="panel-body">
               {% csrf_token %}
               {{ announcement_form|crispy }}
               <p class="help-block">
-                {% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
+                {% translate "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
               </p>
             </div>
             <div class="panel-footer">
-              <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
+              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
             </div>
           </div>
         </form>
@@ -221,4 +216,4 @@
 
   </div>
 
-{% endblock %}
+{% endblock content %}

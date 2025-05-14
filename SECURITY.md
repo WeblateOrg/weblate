@@ -26,4 +26,4 @@ More information about practices for reporting and fixing security issues is
 described in [our documentation][1]. This ensures all vulnerabilities are
 solved securely, quickly, and transparently.
 
-[1]: https://docs.weblate.org/en/latest/contributing/issues.html#security
+[1]: https://docs.weblate.org/en/latest/security/issues.html

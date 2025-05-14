@@ -32,7 +32,7 @@ class Command(BaseCommand):
     help = "List installed checks"
 
     def flush_lines(self, lines: list[str]) -> None:
-        self.stdout.writelines(lines)
+        self.stdout.write("\n".join(lines))
         lines.clear()
 
     def handle(self, *args, **options) -> None:
@@ -94,5 +94,5 @@ class Command(BaseCommand):
                 )
 
         self.stdout.write("\n")
-        self.stdout.writelines(enables)
-        self.stdout.writelines(ignores)
+        self.stdout.write("\n".join(enables))
+        self.stdout.write("\n".join(ignores))

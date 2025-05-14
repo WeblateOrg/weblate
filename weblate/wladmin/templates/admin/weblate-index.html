@@ -1,7 +1,6 @@
 {% extends "admin/index.html" %}
 
-{% load i18n %}
-{% load static %}
+{% load i18n static %}
 
 {% block content %}
   <div id="content-extra" style="float: left; width: 100%;">
@@ -9,11 +8,11 @@
     <div class="module">
 
       <table>
-        <caption>{% trans "Reports" %}</caption>
+        <caption>{% translate "Reports" %}</caption>
 
         <tr>
           <th scope="row">
-            <a href="{% url 'manage' %}">{% trans "Weblate support status" %}</a>
+            <a href="{% url 'manage' %}">{% translate "Weblate support status" %}</a>
           </th>
           <th></th>
           <th></th>
@@ -21,7 +20,7 @@
 
         <tr>
           <th scope="row">
-            <a href="{% url 'manage-repos' %}">{% trans "Status of repositories" %}</a>
+            <a href="{% url 'manage-repos' %}">{% translate "Status of repositories" %}</a>
           </th>
           <th></th>
           <th></th>
@@ -29,7 +28,7 @@
 
         <tr>
           <th scope="row">
-            <a href="{% url 'manage-ssh' %}">{% trans "SSH keys" %}</a>
+            <a href="{% url 'manage-ssh' %}">{% translate "SSH keys" %}</a>
           </th>
           <th></th>
           <th></th>
@@ -41,7 +40,7 @@
               {% if configuration_errors.exists %}
                 <img src="{% static 'admin/img/icon-alert.svg' %}" />
               {% endif %}
-              {% trans "Performance report" %}
+              {% translate "Performance report" %}
             </a>
           </th>
           <th></th>
@@ -50,7 +49,7 @@
 
         <tr>
           <th scope="row">
-            <a href="{% url 'memory' %}">{% trans "Translation memory" %}</a>
+            <a href="{% url 'memory' %}">{% translate "Translation memory" %}</a>
           </th>
           <th></th>
           <th></th>
@@ -61,4 +60,4 @@
     </div>
   </div>
   {{ block.super }}
-{% endblock %}
+{% endblock content %}

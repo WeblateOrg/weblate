@@ -4,12 +4,11 @@
 
 {% block tags %}warning{% endblock %}
 
-
 {% block message %}
-  <a href="{% url 'profile' %}#account" class="btn btn-primary pull-right flip">{% trans "Configure two-factor authentication" %}</a>
+  <a href="{% url 'profile' %}#account" class="btn btn-primary pull-right flip">{% translate "Configure two-factor authentication" %}</a>
   {% if project %}
-    {% trans "This project requires two-factor authentication from all contributors. You won’t be able to contribute until you configure it." %}
+    {% translate "This project requires two-factor authentication from all contributors. You won’t be able to contribute until you configure it." %}
   {% else %}
-    {% trans "You are a member of the team that requires two-factor authentication. You won’t be able to use any of its privileges until you configure 2FA." %}
+    {% translate "You are a member of the team that requires two-factor authentication. You won’t be able to use any of its privileges until you configure 2FA." %}
   {% endif %}
-{% endblock %}
+{% endblock message %}

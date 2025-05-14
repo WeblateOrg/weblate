@@ -1,22 +1,19 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
     <li>
-      <a href="{{ back_url }}#search">{% trans "Search" %}</a>
+      <a href="{{ back_url }}#search">{% translate "Search" %}</a>
     </li>
   {% else %}
     <li>
-      <a href="{% url 'search' %}">{% trans "Search" %}</a>
+      <a href="{% url 'search' %}">{% translate "Search" %}</a>
     </li>
   {% endif %}
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -26,12 +23,12 @@
     </form>
     {% if page_obj.object_list %}
       <div class="search-summary">
-        <p>{{ total_strings }} {% trans "strings" %} / {{ total_words }} {% trans "words" %}</p>
+        <p>{{ total_strings }} {% translate "strings" %} / {{ total_words }} {% translate "words" %}</p>
       </div>
       {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
       {% include "paginator.html" %}
     {% else %}
-      {% trans "No matching strings found." as msg %}
+      {% translate "No matching strings found." as msg %}
       {% show_message "info" msg %}
     {% endif %}
 
@@ -41,4 +38,4 @@
     </form>
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

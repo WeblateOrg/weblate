@@ -1,52 +1,48 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load permissions %}
-{% load crispy_forms_tags %}
-{% load translations %}
+{% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a>
   </li>
   <li>
-    <a href="{% url 'fonts' project=object.project.slug %}#fonts">{% trans "Fonts" %}</a>
+    <a href="{% url 'fonts' project=object.project.slug %}#fonts">{% translate "Fonts" %}</a>
   </li>
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Font" %}</h4>
+      <h4 class="panel-title">{% translate "Font" %}</h4>
     </div>
     <table class="table table-striped">
       <tr>
-        <th>{% trans "Font family" %}</th>
+        <th>{% translate "Font family" %}</th>
         <td>{{ object.family }}</td>
       </tr>
       <tr>
-        <th>{% trans "Font style" %}</th>
+        <th>{% translate "Font style" %}</th>
         <td>{{ object.style }}</td>
       </tr>
       <tr>
-        <th>{% trans "File size" %}</th>
+        <th>{% translate "File size" %}</th>
         <td>{{ object.font.size }}</td>
       </tr>
       <tr>
-        <th>{% trans "Created" %}</th>
+        <th>{% translate "Created" %}</th>
         <td>{{ object.timestamp|naturaltime }}</td>
       </tr>
       <tr>
-        <th>{% trans "Uploaded by" %}</th>
+        <th>{% translate "Uploaded by" %}</th>
         <td>{{ object.get_user_display }}</td>
       </tr>
       <tr>
-        <th>{% trans "Used in groups" %}</th>
+        <th>{% translate "Used in groups" %}</th>
         <td>
           {% for group in object.get_usage %}<a href="{{ group.get_absolute_url }}">{{ group }}</a>{% endfor %}
         </td>
@@ -58,16 +54,16 @@
       <div class="panel-footer">
         {% if can_edit %}
           <input type="submit"
-                 value="{% trans "Update" %}"
+                 value="{% translate "Update" %}"
                  class="btn btn-primary"
                  id="update_font_submit" />
           <a href=""
              class="btn btn-danger link-post"
-             data-href="{{ object.get_absolute_url }}">{% trans "Delete" %}</a>
+             data-href="{{ object.get_absolute_url }}">{% translate "Delete" %}</a>
         {% endif %}
       </div>
     </form>
 
   </div>
 
-{% endblock %}
+{% endblock content %}

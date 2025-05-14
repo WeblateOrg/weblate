@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import random
 import re
 import time
@@ -66,6 +67,14 @@ class MachineryRateLimitError(MachineTranslationError):
 
 class UnsupportedLanguageError(MachineTranslationError):
     """Raised when language is not supported."""
+
+
+class GlossaryAlreadyExistsError(MachineTranslationError):
+    """Raised when glossary creation fails because it already exists."""
+
+
+class GlossaryDoesNotExistError(MachineTranslationError):
+    """Raised when glossary deletion fails because it does not exist."""
 
 
 class BatchMachineTranslation:
@@ -777,6 +786,13 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def create_glossary(
         self, source_language: str, target_language: str, name: str, tsv: str
     ) -> None:
+        """
+        Create glossary in the service.
+
+        - Creates the glossary in the service
+        - May raise GlossaryAlreadyExists if creation fails
+        - Performs any other necessary operation, e.g uploading TSV file to bucket
+        """
         raise NotImplementedError
 
     def get_glossaries(self, use_cache: bool = True) -> dict[str, str]:
@@ -864,7 +880,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
                 translation.log_debug(
                     "%s: removing stale glossary %s (%s)", self.mtid, name, glossary_id
                 )
-                self.delete_glossary(glossary_id)
+                with contextlib.suppress(GlossaryDoesNotExistError):
+                    self.delete_glossary(glossary_id)
 
         # Ensure we are in service limits
         if (
@@ -876,13 +893,15 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
                 self.mtid,
                 self.glossary_count_limit,
             )
-            self.delete_oldest_glossary()
+            with contextlib.suppress(GlossaryDoesNotExistError):
+                self.delete_oldest_glossary()
 
         # Create new glossary
         translation.log_debug("%s: creating glossary %s", self.mtid, glossary_name)
-        self.create_glossary(
-            source_language, target_language, glossary_name, glossary_tsv
-        )
+        with contextlib.suppress(GlossaryAlreadyExistsError):
+            self.create_glossary(
+                source_language, target_language, glossary_name, glossary_tsv
+            )
 
         # Fetch glossaries again, without using cache
         glossaries = self.get_glossaries(use_cache=False)

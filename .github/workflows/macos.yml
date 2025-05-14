@@ -29,16 +29,24 @@ jobs:
       CI_SKIP_SAML: 1
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-    - uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182 # v5.4.1
       with:
-        enable-cache: false
+        persist-credentials: false
     - run: brew update
+    - run: brew uninstall openssl@1.1
+    - run: brew uninstall python@3.12 azure-cli
+    - run: brew untap homebrew/cask
+    - run: brew untap homebrew/core
+    - run: brew untap aws/tap
     - run: brew upgrade
+    - run: brew cleanup
     - run: brew list --versions
     - run: brew deps --tree --installed
+    - run: brew config
+    - run: brew doctor
+      continue-on-error: true
     - name: Install brew dependencies
       run: |
-        brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash librsvg
+        brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash librsvg uv libxmlsec1
     - name: Install test dependencies
       run: |
         brew install mysql icu4c redis postgresql
@@ -49,16 +57,16 @@ jobs:
         brew services start redis
     - name: Install Weblate
       run: |
-        uv venv --python python3.12 .venv
+        uv venv --python python3.13 .venv
         source .venv/bin/activate
-        uv pip install -e ".[all]"
+        uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
     - name: Test with Django
       run: |
         # shellcheck disable=SC2155
         export CI_DB_USER="$(id -nu)"
         source .venv/bin/activate
-        uv run --no-sources --all-extras pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
-    - uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v5.4.0
+        pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
+    - uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests

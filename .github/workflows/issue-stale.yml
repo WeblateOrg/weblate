@@ -2,8 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-# This file is maintained in https://github.com/WeblateOrg/meta/
-name: Close stale
+name: 'Issues: Close stale'
 
 on:
   schedule:
@@ -12,39 +11,27 @@ on:
     branches:
     - main
     paths:
-    - .github/workflows/stale.yml
-  workflow_dispatch:
+    - .github/workflows/issue-stale.yml
 
 permissions:
-  contents: read
+  issues: write
 
 jobs:
   stale-issues:
     runs-on: ubuntu-24.04
-    permissions:
-      issues: write
-      pull-requests: write
 
     steps:
     - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 # v9.1.0
       with:
-        days-before-pr-stale: 30
-        days-before-pr-close: 14
+        days-before-pr-stale: -1
+        days-before-pr-close: -1
         days-before-stale: 14
         days-before-close: 5
-        exempt-issue-labels: bug,enhancement,documentation,security,dependencies
-        exempt-pr-labels: backlog
+        only-labels: 'Waiting for: Community'
         stale-issue-label: wontfix
-        stale-pr-label: wontfix
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: |
           This issue has been automatically marked as stale because there wasn’t any recent activity.
-
-          It will be closed soon if no further action occurs.
-
-          Thank you for your contributions!
-        stale-pr-message: |
-          This pull request has been automatically marked as stale because there wasn’t any recent activity.
 
           It will be closed soon if no further action occurs.
 

@@ -89,11 +89,12 @@ from weblate.utils.state import (
     get_state_label,
 )
 from weblate.utils.validators import validate_file_extension
+from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from weblate.accounts.models import Profile
-    from weblate.trans.mixins import URLMixin
+    from weblate.trans.mixins import BaseURLMixin, URLMixin
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
@@ -758,10 +759,21 @@ class SearchForm(forms.Form):
             return {"q": request.GET["q"]}
         return None
 
-    def __init__(self, user: User, language=None, show_builder=True, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        request: AuthenticatedHttpRequest,
+        language: Language | None = None,
+        show_builder=True,
+        obj: type[Model | BaseURLMixin] | None = None,
+        **kwargs,
+    ) -> None:
         """Generate choices for other components in the same project."""
-        self.user = user
+        self.user = request.user
         self.language = language
+        sort_by = get_sort_name(request, obj)
+        self.sort_name = sort_by["name"]
+        self.sort_query = sort_by["query"]
         super().__init__(**kwargs)
 
         self.helper = FormHelper(self)

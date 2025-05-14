@@ -297,6 +297,36 @@ Or you can install Weblate without any optional features:
 
    uv pip install weblate
 
+.. _troubleshoot-pip-install:
+
+Troubleshooting pip install
++++++++++++++++++++++++++++
+
+``ERROR: Dependency 'gobject-introspection-2.0' is required but not found.``
+   The installed ``PyGobject`` package cannot find a matching GObject
+   Introspection library. Before the 3.52 release, it required
+   ``gobject-introspection-1.0`` and since then, it requires
+   ``gobject-introspection-2.0``.
+
+   In case your operating system provides both, it is recommended to install
+   the newer version and retry the installation.
+
+   When the newer version is not available, please install the older release of
+   PyGobject before installing Weblate:
+
+   .. code-block:: sh
+
+      uv pip install 'PyGobject<3.52'
+
+``ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)``
+   This is caused by incompatibility of binary packages distributed via PyPI
+   with the distribution. To address this, you need to rebuild the package
+   on your system:
+
+   .. code-block:: sh
+
+      uv pip install --force-reinstall --no-binary :all: cffi
+
 Other system requirements
 +++++++++++++++++++++++++
 
@@ -688,32 +718,43 @@ Django documentation.
 Running behind reverse proxy
 ++++++++++++++++++++++++++++
 
-Several features in Weblate rely on being able to get client IP address. This
-includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`.
+Several features in Weblate rely on correct HTTP headers being passed to
+Weblate. When using reverse proxy, please make sure that the needed information
+is correctly passed.
 
-Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the WSGI
-handler. This might be empty (when using socket for WSGI) or contain a reverse
-proxy address, so Weblate needs an additional HTTP header with client IP
-address.
+Client IP address
+   This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`.
 
-Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most usual
-setups, but you might need to adjust :setting:`IP_PROXY_HEADER` and
-:setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER` and
-:envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
+   Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI
+   handler. This might be empty (when using socket for WSGI) or contain a
+   reverse proxy address, so Weblate needs an additional HTTP header with
+   a client IP address.
 
-.. hint::
+   Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the most
+   usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` and
+   :setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER`
+   and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
 
-   This configuration cannot be turned on by default because it would allow IP
-   address spoofing on installations that don't have a properly configured
-   reverse proxy.
+   .. hint::
 
-Another thing to take care of is the :http:header:`Host` header. It should match
-to whatever is configured as :setting:`SITE_DOMAIN`. Additional configuration
-might be needed in your reverse proxy (for example use ``ProxyPreserveHost On``
-for Apache or ``proxy_set_header Host $host;`` with nginx).
+      This configuration cannot be turned on by default, because it would allow IP
+      address spoofing on installations that don't have a properly configured
+      reverse proxy.
+
+Server host name
+   The :http:header:`Host` header should match to whatever is configured as
+   :setting:`SITE_DOMAIN`. Additional configuration might be needed in your
+   reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or
+   ``proxy_set_header Host $host;`` with nginx).
+
+Client protocol
+   Not passing correct protocol may cause Weblate to end up in redirection
+   loop trying to upgrade client to HTTPS. Make sure it is correctly exposed by
+   the reverse proxy as :http:header:`X-Forwarded-Proto`.
 
 .. seealso::
 
+    :ref:`docker-ssl-proxy`,
     :ref:`spam-protection`,
     :ref:`rate-limit`,
     :ref:`audit-log`,

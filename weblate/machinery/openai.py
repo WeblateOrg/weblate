@@ -11,7 +11,11 @@ from typing import TYPE_CHECKING, Literal, overload
 
 from django.core.cache import cache
 
-from weblate.glossary.models import get_glossary_terms, render_glossary_units_tsv
+from weblate.glossary.models import (
+    fetch_glossary_terms,
+    get_glossary_terms,
+    render_glossary_units_tsv,
+)
 from weblate.utils.errors import add_breadcrumb
 
 from .base import (
@@ -89,7 +93,9 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         rephrase: bool = False,
     ) -> str:
         glossary = ""
+
         if any(units):
+            fetch_glossary_terms([unit for unit in units if unit is not None])
             glossary = render_glossary_units_tsv(
                 chain.from_iterable(
                     get_glossary_terms(unit, include_variants=False)

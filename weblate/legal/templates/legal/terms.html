@@ -4,13 +4,12 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
   <li>
-    <a href="{% url 'legal:terms' %}">{% trans "Terms" %}</a>
+    <a href="{% url 'legal:terms' %}">{% translate "Terms" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -18,9 +17,9 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "General Terms and Conditions" %}</h4>
+      <h4 class="panel-title">{% translate "General Terms and Conditions" %}</h4>
     </div>
     <div class="panel-body tos">{% include "legal/documents/tos.html" %}</div>
   </div>
 
-{% endblock %}
+{% endblock content %}

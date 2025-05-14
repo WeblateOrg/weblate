@@ -235,9 +235,13 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         )
 
     def test_crash(self) -> None:
+        self.assertEqual([], self.component.addons_cache["__names__"])
+
         addon = CrashAddon.create(component=self.component)
+        self.assertEqual(
+            ["weblate.base.crash"], self.component.addons_cache["__names__"]
+        )
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
-        ADDONS[CrashAddon.get_identifier()] = CrashAddon
 
         with self.assertRaises(CrashAddonError):
             addon.post_update(self.component, "head", False)
@@ -247,6 +251,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             self.component.repository.last_revision, False
         )
 
+        self.assertEqual([], self.component.addons_cache["__names__"])
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
 
     def test_process_error(self) -> None:
@@ -641,24 +646,49 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str) -> None:
+    def asset_customize(self, expected: str, *, is_compact: bool = False) -> str:
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f'{expected}"try"', commit)
+        if is_compact:
+            self.assertIn('":"', commit)
+        else:
+            self.assertIn(': "', commit)
+        return commit
 
     def test_customize(self) -> None:
         JSONCustomizeAddon.create(
             component=self.component,
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
-        self.asset_customize("        ")
+        commit = self.asset_customize("        ")
+        self.assertIn(
+            '''"orangutan": "",
++        "thanks": "",
++        "try": ""''',
+            commit,
+        )
+
+    def test_customize_no_sort(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={"indent": 8, "sort_keys": 0, "style": "spaces"},
+        )
+        commit = self.asset_customize("        ")
+        self.assertIn(
+            '''"orangutan": "",
++        "try": "",
++        "thanks": ""''',
+            commit,
+        )
 
     def test_customize_sitewide(self) -> None:
         JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
@@ -669,9 +699,33 @@ class JsonAddonTest(ViewTestCase):
     def test_customize_tabs(self) -> None:
         JSONCustomizeAddon.create(
             component=self.component,
-            configuration={"indent": 8, "sort": 1, "style": "tabs"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "tabs"},
         )
         self.asset_customize("\t\t\t\t\t\t\t\t")
+
+    def test_customize_compact_mode_on(self) -> None:
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={
+                "indent": 4,
+                "sort_keys": 1,
+                "style": "spaces",
+                "use_compact_separators": 1,
+            },
+        )
+        self.asset_customize("    ", is_compact=True)
+
+    def test_customize_compact_mode_off(self) -> None:
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={
+                "indent": 4,
+                "sort_keys": 1,
+                "style": "spaces",
+                "use_compact_separators": 0,
+            },
+        )
+        self.asset_customize("    ", is_compact=False)
 
 
 class XMLAddonTest(ViewTestCase):
@@ -1570,7 +1624,7 @@ class SiteWideAddonsTest(ViewTestCase):
 
     def test_json(self) -> None:
         JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort": 1, "style": "spaces"},
+            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
         )
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
@@ -1601,7 +1655,7 @@ class WebhookAddonsTest(ViewTestCase):
         self.reset_addon_configuration()
 
     def reset_addon_configuration(self):
-        self.addon_configuration["events"] = [ActionEvents.NEW]
+        self.addon_configuration["events"] = [str(ActionEvents.NEW)]
 
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
@@ -1636,6 +1690,7 @@ class WebhookAddonsTest(ViewTestCase):
         WebhookAddon.create(
             configuration=self.addon_configuration, project=self.project
         )
+        self.component.drop_addons_cache()
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
 
         # create translation for unit and similar units across project

@@ -55,7 +55,11 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    return instance.name if hasattr(instance, "name") else instance.component.name
+    from weblate.trans.templatetags.translations import get_breadcrumbs
+
+    return "/".join(
+        str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
+    )
 
 
 def key_translated(instance):
@@ -210,6 +214,7 @@ SORT_CHOICES = {
     "num_failing_checks": gettext_lazy("Number of failing checks"),
     "context": pgettext_lazy("Translation key", "Key"),
     "location": gettext_lazy("String location"),
+    "component,-priority": gettext_lazy("Component and priority"),
 }
 
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
@@ -217,7 +222,9 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
     """Get sort name."""
-    if hasattr(obj, "component") and obj.component.is_glossary:
+    if isinstance(obj, Project | Category):
+        default = "component,-priority"
+    elif hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:
         default = "-priority,position"

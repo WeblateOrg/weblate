@@ -30,14 +30,19 @@ IGNORED_TAGS = {"script", "style"}
 
 
 @app.task(trail=False)
-def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
+def cdn_parse_html(addon_id: int, component_id: int) -> None:
+    try:
+        addon = Addon.objects.get(pk=addon_id)
+    except Addon.DoesNotExist:
+        return
+
     component = Component.objects.get(pk=component_id)
     source_translation = component.source_translation
     source_units = set(source_translation.unit_set.values_list("source", flat=True))
     units = []
     errors = []
 
-    for filename in files.splitlines():
+    for filename in addon.configuration["files"].splitlines():
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
@@ -52,7 +57,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
 
         document = html.fromstring(content)
 
-        for element in document.cssselect(selector):
+        for element in document.cssselect(addon.configuration["css_selector"]):
             text = element.text
             if (
                 element.getchildren()
@@ -67,7 +72,13 @@ def cdn_parse_html(files: str, selector: str, component_id: int) -> None:
 
     # Actually create units
     for text in units:
-        source_translation.add_unit(None, calculate_checksum(text), text, None)
+        source_translation.add_unit(
+            request=None,
+            context=calculate_checksum(text),
+            source=text,
+            target=None,
+            author=addon.addon.user,
+        )
 
     if errors:
         component.add_alert("CDNAddonError", occurrences=errors)
@@ -190,24 +201,20 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
         "component", "project"
     )
 
-    def callback_wrapper(change: Change):
-        def addon_callback(addon: Addon, component: Component) -> None:
-            if change.component and change.component != component:
-                return
-            if addon.component and addon.component != change.component:
-                return
-            if addon.project and change.project and addon.project != change.project:
-                return
-            addon.addon.change_event(change)
-
-        return addon_callback
-
-    for change in Change.objects.filter(pk__in=change_ids).select_related(
-        "component", "project"
-    ):
-        handle_addon_event(
-            AddonEvent.EVENT_CHANGE,
-            callback_wrapper(change),
-            addon_queryset=addons,
-            auto_scope=True,
-        )
+    for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
+        # Filter addons for this change
+        change_addons = [
+            addon
+            for addon in addons
+            if (not addon.component or addon.component == change.component)
+            and (not addon.project or addon.project == change.project)
+        ]
+        if change_addons:
+            handle_addon_event(
+                AddonEvent.EVENT_CHANGE,
+                "change_event",
+                (change,),
+                addon_queryset=change_addons,
+                component=change.component,
+                translation=change.translation,
+            )

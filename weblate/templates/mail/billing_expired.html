@@ -1,27 +1,26 @@
 {% extends "mail/base.html" %}
 
-{% load i18n %}
-{% load translations %}
+{% load i18n translations %}
 
 {% block content %}
   {% if final_removal %}
-    <p>{% trans "Your billing plan has expired and all its projects have been removed." %}</p>
+    <p>{% translate "Your billing plan has expired and all its projects have been removed." %}</p>
   {% elif billing.is_trial %}
     <p>
-      {% trans "Your trial period is going to expire in less than a week." %}
+      {% translate "Your trial period is going to expire in less than a week." %}
       {% if billing.plan.price %}
-        {% trans "If you like Weblate and you want to continue using it, please purchase the subscription. If not, tell us what you are missing." %}
+        {% translate "If you like Weblate and you want to continue using it, please purchase the subscription. If not, tell us what you are missing." %}
       {% else %}
-        {% trans "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
+        {% translate "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
       {% endif %}
     </p>
   {% else %}
-    <p>{% trans "Your billing plan has expired. Please renew it to continue using the service." %}</p>
+    <p>{% translate "Your billing plan has expired. Please renew it to continue using the service." %}</p>
   {% endif %}
 
   {% with projects=billing.projects.all %}
     {% if projects %}
-      <p>{% trans "This billing plan covers the following projects:" %}</p>
+      <p>{% translate "This billing plan covers the following projects:" %}</p>
 
       <ul>
         {% for project in projects %}
@@ -29,31 +28,31 @@
             <li>{{ project }}</li>
           {% else %}
             <li>
-              <a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#organize">{% trans "Remove the project" %}</a>]
+              <a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#organize">{% translate "Remove the project" %}</a>]
             </li>
           {% endif %}
         {% endfor %}
       </ul>
     {% else %}
       <p>
-        {% trans "There are no projects attached to this billing plan. (There might be projects in other billing plans of yours.)" %}
+        {% translate "There are no projects attached to this billing plan. (There might be projects in other billing plans of yours.)" %}
       </p>
     {% endif %}
   {% endwith %}
 
   {% if final_removal %}
     <p>
-      <strong>{% trans "All projects covered by this billing plan have been removed." %}</strong>
+      <strong>{% translate "All projects covered by this billing plan have been removed." %}</strong>
     </p>
   {% else %}
     {% if billing.removal %}
       {% if billing.plan.price %}
         <p>
-          <strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't issue the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong>
+          <strong>{% blocktranslate with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't issue the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktranslate %}</strong>
         </p>
       {% else %}
         <p>
-          <strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting is not approved for it, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong>
+          <strong>{% blocktranslate with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting is not approved for it, all projects within this billing plan will be removed on {{ date }}.{% endblocktranslate %}</strong>
         </p>
       {% endif %}
     {% endif %}
@@ -62,13 +61,13 @@
       <div class="line buttons">
         {% if billing.plan.price %}
           <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
-             class="button">{% trans "New payment" %}</a>
+             class="button">{% translate "New payment" %}</a>
         {% else %}
-          <a href="{{ billing.get_absolute_url }}" class="button">{% trans "Request approval for Libre hosting" %}</a>
+          <a href="{{ billing.get_absolute_url }}" class="button">{% translate "Request approval for Libre hosting" %}</a>
         {% endif %}
       </div>
     {% endif %}
 
   {% endif %}
 
-{% endblock %}
+{% endblock content %}

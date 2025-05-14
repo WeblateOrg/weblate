@@ -1,18 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'manage' %}">{% trans "Manage" %}</a>
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li>
-    <a href="{% url 'manage-backups' %}">{% trans "Backups" %}</a>
+    <a href="{% url 'manage-backups' %}">{% translate "Backups" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -23,9 +20,9 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             {% documentation_icon 'admin/backup' right=True %}
-            {% blocktrans with url=service.repository %}Backup service: {{ url }}{% endblocktrans %}
+            {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
             {% if not service.enabled %}
-              <span class="badge">{% trans "Turned off" %}</span>
+              <span class="badge">{% translate "Turned off" %}</span>
             {% endif %}
           </h4>
         </div>
@@ -45,7 +42,7 @@
                      aria-expanded="false"
                      aria-controls="collapse-{{ service.pk }}">
                     <span class="badge pull-right flip">{{ service.timestamp|date }}</span>
-                    {% trans "Backup service credentials" %}
+                    {% translate "Backup service credentials" %}
                   </a>
                 </h4>
               </div>
@@ -85,15 +82,15 @@
           <input type="submit"
                  class="btn btn-primary"
                  name="toggle"
-                 value="{% if service.enabled %}{% trans "Turn off" %}{% else %}{% trans "Turn on" %}{% endif %}" />
+                 value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
           <input type="submit"
                  class="btn btn-primary runbackup"
                  name="trigger"
-                 value="{% trans "Perform backup" %}" />
+                 value="{% translate "Perform backup" %}" />
           <button type="button"
                   class="btn btn-danger"
                   data-toggle="modal"
-                  data-target="#remove-{{ service.pk }}">{% trans "Delete" %}</button>
+                  data-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
         </div>
       </div>
     </form>
@@ -108,21 +105,24 @@
               <button type="button"
                       class="close"
                       data-dismiss="modal"
-                      aria-label="{% trans "Close" %}">
+                      aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
             </div>
             <div class="modal-body">
               <p>
-                <strong>{% trans "By removing the backup service, the credentials will be removed and you might lose access to the backups." %}</strong>
+                <strong>{% translate "By removing the backup service, the credentials will be removed and you might lose access to the backups." %}</strong>
               </p>
-              <p>{% trans "In case you want to be able to restore the backups, please record credentials below." %}</p>
+              <p>{% translate "In case you want to be able to restore the backups, please record credentials below." %}</p>
               {% include "manage/snippets/backup-credentials.html" %}
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
-              <input type="submit" class="btn btn-danger" name="remove" value="{% trans "Delete" %}" />
+              <button type="button" class="btn btn-primary" data-dismiss="modal">{% translate "Close" %}</button>
+              <input type="submit"
+                     class="btn btn-danger"
+                     name="remove"
+                     value="{% translate "Delete" %}" />
             </div>
           </div>
           <!-- /.modal-content -->
@@ -141,7 +141,7 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           {% documentation_icon 'admin/backup' 'custombackup' right=True %}
-          {% trans "Add backup service" %}
+          {% translate "Add backup service" %}
         </h4>
       </div>
       <div class="panel-body">{% crispy form %}</div>
@@ -149,10 +149,10 @@
         <input type="submit"
                id="generate-ssh-button"
                class="btn btn-primary"
-               value="{% trans "Add" %}" />
+               value="{% translate "Add" %}" />
       </div>
     </div>
   </form>
 
 
-{% endblock %}
+{% endblock content %}

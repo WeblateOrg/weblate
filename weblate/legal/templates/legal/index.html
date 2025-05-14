@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'legal:index' %}">{% trans "Legal" %}</a>
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
@@ -14,22 +14,22 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{% trans "Legal Terms Overview" %}</h4>
+      <h4 class="panel-title">{% translate "Legal Terms Overview" %}</h4>
     </div>
     <div class="panel-body">
 
       {% include 'legal/documents/summary.html' %}
 
       <p>
-        {% blocktrans %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
+        {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
       </p>
 
       <ul>
         <li>
-          <a href="{% url 'legal:terms' %}">{% trans "General Terms and Conditions" %}</a>
+          <a href="{% url 'legal:terms' %}">{% translate "General Terms and Conditions" %}</a>
         </li>
         <li>
-          <a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a>
+          <a href="{% url 'legal:privacy' %}">{% translate "Privacy Policy" %}</a>
         </li>
       </ul>
 

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:5.10.4.0@sha256:9cbbcab6264bc80248955182be72a07ba54f2ef21ffee212642ac74d8d919e86
+FROM weblate/weblate:5.11.4.2@sha256:c7c5c396f8ac0c2b635e8575c883a2d1b574d3b68989943308c8285aeb73359c
 
 ##########
 # WARNING!
@@ -33,6 +33,9 @@ RUN if ! getent group "${GROUP_ID}"; then \
 RUN apt-get update && apt-get install -y \
     pkg-config \
     make \
+    gcc \
+    g++ \
+    libicu-dev \
     libcairo2-dev \
     libxml2-dev \
     libacl1-dev \
@@ -47,8 +50,8 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     libpq-dev \
     zlib1g-dev \
-    libjpeg62-turbo-dev \
-    libgirepository1.0-dev
+    libjpeg62-dev \
+    libgirepository-2.0-dev
 
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp /home

@@ -116,12 +116,6 @@ class Addon(models.Model):
             original_component = self.component
             self.component = self.component.linked_component
 
-        # Clear add-on cache
-        if self.component:
-            self.component.drop_addons_cache()
-        if original_component:
-            original_component.drop_addons_cache()
-
         # Store history (if not updating state only)
         if update_fields != ["state"]:
             self.store_change(
@@ -129,6 +123,12 @@ class Addon(models.Model):
                 if not self.pk or force_insert
                 else ActionEvents.ADDON_CHANGE
             )
+
+        # Clear add-on cache, needs to be after creating Change
+        if self.component:
+            self.component.drop_addons_cache()
+        if original_component:
+            original_component.drop_addons_cache()
 
         return super().save(
             force_insert=force_insert,
@@ -179,6 +179,8 @@ class Addon(models.Model):
                 Alert.objects.filter(name=self.addon.alert).delete()
 
         result = super().delete(using=using, keep_parents=keep_parents)
+        if self.component:
+            self.component.drop_addons_cache()
         # Trigger post uninstall action
         self.addon.post_uninstall()
         return result
@@ -332,6 +334,7 @@ def execute_addon_event(
             # Uninstall no longer compatible add-ons
             if not addon.addon.can_install(component, None):
                 addon.disable()
+                component.drop_addons_cache()
         else:
             scope.log_debug("completed %s add-on: %s", event.label, addon.name)
         finally:
@@ -549,20 +552,31 @@ def store_post_load_handler(sender, translation: Translation, store, **kwargs) -
 
 
 @receiver(post_save, sender=Change)
+@disable_for_loaddata
 def change_post_save_handler(sender, instance: Change, created, **kwargs) -> None:
     """Handle Change post save signal."""
-    from weblate.addons.tasks import addon_change
-
     if created:  # ignore Change updates, they should not be updated anyway
-        addon_change.delay_on_commit([instance.pk])
+        bulk_change_create_handler(sender, [instance])
 
 
 @receiver(change_bulk_create)
+@disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
     from weblate.addons.tasks import addon_change
 
-    addon_change.delay_on_commit([change.pk for change in instances])
+    # Filter out events that have a subscriber
+    # It currently also includes all project and site-wide events as there is currently
+    # no effective way to filter and these are not that frequent.
+    filtered = [
+        change.pk
+        for change in instances
+        if change.component is None
+        or AddonEvent.EVENT_CHANGE in change.component.addons_cache
+    ]
+
+    if filtered:
+        addon_change.delay_on_commit(filtered)
 
 
 class AddonActivityLog(models.Model):

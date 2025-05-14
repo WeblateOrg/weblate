@@ -1,13 +1,140 @@
-Weblate 5.11
+Weblate 5.12
 ------------
 
 *Not yet released.*
 
 .. rubric:: New features
 
+* Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
+* :ref:`addon-weblate.json.customize` now has a configurable compact mode.
+
+.. rubric:: Improvements
+
+* :ref:`check-same` is now skipped for Toki Pona.
+* :ref:`search-strings` supports ``has:location`` lookup.
+* Unicode whitespaces are now considered as problematic characters for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
+
+.. rubric:: Bug fixes
+
+* :ref:`dashboard` translations ordering when paginating.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.12.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?closed=1>`__.
+
+Weblate 5.11.4
+--------------
+
+*Released on May 7th 2025.*
+
+.. rubric:: Improvements
+
+* :ref:`addon-weblate.webhook.webhook` logs requests and responses.
+
+.. rubric:: Bug fixes
+
+* :ref:`addon-weblate.webhook.webhook` was not triggered in some situations.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.4.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?closed=1>`__.
+
+Weblate 5.11.3
+--------------
+
+*Released on May 3rd 2025.*
+
+.. rubric:: Bug fixes
+
+* Fixed release publishing.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?closed=1>`__.
+
+Weblate 5.11.2
+--------------
+
+*Released on May 3rd 2025.*
+
+.. rubric:: Improvements
+
+* Glossary performance in zen mode and automatic suggestions.
+* Extended supported formats for :ref:`addon-weblate.json.customize`.
+
+.. rubric:: Bug fixes
+
+* XML export no longer crashes on locations with special characters.
+* Improved error handling on ZIP upload.
+* Django 5.2 compatibility.
+* Avoid repeated glossary synchronizations.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?closed=1>`__.
+
+Weblate 5.11.1
+--------------
+
+*Released on April 25th 2025.*
+
+.. rubric:: Improvements
+
+* :ref:`projectbackup` now include teams and categories.
+* Docker health check is now supported in non-web service containers.
+
+.. rubric:: Bug fixes
+
+* :ref:`vcs-gitlab` integration now detects merge‑request conflicts more robustly.
+* :ref:`addon-weblate.webhook.webhook` is now enabled in Docker.
+* Removing pending glossary terms.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.11.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?closed=1>`__.
+
+Weblate 5.11
+------------
+
+*Released on April 15th 2025.*
+
+.. rubric:: New features
+
 * Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of all target translation units for the given source translation unit.
 * Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a role from a group.
-* :ref:`addon-weblate.webhook.webhook` are now available as a add-on.
+* :ref:`addon-weblate.webhook.webhook` is now available as an add-on.
 * :ref:`check-automattic-components-format` check to validate placeholders in Automattic components.
 * Inherited flags can now be discarded, see :ref:`custom-checks`.
 * :ref:`secondary-languages` can now be specified in :ref:`project` and :ref:`component`.
@@ -22,14 +149,16 @@ Weblate 5.11
 * :ref:`check-c-sharp-format` now supports ``csharp-format`` flag for compatibility with GNU gettext.
 * Changes in string flags are now tracked in history.
 * :doc:`/admin/machine` documentation extended.
-* :ref:`addon-weblate.discovery.discovery` better handles hundredths of matches.
+* :ref:`addon-weblate.discovery.discovery` better handles hundreds of matches.
 * Dismissing :ref:`checks` automatically updates propagated strings.
 * :ref:`project-check_flags` can now also be configured on the project level.
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 * :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
+* Errors from creating a duplicate glossary and failure to delete a glossary are now handled gracefully.
 
 .. rubric:: Bug fixes
 
+* **Security:** Cloning a component could leak component configuration into the URL (CVE-2025-32021).
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
 * Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.

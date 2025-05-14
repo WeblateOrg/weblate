@@ -2,7 +2,50 @@
   "$id": "https://weblate.org/schemas/weblate-backup.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "definitions": {},
+  "definitions": {
+    "category": {
+      "$id": "#/definitions/category",
+      "title": "Category",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "slug",
+        "categories"
+      ],
+      "properties": {
+        "name": {
+          "$id": "#/definitions/category/name",
+          "title": "Category name",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "My Category"
+          ]
+        },
+        "slug": {
+          "$id": "#/definitions/category/slug",
+          "title": "Full URL slug excluding the project slug",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "my-category",
+            "my-category/my-subcategory"
+          ]
+        },
+        "categories": {
+          "$id": "#/definitions/category/items/category",
+          "title": "Categories",
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/category"
+            }
+          ],
+          "default": []
+        }
+      }
+    }
+  },
   "title": "Weblate backup",
   "additionalProperties": false,
   "required": [
@@ -236,6 +279,157 @@
               "black",
               "gray",
               "silver"
+            ]
+          }
+        }
+      }
+    },
+    "categories": {
+      "$id": "#root/categories",
+      "title": "Project Categories",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$ref": "#/definitions/category"
+      }
+    },
+    "teams": {
+      "$id": "#root/teams",
+      "title": "Teams",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$id": "#root/teams/items",
+        "title": "Team",
+        "type": "object",
+        "required": [
+          "name",
+          "roles",
+          "components",
+          "language_selection",
+          "languages",
+          "admins",
+          "enforced_2fa",
+          "members",
+          "autogroups"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$id": "#root/teams/items/name",
+            "title": "Team name",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "My Team"
+            ]
+          },
+          "roles": {
+            "$id": "#root/teams/items/roles",
+            "title": "Roles",
+            "type": "array",
+            "items": {
+              "title": "Role name",
+              "type": "string"
+            },
+            "default": [],
+            "examples": [
+              [
+                "Translate",
+                "Billing"
+              ]
+            ]
+          },
+          "components": {
+            "$id": "#root/teams/items/components",
+            "title": "Components",
+            "type": "array",
+            "items": {
+              "title": "Full component URL slug excluding the project slug",
+              "type": "string"
+            },
+            "default": [],
+            "examples": [
+              [
+                "my-category/my-component",
+                "top-level-component"
+              ]
+            ]
+          },
+          "language_selection": {
+            "$id": "#root/teams/items/language_selection",
+            "title": "Language Selection",
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "default": 0
+          },
+          "languages": {
+            "$id": "#root/teams/items/languages",
+            "title": "Languages",
+            "type": "array",
+            "items": {
+              "title": "Language code",
+              "type": "string"
+            },
+            "default": [],
+            "examples": [
+              [
+                "en",
+                "ru"
+              ]
+            ]
+          },
+          "admins": {
+            "$id": "#root/teams/items/admins",
+            "title": "Admins",
+            "type": "array",
+            "items": {
+              "title": "Username",
+              "type": "string"
+            },
+            "default": [],
+            "examples": [
+              [
+                "admin"
+              ]
+            ]
+          },
+          "enforced_2fa": {
+            "$id": "#root/teams/items/enforced_2fa",
+            "title": "Enforced two-factor authentication",
+            "type": "boolean",
+            "default": false
+          },
+          "members": {
+            "$id": "#root/teams/items/members",
+            "title": "Members",
+            "type": "array",
+            "items": {
+              "title": "Username",
+              "type": "string"
+            },
+            "default": [],
+            "examples": [
+              [
+                "user-1"
+              ]
+            ]
+          },
+          "autogroups": {
+            "$id": "#root/teams/items/autogroups",
+            "title": "Auto Groups",
+            "type": "array",
+            "items": {
+              "title": "Regex to match",
+              "type": "string"
+            },
+            "examples": [
+              [
+                "^.*$"
+              ]
             ]
           }
         }

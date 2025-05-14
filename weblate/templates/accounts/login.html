@@ -1,23 +1,19 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load translations %}
-{% load authnames %}
-{% load crispy_forms_tags %}
+{% load authnames crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
+    <a href="{% url 'login' %}">{% translate "Sign in" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="container">
 
     {% if form.errors %}
-      {% trans "This username/password combination was not found. Please try again." as msg %}
+      {% translate "This username/password combination was not found. Please try again." as msg %}
       {% show_message "error" msg %}
     {% endif %}
 
@@ -27,7 +23,7 @@
 
       <div class="col-sm-6 col-sm-push-6">
 
-        <h4>{% trans "Sign in" %}</h4>
+        <h4>{% translate "Sign in" %}</h4>
         <div class="panel panel-default">
           <div class="panel-body">
             <form method="post" action="{% url 'login' %}">
@@ -36,12 +32,14 @@
 
               <input type="hidden" name="next" value="{{ next }}" />
 
-              <input type="submit" value="{% trans "Sign in" %}" class="btn btn-primary btn-full" />
+              <input type="submit"
+                     value="{% translate "Sign in" %}"
+                     class="btn btn-primary btn-full" />
             </form>
 
             {% if login_backends %}
 
-              <h5 class="login-label">{% trans "Sign in with:" %}</h5>
+              <h5 class="login-label">{% translate "Sign in with:" %}</h5>
 
               {% for name in login_backends %}
                 <div class="col-md-6 col-xs-12 btn-auth">
@@ -59,13 +57,13 @@
               <ul class="login-links">
                 {% if can_reset %}
                   <li>
-                    <a href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
+                    <a href="{% url 'password_reset' %}">{% translate "Forgot your password?" %}</a>
                   </li>
                 {% endif %}
 
                 {% if registration_open %}
                   <li>
-                    <a href="{% url 'register' %}">{% trans "Register new account" %}</a>
+                    <a href="{% url 'register' %}">{% translate "Register new account" %}</a>
                   </li>
                 {% endif %}
               </ul>
@@ -83,4 +81,4 @@
     </div>
   </div>
 
-{% endblock %}
+{% endblock content %}

@@ -530,9 +530,11 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(response.status_code, 403)
         # Actual removal
         response = self.client.post(
-            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk})
+            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk}),
+            data={"next": self.translate_url + "?offset=3"},
         )
         self.assertEqual(response.status_code, 302)
+        self.assert_redirects_offset(response, self.translate_url, 3)
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
         self.assertEqual(unit_count - 4, Unit.objects.count())

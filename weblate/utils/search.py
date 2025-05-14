@@ -453,6 +453,8 @@ class UnitTermExpr(BaseTermExpr):
             return Q(suggestion__isnull=False)
         if text == "explanation":
             return ~Q(source_unit__explanation="")
+        if text == "location":
+            return ~Q(location="")
         if text == "note":
             return ~Q(note="")
         if text == "comment":

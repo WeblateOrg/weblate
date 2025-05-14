@@ -57,6 +57,7 @@ from weblate.api.serializers import (
     BilingualUnitSerializer,
     CategorySerializer,
     ChangeSerializer,
+    CommentSerializer,
     ComponentListSerializer,
     ComponentSerializer,
     FullUserSerializer,
@@ -1170,7 +1171,7 @@ class ProjectViewSet(
 
         return download_multi(
             cast("AuthenticatedHttpRequest", request),
-            translations.prefetch_meta(),
+            translations.prefetch(),
             [instance],
             requested_format,
             name=instance.slug,
@@ -2041,6 +2042,39 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             translation_units, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+    @extend_schema(
+        description="Add a comment to the unit.",
+        methods=["post"],
+        request=CommentSerializer,
+    )
+    @action(detail=True, methods=["post"], serializer_class=CommentSerializer)
+    def comments(self, request, *args, **kwargs):
+        """Add a new comment to a unit."""
+        unit = self.get_object()
+        user = request.user
+
+        if not user.has_perm("comment.add", unit.translation):
+            self.permission_denied(request)
+
+        serializer = CommentSerializer(
+            data=request.data,
+            context={
+                "unit": unit,
+                "request": request,
+            },
+        )
+        serializer.is_valid(raise_exception=True)
+
+        timestamp = serializer.validated_data.get("timestamp")
+        user_email = serializer.validated_data.get("user_email")
+        if (timestamp is not None or user_email is not None) and (
+            not user.has_perm("project.edit", unit.translation.component.project)
+        ):
+            self.permission_denied(request)
+
+        serializer.save()
+        return Response(serializer.data, status=HTTP_201_CREATED)
 
 
 @extend_schema_view(

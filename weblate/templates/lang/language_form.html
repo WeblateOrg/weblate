@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'languages' %}">{% trans "Languages" %}</a>
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
   </li>
   <li>
     <a href="{% url 'show_language' lang=object.code %}">{{ object }}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
@@ -19,10 +17,10 @@
     {% csrf_token %}
     <ul class="nav nav-pills">
       <li class="active">
-        <a data-toggle="tab" href="#basic">{% trans "Language" %}</a>
+        <a data-toggle="tab" href="#basic">{% translate "Language" %}</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#workflow">{% trans "Workflow" %}</a>
+        <a data-toggle="tab" href="#workflow">{% translate "Workflow" %}</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -32,7 +30,7 @@
       <div class="tab-pane active" id="workflow">{% crispy workflow_form %}</div>
     </div>
 
-    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+    <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
   </form>
 
-{% endblock %}
+{% endblock content %}

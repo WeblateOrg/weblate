@@ -1,0 +1,44 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Triage" label when creating an issue
+
+name: 'Issues: Add triage label to new issues'
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  apply-label:
+    if: |
+      ! github.event.issue.pull_request
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      with:
+        script: |
+          const labels = await github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          var should_label = true;
+
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ')) {
+              should_label = false;
+            }
+          }
+          if (should_label) {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Triage']
+            })
+          }

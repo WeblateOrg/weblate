@@ -16,10 +16,13 @@ from django.db import connection
 from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.backups import ProjectBackup
-from weblate.trans.models import Comment, Project, Suggestion, Unit, Vote
+from weblate.trans.models import Category, Comment, Project, Suggestion, Unit, Vote
 from weblate.trans.tasks import cleanup_project_backup_download, cleanup_project_backups
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -36,6 +39,11 @@ class BackupsTest(ViewTestCase):
         # Create linked component
         self.create_link_existing()
         # Additional content to test on backups
+        category = self.project.category_set.create(
+            name="My Category", slug="my-category"
+        )
+        self.component.category = category
+        self.component.save()
         label = self.project.label_set.create(name="Label", color="navy")
         unit = self.component.source_translation.unit_set.all()[0]
         unit.labels.add(label)
@@ -55,6 +63,17 @@ class BackupsTest(ViewTestCase):
             user=self.user,
         )
         Vote.objects.create(suggestion=suggestion, user=self.user, value=1)
+        team = Group.objects.create(name="Test group", defining_project=self.project)
+        team.roles.set([Role.objects.get(name="Translate")])
+        team.admins.add(self.user)
+        team.language_selection = SELECTION_MANUAL
+        team.languages.set(
+            [
+                Language.objects.get(code="en"),
+                Language.objects.get(code="ru"),
+            ]
+        )
+        AutoGroup(match="^.*$", group=team).save()
 
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -66,7 +85,7 @@ class BackupsTest(ViewTestCase):
             self.assertIn("weblate-backup.json", files)
             self.assertIn("components/test.json", files)
             self.assertIn("components/glossary.json", files)
-            self.assertIn("vcs/test/.git/index", files)
+            self.assertIn("vcs/my-category/test/.git/index", files)
             self.assertIn("vcs/glossary/.git/index", files)
 
         restore = ProjectBackup(backup.filename)
@@ -121,6 +140,50 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.component_set.values_list("slug", flat=True)),
             set(restored.component_set.values_list("slug", flat=True)),
+        )
+        self.assertEqual(
+            Category.objects.filter(project=self.project).count(),
+            Category.objects.filter(project=restored).count(),
+        )
+        self.assertEqual(
+            set(self.project.category_set.values_list("slug", flat=True)),
+            set(restored.category_set.values_list("slug", flat=True)),
+        )
+
+        restored_team = restored.defined_groups.filter(name=team.name).first()
+        self.assertIsNotNone(restored_team)
+        self.assertEqual(team.language_selection, restored_team.language_selection)
+        self.assertEqual(
+            set(team.roles.values_list("name", flat=True)),
+            set(restored_team.roles.values_list("name", flat=True)),
+        )
+        self.assertEqual(
+            set(team.admins.values_list("username", flat=True)),
+            set(restored_team.admins.values_list("username", flat=True)),
+        )
+        self.assertEqual(
+            set(team.user_set.values_list("username", flat=True)),
+            set(restored_team.user_set.values_list("username", flat=True)),
+        )
+        self.assertEqual(
+            set(team.languages.values_list("code", flat=True)),
+            set(restored_team.languages.values_list("code", flat=True)),
+        )
+        self.assertEqual(
+            team.components.count(),
+            restored_team.components.count(),
+        )
+
+        def component_category_mapping(p):
+            """Return a mapping of component slugs to component category slugs."""
+            return {
+                co.slug: co.category.slug if co.category else None
+                for co in p.component_set.all()
+            }
+
+        self.assertEqual(
+            component_category_mapping(self.project),
+            component_category_mapping(restored),
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()

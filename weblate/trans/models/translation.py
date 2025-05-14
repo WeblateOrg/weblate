@@ -973,8 +973,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             result.add_if(self.stats, "fuzzy", "")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "")
-            result.add_if(self.stats, "nosuggestions", "")
+            if result.add_if(self.stats, "suggestions", ""):
+                result.add_if(self.stats, "nosuggestions", "")
 
         # All checks
         result.add_if(self.stats, "allchecks", "")
@@ -997,13 +997,15 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # Include labels
         labels = self.component.project.label_set.order_by("name")
         if labels:
+            has_label = False
             for label in labels:
-                result.add_if(
+                has_label |= result.add_if(
                     self.stats,
                     f"label:{label.name}",
                     f"label label-{label.color}",
                 )
-            result.add_if(self.stats, "unlabeled", "")
+            if has_label:
+                result.add_if(self.stats, "unlabeled", "")
 
         return result
 
@@ -1565,7 +1567,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         return result
 
     @transaction.atomic
-    def add_unit(  # noqa: C901,PLR0914,PLR0915
+    def add_unit(  # noqa: C901,PLR0914,PLR0915,PLR0912
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -1583,7 +1585,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         if isinstance(source, list):
             source = join_plural(source)
 
-        user = request.user if request else None
+        parsed_flags = Flags(extra_flags)
+
+        user = request.user if request else author
         component = self.component
         add_terminology = False
         if is_plural(source) and not component.file_format_cls.supports_plural:
@@ -1597,7 +1601,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                     "language"
                 ),
             )
-        elif component.is_glossary and "terminology" in Flags(extra_flags):
+        elif component.is_glossary and "terminology" in parsed_flags:
             add_terminology = True
             translations = (
                 component.source_translation,
@@ -1642,6 +1646,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 current_target = target
             if current_target is None:
                 current_target = ""
+            # Wipe target for untranslatable strings
+            if component.is_glossary and "read-only" in parsed_flags:
+                current_target = ""
             if isinstance(current_target, list):
                 has_translation = any(current_target)
                 current_target = join_plural(current_target)
@@ -1671,7 +1678,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
-                if "read-only" in translation.all_flags:
+                if "read-only" in translation.all_flags or (
+                    component.is_glossary and "read-only" in parsed_flags
+                ):
                     unit_state = STATE_READONLY
                 elif state is None:
                     unit_state = STATE_TRANSLATED if has_translation else STATE_EMPTY
@@ -1768,27 +1777,30 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 # Delete the removed unit from the database
                 cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
-                self.notify_deletion(translation_unit, user)
+                translation.notify_deletion(translation_unit, user)
                 # Skip file processing on source language without a storage
                 if not translation.filename:
                     continue
                 # Does unit exist in the file?
                 try:
-                    pounit, add = translation.store.find_unit(unit.context, unit.source)
+                    pounit, needs_add = translation.store.find_unit(
+                        unit.context, unit.source
+                    )
                 except UnitNotFoundError:
-                    continue
-                if add:
-                    continue
-                # Commit changed file
-                extra_files = translation.store.remove_unit(pounit.unit)
-                translation.addon_commit_files.extend(extra_files)
-                translation.drop_store_cache()
-                translation.git_commit(user, user.get_author_name(), store_hash=False)
-                # Adjust position as it will happen in most formats
-                if translation_unit.position:
-                    translation.unit_set.filter(
-                        position__gt=translation_unit.position
-                    ).update(position=F("position") - 1)
+                    needs_add = True
+                if not needs_add:
+                    # Commit changed file
+                    extra_files = translation.store.remove_unit(pounit.unit)
+                    translation.addon_commit_files.extend(extra_files)
+                    translation.drop_store_cache()
+                    translation.git_commit(
+                        user, user.get_author_name(), store_hash=False
+                    )
+                    # Adjust position as it will happen in most formats
+                    if translation_unit.position:
+                        translation.unit_set.filter(
+                            position__gt=translation_unit.position
+                        ).update(position=F("position") - 1)
                 # Delete stale source units
                 if not self.is_source and translation == self:
                     source_unit = translation_unit.source_unit
@@ -1825,15 +1837,22 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     @transaction.atomic
     def sync_terminology(self) -> None:
+        from weblate.auth.models import User
+
         if not self.is_source or not self.component.manage_units:
             return
         expected_count = self.component.translation_set.count()
+        author: User | None = None
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
             if source.unit_set.count() == expected_count:
                 continue
+            if author is None:
+                author = User.objects.get_or_create_bot(
+                    scope="glossary", username="sync", verbose="Glossary sync"
+                )
             # Add unit
             self.add_unit(
                 None,
@@ -1842,7 +1861,9 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 "",
                 is_batch_update=True,
                 skip_existing=True,
+                author=author,
             )
+        self.store_update_changes()
 
     def validate_new_unit_data(
         self,

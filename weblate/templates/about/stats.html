@@ -1,22 +1,18 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load humanize %}
-{% load metrics %}
-{% load translations %}
+{% load humanize i18n metrics translations %}
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url 'about' %}">{% trans "About Weblate" %}</a>
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
   <li>
-    <a href="{% url 'stats' %}">{% trans "Statistics" %}</a>
+    <a href="{% url 'stats' %}">{% translate "Statistics" %}</a>
   </li>
-{% endblock %}
-
+{% endblock breadcrumbs %}
 
 {% block content %}
 
   {% show_info stats=stats metrics=None|metrics show_global=True show_source=True top_users=top_users total_translations=total_translations %}
 
-{% endblock %}
+{% endblock content %}

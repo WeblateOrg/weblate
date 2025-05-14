@@ -1,17 +1,14 @@
-{% load i18n %}
-{% load icons %}
-{% load permissions %}
-{% load translations %}
+{% load i18n icons permissions translations %}
 
 <div class="container-fluid container-gapped">
   {% for suggestion in suggestions %}
     <div class="row history-row">
       <div class="col-xs-2 history-event">
         <strong>{{ suggestion.get_user_display }}</strong>
-        <p class="text-muted">{% trans "Suggestion added" %}</p>
+        <p class="text-muted">{% translate "Suggestion added" %}</p>
         {% if user_can_vote_suggestion %}
           <p class="help-block">
-            {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
+            {% blocktranslate count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktranslate %}
           </p>
         {% endif %}
       </div>
@@ -20,7 +17,7 @@
           <div class="btn-float pull-right flip">
             <a href="{{ suggestion.unit.get_absolute_url }}#suggestions"
                class="btn btn-link green"
-               title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
+               title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
           </div>
         {% else %}
           {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
@@ -31,31 +28,31 @@
                         class="btn btn-link green"
                         name="upvote"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Vote for" %}">{% icon "thumb-up.svg" %}</button>
+                        title="{% translate "Vote for" %}">{% icon "thumb-up.svg" %}</button>
                 <button type="submit"
                         class="btn btn-link red"
                         name="downvote"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Vote against" %}">{% icon "thumb-down.svg" %}</button>
+                        title="{% translate "Vote against" %}">{% icon "thumb-down.svg" %}</button>
               {% endif %}
               {% if user_can_accept_suggestion %}
                 <button type="submit"
                         class="btn btn-link green"
                         name="accept"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Accept" %}">{% icon "check.svg" %}</button>
+                        title="{% translate "Accept" %}">{% icon "check.svg" %}</button>
                 {% if user_can_review %}
                   <button type="submit"
                           class="btn btn-link green"
                           name="accept_approve"
                           value="{{ suggestion.id }}"
-                          title="{% trans "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+                          title="{% translate "Accept and approve" %}">{% icon "check-all.svg" %}</button>
                 {% endif %}
                 <button type="submit"
                         class="btn btn-link green"
                         name="accept_edit"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Accept and edit" %}">{% icon "pencil.svg" %}</button>
+                        title="{% translate "Accept and edit" %}">{% icon "pencil.svg" %}</button>
               {% endif %}
               {% if user_can_delete_suggestion %}
                 {% if has_antispam and suggestion.user != user %}
@@ -63,24 +60,24 @@
                           class="btn btn-link red"
                           name="spam"
                           value="{{ suggestion.id }}"
-                          title="{% trans "Mark as spam" %}">{% icon "spam.svg" %}</button>
+                          title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
                 {% endif %}
                 <input type="text"
                        name="rejection"
                        class="rejection-reason"
-                       placeholder="{% trans "Rejection reason" %}">
+                       placeholder="{% translate "Rejection reason" %}">
                 <button type="submit"
                         class="btn btn-link red"
                         name="delete"
                         value="{{ suggestion.id }}"
-                        title="{% trans "Reject suggestion" %}">{% icon "comment-remove.svg" %}</button>
+                        title="{% translate "Reject suggestion" %}">{% icon "comment-remove.svg" %}</button>
               {% endif %}
               {% if suggestion.user and not suggestion.user.is_anonymous %}
                 {% perm 'project.permissions' suggestion.unit.translation as user_can_edit_permissions %}
                 {% if user_can_edit_permissions %}
                   <a class="btn btn-link red"
                      href="{% url 'manage-access' project=suggestion.unit.translation.component.project.slug %}?block_user={{ suggestion.user.username }}#block-user"
-                     title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
+                     title="{% translate "Block user" %}">{% icon "account-cancel.svg" %}</a>
                 {% endif %}
               {% endif %}
             </div>
@@ -88,12 +85,12 @@
         {% endif %}
         <div class="comment-content">
           {% format_unit_target suggestion.unit value=suggestion.target %}
-          <p class="help-block">{% trans "Suggested change:" %}</p>
+          <p class="help-block">{% translate "Suggested change:" %}</p>
           {% format_unit_target suggestion.unit value=suggestion.target diff=suggestion.unit.target %}
 
           {% with suggestion_checks=suggestion.get_checks %}
             {% if suggestion_checks %}
-              <p class="help-block">{% trans "Failing checks:" context "String state" %}</p>
+              <p class="help-block">{% translate "Failing checks:" context "String state" %}</p>
               {% for check in suggestion.get_checks %}
                 <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
               {% endfor %}
