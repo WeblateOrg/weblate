@@ -646,13 +646,17 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str) -> str:
+    def asset_customize(self, expected: str, *, is_compact: bool = False) -> str:
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f'{expected}"try"', commit)
+        if is_compact:
+            self.assertIn('":"', commit)
+        else:
+            self.assertIn(': "', commit)
         return commit
 
     def test_customize(self) -> None:
@@ -698,6 +702,30 @@ class JsonAddonTest(ViewTestCase):
             configuration={"indent": 8, "sort_keys": 1, "style": "tabs"},
         )
         self.asset_customize("\t\t\t\t\t\t\t\t")
+
+    def test_customize_compact_mode_on(self) -> None:
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={
+                "indent": 4,
+                "sort_keys": 1,
+                "style": "spaces",
+                "use_compact_separators": 1,
+            },
+        )
+        self.asset_customize("    ", is_compact=True)
+
+    def test_customize_compact_mode_off(self) -> None:
+        JSONCustomizeAddon.create(
+            component=self.component,
+            configuration={
+                "indent": 4,
+                "sort_keys": 1,
+                "style": "spaces",
+                "use_compact_separators": 0,
+            },
+        )
+        self.asset_customize("    ", is_compact=False)
 
 
 class XMLAddonTest(ViewTestCase):
