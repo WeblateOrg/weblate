@@ -59,12 +59,13 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-          Thank you for your report; the issue you have reported has just been resolved and
-          the solution will be released in Weblate ${context.payload.issue.milestone.title}.
+          Thank you for your report — the issue has now been resolved.
 
-          * In case you see a problem with the fix, please comment on this issue.
-          * In case you see a similar problem, please open a separate issue.
-          * If you are happy with the outcome, don’t hesitate to [become a Weblate supporter](https://weblate.org/donate/).
+          The fix has been merged into the repository and will be included in the upcoming Weblate ${context.payload.issue.milestone.title} release.
+
+          * If you encounter any issues with the fix, please comment in this thread.
+          * If you experience a similar but separate issue, open a new report so we can track it properly.
+          * If you find Weblate helpful, consider [supporting its development](https://weblate.org/donate/).
           `
             })
           }
