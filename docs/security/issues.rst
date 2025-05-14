@@ -3,6 +3,10 @@
 Reporting security issues
 -------------------------
 
+.. seealso::
+
+   Please read :ref:`ai-issues` in case you have used AI to discover a security issue in Weblate.
+
 Weblate’s development team is strongly committed to responsible reporting and
 disclosure of security-related issues. We have adopted and follow policies that
 are geared toward delivering timely security updates to Weblate.
