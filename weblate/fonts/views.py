@@ -9,12 +9,14 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, View
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
+from weblate.fonts.utils import get_font_name
 from weblate.trans.models import Project
 from weblate.utils import messages
 from weblate.utils.views import parse_path
@@ -83,6 +85,7 @@ class FontListView(ProjectViewMixin, ListView):
 @method_decorator(login_required, name="dispatch")
 class FontDetailView(ProjectViewMixin, DetailView):
     model = Font
+    _font_form = None
 
     def get_queryset(self):
         return self.project.font_set.all()
@@ -90,16 +93,64 @@ class FontDetailView(ProjectViewMixin, DetailView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
+        result["font_form"] = self._font_form or FontForm()
         return result
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
+
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
 
-        self.object.delete()
-        messages.error(request, gettext("Font deleted."))
-        return redirect("fonts", project=self.project.slug)
+        if "font" not in request.FILES:
+            messages.error(request, "No file uploaded.")
+            return self.get(request, **kwargs)
+
+        new_file = request.FILES["font"]
+
+        try:
+            uploaded_family, uploaded_style = get_font_name(new_file)
+            new_file.seek(0)
+        except Exception:
+            messages.error(
+                request,
+                gettext(
+                    "Could not extract font metadata. Ensure it’s a valid font file."
+                ),
+            )
+            return self.get(request, **kwargs)
+
+        # Enforce same family & style
+        if uploaded_family != self.object.family or uploaded_style != self.object.style:
+            messages.error(
+                request,
+                gettext(
+                    "The uploaded font must match the existing family and style: “%(family)s %(style)s”"
+                )
+                % {"family": self.object.family, "style": self.object.style},
+            )
+            return self.get(request, **kwargs)
+
+        # Compare file content hashes
+        new_content = new_file.read()
+        new_file.seek(0)
+
+        current_content = self.object.font.read()
+        self.object.font.seek(0)
+
+        if new_content == current_content:
+            messages.info(
+                request,
+                gettext("The uploaded font file is identical to the current one."),
+            )
+        else:
+            self.object.font = new_file
+            self.object.user = request.user
+            self.object.timestamp = timezone.now()
+            self.object.save()
+            messages.success(request, gettext("Font updated successfully."))
+
+        return redirect(self.object)
 
 
 @method_decorator(login_required, name="dispatch")
