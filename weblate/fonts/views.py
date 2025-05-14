@@ -115,7 +115,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
         except Exception:
             messages.error(
                 request,
-                "Could not extract font metadata. Ensure it’s a valid font file.",
+                gettext("Could not extract font metadata. Ensure it’s a valid font file."),
             )
             return self.get(request, **kwargs)
 
@@ -123,28 +123,27 @@ class FontDetailView(ProjectViewMixin, DetailView):
         if uploaded_family != self.object.family or uploaded_style != self.object.style:
             messages.error(
                 request,
-                f"The uploaded font must match the existing family and style: "
-                f"'{self.object.family} {self.object.style}'",
+                gettext("The uploaded font must match the existing family and style: “%(family)s %(style)s”") % {"family": self.object.family, "style": self.object.style},
             )
             return self.get(request, **kwargs)
 
         # Compare file content hashes
-        new_hash = hashlib.sha256(new_file.read()).hexdigest()
+        new_content = new_file.read()
         new_file.seek(0)
 
-        current_hash = hashlib.sha256(self.object.font.read()).hexdigest()
+        current_content = self.object.font.read()
         self.object.font.seek(0)
 
-        if new_hash == current_hash:
+        if new_content == current_content:
             messages.info(
-                request, "The uploaded font file is identical to the current one."
+                request, gettext("The uploaded font file is identical to the current one.")
             )
         else:
             self.object.font = new_file
             self.object.user = request.user
             self.object.timestamp = timezone.now()
             self.object.save()
-            messages.success(request, "Font updated successfully.")
+            messages.success(request, gettext("Font updated successfully."))
 
         return redirect(self.object)
 
