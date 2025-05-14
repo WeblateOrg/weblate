@@ -324,7 +324,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
 
     return render(
         request,
-        "category-project.html",
+        "category-language.html",
         {
             "allow_index": True,
             "language": language_object,
