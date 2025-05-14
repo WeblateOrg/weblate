@@ -141,6 +141,9 @@ class CreateProject(BaseCreateView):
             self.billings = Billing.objects.filter(pk__in=pks).prefetch()
         return super().dispatch(request, *args, **kwargs)
 
+    def get_success_url(self) -> str:
+        return f"{super().get_success_url()}#components"
+
 
 class ImportProject(CreateProject):
     form_class = ProjectImportForm

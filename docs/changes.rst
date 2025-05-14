@@ -20,6 +20,8 @@ Weblate 5.12
 
 .. rubric:: Compatibility
 
+* Translated languages are now displayed in the default tab for projects and categories.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
