@@ -295,6 +295,10 @@ class UserQuerySet(models.QuerySet["User"]):
         """All admins in a project."""
         return self.having_perm("project.edit", project)
 
+    def all_reviewers(self, project: Project) -> UserQuerySet:
+        """All reviewers in a project."""
+        return self.having_perm("unit.review", project)
+
     def order(self):
         return self.order_by("username")
 
