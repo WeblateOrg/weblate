@@ -157,15 +157,8 @@
     const $this = $(this);
     focusTimeout = setTimeout(() => {
       if (!editorHasFocus) {
-        const $row = $this.closest("tr");
-        const checksum = $row.find("[name=checksum]").val();
-        const statusdiv = $(`#status-${checksum}`);
-        const form = $row.find("form");
-        const payload = form.serialize();
-        const lastPayload = statusdiv.data("last-payload");
-
-        // Trigger save if payload has changed or if it's the first save
-        if (payload && (lastPayload === undefined || payload !== lastPayload)) {
+        // Editor lost focus and has changes
+        if ($this.hasClass("has-changes")) {
           handleTranslationChange.call($this[0]);
         }
       }
@@ -191,15 +184,6 @@
       clearTimeout(existingTimer);
       $row.removeData("save-timer");
     }
-    // Guard: skip if nothing has changed
-    if (lastPayload === undefined) {
-      // First save, no need to check
-      statusdiv.data("last-payload", payload);
-      return;
-    }
-    if (payload === lastPayload) {
-      return;
-    }
 
     // Guard: skip if a save is already happening
     if (statusdiv.hasClass("unit-state-saving")) {
@@ -207,6 +191,19 @@
         handleTranslationChange.call($this[0]); // Reinvoke
       }, 500);
       $row.data("save-timer", retryTimer);
+      return;
+    }
+
+    // First save
+    if (lastPayload === undefined) {
+      statusdiv.data("last-payload", payload);
+      // Check if the editor doesn't have changes
+      if (!$this.closest(".translation-editor").hasClass("has-changes")) {
+        return;
+      }
+    }
+    // Guard: skip if nothing has changed
+    if (payload === lastPayload) {
       return;
     }
 
