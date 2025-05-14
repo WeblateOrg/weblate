@@ -100,10 +100,10 @@ class BeginSpaceCheck(TargetCheck):
         return [("^ *", replacement, "u")]
 
 
-class KabyleCharacterNormalizationCheck(TargetCheck):
+class KabyleCharactersCheck(TargetCheck):
     """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
 
-    check_id = "kab_character_normalization"
+    check_id = "kabyle-characters"
     name = gettext_lazy("Non‑standard characters in Kabyle")
     description = gettext_lazy(
         "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
