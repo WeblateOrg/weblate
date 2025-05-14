@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import hashlib
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
@@ -115,7 +114,9 @@ class FontDetailView(ProjectViewMixin, DetailView):
         except Exception:
             messages.error(
                 request,
-                gettext("Could not extract font metadata. Ensure it’s a valid font file."),
+                gettext(
+                    "Could not extract font metadata. Ensure it’s a valid font file."
+                ),
             )
             return self.get(request, **kwargs)
 
@@ -123,7 +124,10 @@ class FontDetailView(ProjectViewMixin, DetailView):
         if uploaded_family != self.object.family or uploaded_style != self.object.style:
             messages.error(
                 request,
-                gettext("The uploaded font must match the existing family and style: “%(family)s %(style)s”") % {"family": self.object.family, "style": self.object.style},
+                gettext(
+                    "The uploaded font must match the existing family and style: “%(family)s %(style)s”"
+                )
+                % {"family": self.object.family, "style": self.object.style},
             )
             return self.get(request, **kwargs)
 
@@ -136,7 +140,8 @@ class FontDetailView(ProjectViewMixin, DetailView):
 
         if new_content == current_content:
             messages.info(
-                request, gettext("The uploaded font file is identical to the current one.")
+                request,
+                gettext("The uploaded font file is identical to the current one."),
             )
         else:
             self.object.font = new_file
