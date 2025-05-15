@@ -17,6 +17,7 @@ Weblate 5.12
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
+* Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
 
 .. rubric:: Compatibility
 
