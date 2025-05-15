@@ -835,6 +835,9 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             *extra_parts,
         )
 
+    def get_glossary_count_limit(self) -> int:
+        return self.glossary_count_limit
+
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
@@ -884,10 +887,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
                     self.delete_glossary(glossary_id)
 
         # Ensure we are in service limits
-        if (
-            self.glossary_count_limit
-            and len(glossaries) + 1 >= self.glossary_count_limit
-        ):
+        glossary_count_limit = self.get_glossary_count_limit()
+        if glossary_count_limit and len(glossaries) + 1 >= glossary_count_limit:
             translation.log_debug(
                 "%s: approached limit of %d glossaries, removing oldest glossary",
                 self.mtid,

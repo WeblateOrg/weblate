@@ -224,3 +224,9 @@ class DeepLTranslation(
                 "entries_format": "tsv",
             },
         )
+
+    def get_glossary_count_limit(self) -> int:
+        # Free tier has lower limit on glossaries
+        if self.api_base_url == "https://api-free.deepl.com/v2":
+            return 1
+        return super().get_glossary_count_limit()
