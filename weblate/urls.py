@@ -54,6 +54,7 @@ from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
 from weblate.utils.version import VERSION
+from weblate.views import service_worker
 
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
@@ -908,6 +909,7 @@ real_patterns = [
             )
         ),
     ),
+    path("service-worker.js", service_worker, name="service-worker"),
     # Redirects for .well-known
     path(
         ".well-known/change-password",
