@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-05-15 18:49+0000\n"
+"PO-Revision-Date: 2025-05-15 22:08+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1076,10 +1076,8 @@ msgid "Could not send message to administrator."
 msgstr "Nije bilo moguće poslati poruku administratoru."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Poslano je previše poruka. Pokušaj ponovo kasnije."
+msgstr "Nije bilo moguće otvoriti problem. Pokušaj ponovo kasnije."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1800,20 +1798,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Aktiviraj razvrstavanje ključeva, razlikuj velika i mala slova"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Promijenjena licenca"
+msgstr "Događaji promjena"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL web-stranice"
+msgstr "Webhook URL"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Tajna"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1979,13 +1973,11 @@ msgstr "Dodatak je instaliran, pogledaj upute za integraciju."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Pošalji obavijest pretplačenim korisnicima."
+msgstr "Šalje obavijest eksternoj usluzi na temelju odabranih događaja."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -3462,7 +3454,7 @@ msgstr "Fluent vrsta"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Odbaci oznaku"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -5170,11 +5162,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Nije bilo moguće dohvatiti prijevode: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Tekst izvornog jezika"
+msgstr "Odabir izvornog jezika"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5498,26 +5488,19 @@ msgid "The model's unique deployment name."
 msgstr "Jedinstveno ime implementacije modela."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Automatski odabir"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Komponenta preimenovana"
+msgstr "Izvorni jezik komponente"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Novi jezik dodan u %(component)s"
+msgstr "U projektu ili komponenti definiran sekundarni jezik"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7045,16 +7028,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Isključi dvofaktorsku autentifikaciju"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Za zaštitu tvog računa aktiviraj autentifikaciju lozinkom."
+msgstr "Onemogućuje autentifikaciju lozinkom za korisnika."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Nova lozinka"
+msgstr "Onemogući lozinku"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9575,7 +9554,7 @@ msgstr "Komponenta %(component)s je otključana"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "Napomena: Ovaj je sažetak skraćen jer je bilo više od 100 obavijesti."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -11855,18 +11834,13 @@ msgstr ""
 "dostupan Weblate-u."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Gerrit je zabranio ovo slanje. Možda ćeš trebati gerrit-račun koji ima "
-"„forge author” dozvole za repozitorij/granu ili ćeš morati koristiti dodatak "
+"Gerrit je zabranio ovo slanje. Možda ćeš trebati gerrit-račun koji ima „"
+"forge author” dozvole za repozitorij/granu ili ćeš morati koristiti dodatak "
 "za združivanje (squash) na ovoj komponenti u Weblateu."
 
 #: weblate/templates/trans/alert/common-repo.html:20
@@ -13599,17 +13573,13 @@ msgstr "Promjena dijeljenog izraza"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Način prijenosa datoteka"
+msgstr "Datoteka prenesena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Zadnje aktualiziranje"
+msgstr "Dodatne oznake aktualizirane"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14051,20 +14021,16 @@ msgid "Report period"
 msgstr "Razdoblje izvještaja"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Razvrstaj prema"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Nema izraza za prevođenje"
+msgstr "Izraz preveden"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Redoslijed"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -15117,22 +15083,20 @@ msgstr ""
 "jednojezične formate."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Sekundarni jezici"
+msgstr "Sekundarni jezik"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
+"Dodatni jezik koji će se prikazivati zajedno s izvornim jezikom prilikom "
+"prevođenja."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Nijedan izraz nije uvezen iz prenesene datoteke."
+msgstr "Ova se postavka nasljeđuje od projekta ako se ostavi prazno."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -16789,10 +16753,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Neispravna e-mail adresa: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Ova e-mail adresa nije dozvoljena."
+msgstr "Jednokratne e-mail domene nisu dozvoljene."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
