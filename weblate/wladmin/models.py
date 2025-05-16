@@ -143,6 +143,8 @@ class SupportStatus(models.Model):
     in_limits = models.BooleanField(default=True)
     discoverable = models.BooleanField(default=False)
     limits = models.JSONField(default=dict)
+    has_subscription = models.BooleanField(default=False)
+    backup_repository = models.CharField(max_length=500, default="", blank=True)
 
     objects = SupportStatusManager()
 
@@ -194,9 +196,11 @@ class SupportStatus(models.Model):
         self.expiry = dateutil.parser.parse(payload["expiry"])
         self.in_limits = payload["in_limits"]
         self.limits = payload["limits"]
-        if payload["backup_repository"]:
+        self.has_subscription = payload["has_subscription"]
+        self.backup_repository = payload["backup_repository"]
+        if self.backup_repository:
             BackupService.objects.get_or_create(
-                repository=payload["backup_repository"], defaults={"enabled": False}
+                repository=self.backup_repository, defaults={"enabled": False}
             )
         # Invalidate support status cache
         cache.delete(SUPPORT_STATUS_CACHE_KEY)
