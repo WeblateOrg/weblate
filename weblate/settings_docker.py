@@ -1087,6 +1087,7 @@ CHECK_LIST = [
     "weblate.checks.chars.MaxLengthCheck",
     "weblate.checks.chars.KashidaCheck",
     "weblate.checks.chars.PunctuationSpacingCheck",
+    "weblate.checks.chars.KabyleCharactersCheck",
     "weblate.checks.format.PythonFormatCheck",
     "weblate.checks.format.PythonBraceFormatCheck",
     "weblate.checks.format.PHPFormatCheck",

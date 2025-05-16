@@ -7,6 +7,7 @@ Weblate 5.12
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
 * :ref:`addon-weblate.json.customize` now has a configurable compact mode.
+* Added :ref:`check-kabyle-characters` quality check.
 
 .. rubric:: Improvements
 

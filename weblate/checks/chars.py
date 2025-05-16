@@ -100,6 +100,41 @@ class BeginSpaceCheck(TargetCheck):
         return [("^ *", replacement, "u")]
 
 
+class KabyleCharactersCheck(TargetCheck):
+    """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
+
+    check_id = "kabyle-characters"
+    name = gettext_lazy("Non‑standard characters in Kabyle")
+    description = gettext_lazy(
+        "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
+    )
+
+    confusable_to_standard = {
+        "\u03b3": "\u0263",
+        "\u0393": "\u0194",
+        "\u03b5": "\u025b",
+        "\u0395": "\u0190",
+        "\u011f": "\u01e7",
+        "\u011e": "\u01e6",
+    }
+
+    def should_skip(self, unit: Unit) -> bool:
+        # Only run on Kabyle (covers 'kab' plus any variants)
+        if not unit.translation.language.is_base({"kab"}):
+            return True
+        return super().should_skip(unit)
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        # by now we know it's Kabyle, so just look for confusables
+        return any(char in target for char in self.confusable_to_standard)
+
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]]:
+        return [
+            (re.escape(confusable), standard, "gu")
+            for confusable, standard in self.confusable_to_standard.items()
+        ]
+
+
 class EndSpaceCheck(TargetCheck):
     """Whitespace check."""
 
