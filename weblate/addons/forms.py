@@ -211,6 +211,10 @@ class GitSquashForm(BaseAddonForm):
 
 class JSONCustomizeForm(BaseAddonForm):
     sort_keys = forms.BooleanField(label=gettext_lazy("Sort JSON keys"), required=False)
+    use_compact_separators = forms.BooleanField(
+        label=gettext_lazy("Avoid spaces after separators"),
+        required=False,
+    )
     indent = forms.IntegerField(
         label=gettext_lazy("JSON indentation"), min_value=0, initial=4, required=True
     )

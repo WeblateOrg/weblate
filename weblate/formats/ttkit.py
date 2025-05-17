@@ -7,11 +7,13 @@
 
 from __future__ import annotations
 
+import csv
 import importlib
 import inspect
 import os
 import re
 import subprocess
+from io import StringIO
 from typing import TYPE_CHECKING, Any, BinaryIO
 
 from django.core.exceptions import ValidationError
@@ -25,7 +27,7 @@ from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
-from translate.storage.csvl10n import csv, csvunit
+from translate.storage.csvl10n import csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
@@ -1647,7 +1649,7 @@ class CSVFormat(TTKitFormat):
         if store.fieldnames != ["location", "source", "target"]:
             return store
 
-        fileobj = csv.StringIO(
+        fileobj = StringIO(
             store.detect_encoding(content, default_encodings=["utf-8", "utf-16"])[0]
         )
 
