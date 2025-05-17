@@ -2021,7 +2021,7 @@ Container settings
             OG_PASSTHROUGH: "false"
             ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
 
-   You can then turn the Anubis usage in Weblate on using:
+   You can then turn on the Anubis usage in Weblate using:
 
    .. code-block:: yaml
 
