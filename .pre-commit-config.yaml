@@ -18,7 +18,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.24.0
+  rev: 1.25.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
@@ -32,7 +32,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.11.8
+  rev: v0.11.10
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -142,7 +142,7 @@ repos:
   hooks:
   - id: blacken-docs
 - repo: https://github.com/woodruffw/zizmor-pre-commit
-  rev: v1.6.0
+  rev: v1.7.0
   hooks:
   - id: zizmor
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock$

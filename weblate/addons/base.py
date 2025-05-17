@@ -471,4 +471,4 @@ class ChangeBaseAddon(BaseAddon):
         AddonEvent.EVENT_CHANGE,
     }
 
-    icon = "pencil.svg"
+    multiple = False

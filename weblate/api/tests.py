@@ -4142,8 +4142,7 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["code"], "not-a-source-unit")
 
-    def test_comments(self):
-        self.authenticate()
+    def test_add_comment(self):
         unit = Unit.objects.get(
             translation__language_code="en", source="Thank you for using Weblate."
         )
@@ -4201,7 +4200,12 @@ class UnitAPITest(APIBaseTest):
             method="post",
             code=201,
         )
-        self.assertEqual(response.data, {"result": True})
+        self.assertIn("id", response.data)
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], "Hello World!")
+        self.assertIn("timestamp", comment)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
         unit_cs = Unit.objects.get(
             translation__language_code="cs", source="Thank you for using Weblate."
@@ -4212,7 +4216,7 @@ class UnitAPITest(APIBaseTest):
             method="post",
             code=201,
         )
-        self.assertEqual(response.data, {"result": True})
+        self.assertIn("id", response.data)
 
         # Reload the object from database
         unit = Unit.objects.get(
@@ -4249,12 +4253,119 @@ class UnitAPITest(APIBaseTest):
         project = unit.translation.component.project
         project.access_control = Project.ACCESS_PROTECTED
         project.save()
-        self.do_request(
+        response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
             request={"scope": "global", "comment": "another test"},
             method="post",
             code=403,
         )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to perform this action.",
+        )
+
+    def test_import_comment(self):
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Thank you for using Weblate."
+        )
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={"scope": "global", "comment": "test comment", "user_email": 1},
+            method="post",
+            code=400,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Enter a valid email address."
+        )
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={"scope": "global", "comment": "test comment", "timestamp": 1},
+            method="post",
+            code=400,
+        )
+        self.assertIn(
+            "Datetime has wrong format.", response.data["errors"][0]["detail"]
+        )
+
+        user2 = User.objects.create_user(
+            "commentimport", "commentimport@example.org", "x"
+        )
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + user2.auth_token.key)
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={
+                "scope": "global",
+                "comment": "test comment",
+                "timestamp": "20240101T12:00:00.000Z",
+                "user_email": self.user.email,
+            },
+            method="post",
+            authenticated=False,
+            code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to perform this action.",
+        )
+
+        text = "test import comment from different user"
+        timestamp = datetime(2024, 1, 1, 12, 45, 0, tzinfo=UTC)
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={
+                "scope": "global",
+                "comment": text,
+                "timestamp": timestamp.isoformat(),
+                "user_email": user2.email,
+            },
+            method="post",
+            superuser=True,
+            code=201,
+        )
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/commentimport/")
+
+        text = "test import comment with fallback user"
+        timestamp += +timedelta(hours=1)
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={
+                "scope": "global",
+                "comment": text,
+                "timestamp": timestamp.isoformat(),
+                "user_email": "nonexistent@example.org",
+            },
+            method="post",
+            superuser=True,
+            code=201,
+        )
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
+
+        text = "test import default timestamp"
+        timestamp = datetime.now(UTC)
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={
+                "scope": "global",
+                "comment": text,
+                "user_email": "nonexistent@example.org",
+            },
+            method="post",
+            superuser=True,
+            code=201,
+        )
+        comment = response.data
+        self.assertIn("id", comment)
+        self.assertEqual(comment["comment"], text)
+        self.assertGreaterEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
+        self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
     def test_comment_serializer(self):
         # test CommentSerializer works even if unit is not provided in context
