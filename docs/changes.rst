@@ -12,7 +12,7 @@ Weblate 5.12
 * :ref:`check-same` is now skipped for Toki Pona.
 * :ref:`search-strings` supports ``has:location`` lookup.
 * Unicode whitespaces are now considered as problematic characters for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
-* :ref:`addon-weblate.webhook.webhook` logs are now nicely displayed.
+* :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
 
 .. rubric:: Bug fixes
 
