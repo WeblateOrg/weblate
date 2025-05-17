@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 
 import jsonschema.exceptions
 import requests
+from django.template.loader import render_to_string
 from django.utils import timezone as dj_timezone
 from django.utils.translation import gettext_lazy
 from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
@@ -25,6 +26,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.requests import request
 
 if TYPE_CHECKING:
+    from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
 
 
@@ -130,6 +132,12 @@ class WebhookAddon(ChangeBaseAddon):
             "webhook-id": webhook_id,
             "webhook-signature": wh.sign(webhook_id, attempt_time, json.dumps(payload)),
         }
+
+    def render_activity_log(self, activity: AddonActivityLog) -> str:
+        return render_to_string(
+            "addons/webhook_log.html",
+            {"activity": activity, "details": activity.details["result"]},
+        )
 
 
 class StandardWebhooksUtils:
