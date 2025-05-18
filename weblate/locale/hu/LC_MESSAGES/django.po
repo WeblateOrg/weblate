@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-05-15 01:16+0000\n"
+"PO-Revision-Date: 2025-05-17 14:03+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -608,7 +608,7 @@ msgstr "Felhasználói felület nyelve"
 
 #: weblate/accounts/models.py:501
 msgid "Translated languages"
-msgstr "Lefordított nyelvek"
+msgstr "Fordított nyelvek"
 
 #: weblate/accounts/models.py:504
 msgid ""
@@ -3453,7 +3453,7 @@ msgstr "Tiltott fordítás"
 
 #: weblate/checks/flags.py:66 weblate/trans/forms.py:2537
 msgid "Terminology"
-msgstr "Szakkifejezések"
+msgstr "Terminológia"
 
 #: weblate/checks/flags.py:67
 msgid "Ignore all checks"
@@ -5185,21 +5185,21 @@ msgstr "Adatvédelmi irányelvek"
 
 #: weblate/legal/templates/legal/cookies.html:39
 msgid "Cookies are used on this site for the following:"
-msgstr "Sütiket használunk ezen az oldalon a következőkhöz:"
+msgstr "Ezen az oldalon az alábbi célokra használunk sütiket:"
 
 #: weblate/legal/templates/legal/cookies.html:43
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
-"Hitelesítési sütik, amelyek a hitelesített felhasználók felismeréséhez "
+"Hitelesítési sütik, amelyek az azonosított felhasználók felismeréséhez "
 "szükségesek."
 
 #: weblate/legal/templates/legal/cookies.html:44
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
-"Beállítási sütik a felhasználó beállításainak tárolásához bizonyos "
-"helyzetekben."
+"Beállítási süti, amely bizonyos esetekben a felhasználói beállítások "
+"tárolására szolgál."
 
 #: weblate/legal/templates/legal/cookies.html:47
 msgid ""
@@ -6378,7 +6378,7 @@ msgstr "Javítsa az űrlapon lévő hibákat."
 #: weblate/templates/accounts/profile.html:43
 #: weblate/templates/accounts/profile.html:90
 msgid "Preferences"
-msgstr "Beállítások"
+msgstr "Felhasználói beállítások"
 
 #: weblate/templates/accounts/profile.html:46
 #: weblate/templates/accounts/user.html:178
@@ -6612,9 +6612,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"Ezen az oldalon az összes mező kihagyható és bármikor törölhető, valamint a "
-"kitöltésükkel beleegyezését adja számunkra, hogy megosszuk ezeket az "
-"adatokat bárhol, ahol a felhasználói profilja megjelenik."
+"Az ezen az oldalon található mezők kitöltése nem kötelező és bármikor "
+"törölheti őket. A mezők kitöltésével hozzájárul ahhoz, hogy az itt megadott "
+"adatok megjelenjenek mindenhol, ahol a felhasználói profilja látható."
 
 #: weblate/templates/accounts/profile.html:414
 msgid "Your avatar"
@@ -8473,16 +8473,16 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"A beállításokban válassza ki a kívánt nyelveket, hogy áttekintést kapjon "
-"ezen nyelvekhez elérhető fordításokról a megfigyelt projektekben."
+"A felhasználói beállításokban megadhatja a kívánt nyelveket, hogy "
+"áttekintést kapjon a megfigyelt projektjeiben elérhető fordításokról."
 
 #: weblate/templates/dashboard/user.html:108
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
-"Nem található egyetlen javaslat sem Önnek. Válassza ki a saját nyelveit a "
-"beállításokban, hogy néhány javaslatot kapjon."
+"Nem található javaslat. A javaslatok megjelenítéséhez válassza ki a "
+"nyelveket a felhasználói beállításokban."
 
 #: weblate/templates/dashboard/user.html:145
 msgid ""
@@ -9163,16 +9163,16 @@ msgstr "Művelet"
 
 #: weblate/templates/keyboard-shortcuts.html:33
 msgid "Open available keyboard shortcuts."
-msgstr "Elérhető gyorsbillentyűk megnyitása."
+msgstr "Az elérhető billentyűparancsok megnyitása."
 
 #: weblate/templates/keyboard-shortcuts.html:39
 msgid "Navigate to the first translation in the current search."
-msgstr "Navigálás az aktuális keresésben lévő első fordításhoz."
+msgstr "Ugrás az aktuális keresés első fordításához."
 
 #: weblate/templates/keyboard-shortcuts.html:45
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the last translation in the current search."
-msgstr "Navigálás az aktuális keresésben lévő utolsó fordításhoz."
+msgstr "Ugrás az aktuális keresés utolsó fordításához."
 
 #: weblate/templates/keyboard-shortcuts.html:49
 #: weblate/templates/keyboard-shortcuts.html:51
@@ -9201,7 +9201,7 @@ msgstr "vagy"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
-msgstr "Navigálás az aktuális keresésben lévő következő fordításhoz."
+msgstr "Ugrás az aktuális keresés következő fordításához."
 
 #: weblate/templates/keyboard-shortcuts.html:81
 msgid ""
@@ -9213,8 +9213,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
-msgstr ""
-"A „Szerkesztést igénylő” jelzés eltávolítása a fordításról és beküldés."
+msgstr "A „Szerkesztést igényel” jelzés eltávolítása a fordításról és beküldés."
 
 #: weblate/templates/keyboard-shortcuts.html:99
 msgid ""
@@ -9226,11 +9225,11 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:108
 msgid "Focus on translation editor."
-msgstr "Fókuszálás a fordításszerkesztőre."
+msgstr "A fókusz áthelyezése a fordításszerkesztőre."
 
 #: weblate/templates/keyboard-shortcuts.html:116
 msgid "Focus on comment editor."
-msgstr "Fókuszálás a megjegyzésszerkesztőre."
+msgstr "A fókusz áthelyezése a megjegyzésszerkesztőre."
 
 #: weblate/templates/keyboard-shortcuts.html:124
 msgid "Shows Automatic suggestions tab."
@@ -9248,7 +9247,7 @@ msgstr "–"
 
 #: weblate/templates/keyboard-shortcuts.html:134
 msgid "Copies placeable of a given number from source string."
-msgstr "Egy adott számú beszúrható szövegrész másolása a forrásszövegből."
+msgstr "A forrásszövegből a megadott számú behelyettesíthető elem másolása."
 
 #: weblate/templates/keyboard-shortcuts.html:138
 #: weblate/templates/keyboard-shortcuts.html:141
@@ -9259,11 +9258,11 @@ msgstr "követő"
 
 #: weblate/templates/keyboard-shortcuts.html:145
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Egy adott számú gépi fordítás másolása az aktuális fordításba."
+msgstr "A megadott számú gépi fordítás másolása az aktuális fordításmezőbe."
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
-msgstr "Egy elem figyelmen kívül hagyása a sikertelen ellenőrzések listájából."
+msgstr "Egy elem kihagyása a sikertelen ellenőrzések listájából."
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
@@ -9271,7 +9270,7 @@ msgstr "Megjeleníti a „Szomszédos szövegek” lapot."
 
 #: weblate/templates/keyboard-shortcuts.html:173
 msgid "Focus on search field."
-msgstr "Fókuszálás a keresőmezőre."
+msgstr "A keresőmezőre helyezi a fókuszt."
 
 #: weblate/templates/keyboard-shortcuts.html:181
 msgid "Copy the source string."
@@ -9283,11 +9282,11 @@ msgstr "A „Szerkesztést igényel” jelölőnégyzet átkapcsolása."
 
 #: weblate/templates/keyboard-shortcuts.html:195
 msgid "Browse the next translation string."
-msgstr "A következő fordítási szöveg tallózása."
+msgstr "A következő fordítási szöveg megtekintése."
 
 #: weblate/templates/keyboard-shortcuts.html:201
 msgid "Browse the previous translation string."
-msgstr "Az előző fordítási szöveg tallózása."
+msgstr "Az előző fordítási szöveg megtekintése."
 
 #: weblate/templates/lang/create.html:11
 #: weblate/templates/snippets/list-objects.html:39
@@ -10287,7 +10286,7 @@ msgstr "Ujjlenyomat"
 
 #: weblate/templates/manage/ssh.html:85
 msgid "Add host key"
-msgstr "Gép kulcsának hozzáadása"
+msgstr "Kiszolgálókulcs hozzáadása"
 
 #: weblate/templates/manage/ssh.html:90
 msgid ""
@@ -14441,7 +14440,7 @@ msgstr ""
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
-msgstr "Verziókövető-integráció"
+msgstr "Verziókezelő integráció"
 
 #: weblate/trans/guide.py:81
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -17080,8 +17079,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"A gép kulcsa hozzáadva a(z) %(host)s géphez %(fingerprint)s (%(keytype)s) "
-"ujjlenyomattal. Ellenőrizze, hogy helyes-e."
+"A(z) %(host)s kiszolgálóhoz tartozó kulcs %(fingerprint)s ujjlenyomattal "
+"(%(keytype)s) hozzáadva – ellenőrizze, hogy helyes-e."
 
 #: weblate/vcs/ssh.py:245 weblate/vcs/ssh.py:251
 #, python-format

@@ -18,6 +18,7 @@ from django.utils.translation import gettext
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
+from weblate.trans.templatetags.translations import format_json
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
-    from weblate.addons.models import Addon
+    from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationFormat
     from weblate.trans.models import Change, Project, Translation, Unit
@@ -424,6 +425,16 @@ class BaseAddon:
             "addon", self.user_name, self.user_verbose
         )
 
+    def render_activity_log(self, activity: AddonActivityLog) -> str:
+        result = activity.details["result"]
+        if result is None:
+            return ""
+        if isinstance(result, str):
+            return result
+        if isinstance(result, dict):
+            return format_json(result)
+        return str(result)
+
 
 class UpdateBaseAddon(BaseAddon):
     """
@@ -471,4 +482,4 @@ class ChangeBaseAddon(BaseAddon):
         AddonEvent.EVENT_CHANGE,
     }
 
-    icon = "pencil.svg"
+    multiple = False

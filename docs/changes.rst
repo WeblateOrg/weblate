@@ -13,11 +13,15 @@ Weblate 5.12
 * :ref:`check-same` is now skipped for Toki Pona.
 * :ref:`search-strings` supports ``has:location`` lookup.
 * Unicode whitespaces are now considered as problematic characters for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
+* :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
+* :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
 * Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
+* :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
+* False reports of :ref:`check-translated` with flags or explanation changes.
 
 .. rubric:: Compatibility
 

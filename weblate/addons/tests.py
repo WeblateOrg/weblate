@@ -25,6 +25,7 @@ from django.utils import timezone
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
+    Announcement,
     Comment,
     Component,
     Suggestion,
@@ -1705,6 +1706,27 @@ class WebhookAddonsTest(ViewTestCase):
         responses.calls.reset()
         self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_announcement(self) -> None:
+        """Test project and site wide events."""
+        self.addon_configuration["events"].append(ActionEvents.ANNOUNCEMENT)
+        WebhookAddon.create(configuration=self.addon_configuration)
+        WebhookAddon.create(
+            configuration=self.addon_configuration, project=self.project
+        )
+
+        responses.calls.reset()
+        Announcement.objects.create(user=self.user, message="Site-wide")
+        # Only site-wide add-on should receive this
+        self.assertEqual(len(responses.calls), 1)
+
+        responses.calls.reset()
+        Announcement.objects.create(
+            user=self.user, message="Project-wide", project=self.project
+        )
+        # Both site-wide and project-wide add-ons should receive this
+        self.assertEqual(len(responses.calls), 2)
 
     @responses.activate
     def test_component_scopes(self) -> None:
