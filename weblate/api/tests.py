@@ -8,7 +8,9 @@ from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
 import responses
+from django.conf import settings
 from django.core.files import File
+from django.test.utils import override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -29,7 +31,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import fixup_languages_seq
-from weblate.trans.tests.utils import RepoTestMixin, get_test_file
+from weblate.trans.tests.utils import RepoTestMixin, create_test_billing, get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -1147,6 +1149,74 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Project.objects.count(), 2)
+
+    def test_create_with_billing(self) -> None:
+        installed_apps = settings.INSTALLED_APPS
+        if "weblate.billing" not in installed_apps:
+            installed_apps = ["weblate.billing", *settings.INSTALLED_APPS]
+        with override_settings(INSTALLED_APPS=installed_apps):
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "No valid billing found or limit exceeded.",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
+
+            billing = create_test_billing(self.user, invoice=False)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            project = Project.objects.get(pk=response.data["id"])
+            self.assertEqual(project.billing, billing)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project 2",
+                    "slug": "api-project-2",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "No valid billing found or limit exceeded.",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
 
     def test_create_with_source_language(self) -> None:
         self.do_request(

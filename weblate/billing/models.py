@@ -128,6 +128,16 @@ class BillingQuerySet(models.QuerySet["Billing"]):
             .order_by("state")
         )
 
+    def for_user_within_limits(self, user: User):
+        """Return billings for the given user which are valid and within project creation limits."""
+        billings = self.get_valid().for_user(user).prefetch()
+        pks = set()
+        for billing in billings:
+            limit = billing.plan.display_limit_projects
+            if limit == 0 or billing.count_projects < limit:
+                pks.add(billing.pk)
+        return Billing.objects.filter(pk__in=pks).prefetch()
+
     def prefetch(self):
         return self.prefetch_related(
             "owners",

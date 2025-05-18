@@ -1112,26 +1112,29 @@ class ProjectViewSet(
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
+        billing = None
         if not request.user.has_perm("project.add"):
-            self.permission_denied(request, "Can not create projects")
+            if "weblate.billing" in settings.INSTALLED_APPS:
+                from weblate.billing.models import Billing
+
+                try:
+                    billing = Billing.objects.for_user_within_limits(self.request.user)[
+                        0
+                    ]
+                except IndexError:
+                    self.permission_denied(
+                        request, "No valid billing found or limit exceeded."
+                    )
+            else:
+                self.permission_denied(request, "Can not create projects")
         self.request = request
+        self.billing = billing
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
         with transaction.atomic():
             super().perform_create(serializer)
-            if (
-                not self.request.user.is_superuser
-                and "weblate.billing" in settings.INSTALLED_APPS
-            ):
-                from weblate.billing.models import Billing
-
-                try:
-                    billing = Billing.objects.get_valid().for_user(self.request.user)[0]
-                except IndexError:
-                    billing = None
-            else:
-                billing = None
+            billing = getattr(self, "billing", None)
             serializer.instance.post_create(self.request.user, billing)
 
     def update(self, request: Request, *args, **kwargs):
