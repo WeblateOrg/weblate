@@ -53,7 +53,7 @@ https://github.com/WeblateOrg/weblate/security/advisories. The advisory is
 available immediately with a release when possible.
 
 Any actively exploited vulnerability or severe incidents are notified to CSIRT
-within 24 hours, general info is provided to CSIRT within 72 hours, and full
+within 24 hours, general info is provided to CSIRT within 72 hours, and a full
 report is provided within 14 days.
 
 All users of Hosted or Dedicated Weblate impacted by a severe incident
