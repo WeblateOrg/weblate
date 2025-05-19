@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-17 14:03+0000\n"
+"PO-Revision-Date: 2025-05-18 22:33+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -37870,7 +37870,7 @@ msgid ""
 "see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
 "advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgstr ""
-"Git és Mercurial parancsparaméterek hiányzó szűrésének javítása – CVE-2022-"
+"Git és Mercurial parancsargumentumok hiányzó szűrésének javítása – CVE-2022-"
 "23915, részletekért lásd: `GHSA-3872-f48p-pxqj <https://github.com/"
 "WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_."
 
@@ -57445,12 +57445,11 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
-"Nagyobb beállítások esetén általában jobb, ha létrehozol egy dedikált "
-"felhasználót a Weblate számára, hozzárendeled a Weblate-ben generált "
-"nyilvános SSH kulcsot (lásd: :ref:`weblate-ssh-key`), és hozzáférést adsz "
-"neki az összes olyan tárolóhoz, amelyet fordítani szeretnél. Ezt a "
-"megközelítést használja a Hosted Weblate is, itt egy dedikált :guilabel:"
-"`weblate` felhasználó van erre a célra."
+"Nagyobb telepítések esetén célszerű külön felhasználót létrehozni a Weblate "
+"számára, hozzárendelni a Weblate által generált nyilvános SSH-kulcsot (lásd: "
+":ref:`weblate-ssh-key`), és hozzáférést adni minden fordítani kívánt "
+"tárolóhoz. Ezt az eljárást használja a Hosted Weblate is, ahol dedikált "
+":guilabel:`weblate` felhasználó van."
 
 #: ../../vcs.rst:190
 msgid ":ref:`hosted-push`"
@@ -57467,15 +57466,15 @@ msgid ""
 "This way linked components use the VCS repository configuration of the main "
 "(referenced) component."
 msgstr ""
-"Oszd meg egyetlen tároló beállítását több különböző összetevő között úgy, "
-"hogy a tároló helyét ``weblate://project/component`` formátumban adod meg a "
-"többi (összekapcsolt) összetevőnél. Így az összekapcsolt összetevők a fő "
-"(hivatkozott) összetevő VCS (verziókezelő) tárolóbeállításait használják."
+"Egy tárolóbeállítás megosztható több összetevő között is, ha annak helyét "
+"``weblate://projekt/összetevő`` formában adja meg a hivatkozott "
+"(összekapcsolt) összetevőkben. Így ezek az összetevők a hivatkozott "
+"főösszetevő VCS-beállításait használják."
 
 #: ../../vcs.rst:204
 msgid "Removing main component also removes linked components."
 msgstr ""
-"A fő összetevő eltávolítása a hozzá kapcsolódó összetevőket is eltávolítja."
+"A főösszetevő törlése esetén a hivatkozott összetevők is törlésre kerülnek."
 
 #: ../../vcs.rst:206
 msgid ""
@@ -57483,29 +57482,30 @@ msgid ""
 "if it finds a component with a matching repository setup. You can override "
 "this in the last step of the component configuration."
 msgstr ""
-"A Weblate automatikusan módosítja a tároló URL-jét, amikor létrehoz egy "
-"összetevőt, ha talál egy olyan összetevőt, amelynek a tároló beállítása "
-"megegyezik. Ezt az összetevő konfiguráció utolsó lépésében felülírhatod."
+"A Weblate automatikusan beállítja a tároló URL-jét, ha összetevő "
+"létrehozásakor talál egy másik, azonos tárolóra beállított összetevőt. Ez a "
+"beállítás a komponenskonfiguráció utolsó lépésében felülírható."
 
 #: ../../vcs.rst:210
 msgid "Reasons to use this:"
-msgstr "Okok, amiért ezt érdemes használni:"
+msgstr "Ennek előnyei:"
 
 #: ../../vcs.rst:212
 msgid "Saves disk space on the server, the repository is stored just once."
 msgstr ""
-"Tárhelyet takarít meg a szerveren, mivel a tároló csak egyszer van tárolva."
+"Tárhelyet takarít meg a szerveren, mivel a tároló csak egyszer kerül "
+"mentésre."
 
 #: ../../vcs.rst:213
 msgid "Makes the updates faster, only one repository is updated."
-msgstr "Gyorsabbá teszi a frissítéseket, mivel csak egy tároló van frissítve."
+msgstr "Gyorsabb frissítések, mivel csak egy tárolót kell frissíteni."
 
 #: ../../vcs.rst:214
 msgid ""
 "There is just single exported repository with Weblate translations (see :ref:"
 "`git-exporter`)."
 msgstr ""
-"Csak egyetlen exportált tároló van a Weblate fordításokkal (lásd: :ref:`git-"
+"Csak egyetlen exportált tároló van a Weblate-fordításokkal (lásd: :ref:`git-"
 "exporter`)."
 
 #: ../../vcs.rst:215
@@ -57513,8 +57513,8 @@ msgid ""
 "Some add-ons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
 msgstr ""
-"Néhány extra több, egy tárolót megosztó összetevően is működhet, például a :"
-"ref:`addon-weblate.git.squash`."
+"Bizonyos kiegészítők több összetevőn is működnek, ha ugyanazt a tárolót "
+"használják – például :ref:`addon-weblate.git.squash`."
 
 #: ../../vcs.rst:219
 msgid "HTTPS repositories"
@@ -57526,25 +57526,25 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
-"A védett HTTPS tárolók eléréséhez add meg a felhasználónevet és a jelszót az "
-"URL-ben. Ne aggódj, a Weblate eltávolítja ezt az információt, amikor az URL-"
-"t a felhasználóknak mutatja (ha egyáltalán megengedett az URL megtekintése)."
+"Védett HTTPS-tárolókhoz való hozzáféréshez adja meg a felhasználónevet és "
+"jelszót az URL-ben. Nem kell aggódni, a Weblate eltávolítja ezeket az "
+"adatokat a megjelenített URL-ből (ha a felhasználó egyáltalán láthatja azt)."
 
 #: ../../vcs.rst:225
 msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
-"Például a GitHub URL hitelesítéssel így nézhet ki: ``https://user:"
-"your_access_token@github.com/WeblateOrg/weblate.git``."
+"Például egy GitHub URL hitelesítéssel így nézhet ki: "
+"``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 
 #: ../../vcs.rst:233
 msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
 msgstr ""
-"Ez lehetővé teszi Azure DevOps tárolók elérését és gyorsabbá teszi a "
-"hitelesített tárolók elérését."
+"Ez lehetővé teszi például az Azure DevOps tárolók elérését, illetve "
+"gyorsabbá teszi a hitelesített tárolókhoz való hozzáférést."
 
 #: ../../vcs.rst:238
 msgid ""
@@ -57552,9 +57552,9 @@ msgid ""
 "URL encoded, for example ``https://user%40example.com:"
 "%24password%23@bitbucket.org/…``."
 msgstr ""
-"Ha a felhasználóneved vagy a jelszavad speciális karaktereket tartalmaz, "
-"azokat URL-kódolni kell, például ``https://user%40example.com:"
-"%24password%23@bitbucket.org/…``."
+"Ha a felhasználónév vagy jelszó speciális karaktereket tartalmaz, azokat URL-"
+"kódolni kell, például: ``https://user%40example.com:%24password%23@"
+"bitbucket.org/…``."
 
 #: ../../vcs.rst:243
 msgid "Using proxy"
@@ -57565,8 +57565,8 @@ msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
-"Ha HTTP/HTTPS VCS (verziókezelő) tárolókat proxy szerveren keresztül kell "
-"elérned, állítsd be úgy a VCS-t, hogy használja a proxy szervert."
+"Ha HTTP/HTTPS VCS-tárolókhoz proxyn keresztül kell csatlakozni, állítsa be a "
+"VCS-t ennek megfelelően."
 
 #: ../../vcs.rst:248
 msgid ""
@@ -57575,10 +57575,9 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
-"Ez megtehető a ``http_proxy``, ``https_proxy`` és ``all_proxy`` környezeti "
-"változók használatával (ahogy azt a `cURL dokumentáció <https://curl.se/docs/"
-">`_ ismerteti), vagy a VCS (verziókezelő rendszer) konfigurációjában való "
-"beállítással, például így:"
+"Ez történhet a ``http_proxy``, ``https_proxy`` és ``all_proxy`` környezeti "
+"változók használatával (lásd a `cURL dokumentációt <https://curl.se/docs/>`_)"
+" vagy közvetlenül a VCS konfigurációban, például így:"
 
 #: ../../vcs.rst:258
 msgid ""
@@ -57586,17 +57585,17 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
-"A proxy beállításait a Weblate-et futtató felhasználó alatt kell elvégezni "
-"(lásd még: :ref:`file-permissions`), és ``HOME=$DATA_DIR/home`` (lásd: :"
-"setting:`DATA_DIR`) beállítással, különben a Weblate által végrehajtott Git "
-"nem fogja használni azt."
+"A proxy beállítást annak a felhasználónak a környezetében kell elvégezni, "
+"aki a Weblate-et futtatja (lásd: :ref:`file-permissions`), továbbá a ``HOME=$"
+"DATA_DIR/home`` beállítással (lásd: :setting:`DATA_DIR`), különben a Weblate "
+"által meghívott Git nem fogja használni a beállítást."
 
 #: ../../vcs.rst:264
 msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
-"`A cURL kézikönyvoldala <https://curl.se/docs/manpage.html>`_, `Git config "
+"`cURL dokumentáció <https://curl.se/docs/manpage.html>`_, `Git konfigurációs "
 "dokumentáció <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:271
@@ -57605,19 +57604,17 @@ msgstr "Git"
 
 #: ../../vcs.rst:275
 msgid "Weblate needs Git 2.28 or newer."
-msgstr "A Weblate-hez a Git 2.28 vagy újabb verzió szükséges."
+msgstr "A Weblate a Git 2.28-as vagy újabb verzióját igényli."
 
 #: ../../vcs.rst:279 ../../vcs.rst:566
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
-msgstr ""
-"Lásd a :ref:`vcs-repos` részt, hogy megtudd, hogyan lehet különböző típusú "
-"tárolókat elérni."
+msgstr "Különféle tárolók eléréséhez lásd: :ref:`vcs-repos`."
 
 #: ../../vcs.rst:284
 msgid "Git with force push"
-msgstr "Git kényszerített felküldéssel"
+msgstr "Git kényszerített feltöltéssel"
 
 #: ../../vcs.rst:286
 msgid ""
@@ -57625,17 +57622,16 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
-"Ez pontosan úgy viselkedik, mint maga a Git, az egyetlen különbség az, hogy "
-"mindig kényszerített push-t hajt végre. Ez csak akkor javasolt, ha különálló "
-"repót használsz a fordításokhoz."
+"Ez ugyanúgy működik, mint a normál Git, azzal a különbséggel, hogy mindig "
+"kényszerített feltöltést hajt végre. Ez csak akkor javasolt, ha a fordítások "
+"külön tárolóban vannak."
 
 #: ../../vcs.rst:292
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
-"Óvatosan használd, mivel ez könnyen elvesztett commitokhoz vezethet a "
-"felsőbb szintű tárolódban."
+"Óvatosan használja, mivel könnyen adatvesztéshez vezethet a forrástárolóban."
 
 #: ../../vcs.rst:296
 msgid "Customizing Git configuration"
@@ -57647,23 +57643,22 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
-"A Weblate minden VCS (verziókezelő rendszer) parancsot a ``HOME=$DATA_DIR/"
-"home`` környezettel hajt végre (lásd :setting:`DATA_DIR`), ezért a "
-"felhasználói konfigurációt a ``DATA_DIR/home/.git`` könyvtárban kell "
-"szerkeszteni."
+"A Weblate minden VCS-parancsot ``HOME=$DATA_DIR/home`` környezettel hajt "
+"végre (lásd: :setting:`DATA_DIR`), ezért a felhasználói konfigurációt a ``"
+"DATA_DIR/home/.git`` könyvtárban kell szerkeszteni."
 
 #: ../../vcs.rst:305
 msgid "Git remote helpers"
-msgstr "Git remote segédprogramok"
+msgstr "Git távoli segédprogramok (remote helper)"
 
 #: ../../vcs.rst:307
 msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
-"Használhatsz Git `remote helpers`_-t is, hogy további verziókezelő "
-"rendszereket támogass, de készülj fel rá, hogy problémákat kell elhárítanod, "
-"amelyek ebből adódhatnak."
+"A Git `remote helpers`_ használatával további verziókezelő rendszerek is "
+"támogathatók, de készüljön fel arra, hogy ez hibákhoz vezethet, amelyekhez "
+"hibakeresésre lehet szükség."
 
 #: ../../vcs.rst:310
 msgid ""
@@ -57673,41 +57668,42 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
-"Jelenleg a Bazaar és a Mercurial segédprogramok külön tárolókban érhetők el "
-"a GitHubon: `git-remote-hg`_ és `git-remote-bzr`_. Töltsd le őket "
-"manuálisan, és helyezd el őket a keresési útvonalad valamelyik pontján "
-"(például :file:`~/bin`). Győződj meg róla, hogy a megfelelő verziókezelő "
-"rendszerek telepítve vannak."
+"Jelenleg a Bazaar és a Mercurial rendszerekhez léteznek ilyen segédeszközök, "
+"külön GitHub-tárolókban: `git-remote-hg`_ és `git-remote-bzr`_. Ezeket "
+"kézzel kell letölteni, majd elérhetővé tenni a keresési útvonalon (például: "
+":file:`~/bin`). Ügyeljen rá, hogy a megfelelő verziókezelő rendszer is "
+"telepítve legyen."
 
 #: ../../vcs.rst:316
 msgid ""
 "Once you have these installed, such remotes can be used to specify a "
 "repository in Weblate."
 msgstr ""
-"Miután ezeket telepítetted, az ilyen távoli elérhetőségeket használhatod egy "
-"tároló megadására a Weblate-ben."
+"Miután ezeket telepítette, ilyen típusú távoli elérést is megadhat a Weblate-"
+"ben."
 
 #: ../../vcs.rst:319
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar:"
 msgstr ""
-"A ``gnuhello`` projekt klónozásához a Launchpadról Bazaar használatával:"
+"Például a ``gnuhello`` projekt klónozása a Launchpadról Bazaar segítségével:"
 
 #: ../../vcs.rst:325
 msgid "For the ``hello`` repository from selenic.com using Mercurial:"
-msgstr "A ``hello`` tárolóhoz a selenic.com-ról Mercurial használatával:"
+msgstr ""
+"A ``hello`` tároló klónozása a selenic.com oldalról Mercurial használatával:"
 
 #: ../../vcs.rst:337
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
-"A Git remote segédprogramok használatának kellemetlensége például a "
-"Mercurial esetében az, hogy a távoli segédprogram néha új tip-et hoz létre, "
-"amikor visszatöltöd a változtatásokat."
+"A Git remote helpers (távoli segédprogramok) használatának egyik "
+"kellemetlensége – például Mercurial esetén –, hogy a segédprogram "
+"visszatöltéskor olykor új tip-et (legutolsó változatot) hoz létre."
 
 #: ../../vcs.rst:344
 msgid "GitHub pull requests"
-msgstr "GitHub pull requestek"
+msgstr "GitHub módosítási kérelmek (pull request)"
 
 #: ../../vcs.rst:346
 msgid ""
@@ -57715,9 +57711,9 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"Ez egy vékony réteget ad a :ref:`vcs-git` fölé a `GitHub API`_ "
-"használatával, amely lehetővé teszi, hogy a fordítási változtatásokat pull "
-"requestekként küldd be, ahelyett, hogy közvetlenül a tárolóba tolnád."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `GitHub API`_ "
+"segítségével, amely lehetővé teszi, hogy a fordítási változások módosítási "
+"kérelemként kerüljenek feltöltésre, ne közvetlenül a tárolóba."
 
 #: ../../vcs.rst:349
 msgid ""
@@ -57725,9 +57721,9 @@ msgid ""
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
 msgstr ""
-"A :ref:`vcs-git` közvetlenül a tárolóba tölti fel a változtatásokat, míg a :"
-"ref:`vcs-github` pull requesteket hoz létre. Az utóbbi nem szükséges pusztán "
-"a Git tárolók eléréséhez."
+"A :ref:`vcs-git` közvetlenül a tárolóba küldi a módosításokat, míg a :ref"
+":`vcs-github` módosítási kérelmet hoz létre. Ez utóbbi nem szükséges a Git "
+"tárolók eléréséhez."
 
 #: ../../vcs.rst:353
 msgid ""
@@ -57735,9 +57731,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:`GITHUB_CREDENTIALS`) "
-"a Weblate beállításaiban, hogy ez működjön. Amint beállítottad, látni fogsz "
-"egy :guilabel:`GitHub` opciót, amikor a :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatok ( :setting:`GITHUB_CREDENTIALS` ) "
+"megadása szükséges a Weblate beállításaiban. A beállítás után a "
+":guilabel:`GitHub` lehetőség megjelenik a :ref:`component-vcs` "
+"kiválasztásakor."
 
 #: ../../vcs.rst:359
 msgid ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
@@ -57745,7 +57742,7 @@ msgstr ":ref:`push-changes`, :setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:368
 msgid "GitLab merge requests"
-msgstr "GitLab merge requestek"
+msgstr "GitLab egyesítési kérelmek (merge request)"
 
 #: ../../vcs.rst:370
 msgid ""
@@ -57753,9 +57750,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez mindössze egy vékony réteget ad a :ref:`vcs-git` fölé, és a `GitLab API`_ "
-"használatával lehetővé teszi, hogy a fordítási változtatásokat közvetlen "
-"feltöltés helyett összevonási (merge) kérelemként küldje be a rendszer."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `GitLab API`_ "
+"használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett "
+"egyesítési kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:374
 msgid ""
@@ -57764,11 +57761,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"A Git tárolók eléréséhez nincs szükség ennek használatára, a hagyományos :ref"
-":`vcs-git` ugyanúgy működik – az egyetlen különbség a tárolóba való "
-"feltöltés módjában van. A :ref:`vcs-git` esetén a változások közvetlenül a "
-"tárolóba kerülnek feltöltésre, míg a :ref:`vcs-gitlab` összevonási (merge) "
-"kérelmet hoz létre."
+"A Git tárolók eléréséhez nem szükséges ezt használni, az alapértelmezett :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban van, hogyan történik a "
+"feltöltés: a :ref:`vcs-git` közvetlenül tölti fel a változásokat, míg a :ref"
+":`vcs-gitlab` egyesítési kérelmet hoz létre."
 
 #: ../../vcs.rst:379
 msgid ""
@@ -57776,9 +57772,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:`GITLAB_CREDENTIALS`) "
-"a Weblate beállításaiban, hogy ez működjön. Amint beállítottad, látni fogsz "
-"egy :guilabel:`GitLab` opciót, amikor a :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`GITLAB_CREDENTIALS` ) a Weblate beállításaiban. A konfiguráció "
+"után a :ref:`component-vcs` kiválasztásakor megjelenik a :guilabel:`GitLab` "
+"lehetőség."
 
 #: ../../vcs.rst:385
 msgid ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
@@ -57786,7 +57783,7 @@ msgstr ":ref:`push-changes`, :setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:394
 msgid "Gitea pull requests"
-msgstr "Gitea pull requestek"
+msgstr "Gitea módosítási kérelmek (pull request)"
 
 #: ../../vcs.rst:398
 msgid ""
@@ -57794,9 +57791,9 @@ msgid ""
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez csupán egy vékony réteget ad a :ref:`vcs-git` tetejére, a `Gitea API`_ "
-"használatával, hogy a fordítási változtatásokat pull requestként lehessen "
-"küldeni, ahelyett, hogy közvetlenül a tárhelyre tolnánk."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `Gitea API`_ "
+"használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett "
+"módosítási kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:402
 msgid ""
@@ -57805,11 +57802,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárhelyek eléréséhez, a hagyományos :"
-"ref:`vcs-git` ugyanúgy működik, az egyetlen különbség az, ahogyan a "
-"tárhelyre történő tolást kezelik. Míg a :ref:`vcs-git` esetében a "
-"változtatások közvetlenül a tárhelyre kerülnek, addig a :ref:`vcs-gitea` "
-"pull requesteket hoz létre."
+"A Git tárolók eléréséhez nem szükséges ezt használni, az alapértelmezett :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban van, hogyan történik a "
+"feltöltés: a :ref:`vcs-git` közvetlenül tölti fel a változásokat, míg a :ref"
+":`vcs-gitea` egyesítési kérelmet hoz létre."
 
 #: ../../vcs.rst:407
 msgid ""
@@ -57817,9 +57813,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:`GITEA_CREDENTIALS`) "
-"a Weblate beállításaiban, hogy ez működjön. Miután beállítottad, a :ref:"
-"`component-vcs` kiválasztásakor meg fog jelenni egy :guilabel:`Gitea` opció."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`GITEA_CREDENTIALS` ) a Weblate beállításaiban. A konfiguráció után "
+"a :ref:`component-vcs` kiválasztásakor megjelenik a :guilabel:`Gitea` "
+"lehetőség."
 
 #: ../../vcs.rst:413
 msgid ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
@@ -57827,7 +57824,7 @@ msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:423
 msgid "Bitbucket Data Center pull requests"
-msgstr "Bitbucket Data Center pull kérelmek"
+msgstr "Bitbucket Data Center módosítási kérelmek (pull request)"
 
 #: ../../vcs.rst:427
 msgid ""
@@ -57835,10 +57832,9 @@ msgid ""
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
-"Ez csak egy vékony réteget ad a :ref:`vcs-git` tetejére, a `Bitbucket Data "
-"Center API`_ használatával, hogy a fordítási változtatásokat pull "
-"kérelmekként lehessen elküldeni ahelyett, hogy közvetlenül a tárhelyre "
-"tolnánk őket."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `Bitbucket Data Center API`"
+"_ használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett "
+"módosítási kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:433
 msgid "This does not support Bitbucket Cloud API."
@@ -57851,11 +57847,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárolók eléréséhez, a hagyományos :ref"
-":`vcs-git` ugyanúgy működik. A különbség csupán abban rejlik, hogyan "
-"történik a feltöltés a tárolóba: míg a :ref:`vcs-git` esetén a módosítások "
-"közvetlenül a tárolóba kerülnek, addig a :ref:`vcs-bitbucket-data-center` "
-"egy összevonási (pull) kérelmet hoz létre."
+"A Git tárolók eléréséhez nem szükséges ezt használni, az alapértelmezett :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban van, hogyan történik a "
+"feltöltés: a :ref:`vcs-git` közvetlenül tölti fel a változásokat, míg a :ref"
+":`vcs-bitbucket-data-center` módosítási kérelmet hoz létre."
 
 #: ../../vcs.rst:441
 msgid ""
@@ -57864,10 +57859,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API-hitelesítő adatokat (:setting:"
-"`BITBUCKETSERVER_CREDENTIALS`) a Weblate beállításokban, hogy ez működjön. "
-"Miután beállítottad, látni fogsz egy :guilabel:`Bitbucket Data Center` "
-"opciót, amikor a :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`BITBUCKETSERVER_CREDENTIALS` ) a Weblate beállításaiban. A "
+"konfiguráció után a :ref:`component-vcs` kiválasztásakor megjelenik a "
+":guilabel:`Bitbucket Data Center` lehetőség."
 
 #: ../../vcs.rst:447
 msgid ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
@@ -57875,7 +57870,7 @@ msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:456
 msgid "Bitbucket Cloud pull requests"
-msgstr "Bitbucket Cloud pull requestek"
+msgstr "Bitbucket Cloud módosítási kérelmek (pull request)"
 
 #: ../../vcs.rst:460
 msgid ""
@@ -57883,14 +57878,13 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"Ez csak egy vékony réteget ad a :ref:`vcs-git` fölé a `Bitbucket Cloud API`_ "
-"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
-"tárolóba való feltöltés helyett összevonási (pull) kérelmet lehessen "
-"beküldeni."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `Bitbucket Cloud API`_ "
+"használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett "
+"módosítási kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:466
 msgid "This is different from Bitbucket Data Center API."
-msgstr "Ez különbözik a Bitbucket Data Center API-tól."
+msgstr "Ez eltér a Bitbucket Data Center API-tól."
 
 #: ../../vcs.rst:469
 msgid ""
@@ -57899,11 +57893,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-cloud` creates pull request."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárolók eléréséhez, a hagyományos :ref"
-":`vcs-git` ugyanúgy működik, az egyetlen különbség a tárolóba történő "
-"feltöltés módjában van. A :ref:`vcs-git` esetében a módosítások közvetlenül "
-"a tárolóba kerülnek, míg a :ref:`vcs-bitbucket-cloud` összevonási (pull) "
-"kérelmet hoz létre."
+"A Git tárolók eléréséhez nem szükséges ezt használni, az alapértelmezett :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban van, hogyan történik a "
+"feltöltés: a :ref:`vcs-git` közvetlenül tölti fel a változásokat, míg a :ref"
+":`vcs-bitbucket-cloud` módosítási kérelmet hoz létre."
 
 #: ../../vcs.rst:474
 msgid ""
@@ -57912,10 +57905,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Cloud` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
-"A működéshez API hitelesítő adatokat kell beállítanod a Weblate "
-"beállításaiban (:setting:`BITBUCKETCLOUD_CREDENTIALS`). A konfiguráció után "
-"a :ref:`component-vcs` kiválasztásakor megjelenik a :guilabel:`Bitbucket "
-"Cloud` opció."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`BITBUCKETCLOUD_CREDENTIALS` ) a Weblate beállításaiban. A "
+"konfiguráció után a :ref:`component-vcs` kiválasztásakor megjelenik a "
+":guilabel:`Bitbucket Cloud` lehetőség."
 
 #: ../../vcs.rst:480
 msgid ":ref:`push-changes`, :setting:`BITBUCKETCLOUD_CREDENTIALS`"
@@ -57923,7 +57916,7 @@ msgstr ":ref:`push-changes`, :setting:`BITBUCKETCLOUD_CREDENTIALS`"
 
 #: ../../vcs.rst:489
 msgid "Pagure merge requests"
-msgstr "Pagure merge requestek"
+msgstr "Pagure egyesítési kérelmek (merge request)"
 
 #: ../../vcs.rst:493
 msgid ""
@@ -57931,9 +57924,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez csak egy vékony réteget ad a :ref:`vcs-git` tetejére a `Pagure API`_ "
-"segítségével, hogy a fordítási változtatásokat egyesítési kérelmekként "
-"lehessen beküldeni, ahelyett, hogy közvetlenül a tárolóba tolnánk."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `Pagure API`_ "
+"használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett "
+"egyesítési kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:497
 msgid ""
@@ -57942,10 +57935,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Nincs szükség ennek használatára a Git tárolók eléréséhez, a hagyományos :"
-"ref:`vcs-git` ugyanúgy működik, az egyetlen különbség az, hogyan kezeljük a "
-"tárolóba való tolást. A :ref:`vcs-git` esetén a változtatások közvetlenül a "
-"tárolóba kerülnek, míg a :ref:`vcs-pagure` egyesítési kérelmet hoz létre."
+"A Git tárolók eléréséhez nem szükséges ezt használni, az alapértelmezett :ref"
+":`vcs-git` ugyanúgy működik. A különbség csupán abban van, hogyan történik a "
+"feltöltés: a :ref:`vcs-git` közvetlenül tölti fel a változásokat, míg a :ref"
+":`vcs-pagure` egyesítési kérelmet hoz létre."
 
 #: ../../vcs.rst:502
 msgid ""
@@ -57953,9 +57946,10 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:`PAGURE_CREDENTIALS`) "
-"a Weblate beállításaiban, hogy ez működjön. Amint beállítottad, látni fogsz "
-"egy :guilabel:`Pagure` opciót, amikor a :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`PAGURE_CREDENTIALS` ) a Weblate beállításaiban. A konfiguráció "
+"után a :ref:`component-vcs` kiválasztásakor megjelenik a :guilabel:`Pagure` "
+"lehetőség."
 
 #: ../../vcs.rst:508
 msgid ":ref:`push-changes`, :setting:`PAGURE_CREDENTIALS`"
@@ -57971,9 +57965,10 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
-"Egy vékony réteget ad a :ref:`vcs-git` fölé a `git-review`_ eszköz "
-"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
-"feltöltés helyett Gerrit felülvizsgálati kérelmekként küldjük be."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, a `git-review`_ eszköz "
+"segítségével, hogy a fordítási módosítások Gerrit ellenőrzési kérelemként ("
+"review request) kerüljenek beküldésre, ahelyett hogy közvetlenül a tárolóba "
+"kerülnének."
 
 #: ../../vcs.rst:522
 msgid ""
@@ -57981,11 +57976,11 @@ msgid ""
 "set up such repositories."
 msgstr ""
 "A Gerrit dokumentáció tartalmazza az ilyen tárolók beállításához szükséges "
-"konfiguráció részleteit."
+"részleteket."
 
 #: ../../vcs.rst:529
 msgid "Azure DevOps pull requests"
-msgstr "Azure DevOps visszavonási kérelmek"
+msgstr "Azure DevOps egyesítési kérelmek (pull request)"
 
 #: ../../vcs.rst:531
 msgid ""
@@ -57993,9 +57988,9 @@ msgid ""
 "allow pushing translation changes as pull requests, instead of pushing "
 "directly to the repository."
 msgstr ""
-"Ez egy vékony réteget ad a :ref:`vcs-git` fölé az `Azure DevOps API`_ "
-"használatával, lehetővé téve, hogy a fordítási módosításokat közvetlen "
-"feltöltés helyett összevonási (pull) kérelmekként küldjük be."
+"Ez egy vékony réteget ad a :ref:`vcs-git` fölé, az `Azure DevOps API`_ "
+"használatával, hogy a fordítási módosításokat közvetlen feltöltés helyett, "
+"egyesítési kérelemként lehessen beküldeni."
 
 #: ../../vcs.rst:534
 msgid ""
@@ -58003,9 +57998,9 @@ msgid ""
 "azure-devops` creates pull requests. The latter is not needed for merely "
 "accessing Git repositories."
 msgstr ""
-"A(z) :ref:`vcs-git` közvetlenül a tárolóba tölti fel a változtatásokat, míg "
-"a(z) :ref:`vcs-azure-devops` visszavonási kérelmeket hoz létre. Az utóbbi "
-"nem szükséges, ha csak Git tárolók eléréséről van szó."
+"A :ref:`vcs-git` közvetlenül a tárolóba küldi a változásokat, míg a :ref"
+":`vcs-azure-devops` egyesítési kérelmet hoz létre. Ez utóbbi nem szükséges, "
+"ha csak Git tárolók eléréséről van szó."
 
 #: ../../vcs.rst:538
 msgid ""
@@ -58013,10 +58008,10 @@ msgid ""
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
-"Be kell állítanod az API hitelesítő adatokat (:setting:"
-"`AZURE_DEVOPS_CREDENTIALS`) a Weblate beállításaiban, hogy ez működjön. "
-"Miután beállítottad, látni fogsz egy :guilabel:`Azure DevOps` opciót, amikor "
-"a(z) :ref:`component-vcs`-t választod."
+"A működéshez API hitelesítő adatok megadása szükséges ( "
+":setting:`AZURE_DEVOPS_CREDENTIALS` ) a Weblate beállításaiban. A "
+"konfiguráció után a :ref:`component-vcs` kiválasztásakor megjelenik az "
+":guilabel:`Azure DevOps` lehetőség."
 
 #: ../../vcs.rst:544
 msgid ":ref:`push-changes`, :setting:`AZURE_DEVOPS_CREDENTIALS`"
@@ -58029,8 +58024,8 @@ msgstr "Mercurial"
 #: ../../vcs.rst:556
 msgid "Mercurial is another VCS you can use directly in Weblate."
 msgstr ""
-"A Mercurial egy másik VCS (verziókezelő rendszer), amelyet közvetlenül "
-"használhatsz a Weblate-ben."
+"A Mercurial egy másik verziókezelő rendszer, amelyet közvetlenül lehet "
+"használni a Weblate-ben."
 
 #: ../../vcs.rst:560
 msgid ""
@@ -58038,9 +58033,9 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
-"Elvileg bármelyik Mercurial verzióval működnie kell, de néha vannak olyan "
-"kompatibilitási változások a parancssori felületen, amelyek megszakítják a "
-"Weblate integrációt."
+"Általában bármilyen Mercurial-verzióval működik, de időnként előfordulhatnak "
+"inkompatibilis változások a parancssori felületen, amelyek megszakíthatják "
+"az integrációt."
 
 #: ../../vcs.rst:572
 msgid "Subversion"
@@ -58052,10 +58047,10 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
-"A Weblate a `git-svn`_-t használja a `subversion`_ tárolókkal való "
-"interakcióhoz. Ez egy Perl script, amely lehetővé teszi, hogy a subversion-t "
-"egy Git kliens használja, így a felhasználók egy teljes klónt tarthatnak "
-"fenn a belső tárolóról és helyben is elkötelezhetik a változtatásokat."
+"A Weblate a `git-svn`_ eszközt használja `subversion`_ tárolók kezeléséhez. "
+"Ez egy Perl script, amely lehetővé teszi, hogy a Subversion rendszerrel Git "
+"kliensen keresztül dolgozzon, így a felhasználók teljes másolatot tarthatnak "
+"fenn a belső tárolóról, és helyben véglegesíthetnek."
 
 #: ../../vcs.rst:580
 msgid ""
@@ -58068,12 +58063,12 @@ msgid ""
 "URL and leaving branch empty."
 msgstr ""
 "A Weblate megpróbálja automatikusan felismerni a Subversion tároló "
-"elrendezését - támogatja mind a közvetlen URL-eket az ágakhoz, mind a "
-"szabványos elrendezésű (branches/, tags/ és trunk/) tárolókat. Erről további "
-"információ a `git-svn dokumentációban <https://git-scm.com/docs/git-"
-"svn#Documentation/git-svn.txt---stdlayout>`_ található. Ha a tárolódnak "
-"nincs szabványos elrendezése, és hibákba ütközöl, próbáld meg az ág nevét "
-"beilleszteni a tároló URL-jébe, és hagyd üresen az ág mezőt."
+"szerkezetét – támogatja az ágakra mutató közvetlen URL-eket, valamint a "
+"szabványos szerkezetű tárolókat (branches/, tags/ és trunk/). Erről további "
+"információ a `git-svn dokumentációban <https://git-scm.com/docs/"
+"git-svn#Documentation/git-svn.txt---stdlayout>`_ található. Ha a tároló nem "
+"szabványos szerkezetű és hibát tapasztal, próbálja meg az ág nevét is "
+"megadni az URL-ben, ilyenkor a Weblate-n hagyja üresen az ág mezőt."
 
 #: ../../vcs.rst:592
 msgid "Subversion credentials"
@@ -58086,11 +58081,11 @@ msgid ""
 "`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
-"A Weblate elvárja, hogy előzetesen elfogadd a tanúsítványt (és ha szükséges, "
-"a hitelesítő adataidat). Ezeket a :setting:`DATA_DIR` könyvtárba fogja "
-"behelyezni. A tanúsítvány elfogadásához egyszer használd az `svn` parancsot "
-"úgy, hogy a `$HOME` környezeti változó a :setting:`DATA_DIR`-re legyen "
-"állítva:"
+"A Weblate elvárja, hogy a tanúsítványt előzetesen elfogadja (és szükség "
+"esetén a hitelesítő adatokat is). Ezeket a :setting:`DATA_DIR` könyvtárba "
+"próbálja menteni. A tanúsítvány elfogadásához egyszer futtassa az `svn` "
+"parancsot úgy, hogy a `$HOME` környezeti változót a :setting:`DATA_DIR` "
+"értékére állítja:"
 
 #: ../../vcs.rst:612
 msgid "Local files"
@@ -58101,9 +58096,9 @@ msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
-"A háttérben ez a :ref:`vcs-git`-et használja. Szükséges, hogy a Git "
-"telepítve legyen, és lehetővé teszi, hogy natívan válts a Git használatára a "
-"fordításaid teljes előzményeivel."
+"A háttérben ez is a :ref:`vcs-git` használatán alapul. Git telepítése "
+"szükséges, és lehetőséget ad arra, hogy natívan Git-et használjon a "
+"fordítások teljes előzményével."
 
 #: ../../vcs.rst:619
 msgid ""
@@ -58112,11 +58107,10 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
-"A Weblate távoli VCS (verziókezelő rendszer) nélkül is képes működni. A "
-"kezdeti fordításokat feltöltéssel lehet importálni. Később az egyes fájlok "
-"lecserélhetők fájlfeltöltéssel vagy közvetlenül a Weblate felületén is "
-"hozzáadhatók fordítási szövegek (jelenleg csak egynyelvű fordítások esetén "
-"érhető el)."
+"A Weblate akkor is működik, ha nincs távoli VCS. Az első fordításokat "
+"feltöltéssel lehet importálni. Később az egyes fájlokat cserélheti "
+"fájlfeltöltéssel vagy közvetlenül is hozzáadhat fordítási szövegeket a "
+"Weblate felületén (jelenleg csak egynyelvű fordítások esetén)."
 
 #: ../../vcs.rst:624
 msgid ""
@@ -58125,10 +58119,10 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"A háttérben a Weblate létrehoz egy Git tárolót számodra, és minden változást "
-"ebben követ nyomon. Ha később úgy döntesz, hogy VCS-t (verziókezelő "
-"rendszert) szeretnél használni a fordítások tárolására, már rendelkezésedre "
-"áll egy tároló a Weblate-en belül, amelyre alapozhatod az integrációt."
+"A háttérben a Weblate létrehoz egy Git-tárolót, amelyben minden változás "
+"nyomon követhető. Ha később verziókezelő rendszert kíván használni a "
+"fordításokhoz, már rendelkezik egy tárolóval, amelyre az integrációt "
+"alapozhatja."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -58139,15 +58133,14 @@ msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :program:`wlc` using pip:"
 msgstr ""
-"A Weblate kliens külön érkezik, és tartalmazza a Python modult. Az alábbi "
-"parancsok használatához telepítened kell a(z) :program:`wlc`-t a pip "
+"A Weblate kliens külön csomagban érhető el, és tartalmazza a Python modult. "
+"Az alábbi parancsok használatához telepítse a :program:`wlc` eszközt pip "
 "segítségével:"
 
 #: ../../wlc.rst:24
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
-msgstr ""
-"Ezt a(z) :program:`wlc`-t Python modulént is használhatod, lásd :mod:`wlc`."
+msgstr "A :program:`wlc` Python modulként is használható, lásd: :mod:`wlc`."
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
@@ -58155,12 +58148,12 @@ msgstr "Docker használat"
 
 #: ../../wlc.rst:31
 msgid "The Weblate Client is also available as a Docker image."
-msgstr "A Weblate kliens Docker képként is elérhető."
+msgstr "A Weblate kliens Docker-képként is elérhető."
 
 #: ../../wlc.rst:33
 msgid ""
 "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
-msgstr "A kép elérhető a Docker Hub-on: https://hub.docker.com/r/weblate/wlc"
+msgstr "Az kép elérhető a Docker Hub-on: https://hub.docker.com/r/weblate/wlc"
 
 #: ../../wlc.rst:35
 msgid "Installing:"
@@ -58173,13 +58166,12 @@ msgid ""
 "arguments accepted by Weblate."
 msgstr ""
 "A Docker-konténer a Weblate alapértelmezett beállításait használja, és a "
-"localhoston telepített API-hoz csatlakozik. Az API URL és az API_KEY a "
-"Weblate által elfogadott argumentumokon keresztül konfigurálható."
+"helyi gépen futó API-hoz csatlakozik. Az API URL-je és az API_KEY a Weblate "
+"által elfogadott argumentumokon keresztül konfigurálható."
 
 #: ../../wlc.rst:45
 msgid "The command to launch the container uses the following syntax:"
-msgstr ""
-"A konténer indításához használt parancs a következő szintaxist használja:"
+msgstr "A konténer indításához használt parancs az alábbi szintaxist követi:"
 
 #: ../../wlc.rst:57
 msgid ""
@@ -58187,13 +58179,13 @@ msgid ""
 "easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
-"Előfordulhat, hogy át szeretnéd adni a :ref:`wlc-config`-odat a Docker-"
-"konténernek, a legegyszerűbb megoldás, ha a jelenlegi könyvtáradat hozzáadod "
-"mint :file:`/home/weblate` kötet:"
+"Érdemes lehet a saját :ref:`wlc-config` fájlját is átadni a Docker "
+"konténernek – legegyszerűbb, ha az aktuális könyvtárat a :file:`/home/"
+"weblate` kötetként csatolja be:"
 
 #: ../../wlc.rst:67
 msgid "Getting started"
-msgstr "Első lépések"
+msgstr "Kezdeti lépések"
 
 #: ../../wlc.rst:69
 msgid ""
@@ -58201,13 +58193,13 @@ msgid ""
 "(see :ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
-"A :program:`wlc` konfiguráció a :file:`~/.config/weblate` fájlban van "
-"tárolva (nézd meg a :ref:`wlc-config` a többi helyszínért), kérlek, hozd "
-"létre, hogy illeszkedjen a környezetedhez:"
+"A :program:`wlc` konfigurációja a :file:`~/.config/weblate` fájlban "
+"található (egyéb helyekről lásd: :ref:`wlc-config`), ezt hozza létre saját "
+"környezete alapján:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
-msgstr "Ezután parancsokat adhatsz ki az alapértelmezett szerveren:"
+msgstr "Ezután a parancsokat már a beállított kiszolgálón hajthatja végre:"
 
 #: ../../wlc.rst:90
 msgid ":ref:`wlc-config`"
@@ -58215,12 +58207,11 @@ msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:93
 msgid "Synopsis"
-msgstr "Összefoglaló"
+msgstr "Áttekintés"
 
 #: ../../wlc.rst:99
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
-"A parancsok valójában azt jelzik, hogy melyik műveletet kell végrehajtani."
+msgstr "A parancsok azt jelölik, milyen műveletet kíván végrehajtani."
 
 #: ../../wlc.rst:104
 msgid ""
@@ -58228,10 +58219,9 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
-"A Weblate Client egy Python könyvtár és parancssori segédprogram, amely "
-"lehetővé teszi a Weblate távoli kezelését az :ref:`api` segítségével. A "
-"parancssori segédprogramot :command:`wlc` néven lehet meghívni, és be van "
-"építve a :mod:`wlc` modulba."
+"A Weblate kliens egy Python-könyvtár és parancssori segédprogram, amellyel a "
+"Weblate távolról kezelhető a :ref:`api` segítségével. A parancssori eszköz a "
+":command:`wlc` paranccsal hívható meg, és a :mod:`wlc` modul része."
 
 #: ../../wlc.rst:109
 msgid "Arguments"
@@ -58242,13 +58232,13 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
-"A program a következő argumentumokat fogadja el, amelyek meghatározzák a "
-"kimeneti formátumot vagy hogy melyik Weblate példányt kell használni. Ezeket "
-"minden parancs előtt meg kell adni."
+"A program az alábbi argumentumokat fogadja el, amelyek a kimeneti formátumot "
+"vagy a használt Weblate-példányt határozzák meg. Ezeket a parancs előtt kell "
+"megadni."
 
 #: ../../wlc.rst:116
 msgid "Specify the output format."
-msgstr "Add meg a kimeneti formátumot."
+msgstr "A kimeneti formátum megadása."
 
 #: ../../wlc.rst:120
 msgid ""
@@ -58256,9 +58246,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
-"Add meg az API URL-t. Felülírja a konfigurációs fájlban található bármilyen "
-"értéket, lásd: :ref:`wlc-config`. Az URL-nek ``/api/``-vel kell végződnie, "
-"például ``https://hosted.weblate.org/api/``."
+"Az API URL megadása. Felülír minden, a konfigurációs fájlban szereplő "
+"értéket, lásd: :ref:`wlc-config`. Az URL végződjön ``/api/`` "
+"karakterlánccal, például: ``https://hosted.weblate.org/api/``."
 
 #: ../../wlc.rst:125
 msgid ""
@@ -58266,18 +58256,20 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
-"Add meg a használni kívánt API felhasználói kulcsot. Felülírja a "
-"konfigurációs fájlban található bármilyen értéket, lásd: :ref:`wlc-config`. "
-"A kulcsodat a Weblate profilodban találhatod meg."
+"A használni kívánt API-felhasználói kulcs megadása. Felülír minden, a "
+"konfigurációs fájlban szereplő értéket, lásd: :ref:`wlc-config`. A kulcsot a "
+"Weblate-profiljában találja."
 
 #: ../../wlc.rst:130
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr "Felülírja a konfigurációs fájl elérési útját, lásd: :ref:`wlc-config`."
+msgstr ""
+"A konfigurációs fájl elérési útjának felülírása, lásd: :ref:`wlc-config`."
 
 #: ../../wlc.rst:134
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
-"Felülírja a használt konfigurációs fájl szakaszt, lásd: :ref:`wlc-config`."
+"A konfigurációs fájl használatban lévő szakaszának felülírása, lásd: :ref"
+":`wlc-config`."
 
 #: ../../wlc.rst:137
 msgid "Commands"
@@ -58285,178 +58277,178 @@ msgstr "Parancsok"
 
 #: ../../wlc.rst:139
 msgid "The following commands are available:"
-msgstr "A következő parancsok érhetők el:"
+msgstr "Az alábbi parancsok érhetők el:"
 
 #: ../../wlc.rst:143
 msgid "Prints the current version."
-msgstr "Kiírja az aktuális verziót."
+msgstr "Az aktuális verzió kiírása."
 
 #: ../../wlc.rst:147
 msgid "Lists used languages in Weblate."
-msgstr "Felsorolja a Weblate-ben használt nyelveket."
+msgstr "A Weblate-ben használt nyelvek listázása."
 
 #: ../../wlc.rst:151
 msgid "Lists projects in Weblate."
-msgstr "Felsorolja a projekteket a Weblate-ben."
+msgstr "A Weblate-projektek listázása."
 
 #: ../../wlc.rst:155
 msgid "Lists components in Weblate."
-msgstr "Felsorolja az összetevőket a Weblate-ben."
+msgstr "A Weblate-összetevők listázása."
 
 #: ../../wlc.rst:159
 msgid "Lists translations in Weblate."
-msgstr "Felsorolja a fordításokat a Weblate-ben."
+msgstr "A Weblate-fordítások listázása."
 
 #: ../../wlc.rst:163
 msgid "Shows Weblate object (translation, component or project)."
-msgstr "Megjeleníti a Weblate objektumot (fordítás, összetevő vagy projekt)."
+msgstr "Weblate-objektum (fordítás, összetevő vagy projekt) megjelenítése."
 
 #: ../../wlc.rst:167
 msgid "Lists Weblate object (translation, component or project)."
-msgstr "Felsorolja a Weblate objektumot (fordítás, összetevő vagy projekt)."
+msgstr "Weblate-objektum (fordítás, összetevő vagy projekt) listázása."
 
 #: ../../wlc.rst:171
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
 msgstr ""
-"Elkötelezi a Weblate objektumban (fordítás, összetevő vagy projekt) "
-"végrehajtott változtatásokat."
+"Módosítások véglegesítése egy Weblate-objektumban (fordítás, összetevő vagy "
+"projekt)."
 
 #: ../../wlc.rst:175
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
 msgstr ""
-"Behúzza a távoli tároló változásait a Weblate objektumba (fordítás, "
-"összetevő vagy projekt)."
+"A távoli tárolóból származó változások letöltése a Weblate-objektumba ("
+"fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:179
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
 msgstr ""
-"Feltolja a Weblate objektumban (fordítás, összetevő vagy projekt) történt "
-"változásokat a távoli tárolóba."
+"A Weblate-objektumban történt változások feltöltése a távoli tárolóba ("
+"fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:185 ../../wlc.rst:241
 msgid "Supported since wlc 0.7."
-msgstr "A wlc 0.7 óta támogatott."
+msgstr "A wlc 0.7-es verziójától érhető el."
 
 #: ../../wlc.rst:187
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
 msgstr ""
-"Visszaállítja a Weblate objektumban (fordítás, összetevő vagy projekt) "
-"történt változásokat, hogy egyezzenek a távoli tárolóval."
+"A Weblate-objektumban végzett módosítások visszaállítása a távoli tároló "
+"állapotának megfelelően (fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:193 ../../wlc.rst:258
 msgid "Supported since wlc 0.9."
-msgstr "A wlc 0.9 óta támogatott."
+msgstr "A wlc 0.9-es verziójától támogatott."
 
 #: ../../wlc.rst:195
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
 msgstr ""
-"Eltávolít minden nem követett változást a Weblate objektumban (fordítás, "
-"összetevő vagy projekt), hogy egyezzen a távoli tárolóval."
+"Minden nem követett módosítás eltávolítása a Weblate-objektumból a távoli "
+"tároló állapotának megfelelően (fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:199
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
-"Megjeleníti a tároló állapotát egy adott Weblate objektum (fordítás, "
-"összetevő vagy projekt) esetén."
+"A megadott Weblate-objektumhoz tartozó tároló állapotának megjelenítése ("
+"fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:203
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
-"Részletes statisztikákat jelenít meg egy adott Weblate objektum (fordítás, "
-"összetevő vagy projekt) esetén."
+"Részletes statisztikák megjelenítése egy megadott Weblate-objektumhoz ("
+"fordítás, összetevő vagy projekt)."
 
 #: ../../wlc.rst:209 ../../wlc.rst:217 ../../wlc.rst:225
 msgid "Supported since wlc 0.5."
-msgstr "A wlc 0.5 óta támogatott."
+msgstr "A wlc 0.5-ös verziójától támogatott."
 
 #: ../../wlc.rst:211
 msgid "Displays lock status."
-msgstr "Megjeleníti a zárolási állapotot."
+msgstr "Zárolási állapot megjelenítése."
 
 #: ../../wlc.rst:219
 msgid "Locks component from further translation in Weblate."
-msgstr "Zárolja az összetevőt a további fordítás elől a Weblate-ben."
+msgstr "Összetevő zárolása a Weblate-ben történő további fordítás elől."
 
 #: ../../wlc.rst:227
 msgid "Unlocks translation of Weblate component."
-msgstr "Feloldja a Weblate összetevő fordításának zárolását."
+msgstr "A Weblate-összetevő fordításának feloldása (zárolás megszüntetése)."
 
 #: ../../wlc.rst:233
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr "A wlc 0.7 és a Weblate 2.10 óta támogatott."
+msgstr "A wlc 0.7-es és a Weblate 2.10-es verziójától támogatott."
 
 #: ../../wlc.rst:235
 msgid "Displays changes for a given object."
-msgstr "Megjeleníti a változásokat egy adott objektum esetén."
+msgstr "Egy megadott objektumhoz tartozó módosítások megjelenítése."
 
 #: ../../wlc.rst:243
 msgid "Downloads a translation file."
-msgstr "Letölt egy fordítási fájlt."
+msgstr "Fordítási fájl letöltése."
 
 #: ../../wlc.rst:247
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
 msgstr ""
-"Átkonvertálja a fájlformátumot, ha nincs megadva, nem történik konverzió a "
-"szerveren, és a fájl változatlanul kerül letöltésre a tárolóba."
+"Fájlformátum konvertálása – ha nincs megadva, nem történik konverzió, és a "
+"fájl az eredeti formátumban kerül letöltésre a tárolóból."
 
 #: ../../wlc.rst:252
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
 msgstr ""
-"Meghatározza a fájlt, amibe a kimenet mentésre kerül, ha nincs megadva, a "
-"kimenet az stdout-ra lesz nyomtatva."
+"A kimeneti fájl mentési helyének megadása – ha nincs megadva, az adatok a "
+"standard kimenetre kerülnek."
 
 #: ../../wlc.rst:260
 msgid "Uploads a translation file."
-msgstr "Feltölt egy fordítási fájlt."
+msgstr "Fordítási fájl feltöltése."
 
 #: ../../wlc.rst:264
 msgid "Overwrite existing translations upon uploading."
-msgstr "Felülírja a meglévő fordításokat feltöltéskor."
+msgstr "A feltöltés során a meglévő fordítások felülírása."
 
 #: ../../wlc.rst:268
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
 msgstr ""
-"A fájl, amelyből a tartalom beolvasásra kerül, ha nincs megadva, akkor az "
-"stdin-ből olvassa be."
+"A fájl, amelyből a tartalom beolvasásra kerül – ha nincs megadva, a tartalom "
+"a standard bemenetről olvassa be."
 
 #: ../../wlc.rst:272
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr "Használandó feltöltési módszer, lásd: :ref:`upload-method`."
+msgstr "A használandó feltöltési módszer, lásd: :ref:`upload-method`."
 
 #: ../../wlc.rst:280
 msgid "Author name, to override currently authenticated user"
-msgstr "Szerző neve, a jelenleg hitelesített felhasználó felülbírálásához"
+msgstr "Szerző neve, az aktuálisan hitelesített felhasználó felülírásához."
 
 #: ../../wlc.rst:284
 msgid "Author e-mail, to override currently authenticated user"
 msgstr ""
-"Szerző e-mail címe, a jelenleg hitelesített felhasználó felülbírálásához"
+"Szerző e-mail címe, az aktuálisan hitelesített felhasználó felülírásához."
 
 #: ../../wlc.rst:289
 msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
-"Részletesebb információt kaphatsz az egyes parancsok meghívásáról a ``--"
-"help`` opció megadásával, például: ``wlc ls --help``."
+"Részletesebb információt kaphat az egyes parancsok használatáról a ``--help``"
+" kapcsolóval, például: ``wlc ls --help``."
 
 #: ../../wlc.rst:295
 msgid "Configuration files"
@@ -58468,7 +58460,7 @@ msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
 msgid "Configuration file placed in the project directory."
-msgstr "Konfigurációs fájl a projektkönyvtárban van elhelyezve."
+msgstr "Projektkönyvtárban elhelyezett konfigurációs fájl."
 
 #: ../../wlc.rst:299
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
@@ -58476,7 +58468,8 @@ msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
 msgid "User configuration file on Windows in the roamed profile."
-msgstr "Felhasználói konfigurációs fájl Windows rendszeren, a vándorprofilban."
+msgstr ""
+"Felhasználói konfigurációs fájl Windows rendszeren, a roaming profilban."
 
 #: ../../wlc.rst:301
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
@@ -58484,7 +58477,7 @@ msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: ../../wlc.rst:302
 msgid "User configuration file on Windows in the local profile."
-msgstr "Felhasználói konfigurációs fájl Windows alatt a helyi profilban."
+msgstr "Felhasználói konfigurációs fájl Windows rendszeren, a helyi profilban."
 
 #: ../../wlc.rst:303
 msgid ":file:`~/.config/weblate`"
@@ -58508,46 +58501,46 @@ msgid ""
 "of config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``."
 msgstr ""
-"A program követi az XDG specifikációt, így a konfigurációs fájlok "
-"elhelyezését az ``XDG_CONFIG_HOME`` vagy ``XDG_CONFIG_DIRS`` környezeti "
-"változókkal tudod beállítani."
+"A program követi az XDG specifikációt, így a konfigurációs fájlok helye a "
+"``XDG_CONFIG_HOME`` vagy ``XDG_CONFIG_DIRS`` környezeti változókkal "
+"módosítható."
 
 #: ../../wlc.rst:312
 msgid ""
 "On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred "
 "locations for the configuration file."
 msgstr ""
-"Windows rendszeren a konfigurációs fájl számára az ``APPDATA`` és "
-"``LOCALAPPDATA`` könyvtárak az előnyben részesített helyek."
+"Windows rendszeren az ``APPDATA`` és ``LOCALAPPDATA`` könyvtárak az ajánlott "
+"helyek a konfigurációs fájl számára."
 
 #: ../../wlc.rst:315
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
 msgstr ""
-"A következő beállítások konfigurálhatók a ``[weblate]`` szekcióban (ezt "
-"testre szabhatod a :option:`--config-section` használatával):"
+"A ``[weblate]`` szekcióban az alábbi beállítások adhatók meg (ez "
+"testreszabható a :option:`--config-section` segítségével):"
 
 #: ../../wlc.rst:320
 msgid "API KEY to access Weblate."
-msgstr "API kulcs a Weblate eléréséhez."
+msgstr "API-kulcs a Weblate eléréséhez."
 
 #: ../../wlc.rst:324
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
 msgstr ""
-"Az API szerver URL-je, alapértelmezett érték: ``http://127.0.0.1:8000/api/``."
+"API szerver URL, alapértelmezés szerint: ``http://127.0.0.1:8000/api/``."
 
 #: ../../wlc.rst:328
 msgid "Path to the default translation - component or project."
-msgstr "Az alapértelmezett fordítás útvonala - összetevő vagy projekt."
+msgstr "Az alapértelmezett fordítás elérési útja – összetevő vagy projekt."
 
 #: ../../wlc.rst:330
 msgid "The configuration file is an INI file, for example:"
-msgstr "A konfigurációs fájl egy INI fájl, például:"
+msgstr "A konfigurációs fájl INI formátumú, például:"
 
 #: ../../wlc.rst:339
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
-msgstr "Továbbá az API kulcsok a ``[keys]`` szekcióban tárolhatók:"
+msgstr "Továbbá API-kulcsok a ``[keys]`` szekcióban is megadhatók:"
 
 #: ../../wlc.rst:346
 msgid ""
@@ -58555,10 +58548,10 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
-"Ez lehetővé teszi, hogy a kulcsokat a saját beállításaid között tárold, "
-"miközben a VCS (verziókezelő) tárolóban található :file:`.weblate` "
-"konfigurációt használod, így a :program:`wlc` tudni fogja, melyik szerverrel "
-"kell kommunikálnia."
+"Ez lehetővé teszi, hogy a hitelesítési kulcsokat a személyes beállításokban "
+"tárolja, miközben a :file:`.weblate` konfigurációt a VCS-tárolóban "
+"használja, így a :program:`wlc` tudja, melyik kiszolgálóval kell "
+"kommunikálnia."
 
 #: ../../wlc.rst:351
 msgid "Examples"
@@ -58566,11 +58559,11 @@ msgstr "Példák"
 
 #: ../../wlc.rst:353
 msgid "Print current program version:"
-msgstr "Jelenlegi programverzió kiíratása:"
+msgstr "A jelenlegi programverzió kiírása:"
 
 #: ../../wlc.rst:360
 msgid "List all projects:"
-msgstr "Minden projekt felsorolása:"
+msgstr "Projektek listázása:"
 
 #: ../../wlc.rst:371
 msgid "Upload translation file:"
@@ -58578,15 +58571,14 @@ msgstr "Fordítási fájl feltöltése:"
 
 #: ../../wlc.rst:377
 msgid "You can also designate what project :program:`wlc` should work on:"
-msgstr ""
-"Azt is megadhatod, hogy a(z) :program:`wlc` melyik projekten dolgozzon:"
+msgstr "Azt is megadhatja, hogy a :program:`wlc` melyik projekttel dolgozzon:"
 
 #: ../../wlc.rst:405
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
 msgstr ""
-"Ezzel a beállítással könnyen elkötelezhetők a függőben lévő változások az "
-"aktuális projektben:"
+"Ezzel a beállítással egyszerűen véglegesíthetők a jelenlegi projekt függőben "
+"lévő módosításai:"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
@@ -58598,21 +58590,21 @@ msgid ""
 "involved in the localization process closer to each other. It is up to you "
 "to decide how many of Weblate features you want to make use of."
 msgstr ""
-"A Weblate használata növeli a minőséget, csökkenti a kézi munkát, és "
-"közelebb hozza egymáshoz a lokalizációs folyamatban résztvevőket. Rajtad "
-"múlik, hogy a Weblate funkciói közül mennyit szeretnél kihasználni."
+"A Weblate használata javítja a fordítások minőségét, csökkenti a kézi "
+"munkát, és közelebb hozza egymáshoz a lokalizációban részt vevőket. Ön dönti "
+"el, hogy a Weblate funkciói közül mennyit kíván kihasználni."
 
 #: ../../workflows.rst:10
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the examples listed here."
 msgstr ""
-"A következő nem a Weblate konfigurálásának teljes listája. Az itt felsorolt "
-"példák alapján más munkafolyamatokat is kialakíthatsz."
+"Az alábbi lista nem teljes – a bemutatott példák alapján más "
+"munkafolyamatokat is kialakíthat."
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
-msgstr "Munkafolyamat személyre szabása"
+msgstr "Munkafolyamat testreszabása"
 
 #: ../../workflows.rst:18
 msgid ""
@@ -58621,23 +58613,22 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
-"A(z) :ref:`project` és :ref:`component` (mint például :ref:`project-"
-"translation_review`, :ref:`component-enable_suggestions`, :ref:`component-"
-"suggestion_voting`, és :ref:`component-suggestion_autoaccept`) beállításai "
-"mellett a fordítási folyamat nyelvenként is testre szabható."
+"A :ref:`project` és :ref:`component` szintű beállítások mellett (például: "
+":ref:`project-translation_review`, :ref:`component-enable_suggestions`, :ref"
+":`component-suggestion_voting`, illetve :ref:`component-"
+"suggestion_autoaccept`) a fordítási munkafolyamat nyelvenként is testre "
+"szabható."
 
 #: ../../workflows.rst:24
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
-msgstr ""
-"A webhely szintű munkafolyamat testreszabása elvégezhető a(z) :ref:`changing-"
-"languages` során."
+msgstr "Webhelyszintű testreszabás elérhető a :ref:`changing-languages` során."
 
 #: ../../workflows.rst:26
 msgid ""
 "Per-project customization can be done on each language page of the project."
 msgstr ""
-"A projektenkénti testreszabás elvégezhető a projekt minden nyelvi oldalán."
+"Projektszintű testreszabás elérhető az adott projekt minden nyelvi oldalán."
 
 #: ../../workflows.rst:28
 msgid ""
@@ -58645,34 +58636,34 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in the per-language customization."
 msgstr ""
-"Az összes munkafolyamat-beállítás felülírható, az egyetlen korlátozás az, "
-"hogy a(z) :ref:`project-translation_review` beállítást be kell kapcsolni, és "
-"csak nyelvenkénti testreszabásban lehet kikapcsolni."
+"Minden munkafolyamat-beállítás felülírható, az egyetlen korlátozás, hogy a "
+":ref:`project-translation_review` beállítást bekapcsolt állapotban kell "
+"hagyni, és csak nyelvspecifikus testreszabásban tiltható le."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
-msgstr "Az első létező beállítás érvényesül:"
+msgstr "A következő meglévő beállítás érvényesül:"
 
 #: ../../workflows.rst:34
 msgid "Project-language customization"
-msgstr "Projekt-nyelv testreszabás"
+msgstr "Projekt–nyelv testreszabása"
 
 #: ../../workflows.rst:35
 msgid "Language customization"
-msgstr "Nyelv testreszabás"
+msgstr "Nyelvi testreszabás"
 
 #: ../../workflows.rst:36
 msgid "The project/component settings"
-msgstr "A(z) projekt/összetevő beállításai"
+msgstr "Projekt/összetevő beállítások"
 
 #: ../../workflows.rst:40
 msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
-"Légy óvatos, amikor a teljes oldalra kiterjedő felülírást használod, mivel "
-"ez minden projektre vonatkozik (hacsak nincs saját felülírásuk egy adott "
-"nyelvre)."
+"Figyeljen oda a webhelyszintű felülírás használatakor, mivel ez minden "
+"projektre érvényes lesz (kivéve, ha az adott nyelvre projektspecifikus "
+"felülírás van érvényben)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
@@ -58685,10 +58676,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-"A(z) :ref:`access control <access-control>` nem kerül részletesen "
-"tárgyalásra a munkafolyamatokban, mivel a legtöbb opciója bármely "
-"munkafolyamatra alkalmazható. Kérlek, nézd meg a vonatkozó dokumentációt a "
-"fordításokhoz való hozzáférés kezeléséről."
+"A :ref:`hozzáférés-vezérlés <access-control>` nem kerül részletes "
+"bemutatásra a munkafolyamatokban, mivel beállításai bármely munkafolyamathoz "
+"alkalmazhatók. A fordítási hozzáférés kezeléséhez kérjük, tekintse meg a "
+"vonatkozó dokumentációt."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -58696,14 +58687,14 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
-"A következő fejezetekben az *bármely felhasználó* kifejezés olyan "
-"felhasználóra utal, aki hozzáfér a fordításhoz. Ha a projekt nyilvános, "
-"akkor ez lehet bármely hitelesített felhasználó vagy olyan felhasználó, aki "
-"rendelkezik a projekt :guilabel:`Fordítás` jogosultságával."
+"A következő fejezetekben a *bármely felhasználó* kifejezés olyan "
+"felhasználót jelent, aki hozzáfér a fordításhoz. Ez lehet bármely "
+"hitelesített felhasználó nyilvános projekt esetén vagy olyan, akinek "
+":guilabel:`Fordítás` jogosultsága van a projekthez."
 
 #: ../../workflows.rst:61
 msgid "Each translated string can be in one of the following states:"
-msgstr "Minden lefordított szövegrész az alábbi állapotok egyikében lehet:"
+msgstr "Minden lefordított szöveg az alábbi állapotok egyikében lehet:"
 
 #: ../../workflows.rst:63
 msgid "Untranslated"
@@ -58714,8 +58705,8 @@ msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
 msgstr ""
-"A fordítás üres, ami az adott fájlformátumtól függően lehet, hogy el lesz "
-"mentve a fájlba vagy nem."
+"A fordítás üres, ez a fájlformátumtól függően lehet, hogy elmentésre kerül a "
+"fájlban."
 
 #: ../../workflows.rst:66
 msgid "Needs editing"
@@ -58728,11 +58719,10 @@ msgid ""
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
-"A fordítás szerkesztésre szorul, ez általában a forrás szöveg változásának, "
-"a fuzzy illesztésnek vagy a fordító tevékenységének az eredménye. A "
-"fordítást a fájl tartalmazza, és a fájl formátumától függően lehet "
-"megjelölve, hogy szerkesztésre van szüksége (például a gettext fájlban "
-"``fuzzy`` jelzést kaphat)."
+"A fordítás szerkesztést igényel, ez általában forrásszöveg módosítás, "
+"ellenőrizendő (zavaros) egyezés vagy fordítói művelet eredménye. A fordítás "
+"mentésre kerül a fájlba, és a fájlformátumtól függően meg is jelölhető "
+"szerkesztendőként (például gettext esetén ``fuzzy`` jelzőt kap)."
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
@@ -58743,8 +58733,8 @@ msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
 msgstr ""
-"A fordítás elkészült, de még nincs felülvizsgálva. Érvényes fordításként van "
-"tárolva a fájlban."
+"A fordítás elkészült, de még nem került ellenőrzésre. Érvényes fordításként "
+"mentésre kerül a fájlba."
 
 #: ../../workflows.rst:73
 msgid "Approved"
@@ -58756,14 +58746,14 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
-"A fordítást a felülvizsgálat során jóváhagyták. Ezt már csak a "
-"felülvizsgálók módosíthatják, a fordítók nem. A fordítók csak javaslatokat "
-"adhatnak hozzá."
+"A fordítás ellenőrzés során jóváhagyásra került. Fordítók többé nem "
+"módosíthatják, csak a felülvizsgálók. A fordítók csak javaslatokat fűzhetnek "
+"hozzá."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
 msgstr ""
-"Ez az állapot csak akkor érhető el, ha az értékelések engedélyezve vannak."
+"Ez az állapot csak akkor érhető el, ha a felülvizsgálat be van kapcsolva."
 
 #: ../../workflows.rst:79
 msgid "Read-only"
@@ -58775,19 +58765,18 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
-"A szöveg csak olvasható, mivel rendelkezik a(z) ``read-only`` :ref:`flag "
-"<custom-checks>`-gal, nem szerkeszthető forrásszöveg vagy a fordítási "
-"fájlban így van megjelölve."
+"A szöveg csak olvasható, mivel rendelkezik ``read-only`` :ref:`jelzővel "
+"<custom-checks>`, nem szerkeszthető forrásszöveg vagy így van megjelölve a "
+"fordítási fájlban."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
-msgstr ""
-"A javaslatok csak a Weblate-ben vannak tárolva, és nem a fordítási fájlban."
+msgstr "A javaslatok csak a Weblate-ben tárolódnak, a fordítási fájlban nem."
 
 #: ../../workflows.rst:86
 msgid "The states are represented in the translation files when possible."
 msgstr ""
-"Az állapotok a fordítási fájlokban vannak megjelenítve, amikor lehetséges."
+"Az állapotok a fordítási fájlban is megjelennek, ha a formátum ezt támogatja."
 
 #: ../../workflows.rst:90
 msgid ""
@@ -58795,9 +58784,10 @@ msgid ""
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing editing."
 msgstr ""
-"Ha az általad használt fájlformátum nem támogatja az állapotok tárolását, "
-"érdemes lehet a :ref:`addon-weblate.flags.same_edit` bővítményt használni, "
-"hogy a változatlan szövegeket szerkesztésre szorulóként jelöld meg."
+"Ha a használt fájlformátum nem támogatja az állapotok tárolását, érdemes "
+"lehet használni a :ref:`addon-weblate.flags.same_edit` kiegészítőt, amely "
+"megjelöli azokat a fordításokat, amelyek nem frissültek a forrásszöveg "
+"változása ellenére, és így szerkesztést igényelhetnek."
 
 #: ../../workflows.rst:96
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
@@ -58812,8 +58802,8 @@ msgid ""
 "The most common setup for smaller teams, where anybody can translate "
 "directly. This is also the default setup in Weblate."
 msgstr ""
-"Ez a leggyakoribb beállítás kisebb csapatok számára, ahol bárki közvetlenül "
-"fordíthat. Ez a Weblate alapértelmezett beállítása is."
+"A leggyakoribb beállítás kisebb csapatoknál, ahol bárki fordíthat "
+"közvetlenül. Ez a Weblate alapértelmezett működési módja is."
 
 #: ../../workflows.rst:105
 msgid "*Any user* can edit translations."
@@ -58824,8 +58814,8 @@ msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr ""
-"A javaslatok opcionális módjai a módosítások javaslásának, amikor a fordítók "
-"nem biztosak a változtatásban."
+"A javaslatok opcionális lehetőségek a változtatások indítványozására, amikor "
+"a fordító nem biztos a módosításban."
 
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:175
 msgid "Setting"
@@ -58842,7 +58832,7 @@ msgstr "ki"
 
 #: ../../workflows.rst:112 ../../workflows.rst:144 ../../workflows.rst:177
 msgid "Configured at project level."
-msgstr "Projekt szinten van beállítva."
+msgstr "Projektszinten konfigurálva."
 
 #: ../../workflows.rst:114 ../../workflows.rst:146 ../../workflows.rst:148
 #: ../../workflows.rst:177 ../../workflows.rst:179
@@ -58852,7 +58842,7 @@ msgstr "be"
 #: ../../workflows.rst:114 ../../workflows.rst:179
 msgid "Useful for users to be able to suggest when they are not sure."
 msgstr ""
-"Hasznos, ha a felhasználók javaslatokat tehetnek, amikor nem biztosak "
+"Hasznos, ha a felhasználók javaslatot szeretnének tenni, amikor nem biztosak "
 "valamiben."
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
@@ -58862,8 +58852,8 @@ msgstr "Fordítók csoportja"
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"Vagy `Fordítás` a(z) :ref:`per-project access control <manage-acl>` "
-"segítségével."
+"Vagy `Fordítás` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
+"<manage-acl>` segítségével."
 
 #: ../../workflows.rst:125 ../../workflows.rst:157 ../../workflows.rst:190
 msgid "Reviewers group"
@@ -58879,19 +58869,19 @@ msgstr "Nem használt."
 
 #: ../../workflows.rst:132
 msgid "Peer review"
-msgstr "Kollégák általi felülvizsgálat"
+msgstr "Társak általi felülvizsgálat"
 
 #: ../../workflows.rst:134
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional members before it is accepted as a translation."
 msgstr ""
-"Ezzel a munkafolyamattal bárki hozzáadhat javaslatot, amelyet további "
-"tagoknak kell jóváhagyniuk, mielőtt fordításként elfogadnák."
+"Ebben a munkafolyamatban bárki tehet javaslatot, amelyet más felhasználók "
+"jóváhagyása után lehet fordításként elfogadni."
 
 #: ../../workflows.rst:137
 msgid "*Any user* can add suggestions."
-msgstr "*Bármely felhasználó* hozzáadhat javaslatokat."
+msgstr "*Bármely felhasználó* tehet javaslatot."
 
 #: ../../workflows.rst:138
 msgid "*Any user* can vote for suggestions."
@@ -58901,12 +58891,13 @@ msgstr "*Bármely felhasználó* szavazhat a javaslatokra."
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr ""
-"A javaslatok akkor válnak fordításokká, ha elérnek egy előre meghatározott "
+"A javaslatok akkor válnak fordítássá, ha elérnek egy előre meghatározott "
 "számú szavazatot."
 
 #: ../../workflows.rst:150
 msgid "You can set higher value to require more peer reviews."
-msgstr "Beállíthatsz magasabb értéket, hogy több társértékelést igényelj."
+msgstr ""
+"Magasabb érték megadásával több társ általi jóváhagyás válik szükségessé."
 
 #: ../../workflows.rst:157
 msgid "Not used, all translators review."
@@ -58922,10 +58913,9 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
-"A kijelölt felülvizsgálókkal két felhasználói csoport áll rendelkezésre: az "
-"egyik képes beküldeni a fordításokat, a másik pedig felülvizsgálja azokat "
-"annak biztosítása érdekében, hogy a fordítások következetesek legyenek és jó "
-"minőségűek."
+"Kijelölt felülvizsgálókkal két felhasználói csoportot hoz létre: az egyik "
+"fordításokat küldhet be, a másik pedig ezeket ellenőrzi a konzisztencia és "
+"minőség biztosítása érdekében."
 
 #: ../../workflows.rst:169
 msgid "*Any user* can edit unapproved translations."
@@ -58933,29 +58923,26 @@ msgstr "*Bármely felhasználó* szerkesztheti a nem jóváhagyott fordításoka
 
 #: ../../workflows.rst:170
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "A *Reviewer* jóváhagyhatja vagy visszavonhatja a stringeket."
+msgstr "*Felülvizsgáló* jóváhagyhat / visszavonhat szövegeket."
 
 #: ../../workflows.rst:171
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr ""
-"*A felülvizsgáló* szerkesztheti az összes fordítást (beleértve a "
-"jóváhagyottakat is)."
+"*Felülvizsgáló* szerkesztheti az összes fordítást (a jóváhagyottakat is)."
 
 #: ../../workflows.rst:172
 msgid "Suggestions can also be used to suggest changes for approved strings."
-msgstr ""
-"A javaslatok arra is használhatók, hogy változtatásokat javasoljanak a "
-"jóváhagyott szövegekre."
+msgstr "Javaslatokat jóváhagyott fordítások módosítására is be lehet küldeni."
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"Vagy `Felülvizsgálat` a(z) :ref:`per-project access control <manage-acl>` "
-"segítségével."
+"Vagy `Felülvizsgáló` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
+"<manage-acl>` segítségével."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
-msgstr "A felülvizsgálat bekapcsolása"
+msgstr "Felülvizsgálat bekapcsolása"
 
 #: ../../workflows.rst:198
 msgid ""
@@ -58963,13 +58950,12 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
-"Az értékelések bekapcsolhatók a projekt beállításaiban, a projekt "
-"beállításainak :guilabel:`Workflow` aloldalán (a :guilabel:`Kezelés` → "
-":guilabel:`Settings` menüben található):"
+"A felülvizsgálat a projektbeállítások :guilabel:`Munkafolyamat` aloldalán "
+"kapcsolható be (a :guilabel:`Kezelés` › :guilabel:`Beállítások` menüben):"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
-msgstr "Minőségi kapu a forrásszövegekhez"
+msgstr "Minőségbiztosítás a forrásszövegekre"
 
 #: ../../workflows.rst:209
 msgid ""
@@ -58980,12 +58966,11 @@ msgid ""
 "can help you address this - there is an additional quality gateway for the "
 "strings between developers and translators."
 msgstr ""
-"Sok esetben az eredeti forrásnyelvi szövegeket a fejlesztők adják meg, mivel "
-"ők írják a kódot és biztosítják a kezdeti szövegeket. Azonban a fejlesztők "
-"gyakran nem anyanyelvi beszélők a forrásnyelven, és nem biztosítják a kívánt "
-"minőséget a forrásszövegek esetében. Az köztes fordítás ebben segíthet - van "
-"egy további minőségi kapu a fejlesztők és a fordítók közötti szövegek "
-"számára."
+"Sok esetben a forrásszövegek a fejlesztőktől származnak, mivel ők írják a "
+"kódot, és ők biztosítják a kezdeti szövegeket. A fejlesztők azonban gyakran "
+"nem anyanyelvi beszélők a forrásnyelven, így nem biztosítanak megfelelő "
+"minőséget. Az előfordítás segíthet ezen — ez egy további minőségbiztosítási "
+"szint a fejlesztők és fordítók között."
 
 #: ../../workflows.rst:215
 msgid ""
@@ -58994,19 +58979,18 @@ msgid ""
 "done, strings are available for translations to target languages, based on "
 "what is now a polished source language."
 msgstr ""
-"A :ref:`component-intermediate` beállításával ezt a fájlt a fordítók/"
-"szerkesztők a forrásnyelvre történő szövegfordításra használják. Miután ez a "
-"szakasz befejeződött, a szövegek elérhetők a célnyelvekre történő "
-"fordításhoz, egy most már csiszolt forrásnyelv alapján."
+"A :ref:`component-intermediate` beállításával ez a fájl használható arra, "
+"hogy a fordítók/szerkesztők a forrásnyelvre fordítsanak. Miután ez a lépés "
+"elkészült, a szövegek elérhetők a célnyelvekhez készülő fordításokhoz – "
+"immár egy letisztázott forrásnyelvi változat alapján."
 
 #: ../../workflows.rst:259
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
-msgstr ""
-":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
+msgstr ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
 #: ../../workflows.rst:266
 msgid "String consolidation using secondary language"
-msgstr "Szöveg-egyesítés másodlagos nyelv használatával"
+msgstr "Szövegösszevonás másodlagos nyelv használatával"
 
 #: ../../workflows.rst:268
 msgid ""
@@ -59019,11 +59003,11 @@ msgid ""
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
 "Amikor a :ref:`component-intermediate` nem használható a szövegek "
-"összevonására, kiválaszthatsz egy fordítást másodlagos nyelvként. A nyelv "
-"beállítható projekt (:ref:`project-secondary_language`) vagy összetevő (:ref"
-":`component-secondary_language`) szinten. Ezután a fordítók számára "
-"megjelenik a fordítási folyamat során (lásd: :ref:`secondary-languages`), és "
-"opcionálisan gépi fordítási forrásként is használható (lásd: :ref:`mt-"
+"konszolidálására, kiválasztható egy fordítás, amely másodlagos nyelvként "
+"szolgál. A nyelv megadható projektszinten ( :ref:`project-secondary_language`"
+" ) vagy összetevőszinten ( :ref:`component-secondary_language` ). A fordítók "
+"számára megjelenik a fordítás során (lásd: :ref:`secondary-languages`), és "
+"opcionálisan gépi fordítás forrásaként is használható (lásd: :ref:`mt-"
 "sources`)."
 
 #: ../../workflows.rst:276
@@ -59032,9 +59016,9 @@ msgid ""
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
 msgstr ""
-"Ez a beállítás hasznos lehet vegyes nyelvű forrásszövegek esetén, ha ezeket "
-"egy közös fordításban szeretnénk összevonni, amely kiindulási alapként "
-"szolgál a további munkához."
+"Ez a beállítás akkor lehet hasznos, ha vegyes forrásnyelvű szövegek kerülnek "
+"konszolidálásra egy közös fordításban, amely ezután alapként szolgál a "
+"további munkához."
 
 #: ../../workflows.rst:282
 msgid "Source strings reviews"
@@ -59047,10 +59031,10 @@ msgid ""
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
-"Ha a :ref:`project-source_review` engedélyezve van, az ellenőrzési folyamat "
-"alkalmazható a forrásszövegekre. Ha engedélyezett, a felhasználók "
-"jelenthetnek problémákat a forrásszövegekkel kapcsolatban. A tényleges "
-"folyamat attól függ, hogy kétnyelvű vagy egynyelvű formátumokat használnak-e."
+"A :ref:`project-source_review` bekapcsolásával a forrásszövegekre is "
+"alkalmazható ellenőrzési folyamat. Ha be van kapcsolva, a felhasználók hibát "
+"jelenthetnek a forrásszövegekkel kapcsolatban. A konkrét folyamat attól "
+"függ, hogy egynyelvű vagy kétnyelvű formátum van-e használatban."
 
 #: ../../workflows.rst:288
 msgid ""
@@ -59058,10 +59042,9 @@ msgid ""
 "`reviews` — once an issue with a source string is reported, the source "
 "string is marked as :guilabel:`Needs editing`."
 msgstr ""
-"Egynyelvű formátumok esetén a forrásszöveg felülvizsgálata hasonlóan "
-"működik, mint a :ref:`reviews` — amikor egy forrásszöveggel kapcsolatban "
-"problémát jelentenek, a szöveg :guilabel:`Szerkesztést igényel` állapotra "
-"vált."
+"Egynyelvű formátum esetén a forrásszöveg-ellenőrzés hasonlóan működik, mint "
+"a :ref:`reviews` — amikor hibát jelentenek, a forrásszöveg megkapja a "
+":guilabel:`Szerkesztést igényel` jelölést."
 
 #: ../../workflows.rst:292
 msgid ""
@@ -59071,11 +59054,11 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source code, or remove the label."
 msgstr ""
-"A kétnyelvű formátumok nem engedik meg a forrásszövegek közvetlen "
-"szerkesztését (ezeket általában közvetlenül a forráskódból vonják ki). Ebben "
-"az esetben a fordítók által jelentett szövegekre a :guilabel:`Source needs "
-"review` címke kerül. Ilyen szövegeket át kell nézned, és vagy szerkesztened "
-"kell őket a forráskódban vagy el kell távolítanod a címkét."
+"Kétnyelvű formátum esetén nem lehet közvetlenül szerkeszteni a "
+"forrásszöveget (ezeket jellemzően közvetlenül a forráskódból nyerik ki). "
+"Ebben az esetben a fordítók által jelentett szövegekhez :guilabel:`A forrás "
+"felülvizsgálatot igényel` címke kerül. Ezeket át kell tekinteni és/vagy "
+"módosítani a forráskódban, esetleg eltávolítani a címkét."
 
 #: ../../workflows.rst:300
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"

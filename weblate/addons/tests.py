@@ -632,7 +632,7 @@ class JsonAddonTest(ViewTestCase):
         SameEditAddon.create(component=self.component)
 
         Unit.objects.filter(translation__language__code="cs").delete()
-        self.component.create_translations(force=True)
+        self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.filter(translation__language__code="cs")
             .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
@@ -640,7 +640,7 @@ class JsonAddonTest(ViewTestCase):
         )
 
         Unit.objects.all().delete()
-        self.component.create_translations(force=True)
+        self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.exclude(
                 state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
