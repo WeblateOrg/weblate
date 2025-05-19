@@ -425,7 +425,9 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "Users")
 
     def test_create(self) -> None:
-        self.do_request("api:group-list", method="post", code=403)
+        self.do_request(
+            "api:group-list", method="post", code=403, request={"name": "Group"}
+        )
         self.do_request(
             "api:group-list",
             method="post",
@@ -455,6 +457,41 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.count(), 8)
         group = Group.objects.get(name="Group")
         self.assertEqual(group.defining_project, self.component.project)
+
+        admin = User.objects.create_user("admin", "admin@example.com")
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + admin.auth_token.key)
+
+        # serializer validation fails before perm check even happens causing 400 error
+        # if trying to use a project without permissions
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=400,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+
+        self.component.project.add_user(admin, "Administration")
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(Group.objects.count(), 9)
 
     def test_add_role(self) -> None:
         role = Role.objects.get(name="Administration")

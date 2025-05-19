@@ -594,7 +594,16 @@ class GroupViewSet(viewsets.ModelViewSet):
             "id"
         ) | self.request.user.administered_group_set.order_by("id")
 
-    def perm_check(self, request: Request, group: Group | None = None) -> None:
+    def perm_check(
+        self,
+        request: Request,
+        group: Group | None = None,
+        project: Project | None = None,
+    ) -> None:
+        # if a project is provided and the user has the required permission to edit teams in the project, allow access
+        if project is not None and request.user.has_perm("meta:team.edit", project):
+            return
+
         if (group is None and not self.request.user.has_perm("group.edit")) or (
             group is not None and not request.user.has_perm("meta:team.edit", group)
         ):
@@ -607,8 +616,16 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new group."""
-        self.perm_check(request)
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        self.perm_check(
+            request, project=serializer.validated_data.get("defining_project")
+        )
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
