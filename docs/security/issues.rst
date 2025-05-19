@@ -49,7 +49,7 @@ Vulnerability disclosure policy
 
 Within 30 days following a release containing a vulnerability fix, a security
 advisory is published at
-https://github.com/WeblateOrg/weblate/security/advisories. An advisory is
+https://github.com/WeblateOrg/weblate/security/advisories. The advisory is
 available immediately with a release when possible.
 
 Any actively exploited vulnerability or severe incidents are notified to CSIRT
