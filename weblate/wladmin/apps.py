@@ -78,6 +78,6 @@ def check_support(
     return [
         weblate_check(
             "weblate.C041",
-            f"The support subscription has expired on {support_status.expiry.date().isoformat()}, please renew it at https://weblate.org/user/.",
+            f"Your support subscription has expired on {support_status.expiry.date().isoformat()}. Please renew it at https://weblate.org/user/ or contact Weblate care.",
         )
     ]
