@@ -38329,6 +38329,291 @@ paths:
           description: ''
         '204':
           description: No response body
+  /units/{id}/comments/:
+    post:
+      operationId: units_comments_create
+      description: Add a comment to the unit.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - units
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnitsCommentsCreateErrorResponse400'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/UnitsCommentsCreateErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnitWrite'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/UnitWrite'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /units/{id}/translations/:
     get:
       operationId: units_translations_retrieve
@@ -44081,6 +44366,59 @@ components:
         * `black` - Black
         * `gray` - Gray
         * `silver` - Silver
+    Comment:
+      type: object
+      properties:
+        scope:
+          allOf:
+          - $ref: '#/components/schemas/CommentScopeEnum'
+          writeOnly: true
+          description: |-
+            Is your comment specific to this translation, or generic for all of them?
+
+            * `report` - report
+            * `global` - global
+            * `translation` - translation
+        comment:
+          type: string
+          title: Comment text
+          description: You can use Markdown and mention users by @username.
+          maxLength: 1000
+        timestamp:
+          type: string
+          format: date-time
+          title: Creation timestamp
+          description: If you’re an admin, you can set the explicit timestamp at which
+            the comment was created.
+        user_email:
+          type: string
+          format: email
+          writeOnly: true
+          title: Commenter’s email
+          description: If you’re an admin, you can attribute this comment to another
+            user by their email.
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - comment
+      - id
+      - scope
+      - user
+    CommentScopeEnum:
+      enum:
+      - report
+      - global
+      - translation
+      type: string
+      description: |-
+        * `report` - report
+        * `global` - global
+        * `translation` - translation
     Component:
       type: object
       properties:
@@ -57267,6 +57605,7 @@ components:
       - BSD-2-Clause
       - BSD-2-Clause-first-lines
       - BSD-2-Clause-Darwin
+      - BSD-2-Clause-pkgconf-disclaimer
       - BSD-2-Clause-Views
       - BSD-3-Clause
       - BSD-3-Clause-acpica
@@ -57398,6 +57737,7 @@ components:
       - Crossword
       - CAL-1.0
       - CAL-1.0-Combined-Work-Exception
+      - CryptoSwift
       - CrystalStacker
       - CUA-OPL-1.0
       - Cube
@@ -57412,6 +57752,7 @@ components:
       - diffmark
       - WTFPL
       - DOC
+      - DocBook-DTD
       - DocBook-Schema
       - DocBook-Stylesheet
       - DocBook-XML
@@ -57450,9 +57791,12 @@ components:
       - FSFUL
       - FSFULLRWD
       - FSFULLR
+      - FSL-1.1-ALv2
+      - FSL-1.1-MIT
       - Furuseth
       - FBM
       - fwlw
+      - Game-Programming-Gems
       - GD
       - generic-xts
       - Giftware
@@ -57550,6 +57894,7 @@ components:
       - Jam
       - JPNIC
       - JasPer-2.0
+      - jove
       - JPL-image
       - JSON
       - Kastrup
@@ -57591,6 +57936,7 @@ components:
       - magaz
       - mailprio
       - MakeIndex
+      - man2html
       - Martin-Birgmeier
       - MTLL
       - McPhee-slideshow
@@ -57649,6 +57995,7 @@ components:
       - NLOD-2.0
       - Noweb
       - NRL
+      - NTIA-PD
       - NTP
       - NTP-0
       - OAR
@@ -57918,6 +58265,7 @@ components:
         * `BSD-2-Clause` - BSD 2-Clause "Simplified" License
         * `BSD-2-Clause-first-lines` - BSD 2-Clause - first lines requirement
         * `BSD-2-Clause-Darwin` - BSD 2-Clause - Ian Darwin variant
+        * `BSD-2-Clause-pkgconf-disclaimer` - BSD 2-Clause pkgconf disclaimer variant
         * `BSD-2-Clause-Views` - BSD 2-Clause with views sentence
         * `BSD-3-Clause` - BSD 3-Clause "New" or "Revised" License
         * `BSD-3-Clause-acpica` - BSD 3-Clause acpica variant
@@ -58049,6 +58397,7 @@ components:
         * `Crossword` - Crossword License
         * `CAL-1.0` - Cryptographic Autonomy License 1.0
         * `CAL-1.0-Combined-Work-Exception` - Cryptographic Autonomy License 1.0 (Combined Work Exception)
+        * `CryptoSwift` - CryptoSwift License
         * `CrystalStacker` - CrystalStacker License
         * `CUA-OPL-1.0` - CUA Office Public License v1.0
         * `Cube` - Cube License
@@ -58063,6 +58412,7 @@ components:
         * `diffmark` - diffmark license
         * `WTFPL` - Do What The F*ck You Want To Public License
         * `DOC` - DOC License
+        * `DocBook-DTD` - DocBook DTD License
         * `DocBook-Schema` - DocBook Schema License
         * `DocBook-Stylesheet` - DocBook Stylesheet License
         * `DocBook-XML` - DocBook XML License
@@ -58101,9 +58451,12 @@ components:
         * `FSFUL` - FSF Unlimited License
         * `FSFULLRWD` - FSF Unlimited License (With License Retention and Warranty Disclaimer)
         * `FSFULLR` - FSF Unlimited License (with License Retention)
+        * `FSL-1.1-ALv2` - Functional Source License, Version 1.1, ALv2 Future License
+        * `FSL-1.1-MIT` - Functional Source License, Version 1.1, MIT Future License
         * `Furuseth` - Furuseth License
         * `FBM` - Fuzzy Bitmap License
         * `fwlw` - fwlw License
+        * `Game-Programming-Gems` - Game Programming Gems License
         * `GD` - GD License
         * `generic-xts` - Generic XTS License
         * `Giftware` - Giftware License
@@ -58201,6 +58554,7 @@ components:
         * `Jam` - Jam License
         * `JPNIC` - Japan Network Information Center License
         * `JasPer-2.0` - JasPer License
+        * `jove` - Jove License
         * `JPL-image` - JPL Image Use Policy
         * `JSON` - JSON License
         * `Kastrup` - Kastrup License
@@ -58242,6 +58596,7 @@ components:
         * `magaz` - magaz License
         * `mailprio` - mailprio License
         * `MakeIndex` - MakeIndex License
+        * `man2html` - man2html License
         * `Martin-Birgmeier` - Martin Birgmeier License
         * `MTLL` - Matrix Template Library License
         * `McPhee-slideshow` - McPhee Slideshow License
@@ -58300,6 +58655,7 @@ components:
         * `NLOD-2.0` - Norwegian Licence for Open Government Data (NLOD) 2.0
         * `Noweb` - Noweb License
         * `NRL` - NRL License
+        * `NTIA-PD` - NTIA Public Domain Notice
         * `NTP` - NTP License
         * `NTP-0` - NTP No Attribution
         * `OAR` - OAR License
@@ -59484,7 +59840,7 @@ components:
           readOnly: true
         scope:
           allOf:
-          - $ref: '#/components/schemas/ScopeEnum'
+          - $ref: '#/components/schemas/NotificationScopeEnum'
           minimum: -2147483648
           maximum: 2147483647
         frequency:
@@ -59555,6 +59911,20 @@ components:
         * `MergeFailureNotification` - Repository operation failed
         * `PendingSuggestionsNotification` - Pending suggestions exist
         * `ToDoStringsNotification` - Unfinished strings exist
+    NotificationScopeEnum:
+      enum:
+      - 0
+      - 10
+      - 20
+      - 30
+      - 40
+      type: integer
+      description: |-
+        * `0` - All
+        * `10` - Watched
+        * `20` - Administered
+        * `30` - Project
+        * `40` - Component
     OperationEnum:
       enum:
       - commit
@@ -60502,7 +60872,7 @@ components:
           readOnly: true
         scope:
           allOf:
-          - $ref: '#/components/schemas/ScopeEnum'
+          - $ref: '#/components/schemas/NotificationScopeEnum'
           minimum: -2147483648
           maximum: 2147483647
         frequency:
@@ -65033,20 +65403,6 @@ components:
       required:
       - errors
       - type
-    ScopeEnum:
-      enum:
-      - 0
-      - 10
-      - 20
-      - 30
-      - 40
-      type: integer
-      description: |-
-        * `0` - All
-        * `10` - Watched
-        * `20` - Administered
-        * `30` - Project
-        * `40` - Component
     Screenshot:
       type: object
       properties:
@@ -67003,6 +67359,176 @@ components:
       required:
       - labels
       - target
+    UnitsCommentsCreateCommentErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - comment
+          type: string
+          description: '* `comment` - comment'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    UnitsCommentsCreateError:
+      oneOf:
+      - $ref: '#/components/schemas/UnitsCommentsCreateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/UnitsCommentsCreateScopeErrorComponent'
+      - $ref: '#/components/schemas/UnitsCommentsCreateCommentErrorComponent'
+      - $ref: '#/components/schemas/UnitsCommentsCreateTimestampErrorComponent'
+      - $ref: '#/components/schemas/UnitsCommentsCreateUserEmailErrorComponent'
+      discriminator:
+        propertyName: attr
+        mapping:
+          non_field_errors: '#/components/schemas/UnitsCommentsCreateNonFieldErrorsErrorComponent'
+          scope: '#/components/schemas/UnitsCommentsCreateScopeErrorComponent'
+          comment: '#/components/schemas/UnitsCommentsCreateCommentErrorComponent'
+          timestamp: '#/components/schemas/UnitsCommentsCreateTimestampErrorComponent'
+          user_email: '#/components/schemas/UnitsCommentsCreateUserEmailErrorComponent'
+    UnitsCommentsCreateErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/UnitsCommentsCreateValidationError'
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          validation_error: '#/components/schemas/UnitsCommentsCreateValidationError'
+          client_error: '#/components/schemas/ParseErrorResponse'
+    UnitsCommentsCreateNonFieldErrorsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - non_field_errors
+          type: string
+          description: '* `non_field_errors` - non_field_errors'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    UnitsCommentsCreateScopeErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - scope
+          type: string
+          description: '* `scope` - scope'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    UnitsCommentsCreateTimestampErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - timestamp
+          type: string
+          description: '* `timestamp` - timestamp'
+        code:
+          enum:
+          - date
+          - invalid
+          - make_aware
+          - 'null'
+          - overflow
+          type: string
+          description: |-
+            * `date` - date
+            * `invalid` - invalid
+            * `make_aware` - make_aware
+            * `null` - null
+            * `overflow` - overflow
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    UnitsCommentsCreateUserEmailErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - user_email
+          type: string
+          description: '* `user_email` - user_email'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    UnitsCommentsCreateValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ValidationErrorEnum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnitsCommentsCreateError'
+      required:
+      - errors
+      - type
     UnitsDestroyErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
