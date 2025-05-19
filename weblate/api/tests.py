@@ -8,9 +8,8 @@ from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
 import responses
-from django.conf import settings
 from django.core.files import File
-from django.test.utils import override_settings
+from django.test.utils import modify_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -1151,10 +1150,32 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Project.objects.count(), 2)
 
     def test_create_with_billing(self) -> None:
-        installed_apps = settings.INSTALLED_APPS
-        if "weblate.billing" not in installed_apps:
-            installed_apps = ["weblate.billing", *settings.INSTALLED_APPS]
-        with override_settings(INSTALLED_APPS=installed_apps):
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "Can not create projects",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
+
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
             response = self.do_request(
                 "api:project-list",
                 method="post",
