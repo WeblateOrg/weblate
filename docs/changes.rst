@@ -15,7 +15,7 @@ Weblate 5.12
 * Unicode whitespaces are now considered as problematic characters for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
 * :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
 * :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
-* :http:post:`/api/groups/` supports project scoped team creation by non-superusers.
+* :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 
 .. rubric:: Bug fixes
 
