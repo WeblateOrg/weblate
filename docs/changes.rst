@@ -20,6 +20,7 @@ Weblate 5.12
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
+* Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
 
