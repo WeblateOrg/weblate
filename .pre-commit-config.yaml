@@ -32,7 +32,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.11.9
+  rev: v0.11.10
   hooks:
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
@@ -107,7 +107,7 @@ repos:
     name: http link in rst text
     description: Detect mistake of using http links
     types: [rst]
-    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|127\.0\.0\.1|user:password@proxy)
+    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|anubis|127\.0\.0\.1|user:password@proxy)
     language: pygrep
   - id: rst-bullet-stop
     name: Changes end with a stop
@@ -145,6 +145,6 @@ repos:
   rev: v1.7.0
   hooks:
   - id: zizmor
-exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock$
+exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
 ci:
   autoupdate_schedule: quarterly

@@ -71,3 +71,7 @@ jobs:
     - name: diff
       run: git diff
       if: always()
+    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      if: always()
+      with:
+        msg: 'chore(pre-commit): apply code formatting'

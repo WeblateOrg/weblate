@@ -12,13 +12,15 @@
 # Mohammed Al Otaibi <mopes.03.belle@icloud.com>, 2025.
 # Basheer Radman <ba2014sheer@gmail.com>, 2025.
 # abdelbasset jabrane <ribago9317@cubene.com>, 2025.
+# abdelbasset jabrane <naminio201@users.noreply.hosted.weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-02 02:01+0000\n"
-"Last-Translator: abdelbasset jabrane <ribago9317@cubene.com>\n"
+"PO-Revision-Date: 2025-05-15 01:16+0000\n"
+"Last-Translator: abdelbasset jabrane "
+"<naminio201@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "documentation/ar/>\n"
 "Language: ar\n"
@@ -776,6 +778,10 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"إذا حدد الفريق أي :guilabel:`قائمة مكونات`، فإن جميع الأذونات الممنوحة "
+"لأعضاء ذلك الفريق تُمنح لجميع المكونات في قوائم المكونات المرتبطة بالفريق، "
+"ويتم منح وصول بدون أذونات إضافية لجميع المشاريع التي تتواجد فيها هذه "
+"المكونات. يتم تجاهل :guilabel:`المكونات` و :guilabel:`المشاريع`."
 
 #: ../../admin/access.rst:388
 msgid ""
@@ -799,6 +805,11 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"بخلاف ذلك، إذا حدد الفريق أي :guilabel:`مشاريع`، إما عن طريق إدراجها مباشرة "
+"أو من خلال تعيين :guilabel:`اختيار المشاريع` إلى قيمة مثل :guilabel:`جميع "
+"المشاريع العامة`، فإن جميع تلك الأذونات تُطبق على جميع المشاريع، مما يمنح فعليً"
+"ا نفس الأذونات للوصول إلى جميع المشاريع :ref:`المكونات غير المقيدة "
+"<component-restricted>`."
 
 #: ../../admin/access.rst:402
 msgid ""
@@ -2023,10 +2034,8 @@ msgid "Component update"
 msgstr "اسم المكون"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr "إضافة عنصر جديد للترجمة"
+msgstr "يتم تفعيله كلما حدث تغيير في مكون مثل:"
 
 #: ../../admin/addons.rst:34
 #, fuzzy
@@ -2233,10 +2242,8 @@ msgstr "الترجمة الآلية"
 #: ../../admin/machine.rst:761 ../../admin/machine.rst:810
 #: ../../admin/machine.rst:834 ../../admin/machine.rst:914
 #: ../../admin/machine.rst:944 ../../admin/machine.rst:972
-#, fuzzy
-#| msgid "Available addons"
 msgid "Available choices:"
-msgstr "الإضافات المُتاحة"
+msgstr "الخيارات المتاحة:"
 
 #: ../../admin/addons.rst:137
 #, fuzzy
@@ -2775,10 +2782,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:332
-#, fuzzy
-#| msgid "You can use Django templates markup in the commit messages."
 msgid "You can use Django template markup in all filename fields, for example:"
-msgstr "يمكنك استخدام ترميز قوالب Django في رسائل الالتزام."
+msgstr ""
+"يمكنك استخدام ترميز قوالب Django في جميع حقول أسماء الملفات، على سبيل المثال:"
 
 #: ../../admin/addons.rst:334
 msgid "``{{ component }}``"
@@ -2832,10 +2838,8 @@ msgstr "مجلد واحد لكل لغة يحتوي على ملفات ترجمة 
 #: ../../admin/addons.rst:354 ../../admin/addons.rst:367
 #: ../../admin/addons.rst:380 ../../admin/addons.rst:393
 #: ../../admin/addons.rst:407 ../../admin/addons.rst:420
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression:"
-msgstr "تعبير عادي"
+msgstr "تعبير عادي:"
 
 #: ../../admin/addons.rst:355
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
@@ -2844,10 +2848,8 @@ msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 #: ../../admin/addons.rst:356 ../../admin/addons.rst:369
 #: ../../admin/addons.rst:382 ../../admin/addons.rst:395
 #: ../../admin/addons.rst:409 ../../admin/addons.rst:424
-#, fuzzy
-#| msgid "Matched files"
 msgid "Matching files:"
-msgstr "الملفات المطابقة"
+msgstr "الملفات المطابقة:"
 
 #: ../../admin/addons.rst:357
 msgid ":file:`cs/application.po`"
@@ -3005,10 +3007,8 @@ msgstr ""
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
 #: ../../admin/addons.rst:422
-#, fuzzy
-#| msgid "Component name"
 msgid "Component name:"
-msgstr "اسم المكون"
+msgstr "اسم المكون:"
 
 #: ../../admin/addons.rst:423
 msgid "``{{ originalHierarchy }}: {{ component }}``"
@@ -3336,10 +3336,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:597
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "For example generating a summary file for each translation:"
-msgstr "تحديد الملف القاعدي للترجمات الجديدة"
+msgstr "على سبيل المثال، إنشاء ملف ملخص لكل ترجمة:"
 
 #: ../../admin/addons.rst:600
 msgid "``locale/{{ language_code }}.json``"
@@ -5834,10 +5832,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:784
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Weblate supports the following second factors:"
-msgstr "حالة دعم Weblate"
+msgstr "يدعم Weblate العوامل الثانية التالية:"
 
 #: ../../admin/auth.rst:786
 msgid "Security keys (WebAuthn)"
@@ -27061,10 +27057,8 @@ msgid "Weblate 5.8"
 msgstr "مفاتيح وِيبلايت"
 
 #: ../../changes.rst:426
-#, fuzzy
-#| msgid "Component name"
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "اسم المكون"
+msgstr "تمت إضافة :ref:`component-key_filter` إلى المكون."
 
 #: ../../changes.rst:427
 msgid ""
@@ -27246,7 +27240,7 @@ msgstr ""
 msgid ""
 "Updated language names to better describe different scripts and Sintic "
 "languages."
-msgstr ""
+msgstr "تم تحديث أسماء اللغات لوصف مختلف الكتابات واللغات الصينية بشكل أفضل."
 
 #: ../../changes.rst:504
 msgid ""
@@ -52021,6 +52015,9 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"بالنسبة لـ Weblate المستضاف، هناك مستخدم دفع مخصص مسجل على GitHub وBitbucket "
+"وCodeberg وGitLab (مع اسم المستخدم :guilabel:`weblate`، والبريد الإلكتروني "
+"``hosted@weblate.org``، واسم أو وصف ملف شخصي :guilabel:`مستخدم دفع Weblate`)."
 
 #: ../../vcs.rst:33
 msgid ""

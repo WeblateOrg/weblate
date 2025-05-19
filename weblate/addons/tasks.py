@@ -135,7 +135,7 @@ def language_consistency(
             else:
                 new_lang.log_info("added for language consistency")
         try:
-            component.create_translations_task()
+            component.create_translations_immediate()
         except FileParseError as error:
             component.log_error("could not parse translation files: %s", error)
 
@@ -215,6 +215,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
                 "change_event",
                 (change,),
                 addon_queryset=change_addons,
+                project=change.project,
                 component=change.component,
                 translation=change.translation,
             )

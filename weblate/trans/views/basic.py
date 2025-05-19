@@ -324,7 +324,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
 
     return render(
         request,
-        "category-project.html",
+        "category-language.html",
         {
             "allow_index": True,
             "language": language_object,
@@ -760,9 +760,7 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             ),
                         )
                 try:
-                    if added and not obj.create_translations(
-                        request=request, run_async=True
-                    ):
+                    if added and not obj.create_translations(request=request):
                         messages.success(
                             request,
                             gettext(

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-04-14 20:51+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-05-15 22:08+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -454,10 +454,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Račun je zaključan zbog previše neuspjelih pokušaja prijave."
 
 #: weblate/accounts/models.py:230
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Nije bilo moguće poslati poruku administratoru."
+msgstr "Račun je zaključao administrator stranice."
 
 #: weblate/accounts/models.py:231
 msgid "Account and all private data removed."
@@ -466,7 +464,7 @@ msgstr "Račun i svi privatni podatci su uklonjeni."
 #: weblate/accounts/models.py:232
 #, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Potvrda za uklanjanje računa je poslan na {email}."
+msgstr "Potvrda za uklanjanje računa je poslana na {email}."
 
 #: weblate/accounts/models.py:233
 #, python-brace-format
@@ -997,14 +995,12 @@ msgstr[2] ""
 "Ova je lozinka preduga. Smije sadržati najviše %(max_length)d znakova."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "Tvoja lozinka smije sadržati najviše %(min_length)d znak."
-msgstr[1] "Tvoja lozinka smije sadržati najviše %(min_length)d znaka."
-msgstr[2] "Tvoja lozinka smije sadržati najviše %(min_length)d znakova."
+msgstr[0] "Tvoja lozinka smije sadržati najviše %(max_length)d znak."
+msgstr[1] "Tvoja lozinka smije sadržati najviše %(max_length)d znaka."
+msgstr[2] "Tvoja lozinka smije sadržati najviše %(max_length)d znakova."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1080,10 +1076,8 @@ msgid "Could not send message to administrator."
 msgstr "Nije bilo moguće poslati poruku administratoru."
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "Poslano je previše poruka. Pokušaj ponovo kasnije."
+msgstr "Nije bilo moguće otvoriti problem. Pokušaj ponovo kasnije."
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1804,20 +1798,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Aktiviraj razvrstavanje ključeva, razlikuj velika i mala slova"
 
 #: weblate/addons/forms.py:671
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Promijenjena licenca"
+msgstr "Događaji promjena"
 
 #: weblate/addons/forms.py:682
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL web-stranice"
+msgstr "Webhook URL"
 
 #: weblate/addons/forms.py:686
 msgid "Secret"
-msgstr ""
+msgstr "Tajna"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1983,13 +1973,11 @@ msgstr "Dodatak je instaliran, pogledaj upute za integraciju."
 
 #: weblate/addons/webhooks.py:40
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:42
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "Pošalji obavijest pretplačenim korisnicima."
+msgstr "Šalje obavijest eksternoj usluzi na temelju odabranih događaja."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2059,7 +2047,7 @@ msgstr "Nije bilo moguće dobiti zaključavanje za izvršavanje operacije."
 
 #: weblate/api/views.py:159
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "Navedeni ID jedinice nije jedinica izvora prijevoda."
 
 #: weblate/api/views.py:170
 #, python-format
@@ -3126,10 +3114,8 @@ msgid "AngularJS interpolation string"
 msgstr "Znakovni niz AngularJS interpolacije"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Znakovni nizovi AngularJS interpolacije se ne poklapaju s izvorom"
+msgstr "Znakovni nizovi AngularJS interpolacije se ne poklapaju s izvorom."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3148,201 +3134,163 @@ msgid "Starting newline"
 msgstr "Početni novi redak"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "Izvor i prijevod ne započinju s novim retkom"
+msgstr "Izvor i prijevod ne započinju s novim retkom."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "Završni novi redak"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "Izvor i prijevod ne završavaju s novim retkom"
+msgstr "Izvor i prijevod ne završavaju s novim retkom."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "Početni razmaci"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "Izvor i prijevod ne započinju s jednakim brojem razmaka"
+msgstr "Izvor i prijevod ne započinju s jednakim brojem razmaka."
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "Završni razmaci"
 
 #: weblate/checks/chars.py:108
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "Izvor i prijevod ne završavaju s razmakom"
+msgstr "Izvor i prijevod ne završavaju s razmakom."
 
 #: weblate/checks/chars.py:143
 msgid "Double space"
 msgstr "Dvostruki razmak"
 
 #: weblate/checks/chars.py:144
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "Prijevod sadrži dvostruki razmak"
+msgstr "Prijevod sadrži dvostruki razmak."
 
 #: weblate/checks/chars.py:165
 msgid "Mismatched full stop"
 msgstr "Nepoklapanje točke"
 
 #: weblate/checks/chars.py:167
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "Izvor i prijevod ne završavaju s točkom"
+msgstr "Izvor i prijevod ne završavaju s točkom."
 
 #: weblate/checks/chars.py:218
 msgid "Mismatched colon"
 msgstr "Nepoklapanje dvotočke"
 
 #: weblate/checks/chars.py:219
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "Izvor i prijevod ne završavaju s dvotočkom"
+msgstr "Izvor i prijevod ne završavaju s dvotočkom."
 
 #: weblate/checks/chars.py:249
 msgid "Mismatched question mark"
 msgstr "Nepoklapanje upitnika"
 
 #: weblate/checks/chars.py:251
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "Izvor i prijevod ne završavaju s upitnikom"
+msgstr "Izvor i prijevod ne završavaju s upitnikom."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched exclamation mark"
 msgstr "Nepoklapanje uskličnika"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "Izvor i prijevod ne završavaju s uskličnikom"
+msgstr "Izvor i prijevod ne završavaju s uskličnikom."
 
 #: weblate/checks/chars.py:321
 msgid "Mismatched interrobang"
-msgstr "Nepoklapanja znaka interrobang"
+msgstr "Nepoklapanje interrobang znaka"
 
 #: weblate/checks/chars.py:323
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "Izvor i prijevod ne završavaju sa znakom interrobang"
+msgstr "Izvor i prijevod ne završavaju s interrobang znakom."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched ellipsis"
 msgstr "Nepoklapanje trotočke"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Izvor i prijevod ne završavaju s trotočkom"
+msgstr "Izvor i prijevod ne završavaju s trotočkom."
 
 #: weblate/checks/chars.py:358
 msgid "Mismatched \\n"
 msgstr "Nepoklapanje \\n"
 
 #: weblate/checks/chars.py:360
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "Broj novih redaka (\\n) u prijevodu se ne poklapa s izvorom"
+msgstr ""
+"Broj novih redaka (\\n"
+") u prijevodu se ne poklapa s izvorom."
 
 #: weblate/checks/chars.py:379
 msgid "Mismatching line breaks"
 msgstr "Nepoklapanje prekida redaka"
 
 #: weblate/checks/chars.py:381
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Broj novih redaka u prijevodu se ne poklapa s izvorom"
+msgstr "Broj novih redaka u prijevodu se ne poklapa s izvorom."
 
 #: weblate/checks/chars.py:389 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "Razmak bez širine"
 
 #: weblate/checks/chars.py:390
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "Prijevod sadrži dodatni znak razmaka bez širine"
+msgstr "Prijevod sadrži dodatni znak razmaka bez širine."
 
 #: weblate/checks/chars.py:407 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "Maksimalna dužina prijevoda"
 
 #: weblate/checks/chars.py:408
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "Prijevod ne bi trebao prelaziti zadanu dužinu"
+msgstr "Prijevod ne bi trebao prelaziti zadanu dužinu."
 
 #: weblate/checks/chars.py:426
 msgid "Mismatched semicolon"
 msgstr "Nepoklapanje točka-zareza"
 
 #: weblate/checks/chars.py:428
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Izvor i prijevod ne završavaju s točka-zarezom"
+msgstr "Izvor i prijevod ne završavaju s točka-zarezom."
 
 #: weblate/checks/chars.py:442
 msgid "Kashida letter used"
 msgstr "Koristi se kashida znak"
 
 #: weblate/checks/chars.py:443
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "Ukrasne kashida znakove ne treba koristiti"
+msgstr "Ukrasne kashida znakove ne treba koristiti."
 
 #: weblate/checks/chars.py:462 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "Razmaci interpunkcija"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "Nedostaje neprekidajući razmak ispred interpunkcija (; : ? !)"
+msgstr ""
+"Nedostaje neprekidajući razmak ispred dvodijelnih interpunkcija (; : ? !)."
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "Nedostaju oblici množine"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "Neki oblici množine nisu prevedeni"
+msgstr "Neki oblici množine nisu prevedeni."
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "Jednake množine"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "Neki oblici množine su prevedeni jednako"
+msgstr "Neki oblici množine su prevedeni jednako."
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3382,10 +3330,8 @@ msgid "Has been translated"
 msgstr "Prevedeno"
 
 #: weblate/checks/consistency.py:265
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "Ovaj je izraz već prije bio preveden"
+msgstr "Ovaj je izraz već prije bio preveden."
 
 #: weblate/checks/consistency.py:274
 #, python-format
@@ -3397,10 +3343,8 @@ msgid "Consecutive duplicated words"
 msgstr "Uzastopne jednake riječi"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row"
 msgid "Text contains the same word twice in a row."
-msgstr "Tekst sadrži istu riječ dvaput zaredom"
+msgstr "Tekst sadrži istu riječ dvaput zaredom."
 
 #: weblate/checks/duplicate.py:96
 msgid "The following word is duplicated:"
@@ -3510,7 +3454,7 @@ msgstr "Fluent vrsta"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Odbaci oznaku"
 
 #: weblate/checks/flags.py:326
 #, python-format
@@ -3660,10 +3604,8 @@ msgid "Fluent source inner HTML"
 msgstr "Unutarnji HTML Fluent izvora"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Fluent izvor bi trebao biti važeći unutarnji HTML"
+msgstr "Fluent izvor bi trebao biti važeći unutarnji HTML."
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3726,10 +3668,8 @@ msgid "Fluent translation inner HTML"
 msgstr "HTML unutar Fluent prijevoda"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "Fluent cilj bi trebao biti važeći unutarnji HTML koji se poklapa"
+msgstr "Fluent cilj bi trebao biti važeći unutarnji HTML koji se poklapa."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -3754,10 +3694,8 @@ msgid "Fluent parts"
 msgstr "Fluent dijelovi"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Fluent dijelovi se moraju poklapati"
+msgstr "Fluent dijelovi se moraju poklapati."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3885,10 +3823,8 @@ msgid "Fluent references"
 msgstr "Fluent reference"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "Fluent reference se moraju poklapati"
+msgstr "Fluent reference se moraju poklapati."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -3900,20 +3836,16 @@ msgid "Fluent source syntax"
 msgstr "Sintaksa Fluent izvora"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "Greška Fluent sintakse u izvoru"
+msgstr "Greška Fluent sintakse u izvoru."
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Sintaksa Fluent prijevoda"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "Greška Fluent sintakse u prijevodu"
+msgstr "Greška Fluent sintakse u prijevodu."
 
 #: weblate/checks/format.py:494
 #, python-format
@@ -3925,100 +3857,80 @@ msgid "Python format"
 msgstr "Python format"
 
 #: weblate/checks/format.py:583
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "Izraz u Python formatu se ne poklapa s izvorom"
+msgstr "Izraz u Python formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:591
 msgid "PHP format"
 msgstr "PHP format"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "Izraz u PHP formatu se ne poklapa s izvorom"
+msgstr "Izraz u PHP formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:599
 msgid "C format"
 msgstr "C format"
 
 #: weblate/checks/format.py:600
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "Izraz u C formatu se ne poklapa s izvorom"
+msgstr "Izraz u C formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:607
 msgid "Perl brace format"
 msgstr "Perl format s vitičastim zagradama"
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "Izraz u Perl formatu s vitičastim zagradama se ne poklapa s izvorom"
+msgstr "Izraz u Perl formatu s vitičastim zagradama se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:620
 msgid "Perl format"
 msgstr "Perl format"
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "Izraz u Perl formatu se ne poklapa s izvorom"
+msgstr "Izraz u Perl formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:628
 msgid "JavaScript format"
 msgstr "JavaScript format"
 
 #: weblate/checks/format.py:629
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "Izraz u JavaScript formatu se ne poklapa s izvorom"
+msgstr "Izraz u JavaScript formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:636
 msgid "Lua format"
 msgstr "Lua format"
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "Izraz u Lua formatu se ne poklapa s izvorom"
+msgstr "Izraz u Lua formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:644
 msgid "Object Pascal format"
 msgstr "Objekt u Pascal formatu"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Izraz u Object Pascal formatu se ne poklapa s izvorom"
+msgstr "Izraz u Object Pascal formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:653
 msgid "Scheme format"
 msgstr "Format sheme"
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "Izraz u formatu sheme se ne poklapa s izvorom"
+msgstr "Izraz u formatu sheme se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:665
 msgid "Python brace format"
 msgstr "Python format vitičastih zagrada"
 
 #: weblate/checks/format.py:666
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "Izraz u Python formatu vitičastih zagrada se ne poklapa s izvorom"
+msgstr "Izraz u Python formatu vitičastih zagrada se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:685
 msgid "Single {} encountered in the format string."
@@ -4029,30 +3941,24 @@ msgid "C# format"
 msgstr "C# format"
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "Izraz u C# formatu se ne poklapa s izvorom"
+msgstr "Izraz u C# formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:728
 msgid "Java format"
 msgstr "Java format"
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "Izraz u Java formatu se ne poklapa s izvorom"
+msgstr "Izraz u Java formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:736
 msgid "Java MessageFormat"
-msgstr "Format Java poruka"
+msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "Izraz u Java MessageFormat formatu se ne poklapa s izvorom"
+msgstr "Izraz u Java MessageFormat klasi se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:776
 msgid "You need to pair up an apostrophe with another one."
@@ -4063,68 +3969,52 @@ msgid "i18next interpolation"
 msgstr "i18next interpolacija"
 
 #: weblate/checks/format.py:783
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "i18next interpolacija se ne poklapa s izvorom"
+msgstr "i18next interpolacija se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:796
 msgid "ECMAScript template literals"
-msgstr "ECMAScript predlošci (template literals)"
+msgstr "ECMAScript literali predloška"
 
 #: weblate/checks/format.py:797
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "ECMAScript predlošci (template literals) se ne poklapaju s izvorom"
+msgstr "ECMAScript literali predloška se ne poklapaju s izvorom."
 
 #: weblate/checks/format.py:810
 msgid "Percent placeholders"
-msgstr "Rezervirana mjesta postotka"
+msgstr "Rezervirana mjesta između znakova postotka"
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "Rezervirana mjesta postotka se ne poklapaju s izvorom"
+msgstr "Rezervirana mjesta između znakova postotka se ne poklapaju s izvorom."
 
 #: weblate/checks/format.py:818
 msgid "Vue I18n formatting"
 msgstr "Vue I18n formatiranje"
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Vue I18n formatiranje se ne poklapa s izvorom"
+msgstr "Vue I18n formatiranje se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automatic assignments"
 msgid "Automattic Components"
-msgstr "Automatska dodjeljivanja"
+msgstr "Automattic komponente"
 
 #: weblate/checks/format.py:829
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Rezervirana mjesta postotka se ne poklapaju s izvorom"
+msgstr "Rezervirana mjesta Automattic komponente se ne poklapaju s izvorom."
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
 msgstr "Višestruke neimenovane varijable"
 
 #: weblate/checks/format.py:849
-#, fuzzy
-#| msgid ""
-#| "There are multiple unnamed variables in the string, making it impossible "
-#| "for translators to reorder them"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
-"Izraz sadrži višestruke neimenovane varijable, što onemogućuje "
-"preraspoređivanje varijabla u prijevodima po potrebi"
+"Izraz sadrži višestruke neimenovane varijable, što prevoditeljima "
+"onemogućuje njihovo preraspoređivanje."
 
 #: weblate/checks/glossary.py:24
 msgid "Does not follow glossary"
@@ -4143,10 +4033,8 @@ msgid "Prohibited initial character"
 msgstr "Zabranjen početni znak"
 
 #: weblate/checks/glossary.py:91
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "Izraz počinje sa zabranjenim početnim znakom u CSV-u"
+msgstr "Izraz počinje sa zabranjenim znakom u CSV-u."
 
 #: weblate/checks/glossary.py:112
 msgid ""
@@ -4240,76 +4128,60 @@ msgid "BBCode markup"
 msgstr "BBCode označavanje"
 
 #: weblate/checks/markup.py:112
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "BBCode u prijevodu se ne poklapa s izvorom"
+msgstr "BBCode u prijevodu se ne poklapa s izvorom."
 
 #: weblate/checks/markup.py:195
 msgid "XML syntax"
 msgstr "XML sintaksa"
 
 #: weblate/checks/markup.py:196
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "Prijevod nije ispravan XML"
+msgstr "Prijevod nije ispravan XML."
 
 #: weblate/checks/markup.py:220
 msgid "XML markup"
 msgstr "XML označavanje"
 
 #: weblate/checks/markup.py:221
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "XML oznake u prijevodu se ne poklapaju s izvorom"
+msgstr "XML oznake u prijevodu se ne poklapaju s izvorom."
 
 #: weblate/checks/markup.py:279
 msgid "Markdown references"
 msgstr "Markdown reference"
 
 #: weblate/checks/markup.py:280
-#, fuzzy
-#| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
-msgstr "Markdown reference poveznica se ne poklapaju s izvorom"
+msgstr "Markdown reference poveznica se ne poklapaju s izvorom."
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
 msgstr "Markdown poveznice"
 
 #: weblate/checks/markup.py:297
-#, fuzzy
-#| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
-msgstr "Markdown poveznice se ne poklapaju s izvorom"
+msgstr "Markdown poveznice se ne poklapaju s izvorom."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
 msgstr "Markdown sintaksa"
 
 #: weblate/checks/markup.py:326
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Markdown sintaksa se ne poklapa s izvorom"
+msgstr "Markdown sintaksa se ne poklapa s izvorom."
 
 #: weblate/checks/markup.py:359
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "Prijevod ne sadrži URL"
+msgstr "Prijevod ne sadrži URL."
 
 #: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Nesiguran HTML"
 
 #: weblate/checks/markup.py:379
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "Prijevod koristi nesigurne HTML oznake"
+msgstr "Prijevod koristi nesigurne HTML oznake."
 
 #: weblate/checks/markup.py:403
 msgid "Inconsistent reStructuredText references"
@@ -4341,20 +4213,16 @@ msgid "Placeholders"
 msgstr "Rezervirana mjesta"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "Prijevodu nedostaju neka rezervirana mjesta"
+msgstr "Prijevodu nedostaju neka rezervirana mjesta."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "Regularni izraz"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "Prijevod se ne podudara s regularnim izrazom"
+msgstr "Prijevod se ne podudara s regularnim izrazom."
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4365,30 +4233,24 @@ msgid "Qt format"
 msgstr "Qt format"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "Izraz u Qt formatu se ne poklapa s izvorom"
+msgstr "Izraz u Qt formatu se ne poklapa s izvorom."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Oblici množine u Qt formatu"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "Množina u Qt formatu se ne poklapa s izvorom"
+msgstr "Množina u Qt formatu se ne poklapa s izvorom."
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "Maksimalna dužina prijevoda"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "Prijevod ne bi trebao prelaziti zadanu dužinu"
+msgstr "Tekst prijevoda ne bi trebao prelaziti zadanu dužinu."
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4400,51 +4262,40 @@ msgid "Ruby format"
 msgstr "Ruby format"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "Izraz Ruby formata se ne poklapa s izvorom"
+msgstr "Izraz u Ruby formatu se ne poklapa s izvorom."
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "Nepromijenjen prijevod"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "Izvor i prijevod su jednaki"
+msgstr "Izvor i prijevod su jednaki."
 
 #: weblate/checks/source.py:31
 msgid "Unpluralised"
 msgstr "Bez množine"
 
 #: weblate/checks/source.py:33
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr "Izraz se koristi kao množina, ali se oblici množine ne koriste"
+msgstr "Izraz se koristi kao oblik množine, ali se oblici množine ne koriste."
 
 #: weblate/checks/source.py:46
 msgid "Ellipsis"
 msgstr "Trotočka"
 
 #: weblate/checks/source.py:48
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "Izraz koristi tri točke (...) umjesto trotočku (…)"
+msgstr "Izraz koristi tri točke (...) umjesto trotočku (…)."
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
 msgstr "Višestruke neuspjele provjere"
 
 #: weblate/checks/source.py:61
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "Prijevodi u više jezika sadrže neuspjele provjere"
+msgstr "Prijevodi u više jezika sadrže neuspjele provjere."
 
 #: weblate/checks/source.py:91
 msgid "Following checks are failing:"
@@ -4455,10 +4306,8 @@ msgid "Long untranslated"
 msgstr "Dugo neprevedeno"
 
 #: weblate/checks/source.py:118
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "Izraz odavno nije preveden"
+msgstr "Izraz već dugo nije preveden."
 
 #: weblate/checks/views.py:220 weblate/templates/category-project.html:62
 #: weblate/templates/category.html:101 weblate/templates/component.html:112
@@ -5313,11 +5162,9 @@ msgid "Could not fetch translation: %s"
 msgstr "Nije bilo moguće dohvatiti prijevode: %s"
 
 #: weblate/machinery/forms.py:22
-#, fuzzy
-#| msgid "Source language text"
 msgctxt "Automatic suggestion service configuration"
 msgid "Source language selection"
-msgstr "Tekst izvornog jezika"
+msgstr "Odabir izvornog jezika"
 
 #: weblate/machinery/forms.py:49 weblate/machinery/forms.py:76
 #: weblate/machinery/forms.py:93 weblate/machinery/forms.py:100
@@ -5641,26 +5488,19 @@ msgid "The model's unique deployment name."
 msgstr "Jedinstveno ime implementacije modela."
 
 #: weblate/machinery/types.py:18
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "Automatski odabir"
 
 #: weblate/machinery/types.py:21
-#, fuzzy
-#| msgid "Component renamed"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Komponenta preimenovana"
+msgstr "Izvorni jezik komponente"
 
 #: weblate/machinery/types.py:27
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Novi jezik dodan u %(component)s"
+msgstr "U projektu ili komponenti definiran sekundarni jezik"
 
 #: weblate/machinery/views.py:407
 msgid "Service is currently not available."
@@ -7188,16 +7028,12 @@ msgid "Turn off two-factor authentication"
 msgstr "Isključi dvofaktorsku autentifikaciju"
 
 #: weblate/templates/accounts/user.html:416
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "Za zaštitu tvog računa aktiviraj autentifikaciju lozinkom."
+msgstr "Onemogućuje autentifikaciju lozinkom za korisnika."
 
 #: weblate/templates/accounts/user.html:420
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "Nova lozinka"
+msgstr "Onemogući lozinku"
 
 #: weblate/templates/accounts/user.html:428
 msgid "Account removal deletes all user private data."
@@ -9718,7 +9554,7 @@ msgstr "Komponenta %(component)s je otključana"
 #: weblate/templates/mail/digest.html:15
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "Napomena: Ovaj je sažetak skraćen jer je bilo više od 100 obavijesti."
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -11998,18 +11834,13 @@ msgstr ""
 "dostupan Weblate-u."
 
 #: weblate/templates/trans/alert/common-repo.html:15
-#, fuzzy
-#| msgid ""
-#| "Gerrit prohibited this push. You might need a gerrit-account that has the "
-#| "forge author permissions for the repository/branch or have to use the "
-#| "squash addon on this component in Weblate."
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
-"Gerrit je zabranio ovo slanje. Možda ćeš trebati gerrit-račun koji ima "
-"„forge author” dozvole za repozitorij/granu ili ćeš morati koristiti dodatak "
+"Gerrit je zabranio ovo slanje. Možda ćeš trebati gerrit-račun koji ima „"
+"forge author” dozvole za repozitorij/granu ili ćeš morati koristiti dodatak "
 "za združivanje (squash) na ovoj komponenti u Weblateu."
 
 #: weblate/templates/trans/alert/common-repo.html:20
@@ -13742,17 +13573,13 @@ msgstr "Promjena dijeljenog izraza"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File uploaded"
-msgstr "Način prijenosa datoteka"
+msgstr "Datoteka prenesena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Zadnje aktualiziranje"
+msgstr "Dodatne oznake aktualizirane"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14194,20 +14021,16 @@ msgid "Report period"
 msgstr "Razdoblje izvještaja"
 
 #: weblate/trans/forms.py:1336
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
 msgstr "Razvrstaj prema"
 
 #: weblate/trans/forms.py:1338
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "Strings translated"
-msgstr "Nema izraza za prevođenje"
+msgstr "Izraz preveden"
 
 #: weblate/trans/forms.py:1344
 msgid "Sort order"
-msgstr ""
+msgstr "Redoslijed"
 
 #: weblate/trans/forms.py:1399
 msgid "You do not have permission to access this component."
@@ -14773,10 +14596,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "%(action)s u %(time)s za %(translation)s"
 
 #: weblate/trans/models/change.py:691
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "Način prijenosa datoteka"
+msgstr "Modus prijenosa datoteka:"
 
 #: weblate/trans/models/change.py:727
 msgid "The “{}” file was changed."
@@ -15262,22 +15083,20 @@ msgstr ""
 "jednojezične formate."
 
 #: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Sekundarni jezici"
+msgstr "Sekundarni jezik"
 
 #: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr ""
+"Dodatni jezik koji će se prikazivati zajedno s izvornim jezikom prilikom "
+"prevođenja."
 
 #: weblate/trans/models/component.py:813
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Nijedan izraz nije uvezen iz prenesene datoteke."
+msgstr "Ova se postavka nasljeđuje od projekta ako se ostavi prazno."
 
 #: weblate/trans/models/component.py:1584
 msgid ""
@@ -15715,20 +15534,19 @@ msgstr "Nije bilo moguće analizirati %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1026
 msgid "“{}”"
-msgstr ""
+msgstr "„{}”"
 
 #: weblate/trans/models/translation.py:1029
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: weblate/trans/models/translation.py:1036
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Nije bilo moguće pronaći sjedinjeni izraz."
-msgstr[1] "Nije bilo moguće pronaći sjedinjeni izraz."
-msgstr[2] "Nije bilo moguće pronaći sjedinjeni izraz."
+msgstr[0] "Nije bilo moguće pronaći %d izraz:"
+msgstr[1] "Nije bilo moguće pronaći %d izraza:"
+msgstr[2] "Nije bilo moguće pronaći %d izraza:"
 
 #: weblate/trans/models/translation.py:1222
 #: weblate/trans/models/translation.py:1281
@@ -15773,16 +15591,12 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Nije bilo moguće dijeliti izraz u komponenti %(component)s: %(reason)s"
 
 #: weblate/trans/models/unit.py:1125
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] ""
-"Nije bilo moguće dijeliti izraz u komponenti %(component)s: %(reason)s"
-msgstr[1] ""
-"Nije bilo moguće dijeliti izraz u komponenti %(component)s: %(reason)s"
-msgstr[2] ""
-"Nije bilo moguće dijeliti izraz u komponenti %(component)s: %(reason)s"
+msgstr[0] "Nije bilo moguće dijeliti izraz sa %d komponentom."
+msgstr[1] "Nije bilo moguće dijeliti izraz sa %d komponentama."
+msgstr[2] "Nije bilo moguće dijeliti izraz sa %d komponentama."
 
 #: weblate/trans/models/unit.py:1915
 msgid "Unmark as read-only"
@@ -16681,19 +16495,15 @@ msgid "Horizontal language bar chart"
 msgstr "Stupčani prikaz jezika vodoravno"
 
 #: weblate/trans/widgets.py:527
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "Kod jezika"
+msgstr "Značka za broj jezika"
 
 #: weblate/trans/widgets.py:541
-#, fuzzy
-#| msgid "Languages"
 msgid "language"
 msgid_plural "languages"
-msgstr[0] "Jezici"
-msgstr[1] "Jezici"
-msgstr[2] "Jezici"
+msgstr[0] "jezik"
+msgstr[1] "jezika"
+msgstr[2] "jezika"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -16943,10 +16753,8 @@ msgid "Invalid e-mail address: {}"
 msgstr "Neispravna e-mail adresa: {}"
 
 #: weblate/utils/validators.py:202
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Disposable e-mail domains are disallowed."
-msgstr "Ova e-mail adresa nije dozvoljena."
+msgstr "Jednokratne e-mail domene nisu dozvoljene."
 
 #: weblate/utils/validators.py:213
 msgid "Could not evaluate plural formula: {}"
@@ -16978,10 +16786,8 @@ msgid "This URL is prohibited"
 msgstr "Ova URL adresa je zabranjena"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "Neispravan izraz za pretragu!"
+msgstr "Neispravan izraz kodiran u base64"
 
 #: weblate/utils/views.py:200 weblate/utils/views.py:226
 msgid "Position and priority"
