@@ -760,7 +760,10 @@ def new_language(request: AuthenticatedHttpRequest, path):
                             ),
                         )
                 try:
-                    if added and not obj.create_translations(request=request):
+                    # force_scan needed, see add_new_language
+                    if added and not obj.create_translations(
+                        request=request, force_scan=True
+                    ):
                         messages.success(
                             request,
                             gettext(

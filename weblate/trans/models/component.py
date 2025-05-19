@@ -2435,7 +2435,9 @@ class Component(
 
     def create_translations(
         self,
+        *,
         force: bool = False,
+        force_scan: bool = False,
         langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
@@ -2449,6 +2451,7 @@ class Component(
             # NOTE: In case the lock cannot be acquired, an error will be raised.
             return self.create_translations_immediate(
                 force=force,
+                force_scan=force_scan,
                 langs=langs,
                 request=request,
                 changed_template=changed_template,
@@ -2462,6 +2465,7 @@ class Component(
         perform_load.delay_on_commit(
             pk=self.pk,
             force=force,
+            force_scan=force_scan,
             langs=langs,
             changed_template=changed_template,
             from_link=from_link,
@@ -2473,6 +2477,7 @@ class Component(
         self,
         *,
         force: bool = False,
+        force_scan: bool = False,
         langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
@@ -2488,6 +2493,7 @@ class Component(
         with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
             return self._create_translations(
                 force=force,
+                force_scan=force_scan,
                 langs=langs,
                 request=request,
                 changed_template=changed_template,
@@ -2508,8 +2514,9 @@ class Component(
 
     def _create_translations(  # noqa: C901,PLR0915
         self,
-        force: bool = False,
         *,
+        force: bool = False,
+        force_scan: bool = False,
         langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
@@ -2528,6 +2535,7 @@ class Component(
             self.processed_revision == current_revision
             and self.local_revision
             and not force
+            and not force_scan
         ):
             self.log_info("this revision has been already parsed, skipping update")
             self.progress_step(100)
@@ -3732,7 +3740,9 @@ class Component(
 
         # Trigger parsing of the newly added file
         if create_translations:
-            self.create_translations(request=request)
+            # Forced scanning is needed in case adding file does not trigger commit,
+            # for example when adding appstore metadata which only creates directory.
+            self.create_translations(request=request, force_scan=True)
             messages.info(
                 request,
                 gettext("The translation will be updated in the background."),
