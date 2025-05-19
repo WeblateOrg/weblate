@@ -614,18 +614,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request: Request, *args, **kwargs):
+    def perform_create(self, serializer):
         """Create a new group."""
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
         self.perm_check(
-            request, project=serializer.validated_data.get("defining_project")
+            self.request, project=serializer.validated_data.get("defining_project")
         )
-
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
+        super().perform_create(serializer)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
