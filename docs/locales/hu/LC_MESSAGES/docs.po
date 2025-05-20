@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-20 19:09+0000\n"
+"PO-Revision-Date: 2025-05-20 19:57+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -6126,10 +6126,10 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
-"Ha a Weblate-et Dockerben futtatja, ügyelni kell rá, hogy a biztonsági "
-"mentési hely kötet (volume) formájában legyen csatolva a Weblate-"
-"konténerhez. Ellenkező esetben a konténer újraindításakor a Docker törölni "
-"fogja a mentéseket."
+"Amikor a Weblate-et Dockerben futtatja, győződjön meg róla, hogy a "
+"biztonsági mentés helye kötetként (volume) van csatolva a Weblate-"
+"konténerhez. Ellenkező esetben a biztonsági mentések a konténer "
+"újraindításakor a Docker által törlésre kerülnek."
 
 #: ../../admin/backup.rst:135
 msgid ""
@@ -14505,7 +14505,7 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
-"A Weblate konténerben ez nem szerepel az alapértelmezett keresési "
+"A Weblate-konténerben ez nem szerepel az alapértelmezett keresési "
 "útvonalban, így a teljes elérési utat meg kell adni a parancsok "
 "futtatásakor. Például:"
 
@@ -15466,7 +15466,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:61
 msgid "Start Weblate containers:"
-msgstr "Indítsa el a Weblate konténereket:"
+msgstr "Indítsa el a Weblate-konténereket:"
 
 #: ../../admin/install/docker.rst:67
 msgid ""
@@ -15482,11 +15482,11 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:72
 msgid "Choosing Docker image registry"
-msgstr "Docker képtároló kiválasztása"
+msgstr "Docker-képtároló kiválasztása"
 
 #: ../../admin/install/docker.rst:74
 msgid "Weblate containers are published to following registries:"
-msgstr "A Weblate konténerek az alábbi tárolókba kerülnek feltöltésre:"
+msgstr "A Weblate-konténerek az alábbi tárolókba kerülnek feltöltésre:"
 
 #: ../../admin/install/docker.rst:76
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
@@ -15510,7 +15510,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:85
 msgid "Choosing Docker image tag"
-msgstr "Docker kép címkéjének kiválasztása"
+msgstr "Docker-kép címkéjének kiválasztása"
 
 #: ../../admin/install/docker.rst:87
 msgid "Please choose a tag that matches your environment and expectations:"
@@ -15678,7 +15678,7 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
-"Ezen felül a Weblate konténer mostantól SSL-kapcsolatokat is fogad a 4443-as "
+"Ezen felül a Weblate-konténer mostantól SSL-kapcsolatokat is fogad a 4443-as "
 "porton, ezért érdemes az HTTPS porttovábbítást is belefoglalni a Docker "
 "Compose felülírásba (override):"
 
@@ -15741,7 +15741,7 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
-"Általában célszerű csak a Weblate konténert frissíteni és a PostgreSQL "
+"Általában célszerű csak a Weblate-konténert frissíteni és a PostgreSQL-"
 "konténert az aktuális verzión tartani, mivel a PostgreSQL frissítése elég "
 "körülményes, és legtöbbször nem jár jelentős előnnyel."
 
@@ -15796,7 +15796,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:251
 msgid "Upgrading PostgreSQL container"
-msgstr "PostgreSQL konténer frissítése"
+msgstr "PostgreSQL-konténer frissítése"
 
 #: ../../admin/install/docker.rst:253
 msgid ""
@@ -15804,7 +15804,7 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
-"A PostgreSQL konténerek nem támogatják a verziók közötti automatikus "
+"A PostgreSQL-konténerek nem támogatják a verziók közötti automatikus "
 "frissítést, a frissítést manuálisan kell elvégezni. Az alábbi lépések egy "
 "lehetséges módszert mutatnak be."
 
@@ -15814,7 +15814,7 @@ msgstr "https://github.com/docker-library/postgres/issues/37"
 
 #: ../../admin/install/docker.rst:261
 msgid "Stop Weblate container:"
-msgstr "Állítsa le a Weblate konténert:"
+msgstr "Állítsa le a Weblate-konténert:"
 
 #: ../../admin/install/docker.rst:267
 msgid "Backup the database:"
@@ -15844,7 +15844,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:293
 msgid "Start the database container:"
-msgstr "Indítsa el az adatbázis konténert:"
+msgstr "Indítsa el az adatbázis-konténert:"
 
 #: ../../admin/install/docker.rst:299
 msgid "Restore the database from the backup:"
@@ -15958,7 +15958,7 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
-"A szolgáltatás vízszintes skálázása érdekében több Weblate konténert is "
+"A szolgáltatás vízszintes skálázása érdekében több Weblate-konténert is "
 "futtathat. A :file:`/app/data` kötetet közösen kell használniuk a "
 "konténereknek – ehhez ajánlott klaszterezett fájlrendszert, például "
 "GlusterFS-t alkalmazni. A :file:`/app/cache` kötet viszont konténerenként "
@@ -15971,10 +15971,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"Minden Weblate konténer szerepe a :envvar:`WEBLATE_SERVICE` környezeti "
-"változóval van meghatározva. Kérjük, figyelmesen kövesse a dokumentációt, "
-"mivel bizonyos szolgáltatásokat csak egyszer szabad futtatni a klaszterben, "
-"és a szolgáltatások indítási sorrendje is fontos."
+"Minden Weblate-konténer szerepe a :envvar:`WEBLATE_SERVICE` környezeti "
+"változóval van meghatározva. Kövesse figyelmesen a dokumentációt, mivel "
+"bizonyos szolgáltatásokat csak egyszer szabad futtatni a klaszterben, és a "
+"szolgáltatások indítási sorrendje is fontos."
 
 #: ../../admin/install/docker.rst:404
 msgid ""
@@ -16015,7 +16015,7 @@ msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
-"A Weblate konténer támogatja a titkos adatok fájlon keresztüli átadását. "
+"A Weblate-konténer támogatja a titkos adatok fájlon keresztüli átadását. "
 "Ehhez adja hozzá a környezeti változó nevéhez a ``_FILE`` utótagot, és adja "
 "át a titkos fájlt a Docker-konténernek."
 
@@ -16297,7 +16297,7 @@ msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
-"Ez önmagában nem teszi lehetővé, hogy a Weblate konténer közvetlenül HTTPS "
+"Ez önmagában nem teszi lehetővé, hogy a Weblate-konténer közvetlenül HTTPS "
 "kapcsolaton keresztül fogadjon kéréseket, ehhez külön konfiguráció "
 "szükséges. Ezekre példákat itt talál: :ref:`docker-ssl`."
 
@@ -16328,7 +16328,7 @@ msgid ""
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
 "Lehetővé teszi, hogy a Weblate egy megadott HTTP fejlécből olvassa ki az IP "
-"címet. Ezt akkor használja, ha a Weblate konténer előtt fordított proxy "
+"címet. Ezt akkor használja, ha a Weblate-konténer előtt fordított proxy "
 "működik."
 
 #: ../../admin/install/docker.rst:731
@@ -16998,7 +16998,7 @@ msgid ""
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
 "Az adatbázist a :file:`docker-compose.yml` hozza létre, így ezek a "
-"beállítások a Weblate és a PostgreSQL konténerekre egyaránt érvényesek."
+"beállítások a Weblate- és a PostgreSQL-konténerekre egyaránt érvényesek."
 
 #: ../../admin/install/docker.rst:1461
 msgid ":ref:`database-setup`"
@@ -17595,7 +17595,7 @@ msgid ""
 "Weblate container. The other service containers (PostgreSQL or Redis) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
-"A Weblate konténer két kötetet exportál: :file:`data` és :file:`cache`. Más "
+"A Weblate-konténer két kötetet exportál: :file:`data` és :file:`cache`. Más "
 "szolgáltatások (például PostgreSQL vagy Redis) szintén használnak köteteket, "
 "de ezek nem részei ennek a dokumentációnak."
 
@@ -17648,7 +17648,7 @@ msgid ""
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
-"A Weblate konténer futtatható írásvédett gyökérfájlrendszerrel is. Ebben az "
+"A Weblate-konténer futtatható írásvédett gyökérfájlrendszerrel is. Ebben az "
 "esetben két további ``tmpfs`` kötetet kell csatolni: :file:`/tmp` és "
 ":file:`/run`."
 
@@ -17902,7 +17902,7 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
-"A PostgreSQL konténer alapértelmezett konfigurációt használ, amely nem "
+"A PostgreSQL-konténer alapértelmezett konfigurációt használ, amely nem "
 "használja ki hatékonyan az elérhető CPU-magokat vagy a memóriát. A "
 "teljesítmény javítása érdekében javasolt a konfiguráció testreszabása."
 
@@ -25306,7 +25306,7 @@ msgstr "Weblate frissítése"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr "Docker képfájlok frissítése"
+msgstr "Docker-képfájlok frissítése"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
@@ -48316,7 +48316,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/apple.rst:4
 msgid "Apple iOS strings"
-msgstr "Apple iOS sztringek"
+msgstr "Apple iOS-sztringek"
 
 #: ../../formats/apple.rst:9
 msgid ""
@@ -48330,7 +48330,7 @@ msgstr ""
 
 #: ../../formats/apple.rst:13
 msgid "Apple iOS strings are usually used as monolingual."
-msgstr "Az iOS sztringek általában egynyelvűek."
+msgstr "Az iOS-sztringek általában egynyelvűek."
 
 #: ../../formats/apple.rst:17
 msgid ""
