@@ -653,6 +653,14 @@ class Profile(models.Model):
         blank=True,
         validators=[WeblateURLValidator()],
     )
+    contact = models.URLField(
+        verbose_name=gettext_lazy("Contact URL"),
+        blank=True,
+        validators=[WeblateURLValidator()],
+        help_text=gettext_lazy(
+            "Link to contact you online using services like Signal, SimpleX or Telegram."
+        ),
+    )
     liberapay = models.SlugField(
         verbose_name=gettext_lazy("Liberapay username"),
         blank=True,

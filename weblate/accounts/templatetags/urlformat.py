@@ -10,6 +10,9 @@ register = template.Library()
 
 
 @register.filter
-def urlformat(content):
+def urlformat(content: str) -> str:
     """Nicely formats URL for display."""
-    return content.split("://", 1)[-1].strip("/")
+    simplified = content.split("://", 1)[-1].strip("/")
+    if len(simplified) > 40:
+        return simplified.split("/", 1)[0]
+    return simplified

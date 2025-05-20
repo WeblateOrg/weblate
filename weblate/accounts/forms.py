@@ -237,6 +237,7 @@ class ProfileForm(ProfileBaseForm):
         model = Profile
         fields = (
             "website",
+            "contact",
             "public_email",
             "liberapay",
             "codesite",
