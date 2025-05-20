@@ -148,6 +148,7 @@ Learn more about :ref:`contributing`.
 
    security/index
    security/issues
+   security/passwords
 
 
 .. toctree::
