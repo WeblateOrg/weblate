@@ -3,11 +3,9 @@ const CACHE_NAME = `weblate-pwa-cache-${APP_VERSION}`;
 
 const urlsToCache = [
   // Core pages
-  "/",
   "/dashboard/",
   "/projects/",
   "/languages/",
-  "/changes/",
 
   // User account pages
   "/accounts/profile/",
@@ -28,11 +26,6 @@ const urlsToCache = [
 
   "/site.webmanifest",
   "/robots.txt",
-
-  // Common translation paths
-  "/browse/",
-  "/translate/",
-  "/zen/",
 
   // The service worker itself
   "/service-worker.js",
