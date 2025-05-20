@@ -7,6 +7,7 @@ Weblate 5.12
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
 * :ref:`addon-weblate.json.customize` now has a configurable compact mode.
+* Added :ref:`check-kabyle-characters` quality check.
 
 .. rubric:: Improvements
 
@@ -16,10 +17,12 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
 * :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
+* :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
+* Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
 

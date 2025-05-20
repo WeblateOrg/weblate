@@ -83,6 +83,7 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
 )
 def perform_load(
     pk: int,
+    *,
     force: bool = False,
     langs: list[str] | None = None,
     changed_template: bool = False,
@@ -90,7 +91,7 @@ def perform_load(
     change: int | None = None,
 ) -> None:
     component = Component.objects.get(pk=pk)
-    component.create_translations_task(
+    component.create_translations_immediate(
         force=force,
         langs=langs,
         changed_template=changed_template,

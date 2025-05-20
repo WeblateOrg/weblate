@@ -145,7 +145,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
-        self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        self.assertEqual(
+            message.subject,
+            "[Weblate] testuser has invited you to join the Test project",
+        )
         mail.outbox = []
 
         self.assertEqual(Invitation.objects.count(), 1)
@@ -161,7 +164,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
-        self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        self.assertEqual(
+            message.subject,
+            "[Weblate] testuser has invited you to join the Test project",
+        )
         mail.outbox = []
 
         user_client = self.client_class()

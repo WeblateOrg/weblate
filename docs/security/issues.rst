@@ -1,3 +1,6 @@
+Vulnerability and incident handling
+===================================
+
 .. _security:
 
 Reporting security issues
@@ -40,3 +43,18 @@ depending on what action is taken, you may get more follow-up emails.
     * :doc:`Django <django:internals/security>`
     * `Django REST framework <https://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
+
+Vulnerability disclosure policy
+-------------------------------
+
+Within 30 days following a release containing a vulnerability fix, a security
+advisory is published at
+https://github.com/WeblateOrg/weblate/security/advisories. The advisory is
+available immediately with a release when possible.
+
+Any actively exploited vulnerability or severe incidents are notified to CSIRT
+within 24 hours, general info is provided to CSIRT within 72 hours, and a full
+report is provided within 14 days.
+
+All users of Hosted or Dedicated Weblate impacted by a severe incident
+or an actively exploited vulnerability are notified within 7 days.
