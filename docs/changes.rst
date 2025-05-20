@@ -18,6 +18,7 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
+* :http:get:`/api/users/` now includes ``languages``.
 
 .. rubric:: Bug fixes
 
