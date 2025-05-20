@@ -1547,9 +1547,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # delete_unit might do changes in the database only and not touch the files
         # for pending new units
         if self.is_source:
-            self.component.create_translations(
-                request=request, change=change, run_async=True
-            )
+            self.component.create_translations(request=request, change=change)
             self.component.invalidate_cache()
         else:
             self.check_sync(request=request, change=change)

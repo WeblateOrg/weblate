@@ -1848,6 +1848,7 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         context["title"] = gettext("Second factor sign in")
         return context
 
+    @method_decorator(session_ratelimit_post("second_factor"))
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         self.user = self.get_user()
         return super().dispatch(request, *args, **kwargs)
@@ -1864,6 +1865,7 @@ class WeblateBeginCredentialAuthenticationView(
     pass
 
 
+@method_decorator(session_ratelimit_post("second_factor"), name="dispatch")
 class WeblateCompleteCredentialAuthenticationView(
     SecondFactorMixin, CompleteCredentialAuthenticationView
 ):

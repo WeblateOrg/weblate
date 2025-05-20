@@ -135,7 +135,7 @@ def language_consistency(
             else:
                 new_lang.log_info("added for language consistency")
         try:
-            component.create_translations_task()
+            component.create_translations_immediate()
         except FileParseError as error:
             component.log_error("could not parse translation files: %s", error)
 

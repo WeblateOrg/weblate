@@ -93,7 +93,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import WeblateLock
 from weblate.utils.random import get_random_identifier
 from weblate.utils.render import (
     render_template,
@@ -1759,7 +1759,7 @@ class Component(
 
         if result:
             # create translation objects for all files
-            self.create_translations(request=request, run_async=True)
+            self.create_translations(request=request)
 
             # Push after possible merge
             self.push_if_needed(do_update=False)
@@ -1957,7 +1957,7 @@ class Component(
             self.trigger_post_update(previous_head, False)
 
             # create translation objects for all files
-            self.create_translations(request=request, force=True, run_async=True)
+            self.create_translations(request=request, force=True)
             return True
 
     @perform_on_link
@@ -1998,7 +1998,7 @@ class Component(
     @transaction.atomic
     def do_file_scan(self, request=None):
         self.commit_pending("file-scan", request.user if request else None)
-        self.create_translations(request=request, force=True, run_async=True)
+        self.create_translations(request=request, force=True)
         return True
 
     def get_repo_link_url(self):
@@ -2436,22 +2436,20 @@ class Component(
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
-        run_async: bool = False,
     ) -> bool:
         """Load translations from VCS."""
-        if not run_async or settings.CELERY_TASK_ALWAYS_EAGER:
-            try:
-                # Asynchronous processing not requested or not available, run the update
-                # directly from the request processing.
-                # NOTE: In case the lock cannot be acquired, an error will be raised.
-                return self.create_translations_task(
-                    force, langs, request, changed_template, from_link, change
-                )
-            except WeblateLockTimeoutError:
-                if settings.CELERY_TASK_ALWAYS_EAGER:
-                    # Retry will not address anything
-                    raise
-                # Else, fall back to asynchronous process.
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            # Asynchronous processing not available, run the update
+            # directly from the request processing.
+            # NOTE: In case the lock cannot be acquired, an error will be raised.
+            return self.create_translations_immediate(
+                force=force,
+                langs=langs,
+                request=request,
+                changed_template=changed_template,
+                from_link=from_link,
+                change=change,
+            )
 
         from weblate.trans.tasks import perform_load
 
@@ -2466,8 +2464,9 @@ class Component(
         )
         return False
 
-    def create_translations_task(
+    def create_translations_immediate(
         self,
+        *,
         force: bool = False,
         langs: list[str] | None = None,
         request=None,
@@ -2483,7 +2482,12 @@ class Component(
         # In case the lock cannot be acquired, an error will be raised.
         with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
             return self._create_translations(
-                force, langs, request, changed_template, from_link, change
+                force=force,
+                langs=langs,
+                request=request,
+                changed_template=changed_template,
+                from_link=from_link,
+                change=change,
             )
 
     def check_template_valid(self) -> None:
@@ -2500,6 +2504,7 @@ class Component(
     def _create_translations(  # noqa: C901,PLR0915
         self,
         force: bool = False,
+        *,
         langs: list[str] | None = None,
         request=None,
         changed_template: bool = False,
@@ -2655,8 +2660,8 @@ class Component(
             component.translations_count = -1
             try:
                 # Do not run these linked repos update as other background tasks.
-                was_change |= component.create_translations_task(
-                    force, langs, request=request, from_link=True
+                was_change |= component.create_translations_immediate(
+                    force=force, langs=langs, request=request, from_link=True
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):
@@ -3258,10 +3263,10 @@ class Component(
         was_change = False
         if changed_setup:
             was_change = self.create_translations(
-                force=True, changed_template=changed_template, run_async=True
+                force=True, changed_template=changed_template
             )
         elif changed_git:
-            was_change = self.create_translations(run_async=True)
+            was_change = self.create_translations()
 
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
@@ -3722,7 +3727,7 @@ class Component(
 
         # Trigger parsing of the newly added file
         if create_translations:
-            self.create_translations(request=request, run_async=True)
+            self.create_translations(request=request)
             messages.info(
                 request,
                 gettext("The translation will be updated in the background."),

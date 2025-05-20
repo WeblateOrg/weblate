@@ -21,16 +21,46 @@
           <h4 class="panel-title">
             {% documentation_icon 'admin/backup' right=True %}
             {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
+            {% if service.has_errors %}
+              <span class="label label-warning">{% translate "Turned off" %}</span>
+            {% endif %}
             {% if not service.enabled %}
-              <span class="badge">{% translate "Turned off" %}</span>
+              <span class="label label-danger">{% translate "Failed with an error" %}</span>
             {% endif %}
           </h4>
         </div>
         <div class="panel-body">
-          <div class="panel-group"
-               id="accordion-{{ service.pk }}"
-               role="tablist"
-               aria-multiselectable="true">
+
+          {% if service.has_errors and support_status.has_expired_support and service.repository == support_status.backup_repository %}
+            <div class="panel-group"
+                 id="accordion-{{ service.pk }}"
+                 role="tablist"
+                 aria-multiselectable="true">
+              <div class="panel panel-danger">
+                <div class="panel-heading" role="tab">
+                  <h4 class="panel-title">
+                    <a class="collapsed createdbackup"
+                       role="button"
+                       data-toggle="collapse"
+                       data-parent="#accordion-{{ service.pk }}"
+                       href="#error-{{ service.pk }}"
+                       aria-expanded="true"
+                       aria-controls="collapse-{{ service.pk }}">
+                      {% translate "Unpaid service subscription" %}{{ support_status }}
+                    </a>
+                  </h4>
+                </div>
+                <div id="error-{{ service.pk }}" class="panel-collapse collapse in" role="tabpanel">
+                  <div class="panel-body">
+                    {% translate "The backup service was temporarily disabled due to an unpaid subscription. Enable backups by renewing your subscription." %}
+
+                  </div>
+                  <div class="panel-footer">
+                    <a class="btn btn-primary" href="https://weblate.org/user/">{% translate "Manage your subscription" %}</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
             <div class="panel panel-default">
               <div class="panel-heading" role="tab">
                 <h4 class="panel-title">
@@ -47,7 +77,7 @@
                 </h4>
               </div>
               <div id="collapse-{{ service.pk }}" class="panel-collapse collapse" role="tabpanel">
-                {% include "manage/snippets/backup-credentials.html" %}
+                <div class="panel-body">{% include "manage/snippets/backup-credentials.html" %}</div>
               </div>
             </div>
             {% for log in service.last_logs %}
