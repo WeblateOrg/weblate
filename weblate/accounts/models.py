@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import datetime
+import logging
 import re
 from datetime import timedelta
 from typing import TYPE_CHECKING, Literal
@@ -65,6 +66,8 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
     from django_otp.models import Device
+
+LOGGER = logging.getLogger("weblate.audit")
 
 
 class WeblateAccountsConf(AppConf):
@@ -255,6 +258,7 @@ ACCOUNT_ACTIVITY = {
     "twofactor-remove": gettext_lazy("Two-factor authentication removed: {device}"),
     "twofactor-login": gettext_lazy("Two-factor authentication sign in using {device}"),
 }
+AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked"}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -389,9 +393,20 @@ class AuditLog(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
+
+        # User notification
         if self.should_notify():
             email = self.user.email
             notify_auditlog.delay_on_commit(self.pk, email)
+
+        # Log event
+        LOGGER.log(
+            logging.WARNING if self.activity in AUDIT_WARNING else logging.INFO,
+            "audit[%s]: %s from %s",
+            self.activity,
+            self.user.username if self.user else None,
+            self.address,
+        )
 
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
