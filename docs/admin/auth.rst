@@ -17,12 +17,12 @@ The authentication attempts are subject to :ref:`rate-limit`.
 Authentication backends
 -----------------------
 
-The built-in solution of Django is used for authentication,
-including various social options to do so.
-Using it means you can import the user database of other Django-based projects
-(see :ref:`pootle-migration`).
+Weblate relies on Django for the authentication. This includes built-in
+password-based authentication, social authentication, and third-party
+authentication backends for Django.
 
-Django can additionally be set up to authenticate against other means too.
+Using Django's built-in authentication means you can import the user database
+of other Django-based projects (see :ref:`pootle-migration`).
 
 .. seealso::
 
@@ -466,7 +466,9 @@ passwords below a certain threshold.
 .. seealso::
 
    :setting:`PASSWORD_MINIMAL_STRENGTH`,
-   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`,
+   :doc:`/security/passwords`
+
 
 .. _saml-auth:
 
