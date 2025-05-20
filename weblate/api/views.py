@@ -577,6 +577,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    create=extend_schema(description="Create a new group."),
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
@@ -615,7 +616,6 @@ class GroupViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        """Create a new group."""
         self.perm_check(
             self.request, project=serializer.validated_data.get("defining_project")
         )
