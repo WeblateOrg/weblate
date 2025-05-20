@@ -74,6 +74,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.project_kwargs = {"slug": "test"}
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
+        self.user.profile.languages.add(Language.objects.get(code="cs"))
         group = Group.objects.get(name="Users")
         self.user.groups.add(group)
 
@@ -138,6 +139,7 @@ class UserAPITest(APIBaseTest):
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
+        language = Language.objects.get(code="cs")
         response = self.do_request(
             "api:user-detail",
             kwargs={"username": User.objects.filter(is_active=True)[0].username},
@@ -146,6 +148,10 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
+        self.assertIn(
+            f"http://example.com/api/languages/{language.code}/",
+            response.data["languages"],
+        )
 
     def test_filter(self) -> None:
         response = self.client.get(reverse("api:user-list"), {"username": "api"})
