@@ -2386,9 +2386,14 @@ class Component(
                 and self.auto_lock_error
                 and alert in LOCKING_ALERTS
                 and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-                and self.change_set.filter(action=ActionEvents.LOCK)
-                .order_by("-id")[0]
-                .auto_status
+                and getattr(
+                    # The object might not exist
+                    self.change_set.filter(action=ActionEvents.LOCK)
+                    .order_by("-id")
+                    .first(),
+                    "auto_status",
+                    None,
+                )
             ):
                 self.do_lock(user=None, lock=False, auto=True)
 
