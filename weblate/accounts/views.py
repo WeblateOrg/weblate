@@ -1338,7 +1338,7 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
         msg = "Backend not found"
         raise Http404(msg) from None
 
-    # Store session ID for OpenID or SAML based auth. The session cookies will
+    # Store session ID for OpenID based auth. The session cookies will
     # not be sent on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += "?authid={}".format(
