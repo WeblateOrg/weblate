@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 18:25+0000\n"
-"PO-Revision-Date: 2025-05-19 17:59+0000\n"
+"PO-Revision-Date: 2025-05-22 03:23+0000\n"
 "Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/"
 "application/kab/>\n"
@@ -3071,7 +3071,7 @@ msgstr ""
 #: weblate/auth/permissions.py:184 weblate/templates/translate.html:192
 #: weblate/templates/translate.html:257
 msgid "This translation is currently locked."
-msgstr "Tasuqilt-a temdel yakan."
+msgstr "Tasuqilt-a temdel, akka tura."
 
 #: weblate/auth/permissions.py:194
 #, fuzzy
@@ -3149,10 +3149,8 @@ msgid "The source string needs review."
 msgstr "Azrir aɣbalu ibeddel"
 
 #: weblate/auth/permissions.py:276
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The string is read-only."
-msgstr "Tasuqilt-a temdel."
+msgstr "Azrir-a i tɣuṛi kan."
 
 #: weblate/auth/permissions.py:286
 #, fuzzy
@@ -3167,10 +3165,8 @@ msgstr ""
 "ilaq ad ibeddel."
 
 #: weblate/auth/permissions.py:292
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "The translation is read-only."
-msgstr "Tasuqilt-a temdel."
+msgstr "Tasuqilt-a i tɣuṛi kan."
 
 #: weblate/auth/permissions.py:309
 msgid "Add the string to the source language instead."
@@ -4691,7 +4687,7 @@ msgstr ""
 
 #: weblate/checks/source.py:59
 msgid "Multiple failing checks"
-msgstr "Asenqed ur iddi ara"
+msgstr "Aṭas isenqad la yettwaɣen"
 
 #: weblate/checks/source.py:61
 #, fuzzy
@@ -4721,7 +4717,7 @@ msgstr "Azrir-a ur yettwasuqel ara acḥal aya"
 #: weblate/templates/language.html:47 weblate/templates/project.html:114
 #: weblate/templates/translation.html:107
 msgid "Failing checks"
-msgstr "Asenqed ur iddi ara"
+msgstr "Isenqad la yettwaɣen"
 
 #: weblate/checks/views.py:228
 msgid "Check"
@@ -8273,22 +8269,19 @@ msgid "Checks"
 msgstr "Asenqed"
 
 #: weblate/templates/base.html:207
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s — %(language)s"
-msgstr "Asenqed yeccḍen deg %(project)s"
+msgstr "Isenqad la yettwaɣen deg %(project)s — %(language)s"
 
 #: weblate/templates/base.html:216
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(project)s"
-msgstr "Asenqed yeccḍen deg %(project)s"
+msgstr "Isenqad la yettwaɣen deg %(project)s"
 
 #: weblate/templates/base.html:224
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failing checks in %(language)s"
-msgstr "Asenqed yeccḍen deg %(project)s"
+msgstr "Isenqad la yettwaɣen s %(language)s"
 
 #: weblate/templates/base.html:230
 msgid "Checks overview"
@@ -8736,7 +8729,7 @@ msgstr "Ifecka"
 #: weblate/templates/replace.html:9 weblate/templates/translation.html:90
 #: weblate/templates/translation.html:318
 msgid "Search and replace"
-msgstr "anadi d usemselsi"
+msgstr "Anadi d usemselsi"
 
 #: weblate/templates/category-project.html:67
 #: weblate/templates/category.html:127 weblate/templates/component.html:174
@@ -8788,24 +8781,18 @@ msgstr "Sader ifuyla n tsuqilt deg ufaymu ZIP"
 
 #: weblate/templates/category.html:73 weblate/templates/component.html:81
 #: weblate/templates/language-project.html:59 weblate/templates/project.html:83
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
-msgstr "Sader ifuyla n tsuqilt deg ufaymu ZIP"
+msgstr "Zdem ifuyla n tsuqilt amzun d CSV deg ufaylu ZIP"
 
 #: weblate/templates/category.html:77 weblate/templates/component.html:85
 #: weblate/templates/language-project.html:63 weblate/templates/project.html:87
-#, fuzzy
-#| msgid "Download translation as XLIFF 1.2"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
-msgstr "Sider tasuqilt XLIFF 1.2"
+msgstr "Zdem ifuyla n tsuqilt amzun d XLIFC deg ufaylu ZIP"
 
 #: weblate/templates/category.html:81 weblate/templates/component.html:89
 #: weblate/templates/language-project.html:67 weblate/templates/project.html:91
-#, fuzzy
-#| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
-msgstr "Sader ifuyla n tsuqilt deg ufaymu ZIP"
+msgstr "Zdem ifuyla n tsuqilt amzun d XLSX deg ufaylu ZIP"
 
 #: weblate/templates/category.html:113 weblate/templates/project.html:142
 #, fuzzy
@@ -11715,6 +11702,8 @@ msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
 msgstr ""
+"Tasuqilt-a temdel kra n wakud ɣef ssebba n uṣeggem, ma ulac aɣilif, uɣal-d "
+"ticki."
 
 #: weblate/templates/snippets/component/lock.html:28
 msgid "The translation was automatically locked due to following alerts:"
@@ -11848,10 +11837,8 @@ msgstr "Akufi n Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:991
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation is forbidden."
-msgstr "Tasuqilt-a temdel."
+msgstr "Tasuqilt-a tettwagdel."
 
 #: weblate/templates/snippets/glossary.html:7
 #, fuzzy
@@ -12094,11 +12081,9 @@ msgid "Read-only"
 msgstr "Tɣuri kan"
 
 #: weblate/templates/snippets/info.html:361
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "Asenqed ur iddi ara"
+msgstr "Isenqad la yettwaɣen"
 
 #: weblate/templates/snippets/info.html:370
 #, fuzzy
@@ -14032,10 +14017,8 @@ msgid "No screenshot currently associated."
 msgstr "Ulac tuṭṭfa n ugdil icudden akka tura!"
 
 #: weblate/templates/translate.html:778
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "Tasuqilt-a temdel yakan."
+msgstr "Ulac asegzi i d-yettunefken, akka tura."
 
 #: weblate/templates/translate.html:811
 #, fuzzy
@@ -14971,10 +14954,8 @@ msgid "Unfinished strings without suggestions"
 msgstr "Izriren yettwaqeblen s yisumar"
 
 #: weblate/trans/filter.py:43
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
-msgstr "Izriren s tuccḍiwin n usentem"
+msgstr "Izriren yettwasuqlen yesɛan tuccḍiwin n usentem"
 
 #: weblate/trans/filter.py:48
 #, fuzzy
@@ -15945,10 +15926,8 @@ msgid "Parent category has to be different!"
 msgstr ""
 
 #: weblate/trans/models/change.py:406
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Tasuqilt temdel s wudem awurman ɣef sebba n yilɣa-a:"
+msgstr "Tasuqilt temdel s wudem awurman ɣef sebba n yiwen n wulɣu."
 
 #: weblate/trans/models/change.py:410
 msgid "Fixing an alert automatically unlocked the component."
@@ -16521,10 +16500,8 @@ msgstr "Ur izmir ara ad inadi deg ukufi: %s"
 #: weblate/trans/models/component.py:1672
 #: weblate/trans/models/component.py:2955
 #: weblate/trans/models/component.py:3018
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "File does not exist."
-msgstr "Tasuqilt-a temdel."
+msgstr "Afaylu-a ur yelli ara."
 
 #: weblate/trans/models/component.py:1851
 #, python-format
@@ -17359,7 +17336,7 @@ msgstr "Tasuqilt-atettwaseqdec i yizrien iɣbula."
 #: weblate/trans/templatetags/translations.py:1198
 #: weblate/trans/templatetags/translations.py:1218
 msgid "This translation is locked."
-msgstr "Tasuqilt-a temdel."
+msgstr "Tasuqilt-a tṣukkeṛ."
 
 #: weblate/trans/templatetags/translations.py:1203
 msgid "Updating translation component…"
@@ -17374,10 +17351,8 @@ msgid "You administrate this project."
 msgstr "Kečč anedbal seg usenfaṛ-a."
 
 #: weblate/trans/templatetags/translations.py:1253
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation does not yet exist."
-msgstr "Tasuqilt-a temdel."
+msgstr "Tasuqilt-a mazal ur telli ara."
 
 #: weblate/trans/templatetags/translations.py:1266
 #, fuzzy, python-format
@@ -18298,10 +18273,8 @@ msgid "Number of comments"
 msgstr "Tisegranin s uferdis n tugna"
 
 #: weblate/utils/views.py:210
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "Number of failing checks"
-msgstr "Asenqed ur iddi ara"
+msgstr "Amḍan n isenqad la yettwaɣen"
 
 #: weblate/utils/views.py:212
 #, fuzzy
