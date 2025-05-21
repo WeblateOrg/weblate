@@ -1432,9 +1432,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
                 salt=AUTHID_SALT,
             )
         except (BadSignature, SignatureExpired):
+            report_error("authid signature")
             return auth_redirect_token(request)
         if ip_address != get_ip_address(request):
-            return auth_redirect_token(request)
+            return auth_fail(request, "IP address changed, please try again.")
         engine = import_module(settings.SESSION_ENGINE)
         request.session = engine.SessionStore(session_key)
 
