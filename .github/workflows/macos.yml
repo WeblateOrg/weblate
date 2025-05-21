@@ -38,6 +38,8 @@ jobs:
     - run: brew untap homebrew/core
     - run: brew untap aws/tap
     - run: brew upgrade
+    - run: brew install ldc@1.28
+    - run: brew link --force --overwrite ldc@1.28
     - run: brew cleanup
     - run: brew list --versions
     - run: brew deps --tree --installed
