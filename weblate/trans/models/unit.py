@@ -895,6 +895,10 @@ class Unit(models.Model, LoggerMixin):
                     # Store previous source and fuzzy flag for monolingual
                     if not previous_source:
                         source_change = previous_source = self.source
+                        # Keep prevoious source if already set in case source
+                        # changes multiple times
+                        if self.previous_source:
+                            previous_source = self.previous_source
                     state = STATE_FUZZY
                 pending = True
             elif (
