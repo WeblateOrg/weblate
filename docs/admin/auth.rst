@@ -687,7 +687,7 @@ Active Directory integration
 CAS authentication
 ------------------
 
-CAS authentication can be achieved using a package such as `django-cas-ng`.
+CAS authentication can be achieved using a package such as `Django CAS NG`_.
 
 Step one is disclosing the e-mail field of the user via CAS. This has to be
 configured on the CAS server itself, and requires you run at least CAS v2 since
@@ -695,7 +695,7 @@ CAS v1 doesn't support attributes at all.
 
 Step two is updating Weblate to use your CAS server and attributes.
 
-To install `django-cas-ng`:
+To install `Django CAS NG`_:
 
 .. code-block:: sh
 
@@ -740,9 +740,7 @@ cause problems, therefore it's suggested to put it:
         user.email = attributes["email"]
         user.save()
 
-.. seealso::
-
-    `Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_
+.. _Django CAS NG: https://github.com/django-cas-ng/django-cas-ng
 
 Configuring third party Django authentication
 ---------------------------------------------

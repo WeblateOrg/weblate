@@ -704,7 +704,7 @@ Django documentation.
 .. hint::
 
     In case you get error about not supported authentication (for example
-    ``SMTP AUTH extension not supported by server``), it is most likely caused
+    :samp:`SMTP AUTH extension not supported by server`), it is most likely caused
     by using insecure connection and server refuses to authenticate this way.
     Try enabling :setting:`django:EMAIL_USE_TLS` in such case.
 

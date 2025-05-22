@@ -637,7 +637,7 @@ Weblate 5.7.1
 
 .. rubric:: Improvements
 
-* Updated language names to better describe different scripts and Sintic languages.
+* Updated language names to better describe different scripts and Sinitic languages.
 * :ref:`addon-weblate.cleanup.generic` is now automatically installed for formats which need it to update non-translation content in the translated files.
 
 .. rubric:: Bug fixes
@@ -1025,7 +1025,7 @@ Weblate 5.4
 * :doc:`/formats/moko`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
-* Weblate is now available in தமிழ்.
+* Weblate is now available in Tamil.
 
 .. rubric:: Improvements
 

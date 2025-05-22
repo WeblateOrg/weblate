@@ -650,8 +650,7 @@ Java MessageFormat
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
 :Check identifier: ``java_format``
-:Flag to enable unconditionally: ``java-format``
-:Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
+:Flag to enable: ``java-format``, ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-format``
 :Position format string example: ``There are {0} apples``
 
