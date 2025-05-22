@@ -42,6 +42,8 @@ Use the generated file to import project when :ref:`adding-projects` or in :wlad
    codes could not be processed and you can then add missing language
    definitions manually.
 
+.. _automated-backup:
+
 Automated backup using BorgBackup
 ---------------------------------
 
@@ -170,6 +172,8 @@ via SSH using the Weblate SSH key:
 .. seealso::
 
    :ref:`weblate-ssh-key`, :doc:`borg:usage/general`
+
+.. _restore-borg:
 
 Restoring from BorgBackup
 -------------------------
