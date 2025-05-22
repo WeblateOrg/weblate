@@ -381,8 +381,10 @@ class RepoTestMixin:
     def create_dtd(self):
         return self._create_component("dtd", "dtd/*.dtd", "dtd/en.dtd")
 
-    def create_appstore(self):
-        return self._create_component("appstore", "metadata/*", "metadata/en-US")
+    def create_appstore(self, **kwargs):
+        return self._create_component(
+            "appstore", "metadata/*", "metadata/en-US", **kwargs
+        )
 
     def create_html(self):
         return self._create_component(

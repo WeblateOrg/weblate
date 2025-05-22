@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.11\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-04-14 20:26+0200\n"
-"PO-Revision-Date: 2025-05-17 14:03+0000\n"
+"PO-Revision-Date: 2025-05-21 14:33+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -37829,10 +37829,12 @@ msgstr ""
 #: ../../changes/v4.rst:812
 msgid "Extend metrics usage to improve performance of several pages."
 msgstr ""
+"Etendre l'utilisation des métriques pour améliorer les performances de "
+"plusieurs pages."
 
 #: ../../changes/v4.rst:813
 msgid "Store correct source language in TMX files."
-msgstr ""
+msgstr "Enregistrer la langue correcte de la source dans les fichiers TMX."
 
 #: ../../changes/v4.rst:814
 #, fuzzy
@@ -37870,12 +37872,14 @@ msgstr ""
 
 #: ../../changes/v4.rst:820 ../../changes/v4.rst:1213
 msgid "Improved bulk edit performance."
-msgstr ""
+msgstr "Performances améliorées des corrections en masse."
 
 #: ../../changes/v4.rst:821
 msgid ""
 "Fixed preserving \"Needs editing\" and \"Approved\" states for ODF files."
 msgstr ""
+"Corrigé en gardant les états \"Correction nécessaire\" et \"Approuvé\" des "
+"fichiers ODF."
 
 #: ../../changes/v4.rst:822
 msgid "Improved interface for customizing translation-file downloads"
@@ -37965,6 +37969,8 @@ msgstr "Prise en charge de la recherche dans les explications."
 #: ../../changes/v4.rst:841
 msgid "Strings can now be added and removed in bilingual formats as well."
 msgstr ""
+"Les chaînes peuvent maintenant être ajoutées ou supprimées également dans "
+"les formats bilingues."
 
 #: ../../changes/v4.rst:842
 #, fuzzy
@@ -38000,10 +38006,13 @@ msgstr "Veuillez vous connecter pour enregistrer vos traductions."
 #: ../../changes/v4.rst:846 ../../changes/v4.rst:865
 msgid "Glossaries are now stored as regular components."
 msgstr ""
+"Les glossaires sont maintenant enregistrés comme des composants réguliers."
 
 #: ../../changes/v4.rst:847
 msgid "Dropped specific API for glossaries as component API is used now."
 msgstr ""
+"Suppression d'API spécifiques au glossaire puisque l'API composant est "
+"maintenant utilisée."
 
 #: ../../changes/v4.rst:848
 msgid "Added simplified interface to toggle some of the flags."
@@ -38663,6 +38672,8 @@ msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
 msgstr ""
+"La méthode ``post_update`` des greffons utilise désormais le paramètre "
+"supplémentaire ``skip_push``."
 
 #: ../../changes/v4.rst:1041
 msgid "Weblate 4.2.2"
@@ -38898,16 +38909,20 @@ msgid ""
 "Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or "
 "4.1 first."
 msgstr ""
+"Il n'est plus possible de mettre à jour à partir des versions 3.x, veuillez "
+"passer d'abord par la 4.0 ou la 4.1 ."
 
 #: ../../changes/v4.rst:1101 ../../changes/v4.rst:1177
 msgid "There are some new and updated requirements."
-msgstr ""
+msgstr "Il y a quelques besoins nouveaux et d'autres qui ont été mis à jour."
 
 #: ../../changes/v4.rst:1102
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable new "
 "middleware and changed application ordering."
 msgstr ""
+"Il y a plusieurs modifications dans :file:`settings_example.py`, les plus "
+"notables étant un nouveau middleware et un ordre d'application modifié."
 
 #: ../../changes/v4.rst:1103
 msgid ""
@@ -38915,6 +38930,10 @@ msgid ""
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
 msgstr ""
+"Les clés des formats basés sur JSON n'incluent plus de point initial. Les "
+"chaînes sont corrigées lors de la migration de la base de données, mais des "
+"ajustements peuvent être nécessaires pour les composants externes si vous "
+"utilisez des clés dans les exportations ou dans l'API."
 
 #: ../../changes/v4.rst:1104
 msgid ""
@@ -38928,12 +38947,18 @@ msgid ""
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
 msgstr ""
+"Le domaine Weblate est configuré maintenant dans les paramètres, voir "
+":setting:`SITE_DOMAIN` (ou :envvar:`WEBLATE_SITE_DOMAIN`). Vous devez le "
+"configurer avant d'exécuter Weblate."
 
 #: ../../changes/v4.rst:1106
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
 msgstr ""
+"Les champs du nom d'utilisateur et du courriel dans la base utilisateur "
+"doivent désormais être insensibles à la casse et uniques. Par erreur cela "
+"n'était pas confirmé avec PostgreSQL."
 
 #: ../../changes/v4.rst:1109
 msgid "Weblate 4.1.1"
@@ -38948,6 +38973,8 @@ msgstr "Version publiée le 19 juin 2020."
 #: ../../changes/v4.rst:1113
 msgid "Fixed changing autofix or add-ons configuration in Docker."
 msgstr ""
+"Corrigé en modifiant la correction automatique ou la configuration des "
+"greffons dans Docker."
 
 #: ../../changes/v4.rst:1114
 msgid "Fixed possible crash in \"About\" page."
@@ -53098,12 +53125,10 @@ msgid "``pending``"
 msgstr "``pending``"
 
 #: ../../user/search.rst:71
-#, fuzzy
-#| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr ""
-"Modifications en attente qui ne sont pas encore committés dans le dépôt "
-"Weblate"
+"Modifications en attente qui ne sont pas encore committées dans le fichier ("
+"voir :ref:`lazy-commit`)."
 
 #: ../../user/search.rst:72 ../../user/search.rst:224
 msgid "``language:TEXT``"
@@ -53221,6 +53246,8 @@ msgstr "``dismissed_check:TEXT``"
 msgid ""
 "String has dismissed check, see :doc:`/user/checks` for check identifiers."
 msgstr ""
+"Le contrôle a été supprimé sur les chaînes, voir :doc:`/user/checks` pour "
+"les identifiants de contrôle."
 
 #: ../../user/search.rst:99
 msgid "``comment:TEXT``"
@@ -53277,38 +53304,28 @@ msgid "``label:TEXT``"
 msgstr "``label:TEXT``"
 
 #: ../../user/search.rst:112
-#, fuzzy
-#| msgid "Search in explanations."
 msgid "Search in labels."
-msgstr "Rechercher dans les explications."
+msgstr "Rechercher parmi les étiquettes."
 
 #: ../../user/search.rst:113
 msgid "``screenshot:TEXT``"
 msgstr "``screenshot:TEXT``"
 
 #: ../../user/search.rst:114
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Search in screenshots."
-msgstr "Recherche dans les commentaires des utilisateurs."
+msgstr "Recherche dans les captures d'écran."
 
 #: ../../user/search.rst:119
 msgid "Boolean operators"
 msgstr "Opérateurs booléens"
 
 #: ../../user/search.rst:121
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries. For example: ``state:translated AND (source:hello "
-#| "OR source:bar)``"
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries."
 msgstr ""
 "Vous pouvez combiner des recherches en utilisant ``AND``, ``OR``, ``NOT`` et "
-"des parenthèses pour former des requêtes complexes. Par exemple : ``state:"
-"translated AND (source:hello OR source:bar)``"
+"des parenthèses pour former les requêtes complexes."
 
 #: ../../user/search.rst:124
 msgid ""
@@ -53316,12 +53333,17 @@ msgid ""
 "``AND`` operator has higher precedence than the ``OR`` operator. You can add "
 "parenthesis to define a precedence of your own."
 msgstr ""
+"L'opérateur ``NOT`` a une précédence plus grande que l'opérateur ``AND``; "
+"l'opérateur ``AND`` a une précédence plus grande que l'opérateur ``OR``. "
+"Vous pouvez ajouter des parenthèses pour définir votre propre précédence."
 
 #: ../../user/search.rst:128
 msgid ""
 "Omitting the operator will make the query behave like the ``AND`` operator "
 "was used."
 msgstr ""
+"Si l'opérateur est absent, la requête se comporte comme si l'opérateur "
+"``AND`` avait été utilisé."
 
 #: ../../user/search.rst:131
 #, fuzzy
@@ -53335,7 +53357,7 @@ msgstr "``(state:translated AND source:hello) OR source:bar``"
 
 #: ../../user/search.rst:134
 msgid "Parenthesized expression to clearly show the precedence."
-msgstr ""
+msgstr "Une expression entre parenthèses montre clairement la précédence."
 
 #: ../../user/search.rst:135
 msgid "``state:translated AND source:hello OR source:bar``"
@@ -53344,6 +53366,7 @@ msgstr "``state:translated AND source:hello OR source:bar``"
 #: ../../user/search.rst:136
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
 msgstr ""
+"L'opérateur ``AND`` a une précédence plus grande que l'opérateur ``OR``."
 
 #: ../../user/search.rst:137
 msgid "``state:translated source:hello OR source:bar``"
@@ -53351,7 +53374,7 @@ msgstr "``state:translated source:hello OR source:bar``"
 
 #: ../../user/search.rst:138
 msgid "Query using an implicit ``AND`` operator."
-msgstr ""
+msgstr "Requête utilisant un opérateur ``AND`` implicite."
 
 #: ../../user/search.rst:143
 msgid "Field operators"
@@ -53466,6 +53489,10 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
+"Les expressions régulières sont évaluées par le serveur de base de données "
+"et peuvent utiliser différentes extensions, veuillez consulter la "
+"documentation de la base de données ci-dessous pour les informations "
+"supplémentaires."
 
 #: ../../user/search.rst:193
 msgid ""
@@ -53473,18 +53500,25 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
+"`Détail des expressions régulières PostgreSQL <https://www.postgresql.org/"
+"docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (c'est le "
+"moteur de base de données par défaut de Weblate)"
 
 #: ../../user/search.rst:194
 msgid ""
 "`MariaDB Regular Expressions Overview <https://mariadb.com/kb/en/regular-"
 "expressions-overview/>`_"
 msgstr ""
+"`Aperçu des expressions régulières MariaDB <https://mariadb.com/kb/en/"
+"regular-expressions-overview/>`_"
 
 #: ../../user/search.rst:195
 msgid ""
 "`MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp."
 "html>`_"
 msgstr ""
+"`Expressions régulières MySQL <https://dev.mysql.com/doc/refman/9.2/en/"
+"regexp.html>`_"
 
 #: ../../user/search.rst:198
 msgid "Predefined queries"
@@ -53566,6 +53600,8 @@ msgid ""
 "You might want to limit contribution time by ``change_time``, for example "
 "``change_time:>\"90 days ago\"``."
 msgstr ""
+"Vous pouvez limiter la période de contribution avec ``change_time``, par "
+"exemple ``change_time:>\"90 days ago\"``."
 
 #: ../../user/search.rst:232
 msgid "``contributes:TEXT``"
@@ -54601,6 +54637,8 @@ msgid ""
 "Change terminology effectively or perform bulk fixing of the strings using :"
 "guilabel:`Search and replace` in the :guilabel:`Tools` menu."
 msgstr ""
+"Modifier effectivement la terminologie ou réaliser la corrections de chaînes "
+"en masse avec :guilabel:`Chercher et remplacer` du menu :guilabel:`Outils` ."
 
 #: ../../user/translating.rst:417
 msgid ""
@@ -54659,6 +54697,11 @@ msgid ""
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
+"Vous pouvez comparer l'efficacité de différentes langues en utilisant cette "
+"vue. Elle est disponible sur chaque page de composant, à partir du menu "
+":guilabel:`Outils`. Sélectionnez d'abord toutes les langues que vous voulez "
+"comparer, confirmez votre sélection, puis cliquez sur n'importe quelle "
+"traduction pour l'ouvrir et la modifier."
 
 #: ../../user/translating.rst:452
 msgid ""
@@ -54680,6 +54723,11 @@ msgid ""
 "clicking the :guilabel:`Zen` button on the top-right of the regular editor "
 "(translation of a string)."
 msgstr ""
+"Ce mode simplifie l'affichage et supprime les éléments supplémentaires de "
+"l'interface utilisateur tels que les :guilabel:`Chaînes à proximité` ou le "
+":guilabel:`Glossaire`. Il est disponible en cliquant sur le bouton "
+":guilabel:`Zen` dans le coin supérieur droit de l'éditeur standard ("
+"traduction d'une chaîne)."
 
 #: ../../user/translating.rst:464
 msgid ""
@@ -54688,6 +54736,10 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
+"Vous pouvez choisir l'éditeur Zen comme éditeur par défaut en utilisant "
+"l'onglet :ref:`profile-preferences` de votre :ref:`user-profile`. Vous "
+"pouvez aussi y définir l'affichage des traductions triées :guilabel:`De haut "
+"en bas` ou :guilabel:`Côte à côte`, en fonction de vos préférences."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -54701,6 +54753,11 @@ msgid ""
 "and :ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as version control "
 "back-ends."
 msgstr ""
+"Weblate reconnait actuellement :ref:`vcs-git` (avec un suppor étendu with "
+"extended pour :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref"
+":`vcs-gerrit`, :ref:`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-"
+"bitbucket-data-center`, et :ref:`vcs-azure-devops`) et :ref:`vcs-mercurial` "
+"comme serveurs de contrôle de version."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"

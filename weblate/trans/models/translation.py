@@ -5,10 +5,12 @@
 from __future__ import annotations
 
 import codecs
+import contextlib
 import os
 import tempfile
 from datetime import UTC
 from itertools import chain
+from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict
 
 import sentry_sdk
@@ -579,13 +581,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
     def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_file_scan(request)
 
-    def can_push(self):
+    def can_push(self) -> bool:
         return self.component.can_push()
 
-    def has_push_configuration(self):
+    def has_push_configuration(self) -> bool:
         return self.component.has_push_configuration()
 
-    def get_hash_filenames(self):
+    def get_hash_filenames(self) -> list[str]:
         """Return filenames to include in the hash."""
         component = self.component
         filenames = [self.get_filename()]
@@ -601,13 +603,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         return filenames
 
-    def get_git_blob_hash(self):
+    def get_git_blob_hash(self) -> str:
         """Return current VCS blob hash for file."""
         get_object_hash = self.component.repository.get_object_hash
-
-        return ",".join(
-            get_object_hash(filename) for filename in self.get_hash_filenames()
-        )
+        filenames = self.get_hash_filenames()
+        return ",".join(get_object_hash(filename) for filename in filenames)
 
     def store_hash(self) -> None:
         """Store current hash in database."""
@@ -1520,6 +1520,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 )
                 self.component.push_if_needed()
 
+        # Remove blank directory if still present (appstore)
+        filename = Path(self.get_filename())
+        if filename.is_dir():
+            with contextlib.suppress(OSError):
+                filename.rmdir()
+
         # Delete from the database
         self.delete()
         transaction.on_commit(self.stats.update_parents)
@@ -1880,7 +1886,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
             raise ValidationError(
-                gettext("Plurals are not supported by the file format!")
+                gettext("Plurals are not supported by the file format.")
             )
         for text in chain(source, [context]):
             if any(char in text for char in CONTROLCHARS):

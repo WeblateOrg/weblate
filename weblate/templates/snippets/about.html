@@ -9,5 +9,9 @@
 </p>
 
 <p>
-  {% blocktranslate %}Weblate is libre software created by volunteers, and accepts donations.{% endblocktranslate %}
+  {% blocktranslate %}Weblate is libre software with professional support and services for commercial users.{% endblocktranslate %}
+
+  {% if support_status.has_support %}
+    <a href="https://weblate.org/support/">{% translate "Explore support options at weblate.org." %}</a>
+  {% endif %}
 </p>
