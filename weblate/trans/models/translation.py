@@ -1886,7 +1886,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
             raise ValidationError(
-                gettext("Plurals are not supported by the file format!")
+                gettext("Plurals are not supported by the file format.")
             )
         for text in chain(source, [context]):
             if any(char in text for char in CONTROLCHARS):
