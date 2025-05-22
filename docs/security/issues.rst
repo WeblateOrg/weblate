@@ -48,6 +48,8 @@ depending on what action is taken, you may get more follow-up emails.
     * `Django REST framework <https://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
 
+.. _vulnerability-disclosure-policy:
+
 Vulnerability disclosure policy
 -------------------------------
 
