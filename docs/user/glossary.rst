@@ -4,7 +4,7 @@ Glossary
 ========
 
 Each project can include one or more glossaries as a shorthand for storing
-terminology. Glossary easify maintaining consistency of the translation.
+terminology. Glossary help to maintain consistency of the translation.
 
 A glossary for each language can be managed on its own, but they are
 stored together as a single component which helps project admins
