@@ -27,7 +27,7 @@ from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.text import slugify
+from django.utils.text import normalize_newlines, slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
@@ -70,6 +70,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    NormalizedNewlineCharField,
     QueryField,
     SearchField,
     SortedSelect,
@@ -402,7 +403,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ""))
-        return [r.replace("\r", "") for r in ret]
+        return [normalize_newlines(r) for r in ret]
 
 
 class PluralField(forms.CharField):
@@ -1109,7 +1110,7 @@ class CommentForm(forms.Form):
             ),
         ),
     )
-    comment = forms.CharField(
+    comment = NormalizedNewlineCharField(
         widget=MarkdownTextarea,
         label=gettext_lazy("New comment"),
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),

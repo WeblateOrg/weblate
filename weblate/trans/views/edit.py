@@ -818,6 +818,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
         Comment.objects.add(request, unit, text, scope)
         messages.success(request, gettext("Posted new comment"))
     else:
+        show_form_errors(request, form)
         messages.error(request, gettext("Could not add comment!"))
 
     return redirect_next(request.POST.get("next"), unit)
