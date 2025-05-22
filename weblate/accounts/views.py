@@ -1338,9 +1338,9 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
         msg = "Backend not found"
         raise Http404(msg) from None
 
-    # Store session ID for OpenID or SAML based auth. The session cookies will
+    # Store session ID for OpenID based auth. The session cookies will
     # not be sent on returning POST request due to SameSite cookie policy
-    if isinstance(request.backend, OpenIdAuth) or backend == "saml":
+    if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += "?authid={}".format(
             dumps(
                 (request.session.session_key, get_ip_address(request)),
@@ -1432,9 +1432,10 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
                 salt=AUTHID_SALT,
             )
         except (BadSignature, SignatureExpired):
+            report_error("authid signature")
             return auth_redirect_token(request)
         if ip_address != get_ip_address(request):
-            return auth_redirect_token(request)
+            return auth_fail(request, "IP address changed, please try again.")
         engine = import_module(settings.SESSION_ENGINE)
         request.session = engine.SessionStore(session_key)
 

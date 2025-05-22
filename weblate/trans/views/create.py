@@ -132,13 +132,7 @@ class CreateProject(BaseCreateView):
         if self.has_billing:
             from weblate.billing.models import Billing
 
-            billings = Billing.objects.get_valid().for_user(request.user).prefetch()
-            pks = set()
-            for billing in billings:
-                limit = billing.plan.display_limit_projects
-                if limit == 0 or billing.count_projects < limit:
-                    pks.add(billing.pk)
-            self.billings = Billing.objects.filter(pk__in=pks).prefetch()
+            self.billings = Billing.objects.for_user_within_limits(request.user)
         return super().dispatch(request, *args, **kwargs)
 
 

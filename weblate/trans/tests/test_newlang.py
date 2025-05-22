@@ -102,11 +102,12 @@ class NewLangTest(ViewTestCase):
 
         lang = {"lang": "af"}
         response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component),
-            lang,
+            reverse("new-language", kwargs=self.kw_component), lang, follow=True
         )
         translation = self.component.translation_set.get(language__code="af")
         self.assertRedirects(response, translation.get_absolute_url())
+
+        self.assertNotEqual(translation.unit_set.count(), 0)
 
         # Verify mail
         self.assertEqual(len(mail.outbox), 1)
@@ -178,7 +179,7 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add_code(self) -> None:
-        def perform(style, code, expected) -> None:
+        def perform(style: str, code: str, expected: str) -> None:
             self.component.language_code_style = style
             self.component.save()
 
@@ -217,3 +218,10 @@ class AndroidNewLangTest(NewLangTest):
 
     def create_component(self):
         return self.create_android(new_lang="add")
+
+
+class AppStoreNewLangTest(NewLangTest):
+    expected_lang_code = "pt-BR"
+
+    def create_component(self):
+        return self.create_appstore(new_lang="add")

@@ -434,7 +434,7 @@
       {% endif %}
 
       {% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
-        {% include "snippets/enforced_2fa.html" %}
+        {% include "snippets/enforced_2fa.html" with project="" %}
       {% endif %}
 
       {% if messages %}

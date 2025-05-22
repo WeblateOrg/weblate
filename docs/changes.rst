@@ -17,6 +17,7 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
 * :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * :ref:`user-profile` can now include contact URL.
+* :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 
 .. rubric:: Bug fixes
@@ -25,6 +26,7 @@ Weblate 5.12
 * Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
+* Creating new translations in :doc:`/formats/appstore`.
 
 .. rubric:: Compatibility
 
@@ -348,7 +350,7 @@ Weblate 5.10
 .. rubric:: Compatibility
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
-* :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
+* :ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` flag is required to activate this check, see :ref:`custom-checks`.
 * API error responses format has changed, see :ref:`api-errors`.
 
 .. rubric:: Upgrading
@@ -450,7 +452,7 @@ Weblate 5.9
 
 * :ref:`rollbar-errors` integration no longer includes client-side error collection.
 * Weblate now requires Git 2.28 or newer.
-* Any custom code that relied on `Change` models signals should be reviewed.
+* Any custom code that relied on ``Change`` models signals should be reviewed.
 * :ref:`fedora-messaging` integration needs to be updated to be compatible with this release.
 * :envvar:`WEB_WORKERS` now configures number of threads instead of processes.
 
@@ -589,7 +591,7 @@ Weblate 5.8
 .. rubric:: Compatibility
 
 * Weblate now requires Python 3.11 or newer.
-* :ref:`mt-aws` now requires the `TranslateFullAccess` permission.
+* :ref:`mt-aws` now requires the ``TranslateFullAccess`` permission.
 
 .. rubric:: Upgrading
 
@@ -769,8 +771,8 @@ Weblate 5.6
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
 * Gracefully handle temporary machine translation errors in automatic suggestions.
-* :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
-* :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
+* :http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp.
+* :http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``.
 * Reduced memory usage and increased performance of some views.
 
 .. rubric:: Bug fixes
