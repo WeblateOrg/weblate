@@ -187,7 +187,7 @@ JavaScript localization CDN
 
 :Add-on ID: ``weblate.cdn.cdnjs``
 :Configuration: +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
-                | ``threshold``    | Translation threshold           | Threshold for inclusion of translations.                                                  |
+                | ``threshold``    | Translation threshold           | The percentage of translated strings that must be present for translation to be included. |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
                 | ``css_selector`` | CSS selector                    | CSS selector to detect localizable elements.                                              |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
@@ -644,15 +644,15 @@ Pseudolocale generation
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
                 | ``target``           | Target translation        | All strings in this translation will be overwritten                                      |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``prefix``           | Fixed string prefix       |                                                                                          |
+                | ``prefix``           | Prepended static text     |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_prefix``       | Variable string prefix    |                                                                                          |
+                | ``var_prefix``       | Prepended variable text   |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``suffix``           | Fixed string suffix       |                                                                                          |
+                | ``suffix``           | Appended static text      |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_suffix``       | Variable string suffix    |                                                                                          |
+                | ``var_suffix``       | Appended variable text    |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_multiplier``   | Variable part multiplier  | How many times to repeat the variable part depending on the length of the source string. |
+                | ``var_multiplier``   | Variable text multiplier  | How many times to repeat the variable text depending on the length of the source string. |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
                 | ``include_readonly`` | Include read-only strings |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
@@ -671,18 +671,18 @@ is also possible.
 
 Using the variable parts makes it possible to look for strings which might not
 fit into the user interface after the localization - it extends the text based
-on the source string length. The variable parts are repeated by length of the
+on the source string length. The variable texts are repeated by length of the
 text multiplied by the multiplier. For example ``Hello world`` with variable
-suffix ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
-the suffix is repeated once for each character in the source string.
+text ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
+the text is repeated once for each character in the source string.
 
 The strings will be generated using following pattern:
 
-:guilabel:`Fixed string prefix`
-:guilabel:`Variable string prefix`
+:guilabel:`Prepended static text`
+:guilabel:`Prepended variable text`
 :guilabel:`Source string`
-:guilabel:`Variable string suffix`
-:guilabel:`Fixed string suffix`
+:guilabel:`Appended variable text`
+:guilabel:`Appended static text`
 
 .. hint::
 

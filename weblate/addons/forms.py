@@ -518,7 +518,9 @@ class CDNJSForm(BaseAddonForm):
         max_value=100,
         min_value=0,
         required=True,
-        help_text=gettext_lazy("Threshold for inclusion of translations."),
+        help_text=gettext_lazy(
+            "The percentage of translated strings that must be present for translation to be included."
+        ),
     )
     css_selector = forms.CharField(
         label=gettext_lazy("CSS selector"),
@@ -590,31 +592,31 @@ class PseudolocaleAddonForm(BaseAddonForm):
     )
     # This shadows prefix from the Form class
     prefix = forms.CharField(  # type: ignore[assignment]
-        label=gettext_lazy("Fixed string prefix"),
+        label=gettext_lazy("Prepended static text"),
         required=False,
         initial="",
     )
     var_prefix = forms.CharField(
-        label=gettext_lazy("Variable string prefix"),
+        label=gettext_lazy("Prepended variable text"),
         required=False,
         initial="",
     )
     suffix = forms.CharField(
-        label=gettext_lazy("Fixed string suffix"),
+        label=gettext_lazy("Appended static text"),
         required=False,
         initial="",
     )
     var_suffix = forms.CharField(
-        label=gettext_lazy("Variable string suffix"),
+        label=gettext_lazy("Appended variable text"),
         required=False,
         initial="",
     )
     var_multiplier = forms.FloatField(
-        label=gettext_lazy("Variable part multiplier"),
+        label=gettext_lazy("Variable text multiplier"),
         required=False,
         initial=0.1,
         help_text=gettext_lazy(
-            "How many times to repeat the variable part depending on "
+            "How many times to repeat the variable text depending on "
             "the length of the source string."
         ),
     )
