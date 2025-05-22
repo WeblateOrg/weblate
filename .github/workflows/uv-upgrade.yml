@@ -39,6 +39,10 @@ jobs:
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
+    - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ~/.cache/pre-commit
+        key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
     - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
       with:
         enable-cache: true
@@ -62,6 +66,29 @@ jobs:
 
     - run: uv sync --all-extras
       if: hashFiles('uv.lock') != ''
+
+    - name: Update SBOM
+      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
+      run: |
+        # Remove dev files for SBOM
+        uv sync --all-extras --no-dev
+        uv tool run --from cyclonedx-bom cyclonedx-py environment --output-reproducible --output-file docs/specs/sbom/partial/python.json "$(uv python find)"
+
+    - name: Merge SBOM
+      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
+      env:
+        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
+        CYCLONEDX_CLI_VERSION: v0.27.2
+      run: |
+        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
+        chmod +x /tmp/cyclonedx-linux-x64
+        /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
+        sed -i -e '/"serialNumber":/D' -e '/"timestamp":/D' docs/specs/sbom/sbom.json
+
+    - run: uv run --only-group pre-commit pre-commit run --all
+      continue-on-error: true
+
+    - run: git diff
 
     - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
       if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
