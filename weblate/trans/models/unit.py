@@ -2032,7 +2032,10 @@ class Unit(models.Model, LoggerMixin):
         self, extra_flags: str, user: User, save: bool = True
     ) -> None:
         """Update unit extra flags."""
+        verify_in_transaction()
         old = self.old_unit["extra_flags"]
+        if old == extra_flags:
+            return
         self.extra_flags = extra_flags
         units: Iterable[Unit] = []
         if self.is_source:
