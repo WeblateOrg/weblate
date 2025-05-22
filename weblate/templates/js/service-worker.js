@@ -3,7 +3,7 @@ const CACHE_NAME = `weblate-pwa-cache-${APP_VERSION}`;
 
 const urlsToCache = [
   // Core pages
-  "/dashboard/",
+  "/",
   "/projects/",
   "/languages/",
 
