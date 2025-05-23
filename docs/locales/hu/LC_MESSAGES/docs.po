@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-22 20:14+0200\n"
-"PO-Revision-Date: 2025-05-23 11:52+0000\n"
+"PO-Revision-Date: 2025-05-23 12:57+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -29071,7 +29071,7 @@ msgstr "Új minőség-ellenőrzés: :ref:`check-kabyle-characters`."
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr "A Weblate mostantól biztosítja a :ref:`sbom` fájlt is."
 
 #: ../../changes.rst:14 ../../changes.rst:53 ../../changes.rst:95
 #: ../../changes.rst:122 ../../changes.rst:158 ../../changes.rst:226
@@ -29088,73 +29088,58 @@ msgid "Improvements"
 msgstr "Fejlesztések"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-same` is now skipped for Toki Pona."
 msgstr ""
-"Az :ref:`check-reused` ellenőrzés többé nem aktiválódik üres szövegeknél."
+"A :ref:`check-same` ellenőrzés Toki Pona nyelv esetén automatikusan "
+"kihagyásra kerül."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`search-strings` supports searching by source string state."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr ""
-"A :ref:`search-strings` támogatja a forrásszövegek állapota szerinti "
-"keresést."
+msgstr "A :ref:`search-strings` támogatja a ``has:location`` típusú keresést."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
-#| "see :ref:`check-prohibited-initial-character`."
 msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"A CSV-fájlok problémás kezdő karakterei mostantól ellenőrzésre kerülnek a :"
-"ref:`glossary` esetében, lásd: :ref:`check-prohibited-initial-character`."
+"Az Unicode szóközök mostantól problémás karakternek számítanak a "
+":ref:`glossary` esetében, lásd: :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` mostantól kiegészítőként érhető el."
+"A :ref:`addon-weblate.webhook.webhook` naplók most már jól olvasható "
+"formában jelennek meg."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` mostantól kiegészítőként érhető el."
+"A :ref:`addon-weblate.webhook.webhook` kiegészítő többször is telepíthető."
 
 #: ../../changes.rst:20
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr "A :ref:`user-profile` most már tartalmazhat kapcsolattartási URL-t."
 
 #: ../../changes.rst:21
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
 msgstr ""
+"A :http:post:`/api/projects/` végpont lehetővé teszi projektek létrehozását "
+"nem rendszergazdák számára is, ha a :ref:`billing` modul engedélyezve van."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":http:get:`/api/users/` supports searching by user ID."
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
-"A :http:get:`/api/users/` mostantól támogatja a felhasználóazonosító "
-"szerinti keresést."
+"A :http:post:`/api/groups/` végpont támogatja projektszintű csapat "
+"létrehozását nem rendszergazdák számára is."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
 msgstr ""
-"A :http:get:`/api/changes/(int:id)/` végpont mostantól tartalmazza az `old` "
-"és `details` mezőket."
+"A :http:get:`/api/users/` mostantól tartalmazza a ``languages`` mezőt is."
 
 #: ../../changes.rst:26 ../../changes.rst:57 ../../changes.rst:76
 #: ../../changes.rst:100 ../../changes.rst:127 ../../changes.rst:174
@@ -29175,37 +29160,32 @@ msgid "Bug fixes"
 msgstr "Hibajavítások"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid ":ref:`dashboard` translations ordering when paginating."
-msgstr "Fordítás zárolásának kezelése továbbfejlesztve."
+msgstr ""
+"A :ref:`dashboard` fordítások rendezése oldalankénti megjelenítés esetén."
 
 #: ../../changes.rst:28
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
 msgstr ""
+"A :ref:`mt-deepl` mostantól figyelembe veszi a DeepL API Free szójegyzék-"
+"korlátozásait."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` mostantól kiegészítőként érhető el."
+"A :ref:`addon-weblate.webhook.webhook` mostantól projektszintű események "
+"kézbesítését is támogatja."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-"A :ref:`check-translated` mostantól megfelelően kezeli a forrásszöveg "
-"változását."
+"Hamis :ref:`check-translated` figyelmeztetések, ha csak jelzők vagy "
+"magyarázatok változtak."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "Új fordítást hoz létre a megadott összetevőben."
+msgstr "Új fordítások létrehozása az :doc:`/formats/appstore` formátumban."
 
 #: ../../changes.rst:34 ../../changes.rst:182 ../../changes.rst:265
 #: ../../changes.rst:355 ../../changes.rst:456 ../../changes.rst:596
@@ -29218,6 +29198,8 @@ msgstr "Kompatibilitás"
 #: ../../changes.rst:35
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
+"A projektek és kategóriák alapértelmezett lapja most már a lefordított "
+"nyelveket is mutatja."
 
 #: ../../changes.rst:38 ../../changes.rst:61 ../../changes.rst:80
 #: ../../changes.rst:107 ../../changes.rst:133 ../../changes.rst:186
@@ -29282,43 +29264,32 @@ msgid "Contributors"
 msgstr "Közreműködők"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"milestone/141?closed=1>`__."
 
 #: ../../changes.rst:48
-#, fuzzy
-#| msgid "Weblate 5.10.4"
 msgid "Weblate 5.11.4"
-msgstr "Weblate 5.10.4"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid "*Released on May 7th 2020.*"
 msgid "*Released on May 7th 2025.*"
-msgstr "*Kiadva: 2020. május 7.*"
+msgstr "*Kiadva: 2025. május 7.*"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` mostantól kiegészítőként érhető el."
+"A :ref:`addon-weblate.webhook.webhook` naplózza a kéréseket és válaszokat."
 
 #: ../../changes.rst:58
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` mostantól kiegészítőként érhető el."
+"A :ref:`addon-weblate.webhook.webhook` bizonyos helyzetekben nem lett "
+"aktiválva."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29363,91 +29334,63 @@ msgid "Documentation contributions"
 msgstr "Dokumentációs hozzájárulások"
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/136?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/136?closed=1>`__."
+"milestone/146?closed=1>`__."
 
 #: ../../changes.rst:71
-#, fuzzy
-#| msgid "Weblate 5.10.3"
 msgid "Weblate 5.11.3"
-msgstr "Weblate 5.10.3"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:73 ../../changes.rst:92
-#, fuzzy
-#| msgid "*Released on May 3rd 2024.*"
 msgid "*Released on May 3rd 2025.*"
-msgstr "*Kiadva: 2024. május 3.*"
+msgstr "*Kiadva: 2025. május 3.*"
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
-msgstr "Képernyőképek listázásának javítása."
+msgstr "A kiadások közzétételének javítása."
 
 #: ../../changes.rst:87
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"milestone/145?closed=1>`__."
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.2"
-msgstr "Weblate 5.10.2"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:96
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "Szójegyzékek automatikus javaslatokban"
+msgstr "Szójegyzék teljesítmény zen mód és automatikus javaslatok esetén."
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
-msgstr "A :ref:`addon-weblate.cdn.cdnjs` beállítása."
+msgstr ""
+"A :ref:`addon-weblate.json.customize` által támogatott formátumok bővítése."
 
 #: ../../changes.rst:101
-#, fuzzy
-#| msgid ""
-#| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
 msgstr ""
-"Speciális karakterekkel ellátott vizuális billentyűzet konfigurálásának "
-"támogatása."
+"Az XML-exportálás már nem omlik össze speciális karaktereket tartalmazó "
+"helyszínek esetén."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Hibakezelés javítása szöveg törlésekor."
+msgstr "Hibakezelés javítása ZIP-fájl feltöltésekor."
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
-msgstr "Django 1.4 kompatibilitás biztosítva."
+msgstr "Django 5.2 kompatibilitás."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "Kerülje az ismétlődő szavakat és karaktereket."
+msgstr "Ismétlődő szójegyzék-szinkronizálások elkerülése."
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -29464,44 +29407,40 @@ msgid "Translations contributions"
 msgstr "Fordítási hozzájárulások"
 
 #: ../../changes.rst:114
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"milestone/144?closed=1>`__."
 
 #: ../../changes.rst:117
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:119
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 25th 2025.*"
-msgstr "*Kiadva: 2025. április 15.*"
+msgstr "*Kiadva: 2025. április 25.*"
 
 #: ../../changes.rst:123
-#, fuzzy
-#| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr "A :ref:`reports` mostantól kategóriákhoz is elérhetők."
+msgstr ""
+"A :ref:`projectbackup` mostantól tartalmazza a csapatokat és a kategóriákat "
+"is."
 
 #: ../../changes.rst:124
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
+"A Docker épségének ellenőrzése mostantól a nem webes szolgáltatásokat "
+"futtató konténerek esetében is támogatott."
 
 #: ../../changes.rst:128
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
+"A :ref:`vcs-gitlab` integráció mostantól robusztusabban észleli az "
+"egyesítési kérelmek (merge request) ütközéseit."
 
 #: ../../changes.rst:129
 #, fuzzy
