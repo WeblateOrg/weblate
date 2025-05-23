@@ -119,6 +119,13 @@ listed in the glossary sidebar when translating.
 
    :ref:`variants`
 
+Glossary import
+---------------
+
+Similar to regular translation components, you can upload existing glossaries
+to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/tbx` are
+supported and can be uploaded, see :ref:`upload`.
+
 .. _glossary-mt:
 
 Glossaries in automatic suggestion
