@@ -76,6 +76,7 @@ Learn more about :ref:`contributing`.
     devel/starting
     devel/integration
     devel/gettext
+    devel/mobile
     devel/sphinx
     devel/html
     devel/third-party
