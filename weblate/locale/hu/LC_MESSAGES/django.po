@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-22 18:13+0000\n"
-"PO-Revision-Date: 2025-05-22 03:23+0000\n"
+"PO-Revision-Date: 2025-05-23 10:45+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -809,15 +809,15 @@ msgid "Website URL"
 msgstr "Webhely URL"
 
 #: weblate/accounts/models.py:716
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "Kapcsolat"
+msgstr "Kapcsolattartási URL"
 
 #: weblate/accounts/models.py:720
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
+"Link az Önnel való online kapcsolatfelvételhez, például Signal, SimpleX vagy "
+"Telegram segítségével."
 
 #: weblate/accounts/models.py:724
 msgid "Liberapay username"
@@ -1622,7 +1622,7 @@ msgstr "JSON kulcsok rendezése"
 
 #: weblate/addons/forms.py:215
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Kerülje az elválasztók utáni szóközöket"
 
 #: weblate/addons/forms.py:219
 msgid "JSON indentation"
@@ -1795,6 +1795,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"A fordításban szereplő szövegek hány százalékának kell lefordítva lennie "
+"ahhoz, hogy a fordítás bekerülhessen."
 
 #: weblate/addons/forms.py:526
 msgid "CSS selector"
@@ -1847,39 +1849,29 @@ msgstr "A megadott fordítás összes szövege felül lesz írva"
 
 #: weblate/addons/forms.py:595 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr ""
+msgstr "Elé fűzött statikus szöveg"
 
 #: weblate/addons/forms.py:600 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Elé fűzött változó szöveg"
 
 #: weblate/addons/forms.py:605 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "Mögé fűzött statikus szöveg"
 
 #: weblate/addons/forms.py:610 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Meghatározatlan változó: „%s”"
+msgstr "Mögé fűzött változó szöveg"
 
 #: weblate/addons/forms.py:615
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Változó rész szorzója"
+msgstr "Változó szöveg szorzója"
 
 #: weblate/addons/forms.py:619
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr ""
-"Megadja, hogy hányszor ismétlődjön a változó rész a forrásszöveg hosszától "
-"függően."
+msgstr "Hányszor ismétlődjön a változó szöveg a forrásszöveg hosszától függően."
 
 #: weblate/addons/forms.py:624
 msgid "Include read-only strings"
@@ -2160,11 +2152,8 @@ msgstr ""
 "összesre?"
 
 #: weblate/api/serializers.py:345
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Commented"
 msgid "Comment text"
-msgstr "Megjegyzést tartalmaz"
+msgstr "Megjegyzés szövege"
 
 #: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
@@ -2174,28 +2163,28 @@ msgstr ""
 "@felhasználónév használatával."
 
 #: weblate/api/serializers.py:350
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "Előállítva ekkor: %(timestamp)s."
+msgstr "Létrehozás időbélyege"
 
 #: weblate/api/serializers.py:352
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
 msgstr ""
+"Ha adminisztrátor, beállíthatja a megjegyzés létrehozásának pontos "
+"időbélyegét."
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Megjegyzések hozzáadva"
+msgstr "Megjegyzést író e-mail-címe"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Ha adminisztrátor, a megjegyzést hozzárendelheti más felhasználóhoz az e"
+"-mail-címe alapján."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3325,13 +3314,15 @@ msgstr "A forrás és a fordítás nem ugyanannyi szóközzel kezdődik."
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Nem szabványos karakterek a kabil nyelvben"
 
 #: weblate/checks/chars.py:109
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Használjon szabványos latin kabil karaktereket (például ɣ a görög γ helyett, "
+"ɛ az ε helyett)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -7663,30 +7654,24 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:5
 msgid "HTTP Response"
-msgstr ""
+msgstr "HTTP válasz"
 
 #: weblate/templates/addons/webhook_log.html:8
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "Hibás kérés"
+msgstr "HTTP kérés"
 
 #: weblate/templates/addons/webhook_log.html:14
 #: weblate/templates/addons/webhook_log.html:21
 msgid "HTTP headers"
-msgstr ""
+msgstr "HTTP fejlécek"
 
 #: weblate/templates/addons/webhook_log.html:17
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "Megjegyzés megoldása"
+msgstr "Válasz tartalma"
 
 #: weblate/templates/addons/webhook_log.html:23
-#, fuzzy
-#| msgid "Requested by:"
 msgid "Request payload"
-msgstr "Igénylő:"
+msgstr "Kérés tartalma"
 
 #: weblate/templates/auth/team.html:11
 #: weblate/templates/trans/project-access.html:10
@@ -7938,32 +7923,24 @@ msgid "Get help"
 msgstr "Segítség kérése"
 
 #: weblate/templates/base.html:391
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Weblate community"
-msgstr "Megjegyzés törlése"
+msgstr "Weblate közösség"
 
 #: weblate/templates/base.html:395
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact site administrators"
-msgstr "Kapcsolatfelvétel a kiszolgáló adminisztrátoraival"
+msgstr "Kapcsolatfelvétel az oldal adminisztrátoraival"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
 msgstr "Vegyen részt a Weblate fejlesztésében"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate website"
-msgstr "Weblate kulcsok"
+msgstr "Weblate webhely"
 
 #: weblate/templates/base.html:412
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "Weblap adminisztráció"
+msgstr "Weblate dokumentáció"
 
 #: weblate/templates/base.html:415 weblate/templates/keyboard-shortcuts.html:18
 msgid "Keyboard shortcuts"
@@ -9887,20 +9864,15 @@ msgstr[0] "A meghívás %(count)s óra múlva le fog járni."
 msgstr[1] "A meghívás %(count)s óra múlva le fog járni."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
-msgstr ""
-"%(from_user)s meghívja Önt, hogy együttműködjön a(z) %(project_name)s "
-"fordítási projektben itt: %(site_title)s."
+msgstr "%(invitation_author)s meghívta Önt a(z) %(project_name)s projektbe"
 
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "%(invitation_author)s meghívta Önt"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10223,28 +10195,25 @@ msgid "Turned off"
 msgstr "Kikapcsolva"
 
 #: weblate/templates/manage/backups.html:28
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed with an error"
-msgstr "Nem sikerült megváltoztatni egy prioritást!"
+msgstr "Hiba történt"
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Unpaid service subscription"
-msgstr "Próba-előfizetések"
+msgstr "Nem fizetett szolgáltatási előfizetés"
 
 #: weblate/templates/manage/backups.html:55
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"A biztonsági mentési szolgáltatás ideiglenesen le lett tiltva a ki nem "
+"fizetett előfizetés miatt. A mentések újra engedélyezéséhez, újítsa meg "
+"előfizetését."
 
 #: weblate/templates/manage/backups.html:59
-#, fuzzy
-#| msgid "Manage your listing"
 msgid "Manage your subscription"
-msgstr "Saját felsorolás kezelése"
+msgstr "Előfizetés kezelése"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Backup service credentials"
