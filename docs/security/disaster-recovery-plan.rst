@@ -60,7 +60,7 @@ Failure scenario: malicious tampering or ransomware
 2. Identify last known-good backup (pre-infection).
 3. Follow steps from :ref:`drp-host` to deploy the system on a new host.
 
-Validation and resting
+Validation and testing
 ----------------------
 
 - **Backup Verification:** Monthly restore test of Weblate backups.
