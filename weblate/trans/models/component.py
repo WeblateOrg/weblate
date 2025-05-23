@@ -780,6 +780,9 @@ class Component(
         verbose_name=gettext_lazy("Use as a glossary"),
         default=False,
         db_index=True,
+        help_text=gettext_lazy(
+            "Glossaries are different from regular translations but help keep track of and share consistent terminology."
+        ),
     )
     glossary_color = models.CharField(
         verbose_name=gettext_lazy("Glossary color"),
