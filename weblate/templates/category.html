@@ -16,7 +16,7 @@
 
   {% include "snippets/project/state.html" with object=object.project %}
 
-  {% include "snippets/watch-dropdown.html" with project=object %}
+  {% include "snippets/watch-dropdown.html" with project=object.project %}
 
   {% perm 'project.edit' object as user_can_edit_project %}
   {% perm 'reports.view' object as user_can_view_reports %}
