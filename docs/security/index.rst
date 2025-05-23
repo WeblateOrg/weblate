@@ -21,3 +21,13 @@ application’s security posture. Only the latest release is guaranteed to
 receive security updates. Users are encouraged to keep Weblate up to date to
 benefit from the latest security improvements. Learn more about :ref:`Weblate
 releases and the release life cycle <release-cycle>`.
+
+Security policites
+------------------
+
+* :doc:`dependencies`
+* :doc:`disaster-recovery-plan`
+* :doc:`incident-response-plan`
+* :doc:`issues`
+* :doc:`passwords`
+* :doc:`threat-model`
