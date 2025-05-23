@@ -121,8 +121,8 @@ for the project in case he has access to more of them.
 
 .. _legal:
 
-Legal
------
+Legal module
+------------
 
 This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to provide required
 legal documents. It comes provided with blank documents, and you are expected to fill out the
