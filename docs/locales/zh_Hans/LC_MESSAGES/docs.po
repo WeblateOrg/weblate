@@ -24,8 +24,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-22 20:14+0200\n"
-"PO-Revision-Date: 2025-05-23 11:53+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-05-23 12:57+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3122,30 +3123,22 @@ msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "未定义的变量：“%s”"
+msgstr "增补的可变文本"
 
 #: ../../admin/addons.rst:655
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "可变部分乘数"
+msgstr "可变文本乘数"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr "可变部分重复多少次取决于源字符串的长度。"
+msgstr "重复可变文本多多少次取决于源字符串长度。"
 
 #: ../../admin/addons.rst:657
 msgid "``include_readonly``"
@@ -3179,15 +3172,6 @@ msgid ""
 msgstr "也可以查找其本地化对应项可能不适合布局的字符串。"
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3198,27 +3182,23 @@ msgid ""
 "source string."
 msgstr ""
 "使用可变部分可以寻找那些在本地化后可能不适合用户界面的字符串-它根据源字符串的"
-"长度来扩展文本。可变部分是以文本的长度乘以乘数来重复的。例如 ``Hello world`` "
-"带有可变后缀 ``_`` 和变量乘数1将变为 ``Hello world___________`` - 后缀在源字"
-"符串中的每个字符后都重复一次。"
+"长度来扩展文本。可变文本是以文本的长度乘以乘数来重复的。例如 ``Hello world`` "
+"带可变文本 ``_`` 和变量乘数1将变为 ``Hello world___________`` - "
+"即该可变文本对源字符串中的每个字符都重复一次。"
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
 msgstr "将使用以下模式生成字符串："
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`固定字符串前缀` :guilabel:`可变字符串前缀` :guilabel:`源字符串` :"
-"guilabel:`可变字符串后缀` :guilabel:`固定字符串后缀`"
+":guilabel:`Prepended static text` :guilabel:`Prepended variable text` "
+":guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:`"
+"Appended static text`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3632,13 +3612,10 @@ msgid "``tabs`` -- Tabs"
 msgstr "``tabs`` -- 制表符"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
-msgstr "允许调整 JSON 的输出行为，例如缩进或排序。"
+msgstr "允许调整 JSON 的输出行为，例如缩进、排序或使用最小化空格的紧凑格式化。"
 
 #: ../../admin/addons.rst:903
 msgid "Format the Java properties file"
@@ -4724,18 +4701,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Django 的内置解决方案用途是进行身份验证，包括用各种社交登录选项进行验证。使用"
-"它意味着可以导入其他基于 Django 项目的用户数据库（请参见 :ref:`pootle-"
-"migration`）。"
+"使用 Django 内置身份验证意味着可以导入其他基于 Django 项目的用户数据库（"
+"请参见 :ref:`pootle-migration`）。"
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -12721,20 +12692,15 @@ msgstr ""
 "中找到更多信息。"
 
 #: ../../admin/install.rst:706
-#, fuzzy
-#| msgid ""
-#| "In case you get error about not supported authentication (for example "
-#| "``SMTP AUTH extension not supported by server``), it is most likely "
-#| "caused by using insecure connection and server refuses to authenticate "
-#| "this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgid ""
 "In case you get error about not supported authentication (for example :samp:"
 "`SMTP AUTH extension not supported by server`), it is most likely caused by "
 "using insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"在得到有关不支持的认证的情况下（例如 ``SMTP AUTH extension not supported by "
-"server``），这最可能因为使用不安全的链接并且服务器拒绝以这种方式认证而导致。"
+"如果你收到不受支持的身份验证的错误（例如，:samp:`SMTP AUTH extension not "
+"supported by "
+"server`），这最可能因为使用不安全的链接并且服务器拒绝以这种方式认证而导致。"
 "在这种情况下尝试启动 :setting:`django:EMAIL_USE_TLS`。"
 
 #: ../../admin/install.rst:713
@@ -12761,43 +12727,23 @@ msgid "Client IP address"
 msgstr "客户端 IP 地址"
 
 #: ../../admin/install.rst:726
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
-msgstr ""
-"Weblate 的几个特性依赖于能够得到客户端 IP 地址。这包括 :ref:`rate-limit`、:"
-"ref:`spam-protection` 或 :ref:`audit-log`。"
+msgstr ":ref:`rate-limit`、:ref:`spam-protection` 或 :ref:`audit-log` 需要这个。"
 
 #: ../../admin/install.rst:728
-#, fuzzy
-#| msgid ""
-#| "Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the "
-#| "WSGI handler. This might be empty (when using socket for WSGI) or contain "
-#| "a reverse proxy address, so Weblate needs an additional HTTP header with "
-#| "client IP address."
 msgid ""
 "Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI "
 "handler. This might be empty (when using socket for WSGI) or contain a "
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
-"Weblate 从 WGSI 处理程序设置的 ``REMOTE_ADDR`` 解析 IP 地址。这可能是空的（当"
-"对 WGSI 使用 socket 时）或者包括反向代理地址，因此 Weblate 需要带客户端 IP 地"
-"址的附加 HTTP 标头。"
+"Weblate 从 WGSI 处理程序设置的 ``REMOTE_ADDR`` 解析 IP 地址。这可能是空的（"
+"当对 WGSI 使用 socket 时）或者包括反向代理地址，因此 Weblate 需要带客户端 IP "
+"地址的附加 HTTP 标头。"
 
 #: ../../admin/install.rst:733
-#, fuzzy
-#| msgid ""
-#| "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
-#| "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-#| "and :setting:`IP_PROXY_OFFSET` as well (use :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
-#| "Docker container)."
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the "
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
@@ -12805,46 +12751,33 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
-"启用 :setting:`IP_BEHIND_REVERSE_PROXY` 对多数通常配置可能足够了，但你可能也"
-"需要调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET`\\ （使用 "
-"Docker 容器内的 :envvar:`WEBLATE_IP_PROXY_HEADER` 和 :envvar:"
-"`WEBLATE_IP_PROXY_OFFSET`）。"
+"启用 :setting:`IP_BEHIND_REVERSE_PROXY` 对多数通常配置应该够了，"
+"但你可能也需要调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET`\\"
+" （使用 Docker 容器内的 :envvar:`WEBLATE_IP_PROXY_HEADER` 和 "
+":envvar:`WEBLATE_IP_PROXY_OFFSET`）。"
 
 #: ../../admin/install.rst:740
-#, fuzzy
-#| msgid ""
-#| "This configuration cannot be turned on by default because it would allow "
-#| "IP address spoofing on installations that don't have a properly "
-#| "configured reverse proxy."
 msgid ""
 "This configuration cannot be turned on by default, because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
-msgstr ""
-"此配置默认无法启用，因其会在没有正确配置反向代理的安装上允许 IP 地址伪造。"
+msgstr "此配置默认无法启用，因其会在没有正确配置反向代理的安装上允许 IP 地址伪造。"
 
 #: ../../admin/install.rst:744
 msgid "Server host name"
 msgstr "服务器主机名"
 
 #: ../../admin/install.rst:745
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured as :"
 "setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"另一件需要注意的事情是 :http:header:`Host` header。它应该与 :setting:"
-"`SITE_DOMAIN` 中的内容一致。在反向代理中可能需要其他配置（例如，在 Apache 使"
-"用 ``ProxyPreserveHost On``，或在 nginx 中使用 ``proxy_set_header Host $host;"
-"``）。"
+":http:header:`Host` 标头应该与 :setting:`SITE_DOMAIN` "
+"中的内容一致。在反向代理中可能需要其他配置（例如，在 Apache 使用 ``"
+"ProxyPreserveHost On``，或在 nginx 中使用 ``proxy_set_header Host "
+"$host;``）。"
 
 #: ../../admin/install.rst:750
 msgid "Client protocol"
@@ -15384,22 +15317,15 @@ msgid ""
 msgstr "配置 Weblate 运行的 URL 前缀，请参见 :setting:`URL_PREFIX`。"
 
 #: ../../admin/install/docker.rst:905
-#, fuzzy
-#| msgid ""
-#| "Configures the used time zone in Weblate, see :std:setting:`django:"
-#| "TIME_ZONE`."
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
-msgstr "在 Weblate 中配置使用的时区，请参阅 :std:setting:`django:TIME_ZONE`。"
+msgstr "配置处理 :setting:`django:MEDIA_ROOT` 提供的媒体的 URL。"
 
 #: ../../admin/install/docker.rst:910
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgid ""
 "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
-msgstr "配置 Weblate 运行的 URL 前缀，请参见 :setting:`URL_PREFIX`。"
+msgstr "配置 :setting:`CACHE_DIR` 提供的静态文件的 URL 前缀。"
 
 #: ../../admin/install/docker.rst:914
 msgid ""
@@ -16416,10 +16342,8 @@ msgid "This can be done using docker compose, for example:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:2024
-#, fuzzy
-#| msgid "You can have a number of fonts loaded into Weblate:"
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr "可以将几种字型加载到 Weblate 中："
+msgstr "接着你可以用下列命令在 Weblate 中打开 Anubis："
 
 #: ../../admin/install/docker.rst:2037
 msgid "Docker container volumes"
@@ -19996,35 +19920,24 @@ msgid "move_language"
 msgstr "move_language"
 
 #: ../../admin/management.rst:787
-#, fuzzy
-#| msgid ""
-#| "Allows you to merge language content. This is useful when updating to a "
-#| "new version which contains aliases for previously unknown languages that "
-#| "have been created with the `(generated)` suffix. It moves all content "
-#| "from the `source` language to the `target` one."
 msgid ""
 "Allows you to merge language content. This is useful when updating to a new "
 "version which contains aliases for previously unknown languages that have "
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
-"允许您合并语言内容。当更新到新版本，这个新版本对使用 `(generated)` 前缀建立的"
-"之前未知的语言包含别名时，这会有用。它将所有内容从 `source` 语言移动到 "
-"`target` 语言。"
+"允许您合并语言内容。当更新到新版本，这个新版本对使用 :samp:`(generated)` "
+"前缀建立的之前未知的语言包含别名时，这会有用。它将所有内容从 `source` "
+"语言移动到 `target` 语言。"
 
 #: ../../admin/management.rst:798
-#, fuzzy
-#| msgid ""
-#| "After moving the content, you should check whether there is anything left "
-#| "(this is subject to race conditions when somebody updates the repository "
-#| "meanwhile) and remove the `(generated)` language."
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
 "移动内容后，您应该检查是否有什么落下了（这是因为有人在同时更新仓库而导致的竞"
-"争情况），并且要删除 `(generated)` 语言。"
+"争情况），并且要删除 :samp:`(generated)` 语言。"
 
 #: ../../admin/management.rst:803
 msgid "pushgit"
@@ -25969,30 +25882,21 @@ msgid ""
 msgstr "返回给定原文翻译单元的所有目标翻译单元的列表。"
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Create a new comment on the given translation unit."
-msgstr "用翻译文件创建一个仓库。"
+msgstr "在给定翻译单元上创建新评论。"
 
 #: ../../api.rst:2301
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "comment scope - global, translation (available on all non-source units), "
 "report (need review workflow enabled, see :ref:`reviews`)"
-msgstr ""
-"单元状态，0——未翻译、10——需要编辑、20——已翻译、30——已核准（需启用审校流程，请"
-"参见 :ref:`reviews`）"
+msgstr "评论范围 - 全局, 翻译 (在所有非源语言单元上可用), 报告 "
+"(需要启用审核工作流程，见 :ref:`reviews`)"
 
 #: ../../api.rst:2302
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
-msgstr "您可以使用 Markdown 并通过 @username 提及用户。"
+msgstr "新评论的内容，你可以使用 Markdown 并通过 @username 提及用户。"
 
 #: ../../api.rst:2303
 msgid ""
@@ -26011,22 +25915,16 @@ msgid "comment identifier"
 msgstr "评论标识符"
 
 #: ../../api.rst:2306
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "content of the new comment"
-msgstr "新评论已发表"
+msgstr "新评论的内容"
 
 #: ../../api.rst:2307
-#, fuzzy
-#| msgid "URL of a related component object"
 msgid "URL of the commenter's object"
-msgstr "相关部件对象的 URL"
+msgstr "评论者对象的 URL"
 
 #: ../../api.rst:2308
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "creation timestamp of the comment"
-msgstr "生成于 %(timestamp)s。"
+msgstr "评论的生成时间戳"
 
 #: ../../api.rst:2318
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -26906,31 +26804,19 @@ msgid "New features"
 msgstr "新功能"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for "
 "the given translation unit."
-msgstr ""
-"新增 :http:get:`/api/units/(int:id)/translations/` 获取给定源字符串翻译单元所"
-"有目标翻译单元的列表。"
+msgstr "新增 :http:post:`/api/units/(int:id)/comments/` 来创建给定翻译单元的新评论。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 ":ref:`addon-weblate.json.customize` now has a configurable compact mode."
-msgstr ":ref:`addon-weblate.cdn.cdnjs` 附加组件提供了一些配置选项。"
+msgstr ":ref:`addon-weblate.json.customize` 现在有了可配置的紧凑模式。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Added :ref:`check-kabyle-characters` quality check."
-msgstr "跳过 :ref:`check-fluent-parts` 质量检查。"
+msgstr "新增了 :ref:`check-kabyle-characters` 质量检查。"
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
@@ -26951,40 +26837,28 @@ msgid "Improvements"
 msgstr "改进"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-same` is now skipped for Toki Pona."
-msgstr "空白字符串不再触发 :ref:`check-reused` 检查。"
+msgstr "现在不对道本语进行 :ref:`check-same` 检查。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`search-strings` supports searching by source string state."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr ":ref:`search-strings` 支持按照源字符串状态进行搜索。"
+msgstr ":ref:`search-strings` 支持 ``has:location`` 查询。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
-#| "see :ref:`check-prohibited-initial-character`."
 msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"现在对 CSV 中有问题的开头字符进行 :ref:`glossary` 检查，见 :ref:`check-"
+"对于 :ref:`glossary`，Unicode 空格现在被认为是有问题的字符，见 :ref:`check-"
 "prohibited-initial-character`。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr "争取欸第展示 :ref:`addon-weblate.webhook.webhook` 记录。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr "可多次安装 :ref:`addon-weblate.webhook.webhook`。"
 
 #: ../../changes.rst:20
 msgid ":ref:`user-profile` can now include contact URL."
@@ -26997,18 +26871,14 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ":http:get:`/api/users/` supports searching by user ID."
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
-msgstr ":http:get:`/api/users/` 支持按用户 ID 搜索。"
+msgstr ":http:post:`/api/groups/` 支持非 supersuers 创建项目范围的团队。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
-msgstr ":http:get:`/api/changes/(int:id)/` 先包含 `旧的` 和 `详情`。"
+msgstr ":http:get:`/api/users/` 现包含 ``languages``."
 
 #: ../../changes.rst:26 ../../changes.rst:57 ../../changes.rst:76
 #: ../../changes.rst:100 ../../changes.rst:127 ../../changes.rst:174
@@ -27029,34 +26899,25 @@ msgid "Bug fixes"
 msgstr "缺陷修复"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid ":ref:`dashboard` translations ordering when paginating."
-msgstr "改进了翻译锁定处理。"
+msgstr "分页时对 :ref:`dashboard` 翻译排序。"
 
 #: ../../changes.rst:28
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
 msgstr ""
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.webhook.webhook` 传递项目级别事件。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
-msgstr "修复了 :ref:`check-translated` 来正确低处理源字符串更改。"
+msgstr "标记或解释更改造成的 :ref:`check-translated` 检查误报。"
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "在给定部件中新建新的翻译。"
+msgstr "在 :doc:`/formats/appstore` 中创建新翻译。"
 
 #: ../../changes.rst:34 ../../changes.rst:182 ../../changes.rst:265
 #: ../../changes.rst:355 ../../changes.rst:456 ../../changes.rst:596
@@ -27131,16 +26992,12 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"141?closed=1>`__。"
 
 #: ../../changes.rst:48
 msgid "Weblate 5.11.4"
@@ -27151,17 +27008,13 @@ msgid "*Released on May 7th 2025.*"
 msgstr "*发布于 2025 年 5 月 7 日。*"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.webhook.webhook` 记录请求和响应。"
 
 #: ../../changes.rst:58
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.webhook.webhook` 某些情形下未被触发。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -27206,16 +27059,12 @@ msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/136?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/136?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"146?closed=1>`__。"
 
 #: ../../changes.rst:71
 msgid "Weblate 5.11.3"
@@ -27248,16 +27097,12 @@ msgid "Weblate 5.11.2"
 msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:96
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "自动建议中的术语"
+msgstr "禅模式下的术语表性能和自动建议。"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
-msgstr ":ref:`addon-weblate.cdn.cdnjs` 的配置。"
+msgstr "扩展了 :ref:`addon-weblate.json.customize` 支持格式。"
 
 #: ../../changes.rst:101
 #, fuzzy
@@ -27319,10 +27164,8 @@ msgid "*Released on April 25th 2025.*"
 msgstr "*发布于 2025 年 4 月 25 日。*"
 
 #: ../../changes.rst:123
-#, fuzzy
-#| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr ":ref:`reports` 现对分类可用。"
+msgstr ":ref:`projectbackup` 现包含团队和分类。"
 
 #: ../../changes.rst:124
 msgid "Docker health check is now supported in non-web service containers."
@@ -27341,10 +27184,8 @@ msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
-msgstr "禁止的术语表术语"
+msgstr "删除待定的术语表术语。"
 
 #: ../../changes.rst:140
 #, fuzzy
@@ -33972,10 +33813,8 @@ msgid "Add install_addon management command for automated add-on installation."
 msgstr "为自动化的附加组件安装添加 install_addon 管理命令。"
 
 #: ../../changes/v3.rst:427
-#, fuzzy
-#| msgid "Allow more fine grained ratelimit settings."
 msgid "Allow more fine grained :ref:`rate-limit` settings."
-msgstr "允许更细粒度的速率限制设置。"
+msgstr "允许更细粒度的 :ref:`rate-limit` 设置。"
 
 #: ../../changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
@@ -38395,16 +38234,12 @@ msgid "Coding standard and linting the code"
 msgstr "编码标准和代码检查"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`ruff` code formatter."
 msgid ""
 "The code should follow :pep:`8` coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
-"代码应该遵循 PEP-8 代码编写准则，并且应该使用 :program:`ruff` 代码格式化程序"
-"进行代码格式化。"
+"代码应该遵循 :pep:`8` coding guidelines and should be formatted using "
+":program:`ruff` 代码格式化程序。"
 
 #: ../../contributing/snippets/code-guide.rst:71
 msgid ""
@@ -46831,10 +46666,8 @@ msgid "Failure scenario: full host/system loss"
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:43
-#, fuzzy
-#| msgid "Provisioning"
 msgid "Provision new host."
-msgstr "服务开通"
+msgstr "开通新主机。"
 
 #: ../../security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
@@ -46884,10 +46717,8 @@ msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:64
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Validation and resting"
-msgstr "验证失败，请再试。"
+msgstr "验证和休息"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
@@ -46952,10 +46783,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/incident-response-plan.rst:11
-#, fuzzy
-#| msgid "Extended search possibilities."
 msgid "Roles and responsibilities"
-msgstr "扩展了搜索可能性。"
+msgstr "角色和职责"
 
 #: ../../security/incident-response-plan.rst:13
 msgid ""
@@ -47314,10 +47143,8 @@ msgid "Password security"
 msgstr "重置密码"
 
 #: ../../security/passwords.rst:5
-#, fuzzy
-#| msgid "How are user passwords stored?"
 msgid "How Weblate stores passwords"
-msgstr "如何存储用户密码？"
+msgstr "Weblate 如何存储密码"
 
 #: ../../security/passwords.rst:7
 msgid ""
@@ -47332,13 +47159,10 @@ msgid ""
 msgstr ""
 
 #: ../../security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized using :setting:`django:"
 "PASSWORD_HASHERS`."
-msgstr "可以使用 :setting:`BORG_EXTRA_ARGS` 自定义备份创建。"
+msgstr "可使用 :setting:`django:PASSWORD_HASHERS` 自定义密码哈希方式。"
 
 #: ../../security/passwords.rst:16
 #, fuzzy
@@ -47353,10 +47177,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/passwords.rst:20
-#, fuzzy
-#| msgid "Per project configuration file"
 msgid "The recommended Weblate configuration verifies:"
-msgstr "每个项目的配置文件"
+msgstr "推荐的 Weblate 配置验证："
 
 #: ../../security/passwords.rst:22
 #, fuzzy
@@ -47388,13 +47210,10 @@ msgid "Password strength is optionally checked using the zxcvbn algorithm."
 msgstr ""
 
 #: ../../security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized using :setting:`django:"
 "AUTH_PASSWORD_VALIDATORS`."
-msgstr "可以使用 :setting:`BORG_EXTRA_ARGS` 自定义备份创建。"
+msgstr "可使用 :setting:`django:AUTH_PASSWORD_VALIDATORS` 自定义密码验证。"
 
 #: ../../security/passwords.rst:33
 #, fuzzy
@@ -52344,19 +52163,15 @@ msgid "Fuzzy values for DATETIME fields"
 msgstr "DATETIME 字段的模糊值"
 
 #: ../../user/search.rst:255
-#, fuzzy
-#| msgid ""
-#| "Instead of using DATETIME values like MM-DD-YYYY, a string containing "
-#| "adverb of time like ``yesterday``, ``last month``, and ``2 days ago`` can "
-#| "be used as values in the DATETIME fields."
 msgid ""
 "Instead of using DATETIME values like MM-DD-YYYY, a string containing an "
 "adverb of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days "
 "ago` can be used as values in the DATETIME fields. Only English phrases are "
 "supported here."
 msgstr ""
-"在 DATETIME 字段中可以使用包含时间副词的字符串，如 ``yesterday``、``last "
-"month`` 和 ``2 days ago`` 替换如 MM-DD-YYYY 格式的 DATETIME 值。"
+"在 DATETIME 字段中可以使用包含时间副词的字符串，如 :samp:`yesterday`、:samp:`"
+"last month` 和 :samp:`2 days ago` 替换如 MM-DD-YYYY 格式的 DATETIME "
+"值。此处仅支持英文词组。"
 
 #: ../../user/search.rst:262
 msgid "``changed:>=\"2 weeks ago\"``"
