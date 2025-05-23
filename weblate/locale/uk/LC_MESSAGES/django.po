@@ -11,13 +11,14 @@
 # Hotripak <hotr1pak@gmail.com>, 2024.
 # Максим Горпиніч <mgorpinic2005@gmail.com>, 2024.
 # Максим Горпиніч <maksimgorpinic2005a@gmail.com>, 2025.
+# Максим Горпиніч <maksimgorpinic4@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-22 18:13+0000\n"
-"PO-Revision-Date: 2025-04-15 06:24+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2025-05-24 05:01+0000\n"
+"Last-Translator: Максим Горпиніч <maksimgorpinic4@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -815,15 +816,15 @@ msgid "Website URL"
 msgstr "Адреса сайту"
 
 #: weblate/accounts/models.py:716
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "Контакти"
+msgstr "URL-адреса контакту"
 
 #: weblate/accounts/models.py:720
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
+"Посилання для зв’язку з вами онлайн за допомогою таких сервісів, як Signal, "
+"SimpleX або Telegram."
 
 #: weblate/accounts/models.py:724
 msgid "Liberapay username"
@@ -1632,7 +1633,7 @@ msgstr "Сортувати ключі JSON"
 
 #: weblate/addons/forms.py:215
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Уникайте пробілів після роздільників"
 
 #: weblate/addons/forms.py:219
 msgid "JSON indentation"
@@ -1802,6 +1803,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"Відсоток перекладених рядків, який має бути присутнім для включення "
+"перекладу."
 
 #: weblate/addons/forms.py:526
 msgid "CSS selector"
@@ -1854,38 +1857,30 @@ msgstr "Усі рядки у цьому перекладі буде переза
 
 #: weblate/addons/forms.py:595 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr ""
+msgstr "Доданий статичний текст"
 
 #: weblate/addons/forms.py:600 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Додано на початку змінний текст"
 
 #: weblate/addons/forms.py:605 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "Додано статичний текст"
 
 #: weblate/addons/forms.py:610 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Невизначена змінна: \"%s\""
+msgstr "Доданий змінний текст"
 
 #: weblate/addons/forms.py:615
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Множник змінної частини"
+msgstr "Змінний текстовий множник"
 
 #: weblate/addons/forms.py:619
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Кількість повторів змінної частини, залежно від довжини початкового рядка."
+"Скільки разів повторювати змінний текст залежно від довжини вихідного рядка."
 
 #: weblate/addons/forms.py:624
 msgid "Include read-only strings"
@@ -2157,11 +2152,8 @@ msgid ""
 msgstr "Ваш коментар тільки для цього перекладу чи він стосується й інших?"
 
 #: weblate/api/serializers.py:345
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Commented"
 msgid "Comment text"
-msgstr "Коментовано"
+msgstr "Текст коментаря"
 
 #: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
@@ -2171,28 +2163,28 @@ msgstr ""
 "@username."
 
 #: weblate/api/serializers.py:350
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "Створено за %(timestamp)s."
+msgstr "Мітка часу створення"
 
 #: weblate/api/serializers.py:352
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
 msgstr ""
+"Якщо ви адміністратор, ви можете встановити чітку позначку часу створення "
+"коментаря."
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Додано коментарі"
+msgstr "Електронна адреса коментатора"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Якщо ви адміністратор, ви можете пов’язати цей коментар з іншим користувачем "
+"за його електронною адресою."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3321,13 +3313,15 @@ msgstr "Джерело та переклад не починаються з од
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Нестандартні символи кабільською мовою"
 
 #: weblate/checks/chars.py:109
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Використовуйте стандартизовані латинські кабільські символи (наприклад, ɣ "
+"замість грецького γ; ɛ замість ε)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -6051,7 +6045,7 @@ msgstr "Про Weblate"
 #: weblate/templates/about/donate.html:10 weblate/trans/views/about.py:23
 #: weblate/trans/views/about.py:130
 msgid "Support Weblate"
-msgstr "Підтримка Weblate"
+msgstr "Підтримки Weblate"
 
 #: weblate/templates/about/donate.html:19
 msgid "Help <strong>Weblate</strong> keep thriving"
@@ -7672,30 +7666,24 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:5
 msgid "HTTP Response"
-msgstr ""
+msgstr "HTTP-відповідь"
 
 #: weblate/templates/addons/webhook_log.html:8
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "Невірний запит"
+msgstr "HTTP-запит"
 
 #: weblate/templates/addons/webhook_log.html:14
 #: weblate/templates/addons/webhook_log.html:21
 msgid "HTTP headers"
-msgstr ""
+msgstr "HTTP-заголовки"
 
 #: weblate/templates/addons/webhook_log.html:17
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "Вирішити коментар"
+msgstr "Зміст відповіді"
 
 #: weblate/templates/addons/webhook_log.html:23
-#, fuzzy
-#| msgid "Requested language"
 msgid "Request payload"
-msgstr "Запитувана мова"
+msgstr "Запит корисного навантаження"
 
 #: weblate/templates/auth/team.html:11
 #: weblate/templates/trans/project-access.html:10
@@ -7931,10 +7919,8 @@ msgid "Help"
 msgstr "Довідка"
 
 #: weblate/templates/base.html:378
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Weblate support"
-msgstr "Стан підтримки Weblate"
+msgstr "Стан підтримка Weblate"
 
 #: weblate/templates/base.html:382
 msgid "Get support"
@@ -7945,32 +7931,24 @@ msgid "Get help"
 msgstr "Ознайомитися із довідкою"
 
 #: weblate/templates/base.html:391
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Weblate community"
-msgstr "Вилучити коментар"
+msgstr "Спільнота Weblate"
 
 #: weblate/templates/base.html:395
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact site administrators"
-msgstr "Звʼязатися з адміністраторами сервера"
+msgstr "Зв'язатися з адміністраторами сайту"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
 msgstr "Посприяйте Weblate"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate website"
-msgstr "Ключі Weblate"
+msgstr "Вебсайт Weblate"
 
 #: weblate/templates/base.html:412
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "Управління Weblate"
+msgstr "Документації Weblate"
 
 #: weblate/templates/base.html:415 weblate/templates/keyboard-shortcuts.html:18
 msgid "Keyboard shortcuts"
@@ -9908,20 +9886,16 @@ msgstr[2] "Строк дії запрошення завершується за 
 msgstr[3] "Строк дії запрошення завершується за %(count)s годину."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
 msgstr ""
-"%(from_user)s запрошує вас співпрацювати у проєкті перекладу "
-"%(project_name)s на %(site_title)s."
+"%(invitation_author)s запросив вас приєднатися до проєкту %(project_name)s"
 
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "%(invitation_author)s запросив вас приєднатися"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10246,28 +10220,24 @@ msgid "Turned off"
 msgstr "Вимкнено"
 
 #: weblate/templates/manage/backups.html:28
-#, fuzzy
-#| msgid "Failed push on repository"
 msgid "Failed with an error"
-msgstr "Помилка перенесення у репозиторій"
+msgstr "Не вдалося з помилкою"
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Unpaid service subscription"
-msgstr "Тестові передплати"
+msgstr "Неоплачена підписка на послугу"
 
 #: weblate/templates/manage/backups.html:55
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"Службу резервного копіювання тимчасово вимкнено через неоплачену підписку. "
+"Увімкніть резервне копіювання, поновивши підписку."
 
 #: weblate/templates/manage/backups.html:59
-#, fuzzy
-#| msgid "Manage your listing"
 msgid "Manage your subscription"
-msgstr "Керування списком"
+msgstr "Керуйте своєю підпискою"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Backup service credentials"
@@ -11034,10 +11004,12 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate — це безкоштовне програмне забезпечення з професійною підтримкою та "
+"послугами для комерційних користувачів."
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "Перегляньте варіанти підтримки на сайті weblate.org."
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -11271,10 +11243,8 @@ msgid "Project maintainers"
 msgstr "Супровідники проєкту"
 
 #: weblate/templates/snippets/info.html:56
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project reviewers"
-msgstr "Проєкт вилучено"
+msgstr "Рецензенти проектів"
 
 #: weblate/templates/snippets/info.html:68
 msgid "Automatic component list assignment"
@@ -11912,10 +11882,8 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Перекладайте %(object)s за допомогою %%23Weblate на %(share_url)s!"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on X"
 msgid "Share on Bluesky"
-msgstr "Поширити в X"
+msgstr "Поділитися на Bluesky"
 
 #: weblate/templates/snippets/share-menu.html:16
 msgid "Share on Fediverse"
@@ -13540,16 +13508,12 @@ msgstr ""
 "Вони можуть привернути увагу до вашого проєкту і залучити нових помічників."
 
 #: weblate/templates/widgets.html:39
-#, fuzzy
-#| msgid "Widgets"
 msgid "Widget"
-msgstr "Віджети"
+msgstr "Віджет"
 
 #: weblate/templates/widgets.html:57
-#, fuzzy
-#| msgid "BBCode"
 msgid "Code"
-msgstr "BB-код"
+msgstr "Код"
 
 #: weblate/templates/widgets.html:59 weblate/trans/forms.py:1336
 msgid "HTML"
@@ -13576,20 +13540,16 @@ msgid "Image URL"
 msgstr "URL малюнку"
 
 #: weblate/templates/widgets.html:76
-#, fuzzy
-#| msgid "Overview"
 msgid "Live Preview"
-msgstr "Огляд"
+msgstr "Попередній перегляд у реальному часі"
 
 #: weblate/templates/widgets.html:90
-#, fuzzy
-#| msgid "Recovery codes copied to clipboard."
 msgid "Embed code copied to clipboard."
-msgstr "Коди відновлення скопійовано до буфера."
+msgstr "Вбудувати код скопійовано в буфер обміну."
 
 #: weblate/templates/widgets.html:92
 msgid "Embed Code"
-msgstr ""
+msgstr "Вбудувати код"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -15957,10 +15917,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "Не вдалося надіслати очікувані зміни: %s"
 
 #: weblate/trans/models/translation.py:1889
-#, fuzzy
-#| msgid "Plurals are not supported by the file format!"
 msgid "Plurals are not supported by the file format."
-msgstr "Форми множини не підтримуються цим форматом файлу!"
+msgstr "Формат файлу не підтримує множину."
 
 #: weblate/trans/models/translation.py:1894 weblate/trans/models/unit.py:774
 #: weblate/utils/forms.py:127
@@ -16704,10 +16662,8 @@ msgid "Could not remove the string: %s"
 msgstr "Не вдалося вилучити рядок: %s"
 
 #: weblate/trans/views/edit.py:1056
-#, fuzzy
-#| msgid "String removed"
 msgid "String was removed."
-msgstr "Вилучено рядок"
+msgstr "Рядок було видалено."
 
 #: weblate/trans/views/error.py:28
 msgid "Bad Request"
@@ -16926,10 +16882,8 @@ msgid "Language count badge"
 msgstr "Значок підрахунку мови"
 
 #: weblate/trans/widgets.py:537
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Threshold"
-msgstr "Поріг оцінки"
+msgstr "Поріг"
 
 #: weblate/trans/widgets.py:552 weblate/utils/views.py:624
 #, python-format
@@ -17160,7 +17114,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:117
 msgid "The uploaded image was invalid."
-msgstr ""
+msgstr "Завантажене зображення було недійсним."
 
 #: weblate/utils/validators.py:126
 #, python-format
@@ -17259,10 +17213,8 @@ msgid "String location"
 msgstr "Місце рядка"
 
 #: weblate/utils/views.py:217
-#, fuzzy
-#| msgid "Position and priority"
 msgid "Component and priority"
-msgstr "Позиція і пріоритетність"
+msgstr "Компонент та пріоритет"
 
 #: weblate/vcs/base.py:71
 msgid "This will push changes to the upstream repository."
@@ -17490,10 +17442,8 @@ msgid "Premium self-hosted support"
 msgstr "Власна служба підтримки Weblate найвищої якості"
 
 #: weblate/wladmin/models.py:162
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Unpaid subscription"
-msgstr "Тестові передплати"
+msgstr "Неоплачена підписка"
 
 #: weblate/wladmin/models.py:256
 msgid "Backup repository URL"
