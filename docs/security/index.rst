@@ -31,3 +31,8 @@ Security policites
 * :doc:`issues`
 * :doc:`passwords`
 * :doc:`threat-model`
+
+Compliance
+----------
+
+* :doc:`privacy-compliance`
