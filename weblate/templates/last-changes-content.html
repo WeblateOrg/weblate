@@ -68,8 +68,12 @@
                   <span class="badge">{% blocktranslate count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktranslate %}</span>
                   {% if change.unit.target == change.target %}
                     <span class="badge">{% translate "Current translation" %}</span>
+                  {% else %}
+                    <span class="badge">{% translate "Previous translation" %}</span>
                   {% endif %}
-                  {% if change.show_unit_state %}<span class="badge">{{ change.get_state_display }}</span>{% endif %}
+                  {% if change.show_unit_state %}
+                    <span class="badge">{% blocktranslate with state=change.get_state_display %}State: {{ state }}{% endblocktranslate %}</span>
+                  {% endif %}
                 </label>
                 {% format_unit_target change.unit value=change.target diff=change.old %}
               {% elif change.show_source %}
