@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-22 20:14+0200\n"
-"PO-Revision-Date: 2025-05-23 10:45+0000\n"
+"PO-Revision-Date: 2025-05-23 11:46+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -3353,15 +3353,6 @@ msgstr ""
 "változata esetleg nem férne el a felületen."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3371,32 +3362,27 @@ msgid ""
 "world___________`` - the text is repeated once for each character in the "
 "source string."
 msgstr ""
-"A változó részek használatával meg lehet keresni azokat a szövegeket, "
-"amelyek a lokalizáció után nem férnének el a felhasználói felületen – "
-"ilyenkor a szöveg a forrásszöveg hosszától függően megnyúlik. A változó "
-"részek ismétlődnek: a forrásszöveg hossza megszorozva egy szorzóval. Például "
-"a ``Hello world`` szöveg, változó utótagként ``_`` karakterrel és szorzóként "
-"1-gyel így nézne ki: ``Hello world___________`` – az utótag minden "
-"forráskarakter után egyszer kerül hozzáadásra."
+"A változó részek használatával ellenőrizhető, hogy a lokalizált szövegek nem "
+"lógnak-e ki a felhasználói felületről – a rendszer ilyenkor a forrásszöveg "
+"hosszától függően hosszabbítja meg a szöveget. A változó szövegek "
+"ismétlődnek, a szöveg hossza és a szorzó szorzataként. Például a ``Hello "
+"world`` szöveg változó karakterként ``_`` beállítással és 1-es szorzóval ``"
+"Hello world___________`` lesz – minden karakterre egy ismétlés jut a "
+"forrásszöveg hosszának megfelelően."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
 msgstr "A szövegek a következő minta alapján generálódnak:"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Rögzített szövegelőtag` :guilabel:`Változó szövegelőtag` :"
-"guilabel:`Forrásszöveg` :guilabel:`Változó szövegutótag` :guilabel:"
-"`Rögzített szövegutótag`"
+":guilabel:`Elé fűzött statikus szöveg` :guilabel:`Elé fűzött változó szöveg` "
+":guilabel:`Forrásszöveg` :guilabel:`Mögé fűzött változó szöveg` :guilabel:`"
+"Mögé fűzött statikus szöveg`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3792,6 +3778,7 @@ msgstr "JSON-kimenet testreszabása"
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
 msgstr ""
+"Új :guilabel:`Szóközök kerülése elválasztók után` opció került bevezetésre."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -3839,15 +3826,13 @@ msgid "``tabs`` -- Tabs"
 msgstr "``tabs`` -- Tabulátorok"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Lehetővé teszi a JSON-kimenet viselkedésének beállítását, például a kulcsok "
-"rendezését vagy a behúzást."
+"Lehetővé teszi a JSON-kimenet viselkedésének testreszabását, például a "
+"behúzás, rendezés vagy a minimális szóközhasználattal való tömör formázás "
+"beállítását."
 
 #: ../../admin/addons.rst:903
 msgid "Format the Java properties file"
@@ -5011,21 +4996,18 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"A Weblate a Django hitelesítési rendszerére támaszkodik. Ez magában foglalja "
+"a beépített jelszóalapú hitelesítést, a közösségi hitelesítést, valamint a "
+"Django által támogatott külső hitelesítési háttereket."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"A hitelesítéshez a Django beépített megoldása használatos, amely különféle "
-"közösségi szolgáltatásokat is támogat. Ennek használatával például "
-"importálható egy másik Django-alapú projekt felhasználói adatbázisa is "
-"(lásd: :ref:`pootle-migration`)."
+"A Django beépített hitelesítési rendszerének használata lehetővé teszi más, "
+"Django-alapú projektek felhasználói adatbázisának importálását is (lásd: :ref"
+":`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -5489,14 +5471,12 @@ msgstr ""
 "gyenge jelszavak automatikus elutasítását."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ""
-#| ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, :"
 "doc:`/security/passwords`"
 msgstr ""
-":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, "
+":doc:`/security/passwords`"
 
 #: ../../admin/auth.rst:476
 msgid "SAML authentication"
@@ -5693,14 +5673,10 @@ msgid "CAS authentication"
 msgstr "CAS-hitelesítés"
 
 #: ../../admin/auth.rst:690
-#, fuzzy
-#| msgid ""
-#| "CAS authentication can be achieved using a package such as `django-cas-"
-#| "ng`."
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
-"A CAS-hitelesítés megvalósítható például a `django-cas-ng` csomag "
+"A CAS-hitelesítés megvalósítható például a `Django CAS NG`_ csomag "
 "segítségével."
 
 #: ../../admin/auth.rst:692
@@ -5720,10 +5696,8 @@ msgstr ""
 "és annak attribútumait használja."
 
 #: ../../admin/auth.rst:698
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "A `django-cas-ng` csomag telepítéséhez:"
+msgstr "A `Django CAS NG`_ telepítése:"
 
 #: ../../admin/auth.rst:704
 msgid ""
@@ -7416,10 +7390,9 @@ msgid "``ignore-automattic-components-format``"
 msgstr "``ignore-automattic-components-format``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "A :ref:`check-icu-message-format` minőség-ellenőrzés kihagyása."
+msgstr ""
+"Az :ref:`check-automattic-components-format` minőség-ellenőrzés kihagyása."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:485
 msgid "``ignore-c-format``"
@@ -7749,10 +7722,8 @@ msgid "``ignore-kabyle-characters``"
 msgstr "``ignore-all-checks``"
 
 #: ../../admin/checks.rst:295
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "A :ref:`check-fluent-parts` minőség-ellenőrzés kihagyása."
+msgstr "A :ref:`check-kabyle-characters` minőség-ellenőrzés kihagyása."
 
 #: ../../admin/checks.rst:296 ../../user/checks.rst:1381
 msgid "``ignore-placeholders``"
@@ -13764,23 +13735,17 @@ msgstr ""
 "beszél, de további információkat a Django dokumentációjában talál."
 
 #: ../../admin/install.rst:706
-#, fuzzy
-#| msgid ""
-#| "In case you get error about not supported authentication (for example "
-#| "``SMTP AUTH extension not supported by server``), it is most likely "
-#| "caused by using insecure connection and server refuses to authenticate "
-#| "this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgid ""
 "In case you get error about not supported authentication (for example :samp:"
 "`SMTP AUTH extension not supported by server`), it is most likely caused by "
 "using insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"Ha olyan hibaüzenetet kap, amely a hitelesítés nem támogatottságára utal "
-"(például ``SMTP AUTH extension not supported by server``), az általában egy "
-"nem biztonságos kapcsolat miatt történik, amelyet a szerver nem tud "
-"hitelesíteni. Ilyen esetben próbálja meg engedélyezni az :setting:`django:"
-"EMAIL_USE_TLS` beállítást."
+"Ha olyan hibaüzenetet kap, amely nem támogatott hitelesítést jelez (például "
+":samp:`SMTP AUTH extension not supported by server`), az valószínűleg nem "
+"biztonságos kapcsolaton történő próbálkozás miatt van, és a kiszolgáló "
+"elutasítja az ilyen típusú hitelesítést. Ilyen esetben próbálja meg "
+"engedélyezni a :setting:`django:EMAIL_USE_TLS` beállítást."
 
 #: ../../admin/install.rst:713
 msgid ""
@@ -13800,33 +13765,23 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"A Weblate több funkciója is attól függ, hogy a megfelelő HTTP-fejlécek "
+"helyesen továbbításra kerülnek-e a Weblate felé. Fordított proxy használata "
+"esetén ügyeljen arra, hogy ezek az adatok megfelelően átadásra kerüljenek."
 
 #: ../../admin/install.rst:725
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "IP-cím"
+msgstr "Kliens IP-cím"
 
 #: ../../admin/install.rst:726
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
 msgstr ""
-"A Weblate több funkciója is igényli a kliens IP-címének elérését. Ilyen "
-"például a :ref:`rate-limit`, :ref:`spam-protection` vagy az :ref:`audit-log`."
+"Erre szükség van a következő funkciókhoz: :ref:`rate-limit`, :ref:`spam-"
+"protection` vagy :ref:`audit-log`."
 
 #: ../../admin/install.rst:728
-#, fuzzy
-#| msgid ""
-#| "Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the "
-#| "WSGI handler. This might be empty (when using socket for WSGI) or contain "
-#| "a reverse proxy address, so Weblate needs an additional HTTP header with "
-#| "client IP address."
 msgid ""
 "Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI "
 "handler. This might be empty (when using socket for WSGI) or contain a "
@@ -13839,13 +13794,6 @@ msgstr ""
 "egy további HTTP fejlécben érkező kliens IP-címre."
 
 #: ../../admin/install.rst:733
-#, fuzzy
-#| msgid ""
-#| "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
-#| "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-#| "and :setting:`IP_PROXY_OFFSET` as well (use :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
-#| "Docker container)."
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the "
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
@@ -13853,57 +13801,41 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
-"Az :setting:`IP_BEHIND_REVERSE_PROXY` bekapcsolása elegendő lehet a legtöbb "
-"szokásos beállításnál, de szükség lehet az :setting:`IP_PROXY_HEADER` és az :"
-"setting:`IP_PROXY_OFFSET` módosítására is (Docker-konténer esetén a :envvar:"
-"`WEBLATE_IP_PROXY_HEADER` és a :envvar:`WEBLATE_IP_PROXY_OFFSET` változókat "
-"kell használni)."
+"A :setting:`IP_BEHIND_REVERSE_PROXY` beállítás engedélyezése a legtöbb "
+"esetben elegendő, de szükség lehet a :setting:`IP_PROXY_HEADER` és a "
+":setting:`IP_PROXY_OFFSET` módosítására is (Docker-konténerben használja a "
+":envvar:`WEBLATE_IP_PROXY_HEADER` és :envvar:`WEBLATE_IP_PROXY_OFFSET` "
+"változókat)."
 
 #: ../../admin/install.rst:740
-#, fuzzy
-#| msgid ""
-#| "This configuration cannot be turned on by default because it would allow "
-#| "IP address spoofing on installations that don't have a properly "
-#| "configured reverse proxy."
 msgid ""
 "This configuration cannot be turned on by default, because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
-"Ezt a konfigurációt alapértelmezetten nem lehet bekapcsolni, mert egy nem "
-"megfelelően beállított proxy esetén IP-cím hamisításra adna lehetőséget."
+"Ez a beállítás nem engedélyezett alapértelmezetten, mivel lehetővé tenné az "
+"IP-címek meghamisítását olyan telepítéseknél, ahol a fordított proxy nincs "
+"megfelelően konfigurálva."
 
 #: ../../admin/install.rst:744
-#, fuzzy
-#| msgid "Service name"
 msgid "Server host name"
-msgstr "Szolgáltatás neve"
+msgstr "Kiszolgáló gép neve"
 
 #: ../../admin/install.rst:745
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured as :"
 "setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"Egy másik fontos beállítás a :http:header:`Host` fejléc. Ennek meg kell "
-"egyeznie a :setting:`SITE_DOMAIN` értékével. Szükség lehet további "
-"konfigurációra a fordított proxyn (például az Apache esetén "
-"``ProxyPreserveHost On``, nginx esetén pedig ``proxy_set_header Host $host;"
-"`` használatával)."
+"A :http:header:`Host` fejléc értékének egyeznie kell a :setting:`SITE_DOMAIN`"
+" beállítással. További konfiguráció lehet szükséges a fordított proxyban ("
+"például használja a ``ProxyPreserveHost On`` beállítást Apache esetén, vagy "
+"``proxy_set_header Host $host;`` értéket nginx esetén)."
 
 #: ../../admin/install.rst:750
-#, fuzzy
-#| msgid "Client secret"
 msgid "Client protocol"
-msgstr "Kliens titkos kulcs"
+msgstr "Kliensprotokoll"
 
 #: ../../admin/install.rst:751
 msgid ""
@@ -13911,15 +13843,12 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"Ha a megfelelő protokoll nincs továbbítva, a Weblate végtelen átirányítási "
+"ciklusba kerülhet, miközben megpróbálja HTTPS-re váltani a kapcsolatot. "
+"Győződjön meg róla, hogy a proxy megfelelően továbbítja a :http:header:`X"
+"-Forwarded-Proto` fejlécet."
 
 #: ../../admin/install.rst:757
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:"
-#| "`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :"
-#| "setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgid ""
 ":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref:"
 "`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:"
@@ -13928,11 +13857,12 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref"
+":`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref"
+":`apache-gunicorn`, :setting:`IP_BEHIND_REVERSE_PROXY`, "
+":setting:`IP_PROXY_HEADER`, :setting:`IP_PROXY_OFFSET`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`"
+", :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:773
 msgid "HTTP proxy"
@@ -15787,7 +15717,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:127
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "SSL-t lezáró proxy"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
@@ -15796,14 +15726,18 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"Az SSL kapcsolatot a Weblate-konténeren kívül is le lehet zárni. Ehhez több "
+"HTTP-fejlécet is továbbítani kell a konténer felé, hogy az tisztában legyen "
+"a tényleges környezetével. Ezeket a fejléceket részletesen a :ref:`reverse-"
+"proxy` rész írja le."
 
 #: ../../admin/install/docker.rst:134
 msgid "Example nginx reverse proxy configuration for a Docker container."
-msgstr ""
+msgstr "Példa nginx proxykonfigurációra Docker-konténer esetén."
 
 #: ../../admin/install/docker.rst:147
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "Docker-konténer környezet külső SSL-lezáráshoz."
 
 #: ../../admin/install/docker.rst:154
 msgid "Using own SSL certificates"
@@ -16688,26 +16622,19 @@ msgstr ""
 "`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:905
-#, fuzzy
-#| msgid ""
-#| "Configures the used time zone in Weblate, see :std:setting:`django:"
-#| "TIME_ZONE`."
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
 msgstr ""
-"A Weblate által használt időzónát állítja be, lásd: :std:setting:`django:"
-"TIME_ZONE`."
+"Az URL beállítása a :setting:`django:MEDIA_ROOT` könyvtárból kiszolgált "
+"médiafájlokhoz."
 
 #: ../../admin/install/docker.rst:910
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgid ""
 "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgstr ""
-"Az URL-előtagot konfigurálja, amely alatt a Weblate fut, lásd: :setting:"
-"`URL_PREFIX`."
+"Az URL-előtag beállítása a :setting:`CACHE_DIR` könyvtárból kiszolgált "
+"statikus fájlokhoz."
 
 #: ../../admin/install/docker.rst:914
 msgid ""
@@ -17780,16 +17707,19 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"Az `Anubis`_ szerver URL-címe, amely a kérések hitelesítését végzi. Ez "
+"hasznos lehet bejövő HTTP-kérések szűrésére proof-of-work (számítási "
+"feladaton alapuló igazolás) segítségével AI-robotok megállítására. A "
+"funkcióhoz be kell állítani az `Anubis for Subrequest Authentication`_ "
+"szolgáltatást."
 
 #: ../../admin/install/docker.rst:2009
 msgid "This can be done using docker compose, for example:"
-msgstr ""
+msgstr "Ez megvalósítható például docker compose segítségével:"
 
 #: ../../admin/install/docker.rst:2024
-#, fuzzy
-#| msgid "You can have a number of fonts loaded into Weblate:"
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr "Több betűtípus is betölthető a Weblate-be:"
+msgstr "Ezután a Weblate-ben engedélyezheti az Anubis használatát ezzel:"
 
 #: ../../admin/install/docker.rst:2037
 msgid "Docker container volumes"
@@ -21687,38 +21617,26 @@ msgid "move_language"
 msgstr "move_language"
 
 #: ../../admin/management.rst:787
-#, fuzzy
-#| msgid ""
-#| "Allows you to merge language content. This is useful when updating to a "
-#| "new version which contains aliases for previously unknown languages that "
-#| "have been created with the `(generated)` suffix. It moves all content "
-#| "from the `source` language to the `target` one."
 msgid ""
 "Allows you to merge language content. This is useful when updating to a new "
 "version which contains aliases for previously unknown languages that have "
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
-"Nyelvi tartalmak egyesítése. Ez akkor hasznos, ha egy új verzióra frissít, "
-"amelyben korábban ismeretlen nyelvekhez rendelt álnevek kerülnek "
-"bevezetésre, amelyek `(automatikusan létrehozott)` utótaggal lettek "
-"létrehozva. A parancs áthelyezi a `forrás` nyelv összes tartalmát a `cél` "
-"nyelvhez."
+"Lehetővé teszi nyelvi tartalmak összevonását. Ez hasznos frissítéskor, "
+"amikor korábban nem ismert nyelvek új verzióban álnévként (pl. :samp:`("
+"automatikusan létrehozott)` utótaggal) jelennek meg. A művelet áthelyezi a "
+"tartalmat a `forrás` nyelvből a `cél` nyelvbe."
 
 #: ../../admin/management.rst:798
-#, fuzzy
-#| msgid ""
-#| "After moving the content, you should check whether there is anything left "
-#| "(this is subject to race conditions when somebody updates the repository "
-#| "meanwhile) and remove the `(generated)` language."
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
-"Miután áthelyezte a tartalmat, ellenőrizze, hogy nem maradt-e hátra semmi "
-"(ez előfordulhat, ha időközben más módosította a tárolót), majd távolítsa el "
-"az „(automatikusan létrehozott)” nyelvi megjelölést."
+"Miután áthelyezte a tartalmat, ellenőrizze, hogy nem maradt-e hátra semmi ("
+"ez előfordulhat, ha időközben más módosította a tárolót), majd távolítsa el "
+"az :samp:`(automatikusan létrehozott)` nyelvi megjelölést."
 
 #: ../../admin/management.rst:803
 msgid "pushgit"
@@ -22643,8 +22561,6 @@ msgid "2"
 msgstr "2"
 
 #: ../../admin/optionals.rst:291
-#, fuzzy
-#| msgid "Password authentication on sign in"
 msgid "Password authentication on sign-in"
 msgstr "Jelszavas hitelesítés bejelentkezéskor"
 
@@ -22653,8 +22569,6 @@ msgid "``LOGIN``"
 msgstr "``LOGIN``"
 
 #: ../../admin/optionals.rst:293
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Second-factor authentication"
 msgstr "Kétlépcsős hitelesítés"
 
@@ -26284,15 +26198,12 @@ msgstr ""
 "kapcsolódó csoportok hivatkozása; lásd: :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:327
-#, fuzzy
-#| msgid ""
-#| "translation language code; see :http:get:`/api/languages/(string:"
-#| "language)/`"
 msgid ""
 "link to translated languages; see :http:get:`/api/languages/(string:"
 "language)/`"
 msgstr ""
-"fordítási nyelv kódja; lásd: :http:get:`/api/languages/(string:language)/`"
+"hivatkozás a lefordított nyelvekre, lásd: :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:329 ../../api.rst:519 ../../api.rst:712 ../../api.rst:789
 #: ../../api.rst:900 ../../api.rst:972 ../../api.rst:1373 ../../api.rst:1574
@@ -28164,33 +28075,25 @@ msgstr ""
 "egység listáját."
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Create a new comment on the given translation unit."
-msgstr "Hozzon létre egy tárolót a fordítási fájlok számára."
+msgstr "Új megjegyzés létrehozása az adott fordítási egységhez."
 
 #: ../../api.rst:2301
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "comment scope - global, translation (available on all non-source units), "
 "report (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"szöveg állapota, 0 - lefordítatlan, 10 - szerkesztést igényel, 20 - "
-"lefordítva, 30 - jóváhagyva (szükséges az ellenőrzési munkafolyamat "
-"engedélyezése, lásd: :ref:`reviews`)"
+"a megjegyzés hatóköre – globális, fordítás (minden nem forrás egységnél "
+"elérhető), jelentés (felülvizsgálati munkafolyamat szükséges, lásd: "
+":ref:`reviews`)"
 
 #: ../../api.rst:2302
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
 msgstr ""
-"Használhat Markdown formázást, és megemlítheti a felhasználókat a "
-"@felhasználónév használatával."
+"a megjegyzés tartalma, használható benne Markdown, és felhasználók is "
+"megemlíthetők ``@felhasználónév`` formában."
 
 #: ../../api.rst:2303
 msgid ""
