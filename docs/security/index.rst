@@ -22,8 +22,8 @@ receive security updates. Users are encouraged to keep Weblate up to date to
 benefit from the latest security improvements. Learn more about :ref:`Weblate
 releases and the release life cycle <release-cycle>`.
 
-Security policites
-------------------
+Security policies
+-----------------
 
 * :doc:`dependencies`
 * :doc:`disaster-recovery-plan`
