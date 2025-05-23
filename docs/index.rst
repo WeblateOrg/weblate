@@ -152,6 +152,7 @@ Learn more about :ref:`contributing`.
    security/incident-response-plan
    security/passwords
    security/disaster-recovery-plan
+   security/threat-model
 
 .. toctree::
    :caption: File formats

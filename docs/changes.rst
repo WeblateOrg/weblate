@@ -9,6 +9,7 @@ Weblate 5.12
 * :ref:`addon-weblate.json.customize` now has a configurable compact mode.
 * Added :ref:`check-kabyle-characters` quality check.
 * :ref:`sbom` is now being provided for Weblate.
+* :doc:`/security/index` documentation.
 
 .. rubric:: Improvements
 
