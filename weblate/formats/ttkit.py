@@ -24,7 +24,8 @@ from lxml.etree import XMLSyntaxError
 from pyparsing import ParseException
 from translate.misc import quote
 from translate.misc.multistring import multistring
-from translate.misc.xml_helpers import setXMLspace
+from translate.misc.xml_helpers import getXMLspace, setXMLspace
+from translate.storage import lisa
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from translate.storage.csvl10n import csvunit
@@ -2022,18 +2023,83 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit(TTKitUnit):
-    def _get_notes(self, *origins: str) -> str:
+    unit: tbxunit
+
+    def is_administrative_status_term_note(self, note: etree.Element) -> bool:
+        return (
+            self.unit.namespaced("termNote") == note.tag
+            and note.get("type") == "administrativeStatus"
+        )
+
+    def is_translation_needed_note(self, note: etree.Element) -> bool:
+        return (
+            self.unit.namespaced("descrip") == note.tag
+            and note.get("type") == "Translation needed"
+        )
+
+    def is_usage_note(self, note: etree.Element) -> bool:
+        return (
+            self.unit.namespaced("descrip") == note.tag
+            and note.get("type") == "Usage note"
+        )
+
+    def get_note_text(self, note: etree.Element) -> str:
+        return lisa.getText(
+            note,
+            getXMLspace(self.unit.xmlelement, self.unit._default_xml_space),  # noqa: SLF001
+        )
+
+    def _get_nodes(self, origin: str) -> list[etree.Element]:
+        return self.unit.xmlelement.iterdescendants(
+            self.unit._get_origin_element(origin)  # noqa: SLF001
+        )
+
+    def _get_notes_list(self, *origins: str) -> list[str]:
+        seen_notes = set()
         notes = []
+
         for origin in origins:
-            note = self.unit.getnotes(origin)
-            if note:
-                notes.append(note)
+            note_nodes = self._get_nodes(origin)
+            for note in note_nodes:
+                if (
+                    origin not in {"pos", "definition", None}
+                    and note.get("from") != origin
+                ):
+                    continue
+
+                # ignore special termweb metadata in notes
+                # administrativeStatus is mapped to the forbidden flag, 'Translation Needed' is used to
+                # set readonly, 'Usage Note' is handled separately in notes and is ignored here to
+                # exclude it from source explanation
+                if (
+                    self.is_administrative_status_term_note(note)
+                    or self.is_translation_needed_note(note)
+                    or self.is_usage_note(note)
+                ):
+                    continue
+
+                text = self.get_note_text(note)
+                if text not in seen_notes:
+                    seen_notes.add(text)
+                    notes.append(text)
+
+        return notes
+
+    def _get_notes(self, *origins: str) -> str:
+        notes = self._get_notes_list(*origins)
         return "\n".join(notes)
 
     @cached_property
     def notes(self):
         """Return notes or notes from units."""
-        return self._get_notes("pos", "developer")
+        term_notes = self._get_notes_list("pos", "developer")
+
+        for note in self._get_nodes(origin="definition"):
+            if self.is_usage_note(note):
+                term_notes.append(self.get_note_text(note))
+                break
+
+        return "\n".join(term_notes)
 
     @cached_property
     def context(self):
@@ -2056,6 +2122,31 @@ class TBXUnit(TTKitUnit):
     @cached_property
     def source_explanation(self) -> str:
         return self._get_notes("definition")
+
+    def is_readonly(self) -> bool:
+        if not self.unit.istranslatable():
+            return True
+
+        for note in self._get_nodes(origin="definition"):
+            if self.is_translation_needed_note(note):
+                return self.get_note_text(note).strip().lower() == "no"
+
+        return False
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+
+        for note in self._get_nodes(origin="pos"):
+            if self.is_administrative_status_term_note(note):
+                if self.get_note_text(note).strip().lower() in {
+                    "forbidden",
+                    "obsolete",
+                }:
+                    flags.merge("forbidden")
+                break
+
+        return flags.format()
 
 
 class TBXFormat(TTKitFormat):
