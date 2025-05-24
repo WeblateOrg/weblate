@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-24 05:01+0000\n"
+"PO-Revision-Date: 2025-05-25 01:33+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -2210,7 +2210,7 @@ msgstr ""
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
-msgstr "REST API Weblate"
+msgstr "API REST для Weblate"
 
 #: weblate/api/views.py:154
 msgid "Could not obtain the lock to perform the operation."
@@ -4204,8 +4204,8 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
-"Строка содержит несколько неименованных переменных, что не позволяет "
-"переводчикам их переупорядочивать."
+"Строка содержит несколько переменных без названий, что не позволяет "
+"переводчикам изменить их порядок."
 
 #: weblate/checks/glossary.py:27
 msgid "Does not follow glossary"
@@ -4345,7 +4345,7 @@ msgstr "Сноски Markdown"
 
 #: weblate/checks/markup.py:280
 msgid "Markdown link references do not match source."
-msgstr "Ссылки на сноски Markdown не соответствуют источнику."
+msgstr "Сноски (link references) в Markdown не совпадают с источником."
 
 #: weblate/checks/markup.py:296
 msgid "Markdown links"
@@ -4353,7 +4353,7 @@ msgstr "Ссылки Markdown"
 
 #: weblate/checks/markup.py:297
 msgid "Markdown links do not match source."
-msgstr "Ссылки Markdown-разметки не соответствуют источнику."
+msgstr "Ссылки в Markdown не совпадают с источником."
 
 #: weblate/checks/markup.py:325
 msgid "Markdown syntax"
@@ -9581,16 +9581,13 @@ msgid "Current translation"
 msgstr "Текущий перевод"
 
 #: weblate/templates/last-changes-content.html:72
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Previous translation"
-msgstr "Предыдущий перевод был «%s»."
+msgstr "Предыдущий перевод"
 
 #: weblate/templates/last-changes-content.html:75
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "Статус Weblate"
+msgstr "Состояние: %(state)s"
 
 #: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
@@ -15457,6 +15454,8 @@ msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
 msgstr ""
+"Словари отличаются от обычных переводов, но помогают отслеживать и "
+"использовать единообразную терминологию."
 
 #: weblate/trans/models/component.py:788
 msgid "Glossary color"
