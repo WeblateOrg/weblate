@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-05-22 18:13+0000\n"
+"POT-Creation-Date: 2025-05-24 05:04+0000\n"
 "PO-Revision-Date: 2025-05-23 10:45+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
@@ -1758,11 +1758,11 @@ msgstr "Poista komponentit jotka viittaavat puuttuviin tieostoihin"
 msgid "I confirm the above matches look correct"
 msgstr "Vahvistan, että ylläolevat hakutulokset näyttävät oikeilta"
 
-#: weblate/addons/forms.py:411 weblate/trans/models/component.py:3059
+#: weblate/addons/forms.py:411 weblate/trans/models/component.py:3062
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Et voi käyttää yksikielistä käännöstä ilman kantatiedostoa."
 
-#: weblate/addons/forms.py:419 weblate/trans/models/component.py:2993
+#: weblate/addons/forms.py:419 weblate/trans/models/component.py:2996
 msgid "You can not use a base file for bilingual translation."
 msgstr "Et voi käyttää kantatiedostoa kaksikieliselle käännökselle."
 
@@ -8026,7 +8026,7 @@ msgid "No projects currently assigned!"
 msgstr "Yhtään projektia ei ole juuri nyt osoitettu!"
 
 #: weblate/templates/billing/list.html:42 weblate/templates/data.html:80
-#: weblate/templates/last-changes-content.html:110
+#: weblate/templates/last-changes-content.html:114
 #: weblate/templates/mail/base.html:58 weblate/templates/mail/base.html:74
 #: weblate/templates/mail/base.html:97
 #: weblate/templates/mail/pending_suggestions.html:19
@@ -9483,8 +9483,8 @@ msgstr "Hylkäämisen syy"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:68
-#: weblate/templates/last-changes-content.html:79
-#: weblate/templates/last-changes-content.html:90
+#: weblate/templates/last-changes-content.html:83
+#: weblate/templates/last-changes-content.html:94
 #, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
@@ -9495,7 +9495,19 @@ msgstr[1] "%(count)s merkkiä muokattu"
 msgid "Current translation"
 msgstr "Nykyinen käännös"
 
-#: weblate/templates/last-changes-content.html:117
+#: weblate/templates/last-changes-content.html:72
+#, fuzzy
+#| msgid "Previous translation was \"%s\"."
+msgid "Previous translation"
+msgstr "Edellinen käännös oli \"%s\"."
+
+#: weblate/templates/last-changes-content.html:75
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "State: %(state)s"
+msgstr "Weblaten tila"
+
+#: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
 msgstr "Haetun kaltaisia toimintoja ei löytynyt."
 
@@ -13104,7 +13116,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Selaa sanastoa %(name)s"
 
 #: weblate/templates/translate.html:708 weblate/templates/translate.html:1021
-#: weblate/trans/models/component.py:3894
+#: weblate/trans/models/component.py:3897
 msgid "Add term to glossary"
 msgstr "Lisää termi sanastoon"
 
@@ -14424,7 +14436,7 @@ msgid ""
 msgstr "Voit muokata tätä myöhemmin, kuten mitä tahansa lähdekielistä tekstiä."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2506 weblate/trans/models/component.py:3806
+#: weblate/trans/forms.py:2506 weblate/trans/models/component.py:3809
 msgid "Context"
 msgstr "Asiayhteys"
 
@@ -15328,15 +15340,21 @@ msgstr "Valitse muut projektit, joissa tämä komponentti listataan."
 msgid "Use as a glossary"
 msgstr "Käytä sanastona"
 
-#: weblate/trans/models/component.py:785
+#: weblate/trans/models/component.py:784
+msgid ""
+"Glossaries are different from regular translations but help keep track of "
+"and share consistent terminology."
+msgstr ""
+
+#: weblate/trans/models/component.py:788
 msgid "Glossary color"
 msgstr "Sanaston väri"
 
-#: weblate/trans/models/component.py:796
+#: weblate/trans/models/component.py:799
 msgid "Key filter"
 msgstr "Näppäinsuodatin"
 
-#: weblate/trans/models/component.py:800
+#: weblate/trans/models/component.py:803
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
@@ -15344,13 +15362,13 @@ msgstr ""
 "Säännöllinen lauseke, jota käytetään suodattamaan avaimia. Tämä on "
 "käytettävissä vain yksikielisissä muodoissa."
 
-#: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
+#: weblate/trans/models/component.py:810 weblate/trans/models/project.py:259
 #, fuzzy
 #| msgid "Secondary languages"
 msgid "Secondary language"
 msgstr "Toissijaiset kielet"
 
-#: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
+#: weblate/trans/models/component.py:814 weblate/trans/models/project.py:261
 #, fuzzy
 #| msgid ""
 #| "The secondary languages are shown next to the source string when "
@@ -15360,13 +15378,13 @@ msgid ""
 "translating."
 msgstr "Toissijaiset kielet näytetään lähdetekstin vieressä kun käännetään."
 
-#: weblate/trans/models/component.py:813
+#: weblate/trans/models/component.py:816
 #, fuzzy
 #| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
 msgstr "Yhtään tekstiä ei tuotu lähetetystä tiedostosta."
 
-#: weblate/trans/models/component.py:1585
+#: weblate/trans/models/component.py:1588
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -15374,7 +15392,7 @@ msgstr ""
 "SSH-isännän avainta ei voitu vahvistaa. Lisää tarvittavat avaimet SSH-"
 "asetusten hallintasivulla."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1597
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -15382,70 +15400,70 @@ msgstr ""
 "Arkisto vaatii tunnistautumisen, määritä pääsytiedot URLissa tai käytä SSH:"
 "ta."
 
-#: weblate/trans/models/component.py:1600
+#: weblate/trans/models/component.py:1603
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Etäarkiston muutosten haku (fetch) epäonnistui: %s"
 
-#: weblate/trans/models/component.py:1673
-#: weblate/trans/models/component.py:2974
-#: weblate/trans/models/component.py:3037
+#: weblate/trans/models/component.py:1676
+#: weblate/trans/models/component.py:2977
+#: weblate/trans/models/component.py:3040
 msgid "File does not exist."
 msgstr "Tiedostoa ei ole olemassa."
 
-#: weblate/trans/models/component.py:1852
+#: weblate/trans/models/component.py:1855
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Ei voitu työntää %(component)s %(error_text)s"
 
-#: weblate/trans/models/component.py:1879
+#: weblate/trans/models/component.py:1882
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "Pushaus ei ole päällä kohteelle %s."
 
-#: weblate/trans/models/component.py:1941
+#: weblate/trans/models/component.py:1944
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Arkiston resetointi etäarkiston haaraan %s epäonnistui."
 
-#: weblate/trans/models/component.py:1978
+#: weblate/trans/models/component.py:1981
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Arkiston %s siivous epäonnistui."
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2229
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Paikallisen haaran rebase etähaaraan %s epäonnistui."
 
-#: weblate/trans/models/component.py:2232
+#: weblate/trans/models/component.py:2235
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Etäarkiston haaran yhdistäminen epäonnistui kohteeseen %s."
 
-#: weblate/trans/models/component.py:2822
+#: weblate/trans/models/component.py:2825
 msgid "Category does not belong to this project."
 msgstr "Luokka ei kuulu tähän projektiin."
 
-#: weblate/trans/models/component.py:2826
+#: weblate/trans/models/component.py:2829
 msgid "Categorized component can not be shared."
 msgstr "Luokiteltua komponenttia ei voi jakaa."
 
-#: weblate/trans/models/component.py:2838
+#: weblate/trans/models/component.py:2841
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "Epäkelpo linkki Weblate-projektiin, käytä weblate://project/component."
 
-#: weblate/trans/models/component.py:2848
+#: weblate/trans/models/component.py:2851
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Virheellinen linkki Weblate-projektiin. Projektia ei voida liittää arkistoon!"
 
-#: weblate/trans/models/component.py:2857
+#: weblate/trans/models/component.py:2860
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Virheellinen linkki Weblate-projektiin. Projekti ei voi linkittää itseensä!"
 
-#: weblate/trans/models/component.py:2868
+#: weblate/trans/models/component.py:2871
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -15453,11 +15471,11 @@ msgstr ""
 "Vaihtoehto ei ole käytettävissä linkitetyille tietovarastoille. Asetusta "
 "linkitetystä komponentista käytetään."
 
-#: weblate/trans/models/component.py:2880
+#: weblate/trans/models/component.py:2883
 msgid "The file mask did not match any files."
 msgstr "Tiedostopeite ei vastannut yhtään tiedostoa."
 
-#: weblate/trans/models/component.py:2890
+#: weblate/trans/models/component.py:2893
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -15468,23 +15486,23 @@ msgstr ""
 "%(filename2)s Säädä tiedostopeite ja käytä komponentteja eri resurssien "
 "kääntämiseen."
 
-#: weblate/trans/models/component.py:2908
+#: weblate/trans/models/component.py:2911
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Vastaavaa kieltä ei löytynyt, tarkista tiedostopeite."
 
-#: weblate/trans/models/component.py:2927
+#: weblate/trans/models/component.py:2930
 #, python-brace-format
 msgid "Could not parse {file}: {error}"
 msgstr "Ei voitu jäsentää {file}: {error}"
 
-#: weblate/trans/models/component.py:2935
+#: weblate/trans/models/component.py:2938
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "%d täsmäävää tiedostoa ei voitu jäsentää."
 msgstr[1] "%d täsmääviä tiedostoja ei voitu jäsentää."
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2970
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -15492,26 +15510,26 @@ msgstr ""
 "Olet sallinut asetuksissa Weblaten lisätä uusia käännöstiedostoja, mutta et "
 "ole valinnut käännöstiedostoille kantatiedostoa."
 
-#: weblate/trans/models/component.py:2978
+#: weblate/trans/models/component.py:2981
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "Uusien käännösten kantatiedoston jäsentäminen epäonnistui : %s"
 
-#: weblate/trans/models/component.py:2982
+#: weblate/trans/models/component.py:2985
 msgid "Unrecognized base file for new translations."
 msgstr "Uusien käännösten kantatiedostoa ei voida tunnistaa."
 
-#: weblate/trans/models/component.py:2997
+#: weblate/trans/models/component.py:3000
 msgid "Editing template is not supported with this file format."
 msgstr "Mallin muokkausta ei tueta tässä tiedostomuodossa."
 
-#: weblate/trans/models/component.py:3003
-#: weblate/trans/models/component.py:3019
+#: weblate/trans/models/component.py:3006
+#: weblate/trans/models/component.py:3022
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "Keskitason kielitiedostoa ei voi käyttää ilman muokkausmallia."
 
-#: weblate/trans/models/component.py:3011
+#: weblate/trans/models/component.py:3014
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -15519,29 +15537,29 @@ msgstr ""
 "Välikielitiedoston on oltava erilainen kuin yksikielisen "
 "peruskielitiedoston. Voit varmaan pitää sen tyhjänä."
 
-#: weblate/trans/models/component.py:3026
+#: weblate/trans/models/component.py:3029
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot-tiedoston käyttämistä kantatiedostona ei tueta."
 
-#: weblate/trans/models/component.py:3042
+#: weblate/trans/models/component.py:3045
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Käännöksen kantatiedoston jäsennys epäonnistui: %s"
 
-#: weblate/trans/models/component.py:3053
+#: weblate/trans/models/component.py:3056
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Mallin kieli ({0}) ei vastaa lähdekieltä ({1})!"
 
-#: weblate/trans/models/component.py:3072
+#: weblate/trans/models/component.py:3075
 msgid "Choose No remote repository for local: URL."
 msgstr "Valitse Ei etätietovarastoa paikalliselle URL-osoitteelle."
 
-#: weblate/trans/models/component.py:3077
+#: weblate/trans/models/component.py:3080
 msgid "Push URL is not used without a remote repository."
 msgstr "Työnnä-URL-osoitetta ei käytetä ilman etätietovarastoa."
 
-#: weblate/trans/models/component.py:3091
+#: weblate/trans/models/component.py:3094
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -15549,94 +15567,94 @@ msgstr ""
 "Työntö-URL-osoitteestasi näyttää puuttuvan kirjautumistiedot. Anna ne joko "
 "URL-osoitteessa tai käytä SSH:ta avainpohjaisen todennuksen kanssa."
 
-#: weblate/trans/models/component.py:3096
+#: weblate/trans/models/component.py:3099
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Arkiston päivitys epäonnistui: %s"
 
-#: weblate/trans/models/component.py:3105
+#: weblate/trans/models/component.py:3108
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr ""
 "Vedä ja työnnä haarat eivät voi olla samoja käytettäessä yhdistämispyyntöjä."
 
-#: weblate/trans/models/component.py:3118
+#: weblate/trans/models/component.py:3121
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
 "Anna URL-osoite ohjeeseen tai käytä eri vaihtoehtoa uuden kielen lisäämiseen."
 
-#: weblate/trans/models/component.py:3149
+#: weblate/trans/models/component.py:3152
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "Lähdekieltä ei voi muuttaa. Luo komponentti sen sijaan uudelleen."
 
-#: weblate/trans/models/component.py:3181
+#: weblate/trans/models/component.py:3184
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Tiedostojen täsmäämistä ei voida varmistaa, koska säännöllinen lauseke on "
 "virheellinen."
 
-#: weblate/trans/models/component.py:3192 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3195 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Käännösehdotuksia voidaan hyväksyä automaattisesti vain jos äänestys on "
 "käytössä."
 
-#: weblate/trans/models/component.py:3200
+#: weblate/trans/models/component.py:3203
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 "Näppäinsuodattimen käyttäminen edellyttää, että tiedostomuoto on "
 "yksikielinen."
 
-#: weblate/trans/models/component.py:3592
+#: weblate/trans/models/component.py:3595
 msgid "Could not add new translation file."
 msgstr "Käännöstiedoston lisääminen epäonnistui."
 
-#: weblate/trans/models/component.py:3599
+#: weblate/trans/models/component.py:3602
 msgid "You do not have permissions to add new translation file."
 msgstr "Sinulla ei ole oikeutta lisätä uutta käännöstiedostoa."
 
-#: weblate/trans/models/component.py:3607
-#: weblate/trans/models/component.py:3615
+#: weblate/trans/models/component.py:3610
+#: weblate/trans/models/component.py:3618
 msgid "The monolingual base language file is invalid."
 msgstr "Yksikielinen kantakielitiedosto on virheellinen."
 
-#: weblate/trans/models/component.py:3620
+#: weblate/trans/models/component.py:3623
 msgid "The template for new translations is invalid."
 msgstr "Malli uusille käännöksille on virheellinen."
 
-#: weblate/trans/models/component.py:3662
+#: weblate/trans/models/component.py:3665
 msgid "The given language is used as a source language."
 msgstr "Annettua kieltä käytetään lähdekielenä."
 
-#: weblate/trans/models/component.py:3670
+#: weblate/trans/models/component.py:3673
 msgid "The given language already exists."
 msgstr "Annettu kieli on jo olemassa."
 
-#: weblate/trans/models/component.py:3679
+#: weblate/trans/models/component.py:3682
 msgid "The given language is filtered by the language filter."
 msgstr "Annettu kieli on suodatettu kielisuodattimella."
 
-#: weblate/trans/models/component.py:3714
+#: weblate/trans/models/component.py:3717
 msgid "Translation file already exists!"
 msgstr "Käännöstiedosto on jo olemassa!"
 
-#: weblate/trans/models/component.py:3748
+#: weblate/trans/models/component.py:3751
 msgid "The translation will be updated in the background."
 msgstr "Käännös päivitetään taustalla."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3808 weblate/utils/views.py:215
+#: weblate/trans/models/component.py:3811 weblate/utils/views.py:215
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Avain"
 
-#: weblate/trans/models/component.py:3895
+#: weblate/trans/models/component.py:3898
 msgid "Add new translation string"
 msgstr "Lisää uusi käännösteksti"
 
-#: weblate/trans/models/component.py:3944
+#: weblate/trans/models/component.py:3947
 msgid "Could not get repository status!"
 msgstr "Tietovaraston tilaa ei voitu saada!"
 

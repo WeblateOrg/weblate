@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-05-22 18:13+0000\n"
+"POT-Creation-Date: 2025-05-24 05:04+0000\n"
 "PO-Revision-Date: 2025-05-23 10:45+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -1738,11 +1738,11 @@ msgstr "Odebrat součásti pro neexistující soubory"
 msgid "I confirm the above matches look correct"
 msgstr "Potvrzuji, že výše uvedené shody se zdají být správné"
 
-#: weblate/addons/forms.py:411 weblate/trans/models/component.py:3059
+#: weblate/addons/forms.py:411 weblate/trans/models/component.py:3062
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Nelze vytvořit jednojazyčný překlad bez základního souboru."
 
-#: weblate/addons/forms.py:419 weblate/trans/models/component.py:2993
+#: weblate/addons/forms.py:419 weblate/trans/models/component.py:2996
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nelze použít základní soubor pro dvoujazyčný překlad."
 
@@ -7966,7 +7966,7 @@ msgid "No projects currently assigned!"
 msgstr "V tuto chvíli nejsou přiřazené žádné projekty!"
 
 #: weblate/templates/billing/list.html:42 weblate/templates/data.html:80
-#: weblate/templates/last-changes-content.html:110
+#: weblate/templates/last-changes-content.html:114
 #: weblate/templates/mail/base.html:58 weblate/templates/mail/base.html:74
 #: weblate/templates/mail/base.html:97
 #: weblate/templates/mail/pending_suggestions.html:19
@@ -9426,8 +9426,8 @@ msgstr "Důvod zamítnutí"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:68
-#: weblate/templates/last-changes-content.html:79
-#: weblate/templates/last-changes-content.html:90
+#: weblate/templates/last-changes-content.html:83
+#: weblate/templates/last-changes-content.html:94
 #, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
@@ -9439,7 +9439,19 @@ msgstr[2] "%(count)s změněných znaků"
 msgid "Current translation"
 msgstr "Stávající překlad"
 
-#: weblate/templates/last-changes-content.html:117
+#: weblate/templates/last-changes-content.html:72
+#, fuzzy
+#| msgid "Previous translation was \"%s\"."
+msgid "Previous translation"
+msgstr "Poslední překlad byl „%s“."
+
+#: weblate/templates/last-changes-content.html:75
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "State: %(state)s"
+msgstr "Stav Weblate"
+
+#: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
 msgstr "Nenalezena žádná odpovídající aktivita."
 
@@ -13050,7 +13062,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Procházet glosář %(name)s"
 
 #: weblate/templates/translate.html:708 weblate/templates/translate.html:1021
-#: weblate/trans/models/component.py:3894
+#: weblate/trans/models/component.py:3897
 msgid "Add term to glossary"
 msgstr "Přidat slovo do glosáře"
 
@@ -14354,7 +14366,7 @@ msgstr ""
 "jazyce."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2506 weblate/trans/models/component.py:3806
+#: weblate/trans/forms.py:2506 weblate/trans/models/component.py:3809
 msgid "Context"
 msgstr "Kontext"
 
@@ -15230,36 +15242,42 @@ msgstr "Zvolte další projekty ve kterých se bude zobrazovat tato součást."
 msgid "Use as a glossary"
 msgstr "Používat jako glosář"
 
-#: weblate/trans/models/component.py:785
+#: weblate/trans/models/component.py:784
+msgid ""
+"Glossaries are different from regular translations but help keep track of "
+"and share consistent terminology."
+msgstr ""
+
+#: weblate/trans/models/component.py:788
 msgid "Glossary color"
 msgstr "Barva glosáře"
 
-#: weblate/trans/models/component.py:796
+#: weblate/trans/models/component.py:799
 msgid "Key filter"
 msgstr "Filtr klíčů"
 
-#: weblate/trans/models/component.py:800
+#: weblate/trans/models/component.py:803
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
 msgstr ""
 "Regulární výraz k filtrování klíčů. Dostupné pouze pro jednojazyčné formáty."
 
-#: weblate/trans/models/component.py:807 weblate/trans/models/project.py:259
+#: weblate/trans/models/component.py:810 weblate/trans/models/project.py:259
 msgid "Secondary language"
 msgstr "Alternativní jazyk"
 
-#: weblate/trans/models/component.py:811 weblate/trans/models/project.py:261
+#: weblate/trans/models/component.py:814 weblate/trans/models/project.py:261
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr "Alternativní jazyk je při překladu zobrazen vedle zdrojového řetězce."
 
-#: weblate/trans/models/component.py:813
+#: weblate/trans/models/component.py:816
 msgid "This setting is inherited from the project if left empty."
 msgstr "Toto nastavení se dědí z projektu, pokud je prázdné."
 
-#: weblate/trans/models/component.py:1585
+#: weblate/trans/models/component.py:1588
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -15267,7 +15285,7 @@ msgstr ""
 "Nepodařilo se ověřit SSH klíč hostitele, prosím přidejte ho na SSH stránce "
 "správcovského rozhraní."
 
-#: weblate/trans/models/component.py:1594
+#: weblate/trans/models/component.py:1597
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -15275,70 +15293,70 @@ msgstr ""
 "Repozitář vyžaduje ověření se, proto zadejte přihlašovací údaje do URL "
 "adresy nebo namísto toho použijte přístup přes SSH."
 
-#: weblate/trans/models/component.py:1600
+#: weblate/trans/models/component.py:1603
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Nepodařilo se stáhnout repozitář: %s"
 
-#: weblate/trans/models/component.py:1673
-#: weblate/trans/models/component.py:2974
-#: weblate/trans/models/component.py:3037
+#: weblate/trans/models/component.py:1676
+#: weblate/trans/models/component.py:2977
+#: weblate/trans/models/component.py:3040
 msgid "File does not exist."
 msgstr "Soubor neexistuje."
 
-#: weblate/trans/models/component.py:1852
+#: weblate/trans/models/component.py:1855
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "Nepodařilo se odeslat %(component)s: %(error_text)s"
 
-#: weblate/trans/models/component.py:1879
+#: weblate/trans/models/component.py:1882
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: weblate/trans/models/component.py:1941
+#: weblate/trans/models/component.py:1944
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Nepodařilo se vrátit na vzdálenou větev %s."
 
-#: weblate/trans/models/component.py:1978
+#: weblate/trans/models/component.py:1981
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Nepodařilo se vyčistit repozitář na %s."
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2229
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
 
-#: weblate/trans/models/component.py:2232
+#: weblate/trans/models/component.py:2235
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: weblate/trans/models/component.py:2822
+#: weblate/trans/models/component.py:2825
 msgid "Category does not belong to this project."
 msgstr "Kategorie nepatří k tomuto projektu."
 
-#: weblate/trans/models/component.py:2826
+#: weblate/trans/models/component.py:2829
 msgid "Categorized component can not be shared."
 msgstr "Kategorizovanou součást nelze sdílet."
 
-#: weblate/trans/models/component.py:2838
+#: weblate/trans/models/component.py:2841
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "Neplatný odkaz na projekt, použijte weblate://projekt/soucast."
 
-#: weblate/trans/models/component.py:2848
+#: weblate/trans/models/component.py:2851
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Chybný odkaz na projekt, protože nelze odkázat na repozitář, který už je "
 "odkazem!"
 
-#: weblate/trans/models/component.py:2857
+#: weblate/trans/models/component.py:2860
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Chybný odkaz na projekt, protože nelze odkázat na sebe sama!"
 
-#: weblate/trans/models/component.py:2868
+#: weblate/trans/models/component.py:2871
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -15346,11 +15364,11 @@ msgstr ""
 "Tato volba není dostupná pro propojené repozitáře. Bude použito nastavení z "
 "propojené součásti."
 
-#: weblate/trans/models/component.py:2880
+#: weblate/trans/models/component.py:2883
 msgid "The file mask did not match any files."
 msgstr "Masce neodpovídají žádné soubory."
 
-#: weblate/trans/models/component.py:2890
+#: weblate/trans/models/component.py:2893
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -15361,18 +15379,18 @@ msgstr ""
 "%(filename2)s Prosím opravte masku a použijte součásti pro překládání "
 "různých souborů."
 
-#: weblate/trans/models/component.py:2908
+#: weblate/trans/models/component.py:2911
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "Nepodařilo se najít žádný odpovídající jazyk, zkontrolujte, prosím, masku "
 "souboru."
 
-#: weblate/trans/models/component.py:2927
+#: weblate/trans/models/component.py:2930
 #, python-brace-format
 msgid "Could not parse {file}: {error}"
 msgstr "Nepodařilo ze zpracovat soubor {file}: {error}"
 
-#: weblate/trans/models/component.py:2935
+#: weblate/trans/models/component.py:2938
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -15380,7 +15398,7 @@ msgstr[0] "Nepodařilo ze zpracovat %d nalezený soubor."
 msgstr[1] "Nepodařilo ze zpracovat %d nalezené soubory."
 msgstr[2] "Nepodařilo ze zpracovat %d nalezených souborů."
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2970
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -15388,26 +15406,26 @@ msgstr ""
 "Je nastaveno automaticky přidávat nové překlady, ale není zadán soubor, ze "
 "kterého se mají vytvářet."
 
-#: weblate/trans/models/component.py:2978
+#: weblate/trans/models/component.py:2981
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "Nepodařilo se načíst základní soubor pro nové překlady: %s"
 
-#: weblate/trans/models/component.py:2982
+#: weblate/trans/models/component.py:2985
 msgid "Unrecognized base file for new translations."
 msgstr "Nerozpoznaný základní soubor pro nové překlady."
 
-#: weblate/trans/models/component.py:2997
+#: weblate/trans/models/component.py:3000
 msgid "Editing template is not supported with this file format."
 msgstr "Úprava šablony není u tohoto formátu souborů podporována."
 
-#: weblate/trans/models/component.py:3003
-#: weblate/trans/models/component.py:3019
+#: weblate/trans/models/component.py:3006
+#: weblate/trans/models/component.py:3022
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "Zprostředkující jazyk nemůže být použit bez upravování zdroje."
 
-#: weblate/trans/models/component.py:3011
+#: weblate/trans/models/component.py:3014
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -15415,29 +15433,29 @@ msgstr ""
 "Zprostředkující jazykový soubor musí být odlišný od základního soubor pro "
 "jednojazyčné překlady. Pravděpodobně toto můžete nechat prázdné."
 
-#: weblate/trans/models/component.py:3026
+#: weblate/trans/models/component.py:3029
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Nelze použít .pot soubor jako základní soubor pro dvoujazyčný překlad."
 
-#: weblate/trans/models/component.py:3042
+#: weblate/trans/models/component.py:3045
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Nepodařilo se zpracovat základní soubor překladu: %s"
 
-#: weblate/trans/models/component.py:3053
+#: weblate/trans/models/component.py:3056
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Jazyk šablony ({0}) neodpovídá zdrojovému jazyku ({1})!"
 
-#: weblate/trans/models/component.py:3072
+#: weblate/trans/models/component.py:3075
 msgid "Choose No remote repository for local: URL."
 msgstr "Vyberte Žádný vzdálený repozitář pro lokální: URL."
 
-#: weblate/trans/models/component.py:3077
+#: weblate/trans/models/component.py:3080
 msgid "Push URL is not used without a remote repository."
 msgstr "URL pro odesílání nebude použita bez vzdáleného repozitáře."
 
-#: weblate/trans/models/component.py:3091
+#: weblate/trans/models/component.py:3094
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -15445,16 +15463,16 @@ msgstr ""
 "Vaše URL pro odesílání postrádá přihlašovací údaje. Buď je zadejte v URL "
 "nebo použijte SSH přístup s přihlašováním klíčem."
 
-#: weblate/trans/models/component.py:3096
+#: weblate/trans/models/component.py:3099
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Nepodařilo se aktualizovat repozitář: %s"
 
-#: weblate/trans/models/component.py:3105
+#: weblate/trans/models/component.py:3108
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "Při použití žádostí o sloučení nemohou být větve pull a push stejné."
 
-#: weblate/trans/models/component.py:3118
+#: weblate/trans/models/component.py:3121
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -15462,75 +15480,75 @@ msgstr ""
 "Zadejte prosím adresu URL s instrukcemi nebo zvolte jinou možnost přidávání "
 "nového jazyka."
 
-#: weblate/trans/models/component.py:3149
+#: weblate/trans/models/component.py:3152
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Zdrojový jazyk nemůže být změněn. Místo toho, prosím, založte součást znovu."
 
-#: weblate/trans/models/component.py:3181
+#: weblate/trans/models/component.py:3184
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nepodařilo ze ověřit vyhovující soubory kvůli chybě v regulárním výrazu."
 
-#: weblate/trans/models/component.py:3192 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3195 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
 "návrzích."
 
-#: weblate/trans/models/component.py:3200
+#: weblate/trans/models/component.py:3203
 msgid "To use the key filter, the file format must be monolingual."
 msgstr "Pro použití filtru klíčů musí být formát souboru jednojazyčný."
 
-#: weblate/trans/models/component.py:3592
+#: weblate/trans/models/component.py:3595
 msgid "Could not add new translation file."
 msgstr "Nepodařilo se přidat soubor překladu."
 
-#: weblate/trans/models/component.py:3599
+#: weblate/trans/models/component.py:3602
 msgid "You do not have permissions to add new translation file."
 msgstr "Nemáte oprávnění přidat nový překladový soubor."
 
-#: weblate/trans/models/component.py:3607
-#: weblate/trans/models/component.py:3615
+#: weblate/trans/models/component.py:3610
+#: weblate/trans/models/component.py:3618
 msgid "The monolingual base language file is invalid."
 msgstr "Základní soubor pro jednojazyčné překlady je neplatný."
 
-#: weblate/trans/models/component.py:3620
+#: weblate/trans/models/component.py:3623
 msgid "The template for new translations is invalid."
 msgstr "Šablona pro nové překlady je neplatná."
 
-#: weblate/trans/models/component.py:3662
+#: weblate/trans/models/component.py:3665
 msgid "The given language is used as a source language."
 msgstr "Daný jazyk je použitý jako zdrojový jazyk."
 
-#: weblate/trans/models/component.py:3670
+#: weblate/trans/models/component.py:3673
 msgid "The given language already exists."
 msgstr "Daný jazyk již existuje."
 
-#: weblate/trans/models/component.py:3679
+#: weblate/trans/models/component.py:3682
 msgid "The given language is filtered by the language filter."
 msgstr "Daný jazyk neprošel filtrem jazyků."
 
-#: weblate/trans/models/component.py:3714
+#: weblate/trans/models/component.py:3717
 msgid "Translation file already exists!"
 msgstr "Soubor s překladem již existuje!"
 
-#: weblate/trans/models/component.py:3748
+#: weblate/trans/models/component.py:3751
 msgid "The translation will be updated in the background."
 msgstr "Překlad bude aktualizován na pozadí."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3808 weblate/utils/views.py:215
+#: weblate/trans/models/component.py:3811 weblate/utils/views.py:215
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Klíč"
 
-#: weblate/trans/models/component.py:3895
+#: weblate/trans/models/component.py:3898
 msgid "Add new translation string"
 msgstr "Přidat nový řetězec k překladu"
 
-#: weblate/trans/models/component.py:3944
+#: weblate/trans/models/component.py:3947
 msgid "Could not get repository status!"
 msgstr "Nepodařilo se získat stav repozitáře!"
 

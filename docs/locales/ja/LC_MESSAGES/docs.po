@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-05-22 20:14+0200\n"
+"POT-Creation-Date: 2025-05-24 07:04+0200\n"
 "PO-Revision-Date: 2025-05-23 11:46+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -12761,7 +12761,7 @@ msgstr "``amazon``"
 msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgstr "`boto3 <https://pypi.org/project/boto3>`_"
 
-#: ../../admin/install.rst:219 ../../user/glossary.rst:135
+#: ../../admin/install.rst:219 ../../user/glossary.rst:142
 msgid ":ref:`mt-aws`"
 msgstr ":ref:`mt-aws`"
 
@@ -12865,7 +12865,7 @@ msgid "`openai <https://pypi.org/project/openai>`_"
 msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:252 ../../admin/machine.rst:193
-#: ../../user/glossary.rst:131
+#: ../../user/glossary.rst:138
 msgid ":ref:`mt-openai`"
 msgstr ":ref:`mt-openai`"
 
@@ -16073,7 +16073,7 @@ msgstr "一般的な設定"
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr ":setting:`DEBUG` を使用して Django デバッグ モードを設定します。"
 
-#: ../../admin/install/docker.rst:500 ../../admin/projects.rst:1218
+#: ../../admin/install/docker.rst:500 ../../admin/projects.rst:1230
 msgid ":ref:`production-debug`"
 msgstr ":ref:`production-debug`"
 
@@ -17194,7 +17194,7 @@ msgstr ""
 "Weblate では、Redis の使用を強く推奨しています。Docker で Weblate を実行する"
 "場合は、Redis のインスタンスが必要です。"
 
-#: ../../admin/install/docker.rst:1611 ../../admin/projects.rst:1216
+#: ../../admin/install/docker.rst:1611 ../../admin/projects.rst:1228
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
@@ -18767,7 +18767,7 @@ msgstr ""
 msgid "Each language consists of following fields:"
 msgstr "各言語を構成するフィールド:"
 
-#: ../../admin/languages.rst:104 ../../admin/projects.rst:1115
+#: ../../admin/languages.rst:104 ../../admin/projects.rst:1127
 #: ../../api.rst:781 ../../api.rst:783 ../../api.rst:850 ../../api.rst:2425
 msgid "Language code"
 msgstr "言語コード"
@@ -18790,7 +18790,7 @@ msgstr ""
 msgid ":ref:`language-parsing-codes`, :ref:`adding-translation`"
 msgstr ":ref:`language-parsing-codes`、:ref:`adding-translation`"
 
-#: ../../admin/languages.rst:122 ../../admin/projects.rst:1117
+#: ../../admin/languages.rst:122 ../../admin/projects.rst:1129
 #: ../../api.rst:766 ../../api.rst:768 ../../api.rst:823 ../../api.rst:834
 msgid "Language name"
 msgstr "言語名"
@@ -19948,7 +19948,7 @@ msgstr "認証サービス地域"
 msgid "``category``"
 msgstr "``category``"
 
-#: ../../admin/machine.rst:546 ../../admin/projects.rst:1090
+#: ../../admin/machine.rst:546 ../../admin/projects.rst:1102
 msgid "Category"
 msgstr "カテゴリ"
 
@@ -22127,8 +22127,10 @@ msgstr ""
 "クトへ請求する請求書を選択できます。"
 
 #: ../../admin/optionals.rst:125
-msgid "Legal"
-msgstr "法的文書"
+#, fuzzy
+#| msgid "Legal documents"
+msgid "Legal module"
+msgstr "法的留意事項"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -22843,7 +22845,7 @@ msgstr ":doc:`/devel/integration`"
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr "次はプロジェクトを設定し、翻訳者に通知する基本属性:"
 
-#: ../../admin/projects.rst:124 ../../admin/projects.rst:1123 ../../api.rst:873
+#: ../../admin/projects.rst:124 ../../admin/projects.rst:1135 ../../api.rst:873
 #: ../../contributing/about.rst:11
 msgid "Project name"
 msgstr "プロジェクト名"
@@ -23171,7 +23173,7 @@ msgstr ""
 "コンポーネントには、VCS を操作したり、VCS から翻訳を取得するために必要な重要"
 "なパラメータはすべて含まれています。"
 
-#: ../../admin/projects.rst:339 ../../admin/projects.rst:1119
+#: ../../admin/projects.rst:339 ../../admin/projects.rst:1131
 msgid "Component name"
 msgstr "コンポーネント名"
 
@@ -23179,7 +23181,7 @@ msgstr "コンポーネント名"
 msgid "Verbose component name, used to display the component name."
 msgstr "コンポーネント名を表示するために使用する、詳細なコンポーネント名。"
 
-#: ../../admin/projects.rst:346 ../../admin/projects.rst:1121
+#: ../../admin/projects.rst:346 ../../admin/projects.rst:1133
 #: ../../api.rst:2424 ../../api.rst:2494 ../../api.rst:2601
 msgid "Component slug"
 msgstr "コンポーネント スラッグ"
@@ -23663,8 +23665,8 @@ msgid ""
 msgstr ""
 "デフォルト値は :setting:`DEFAULT_TRANSLATION_PROPAGATION` で変更します。"
 
-#: ../../admin/projects.rst:615 ../../faq.rst:173 ../../faq.rst:188
-#: ../../user/checks.rst:997 ../../user/translating.rst:392
+#: ../../admin/projects.rst:615 ../../devel/mobile.rst:18 ../../faq.rst:173
+#: ../../faq.rst:188 ../../user/checks.rst:997 ../../user/translating.rst:392
 msgid ":ref:`translation-consistency`"
 msgstr ":ref:`translation-consistency`"
 
@@ -24433,14 +24435,56 @@ msgid "Use as a glossary"
 msgstr "用語集として使用"
 
 #: ../../admin/projects.rst:1064
+#, fuzzy
+#| msgid ""
+#| "Allows using this component as a glossary. You can configure how it will "
+#| "be listed using :ref:`component-glossary_color`."
 msgid ""
-"Allows using this component as a glossary. You can configure how it will be "
-"listed using :ref:`component-glossary_color`."
+"Allows using this component as a glossary. Use when you want to manage "
+"terminology separately from normal translations."
 msgstr ""
 "このコンポーネントを用語集として使用できます。:ref:`component-"
 "glossary_color` を使用して、リストの表示方法を設定します。"
 
 #: ../../admin/projects.rst:1067
+msgid "Glossaries are best for:"
+msgstr ""
+
+#: ../../admin/projects.rst:1069
+msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
+msgstr ""
+
+#: ../../admin/projects.rst:1070
+#, fuzzy
+#| msgid "Shows Weblate object (translation, component or project)."
+msgid "Sharing preferred translations across multiple components or projects."
+msgstr ""
+"Weblate オブジェクトを表示する（変換、コンポーネントまたはプロジェクト）。"
+
+#: ../../admin/projects.rst:1071
+#, fuzzy
+#| msgid "Add support for translating non VCS based content."
+msgid "Supporting translators with definitions and context."
+msgstr "VCS ベースでないコンテンツの翻訳に対応。"
+
+#: ../../admin/projects.rst:1075
+msgid ""
+"Glossaries are not for regular translations—they are for managing terms only."
+msgstr ""
+
+#: ../../admin/projects.rst:1077
+#, fuzzy
+#| msgid ""
+#| "Allows using this component as a glossary. You can configure how it will "
+#| "be listed using :ref:`component-glossary_color`."
+msgid ""
+"You can configure how it will be listed using :ref:`component-"
+"glossary_color`."
+msgstr ""
+"このコンポーネントを用語集として使用できます。:ref:`component-"
+"glossary_color` を使用して、リストの表示方法を設定します。"
+
+#: ../../admin/projects.rst:1079
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
@@ -24448,7 +24492,7 @@ msgstr ""
 "用語集は、:ref:`component-links` に定義したすべてのプロジェクトからアクセスで"
 "きます。"
 
-#: ../../admin/projects.rst:1069
+#: ../../admin/projects.rst:1081
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
@@ -24456,15 +24500,15 @@ msgstr ""
 "用語集に新しい単語を追加できるようにするには、用語集で :ref:`component-"
 "manage_units` を有効にしてください。"
 
-#: ../../admin/projects.rst:1074 ../../admin/projects.rst:1085
+#: ../../admin/projects.rst:1086 ../../admin/projects.rst:1097
 msgid ":ref:`glossary`"
 msgstr ":ref:`glossary`"
 
-#: ../../admin/projects.rst:1079
+#: ../../admin/projects.rst:1091
 msgid "Glossary color"
 msgstr "用語集の色"
 
-#: ../../admin/projects.rst:1081
+#: ../../admin/projects.rst:1093
 msgid ""
 "Color used when displaying terms from this glossary. Useful to distinguish "
 "glossaries when using more of them."
@@ -24472,7 +24516,7 @@ msgstr ""
 "この用語集の用語を表示するときに使用する色。複数の用語集を使用する場合に用語"
 "集を区別するのに便利です。"
 
-#: ../../admin/projects.rst:1092
+#: ../../admin/projects.rst:1104
 msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
@@ -24480,11 +24524,11 @@ msgstr ""
 "カテゴリは、プロジェクト内のコンポーネントに構造を与えるためのものです。カテ"
 "ゴリを入れ子にして、より複雑な構造を実現できます。"
 
-#: ../../admin/projects.rst:1098
+#: ../../admin/projects.rst:1110
 msgid "Template markup"
 msgstr "テンプレート用のマークアップ"
 
-#: ../../admin/projects.rst:1100
+#: ../../admin/projects.rst:1112
 msgid ""
 "Weblate uses simple markup language in several places where text rendering "
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
@@ -24494,156 +24538,156 @@ msgstr ""
 "アップ言語を使用しています。これは :doc:`django:ref/templates/language` に基"
 "づいているので、非常に強力です。"
 
-#: ../../admin/projects.rst:1104
+#: ../../admin/projects.rst:1116
 msgid "Currently it is used in:"
 msgstr "現在使用している場所:"
 
-#: ../../admin/projects.rst:1106
+#: ../../admin/projects.rst:1118
 msgid "Commit message formatting, see :ref:`component`"
 msgstr "コミット メッセージの書式設定。参照: :ref:`component`"
 
-#: ../../admin/projects.rst:1107
+#: ../../admin/projects.rst:1119
 msgid "Several add-ons"
 msgstr "複数のアドオン"
 
-#: ../../admin/projects.rst:1108
+#: ../../admin/projects.rst:1120
 msgid ":ref:`addon-weblate.discovery.discovery`"
 msgstr ":ref:`addon-weblate.discovery.discovery`"
 
-#: ../../admin/projects.rst:1109
+#: ../../admin/projects.rst:1121
 msgid ":ref:`addon-weblate.generate.generate`"
 msgstr ":ref:`addon-weblate.generate.generate`"
 
-#: ../../admin/projects.rst:1110
+#: ../../admin/projects.rst:1122
 msgid ":ref:`addon-script`"
 msgstr ":ref:`addon-script`"
 
-#: ../../admin/projects.rst:1112
+#: ../../admin/projects.rst:1124
 msgid "The following variables are available in the component templates:"
 msgstr "コンポーネントのテンプレートで使用できる変数:"
 
-#: ../../admin/projects.rst:1114
+#: ../../admin/projects.rst:1126
 msgid "``{{ language_code }}``"
 msgstr "``{{ language_code }}``"
 
-#: ../../admin/projects.rst:1116
+#: ../../admin/projects.rst:1128
 msgid "``{{ language_name }}``"
 msgstr "``{{ language_name }}``"
 
-#: ../../admin/projects.rst:1118
+#: ../../admin/projects.rst:1130
 msgid "``{{ component_name }}``"
 msgstr "``{{ component_name }}``"
 
-#: ../../admin/projects.rst:1120
+#: ../../admin/projects.rst:1132
 msgid "``{{ component_slug }}``"
 msgstr "``{{ component_slug }}``"
 
-#: ../../admin/projects.rst:1122
+#: ../../admin/projects.rst:1134
 msgid "``{{ project_name }}``"
 msgstr "``{{ project_name }}``"
 
-#: ../../admin/projects.rst:1124
+#: ../../admin/projects.rst:1136
 msgid "``{{ project_slug }}``"
 msgstr "``{{ project_slug }}``"
 
-#: ../../admin/projects.rst:1125 ../../api.rst:875 ../../api.rst:1843
+#: ../../admin/projects.rst:1137 ../../api.rst:875 ../../api.rst:1843
 #: ../../api.rst:2423 ../../api.rst:2493
 msgid "Project slug"
 msgstr "プロジェクト スラッグ"
 
-#: ../../admin/projects.rst:1126
+#: ../../admin/projects.rst:1138
 msgid "``{{ url }}``"
 msgstr "``{{ url }}``"
 
-#: ../../admin/projects.rst:1127
+#: ../../admin/projects.rst:1139
 msgid "Translation URL"
 msgstr "翻訳 URL"
 
-#: ../../admin/projects.rst:1128
+#: ../../admin/projects.rst:1140
 msgid "``{{ filename }}``"
 msgstr "``{{ filename }}``"
 
-#: ../../admin/projects.rst:1129
+#: ../../admin/projects.rst:1141
 msgid "Translation filename"
 msgstr "翻訳ファイル名"
 
-#: ../../admin/projects.rst:1130
+#: ../../admin/projects.rst:1142
 msgid "``{{ stats }}``"
 msgstr "``{{ stats }}``"
 
-#: ../../admin/projects.rst:1131
+#: ../../admin/projects.rst:1143
 msgid "Translation stats, this has further attributes, examples below."
 msgstr "翻訳統計、これにはさらに属性があります。以下は例です。"
 
-#: ../../admin/projects.rst:1132
+#: ../../admin/projects.rst:1144
 msgid "``{{ stats.all }}``"
 msgstr "``{{ stats.all }}``"
 
-#: ../../admin/projects.rst:1133
+#: ../../admin/projects.rst:1145
 msgid "Total strings count"
 msgstr "文字列の総数"
 
-#: ../../admin/projects.rst:1134
+#: ../../admin/projects.rst:1146
 msgid "``{{ stats.fuzzy }}``"
 msgstr "``{{ stats.fuzzy }}``"
 
-#: ../../admin/projects.rst:1135
+#: ../../admin/projects.rst:1147
 msgid "Count of strings needing review"
 msgstr "査読が必要な文字列数"
 
-#: ../../admin/projects.rst:1136
+#: ../../admin/projects.rst:1148
 msgid "``{{ stats.fuzzy_percent }}``"
 msgstr "``{{ stats.fuzzy_percent }}``"
 
-#: ../../admin/projects.rst:1137
+#: ../../admin/projects.rst:1149
 msgid "Percent of strings needing review"
 msgstr "査読が必要な文字列の割合"
 
-#: ../../admin/projects.rst:1138
+#: ../../admin/projects.rst:1150
 msgid "``{{ stats.translated }}``"
 msgstr "``{{ stats.translated }}``"
 
-#: ../../admin/projects.rst:1139
+#: ../../admin/projects.rst:1151
 msgid "Translated strings count"
 msgstr "翻訳済みの文字列数"
 
-#: ../../admin/projects.rst:1140
+#: ../../admin/projects.rst:1152
 msgid "``{{ stats.translated_percent }}``"
 msgstr "``{{ stats.translated_percent }}``"
 
-#: ../../admin/projects.rst:1141
+#: ../../admin/projects.rst:1153
 msgid "Translated strings percent"
 msgstr "翻訳済みの文字列の割合"
 
-#: ../../admin/projects.rst:1142
+#: ../../admin/projects.rst:1154
 msgid "``{{ stats.allchecks }}``"
 msgstr "``{{ stats.allchecks }}``"
 
-#: ../../admin/projects.rst:1143
+#: ../../admin/projects.rst:1155
 msgid "Number of strings with failing checks"
 msgstr "検査不合格の文字列数"
 
-#: ../../admin/projects.rst:1144
+#: ../../admin/projects.rst:1156
 msgid "``{{ stats.allchecks_percent }}``"
 msgstr "``{{ stats.allchecks_percent }}``"
 
-#: ../../admin/projects.rst:1145
+#: ../../admin/projects.rst:1157
 msgid "Percent of strings with failing checks"
 msgstr "検査不合格の文字列の割合"
 
-#: ../../admin/projects.rst:1146
+#: ../../admin/projects.rst:1158
 msgid "``{{ author }}``"
 msgstr "``{{ author }}``"
 
-#: ../../admin/projects.rst:1147
+#: ../../admin/projects.rst:1159
 msgid "Author of current commit, available only in the commit scope."
 msgstr "現在のコミットの作成者。コミット範囲でのみ使用できる。"
 
-#: ../../admin/projects.rst:1148
+#: ../../admin/projects.rst:1160
 msgid "``{{ addon_name }}``"
 msgstr "``{{ addon_name }}``"
 
-#: ../../admin/projects.rst:1149
+#: ../../admin/projects.rst:1161
 msgid ""
 "Name of currently executed add-on, available only in the add-on commit "
 "message."
@@ -24651,33 +24695,33 @@ msgstr ""
 "現在実行しているアドオンの名前。アドオンのコミット メッセージでのみ使用でき"
 "る。"
 
-#: ../../admin/projects.rst:1151
+#: ../../admin/projects.rst:1163
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr "リポジトリのブラウザーまたはエディタのテンプレートで使用できる変数:"
 
-#: ../../admin/projects.rst:1153
+#: ../../admin/projects.rst:1165
 msgid "``{{branch}}``"
 msgstr "``{{branch}}``"
 
-#: ../../admin/projects.rst:1154
+#: ../../admin/projects.rst:1166
 msgid "current branch"
 msgstr "現在のブランチ"
 
-#: ../../admin/projects.rst:1155
+#: ../../admin/projects.rst:1167
 msgid "``{{line}}``"
 msgstr "``{{line}}``"
 
-#: ../../admin/projects.rst:1156
+#: ../../admin/projects.rst:1168
 msgid "line in file"
 msgstr "ファイル内の行"
 
-#: ../../admin/projects.rst:1157
+#: ../../admin/projects.rst:1169
 msgid "``{{filename}}``"
 msgstr "``{{filename}}``"
 
-#: ../../admin/projects.rst:1158
+#: ../../admin/projects.rst:1170
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
@@ -24685,7 +24729,7 @@ msgstr ""
 "ファイル名、``parentdir`` フィルターを使用して、先頭の部分の削除もできます。"
 "例: ``{{filename|parentdir}}``"
 
-#: ../../admin/projects.rst:1162
+#: ../../admin/projects.rst:1174
 msgid ""
 "In some places additional variables can be available, see :ref:`addon-"
 "weblate.discovery.discovery`."
@@ -24693,35 +24737,35 @@ msgstr ""
 "場所によっては、追加の変数が使用できます。参照: :ref:`addon-weblate."
 "discovery.discovery`。"
 
-#: ../../admin/projects.rst:1164
+#: ../../admin/projects.rst:1176
 msgid "You can combine them with filters:"
 msgstr "フィルターと組み合わせる方法:"
 
-#: ../../admin/projects.rst:1170
+#: ../../admin/projects.rst:1182
 msgid "You can use conditions:"
 msgstr "条件の使用方法:"
 
-#: ../../admin/projects.rst:1176
+#: ../../admin/projects.rst:1188
 msgid "There is additional tag available for replacing characters:"
 msgstr "文字の置換に使用できる追加のタグ:"
 
-#: ../../admin/projects.rst:1182
+#: ../../admin/projects.rst:1194
 msgid "You can combine it with filters:"
 msgstr "フィルターと組み合わせる方法:"
 
-#: ../../admin/projects.rst:1188
+#: ../../admin/projects.rst:1200
 msgid "There are also additional filter to manipulate with filenames:"
 msgstr "追加された、ファイル名を操作するためのフィルター:"
 
-#: ../../admin/projects.rst:1197
+#: ../../admin/projects.rst:1209
 msgid "…and other Django template features."
 msgstr "...および、その他の Django テンプレート機能。"
 
-#: ../../admin/projects.rst:1202
+#: ../../admin/projects.rst:1214
 msgid "Importing speed"
 msgstr "インポート速度"
 
-#: ../../admin/projects.rst:1204
+#: ../../admin/projects.rst:1216
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
@@ -24729,11 +24773,11 @@ msgstr ""
 "VCS リポジトリの取得と Weblate への翻訳のインポートは、翻訳のサイズにもよりま"
 "すが、処理に時間がかかります。解決のヒント:"
 
-#: ../../admin/projects.rst:1208
+#: ../../admin/projects.rst:1220
 msgid "Optimize configuration"
 msgstr "設定の最適化"
 
-#: ../../admin/projects.rst:1210
+#: ../../admin/projects.rst:1222
 msgid ""
 "The default configuration is useful for testing and debugging Weblate, while "
 "for a production setup, you should do some adjustments. Many of them have "
@@ -24744,20 +24788,20 @@ msgstr ""
 "には調整が不可欠です。設定により、性能は大きく左右されます。詳細について"
 "は、 :ref:`production` を確認してください。特に確認が必要なもの:"
 
-#: ../../admin/projects.rst:1215
+#: ../../admin/projects.rst:1227
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
 "バックグラウンド タスクの実行に必要な Celery の設定（参照: :ref:`celery` ）"
 
-#: ../../admin/projects.rst:1217
+#: ../../admin/projects.rst:1229
 msgid ":ref:`production-database`"
 msgstr ":ref:`production-database`"
 
-#: ../../admin/projects.rst:1221
+#: ../../admin/projects.rst:1233
 msgid "Check resource limits"
 msgstr "リソース制限の確認"
 
-#: ../../admin/projects.rst:1223
+#: ../../admin/projects.rst:1235
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
@@ -24765,7 +24809,7 @@ msgstr ""
 "大量の翻訳やリポジトリをインポートする場合は、サーバーのリソース制限の影響を"
 "受けます。"
 
-#: ../../admin/projects.rst:1226
+#: ../../admin/projects.rst:1238
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
@@ -24773,7 +24817,7 @@ msgstr ""
 "メモリの空き容量を確認します。オペレーティング システムに翻訳ファイルをキャッ"
 "シュさせると、パフォーマンスが大幅に向上します。"
 
-#: ../../admin/projects.rst:1227
+#: ../../admin/projects.rst:1239
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
@@ -24781,7 +24825,7 @@ msgstr ""
 "処理する文字列が多数ある場合、ディスク操作がボトルネックになることがあります—"
 "ディスクは Weblate とデータベースの両方から書き込まれます。"
 
-#: ../../admin/projects.rst:1228
+#: ../../admin/projects.rst:1240
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
@@ -24789,11 +24833,11 @@ msgstr ""
 "CPU コアを追加すると、バックグラウンド タスクのパフォーマンスが向上することが"
 "あります（参照: :ref:`celery` ）。"
 
-#: ../../admin/projects.rst:1231
+#: ../../admin/projects.rst:1243
 msgid "Disable unneeded checks"
 msgstr "不要な検査の無効"
 
-#: ../../admin/projects.rst:1233
+#: ../../admin/projects.rst:1245
 msgid ""
 "Some quality checks can be quite expensive, and if not needed, can save you "
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
@@ -24803,11 +24847,11 @@ msgstr ""
 "ト中の時間を短縮できます。 設定の詳細については :setting:`CHECK_LIST` を確認"
 "してください。"
 
-#: ../../admin/projects.rst:1240
+#: ../../admin/projects.rst:1252
 msgid "Automatic creation of components"
 msgstr "コンポーネントの自動生成"
 
-#: ../../admin/projects.rst:1242
+#: ../../admin/projects.rst:1254
 msgid ""
 "In case your project has dozen of translation files (e.g. for different "
 "gettext domains, or parts of Android apps), you might want to import them "
@@ -24821,7 +24865,7 @@ msgstr ""
 "るか、:ref:`addon-weblate.discovery.discovery` アドオンをインストールすること"
 "で実行できます。"
 
-#: ../../admin/projects.rst:1248
+#: ../../admin/projects.rst:1260
 msgid ""
 "To use the add-on, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
@@ -24831,7 +24875,7 @@ msgstr ""
 "る可能性が最も低いものを選択）用のコンポーネントを作成し、このコンポーネント"
 "にアドオンをインストールすることが必要です。"
 
-#: ../../admin/projects.rst:1252
+#: ../../admin/projects.rst:1264
 msgid ""
 "For the management commands, you need to create a project which will contain "
 "all components and then run :wladmin:`import_project` or :wladmin:"
@@ -24841,7 +24885,7 @@ msgstr ""
 "ら、:wladmin:`import_project` または :wladmin:`import_json` の実行が必要で"
 "す。"
 
-#: ../../admin/projects.rst:1258
+#: ../../admin/projects.rst:1270
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgstr ":ref:`manage`、:ref:`addon-weblate.discovery.discovery`"
 
@@ -28916,11 +28960,11 @@ msgstr "Weblate 5.1"
 msgid "*Not yet released.*"
 msgstr "まだリリースしていません。"
 
-#: ../../changes.rst:7 ../../changes.rst:148 ../../changes.rst:314
-#: ../../changes.rst:425 ../../changes.rst:567 ../../changes.rst:672
-#: ../../changes.rst:768 ../../changes.rst:880 ../../changes.rst:917
-#: ../../changes.rst:1028 ../../changes.rst:1090 ../../changes.rst:1152
-#: ../../changes.rst:1216 ../../changes.rst:1292 ../../changes.rst:1333
+#: ../../changes.rst:7 ../../changes.rst:149 ../../changes.rst:315
+#: ../../changes.rst:426 ../../changes.rst:568 ../../changes.rst:673
+#: ../../changes.rst:769 ../../changes.rst:881 ../../changes.rst:918
+#: ../../changes.rst:1029 ../../changes.rst:1091 ../../changes.rst:1153
+#: ../../changes.rst:1217 ../../changes.rst:1293 ../../changes.rst:1334
 #, fuzzy
 #| msgid "**New features**"
 msgid "New features"
@@ -28958,65 +29002,71 @@ msgstr ":ref:`check-end-space` の品質検査を除外する。"
 msgid ":ref:`sbom` is now being provided for Weblate."
 msgstr ""
 
-#: ../../changes.rst:14 ../../changes.rst:53 ../../changes.rst:95
-#: ../../changes.rst:122 ../../changes.rst:158 ../../changes.rst:226
-#: ../../changes.rst:253 ../../changes.rst:287 ../../changes.rst:321
-#: ../../changes.rst:379 ../../changes.rst:437 ../../changes.rst:479
-#: ../../changes.rst:575 ../../changes.rst:618 ../../changes.rst:644
-#: ../../changes.rst:682 ../../changes.rst:748 ../../changes.rst:773
-#: ../../changes.rst:822 ../../changes.rst:844 ../../changes.rst:885
-#: ../../changes.rst:931 ../../changes.rst:1036 ../../changes.rst:1099
-#: ../../changes.rst:1128 ../../changes.rst:1156 ../../changes.rst:1193
-#: ../../changes.rst:1224 ../../changes.rst:1267 ../../changes.rst:1296
-#: ../../changes.rst:1341
+#: ../../changes.rst:12
+#, fuzzy
+#| msgid ":doc:`/contributing/documentation`"
+msgid ":doc:`/security/index` documentation."
+msgstr ":doc:`/contributing/documentation`"
+
+#: ../../changes.rst:15 ../../changes.rst:54 ../../changes.rst:96
+#: ../../changes.rst:123 ../../changes.rst:159 ../../changes.rst:227
+#: ../../changes.rst:254 ../../changes.rst:288 ../../changes.rst:322
+#: ../../changes.rst:380 ../../changes.rst:438 ../../changes.rst:480
+#: ../../changes.rst:576 ../../changes.rst:619 ../../changes.rst:645
+#: ../../changes.rst:683 ../../changes.rst:749 ../../changes.rst:774
+#: ../../changes.rst:823 ../../changes.rst:845 ../../changes.rst:886
+#: ../../changes.rst:932 ../../changes.rst:1037 ../../changes.rst:1100
+#: ../../changes.rst:1129 ../../changes.rst:1157 ../../changes.rst:1194
+#: ../../changes.rst:1225 ../../changes.rst:1268 ../../changes.rst:1297
+#: ../../changes.rst:1342
 #, fuzzy
 #| msgid "**Improvements**"
 msgid "Improvements"
 msgstr "**改善点**"
 
-#: ../../changes.rst:15
+#: ../../changes.rst:16
 #, fuzzy
 #| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-same` is now skipped for Toki Pona."
 msgstr ":ref:`check-reused` で、空白の文字列に対して起動しないように修正。"
 
-#: ../../changes.rst:16
+#: ../../changes.rst:17
 #, fuzzy
 #| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
 msgstr ":ref:`xliff` が原文の位置表示に対応。"
 
-#: ../../changes.rst:17
+#: ../../changes.rst:18
 msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
 
-#: ../../changes.rst:18
+#: ../../changes.rst:19
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
 msgstr ""
 
-#: ../../changes.rst:19
+#: ../../changes.rst:20
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgstr ""
 
-#: ../../changes.rst:20
+#: ../../changes.rst:21
 msgid ":ref:`user-profile` can now include contact URL."
 msgstr ""
 
-#: ../../changes.rst:21
+#: ../../changes.rst:22
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
 msgstr ""
 
-#: ../../changes.rst:22
+#: ../../changes.rst:23
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
 
-#: ../../changes.rst:23
+#: ../../changes.rst:24
 #, fuzzy
 #| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
@@ -29024,37 +29074,37 @@ msgstr ""
 ":http:get:`/api/changes/(int:id)/` に `old` と `details` が含まれるようになり"
 "ました。"
 
-#: ../../changes.rst:26 ../../changes.rst:57 ../../changes.rst:76
-#: ../../changes.rst:100 ../../changes.rst:127 ../../changes.rst:174
-#: ../../changes.rst:203 ../../changes.rst:230 ../../changes.rst:259
-#: ../../changes.rst:293 ../../changes.rst:342 ../../changes.rst:384
-#: ../../changes.rst:406 ../../changes.rst:450 ../../changes.rst:483
-#: ../../changes.rst:504 ../../changes.rst:525 ../../changes.rst:548
-#: ../../changes.rst:590 ../../changes.rst:624 ../../changes.rst:649
-#: ../../changes.rst:695 ../../changes.rst:728 ../../changes.rst:753
-#: ../../changes.rst:783 ../../changes.rst:806 ../../changes.rst:829
-#: ../../changes.rst:849 ../../changes.rst:865 ../../changes.rst:895
-#: ../../changes.rst:942 ../../changes.rst:973 ../../changes.rst:996
-#: ../../changes.rst:1012 ../../changes.rst:1051 ../../changes.rst:1075
-#: ../../changes.rst:1108 ../../changes.rst:1133 ../../changes.rst:1169
-#: ../../changes.rst:1200 ../../changes.rst:1239 ../../changes.rst:1272
-#: ../../changes.rst:1305 ../../changes.rst:1362
+#: ../../changes.rst:27 ../../changes.rst:58 ../../changes.rst:77
+#: ../../changes.rst:101 ../../changes.rst:128 ../../changes.rst:175
+#: ../../changes.rst:204 ../../changes.rst:231 ../../changes.rst:260
+#: ../../changes.rst:294 ../../changes.rst:343 ../../changes.rst:385
+#: ../../changes.rst:407 ../../changes.rst:451 ../../changes.rst:484
+#: ../../changes.rst:505 ../../changes.rst:526 ../../changes.rst:549
+#: ../../changes.rst:591 ../../changes.rst:625 ../../changes.rst:650
+#: ../../changes.rst:696 ../../changes.rst:729 ../../changes.rst:754
+#: ../../changes.rst:784 ../../changes.rst:807 ../../changes.rst:830
+#: ../../changes.rst:850 ../../changes.rst:866 ../../changes.rst:896
+#: ../../changes.rst:943 ../../changes.rst:974 ../../changes.rst:997
+#: ../../changes.rst:1013 ../../changes.rst:1052 ../../changes.rst:1076
+#: ../../changes.rst:1109 ../../changes.rst:1134 ../../changes.rst:1170
+#: ../../changes.rst:1201 ../../changes.rst:1240 ../../changes.rst:1273
+#: ../../changes.rst:1306 ../../changes.rst:1363
 #, fuzzy
 #| msgid "**Bug fixes**"
 msgid "Bug fixes"
 msgstr "**バグの修正**"
 
-#: ../../changes.rst:27
+#: ../../changes.rst:28
 #, fuzzy
 #| msgid "Improved translation locking handling."
 msgid ":ref:`dashboard` translations ordering when paginating."
 msgstr "翻訳ロック処理の改良。"
 
-#: ../../changes.rst:28
+#: ../../changes.rst:29
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
 msgstr ""
 
-#: ../../changes.rst:29
+#: ../../changes.rst:30
 #, fuzzy
 #| msgid ""
 #| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
@@ -29063,7 +29113,7 @@ msgstr ""
 ":ref:`addon-weblate.discovery.discovery` はスキップされたエントリを報告するよ"
 "うになりました。"
 
-#: ../../changes.rst:30
+#: ../../changes.rst:31
 #, fuzzy
 #| msgid ""
 #| "Fixed :ref:`check-translated` to correctly handle source string change."
@@ -29071,51 +29121,25 @@ msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr "原文の変更を正確に処理するために、:ref:`check-translated` を修正。"
 
-#: ../../changes.rst:31
+#: ../../changes.rst:32
 #, fuzzy
 #| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
 msgstr "指定したコンポーネントに新しい翻訳を作成します。"
 
-#: ../../changes.rst:34 ../../changes.rst:182 ../../changes.rst:265
-#: ../../changes.rst:355 ../../changes.rst:456 ../../changes.rst:596
-#: ../../changes.rst:701 ../../changes.rst:791 ../../changes.rst:953
-#: ../../changes.rst:1059 ../../changes.rst:1112 ../../changes.rst:1177
-#: ../../changes.rst:1248 ../../changes.rst:1315 ../../changes.rst:1370
+#: ../../changes.rst:35 ../../changes.rst:183 ../../changes.rst:266
+#: ../../changes.rst:356 ../../changes.rst:457 ../../changes.rst:597
+#: ../../changes.rst:702 ../../changes.rst:792 ../../changes.rst:954
+#: ../../changes.rst:1060 ../../changes.rst:1113 ../../changes.rst:1178
+#: ../../changes.rst:1249 ../../changes.rst:1316 ../../changes.rst:1371
 #, fuzzy
 #| msgid "**Compatibility**"
 msgid "Compatibility"
 msgstr "**互換性**"
 
-#: ../../changes.rst:35
+#: ../../changes.rst:36
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
-
-#: ../../changes.rst:38 ../../changes.rst:61 ../../changes.rst:80
-#: ../../changes.rst:107 ../../changes.rst:133 ../../changes.rst:186
-#: ../../changes.rst:211 ../../changes.rst:238 ../../changes.rst:270
-#: ../../changes.rst:299 ../../changes.rst:361 ../../changes.rst:391
-#: ../../changes.rst:410 ../../changes.rst:464 ../../changes.rst:489
-#: ../../changes.rst:510 ../../changes.rst:533 ../../changes.rst:552
-#: ../../changes.rst:601 ../../changes.rst:629 ../../changes.rst:657
-#: ../../changes.rst:710 ../../changes.rst:737 ../../changes.rst:757
-#: ../../changes.rst:795 ../../changes.rst:811 ../../changes.rst:833
-#: ../../changes.rst:854 ../../changes.rst:869 ../../changes.rst:904
-#: ../../changes.rst:959 ../../changes.rst:985 ../../changes.rst:1001
-#: ../../changes.rst:1017 ../../changes.rst:1064 ../../changes.rst:1079
-#: ../../changes.rst:1117 ../../changes.rst:1141 ../../changes.rst:1182
-#: ../../changes.rst:1205 ../../changes.rst:1252 ../../changes.rst:1279
-#: ../../changes.rst:1320 ../../changes.rst:1375 ../../changes/v4.rst:54
-#: ../../changes/v4.rst:86 ../../changes/v4.rst:169 ../../changes/v4.rst:237
-#: ../../changes/v4.rst:318 ../../changes/v4.rst:375 ../../changes/v4.rst:433
-#: ../../changes/v4.rst:496 ../../changes/v4.rst:541 ../../changes/v4.rst:597
-#: ../../changes/v4.rst:643 ../../changes/v4.rst:698 ../../changes/v4.rst:768
-#: ../../changes/v4.rst:859 ../../changes/v4.rst:934 ../../changes/v4.rst:1020
-#: ../../changes/v4.rst:1095 ../../changes/v4.rst:1168
-#, fuzzy
-#| msgid "**Upgrading**"
-msgid "Upgrading"
-msgstr "**アップグレード**"
 
 #: ../../changes.rst:39 ../../changes.rst:62 ../../changes.rst:81
 #: ../../changes.rst:108 ../../changes.rst:134 ../../changes.rst:187
@@ -29131,7 +29155,33 @@ msgstr "**アップグレード**"
 #: ../../changes.rst:1018 ../../changes.rst:1065 ../../changes.rst:1080
 #: ../../changes.rst:1118 ../../changes.rst:1142 ../../changes.rst:1183
 #: ../../changes.rst:1206 ../../changes.rst:1253 ../../changes.rst:1280
-#: ../../changes.rst:1321 ../../changes.rst:1376 ../../changes/v4.rst:55
+#: ../../changes.rst:1321 ../../changes.rst:1376 ../../changes/v4.rst:54
+#: ../../changes/v4.rst:86 ../../changes/v4.rst:169 ../../changes/v4.rst:237
+#: ../../changes/v4.rst:318 ../../changes/v4.rst:375 ../../changes/v4.rst:433
+#: ../../changes/v4.rst:496 ../../changes/v4.rst:541 ../../changes/v4.rst:597
+#: ../../changes/v4.rst:643 ../../changes/v4.rst:698 ../../changes/v4.rst:768
+#: ../../changes/v4.rst:859 ../../changes/v4.rst:934 ../../changes/v4.rst:1020
+#: ../../changes/v4.rst:1095 ../../changes/v4.rst:1168
+#, fuzzy
+#| msgid "**Upgrading**"
+msgid "Upgrading"
+msgstr "**アップグレード**"
+
+#: ../../changes.rst:40 ../../changes.rst:63 ../../changes.rst:82
+#: ../../changes.rst:109 ../../changes.rst:135 ../../changes.rst:188
+#: ../../changes.rst:213 ../../changes.rst:240 ../../changes.rst:272
+#: ../../changes.rst:301 ../../changes.rst:363 ../../changes.rst:393
+#: ../../changes.rst:412 ../../changes.rst:466 ../../changes.rst:491
+#: ../../changes.rst:512 ../../changes.rst:535 ../../changes.rst:554
+#: ../../changes.rst:603 ../../changes.rst:631 ../../changes.rst:659
+#: ../../changes.rst:712 ../../changes.rst:739 ../../changes.rst:759
+#: ../../changes.rst:797 ../../changes.rst:813 ../../changes.rst:835
+#: ../../changes.rst:856 ../../changes.rst:871 ../../changes.rst:906
+#: ../../changes.rst:961 ../../changes.rst:987 ../../changes.rst:1003
+#: ../../changes.rst:1019 ../../changes.rst:1066 ../../changes.rst:1081
+#: ../../changes.rst:1119 ../../changes.rst:1143 ../../changes.rst:1184
+#: ../../changes.rst:1207 ../../changes.rst:1254 ../../changes.rst:1281
+#: ../../changes.rst:1322 ../../changes.rst:1377 ../../changes/v4.rst:55
 #: ../../changes/v4.rst:87 ../../changes/v4.rst:170 ../../changes/v4.rst:238
 #: ../../changes/v4.rst:319 ../../changes/v4.rst:376 ../../changes/v4.rst:434
 #: ../../changes/v4.rst:497 ../../changes/v4.rst:542 ../../changes/v4.rst:598
@@ -29142,18 +29192,18 @@ msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr "更新するには、:ref:`generic-upgrade-instructions` に従ってください。"
 
-#: ../../changes.rst:42 ../../changes.rst:65 ../../changes.rst:84
-#: ../../changes.rst:111 ../../changes.rst:137 ../../changes.rst:192
-#: ../../changes.rst:215 ../../changes.rst:242 ../../changes.rst:276
-#: ../../changes.rst:303 ../../changes.rst:368 ../../changes.rst:395
-#: ../../changes.rst:414 ../../changes.rst:468 ../../changes.rst:493
-#: ../../changes.rst:514 ../../changes.rst:537 ../../changes.rst:556
-#: ../../changes.rst:607 ../../changes.rst:633 ../../changes.rst:661
-#: ../../changes.rst:717
+#: ../../changes.rst:43 ../../changes.rst:66 ../../changes.rst:85
+#: ../../changes.rst:112 ../../changes.rst:138 ../../changes.rst:193
+#: ../../changes.rst:216 ../../changes.rst:243 ../../changes.rst:277
+#: ../../changes.rst:304 ../../changes.rst:369 ../../changes.rst:396
+#: ../../changes.rst:415 ../../changes.rst:469 ../../changes.rst:494
+#: ../../changes.rst:515 ../../changes.rst:538 ../../changes.rst:557
+#: ../../changes.rst:608 ../../changes.rst:634 ../../changes.rst:662
+#: ../../changes.rst:718
 msgid "Contributors"
 msgstr "貢献者"
 
-#: ../../changes.rst:45
+#: ../../changes.rst:46
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29165,23 +29215,23 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:48
+#: ../../changes.rst:49
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.11.4"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:50
+#: ../../changes.rst:51
 #, fuzzy
 #| msgid "Released on May 7th 2020."
 msgid "*Released on May 7th 2025.*"
 msgstr "2020 年 5 月 7 日にリリース。"
 
-#: ../../changes.rst:54
+#: ../../changes.rst:55
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
 msgstr ""
 
-#: ../../changes.rst:58
+#: ../../changes.rst:59
 #, fuzzy
 #| msgid ""
 #| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
@@ -29234,7 +29284,7 @@ msgstr "コードに貢献"
 msgid "Documentation contributions"
 msgstr "ドキュメントに貢献"
 
-#: ../../changes.rst:68
+#: ../../changes.rst:69
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29246,25 +29296,25 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:71
+#: ../../changes.rst:72
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.11.3"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:73 ../../changes.rst:92
+#: ../../changes.rst:74 ../../changes.rst:93
 #, fuzzy
 #| msgid "Released on May 3rd 2024."
 msgid "*Released on May 3rd 2025.*"
 msgstr "2024 年 5月 3 日にリリース。"
 
-#: ../../changes.rst:77
+#: ../../changes.rst:78
 #, fuzzy
 #| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
 msgstr "スクリーンショット一覧表示の問題の修正。"
 
-#: ../../changes.rst:87
+#: ../../changes.rst:88
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29276,44 +29326,44 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:90
+#: ../../changes.rst:91
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.11.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:96
+#: ../../changes.rst:97
 #, fuzzy
 #| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
 msgstr "自動提案における用語集"
 
-#: ../../changes.rst:97
+#: ../../changes.rst:98
 #, fuzzy
 #| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
 msgstr ":ref:`addon-weblate.cdn.cdnjs` の設定。"
 
-#: ../../changes.rst:101
+#: ../../changes.rst:102
 #, fuzzy
 #| msgid ""
 #| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
 msgstr "ビジュアル キーボードに特殊文字の設定機能の追加。"
 
-#: ../../changes.rst:102
+#: ../../changes.rst:103
 #, fuzzy
 #| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
 msgstr "文字列削除時のエラー処理の改善。"
 
-#: ../../changes.rst:103
+#: ../../changes.rst:104
 #, fuzzy
 #| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
 msgstr "Django 1.4 との互換性に対応。"
 
-#: ../../changes.rst:104
+#: ../../changes.rst:105
 #, fuzzy
 #| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
@@ -29333,7 +29383,7 @@ msgstr "単語や文字の繰り返しは避けてください。"
 msgid "Translations contributions"
 msgstr "翻訳に貢献"
 
-#: ../../changes.rst:114
+#: ../../changes.rst:115
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29345,45 +29395,45 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:117
+#: ../../changes.rst:118
 #, fuzzy
 #| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:119
+#: ../../changes.rst:120
 #, fuzzy
 #| msgid "Released on April 17th 2023."
 msgid "*Released on April 25th 2025.*"
 msgstr "2023 年 4 月 17 日にリリース。"
 
-#: ../../changes.rst:123
+#: ../../changes.rst:124
 #, fuzzy
 #| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
 msgstr ":ref:`reports` をカテゴリーに対応。"
 
-#: ../../changes.rst:124
+#: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
 
-#: ../../changes.rst:128
+#: ../../changes.rst:129
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
 
-#: ../../changes.rst:129
+#: ../../changes.rst:130
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgstr ""
 
-#: ../../changes.rst:130
+#: ../../changes.rst:131
 #, fuzzy
 #| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
 msgstr "禁止された用語集の用語"
 
-#: ../../changes.rst:140
+#: ../../changes.rst:141
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29395,25 +29445,25 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:143
+#: ../../changes.rst:144
 #, fuzzy
 #| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:145
+#: ../../changes.rst:146
 #, fuzzy
 #| msgid "Released on April 17th 2023."
 msgid "*Released on April 15th 2025.*"
 msgstr "2023 年 4 月 17 日にリリース。"
 
-#: ../../changes.rst:149
+#: ../../changes.rst:150
 msgid ""
 "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
 "all target translation units for the given source translation unit."
 msgstr ""
 
-#: ../../changes.rst:150
+#: ../../changes.rst:151
 #, fuzzy
 #| msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgid ""
@@ -29421,11 +29471,11 @@ msgid ""
 "role from a group."
 msgstr ":http:delete:`/api/groups/(int:id)/admins/(int:user_id)` の追加。"
 
-#: ../../changes.rst:151
+#: ../../changes.rst:152
 msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgstr ""
 
-#: ../../changes.rst:152
+#: ../../changes.rst:153
 #, fuzzy
 #| msgid ""
 #| ":ref:`check-same` check now honors placeholders even in the strict mode."
@@ -29435,14 +29485,14 @@ msgid ""
 msgstr ""
 ":ref:`check-same` 検査は、厳密モードでもプレースホルダを優先するように改良。"
 
-#: ../../changes.rst:153
+#: ../../changes.rst:154
 #, fuzzy
 #| msgid ""
 #| "List of checks which can not be ignored, see :ref:`enforcing-checks`."
 msgid "Inherited flags can now be discarded, see :ref:`custom-checks`."
 msgstr "除外できない検査一覧。参照: :ref:`enforcing-checks`。"
 
-#: ../../changes.rst:154
+#: ../../changes.rst:155
 #, fuzzy
 #| msgid "New language added to %(component)s"
 msgid ""
@@ -29450,52 +29500,52 @@ msgid ""
 "`component`."
 msgstr "%(component)s に、新しい言語を追加しました"
 
-#: ../../changes.rst:155
+#: ../../changes.rst:156
 #, fuzzy
 #| msgid "The project tokens access can now be customized."
 msgid ":ref:`mt-sources` can now be customized."
 msgstr "プロジェクト トークンへのアクセスのカスタマイズに対応。"
 
-#: ../../changes.rst:159
+#: ../../changes.rst:160
 msgid ""
 "Weblate now uses OpenAPI Specification 3.1.1 to generate the schema for :ref:"
 "`api`."
 msgstr ""
 
-#: ../../changes.rst:160
+#: ../../changes.rst:161
 msgid ""
 ":ref:`credits` and :ref:`stats` include translator's join date. "
 "Additionally, both reports can be sorted either by the join date or the "
 "number of strings translated."
 msgstr ""
 
-#: ../../changes.rst:161
+#: ../../changes.rst:162
 msgid "Widgets show more precise stats."
 msgstr ""
 
-#: ../../changes.rst:162
+#: ../../changes.rst:163
 msgid ":ref:`upload` is now tracked in history with details."
 msgstr ""
 
-#: ../../changes.rst:163
+#: ../../changes.rst:164
 msgid ""
 ":ref:`check-c-sharp-format` now supports ``csharp-format`` flag for "
 "compatibility with GNU gettext."
 msgstr ""
 
-#: ../../changes.rst:164
+#: ../../changes.rst:165
 #, fuzzy
 #| msgid "Changes in dictionary are now logged in history."
 msgid "Changes in string flags are now tracked in history."
 msgstr "辞書の変更履歴を記録するように改良。"
 
-#: ../../changes.rst:165
+#: ../../changes.rst:166
 #, fuzzy
 #| msgid ":doc:`/admin/machine`"
 msgid ":doc:`/admin/machine` documentation extended."
 msgstr ":doc:`/admin/machine`"
 
-#: ../../changes.rst:166
+#: ../../changes.rst:167
 #, fuzzy
 #| msgid ""
 #| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
@@ -29505,76 +29555,76 @@ msgstr ""
 ":ref:`addon-weblate.discovery.discovery` はスキップされたエントリを報告するよ"
 "うになりました。"
 
-#: ../../changes.rst:167
+#: ../../changes.rst:168
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
 msgstr ""
 
-#: ../../changes.rst:168
+#: ../../changes.rst:169
 #, fuzzy
 #| msgid ":ref:`2fa` can be enforced at the team or project level."
 msgid ""
 ":ref:`project-check_flags` can now also be configured on the project level."
 msgstr ":ref:`2fa` はチームまたはプロジェクト単位で強制できます。"
 
-#: ../../changes.rst:169
+#: ../../changes.rst:170
 msgid ""
 "Improved rendering of :ref:`additional-flags` and :ref:`additional-"
 "explanation` changes in history."
 msgstr ""
 
-#: ../../changes.rst:170
+#: ../../changes.rst:171
 msgid ""
 ":ref:`mt-cyrtranslit` now automatically transliterates from a matching "
 "translation instead of the source strings."
 msgstr ""
 
-#: ../../changes.rst:171
+#: ../../changes.rst:172
 msgid ""
 "Errors from creating a duplicate glossary and failure to delete a glossary "
 "are now handled gracefully."
 msgstr ""
 
-#: ../../changes.rst:175
+#: ../../changes.rst:176
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
 msgstr ""
 
-#: ../../changes.rst:176
+#: ../../changes.rst:177
 #, fuzzy
 #| msgid ""
 #| "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgid "Fixed captcha verification when some time zone was configured."
 msgstr "ユーザーに WebAuthn も設定されている場合の TOTP 認証を修正。"
 
-#: ../../changes.rst:177
+#: ../../changes.rst:178
 #, fuzzy
 #| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved translation propagation performance."
 msgstr ":ref:`workflow-customization` 設定フォームの改良。"
 
-#: ../../changes.rst:178
+#: ../../changes.rst:179
 msgid ""
 "Leading and trailing whitespace are now correctly stripped in glossary "
 "strings that also contain a :ref:`check-prohibited-initial-character`."
 msgstr ""
 
-#: ../../changes.rst:179
+#: ../../changes.rst:180
 #, fuzzy
 #| msgid "Fixed translating newly added strings."
 msgid "Fixed background parsing of newly added translation files."
 msgstr "新しく追加した文字列の翻訳を修正。"
 
-#: ../../changes.rst:183
+#: ../../changes.rst:184
 msgid "Registration now disallows disposable e-mail domains."
 msgstr ""
 
-#: ../../changes.rst:189
+#: ../../changes.rst:190
 msgid ""
 "The database migration updates indexes and this might take considerable time."
 msgstr ""
 
-#: ../../changes.rst:195
+#: ../../changes.rst:196
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29586,47 +29636,47 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:198
+#: ../../changes.rst:199
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.4"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:200
+#: ../../changes.rst:201
 #, fuzzy
 #| msgid "Released on March 11th 2020."
 msgid "*Released on March 19th 2025.*"
 msgstr "2020 年 3 月 11 日にリリース。"
 
-#: ../../changes.rst:204
+#: ../../changes.rst:205
 #, fuzzy
 #| msgid "Fixed crash on displaying some checks."
 msgid "Fixed dismissing of checks."
 msgstr "一部の検査を表示する際のクラッシュ問題の修正。"
 
-#: ../../changes.rst:205
+#: ../../changes.rst:206
 #, fuzzy
 #| msgid "Removed locking of translations while translating."
 msgid "Reduced overhead of rendering other strings while translating."
 msgstr "翻訳中に翻訳がロックする問題を解決。"
 
-#: ../../changes.rst:206
+#: ../../changes.rst:207
 #, fuzzy
 #| msgid "Improved performance of several views."
 msgid "Improved performance of some :ref:`api` endpoints."
 msgstr "複数の表示画面の性能の改良。"
 
-#: ../../changes.rst:207
+#: ../../changes.rst:208
 #, fuzzy
 #| msgid "Fixed add-on page crash in some corner cases."
 msgid "Fixed :ref:`language-parsing-codes` in some corner cases."
 msgstr "一部の特殊なケースで発生するアドオン ページのクラッシュを修正。"
 
-#: ../../changes.rst:208
+#: ../../changes.rst:209
 msgid ":ref:`search-strings` now properly finds exact match on the component."
 msgstr ""
 
-#: ../../changes.rst:218
+#: ../../changes.rst:219
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29638,55 +29688,55 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:221
+#: ../../changes.rst:222
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.3"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:223
+#: ../../changes.rst:224
 #, fuzzy
 #| msgid "Released on March 11th 2020."
 msgid "*Released on March 13th 2025.*"
 msgstr "2020 年 3 月 11 日にリリース。"
 
-#: ../../changes.rst:227
+#: ../../changes.rst:228
 #, fuzzy
 #| msgid "Captcha protection for registration."
 msgid "Captcha is not shown for registrations via :ref:`invite-user`."
 msgstr "登録時の Captcha 保護機能に対応。"
 
-#: ../../changes.rst:231
+#: ../../changes.rst:232
 #, fuzzy
 #| msgid "Improved performance of file downloads."
 msgid "Improved performance of API download endpoints."
 msgstr "ファイル ダウンロードの性能の改良。"
 
-#: ../../changes.rst:232
+#: ../../changes.rst:233
 #, fuzzy
 #| msgid "Removed locking of translations while translating."
 msgid "Optimized fetching other translations while translating."
 msgstr "翻訳中に翻訳がロックする問題を解決。"
 
-#: ../../changes.rst:233
+#: ../../changes.rst:234
 #, fuzzy
 #| msgid "Used in notifications e-mails."
 msgid "Reduced notifications overhead."
 msgstr "通知メールに使用する。"
 
-#: ../../changes.rst:234
+#: ../../changes.rst:235
 #, fuzzy
 #| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved handling of components using :ref:`internal-urls`."
 msgstr ":ref:`invite-user` エラー処理の改良。"
 
-#: ../../changes.rst:235
+#: ../../changes.rst:236
 #, fuzzy
 #| msgid "Fixed authentication using some third party providers."
 msgid "Fixed authenticating with some Git servers."
 msgstr "一部のサード パーティ プロバイダーを使用した認証を修正。"
 
-#: ../../changes.rst:245
+#: ../../changes.rst:246
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29698,61 +29748,61 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:248
+#: ../../changes.rst:249
 #, fuzzy
 #| msgid "Weblate 5.0.2"
 msgid "Weblate 5.10.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:250
+#: ../../changes.rst:251
 #, fuzzy
 #| msgid "Released on February 8th 2012."
 msgid "*Released on February 28th 2025.*"
 msgstr "2012 年 2 月 8 日にリリース。"
 
-#: ../../changes.rst:254
+#: ../../changes.rst:255
 #, fuzzy
 #| msgid "Improved translation memory matches."
 msgid "Improved :ref:`translation-memory` matching."
 msgstr "翻訳メモリとの一致の改良。"
 
-#: ../../changes.rst:255
+#: ../../changes.rst:256
 msgid "Visual diff now better highlights whitespace additions."
 msgstr ""
 
-#: ../../changes.rst:256
+#: ../../changes.rst:257
 #, fuzzy
 #| msgid "Improved performance of file updates."
 msgid "Improved performance on large projects."
 msgstr "ファイル更新の性能の向上。"
 
-#: ../../changes.rst:260
+#: ../../changes.rst:261
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
 msgstr ""
 
-#: ../../changes.rst:261
+#: ../../changes.rst:262
 #, fuzzy
 #| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed some :ref:`addons` trigger upon installation."
 msgstr "未翻訳の文字列において、一部の検査が行われる問題を修正。"
 
-#: ../../changes.rst:262
+#: ../../changes.rst:263
 msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ""
 
-#: ../../changes.rst:266
+#: ../../changes.rst:267
 msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
 
-#: ../../changes.rst:267 ../../vcs.rst:230
+#: ../../changes.rst:268 ../../vcs.rst:230
 msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
 msgstr ""
 
-#: ../../changes.rst:273
+#: ../../changes.rst:274
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable is "
@@ -29767,7 +29817,7 @@ msgstr ""
 "``SOCIAL_AUTH_PIPELINE`` に変更があります。変更に合わせて設定を修正してくださ"
 "い。"
 
-#: ../../changes.rst:279
+#: ../../changes.rst:280
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29779,19 +29829,19 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:282
+#: ../../changes.rst:283
 #, fuzzy
 #| msgid "Weblate 5.1.1"
 msgid "Weblate 5.10.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:284
+#: ../../changes.rst:285
 #, fuzzy
 #| msgid "Released on February 14th 2012."
 msgid "*Released on February 21st 2025.*"
 msgstr "2012 年 2 月 14 日にリリース。"
 
-#: ../../changes.rst:288
+#: ../../changes.rst:289
 #, fuzzy
 #| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ""
@@ -29799,7 +29849,7 @@ msgid ""
 "to the strings."
 msgstr ":ref:`check-multiple-failures` の品質検査を除外する。"
 
-#: ../../changes.rst:289
+#: ../../changes.rst:290
 #, fuzzy
 #| msgid "Added support for locking components experiencing repository errors."
 msgid ""
@@ -29808,33 +29858,33 @@ msgstr ""
 "リポジトリエラーが発生するコンポーネントをロックするためのサポートを追加しま"
 "した。"
 
-#: ../../changes.rst:290
+#: ../../changes.rst:291
 #, fuzzy
 #| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`search-strings` supports searching by source string state."
 msgstr ":ref:`xliff` が原文の位置表示に対応。"
 
-#: ../../changes.rst:294
+#: ../../changes.rst:295
 #, fuzzy
 #| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 ":doc:`/admin/announcements` がプロジェクト内の特定の言語単位で投稿できます。"
 
-#: ../../changes.rst:295
+#: ../../changes.rst:296
 #, fuzzy
 #| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
 msgstr ":ref:`xliff` が原文の位置表示に対応。"
 
-#: ../../changes.rst:296
+#: ../../changes.rst:297
 #, fuzzy
 #| msgid "Improved glossary highlighting."
 msgid "Fixed :ref:`glossary` terms highlighting."
 msgstr "用語集の強調表示の改善。"
 
-#: ../../changes.rst:306
+#: ../../changes.rst:307
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -29846,72 +29896,72 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:309
+#: ../../changes.rst:310
 #, fuzzy
 #| msgid "Weblate 5.1"
 msgid "Weblate 5.10"
 msgstr "Weblate 5.1"
 
-#: ../../changes.rst:311
+#: ../../changes.rst:312
 #, fuzzy
 #| msgid "Released on February 14th 2012."
 msgid "*Released on February 14th 2025.*"
 msgstr "2012 年 2 月 14 日にリリース。"
 
-#: ../../changes.rst:315
+#: ../../changes.rst:316
 msgid ""
 ":ref:`check-rst-references` check to validate reStructuredText references."
 msgstr ""
 
-#: ../../changes.rst:316
+#: ../../changes.rst:317
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
 msgstr ""
 
-#: ../../changes.rst:317
+#: ../../changes.rst:318
 msgid "API can now produce CSV output."
 msgstr ""
 
-#: ../../changes.rst:318
+#: ../../changes.rst:319
 msgid ""
 "New management command :wladmin:`import_projectbackup` to import :ref:"
 "`projectbackup`."
 msgstr ""
 
-#: ../../changes.rst:322
+#: ../../changes.rst:323
 #, fuzzy
 #| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Improved error handling in :ref:`machine-translation-setup`."
 msgstr ":ref:`machine-translation-setup` でのエラー報告の改良。"
 
-#: ../../changes.rst:323
+#: ../../changes.rst:324
 msgid ""
 ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container."
 msgstr ""
 
-#: ../../changes.rst:324
+#: ../../changes.rst:325
 msgid ""
 ":guilabel:`Synchronize` on shared repository now operates on all its "
 "components."
 msgstr ""
 
-#: ../../changes.rst:325
+#: ../../changes.rst:326
 msgid ""
 ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
 "reStructuredText."
 msgstr ""
 
-#: ../../changes.rst:326
+#: ../../changes.rst:327
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
 msgstr ""
 
-#: ../../changes.rst:327
+#: ../../changes.rst:328
 #, fuzzy
 #| msgid "Improved validation of several forms."
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
 msgstr "複数のフォームの検証の改善。"
 
-#: ../../changes.rst:328
+#: ../../changes.rst:329
 #, fuzzy
 #| msgid ""
 #| "The language definitions are in the `weblate-language-data repository "
@@ -29924,38 +29974,38 @@ msgstr ""
 "言語の定義は、`weblate-language-data repository <https://github.com/"
 "WeblateOrg/language-data/>`_ にあります。"
 
-#: ../../changes.rst:329
+#: ../../changes.rst:330
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
 
-#: ../../changes.rst:330
+#: ../../changes.rst:331
 msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
 msgstr ""
 
-#: ../../changes.rst:331
+#: ../../changes.rst:332
 msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
 msgstr ""
 
-#: ../../changes.rst:332
+#: ../../changes.rst:333
 #, fuzzy
 #| msgid "Compatibility with PostgreSQL database backend."
 msgid ""
 "Compatibility with third-party static files storage backends for Django."
 msgstr "PostgreSQL データベース バックエンドとの互換性に対応。"
 
-#: ../../changes.rst:333
+#: ../../changes.rst:334
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-translator`"
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
 msgstr ":ref:`mt-microsoft-translator`"
 
-#: ../../changes.rst:334
+#: ../../changes.rst:335
 #, fuzzy
 #| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ""
@@ -29963,13 +30013,13 @@ msgid ""
 "sensitive."
 msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
 
-#: ../../changes.rst:335
+#: ../../changes.rst:336
 msgid ""
 ":ref:`component-enforced_checks` are now applied on strings imported from "
 "the repository."
 msgstr ""
 
-#: ../../changes.rst:336
+#: ../../changes.rst:337
 #, fuzzy
 #| msgid ""
 #| "Reduced false positives of :ref:`check-reused` when fixing the "
@@ -29979,46 +30029,46 @@ msgid ""
 "for CJK languages."
 msgstr "翻訳を修正する際の :ref:`check-reused` の誤検出を削減。"
 
-#: ../../changes.rst:337
+#: ../../changes.rst:338
 msgid "OpenAPI schema for API includes more information."
 msgstr ""
 
-#: ../../changes.rst:338
+#: ../../changes.rst:339
 #, fuzzy
 #| msgid "Generic placeholders check now supports regular expressions."
 msgid ":ref:`check-regex` supports advanced regular expressions."
 msgstr "汎用プレースホルダー チェックが正規表現に対応。"
 
-#: ../../changes.rst:339
+#: ../../changes.rst:340
 #, fuzzy
 #| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
 msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
 
-#: ../../changes.rst:343
+#: ../../changes.rst:344
 #, fuzzy
 #| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
 msgstr ":ref:`check-reused` で、空白の文字列に対して起動しないように修正。"
 
-#: ../../changes.rst:344
+#: ../../changes.rst:345
 #, fuzzy
 #| msgid "Not updating statistics in some situations."
 msgid "Dark theme behavior in some situations."
 msgstr "特定の状況で統計が更新されない。"
 
-#: ../../changes.rst:345
+#: ../../changes.rst:346
 msgid "Translation propagation sometimes did not work as expected."
 msgstr ""
 
-#: ../../changes.rst:346
+#: ../../changes.rst:347
 #, fuzzy
 #| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
 msgstr "``Content-Security-Policy`` HTTP ヘッダーの変更を可能にします。"
 
-#: ../../changes.rst:347
+#: ../../changes.rst:348
 #, fuzzy
 #| msgid ""
 #| ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:"
@@ -30028,24 +30078,24 @@ msgid ""
 msgstr ""
 ":ref:`machine-translation-setup`、:ref:`machine-translation`、:ref:`memory`"
 
-#: ../../changes.rst:348
+#: ../../changes.rst:349
 #, fuzzy
 #| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
 msgstr ":ref:`machine-translation-setup` でのエラー報告の改良。"
 
-#: ../../changes.rst:349
+#: ../../changes.rst:350
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
 msgstr ""
 
-#: ../../changes.rst:350
+#: ../../changes.rst:351
 #, fuzzy
 #| msgid "Skip the :ref:`check-punctuation-spacing` quality check."
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgstr ":ref:`check-punctuation-spacing` の品質検査を除外する。"
 
-#: ../../changes.rst:351
+#: ../../changes.rst:352
 #, fuzzy
 #| msgid ""
 #| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
@@ -30054,7 +30104,7 @@ msgstr ""
 "目的を明確にするために :ref:`addon-weblate.consistency.languages` という名前"
 "に変更。"
 
-#: ../../changes.rst:352
+#: ../../changes.rst:353
 #, fuzzy
 #| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ""
@@ -30062,23 +30112,23 @@ msgid ""
 "related checks."
 msgstr ":ref:`check-multiple-failures` の品質検査を除外する。"
 
-#: ../../changes.rst:356
+#: ../../changes.rst:357
 msgid ""
 "Running tests using Django test executor is no longer supported, see :doc:`/"
 "contributing/tests`."
 msgstr ""
 
-#: ../../changes.rst:357
+#: ../../changes.rst:358
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
 
-#: ../../changes.rst:358
+#: ../../changes.rst:359
 msgid "API error responses format has changed, see :ref:`api-errors`."
 msgstr ""
 
-#: ../../changes.rst:364
+#: ../../changes.rst:365
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -30095,13 +30145,13 @@ msgstr ""
 "は :ref:`2fa` の新しい設定と ``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、"
 "``MIDDLEWARE`` の変更です。それぞれ設定を適切に調整してください。"
 
-#: ../../changes.rst:365
+#: ../../changes.rst:366
 #, fuzzy
 #| msgid "Django 1.8 is no longer supported."
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
 msgstr "Django 1.8 への対応終了。"
 
-#: ../../changes.rst:371
+#: ../../changes.rst:372
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30113,47 +30163,47 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:374
+#: ../../changes.rst:375
 #, fuzzy
 #| msgid "Weblate 5.7.2"
 msgid "Weblate 5.9.2"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:376
+#: ../../changes.rst:377
 #, fuzzy
 #| msgid "Released on December 19th 2023."
 msgid "*Released on December 19th 2024.*"
 msgstr "2023 年 12 月 19 日にリリース。"
 
-#: ../../changes.rst:380
+#: ../../changes.rst:381
 #, fuzzy
 #| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
 msgstr ":ref:`vcs-bitbucket-data-center`"
 
-#: ../../changes.rst:381
+#: ../../changes.rst:382
 msgid ":http:get:`/api/users/` supports searching by user ID."
 msgstr ""
 
-#: ../../changes.rst:385
+#: ../../changes.rst:386
 msgid "Avoid query parser crash in multi-threaded environments."
 msgstr ""
 
-#: ../../changes.rst:386
+#: ../../changes.rst:387
 msgid "Avoid :ref:`autofix` crash on multi-value strings."
 msgstr ""
 
-#: ../../changes.rst:387
+#: ../../changes.rst:388
 msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
 msgstr ""
 
-#: ../../changes.rst:388
+#: ../../changes.rst:389
 msgid "Captcha solution were sometimes not accepted."
 msgstr ""
 
-#: ../../changes.rst:398
+#: ../../changes.rst:399
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30165,25 +30215,25 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:401
+#: ../../changes.rst:402
 #, fuzzy
 #| msgid "Weblate 5.7.1"
 msgid "Weblate 5.9.1"
 msgstr "Weblate 5.7.1"
 
-#: ../../changes.rst:403 ../../changes.rst:422
+#: ../../changes.rst:404 ../../changes.rst:423
 #, fuzzy
 #| msgid "Released on December 16th 2022."
 msgid "*Released on December 16th 2024.*"
 msgstr "2022 年 12 月 16 日にリリース。"
 
-#: ../../changes.rst:407
+#: ../../changes.rst:408
 #, fuzzy
 #| msgid "Fixed publishing packages to PyPI."
 msgid "Fixed publishing package to PyPI."
 msgstr "PyPI へのパッケージの公開の修正。"
 
-#: ../../changes.rst:417
+#: ../../changes.rst:418
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30195,74 +30245,74 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:420
+#: ../../changes.rst:421
 #, fuzzy
 #| msgid "Weblate 5.8"
 msgid "Weblate 5.9"
 msgstr "Weblate 5.8"
 
-#: ../../changes.rst:426
+#: ../../changes.rst:427
 msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
 
-#: ../../changes.rst:428
+#: ../../changes.rst:429
 #, fuzzy
 #| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ":http:get:`/api/projects/(string:project)/file/` の追加。"
 
-#: ../../changes.rst:429
+#: ../../changes.rst:430
 #, fuzzy
 #| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ":http:get:`/api/projects/(string:project)/file/` の追加。"
 
-#: ../../changes.rst:431
+#: ../../changes.rst:432
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
 
-#: ../../changes.rst:432
+#: ../../changes.rst:433
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
 
-#: ../../changes.rst:433
+#: ../../changes.rst:434
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
 msgstr ""
 
-#: ../../changes.rst:434
+#: ../../changes.rst:435
 msgid "Logging to :ref:`graylog`."
 msgstr ""
 
-#: ../../changes.rst:438
+#: ../../changes.rst:439
 #, fuzzy
 #| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
 msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
 
-#: ../../changes.rst:439
+#: ../../changes.rst:440
 msgid ""
 "A shortcut to duplicate a component is now available directly in the menu (:"
 "guilabel:`Manage` → :guilabel:`Duplicate this component`)."
 msgstr ""
 
-#: ../../changes.rst:440
+#: ../../changes.rst:441
 #, fuzzy
 #| msgid "Include changes count in credits."
 msgid "Included username when generating :ref:`credits`."
 msgstr "変更回数をクレジットに含めるように変更。"
 
-#: ../../changes.rst:441
+#: ../../changes.rst:442
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 
-#: ../../changes.rst:442
+#: ../../changes.rst:443
 #, fuzzy
 #| msgid ""
 #| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
@@ -30271,27 +30321,27 @@ msgid ""
 "component lock state."
 msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 
-#: ../../changes.rst:443
+#: ../../changes.rst:444
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
 
-#: ../../changes.rst:444
+#: ../../changes.rst:445
 #, fuzzy
 #| msgid "Improved navigation while translating."
 msgid "Added page navigation while :ref:`translating`."
 msgstr "翻訳中の操作性の改良。"
 
-#: ../../changes.rst:445
+#: ../../changes.rst:446
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
 
-#: ../../changes.rst:446
+#: ../../changes.rst:447
 #, fuzzy
 #| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved :ref:`translation-propagation` performance."
 msgstr ":ref:`workflow-customization` 設定フォームの改良。"
 
-#: ../../changes.rst:447
+#: ../../changes.rst:448
 #, fuzzy
 #| msgid ""
 #| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
@@ -30303,53 +30353,53 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 
-#: ../../changes.rst:451
+#: ../../changes.rst:452
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variants in the search language, see :ref:`search-strings`."
 msgstr ""
 
-#: ../../changes.rst:452
+#: ../../changes.rst:453
 #, fuzzy
 #| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
 msgstr "新しく追加した文字列の翻訳を修正。"
 
-#: ../../changes.rst:453
+#: ../../changes.rst:454
 #, fuzzy
 #| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
 msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
 
-#: ../../changes.rst:457
+#: ../../changes.rst:458
 msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
 msgstr ""
 
-#: ../../changes.rst:458
+#: ../../changes.rst:459
 #, fuzzy
 #| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate は、Python 3.7 以降が必須となりました。"
 
-#: ../../changes.rst:459
+#: ../../changes.rst:460
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
 msgstr ""
 
-#: ../../changes.rst:460
+#: ../../changes.rst:461
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
 
-#: ../../changes.rst:461
+#: ../../changes.rst:462
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
 msgstr ""
 
-#: ../../changes.rst:471
+#: ../../changes.rst:472
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30361,40 +30411,40 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:474
+#: ../../changes.rst:475
 #, fuzzy
 #| msgid "Weblate 5.7.2"
 msgid "Weblate 5.8.4"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:476
+#: ../../changes.rst:477
 #, fuzzy
 #| msgid "Released on November 19th 2021."
 msgid "*Released on November 19th 2024.*"
 msgstr "2021 年 11 月 19 日にリリース。"
 
-#: ../../changes.rst:480
+#: ../../changes.rst:481
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
-#: ../../changes.rst:484
+#: ../../changes.rst:485
 #, fuzzy
 #| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
 msgstr "レポートでクラッシュすることがある問題の修正。"
 
-#: ../../changes.rst:485
+#: ../../changes.rst:486
 #, fuzzy
 #| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
 
-#: ../../changes.rst:486
+#: ../../changes.rst:487
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgstr ""
 
-#: ../../changes.rst:496
+#: ../../changes.rst:497
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30406,37 +30456,37 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:499
+#: ../../changes.rst:500
 #, fuzzy
 #| msgid "Weblate 5.7.2"
 msgid "Weblate 5.8.3"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:501
+#: ../../changes.rst:502
 #, fuzzy
 #| msgid "Released on November 16th 2023."
 msgid "*Released on November 6th 2024.*"
 msgstr "2023 年 11 月 16 日にリリース。"
 
-#: ../../changes.rst:505
+#: ../../changes.rst:506
 #, fuzzy
 #| msgid "Daily execution of some :ref:`addons`."
 msgid "Formatting of some :ref:`audit-log` entries."
 msgstr "複数の :ref:`addons` を毎日実行。"
 
-#: ../../changes.rst:506 ../../changes.rst:530
+#: ../../changes.rst:507 ../../changes.rst:531
 #, fuzzy
 #| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed XML escaped output in some machine translation integrations."
 msgstr "機械翻訳の提案の並べ替えを修正。"
 
-#: ../../changes.rst:507
+#: ../../changes.rst:508
 #, fuzzy
 #| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
 msgstr "新しく追加した文字列の翻訳を修正。"
 
-#: ../../changes.rst:517
+#: ../../changes.rst:518
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30448,41 +30498,41 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__。"
 
-#: ../../changes.rst:520
+#: ../../changes.rst:521
 #, fuzzy
 #| msgid "Weblate 5.7.2"
 msgid "Weblate 5.8.2"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:522
+#: ../../changes.rst:523
 #, fuzzy
 #| msgid "Released on November 16th 2023."
 msgid "*Released on November 1st 2024.*"
 msgstr "2023 年 11 月 16 日にリリース。"
 
-#: ../../changes.rst:526
+#: ../../changes.rst:527
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
 
-#: ../../changes.rst:527
+#: ../../changes.rst:528
 #, fuzzy
 #| msgid "Reduce number of commits when updating upstream repository."
 msgid "Reduced number of database queries when updating multiple strings."
 msgstr "上流リポジトリの更新時のコミット数を削減。"
 
-#: ../../changes.rst:528
+#: ../../changes.rst:529
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
 
-#: ../../changes.rst:529
+#: ../../changes.rst:530
 #, fuzzy
 #| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved :ref:`workflow-customization` performance."
 msgstr ":ref:`workflow-customization` 設定フォームの改良。"
 
-#: ../../changes.rst:540
+#: ../../changes.rst:541
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30494,23 +30544,23 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:543
+#: ../../changes.rst:544
 #, fuzzy
 #| msgid "Weblate 5.7.1"
 msgid "Weblate 5.8.1"
 msgstr "Weblate 5.7.1"
 
-#: ../../changes.rst:545 ../../changes.rst:564
+#: ../../changes.rst:546 ../../changes.rst:565
 #, fuzzy
 #| msgid "Released on October 15th 2020."
 msgid "*Released on October 15th 2024.*"
 msgstr "2020 年 10 月 15 日にリリース。"
 
-#: ../../changes.rst:549
+#: ../../changes.rst:550
 msgid "Use lower case name for the Python package."
 msgstr ""
 
-#: ../../changes.rst:559
+#: ../../changes.rst:560
 #, fuzzy
 #| msgid ""
 #| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
@@ -30522,17 +30572,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:562
+#: ../../changes.rst:563
 msgid "Weblate 5.8"
 msgstr "Weblate 5.8"
 
-#: ../../changes.rst:568
+#: ../../changes.rst:569
 #, fuzzy
 #| msgid ":ref:`component-merge_style` for any new components."
 msgid "Added :ref:`component-key_filter` in the component."
 msgstr "新しいコンポーネントには :ref:`component-merge_style` を使用する。"
 
-#: ../../changes.rst:569
+#: ../../changes.rst:570
 #, fuzzy
 #| msgid ""
 #| ":ref:`Searching` now supports filtering by object path and :ref:`date-"
@@ -30544,7 +30594,7 @@ msgstr ""
 ":ref:`Searching` を、オブジェクト パスと :ref:`date-search` によるフィルタリ"
 "ングに対応。"
 
-#: ../../changes.rst:570
+#: ../../changes.rst:571
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, see :ref:"
 "`settings-credentials`."
@@ -30552,98 +30602,98 @@ msgstr ""
 "マージリクエストの認証情報を、リポジトリの URL に直接渡せるようになりました、"
 "参照: :ref:`settings-credentials`。"
 
-#: ../../changes.rst:571
+#: ../../changes.rst:572
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` 自動提案サービス。"
 
-#: ../../changes.rst:572
+#: ../../changes.rst:573
 #, fuzzy
 #| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`vcs-bitbucket-cloud`."
 msgstr ":ref:`vcs-bitbucket-data-center`"
 
-#: ../../changes.rst:576
+#: ../../changes.rst:577
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-modernmt` を :ref:`glossary-mt` に対応。"
 
-#: ../../changes.rst:577
+#: ../../changes.rst:578
 msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgstr ":ref:`mt-deepl` が翻訳コンテキストの指定に対応。"
 
-#: ../../changes.rst:578
+#: ../../changes.rst:579
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-aws` が :ref:`glossary-mt` に対応。"
 
-#: ../../changes.rst:579
+#: ../../changes.rst:580
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
 msgstr ""
 "デーヴァナーガリー ダンダの :ref:`autofix` が、ラテン文字をより適切に処理でき"
 "るようになった。"
 
-#: ../../changes.rst:580
+#: ../../changes.rst:581
 msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
 
-#: ../../changes.rst:581
+#: ../../changes.rst:582
 msgid ":ref:`api` now has a preview OpenAPI specification."
 msgstr ""
 
-#: ../../changes.rst:582
+#: ../../changes.rst:583
 msgid "Stale, empty glossaries are now automatically removed."
 msgstr ""
 
-#: ../../changes.rst:583
+#: ../../changes.rst:584
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
 msgstr ""
 
-#: ../../changes.rst:584
+#: ../../changes.rst:585
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr ""
 
-#: ../../changes.rst:585
+#: ../../changes.rst:586
 msgid ":ref:`search-replace` shows a preview of matched strings."
 msgstr ""
 
-#: ../../changes.rst:586
+#: ../../changes.rst:587
 msgid ":ref:`aresource` now support translatable attribute in its strings."
 msgstr ""
 
-#: ../../changes.rst:587
+#: ../../changes.rst:588
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr ""
 
-#: ../../changes.rst:591
+#: ../../changes.rst:592
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
 msgstr "いくつかのケースでの :ref:`workflow-customization` の表示。"
 
-#: ../../changes.rst:592
+#: ../../changes.rst:593
 msgid "Users can add component in any language already existing in a project."
 msgstr ""
 "ユーザーは、プロジェクト内に既に存在する言語でコンポーネントを追加できる。"
 
-#: ../../changes.rst:593
+#: ../../changes.rst:594
 msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
 msgstr ""
 
-#: ../../changes.rst:597
+#: ../../changes.rst:598
 #, fuzzy
 #| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate は、Python 3.7 以降が必須となりました。"
 
-#: ../../changes.rst:598
+#: ../../changes.rst:599
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
 msgstr ""
 
-#: ../../changes.rst:604
+#: ../../changes.rst:605
 #, fuzzy
 #| msgid ""
 #| "There are several changes in :file:`settings_example.py`, most notable "
@@ -30660,7 +30710,7 @@ msgstr ""
 "は :ref:`2fa` の新しい設定と ``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、"
 "``MIDDLEWARE`` の変更です。それぞれ設定を適切に調整してください。"
 
-#: ../../changes.rst:610
+#: ../../changes.rst:611
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__."
@@ -30668,37 +30718,37 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/122?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:613
+#: ../../changes.rst:614
 msgid "Weblate 5.7.2"
 msgstr "Weblate 5.7.2"
 
-#: ../../changes.rst:615
+#: ../../changes.rst:616
 #, fuzzy
 #| msgid "Released on September 5th 2024."
 msgid "*Released on September 5th 2024.*"
 msgstr "2024 年 9 月 5 日にリリース。"
 
-#: ../../changes.rst:619
+#: ../../changes.rst:620
 msgid ":ref:`2fa` remembers last method used by user."
 msgstr ":ref:`2fa` は、ユーザーが最後に使用した方法を保存。"
 
-#: ../../changes.rst:620
+#: ../../changes.rst:621
 msgid "Instead of redirecting, the sign-out now displays a page."
 msgstr "リダイレクトする代わりに、サインアウト時にページを表示するように改良。"
 
-#: ../../changes.rst:621
+#: ../../changes.rst:622
 msgid "Improved readability of exception logs."
 msgstr "例外ログの可読性の改良。"
 
-#: ../../changes.rst:625
+#: ../../changes.rst:626
 msgid "Updating of translations from the repository in linked components."
 msgstr "リンクされたコンポーネントのリポジトリからの翻訳の更新。"
 
-#: ../../changes.rst:626
+#: ../../changes.rst:627
 msgid "Improved rendering of digest notification e-mails."
 msgstr "ダイジェスト通知メールのレンダリングの改良。"
 
-#: ../../changes.rst:636
+#: ../../changes.rst:637
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__."
@@ -30706,17 +30756,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/126?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:639
+#: ../../changes.rst:640
 msgid "Weblate 5.7.1"
 msgstr "Weblate 5.7.1"
 
-#: ../../changes.rst:641
+#: ../../changes.rst:642
 #, fuzzy
 #| msgid "Released on August 30th 2024."
 msgid "*Released on August 30th 2024.*"
 msgstr "2024 年 8 月 30 日にリリース。"
 
-#: ../../changes.rst:645
+#: ../../changes.rst:646
 #, fuzzy
 #| msgid ""
 #| "Updated language names to better describe different scripts and Sintic "
@@ -30726,7 +30776,7 @@ msgid ""
 "languages."
 msgstr "多くの文字とシナ語派の言語を、より適切に説明するために言語名を更新。"
 
-#: ../../changes.rst:646
+#: ../../changes.rst:647
 msgid ""
 ":ref:`addon-weblate.cleanup.generic` is now automatically installed for "
 "formats which need it to update non-translation content in the translated "
@@ -30736,31 +30786,31 @@ msgstr ""
 "て、:ref:`addon-weblate.cleanup.generic` が自動的にインストールされるようにな"
 "りました。"
 
-#: ../../changes.rst:650
+#: ../../changes.rst:651
 msgid ""
 "Support for using Docker network names in automatic suggestion settings."
 msgstr "自動提案設定で Docker ネットワーク名に対応。"
 
-#: ../../changes.rst:651
+#: ../../changes.rst:652
 msgid "Fixed authentication using some third-party providers such as Azure."
 msgstr "Azure などの一部のサードパーティ プロバイダーを使用した認証の修正。"
 
-#: ../../changes.rst:652
+#: ../../changes.rst:653
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
 msgstr ""
 ":ref:`mt-deepl` で、フォーマルなポルトガル語とインフォーマルなポルトガル語に"
 "対応。"
 
-#: ../../changes.rst:653
+#: ../../changes.rst:654
 msgid "QR code for TOTP is now black/white even in dark mode."
 msgstr "TOTP の QR コードをダークモードでも反転しないようになりました。"
 
-#: ../../changes.rst:654
+#: ../../changes.rst:655
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
 msgstr "ユーザーに WebAuthn も設定されている場合の TOTP 認証を修正。"
 
-#: ../../changes.rst:664
+#: ../../changes.rst:665
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__."
@@ -30768,17 +30818,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/125?"
 "closed=1>`__ 。"
 
-#: ../../changes.rst:667
+#: ../../changes.rst:668
 msgid "Weblate 5.7"
 msgstr "Weblate 5.7"
 
-#: ../../changes.rst:669
+#: ../../changes.rst:670
 #, fuzzy
 #| msgid "Released on August 15th 2024."
 msgid "*Released on August 15th 2024.*"
 msgstr "2024 年 8 月 15 日にリリース。"
 
-#: ../../changes.rst:673
+#: ../../changes.rst:674
 msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
@@ -30786,11 +30836,11 @@ msgstr ""
 "Passkeys、WebAuthn、認証アプリ（TOTP）、および回復コードを使用した :ref:"
 "`2fa` に対応。"
 
-#: ../../changes.rst:674
+#: ../../changes.rst:675
 msgid ":ref:`2fa` can be enforced at the team or project level."
 msgstr ":ref:`2fa` はチームまたはプロジェクト単位で強制できます。"
 
-#: ../../changes.rst:675
+#: ../../changes.rst:676
 msgid ""
 ":ref:`adding-new-strings` can now create plural strings in the user "
 "interface."
@@ -30798,15 +30848,15 @@ msgstr ""
 ":ref:`adding-new-strings` により、ユーザー インターフェイスで複数形の文字列の"
 "作成に対応。"
 
-#: ../../changes.rst:676
+#: ../../changes.rst:677
 msgid ":ref:`labels` now include description to explain them."
 msgstr ":ref:`labels` をラベルを説明する説明を含むように改良。"
 
-#: ../../changes.rst:677
+#: ../../changes.rst:678
 msgid "New :ref:`subscriptions` for completed translation and component."
 msgstr "完了した翻訳とコンポーネント用の新しい :ref:`subscriptions`。"
 
-#: ../../changes.rst:678
+#: ../../changes.rst:679
 msgid ""
 ":ref:`mt-openai` now supports custom models and URLs and offers rephrasing "
 "of existing strings."
@@ -30814,16 +30864,16 @@ msgstr ""
 ":ref:`mt-openai` をカスタム モデルと URL に対応、既存の文字列の言い換えも提供"
 "できるように改良。"
 
-#: ../../changes.rst:679
+#: ../../changes.rst:680
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgstr ":ref:`mt-cyrtranslit` 自動提案サービス。"
 
-#: ../../changes.rst:683
+#: ../../changes.rst:684
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
 msgstr ""
 ":ref:`addon-weblate.properties.sort` は大文字と小文字を区別したソートに対応。"
 
-#: ../../changes.rst:684
+#: ../../changes.rst:685
 msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
@@ -30831,23 +30881,23 @@ msgstr ""
 "ステータスウィジェットを、現在サイト全体および言語全体に対応、参照: :ref:"
 "`promotion`。"
 
-#: ../../changes.rst:685
+#: ../../changes.rst:686
 msgid ":ref:`reports` are now available for categories."
 msgstr ":ref:`reports` をカテゴリーに対応。"
 
-#: ../../changes.rst:686
+#: ../../changes.rst:687
 msgid "Highlight newlines in the editor."
 msgstr "エディターで改行を強調表示。"
 
-#: ../../changes.rst:687
+#: ../../changes.rst:688
 msgid ":doc:`/formats/csv` better handle files with two fields only."
 msgstr ":doc:`/formats/csv` で、2 つのフィールドのみファイルの取り扱いの改良。"
 
-#: ../../changes.rst:688
+#: ../../changes.rst:689
 msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr "閲覧モードを、キーボードを使用した操作に対応、参照: :ref:`keyboard`。"
 
-#: ../../changes.rst:689
+#: ../../changes.rst:690
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
@@ -30857,7 +30907,7 @@ msgstr ""
 "(string:component)/credits/` および :http:get:`/api/projects/(string:"
 "project)/credits/` API エンドポイント。"
 
-#: ../../changes.rst:690
+#: ../../changes.rst:691
 msgid ""
 ":ref:`glossary-terminology` entries in Glossary can now only be created by "
 "users with :guilabel:`Add glossary terminology` permission."
@@ -30865,43 +30915,43 @@ msgstr ""
 "用語集の :ref:`glossary-terminology` エントリを、:guilabel:`用語集の用語の追"
 "加` 権限を持つユーザーのみが作成できるように改良。"
 
-#: ../../changes.rst:691
+#: ../../changes.rst:692
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ":ref:`check-python-brace-format` は余分な中括弧を検出します。"
 
-#: ../../changes.rst:692
+#: ../../changes.rst:693
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgstr ""
 "スクリーンショットをクリップボードから :ref:`screenshots` に貼り付けることが"
 "できるようになりました。"
 
-#: ../../changes.rst:696
+#: ../../changes.rst:697
 msgid "Accessibility of keyboard navigation."
 msgstr "キーボード操作の操作性の改良。"
 
-#: ../../changes.rst:697
+#: ../../changes.rst:698
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ""
 ":ref:`git-exporter` が、すべての Git ベースの :ref:`vcs` で動作するように改"
 "良。"
 
-#: ../../changes.rst:698
+#: ../../changes.rst:699
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
 msgstr ""
 ":ref:`check-max-size` がスクリーンショットのレンダリングに失敗することがあり"
 "ます。"
 
-#: ../../changes.rst:702
+#: ../../changes.rst:703
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
 msgstr "Weblate の Markdown レンダラーを misaka から mistletoe に変更。"
 
-#: ../../changes.rst:703
+#: ../../changes.rst:704
 msgid ":ref:`csp` is now stricter what might block third-party customizations."
 msgstr ""
 "サードパーティによるカスタマイズをブロックすることがある :ref:`csp` が厳格化"
 "されました。"
 
-#: ../../changes.rst:704
+#: ../../changes.rst:705
 msgid ""
 "Monolingual formats no longer copy comments from :ref:`component-template` "
 "when adding strings to translation."
@@ -30909,7 +30959,7 @@ msgstr ""
 "モノリンガル形式では、文字列を翻訳に追加する際に、:ref:`component-template` "
 "からコメントをコピーされないように改良。"
 
-#: ../../changes.rst:705
+#: ../../changes.rst:706
 msgid ""
 "Dropped support for Amagama in :ref:`machine-translation-setup` as the "
 "service is no longer maintained."
@@ -30917,17 +30967,17 @@ msgstr ""
 ":ref:`machine-translation-setup` で、サービスがもはやメンテナンスされていない"
 "ため、Amagama のサポートを廃止。"
 
-#: ../../changes.rst:706
+#: ../../changes.rst:707
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
 msgstr ":setting:`SENTRY_SEND_PII` のデフォルト値が変更。"
 
-#: ../../changes.rst:707
+#: ../../changes.rst:708
 msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr "JSON 形式の信用情報レポートの項目のフォーマットを変更。"
 
-#: ../../changes.rst:713
+#: ../../changes.rst:714
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
@@ -30938,7 +30988,7 @@ msgstr ""
 "は :ref:`2fa` の新しい設定と ``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、"
 "``MIDDLEWARE`` の変更です。それぞれ設定を適切に調整してください。"
 
-#: ../../changes.rst:714
+#: ../../changes.rst:715
 msgid ""
 ":setting:`ENABLE_HTTPS` is now required for WebAuthn support. If you cannot "
 "use HTTPS, please silence related check as described in :setting:"
@@ -30948,7 +30998,7 @@ msgstr ""
 "HTTPS を使用できない場合は、:setting:`ENABLE_HTTPS` のドキュメントに記載され"
 "ている方法で、関連するチェックを無効化してください。"
 
-#: ../../changes.rst:720
+#: ../../changes.rst:721
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__."
@@ -30956,39 +31006,39 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/116?"
 "closed=1>`__。"
 
-#: ../../changes.rst:723
+#: ../../changes.rst:724
 msgid "Weblate 5.6.2"
 msgstr "Weblate 5.6.2"
 
-#: ../../changes.rst:725
+#: ../../changes.rst:726
 #, fuzzy
 #| msgid "Released on July 1st 2024."
 msgid "*Released on July 1st 2024.*"
 msgstr "2024 年 7 月 1 日にリリース。"
 
-#: ../../changes.rst:729
+#: ../../changes.rst:730
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ":ref:`labels` カラー選択ウィジェットのレンダリング。"
 
-#: ../../changes.rst:730
+#: ../../changes.rst:731
 msgid "Detection of pending outgoing commits."
 msgstr "保留中の送信コミットの検出。"
 
-#: ../../changes.rst:731
+#: ../../changes.rst:732
 msgid ":ref:`addons` button layout."
 msgstr ":ref:`addons` ボタンのレイアウト。"
 
-#: ../../changes.rst:732
+#: ../../changes.rst:733
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` アドオンのインストール時にクラッシュ"
 "します。"
 
-#: ../../changes.rst:733
+#: ../../changes.rst:734
 msgid "Removal of source strings in :ref:`glossary`."
 msgstr ":ref:`glossary` 内の原文の削除。"
 
-#: ../../changes.rst:734
+#: ../../changes.rst:735
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / "
 "GHSA-jfgp-674x-6q4p)."
@@ -30996,7 +31046,7 @@ msgstr ""
 "復元時の :ref:`projectbackup` ZIP ファイルの検証 (CVE-2024-39303 / GHSA-"
 "jfgp-674x-6q4p)。"
 
-#: ../../changes.rst:740
+#: ../../changes.rst:741
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__."
@@ -31004,17 +31054,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/124?"
 "closed=1>`__。"
 
-#: ../../changes.rst:743
+#: ../../changes.rst:744
 msgid "Weblate 5.6.1"
 msgstr "Weblate 5.6.1"
 
-#: ../../changes.rst:745
+#: ../../changes.rst:746
 #, fuzzy
 #| msgid "Released on June 24th 2024."
 msgid "*Released on June 24th 2024.*"
 msgstr "2024 年 6 月 24 日にリリース。"
 
-#: ../../changes.rst:749
+#: ../../changes.rst:750
 msgid ""
 "Docker container accepts :envvar:`WEBLATE_REMOVE_ADDONS` and :envvar:"
 "`WEBLATE_ADD_MACHINERY` to customize automatic suggestion services and :"
@@ -31024,15 +31074,15 @@ msgstr ""
 "`WEBLATE_REMOVE_ADDONS` と :envvar:`WEBLATE_ADD_MACHINERY` と、API での CORS "
 "処理のための :envvar:`WEBLATE_CORS_ALLOW_ALL_ORIGINS` を受け入れます。"
 
-#: ../../changes.rst:750
+#: ../../changes.rst:751
 msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ":http:get:`/api/metrics/` に OpenMetrics 互換性を追加。"
 
-#: ../../changes.rst:754
+#: ../../changes.rst:755
 msgid "Language aliases in :doc:`/admin/machine`."
 msgstr "言語のエイリアスは、:doc:`/admin/machine` にあります。"
 
-#: ../../changes.rst:760
+#: ../../changes.rst:761
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
@@ -31040,43 +31090,43 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__。"
 
-#: ../../changes.rst:763
+#: ../../changes.rst:764
 msgid "Weblate 5.6"
 msgstr "Weblate 5.6"
 
-#: ../../changes.rst:765
+#: ../../changes.rst:766
 #, fuzzy
 #| msgid "Released on June 19th 2024."
 msgid "*Released on June 19th 2024.*"
 msgstr "2024 年 6 月 19 日にリリース。"
 
-#: ../../changes.rst:769
+#: ../../changes.rst:770
 msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr "アドオンの活動を追跡するための :ref:`addons` 活動ログ。"
 
-#: ../../changes.rst:770
+#: ../../changes.rst:771
 msgid "Improved date range selection in :ref:`reports`."
 msgstr ":ref:`reports` の日付範囲選択の改良。"
 
-#: ../../changes.rst:774
+#: ../../changes.rst:775
 msgid ":ref:`subscriptions` now include strings which need updating."
 msgstr ":ref:`subscriptions` に更新が必要な文字列が含まれるように改良。"
 
-#: ../../changes.rst:775
+#: ../../changes.rst:776
 msgid "Improved compatibility with password managers."
 msgstr "パスワード マネージャーとの互換性の改良。"
 
-#: ../../changes.rst:776
+#: ../../changes.rst:777
 msgid "Improved tracking of uploaded changes."
 msgstr "アップロードされた変更の追跡の改良。"
 
-#: ../../changes.rst:777
+#: ../../changes.rst:778
 msgid ""
 "Gracefully handle temporary machine translation errors in automatic "
 "suggestions."
 msgstr "自動提案における一時的な機械翻訳エラーを適切に処理。"
 
-#: ../../changes.rst:778
+#: ../../changes.rst:779
 #, fuzzy
 #| msgid ""
 #| ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
@@ -31086,7 +31136,7 @@ msgstr ""
 ":http:get:`/api/units/(int:id)/` に `last_updated` のタイムスタンプを含むよう"
 "になりました。"
 
-#: ../../changes.rst:779
+#: ../../changes.rst:780
 #, fuzzy
 #| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ""
@@ -31095,36 +31145,36 @@ msgstr ""
 ":http:get:`/api/changes/(int:id)/` に `old` と `details` が含まれるようになり"
 "ました。"
 
-#: ../../changes.rst:780
+#: ../../changes.rst:781
 msgid "Reduced memory usage and increased performance of some views."
 msgstr "一部のビューのメモリ使用量を削減し、パフォーマンスを向上させました。"
 
-#: ../../changes.rst:784
+#: ../../changes.rst:785
 msgid "Loading of strings with many glossary matches."
 msgstr "用語集の用語が多く含まれる文字列の読み込み。"
 
-#: ../../changes.rst:785
+#: ../../changes.rst:786
 msgid "Fixed behavior of some site-wide :ref:`addons`."
 msgstr "サイト全体の :ref:`addons` の動作の修正。"
 
-#: ../../changes.rst:786
+#: ../../changes.rst:787
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
 msgstr "編集が必要な文字列を :doc:`/formats/winrc` に保存。"
 
-#: ../../changes.rst:787
+#: ../../changes.rst:788
 msgid ":ref:`check-xml-tags` better handle XML entities."
 msgstr ":ref:`check-xml-tags` は XML エンティティをより適切に処理します。"
 
-#: ../../changes.rst:788
+#: ../../changes.rst:789
 msgid ""
 "Automatic suggestions could mix up replacements between translated strings."
 msgstr "自動提案がプレースメントの異なる文字列を混同する可能性がある。"
 
-#: ../../changes.rst:792
+#: ../../changes.rst:793
 msgid "Compatibility with Django 5.1."
 msgstr "Django 5.1 への互換性に対応。"
 
-#: ../../changes.rst:798
+#: ../../changes.rst:799
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__."
@@ -31132,25 +31182,25 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/114?"
 "closed=1>`__。"
 
-#: ../../changes.rst:801
+#: ../../changes.rst:802
 msgid "Weblate 5.5.5"
 msgstr "Weblate 5.5.5"
 
-#: ../../changes.rst:803
+#: ../../changes.rst:804
 #, fuzzy
 #| msgid "Released on May 13th 2024."
 msgid "*Released on May 13th 2024.*"
 msgstr "2024 年 5 月 13 日にリリース。"
 
-#: ../../changes.rst:807
+#: ../../changes.rst:808
 msgid "False-positive merge failure alert when using push branch."
 msgstr "プッシュ ブランチの使用時に、誤検知のマージ失敗アラートが発生。"
 
-#: ../../changes.rst:808
+#: ../../changes.rst:809
 msgid "Cleanup of stale repositories."
 msgstr "古くなったリポジトリのクリーンアップ。"
 
-#: ../../changes.rst:814
+#: ../../changes.rst:815
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__."
@@ -31158,40 +31208,40 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/121?"
 "closed=1>`__。"
 
-#: ../../changes.rst:817
+#: ../../changes.rst:818
 msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
-#: ../../changes.rst:819
+#: ../../changes.rst:820
 #, fuzzy
 #| msgid "Released on May 10th 2024."
 msgid "*Released on May 10th 2024.*"
 msgstr "2024 年 5 月 10 日にリリース。"
 
-#: ../../changes.rst:823
+#: ../../changes.rst:824
 msgid "Visually highlight explanation in :ref:`glossary`."
 msgstr ":ref:`glossary` 内の説明を見やすく強調しました。"
 
-#: ../../changes.rst:824
+#: ../../changes.rst:825
 msgid "Add :ref:`addons` history tab in management."
 msgstr "管理に :ref:`addons` 履歴タブ追加。"
 
-#: ../../changes.rst:825
+#: ../../changes.rst:826
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
 ":ref:`glossary` が期待どおりに動作しない場合に通知する新しい :ref:`alerts` の"
 "追加。"
 
-#: ../../changes.rst:826
+#: ../../changes.rst:827
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 ":doc:`/admin/announcements` がプロジェクト内の特定の言語単位で投稿できます。"
 
-#: ../../changes.rst:830
+#: ../../changes.rst:831
 msgid "Improved handling placeables in :ref:`mt-openai`."
 msgstr ":ref:`mt-openai` での配置可能オブジェクトの処理を改良。"
 
-#: ../../changes.rst:836
+#: ../../changes.rst:837
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__."
@@ -31199,36 +31249,36 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/120?"
 "closed=1>`__。"
 
-#: ../../changes.rst:839
+#: ../../changes.rst:840
 msgid "Weblate 5.5.3"
 msgstr "Weblate 5.5.3"
 
-#: ../../changes.rst:841
+#: ../../changes.rst:842
 #, fuzzy
 #| msgid "Released on May 3rd 2024."
 msgid "*Released on May 3rd 2024.*"
 msgstr "2024 年 5月 3 日にリリース。"
 
-#: ../../changes.rst:845
+#: ../../changes.rst:846
 msgid "Improved performance of rendering large lists of objects."
 msgstr "大規模なオブジェクト リストのレンダリングのパフォーマンスの向上。"
 
-#: ../../changes.rst:846
+#: ../../changes.rst:847
 msgid ""
 "Component management: added links to manage project/site-wide :ref:`addons`."
 msgstr ""
 "コンポーネント管理: プロジェクト/サイト全体の :ref:`addons` を管理するための"
 "リンクの追加。"
 
-#: ../../changes.rst:850
+#: ../../changes.rst:851
 msgid "Fixed crashes with librsvg older than 2.46."
 msgstr "2.46 より古い librsvg でのクラッシュの修正。"
 
-#: ../../changes.rst:851
+#: ../../changes.rst:852
 msgid "Daily execution of some :ref:`addons`."
 msgstr "複数の :ref:`addons` を毎日実行。"
 
-#: ../../changes.rst:857
+#: ../../changes.rst:858
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__."
@@ -31236,21 +31286,21 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/119?"
 "closed=1>`__。"
 
-#: ../../changes.rst:860
+#: ../../changes.rst:861
 msgid "Weblate 5.5.2"
 msgstr "Weblate 5.5.2"
 
-#: ../../changes.rst:862 ../../changes.rst:877
+#: ../../changes.rst:863 ../../changes.rst:878
 #, fuzzy
 #| msgid "Released on April 26th 2024."
 msgid "*Released on April 26th 2024.*"
 msgstr "2024 年 4 月 26 日にリリース。"
 
-#: ../../changes.rst:866
+#: ../../changes.rst:867
 msgid "Fixed publishing packages to PyPI."
 msgstr "PyPI へのパッケージの公開の修正。"
 
-#: ../../changes.rst:872
+#: ../../changes.rst:873
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__."
@@ -31258,67 +31308,67 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/118?"
 "closed=1>`__。"
 
-#: ../../changes.rst:875
+#: ../../changes.rst:876
 msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
-#: ../../changes.rst:881
+#: ../../changes.rst:882
 #, fuzzy
 #| msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
 msgstr ":ref:`Searching` を ``source_changed:DATETIME`` に対応。"
 
-#: ../../changes.rst:882
+#: ../../changes.rst:883
 msgid "Added several new :ref:`component-language_code_style`."
 msgstr "複数の新しい :ref:`component-language_code_style` の追加。"
 
-#: ../../changes.rst:886
+#: ../../changes.rst:887
 msgid "Display more details on source string change in history."
 msgstr "履歴内の原文の変更に関する詳細の表示。"
 
-#: ../../changes.rst:887
+#: ../../changes.rst:888
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ":ref:`mt-microsoft-translator` をカスタム トランスレータに対応。"
 
-#: ../../changes.rst:888
+#: ../../changes.rst:889
 msgid "Improved error handling in :ref:`invite-user`."
 msgstr ":ref:`invite-user` エラー処理の改良。"
 
-#: ../../changes.rst:889
+#: ../../changes.rst:890
 msgid "Added PNG status badge."
 msgstr "PNG ステータス バッジの追加。"
 
-#: ../../changes.rst:890
+#: ../../changes.rst:891
 msgid "Added list of managed projects to the dashboard view."
 msgstr "ダッシュボード ビューに管理対象プロジェクトのリストを追加。"
 
-#: ../../changes.rst:891
+#: ../../changes.rst:892
 msgid "More detailed status of outgoing commits."
 msgstr "送信コミットのより詳細なステータス追加。"
 
-#: ../../changes.rst:892 ../../changes/v4.rst:977
+#: ../../changes.rst:893 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
 msgstr "メモリ使用量の削減。"
 
-#: ../../changes.rst:896
+#: ../../changes.rst:897
 msgid "Fixed skipped component update with some add-ons enabled."
 msgstr ""
 "一部のアドオンが有効になっている場合にコンポーネントの更新がスキップされる問"
 "題の修正。"
 
-#: ../../changes.rst:897
+#: ../../changes.rst:898
 msgid "Daily execution of project and site wide add-ons."
 msgstr "プロジェクトおよびサイト全体のアドオンを毎日実行。"
 
-#: ../../changes.rst:898
+#: ../../changes.rst:899
 msgid "Allow editing strings when the source is marked for editing."
 msgstr "ソースが編集対象としてマークされている場合に文字列の編集を許可。"
 
-#: ../../changes.rst:899
+#: ../../changes.rst:900
 msgid "Updates of the last updated timestamp of a string."
 msgstr "文字列の最終更新タイムスタンプの更新。"
 
-#: ../../changes.rst:900
+#: ../../changes.rst:901
 msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
@@ -31326,17 +31376,17 @@ msgstr ""
 ":ref:`addon-weblate.git.squash` および :ref:`addon-weblate.discovery."
 "discovery` アドオンのプロジェクトおよびサイト全体のインストールの修正。"
 
-#: ../../changes.rst:901
+#: ../../changes.rst:902
 msgid "Graceful handling of locking errors in the :ref:`api`."
 msgstr ":ref:`api` でのロック エラーの適切な処理。"
 
-#: ../../changes.rst:907
+#: ../../changes.rst:908
 msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr "``REST_FRAMEWORK`` 設定を変更（新規に ``EXCEPTION_HANDLER`` 追加）。"
 
-#: ../../changes.rst:909
+#: ../../changes.rst:910
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__."
@@ -31344,45 +31394,45 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/117?"
 "closed=1>`__。"
 
-#: ../../changes.rst:912
+#: ../../changes.rst:913
 msgid "Weblate 5.5"
 msgstr "Weblate 5.5"
 
-#: ../../changes.rst:914
+#: ../../changes.rst:915
 #, fuzzy
 #| msgid "Released on April 20th 2024."
 msgid "*Released on April 20th 2024.*"
 msgstr "2024 年 4 月 20 日にリリース。"
 
-#: ../../changes.rst:918
+#: ../../changes.rst:919
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 ":ref:`addons` をプロジェクト全体およびサイト全体にインストールできるように改"
 "良。"
 
-#: ../../changes.rst:920
+#: ../../changes.rst:921
 #, fuzzy
 #| msgid "API improvements"
 msgid "API improvements."
 msgstr "API の改良"
 
-#: ../../changes.rst:922
+#: ../../changes.rst:923
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
 msgstr ":http:get:`/api/categories/(int:id)/statistics/` の追加。"
 
-#: ../../changes.rst:923
+#: ../../changes.rst:924
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgstr ":http:get:`/api/projects/(string:project)/file/` の追加。"
 
-#: ../../changes.rst:924
+#: ../../changes.rst:925
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgstr ":http:post:`/api/groups/(int:id)/admins/` の追加。"
 
-#: ../../changes.rst:925
+#: ../../changes.rst:926
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr ":http:delete:`/api/groups/(int:id)/admins/(int:user_id)` の追加。"
 
-#: ../../changes.rst:926
+#: ../../changes.rst:927
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
@@ -31390,11 +31440,11 @@ msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/units/` の改良。"
 
-#: ../../changes.rst:928
+#: ../../changes.rst:929
 msgid "Added :ref:`mt-systran` automatic translation support."
 msgstr ":ref:`mt-systran` 自動翻訳サポートの追加。"
 
-#: ../../changes.rst:932
+#: ../../changes.rst:933
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
@@ -31402,67 +31452,67 @@ msgstr ""
 "Docker コンテナは、デフォルトでユーザーのパスワードの強度を検証するようになり"
 "ました。参照: :envvar:`WEBLATE_MIN_PASSWORD_SCORE`。"
 
-#: ../../changes.rst:933
+#: ../../changes.rst:934
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgstr ":ref:`machine-translation-setup` でのエラー報告の改良。"
 
-#: ../../changes.rst:934
+#: ../../changes.rst:935
 msgid ":ref:`check-max-size` better displays rendered text."
 msgstr ""
 ":ref:`check-max-size` により、レンダリングされたテキストがより適切に表示。"
 
-#: ../../changes.rst:935
+#: ../../changes.rst:936
 msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 "管理者は、:ref:`invite-user` 時にユーザー名とフルネームを指定できるように改"
 "良。"
 
-#: ../../changes.rst:936
+#: ../../changes.rst:937
 msgid "Added :ref:`check-end-interrobang`."
 msgstr ":ref:`check-end-interrobang` の追加。"
 
-#: ../../changes.rst:937
+#: ../../changes.rst:938
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
 msgstr ":ref:`alerts` は毎日だけでなく、必要に応じて更新されるように改良。"
 
-#: ../../changes.rst:938
+#: ../../changes.rst:939
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
 msgstr ":doc:`/devel/reporting` は CJK 言語に対して特定の単語数を使用。"
 
-#: ../../changes.rst:939
+#: ../../changes.rst:940
 msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgstr "チームメンバーの変更が :ref:`audit-log` で追跡できるように改良。"
 
-#: ../../changes.rst:943
+#: ../../changes.rst:944
 msgid ""
 ":ref:`check-check-glossary` works better for languages not using whitespace."
 msgstr ":ref:`check-check-glossary` は、空白を使用しない言語に適しています。"
 
-#: ../../changes.rst:944
+#: ../../changes.rst:945
 msgid ":ref:`alerts` better handle non-latin source languages."
 msgstr ":ref:`alerts` はラテン語以外のソース言語をより適切に処理します。"
 
-#: ../../changes.rst:945
+#: ../../changes.rst:946
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
 msgstr ":ref:`check-max-size` の ``font-spacing:SPACING`` フラグの無視を修正。"
 
-#: ../../changes.rst:946
+#: ../../changes.rst:947
 msgid "Fixed per-language statistics on nested categories."
 msgstr "ネストされたカテゴリの言語ごとの統計の修正。"
 
-#: ../../changes.rst:947
+#: ../../changes.rst:948
 msgid "Fixed categories listing on per-language pages."
 msgstr "言語ごとのページのカテゴリリストの修正。"
 
-#: ../../changes.rst:948
+#: ../../changes.rst:949
 msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr ":guilabel:`要編集` 状態の計算を修正。"
 
-#: ../../changes.rst:949
+#: ../../changes.rst:950
 msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgstr ":ref:`component-push` を :ref:`vcs-gerrit` に変更する問題の修正。"
 
-#: ../../changes.rst:950
+#: ../../changes.rst:951
 msgid ""
 "Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:"
 "`auto-translation`."
@@ -31470,7 +31520,7 @@ msgstr ""
 ":ref:`manage`、:ref:`memory`、または :ref:`auto-translation` での分類されたコ"
 "ンポーネントの使用の修正。"
 
-#: ../../changes.rst:954
+#: ../../changes.rst:955
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/(string:"
@@ -31480,7 +31530,7 @@ msgstr ""
 "り厳格な検証の影響を受ける可能性があります。たとえば、:http:post:`/api/"
 "projects/(string:project)/components/` です。"
 
-#: ../../changes.rst:955
+#: ../../changes.rst:956
 msgid ""
 "Uniqueness of name and slug of a component is now enforced at the database "
 "level on PostgreSQL 15+."
@@ -31488,7 +31538,7 @@ msgstr ""
 "PostgreSQL 15 以降では、コンポーネントの名前とスラッグの一意性がデータベース "
 "レベルで強制されるように変更。"
 
-#: ../../changes.rst:956
+#: ../../changes.rst:957
 msgid ""
 "Docker image now ships Python packages in :file:`/app/venv` and installs "
 "using :program:`uv`."
@@ -31496,7 +31546,7 @@ msgstr ""
 "Docker イメージは、Python パッケージを :file:`/app/venv` に同梱し、:program:"
 "`uv` を使用してインストールするように変更。"
 
-#: ../../changes.rst:962
+#: ../../changes.rst:963
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
@@ -31506,11 +31556,11 @@ msgstr ""
 "``LOGOUT_REDIRECT_URL`` に変更があります。変更に合わせて設定を修正してくださ"
 "い。"
 
-#: ../../changes.rst:963
+#: ../../changes.rst:964
 msgid "Weblate now requires Python 3.10 and Django 5.0."
 msgstr "Weblate は、Python 3.10 と Django 5.0 が必須となりました。"
 
-#: ../../changes.rst:965
+#: ../../changes.rst:966
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__."
@@ -31518,23 +31568,23 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/111?"
 "closed=1>`__。"
 
-#: ../../changes.rst:968
+#: ../../changes.rst:969
 msgid "Weblate 5.4.3"
 msgstr "Weblate 5.4.3"
 
-#: ../../changes.rst:970
+#: ../../changes.rst:971
 #, fuzzy
 #| msgid "Released on March 26th 2024."
 msgid "*Released on March 26th 2024.*"
 msgstr "2024 年 3 月 26 日にリリース。"
 
-#: ../../changes.rst:974
+#: ../../changes.rst:975
 msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr ""
 ":ref:`component-restricted` によるコンポーネントへのスーパーユーザー アクセ"
 "ス。"
 
-#: ../../changes.rst:975
+#: ../../changes.rst:976
 msgid ""
 "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:"
 "`manage-appearance`."
@@ -31542,44 +31592,44 @@ msgstr ""
 "デフォルトの :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` を調整して、 :ref:"
 "`manage-appearance` をブロックしないように修正。"
 
-#: ../../changes.rst:976
+#: ../../changes.rst:977
 msgid "Avoid crash on pushing changes to diverged repository."
 msgstr ""
 "リポジトリが分岐している状態で変更をプッシュする際のクラッシュを回避してくだ"
 "さい。"
 
-#: ../../changes.rst:977
+#: ../../changes.rst:978
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr ""
 ":ref:`addon-weblate.generate.pseudolocale` アドオンをインストールするときのク"
 "ラッシュを回避する。"
 
-#: ../../changes.rst:978
+#: ../../changes.rst:979
 msgid ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgstr ""
 ":ref:`azure-setup` は、URL にスペースが含まれるリポジトリを適切に処理します。"
 
-#: ../../changes.rst:979
+#: ../../changes.rst:980
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgstr ":ref:`mt-deepl` は言語バリアントの用語集を適切に処理します。"
 
-#: ../../changes.rst:980
+#: ../../changes.rst:981
 msgid ":doc:`/formats/excel` better handles blank cells."
 msgstr ":doc:`/formats/excel` は空白セルをより適切に処理します。"
 
-#: ../../changes.rst:981
+#: ../../changes.rst:982
 msgid "Fixed possible data loss when merging gettext PO file changes in Git."
 msgstr ""
 "Git で gettext PO ファイルの変更をマージするときに発生する可能性のあるデータ"
 "損失の修正。"
 
-#: ../../changes.rst:982
+#: ../../changes.rst:983
 msgid "Repository operations on project could have skipped some components."
 msgstr ""
 "プロジェクトのリポジトリ操作で一部のコンポーネントがスキップされた可能性があ"
 "ります。"
 
-#: ../../changes.rst:988
+#: ../../changes.rst:989
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__."
@@ -31587,25 +31637,25 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/115?"
 "closed=1>`__。"
 
-#: ../../changes.rst:991
+#: ../../changes.rst:992
 msgid "Weblate 5.4.2"
 msgstr "Weblate 5.4.2"
 
-#: ../../changes.rst:993
+#: ../../changes.rst:994
 #, fuzzy
 #| msgid "Released on February 22nd 2024."
 msgid "*Released on February 22nd 2024.*"
 msgstr "2024 年 2 月 22 日にリリース。"
 
-#: ../../changes.rst:997
+#: ../../changes.rst:998
 msgid "Displaying debugging page in case of database connection issues."
 msgstr "データベース接続の問題が発生した場合にデバッグ ページを表示。"
 
-#: ../../changes.rst:998 ../../changes.rst:1014
+#: ../../changes.rst:999 ../../changes.rst:1015
 msgid "Gracefully handle migration with duplicate built-in teams."
 msgstr "重複した組み込みチームを使用して移行を適切に処理します。"
 
-#: ../../changes.rst:1004
+#: ../../changes.rst:1005
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__."
@@ -31613,17 +31663,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/113?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1007
+#: ../../changes.rst:1008
 msgid "Weblate 5.4.1"
 msgstr "Weblate 5.4.1"
 
-#: ../../changes.rst:1009
+#: ../../changes.rst:1010
 #, fuzzy
 #| msgid "Released on February 19th 2024."
 msgid "*Released on February 19th 2024.*"
 msgstr "2024 年 2 月 19 日にリリース。"
 
-#: ../../changes.rst:1013
+#: ../../changes.rst:1014
 msgid ""
 "Possible crash on Weblate upgrade check when cached from the previous "
 "versions."
@@ -31631,7 +31681,7 @@ msgstr ""
 "以前のバージョンからキャッシュされている場合、Weblate のアップグレード チェッ"
 "クでクラッシュが発生する可能性があります。"
 
-#: ../../changes.rst:1020
+#: ../../changes.rst:1021
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__."
@@ -31639,89 +31689,89 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/112?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1023
+#: ../../changes.rst:1024
 msgid "Weblate 5.4"
 msgstr "Weblate 5.4"
 
-#: ../../changes.rst:1025
+#: ../../changes.rst:1026
 #, fuzzy
 #| msgid "Released on February 15th 2024."
 msgid "*Released on February 15th 2024.*"
 msgstr "2024 年 2 月 15 日にリリース。"
 
-#: ../../changes.rst:1029
+#: ../../changes.rst:1030
 msgid ":ref:`check-perl-brace-format` quality check."
 msgstr ":ref:`check-perl-brace-format` の品質検査。"
 
-#: ../../changes.rst:1030
+#: ../../changes.rst:1031
 msgid ":doc:`/formats/moko`."
 msgstr ":doc:`/formats/moko`。"
 
-#: ../../changes.rst:1031
+#: ../../changes.rst:1032
 msgid ":doc:`/formats/formatjs`."
 msgstr ":doc:`/formats/formatjs`。"
 
-#: ../../changes.rst:1032
+#: ../../changes.rst:1033
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr "検索入力の構文が強調表示されるように改良。参照: :doc:`/user/search`。"
 
-#: ../../changes.rst:1033
+#: ../../changes.rst:1034
 #, fuzzy
 #| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Tamil."
 msgstr "Weblate が தமிழ் 語にも対応。"
 
-#: ../../changes.rst:1037
+#: ../../changes.rst:1038
 msgid "Better logging in :wladmin:`createadmin`."
 msgstr ":wladmin:`createadmin` のログの改善。"
 
-#: ../../changes.rst:1038
+#: ../../changes.rst:1039
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` はスキップされたエントリを報告するよ"
 "うになりました。"
 
-#: ../../changes.rst:1039
+#: ../../changes.rst:1040
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr ""
 "リポジトリに文字列を追加すると、:ref:`subscriptions` がトリガーされます。"
 
-#: ../../changes.rst:1040
+#: ../../changes.rst:1041
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
 msgstr ":ref:`mt-openai` はバッチ翻訳と用語集をより適切に処理します。"
 
-#: ../../changes.rst:1041
+#: ../../changes.rst:1042
 msgid ":ref:`mt-libretranslate` better handles batch translations."
 msgstr ":ref:`mt-libretranslate` はバッチ翻訳をより適切に処理します。"
 
-#: ../../changes.rst:1042
+#: ../../changes.rst:1043
 msgid ""
 "Text variant of notification e-mails now properly indicate changed strings."
 msgstr ""
 "通知メールのテキスト変数で、変更された文字列が適切に示されるように修正。"
 
-#: ../../changes.rst:1043
+#: ../../changes.rst:1044
 msgid "File downloads now honor :http:header:`If-Modified-Since`."
 msgstr ""
 "ファイルのダウンロードでは、:http:header:`If-Modified-Since` が尊重されるよう"
 "に修正。"
 
-#: ../../changes.rst:1044
+#: ../../changes.rst:1045
 msgid ":ref:`num-words` support for CJK languages."
 msgstr "CJK 言語で :ref:`num-words` に対応。"
 
-#: ../../changes.rst:1045
+#: ../../changes.rst:1046
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
 msgstr ""
 ":ref:`addon-weblate.discovery.discovery` は :ref:`componentlists` を保持する"
 "ように改良。"
 
-#: ../../changes.rst:1046
+#: ../../changes.rst:1047
 msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr ":ref:`glossary` ツールチップのより良い表示。"
 
-#: ../../changes.rst:1047
+#: ../../changes.rst:1048
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
@@ -31729,36 +31779,36 @@ msgstr ""
 ":http:get:`/api/components/(string:project)/(string:component)/` にリンクされ"
 "たコンポーネントに関する情報が含まれるように改良。"
 
-#: ../../changes.rst:1048
+#: ../../changes.rst:1049
 msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr ":ref:`workflow-customization` 設定フォームの改良。"
 
-#: ../../changes.rst:1052
+#: ../../changes.rst:1053
 msgid "Plural forms handling in :doc:`/formats/qt`."
 msgstr ":doc:`/formats/qt` での複数形の取り扱い。"
 
-#: ../../changes.rst:1053
+#: ../../changes.rst:1054
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
 msgstr ":setting:`ADMINS_CONTACT` の不足しているドキュメントを追加。"
 
-#: ../../changes.rst:1054
+#: ../../changes.rst:1055
 msgid ""
 "Automatic fixer for :ref:`autofix-punctuation-spacing` no longer adds new "
 "whitespace."
 msgstr ""
 ":ref:`autofix-punctuation-spacing` の自動修正が空白を追加しないようになった。"
 
-#: ../../changes.rst:1055
+#: ../../changes.rst:1056
 msgid "Pending changes committing could be omitted under some circumstances."
 msgstr "保留中の変更のコミットは、状況によっては省略される可能性があります。"
 
-#: ../../changes.rst:1056
+#: ../../changes.rst:1057
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ""
 ":ref:`addon-weblate.cleanup.blank` は、空白の複数形を正しく削除するように修"
 "正。"
 
-#: ../../changes.rst:1060
+#: ../../changes.rst:1061
 msgid ""
 "Last changed timestamp now reflects changes outside Weblate as well. This "
 "affects both :ref:`api` and the user interface."
@@ -31766,12 +31816,12 @@ msgstr ""
 "最後に変更されたタイムスタンプは、Weblate 外部の変更も反映するように修正。こ"
 "れは、:ref:`api` とユーザー インターフェイスの両方に影響します。"
 
-#: ../../changes.rst:1061
+#: ../../changes.rst:1062
 msgid "Releases are signed by Sigstore instead of PGP, see :ref:`verify`."
 msgstr ""
 "リリースは PGP ではなく Sigstore によって署名されます。参照: :ref:`verify`。"
 
-#: ../../changes.rst:1067
+#: ../../changes.rst:1068
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__."
@@ -31779,21 +31829,21 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/109?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1070
+#: ../../changes.rst:1071
 msgid "Weblate 5.3.1"
 msgstr "Weblate 5.3.1"
 
-#: ../../changes.rst:1072
+#: ../../changes.rst:1073
 #, fuzzy
 #| msgid "Released on December 19th 2023."
 msgid "*Released on December 19th 2023.*"
 msgstr "2023 年 12 月 19 日にリリース。"
 
-#: ../../changes.rst:1076
+#: ../../changes.rst:1077
 msgid "Not updating statistics in some situations."
 msgstr "特定の状況で統計が更新されない。"
 
-#: ../../changes.rst:1082
+#: ../../changes.rst:1083
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__."
@@ -31801,39 +31851,39 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/110?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1085
+#: ../../changes.rst:1086
 msgid "Weblate 5.3"
 msgstr "Weblate 5.3"
 
-#: ../../changes.rst:1087
+#: ../../changes.rst:1088
 #, fuzzy
 #| msgid "Released on December 14th 2023."
 msgid "*Released on December 14th 2023.*"
 msgstr "2023 年 12 月 14 日にリリース。"
 
-#: ../../changes.rst:1091
+#: ../../changes.rst:1092
 msgid ":ref:`mt-openai` automatic suggestion service."
 msgstr ":ref:`mt-openai` 自動提案サービス。"
 
-#: ../../changes.rst:1092
+#: ../../changes.rst:1093
 msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr ":ref:`mt-alibaba` 自動提案サービス。"
 
-#: ../../changes.rst:1093
+#: ../../changes.rst:1094
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
 "ラベル API の追加。参照: :http:get:`/api/projects/(string:project)/labels/`。"
 
-#: ../../changes.rst:1094
+#: ../../changes.rst:1095
 msgid ":ref:`glossary-mt`."
 msgstr ":ref:`glossary-mt`。"
 
-#: ../../changes.rst:1095
+#: ../../changes.rst:1096
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
 msgstr ":ref:`autofix-punctuation-spacing` の新しい自動修正。"
 
-#: ../../changes.rst:1096
+#: ../../changes.rst:1097
 msgid ""
 ":ref:`mt-google-translate-api-v3` now better honors placeables or line "
 "breaks."
@@ -31841,11 +31891,11 @@ msgstr ""
 ":ref:`mt-google-translate-api-v3` は、配置要素や改行をより適切に尊重するよう"
 "に改良。"
 
-#: ../../changes.rst:1100
+#: ../../changes.rst:1101
 msgid "Reduced memory usage for statistics."
 msgstr "統計のメモリ使用量を削減。"
 
-#: ../../changes.rst:1101
+#: ../../changes.rst:1102
 msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
@@ -31853,27 +31903,27 @@ msgstr ""
 ":ref:`auto-translation` の :ref:`mt-deepl` は性能が向上し、 :ref:`glossary-"
 "mt` に対応。"
 
-#: ../../changes.rst:1102
+#: ../../changes.rst:1103
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
 
-#: ../../changes.rst:1103
+#: ../../changes.rst:1104
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
 msgstr ":ref:`mt-google-translate-api-v3` での地域選択の改良。"
 
-#: ../../changes.rst:1104
+#: ../../changes.rst:1105
 msgid "Added nested JSON exporter in :ref:`download`."
 msgstr "ネストされた JSON エクスポーターを :ref:`download` に追加。"
 
-#: ../../changes.rst:1105
+#: ../../changes.rst:1106
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
 msgstr "巨大なリポジトリでの :ref:`git-exporter` のパフォーマンスを改善。"
 
-#: ../../changes.rst:1109
+#: ../../changes.rst:1110
 msgid "Removing stale VCS directories."
 msgstr "古い VCS ディレクトリの削除。"
 
-#: ../../changes.rst:1113
+#: ../../changes.rst:1114
 msgid ""
 "Dropped Microsoft Terminology service for automatic suggestions, as it is no "
 "longer provided by Microsoft."
@@ -31881,13 +31931,13 @@ msgstr ""
 "自動提案の Microsoft Terminology サービスは Microsoft から提供されなくなった"
 "ため削除。"
 
-#: ../../changes.rst:1114
+#: ../../changes.rst:1115
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
 msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`。"
 
-#: ../../changes.rst:1120
+#: ../../changes.rst:1121
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__."
@@ -31895,48 +31945,48 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/107?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1123
+#: ../../changes.rst:1124
 msgid "Weblate 5.2.1"
 msgstr "Weblate 5.2.1"
 
-#: ../../changes.rst:1125
+#: ../../changes.rst:1126
 #, fuzzy
 #| msgid "Released on November 22nd 2023."
 msgid "*Released on November 22nd 2023.*"
 msgstr "2023 年 11 月 22 日にリリース。"
 
-#: ../../changes.rst:1129
+#: ../../changes.rst:1130
 msgid "Show search field after no strings found while translating."
 msgstr "翻訳中に文字列が見つからなかった場合に検索フィールドを表示。"
 
-#: ../../changes.rst:1130
+#: ../../changes.rst:1131
 msgid "Added soft hyphen to special-characters toolbar."
 msgstr "特殊文字ツールバーにソフト ハイフンの追加。"
 
-#: ../../changes.rst:1134
+#: ../../changes.rst:1135
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
 "Alibaba Cloud Database PolarDB とのデータベース バックアップの互換性を実現。"
 
-#: ../../changes.rst:1135
+#: ../../changes.rst:1136
 msgid "Crash on loading statistics calculated by previous versions."
 msgstr "以前のバージョンで計算された統計情報をロードするとクラッシュする。"
 
-#: ../../changes.rst:1136
+#: ../../changes.rst:1137
 msgid "Sort icons in dark mode."
 msgstr "ダークモードでの並べ替えアイコン。"
 
-#: ../../changes.rst:1137
+#: ../../changes.rst:1138
 msgid "Project level statistics no longer count categorized components twice."
 msgstr ""
 "プロジェクト レベルの統計で、カテゴリに入れたコンポーネントが 2 回カウントさ"
 "れないように変更。"
 
-#: ../../changes.rst:1138
+#: ../../changes.rst:1139
 msgid "Possible discarding pending translations after editing source strings."
 msgstr "原文編集後、保留中の翻訳は破棄されることがある。"
 
-#: ../../changes.rst:1144
+#: ../../changes.rst:1145
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__."
@@ -31944,43 +31994,43 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/108?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1147
+#: ../../changes.rst:1148
 msgid "Weblate 5.2"
 msgstr "Weblate 5.2"
 
-#: ../../changes.rst:1149
+#: ../../changes.rst:1150
 #, fuzzy
 #| msgid "Released on November 16th 2023."
 msgid "*Released on November 16th 2023.*"
 msgstr "2023 年 11 月 16 日にリリース。"
 
-#: ../../changes.rst:1153
+#: ../../changes.rst:1154
 #, fuzzy
 #| msgid ":ref:`vcs-azure-devops`"
 msgid ":ref:`vcs-azure-devops`."
 msgstr ":ref:`vcs-azure-devops`"
 
-#: ../../changes.rst:1157
+#: ../../changes.rst:1158
 msgid "Faster statistics updates."
 msgstr "統計情報の更新の高速化。"
 
-#: ../../changes.rst:1158
+#: ../../changes.rst:1159
 msgid "Better e-mail selection in user profile."
 msgstr "ユーザー プロファイルでのメールアドレスの選択を改良。"
 
-#: ../../changes.rst:1159
+#: ../../changes.rst:1160
 msgid ":ref:`autofix` are now applied to suggestions as well."
 msgstr ":ref:`autofix` が提案にも適用されるよう改良。"
 
-#: ../../changes.rst:1160
+#: ../../changes.rst:1161
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
 msgstr ":ref:`mt-deepl` 、翻訳のデフォルト形式の設定に対応。"
 
-#: ../../changes.rst:1161
+#: ../../changes.rst:1162
 msgid "Use neutral colors for progress bars and translation unit states."
 msgstr "進行状況バーと翻訳ユニットの状態には中間色を使用。"
 
-#: ../../changes.rst:1162
+#: ../../changes.rst:1163
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
@@ -31988,7 +32038,7 @@ msgstr ""
 ":ref:`addon-weblate.gettext.mo` 、要編集の文字列をオプションで含めることがで"
 "きます。"
 
-#: ../../changes.rst:1163
+#: ../../changes.rst:1164
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
@@ -31996,18 +32046,18 @@ msgstr ""
 "未認証ユーザーが翻訳を表示するときの並べ替えのために :http:header:`Accept-"
 "Language` を使用する。"
 
-#: ../../changes.rst:1164
+#: ../../changes.rst:1165
 msgid ""
 "Add option to directly approve suggestions with :ref:`reviews` workflow."
 msgstr ":ref:`reviews` ワークフローに提案を直接承認するオプションの追加。"
 
-#: ../../changes.rst:1165
+#: ../../changes.rst:1166
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
 "プロジェクトまたはコンポーネント :ref:`subscriptions` にワンクリック削除機能"
 "の追加。"
 
-#: ../../changes.rst:1166
+#: ../../changes.rst:1167
 msgid ""
 ":ref:`api-statistics` now includes character and word counts for more string "
 "states."
@@ -32015,39 +32065,39 @@ msgstr ""
 ":ref:`api-statistics` には、より多くの文字列状態の文字数と単語数を含むように"
 "改良。"
 
-#: ../../changes.rst:1170
+#: ../../changes.rst:1171
 msgid "Fixed creating component within a category by upload."
 msgstr "アップロードによるカテゴリ内のコンポーネント作成の修正。"
 
-#: ../../changes.rst:1171
+#: ../../changes.rst:1172
 msgid "Error handling in organizing components and categories."
 msgstr "コンポーネントとカテゴリを整理する際のエラー処理の追加。"
 
-#: ../../changes.rst:1172
+#: ../../changes.rst:1173
 msgid "Fixed moving categories between projects."
 msgstr "プロジェクト間のカテゴリ移動の修正。"
 
-#: ../../changes.rst:1173
+#: ../../changes.rst:1174
 msgid "Fixed formatting of translation memory search results."
 msgstr "翻訳メモリの検索結果形式の修正。"
 
-#: ../../changes.rst:1174
+#: ../../changes.rst:1175
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
 msgstr ":ref:`autofix-html` で非改行スペース文字の許可。"
 
-#: ../../changes.rst:1178
+#: ../../changes.rst:1179
 msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgstr ""
 ":doc:`/formats/apple` エクスポーターは、UTF-8 でエンコードされたファイルを生"
 "成するように改良。"
 
-#: ../../changes.rst:1179
+#: ../../changes.rst:1180
 msgid ""
 "Python 3.12 is now supported, though not recommended, see :ref:`python-deps`."
 msgstr ""
 "現在 Python 3.12 に対応していますが推奨しません。参照: :ref:`python-deps`。"
 
-#: ../../changes.rst:1185
+#: ../../changes.rst:1186
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__."
@@ -32055,17 +32105,17 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/104?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1188
+#: ../../changes.rst:1189
 msgid "Weblate 5.1.1"
 msgstr "Weblate 5.1.1"
 
-#: ../../changes.rst:1190
+#: ../../changes.rst:1191
 #, fuzzy
 #| msgid "Released on October 25th 2023."
 msgid "*Released on October 25th 2023.*"
 msgstr "2023 年 10 月 25 日にリリース。"
 
-#: ../../changes.rst:1194
+#: ../../changes.rst:1195
 msgid ""
 ":ref:`addon-weblate.consistency.languages` now uses a dedicated user for "
 "changes."
@@ -32073,29 +32123,29 @@ msgstr ""
 ":ref:`addon-weblate.consistency.languages` は変更に専用ユーザーを使用するよう"
 "に。"
 
-#: ../../changes.rst:1195
+#: ../../changes.rst:1196
 msgid "Added button for sharing on Fediverse."
 msgstr "Fediverse で共有するボタンの追加。"
 
-#: ../../changes.rst:1196
+#: ../../changes.rst:1197
 msgid "Added validation for VCS integration credentials."
 msgstr "VCS 統合認証情報の検証の追加。"
 
-#: ../../changes.rst:1197
+#: ../../changes.rst:1198
 msgid "Reduced overhead of statistics collection."
 msgstr "統計収集のオーバーヘッド削減。"
 
-#: ../../changes.rst:1201
+#: ../../changes.rst:1202
 msgid "Added plurals validation when editing string using the API."
 msgstr "API を使用して文字列を編集する際の複数形の検証の追加。"
 
-#: ../../changes.rst:1202
+#: ../../changes.rst:1203
 msgid "Replacing a file using upload when existing is corrupted."
 msgstr ""
 "既存のファイルが破損している場合にアップロードを使用してファイルを置き換える"
 "昨日の追加。"
 
-#: ../../changes.rst:1208
+#: ../../changes.rst:1209
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__."
@@ -32103,21 +32153,21 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/106?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1211
+#: ../../changes.rst:1212
 msgid "Weblate 5.1"
 msgstr "Weblate 5.1"
 
-#: ../../changes.rst:1213
+#: ../../changes.rst:1214
 #, fuzzy
 #| msgid "Released on October 16th 2023."
 msgid "*Released on October 16th 2023.*"
 msgstr "2023 年 10 月 16 日にリリース。"
 
-#: ../../changes.rst:1217
+#: ../../changes.rst:1218
 msgid ":ref:`mt-yandex-v2` machine translation service."
 msgstr ":ref:`mt-yandex-v2` 機械翻訳サービスの追加。"
 
-#: ../../changes.rst:1218
+#: ../../changes.rst:1219
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-translation` "
 "are now stored with a dedicated user as an author."
@@ -32125,7 +32175,7 @@ msgstr ""
 ":ref:`addon-weblate.autotranslate.autotranslate` と :ref:`auto-translation` "
 "は専用のユーザーを作者として保存されるように改良。"
 
-#: ../../changes.rst:1219
+#: ../../changes.rst:1220
 msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
@@ -32133,11 +32183,11 @@ msgstr ""
 ":ref:`addons` による文字列への変更を、作成者としての専用ユーザーとともに保存"
 "されるように改良。"
 
-#: ../../changes.rst:1220
+#: ../../changes.rst:1221
 msgid ":ref:`download-multi` can now convert file formats."
 msgstr ":ref:`download-multi` でファイル形式を変換できるように改良。"
 
-#: ../../changes.rst:1221
+#: ../../changes.rst:1222
 msgid ""
 ":ref:`workflow-customization` allows to fine-tune localization workflow per "
 "language."
@@ -32145,7 +32195,7 @@ msgstr ""
 ":ref:`workflow-customization` を使用すると、言語ごとに現地語化ワークフローを"
 "詳細設定できるように改良。"
 
-#: ../../changes.rst:1225
+#: ../../changes.rst:1226
 msgid ""
 ":ref:`project-translation_review` also shows the approval percentage in "
 "object listings."
@@ -32153,25 +32203,25 @@ msgstr ""
 ":ref:`project-translation_review` で、オブジェクトのリストに承認率を表示する"
 "ように改良。"
 
-#: ../../changes.rst:1226
+#: ../../changes.rst:1227
 msgid "Project is added to watched upon accepting an invitation."
 msgstr "招待を受け入れると、プロジェクトが視聴対象に追加されるように改良。"
 
-#: ../../changes.rst:1227
+#: ../../changes.rst:1228
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
 msgstr ""
 "VCS API 認証情報を環境変数からの Python dict として設定するように改良。"
 
-#: ../../changes.rst:1228
+#: ../../changes.rst:1229
 msgid "Improved accuracy of checks on plural messages."
 msgstr "複数メッセージのチェック精度の改良。"
 
-#: ../../changes.rst:1229
+#: ../../changes.rst:1230
 msgid "Engage page better shows stats."
 msgstr "エンゲージ ページでの統計情報をよりわかりやすく表示するように改良。"
 
-#: ../../changes.rst:1230
+#: ../../changes.rst:1231
 msgid ""
 "Strings which can not be saved to a file no longer block other strings to be "
 "written."
@@ -32179,64 +32229,64 @@ msgstr ""
 "ファイルに保存できない文字列が、他の文字列の書き込みをブロックしなくなるよう"
 "に改良。"
 
-#: ../../changes.rst:1231
+#: ../../changes.rst:1232
 msgid "Fixed some API URLs for categorized components."
 msgstr "カテゴライズされたコンポーネントのAPI URLの一部を修正。"
 
-#: ../../changes.rst:1232
+#: ../../changes.rst:1233
 msgid "Show plural form examples more prominently."
 msgstr "複数形の例をより目立つように改良。"
 
-#: ../../changes.rst:1233
+#: ../../changes.rst:1234
 msgid "Highlight whitespace in :ref:`machine-translation`."
 msgstr ":ref:`machine-translation` の空白をハイライトするように改良。"
 
-#: ../../changes.rst:1234
+#: ../../changes.rst:1235
 msgid "Faster comment and component removal."
 msgstr "コメントとコンポーネントの削除を高速化。"
 
-#: ../../changes.rst:1235
+#: ../../changes.rst:1236
 msgid "Show disabled save button reason more prominently."
 msgstr "無効化された保存ボタンの理由をより目立つように改良。"
 
-#: ../../changes.rst:1236
+#: ../../changes.rst:1237
 msgid "New string notification can now be triggered for each string."
 msgstr "新しい文字列通知を文字列ごとに検知するように改良。"
 
-#: ../../changes.rst:1240
+#: ../../changes.rst:1241
 msgid "Improved OCR error handling in :ref:`screenshots`."
 msgstr ":ref:`screenshots` の OCR エラー処理の改良。"
 
-#: ../../changes.rst:1241
+#: ../../changes.rst:1242
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
 msgstr ""
 ":ref:`autofix` は、:ref:`multivalue-csv` からの文字列を適切に処理するように改"
 "良。"
 
-#: ../../changes.rst:1242
+#: ../../changes.rst:1243
 msgid "Occasional crash in :ref:`machine-translation` caching."
 msgstr ":ref:`machine-translation` のキャッシュでクラッシュする問題の修正。"
 
-#: ../../changes.rst:1243
+#: ../../changes.rst:1244
 msgid "Fixed history listing for entries within a :ref:`category`."
 msgstr ":ref:`category` 内の履歴リストの修正。"
 
-#: ../../changes.rst:1244
+#: ../../changes.rst:1245
 msgid "Fixed editing :guilabel:`Administration` team."
 msgstr ":guilabel:`管理` チームの編集を修正。"
 
-#: ../../changes.rst:1245
+#: ../../changes.rst:1246
 msgid ""
 ":ref:`addon-weblate.consistency.languages` add-on could miss some languages."
 msgstr ""
 ":ref:`addon-weblate.consistency.languages` アドオンが一部の言語を追加できない"
 "ことがあった。"
 
-#: ../../changes.rst:1249
+#: ../../changes.rst:1250
 msgid "Categories are now included ``weblate://`` repository URLs."
 msgstr "``weblate://`` リポジトリの URL にカテゴリを含めるように改良。"
 
-#: ../../changes.rst:1255
+#: ../../changes.rst:1256
 msgid ""
 "Upgrades from older version than 5.0.2 are not supported, please upgrade to "
 "5.0.2 first and then continue in upgrading."
@@ -32244,7 +32294,7 @@ msgstr ""
 "5.0.2 より古いバージョンからのアップグレードには対応しません。まず最初に "
 "5.0.2 にアップグレードしてからアップグレードを続けてください。"
 
-#: ../../changes.rst:1256
+#: ../../changes.rst:1257
 msgid ""
 "Dropped support for deprecated insecure configuration of VCS service API "
 "keys via _TOKEN/_USERNAME in :file:`settings.py`."
@@ -32252,7 +32302,7 @@ msgstr ""
 ":file:`settings.py` の _TOKEN/_USERNAME による、非推奨の VCS サービス API "
 "キーの安全でない設定のサポートを削除。"
 
-#: ../../changes.rst:1257
+#: ../../changes.rst:1258
 msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
@@ -32260,7 +32310,7 @@ msgstr ""
 "Weblate は、:file:`settings_example.py` と Docker で永続的なデータベース接続"
 "をデフォルトにするように改良。"
 
-#: ../../changes.rst:1259
+#: ../../changes.rst:1260
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__."
@@ -32268,41 +32318,41 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/100?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1262
+#: ../../changes.rst:1263
 msgid "Weblate 5.0.2"
 msgstr "Weblate 5.0.2"
 
-#: ../../changes.rst:1264
+#: ../../changes.rst:1265
 #, fuzzy
 #| msgid "Released on September 14th 2023."
 msgid "*Released on September 14th 2023.*"
 msgstr "2023 年 9 月 14 日にリリース。"
 
-#: ../../changes.rst:1268
+#: ../../changes.rst:1269
 msgid "Translate page performance."
 msgstr "翻訳ページの性能の向上。"
 
-#: ../../changes.rst:1269
+#: ../../changes.rst:1270
 msgid "Search now looks for categories as well."
 msgstr "検索はカテゴリも探すように改良。"
 
-#: ../../changes.rst:1273
+#: ../../changes.rst:1274
 msgid "Rendering of release notes on GitHub."
 msgstr "GitHub 上でのリリース ノートのレンダリング。"
 
-#: ../../changes.rst:1274
+#: ../../changes.rst:1275
 msgid "Listing of categorized projects."
 msgstr "プロジェクトをカテゴリごとのリストに分類した。"
 
-#: ../../changes.rst:1275
+#: ../../changes.rst:1276
 msgid "Translating a language inside a category."
 msgstr "カテゴリ内の言語を翻訳する。"
 
-#: ../../changes.rst:1276
+#: ../../changes.rst:1277
 msgid "Categories sorting."
 msgstr "カテゴリの並べ替え。"
 
-#: ../../changes.rst:1282 ../../changes.rst:1323
+#: ../../changes.rst:1283 ../../changes.rst:1324
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "indexing changes."
@@ -32310,7 +32360,7 @@ msgstr ""
 "インデックスの変更により、大規模なサイトでのデータベースアップグレードにはか"
 "なりの時間がかかる場合があります。"
 
-#: ../../changes.rst:1284
+#: ../../changes.rst:1285
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__."
@@ -32318,87 +32368,87 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/105?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1287
+#: ../../changes.rst:1288
 msgid "Weblate 5.0.1"
 msgstr "Weblate 5.0.1"
 
-#: ../../changes.rst:1289
+#: ../../changes.rst:1290
 #, fuzzy
 #| msgid "Released on September 10th 2023."
 msgid "*Released on September 10th 2023.*"
 msgstr "2023 年 9 月 10 日にリリース。"
 
-#: ../../changes.rst:1293
+#: ../../changes.rst:1294
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgstr ":http:get:`/api/component-lists/(str:slug)/components/` の追加。"
 
-#: ../../changes.rst:1297
+#: ../../changes.rst:1298
 msgid "Related glossary terms lookup is now faster."
 msgstr "関連用語の検索を高速に改良。"
 
-#: ../../changes.rst:1298
+#: ../../changes.rst:1299
 msgid "Logging of failures when creating pull requests."
 msgstr "プルリクエスト作成時の失敗をログに記録。"
 
-#: ../../changes.rst:1299
+#: ../../changes.rst:1300
 msgid "History is now loaded faster."
 msgstr "履歴の読み込み速度の改良。"
 
-#: ../../changes.rst:1300
+#: ../../changes.rst:1301
 msgid "Added object ``id`` to all :ref:`api` endpoints."
 msgstr "オブジェクト ``id`` をすべての :ref:`api` エンドポイントに追加。"
 
-#: ../../changes.rst:1301
+#: ../../changes.rst:1302
 msgid "Better performance of projects with a lot of components."
 msgstr "コンポーネントが多いプロジェクトの性能の改良。"
 
-#: ../../changes.rst:1302
+#: ../../changes.rst:1303
 msgid "Added compatibility redirects for some old URLs."
 msgstr "一部の古い URL に互換性リダイレクトを追加。"
 
-#: ../../changes.rst:1306
+#: ../../changes.rst:1307
 msgid "Creating component within a category."
 msgstr "カテゴリ内でコンポーネントを作成するように改良。"
 
-#: ../../changes.rst:1307
+#: ../../changes.rst:1308
 msgid "Source strings and state display for converted formats."
 msgstr "変換された形式の原文と状態表示。"
 
-#: ../../changes.rst:1308
+#: ../../changes.rst:1309
 msgid ""
 "Block :ref:`component-edit_template` on formats which do not support it."
 msgstr ""
 "対応していないファイル形式では、 :ref:`component-edit_template` をブロックし"
 "ます。"
 
-#: ../../changes.rst:1309
+#: ../../changes.rst:1310
 msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgstr ":ref:`check-reused` で、空白の文字列に対して起動しないように修正。"
 
-#: ../../changes.rst:1310
+#: ../../changes.rst:1311
 msgid "Performance issues while browsing some categories."
 msgstr "一部のカテゴリを閲覧するとパフォーマンスが低下します。"
 
-#: ../../changes.rst:1311
+#: ../../changes.rst:1312
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr "Docker コンテナーでの GitHub チームと組織の認証を修正。"
 
-#: ../../changes.rst:1312
+#: ../../changes.rst:1313
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr ""
 "カスタマイズされた SSH ポートを使用する場合の GitLab マージ リクエスト。"
 
-#: ../../changes.rst:1316
+#: ../../changes.rst:1317
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
 msgstr "`pyahocorasick` 依存関係は `ahocorasick_rs` に置き換え修正。"
 
-#: ../../changes.rst:1317
+#: ../../changes.rst:1318
 msgid ""
 "The default value of :setting:`IP_PROXY_OFFSET` has been changed from 1 to "
 "-1."
 msgstr ":setting:`IP_PROXY_OFFSET` のデフォルト値を 1 から -1 に変更。"
 
-#: ../../changes.rst:1325
+#: ../../changes.rst:1326
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__."
@@ -32406,93 +32456,93 @@ msgstr ""
 "`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/103?"
 "closed=1>`__。"
 
-#: ../../changes.rst:1328
+#: ../../changes.rst:1329
 msgid "Weblate 5.0"
 msgstr "Weblate 5.0"
 
-#: ../../changes.rst:1330
+#: ../../changes.rst:1331
 #, fuzzy
 #| msgid "Released on August 24th 2023."
 msgid "*Released on August 24th 2023.*"
 msgstr "2023 年 8 月 24 日にリリース。"
 
-#: ../../changes.rst:1334
+#: ../../changes.rst:1335
 msgid ":doc:`/formats/markdown` support, thanks to Anders Kaplan."
 msgstr ":doc:`/formats/markdown` に対応、Anders Kaplan 氏に感謝。"
 
-#: ../../changes.rst:1335
+#: ../../changes.rst:1336
 msgid ":ref:`category` can now organize components within a project."
 msgstr ""
 ":ref:`category` でプロジェクト内のコンポーネントを整理できるように改良。"
 
-#: ../../changes.rst:1336
+#: ../../changes.rst:1337
 msgid ""
 ":doc:`/formats/fluent` now has better syntax checks thanks to Henry Wilkes."
 msgstr ":doc:`/formats/fluent` の構文検査の改良、Henry Wilkes に感謝。"
 
-#: ../../changes.rst:1337
+#: ../../changes.rst:1338
 msgid "Inviting users now works with all authentication methods."
 msgstr "ユーザーの招待がすべての認証方法で機能するように改良。"
 
-#: ../../changes.rst:1338
+#: ../../changes.rst:1339
 msgid ""
 "Docker container supports file backed secrets, see :ref:`docker-secrets`."
 msgstr ""
 "Docker コンテナーは、ファイルにバックアップされたシークレットに対応。参照: :"
 "ref:`docker-secrets`。"
 
-#: ../../changes.rst:1342
+#: ../../changes.rst:1343
 msgid "Plurals handling in machine translation."
 msgstr "機械翻訳における複数形の処理の改良。"
 
-#: ../../changes.rst:1343
+#: ../../changes.rst:1344
 msgid ""
 ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgstr ""
 ":ref:`check-same` 検査は、厳密モードでもプレースホルダを優先するように改良。"
 
-#: ../../changes.rst:1344
+#: ../../changes.rst:1345
 msgid ""
 ":ref:`check-reused` is no longer triggered for languages with a single "
 "plural form."
 msgstr ":ref:`check-reused` は、複数形のない言語では検査しないように修正。"
 
-#: ../../changes.rst:1345
+#: ../../changes.rst:1346
 msgid "WebP is now supported for :ref:`screenshots`."
 msgstr "WebP を :ref:`screenshots` に対応。"
 
-#: ../../changes.rst:1346
+#: ../../changes.rst:1347
 msgid ""
 "Avoid duplicate notification when a user is subscribed to overlapping scopes."
 msgstr ""
 "ユーザーが重複する使用範囲にサブスクライブしている場合の通知の重複を回避。"
 
-#: ../../changes.rst:1347
+#: ../../changes.rst:1348
 msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr ":ref:`screenshots` で英語以外の言語の OCR に対応。"
 
-#: ../../changes.rst:1348
+#: ../../changes.rst:1349
 msgid ":ref:`xliff` now supports displaying source string location."
 msgstr ":ref:`xliff` が原文の位置表示に対応。"
 
-#: ../../changes.rst:1349
+#: ../../changes.rst:1350
 msgid ""
 "Rendering strings with plurals, placeholders or alternative translations."
 msgstr "複数形、プレースホルダ、代替訳を含む文字列の生成。"
 
-#: ../../changes.rst:1350
+#: ../../changes.rst:1351
 msgid "User API now includes last sign in date."
 msgstr "ユーザー API に最終サインイン日を含めるように改良。"
 
-#: ../../changes.rst:1351
+#: ../../changes.rst:1352
 msgid "User API token is now hidden for privacy reasons by default."
 msgstr "ユーザー API トークンを、プライバシー上の理由から既定で非表示に修正。"
 
-#: ../../changes.rst:1352
+#: ../../changes.rst:1353
 msgid "Faster adding terms to glossary."
 msgstr "用語集への用語追加の高速化。"
 
-#: ../../changes.rst:1353
+#: ../../changes.rst:1354
 msgid ""
 "Better preserve translation on source file change in :doc:`/formats/html` "
 "and :doc:`/formats/txt`."
@@ -32500,15 +32550,15 @@ msgstr ""
 ":doc:`/formats/html` と :doc:`/formats/txt` のソースファイル変更時の翻訳保持"
 "の改良。"
 
-#: ../../changes.rst:1354
+#: ../../changes.rst:1355
 msgid "Added indication of automatic assignment to team listing."
 msgstr "チームリストに自動割り当ての表示を追加。"
 
-#: ../../changes.rst:1355
+#: ../../changes.rst:1356
 msgid "Users now have to confirm invitations to become team members."
 msgstr "ユーザーは、チーム メンバーになるための招待を確認することが必要。"
 
-#: ../../changes.rst:1356
+#: ../../changes.rst:1357
 msgid ""
 ":ref:`check-formats` can now check all plural forms with the ``strict-"
 "format`` flag."
@@ -32516,23 +32566,23 @@ msgstr ""
 ":ref:`check-formats` は、``strict-format`` フラグですべての複数形を検査できる"
 "ように修正。"
 
-#: ../../changes.rst:1357
+#: ../../changes.rst:1358
 msgid ":doc:`/user/checks` browsing experience."
 msgstr ":doc:`/user/checks` 閲覧体験。"
 
-#: ../../changes.rst:1358
+#: ../../changes.rst:1359
 msgid "Highlight differences in the source string in automatic suggestions."
 msgstr "自動提案でソース文字列の違いを強調表示ように改良。"
 
-#: ../../changes.rst:1359
+#: ../../changes.rst:1360
 msgid "Visual diff now better understands compositing characters."
 msgstr "視覚的な差分により、合成文字がよりよく判別できるように改良。"
 
-#: ../../changes.rst:1363
+#: ../../changes.rst:1364
 msgid "User names handling while committing to Git."
 msgstr "Gitへのコミット時のユーザー名の取り扱い。"
 
-#: ../../changes.rst:1364
+#: ../../changes.rst:1365
 msgid ""
 ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-weblate.cleanup.generic` "
 "now remove all strings at once."
@@ -32540,28 +32590,28 @@ msgstr ""
 ":ref:`addon-weblate.cleanup.blank` と :ref:`addon-weblate.cleanup.generic` "
 "は、すべての文字列を一度に削除するように修正。"
 
-#: ../../changes.rst:1365
+#: ../../changes.rst:1366
 msgid "Language filtering in :doc:`/devel/reporting`."
 msgstr ":doc:`/devel/reporting` の言語フィルタリング。"
 
-#: ../../changes.rst:1366
+#: ../../changes.rst:1367
 msgid ""
 "Reduced false positives of :ref:`check-reused` when fixing the translation."
 msgstr "翻訳を修正する際の :ref:`check-reused` の誤検出を削減。"
 
-#: ../../changes.rst:1367
+#: ../../changes.rst:1368
 msgid "Fixed caching issues after updating screenshots from the repository."
 msgstr "リポジトリからスクリーンショットを更新した後のキャッシュの問題の修正。"
 
-#: ../../changes.rst:1371
+#: ../../changes.rst:1372
 msgid "Python 3.9 or newer is now required."
 msgstr "Python 3.9 以降が必要に変更。"
 
-#: ../../changes.rst:1372
+#: ../../changes.rst:1373
 msgid "Several UI URLs have been changed to be able to handle categories."
 msgstr "カテゴリを処理できるように、いくつかの UI URL の変更。"
 
-#: ../../changes.rst:1378
+#: ../../changes.rst:1379
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
@@ -32571,11 +32621,11 @@ msgstr ""
 "``SOCIAL_AUTH_PIPELINE`` に変更があります。変更に合わせて設定を修正してくださ"
 "い。"
 
-#: ../../changes.rst:1379
+#: ../../changes.rst:1380
 msgid "Several previously optional dependencies are now required."
 msgstr "以前はオプションだったいくつかの依存関係が必須に変更。"
 
-#: ../../changes.rst:1380
+#: ../../changes.rst:1381
 msgid ""
 "The database upgrade can take considerable time on larger sites due to "
 "structure changes."
@@ -32583,7 +32633,7 @@ msgstr ""
 "大規模なサイトでは、構造の変更により、データベースのアップグレードにかなりの"
 "時間がかかる場合があります。"
 
-#: ../../changes.rst:1382
+#: ../../changes.rst:1383
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?"
 "closed=1>`__."
@@ -32825,7 +32875,7 @@ msgstr "以下のオンライン サービスを使用した機械翻訳に対�
 msgid ":ref:`mt-apertium-apy`"
 msgstr ":ref:`mt-apertium-apy`"
 
-#: ../../changes/v0.rst:76 ../../user/glossary.rst:133
+#: ../../changes/v0.rst:76 ../../user/glossary.rst:140
 msgid ":ref:`mt-microsoft-translator`"
 msgstr ":ref:`mt-microsoft-translator`"
 
@@ -42108,9 +42158,14 @@ msgid "Icons"
 msgstr "アイコン"
 
 #: ../../contributing/frontend.rst:123
+#, fuzzy
+#| msgid ""
+#| "Weblate currently uses material design icons. In case you are looking for "
+#| "new symbol, check `Material Design Icons`_ or `Material Design "
+#| "Resources`_."
 msgid ""
-"Weblate currently uses material design icons. In case you are looking for "
-"new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
+"Weblate currently uses `Material Design Icons`_, in case you are looking for "
+"new symbol, check that."
 msgstr ""
 "Weblate では現在、マテリアル デザインのアイコンを使用しています。新しいシンボ"
 "ル アイコンをお探しの方は `Material Design Icons`_ もしくは `Material Design "
@@ -42138,7 +42193,7 @@ msgstr ""
 "Weblate に貢献する方法はたくさんあります。納得して選択できるコーディング、グ"
 "ラフィックデザイン、ドキュメンテーション、スポンサーシップ、アイデアなど:"
 
-#: ../../contributing/index.rst:10
+#: ../../contributing/index.rst:10 ../../security/index.rst:31
 msgid ":doc:`issues`"
 msgstr ":doc:`issues`"
 
@@ -44813,6 +44868,47 @@ msgstr ""
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`、:doc:`/vcs`"
+
+#: ../../devel/mobile.rst:2
+#, fuzzy
+#| msgid "Continuous localization"
+msgid "Multi-platform localization"
+msgstr "継続的な現地語化"
+
+#: ../../devel/mobile.rst:4
+msgid ""
+"When translating apps for multiple platforms (e.g., Android and iOS), "
+"configure separate components for each platform. The :ref:`translation-"
+"propagation` will help you to keep the strings in sync."
+msgstr ""
+
+#: ../../devel/mobile.rst:8
+#, fuzzy
+#| msgid "CII Best Practices"
+msgid "Best practices:"
+msgstr "CII のベスト プラクティス"
+
+#: ../../devel/mobile.rst:10
+msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
+msgstr ""
+
+#: ../../devel/mobile.rst:11
+msgid ""
+"Ensure identical source strings and keys are used across platforms where "
+"possible."
+msgstr ""
+
+#: ../../devel/mobile.rst:12
+msgid ""
+"Enable :ref:`component-allow_translation_propagation` to automatically reuse "
+"translations for matching strings."
+msgstr ""
+
+#: ../../devel/mobile.rst:14
+msgid ""
+"This setup avoids duplicate work and keeps translations consistent across "
+"platforms."
+msgstr ""
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -49646,31 +49742,31 @@ msgstr "ユーザー ドキュメント"
 msgid "Application developer guide"
 msgstr "アプリケーション開発者ガイド"
 
-#: ../../index.rst:90
+#: ../../index.rst:91
 msgid "Administrator docs"
 msgstr "管理者ドキュメント"
 
-#: ../../index.rst:121
+#: ../../index.rst:122
 msgid "Contributor docs"
 msgstr "貢献者ドキュメント"
 
-#: ../../index.rst:144
+#: ../../index.rst:145
 #, fuzzy
 #| msgid "Support Weblate"
 msgid "Secure Weblate"
 msgstr "Weblate を支援する"
 
-#: ../../index.rst:156
+#: ../../index.rst:159
 #, fuzzy
 #| msgid "File format"
 msgid "File formats"
 msgstr "ファイル形式"
 
-#: ../../index.rst:165
+#: ../../index.rst:168
 msgid "Change history"
 msgstr "変更履歴"
 
-#: ../../index.rst:177
+#: ../../index.rst:180
 msgid "Indices and tables"
 msgstr "目次と索引"
 
@@ -50322,7 +50418,7 @@ msgstr ""
 #: ../../security/disaster-recovery-plan.rst:64
 #, fuzzy
 #| msgid "Validation failed, please try again."
-msgid "Validation and resting"
+msgid "Validation and testing"
 msgstr "検証に失敗しました。もう一度お試しください。"
 
 #: ../../security/disaster-recovery-plan.rst:66
@@ -50626,6 +50722,54 @@ msgid ""
 "`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
 
+#: ../../security/index.rst:26
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security policies"
+msgstr "セキュリティの問題"
+
+#: ../../security/index.rst:28
+#, fuzzy
+#| msgid "Dependencies updates."
+msgid ":doc:`dependencies`"
+msgstr "依存関係の更新。"
+
+#: ../../security/index.rst:29
+#, fuzzy
+#| msgid "Disable discovery"
+msgid ":doc:`disaster-recovery-plan`"
+msgstr "検出の無効化"
+
+#: ../../security/index.rst:30
+#, fuzzy
+#| msgid "Third-party deployments for Weblate"
+msgid ":doc:`incident-response-plan`"
+msgstr "Weblate 用のサードパーティ ソフトの導入"
+
+#: ../../security/index.rst:32
+#, fuzzy
+#| msgid "``password``"
+msgid ":doc:`passwords`"
+msgstr "``password``"
+
+#: ../../security/index.rst:33
+#, fuzzy
+#| msgid ":doc:`html`"
+msgid ":doc:`threat-model`"
+msgstr ":doc:`html`"
+
+#: ../../security/index.rst:36
+#, fuzzy
+#| msgid "Company"
+msgid "Compliance"
+msgstr "会社"
+
+#: ../../security/index.rst:38
+#, fuzzy
+#| msgid ":doc:`psa:pipeline`"
+msgid ":doc:`privacy-compliance`"
+msgstr ":doc:`psa:pipeline`"
+
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
 msgstr ""
@@ -50874,6 +51018,940 @@ msgstr ""
 #: ../../security/passwords.rst:41
 msgid ":doc:`/admin/auth`"
 msgstr ":doc:`/admin/auth`"
+
+#: ../../security/privacy-compliance.rst:2
+#, fuzzy
+#| msgid "Licensing compliance"
+msgid "Privacy regulations compliance"
+msgstr "ライセンスの法令遵守"
+
+#: ../../security/privacy-compliance.rst:6
+msgid ""
+"Weblate enables organizations to operate within privacy frameworks such as "
+"GDPR, DPDPA, PIPL, and others by offering strict data minimization, full "
+"data ownership, and fine-grained access control. All hosting and compliance "
+"responsibilities remain fully within the deploying organization’s control."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:11
+msgid "This document outlines how Weblate supports compliance with:"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:13
+msgid "EU General Data Protection Regulation (GDPR)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:14
+msgid "California Consumer Privacy Act (CCPA)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:15
+msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:16
+msgid "Swiss Federal Act on Data Protection (nFADP)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:17
+msgid ""
+"Canadian Personal Information Protection and Electronic Documents Act "
+"(PIPEDA)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:18
+msgid "Indian Digital Personal Data Protection Act (DPDPA)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:19
+msgid "China’s Personal Information Protection Law (PIPL)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:22
+#, fuzzy
+#| msgid "Privacy policy"
+msgid "Privacy principles"
+msgstr "プライバシーポリシー"
+
+#: ../../security/privacy-compliance.rst:25
+#, fuzzy
+#| msgid "Grant administration"
+msgid "Data minimization"
+msgstr "管理の承認"
+
+#: ../../security/privacy-compliance.rst:27
+msgid ""
+"Weblate collects only data strictly necessary for the operation of the "
+"platform. By default, the following personal data may be processed:"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:29
+msgid "Username or real name (user-supplied)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:30
+msgid "Email address (required for notifications and access control)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:31
+msgid "Optional profile metadata (avatar, bio)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:33
+msgid ""
+"No telemetry, analytics, or third-party tracking is embedded by default."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:36
+msgid "User consent and transparency"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:38
+msgid ""
+"Weblate interfaces allow full transparency into collected personal data."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:39
+msgid ""
+"Administrators may provide custom privacy policy and consent requests at "
+"user registration."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:40
+msgid ""
+"Data collection occurs only as a result of direct user interaction or "
+"administrator-defined configuration."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:43
+msgid "Data access and portability"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:45
+msgid ""
+"Users may export their personal data and translation contributions using the "
+"user interface or API."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:46
+msgid ""
+"Administrators can support data portability upon user request, fulfilling "
+"legal obligations for access."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:49
+msgid "Right to erasure and correction"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:51
+msgid ""
+"Weblate allows full deletion of user accounts via the user and admin "
+"interface."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:52
+msgid "Deleted users are removed or anonymized across the system."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:53
+msgid ""
+"Users may update or correct personal information directly via the profile "
+"interface."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:56
+#, fuzzy
+#| msgid "Validation failed, please try again."
+msgid "Data retention and deletion"
+msgstr "検証に失敗しました。もう一度お試しください。"
+
+#: ../../security/privacy-compliance.rst:58
+msgid "No automatic data persistence beyond system necessity."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:59
+msgid ""
+"Logs and backups are locally controlled; deletion policies are operator-"
+"configurable."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:60
+msgid ""
+"No third-party data sharing unless explicitly configured by administrators."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:63
+#, fuzzy
+#| msgid "Security and privacy"
+msgid "Security and confidentiality"
+msgstr "セキュリティとプライバシー条項"
+
+#: ../../security/privacy-compliance.rst:65
+msgid "Encrypted TLS is required for all user interactions (HTTPS)."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:66
+msgid ""
+"Failed logins, permission changes, and other security events are logged."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:67
+msgid ""
+"Optional SIEM integration (via GELF) enables compliance with audit "
+"requirements."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:68
+msgid "Role-based access controls enforce data access separation."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:71
+#, fuzzy
+#| msgid "Integration services"
+msgid "International transfers"
+msgstr "連携サービス"
+
+#: ../../security/privacy-compliance.rst:73
+msgid "Weblate itself performs no automatic data transfers."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:74
+msgid "All hosting and data residency is controlled by the system operator."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:75
+msgid ""
+"Organizations may host Weblate within specific jurisdictions (e.g., EU, "
+"India, China) to ensure compliance with data localization laws."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:78
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regulatory mapping"
+msgstr "正規表現"
+
+#: ../../security/privacy-compliance.rst:81
+#, fuzzy
+#| msgid "Django REST Framework"
+msgid "Framework"
+msgstr "Django REST フレームワーク"
+
+#: ../../security/privacy-compliance.rst:81
+msgid "Weblate support"
+msgstr "Weblate のサポート"
+
+#: ../../security/privacy-compliance.rst:83
+msgid "GDPR (EU)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:83
+msgid "Minimization, consent, erasure, auditability, locality"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:85
+msgid "CCPA (California)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:85
+msgid "Access, deletion, no sale, user control"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:87
+#, fuzzy
+#| msgid "Portuguese (Brazil)"
+msgid "LGPD (Brazil)"
+msgstr "ポルトガル語 (ブラジル)"
+
+#: ../../security/privacy-compliance.rst:87
+msgid "Legal basis, access, correction, deletion"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:89
+#, fuzzy
+#| msgid "French (Switzerland)"
+msgid "nFADP (Switzerland)"
+msgstr "フランス語 (スイス)"
+
+#: ../../security/privacy-compliance.rst:89
+msgid "Purpose limitation, disclosure transparency"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:91
+#, fuzzy
+#| msgid "English (Canada)"
+msgid "PIPEDA (Canada)"
+msgstr "英語 (カナダ)"
+
+#: ../../security/privacy-compliance.rst:91
+msgid "Consent, access, individual rights"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:93
+msgid "DPDPA (India)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:93
+msgid "Lawful processing, consent, notice, user rights"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:95
+msgid "PIPL (China)"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:95
+msgid "Purpose limitation, data minimization, localization"
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:99
+#, fuzzy
+#| msgid "Licensing compliance"
+msgid "Recommendations for compliance"
+msgstr "ライセンスの法令遵守"
+
+#: ../../security/privacy-compliance.rst:101
+msgid ""
+"**Consent capture:** Provide a notice and/or explicit consent checkbox "
+"during registration, via :ref:`legal`."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:102
+msgid ""
+"**Policy display:** Link to privacy and retention policies directly in "
+"Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:103
+msgid ""
+"**Audit integration:** Use the built-in audit log and GELF forwarding to "
+"meet logging mandates."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:104
+msgid ""
+"**Data subject requests:** Define a manual or automated procedure to fulfill "
+"access/erasure requests."
+msgstr ""
+
+#: ../../security/privacy-compliance.rst:105
+msgid ""
+"**Localization:** Ensure infrastructure is physically located within the "
+"target jurisdiction as required."
+msgstr ""
+
+#: ../../security/threat-model.rst:2
+#, fuzzy
+#| msgid "Weblate source code"
+msgid "Weblate threat model"
+msgstr "Weblate のソースコード"
+
+#: ../../security/threat-model.rst:4
+msgid ""
+"**Scope:** Core Weblate web application, its interactions with user "
+"browsers, backend components (web server, WSGI, database, Redis, Celery), "
+"and integration with external VCS. **Assumptions:** Standard Weblate "
+"deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
+"PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
+"Project Manager, Administrator)."
+msgstr ""
+
+#: ../../security/threat-model.rst:8
+#, fuzzy
+#| msgid "text description of action"
+msgid "System description an scope"
+msgstr "アクションのテキスト説明"
+
+#: ../../security/threat-model.rst:10
+msgid ""
+"Weblate is an open-source web-based localization platform built on Django. "
+"It integrates tightly with Git repositories to manage translations and "
+"offers CI/CD-style features for automation, hooks, and VCS synchronization."
+msgstr ""
+
+#: ../../security/threat-model.rst:14
+msgid "Assets:"
+msgstr ""
+
+#: ../../security/threat-model.rst:16
+msgid ""
+"**Confidentiality:** Translation strings, API keys/credentials for VCS "
+"integration, user credentials (passwords, 2FA secrets), user personal data "
+"(email, name), session tokens, audit logs, private project data."
+msgstr ""
+
+#: ../../security/threat-model.rst:17
+msgid ""
+"**Integrity:** Translation string content, VCS repository integrity, project "
+"and component configurations, user permissions, audit logs."
+msgstr ""
+
+#: ../../security/threat-model.rst:18
+msgid ""
+"**Availability:** Weblate web interface, VCS integration, database access, "
+"background task processing."
+msgstr ""
+
+#: ../../security/threat-model.rst:19
+msgid ""
+"**Authenticity/Non-repudiation:** Translation commit history, user "
+"attribution for translations, audit logs of administrative actions."
+msgstr ""
+
+#: ../../security/threat-model.rst:22
+msgid "Conceptual data flow diagram"
+msgstr ""
+
+#: ../../security/threat-model.rst:41
+msgid "Trust boundaries"
+msgstr ""
+
+#: ../../security/threat-model.rst:43
+msgid ""
+"**Internet ↔ Web server:** Public internet traffic interacting with the "
+"first line of defense."
+msgstr ""
+
+#: ../../security/threat-model.rst:44
+msgid ""
+"**Web server ↔ Weblate application:** Communication between the reverse "
+"proxy/web server and the application logic."
+msgstr ""
+
+#: ../../security/threat-model.rst:45
+msgid ""
+"**Weblate application ↔ Database** Application logic accessing persistent "
+"and cached data."
+msgstr ""
+
+#: ../../security/threat-model.rst:46
+msgid "**Weblate application ↔ Logging:** Application logic creating logs."
+msgstr ""
+
+#: ../../security/threat-model.rst:47
+msgid ""
+"**Weblate application ↔ Internal VCS repository:** Application logic "
+"interacting with its local copy of the VCS repository."
+msgstr ""
+
+#: ../../security/threat-model.rst:48
+msgid ""
+"**Weblate application ↔ External VCS repository:** Weblate reaching out to "
+"external code hosting platforms."
+msgstr ""
+
+#: ../../security/threat-model.rst:49
+msgid ""
+"**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
+"within the web application."
+msgstr ""
+
+#: ../../security/threat-model.rst:52
+#, fuzzy
+#| msgid "Inline identification"
+msgid "Threat identification"
+msgstr "インライン識別"
+
+#: ../../security/threat-model.rst:57
+#, fuzzy
+#| msgid "Component Information"
+msgid "Component/Interaction"
+msgstr "コンポーネント情報"
+
+#: ../../security/threat-model.rst:58
+#, fuzzy
+#| msgid "Delete category."
+msgid "STRIDE threat category"
+msgstr "カテゴリの削除。"
+
+#: ../../security/threat-model.rst:59
+#, fuzzy
+#| msgid "Label description"
+msgid "Threat description"
+msgstr "ラベルの説明"
+
+#: ../../security/threat-model.rst:60
+msgid "Potential impact"
+msgstr ""
+
+#: ../../security/threat-model.rst:61
+msgid "**Web server** (nginx/Apache)"
+msgstr ""
+
+#: ../../security/threat-model.rst:62 ../../security/threat-model.rst:98
+#: ../../security/threat-model.rst:118
+msgid "**DoS**"
+msgstr ""
+
+#: ../../security/threat-model.rst:63
+msgid ""
+"**Denial of service:** Attacker floods the web server with requests, making "
+"Weblate unavailable."
+msgstr ""
+
+#: ../../security/threat-model.rst:64
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String is available for translation"
+msgid "Loss of availability for translation."
+msgstr "文字列は翻訳可能です"
+
+#: ../../security/threat-model.rst:66 ../../security/threat-model.rst:90
+#: ../../security/threat-model.rst:94 ../../security/threat-model.rst:114
+#: ../../security/threat-model.rst:138 ../../security/threat-model.rst:142
+#, fuzzy
+#| msgid "Information about project"
+msgid "**Information disclosure**"
+msgstr "プロジェクトについての情報"
+
+#: ../../security/threat-model.rst:67
+msgid ""
+"**Configuration exposure:** Misconfigured server exposes sensitive files (e."
+"g., config files, private keys)."
+msgstr ""
+
+#: ../../security/threat-model.rst:68
+msgid "Exposure of credentials, internal architecture."
+msgstr ""
+
+#: ../../security/threat-model.rst:70 ../../security/threat-model.rst:78
+#: ../../security/threat-model.rst:82 ../../security/threat-model.rst:110
+#: ../../security/threat-model.rst:122 ../../security/threat-model.rst:134
+msgid "**Tampering**"
+msgstr ""
+
+#: ../../security/threat-model.rst:71
+msgid ""
+"**Malicious request injection:** Attacker injects malicious data into HTTP "
+"headers or request bodies."
+msgstr ""
+
+#: ../../security/threat-model.rst:72
+msgid ""
+"Potential for SQL injection, XSS, or other injections if not properly "
+"handled by the backend."
+msgstr ""
+
+#: ../../security/threat-model.rst:73
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "**Weblate application**"
+msgstr "Weblate 翻訳"
+
+#: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
+msgid "**Spoofing**"
+msgstr ""
+
+#: ../../security/threat-model.rst:75
+msgid ""
+"**User impersonation:** Attacker gains access to a legitimate user's session "
+"(e.g., via session hijacking, compromised credentials)."
+msgstr ""
+
+#: ../../security/threat-model.rst:76
+#, fuzzy
+#| msgid "Improved translation memory matches."
+msgid "Unauthorized translation, repo access."
+msgstr "翻訳メモリとの一致の改良。"
+
+#: ../../security/threat-model.rst:77
+#, fuzzy
+#| msgid "Celery"
+msgid "(WSGI/Celery)"
+msgstr "Celery"
+
+#: ../../security/threat-model.rst:79
+msgid ""
+"**Unauthorized translation modification:** Malicious user or exploited "
+"vulnerability allows altering translations, project configs, or VCS "
+"integration settings."
+msgstr ""
+
+#: ../../security/threat-model.rst:80
+msgid "Incorrect translations, broken build, RCE via VCS hooks."
+msgstr ""
+
+#: ../../security/threat-model.rst:83
+msgid ""
+"**VCS integration manipulation:** Attacker manipulates Weblate's interaction "
+"with the VCS (e.g., injecting malicious commands via crafted repository URLs "
+"if not sanitized, leading to RCE)."
+msgstr ""
+
+#: ../../security/threat-model.rst:84
+msgid "Code injection in target projects, data exfiltration."
+msgstr ""
+
+#: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
+#, fuzzy
+#| msgid "**activity**"
+msgid "**Repudiation**"
+msgstr "**activity**"
+
+#: ../../security/threat-model.rst:87
+msgid ""
+"**Unattributed changes:** Malicious changes are made without proper "
+"attribution to the user or system responsible."
+msgstr ""
+
+#: ../../security/threat-model.rst:88
+msgid "Difficulty in auditing and accountability."
+msgstr ""
+
+#: ../../security/threat-model.rst:91
+msgid ""
+"**Sensitive data leakage:** SQL injection, insecure API endpoints, or errors "
+"disclose sensitive data (e.g., other users' translations, VCS credentials, "
+"server information)."
+msgstr ""
+
+#: ../../security/threat-model.rst:92
+msgid "Privacy breach, intellectual property theft."
+msgstr ""
+
+#: ../../security/threat-model.rst:95
+msgid ""
+"**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
+"tokens) are accessed by an attacker."
+msgstr ""
+
+#: ../../security/threat-model.rst:96
+#, fuzzy
+#| msgid "Access the internal repository"
+msgid "Direct access to integrated code repositories."
+msgstr "内部リポジトリへのアクセス"
+
+#: ../../security/threat-model.rst:99
+msgid ""
+"**Resource exhaustion:** Excessive background tasks or inefficient database "
+"queries triggered by an attacker lead to system slowdown or crash."
+msgstr ""
+
+#: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
+#, fuzzy
+#| msgid "Weblate is now available in தமிழ்."
+msgid "Weblate unavailability."
+msgstr "Weblate が தமிழ் 語にも対応。"
+
+#: ../../security/threat-model.rst:102 ../../security/threat-model.rst:106
+#, fuzzy
+#| msgid "List of privileges"
+msgid "**Elevation of privilege**"
+msgstr "権限一覧"
+
+#: ../../security/threat-model.rst:103
+msgid ""
+"**Role escalation:** A regular translator gains administrative privileges."
+msgstr ""
+
+#: ../../security/threat-model.rst:104
+msgid "Complete system compromise."
+msgstr ""
+
+#: ../../security/threat-model.rst:107
+msgid ""
+"**Command injection:** Arbitrary code execution due to improper input "
+"validation in repository URLs or add-ons."
+msgstr ""
+
+#: ../../security/threat-model.rst:108
+msgid "System compromise, data exfiltration."
+msgstr ""
+
+#: ../../security/threat-model.rst:109
+#, fuzzy
+#| msgid "Database"
+msgid "**Database/Redis**"
+msgstr "データベース"
+
+#: ../../security/threat-model.rst:111
+msgid ""
+"**Data corruption:** Direct access to the database allows altering "
+"translation strings, user data, or configuration."
+msgstr ""
+
+#: ../../security/threat-model.rst:112
+msgid "System malfunction, data integrity loss."
+msgstr ""
+
+#: ../../security/threat-model.rst:115
+msgid ""
+"**Sensitive data access:** Unauthorized access to database/Redis exposes all "
+"stored data (credentials, translation memory, user profiles)."
+msgstr ""
+
+#: ../../security/threat-model.rst:116
+msgid "Major data breach."
+msgstr ""
+
+#: ../../security/threat-model.rst:119
+msgid ""
+"**Database exhaustion:** Attacker floods the database with queries, or "
+"consumes all Redis memory/connections."
+msgstr ""
+
+#: ../../security/threat-model.rst:121
+#, fuzzy
+#| msgid "Site integration"
+msgid "**VCS integration**"
+msgstr "サイト連携"
+
+#: ../../security/threat-model.rst:123
+#, fuzzy
+#| msgid "Weblate could not push changes to the upstream repository."
+msgid ""
+"**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
+"changes to the upstream repository."
+msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+
+#: ../../security/threat-model.rst:124
+msgid "Introduction of malware/backdoors into target projects."
+msgstr ""
+
+#: ../../security/threat-model.rst:127
+msgid ""
+"**Fake commit attribution:** Weblate commits changes attributed to a wrong "
+"user (e.g., an admin forcing a commit in a translator's name without their "
+"consent)."
+msgstr ""
+
+#: ../../security/threat-model.rst:128
+#, fuzzy
+#| msgid "Security issues"
+msgid "Accountability issues."
+msgstr "セキュリティの問題"
+
+#: ../../security/threat-model.rst:129
+#, fuzzy
+#| msgid "User interface"
+msgid "**User interaction**"
+msgstr "ユーザー インターフェイス"
+
+#: ../../security/threat-model.rst:131
+msgid ""
+"**Phishing/social engineering:** Attacker tricks users into revealing "
+"credentials for Weblate or linked VCS accounts."
+msgstr ""
+
+#: ../../security/threat-model.rst:132
+#, fuzzy
+#| msgid "Account e-mail"
+msgid "Account compromise."
+msgstr "アカウントのメールアドレス"
+
+#: ../../security/threat-model.rst:133
+msgid "(Web UI)"
+msgstr ""
+
+#: ../../security/threat-model.rst:135
+msgid ""
+"**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
+"or user profiles execute in other users' browsers."
+msgstr ""
+
+#: ../../security/threat-model.rst:136
+msgid "Session hijacking, credential theft, defacement."
+msgstr ""
+
+#: ../../security/threat-model.rst:139
+msgid ""
+"**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
+"Weblate, tricking users into unintended actions."
+msgstr ""
+
+#: ../../security/threat-model.rst:140
+msgid "Unauthorized actions, data manipulation."
+msgstr ""
+
+#: ../../security/threat-model.rst:143
+msgid ""
+"**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
+"another user's email) in the UI due to authorization flaws."
+msgstr ""
+
+#: ../../security/threat-model.rst:144
+#, fuzzy
+#| msgid "Privacy"
+msgid "Privacy breach."
+msgstr "プライバシー"
+
+#: ../../security/threat-model.rst:147
+#, fuzzy
+#| msgid "Integration services"
+msgid "Mitigation strategies"
+msgstr "連携サービス"
+
+#: ../../security/threat-model.rst:149
+#, fuzzy
+#| msgid "Authentication settings"
+msgid "**Authentication & authorization:**"
+msgstr "認証設定"
+
+#: ../../security/threat-model.rst:150
+msgid "Strong password policies, see :doc:`/security/passwords`."
+msgstr ""
+
+#: ../../security/threat-model.rst:151
+#, fuzzy
+#| msgid "Source string, see :ref:`additional`."
+msgid "Enforced 2FA, see :ref:`2fa`."
+msgstr "原文、参照: :ref:`additional`。"
+
+#: ../../security/threat-model.rst:152
+#, fuzzy
+#| msgid "Per-project permission management"
+msgid "Robust session management."
+msgstr "プロジェクトごとのアクセス権の管理"
+
+#: ../../security/threat-model.rst:153
+msgid ""
+"Role-based access control (RBAC) to enforce the least privilege (e.g., "
+"translators can only edit translations, not change project configs), see :"
+"doc:`/admin/access`."
+msgstr ""
+
+#: ../../security/threat-model.rst:154
+msgid ""
+"Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
+"admin/auth`."
+msgstr ""
+
+#: ../../security/threat-model.rst:155
+msgid "**Input validation and output encoding:**"
+msgstr ""
+
+#: ../../security/threat-model.rst:156
+msgid ""
+"Strict validation of all user inputs (forms, API requests, VCS URLs) to "
+"prevent injection attacks (SQL injection, command injection, XSS)."
+msgstr ""
+
+#: ../../security/threat-model.rst:157
+msgid ""
+"Context-aware output encoding for all user-supplied data displayed on the "
+"web UI to prevent XSS."
+msgstr ""
+
+#: ../../security/threat-model.rst:158
+#, fuzzy
+#| msgid "Integration services"
+msgid "**VCS integration security:**"
+msgstr "連携サービス"
+
+#: ../../security/threat-model.rst:159
+msgid ""
+"Principle of least privilege for VCS credentials (e.g., read-only access "
+"where possible, limited scopes for tokens)."
+msgstr ""
+
+#: ../../security/threat-model.rst:160
+#, fuzzy
+#| msgid "Subversion credentials"
+msgid "Secure storage of VCS credentials."
+msgstr "Subversion 資格情報"
+
+#: ../../security/threat-model.rst:161
+msgid ""
+"Strict sanitization and validation of all data coming from VCS (e.g., "
+"filenames, branch names, commit messages that might be displayed)."
+msgstr ""
+
+#: ../../security/threat-model.rst:162
+msgid ""
+"Secure execution of Git/Mercurial commands (avoiding shell execution with "
+"user-controlled input)."
+msgstr ""
+
+#: ../../security/threat-model.rst:163
+#, fuzzy
+#| msgid "Spam protection"
+msgid "**Data protection:**"
+msgstr "スパム対策"
+
+#: ../../security/threat-model.rst:164
+msgid "Encryption of sensitive data at rest."
+msgstr ""
+
+#: ../../security/threat-model.rst:165
+msgid ""
+"Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication)."
+msgstr ""
+
+#: ../../security/threat-model.rst:166
+msgid ""
+"Database hardening (the least privilege for Weblate user, strong passwords)."
+msgstr ""
+
+#: ../../security/threat-model.rst:167
+#, fuzzy
+#| msgid "System encoding"
+msgid "**System hardening:**"
+msgstr "システムのエンコーディング"
+
+#: ../../security/threat-model.rst:168
+msgid "Regular patching of OS, Weblate, and all dependencies."
+msgstr ""
+
+#: ../../security/threat-model.rst:169
+msgid "Principle of least privilege for Weblate user account on the OS."
+msgstr ""
+
+#: ../../security/threat-model.rst:170
+msgid ""
+"Network segmentation (e.g., separating database/Redis from public access)."
+msgstr ""
+
+#: ../../security/threat-model.rst:171
+msgid "Use of WAF (Web Application Firewall)."
+msgstr ""
+
+#: ../../security/threat-model.rst:172
+msgid "**Logging and monitoring:**"
+msgstr ""
+
+#: ../../security/threat-model.rst:173
+msgid ""
+"Comprehensive audit logging of all security-relevant events (logins, failed "
+"logins, permission changes, critical configuration changes, VCS operations)."
+msgstr ""
+
+#: ../../security/threat-model.rst:174
+msgid ""
+"Centralized logging and alerting for security incidents, for example :ref:"
+"`graylog`."
+msgstr ""
+
+#: ../../security/threat-model.rst:175
+#, fuzzy
+#| msgid "Start a development server:"
+msgid "**Secure development practices:**"
+msgstr "開発サーバーの起動:"
+
+#: ../../security/threat-model.rst:176
+msgid "Code reviews with a security focus."
+msgstr ""
+
+#: ../../security/threat-model.rst:177
+msgid ""
+"Static Application Security Testing (SAST) and Dynamic Application Security "
+"Testing (DAST), see :doc:`/contributing/code`."
+msgstr ""
+
+#: ../../security/threat-model.rst:178
+msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
+msgstr ""
+
+#: ../../security/threat-model.rst:179
+msgid "Regular security audits and penetration testing."
+msgstr ""
+
+#: ../../security/threat-model.rst:180
+msgid "**Error handling:**"
+msgstr ""
+
+#: ../../security/threat-model.rst:181
+msgid ""
+"Generic error messages that do not reveal sensitive internal information."
+msgstr ""
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -54852,9 +55930,14 @@ msgstr ""
 "です。"
 
 #: ../../user/glossary.rst:6
+#, fuzzy
+#| msgid ""
+#| "Each project can include one or more glossaries as a shorthand for "
+#| "storing terminology. Glossary easify maintaining consistency of the "
+#| "translation."
 msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
-"terminology. Glossary easify maintaining consistency of the translation."
+"terminology. Glossaries help to maintain consistency of the translation."
 msgstr ""
 "各プロジェクトには、プロジェクト固有の用語を保存するための簡単な方法として、"
 "1 つまたは複数の用語集を含めることができます。用語集があれば、翻訳の一貫性が"
@@ -55019,49 +56102,62 @@ msgstr "これを使用して、用語の略語または短い表現を追加で
 msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
+#: ../../user/glossary.rst:123
+#, fuzzy
+#| msgid "Glossary id"
+msgid "Glossary import"
+msgstr "用語集 id"
+
 #: ../../user/glossary.rst:125
+msgid ""
+"Similar to regular translation components, you can upload existing "
+"glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
+"tbx` are supported and can be uploaded, see :ref:`upload`."
+msgstr ""
+
+#: ../../user/glossary.rst:132
 msgid "Glossaries in automatic suggestion"
 msgstr "自動提案における用語集"
 
-#: ../../user/glossary.rst:129
+#: ../../user/glossary.rst:136
 msgid ""
 "Following automatic suggestion services utilize glossaries during the "
 "translation:"
 msgstr "以下の自動提案サービスは、翻訳する際に用語集を利用します。"
 
-#: ../../user/glossary.rst:132
+#: ../../user/glossary.rst:139
 msgid ":ref:`mt-deepl`"
 msgstr ":ref:`mt-deepl`"
 
-#: ../../user/glossary.rst:134
+#: ../../user/glossary.rst:141
 msgid ":ref:`mt-modernmt`"
 msgstr ":ref:`mt-modernmt`"
 
-#: ../../user/glossary.rst:136
+#: ../../user/glossary.rst:143
 msgid ":ref:`mt-google-translate-api-v3`"
 msgstr ":ref:`mt-google-translate-api-v3`"
 
-#: ../../user/glossary.rst:138
+#: ../../user/glossary.rst:145
 msgid "The glossary is processed before exposed to the service:"
 msgstr "用語集はサービスに渡される前に処理されます。"
 
-#: ../../user/glossary.rst:140
+#: ../../user/glossary.rst:147
 msgid ""
 "Duplicate source entries are not allowed, any additional entries with the "
 "same source are skipped."
 msgstr ""
 "原文の重複は許されず、同じ原文を持つ2つ目以降の項目はスキップされます。"
 
-#: ../../user/glossary.rst:141
+#: ../../user/glossary.rst:148
 msgid ""
 "Any control characters and leading and trailing whitespace are stripped."
 msgstr "制御文字や前後の空白文字は取り除かれます。"
 
-#: ../../user/glossary.rst:142
+#: ../../user/glossary.rst:149
 msgid ":ref:`glossary-forbidden` are skipped."
 msgstr ":ref:`glossary-forbidden` はスキップされます。"
 
-#: ../../user/glossary.rst:146
+#: ../../user/glossary.rst:153
 msgid ""
 "Many services store glossaries server-side and enforce limit on the number "
 "of saved glossaries. Weblate always deletes the oldest glossary if it runs "
@@ -59196,6 +60292,9 @@ msgstr ""
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 
+#~ msgid "Legal"
+#~ msgstr "法的文書"
+
 #~ msgid "Threshold for inclusion of translations."
 #~ msgstr "サーバに置く翻訳のしきい値。"
 
@@ -59705,11 +60804,6 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 #~ msgstr "変更の数値 ID"
 
 #, fuzzy
-#~| msgid "**activity**"
-#~ msgid "**action**"
-#~ msgstr "**activity**"
-
-#, fuzzy
 #~| msgid "Change period"
 #~ msgid "*Change Action*"
 #~ msgstr "期間の変更"
@@ -59823,9 +60917,6 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 #~ msgstr ""
 #~ "一部の Linux ディストリビューションで Weblate を実行すると libffi のエラー"
 #~ "で失敗します:"
-
-#~ msgid "Source string, see :ref:`additional`."
-#~ msgstr "原文、参照: :ref:`additional`。"
 
 #~ msgid "``ignore-icu-message-format-syntax``"
 #~ msgstr "``ignore-icu-message-format-syntax``"
@@ -60520,9 +61611,6 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 #~ msgid "Translation status"
 #~ msgstr "翻訳状況"
 
-#~ msgid "CII Best Practices"
-#~ msgstr "CII のベスト プラクティス"
-
 #~ msgid "REUSE status"
 #~ msgstr "再利用状況"
 
@@ -61040,9 +62128,6 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 
 #~ msgid "Adding new third-party library typically consists of:"
 #~ msgstr "通常の新しいサード パーティ ライブラリの追加設定方法:"
-
-#~ msgid "Security issues"
-#~ msgstr "セキュリティの問題"
 
 #~ msgid ""
 #~ "In order to give the community time to respond and upgrade, you are "
@@ -64821,9 +65906,6 @@ msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`、:ref:`user-comments`"
 
 #~ msgid "Returns information about a glossary."
 #~ msgstr "用語集の情報を返します。"
-
-#~ msgid "Glossary id"
-#~ msgstr "用語集 id"
 
 #~ msgid "Changes the glossary parameters."
 #~ msgstr "用語集のパラメーターを変更します。"
