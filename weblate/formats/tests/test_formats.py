@@ -1354,7 +1354,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
 
     def test_extended_metadata(self):
         storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
-        self.assertEqual(len(storage.all_units), 2)
+        self.assertEqual(len(storage.all_units), 3)
         self.assertEqual(storage.mimetype(), self.MIME)
         self.assertEqual(storage.extension(), self.EXT)
 
@@ -1373,6 +1373,12 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertEqual(unit.flags, "")
         self.assertEqual(unit.is_readonly(), True)
+
+        unit, _ = storage.find_unit("e003", "combo box")
+        self.assertEqual(unit.notes, "")
+        self.assertEqual(unit.source_explanation, "")
+        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.is_readonly(), False)
 
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
