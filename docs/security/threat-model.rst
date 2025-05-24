@@ -1,11 +1,11 @@
 Weblate threat model
-========================================
+====================
 
 **Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, Redis, Celery), and integration with external VCS.
 **Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
 
-System description an scope
----------------------------
+System description and scope
+----------------------------
 
 Weblate is an open-source web-based localization platform built on Django. It
 integrates tightly with Git repositories to manage translations and offers
