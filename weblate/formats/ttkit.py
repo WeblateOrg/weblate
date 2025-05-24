@@ -2138,6 +2138,9 @@ class TBXUnit(TTKitUnit):
         flags = Flags(super().flags)
 
         for note in self._get_nodes(origin="pos"):
+            # each tig in the two langsets in the termEntry can have the
+            # <termNote type="administrativeStatus">, consider forbidden
+            # if either of the two is forbidden/obsolete
             if self.is_administrative_status_term_note(note):
                 if self.get_note_text(note).strip().lower() in {
                     "forbidden",
