@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-24 05:01+0000\n"
+"PO-Revision-Date: 2025-05-26 03:01+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -2065,7 +2065,7 @@ msgstr "חותם זמן יצירה"
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
-msgstr ""
+msgstr "מנהלים יכולים להגדיר את חותם הזמן של יצירת התגובה במפורש."
 
 #: weblate/api/serializers.py:357
 msgid "Commenter’s email"
@@ -2075,7 +2075,7 @@ msgstr "דוא״ל המגיבים"
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
-msgstr ""
+msgstr "מנהלים יכולים לשייך את התגובה הזאת למשתמש אחר לפי כתובת הדוא״ל."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3188,6 +3188,7 @@ msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"להשתמש בתווים תקניים של קבילית לטינית (למשל: ɣ במקום ה־γ היוונית, ɛ במקום ε)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -9262,16 +9263,13 @@ msgid "Current translation"
 msgstr "תרגום נוכחי"
 
 #: weblate/templates/last-changes-content.html:72
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Previous translation"
-msgstr "התרגום הקודם היה: „%s”."
+msgstr "התרגום הקודם"
 
 #: weblate/templates/last-changes-content.html:75
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "המצב של Weblate"
+msgstr "מצב: %(state)s"
 
 #: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
@@ -9587,13 +9585,10 @@ msgstr[2] "הזימון יפוג לאחר %(count)s שעות."
 msgstr[3] "הזימון יפוג לאחר %(count)s שעות."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
-msgstr "קיבלת הזמנה מאת %(from_user)s להשתתף במיזם %(project_name)s."
+msgstr "הוזמנת על ידי %(invitation_author)s להצטרף למיזם %(project_name)s"
 
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
@@ -10668,10 +10663,11 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate היא תוכנה חופשית וחינמית עם תמיכה מקצועית ושירותים למשתמשים מסחריים."
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "אפשר ללמוד על אפשרויות התמיכה ב־weblate.org."
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -10891,10 +10887,8 @@ msgid "Project maintainers"
 msgstr "מתחזקי המיזם"
 
 #: weblate/templates/snippets/info.html:56
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project reviewers"
-msgstr "מיזם הוסר"
+msgstr "סוקרי המיזם"
 
 #: weblate/templates/snippets/info.html:68
 msgid "Automatic component list assignment"
@@ -11512,10 +11506,8 @@ msgstr ""
 "ניתן לתרגם את %(object)s באמצעות %%23Weblate at %(share_url)s עוד היום!"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on X"
 msgid "Share on Bluesky"
-msgstr "שיתוף ב־X"
+msgstr "שיתוף ב־Bluesky"
 
 #: weblate/templates/snippets/share-menu.html:16
 msgid "Share on Fediverse"
@@ -13071,16 +13063,12 @@ msgstr ""
 "את החשיפה של מיזמי התרגום שלך ולהביא תורמים חדשים."
 
 #: weblate/templates/widgets.html:39
-#, fuzzy
-#| msgid "Widgets"
 msgid "Widget"
-msgstr "וידג׳טים"
+msgstr "וידג׳ט"
 
 #: weblate/templates/widgets.html:57
-#, fuzzy
-#| msgid "BBCode"
 msgid "Code"
-msgstr "קוד BB"
+msgstr "קוד"
 
 #: weblate/templates/widgets.html:59 weblate/trans/forms.py:1336
 msgid "HTML"
@@ -13107,20 +13095,16 @@ msgid "Image URL"
 msgstr "כתובת תמונה"
 
 #: weblate/templates/widgets.html:76
-#, fuzzy
-#| msgid "Overview"
 msgid "Live Preview"
-msgstr "סקירת על"
+msgstr "תצוגה מקדימה חיה"
 
 #: weblate/templates/widgets.html:90
-#, fuzzy
-#| msgid "Recovery codes copied to clipboard."
 msgid "Embed code copied to clipboard."
-msgstr "הקודים לשחזור הועתקו ללוח הגזירים."
+msgstr "קוד ההטמעה הועתק ללוח הגזירים."
 
 #: weblate/templates/widgets.html:92
 msgid "Embed Code"
-msgstr ""
+msgstr "קוד הטמעה"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -14944,7 +14928,7 @@ msgstr "להשתמש כמונחון"
 msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
-msgstr ""
+msgstr "מונחונים שונים מתרגומים רגילים אבל מסייעים לעקוב ולשתף מינוח עקבי."
 
 #: weblate/trans/models/component.py:788
 msgid "Glossary color"
@@ -15404,10 +15388,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "לא ניתן לקבע שינויים ממתינים: %s"
 
 #: weblate/trans/models/translation.py:1889
-#, fuzzy
-#| msgid "Plurals are not supported by the file format!"
 msgid "Plurals are not supported by the file format."
-msgstr "אין תמיכה בצורות ריבוי בסוג הקובץ הזה!"
+msgstr "אין תמיכה בצורות ריבוי בסוג הקובץ הזה."
 
 #: weblate/trans/models/translation.py:1894 weblate/trans/models/unit.py:774
 #: weblate/utils/forms.py:127
@@ -16141,10 +16123,8 @@ msgid "Could not remove the string: %s"
 msgstr "לא ניתן להסיר את המחרוזת: %s"
 
 #: weblate/trans/views/edit.py:1056
-#, fuzzy
-#| msgid "String removed"
 msgid "String was removed."
-msgstr "מחרוזת הוסרה"
+msgstr "מחרוזת הוסרה."
 
 #: weblate/trans/views/error.py:28
 msgid "Bad Request"
@@ -16357,10 +16337,8 @@ msgid "Language count badge"
 msgstr "עיטור כמות שפות"
 
 #: weblate/trans/widgets.py:537
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Threshold"
-msgstr "סף ניקוד"
+msgstr "סף"
 
 #: weblate/trans/widgets.py:552 weblate/utils/views.py:624
 #, python-format
@@ -16587,7 +16565,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:117
 msgid "The uploaded image was invalid."
-msgstr ""
+msgstr "התמונה שהועלתה הייתה שגויה."
 
 #: weblate/utils/validators.py:126
 #, python-format
@@ -16684,10 +16662,8 @@ msgid "String location"
 msgstr "מיקום מחרוזת"
 
 #: weblate/utils/views.py:217
-#, fuzzy
-#| msgid "Position and priority"
 msgid "Component and priority"
-msgstr "מקום ועדיפות"
+msgstr "רכיב ועדיפות"
 
 #: weblate/vcs/base.py:71
 msgid "This will push changes to the upstream repository."
