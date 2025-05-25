@@ -107,7 +107,7 @@
         {% endif %}
       </ul>
     </li>
-    {% if user_can_see_repository_status %}
+    {% if user_can_see_repository_status or announcement_form %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           {% translate "Manage" %} <span class="caret"></span>
@@ -163,12 +163,10 @@
       {% show_info project=object.component.project component=object.component translation=object language=object.language stats=object.stats metrics=object|metrics show_full_language=False %}
     </div>
 
-
     <div class="tab-pane" id="history">
       {% include "last-changes-content.html" %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
     </div>
-
 
     {% if autoform %}
       <div class="tab-pane" id="auto">
@@ -398,9 +396,8 @@
             <div class="panel-footer">
               <input type="submit" value="{% translate "Upload" %}" class="btn btn-primary" />
             </div>
-          </form>
-
-        </div>
+          </div>
+        </form>
       </div>
     {% endif %}
 
@@ -424,9 +421,8 @@
             <div class="panel-footer">
               <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
             </div>
-          </form>
-
-        </div>
+          </div>
+        </form>
       </div>
     {% endif %}
 
