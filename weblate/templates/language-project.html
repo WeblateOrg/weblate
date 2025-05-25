@@ -89,15 +89,17 @@
         {% endif %}
       </ul>
     </li>
-    {% if user_can_edit_project %}
+    {% if user_can_edit_project or announcement_form %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           {% translate "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
-          </li>
+          {% if user_can_edit_project %}
+            <li>
+              <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+            </li>
+          {% endif %}
           {% if announcement_form %}
             <li>
               <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>

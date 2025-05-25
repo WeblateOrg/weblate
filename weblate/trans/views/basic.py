@@ -276,7 +276,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 obj=obj,
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "project.edit", obj
+                AnnouncementForm, user, "announcement.add", project_object
             ),
             "language_stats": project_object.stats.get_single_language_stats(
                 language_object
@@ -417,7 +417,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 request=request, initial=SearchForm.get_initial(request), obj=obj
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "project.edit", obj
+                AnnouncementForm, user, "announcement.add", obj
             ),
             "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "delete_form": optional_form(
@@ -500,7 +500,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 request=request, initial=SearchForm.get_initial(request), obj=obj
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "project.edit", obj
+                AnnouncementForm, user, "announcement.add", obj.project
             ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj
@@ -574,7 +574,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 project=obj.project,
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "component.edit", obj
+                AnnouncementForm, user, "announcement.add", obj
             ),
             "delete_form": optional_form(
                 ComponentDeleteForm, user, "component.edit", obj, obj=obj
@@ -682,7 +682,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
             "new_unit_form": get_new_unit_form(obj, user),
             "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "component.edit", obj
+                AnnouncementForm, user, "announcement.add", component
             ),
             "delete_form": optional_form(
                 TranslationDeleteForm, user, "translation.delete", obj, obj=obj
