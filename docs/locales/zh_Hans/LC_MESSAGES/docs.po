@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-24 14:11+0000\n"
+"PO-Revision-Date: 2025-05-26 03:02+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -3100,7 +3100,7 @@ msgstr "``prefix``"
 
 #: ../../admin/addons.rst:647
 msgid "Prepended static text"
-msgstr ""
+msgstr "开头附加的静态文本"
 
 #: ../../admin/addons.rst:649
 msgid "``var_prefix``"
@@ -3108,7 +3108,7 @@ msgstr "``var_prefix``"
 
 #: ../../admin/addons.rst:649
 msgid "Prepended variable text"
-msgstr ""
+msgstr "开头附加的可变文本"
 
 #: ../../admin/addons.rst:651
 msgid "``suffix``"
@@ -3116,7 +3116,7 @@ msgstr "``suffix``"
 
 #: ../../admin/addons.rst:651
 msgid "Appended static text"
-msgstr ""
+msgstr "增补的静态文本"
 
 #: ../../admin/addons.rst:653
 msgid "``var_suffix``"
@@ -3564,7 +3564,7 @@ msgstr "自定义 JSON 输出"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "添加了 :guilabel:`Avoid spaces after separators` 选项。"
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -4698,7 +4698,9 @@ msgid ""
 "Weblate relies on Django for the authentication. This includes built-in "
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
-msgstr ""
+msgstr "Weblate 依赖 Django "
+"进行身份验证。这包括内置的基于密码的身份验证、社媒身份验证，以及 Django "
+"的第三方身份验证后端。"
 
 #: ../../admin/auth.rst:24
 msgid ""
@@ -12719,7 +12721,8 @@ msgid ""
 "Several features in Weblate rely on correct HTTP headers being passed to "
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
-msgstr ""
+msgstr "Weblate 中的几个功能依赖于传递给 Weblate 的正确 HTTP "
+"标头。使用反向代理时，请确保所需信息被正确传递。"
 
 #: ../../admin/install.rst:725
 msgid "Client IP address"
@@ -12789,6 +12792,9 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"未传递正确的协议可能导致 Weblate 最后陷入试图升级客户端到 HTTPS "
+"的重定向循环中。确保反向代理正确地将它暴露为 :http:header:`X-Forwarded-"
+"Proto`。"
 
 #: ../../admin/install.rst:757
 msgid ""
@@ -14510,7 +14516,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:127
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "SSL 终止代理"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
@@ -14519,14 +14525,17 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"可以在 Weblate 容器外终止 "
+"SSL。要实现它，需要将几个标头传递给容器，这样容器可以知道其实际的环境。"
+"关于这些标头的更详细信息见 :ref:`reverse-proxy`。"
 
 #: ../../admin/install/docker.rst:134
 msgid "Example nginx reverse proxy configuration for a Docker container."
-msgstr ""
+msgstr "Docker 容器的 nginx 反向代理示范配置。"
 
 #: ../../admin/install/docker.rst:147
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "外部 SSL 终止的 Docker 容器环境。"
 
 #: ../../admin/install/docker.rst:154
 msgid "Using own SSL certificates"
@@ -16336,10 +16345,13 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"处理子请求身份验证的 `Anubis`_ 服务器 URL。这也许有助使用工作证明来筛选传入 "
+"HTTP 标头以阻止 AI 爬虫。要让此功能正常运转，你需要配置 `Anubis for "
+"Subrequest Authentication`_ ."
 
 #: ../../admin/install/docker.rst:2009
 msgid "This can be done using docker compose, for example:"
-msgstr ""
+msgstr "这可以用 docker compose 完成，比如："
 
 #: ../../admin/install/docker.rst:2024
 msgid "You can then turn on the Anubis usage in Weblate using:"
@@ -22612,11 +22624,11 @@ msgstr "允许将此部件用作术语表。当你想分别管理专业术语和
 
 #: ../../admin/projects.rst:1067
 msgid "Glossaries are best for:"
-msgstr ""
+msgstr "术语表的最佳用处："
 
 #: ../../admin/projects.rst:1069
 msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
-msgstr ""
+msgstr "确保术语使用一致性（如 UI 标签、产品名）。"
 
 #: ../../admin/projects.rst:1070
 msgid "Sharing preferred translations across multiple components or projects."
@@ -22629,7 +22641,7 @@ msgstr "用定义和上下文支持翻译者。"
 #: ../../admin/projects.rst:1075
 msgid ""
 "Glossaries are not for regular translations—they are for managing terms only."
-msgstr ""
+msgstr "术语表不适用正则表达式 - 它们仅用于管理术语。"
 
 #: ../../admin/projects.rst:1077
 msgid ""
@@ -25928,13 +25940,13 @@ msgstr "新评论的内容，你可以使用 Markdown 并通过 @username 提及
 msgid ""
 "commenter's email, can be set only by project admins and defaults to the "
 "authenticated user."
-msgstr ""
+msgstr "评论者的电子信箱仅能由项目管理员设置且默认为经身份验证的用户。"
 
 #: ../../api.rst:2304
 msgid ""
 "creation timestamp of the comment, can be set only by project admins and "
 "defaults to now."
-msgstr ""
+msgstr "评论的创建时间戳仅能由项目管理员设置且默认为“现在”。"
 
 #: ../../api.rst:2305
 msgid "comment identifier"
@@ -26847,7 +26859,7 @@ msgstr "新增了 :ref:`check-kabyle-characters` 质量检查。"
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr ":ref:`sbom` 现正由 Weblate 提供。"
 
 #: ../../changes.rst:12
 msgid ":doc:`/security/index` documentation."
@@ -26893,13 +26905,14 @@ msgstr "可多次安装 :ref:`addon-weblate.webhook.webhook`。"
 
 #: ../../changes.rst:21
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr ":ref:`user-profile` 现可包括联系 URL。"
 
 #: ../../changes.rst:22
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
-msgstr ""
+msgstr ":http:post:`/api/projects/` 允许在 :ref:`billing` "
+"模块启用时让非超级用户创建项目。"
 
 #: ../../changes.rst:23
 msgid ""
@@ -26935,7 +26948,7 @@ msgstr "分页时对 :ref:`dashboard` 翻译排序。"
 
 #: ../../changes.rst:29
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
-msgstr ""
+msgstr "遵守 :ref:`mt-deepl` 中的 DeepL API 免费术语表限制。"
 
 #: ../../changes.rst:30
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
@@ -26960,7 +26973,7 @@ msgstr "兼容性"
 
 #: ../../changes.rst:36
 msgid "The projects and categories default tab now shows translated languages."
-msgstr ""
+msgstr "项目和分类默认标签页现在显示已翻译的语言。"
 
 #: ../../changes.rst:39 ../../changes.rst:62 ../../changes.rst:81
 #: ../../changes.rst:108 ../../changes.rst:134 ../../changes.rst:187
@@ -27181,13 +27194,13 @@ msgstr ":ref:`projectbackup` 现包含团队和分类。"
 
 #: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
-msgstr ""
+msgstr "非 web 服务容器现支持 Docker 健康检查."
 
 #: ../../changes.rst:129
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
-msgstr ""
+msgstr ":ref:`vcs-gitlab` 现在更加有力地检测合并请求冲突。"
 
 #: ../../changes.rst:130
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
@@ -27334,7 +27347,7 @@ msgstr "现在程序优雅地处理创建重复术语表的错误和术语表删
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
-msgstr ""
+msgstr "**安全性：** 克隆部件可能泄露部件配置到 URL (CVE-2025-32021)."
 
 #: ../../changes.rst:177
 msgid "Fixed captcha verification when some time zone was configured."
@@ -38117,11 +38130,12 @@ msgid ""
 "When contributing code, you agree to put your changes and new code under the "
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
-msgstr ""
+msgstr "贡献代码时，您同意将所做改动和新代码置于和仓库正使用的同一许可证下，除非另有"
+"声明和约定。"
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` 更详细地解释代码许可问题。"
 
 #: ../../contributing/snippets/code-guide.rst:14
 msgid "Writing a good patch"
@@ -38139,6 +38153,10 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"获得一个声称修复 11 个古怪问题的补丁令人烦恼，"
+"关于该补丁的讨论和意见不同意它们中的 10 个算问题，或者认为这些问题中的 9 "
+"个已经用另一方式被修复了。然后，合并这一更改的人需要从成堆的源码中提取出单一"
+"的有趣补丁，而这样做产生许多额外的工作。"
 
 #: ../../contributing/snippets/code-guide.rst:25
 msgid ""
@@ -38147,12 +38165,15 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"更可取的方式是，每个解决一个问题的 fix 应当在其自己的 patch/commit "
+"中，有自己的描述/提交信息，说清楚这个 fix "
+"修正的是什么，这样维护者或其他感兴趣的人可以有选择地应用所有改动。"
 
 #: ../../contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
-msgstr ""
+msgstr "另外，单独更改启用二等分要好得多，这样便于跟踪 issues 和将来的 regression。"
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -38165,6 +38186,9 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"文档工作也许枯燥乏味；然而，需要有人来完成这项工作。如果在提交代码改动时能一"
+"并提交文档信息会让事情变得容易的多。请记得记录下方法、复杂的代码块，或用户可"
+"见的功能。"
 
 #: ../../contributing/snippets/code-guide.rst:46
 msgid "Test cases"
@@ -38178,6 +38202,9 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"这些测试允许我们快速验证功能是否正如预想那样运转。为了保持这一状况并改进它，"
+"所有添加的新特性和功能都需要在测试套件中测试，每个新添加的特性都应至少获得一"
+"个有效测试用例，来验证其如文档中记录的那样工作。"
 
 #: ../../contributing/snippets/code-guide.rst:56
 msgid ":doc:`/contributing/tests`"
@@ -38238,7 +38265,7 @@ msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:83
 msgid "You can also trigger check manually, to check all files run:"
-msgstr "还能够手动触发检查，来检查所有文件的运行："
+msgstr "还可以手动触发检查，来检查所有文件的运行："
 
 #: ../../contributing/snippets/code-guide.rst:92
 msgid "Coding securely"
@@ -38248,7 +38275,7 @@ msgstr "安全地写代码"
 msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
-msgstr "在为 Weblate 编写任何代码时都应该考虑到 `通过设计保证安全原则`_。"
+msgstr "在为 Weblate 编写任何代码时都应该考虑到 `从设计上就是安全的这一原则`_。"
 
 #: ../../contributing/snippets/code-guide.rst:100
 msgid "AI guidelines"
@@ -38263,10 +38290,14 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"在向项目贡献内容时，您同意我们照原样使用它，且您必须确保您被允许将它分发给我"
+"们。向我们提交改动代表您同意这些更改能够并应当被本项目采用，并在本项目许可证"
+"下再次分发。作者应明确知道确保没有未经许可的代码被提交至本项目的责任在于作者"
+"。"
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "这无关是否使用 AI。"
 
 #: ../../contributing/snippets/code-guide.rst:111
 msgid ""
@@ -38275,13 +38306,18 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"贡献拉取请求时，你理所应当应该始终确保提议的质量上佳，并尽了最大努力遵守我们"
+"的指南。基本的经验法则是如果某人可以指出贡献是在 AI "
+"帮助下做出的，那么你有更多的工作要去做。"
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid ""
 "We can accept code written with the help of AI into the project, but the "
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
-msgstr ""
+msgstr "本项目可以接受在 AI "
+"帮助下写出的代码，但这样的代码仍必须遵守代码标准，要编写清晰、有记录、有特性"
+"测试用例，并遵照所有我们拥有的常规要求。"
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -39272,7 +39308,7 @@ msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr "Django 管理界面定制化。"
+msgstr "Django 管理界面定制。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -39309,13 +39345,14 @@ msgstr "如果您不确定您的缺陷报告或功能请求，您可以尝试 :r
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to created issues"
-msgstr ""
+msgstr "使用 AI 创建 issues"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
-msgstr ""
+msgstr "如你请求 AI 工具寻找 Weblate "
+"或其模块中的问题，你**必须**确保在报告中届时这一事实。"
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -39324,6 +39361,8 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"在将这些 issues 报告给我们之前，你还必须再三仔细检查它们来确认这些 issues "
+"确实存在且情况和 AI 所称完全一样。给予 AI 的工具经常生成不精确或瞎编的结果。"
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -39335,6 +39374,12 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"仅仅粘贴复制 AI "
+"生成的报告*绝大多数情况下*不是个好主意。这些报告通常啰里啰唆，很少切中要害（"
+"而且还编造细节）。如你真的用 AI "
+"发现了一个问题并已自行验证其真实性，请自己写报告并按照你了解的情况阐明这个问"
+"题。这么做确保 AI "
+"生成的不精确和捏造的问题在浪费更多人的时间之前早早地被筛除出去。"
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -39344,15 +39389,18 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"因我们严肃对待安全报告，我们优先调查每份报告。这一工作耗时耗力，让我们干不了"
+"其他有意义的活儿。虚假和编造的安全问题有效地阻止我们做真正的项目工作，浪费我"
+"们的时间和资源。"
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
-msgstr ""
+msgstr "我们会立即封禁提交编造虚假报告给项目的用户。"
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
-msgstr ""
+msgstr "issues 生命周期"
 
 #: ../../contributing/license.rst:2
 msgid "License"
@@ -39410,7 +39458,8 @@ msgstr "Weblate 模块许可"
 msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
-msgstr ""
+msgstr "一些 Weblate 模块使用 MIT 或 ISC "
+"许可证。请检查这些模块各自的仓库了解实际许可证。"
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -39491,7 +39540,9 @@ msgid ""
 "The Docker container includes additional digit in versioning to track "
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
-msgstr ""
+msgstr "Docker "
+"容器包含额外的版本数字来跟踪容器本身像是依赖项的变化，这些更新可能包含安全更"
+"新。"
 
 #: ../../contributing/release.rst:23
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
@@ -41503,6 +41554,8 @@ msgid ""
 "configure separate components for each platform. The :ref:`translation-"
 "propagation` will help you to keep the strings in sync."
 msgstr ""
+"翻译多系统平台（如 Android 和 iOS）项目时，为每个平台配置单独的部件。:ref"
+":`translation-propagation` 会帮助你保持字符串同步。"
 
 #: ../../devel/mobile.rst:8
 msgid "Best practices:"
@@ -41510,25 +41563,26 @@ msgstr "最佳实践："
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
-msgstr ""
+msgstr "每一平台创建一个部件 (如 `MyApp Android`, `MyApp iOS`)。"
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
-msgstr ""
+msgstr "确保不同平台在可能的地方使用相同的源字符串和键。"
 
 #: ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
-msgstr ""
+msgstr "开启 :ref:`component-allow_translation_propagation` "
+"自动地为匹配的字符串重用译文。"
 
 #: ../../devel/mobile.rst:14
 msgid ""
 "This setup avoids duplicate work and keeps translations consistent across "
 "platforms."
-msgstr ""
+msgstr "这一设置避免重复工作并保持不同平台上的译文一致性。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -46495,7 +46549,7 @@ msgstr "依赖项"
 
 #: ../../security/dependencies.rst:7
 msgid "Software Bill of Material"
-msgstr ""
+msgstr "软件物料清单"
 
 #: ../../security/dependencies.rst:9
 msgid ""
@@ -46503,6 +46557,9 @@ msgid ""
 "file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be "
 "used to review the dependencies for security issues or license compliance."
 msgstr ""
+"Weblate 源码核心包含了一份软件物料清单，具体文件为 :file:`docs/specs/sbom/"
+"sbom.json`，使用 CycloneDX "
+"格式。这可被用于检查依赖项的安全问题或许可证合规性。"
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
@@ -46561,19 +46618,21 @@ msgstr "灾难恢复计划"
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
 msgid "Scope and objectives"
-msgstr ""
+msgstr "范围和对象"
 
 #: ../../security/disaster-recovery-plan.rst:7
 msgid ""
 "This plan addresses recovery from catastrophic events impacting Weblate "
 "service availability, data integrity, or operational continuity."
-msgstr ""
+msgstr "本计划是有关从影响 Weblate "
+"服务可用性、数据完整性，或运行持续性的灾难性事件中进行的恢复。"
 
 #: ../../security/disaster-recovery-plan.rst:11
 msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate s.r."
 "o., but it can be applied to other deployments similarly."
-msgstr ""
+msgstr "本计划是特别为部署 Weblate s.r.o 的 Weblate "
+"设计的，但可以相似地应用到其他部署上。"
 
 #: ../../security/disaster-recovery-plan.rst:14
 msgid "Definitions"
@@ -46584,19 +46643,21 @@ msgid ""
 "**Disaster:** Any unplanned event causing complete or significant loss of "
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
-msgstr ""
+msgstr "**灾难：** "
+"任何导致服务、数据、或系统功能完全或重大丧失的计划外事件，比如硬件故障、数据"
+"损坏、基础设施中断，或恶意攻击。"
 
 #: ../../security/disaster-recovery-plan.rst:17
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
-msgstr ""
+msgstr "**恢复点目标 (RPO)：** 最长可接受的数据丢失间隔: **24 小时**."
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
-msgstr ""
+msgstr "**恢复时间目标 (RTO):** 最长可接受的恢复完整服务的时间： **8 小时**."
 
 #: ../../security/disaster-recovery-plan.rst:21
 msgid "Critical components"
@@ -46606,19 +46667,20 @@ msgstr "关键部件"
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
-msgstr ""
+msgstr "**应用层：** Weblate Python/Django 程序、后台 workers (Celery)、及计划任务。"
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
-msgstr ""
+msgstr "**数据层：** PostgreSQL 数据库、翻译仓库 (Git) 和日志。"
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
-msgstr ""
+msgstr "**基础设施：** Web 服务器 (NGINX/Apache)、反向代理、 存储卷、SSL/TLS 配置，"
+"及可选的 SIEM 日志系统。"
 
 #: ../../security/disaster-recovery-plan.rst:28
 msgid "Backup colicy"
@@ -46632,6 +46694,9 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+":ref:`automated-backup` "
+"过程保证所有必须的部件（数据库、数据、配置）的每日备份。这些备份保存在两个不"
+"同的地理位置。备份保留政策确保近期备份每天可用并保留六个月的备份。"
 
 #: ../../security/disaster-recovery-plan.rst:36
 msgid "Recovery Procedures"
@@ -46639,7 +46704,7 @@ msgstr "恢复流程"
 
 #: ../../security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
-msgstr ""
+msgstr "失败情景：主机/系统完全丢失"
 
 #: ../../security/disaster-recovery-plan.rst:43
 msgid "Provision new host."
@@ -46647,12 +46712,12 @@ msgstr "开通新主机。"
 
 #: ../../security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
-msgstr ""
+msgstr "使用预留软件启动 Weblate。"
 
 #: ../../security/disaster-recovery-plan.rst:45
 #: ../../security/disaster-recovery-plan.rst:53
 msgid "Restore Weblate backup following :ref:`restore-borg`."
-msgstr ""
+msgstr "遵循 :ref:`restore-borg` 恢复 Weblate 备份。"
 
 #: ../../security/disaster-recovery-plan.rst:46
 msgid "Restart Weblate container."
@@ -46664,31 +46729,31 @@ msgstr "验证功能并执行一致性检查。"
 
 #: ../../security/disaster-recovery-plan.rst:50
 msgid "Failure scenario: database corruption or data volume loss"
-msgstr ""
+msgstr "失败情景：数据库损坏或数据卷丢失"
 
 #: ../../security/disaster-recovery-plan.rst:52
 msgid "Stop Weblate to prevent further write operations."
-msgstr ""
+msgstr "停止 Weblate 防止进一步的写入操作。"
 
 #: ../../security/disaster-recovery-plan.rst:54
 msgid "Restart services and verify translation and user data consistency."
-msgstr ""
+msgstr "重启服务并验证翻译和用户数据一致性。"
 
 #: ../../security/disaster-recovery-plan.rst:57
 msgid "Failure scenario: malicious tampering or ransomware"
-msgstr ""
+msgstr "失败情景：恶意篡改或勒索软件"
 
 #: ../../security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "将受影响主机同网络隔离。"
 
 #: ../../security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
-msgstr ""
+msgstr "识别最后一个已知良好备份（感染前）。"
 
 #: ../../security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
-msgstr ""
+msgstr "遵照来自 :ref:`drp-host` 步骤在新主机上部署系统。"
 
 #: ../../security/disaster-recovery-plan.rst:64
 msgid "Validation and testing"
@@ -46696,19 +46761,19 @@ msgstr "验证和测试"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
-msgstr ""
+msgstr "**备份验证：** Weblate 备份的每月恢复测试。"
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
-msgstr ""
+msgstr "**灾难恢复演练：** 至少每年执行，包含完整恢复到预备环境。"
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
-msgstr ""
+msgstr "**自动的完整性检查：** BorgBackup 确保备份压缩文件的完整性。"
 
 #: ../../security/disaster-recovery-plan.rst:71
 msgid "Post-recovery steps"
@@ -46716,25 +46781,25 @@ msgstr "恢复后的步骤"
 
 #: ../../security/disaster-recovery-plan.rst:73
 msgid "Confirm all services are operational and accessible."
-msgstr ""
+msgstr "确认所有服务运行正常且可访问。"
 
 #: ../../security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
-msgstr ""
+msgstr "通知用户和利益相关方恢复状态。"
 
 #: ../../security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
-msgstr ""
+msgstr "记录时间线、根本原因、学到的教训。"
 
 #: ../../security/disaster-recovery-plan.rst:76
 msgid "Apply updates or infrastructure changes to prevent recurrence."
-msgstr ""
+msgstr "应用更新或基础设施更改来防止再次发生。"
 
 #: ../../security/disaster-recovery-plan.rst:77
 msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
-msgstr ""
+msgstr "如涉及漏洞遵循 :ref:`vulnerability-disclosure-policy`."
 
 #: ../../security/incident-response-plan.rst:2
 msgid "Incident response plan for Weblate"
@@ -46744,13 +46809,13 @@ msgstr "Weblate 事件响应计划"
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of a Weblate deployment."
-msgstr ""
+msgstr "事件响应计划涵盖影响 Weblate 部署机密性、完整性、或可用性的事件。"
 
 #: ../../security/incident-response-plan.rst:8
 msgid ""
 "It applies to self-hosted Weblate instances, whether on-premise or in cloud "
 "infrastructure."
-msgstr ""
+msgstr "它应用到自托管的 Weblate 实例，不论是场所内还是云基础设施。"
 
 #: ../../security/incident-response-plan.rst:11
 msgid "Roles and responsibilities"
@@ -46760,22 +46825,22 @@ msgstr "角色和职责"
 msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
-msgstr ""
+msgstr "**事件响应负责人 (IRL)：** 协调响应过程的所有阶段。"
 
 #: ../../security/incident-response-plan.rst:14
 msgid "**System Administrator:** Executes containment and recovery measures."
-msgstr ""
+msgstr "**系统管理员：** 执行抑制和恢复措施。"
 
 #: ../../security/incident-response-plan.rst:15
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
-msgstr ""
+msgstr "**安全官：** 评估安全影响和监管后果。"
 
 #: ../../security/incident-response-plan.rst:16
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
-msgstr ""
+msgstr "**沟通负责人：** 管理对内部利益相关者和外部方(如需要）的通知。"
 
 #: ../../security/incident-response-plan.rst:19
 msgid "Incident categories"
@@ -46783,23 +46848,23 @@ msgstr "事件类别"
 
 #: ../../security/incident-response-plan.rst:21
 msgid "Category 1 – Unauthorized Access"
-msgstr ""
+msgstr "类别 1 – 未经授权的访问"
 
 #: ../../security/incident-response-plan.rst:22
 msgid "Category 2 – Data Integrity Violation"
-msgstr ""
+msgstr "类别 2 - 数据完整性违背"
 
 #: ../../security/incident-response-plan.rst:23
 msgid "Category 3 – Service Outage or Degradation"
-msgstr ""
+msgstr "类别 3 - 服务中断或降级"
 
 #: ../../security/incident-response-plan.rst:24
 msgid "Category 4 – Misconfiguration or Deployment Error"
-msgstr ""
+msgstr "类别 4 - 配置错误或部署错误"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Incident response lifecycle"
-msgstr ""
+msgstr "事件响应生命周期"
 
 #: ../../security/incident-response-plan.rst:30
 msgid "Preparation"
@@ -46809,29 +46874,29 @@ msgstr "准备"
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory."
-msgstr ""
+msgstr "确保 PostgreSQL 数据库和数据目录的每天常规备份。"
 
 #: ../../security/incident-response-plan.rst:33
 msgid ""
 "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
 "1.2+)."
-msgstr ""
+msgstr "用反向代理（如 Nginx 或 Apache）和 HTTPS (TLS 1.2+) 保护 Weblate."
 
 #: ../../security/incident-response-plan.rst:34
 msgid "Enable 2FA for admin-level accounts."
-msgstr ""
+msgstr "对管理员级账户启用 2FA."
 
 #: ../../security/incident-response-plan.rst:35
 msgid ""
 "Keep the Weblate instance and its dependencies (Python, Django, Celery, "
 "database, etc.) up to date."
-msgstr ""
+msgstr "保持 Weblate 实例及其依赖项（Python、Django、Celery、数据库等）为最新版。"
 
 #: ../../security/incident-response-plan.rst:36
 msgid ""
 "Integrate with SIEM systems using the GELF protocol for audit and "
 "application log forwarding."
-msgstr ""
+msgstr "用 GELF 协议和 SIEM 系统集成，用于审计和程序日志转发。"
 
 #: ../../security/incident-response-plan.rst:39
 msgid "Identification"
@@ -46841,11 +46906,11 @@ msgstr "识别"
 msgid ""
 "Monitor system and application logs (``journalctl``, reverse proxy logs, "
 "Weblate application and audit logs)."
-msgstr ""
+msgstr "监控系统和程序日志（``journalctl``、反向代理日志、Weblate 程序和审计日志）。"
 
 #: ../../security/incident-response-plan.rst:42
 msgid "Analyze login events, webhook executions, and push/pull failures."
-msgstr ""
+msgstr "分析登录事件、webhook 执行、推送/拉取失败。"
 
 #: ../../security/incident-response-plan.rst:43
 msgid ""
@@ -46853,6 +46918,8 @@ msgid ""
 "login failures - Unexpected service restarts or memory usage spikes - "
 "Irregular push/pull actions from version control systems"
 msgstr ""
+"配置警报（如通过 Prometheus、Zabbix 或 SIEM）项：- 多次登陆失败 - "
+"意料之外的服务重启或内存用量飙升 - 来自版本控制系统的反常推送/拉取操作"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Containment"
@@ -46861,17 +46928,17 @@ msgstr "抑制"
 #: ../../security/incident-response-plan.rst:51
 msgid ""
 "Temporarily restrict access (e.g., via firewall rules or service isolation)."
-msgstr ""
+msgstr "临时限制访问（如通过防火墙规则或服务隔离）。"
 
 #: ../../security/incident-response-plan.rst:52
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
-msgstr ""
+msgstr "禁用外部继承（Git/webhooks），如果它们是攻击载体的一部分。"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Suspend affected user accounts immediately."
-msgstr ""
+msgstr "立即暂停受影响的用户账户。"
 
 #: ../../security/incident-response-plan.rst:56
 msgid "Eradication"
@@ -46879,16 +46946,16 @@ msgstr "消除"
 
 #: ../../security/incident-response-plan.rst:58
 msgid "Remove any unauthorized code or data."
-msgstr ""
+msgstr "删除任何未经授权的代码或数据。"
 
 #: ../../security/incident-response-plan.rst:59
 msgid "Patch known vulnerabilities by upgrading Weblate or server components."
-msgstr ""
+msgstr "升级 Weblate 或服务器不见打上已知漏洞的补丁。"
 
 #: ../../security/incident-response-plan.rst:60
 msgid ""
 "Validate binary and repository integrity using SHA-256 checksums or Git logs."
-msgstr ""
+msgstr "使用 SHA-256 校验和或 Git 日志验证二进制文件和仓库完整性。"
 
 #: ../../security/incident-response-plan.rst:63
 msgid "Recovery"
@@ -46896,17 +46963,17 @@ msgstr "恢复"
 
 #: ../../security/incident-response-plan.rst:65
 msgid "Restore affected services or data from the latest known-good backups."
-msgstr ""
+msgstr "从最新的已知良好备份中恢复受影响服务或数据。"
 
 #: ../../security/incident-response-plan.rst:66
 msgid "Reintroduce services in a phased approach."
-msgstr ""
+msgstr "分阶段重新引入服务。"
 
 #: ../../security/incident-response-plan.rst:67
 msgid ""
 "Monitor logs and system behavior continuously for at least 72 hours post-"
 "recovery."
-msgstr ""
+msgstr "恢复后至少 72 小时持续监控日志和系统行为。"
 
 #: ../../security/incident-response-plan.rst:70
 msgid "Post-incident review"
@@ -46914,11 +46981,11 @@ msgstr "事件后的调查"
 
 #: ../../security/incident-response-plan.rst:72
 msgid "Compile a full incident timeline and actions taken."
-msgstr ""
+msgstr "编译完整的事件时间线和采取的行动。"
 
 #: ../../security/incident-response-plan.rst:73
 msgid "Perform Root Cause Analysis (RCA)."
-msgstr ""
+msgstr "执行根源分析（RCA）。"
 
 #: ../../security/incident-response-plan.rst:74
 msgid "Update security policies and IRP documentation."
@@ -46926,7 +46993,7 @@ msgstr "更新安全政策和事件响应计划文档。"
 
 #: ../../security/incident-response-plan.rst:75
 msgid "Review the effectiveness of detection and containment mechanisms."
-msgstr ""
+msgstr "审核检测和抑制机制的有效性。"
 
 #: ../../security/index.rst:2
 msgid "Security and privacy"
@@ -47001,7 +47068,7 @@ msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
-msgstr ""
+msgstr "漏洞和事件处理"
 
 #: ../../security/issues.rst:7
 msgid "Reporting security issues"
@@ -47011,7 +47078,7 @@ msgstr "报告安全问题"
 msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
-msgstr ""
+msgstr "如果你已经使用 AI 来发现 Weblate 中的安全问题，请阅读 :ref:`ai-issues`。"
 
 #: ../../security/issues.rst:13
 msgid ""
@@ -47097,7 +47164,7 @@ msgstr "`Python 社交认证 <https://github.com/python-social-auth>`_"
 
 #: ../../security/issues.rst:54
 msgid "Vulnerability disclosure policy"
-msgstr ""
+msgstr "漏洞披露政策"
 
 #: ../../security/issues.rst:56
 msgid ""
@@ -47106,19 +47173,23 @@ msgid ""
 "security/advisories. The advisory is available immediately with a release "
 "when possible."
 msgstr ""
+"发行包含漏洞修复版本后 30 天内，安全通告会被发布在 https://github.com/"
+"WeblateOrg/weblate/security/advisories。如可能，公告会在版本发布后马上可用。"
 
 #: ../../security/issues.rst:61
 msgid ""
 "Any actively exploited vulnerability or severe incidents are notified to "
 "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
 "and a full report is provided within 14 days."
-msgstr ""
+msgstr "任何活跃利用的漏洞或严重事件在 24 小时内通知 CSIRT，72 小时内提供一般信息给 "
+"CSIRT，14天内提供完整报告。"
 
 #: ../../security/issues.rst:65
 msgid ""
 "All users of Hosted or Dedicated Weblate impacted by a severe incident or an "
 "actively exploited vulnerability are notified within 7 days."
-msgstr ""
+msgstr "所有受活跃利用漏洞或严重事件影响的托管或专用 Weblate 的用户会在 7 "
+"天内收到通知。"
 
 #: ../../security/passwords.rst:2
 msgid "Password security"
@@ -47132,13 +47203,16 @@ msgstr "Weblate 如何存储密码"
 msgid ""
 "Weblate uses a Django implementation to store hashed passwords; see :ref:"
 "`django:auth_password_storage`."
-msgstr ""
+msgstr "Weblate 使用 Django 实现来存储哈希过的密码；见 "
+":ref:`django:auth_password_storage`。"
 
 #: ../../security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"推荐的 Weblate 配置使用 Argon2，参数为 time_cost = 2, memory_cost = 102400, "
+"和 parallelism = 8。"
 
 #: ../../security/passwords.rst:13
 msgid ""
@@ -47154,7 +47228,7 @@ msgstr "密码验证"
 msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
-msgstr ""
+msgstr "当用户配置密码时，密码将被验证以减少使用弱密码的风险。"
 
 #: ../../security/passwords.rst:20
 msgid "The recommended Weblate configuration verifies:"
@@ -47168,19 +47242,19 @@ msgstr "密码长度至少 10 个字符，最长 72 个字符。"
 
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
-msgstr ""
+msgstr "拒绝类似用户名和其他属性的密码。"
 
 #: ../../security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "拒绝常用或过于简单的密码。"
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr ""
+msgstr "拒绝任何用户近期使用的密码。"
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
-msgstr ""
+msgstr "使用 zxcvbn 算法检查密码强度（可选）。"
 
 #: ../../security/passwords.rst:30
 msgid ""
@@ -47197,7 +47271,8 @@ msgid ""
 "Weblate does not store any passwords or enforce any password policy when "
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
-msgstr ""
+msgstr "配置社交或第三方身份验证时，Weblate "
+"不保存任何描密码或强制任何密码策略。这样的情况下，密码完全由外部管理。"
 
 #: ../../security/passwords.rst:41
 msgid ":doc:`/admin/auth`"
@@ -47214,40 +47289,43 @@ msgid ""
 "data ownership, and fine-grained access control. All hosting and compliance "
 "responsibilities remain fully within the deploying organization’s control."
 msgstr ""
+"Weblate 提供严格的数据最小化、完整的数据所有权、细粒度的访问控制允许组织在 "
+"GDPR、DPDPA、PIPL "
+"等隐私框架内运作。所有托管和合规职责完全保持在部署机构的控制下。"
 
 #: ../../security/privacy-compliance.rst:11
 msgid "This document outlines how Weblate supports compliance with:"
-msgstr ""
+msgstr "本文档概述 Weblate 如何支持符合下列监管框架："
 
 #: ../../security/privacy-compliance.rst:13
 msgid "EU General Data Protection Regulation (GDPR)"
-msgstr ""
+msgstr "欧盟通用数据保护条例（GDPR）"
 
 #: ../../security/privacy-compliance.rst:14
 msgid "California Consumer Privacy Act (CCPA)"
-msgstr ""
+msgstr "加利福利亚消费者隐私法案（CCPA）"
 
 #: ../../security/privacy-compliance.rst:15
 msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
-msgstr ""
+msgstr "巴西通用数据保护法（LGPD）"
 
 #: ../../security/privacy-compliance.rst:16
 msgid "Swiss Federal Act on Data Protection (nFADP)"
-msgstr ""
+msgstr "瑞士联邦数据保护法(nFADP)"
 
 #: ../../security/privacy-compliance.rst:17
 msgid ""
 "Canadian Personal Information Protection and Electronic Documents Act "
 "(PIPEDA)"
-msgstr ""
+msgstr "加拿大个人信息保护和电子文档法案（PIPEDA)"
 
 #: ../../security/privacy-compliance.rst:18
 msgid "Indian Digital Personal Data Protection Act (DPDPA)"
-msgstr ""
+msgstr "印度数字个人数据保护法案（DPDPA）"
 
 #: ../../security/privacy-compliance.rst:19
 msgid "China’s Personal Information Protection Law (PIPL)"
-msgstr ""
+msgstr "中华人民共和国个人信息保护法（PIPL）"
 
 #: ../../security/privacy-compliance.rst:22
 msgid "Privacy principles"
@@ -47261,81 +47339,81 @@ msgstr "数据最小化"
 msgid ""
 "Weblate collects only data strictly necessary for the operation of the "
 "platform. By default, the following personal data may be processed:"
-msgstr ""
+msgstr "Weblate 仅收集对平台运行绝对必需的数据。默认情况下，下列个人数据可能被处理："
 
 #: ../../security/privacy-compliance.rst:29
 msgid "Username or real name (user-supplied)"
-msgstr ""
+msgstr "用户名或真实姓名（用户提供）"
 
 #: ../../security/privacy-compliance.rst:30
 msgid "Email address (required for notifications and access control)"
-msgstr ""
+msgstr "电子邮件地址（对通知和访问控制是必需的）"
 
 #: ../../security/privacy-compliance.rst:31
 msgid "Optional profile metadata (avatar, bio)"
-msgstr ""
+msgstr "可选的个人资料元数据（头像、自我介绍）"
 
 #: ../../security/privacy-compliance.rst:33
 msgid ""
 "No telemetry, analytics, or third-party tracking is embedded by default."
-msgstr ""
+msgstr "默认不嵌入遥测、分析、或第三方跟踪。"
 
 #: ../../security/privacy-compliance.rst:36
 msgid "User consent and transparency"
-msgstr ""
+msgstr "用户同意和透明度"
 
 #: ../../security/privacy-compliance.rst:38
 msgid ""
 "Weblate interfaces allow full transparency into collected personal data."
-msgstr ""
+msgstr "Weblate 接口允许对所收集个人数据的完全透明。"
 
 #: ../../security/privacy-compliance.rst:39
 msgid ""
 "Administrators may provide custom privacy policy and consent requests at "
 "user registration."
-msgstr ""
+msgstr "管理员可在用户注册时提供自定义的隐私政策和同意请求。"
 
 #: ../../security/privacy-compliance.rst:40
 msgid ""
 "Data collection occurs only as a result of direct user interaction or "
 "administrator-defined configuration."
-msgstr ""
+msgstr "数据收集仅作为直接用户交互或管理员定义的配置的结果发生。"
 
 #: ../../security/privacy-compliance.rst:43
 msgid "Data access and portability"
-msgstr ""
+msgstr "数据访问和便携性"
 
 #: ../../security/privacy-compliance.rst:45
 msgid ""
 "Users may export their personal data and translation contributions using the "
 "user interface or API."
-msgstr ""
+msgstr "用户可以使用用户界面或 API 导出个人数据和翻译贡献。"
 
 #: ../../security/privacy-compliance.rst:46
 msgid ""
 "Administrators can support data portability upon user request, fulfilling "
 "legal obligations for access."
-msgstr ""
+msgstr "管理员可应用户所请支持数据便携性，履行数据访问的法律义务。"
 
 #: ../../security/privacy-compliance.rst:49
 msgid "Right to erasure and correction"
-msgstr ""
+msgstr "数据擦除和修正的权利"
 
 #: ../../security/privacy-compliance.rst:51
 msgid ""
 "Weblate allows full deletion of user accounts via the user and admin "
 "interface."
-msgstr ""
+msgstr "Weblate 允许通过用户和管理员界面完全删除用户数据。"
 
 #: ../../security/privacy-compliance.rst:52
 msgid "Deleted users are removed or anonymized across the system."
-msgstr ""
+msgstr "被删除的用户在整个系统中被移除或匿名化。"
 
 #: ../../security/privacy-compliance.rst:53
 msgid ""
 "Users may update or correct personal information directly via the profile "
 "interface."
-msgstr ""
+msgstr "用户可以通过个人资料界面直接更新或修正个人信息。"
 
 #: ../../security/privacy-compliance.rst:56
 msgid "Data retention and deletion"
@@ -47343,18 +47421,18 @@ msgstr "数据保留和删除"
 
 #: ../../security/privacy-compliance.rst:58
 msgid "No automatic data persistence beyond system necessity."
-msgstr ""
+msgstr "没有超出系统必要性的自动数据持续。"
 
 #: ../../security/privacy-compliance.rst:59
 msgid ""
 "Logs and backups are locally controlled; deletion policies are operator-"
 "configurable."
-msgstr ""
+msgstr "本地控制日志和备份；运营方可自行配置删除策略。"
 
 #: ../../security/privacy-compliance.rst:60
 msgid ""
 "No third-party data sharing unless explicitly configured by administrators."
-msgstr ""
+msgstr "除非管理员明确配置，否则没有第三方数据分享。"
 
 #: ../../security/privacy-compliance.rst:63
 msgid "Security and confidentiality"
@@ -47362,22 +47440,22 @@ msgstr "安全性和机密性"
 
 #: ../../security/privacy-compliance.rst:65
 msgid "Encrypted TLS is required for all user interactions (HTTPS)."
-msgstr ""
+msgstr "所有用户交互都需要加密的 TLS （HTTPS）。"
 
 #: ../../security/privacy-compliance.rst:66
 msgid ""
 "Failed logins, permission changes, and other security events are logged."
-msgstr ""
+msgstr "记录失败的登录、权限更改，以及其他安全事件。"
 
 #: ../../security/privacy-compliance.rst:67
 msgid ""
 "Optional SIEM integration (via GELF) enables compliance with audit "
 "requirements."
-msgstr ""
+msgstr "可选的 SIEM 集成（通过 GELF）满足审计要求的规定。"
 
 #: ../../security/privacy-compliance.rst:68
 msgid "Role-based access controls enforce data access separation."
-msgstr ""
+msgstr "基于角色的访问控制强制数据访问区分。"
 
 #: ../../security/privacy-compliance.rst:71
 msgid "International transfers"
@@ -47385,17 +47463,18 @@ msgstr "跨境传输"
 
 #: ../../security/privacy-compliance.rst:73
 msgid "Weblate itself performs no automatic data transfers."
-msgstr ""
+msgstr "Weblate 本身不执行自动的数据传输。"
 
 #: ../../security/privacy-compliance.rst:74
 msgid "All hosting and data residency is controlled by the system operator."
-msgstr ""
+msgstr "所哟托管和数据驻留均由系统运营方控制。"
 
 #: ../../security/privacy-compliance.rst:75
 msgid ""
 "Organizations may host Weblate within specific jurisdictions (e.g., EU, "
 "India, China) to ensure compliance with data localization laws."
-msgstr ""
+msgstr "组织可以在特定司法管辖区内托管 "
+"Weblate（如欧盟、印度和中国）确保符合数据本地化法律的规定。"
 
 #: ../../security/privacy-compliance.rst:78
 msgid "Regulatory mapping"
@@ -47411,19 +47490,19 @@ msgstr "Weblate 支持"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "GDPR (EU)"
-msgstr ""
+msgstr "GDPR （欧盟）"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Minimization, consent, erasure, auditability, locality"
-msgstr ""
+msgstr "最小化、同意、擦除、可审计性、本地化"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "CCPA (California)"
-msgstr ""
+msgstr "CCPA （加利福尼亚）"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "Access, deletion, no sale, user control"
-msgstr ""
+msgstr "访问、删除、无销售、用户控制"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "LGPD (Brazil)"
@@ -47431,7 +47510,7 @@ msgstr "LGPD（巴西）"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "Legal basis, access, correction, deletion"
-msgstr ""
+msgstr "法律依据、访问、修正、删除"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "nFADP (Switzerland)"
@@ -47439,7 +47518,7 @@ msgstr "nFADP（瑞士）"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "Purpose limitation, disclosure transparency"
-msgstr ""
+msgstr "目的限制、披露透明度"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "PIPEDA (Canada)"
@@ -47447,23 +47526,23 @@ msgstr "PIPEDA （加拿大）"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "Consent, access, individual rights"
-msgstr ""
+msgstr "同意、访问、个人权利"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "DPDPA (India)"
-msgstr ""
+msgstr "DPDPA（印度）"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "Lawful processing, consent, notice, user rights"
-msgstr ""
+msgstr "合法处理、同意、通知、用户权利"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "PIPL (China)"
-msgstr ""
+msgstr "PIPL （中国）"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "Purpose limitation, data minimization, localization"
-msgstr ""
+msgstr "目的限制、数据最小化、本地化"
 
 #: ../../security/privacy-compliance.rst:99
 msgid "Recommendations for compliance"
@@ -47473,31 +47552,33 @@ msgstr "合规建议"
 msgid ""
 "**Consent capture:** Provide a notice and/or explicit consent checkbox "
 "during registration, via :ref:`legal`."
-msgstr ""
+msgstr "**同意获取：** 通过 :ref:`legal` 在注册期间提供通知和/或明确的同意复选框。"
 
 #: ../../security/privacy-compliance.rst:102
 msgid ""
 "**Policy display:** Link to privacy and retention policies directly in "
 "Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`."
 msgstr ""
+"**展示政策：** 在 Weblate 用户界面中直接链接到隐私和保留政策，通过 "
+":ref:`legal` 或 :setting:`PRIVACY_URL`。"
 
 #: ../../security/privacy-compliance.rst:103
 msgid ""
 "**Audit integration:** Use the built-in audit log and GELF forwarding to "
 "meet logging mandates."
-msgstr ""
+msgstr "**审计集成：** 使用内置审计日志和 GELF 转发来满足强制日志记录要求。"
 
 #: ../../security/privacy-compliance.rst:104
 msgid ""
 "**Data subject requests:** Define a manual or automated procedure to fulfill "
 "access/erasure requests."
-msgstr ""
+msgstr "**数据对象请求：** 定义手动或自动的流程满足访问、擦除请求。"
 
 #: ../../security/privacy-compliance.rst:105
 msgid ""
 "**Localization:** Ensure infrastructure is physically located within the "
 "target jurisdiction as required."
-msgstr ""
+msgstr "**本地化：** 确保基础设置物理位置按照要求位于目标司法管辖区内。"
 
 #: ../../security/threat-model.rst:2
 msgid "Weblate threat model"
@@ -47512,6 +47593,11 @@ msgid ""
 "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
+"**范围：** 核心 Weblate web 程序、其与用户浏览器的交互、后端部件 （web "
+"服务器、WSGI、数据库、Redis、Celery）及和外部 VCS 的集成。**假设：** 标准 "
+"Weblate 部署，有典型部件 （nginx/Apache、Gunicorn/"
+"uWSGI、PostgreSQL、Redis、Celery）和用户角色 "
+"(未经身份验证、翻译者、项目经理、管理员）。"
 
 #: ../../security/threat-model.rst:8
 msgid "System description an scope"
@@ -47523,10 +47609,12 @@ msgid ""
 "It integrates tightly with Git repositories to manage translations and "
 "offers CI/CD-style features for automation, hooks, and VCS synchronization."
 msgstr ""
+"Weblate 是构建在 Django 之上的开放源码的，基于 web 的本地化平台。它与 Git "
+"仓库紧密集成来管理翻译并提供 CI/CD 样式的特性用于自动化、hooks、和 VCS 同步。"
 
 #: ../../security/threat-model.rst:14
 msgid "Assets:"
-msgstr ""
+msgstr "资产："
 
 #: ../../security/threat-model.rst:16
 msgid ""
@@ -47534,72 +47622,76 @@ msgid ""
 "integration, user credentials (passwords, 2FA secrets), user personal data "
 "(email, name), session tokens, audit logs, private project data."
 msgstr ""
+"**机密性：** 翻译字符串、 VCS 集成的 API 密钥/凭据、用户凭据 （密码、 "
+"双因素身份验证 "
+"secrets）、用户个人数据（电子信箱、名字）、会话令牌、审计日志和私密项目数据。"
 
 #: ../../security/threat-model.rst:17
 msgid ""
 "**Integrity:** Translation string content, VCS repository integrity, project "
 "and component configurations, user permissions, audit logs."
-msgstr ""
+msgstr "**完整性：** 翻译字符串内容、VCS "
+"仓库完整性、项目和部件配置、用户权限、审计日志。"
 
 #: ../../security/threat-model.rst:18
 msgid ""
 "**Availability:** Weblate web interface, VCS integration, database access, "
 "background task processing."
-msgstr ""
+msgstr "**可用性：** Weblate web 界面、VCS 集成、 数据库访问、后台任务处理。"
 
 #: ../../security/threat-model.rst:19
 msgid ""
 "**Authenticity/Non-repudiation:** Translation commit history, user "
 "attribution for translations, audit logs of administrative actions."
-msgstr ""
+msgstr "**真实性/不可否认性：** 翻译提交历史、翻译的用户归因、管理操作的审计日志。"
 
 #: ../../security/threat-model.rst:22
 msgid "Conceptual data flow diagram"
-msgstr ""
+msgstr "概念数据流动示意图"
 
 #: ../../security/threat-model.rst:41
 msgid "Trust boundaries"
-msgstr ""
+msgstr "信任边界"
 
 #: ../../security/threat-model.rst:43
 msgid ""
 "**Internet ↔ Web server:** Public internet traffic interacting with the "
 "first line of defense."
-msgstr ""
+msgstr "**互联网 ↔ Web 服务器：** 与防御第一线交互的公共互联网流量。"
 
 #: ../../security/threat-model.rst:44
 msgid ""
 "**Web server ↔ Weblate application:** Communication between the reverse "
 "proxy/web server and the application logic."
-msgstr ""
+msgstr "**Web 服务器 ↔ Weblate 程序：** 反向代理/web 服务器和程序逻辑之间的通信。"
 
 #: ../../security/threat-model.rst:45
 msgid ""
 "**Weblate application ↔ Database** Application logic accessing persistent "
 "and cached data."
-msgstr ""
+msgstr "**Weblate 程序 ↔ 数据库** 访问持久和缓存数据的程序逻辑。"
 
 #: ../../security/threat-model.rst:46
 msgid "**Weblate application ↔ Logging:** Application logic creating logs."
-msgstr ""
+msgstr "**Weblate 程序 ↔ 日志记录：** 创建日志的程序逻辑。"
 
 #: ../../security/threat-model.rst:47
 msgid ""
 "**Weblate application ↔ Internal VCS repository:** Application logic "
 "interacting with its local copy of the VCS repository."
-msgstr ""
+msgstr "**Weblate 程序 ↔ 内部 VCS 仓库：** 与 VCS 仓库本地副本交互的程序逻辑。"
 
 #: ../../security/threat-model.rst:48
 msgid ""
 "**Weblate application ↔ External VCS repository:** Weblate reaching out to "
 "external code hosting platforms."
-msgstr ""
+msgstr "**Weblate 程序 ↔ 外部 VCS 仓库：** 和外部代码托管平台联系的 Weblate。"
 
 #: ../../security/threat-model.rst:49
 msgid ""
 "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
 "within the web application."
-msgstr ""
+msgstr "**已验证身份的用户 ↔ 未验证身份的用户：** web 程序内不同的权限等级。"
 
 #: ../../security/threat-model.rst:52
 msgid "Threat identification"
@@ -47607,7 +47699,7 @@ msgstr "威胁识别"
 
 #: ../../security/threat-model.rst:57
 msgid "Component/Interaction"
-msgstr "部件/迭代"
+msgstr "部件/交互"
 
 #: ../../security/threat-model.rst:58
 msgid "STRIDE threat category"
@@ -47619,22 +47711,22 @@ msgstr "威胁描述"
 
 #: ../../security/threat-model.rst:60
 msgid "Potential impact"
-msgstr ""
+msgstr "潜在影响"
 
 #: ../../security/threat-model.rst:61
 msgid "**Web server** (nginx/Apache)"
-msgstr ""
+msgstr "**Web服务器** (nginx/Apache)"
 
 #: ../../security/threat-model.rst:62 ../../security/threat-model.rst:98
 #: ../../security/threat-model.rst:118
 msgid "**DoS**"
-msgstr "**DoS**"
+msgstr "**拒绝服务**"
 
 #: ../../security/threat-model.rst:63
 msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
-msgstr ""
+msgstr "**拒绝服务：** 攻击者用请求淹没服务器，使 Weblate 不可用。"
 
 #: ../../security/threat-model.rst:64
 msgid "Loss of availability for translation."
@@ -47650,29 +47742,29 @@ msgstr "**信息披露**"
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files (e."
 "g., config files, private keys)."
-msgstr ""
+msgstr "**配置暴露：** 错误配置的服务器暴露敏感文件 （如 config 文件、私钥等）。"
 
 #: ../../security/threat-model.rst:68
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "凭据、内部架构暴露。"
 
 #: ../../security/threat-model.rst:70 ../../security/threat-model.rst:78
 #: ../../security/threat-model.rst:82 ../../security/threat-model.rst:110
 #: ../../security/threat-model.rst:122 ../../security/threat-model.rst:134
 msgid "**Tampering**"
-msgstr ""
+msgstr "**篡改**"
 
 #: ../../security/threat-model.rst:71
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
-msgstr ""
+msgstr "**恶意请求注入：** 攻击者将恶意数据注入 HTTP 标头或请求正文。"
 
 #: ../../security/threat-model.rst:72
 msgid ""
 "Potential for SQL injection, XSS, or other injections if not properly "
 "handled by the backend."
-msgstr ""
+msgstr "如后端未正确处理可能导致 SQL 注入、XSS、或其他注入。"
 
 #: ../../security/threat-model.rst:73
 msgid "**Weblate application**"
@@ -47680,13 +47772,14 @@ msgstr "**Weblate 程序**"
 
 #: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
 msgid "**Spoofing**"
-msgstr ""
+msgstr "**伪造**"
 
 #: ../../security/threat-model.rst:75
 msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
-msgstr ""
+msgstr "**用户冒充：** "
+"攻击者获取对合法用户会话的访问（如通过会话劫持、被攻陷的凭据）。"
 
 #: ../../security/threat-model.rst:76
 msgid "Unauthorized translation, repo access."
@@ -47701,11 +47794,12 @@ msgid ""
 "**Unauthorized translation modification:** Malicious user or exploited "
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
-msgstr ""
+msgstr "**未经授权的翻译修改：** 恶意用户或遭利用的漏洞允许更改译文、项目配置或 VCS "
+"集成设置。"
 
 #: ../../security/threat-model.rst:80
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
-msgstr ""
+msgstr "不正确的翻译、破损的构建、通过 VCS 钩子的远程代码执行。"
 
 #: ../../security/threat-model.rst:83
 msgid ""
@@ -47713,41 +47807,44 @@ msgid ""
 "with the VCS (e.g., injecting malicious commands via crafted repository URLs "
 "if not sanitized, leading to RCE)."
 msgstr ""
+"**VCS 集成操控：** 攻击者操纵 Weblate 与 VCS 的交互 （如，通过精心构造的仓库 "
+"URL 注入恶意 URL，如未清理将造成远程代码执行）。"
 
 #: ../../security/threat-model.rst:84
 msgid "Code injection in target projects, data exfiltration."
-msgstr ""
+msgstr "目标项目的代码注入，数据渗出。"
 
 #: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
 msgid "**Repudiation**"
-msgstr "**驳斥**"
+msgstr "**否认**"
 
 #: ../../security/threat-model.rst:87
 msgid ""
 "**Unattributed changes:** Malicious changes are made without proper "
 "attribution to the user or system responsible."
-msgstr ""
+msgstr "**未归因的更改：** 在没有正确归因到负责用户或系统情况下做出恶意改动。"
 
 #: ../../security/threat-model.rst:88
 msgid "Difficulty in auditing and accountability."
-msgstr ""
+msgstr "审计和追责难度。"
 
 #: ../../security/threat-model.rst:91
 msgid ""
 "**Sensitive data leakage:** SQL injection, insecure API endpoints, or errors "
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
-msgstr ""
+msgstr "**敏感数据泄露：** SQL 注入、不安全的 API "
+"端点，或错误披露了敏感数据（如，其他用户的翻译、VCS 集成、服务器信息）。"
 
 #: ../../security/threat-model.rst:92
 msgid "Privacy breach, intellectual property theft."
-msgstr ""
+msgstr "隐私泄露、知识产权窃取。"
 
 #: ../../security/threat-model.rst:95
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
-msgstr ""
+msgstr "**VCS 凭据暴露：** Weblate 存储的 VCS 凭据 (SSH 密钥、令牌）被攻击者访问。"
 
 #: ../../security/threat-model.rst:96
 msgid "Direct access to integrated code repositories."
@@ -47757,7 +47854,8 @@ msgstr "直接访问集成的代码仓库。"
 msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
-msgstr ""
+msgstr "**资源耗尽：** "
+"攻击者触发的过多的后台任务或低效的数据库查询导致系统放慢或崩溃。"
 
 #: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
 msgid "Weblate unavailability."
@@ -47770,21 +47868,21 @@ msgstr "**权限提升**"
 #: ../../security/threat-model.rst:103
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
-msgstr ""
+msgstr "**角色提升：** 普通的翻译者获得管理权限。"
 
 #: ../../security/threat-model.rst:104
 msgid "Complete system compromise."
-msgstr ""
+msgstr "系统彻底被攻陷。"
 
 #: ../../security/threat-model.rst:107
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
-msgstr ""
+msgstr "**命令注入：** 由于仓库 URL 或附加组件中不当的输入验证造成任意代码执行。"
 
 #: ../../security/threat-model.rst:108
 msgid "System compromise, data exfiltration."
-msgstr ""
+msgstr "系统贡献、数据渗出。"
 
 #: ../../security/threat-model.rst:109
 msgid "**Database/Redis**"
@@ -47794,27 +47892,28 @@ msgstr "**数据库/Redis**"
 msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
-msgstr ""
+msgstr "**数据损坏：** 数据库的直接访问允许修改翻译字符串、用户数据，或配置。"
 
 #: ../../security/threat-model.rst:112
 msgid "System malfunction, data integrity loss."
-msgstr ""
+msgstr "系统故障、数据完整性丢失。"
 
 #: ../../security/threat-model.rst:115
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/Redis exposes all "
 "stored data (credentials, translation memory, user profiles)."
-msgstr ""
+msgstr "**敏感数据访问：** 对数据库/Redis "
+"未经授权的访问暴露所有存储的数据（凭据、翻译记忆库、用户个人资料）。"
 
 #: ../../security/threat-model.rst:116
 msgid "Major data breach."
-msgstr ""
+msgstr "重大数据泄露。"
 
 #: ../../security/threat-model.rst:119
 msgid ""
 "**Database exhaustion:** Attacker floods the database with queries, or "
 "consumes all Redis memory/connections."
-msgstr ""
+msgstr "**数据库耗尽：** 攻击者用查询淹没数据库，或消耗所有的 Redis 内存/连接。"
 
 #: ../../security/threat-model.rst:121
 msgid "**VCS integration**"
@@ -47828,18 +47927,19 @@ msgstr "**来自 Weblate 的恶意提交：** 被攻陷的 Weblate 向上游仓�
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
-msgstr ""
+msgstr "将恶意软件/后门引入目标项目。"
 
 #: ../../security/threat-model.rst:127
 msgid ""
 "**Fake commit attribution:** Weblate commits changes attributed to a wrong "
 "user (e.g., an admin forcing a commit in a translator's name without their "
 "consent)."
-msgstr ""
+msgstr "**虚假的提交归因：** Weblate 提交更改被归因到错误的用户 "
+"（如管理员在翻译者不同意情况下强制将一个提交以翻译者名称提交)."
 
 #: ../../security/threat-model.rst:128
 msgid "Accountability issues."
-msgstr "责任问题。"
+msgstr "追责问题。"
 
 #: ../../security/threat-model.rst:129
 msgid "**User interaction**"
@@ -47849,7 +47949,7 @@ msgstr "**用户交互**"
 msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
-msgstr ""
+msgstr "**钓鱼/社会工程：** 攻击者欺骗用户揭示 Weblate 或关联的 VCS 账户的凭据。"
 
 #: ../../security/threat-model.rst:132
 msgid "Account compromise."
@@ -47857,37 +47957,39 @@ msgstr "账户攻陷。"
 
 #: ../../security/threat-model.rst:133
 msgid "(Web UI)"
-msgstr ""
+msgstr "(Web 用户界面)"
 
 #: ../../security/threat-model.rst:135
 msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
-msgstr ""
+msgstr "**跨站脚本 (XSS)：** 恶意脚本注入翻译或用户个人资料在其他用户的浏览器中执行。"
 
 #: ../../security/threat-model.rst:136
 msgid "Session hijacking, credential theft, defacement."
-msgstr ""
+msgstr "会话劫持、凭据偷窃、污损。"
 
 #: ../../security/threat-model.rst:139
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
-msgstr ""
+msgstr "**点击劫持/UI 覆盖：** 攻击者将恶意 UI 元素遮盖在 Weblate "
+"上，欺骗用户进行无意的操作。"
 
 #: ../../security/threat-model.rst:140
 msgid "Unauthorized actions, data manipulation."
-msgstr ""
+msgstr "未经授权的操作、数据操纵。"
 
 #: ../../security/threat-model.rst:143
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
-msgstr ""
+msgstr "**UI 中的敏感数据：** 由于授权漏洞在UI "
+"中无意地暴露敏感数据（如其他用户的电子邮箱）。"
 
 #: ../../security/threat-model.rst:144
 msgid "Privacy breach."
-msgstr "隐私事故。"
+msgstr "隐私泄露。"
 
 #: ../../security/threat-model.rst:147
 msgid "Mitigation strategies"
@@ -47899,7 +48001,7 @@ msgstr "**身份验证&授权：**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
-msgstr ""
+msgstr "强密码政策，见 :doc:`/security/passwords`。"
 
 #: ../../security/threat-model.rst:151
 msgid "Enforced 2FA, see :ref:`2fa`."
@@ -47914,29 +48016,32 @@ msgid ""
 "Role-based access control (RBAC) to enforce the least privilege (e.g., "
 "translators can only edit translations, not change project configs), see :"
 "doc:`/admin/access`."
-msgstr ""
+msgstr "基于角色的访问控制（RBAC)来强制最小权限（如翻译者只能编辑翻译，不能更改项目配"
+"置），见 :doc:`/admin/access`。"
 
 #: ../../security/threat-model.rst:154
 msgid ""
 "Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
 "admin/auth`."
-msgstr ""
+msgstr "和外部身份提供商集成（SAML、OAuth、LDAP），见 :doc:`/admin/auth`。"
 
 #: ../../security/threat-model.rst:155
 msgid "**Input validation and output encoding:**"
-msgstr ""
+msgstr "**输入验证和输出解码：**"
 
 #: ../../security/threat-model.rst:156
 msgid ""
 "Strict validation of all user inputs (forms, API requests, VCS URLs) to "
 "prevent injection attacks (SQL injection, command injection, XSS)."
-msgstr ""
+msgstr "严格验证所有用户输入（表单、API 请求、VCS URL 等）防止注入攻击（SQL "
+"注入、命令注入、XSS）。"
 
 #: ../../security/threat-model.rst:157
 msgid ""
 "Context-aware output encoding for all user-supplied data displayed on the "
 "web UI to prevent XSS."
-msgstr ""
+msgstr "对展示在 web 用户界面上的所有由用户提供的数据进行上下文感知的输出解码以防止 "
+"XSS。"
 
 #: ../../security/threat-model.rst:158
 msgid "**VCS integration security:**"
@@ -47946,7 +48051,7 @@ msgstr "**VCS 集成安全性：**"
 msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
-msgstr ""
+msgstr "VCS 凭据的最小权限原则（如，在可能的地方只读访问，限制令牌的适用范围）。"
 
 #: ../../security/threat-model.rst:160
 msgid "Secure storage of VCS credentials."
@@ -47956,13 +48061,13 @@ msgstr "版本控制系统凭据的安全存储。"
 msgid ""
 "Strict sanitization and validation of all data coming from VCS (e.g., "
 "filenames, branch names, commit messages that might be displayed)."
-msgstr ""
+msgstr "严格清洁和验证所有来自 VCS 的数据（如文件名、分支名、可能被展示的提交信息）。"
 
 #: ../../security/threat-model.rst:162
 msgid ""
 "Secure execution of Git/Mercurial commands (avoiding shell execution with "
 "user-controlled input)."
-msgstr ""
+msgstr "安全执行 Git/Mercurial 命令（避免带用户控制输入的 shell 执行）。"
 
 #: ../../security/threat-model.rst:163
 msgid "**Data protection:**"
@@ -47970,17 +48075,17 @@ msgstr "**数据保护：**"
 
 #: ../../security/threat-model.rst:164
 msgid "Encryption of sensitive data at rest."
-msgstr ""
+msgstr "敏感数据的静态加密。"
 
 #: ../../security/threat-model.rst:165
 msgid ""
 "Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication)."
-msgstr ""
+msgstr "加密传输数据（将 TLS/SSL 用于所有 HTTP/S 和 VCS 通信）。"
 
 #: ../../security/threat-model.rst:166
 msgid ""
 "Database hardening (the least privilege for Weblate user, strong passwords)."
-msgstr ""
+msgstr "数据库强化（Weblate 用户的最小权限、强密码）。"
 
 #: ../../security/threat-model.rst:167
 msgid "**System hardening:**"
@@ -47988,36 +48093,37 @@ msgstr "**系统强化：**"
 
 #: ../../security/threat-model.rst:168
 msgid "Regular patching of OS, Weblate, and all dependencies."
-msgstr ""
+msgstr "定期给操作系统、Weblate、所有依赖项打补丁。"
 
 #: ../../security/threat-model.rst:169
 msgid "Principle of least privilege for Weblate user account on the OS."
-msgstr ""
+msgstr "操作系统上 Weblate 用户账户的最小权限原则。"
 
 #: ../../security/threat-model.rst:170
 msgid ""
 "Network segmentation (e.g., separating database/Redis from public access)."
-msgstr ""
+msgstr "网络隔离（如将数据库/Redis 和公共访问隔开）。"
 
 #: ../../security/threat-model.rst:171
 msgid "Use of WAF (Web Application Firewall)."
-msgstr ""
+msgstr "使用 WAF（Web 应用防火墙）。"
 
 #: ../../security/threat-model.rst:172
 msgid "**Logging and monitoring:**"
-msgstr ""
+msgstr "**记录和监控：**"
 
 #: ../../security/threat-model.rst:173
 msgid ""
 "Comprehensive audit logging of all security-relevant events (logins, failed "
 "logins, permission changes, critical configuration changes, VCS operations)."
-msgstr ""
+msgstr "所有安全相关事件的综合性审计记录（登录、失败的登录、权限更改、关键配置更改、"
+"VCS 操作）。"
 
 #: ../../security/threat-model.rst:174
 msgid ""
 "Centralized logging and alerting for security incidents, for example :ref:"
 "`graylog`."
-msgstr ""
+msgstr "安全事件的中心化记录和警报，如 :ref:`graylog`。"
 
 #: ../../security/threat-model.rst:175
 msgid "**Secure development practices:**"
@@ -48025,30 +48131,31 @@ msgstr "**安全开发实践：**"
 
 #: ../../security/threat-model.rst:176
 msgid "Code reviews with a security focus."
-msgstr ""
+msgstr "聚焦安全的代码审核。"
 
 #: ../../security/threat-model.rst:177
 msgid ""
 "Static Application Security Testing (SAST) and Dynamic Application Security "
 "Testing (DAST), see :doc:`/contributing/code`."
-msgstr ""
+msgstr "静态程序安全测试（SAST）和动态程序安全测试（DAST），见 :doc:`/contributing/"
+"code`。"
 
 #: ../../security/threat-model.rst:178
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
-msgstr ""
+msgstr "依赖项漏洞扫描，见 :doc:`/security/dependencies`。"
 
 #: ../../security/threat-model.rst:179
 msgid "Regular security audits and penetration testing."
-msgstr ""
+msgstr "定期安全审计和渗透测试。"
 
 #: ../../security/threat-model.rst:180
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**错误处理：**"
 
 #: ../../security/threat-model.rst:181
 msgid ""
 "Generic error messages that do not reveal sensitive internal information."
-msgstr ""
+msgstr "不揭示敏感内部信息的一般性错误消息。"
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -50290,7 +50397,8 @@ msgid ""
 "Checks that Kabyle translations use correct Kabyle letters and not similar "
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
-msgstr ""
+msgstr "检查卡比尔语翻译使用正确的卡比尔字母，不使用类似的希腊字母，后者在卡比尔字符 "
+"Unicode 标准化前常被使用。"
 
 #: ../../user/checks.rst:1374
 msgid "Placeholders"
@@ -51837,6 +51945,8 @@ msgid ""
 "glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
 "tbx` are supported and can be uploaded, see :ref:`upload`."
 msgstr ""
+"和常规的翻译部件类似，你可以将现有的术语表上传到 Weblate。 :doc:`/formats/"
+"csv` 或 :doc:`/formats/tbx` 等格式受支持，可以被上传，见 :ref:`upload`。"
 
 #: ../../user/glossary.rst:132
 msgid "Glossaries in automatic suggestion"
