@@ -24,7 +24,7 @@ Critical components
 - **Data Layer:** PostgreSQL database, translation repositories (Git), and logs.
 - **Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage volumes, SSL/TLS configuration, and optional SIEM logging system.
 
-Backup colicy
+Backup policy
 -------------
 
 :ref:`automated-backup` process guarantees that all essential components
