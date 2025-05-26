@@ -57,6 +57,8 @@ toggle additional features using the :guilabel:`Tools` menu for each term.
 
    :ref:`adding-strings`
 
+.. _glossary-untranslatable:
+
 Untranslatable terms
 ++++++++++++++++++++
 
