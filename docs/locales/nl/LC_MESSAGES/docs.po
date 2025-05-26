@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-23 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-05-26 12:53+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -2245,6 +2245,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"Het percentage vertaalde tekenreeksen dat aanwezig moet zijn om de vertaling "
+"op te nemen."
 
 #: ../../admin/addons.rst:192
 msgid "``css_selector``"
@@ -3249,7 +3251,7 @@ msgstr "``prefix``"
 
 #: ../../admin/addons.rst:647
 msgid "Prepended static text"
-msgstr ""
+msgstr "Vooraf ingestelde statische tekst"
 
 #: ../../admin/addons.rst:649
 msgid "``var_prefix``"
@@ -3257,7 +3259,7 @@ msgstr "``var_prefix``"
 
 #: ../../admin/addons.rst:649
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Vooraf ingestelde variabele tekst"
 
 #: ../../admin/addons.rst:651
 msgid "``suffix``"
@@ -3265,38 +3267,30 @@ msgstr "``suffix``"
 
 #: ../../admin/addons.rst:651
 msgid "Appended static text"
-msgstr ""
+msgstr "Achteraf ingestelde statische tekst"
 
 #: ../../admin/addons.rst:653
 msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Onbepaalde variabele: ‘%s’"
+msgstr "Achteraf ingestelde variabele tekst"
 
 #: ../../admin/addons.rst:655
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Variabele deelfactor"
+msgstr "Vermenigvuldigingsfactor variabele tekst"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Hoe vaak een variabel deel dient te worden herhaald, op basis van de lengte "
+"Hoe vaak de variabele tekst moet worden herhaald, afhankelijk van de lengte "
 "van de brontekenreeks."
 
 #: ../../admin/addons.rst:657
@@ -3336,15 +3330,6 @@ msgstr ""
 "de lay-out is ook mogelijk."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3357,30 +3342,25 @@ msgstr ""
 "Gebruiken van de variabele delen maakt het mogelijk te zoeken naar "
 "tekenreeksen die niet passen in de gebruikersinterface na de vertaling - het "
 "breidt de tekst uit, gebaseerd op de lengte van de brontekenreeks. De "
-"variabele delen worden herhaald met de lengte van de tekst, vermenigvuldigd "
+"variabele tekst worden herhaald met de lengte van de tekst, vermenigvuldigd "
 "met de vermenigvuldigingsfactor. Bijvoorbeeld ``Hallo wereld`` met het "
-"variabele achtervoegsel ``_`` en variabele vermenigvuldigingsfactor 1, wordt "
-"``Hallo wereld____________`` - het achtervoegsel wordt een keer herhaald "
-"voor elk teken in de brontekenreeks."
+"variabele tekst ``_`` en variabele vermenigvuldigingsfactor 1, wordt ``Hallo "
+"wereld____________`` - de tekst wordt een keer herhaald voor elk teken in de "
+"brontekenreeks."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
 msgstr "De tekenreeksen worden op basis van het volgende patroon gegenereerd:"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Voorvoegsel vaste tekenreeks` :guilabel:`Voorvoegsel variabele "
-"tekenreeks` :guilabel:`Brontekenreeks` :guilabel:`Achtervoegsel variabele "
-"tekenreeks` :guilabel:`Achtervoegsel vaste tekenreeks`"
+":guilabel:`Vooraf ingestelde statische tekst` :guilabel:`Vooraf ingestelde "
+"variabele tekst` :guilabel:`Brontekenreeks` :guilabel:`Achteraf ingestelde "
+"variabele tekst` :guilabel:`Achteraf ingestelde statische tekst`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3777,7 +3757,7 @@ msgstr "JSON-uitvoer aanpassen"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "Optie :guilabel:`Vermijd spaties na scheidingsteken` toegevoegd."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -3797,7 +3777,7 @@ msgstr "``use_compact_separators``"
 
 #: ../../admin/addons.rst:886
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Vermijd spaties na scheidingstekens"
 
 #: ../../admin/addons.rst:888 ../../admin/addons.rst:1165
 msgid "``indent``"
@@ -3825,15 +3805,13 @@ msgid "``tabs`` -- Tabs"
 msgstr "``tabs`` -- Tabs"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
 "Biedt u de mogelijkheid het gedrag van uitvoer naar JSON aan te passen, "
-"bijvoorbeeld inspringen of sorteren."
+"bijvoorbeeld inspringen of sorteren of opmaak verminderen door minimale "
+"witruimte te gebruiken."
 
 #: ../../admin/addons.rst:903
 msgid "Format the Java properties file"
@@ -4995,21 +4973,18 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate vertrouwt op Django voor de authenticatie. Dat omvat ook ingebouwde "
+"op wachtwoorden gebaseerde authenticatie, sociale authenticatie en "
+"authenticatie-backends van derde partijen voor Django."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"De ingebouwde oplossing van Django wordt gebruikt voor authenticatie, "
-"inclusief verscheidene sociale opties om dat te doen. Gebruiken ervan "
-"betekent dat u de gebruikersdatabase van andere, op Django gebaseerde "
-"projecten, kunt importeren (bekijk :ref:`pootle-migration`)."
+"De ingebouwde oplossing van Django gebruiken betekent dat u de "
+"gebruikersdatabase van andere, op Django gebaseerde projecten, kunt "
+"importeren (bekijk :ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -5482,14 +5457,12 @@ msgstr ""
 "weigeren."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ""
-#| ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, :"
 "doc:`/security/passwords`"
 msgstr ""
-":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, "
+":doc:`/security/passwords`"
 
 #: ../../admin/auth.rst:476
 msgid "SAML authentication"
@@ -5688,15 +5661,11 @@ msgid "CAS authentication"
 msgstr "CAS authenticatie"
 
 #: ../../admin/auth.rst:690
-#, fuzzy
-#| msgid ""
-#| "CAS authentication can be achieved using a package such as `django-cas-"
-#| "ng`."
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
-"Authenticatie voor CAS kan worden verkregen met een pakket zoals `django-cas-"
-"ng`."
+"Authenticatie voor CAS kan worden verkregen met een pakket zoals `Django CAS "
+"NG`_."
 
 #: ../../admin/auth.rst:692
 msgid ""
@@ -5716,10 +5685,8 @@ msgstr ""
 "gebruiken."
 
 #: ../../admin/auth.rst:698
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "Installeren van `django-cas-ng`:"
+msgstr "Installeren van `Django CAS NG`_:"
 
 #: ../../admin/auth.rst:704
 msgid ""
@@ -7418,10 +7385,9 @@ msgid "``ignore-automattic-components-format``"
 msgstr "``ignore-automattic-components-format``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-icu-message-format` over."
+msgstr ""
+"Sla de kwaliteitscontrole :ref:`check-automattic-components-format` over."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:485
 msgid "``ignore-c-format``"
@@ -7749,10 +7715,8 @@ msgid "``ignore-kabyle-characters``"
 msgstr "``ignore-kabyle-characters``"
 
 #: ../../admin/checks.rst:295
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-fluent-parts` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-kabyle-characters` over."
 
 #: ../../admin/checks.rst:296 ../../user/checks.rst:1381
 msgid "``ignore-placeholders``"
@@ -13771,20 +13735,14 @@ msgstr ""
 "van Django."
 
 #: ../../admin/install.rst:706
-#, fuzzy
-#| msgid ""
-#| "In case you get error about not supported authentication (for example "
-#| "``SMTP AUTH extension not supported by server``), it is most likely "
-#| "caused by using insecure connection and server refuses to authenticate "
-#| "this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgid ""
 "In case you get error about not supported authentication (for example :samp:"
 "`SMTP AUTH extension not supported by server`), it is most likely caused by "
 "using insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"In het geval u een fout krijgt over niet ondersteunde authenticatie "
-"(bijvoorbeeld ``SMTP AUTH extension not supported by server``), wordt dat "
+"In het geval u een fout krijgt over niet ondersteunde authenticatie ("
+"bijvoorbeeld :samp:`SMTP AUTH extension not supported by server`), wordt dat "
 "heel waarschijnlijk veroorzaakt door een onveilige verbinding te gebruiken "
 "en de server weigert op die manier te authenticeren. Probeer in een "
 "dergelijk geval :setting:`django:EMAIL_USE_TLS` in te schakelen."
@@ -13807,53 +13765,35 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Verscheidene mogelijkheden in Weblate vertrouwen erop dat de juiste HTTP "
+"koppen worden doorgegeven aan Weblate. Bij het gebruiken van omgekeerde "
+"proxy, zorg ervoor dat de benodigde informatie correct wordt doorgegeven."
 
 #: ../../admin/install.rst:725
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "IP-adres"
+msgstr "Cliënt IP-adres"
 
 #: ../../admin/install.rst:726
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
 msgstr ""
-"Verscheidene mogelijkheden in Weblate vertrouwen erop een cliënt IP-adres op "
-"te kunnen halen. Dit omvat :ref:`rate-limit`, :ref:`spam-protection` of :ref:"
-"`audit-log`."
+"Dit is nodig voor :ref:`rate-limit`, :ref:`spam-protection` of :ref:`audit-"
+"log`."
 
 #: ../../admin/install.rst:728
-#, fuzzy
-#| msgid ""
-#| "Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the "
-#| "WSGI handler. This might be empty (when using socket for WSGI) or contain "
-#| "a reverse proxy address, so Weblate needs an additional HTTP header with "
-#| "client IP address."
 msgid ""
 "Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI "
 "handler. This might be empty (when using socket for WSGI) or contain a "
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
-"Weblate parst het IP-adres vanuit het ``REMOTE_ADDR`` dat is ingesteld door "
+"Weblate parst het IP-adres vanuit het ``REMOTE_ADDR``, dat is ingesteld door "
 "de afhandeling van WSGI. Dit zou leeg kunnen zijn (als een socket wordt "
 "gebruikt voor WSGI) of een omgekeerd proxy-adres kunnen bevatten, dus "
-"Weblate heeft een aanvullende kop HTTP nodig met het IP-adres van de cliënt."
+"Weblate heeft een aanvullende kop HTTP nodig met een IP-adres van de cliënt."
 
 #: ../../admin/install.rst:733
-#, fuzzy
-#| msgid ""
-#| "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
-#| "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-#| "and :setting:`IP_PROXY_OFFSET` as well (use :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
-#| "Docker container)."
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the "
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
@@ -13861,58 +13801,42 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
-"Instellen van :setting:`IP_BEHIND_REVERSE_PROXY` zou genoeg kunnen zijn voor "
-"de meest gewone opstellingen, maar u zou misschien :setting:"
-"`IP_PROXY_HEADER` en :setting:`IP_PROXY_OFFSET` ook moeten aanpassen "
-"(gebruik :envvar:`WEBLATE_IP_PROXY_HEADER` en :envvar:"
-"`WEBLATE_IP_PROXY_OFFSET` in de container van Docker)."
+"Instellen van :setting:`IP_BEHIND_REVERSE_PROXY` zou voldoende moeten zijn "
+"voor de meeste gewone opstellingen, maar u zou misschien "
+":setting:`IP_PROXY_HEADER` en :setting:`IP_PROXY_OFFSET` ook moeten "
+"aanpassen (gebruik :envvar:`WEBLATE_IP_PROXY_HEADER` en "
+":envvar:`WEBLATE_IP_PROXY_OFFSET` in de container van Docker)."
 
 #: ../../admin/install.rst:740
-#, fuzzy
-#| msgid ""
-#| "This configuration cannot be turned on by default because it would allow "
-#| "IP address spoofing on installations that don't have a properly "
-#| "configured reverse proxy."
 msgid ""
 "This configuration cannot be turned on by default, because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
-"Deze configuratie kan niet ingeschakeld worden, omdat dat het voor het IP-"
-"adres mogelijk zou maken om te spoofen op installaties die geen juist "
+"Deze configuratie kan niet standaard ingeschakeld worden, omdat dat het voor "
+"het IP-adres mogelijk zou maken om te spoofen op installaties die geen juist "
 "geconfigureerde omgekeerde proxy hebben."
 
 #: ../../admin/install.rst:744
-#, fuzzy
-#| msgid "Service name"
 msgid "Server host name"
-msgstr "Naam service"
+msgstr "Server hostnaam"
 
 #: ../../admin/install.rst:745
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured as :"
 "setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"Een ander ding dat moet worden verzorgd is de kop :http:header:`Host`. Het "
-"zou overeen moeten komen met dat wat is geconfigureerd als :setting:"
-"`SITE_DOMAIN`. Aanvullende configuratie in uw omgekeerde proxy zou misschien "
-"nodig kunnen zijn (gebruik bijvoorbeeld ``ProxyPreserveHost On`` voor Apache "
-"of ``proxy_set_header Host $host;`` met nginx)."
+"De kop :http:header:`Host` zou overeen moeten komen met dat wat is "
+"geconfigureerd als :setting:`SITE_DOMAIN`. Aanvullende configuratie in uw "
+"omgekeerde proxy zou misschien nodig kunnen zijn (gebruik bijvoorbeeld ``"
+"ProxyPreserveHost On`` voor Apache of ``proxy_set_header Host $host;`` met "
+"nginx)."
 
 #: ../../admin/install.rst:750
-#, fuzzy
-#| msgid "Client secret"
 msgid "Client protocol"
-msgstr "Clientgeheim"
+msgstr "Cliënt protocol"
 
 #: ../../admin/install.rst:751
 msgid ""
@@ -13920,15 +13844,12 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"Niet doorgeven van het juiste protocol zou ervoor kunnen zorgen dat Weblate "
+"in een lus met doorverwijzingen terechtkomt, om te proberen de cliënt te "
+"upgraden naar HTTPS. Zorg ervoor dit correct wordt weergegeven door de "
+"omgekeerde proxy als :http:header:`X-Forwarded-Proto`."
 
 #: ../../admin/install.rst:757
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:"
-#| "`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :"
-#| "setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgid ""
 ":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref:"
 "`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:"
@@ -13937,11 +13858,12 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref"
+":`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref"
+":`apache-gunicorn`, :setting:`IP_BEHIND_REVERSE_PROXY`, "
+":setting:`IP_PROXY_HEADER`, :setting:`IP_PROXY_OFFSET`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`"
+", :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:773
 msgid "HTTP proxy"
@@ -15806,7 +15728,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:127
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "SSL eindigende proxy"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
@@ -15815,14 +15737,20 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"SSL kan worden beëindigd buiten de container van Weblate container. Om dit "
+"goed samen te laten werken, moeten verscheidene koppen worden doorgegeven "
+"aan de container, zodat die zich bewust is van zijn feitelijke omgeving. "
+"Deze koppen worden meer in detail beschreven in :ref:`reverse-proxy`."
 
 #: ../../admin/install/docker.rst:134
 msgid "Example nginx reverse proxy configuration for a Docker container."
 msgstr ""
+"Voorbeeld van configuratie van een omgekeerde proxy van nginx voor een "
+"Docker-container."
 
 #: ../../admin/install/docker.rst:147
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "Omgeving Docker-container voor extern beëindigen van SSL."
 
 #: ../../admin/install/docker.rst:154
 msgid "Using own SSL certificates"
@@ -16701,26 +16629,19 @@ msgstr ""
 "bekijk :setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:905
-#, fuzzy
-#| msgid ""
-#| "Configures the used time zone in Weblate, see :std:setting:`django:"
-#| "TIME_ZONE`."
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
 msgstr ""
-"Configureert de gebruikte tijdzone in Weblate, bekijk :std:setting:`django:"
-"TIME_ZONE`."
+"Configureert de URL die de media afhandelt die wordt geserveerd door "
+":setting:`django:MEDIA_ROOT`."
 
 #: ../../admin/install/docker.rst:910
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgid ""
 "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgstr ""
-"Configureert het voorvoegsel voor de URL waar Weblate wordt uitgevoerd, "
-"bekijk :setting:`URL_PREFIX`."
+"Configureert het voorvoegsel voor de URL van de server voor statische "
+"bestanden vanaf :setting:`CACHE_DIR`."
 
 #: ../../admin/install/docker.rst:914
 msgid ""
@@ -17807,16 +17728,18 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL voor de `Anubis`_ server om subverzoeken voor authenticatie af te "
+"handelen. Dit kan nuttig zijn om inkomende HTTP-verzoeken te filteren met "
+"proof-of-work om AI-crawlers af te stoppen. U moet `Anubis for Subrequest "
+"Authentication`_ configureren om het te laten werken."
 
 #: ../../admin/install/docker.rst:2009
 msgid "This can be done using docker compose, for example:"
-msgstr ""
+msgstr "Dit kan worden gedaan met docker compose, bijvoorbeeld:"
 
 #: ../../admin/install/docker.rst:2024
-#, fuzzy
-#| msgid "You can have a number of fonts loaded into Weblate:"
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr "U mag een aantal lettertypen hebben geladen in Weblate:"
+msgstr "U kunt dan het gebruiken van Anubis in Weblate inschakelen met:"
 
 #: ../../admin/install/docker.rst:2037
 msgid "Docker container volumes"
@@ -21749,12 +21672,6 @@ msgid "move_language"
 msgstr "move_language"
 
 #: ../../admin/management.rst:787
-#, fuzzy
-#| msgid ""
-#| "Allows you to merge language content. This is useful when updating to a "
-#| "new version which contains aliases for previously unknown languages that "
-#| "have been created with the `(generated)` suffix. It moves all content "
-#| "from the `source` language to the `target` one."
 msgid ""
 "Allows you to merge language content. This is useful when updating to a new "
 "version which contains aliases for previously unknown languages that have "
@@ -21763,15 +21680,10 @@ msgid ""
 msgstr ""
 "Stelt u in staat taalinhoud samen te voegen. Dit is nuttig bij het updaten "
 "naar een nieuwe versie die aliassen bevat voor eerder onbekende talen die "
-"zijn gemaakt met het achtervoegsel `(generated)`. Het verplaatst alle inhoud "
-"van de `source`-taal naar de `target`-taal."
+"zijn gemaakt met het achtervoegsel :samp:`(generated)`. Het verplaatst alle "
+"inhoud van de `source`-taal naar de `target`-taal."
 
 #: ../../admin/management.rst:798
-#, fuzzy
-#| msgid ""
-#| "After moving the content, you should check whether there is anything left "
-#| "(this is subject to race conditions when somebody updates the repository "
-#| "meanwhile) and remove the `(generated)` language."
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
@@ -21779,7 +21691,7 @@ msgid ""
 msgstr ""
 "Na het verplaatsen van de inhoud zou u moeten controleren of er iets is "
 "achtergebleven (dit is onderwerp van race condities als iemand "
-"tegelijkertijd de opslagruimte bijwerkt) en de taal `(generated)` "
+"tegelijkertijd de opslagruimte bijwerkt) en de taal :samp:`(generated)` "
 "verwijderen."
 
 #: ../../admin/management.rst:803
@@ -22370,10 +22282,8 @@ msgstr ""
 "toegang tot meerdere daarvan heeft."
 
 #: ../../admin/optionals.rst:125
-#, fuzzy
-#| msgid "Legal documents"
 msgid "Legal module"
-msgstr "Wettelijke documenten"
+msgstr "Wettelijke module"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -22710,8 +22620,6 @@ msgid "2"
 msgstr "2"
 
 #: ../../admin/optionals.rst:291
-#, fuzzy
-#| msgid "Password authentication on sign in"
 msgid "Password authentication on sign-in"
 msgstr "Authenticatie wachtwoord bij inloggen"
 
@@ -22720,8 +22628,6 @@ msgid "``LOGIN``"
 msgstr "``LOGIN``"
 
 #: ../../admin/optionals.rst:293
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Second-factor authentication"
 msgstr "Twee-factor authenticatie"
 
@@ -24774,54 +24680,46 @@ msgid "Use as a glossary"
 msgstr "Gebruiken als woordenlijst"
 
 #: ../../admin/projects.rst:1064
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "Allows using this component as a glossary. Use when you want to manage "
 "terminology separately from normal translations."
 msgstr ""
-"Maakt het mogelijk het onderdeel te gebruiken als een woordenlijst. U kunt "
-"configureren hoe het moet worden vermeld met :ref:`component-glossary_color`."
+"Maakt het mogelijk het onderdeel te gebruiken als een woordenlijst. Gebruik "
+"het als u de terminologie afzonderlijk van de normale vertalingen wilt "
+"beheren."
 
 #: ../../admin/projects.rst:1067
 msgid "Glossaries are best for:"
-msgstr ""
+msgstr "Woordenlijsten zijn het beste om:"
 
 #: ../../admin/projects.rst:1069
 msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
 msgstr ""
+"Consistent gebruiken van termen te verzekeren (bijv. labels van de "
+"gebruikersinterface, productnamen)."
 
 #: ../../admin/projects.rst:1070
-#, fuzzy
-#| msgid "Shows Weblate object (translation, component or project)."
 msgid "Sharing preferred translations across multiple components or projects."
-msgstr "Geeft object van Weblate weer (vertaling, onderdeel of project)."
+msgstr "Delen van voorkeursvertalingen over meerdere onderdelen of projecten."
 
 #: ../../admin/projects.rst:1071
-#, fuzzy
-#| msgid "Add support for translating non VCS based content."
 msgid "Supporting translators with definitions and context."
-msgstr ""
-"Ondersteuning toegevoegd voor vertalen van niet op VCS gebaseerde inhoud."
+msgstr "Ondersteuning voor vertalers met definities en context."
 
 #: ../../admin/projects.rst:1075
 msgid ""
 "Glossaries are not for regular translations—they are for managing terms only."
 msgstr ""
+"Woordenlijsten zijn niet voor normale vertalingen—ze zijn alleen voor het "
+"beheren van termen."
 
 #: ../../admin/projects.rst:1077
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "You can configure how it will be listed using :ref:`component-"
 "glossary_color`."
 msgstr ""
-"Maakt het mogelijk het onderdeel te gebruiken als een woordenlijst. U kunt "
-"configureren hoe het moet worden vermeld met :ref:`component-glossary_color`."
+"U kunt configureren hoe het moet worden vermeld met :ref:`component-"
+"glossary_color`."
 
 #: ../../admin/projects.rst:1079
 msgid ""
@@ -26446,15 +26344,12 @@ msgstr ""
 "koppeling naar gekoppelde groepen; bekijk :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:327
-#, fuzzy
-#| msgid ""
-#| "translation language code; see :http:get:`/api/languages/(string:"
-#| "language)/`"
 msgid ""
 "link to translated languages; see :http:get:`/api/languages/(string:"
 "language)/`"
 msgstr ""
-"vertaling taalcode; bekijk :http:get:`/api/languages/(string:language)/`"
+"koppelen aan vertaalde talen; bekijk :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:329 ../../api.rst:519 ../../api.rst:712 ../../api.rst:789
 #: ../../api.rst:900 ../../api.rst:972 ../../api.rst:1373 ../../api.rst:1574
@@ -28333,66 +28228,57 @@ msgstr ""
 "vertaaleenheid terug."
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Create a new comment on the given translation unit."
-msgstr "Maak een opslagruimte met uw bestanden voor de vertalingen."
+msgstr "Maak een nieuwe opmerking voor de opgegeven vertaaleenheid."
 
 #: ../../api.rst:2301
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "comment scope - global, translation (available on all non-source units), "
 "report (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"status eenheid, 0 - niet vertaald, 10 - bewerken nodig, 20 - vertaald, 30 - "
-"goedgekeurd (werkstroom Beoordelen nodig ingeschakeld, bekijk :ref:`reviews`)"
+"bereik opmerking - globaal, vertaling (beschikbaar voor alle niet-bron "
+"eenheden), rapport (werkstroom Beoordelen nodig ingeschakeld, bekijk "
+":ref:`reviews`)"
 
 #: ../../api.rst:2302
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
-msgstr "U kunt Markdown gebruiken of gebruikers vermelden met @gebruikersnaam."
+msgstr ""
+"inhoud van de nieuwe opmerking, u mag Markdown gebruiken of gebruikers "
+"vermelden met @gebruikersnaam."
 
 #: ../../api.rst:2303
 msgid ""
 "commenter's email, can be set only by project admins and defaults to the "
 "authenticated user."
 msgstr ""
+"e-mail van de maker van de opmerking, kan alleen worden ingesteld door "
+"projectbeheerders en is standaard de geauthenticeerde gebruiker."
 
 #: ../../api.rst:2304
 msgid ""
 "creation timestamp of the comment, can be set only by project admins and "
 "defaults to now."
 msgstr ""
+"tijdstempel van het maken van de opmerking, kan alleen worden ingesteld door "
+"projectbeheerders en is standaard nu."
 
 #: ../../api.rst:2305
-#, fuzzy
-#| msgid "unit identifier"
 msgid "comment identifier"
-msgstr "identificatie eenheid"
+msgstr "identificatie opmerking"
 
 #: ../../api.rst:2306
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "content of the new comment"
-msgstr "Nieuwe opmerking toegevoegd"
+msgstr "inhoud van de nieuwe opmerking"
 
 #: ../../api.rst:2307
-#, fuzzy
-#| msgid "URL of a related component object"
 msgid "URL of the commenter's object"
-msgstr "URL van een gerelateerd object onderdeel"
+msgstr "URL van het object van degene die de opmerking maakte"
 
 #: ../../api.rst:2308
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "creation timestamp of the comment"
-msgstr "Aangemaakt op %(timestamp)s."
+msgstr "tijdstempel van het maken van de opmerking"
 
 #: ../../api.rst:2318
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -29306,16 +29192,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.12"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.12"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet released."
 msgid "*Not yet released.*"
-msgstr "Nog niet uitgegeven."
+msgstr "*Nog niet uitgegeven.*"
 
 #: ../../changes.rst:7 ../../changes.rst:149 ../../changes.rst:315
 #: ../../changes.rst:426 ../../changes.rst:568 ../../changes.rst:673
@@ -29326,43 +29208,31 @@ msgid "New features"
 msgstr "Nieuwe mogelijkheden"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for "
 "the given translation unit."
 msgstr ""
-"Toegevoegd :http:get:`/api/units/(int:id)/translations/` om een lijst met "
-"alle doel-vertaaleenheden op te halen voor de opgegeven bron-vertaaleenheid."
+"Toegevoegd :http:post:`/api/units/(int:id)/comments/` om een opmerking te "
+"maken voor de opgegeven vertaaleenheid."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 ":ref:`addon-weblate.json.customize` now has a configurable compact mode."
 msgstr ""
-"De add-on :ref:`addon-weblate.cdn.cdnjs` verschaft een paar opties voor de "
-"configuratie."
+":ref:`addon-weblate.json.customize` heeft nu een te configureren modus "
+"Compact."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Added :ref:`check-kabyle-characters` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-fluent-parts` over."
+msgstr "Kwaliteitscontrole :ref:`check-kabyle-characters` toegevoegd."
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr ":ref:`sbom` wordt nu verschaft voor Weblate."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ":doc:`/contributing/documentation`"
 msgid ":doc:`/security/index` documentation."
-msgstr ":doc:`/contributing/documentation`"
+msgstr ":doc:`/security/index` documentatie."
 
 #: ../../changes.rst:15 ../../changes.rst:54 ../../changes.rst:96
 #: ../../changes.rst:123 ../../changes.rst:159 ../../changes.rst:227
@@ -29379,68 +29249,54 @@ msgid "Improvements"
 msgstr "Verbeteringen"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-same` is now skipped for Toki Pona."
-msgstr ""
-":ref:`check-reused` wordt niet langer geactiveerd voor lege tekenreeksen."
+msgstr ":ref:`check-same` wordt nu overgeslagen voor Toki Pona."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ":ref:`search-strings` supports searching by source string state."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr ""
-":ref:`search-strings` ondersteunt nu zoeken op status van de brontekenreeks."
+msgstr ":ref:`search-strings` ondersteunt opzoeken op ``has:location``."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
-#| "see :ref:`check-prohibited-initial-character`."
 msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"Voorafgaande problematische tekens in CSV zijn nu controles voor :ref:"
-"`glossary`, bekijk :ref:`check-prohibited-initial-character`."
+"Witruimte van Unicode wordt nu beschouwd als problematische tekens voor "
+":ref:`glossary`, bekijk :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
-msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+msgstr ":ref:`addon-weblate.webhook.webhook` logs worden nu netjes weergegeven."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+":ref:`addon-weblate.webhook.webhook` mag nu meerdere keren geïnstalleerd "
+"worden."
 
 #: ../../changes.rst:21
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr ":ref:`user-profile` mag nu een URL voor contact opnemen bevatten."
 
 #: ../../changes.rst:22
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
 msgstr ""
+":http:post:`/api/projects/` geeft niet-superusers nu de mogelijkheid om "
+"projecten te maken als de module :ref:`billing` is ingeschakeld."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":http:get:`/api/users/` supports searching by user ID."
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
-msgstr ":http:get:`/api/users/` ondersteunt het zoeken op ID van de gebruiker."
+msgstr ""
+":http:post:`/api/groups/` ondersteunt binnen het bereik van het project "
+"maken van team door niet-superusers."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
-msgstr ":http:get:`/api/changes/(int:id)/` bevat nu `old` en `details`."
+msgstr ":http:get:`/api/users/` bevat nu ``languages``."
 
 #: ../../changes.rst:27 ../../changes.rst:58 ../../changes.rst:77
 #: ../../changes.rst:101 ../../changes.rst:128 ../../changes.rst:175
@@ -29461,37 +29317,30 @@ msgid "Bug fixes"
 msgstr "Gerepareerde bugs"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid ":ref:`dashboard` translations ordering when paginating."
-msgstr "Verbeterde afhandeling vergrendelen vertaling."
+msgstr ":ref:`dashboard` vertalingen ordenen bij pagineren."
 
 #: ../../changes.rst:29
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
 msgstr ""
+"Rekening houden met beperkingen voor woordenlijst DeepL API Free in :ref:`mt-"
+"deepl`."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+":ref:`addon-weblate.webhook.webhook` afleveren van projectbrede "
+"gebeurtenissen."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-":ref:`check-translated` gerepareerd om correct wijziging in brontekenreeks "
-"af te handelen."
+"Valse rapporten van :ref:`check-translated` met vlaggen of uitleg gewijzigd."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "Maakt een nieuwe vertaling in het opgegeven onderdeel."
+msgstr "Nieuwe vertalingen maken in :doc:`/formats/appstore`."
 
 #: ../../changes.rst:35 ../../changes.rst:183 ../../changes.rst:266
 #: ../../changes.rst:356 ../../changes.rst:457 ../../changes.rst:597
@@ -29503,7 +29352,7 @@ msgstr "Compatibiliteit"
 
 #: ../../changes.rst:36
 msgid "The projects and categories default tab now shows translated languages."
-msgstr ""
+msgstr "De projecten en categorieën standaard tab laat nu vertaalde talen zien."
 
 #: ../../changes.rst:39 ../../changes.rst:62 ../../changes.rst:81
 #: ../../changes.rst:108 ../../changes.rst:134 ../../changes.rst:187
@@ -29567,43 +29416,31 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"141?closed=1>`__."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Weblate 5.10.4"
 msgid "Weblate 5.11.4"
-msgstr "Weblate 5.10.4"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on May 7th 2020.*"
 msgid "*Released on May 7th 2025.*"
-msgstr "*Uitgegeven op 7 mei 2020.*"
+msgstr "*Uitgegeven op 7 mei 2025.*"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
-msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+msgstr ":ref:`addon-weblate.webhook.webhook` logt verzoeken en antwoorden."
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+":ref:`addon-weblate.webhook.webhook` werd in sommige situaties niet "
+"geactiveerd."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29648,91 +29485,61 @@ msgid "Documentation contributions"
 msgstr "Bijgedragen documentatie"
 
 #: ../../changes.rst:69
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/136?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/136?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"146?closed=1>`__."
 
 #: ../../changes.rst:72
-#, fuzzy
-#| msgid "Weblate 5.10.3"
 msgid "Weblate 5.11.3"
-msgstr "Weblate 5.10.3"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:74 ../../changes.rst:93
-#, fuzzy
-#| msgid "*Released on May 3rd 2024.*"
 msgid "*Released on May 3rd 2025.*"
-msgstr "*Uitgegeven op 3 mei 2024.*"
+msgstr "*Uitgegeven op 3 mei 2025.*"
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
-msgstr "Vermeldingen schermafdrukken gerepareerd."
+msgstr "Gerepareerde publicatie uitgave."
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"145?closed=1>`__."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.2"
-msgstr "Weblate 5.10.2"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "Woordenlijsten in automatische suggestie"
+msgstr "Uitvoering woordenlijsten in modus Zen en automatische suggesties."
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
-msgstr "Configuratie voor :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Uitgebreide ondersteunde indelingen voor :ref:`addon-weblate.json.customize`."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid ""
-#| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
-msgstr ""
-"Ondersteuning toegevoegd voor configureren van visueel toetsenbord met "
-"speciale tekens."
+msgstr "XML exporteren zal niet langer crashen op locaties met speciale tekens."
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Verbeterde afhandeling bij verwijderen tekenreeksen."
+msgstr "Verbeterde foutafhandeling bij uploaden ZIP."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
-msgstr "Django 1.4 compatibiliteit."
+msgstr "Django 5.2 compatibiliteit."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "Vermijd herhalende woorden en tekens."
+msgstr "Vermijd herhalende synchronisaties voor woordenlijsten."
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -29749,69 +29556,54 @@ msgid "Translations contributions"
 msgstr "Bijgedragen vertalingen"
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"144?closed=1>`__."
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:120
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 25th 2025.*"
-msgstr "*Uitgegeven op 15 april 2025.*"
+msgstr "*Uitgegeven op 25 april 2025.*"
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr ":ref:`reports` zijn nu beschikbaar voor categorieën."
+msgstr ":ref:`projectbackup` bevat nu teams en categorieën."
 
 #: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
+"Docker gezondheidscontrole wordt nu ondersteund in niet-web "
+"servicecontainers."
 
 #: ../../changes.rst:129
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
+"Integratie van :ref:`vcs-gitlab` detecteert nu meer robuust conflicten in "
+"samenvoegverzoeken."
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
-msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+msgstr ":ref:`addon-weblate.webhook.webhook` is nu ingeschakeld in Docker."
 
 #: ../../changes.rst:131
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
-msgstr "Verboden begrip"
+msgstr "Verwijderen van openstaande termen woordenlijst."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"142?closed=1>`__."
 
 #: ../../changes.rst:144
 msgid "Weblate 5.11"
@@ -29838,11 +29630,8 @@ msgstr ""
 "rol uit een groep te verwijderen."
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
-msgstr ""
-":ref:`addon-weblate.webhook.webhook` zijn nu beschikbaar als een add-on."
+msgstr ":ref:`addon-weblate.webhook.webhook` is nu beschikbaar als een add-on."
 
 #: ../../changes.rst:153
 msgid ""
@@ -29914,10 +29703,6 @@ msgid ":doc:`/admin/machine` documentation extended."
 msgstr ":doc:`/admin/machine` documentatie uitgebreid."
 
 #: ../../changes.rst:167
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` better handles hundredths of "
-#| "matches."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` better handles hundreds of matches."
 msgstr ""
@@ -29966,6 +29751,8 @@ msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
 msgstr ""
+"**Beveiliging:** Klonen van een onderdeel zou de configuratie van het "
+"onderdeel kunnen lekken naar de URL (CVE-2025-32021)."
 
 #: ../../changes.rst:177
 msgid "Fixed captcha verification when some time zone was configured."
@@ -30427,16 +30214,12 @@ msgstr ""
 "bekijk :doc:`/contributing/tests`."
 
 #: ../../changes.rst:358
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` "
-#| "flag is required to activate this check, see :ref:`custom-checks`."
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
-"Controle :ref:`check-bbcode` is nu standaard uitgeschakeld. De vlag `bbcode-"
-"text` is vereist om deze controle te activeren, bekijk :ref:`custom-checks`."
+"Controle :ref:`check-bbcode` is nu standaard uitgeschakeld. De vlag ``bbcode-"
+"text`` is vereist om deze controle te activeren, bekijk :ref:`custom-checks`."
 
 #: ../../changes.rst:359
 msgid "API error responses format has changed, see :ref:`api-errors`."
@@ -30670,13 +30453,10 @@ msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate vereist nu Git 2.28 of nieuwer."
 
 #: ../../changes.rst:460
-#, fuzzy
-#| msgid ""
-#| "Any custom code that relied on `Change` models signals should be reviewed."
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
 msgstr ""
-"Elke aangepaste code, die vertrouwde op modelsignalen van `Change`, zou "
+"Elke aangepaste code, die vertrouwde op modelsignalen van ``Change``, zou "
 "moeten worden nagekeken."
 
 #: ../../changes.rst:461
@@ -30953,10 +30733,8 @@ msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate vereist nu Python 3.11 of nieuwer."
 
 #: ../../changes.rst:599
-#, fuzzy
-#| msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
-msgstr ":ref:`mt-aws` vereist nu het recht `TranslateFullAccess`."
+msgstr ":ref:`mt-aws` vereist nu het recht ``TranslateFullAccess``."
 
 #: ../../changes.rst:605
 msgid ""
@@ -31024,10 +30802,6 @@ msgid "*Released on August 30th 2024.*"
 msgstr "*Uitgegeven op 30 augustus 2024.*"
 
 #: ../../changes.rst:646
-#, fuzzy
-#| msgid ""
-#| "Updated language names to better describe different scripts and Sintic "
-#| "languages."
 msgid ""
 "Updated language names to better describe different scripts and Sinitic "
 "languages."
@@ -31392,19 +31166,14 @@ msgstr ""
 "suggesties."
 
 #: ../../changes.rst:779
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
-msgstr ":http:get:`/api/units/(int:id)/` bevat nu tijdstempel `last_updated`."
+msgstr ":http:get:`/api/units/(int:id)/` bevat nu tijdstempel ``last_updated``."
 
 #: ../../changes.rst:780
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ""
 ":http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``."
-msgstr ":http:get:`/api/changes/(int:id)/` bevat nu `old` en `details`."
+msgstr ":http:get:`/api/changes/(int:id)/` bevat nu ``old`` en ``details``."
 
 #: ../../changes.rst:781
 msgid "Reduced memory usage and increased performance of some views."
@@ -31970,10 +31739,8 @@ msgstr ""
 "search`."
 
 #: ../../changes.rst:1034
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Tamil."
-msgstr "Weblate is nu beschikbaar in தமிழ்."
+msgstr "Weblate is nu beschikbaar in Tamil."
 
 #: ../../changes.rst:1038
 msgid "Better logging in :wladmin:`createadmin`."
@@ -37070,10 +36837,8 @@ msgstr ""
 "van add-on."
 
 #: ../../changes/v3.rst:427
-#, fuzzy
-#| msgid "Allow more fine grained ratelimit settings."
 msgid "Allow more fine grained :ref:`rate-limit` settings."
-msgstr "Meer fijn af te stemmen instellingen voor limieten toestaan."
+msgstr "Meer fijn af te stemmen instellingen voor :ref:`rate-limit` toestaan."
 
 #: ../../changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
@@ -40146,16 +39911,12 @@ msgstr ""
 "vertaling voor toegang tot woordenlijsten."
 
 #: ../../changes/v4.rst:867
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate."
-#| "metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
 "should be added."
 msgstr ""
-"Er is een wijziging in :setting:`django:INSTALLED_APPS` - ``weblate."
-"metrics`` zou moeten worden toegevoegd."
+"Er is een wijziging in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
+"zou moeten worden toegevoegd."
 
 #: ../../changes/v4.rst:871
 msgid "There is a new dependency on the `pyahocorasick` module."
@@ -41795,10 +41556,8 @@ msgid "ORM object for an unit."
 msgstr "ORM-object voor een eenheid."
 
 #: ../../contributing/addons.rst:37
-#, fuzzy
-#| msgid "ORM object for an add-on."
 msgid "ORM object for an change."
-msgstr "ORM-object voor een add-on."
+msgstr "ORM-object voor een wijziging."
 
 #: ../../contributing/addons.rst:41
 msgid "ORM object for an user."
@@ -41835,10 +41594,8 @@ msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr "Bekijk :ref:`internals` om te zien hoe Weblate er van binnen uitziet."
 
 #: ../../contributing/snippets/code-guide.rst:3
-#, fuzzy
-#| msgid "License changed"
 msgid "License and copyright"
-msgstr "Licentie gewijzigd"
+msgstr "Licentie en auteursrecht"
 
 #: ../../contributing/snippets/code-guide.rst:5
 msgid ""
@@ -41846,22 +41603,21 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"Bij het bijdragen van code gaat u ermee akkoord uw wijzigingen en nieuwe "
+"code te plaatsen onder dezelfde licentie als die welke de opslagplaats "
+"momenteel gebruikt, tenzij anders vermeld en overeen gekomen."
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` legt licenseren meer in details uit."
 
 #: ../../contributing/snippets/code-guide.rst:14
-#, fuzzy
-#| msgid "Writing own checks"
 msgid "Writing a good patch"
-msgstr "Eigen controles schrijven"
+msgstr "Een goede patch schrijven"
 
 #: ../../contributing/snippets/code-guide.rst:17
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Write separate changes"
-msgstr "Recente wijzigingen"
+msgstr "Afzonderlijke wijzigingen schrijven"
 
 #: ../../contributing/snippets/code-guide.rst:19
 msgid ""
@@ -41871,6 +41627,12 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"Het is heel vervelend als u een massieve patch ontvangt die zegt 11 "
+"verschillende problemen te repareren, maar overleg en meningen zijn het niet "
+"eens met 10 ervan of 9 ervan waren al op een andere manier gerepareerd. Dan "
+"moet de persoon, die deze wijziging moet samenvoegen, die ene interessante "
+"patch uitnemen uit die enorme berg met bronnen en dat vraagt heel veel extra "
+"werk."
 
 #: ../../contributing/snippets/code-guide.rst:25
 msgid ""
@@ -41879,12 +41641,18 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"Bij voorkeur zou elke reparatie die een probleem adresseert in zijn eigen "
+"patch/commit moeten staan, met zijn eigen beschrijving/commit-bericht, dat "
+"exact vermeld wat het corrigeert, zodat alle wijzigingen selectief kunnen "
+"worden toegepast door de onderhouder of andere geïnteresseerde partijen."
 
 #: ../../contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"Bovendien maken afzonderlijke wijzigingen het onderscheiden, voor het "
+"bijhouden van problemen en regressie in de toekomst, veel gemakkelijker."
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -41897,12 +41665,15 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"Documentatie kan een vervelende taak zijn; het is echter noodzakelijk dat "
+"iemand het voltooid. Het maakt dingen veel gemakkelijker als u de "
+"documentatie samen met de wijzigingen in de code indient. Vergeet niet om "
+"methoden, complexe codeblokken of voor de gebruiker zichtbare mogelijkheden "
+"te documenteren."
 
 #: ../../contributing/snippets/code-guide.rst:46
-#, fuzzy
-#| msgid "Use case"
 msgid "Test cases"
-msgstr "Te gebruiken"
+msgstr "Testgevallen"
 
 #: ../../contributing/snippets/code-guide.rst:48
 msgid ""
@@ -41912,6 +41683,12 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"De testen stellen ons in staat snel te verifiëren dat de mogelijkheden "
+"werken zoals ze zijn bedoeld te werken. Voor het behouden van deze situatie "
+"en die te verbeteren, moeten alle nieuwe mogelijkheden en functies, die "
+"worden toegevoegd, worden getest in de testomgeving. Elke mogelijkheid die "
+"wordt toegevoegd zou ten minste een geldig testgeval moeten krijgen, die "
+"verifieert dat het werkt zoals het is gedocumenteerd."
 
 #: ../../contributing/snippets/code-guide.rst:56
 msgid ":doc:`/contributing/tests`"
@@ -41934,15 +41711,11 @@ msgid "Coding standard and linting the code"
 msgstr "Standaard voor coderen en linten van de code"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`ruff` code formatter."
 msgid ""
 "The code should follow :pep:`8` coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
-"De code zou de richtlijnen voor coderen PEP-8 moeten volgen en zou moeten "
+"De code zou de richtlijnen voor coderen :pep:`8` moeten volgen en zou moeten "
 "zijn opgemaakt met de codeopmaker :program:`ruff`."
 
 #: ../../contributing/snippets/code-guide.rst:71
@@ -41984,10 +41757,8 @@ msgstr ""
 "bestanden:"
 
 #: ../../contributing/snippets/code-guide.rst:92
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding securely"
-msgstr "Opmaak codering"
+msgstr "Zorgvuldig coderen"
 
 #: ../../contributing/snippets/code-guide.rst:94
 msgid ""
@@ -41998,10 +41769,8 @@ msgstr ""
 "Principles`_ in gedachte."
 
 #: ../../contributing/snippets/code-guide.rst:100
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "AI guidelines"
-msgstr "Richtlijnen voor coderen"
+msgstr "Richtlijnen voor AI"
 
 #: ../../contributing/snippets/code-guide.rst:102
 msgid ""
@@ -42012,10 +41781,18 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"Door het bijdragen van inhoud aan het project, geeft u ons toestemming om "
+"die te gebruiken as-is en u moet ervoor zorgen dat u het recht hebt het aan "
+"ons door te geven. Door het bij ons indienen van ene wijziging stemt u ermee "
+"in dat de wijzigingen kunnen en zouden moeten worden geadopteerd door het "
+"project en opnieuw worden gedistribueerd onder de licentie van het project. "
+"Auteurs zouden zich er expliciet van bewust moeten zijn dat de bewijslast, "
+"om ervoor te zorgen dat er geen niet-gelicenseerde code bij het project "
+"wordt ingediend, bij hen ligt."
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "Dat staat los van het feit of er al dan niet AI is gebruikt."
 
 #: ../../contributing/snippets/code-guide.rst:111
 msgid ""
@@ -42024,6 +41801,11 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"Bij het indienen van een pull request, zou u, natuurlijk, er altijd voor "
+"moeten zorgen dat het voorstel van goede kwaliteit is en volgens de beste "
+"inspanning volgens onze richtlijnen. Een basisregel is dat als iemand kan "
+"zien dat de bijdrage werd gemaakt met de hulp van AI, u nog wat werk hebt te "
+"doen."
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid ""
@@ -42031,6 +41813,10 @@ msgid ""
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
+"We kunnen in het project code accepteren die is geschreven met de hulp van "
+"AI, maar de code moet nog steeds voldoen aan de standaarden voor coderen, "
+"helder zijn geschreven, moet zijn gedocumenteerd, testgevallen bevatten en "
+"voldoen aan alle normale eisen die we eraan stellen."
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -42744,18 +42530,12 @@ msgid "Icons"
 msgstr "Pictogrammen"
 
 #: ../../contributing/frontend.rst:123
-#, fuzzy
-#| msgid ""
-#| "Weblate currently uses material design icons. In case you are looking for "
-#| "new symbol, check `Material Design Icons`_ or `Material Design "
-#| "Resources`_."
 msgid ""
 "Weblate currently uses `Material Design Icons`_, in case you are looking for "
 "new symbol, check that."
 msgstr ""
-"Weblate gebruikte momenteel pictogrammen van Material Design. In het geval u "
-"zoekt naar een nieuw symbool, bekijk `Material Design Icons`_ of `Material "
-"Design Resources`_."
+"Weblate gebruikt pictogrammen van `Material Design`_. In het geval u zoekt "
+"naar een nieuw symbool, controleer dat."
 
 #: ../../contributing/frontend.rst:126
 msgid ""
@@ -43153,16 +42933,12 @@ msgstr ""
 "comfortabel door het rapporteren van het probleem te leiden."
 
 #: ../../contributing/issues.rst:13
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid ""
 "If what you have found is a security issue in Weblate, please see :ref:"
 "`security`."
 msgstr ""
-"Als wat u heeft gevonden een beveiligingsprobleem in Weblate is, raadpleeg "
-"dan het gedeelte :ref:`security` hieronder."
+"Als wat u heeft gevonden een beveiligingsprobleem in Weblate is, bekijk dan "
+":ref:`security`."
 
 #: ../../contributing/issues.rst:15
 msgid ""
@@ -43174,13 +42950,15 @@ msgstr ""
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to created issues"
-msgstr ""
+msgstr "AI gebruiken voor gemaakte issues"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Als u een programma voor AI vroeg om problemen in Weblate of zijn modules te "
+"zoeken, **moet** u ervoor zorgen dat dat feit in uw rapport wordt vermeld."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -43189,6 +42967,10 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"U moet ook de bevindingen zorgvuldig dubbel controleren voordat u ze aan ons "
+"rapporteert, om te valideren dat die problemen inderdaad bestaan en exact "
+"werken zoals AI zegt. Op AI gebaseerde programma's genereren regelmatig "
+"onnauwkeurige of gefabriceerde resultaten."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -43200,6 +42982,15 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"Het is *zelden* een goed idee om ene door AI gegenereerd rapport voor het "
+"project eenvoudigweg te kopiëren en te plakken. Die gegenereerde rapporten "
+"bevatten over het algemeen te veel woorden en komen zelden direct ter zake ("
+"in aanvulling op de veel voorkomende gefabriceerde details). Als u feitelijk "
+"een probleem ontdekt met een AI en u hebt zelf geverifieerd dat het waar is, "
+"schrijf dan het rapport zelf en leg jet probleem uit zoals u dat geleerd "
+"hebt. Dat zorgt ervoor dat de door AI gegenereerde onnauwkeurigheden en "
+"verzonnen problemen er vroeg uitgefilterd worden, voordat ze tijd van andere "
+"mensen verspillen."
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -43209,25 +43000,30 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"Omdat we rapporten over beveiliging serieus nemen, onderzoeken we elk "
+"rapport met prioriteit. Dat werk is zowel tijdrovend als energieslurpend als "
+"houdt ons weg van ander betekenisvol werk. Valse en anderszins verzonnen "
+"problemen met beveiliging houden ons af van het uitvoeren van het echte werk "
+"voor het project en zorgt ervoor dat we tijd en bronnen verspillen."
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
+"We blokkeren gebruikers, die verzonnen valse rapporten naar het project "
+"sturen, onmiddellijk."
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
-msgstr ""
+msgstr "Levenscyclus voor problemen"
 
 #: ../../contributing/license.rst:2
 msgid "License"
 msgstr "Licentie"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate license"
-msgstr "Weblate Client"
+msgstr "Weblate licentie"
 
 #: ../../contributing/license.rst:7
 msgid ""
@@ -43275,16 +43071,16 @@ msgstr ""
 "licenses/>."
 
 #: ../../contributing/license.rst:25
-#, fuzzy
-#| msgid "Weblate deployments"
 msgid "Weblate modules license"
-msgstr "Weblate uitgerold"
+msgstr "Weblate modules licentie"
 
 #: ../../contributing/license.rst:27
 msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
 msgstr ""
+"Sommige modules van Weblate gebruiken licenties van MIT of ISC. Controleer "
+"de respectievelijke opslagplaatsen voor de feitelijke licentie."
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -43340,17 +43136,10 @@ msgid "Releasing Weblate"
 msgstr "Weblate uitgeven"
 
 #: ../../contributing/release.rst:7
-#, fuzzy
-#| msgid "Release process"
 msgid "Release cycle"
-msgstr "Uitgaveproces"
+msgstr "Uitgavecyclus"
 
 #: ../../contributing/release.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has two month release cycle for releases (x.y). These are usually "
-#| "followed by a bunch of bugfix releases to fix issues which slip into them "
-#| "(x.y.z)."
 msgid ""
 "Weblate has two month release cycle for releases (x.y). These are usually "
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
@@ -43358,7 +43147,8 @@ msgid ""
 msgstr ""
 "Weblate heeft een tweemaandelijkse uitgavecyclus voor uitgaven (x.y). Deze "
 "worden gewoonlijk gevolgd door een aantal uitgaven met oplossingen voor "
-"problemen die erin zijn geslopen (x.y.z)."
+"problemen die erin zijn geslopen (x.y.z). Dit bevat ook reparaties van "
+"problemen en het adresseren van problemen met beveiliging."
 
 #: ../../contributing/release.rst:13
 msgid ""
@@ -43376,12 +43166,13 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"De Docker-container bevat een aanvullend cijfer in de versie om wijzigingen "
+"in de container zelf bij te houden, zoals afhankelijkheden. Die updates "
+"zouden ook updates voor beveiliging kunnen bevatten."
 
 #: ../../contributing/release.rst:23
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../admin/upgrade`, :ref:`security-updates`"
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
@@ -43514,10 +43305,8 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:40
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
-msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
+msgstr ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -43872,10 +43661,8 @@ msgid "The simple execution can look like:"
 msgstr "De eenvoudige uitvoering kan er uitzien als:"
 
 #: ../../contributing/tests.rst:47
-#, fuzzy
-#| msgid "Locking down Weblate"
 msgid "Local testing of Weblate"
-msgstr "Weblate vergrendelen"
+msgstr "Lokaal testen van Weblate"
 
 #: ../../contributing/tests.rst:49
 msgid ""
@@ -43947,10 +43734,8 @@ msgstr ""
 "uitvoeren en schrijven van testen voor Django."
 
 #: ../../contributing/tests.rst:103
-#, fuzzy
-#| msgid "Contributing to Weblate modules"
 msgid "Local testing of Weblate modules"
-msgstr "Bijdragen aan modules voor Weblate"
+msgstr "Lokaal testen van modules voor Weblate"
 
 #: ../../contributing/tests.rst:105
 msgid ""
@@ -45634,10 +45419,8 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/mobile.rst:2
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Multi-platform localization"
-msgstr "Doorlopende vertaling"
+msgstr "Vertaling over meerdere platforms"
 
 #: ../../devel/mobile.rst:4
 msgid ""
@@ -45645,34 +45428,41 @@ msgid ""
 "configure separate components for each platform. The :ref:`translation-"
 "propagation` will help you to keep the strings in sync."
 msgstr ""
+"Bij het vertalen van apps voor meerder platforms (bijv. Android en iOS), "
+"configureer afzonderlijke onderdelen voor elk platform. De :ref:`translation-"
+"propagation` zal u helpen bij het synchroniseren van de tekenreeksen."
 
 #: ../../devel/mobile.rst:8
-#, fuzzy
-#| msgid "CII Best Practices"
 msgid "Best practices:"
-msgstr "CII Beste werkwijzen"
+msgstr "Beste werkwijzen:"
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
-msgstr ""
+msgstr "Maak een onderdeel per platform (bijv. `MyApp Android`, `MyApp iOS`)."
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
 msgstr ""
+"Zorg ervoor dat identieke brontekenreeksen en sleutels, waar mogelijk, "
+"worden gebruikt over de verschillende platforms."
 
 #: ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Schakel :ref:`component-allow_translation_propagation` in om automatisch "
+"vertalingen opnieuw te gebruiken voor overeenkomende tekenreeksen."
 
 #: ../../devel/mobile.rst:14
 msgid ""
 "This setup avoids duplicate work and keeps translations consistent across "
 "platforms."
 msgstr ""
+"Deze opstelling vermijdt dubbel werk en houdt vertalingen consistent over de "
+"platforms."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -50651,10 +50441,8 @@ msgid "Contributor docs"
 msgstr "Deelnemer documentatie"
 
 #: ../../index.rst:145
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Secure Weblate"
-msgstr "Ondersteun Weblate"
+msgstr "Weblate beveiligen"
 
 #: ../../index.rst:159
 msgid "File formats"
@@ -51098,14 +50886,12 @@ msgid "Main class for invoking commands."
 msgstr "Hoofdklasse voor aanroepen van opdrachten."
 
 #: ../../security/dependencies.rst:2
-#, fuzzy
-#| msgid "Dependencies updates."
 msgid "Dependencies"
-msgstr "Bijwerken van afhankelijkheden."
+msgstr "Afhankelijkheden"
 
 #: ../../security/dependencies.rst:7
 msgid "Software Bill of Material"
-msgstr ""
+msgstr "Software materiaallijst"
 
 #: ../../security/dependencies.rst:9
 msgid ""
@@ -51113,6 +50899,10 @@ msgid ""
 "file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be "
 "used to review the dependencies for security issues or license compliance."
 msgstr ""
+"Weblate bevat een Software Bill of Material (SBOM) in de bron als :file:`"
+"docs/specs/sbom/sbom.json` in de indeling CycloneDX. Die kan worden gebruikt "
+"om de afhankelijkheden na te kijken voor problemen met beveiliging of "
+"conformiteit met de licentie."
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
@@ -51173,33 +50963,34 @@ msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Verkennen uitschakelen"
+msgstr "Rampen herstelplan"
 
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
 msgid "Scope and objectives"
-msgstr ""
+msgstr "Bereik en doelen"
 
 #: ../../security/disaster-recovery-plan.rst:7
 msgid ""
 "This plan addresses recovery from catastrophic events impacting Weblate "
 "service availability, data integrity, or operational continuity."
 msgstr ""
+"Dit plan adresseert het herstellen van catastrofale gebeurtenissen die "
+"impact hebben op de beschikbaarheid van services van Weblate, integriteit "
+"van de gegevens, of operationele continuïteit."
 
 #: ../../security/disaster-recovery-plan.rst:11
 msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate s.r."
 "o., but it can be applied to other deployments similarly."
 msgstr ""
+"Het plan is specifiek ontworpen voor uitvoeringen van Weblate door Weblate "
+"s.r.o., maar kan soortgelijk op andere uitvoeringen worden toegepast."
 
 #: ../../security/disaster-recovery-plan.rst:14
-#, fuzzy
-#| msgid "definitions"
 msgid "Definitions"
-msgstr "definities"
+msgstr "Definities"
 
 #: ../../security/disaster-recovery-plan.rst:16
 msgid ""
@@ -51207,48 +50998,58 @@ msgid ""
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
 msgstr ""
+"**Ramp:** Elke niet geplande gebeurtenis die zorgt voor volledig of "
+"significant verlies van service, gegevens, of systeemfunctionaliteit. "
+"Voorbeelden omvatten het falen van hardware, gegevenscorruptie, uitval van "
+"infrastructuur, of een aanval door kwaadwilligen."
 
 #: ../../security/disaster-recovery-plan.rst:17
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
 msgstr ""
+"**Doel voor herstelpunt (Recovery Point Objective (RPO)):** Maximaal "
+"acceptabele interval van gegevensverlies: **24 uur**."
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
 msgstr ""
+"**Doel voor hersteltijd (Recovery Time Objective (RTO)):** Maximaal "
+"acceptabele tijd om de volledige service te herstellen: **8 uur**."
 
 #: ../../security/disaster-recovery-plan.rst:21
-#, fuzzy
-#| msgid "Bilingual components"
 msgid "Critical components"
-msgstr "Tweetalige onderdelen"
+msgstr "Kritische onderdelen"
 
 #: ../../security/disaster-recovery-plan.rst:23
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
 msgstr ""
+"**Laag van de toepassing:** Weblate Python/Django toepassing, "
+"achtergrondwerkers (Celery) en taken in een schema."
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
 msgstr ""
+"**Gegevenslaag:** PostgreSQL database, opslagplaatsen voor vertalingen (Git) "
+"en logs."
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
 msgstr ""
+"**Infrastructuur:** Webserver (NGINX/Apache), omgekeerde proxy, volumes voor "
+"opslag, SSL/TLS-configuratie en optioneel SIEM logsysteem."
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup colicy"
-msgstr "Back-upopslagruimte"
+msgstr "Back-up beleid"
 
 #: ../../security/disaster-recovery-plan.rst:30
 msgid ""
@@ -51258,242 +51059,262 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+"Het proces :ref:`automated-backup` garandeert dat alle essentiële onderdelen "
+"(database, gegevens en configuratie) dagelijks worden geback-upt. De back-"
+"ups worden opgeslagen op twee geografisch verschillende locaties. Het back-"
+"up retentiebeleid zorgt ervoor dat de recente back-ups dagelijks beschikbaar "
+"zijn en behoudt zes maanden aan back-ups."
 
 #: ../../security/disaster-recovery-plan.rst:36
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery Procedures"
-msgstr "Herstelcodes"
+msgstr "Herstelprocedures"
 
 #: ../../security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
-msgstr ""
+msgstr "Scenario uitval: volledig host-/systeemverlies"
 
 #: ../../security/disaster-recovery-plan.rst:43
-#, fuzzy
-#| msgid "Provisioning"
 msgid "Provision new host."
-msgstr "Verschaffen"
+msgstr "Verschaffen nieuwe host."
 
 #: ../../security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
-msgstr ""
+msgstr "Bootstrappen van Weblate met verstrekte software."
 
 #: ../../security/disaster-recovery-plan.rst:45
 #: ../../security/disaster-recovery-plan.rst:53
 msgid "Restore Weblate backup following :ref:`restore-borg`."
-msgstr ""
+msgstr "Herstellen back-up van Weblate volgens :ref:`restore-borg`."
 
 #: ../../security/disaster-recovery-plan.rst:46
-#, fuzzy
-#| msgid "Start Weblate containers:"
 msgid "Restart Weblate container."
-msgstr "Weblate containers starten:"
+msgstr "Weblate-container opnieuw starten."
 
 #: ../../security/disaster-recovery-plan.rst:47
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid "Verify functionality and perform consistency checks."
-msgstr "Verbeterde prestaties controles voor consistentie."
+msgstr ""
+"Functionaliteit verifiëren en uitvoeren van controles voor consistentie."
 
 #: ../../security/disaster-recovery-plan.rst:50
 msgid "Failure scenario: database corruption or data volume loss"
 msgstr ""
+"Scenario uitval: corruptie van de database of verlies van gegevensvolume"
 
 #: ../../security/disaster-recovery-plan.rst:52
 msgid "Stop Weblate to prevent further write operations."
-msgstr ""
+msgstr "Weblate stoppen om verdere schrijfbewerkingen te voorkomen."
 
 #: ../../security/disaster-recovery-plan.rst:54
 msgid "Restart services and verify translation and user data consistency."
 msgstr ""
+"Services opnieuw starten en vertalingen verifiëren en consistentie van "
+"gebruikersgegevens."
 
 #: ../../security/disaster-recovery-plan.rst:57
 msgid "Failure scenario: malicious tampering or ransomware"
-msgstr ""
+msgstr "Scenario uitval: aanval door kwaadwilligen of ransomware"
 
 #: ../../security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "Isoleren van de getroffen host in het netwerk."
 
 #: ../../security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
-msgstr ""
+msgstr "Identificeren van de laatst bekende goede back-up (voor de infectie)."
 
 #: ../../security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
+"Volg stappen uit :ref:`drp-host` om het systeem op een nieuwe host uit te "
+"rollen."
 
 #: ../../security/disaster-recovery-plan.rst:64
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Validation and testing"
-msgstr "Valideren mislukt, probeer het opnieuw."
+msgstr "Valideren en testen"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
-msgstr ""
+msgstr "**Back-up verifiëren:** Maandelijkse hersteltest van Weblate back-ups."
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
 msgstr ""
+"**Oefening Herstellen na ramp:** Ten minste jaarlijks uitvoeren, betreft "
+"volledig herstel naar een staging-omgeving."
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
 msgstr ""
+"**Geautomatiseerde controles voor integriteit:** BorgBackup zorgt voor "
+"integriteit van de archieven voor back-ups."
 
 #: ../../security/disaster-recovery-plan.rst:71
-#, fuzzy
-#| msgid "Use recovery codes"
 msgid "Post-recovery steps"
-msgstr "Herstelcodes gebruiken"
+msgstr "Stappen na herstellen"
 
 #: ../../security/disaster-recovery-plan.rst:73
 msgid "Confirm all services are operational and accessible."
-msgstr ""
+msgstr "Bevestigen dat alle services operationeel en toegankelijk zijn."
 
 #: ../../security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
 msgstr ""
+"Gebruikers en sleutelpersonen in kennis stellen van de status van het "
+"herstellen."
 
 #: ../../security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
-msgstr ""
+msgstr "Documenteren van de tijdlijn, oorzaak vaststellen en geleerde lessen."
 
 #: ../../security/disaster-recovery-plan.rst:76
 msgid "Apply updates or infrastructure changes to prevent recurrence."
-msgstr ""
+msgstr "Updates toepassen of infrastructuur wijzigen om herhaling te voorkomen."
 
 #: ../../security/disaster-recovery-plan.rst:77
 msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
 msgstr ""
+"Volg :ref:`vulnerability-disclosure-policy` in het geval dat kwetsbaarheid "
+"was betrokken."
 
 #: ../../security/incident-response-plan.rst:2
-#, fuzzy
-#| msgid "Third-party deployments for Weblate"
 msgid "Incident response plan for Weblate"
-msgstr "Uitrol van derde partijen voor Weblate"
+msgstr "Incident herstelplan (Incident response plan (IRP)) voor Weblate"
 
 #: ../../security/incident-response-plan.rst:7
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of a Weblate deployment."
 msgstr ""
+"Dit IRP behandelt incidenten die impact hebben op de vertrouwelijkheid, "
+"integriteit of beschikbaarheid van ene uitrol van Weblate."
 
 #: ../../security/incident-response-plan.rst:8
 msgid ""
 "It applies to self-hosted Weblate instances, whether on-premise or in cloud "
 "infrastructure."
 msgstr ""
+"Het is van toepassing op zelf gehoste instanties van Weblate, ofwel op "
+"locatie of in de cloud-infrastructuur."
 
 #: ../../security/incident-response-plan.rst:11
-#, fuzzy
-#| msgid "Extended search possibilities."
 msgid "Roles and responsibilities"
-msgstr "Uitgebreide zoekmogelijkheden."
+msgstr "Rollen en verantwoordelijkheden"
 
 #: ../../security/incident-response-plan.rst:13
 msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
 msgstr ""
+"**Incident herstel leider (Incident Response Lead (IRL)):** Coördineert alle "
+"fasen van het herstelproces."
 
 #: ../../security/incident-response-plan.rst:14
 msgid "**System Administrator:** Executes containment and recovery measures."
 msgstr ""
+"**Systeembeheerder:** Voert maatregelen voor afzondering en herstel uit."
 
 #: ../../security/incident-response-plan.rst:15
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
 msgstr ""
+"**Beveiligings officier:** Evalueert impact voor beveiliging en "
+"konsekwenties voor regelgeving."
 
 #: ../../security/incident-response-plan.rst:16
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
 msgstr ""
+"**Leider communicatie:** beheert notificaties voor interne sleutelpersonen "
+"en, indien nodig, externe partijen."
 
 #: ../../security/incident-response-plan.rst:19
-#, fuzzy
-#| msgid "Components and categories"
 msgid "Incident categories"
-msgstr "Onderdelen en categorieën"
+msgstr "Categorieën incidenten"
 
 #: ../../security/incident-response-plan.rst:21
 msgid "Category 1 – Unauthorized Access"
-msgstr ""
+msgstr "Categorie 1 – Niet geauthoriseerde toegang"
 
 #: ../../security/incident-response-plan.rst:22
 msgid "Category 2 – Data Integrity Violation"
-msgstr ""
+msgstr "Categorie 2 – Overtreding integriteit gegevens"
 
 #: ../../security/incident-response-plan.rst:23
 msgid "Category 3 – Service Outage or Degradation"
-msgstr ""
+msgstr "Categorie 3 – Uitval service of degradatie"
 
 #: ../../security/incident-response-plan.rst:24
 msgid "Category 4 – Misconfiguration or Deployment Error"
-msgstr ""
+msgstr "Categorie 4 – Foutieve configuratie of fout bij uitrol"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Incident response lifecycle"
-msgstr ""
+msgstr "Levenscyclus incident herstel"
 
 #: ../../security/incident-response-plan.rst:30
-#, fuzzy
-#| msgid "Explanation"
 msgid "Preparation"
-msgstr "Uitleg"
+msgstr "Voorbereiding"
 
 #: ../../security/incident-response-plan.rst:32
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory."
 msgstr ""
+"Zorg voor regelmatige dagelijkse back-ups van de PostgreSQL database en de "
+"map met gegevens."
 
 #: ../../security/incident-response-plan.rst:33
 msgid ""
 "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
 "1.2+)."
 msgstr ""
+"Bescherm Weblate met omgekeerde proxy (bijv. NGINX of Apache) en HTTPS (TLS "
+"1.2+)."
 
 #: ../../security/incident-response-plan.rst:34
 msgid "Enable 2FA for admin-level accounts."
-msgstr ""
+msgstr "Schakel 2FA in voor accounts op niveau van systeembeheerders."
 
 #: ../../security/incident-response-plan.rst:35
 msgid ""
 "Keep the Weblate instance and its dependencies (Python, Django, Celery, "
 "database, etc.) up to date."
 msgstr ""
+"Houd de Weblate instantie en zijn afhankelijkheden (Python, Django, Celery, "
+"database, etc.) up-to-date."
 
 #: ../../security/incident-response-plan.rst:36
 msgid ""
 "Integrate with SIEM systems using the GELF protocol for audit and "
 "application log forwarding."
 msgstr ""
+"Integreer met SIEM-systemen met het protocol GELF voor het auditten en "
+"doorsturen van logs van de toepassing."
 
 #: ../../security/incident-response-plan.rst:39
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Identification"
-msgstr "Identificatie op de regel"
+msgstr "Identificatie"
 
 #: ../../security/incident-response-plan.rst:41
 msgid ""
 "Monitor system and application logs (``journalctl``, reverse proxy logs, "
 "Weblate application and audit logs)."
 msgstr ""
+"Monitor systeem en toepassingslogs (``journalctl``, logs van de omgekeerde "
+"proxy, logs van de toepassing Weblate en de audit)."
 
 #: ../../security/incident-response-plan.rst:42
 msgid "Analyze login events, webhook executions, and push/pull failures."
 msgstr ""
+"Analyseer gebeurtenissen voor inloggen, het uitvoeren van webhooks en falen "
+"van push/pull."
 
 #: ../../security/incident-response-plan.rst:43
 msgid ""
@@ -51501,90 +51322,97 @@ msgid ""
 "login failures - Unexpected service restarts or memory usage spikes - "
 "Irregular push/pull actions from version control systems"
 msgstr ""
+"Configureer alarmering (bijv. via Prometheus, Zabbix of SIEM) voor: - "
+"Meermaals falen inloggen - Onverwacht opnieuw starten van service of pieken "
+"in geheugengebruik - Ongewone acties voor push/pull vanuit "
+"versiebeheersystemen"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Content"
 msgid "Containment"
-msgstr "Inhoud"
+msgstr "Afzonderen"
 
 #: ../../security/incident-response-plan.rst:51
 msgid ""
 "Temporarily restrict access (e.g., via firewall rules or service isolation)."
 msgstr ""
+"Beperk tijdelijk de toegang (bijv. via regels voor firewall of isoleren van "
+"service)."
 
 #: ../../security/incident-response-plan.rst:52
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
 msgstr ""
+"Schakel externe integraties uit (Git/webhooks) als ze deel uitmaken van het "
+"aangevallen gebied."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Suspend affected user accounts immediately."
-msgstr ""
+msgstr "Schors betrokken gebruikers onmiddellijk."
 
 #: ../../security/incident-response-plan.rst:56
-#, fuzzy
-#| msgid "Explanation"
 msgid "Eradication"
-msgstr "Uitleg"
+msgstr "Uitroeien"
 
 #: ../../security/incident-response-plan.rst:58
 msgid "Remove any unauthorized code or data."
-msgstr ""
+msgstr "Verwijder alle niet geautoriseerde code of gegevens."
 
 #: ../../security/incident-response-plan.rst:59
 msgid "Patch known vulnerabilities by upgrading Weblate or server components."
 msgstr ""
+"Herstel bekende kwetsbaarheden door Weblate of serveronderdelen te upgraden."
 
 #: ../../security/incident-response-plan.rst:60
 msgid ""
 "Validate binary and repository integrity using SHA-256 checksums or Git logs."
 msgstr ""
+"Valideer binaire en integriteit van de opslagplaats met SHA-256 "
+"controlesommen of Git-logs."
 
 #: ../../security/incident-response-plan.rst:63
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery"
-msgstr "Herstelcodes"
+msgstr "Herstel"
 
 #: ../../security/incident-response-plan.rst:65
 msgid "Restore affected services or data from the latest known-good backups."
 msgstr ""
+"Herstel de getroffen services of gegevens vanuit de laatst bekende goede "
+"back-ups."
 
 #: ../../security/incident-response-plan.rst:66
 msgid "Reintroduce services in a phased approach."
-msgstr ""
+msgstr "Introduceer de services opnieuw in een gefaseerde benadering."
 
 #: ../../security/incident-response-plan.rst:67
 msgid ""
 "Monitor logs and system behavior continuously for at least 72 hours post-"
 "recovery."
 msgstr ""
+"Monitor logs en het systeemgedrag doorlopend gedurende ten minste 72 uur na "
+"het herstel."
 
 #: ../../security/incident-response-plan.rst:70
-#, fuzzy
-#| msgid "Source in review"
 msgid "Post-incident review"
-msgstr "Bron in beoordeling"
+msgstr "Nakijken na het incident"
 
 #: ../../security/incident-response-plan.rst:72
 msgid "Compile a full incident timeline and actions taken."
 msgstr ""
+"Stel een volledige tijdlijn voor het incident en de genomen acties samen."
 
 #: ../../security/incident-response-plan.rst:73
 msgid "Perform Root Cause Analysis (RCA)."
-msgstr ""
+msgstr "Voer een Root Cause Analysis (RCA) uit."
 
 #: ../../security/incident-response-plan.rst:74
-#, fuzzy
-#| msgid "Typo fixes in the documentation."
 msgid "Update security policies and IRP documentation."
-msgstr "Typfouten in de documentatie gerepareerd."
+msgstr "Werk beveiligingsbeleid en documentatie voor IRP bij."
 
 #: ../../security/incident-response-plan.rst:75
 msgid "Review the effectiveness of detection and containment mechanisms."
 msgstr ""
+"Kijk de effectiviteit van de mechanismen voor detectie en afzondering na."
 
 #: ../../security/index.rst:2
 msgid "Security and privacy"
@@ -51599,18 +51427,12 @@ msgstr ""
 "gebruikers hoog in het vaandel heeft staan."
 
 #: ../../security/index.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://www.bestpractices."
-#| "dev/en/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Open Source "
 "Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 msgstr ""
-"De ontwikkeling van Weblate volgt de `Best Practices of the Linux "
-"Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/"
-"en/projects/552>`_."
+"De ontwikkeling van Weblate volgt de `Best Practices of the Open Source "
+"Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
@@ -51628,58 +51450,48 @@ msgid ""
 "benefit from the latest security improvements. Learn more about :ref:"
 "`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate verschaft beveiligingsupdates om kwetsbaarheden te adresseren en het "
+"postuur voor de beveiliging van de toepassing te verbeteren. Alleen de "
+"laatste uitgave heeft gegarandeerd beveiligingsupdates ontvangen. Gebruikers "
+"worden aangemoedigd om Weblate up-to-date te houden om voordeel te hebben "
+"van de laatste verbeteringen van de beveiliging. Kom meer te weten op :ref:`"
+"Weblate releases and the release life cycle <release-cycle>`."
 
 #: ../../security/index.rst:26
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security policies"
-msgstr "Beveiligingsproblemen"
+msgstr "Beveiligingsbeleid"
 
 #: ../../security/index.rst:28
-#, fuzzy
-#| msgid "Dependencies updates."
 msgid ":doc:`dependencies`"
-msgstr "Bijwerken van afhankelijkheden."
+msgstr ":doc:`dependencies`"
 
 #: ../../security/index.rst:29
-#, fuzzy
-#| msgid "Disable discovery"
 msgid ":doc:`disaster-recovery-plan`"
-msgstr "Verkennen uitschakelen"
+msgstr ":doc:`disaster-recovery-plan`"
 
 #: ../../security/index.rst:30
-#, fuzzy
-#| msgid "Third-party deployments for Weblate"
 msgid ":doc:`incident-response-plan`"
-msgstr "Uitrol van derde partijen voor Weblate"
+msgstr ":doc:`incident-response-plan`"
 
 #: ../../security/index.rst:32
-#, fuzzy
-#| msgid "``password``"
 msgid ":doc:`passwords`"
-msgstr "``password``"
+msgstr ":doc:`passwords`"
 
 #: ../../security/index.rst:33
-#, fuzzy
-#| msgid ":doc:`html`"
 msgid ":doc:`threat-model`"
-msgstr ":doc:`html`"
+msgstr ":doc:`threat-model`"
 
 #: ../../security/index.rst:36
-#, fuzzy
-#| msgid "Company"
 msgid "Compliance"
-msgstr "Bedrijf"
+msgstr "Conformiteit"
 
 #: ../../security/index.rst:38
-#, fuzzy
-#| msgid ":doc:`psa:pipeline`"
 msgid ":doc:`privacy-compliance`"
-msgstr ":doc:`psa:pipeline`"
+msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
-msgstr ""
+msgstr "Kwetsbaarheid en incidentafhandeling"
 
 #: ../../security/issues.rst:7
 msgid "Reporting security issues"
@@ -51690,6 +51502,8 @@ msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
 msgstr ""
+"Lees :ref:`ai-issues` in het geval u AI hebt gebruikt om een "
+"beveiligingsprobleem Weblate vast te stellen."
 
 #: ../../security/issues.rst:13
 msgid ""
@@ -51704,22 +51518,16 @@ msgstr ""
 "leveren van beveiligingsupdates voor Weblate."
 
 #: ../../security/issues.rst:17
-#, fuzzy
-#| msgid ""
-#| "Most normal bugs in Weblate are reported to our public `GitHub issues "
-#| "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
-#| "sensitive nature of security issues, we ask that they not be publicly "
-#| "reported in this fashion."
 msgid ""
 "Most normal bugs in Weblate are reported to our public `GitHub issues "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
 "sensitive nature of security issues, we ask them not to be publicly reported "
 "in this fashion."
 msgstr ""
-"De meeste normale problemen in Weblate worden gerapporteerd in ons publieke "
-"`GitHub volgsysteem voor problemen <https://github.com/WeblateOrg/weblate/"
+"De meeste normale problemen in Weblate worden gerapporteerd in ons publieke `"
+"GitHub volgsysteem voor problemen <https://github.com/WeblateOrg/weblate/"
 "issues>`_, maar door de gevoelige status van problemen met beveiliging, "
-"vragen wij om die niet openbaar te rapporteren op deze manier."
+"vragen we om die niet op deze manier openbaar te rapporteren."
 
 #: ../../security/issues.rst:22
 msgid ""
@@ -51791,7 +51599,7 @@ msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../security/issues.rst:54
 msgid "Vulnerability disclosure policy"
-msgstr ""
+msgstr "Beleid voor openbaar maken kwetsbaarheden"
 
 #: ../../security/issues.rst:56
 msgid ""
@@ -51800,6 +51608,10 @@ msgid ""
 "security/advisories. The advisory is available immediately with a release "
 "when possible."
 msgstr ""
+"Binnen 30 dagen na een uitgave die de reparatie van ene kwetsbaarheid "
+"repareert, zal een beveiligingsadvies worden gepubliceerd op https://"
+"github.com/WeblateOrg/weblate/security/advisories. Het advies is, indien "
+"mogelijk, onmiddellijk beschikbaar met een uitgave."
 
 #: ../../security/issues.rst:61
 msgid ""
@@ -51807,110 +51619,107 @@ msgid ""
 "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
 "and a full report is provided within 14 days."
 msgstr ""
+"Elke actief geëxploiteerde kwetsbaarheid of ernstige incidenten worden ter "
+"kennis gebracht van CSIRT binnen 24 uur, algemene informatie wordt aan CSIRT "
+"verschaft binnen 72 uur en een volledig rapport wordt binnen 14 dagen "
+"vershaft."
 
 #: ../../security/issues.rst:65
 msgid ""
 "All users of Hosted or Dedicated Weblate impacted by a severe incident or an "
 "actively exploited vulnerability are notified within 7 days."
 msgstr ""
+"Alle gebruikers van Hosted of Dedicated Weblate die worden getroffen door "
+"een ernstig incident of een actief geëxploiteerde kwetsbaarheid worden "
+"binnen 7 dagen in kennis gesteld."
 
 #: ../../security/passwords.rst:2
-#, fuzzy
-#| msgid "Password reset"
 msgid "Password security"
-msgstr "Wachtwoordherstel"
+msgstr "Wachtwoord beveiliging"
 
 #: ../../security/passwords.rst:5
-#, fuzzy
-#| msgid "How are user passwords stored?"
 msgid "How Weblate stores passwords"
-msgstr "Hoe worden gebruikerswachtwoorden opgeslagen?"
+msgstr "Hoe Weblate wachtwoorden opslaat"
 
 #: ../../security/passwords.rst:7
 msgid ""
 "Weblate uses a Django implementation to store hashed passwords; see :ref:"
 "`django:auth_password_storage`."
 msgstr ""
+"Weblate gebruikt een implementatie van Django om versleutelde wachtwoorden "
+"op te slaan, bekijk :ref:`django:auth_password_storage`."
 
 #: ../../security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"De aanbevolen configuratie van Weblate gebruikt Argon2 met time_cost = 2, "
+"memory_cost = 102400 en parallelism = 8."
 
 #: ../../security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized using :setting:`django:"
 "PASSWORD_HASHERS`."
 msgstr ""
-"Het maken van de back-up kan worden aangepast met :setting:`BORG_EXTRA_ARGS`."
+"Het versleutelen van het wachtwoord kan worden aangepast met "
+":setting:`django:PASSWORD_HASHERS`."
 
 #: ../../security/passwords.rst:16
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Password validation"
-msgstr "Wachtwoord authenticatie"
+msgstr "Wachtwoord valideren"
 
 #: ../../security/passwords.rst:18
 msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
 msgstr ""
+"Wanneer een gebruiker ene wachtwoord configureert, wordt het gevalideerd om "
+"het risico van het gebruiken van zwakke wachtwoorden te verkleinen."
 
 #: ../../security/passwords.rst:20
-#, fuzzy
-#| msgid "Per project configuration file"
 msgid "The recommended Weblate configuration verifies:"
-msgstr "Configuratiebestand per project"
+msgstr "De aanbevolen configuratie van Weblate verifieert:"
 
 #: ../../security/passwords.rst:22
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid ""
 "The password has to be at least 10 characters long, and at most 72 "
 "characters long."
 msgstr ""
-"Dit wachtwoord is te lang. Het mag ten hoogste %(max_length)d tekens hebben."
+"Het wachtwoord moet ten minste 10 tekens lang zijn en ten hoogste 72 tekens "
+"lang."
 
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
 msgstr ""
+"Wachtwoord dat soortgelijk is aan de gebruikersnaam of andere attributen "
+"wordt geweigerd."
 
 #: ../../security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "Een veel voorkomend of enorm eenvoudig wachtwoord wordt geweigerd."
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr ""
+msgstr "Elk wachtwoord dat de gebruiker recent heeft gebruikt wordt geweigerd."
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
 msgstr ""
+"Sterkte van het wachtwoord wordt optioneel gecontroleerd met het algoritme "
+"zxcvbn."
 
 #: ../../security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized using :setting:`django:"
 "AUTH_PASSWORD_VALIDATORS`."
 msgstr ""
-"Het maken van de back-up kan worden aangepast met :setting:`BORG_EXTRA_ARGS`."
+"Valideren van het wachtwoord kan worden aangepast met "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`."
 
 #: ../../security/passwords.rst:33
-#, fuzzy
-#| msgid "Social authentication"
 msgid "Social or third-party authentication"
-msgstr "Sociale authenticatie"
+msgstr "Sociale of authenticatie door derde partijen"
 
 #: ../../security/passwords.rst:35
 msgid ""
@@ -51918,16 +51727,17 @@ msgid ""
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
 msgstr ""
+"Weblate slaat geen wachtwoorden op of dwingt geen wachtwoordbeleid af als "
+"sociale of authenticatie door derde partijen is geconfigureerd. De "
+"wachtwoorden worden, in dergelijke gevallen, volledig extern beheerd."
 
 #: ../../security/passwords.rst:41
 msgid ":doc:`/admin/auth`"
 msgstr ":doc:`/admin/auth`"
 
 #: ../../security/privacy-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Privacy regulations compliance"
-msgstr "Voldoen aan licensering"
+msgstr "Conformiteit aan regelgeving voor privacy"
 
 #: ../../security/privacy-compliance.rst:6
 msgid ""
@@ -51936,210 +51746,243 @@ msgid ""
 "data ownership, and fine-grained access control. All hosting and compliance "
 "responsibilities remain fully within the deploying organization’s control."
 msgstr ""
+"Weblate stelt organisaties in staat te werken binnen privacyframewerken, "
+"zoals GDPR, DPDPA, PIPL en andere, door strikte minimalisatie van gegevens, "
+"volledig eigendom van gegevens en fijn af te stemmen toegangsbeheer. Alle "
+"hosting en verantwoordelijkheden voor conformiteit liggen volledig binnen "
+"het beheer van de uitrollende organisatie."
 
 #: ../../security/privacy-compliance.rst:11
 msgid "This document outlines how Weblate supports compliance with:"
 msgstr ""
+"Dit document laat het overzicht zien hoe Weblate conformiteit ondersteunt "
+"met:"
 
 #: ../../security/privacy-compliance.rst:13
 msgid "EU General Data Protection Regulation (GDPR)"
-msgstr ""
+msgstr "Europese General Data Protection Regulation (GDPR)"
 
 #: ../../security/privacy-compliance.rst:14
 msgid "California Consumer Privacy Act (CCPA)"
-msgstr ""
+msgstr "Californische Consumer Privacy Act (CCPA)"
 
 #: ../../security/privacy-compliance.rst:15
 msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
-msgstr ""
+msgstr "Braziliaanse Lei Geral de Proteção de Dados (LGPD)"
 
 #: ../../security/privacy-compliance.rst:16
 msgid "Swiss Federal Act on Data Protection (nFADP)"
-msgstr ""
+msgstr "Zwitserse Federal Act on Data Protection (nFADP)"
 
 #: ../../security/privacy-compliance.rst:17
 msgid ""
 "Canadian Personal Information Protection and Electronic Documents Act "
 "(PIPEDA)"
 msgstr ""
+"Canadese Personal Information Protection and Electronic Documents Act "
+"(PIPEDA)"
 
 #: ../../security/privacy-compliance.rst:18
 msgid "Indian Digital Personal Data Protection Act (DPDPA)"
-msgstr ""
+msgstr "Indiase Digital Personal Data Protection Act (DPDPA)"
 
 #: ../../security/privacy-compliance.rst:19
 msgid "China’s Personal Information Protection Law (PIPL)"
-msgstr ""
+msgstr "Chinese Personal Information Protection Law (PIPL)"
 
 #: ../../security/privacy-compliance.rst:22
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "Privacy principles"
-msgstr "Privacybeleid"
+msgstr "Principes van privacy"
 
 #: ../../security/privacy-compliance.rst:25
-#, fuzzy
-#| msgid "Grant administration"
 msgid "Data minimization"
-msgstr "Beheersrechten verlenen"
+msgstr "Minimalisatie van gegevens"
 
 #: ../../security/privacy-compliance.rst:27
 msgid ""
 "Weblate collects only data strictly necessary for the operation of the "
 "platform. By default, the following personal data may be processed:"
 msgstr ""
+"Weblate verzamelt gegevens alleen gegevens die strikt noodzakelijk zijn voor "
+"de werkbaarheid voor het platform. Standaard zouden de volgende persoonlijke "
+"gegevens kunnen worden verwerkt:"
 
 #: ../../security/privacy-compliance.rst:29
 msgid "Username or real name (user-supplied)"
-msgstr ""
+msgstr "Gebruikersnaam of echte naam (door gebruiker opgegeven)"
 
 #: ../../security/privacy-compliance.rst:30
 msgid "Email address (required for notifications and access control)"
-msgstr ""
+msgstr "E-mailadres (vereist voor notificaties en toegangsbeheer)"
 
 #: ../../security/privacy-compliance.rst:31
 msgid "Optional profile metadata (avatar, bio)"
-msgstr ""
+msgstr "Optioneel metadata van profiel (avatar, bio)"
 
 #: ../../security/privacy-compliance.rst:33
 msgid ""
 "No telemetry, analytics, or third-party tracking is embedded by default."
 msgstr ""
+"Geen telemetrie, analytische gegevens of volgen voor derde partijen is "
+"standaard ingebed."
 
 #: ../../security/privacy-compliance.rst:36
 msgid "User consent and transparency"
-msgstr ""
+msgstr "Gebruikersconsent en transparantie"
 
 #: ../../security/privacy-compliance.rst:38
 msgid ""
 "Weblate interfaces allow full transparency into collected personal data."
 msgstr ""
+"Weblate interfaces maken volledige transparantie voor de verzamelde "
+"persoonlijke gegevens mogelijk."
 
 #: ../../security/privacy-compliance.rst:39
 msgid ""
 "Administrators may provide custom privacy policy and consent requests at "
 "user registration."
 msgstr ""
+"Beheerders kunnen aangepast beleid voor privacy en verzoeken voor consent "
+"verschaffen bij het registreren van gebruikers."
 
 #: ../../security/privacy-compliance.rst:40
 msgid ""
 "Data collection occurs only as a result of direct user interaction or "
 "administrator-defined configuration."
 msgstr ""
+"Het verzamelen van gegevens gebeurt alleen als resultaat van directe "
+"interactie door de gebruiker of door de beheerder gedefinieerde configuratie."
 
 #: ../../security/privacy-compliance.rst:43
 msgid "Data access and portability"
-msgstr ""
+msgstr "Toegang tot gegevens en portabiliteit"
 
 #: ../../security/privacy-compliance.rst:45
 msgid ""
 "Users may export their personal data and translation contributions using the "
 "user interface or API."
 msgstr ""
+"Gebruikers kunnen hun persoonlijke gegevens en bijdragen aan vertalingen "
+"exporteren met de gebruikersinterface of de API."
 
 #: ../../security/privacy-compliance.rst:46
 msgid ""
 "Administrators can support data portability upon user request, fulfilling "
 "legal obligations for access."
 msgstr ""
+"Beheerders kunnen portabiliteit voor gegevens ondersteunen op verzoek van de "
+"gebruiker, of het voldoen aan wettelijke verplichtingen voor toegang."
 
 #: ../../security/privacy-compliance.rst:49
 msgid "Right to erasure and correction"
-msgstr ""
+msgstr "Recht op wissen en correctie"
 
 #: ../../security/privacy-compliance.rst:51
 msgid ""
 "Weblate allows full deletion of user accounts via the user and admin "
 "interface."
 msgstr ""
+"Weblate maakt het volledig wissen van gebruikersaccounts mogelijk via de "
+"gebruikers- en beheerdersinterface."
 
 #: ../../security/privacy-compliance.rst:52
 msgid "Deleted users are removed or anonymized across the system."
 msgstr ""
+"Verwijderde gebruikers worden verwijderd of geanonimiseerd op het systeem."
 
 #: ../../security/privacy-compliance.rst:53
 msgid ""
 "Users may update or correct personal information directly via the profile "
 "interface."
 msgstr ""
+"Gebruikers kunnen persoonlijke informatie direct bijwerken of corrigeren via "
+"de profiel-interface."
 
 #: ../../security/privacy-compliance.rst:56
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Data retention and deletion"
-msgstr "Valideren mislukt, probeer het opnieuw."
+msgstr "Dataretentie en verwijderen"
 
 #: ../../security/privacy-compliance.rst:58
 msgid "No automatic data persistence beyond system necessity."
 msgstr ""
+"Er worden, behoudens noodzaak voor het systeem, niet automatisch gegevens "
+"behouden."
 
 #: ../../security/privacy-compliance.rst:59
 msgid ""
 "Logs and backups are locally controlled; deletion policies are operator-"
 "configurable."
 msgstr ""
+"Logs en back-ups worden lokaal beheerd; beleid voor verwijderen is door de "
+"verwerker te configureren."
 
 #: ../../security/privacy-compliance.rst:60
 msgid ""
 "No third-party data sharing unless explicitly configured by administrators."
 msgstr ""
+"Er wordt niet met derde partijen gedeeld, tenzij dat expliciet is "
+"geconfigureerd door beheerders."
 
 #: ../../security/privacy-compliance.rst:63
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security and confidentiality"
-msgstr "Beveiliging en privacy"
+msgstr "Beveiliging en vertrouwelijkheid"
 
 #: ../../security/privacy-compliance.rst:65
 msgid "Encrypted TLS is required for all user interactions (HTTPS)."
 msgstr ""
+"Versleutelde TLS is vereist voor alle interacties van gebruikers (HTTPS)."
 
 #: ../../security/privacy-compliance.rst:66
 msgid ""
 "Failed logins, permission changes, and other security events are logged."
 msgstr ""
+"Mislukt inloggen, wijzigingen in rechten en andere gebeurtenissen voor "
+"beveiliging worden gelogd."
 
 #: ../../security/privacy-compliance.rst:67
 msgid ""
 "Optional SIEM integration (via GELF) enables compliance with audit "
 "requirements."
 msgstr ""
+"Optionele integratie van SIEM (via GELF) schakelt conformiteit met vereisten "
+"voor audit in."
 
 #: ../../security/privacy-compliance.rst:68
 msgid "Role-based access controls enforce data access separation."
 msgstr ""
+"Op rol gebaseerd toegangsbeheer dwingt scheiding van gegevens voor toegang "
+"af."
 
 #: ../../security/privacy-compliance.rst:71
-#, fuzzy
-#| msgid "Integration services"
 msgid "International transfers"
-msgstr "Services voor integratie"
+msgstr "Internationale overdracht"
 
 #: ../../security/privacy-compliance.rst:73
 msgid "Weblate itself performs no automatic data transfers."
-msgstr ""
+msgstr "Weblate voert van zichzelf geen automatische gegevensoverdracht uit."
 
 #: ../../security/privacy-compliance.rst:74
 msgid "All hosting and data residency is controlled by the system operator."
 msgstr ""
+"Alle plaatsing voor hosting en gegevens wordt beheerd door de "
+"systeemverwerker."
 
 #: ../../security/privacy-compliance.rst:75
 msgid ""
 "Organizations may host Weblate within specific jurisdictions (e.g., EU, "
 "India, China) to ensure compliance with data localization laws."
 msgstr ""
+"Organisaties kunnen Weblate hosten binnen specifieke jurisdicties (bijv. EU, "
+"India, China) om ervoor te zorgen dat wordt voldaan aan de wetten met "
+"betrekking tot plaatsing van gegevens."
 
 #: ../../security/privacy-compliance.rst:78
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regulatory mapping"
-msgstr "Reguliere uitdrukking"
+msgstr "Regelgeving in kaart"
 
 #: ../../security/privacy-compliance.rst:81
-#, fuzzy
-#| msgid "Django REST Framework"
 msgid "Framework"
-msgstr "Django REST Framework"
+msgstr "Framewerk"
 
 #: ../../security/privacy-compliance.rst:81
 msgid "Weblate support"
@@ -52147,107 +51990,108 @@ msgstr "Weblate-ondersteuning"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "GDPR (EU)"
-msgstr ""
+msgstr "GDPR (EU)"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Minimization, consent, erasure, auditability, locality"
-msgstr ""
+msgstr "Minimalisatie, consent, wissen, auditbaar, plaatsing"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "CCPA (California)"
-msgstr ""
+msgstr "CCPA (Californië)"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "Access, deletion, no sale, user control"
-msgstr ""
+msgstr "Toegang, verwijderen, geen verkoop, beheer door gebruiker"
 
 #: ../../security/privacy-compliance.rst:87
-#, fuzzy
-#| msgid "Portuguese (Brazil)"
 msgid "LGPD (Brazil)"
-msgstr "Portugees (Brazilië)"
+msgstr "LGPD (Brazilië)"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "Legal basis, access, correction, deletion"
-msgstr ""
+msgstr "Wettelijke basis, toegang, correctie, verwijderen"
 
 #: ../../security/privacy-compliance.rst:89
-#, fuzzy
-#| msgid "French (Switzerland)"
 msgid "nFADP (Switzerland)"
-msgstr "Frans (Zwitserland)"
+msgstr "nFADP (Zwitserland)"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "Purpose limitation, disclosure transparency"
-msgstr ""
+msgstr "Beperking van doel, transparantie openheid"
 
 #: ../../security/privacy-compliance.rst:91
-#, fuzzy
-#| msgid "English (Canada)"
 msgid "PIPEDA (Canada)"
-msgstr "Engels (Canada)"
+msgstr "PIPEDA (Canada)"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "Consent, access, individual rights"
-msgstr ""
+msgstr "Consent, toegang, individuele rechten"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "DPDPA (India)"
-msgstr ""
+msgstr "DPDPA (India)"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "Lawful processing, consent, notice, user rights"
-msgstr ""
+msgstr "Rechtmatige verwerking, consent, in kennis stellen, gebruikersrechten"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "PIPL (China)"
-msgstr ""
+msgstr "PIPL (China)"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "Purpose limitation, data minimization, localization"
-msgstr ""
+msgstr "Beperking doel, minimalisatie gegevens, plaatsing"
 
 #: ../../security/privacy-compliance.rst:99
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Recommendations for compliance"
-msgstr "Voldoen aan licensering"
+msgstr "Aanbevelingen voor conformiteit"
 
 #: ../../security/privacy-compliance.rst:101
 msgid ""
 "**Consent capture:** Provide a notice and/or explicit consent checkbox "
 "during registration, via :ref:`legal`."
 msgstr ""
+"**Consent vastleggen:** Verschaf een notitie en/of expliciet keuzevak voor "
+"consent gedurende registratie, via :ref:`legal`."
 
 #: ../../security/privacy-compliance.rst:102
 msgid ""
 "**Policy display:** Link to privacy and retention policies directly in "
 "Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`."
 msgstr ""
+"**Weergave beleid:** Link naar beleid voor privacy en retentie direct in "
+"Weblate’s gebruikersinterface, ofwel via :ref:`legal` of "
+":setting:`PRIVACY_URL`."
 
 #: ../../security/privacy-compliance.rst:103
 msgid ""
 "**Audit integration:** Use the built-in audit log and GELF forwarding to "
 "meet logging mandates."
 msgstr ""
+"**Integratie audit:** gebruik de ingebouwde audit log en GELF doorsturen om "
+"te voldoen aan vereisten voor loggen."
 
 #: ../../security/privacy-compliance.rst:104
 msgid ""
 "**Data subject requests:** Define a manual or automated procedure to fulfill "
 "access/erasure requests."
 msgstr ""
+"**Verzoeken omtrent gegevens:** Definieer een handleiding of "
+"geautomatiseerde procedure om te voldoen aan verzoeken voor toegang/wissen."
 
 #: ../../security/privacy-compliance.rst:105
 msgid ""
 "**Localization:** Ensure infrastructure is physically located within the "
 "target jurisdiction as required."
 msgstr ""
+"**Plaatsing:** Zorg ervoor dat de infrastructuur fysiek is geplaatst binnen "
+"de doel-jurisdictie, zoals vereist."
 
 #: ../../security/threat-model.rst:2
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate threat model"
-msgstr "Weblate broncode"
+msgstr "Weblate dreigingsmodel"
 
 #: ../../security/threat-model.rst:4
 msgid ""
@@ -52258,12 +52102,16 @@ msgid ""
 "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
+"**Bereik:** Bron Weblate webtoepassing, zijn interacties met browsers van "
+"gebruikers, backend-componenten (webserver, WSGI, database, Redis, Celery) "
+"en integratie met extern VCS. **Aannames:** Standaard Weblate uitrol met "
+"typische onderdelen (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, Celery)"
+" en rollen voor gebruikers (Niet geauthenticeerd, Vertaler, "
+"Projectbeheerder, Systeembeheerder)."
 
 #: ../../security/threat-model.rst:8
-#, fuzzy
-#| msgid "text description of action"
 msgid "System description an scope"
-msgstr "tekstbeschrijving van actie"
+msgstr "Systeembeschrijving van een bereik"
 
 #: ../../security/threat-model.rst:10
 msgid ""
@@ -52271,10 +52119,14 @@ msgid ""
 "It integrates tightly with Git repositories to manage translations and "
 "offers CI/CD-style features for automation, hooks, and VCS synchronization."
 msgstr ""
+"Weblate is een open-bron op het web gebaseerd vertaalplatform, gebouwd op "
+"Django. Het integreert nauw met opslagplaatsen voor Git om vertalingen te "
+"beheren en biedt CI/CD-stijl mogelijkheden voor automatiseren, hooks en VCS-"
+"synchronisatie."
 
 #: ../../security/threat-model.rst:14
 msgid "Assets:"
-msgstr ""
+msgstr "Waarden:"
 
 #: ../../security/threat-model.rst:16
 msgid ""
@@ -52282,188 +52134,203 @@ msgid ""
 "integration, user credentials (passwords, 2FA secrets), user personal data "
 "(email, name), session tokens, audit logs, private project data."
 msgstr ""
+"**Vetrouwelijkheid:** Brontekenreeksen, API-sleutels/inloggegevens voor VCS-"
+"integratie, inloggegevens gebruikers (wachtwoorden, 2FA geheimen), "
+"persoonlijke gegevens gebruikers (e-mail, naam), sessietokens, auditlogs, "
+"private projectgegevens."
 
 #: ../../security/threat-model.rst:17
 msgid ""
 "**Integrity:** Translation string content, VCS repository integrity, project "
 "and component configurations, user permissions, audit logs."
 msgstr ""
+"**Integriteit:** Inhoud tekenreeksen, integriteit opslagplaats van VCS , "
+"configuraties voor projecten en onderdelen, rechten voor gebruikers, "
+"auditlogs."
 
 #: ../../security/threat-model.rst:18
 msgid ""
 "**Availability:** Weblate web interface, VCS integration, database access, "
 "background task processing."
 msgstr ""
+"**Beschikbaarheid:** Weblate webinterface, VCS-integratie, databasetoegang, "
+"op achtergrond verwerken van taken."
 
 #: ../../security/threat-model.rst:19
 msgid ""
 "**Authenticity/Non-repudiation:** Translation commit history, user "
 "attribution for translations, audit logs of administrative actions."
 msgstr ""
+"**Authenticiteit/Niet-afwijzing:** Geschiedenis van de commits van "
+"vertalingen, attributie voor vertalingen van gebruikers, auditlogs van "
+"administratieve acties."
 
 #: ../../security/threat-model.rst:22
 msgid "Conceptual data flow diagram"
-msgstr ""
+msgstr "Conceptueel diagram gegevensstroom"
 
 #: ../../security/threat-model.rst:41
 msgid "Trust boundaries"
-msgstr ""
+msgstr "Grenzen van vertrouwen"
 
 #: ../../security/threat-model.rst:43
 msgid ""
 "**Internet ↔ Web server:** Public internet traffic interacting with the "
 "first line of defense."
 msgstr ""
+"**Internet ↔ Webserver:** Openbaar internetverkeer interacteert met eerste "
+"lijn van de verdediging."
 
 #: ../../security/threat-model.rst:44
 msgid ""
 "**Web server ↔ Weblate application:** Communication between the reverse "
 "proxy/web server and the application logic."
 msgstr ""
+"**Webserver ↔ Weblate toepassing:** Communicatie tussen de omgekeerde proxy/"
+"webserver en de logica van de toepassing."
 
 #: ../../security/threat-model.rst:45
 msgid ""
 "**Weblate application ↔ Database** Application logic accessing persistent "
 "and cached data."
 msgstr ""
+"**Weblate toepassing ↔ Database** Logica van de toepassing met toegang naar "
+"persistente en gecachete gegevens."
 
 #: ../../security/threat-model.rst:46
 msgid "**Weblate application ↔ Logging:** Application logic creating logs."
-msgstr ""
+msgstr "**Weblate toepassing ↔ Loggen:** Logica van de toepassing maakt logs."
 
 #: ../../security/threat-model.rst:47
 msgid ""
 "**Weblate application ↔ Internal VCS repository:** Application logic "
 "interacting with its local copy of the VCS repository."
 msgstr ""
+"**Weblate toepassing ↔ Interne opslagplaats van VCS:** Logica van de "
+"toepassing interacteert met zijn lokale kopie van de opslagplaats van het "
+"VCS."
 
 #: ../../security/threat-model.rst:48
 msgid ""
 "**Weblate application ↔ External VCS repository:** Weblate reaching out to "
 "external code hosting platforms."
 msgstr ""
+"**Weblate toepassing ↔ Externe opslagplaats VCS:** Weblate reikt uit naar "
+"externe platforms voor hosten van code."
 
 #: ../../security/threat-model.rst:49
 msgid ""
 "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
 "within the web application."
 msgstr ""
+"**Geauthenticeerde gebruiker ↔ Niet geauthenticeerde gebruiker:** "
+"Verschillende niveaus van rechten binnen de webtoepassing."
 
 #: ../../security/threat-model.rst:52
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Threat identification"
-msgstr "Identificatie op de regel"
+msgstr "Identificatie dreiging"
 
 #: ../../security/threat-model.rst:57
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component/Interaction"
-msgstr "Onderdeelinformatie"
+msgstr "Onderdeel/Interactie"
 
 #: ../../security/threat-model.rst:58
-#, fuzzy
-#| msgid "Delete category."
 msgid "STRIDE threat category"
-msgstr "Categorie verwijderen."
+msgstr "STRIDE categorie dreiging"
 
 #: ../../security/threat-model.rst:59
-#, fuzzy
-#| msgid "Label description"
 msgid "Threat description"
-msgstr "Omschrijving label"
+msgstr "Omschrijving dreiging"
 
 #: ../../security/threat-model.rst:60
 msgid "Potential impact"
-msgstr ""
+msgstr "Potentiële impact"
 
 #: ../../security/threat-model.rst:61
 msgid "**Web server** (nginx/Apache)"
-msgstr ""
+msgstr "**Webserver** (nginx/Apache)"
 
 #: ../../security/threat-model.rst:62 ../../security/threat-model.rst:98
 #: ../../security/threat-model.rst:118
-#, fuzzy
-#| msgid "**Do:**"
 msgid "**DoS**"
-msgstr "**Doen:**"
+msgstr "**DoS**"
 
 #: ../../security/threat-model.rst:63
 msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
 msgstr ""
+"**Denial of service:** Aanvaller bestookt de webserver met verzoeken, maakt "
+"Weblate niet langer beschikbaar."
 
 #: ../../security/threat-model.rst:64
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String is available for translation"
 msgid "Loss of availability for translation."
-msgstr "Tekenreeks beschikbaar voor vertalen"
+msgstr "Verlies van beschikbaarheid voor vertalen."
 
 #: ../../security/threat-model.rst:66 ../../security/threat-model.rst:90
 #: ../../security/threat-model.rst:94 ../../security/threat-model.rst:114
 #: ../../security/threat-model.rst:138 ../../security/threat-model.rst:142
-#, fuzzy
-#| msgid "Information about project"
 msgid "**Information disclosure**"
-msgstr "Projectinformatie"
+msgstr "**Onthullen van informatie**"
 
 #: ../../security/threat-model.rst:67
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files (e."
 "g., config files, private keys)."
 msgstr ""
+"**Vrijgeven van configuratie:** Foutief geconfigureerde server geeft "
+"gevoelige bestanden vrij (bijv. configuratiebestanden, private sleutels)."
 
 #: ../../security/threat-model.rst:68
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "Zichtbaar maken van inloggegevens, interne architectuur."
 
 #: ../../security/threat-model.rst:70 ../../security/threat-model.rst:78
 #: ../../security/threat-model.rst:82 ../../security/threat-model.rst:110
 #: ../../security/threat-model.rst:122 ../../security/threat-model.rst:134
 msgid "**Tampering**"
-msgstr ""
+msgstr "**Rommelen**"
 
 #: ../../security/threat-model.rst:71
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
 msgstr ""
+"**Kwaadwillend verzoek injectie:** Aanvaller injecteert kwaadaardige "
+"gegevens in HTTP koppen of teksten van verzoeken."
 
 #: ../../security/threat-model.rst:72
 msgid ""
 "Potential for SQL injection, XSS, or other injections if not properly "
 "handled by the backend."
 msgstr ""
+"Potentieel voor SQL-injectie, XSS, of andere injecties indien niet juist "
+"afgehandeld door backend."
 
 #: ../../security/threat-model.rst:73
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "**Weblate application**"
-msgstr "Weblate-vertalingen"
+msgstr "**Weblate toepassing**"
 
 #: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
 msgid "**Spoofing**"
-msgstr ""
+msgstr "**Spoofen**"
 
 #: ../../security/threat-model.rst:75
 msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
 msgstr ""
+"**Voordoen als gebruiker:** Aanvaller verkrijgt toegang tot de sessie van "
+"een legitieme gebruiker (bijv. via sessie hijacking, gecompromitteerde "
+"inloggegevens)."
 
 #: ../../security/threat-model.rst:76
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Unauthorized translation, repo access."
-msgstr "Verbeterde overeenkomsten vertaalgeheugen."
+msgstr "Niet geautoriseerde vertaling, toegang tot opslagplaats."
 
 #: ../../security/threat-model.rst:77
-#, fuzzy
-#| msgid "Celery"
 msgid "(WSGI/Celery)"
-msgstr "Celery"
+msgstr "(WSGI/Celery)"
 
 #: ../../security/threat-model.rst:79
 msgid ""
@@ -52471,10 +52338,13 @@ msgid ""
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
 msgstr ""
+"**Niet geautoriseerd aanpassen vertaling:** Kwaadwillende gebruiker of "
+"geëxploiteerde kwetsbaarheid maakt wijzigen van vertalingen, configuraties "
+"van projecten of instellingen voor integratie van VCS mogelijk."
 
 #: ../../security/threat-model.rst:80
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
-msgstr ""
+msgstr "Onjuiste vertalingen, gebroken bouw, RCE via VCS-hooks."
 
 #: ../../security/threat-model.rst:83
 msgid ""
@@ -52482,26 +52352,31 @@ msgid ""
 "with the VCS (e.g., injecting malicious commands via crafted repository URLs "
 "if not sanitized, leading to RCE)."
 msgstr ""
+"**Manipuleren integratie van VCS:** Aanvaller manipuleert de interactie van "
+"Weblate met het VCS (bijv. injecteren van kwaadaardige opdrachten via "
+"aangepaste URL's voor de opslagplaats indien niet gereinigd, leidend tot "
+"RCE)."
 
 #: ../../security/threat-model.rst:84
 msgid "Code injection in target projects, data exfiltration."
-msgstr ""
+msgstr "Code-injectie in doelprojecten, uitnemen van gegevens."
 
 #: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
-#, fuzzy
-#| msgid "**action**"
 msgid "**Repudiation**"
-msgstr "**actie**"
+msgstr "**Afwijzing**"
 
 #: ../../security/threat-model.rst:87
 msgid ""
 "**Unattributed changes:** Malicious changes are made without proper "
 "attribution to the user or system responsible."
 msgstr ""
+"**Niet geattribueerde wijzigingen:** Kwaadaardige wijzigingen worden gemaakt "
+"zonder de juiste attributie voor de gebruiker of het verantwoordelijke "
+"systeem."
 
 #: ../../security/threat-model.rst:88
 msgid "Difficulty in auditing and accountability."
-msgstr ""
+msgstr "Moeilijkheden bij auditten en verantwoording."
 
 #: ../../security/threat-model.rst:91
 msgid ""
@@ -52509,111 +52384,117 @@ msgid ""
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
 msgstr ""
+"**Lekken van gevoelige gegevens:** SQL-injectie, onveilige API-eindpunten of "
+"fouten die gevoelige gegevens blootleggen (bijv. vertalingen van andere "
+"gebruikers, inloggegevens voor VCS, informatie over de server)."
 
 #: ../../security/threat-model.rst:92
 msgid "Privacy breach, intellectual property theft."
-msgstr ""
+msgstr "Privacybreuk, diefstal van intellectueel eigendom."
 
 #: ../../security/threat-model.rst:95
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
 msgstr ""
+"**Onthullen inloggegevens VCS:** Weblate's opgeslagen inloggegevens voor VCS "
+"(SSH-sleutels, tokens) zijn toegankelijk voor een aanvaller."
 
 #: ../../security/threat-model.rst:96
-#, fuzzy
-#| msgid "Access the internal repository"
 msgid "Direct access to integrated code repositories."
-msgstr "Toegang tot interne opslagruimte"
+msgstr "Directe toegang tot geïntegreerde opslagruimten voor code."
 
 #: ../../security/threat-model.rst:99
 msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
 msgstr ""
+"**Uitputten van bronnen:** Excessieve taken op de achtergrond of "
+"inefficiënte query's voor de database, geactiveerd door een aanvaller leiden "
+"tot vertraging voor het systeem of een crash."
 
 #: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate unavailability."
-msgstr "Weblate is nu beschikbaar in தமிழ்."
+msgstr "Weblate niet meer beschikbaar."
 
 #: ../../security/threat-model.rst:102 ../../security/threat-model.rst:106
-#, fuzzy
-#| msgid "List of privileges"
 msgid "**Elevation of privilege**"
-msgstr "Lijst met rechten"
+msgstr "**Verhoging van rechten**"
 
 #: ../../security/threat-model.rst:103
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
-msgstr ""
+msgstr "**Escaleren van rollen:** Een normale vertaler krijgt beheersrechten."
 
 #: ../../security/threat-model.rst:104
 msgid "Complete system compromise."
-msgstr ""
+msgstr "Volledige compromittering van het systeem."
 
 #: ../../security/threat-model.rst:107
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
 msgstr ""
+"**Injecteren van opdrachten:** Willekeurig uitvoeren van code vanwege "
+"onjuist valideren van invoer in de URL's van de opslagplaats of add-ons."
 
 #: ../../security/threat-model.rst:108
 msgid "System compromise, data exfiltration."
-msgstr ""
+msgstr "Systeem gecompromitteerd, uitnemen gegevens."
 
 #: ../../security/threat-model.rst:109
-#, fuzzy
-#| msgid "Database"
 msgid "**Database/Redis**"
-msgstr "Database"
+msgstr "**Database/Redis**"
 
 #: ../../security/threat-model.rst:111
 msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
 msgstr ""
+"**Corruptie van gegevens:** Directe toegang tot de database maakt het "
+"mogelijk tekenreeksen van vertalingen, gebruikersgegevens of configuratie te "
+"wijzigen."
 
 #: ../../security/threat-model.rst:112
 msgid "System malfunction, data integrity loss."
-msgstr ""
+msgstr "Systeem functioneert niet, verlies van integriteit van de gegevens."
 
 #: ../../security/threat-model.rst:115
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/Redis exposes all "
 "stored data (credentials, translation memory, user profiles)."
 msgstr ""
+"**Toegang tot gevoelige gegevens:** Niet geautoriseerde toegang tot de "
+"database/Redis onthult alle opgeslagen gegevens (inloggegevens, "
+"vertaalgeheugen, profielen van gebruikers)."
 
 #: ../../security/threat-model.rst:116
 msgid "Major data breach."
-msgstr ""
+msgstr "Belangrijke inbreuk op gegevens."
 
 #: ../../security/threat-model.rst:119
 msgid ""
 "**Database exhaustion:** Attacker floods the database with queries, or "
 "consumes all Redis memory/connections."
 msgstr ""
+"**Uitputten database:** Aanvaller bestookt de database met query's of "
+"gebruikt alle geheugen/verbindingen van Redis."
 
 #: ../../security/threat-model.rst:121
-#, fuzzy
-#| msgid "Site integration"
 msgid "**VCS integration**"
-msgstr "Site-integratie"
+msgstr "**Integratie VCS**"
 
 #: ../../security/threat-model.rst:123
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid ""
 "**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
 "changes to the upstream repository."
 msgstr ""
-"Weblate kon de wijzigingen niet doorvoeren naar de stroomopwaartse "
-"opslagruimte."
+"**Kwaadaardige commits vanuit Weblate:** Gecompromitteerde Weblate pusht "
+"kwaadaardige wijzigingen naar de opslagplaats upstream."
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
-msgstr ""
+msgstr "Introduceren van malware/achterdeurtjes in doelprojecten."
 
 #: ../../security/threat-model.rst:127
 msgid ""
@@ -52621,94 +52502,93 @@ msgid ""
 "user (e.g., an admin forcing a commit in a translator's name without their "
 "consent)."
 msgstr ""
+"**Attributie van valse commit:** Weblate commits wijzigingen worden "
+"geattribueerd aan de verkeerde gebruiker (bijv. een beheerder die een commit "
+"forceert in de naam van een gebruiker, zonder diens consent)."
 
 #: ../../security/threat-model.rst:128
-#, fuzzy
-#| msgid "Security issues"
 msgid "Accountability issues."
-msgstr "Beveiligingsproblemen"
+msgstr "Problemen met verantwoordelijkheid."
 
 #: ../../security/threat-model.rst:129
-#, fuzzy
-#| msgid "User interface"
 msgid "**User interaction**"
-msgstr "Gebruikersinterface"
+msgstr "**Interactie van gebruiker**"
 
 #: ../../security/threat-model.rst:131
 msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
 msgstr ""
+"**Phishing/social engineering:** Aanvaller verleid gebruikers tot het "
+"onthullen van hun inloggegevens voor Weblate of gekoppelde accounts voor het "
+"VCS."
 
 #: ../../security/threat-model.rst:132
-#, fuzzy
-#| msgid "Account e-mail"
 msgid "Account compromise."
-msgstr "E-mailadres van account"
+msgstr "Account gecompromitteerd."
 
 #: ../../security/threat-model.rst:133
 msgid "(Web UI)"
-msgstr ""
+msgstr "(Web gebruikersinterface)"
 
 #: ../../security/threat-model.rst:135
 msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
 msgstr ""
+"**Cross-Site scripten (XSS):** Kwaadaardige scripts geïnjecteerd in "
+"vertalingen of gebruikersprofielen uitvoeren in browsers van andere "
+"gebruikers."
 
 #: ../../security/threat-model.rst:136
 msgid "Session hijacking, credential theft, defacement."
-msgstr ""
+msgstr "Sessie kapen, diefstal inloggegevens, bekladden."
 
 #: ../../security/threat-model.rst:139
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
 msgstr ""
+"**Klik kapen/Gebruikersinterface aanpassen:** Aanvaller overlegt "
+"kwaadaardige elementen voor de gebruikersinterface over Weblate heen, wat de "
+"gebruiker ongewilde acties laat uitvoeren."
 
 #: ../../security/threat-model.rst:140
 msgid "Unauthorized actions, data manipulation."
-msgstr ""
+msgstr "Niet geautoriseerde acties, manipuleren van gegevens."
 
 #: ../../security/threat-model.rst:143
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
 msgstr ""
+"**Gevoelige gegevens in gebruikersinterface:** Niet bedoeld onthullen van "
+"gevoelige gegevens (bijv. e-mail van een andere gebruiker) in de "
+"gebruikersinterface wegens fouten in de autorisatie."
 
 #: ../../security/threat-model.rst:144
-#, fuzzy
-#| msgid "Privacy"
 msgid "Privacy breach."
-msgstr "Privacy"
+msgstr "Inbreuk op privacy."
 
 #: ../../security/threat-model.rst:147
-#, fuzzy
-#| msgid "Integration services"
 msgid "Mitigation strategies"
-msgstr "Services voor integratie"
+msgstr "Strategieën voor beperken"
 
 #: ../../security/threat-model.rst:149
-#, fuzzy
-#| msgid "Authentication settings"
 msgid "**Authentication & authorization:**"
-msgstr "Instellingen voor authenticatie"
+msgstr "**Authenticatie & autorisatie:**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
-msgstr ""
+msgstr "Beleid voor sterke wachtwoorden, bekijk :doc:`/security/passwords`."
 
 #: ../../security/threat-model.rst:151
-#, fuzzy
-#| msgid "Source string, see :ref:`additional`."
 msgid "Enforced 2FA, see :ref:`2fa`."
-msgstr "Brontekenreeks, bekijk :ref:`additional`."
+msgstr "2FA afdwingen, bekijk :ref:`2fa`."
 
 #: ../../security/threat-model.rst:152
-#, fuzzy
-#| msgid "Per-project permission management"
 msgid "Robust session management."
-msgstr "Per project rechtenbeheer"
+msgstr "Robuust beheren van sessies."
 
 #: ../../security/threat-model.rst:153
 msgid ""
@@ -52716,150 +52596,175 @@ msgid ""
 "translators can only edit translations, not change project configs), see :"
 "doc:`/admin/access`."
 msgstr ""
+"Op rollen gebaseerde toegangscontrole (RBAC) om het minste recht af te "
+"dwingen (bijv. vertalers kunnen alleen vertalingen bewerken, niet de "
+"configuratie van projecten wijzigen), bekijk :doc:`/admin/access`."
 
 #: ../../security/threat-model.rst:154
 msgid ""
 "Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
 "admin/auth`."
 msgstr ""
+"Integreren met externe leveranciers voor identificatie (SAML, OAuth, LDAP), "
+"bekijk :doc:`/admin/auth`."
 
 #: ../../security/threat-model.rst:155
 msgid "**Input validation and output encoding:**"
-msgstr ""
+msgstr "**Valideren van invoer en codering van uitvoer:**"
 
 #: ../../security/threat-model.rst:156
 msgid ""
 "Strict validation of all user inputs (forms, API requests, VCS URLs) to "
 "prevent injection attacks (SQL injection, command injection, XSS)."
 msgstr ""
+"Strikt valideren van alle invoer van gebruikers (formulieren, API-verzoeken, "
+"URL's voor VCS) om aanvallen met injecties te voorkomen (SQL-injectie, "
+"injecteren met opdrachten, XSS)."
 
 #: ../../security/threat-model.rst:157
 msgid ""
 "Context-aware output encoding for all user-supplied data displayed on the "
 "web UI to prevent XSS."
 msgstr ""
+"Coderen van context bewuste uitvoer voor alle door gebruikers verschafte "
+"gegevens, die worden weergegeven in de gebruikersinterface voor het web, om "
+"XSS te voorkomen."
 
 #: ../../security/threat-model.rst:158
-#, fuzzy
-#| msgid "Integration services"
 msgid "**VCS integration security:**"
-msgstr "Services voor integratie"
+msgstr "**Beveiligen integratie van VCS:**"
 
 #: ../../security/threat-model.rst:159
 msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
 msgstr ""
+"Principe van het minste recht voor inloggegevens voor VCS (bijv. toegang "
+"alleen-lezen waar mogelijk, beperkte bereiken voor tokens)."
 
 #: ../../security/threat-model.rst:160
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Secure storage of VCS credentials."
-msgstr "Inloggegevens Subversion"
+msgstr "Veilig opslaan van inloggegevens voor VCS."
 
 #: ../../security/threat-model.rst:161
 msgid ""
 "Strict sanitization and validation of all data coming from VCS (e.g., "
 "filenames, branch names, commit messages that might be displayed)."
 msgstr ""
+"Strikt reinigen en valideren van alle gegevens die vanuit het VCS komen ("
+"bijv. bestandsnamen, namen van branches, berichten van commits die zouden "
+"kunnen worden weergegeven)."
 
 #: ../../security/threat-model.rst:162
 msgid ""
 "Secure execution of Git/Mercurial commands (avoiding shell execution with "
 "user-controlled input)."
 msgstr ""
+"Veilig uitvoeren van opdrachten voor Git/Mercurial (wat uitvoeren van een "
+"shell met door de gebruiker beheerde invoer vermijdt)."
 
 #: ../../security/threat-model.rst:163
-#, fuzzy
-#| msgid "Spam protection"
 msgid "**Data protection:**"
-msgstr "Spambeveiliging"
+msgstr "**Gegevensbescherming:**"
 
 #: ../../security/threat-model.rst:164
 msgid "Encryption of sensitive data at rest."
-msgstr ""
+msgstr "Versleutelen van gevoelige gegevens in ruste."
 
 #: ../../security/threat-model.rst:165
 msgid ""
 "Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication)."
 msgstr ""
+"Versleutelen van gegevens die worden verplaatst (TLS/SSL voor alle "
+"communicatie HTTP/S en VCS)."
 
 #: ../../security/threat-model.rst:166
 msgid ""
 "Database hardening (the least privilege for Weblate user, strong passwords)."
 msgstr ""
+"Database verharden (het minste recht voor gebruiker van Weblate, sterke "
+"wachtwoorden)."
 
 #: ../../security/threat-model.rst:167
-#, fuzzy
-#| msgid "System encoding"
 msgid "**System hardening:**"
-msgstr "Systeemversleuteling"
+msgstr "**Systeem verharden:**"
 
 #: ../../security/threat-model.rst:168
 msgid "Regular patching of OS, Weblate, and all dependencies."
-msgstr ""
+msgstr "Regelmatig patchen van OS, Weblate en alle afhankelijkheden."
 
 #: ../../security/threat-model.rst:169
 msgid "Principle of least privilege for Weblate user account on the OS."
 msgstr ""
+"Principe van het minste recht voor het account van de gebruiker van Weblate "
+"op het besturingssysteem."
 
 #: ../../security/threat-model.rst:170
 msgid ""
 "Network segmentation (e.g., separating database/Redis from public access)."
 msgstr ""
+"Netwerk segmentatie (bijv. afscheiden van database/Redis van openbare "
+"toegang)."
 
 #: ../../security/threat-model.rst:171
 msgid "Use of WAF (Web Application Firewall)."
-msgstr ""
+msgstr "WAF (Web Application Firewall) gebruiken."
 
 #: ../../security/threat-model.rst:172
 msgid "**Logging and monitoring:**"
-msgstr ""
+msgstr "**Loggen en monitoren:**"
 
 #: ../../security/threat-model.rst:173
 msgid ""
 "Comprehensive audit logging of all security-relevant events (logins, failed "
 "logins, permission changes, critical configuration changes, VCS operations)."
 msgstr ""
+"Uitgebreid loggen voor audit van alle beveiligings-relevante gebeurtenissen ("
+"inloggen, mislukt inloggen, wijzigingen in rechten, kritische wijzigingen in "
+"de configuratie, bewerkingen aan VCS)."
 
 #: ../../security/threat-model.rst:174
 msgid ""
 "Centralized logging and alerting for security incidents, for example :ref:"
 "`graylog`."
 msgstr ""
+"Gecentraliseerd inloggen en alarmering voor incidenten ten opzichte van de "
+"veiligheid, bijvoorbeeld :ref:`graylog`."
 
 #: ../../security/threat-model.rst:175
-#, fuzzy
-#| msgid "Start a development server:"
 msgid "**Secure development practices:**"
-msgstr "Beginnen van een server voor ontwikkeling:"
+msgstr "**Veilig uitvoeren van ontwikkeling:**"
 
 #: ../../security/threat-model.rst:176
 msgid "Code reviews with a security focus."
-msgstr ""
+msgstr "Code nakijken met de focus op beveiliging."
 
 #: ../../security/threat-model.rst:177
 msgid ""
 "Static Application Security Testing (SAST) and Dynamic Application Security "
 "Testing (DAST), see :doc:`/contributing/code`."
 msgstr ""
+"Static Application Security Testing (SAST) en Dynamic Application Security "
+"Testing (DAST), bekijk :doc:`/contributing/code`."
 
 #: ../../security/threat-model.rst:178
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgstr ""
+"Scannen van de kwetsbaarheid van afhankelijkheden, bekijk :doc:`/security/"
+"dependencies`."
 
 #: ../../security/threat-model.rst:179
 msgid "Regular security audits and penetration testing."
-msgstr ""
+msgstr "Regelmatige audits van beveiliging en testen op binnendringen."
 
 #: ../../security/threat-model.rst:180
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**Foutafhandeling:**"
 
 #: ../../security/threat-model.rst:181
 msgid ""
 "Generic error messages that do not reveal sensitive internal information."
-msgstr ""
+msgstr "Algemene foutberichten die geen gevoelige interne informatie onthullen."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -54077,16 +53982,12 @@ msgid "``java_format``"
 msgstr "``java_format``"
 
 #: ../../user/checks.rst:653
-#, fuzzy
-#| msgid ""
-#| "``auto-java-messageformat`` enables check only if there is a format "
-#| "string in the source"
 msgid ""
 "``java-format``, ``auto-java-messageformat`` enables check only if there is "
 "a format string in the source"
 msgstr ""
-"``auto-java-messageformat`` schakelt de controle alleen in als er een "
-"tekenreeks voor opmaak in de bron staat"
+"``java-format``, ``auto-java-messageformat`` schakelt de controle alleen in "
+"als er een tekenreeks voor opmaak in de bron staat"
 
 #: ../../user/checks.rst:659
 msgid ""
@@ -55259,13 +55160,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1356
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Niet standaard tekens in Kabyle"
 
 #: ../../user/checks.rst:1360
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Gestandaardiseerde Latijnse tekens voor Kabyle gebruiken (bijv. ɣ in plaats "
+"van Griekse γ; ɛ in plaats van ε)."
 
 #: ../../user/checks.rst:1362
 msgid "``weblate.checks.chars.KabyleCharactersCheck``"
@@ -55281,6 +55184,9 @@ msgid ""
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
 msgstr ""
+"Controleert of vertalingen van Kabylisch correcte letters van Kabyle "
+"gebruiken en niet soortgelijke Griekse, die vaak werden gebruikt voordat "
+"tekens van Kabyle werden gestandaardiseerd in Unicode."
 
 #: ../../user/checks.rst:1374
 msgid "Placeholders"
@@ -56808,18 +56714,13 @@ msgstr ""
 "terwijl u toch de feitelijke auteur wilt attribueren."
 
 #: ../../user/glossary.rst:6
-#, fuzzy
-#| msgid ""
-#| "Each project can include one or more glossaries as a shorthand for "
-#| "storing terminology. Glossary easify maintaining consistency of the "
-#| "translation."
 msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossaries help to maintain consistency of the translation."
 msgstr ""
 "Elk project mag een of meer woordenlijsten bevatten als een snelle manier "
-"voor het opslaan van terminologie. Woordenlijsten vergemakkelijken het "
-"behouden van de consistentie van de vertaling."
+"voor het opslaan van terminologie. Woordenlijsten helpen bij het behouden "
+"van de consistentie van de vertaling."
 
 #: ../../user/glossary.rst:9
 msgid ""
@@ -56994,10 +56895,8 @@ msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
 #: ../../user/glossary.rst:123
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary import"
-msgstr "Begrippenlijst"
+msgstr "Woordenlijst importeren"
 
 #: ../../user/glossary.rst:125
 msgid ""
@@ -57005,6 +56904,10 @@ msgid ""
 "glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
 "tbx` are supported and can be uploaded, see :ref:`upload`."
 msgstr ""
+"Soortgelijk aan normale onderdelen voor vertalingen kunt u bestaande "
+"woordenlijsten uploaden naar Weblate. Indelingen zoals :doc:`/formats/csv` "
+"of :doc:`/formats/tbx` worden ondersteund en kunnen worden geüpload, bekijk "
+":ref:`upload`."
 
 #: ../../user/glossary.rst:132
 msgid "Glossaries in automatic suggestion"
@@ -57678,12 +57581,6 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:56
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``, ``label``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -57691,9 +57588,9 @@ msgid ""
 "``glossary``, ``note``, ``label``, ``location``."
 msgstr ""
 "Zoeken naar tekenreeksen met de attributen - ``plural``, ``context``, "
-"``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-"``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-"``glossary``, ``note``, ``label``."
+"``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``"
+", ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, "
+"``note``, ``label``, ``location``."
 
 #: ../../user/search.rst:57
 msgid "``is:TEXT``"
@@ -58253,11 +58150,6 @@ msgid "Fuzzy values for DATETIME fields"
 msgstr "Fuzzy waarden voor velden DATETIME"
 
 #: ../../user/search.rst:255
-#, fuzzy
-#| msgid ""
-#| "Instead of using DATETIME values like MM-DD-YYYY, a string containing "
-#| "adverb of time like ``yesterday``, ``last month``, and ``2 days ago`` can "
-#| "be used as values in the DATETIME fields."
 msgid ""
 "Instead of using DATETIME values like MM-DD-YYYY, a string containing an "
 "adverb of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days "
@@ -58265,8 +58157,9 @@ msgid ""
 "supported here."
 msgstr ""
 "In plaats van het gebruiken van waarden DATETIME , zoals DD-MM-YYYY, mag een "
-"tekenreeks die een bijwoord van tijd bevat, zoals ``yesterday``, ``last "
-"month`` en ``2 days ago`` worden gebruikt als waarden in de velden DATETIME."
+"tekenreeks die een bijwoord van tijd bevat, zoals :samp:`yesterday`, :samp:`"
+"last month` en :samp:`2 days ago` worden gebruikt als waarden in de velden "
+"DATETIME. Alleen Engelse frasen worden hier ondersteund."
 
 #: ../../user/search.rst:262
 msgid "``changed:>=\"2 weeks ago\"``"

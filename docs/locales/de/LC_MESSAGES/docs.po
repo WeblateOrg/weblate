@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-24 05:02+0000\n"
-"Last-Translator: Roland Reck <rolandnospamreck@gmx.de>\n"
+"PO-Revision-Date: 2025-05-26 12:53+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -2276,8 +2276,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
-"Der Prozentsatz der übersetzten Zeichenketten, der vorhanden sein muss, "
-"damit die Übersetzung eingeschlossen wird."
+"Der Prozentsatz der vorhandenden übersetzten Zeichenketten, damit die "
+"Übersetzung berücksichtigt wird."
 
 #: ../../admin/addons.rst:192
 msgid "``css_selector``"
@@ -3333,8 +3333,8 @@ msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Wie oft der variable Text je nach Länge der Ausgangszeichenkette wiederholt "
-"werden soll."
+"Wie oft der variable Text, je nach Länge der Ausgangszeichenkette, "
+"wiederholt werden soll."
 
 #: ../../admin/addons.rst:657
 msgid "``include_readonly``"
@@ -3374,15 +3374,6 @@ msgstr ""
 "Entsprechungen nicht in das Layout passen."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3392,13 +3383,13 @@ msgid ""
 "world___________`` - the text is repeated once for each character in the "
 "source string."
 msgstr ""
-"Die Verwendung der variablen Teile ermöglicht es, nach Zeichenketten zu "
+"Das Verwenden der variablen Teile ermöglicht es, nach Zeichenketten zu "
 "suchen, die nach der Lokalisierung möglicherweise nicht in die "
-"Bedienoberfläche passen – sie erweitert den Text auf der Grundlage der Länge "
-"der Ausgangszeichenkette. Die variablen Teile werden um die Länge des Textes "
-"multipliziert mit dem Multiplikator wiederholt. Zum Beispiel wird ``Hello "
-"world`` mit dem variablen Suffix ``_`` und dem variablen Multiplikator von 1 "
-"zu ``Hello world___________`` – das Suffix wird für jedes Zeichen in der "
+"Bedienoberfläche passen – der Text wird auf der Grundlage der Länge der "
+"Ausgangszeichenkette erweitert. Die variablen Texte werden um die Länge des "
+"Textes multipliziert mit dem Multiplikator wiederholt. Zum Beispiel wird ``"
+"Hello world`` mit dem variablen Text ``_`` und dem variablen Multiplikator "
+"von 1 zu ``Hello world___________`` – der Text wird für jedes Zeichen in der "
 "Ausgangszeichenkette einmal wiederholt."
 
 #: ../../admin/addons.rst:679
@@ -3406,19 +3397,14 @@ msgid "The strings will be generated using following pattern:"
 msgstr "Die Zeichenketten werden nach folgendem Muster erzeugt:"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Festes Zeichenkettenpräfix` :guilabel:`Variables "
-"Zeichenkettenpräfix` :guilabel:`Ausgangszeichenkette` :guilabel:`Variables "
-"Zeichenkettensuffix` :guilabel:`Festes Zeichenkettensuffix`"
+":guilabel:`Prepended static text` :guilabel:`Prepended variable text` "
+":guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:`"
+"Appended static text`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3817,7 +3803,7 @@ msgstr "Ausgabe von JSON anpassen"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "Option :guilabel:`Avoid spaces after separators` hinzugefügt."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -3865,15 +3851,12 @@ msgid "``tabs`` -- Tabs"
 msgstr "``tabs`` -- Tabulatoren"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Ermöglicht die Anpassung des JSON-Ausgabeverhaltens, z. B. Einrückung und "
-"Sortierung."
+"Ermöglicht das Anpassen des JSON-Ausgabeverhaltens, z. B. Einrückung, "
+"Sortierung oder kompakte Formatierung mit minimalem Leerraum."
 
 #: ../../admin/addons.rst:903
 msgid "Format the Java properties file"
@@ -5038,21 +5021,18 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate setzt für die Authentifizierung auf Django. Dazu gehören integrierte "
+"Passwort-basierte Authentifizierung, soziale Authentifizierung und "
+"Drittanbieter-Authentifizierungs-Backends für Django."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Die integrierte Lösung von Django wird für die Authentifizierung verwendet, "
-"einschließlich verschiedener sozialer Optionen, um dies zu tun. Wenn Sie sie "
-"verwenden, können Sie die Benutzerdatenbank anderer Django-basierter "
-"Projekte importieren (siehe :ref:`pootle-migration`)."
+"Wenn Sie die integrierte Authentifizierung von Django nutzen, können Sie die "
+"Benutzerdatenbank anderer Django-basierter Projekte importieren (siehe :ref"
+":`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -5134,7 +5114,7 @@ msgstr ":doc:`Python Social Auth Backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:71
 msgid "OpenID authentication"
-msgstr "OpenID-Authentifizierung"
+msgstr "OpenID"
 
 #: ../../admin/auth.rst:73
 msgid ""
@@ -5152,7 +5132,7 @@ msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:94
 msgid "GitHub authentication"
-msgstr "GitHub-Authentifizierung"
+msgstr "GitHub"
 
 #: ../../admin/auth.rst:96
 msgid ""
@@ -5204,7 +5184,7 @@ msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:131
 msgid "GitHub EE authentication"
-msgstr "GitHub-EE-Authentifizierung"
+msgstr "GitHub EE"
 
 #: ../../admin/auth.rst:133
 msgid ""
@@ -5241,7 +5221,7 @@ msgstr ":doc:`psa:backends/github_enterprise`"
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
-msgstr "Bitbucket-Authentifizierung"
+msgstr "Bitbucket"
 
 #: ../../admin/auth.rst:170
 msgid ""
@@ -5524,14 +5504,12 @@ msgstr ""
 "Schwellenwertes abzulehnen."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ""
-#| ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, :"
 "doc:`/security/passwords`"
 msgstr ""
-":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, "
+":doc:`/security/passwords`"
 
 #: ../../admin/auth.rst:476
 msgid "SAML authentication"
@@ -5728,14 +5706,10 @@ msgid "CAS authentication"
 msgstr "CAS-Authentifizierung"
 
 #: ../../admin/auth.rst:690
-#, fuzzy
-#| msgid ""
-#| "CAS authentication can be achieved using a package such as `django-cas-"
-#| "ng`."
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
-"Die CAS-Authentifizierung kann mit einem Paket wie `django-cas-ng` erreicht "
+"Die CAS-Authentifizierung kann mit einem Paket wie `Django CAS NG`_ erreicht "
 "werden."
 
 #: ../../admin/auth.rst:692
@@ -5756,10 +5730,8 @@ msgstr ""
 "CAS-Servers und Ihrer Attribute."
 
 #: ../../admin/auth.rst:698
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "Um `django-cas-ng` zu installieren:"
+msgstr "Um `Django CAS NG`_ zu installieren:"
 
 #: ../../admin/auth.rst:704
 msgid ""
@@ -7468,10 +7440,9 @@ msgid "``ignore-automattic-components-format``"
 msgstr "``ignore-automattic-components-format``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-icu-message-format`."
+msgstr ""
+"Überspringt die Qualitätsprüfung :ref:`check-automattic-components-format`."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:485
 msgid "``ignore-c-format``"
@@ -7799,10 +7770,8 @@ msgid "``ignore-kabyle-characters``"
 msgstr "``ignore-kabyle-characters``"
 
 #: ../../admin/checks.rst:295
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-parts`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-kabyle-characters`."
 
 #: ../../admin/checks.rst:296 ../../user/checks.rst:1381
 msgid "``ignore-placeholders``"
@@ -13844,12 +13813,6 @@ msgstr ""
 "Dokumentation finden."
 
 #: ../../admin/install.rst:706
-#, fuzzy
-#| msgid ""
-#| "In case you get error about not supported authentication (for example "
-#| "``SMTP AUTH extension not supported by server``), it is most likely "
-#| "caused by using insecure connection and server refuses to authenticate "
-#| "this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgid ""
 "In case you get error about not supported authentication (for example :samp:"
 "`SMTP AUTH extension not supported by server`), it is most likely caused by "
@@ -13857,10 +13820,11 @@ msgid ""
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
 "Falls Sie die Fehlermeldung erhalten, dass die Authentifizierung nicht "
-"unterstützt wird (z. B. ``SMTP AUTH extension not supported by server``), "
-"liegt das wahrscheinlich daran, dass Sie eine unsichere Verbindung verwenden "
-"und der Server sich weigert, sich auf diese Weise zu authentifizieren. "
-"Versuchen Sie in diesem Fall :setting:`django:EMAIL_USE_TLS` zu aktivieren."
+"unterstützt wird (z. B. :samp:`SMTP AUTH extension not supported by server`)"
+", liegt das wahrscheinlich daran, dass Sie eine unsichere Verbindung "
+"verwenden und der Server sich weigert, sich auf diese Weise zu "
+"authentifizieren. Versuchen Sie in diesem Fall "
+":setting:`django:EMAIL_USE_TLS` zu aktivieren."
 
 #: ../../admin/install.rst:713
 msgid ""
@@ -13880,34 +13844,24 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Mehrere Funktionen in Weblate sind davon abhängig, dass korrekte HTTP-Header "
+"an Weblate übergeben werden. Wenn Sie einen Reverse-Proxy verwenden, stellen "
+"Sie bitte sicher, dass die benötigten Informationen korrekt übermittelt "
+"werden."
 
 #: ../../admin/install.rst:725
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "IP-Adresse"
+msgstr "Client-IP-Adresse"
 
 #: ../../admin/install.rst:726
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
 msgstr ""
-"Mehrere Funktionen in Weblate setzen voraus, dass die IP-Adresse des Clients "
-"ermittelt werden kann. Dazu gehören :ref:`rate-limit`, :ref:`spam-"
-"protection` oder :ref:`audit-log`."
+"Dies wird für :ref:`rate-limit`, :ref:`spam-protection` oder :ref:`audit-log`"
+" benötigt."
 
 #: ../../admin/install.rst:728
-#, fuzzy
-#| msgid ""
-#| "Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the "
-#| "WSGI handler. This might be empty (when using socket for WSGI) or contain "
-#| "a reverse proxy address, so Weblate needs an additional HTTP header with "
-#| "client IP address."
 msgid ""
 "Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI "
 "handler. This might be empty (when using socket for WSGI) or contain a "
@@ -13920,13 +13874,6 @@ msgstr ""
 "HTTP-Header mit der IP-Adresse des Clients benötigt."
 
 #: ../../admin/install.rst:733
-#, fuzzy
-#| msgid ""
-#| "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
-#| "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-#| "and :setting:`IP_PROXY_OFFSET` as well (use :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
-#| "Docker container)."
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the "
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
@@ -13934,18 +13881,13 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
-"Das Aktivieren von :setting:`IP_BEHIND_REVERSE_PROXY` dürfte für die "
-"gängigsten Einrichtungen ausreichen, aber es muss möglicherweise auch :"
-"setting:`IP_PROXY_HEADER` und :setting:`IP_PROXY_OFFSET` angepasst werden (:"
-"envvar:`WEBLATE_IP_PROXY_HEADER` und :envvar:`WEBLATE_IP_PROXY_OFFSET` im "
+"Das Aktivieren von :setting:`IP_BEHIND_REVERSE_PROXY` sollte für die meisten "
+"üblichen Einrichtungen ausreichen, aber es muss möglicherweise auch "
+":setting:`IP_PROXY_HEADER` und :setting:`IP_PROXY_OFFSET` angepasst werden "
+"(:envvar:`WEBLATE_IP_PROXY_HEADER` und :envvar:`WEBLATE_IP_PROXY_OFFSET` im "
 "Docker-Container verwenden)."
 
 #: ../../admin/install.rst:740
-#, fuzzy
-#| msgid ""
-#| "This configuration cannot be turned on by default because it would allow "
-#| "IP address spoofing on installations that don't have a properly "
-#| "configured reverse proxy."
 msgid ""
 "This configuration cannot be turned on by default, because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
@@ -13956,36 +13898,25 @@ msgstr ""
 "ordnungsgemäß konfigurierten Reverse-Proxy haben."
 
 #: ../../admin/install.rst:744
-#, fuzzy
-#| msgid "Service name"
 msgid "Server host name"
-msgstr "Dienstname"
+msgstr "Server-Hostname"
 
 #: ../../admin/install.rst:745
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured as :"
 "setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"Eine weitere Sache, auf die Sie achten müssen, ist der :http:header:`Host`-"
-"Header. Er sollte mit dem übereinstimmen, der als :setting:`SITE_DOMAIN` "
-"konfiguriert ist. Möglicherweise ist eine zusätzliche Konfiguration in Ihrem "
-"Reverse-Proxy erforderlich (verwenden Sie zum Beispiel ``ProxyPreserveHost "
-"On`` für Apache oder ``proxy_set_header Host $host;`` für nginx)."
+"Der :http:header:`Host`-Header sollte mit dem übereinstimmen, der als "
+":setting:`SITE_DOMAIN` konfiguriert ist. Möglicherweise ist eine zusätzliche "
+"Konfiguration in Ihrem Reverse-Proxy erforderlich (verwenden Sie zum "
+"Beispiel ``ProxyPreserveHost On`` für Apache oder ``proxy_set_header Host "
+"$host;`` für nginx)."
 
 #: ../../admin/install.rst:750
-#, fuzzy
-#| msgid "Client secret"
 msgid "Client protocol"
-msgstr "Client-Geheimnis"
+msgstr "Client-Protokoll"
 
 #: ../../admin/install.rst:751
 msgid ""
@@ -13993,15 +13924,12 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"Wenn nicht das richtige Protokoll übergeben wird, kann Weblate beim Versuch, "
+"den Client auf HTTPS umzustellen, in einer Weiterleitungssschleife "
+"steckenbleiben. Vergewissern Sie sich, dass der Reverse-Proxy das Protokoll "
+"korrekt als :http:header:`X-Forwarded-Proto` bereitstellt."
 
 #: ../../admin/install.rst:757
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:"
-#| "`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :"
-#| "setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgid ""
 ":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref:"
 "`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:"
@@ -14010,11 +13938,12 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref"
+":`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref"
+":`apache-gunicorn`, :setting:`IP_BEHIND_REVERSE_PROXY`, "
+":setting:`IP_PROXY_HEADER`, :setting:`IP_PROXY_OFFSET`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`"
+", :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:773
 msgid "HTTP proxy"
@@ -15888,7 +15817,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:127
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "SSL-Termination-Proxy"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
@@ -15897,6 +15826,10 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"SSL kann außerhalb des Weblate-Containers aufgelöst werden. Damit dies gut "
+"funktioniert, müssen mehrere Header an den Container übergeben werden, damit "
+"er seine aktuelle Einsatzumgebung kennt. Diese Header werden unter :ref"
+":`reverse-proxy` genauer beschrieben."
 
 #: ../../admin/install/docker.rst:134
 msgid "Example nginx reverse proxy configuration for a Docker container."
@@ -21876,12 +21809,6 @@ msgid "move_language"
 msgstr "move_language"
 
 #: ../../admin/management.rst:787
-#, fuzzy
-#| msgid ""
-#| "Allows you to merge language content. This is useful when updating to a "
-#| "new version which contains aliases for previously unknown languages that "
-#| "have been created with the `(generated)` suffix. It moves all content "
-#| "from the `source` language to the `target` one."
 msgid ""
 "Allows you to merge language content. This is useful when updating to a new "
 "version which contains aliases for previously unknown languages that have "
@@ -21890,15 +21817,10 @@ msgid ""
 msgstr ""
 "Ermöglicht es Ihnen, Sprachinhalte zusammenzuführen. Dies ist nützlich, wenn "
 "Sie auf eine neue Version aktualisieren, die Aliase für zuvor unbekannte "
-"Sprachen enthält, die mit dem Suffix `(generated)` erstellt wurden. Der "
-"gesamte Inhalt wird von der `source`-Sprache in `target` verschoben."
+"Sprachen enthält, die mit dem Suffix `:samp:`(generated)`` erstellt wurden. "
+"Der gesamte Inhalt wird von der `source`-Sprache in `target` verschoben."
 
 #: ../../admin/management.rst:798
-#, fuzzy
-#| msgid ""
-#| "After moving the content, you should check whether there is anything left "
-#| "(this is subject to race conditions when somebody updates the repository "
-#| "meanwhile) and remove the `(generated)` language."
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
@@ -21906,7 +21828,7 @@ msgid ""
 msgstr ""
 "Nachdem der Inhalt verschoben wurde, sollten Sie überprüfen, ob noch etwas "
 "übrig ist (dies kann passieren, wenn jemand in der Zwischenzeit das "
-"Repository aktualisiert) und die Sprache `(generated)` entfernen."
+"Repository aktualisiert) und die Sprache `:samp:`(generated)`` entfernen."
 
 #: ../../admin/management.rst:803
 msgid "pushgit"
@@ -29482,10 +29404,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.12"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.12"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -29524,20 +29444,16 @@ msgstr ""
 "Konfigurationsmöglichkeiten."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Added :ref:`check-kabyle-characters` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-fluent-parts`."
+msgstr "Qualitätsprüfung :ref:`check-kabyle-characters` hinzugefügt."
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
 msgstr ""
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ":doc:`/contributing/documentation`"
 msgid ":doc:`/security/index` documentation."
-msgstr ":doc:`/contributing/documentation`"
+msgstr "Dokumentation :doc:`/security/index`."
 
 #: ../../changes.rst:15 ../../changes.rst:54 ../../changes.rst:96
 #: ../../changes.rst:123 ../../changes.rst:159 ../../changes.rst:227
@@ -29612,10 +29528,8 @@ msgid ""
 msgstr ":http:get:`/api/users/` unterstützt die Suche nach Benutzer-ID."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
-msgstr ":http:get:`/api/changes/(int:id)/` enthält jetzt `old` und `details`."
+msgstr ":http:get:`/api/users/` enthält jetzt ``languages``."
 
 #: ../../changes.rst:27 ../../changes.rst:58 ../../changes.rst:77
 #: ../../changes.rst:101 ../../changes.rst:128 ../../changes.rst:175
@@ -29743,28 +29657,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"141?closed=1>`__."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Weblate 5.10.4"
 msgid "Weblate 5.11.4"
-msgstr "Weblate 5.10.4"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on May 7th 2020.*"
 msgid "*Released on May 7th 2025.*"
-msgstr "*Veröffentlicht am 7. Mai 2020.*"
+msgstr "*Veröffentlicht am 7. Mai 2025.*"
 
 #: ../../changes.rst:55
 #, fuzzy
@@ -29836,16 +29742,12 @@ msgstr ""
 "milestone/136?closed=1>`__."
 
 #: ../../changes.rst:72
-#, fuzzy
-#| msgid "Weblate 5.10.3"
 msgid "Weblate 5.11.3"
-msgstr "Weblate 5.10.3"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:74 ../../changes.rst:93
-#, fuzzy
-#| msgid "*Released on May 3rd 2024.*"
 msgid "*Released on May 3rd 2025.*"
-msgstr "*Veröffentlicht am 3. Mai 2024.*"
+msgstr "*Veröffentlicht am 3. Mai 2025.*"
 
 #: ../../changes.rst:78
 #, fuzzy
@@ -29866,10 +29768,8 @@ msgstr ""
 "milestone/140?closed=1>`__."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.2"
-msgstr "Weblate 5.10.2"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:97
 #, fuzzy
@@ -29899,10 +29799,8 @@ msgid "Improved error handling on ZIP upload."
 msgstr "Verbesserte Fehlerbehandlung beim Entfernen von Zeichenketten."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
-msgstr "Kompatibilität mit Django 1.4."
+msgstr "Kompatibilität mit Django 5.2."
 
 #: ../../changes.rst:105
 #, fuzzy
@@ -29937,16 +29835,12 @@ msgstr ""
 "milestone/140?closed=1>`__."
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:120
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 25th 2025.*"
-msgstr "*Veröffentlicht am 15. April 2025.*"
+msgstr "*Veröffentlicht am 25. April 2025.*"
 
 #: ../../changes.rst:124
 #, fuzzy
@@ -29978,16 +29872,12 @@ msgid "Removing pending glossary terms."
 msgstr "Unzulässiger Glossarbegriff"
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"142?closed=1>`__."
 
 #: ../../changes.rst:144
 msgid "Weblate 5.11"
@@ -37394,10 +37284,8 @@ msgstr ""
 "Erweiterungen hinzugefügt."
 
 #: ../../changes/v3.rst:427
-#, fuzzy
-#| msgid "Allow more fine grained ratelimit settings."
 msgid "Allow more fine grained :ref:`rate-limit` settings."
-msgstr "Detaillierte Einstellungen des Ratenbegrenzers ermöglicht."
+msgstr "Detaillierte Einstellungen für die :ref:`rate-limit`."
 
 #: ../../changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
@@ -42206,10 +42094,8 @@ msgid "ORM object for an unit."
 msgstr "ORM-Objekt für eine Einheit."
 
 #: ../../contributing/addons.rst:37
-#, fuzzy
-#| msgid "ORM object for an add-on."
 msgid "ORM object for an change."
-msgstr "ORM-Objekt für eine Erweiterung."
+msgstr "ORM-Objekt für eine Änderung."
 
 #: ../../contributing/addons.rst:41
 msgid "ORM object for an user."
@@ -42249,10 +42135,8 @@ msgstr ""
 "aussieht."
 
 #: ../../contributing/snippets/code-guide.rst:3
-#, fuzzy
-#| msgid "License changed"
 msgid "License and copyright"
-msgstr "Lizenz geändert"
+msgstr "Lizenz und Urheberrecht"
 
 #: ../../contributing/snippets/code-guide.rst:5
 msgid ""
@@ -42313,10 +42197,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:46
-#, fuzzy
-#| msgid "Use case"
 msgid "Test cases"
-msgstr "Anwendungsfall"
+msgstr "Testfälle"
 
 #: ../../contributing/snippets/code-guide.rst:48
 msgid ""
@@ -42348,15 +42230,11 @@ msgid "Coding standard and linting the code"
 msgstr "Kodierungsstandard und Codeanalyse"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`ruff` code formatter."
 msgid ""
 "The code should follow :pep:`8` coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
-"Der Code sollte den PEP-8-Programmierrichtlinien entsprechen und mit dem "
+"Der Code sollte den :pep:`8`-Programmierrichtlinien entsprechen und mit dem "
 "Code-Formatierer :program:`ruff` formatiert werden."
 
 #: ../../contributing/snippets/code-guide.rst:71
@@ -42396,10 +42274,8 @@ msgstr ""
 "Sie können die Prüfung auch manuell auslösen, um alle Dateien zu prüfen:"
 
 #: ../../contributing/snippets/code-guide.rst:92
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding securely"
-msgstr "Programmierstil"
+msgstr "Sicheres Programmieren"
 
 #: ../../contributing/snippets/code-guide.rst:94
 msgid ""
@@ -42410,10 +42286,8 @@ msgstr ""
 "Principles`_ geschrieben werden."
 
 #: ../../contributing/snippets/code-guide.rst:100
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "AI guidelines"
-msgstr "Programmierrichtlinien"
+msgstr "KI-Richtlinien"
 
 #: ../../contributing/snippets/code-guide.rst:102
 msgid ""
@@ -42469,7 +42343,7 @@ msgstr ""
 
 #: ../../contributing/communication.rst:11
 msgid "Weblate GitHub Discussions"
-msgstr "Weblate GitHub-Diskussionen"
+msgstr "Weblate-GitHub-Diskussionen"
 
 #: ../../contributing/communication.rst:12
 msgid ""
@@ -43795,10 +43669,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/release.rst:23
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../admin/upgrade`, :ref:`security-updates`"
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
@@ -43932,10 +43804,8 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:40
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
-msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
+msgstr ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -44293,10 +44163,8 @@ msgid "The simple execution can look like:"
 msgstr "Die einfache Ausführung kann wie folgt aussehen:"
 
 #: ../../contributing/tests.rst:47
-#, fuzzy
-#| msgid "Locking down Weblate"
 msgid "Local testing of Weblate"
-msgstr "Weblate sperren"
+msgstr "Lokales Testen von Weblate"
 
 #: ../../contributing/tests.rst:49
 msgid ""
@@ -44367,10 +44235,8 @@ msgstr ""
 "Ausführen und Schreiben von Tests für Django."
 
 #: ../../contributing/tests.rst:103
-#, fuzzy
-#| msgid "Contributing to Weblate modules"
 msgid "Local testing of Weblate modules"
-msgstr "Mitarbeit an Weblate-Modulen"
+msgstr "Lokales Testen von Weblate-Modulen"
 
 #: ../../contributing/tests.rst:105
 msgid ""
@@ -46073,10 +45939,8 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/mobile.rst:2
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Multi-platform localization"
-msgstr "Kontinuierliche Lokalisierung"
+msgstr "Multiplattform-Lokalisierung"
 
 #: ../../devel/mobile.rst:4
 msgid ""
@@ -46086,10 +45950,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/mobile.rst:8
-#, fuzzy
-#| msgid "CII Best Practices"
 msgid "Best practices:"
-msgstr "CII Best Practices"
+msgstr "Bewährte Praktiken:"
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
@@ -51572,14 +51434,12 @@ msgid "Main class for invoking commands."
 msgstr "Hauptklasse zum Aufrufen von Befehlen."
 
 #: ../../security/dependencies.rst:2
-#, fuzzy
-#| msgid "Dependencies updates."
 msgid "Dependencies"
-msgstr "Aktualisierungen der Abhängigkeiten."
+msgstr "Abhängigkeiten"
 
 #: ../../security/dependencies.rst:7
 msgid "Software Bill of Material"
-msgstr ""
+msgstr "Software-Stückliste"
 
 #: ../../security/dependencies.rst:9
 msgid ""
@@ -51647,15 +51507,13 @@ msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Entdeckung deaktivieren"
+msgstr "Wiederherstellungsplan"
 
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
 msgid "Scope and objectives"
-msgstr ""
+msgstr "Umfang und Ziele"
 
 #: ../../security/disaster-recovery-plan.rst:7
 msgid ""
@@ -51670,8 +51528,6 @@ msgid ""
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:14
-#, fuzzy
-#| msgid "definitions"
 msgid "Definitions"
 msgstr "Definitionen"
 
@@ -51695,10 +51551,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:21
-#, fuzzy
-#| msgid "Bilingual components"
 msgid "Critical components"
-msgstr "Zweisprachige Komponenten"
+msgstr "Kritische Komponenten"
 
 #: ../../security/disaster-recovery-plan.rst:23
 msgid ""
@@ -51719,10 +51573,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup colicy"
-msgstr "Sicherungs-Repository"
+msgstr "Sicherungsrichtlinie"
 
 #: ../../security/disaster-recovery-plan.rst:30
 msgid ""
@@ -51734,10 +51586,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:36
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery Procedures"
-msgstr "Wiederherstellungscodes"
+msgstr "Wiederherstellungsabläufe"
 
 #: ../../security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
@@ -51759,10 +51609,8 @@ msgid "Restore Weblate backup following :ref:`restore-borg`."
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:46
-#, fuzzy
-#| msgid "Start Weblate containers:"
 msgid "Restart Weblate container."
-msgstr "Weblate-Container starten:"
+msgstr "Weblate-Container neu starten."
 
 #: ../../security/disaster-recovery-plan.rst:47
 #, fuzzy
@@ -51799,10 +51647,8 @@ msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
 
 #: ../../security/disaster-recovery-plan.rst:64
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Validation and testing"
-msgstr "Validierung fehlgeschlagen, bitte erneut versuchen."
+msgstr "Validierung und Testen"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
@@ -51867,10 +51713,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/incident-response-plan.rst:11
-#, fuzzy
-#| msgid "Extended search possibilities."
 msgid "Roles and responsibilities"
-msgstr "Suchmöglichkeiten erweitert."
+msgstr "Rollen und Zuständigkeiten"
 
 #: ../../security/incident-response-plan.rst:13
 msgid ""
@@ -51894,36 +51738,32 @@ msgid ""
 msgstr ""
 
 #: ../../security/incident-response-plan.rst:19
-#, fuzzy
-#| msgid "Components and categories"
 msgid "Incident categories"
-msgstr "Komponenten und Kategorien"
+msgstr "Kategorien von Vorfällen"
 
 #: ../../security/incident-response-plan.rst:21
 msgid "Category 1 – Unauthorized Access"
-msgstr ""
+msgstr "Kategorie 1 – Unbefugter Zugriff"
 
 #: ../../security/incident-response-plan.rst:22
 msgid "Category 2 – Data Integrity Violation"
-msgstr ""
+msgstr "Kategorie 2 – Verstoß gegen die Datenintegrität"
 
 #: ../../security/incident-response-plan.rst:23
 msgid "Category 3 – Service Outage or Degradation"
-msgstr ""
+msgstr "Kategorie 3 – Dienstausfall oder -verschlechterung"
 
 #: ../../security/incident-response-plan.rst:24
 msgid "Category 4 – Misconfiguration or Deployment Error"
-msgstr ""
+msgstr "Kategorie 4 – Fehlkonfiguration oder Bereitstellungsfehler"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Incident response lifecycle"
 msgstr ""
 
 #: ../../security/incident-response-plan.rst:30
-#, fuzzy
-#| msgid "Explanation"
 msgid "Preparation"
-msgstr "Erklärung"
+msgstr "Vorbereitung"
 
 #: ../../security/incident-response-plan.rst:32
 msgid ""
@@ -51954,10 +51794,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/incident-response-plan.rst:39
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Identification"
-msgstr "Inline-Erkennung"
+msgstr "Identifizierung"
 
 #: ../../security/incident-response-plan.rst:41
 msgid ""
@@ -52106,52 +51944,36 @@ msgid ""
 msgstr ""
 
 #: ../../security/index.rst:26
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security policies"
-msgstr "Sicherheitslücken"
+msgstr "Sicherheitsrichtlinien"
 
 #: ../../security/index.rst:28
-#, fuzzy
-#| msgid "Dependencies updates."
 msgid ":doc:`dependencies`"
-msgstr "Aktualisierungen der Abhängigkeiten."
+msgstr ":doc:`dependencies`"
 
 #: ../../security/index.rst:29
-#, fuzzy
-#| msgid "Disable discovery"
 msgid ":doc:`disaster-recovery-plan`"
-msgstr "Entdeckung deaktivieren"
+msgstr ":doc:`disaster-recovery-plan`"
 
 #: ../../security/index.rst:30
-#, fuzzy
-#| msgid "Third-party deployments for Weblate"
 msgid ":doc:`incident-response-plan`"
-msgstr "Drittanbieterbereitstellungen für Weblate"
+msgstr ":doc:`incident-response-plan`"
 
 #: ../../security/index.rst:32
-#, fuzzy
-#| msgid "``password``"
 msgid ":doc:`passwords`"
-msgstr "``password``"
+msgstr ":doc:`passwords`"
 
 #: ../../security/index.rst:33
-#, fuzzy
-#| msgid ":doc:`html`"
 msgid ":doc:`threat-model`"
-msgstr ":doc:`html`"
+msgstr ":doc:`threat-model`"
 
 #: ../../security/index.rst:36
-#, fuzzy
-#| msgid "Company"
 msgid "Compliance"
-msgstr "Unternehmen"
+msgstr "Konformität"
 
 #: ../../security/index.rst:38
-#, fuzzy
-#| msgid ":doc:`psa:pipeline`"
 msgid ":doc:`privacy-compliance`"
-msgstr ":doc:`psa:pipeline`"
+msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -52290,16 +52112,12 @@ msgid ""
 msgstr ""
 
 #: ../../security/passwords.rst:2
-#, fuzzy
-#| msgid "Password reset"
 msgid "Password security"
-msgstr "Passwort zurücksetzen"
+msgstr "Passwortsicherheit"
 
 #: ../../security/passwords.rst:5
-#, fuzzy
-#| msgid "How are user passwords stored?"
 msgid "How Weblate stores passwords"
-msgstr "Wie werden Benutzerpasswörter gespeichert?"
+msgstr "Wie Weblate Passwörter speichert"
 
 #: ../../security/passwords.rst:7
 msgid ""
@@ -52325,10 +52143,8 @@ msgstr ""
 "angepasst werden."
 
 #: ../../security/passwords.rst:16
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Password validation"
-msgstr "Passwort-Authentifizierung"
+msgstr "Passwort-Validierung"
 
 #: ../../security/passwords.rst:18
 msgid ""
@@ -52343,19 +52159,12 @@ msgid "The recommended Weblate configuration verifies:"
 msgstr "Pro Projekt-Konfigurationsdatei"
 
 #: ../../security/passwords.rst:22
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid ""
 "The password has to be at least 10 characters long, and at most 72 "
 "characters long."
 msgstr ""
-"Dieses Passwort ist zu lang. Es darf höchstens %(max_length)d Zeichen "
-"enthalten."
+"Das Passwort muss mindestens 10 Zeichen und darf höchstens 72 Zeichen lang "
+"sein."
 
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
@@ -52385,10 +52194,8 @@ msgstr ""
 "angepasst werden."
 
 #: ../../security/passwords.rst:33
-#, fuzzy
-#| msgid "Social authentication"
 msgid "Social or third-party authentication"
-msgstr "Soziale Authentifizierung"
+msgstr "Soziale oder Drittanbieter-Authentifizierung"
 
 #: ../../security/passwords.rst:35
 msgid ""
@@ -52625,7 +52432,7 @@ msgstr "Weblate-Support"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "GDPR (EU)"
-msgstr ""
+msgstr "DSGVO (EU)"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Minimization, consent, erasure, auditability, locality"
@@ -52633,37 +52440,31 @@ msgstr ""
 
 #: ../../security/privacy-compliance.rst:85
 msgid "CCPA (California)"
-msgstr ""
+msgstr "CCPA (Kalifornien)"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "Access, deletion, no sale, user control"
 msgstr ""
 
 #: ../../security/privacy-compliance.rst:87
-#, fuzzy
-#| msgid "Portuguese (Brazil)"
 msgid "LGPD (Brazil)"
-msgstr "Portugiesisch (Brasilien)"
+msgstr "LGPD (Brasilien)"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "Legal basis, access, correction, deletion"
 msgstr ""
 
 #: ../../security/privacy-compliance.rst:89
-#, fuzzy
-#| msgid "French (Canada)"
 msgid "nFADP (Switzerland)"
-msgstr "Französisch (Kanada)"
+msgstr "nFADP (Schweiz)"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "Purpose limitation, disclosure transparency"
 msgstr ""
 
 #: ../../security/privacy-compliance.rst:91
-#, fuzzy
-#| msgid "English (Canada)"
 msgid "PIPEDA (Canada)"
-msgstr "Englisch (Kanada)"
+msgstr "PIPEDA (Kanada)"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "Consent, access, individual rights"
@@ -52671,7 +52472,7 @@ msgstr ""
 
 #: ../../security/privacy-compliance.rst:93
 msgid "DPDPA (India)"
-msgstr ""
+msgstr "DPDPA (Indien)"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "Lawful processing, consent, notice, user rights"
@@ -52679,7 +52480,7 @@ msgstr ""
 
 #: ../../security/privacy-compliance.rst:95
 msgid "PIPL (China)"
-msgstr ""
+msgstr "PIPL (China)"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "Purpose limitation, data minimization, localization"
@@ -53042,10 +52843,8 @@ msgid "System compromise, data exfiltration."
 msgstr ""
 
 #: ../../security/threat-model.rst:109
-#, fuzzy
-#| msgid "Database"
 msgid "**Database/Redis**"
-msgstr "Datenbank"
+msgstr "**Datenbank/Redis**"
 
 #: ../../security/threat-model.rst:111
 msgid ""
@@ -53074,10 +52873,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/threat-model.rst:121
-#, fuzzy
-#| msgid "Site integration"
 msgid "**VCS integration**"
-msgstr "Integration der Website"
+msgstr "**VCS-Integration**"
 
 #: ../../security/threat-model.rst:123
 #, fuzzy
@@ -53105,10 +52902,8 @@ msgid "Accountability issues."
 msgstr "Sicherheitslücken"
 
 #: ../../security/threat-model.rst:129
-#, fuzzy
-#| msgid "User interface"
 msgid "**User interaction**"
-msgstr "Bedienoberfläche"
+msgstr "**Benutzerinteraktion**"
 
 #: ../../security/threat-model.rst:131
 msgid ""
@@ -53124,7 +52919,7 @@ msgstr "E-Mail-Konto"
 
 #: ../../security/threat-model.rst:133
 msgid "(Web UI)"
-msgstr ""
+msgstr "(Web-UI)"
 
 #: ../../security/threat-model.rst:135
 msgid ""
@@ -53165,10 +52960,8 @@ msgid "Mitigation strategies"
 msgstr "Dienste integrieren"
 
 #: ../../security/threat-model.rst:149
-#, fuzzy
-#| msgid "Authentication settings"
 msgid "**Authentication & authorization:**"
-msgstr "Authentifizierungseinstellungen"
+msgstr "**Authentifizierung und Autorisierung:**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
@@ -55751,7 +55544,7 @@ msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
-"Verwenden Sie standardisierte lateinische Kabyle-Zeichen (z. B. ɣ statt "
+"Verwenden Sie standardisierte lateinische Kabyle-Zeichen (z. B. ɣ statt "
 "griechischem γ; ɛ statt ε)."
 
 #: ../../user/checks.rst:1362
