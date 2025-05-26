@@ -822,6 +822,22 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.username
 
+    def save(self, *args, **kwargs):
+        """Save profile and handle personal TM changes."""
+        from weblate.memory.tasks import import_user_memory
+
+        update_tm = self.contribute_personal_tm
+
+        # Check if contribute_personal_tm was enabled
+        if self.id:
+            old = Profile.objects.get(pk=self.id)
+            update_tm = self.contribute_personal_tm and not old.contribute_personal_tm
+
+        super().save(*args, **kwargs)
+
+        if update_tm:
+            import_user_memory.delay_on_commit(self.user.id)
+
     def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()
 
