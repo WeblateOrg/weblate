@@ -1354,7 +1354,7 @@ class ProjectStats(ParentAggregatingStats):
 
 class ComponentListStats(ParentAggregatingStats):
     def get_child_objects(self):
-        return self._object.components.only("id", "componentlist")
+        return self._object.components.only("id", "componentlist", "check_flags")
 
 
 class GlobalStats(ParentAggregatingStats):
