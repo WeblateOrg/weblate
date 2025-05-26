@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db import transaction
+from django.db.models import Q
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
@@ -45,6 +46,72 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
                 handle_unit_translation_change(unit, None, component, project)
 
 
+@app.task(trail=False)
+def import_user_memory(user_id: int) -> None:
+    """
+    Import all translations from a user into their personal translation memory.
+
+    This is used when a user enables personal translation memory after having it disabled.
+    """
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
+    user = User.objects.get(pk=user_id)
+    if not user.profile.contribute_personal_tm:
+        return
+
+    with transaction.atomic():
+        units = (
+            Unit.objects.filter(
+                Q(change__author=user) | Q(change__user=user),
+                state__gte=STATE_TRANSLATED,
+                translation__component__is_glossary=False,
+            )
+            .exclude(
+                target="",
+            )
+            .distinct()
+            .prefetch_related(
+                "translation",
+                "translation__language",
+                "translation__component",
+                "translation__component__project",
+            )
+        )
+
+        for unit in units:
+            component = unit.translation.component
+            project = component.project
+
+            source_language: Language = get_machinery_language(
+                component.source_language
+            )
+            target_language: Language = get_machinery_language(
+                unit.translation.language
+            )
+            source = unit.source
+            target = unit.target
+            origin = component.full_slug
+
+            if source_language == target_language or not is_valid_memory_entry(
+                source=source, target=target
+            ):
+                continue
+
+            update_memory.delay_on_commit(
+                source_language_id=source_language.id,
+                target_language_id=target_language.id,
+                source=source,
+                target=target,
+                origin=origin,
+                user_id=user_id,
+                project_id=project.id,
+                add_shared=False,
+                add_project=False,
+                add_user=True,
+            )
+
+
 def handle_unit_translation_change(
     unit: Unit,
     user: User | None = None,
@@ -57,8 +124,12 @@ def handle_unit_translation_change(
         project = component.project
 
     # Do not keep per-user memory for bots
-    if user and user.is_bot:
-        user = None
+    if user is None or (user and user.is_bot):
+        user_id = None
+        add_user = False
+    else:
+        user_id = user.id
+        add_user = user.profile.contribute_personal_tm
 
     source_language: Language = get_machinery_language(component.source_language)
     target_language: Language = get_machinery_language(unit.translation.language)
@@ -76,8 +147,10 @@ def handle_unit_translation_change(
         target=target,
         origin=origin,
         add_shared=project.contribute_shared_tm,
-        user_id=user.id if user is not None else None,
+        user_id=user_id,
         project_id=project.id,
+        add_project=component.contribute_project_tm,
+        add_user=add_user,
     )
 
 
@@ -90,12 +163,11 @@ def update_memory(
     target: str,
     origin: str,
     add_shared: bool,
+    add_project: bool,
+    add_user: bool,
     user_id: int | None,
     project_id: int,
 ) -> None:
-    add_project = True
-    add_user = user_id is not None
-
     # Check matching entries in memory
     for matching in Memory.objects.filter(
         from_file=False,
