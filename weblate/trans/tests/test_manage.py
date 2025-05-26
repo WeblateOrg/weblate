@@ -9,6 +9,8 @@ import os.path
 from django.core import mail
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Category, Component, Project, Translation
 from weblate.trans.tests.test_views import ViewTestCase
@@ -201,14 +203,26 @@ class RenameTest(ViewTestCase):
         )
 
 
-class AnnouncementTest(ViewTestCase):
+class AnnouncementPermissionTestCase(ViewTestCase):
     data = {"message": "Announcement testing", "severity": "warning"}
     outbox = 0
+
+    def set_user_permissions(self) -> None:
+        group = Group.objects.create(
+            name="Coordinators",
+            defining_project=self.project,
+            language_selection=SELECTION_ALL,
+        )
+        group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.projects.add(self.project)
+        group.user_set.add(self.user)
 
     def perform_test(self, url) -> None:
         response = self.client.post(url, self.data, follow=True)
         self.assertEqual(response.status_code, 403)
-        self.make_manager()
+
+        self.set_user_permissions()
+
         # Add second user to receive notifications
         self.project.add_user(self.anotheruser, "Administration")
         czech = Language.objects.get(code="cs")
@@ -244,6 +258,11 @@ class AnnouncementTest(ViewTestCase):
         category.save()
         url = reverse("announcement", kwargs={"path": category.get_url_path()})
         self.perform_test(url)
+
+
+class AnnouncementTest(AnnouncementPermissionTestCase):
+    def set_user_permissions(self) -> None:
+        self.make_manager()
 
     def test_delete(self) -> None:
         self.test_project()
