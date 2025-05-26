@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db import transaction
+from django.db.models import Q
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
@@ -43,6 +44,72 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
                 )
             for unit in units.prefetch_related("translation", "translation__language"):
                 handle_unit_translation_change(unit, None, component, project)
+
+
+@app.task(trail=False)
+def import_user_memory(user_id: int) -> None:
+    """
+    Import all translations from a user into their personal translation memory.
+
+    This is used when a user enables personal translation memory after having it disabled.
+    """
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
+    user = User.objects.get(pk=user_id)
+    if not user.profile.contribute_personal_tm:
+        return
+
+    with transaction.atomic():
+        units = (
+            Unit.objects.filter(
+                Q(change__author=user) | Q(change__user=user),
+                state__gte=STATE_TRANSLATED,
+                translation__component__is_glossary=False,
+            )
+            .exclude(
+                target="",
+            )
+            .distinct()
+            .prefetch_related(
+                "translation",
+                "translation__language",
+                "translation__component",
+                "translation__component__project",
+            )
+        )
+
+        for unit in units:
+            component = unit.translation.component
+            project = component.project
+
+            source_language: Language = get_machinery_language(
+                component.source_language
+            )
+            target_language: Language = get_machinery_language(
+                unit.translation.language
+            )
+            source = unit.source
+            target = unit.target
+            origin = component.full_slug
+
+            if source_language == target_language or not is_valid_memory_entry(
+                source=source, target=target
+            ):
+                continue
+
+            update_memory.delay_on_commit(
+                source_language_id=source_language.id,
+                target_language_id=target_language.id,
+                source=source,
+                target=target,
+                origin=origin,
+                user_id=user_id,
+                project_id=project.id,
+                add_shared=False,
+                add_project=False,
+                add_user=True,
+            )
 
 
 def handle_unit_translation_change(
