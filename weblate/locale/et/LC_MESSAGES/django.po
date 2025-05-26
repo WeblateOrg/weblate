@@ -5,13 +5,14 @@
 # Priit Jõerüüt <hwlate@joeruut.com>, 2024, 2025.
 # FOXHELL <foxhell768@gmail.com>, 2024.
 # rimasx <riks_12@hot.ee>, 2025.
+# PriitUring <priit.uring@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-22 18:11+0000\n"
-"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
+"PO-Revision-Date: 2025-05-27 01:14+0000\n"
+"Last-Translator: PriitUring <priit.uring@gmail.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -474,10 +475,8 @@ msgstr ""
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:248
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Ei õnnestunud saata sõnumit haldajale."
+msgstr "Konto lukustatud lehe administraatori poolt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:250
@@ -665,7 +664,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:584
 msgid "Theme"
-msgstr ""
+msgstr "Välimus"
 
 #: weblate/accounts/models.py:587
 msgctxt "Theme selection"
@@ -680,7 +679,7 @@ msgstr "Hele"
 #: weblate/accounts/models.py:589
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Tume"
 
 #: weblate/accounts/models.py:593
 msgid "Hide completed translations on the dashboard"
@@ -952,11 +951,9 @@ msgid "Suggestion was added"
 msgstr "Ettepanek lisatud"
 
 #: weblate/accounts/notifications.py:612
-#, fuzzy
-#| msgid "translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "tõlgitud"
+msgstr "Keel oli tõlgitud"
 
 #: weblate/accounts/notifications.py:620
 #, fuzzy
@@ -966,25 +963,19 @@ msgid "Component was translated"
 msgstr "Osise nimi"
 
 #: weblate/accounts/notifications.py:628
-#, fuzzy
-#| msgid "Comments made"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Lisatud kommentaarid"
+msgstr "Kommentaar oli lisatud"
 
 #: weblate/accounts/notifications.py:656
-#, fuzzy
-#| msgid "Mentioned in comment"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Sind on kommentaaris mainitud"
+msgstr "Sind on mainitud kommentaaris"
 
 #: weblate/accounts/notifications.py:690
-#, fuzzy
-#| msgid "Translation key"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Tõlke võti"
+msgstr "Teie tõlge sai kommentaari"
 
 #: weblate/accounts/notifications.py:722
 msgctxt "Notification name"
@@ -1213,10 +1204,8 @@ msgid "Sign in"
 msgstr "Logi sisse"
 
 #: weblate/accounts/views.py:906
-#, fuzzy
-#| msgid "Sign out"
 msgid "Signed out"
-msgstr "Logi välja"
+msgstr "Logiti välja"
 
 #: weblate/accounts/views.py:1002
 msgid "Register e-mail"
@@ -2571,11 +2560,8 @@ msgstr "Halda osiste loendit"
 #. Translators: Permission name
 #: weblate/auth/data.py:143
 #: weblate/templates/snippets/project/billing-trial.html:9
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Halda keeli"
+msgstr "Halda makseid"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2685,11 +2671,9 @@ msgid "Managers"
 msgstr ""
 
 #: weblate/auth/data.py:257
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control team name"
 msgid "Project creators"
-msgstr "Projekti teave"
+msgstr "Projekti loojad"
 
 #: weblate/auth/data.py:266
 msgctxt "Per-project access-control team name"
@@ -2726,7 +2710,7 @@ msgstr ""
 #: weblate/auth/data.py:278
 msgctxt "Per-project access-control team name"
 msgid "Memory"
-msgstr ""
+msgstr "Mälu"
 
 #: weblate/auth/data.py:281
 msgctxt "Per-project access-control team name"
@@ -2847,7 +2831,7 @@ msgstr ""
 #: weblate/auth/models.py:176 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1148 weblate/trans/forms.py:1345
 msgid "All languages"
-msgstr ""
+msgstr "Kõik keeled"
 
 #: weblate/auth/models.py:181 weblate/billing/models.py:333
 #: weblate/lang/views.py:53 weblate/templates/accounts/profile.html:32
@@ -2876,10 +2860,8 @@ msgid "Internal Weblate team"
 msgstr "Serveri sisemine viga"
 
 #: weblate/auth/models.py:190
-#, fuzzy
-#| msgid "Administrators"
 msgid "Team administrators"
-msgstr "Administraatorid"
+msgstr "Meeskonna administraatorid"
 
 #: weblate/auth/models.py:193
 msgid "The administrator can add or remove users from a team."
@@ -2941,7 +2923,7 @@ msgstr "Aegunud"
 #: weblate/templates/trans/project-access.html:310 weblate/trans/forms.py:2973
 #: weblate/wladmin/views.py:87
 msgid "Teams"
-msgstr ""
+msgstr "Meeskonnad"
 
 #: weblate/auth/models.py:489 weblate/auth/models.py:1167
 msgid ""
@@ -3017,10 +2999,8 @@ msgstr ""
 "Kaastöö sellele tõlkele eeldab, et oled nõustunud kaastöötaja lepinguga."
 
 #: weblate/auth/permissions.py:202
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Sign in to save translations."
-msgstr "Tõlgete salvestamiseks palun logi sisse."
+msgstr "Tõlgete salvestamiseks logi sisse."
 
 #: weblate/auth/permissions.py:205
 #, fuzzy
