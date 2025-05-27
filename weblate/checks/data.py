@@ -435,6 +435,7 @@ IGNORE_WORDS = {
     "libre",
     "lime",
     "linestring",
+    "linguist",
     "link",
     "links",
     "linux",
