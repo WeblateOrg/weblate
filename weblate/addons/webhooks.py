@@ -260,13 +260,10 @@ class SlackWebhokAddon(JSONWebhookBaseAddon):
     )
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
+    schema_file = "weblate-slack-messaging.schema.json"
 
     def send_message(self, change, headers, payload):
         return super().send_message(change, headers, payload)
 
     def build_webhook_payload(self, change: Change):
         return {"text": change.get_action_display()}
-
-    def validate_payload(self, payload):
-        # TODO: setup validation with a proper schema
-        pass
