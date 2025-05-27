@@ -918,6 +918,7 @@ IGNORE_WORDS = {
     "webdav",
     "webextension",
     "webgl",
+    "webhook",
     "weblate",
     "webmail",
     "website",
