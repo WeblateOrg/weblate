@@ -24,6 +24,8 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.requests import request
+from weblate.utils.site import get_site_url
+from weblate.utils.views import key_name
 
 if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
@@ -44,7 +46,6 @@ class MessageNotDeliveredError(Exception):
 
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
-    schema_file: str = ""
 
     def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
         raise NotImplementedError
@@ -59,15 +60,6 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
             "addons/webhook_log.html",
             {"activity": activity, "details": activity.details["result"]},
         )
-
-    def validate_payload(self, payload) -> None:
-        try:
-            validate_schema(payload, self.schema_file)
-        except (
-            jsonschema.exceptions.ValidationError,
-            jsonschema.exceptions.SchemaError,
-        ) as error:
-            raise MessageNotDeliveredError from error
 
     def send_message(
         self, change: Change, headers: dict, payload: dict[str, int | str | list[str]]
@@ -90,7 +82,6 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         events = {int(event) for event in config["events"]}
         if change.action in events:
             payload = self.build_webhook_payload(change)
-            self.validate_payload(payload)
             headers = self.build_headers(change, payload)
             response = self.send_message(change, headers, payload)
 
@@ -115,7 +106,6 @@ class WebhookAddon(JSONWebhookBaseAddon):
     )
 
     settings_form = WebhooksAddonForm
-    schema_file = "weblate-messaging.schema.json"
 
     def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
         """Build a Schema-valid payload from change event."""
@@ -143,7 +133,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
         if change.translation:
             data["translation"] = change.translation.language.code
 
-        validate_schema(data, "weblate-messaging.schema.json")
+        self.validate_payload(data)
         return data
 
     def build_headers(
@@ -158,6 +148,15 @@ class WebhookAddon(JSONWebhookBaseAddon):
             "webhook-id": webhook_id,
             "webhook-signature": wh.sign(webhook_id, attempt_time, json.dumps(payload)),
         }
+
+    def validate_payload(self, payload) -> None:
+        try:
+            validate_schema(payload, "weblate-messaging.schema.json")
+        except (
+            jsonschema.exceptions.ValidationError,
+            jsonschema.exceptions.SchemaError,
+        ) as error:
+            raise MessageNotDeliveredError from error
 
 
 class StandardWebhooksUtils:
@@ -252,7 +251,7 @@ change_event_webhook = OpenApiWebhook(
 )
 
 
-class SlackWebhokAddon(JSONWebhookBaseAddon):
+class SlackWebhooksAddon(JSONWebhookBaseAddon):
     name = "weblate.webhook.slack"
     verbose = gettext_lazy("Slack Webhooks")
     description = gettext_lazy(
@@ -262,8 +261,36 @@ class SlackWebhokAddon(JSONWebhookBaseAddon):
     settings_form = BaseWebhooksAddonForm
     schema_file = "weblate-slack-messaging.schema.json"
 
-    def send_message(self, change, headers, payload):
-        return super().send_message(change, headers, payload)
-
     def build_webhook_payload(self, change: Change):
-        return {"text": change.get_action_display()}
+        # TODO: validate against a json schema
+        payload = {
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {"type": "plain_text", "text": change.get_action_display()},
+                },
+            ]
+        }
+        if change_details := change.get_details_display():
+            payload["blocks"].append(
+                {
+                    "type": "section",
+                    "text": {"type": "plain_text", "text": change_details},
+                }
+            )
+        payload["blocks"].append(
+            {
+                "type": "section",
+                "text": {"type": "plain_text", "text": key_name(change.path_object)},
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "View",
+                    },
+                    "url": get_site_url(change.get_absolute_url()),
+                    "action_id": "view-button",
+                },
+            }
+        )
+        return payload

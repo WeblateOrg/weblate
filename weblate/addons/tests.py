@@ -70,7 +70,7 @@ from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
 from .webhooks import (
     JSONWebhookBaseAddon,
-    SlackWebhokAddon,
+    SlackWebhooksAddon,
     StandardWebhooksUtils,
     WebhookAddon,
     WebhookVerificationError,
@@ -1828,17 +1828,8 @@ class BaseWebhookTests:
         """Test connection error when during message delivery."""
         self.do_translation_added_test(body=requests.ConnectionError())
 
-    @responses.activate
-    def test_jsonschema_error(self):
-        """Test payload schema validation error."""
-        with patch(
-            "weblate.addons.webhooks.validate_schema",
-            side_effect=jsonschema.exceptions.ValidationError("message"),
-        ):
-            self.do_translation_added_test(expected_calls=0)
 
-
-class WebhookAddonsTest(BaseWebhookTests, ViewTestCase):
+class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
     """Test for Webhook Addon."""
 
     WEBHOOK_CLS = WebhookAddon
@@ -1986,9 +1977,18 @@ class WebhookAddonsTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "Installed 1 add-on")
 
+    @responses.activate
+    def test_jsonschema_error(self):
+        """Test payload schema validation error."""
+        with patch(
+            "weblate.addons.webhooks.validate_schema",
+            side_effect=jsonschema.exceptions.ValidationError("message"),
+        ):
+            self.do_translation_added_test(expected_calls=0)
 
-class SlackAddonsTest(BaseWebhookTests, ViewTestCase):
-    WEBHOOK_CLS = SlackWebhokAddon
+
+class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
+    WEBHOOK_CLS = SlackWebhooksAddon
     WEBHOOK_URL = (
         "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
     )
@@ -1998,4 +1998,7 @@ class SlackAddonsTest(BaseWebhookTests, ViewTestCase):
         "events": [str(ActionEvents.NEW)],
     }
 
-    # test different errors
+    @responses.activate
+    def test_invalid_response(self):
+        """Test invalid response from client."""
+        self.do_translation_added_test(response_code=410, body=b"channel_is_archived")

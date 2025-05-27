@@ -261,7 +261,7 @@ class AddonsConf(AppConf):
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         "weblate.addons.webhooks.WebhookAddon",
-        "weblate.addons.webhooks.SlackWebhokAddon",
+        "weblate.addons.webhooks.SlackWebhooksAddon",
     )
 
     LOCALIZE_CDN_URL = None
