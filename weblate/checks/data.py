@@ -408,6 +408,7 @@ IGNORE_WORDS = {
     "joomla",
     "jpeg",
     "jpg",
+    "json",
     "kappa",
     "karaoke",
     "kbps",
