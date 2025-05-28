@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-27 20:55+0000\n"
+"PO-Revision-Date: 2025-05-28 10:28+0000\n"
 "Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -2774,11 +2774,11 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
-"部件发现附加组件使用 :ref:`internal-urls`。这是在多个部件之间共享版本控制系统"
-"设置的便捷方式。链接的部件使用主部件的本地仓库，其设置方法是将 ``weblate://"
-"project/main-component`` 填入各部件的 :ref:`component-repo` 字段（在 :"
-"guilabel:`管理` ↓ :guilabel:`设置` ↓ :guilabel:`版本控制系统`)。这也节省了配"
-"置和系统资源的时间。"
+"部件发现附加组件使用 :ref:`internal-"
+"urls`。这是在多个部件之间共享版本控制系统设置的便捷方式。链接的部件使用主部件"
+"的本地仓库，其设置方法是将 ``weblate://project/main-component`` 填入各部件的 "
+":ref:`component-repo` 字段（在 :guilabel:`管理` ↓ :guilabel:`设置` ↓ "
+":guilabel:`版本控制系统`）。这也节省了配置和系统资源的时间。"
 
 #: ../../admin/addons.rst:442
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -27193,7 +27193,7 @@ msgstr ":ref:`projectbackup` 现包含团队和分类。"
 
 #: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
-msgstr "非 web 服务容器现支持 Docker 健康检查."
+msgstr "非 web 服务容器现支持 Docker 健康检查。"
 
 #: ../../changes.rst:129
 msgid ""
@@ -27346,7 +27346,7 @@ msgstr "现在程序优雅地处理创建重复术语表的错误和术语表删
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
-msgstr "**安全性：** 克隆部件可能泄露部件配置到 URL (CVE-2025-32021)."
+msgstr "**安全性：**\\ 克隆部件可能泄露部件配置到 URL (CVE-2025-32021)."
 
 #: ../../changes.rst:177
 msgid "Fixed captcha verification when some time zone was configured."
@@ -29429,7 +29429,7 @@ msgstr "进度条和翻译单元状态使用中性色。"
 msgid ""
 ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
 "editing."
-msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（可选)。"
+msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（可选）。"
 
 #: ../../changes.rst:1164
 msgid ""
@@ -38899,9 +38899,8 @@ msgstr "现在库已经够构建好，可以使用了。要将库包含进去，
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
-msgstr ""
-"如果库被导入在 ``src/main.js``，那么无需其他步骤（因器已包含于 ``base."
-"html``)。"
+msgstr "如果库被导入在 ``src/main.js``，那么无需其他步骤（因器已包含于 "
+"``base.html``）。"
 
 #: ../../contributing/frontend.rst:81
 msgid ""
@@ -46642,7 +46641,7 @@ msgid ""
 "**Disaster:** Any unplanned event causing complete or significant loss of "
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
-msgstr "**灾难：** "
+msgstr "**灾难：**\\ "
 "任何导致服务、数据、或系统功能完全或重大丧失的计划外事件，比如硬件故障、数据"
 "损坏、基础设施中断，或恶意攻击。"
 
@@ -46650,13 +46649,13 @@ msgstr "**灾难：** "
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
-msgstr "**恢复点目标 (RPO)：** 最长可接受的数据丢失间隔：**24 小时**。"
+msgstr "**恢复点目标 (RPO)：**\\ 最长可接受的数据丢失间隔：**24 小时**。"
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
-msgstr "**恢复时间目标 (RTO)：** 最长可接受的恢复完整服务的时间：**8 小时**。"
+msgstr "**恢复时间目标 (RTO)：**\\ 最长可接受的恢复完整服务的时间：**8 小时**。"
 
 #: ../../security/disaster-recovery-plan.rst:21
 msgid "Critical components"
@@ -46666,19 +46665,20 @@ msgstr "关键部件"
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
-msgstr "**应用层：** Weblate Python/Django 程序、后台 workers (Celery)、及计划任务。"
+msgstr "**应用层：**\\ Weblate Python/Django 程序、后台 workers "
+"(Celery)、及计划任务。"
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
-msgstr "**数据层：** PostgreSQL 数据库、翻译仓库 (Git) 和日志。"
+msgstr "**数据层：**\\ PostgreSQL 数据库、翻译仓库 (Git) 和日志。"
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
-msgstr "**基础设施：** Web 服务器 (NGINX/Apache)、反向代理、存储卷、SSL/TLS 配置，"
+msgstr "**基础设施：**\\ Web 服务器 (NGINX/Apache)、反向代理、存储卷、SSL/TLS 配置，"
 "及可选的 SIEM 日志系统。"
 
 #: ../../security/disaster-recovery-plan.rst:28
@@ -46760,19 +46760,19 @@ msgstr "验证和测试"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
-msgstr "**备份验证：** Weblate 备份的每月恢复测试。"
+msgstr "**备份验证：**\\ Weblate 备份的每月恢复测试。"
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
-msgstr "**灾难恢复演练：** 至少每年执行，包含完整恢复到预备环境。"
+msgstr "**灾难恢复演练：**\\ 至少每年执行，包含完整恢复到预备环境。"
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
-msgstr "**自动的完整性检查：** BorgBackup 确保备份压缩文件的完整性。"
+msgstr "**自动的完整性检查：**\\ BorgBackup 确保备份压缩文件的完整性。"
 
 #: ../../security/disaster-recovery-plan.rst:71
 msgid "Post-recovery steps"
@@ -46824,22 +46824,22 @@ msgstr "角色和职责"
 msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
-msgstr "**事件响应负责人 (IRL)：** 协调响应过程的所有阶段。"
+msgstr "**事件响应负责人 (IRL)：**\\ 协调响应过程的所有阶段。"
 
 #: ../../security/incident-response-plan.rst:14
 msgid "**System Administrator:** Executes containment and recovery measures."
-msgstr "**系统管理员：** 执行抑制和恢复措施。"
+msgstr "**系统管理员：**\\ 执行抑制和恢复措施。"
 
 #: ../../security/incident-response-plan.rst:15
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
-msgstr "**安全官：** 评估安全影响和监管后果。"
+msgstr "**安全官：**\\ 评估安全影响和监管后果。"
 
 #: ../../security/incident-response-plan.rst:16
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
-msgstr "**沟通负责人：** 管理对内部利益相关者和外部方(如需要）的通知。"
+msgstr "**沟通负责人：**\\ 管理对内部利益相关者和外部方（如需要）的通知。"
 
 #: ../../security/incident-response-plan.rst:19
 msgid "Incident categories"
@@ -47551,33 +47551,33 @@ msgstr "合规建议"
 msgid ""
 "**Consent capture:** Provide a notice and/or explicit consent checkbox "
 "during registration, via :ref:`legal`."
-msgstr "**同意获取：** 通过 :ref:`legal` 在注册期间提供通知和/或明确的同意复选框。"
+msgstr "**同意获取：**\\ 通过 :ref:`legal` 在注册期间提供通知和/或明确的同意复选框。"
 
 #: ../../security/privacy-compliance.rst:102
 msgid ""
 "**Policy display:** Link to privacy and retention policies directly in "
 "Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`."
 msgstr ""
-"**展示政策：** 在 Weblate 用户界面中直接链接到隐私和保留政策，通过 "
+"**展示政策：**\\ 在 Weblate 用户界面中直接链接到隐私和保留政策，通过 "
 ":ref:`legal` 或 :setting:`PRIVACY_URL`。"
 
 #: ../../security/privacy-compliance.rst:103
 msgid ""
 "**Audit integration:** Use the built-in audit log and GELF forwarding to "
 "meet logging mandates."
-msgstr "**审计集成：** 使用内置审计日志和 GELF 转发来满足强制日志记录要求。"
+msgstr "**审计集成：**\\ 使用内置审计日志和 GELF 转发来满足强制日志记录要求。"
 
 #: ../../security/privacy-compliance.rst:104
 msgid ""
 "**Data subject requests:** Define a manual or automated procedure to fulfill "
 "access/erasure requests."
-msgstr "**数据对象请求：** 定义手动或自动的流程满足访问、擦除请求。"
+msgstr "**数据对象请求：**\\ 定义手动或自动的流程满足访问、擦除请求。"
 
 #: ../../security/privacy-compliance.rst:105
 msgid ""
 "**Localization:** Ensure infrastructure is physically located within the "
 "target jurisdiction as required."
-msgstr "**本地化：** 确保基础设置物理位置按照要求位于目标司法管辖区内。"
+msgstr "**本地化：**\\ 确保基础设置物理位置按照要求位于目标司法管辖区内。"
 
 #: ../../security/threat-model.rst:2
 msgid "Weblate threat model"
@@ -47725,7 +47725,7 @@ msgstr "**拒绝服务**"
 msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
-msgstr "**拒绝服务：** 攻击者用请求淹没服务器，使 Weblate 不可用。"
+msgstr "**拒绝服务：**\\ 攻击者用请求淹没服务器，使 Weblate 不可用。"
 
 #: ../../security/threat-model.rst:64
 msgid "Loss of availability for translation."
@@ -47741,7 +47741,7 @@ msgstr "**信息披露**"
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files (e."
 "g., config files, private keys)."
-msgstr "**配置暴露：** 错误配置的服务器暴露敏感文件（如 config 文件、私钥等）。"
+msgstr "**配置暴露：**\\ 错误配置的服务器暴露敏感文件（如 config 文件、私钥等）。"
 
 #: ../../security/threat-model.rst:68
 msgid "Exposure of credentials, internal architecture."
@@ -47757,7 +47757,7 @@ msgstr "**篡改**"
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
-msgstr "**恶意请求注入：** 攻击者将恶意数据注入 HTTP 标头或请求正文。"
+msgstr "**恶意请求注入：**\\ 攻击者将恶意数据注入 HTTP 标头或请求正文。"
 
 #: ../../security/threat-model.rst:72
 msgid ""
@@ -47777,7 +47777,7 @@ msgstr "**伪造**"
 msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
-msgstr "**用户冒充：** "
+msgstr "**用户冒充：**\\ "
 "攻击者获取对合法用户会话的访问（如通过会话劫持、被攻陷的凭据）。"
 
 #: ../../security/threat-model.rst:76
@@ -47793,8 +47793,8 @@ msgid ""
 "**Unauthorized translation modification:** Malicious user or exploited "
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
-msgstr "**未经授权的翻译修改：** 恶意用户或遭利用的漏洞允许更改译文、项目配置或 VCS "
-"集成设置。"
+msgstr "**未经授权的翻译修改：**\\ 恶意用户或遭利用的漏洞允许更改译文、项目配置或 "
+"VCS 集成设置。"
 
 #: ../../security/threat-model.rst:80
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
@@ -47806,8 +47806,8 @@ msgid ""
 "with the VCS (e.g., injecting malicious commands via crafted repository URLs "
 "if not sanitized, leading to RCE)."
 msgstr ""
-"**VCS 集成操控：** 攻击者操纵 Weblate 与 VCS 的交互（如，通过精心构造的仓库 "
-"URL 注入恶意 URL，如未清理将造成远程代码执行）。"
+"**VCS 集成操控：**\\ 攻击者操纵 Weblate 与 VCS 的交互（如，"
+"通过精心构造的仓库 URL 注入恶意 URL，如未清理将造成远程代码执行）。"
 
 #: ../../security/threat-model.rst:84
 msgid "Code injection in target projects, data exfiltration."
@@ -47821,7 +47821,7 @@ msgstr "**否认**"
 msgid ""
 "**Unattributed changes:** Malicious changes are made without proper "
 "attribution to the user or system responsible."
-msgstr "**未归因的更改：** 在没有正确归因到负责用户或系统情况下做出恶意改动。"
+msgstr "**未归因的更改：**\\ 在没有正确归因到负责用户或系统情况下做出恶意改动。"
 
 #: ../../security/threat-model.rst:88
 msgid "Difficulty in auditing and accountability."
@@ -47832,7 +47832,7 @@ msgid ""
 "**Sensitive data leakage:** SQL injection, insecure API endpoints, or errors "
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
-msgstr "**敏感数据泄露：** SQL 注入、不安全的 API "
+msgstr "**敏感数据泄露：**\\ SQL 注入、不安全的 API "
 "端点，或错误披露了敏感数据（如，其他用户的翻译、VCS 集成、服务器信息）。"
 
 #: ../../security/threat-model.rst:92
@@ -47843,7 +47843,7 @@ msgstr "隐私泄露、知识产权窃取。"
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
-msgstr "**VCS 凭据暴露：** Weblate 存储的 VCS 凭据 (SSH 密钥、令牌）被攻击者访问。"
+msgstr "**VCS 凭据暴露：**\\ Weblate 存储的 VCS 凭据（SSH 密钥、令牌）被攻击者访问。"
 
 #: ../../security/threat-model.rst:96
 msgid "Direct access to integrated code repositories."
@@ -47853,7 +47853,7 @@ msgstr "直接访问集成的代码仓库。"
 msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
-msgstr "**资源耗尽：** "
+msgstr "**资源耗尽：**\\ "
 "攻击者触发的过多的后台任务或低效的数据库查询导致系统放慢或崩溃。"
 
 #: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
@@ -47867,7 +47867,7 @@ msgstr "**权限提升**"
 #: ../../security/threat-model.rst:103
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
-msgstr "**角色提升：** 普通的翻译者获得管理权限。"
+msgstr "**角色提升：**\\ 普通的翻译者获得管理权限。"
 
 #: ../../security/threat-model.rst:104
 msgid "Complete system compromise."
@@ -47877,7 +47877,7 @@ msgstr "系统彻底被攻陷。"
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
-msgstr "**命令注入：** 由于仓库 URL 或附加组件中不当的输入验证造成任意代码执行。"
+msgstr "**命令注入：**\\ 由于仓库 URL 或附加组件中不当的输入验证造成任意代码执行。"
 
 #: ../../security/threat-model.rst:108
 msgid "System compromise, data exfiltration."
@@ -47891,7 +47891,7 @@ msgstr "**数据库/Redis**"
 msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
-msgstr "**数据损坏：** 数据库的直接访问允许修改翻译字符串、用户数据，或配置。"
+msgstr "**数据损坏：**\\ 数据库的直接访问允许修改翻译字符串、用户数据，或配置。"
 
 #: ../../security/threat-model.rst:112
 msgid "System malfunction, data integrity loss."
@@ -47901,7 +47901,7 @@ msgstr "系统故障、数据完整性丢失。"
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/Redis exposes all "
 "stored data (credentials, translation memory, user profiles)."
-msgstr "**敏感数据访问：** 对数据库/Redis "
+msgstr "**敏感数据访问：**\\ 对数据库/Redis "
 "未经授权的访问暴露所有存储的数据（凭据、翻译记忆库、用户个人资料）。"
 
 #: ../../security/threat-model.rst:116
@@ -47912,7 +47912,7 @@ msgstr "重大数据泄露。"
 msgid ""
 "**Database exhaustion:** Attacker floods the database with queries, or "
 "consumes all Redis memory/connections."
-msgstr "**数据库耗尽：** 攻击者用查询淹没数据库，或消耗所有的 Redis 内存/连接。"
+msgstr "**数据库耗尽：**\\ 攻击者用查询淹没数据库，或消耗所有的 Redis 内存/连接。"
 
 #: ../../security/threat-model.rst:121
 msgid "**VCS integration**"
@@ -47922,7 +47922,7 @@ msgstr "**VCS 集成**"
 msgid ""
 "**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
 "changes to the upstream repository."
-msgstr "**来自 Weblate 的恶意提交：** 被攻陷的 Weblate 向上游仓库推送恶意更改。"
+msgstr "**来自 Weblate 的恶意提交：**\\ 被攻陷的 Weblate 向上游仓库推送恶意更改。"
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
@@ -47933,9 +47933,9 @@ msgid ""
 "**Fake commit attribution:** Weblate commits changes attributed to a wrong "
 "user (e.g., an admin forcing a commit in a translator's name without their "
 "consent)."
-msgstr "**虚假的提交归因：** Weblate "
+msgstr "**虚假的提交归因：**\\ Weblate "
 "提交更改被归因到错误的用户（如管理员在翻译者不同意情况下强制将一个提交以翻译"
-"者名称提交)."
+"者名称提交）。"
 
 #: ../../security/threat-model.rst:128
 msgid "Accountability issues."
@@ -47949,7 +47949,7 @@ msgstr "**用户交互**"
 msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
-msgstr "**钓鱼/社会工程：** 攻击者欺骗用户揭示 Weblate 或关联的 VCS 账户的凭据。"
+msgstr "**钓鱼/社会工程：**\\ 攻击者欺骗用户揭示 Weblate 或关联的 VCS 账户的凭据。"
 
 #: ../../security/threat-model.rst:132
 msgid "Account compromise."
@@ -47963,7 +47963,8 @@ msgstr "(Web 用户界面)"
 msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
-msgstr "**跨站脚本 (XSS)：** 恶意脚本注入翻译或用户个人资料在其他用户的浏览器中执行。"
+msgstr "**跨站脚本 (XSS)：**\\ "
+"恶意脚本注入翻译或用户个人资料在其他用户的浏览器中执行。"
 
 #: ../../security/threat-model.rst:136
 msgid "Session hijacking, credential theft, defacement."
@@ -47973,7 +47974,7 @@ msgstr "会话劫持、凭据偷窃、污损。"
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
-msgstr "**点击劫持/UI 覆盖：** 攻击者将恶意 UI 元素遮盖在 Weblate "
+msgstr "**点击劫持/UI 覆盖：**\\ 攻击者将恶意 UI 元素遮盖在 Weblate "
 "上，欺骗用户进行无意的操作。"
 
 #: ../../security/threat-model.rst:140
@@ -47984,7 +47985,7 @@ msgstr "未经授权的操作、数据操纵。"
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
-msgstr "**UI 中的敏感数据：** 由于授权漏洞在UI "
+msgstr "**UI 中的敏感数据：**\\ 由于授权漏洞在UI "
 "中无意地暴露敏感数据（如其他用户的电子邮箱）。"
 
 #: ../../security/threat-model.rst:144
@@ -48016,8 +48017,8 @@ msgid ""
 "Role-based access control (RBAC) to enforce the least privilege (e.g., "
 "translators can only edit translations, not change project configs), see :"
 "doc:`/admin/access`."
-msgstr "基于角色的访问控制（RBAC)来强制最小权限（如翻译者只能编辑翻译，不能更改项目配"
-"置），见 :doc:`/admin/access`。"
+msgstr "基于角色的访问控制（RBAC）来强制最小权限（如翻译者只能编辑翻译，不能更改项目"
+"配置），见 :doc:`/admin/access`。"
 
 #: ../../security/threat-model.rst:154
 msgid ""
@@ -54218,9 +54219,10 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
-"最近的 OpenSSH 发行版（比如用于 Weblate Docker 容器中的 OpenSSH) 默认禁用了使"
-"用 SHA-1 哈希算法的 RSA 签名。做出此变化是因为 SHA-1 哈希算法存在密码学缺陷，"
-"存在以不到 50 K 美元的成本创建指定前缀哈希碰撞的可能性。"
+"最近的 OpenSSH 发行版（比如用于 Weblate Docker 容器中的 OpenSSH）"
+"默认禁用了使用 SHA-1 哈希算法的 RSA 签名。做出此变化是因为 SHA-1 "
+"哈希算法存在密码学缺陷，存在以不到 50 K "
+"美元的成本创建指定前缀哈希碰撞的可能性。"
 
 #: ../../vcs.rst:135
 msgid ""
