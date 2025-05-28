@@ -85,6 +85,8 @@
 }
 
 .navbar-form {
+  padding-left: 15px;
+  padding-right: 15px;
   border: none;
   box-shadow: none;
 }
@@ -1215,6 +1217,7 @@ th.number {
 
 .breadcrumb a {
   color: #2a3744 !important;
+  text-decoration: none;
 }
 
 .state-icon {
@@ -2233,6 +2236,8 @@ tbody.warning {
 .dropdown-menu {
   border: none;
   border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .daterangepicker {
@@ -2342,6 +2347,29 @@ tbody.warning {
   border-top: var(--border);
 }
 
+.card {
+  border-radius: var(--border-radius);
+  border: var(--border);
+}
+
+.card > .card-header {
+  border: var(--border);
+}
+.card-header {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.card:last-child,
+.card-footer {
+  border-bottom-right-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.card-footer {
+  border-top: var(--border);
+}
+
 /* Zammad form integration */
 .zammad-form-modal-body {
   max-width: 40em !important;
@@ -2399,4 +2427,24 @@ table.table-simple tbody#glossary-terms td {
 #embed-code-label {
   font-size: 1.25em;
   font-weight: bold;
+}
+
+.navbar-nav .nav-link.show {
+  color: #ffffff;
+  background-color: #1fa385;
+}
+
+.nav-link.dropdown-toggle::after {
+  vertical-align: 0.155em;
+}
+
+.nav-link.dropdown-toggle.support::after {
+  display: none;
+}
+
+.navbar-form .form-control {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: var(--border-radius-sm);
+  color: #555555;
 }
