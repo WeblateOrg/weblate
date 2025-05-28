@@ -672,12 +672,29 @@ def render_documentation_icon(doc_url: str, *, right: bool = False):
         icon("info.svg"),
     )
 
+def render_documentation_icon5(doc_url: str, *, right: bool = False):
+    if not doc_url:
+        return ""
+    return format_html(
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
+        "float-end" if right else "",
+        doc_url,
+        gettext("Documentation"),
+        icon("info.svg"),
+    )
+
 
 @register.simple_tag(takes_context=True)
 def documentation_icon(
     context: Context, page: str, anchor: str = "", right: bool = False
 ):
     return render_documentation_icon(documentation(context, page, anchor), right=right)
+
+@register.simple_tag(takes_context=True)
+def documentation_icon5(
+    context: Context, page: str, anchor: str = "", right: bool = False
+):
+    return render_documentation_icon5(documentation(context, page, anchor), right=right)
 
 
 @register.simple_tag(takes_context=True)
