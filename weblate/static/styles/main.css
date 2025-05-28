@@ -85,6 +85,8 @@
 }
 
 .navbar-form {
+  padding-left: 15px;
+  padding-right: 15px;
   border: none;
   box-shadow: none;
 }
@@ -2233,6 +2235,8 @@ tbody.warning {
 .dropdown-menu {
   border: none;
   border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .daterangepicker {
@@ -2399,4 +2403,24 @@ table.table-simple tbody#glossary-terms td {
 #embed-code-label {
   font-size: 1.25em;
   font-weight: bold;
+}
+
+.navbar-nav .nav-link.show {
+  color: #ffffff;
+  background-color: #1fa385;
+}
+
+.nav-link.dropdown-toggle::after {
+  vertical-align: 0.155em;
+}
+
+.nav-link.dropdown-toggle.support::after {
+  display: none;
+}
+
+.navbar-form .form-control {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: var(--border-radius-sm);
+  color: #555555;
 }

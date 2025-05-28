@@ -480,6 +480,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "recovery_keys_count": StaticToken.objects.filter(
                 device__user=user
             ).count(),
+            "bootstrap_5": True,
         },
     )
 
