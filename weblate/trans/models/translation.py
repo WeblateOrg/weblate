@@ -891,7 +891,6 @@ class Translation(
 
         # Prepare headers to update
         headers = {
-            "add": True,
             "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
