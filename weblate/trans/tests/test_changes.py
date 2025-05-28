@@ -60,8 +60,13 @@ class ChangesTest(ViewTestCase):
     def test_user(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         response = self.client.get(reverse("changes"), {"user": self.user.username})
-        self.assertContains(response, "Translation added")
-        self.assertNotContains(response, "Invalid search string!")
+        self.assertContains(response, f'title="{self.user.full_name}"')
+        # Filtering by another user should not show the change made by
+        # the current test user.
+        response = self.client.get(
+            reverse("changes"), {"user": self.anotheruser.username}
+        )
+        self.assertNotContains(response, f'title="{self.user.full_name}"')
 
     def test_daterange(self) -> None:
         end = timezone.now()
