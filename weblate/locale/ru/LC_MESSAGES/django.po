@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-25 01:33+0000\n"
+"PO-Revision-Date: 2025-05-28 10:28+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -2196,16 +2196,16 @@ msgstr ""
 "комментария."
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Оставлен комментарий"
+msgstr "Электронная почта комментатора"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Если вы администратор, то можете соотнести этот комментарий с другим "
+"пользователем по его адресу электронной почты."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3333,13 +3333,15 @@ msgstr "Источник и перевод не начинаются оба од
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Нестандартные символы в кабильском языке"
 
 #: weblate/checks/chars.py:109
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Используйте стандартизированные латинские символы кабильского языка ("
+"например, ɣ вместо греческой γ; ɛ вместо ε)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -7680,24 +7682,20 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:5
 msgid "HTTP Response"
-msgstr ""
+msgstr "HTTP-ответ"
 
 #: weblate/templates/addons/webhook_log.html:8
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "Плохой запрос"
+msgstr "HTTP-запрос"
 
 #: weblate/templates/addons/webhook_log.html:14
 #: weblate/templates/addons/webhook_log.html:21
 msgid "HTTP headers"
-msgstr ""
+msgstr "HTTP-заголовки"
 
 #: weblate/templates/addons/webhook_log.html:17
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "Разрешить комментарий"
+msgstr "Содержание ответа"
 
 #: weblate/templates/addons/webhook_log.html:23
 msgid "Request payload"
@@ -7951,32 +7949,24 @@ msgid "Get help"
 msgstr "Поддержка"
 
 #: weblate/templates/base.html:391
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Weblate community"
-msgstr "Удаление комментариев"
+msgstr "Сообщество Weblate"
 
 #: weblate/templates/base.html:395
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact site administrators"
-msgstr "Связаться с администраторами сервера"
+msgstr "Связаться с администраторами сайта"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
 msgstr "Внести вклад в Weblate"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate website"
-msgstr "Ключи Weblate"
+msgstr "Сайт Weblate"
 
 #: weblate/templates/base.html:412
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "Администрирование Weblate"
+msgstr "Документация Weblate"
 
 #: weblate/templates/base.html:415 weblate/templates/keyboard-shortcuts.html:18
 msgid "Keyboard shortcuts"
@@ -9915,7 +9905,7 @@ msgstr ""
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "%(invitation_author)s пригласил вас присоединиться"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10239,22 +10229,20 @@ msgid "Failed with an error"
 msgstr "Не удалось с ошибкой"
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Unpaid service subscription"
-msgstr "Управление Вашими переводами"
+msgstr "Неоплаченная подписка на услугу"
 
 #: weblate/templates/manage/backups.html:55
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"Служба резервного копирования временно отключена из-за неоплаченной "
+"подписки. Включите резервное копирование, продлив подписку."
 
 #: weblate/templates/manage/backups.html:59
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Manage your subscription"
-msgstr "Управление Вашими переводами"
+msgstr "Управление вашей подпиской"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Backup service credentials"
@@ -11017,10 +11005,12 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate — это свободное программное обеспечение с профессиональной "
+"поддержкой и услугами для коммерческих пользователей."
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "Изучите варианты поддержки на сайте weblate.org."
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -11251,10 +11241,8 @@ msgid "Project maintainers"
 msgstr "Кураторы проекта"
 
 #: weblate/templates/snippets/info.html:56
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project reviewers"
-msgstr "Проект удалён"
+msgstr "Рецензенты проекта"
 
 #: weblate/templates/snippets/info.html:68
 msgid "Automatic component list assignment"
@@ -11888,10 +11876,8 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Перевести %(object)s, используя %%23Weblate на %(share_url)s!"
 
 #: weblate/templates/snippets/share-menu.html:11
-#, fuzzy
-#| msgid "Share on X"
 msgid "Share on Bluesky"
-msgstr "Поделиться на X"
+msgstr "Поделиться на Bluesky"
 
 #: weblate/templates/snippets/share-menu.html:16
 msgid "Share on Fediverse"
@@ -13518,16 +13504,12 @@ msgstr ""
 "новых участников."
 
 #: weblate/templates/widgets.html:39
-#, fuzzy
-#| msgid "Widgets"
 msgid "Widget"
-msgstr "Виджеты"
+msgstr "Виджет"
 
 #: weblate/templates/widgets.html:57
-#, fuzzy
-#| msgid "BBCode"
 msgid "Code"
-msgstr "BB-код"
+msgstr "Код"
 
 #: weblate/templates/widgets.html:59 weblate/trans/forms.py:1336
 msgid "HTML"
@@ -13554,10 +13536,8 @@ msgid "Image URL"
 msgstr "URL изображения"
 
 #: weblate/templates/widgets.html:76
-#, fuzzy
-#| msgid "Overview"
 msgid "Live Preview"
-msgstr "Общие сведения"
+msgstr "Предварительный просмотр в реальном времени"
 
 #: weblate/templates/widgets.html:90
 msgid "Embed code copied to clipboard."
