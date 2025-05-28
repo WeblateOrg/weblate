@@ -1,0 +1,525 @@
+{% load compress i18n icons permissions static translations %}
+
+<!DOCTYPE html>
+
+<html lang="{{ LANGUAGE_CODE }}"
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="referrer" content="origin" />
+    <meta name="author" content="Michal Čihař" />
+    <meta name="copyright" content="Copyright © Michal Čihař" />
+    {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
+    {% if interledger_payment_pointer %}
+      <meta name="monetization" content="{{ interledger_payment_pointer }}" />
+    {% endif %}
+
+    <title>{% include "snippets/title.html" %}</title>
+    <meta name="description" content="{{ description }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {% if next_unit_url %}<link rel="next" href="{{ next_unit_url }}" />{% endif %}
+    {% if prev_unit_url %}<link rel="prev" href="{{ prev_unit_url }}" />{% endif %}
+
+    {% if object.get_url_path %}
+      <link rel="alternate"
+            type="application/rss+xml"
+            title="RSS feed"
+            href="{% url 'rss' path=object.get_url_path %}" />
+      <meta property="og:image"
+            content="{{ site_url }}{% url 'widget-image' path=object.get_url_path widget='open' color='graph' extension='png' %}" />
+    {% else %}
+      <link rel="alternate"
+            type="application/rss+xml"
+            title="RSS feed"
+            href="{% url 'rss' %}" />
+      <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
+    {% endif %}
+
+    {% for domain in preconnect_list %}<link rel="preconnect" href="https://{{ domain }}">{% endfor %}
+
+    {% include "snippets/meta-css.html" %}
+
+    <script src="{% url 'js-catalog' %}" defer></script>
+    {% compress js %}
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/autosize.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/altcha.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/multi.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/mousetrap.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'vendor/bootstrap/v5/js/bootstrap.bundle.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/tribute.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/autoComplete.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/vendor/prismjs.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'prism-weblatesearch.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
+              src="{% static 'editor/tools/search.js' %}{{ cache_param }}"></script>
+    {% endcompress %}
+
+    {% block extra_script %}{% endblock %}
+
+    <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logo-32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'logo-16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'weblate-180.png' %}" />
+    <link rel="mask-icon" href="{% static 'weblate-black.svg' %}" color="#144d3f">
+    <meta name="msapplication-TileColor" content="#144d3f">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <link rel="manifest" href="/site.webmanifest">
+    {{ extra_html_head|safe }}
+    {% if matomo_url %}<link rel="preconnect" href="{{ matomo_url }}">{% endif %}
+    <meta name="theme-color" content="#144d3f">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:site_name" content="{{ site_title }}" />
+    <meta property="og:title"
+          content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
+    <meta property="og:description" content="{{ description }}" />
+
+    {% block extra_meta %}{% endblock %}
+
+    {% block extra_styles %}{% endblock %}
+
+  </head>
+
+  <body {% if theme %}data-theme="{{ theme }}"{% endif %}
+        {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+    <div id="popup-alerts"></div>
+    <header>
+      <nav class="navbar navbar-expand-lg bg-dark" role="navigation">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-brand">{% include "snippets/branding.html" %}</div>
+          <button type="button"
+                  class="navbar-toggler"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#wl-navbar-main"
+                  id="navbar-toggle">
+            <span class="visually-hidden">{% translate "Toggle navigation" %}</span>
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="wl-navbar-main">
+            <form class="navbar-form navbar-left">
+              <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       id="sitewide-search"
+                       placeholder="{% translate "Search" %}">
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">{% translate "Dashboard" %}</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   id="projects-menu">{% translate "Projects" %}</a>
+                <ul class="dropdown-menu shadow">
+                  {% if watched_projects %}
+                    {% for project in watched_projects %}
+                      <li>
+                        <a class="dropdown-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
+                      </li>
+                    {% endfor %}
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'profile' %}#notifications">{% translate "Manage watched projects" %}</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                  {% endif %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'projects' %}">{% translate "Browse all projects" %}</a>
+                  </li>
+                </ul>
+              </li>
+              {% with languages=user.profile.all_languages.order_translated %}
+                <li class="nav-item dropdown">
+                  <a href="#"
+                     class="nav-link dropdown-toggle"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     id="languages-menu">{% translate "Languages" %}</a>
+                  <ul class="dropdown-menu shadow">
+                    {% if languages %}
+                      {% for language in languages %}
+                        <li>
+                          <a class="dropdown-item" href="{{ language.get_absolute_url }}">{{ language }}</a>
+                        </li>
+                      {% endfor %}
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                      <li>
+                        <a class="dropdown-item" href="{% url 'profile' %}#languages">{% translate "Manage translated languages" %}</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                    {% endif %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'languages' %}">{% translate "Browse all languages" %}</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a href="#"
+                     class="nav-link dropdown-toggle"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     id="checks-menu">{% translate "Checks" %}</a>
+                  <ul class="dropdown-menu shadow">
+                    {% if watched_projects %}
+                      {% if languages %}
+                        {% for project in watched_projects %}
+                          {% for language in languages %}
+                            {% get_projectlanguage project language as projectlanguage %}
+                            <li>
+                              <a class="dropdown-item"
+                                 href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktranslate %}Failing checks in {{ project }} — {{ language }}{% endblocktranslate %}</a>
+                            </li>
+                          {% endfor %}
+                          {% if languages|length > 1 %}<li role="separator" class="divider"></li>{% endif %}
+                        {% endfor %}
+                        {% if languages|length == 1 %}<li role="separator" class="divider"></li>{% endif %}
+                      {% endif %}
+                      {% for project in watched_projects %}
+                        <li>
+                          <a class="dropdown-item" href="{% url 'checks' path=project.get_url_path %}">{% blocktranslate %}Failing checks in {{ project }}{% endblocktranslate %}</a>
+                        </li>
+                      {% endfor %}
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                    {% endif %}
+                    {% if languages %}
+                      {% for language in languages %}
+                        <li>
+                          <a class="dropdown-item" href="{% url 'checks' path=language.get_url_path %}">{% blocktranslate %}Failing checks in {{ language }}{% endblocktranslate %}</a>
+                        </li>
+                      {% endfor %}
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                    {% endif %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'checks' %}">{% translate "Checks overview" %}</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endwith %}
+            </ul>
+            <ul class="navbar-nav ms-auto navbar-right flip">
+
+              {# Superuser link to admin #}
+              {% if user %}
+                {% perm "management.use" user as user_can_manage %}
+                {% if user_can_manage %}
+                  <li class="nav-item">
+                    <a class="nav-link button"
+                       id="admin-button"
+                       href="{% url 'manage' %}"
+                       title="{% translate "Administration" %}">
+                      <span class="d-none d-sm-inline">{% icon "wrench.svg" %}</span>
+                      <span class="d-inline d-sm-none">{% translate "Administration" %}</span>
+                    </a>
+                  </li>
+                  {% if configuration_errors.exists %}
+                    <li class="nav-item">
+                      <a class="nav-link button danger"
+                         id="errors-button"
+                         href="{% url 'manage-performance' %}"
+                         title="{% translate "Configuration errors" %}">
+                        <span class="d-none d-sm-inline">{% icon "alert.svg" %}</span>
+                        <span class="d-inline d-sm-none">{% translate "Configuration errors" %}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+
+              {# Login and register for not authenticated #}
+              {% if not user.is_authenticated %}
+                {% if registration_open %}
+                  <li class="nav-item">
+                    <a class="nav-link button" id="register-button" href="{% url 'register' %}">{% translate "Register" %}</a>
+                  </li>
+                {% endif %}
+                <li class="nav-item">
+                  <a class="nav-link button"
+                     id="login-button"
+                     href="{% url 'login' %}{% if not skip_next and login_redirect_url %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% translate "Sign in" %}</a>
+                </li>
+              {% endif %}
+
+              {# Adding new translations #}
+              {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <span class="d-none d-sm-inline">{% icon "plus.svg" %}</span>
+                    <span class="d-inline d-sm-none">{% translate "Add" %}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li>
+                      <a class="dropdown-item" href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item"
+                         href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% translate "Add new translation component" %}</a>
+                    </li>
+                    {% if component %}
+                      {% perm 'translation.add' component as user_can_add_translation %}
+                      {% if user_can_add_translation %}
+                        <li>
+                          <a class="dropdown-item"
+                             href="{% url "new-language" path=component.get_url_path %}">{% translate "Start new translation" %}</a>
+                        </li>
+                      {% endif %}
+                    {% endif %}
+                    {% if offer_hosting %}
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      {% if payment_enabled %}
+                        <li>
+                          <a class="dropdown-item" href="{% url 'trial' %}">{% translate "Try Weblate for free" %}</a>
+                        </li>
+                      {% endif %}
+                      <li>
+                        <a class="dropdown-item" href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </li>
+              {% endif %}
+
+              {# Profile and logout for authenticated #}
+              {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a href="#"
+                     id="user-dropdown"
+                     class="nav-link dropdown-toggle"
+                     data-bs-toggle="dropdown"
+                     title="{% translate "Your profile" %}">
+                    {% if enable_avatars %}
+                      <span class="d-none d-sm-inline">
+                        <img class="avatar"
+                             alt="{% translate "User avatar" %}"
+                             src="{% url 'user_avatar' user=user.username size=24 %}" />
+                      </span>
+                      <span class="d-inline d-sm-none">{% translate "Your profile" %}</span>
+                    {% else %}
+                      {{ user.profile.get_user_name }}
+                    {% endif %}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li id="profile-name">
+                      <a class="dropdown-item button"
+                         id="profile-button"
+                         href="{% url 'user_page' user=user.username %}"><b>{{ user }}</b>
+                        <br />
+                      @{{ user.username }}</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    {% if has_billing %}
+                      <li>
+                        <a class="dropdown-item button" id="billing-button" href="{% url 'billing' %}">{% translate "Billing overview" %}</a>
+                      </li>
+                    {% endif %}
+                    <li>
+                      <a class="dropdown-item" id="memory-button" href="{% url 'memory' %}">{% translate "Translation memory" %}</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item button" id="settings-button" href="{% url 'profile' %}">{% translate "Settings" %}</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a id="logout-button"
+                         href=""
+                         class="dropdown-item button link-post"
+                         data-href="{% url 'logout' %}">{% translate "Sign out" %}</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
+
+              {# Support menu #}
+              <li class="nav-item dropdown">
+                <a href="#"
+                   class="nav-link dropdown-toggle support"
+                   data-bs-toggle="dropdown"
+                   title="{% translate "Help" %}">
+                  <span class="d-none d-sm-inline">{% icon "dots.svg" %}</span>
+                  <span class="d-inline d-sm-none">{% translate "Help" %}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                  {% if support_status.has_support %}
+                    <li>
+                      <a class="dropdown-item" href="https://care.weblate.org/">{% translate "Weblate support" %}</a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a class="dropdown-item" href="https://weblate.org/support/">{% translate "Get support" %}</a>
+                    </li>
+                    {% if get_help_url %}
+                      <li>
+                        <a class="dropdown-item" href="{{ get_help_url }}">{% translate "Get help" %}</a>
+                      </li>
+                    {% endif %}
+                  {% endif %}
+                  <li>
+                    <a class="dropdown-item" href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Weblate community" %}</a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="{% url 'contact' %}">{% translate "Contact site administrators" %}</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="https://weblate.org/contribute/">{% translate "Contribute to Weblate" %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="https://weblate.org/">{% translate "Weblate website" %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% documentation 'index' %}">{% translate "Weblate documentation" %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      {% block breadcrumbs_container %}
+        <h1>
+          <ol class="breadcrumb">
+            <li class="bread-icon">{% icon bread_image|default:"error.svg" %}</li>
+            {% block breadcrumbs %}
+              <li>
+                <a href="{% url 'home' %}">{% translate "Dashboard" %}</a>
+              </li>
+            {% endblock breadcrumbs %}
+
+          </ol>
+          <div class="clearfix"></div>
+        </h1>
+      {% endblock breadcrumbs_container %}
+
+    </header>
+
+    <div class="main-content {% block content_class %}{% endblock %}
+       ">
+
+      {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
+        {% translate 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
+        {% show_message 'warning' msg %}
+      {% endif %}
+
+      {% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
+        {% include "snippets/enforced_2fa.html" with project="" %}
+      {% endif %}
+
+      {% if messages %}
+        {% for message in messages %}
+          {% show_message message.tags message %}
+        {% endfor %}
+      {% endif %}
+
+      {% if menu_items %}
+        {% include 'snippets/menu.html' %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+
+    </div>
+    <form id="link-post" method="post">
+      {% csrf_token %}
+    </form>
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade fullmodal"
+         id="imagemodal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="screenshotModal"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">×</span><span class="sr-only">{% translate "Close" %}</span>
+            </button>
+            <h4 class="modal-title" id="screenshotModal"></h4>
+          </div>
+          <div class="modal-body">
+            <img src="" id="imagepreview" class="img-responsive">
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-warning"
+               id="modalDetailsLink"
+               data-edit-text="{% translate 'Edit screenshot' %}">{% translate "Screenshot details" %}</a>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">{% translate "Close" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'keyboard-shortcuts.html' %}
+    {% include 'footer.html' %}
+  </body>
+</html>
