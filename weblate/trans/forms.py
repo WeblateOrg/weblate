@@ -2853,6 +2853,9 @@ class ChangesForm(forms.Form):
     user = UserField(
         label=gettext_lazy("Author username"), required=False, help_text=None
     )
+    exclude_user = UserField(
+        label=gettext_lazy("Exclude author (username)"), required=False, help_text=None
+    )
     period = DateRangeField(
         label=gettext_lazy("Change period"),
         required=False,
