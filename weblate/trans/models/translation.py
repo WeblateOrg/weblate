@@ -25,13 +25,12 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags
-from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import TranslationFormat, TranslationUnit, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.checklists import TranslationChecklist
+from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -65,6 +64,8 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+    from .project import Project
 
 UploadResult = tuple[int, int, int, int]
 
@@ -173,7 +174,14 @@ class TranslationQuerySet(models.QuerySet):
         )
 
 
-class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin):
+class Translation(
+    models.Model,
+    URLMixin,
+    LoggerMixin,
+    CacheKeyMixin,
+    LockMixin,
+    TranslationChecklistMixin,
+):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -224,6 +232,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     def log_hook(self, level, msg, *args) -> None:
         self.component.store_log(self.full_slug, msg, *args)
+
+    @property
+    def project(self) -> Project:
+        return self.component.project
 
     @cached_property
     def is_template(self):
@@ -879,7 +891,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         # Prepare headers to update
         headers = {
-            "add": True,
             "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
@@ -936,78 +947,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         if self.workflow_settings is not None:
             return self.workflow_settings.suggestion_autoaccept
         return self.component.suggestion_autoaccept
-
-    @cached_property
-    def list_translation_checks(self):
-        """Return list of failing checks on current translation."""
-        result = TranslationChecklist()
-
-        # All strings
-        result.add(self.stats, "all", "")
-
-        result.add_if(
-            self.stats, "readonly", "primary" if self.enable_review else "success"
-        )
-
-        if not self.is_readonly:
-            if self.enable_review:
-                result.add_if(self.stats, "approved", "primary")
-
-            # Count of translated strings
-            result.add_if(self.stats, "translated", "success")
-
-            # To approve
-            if self.enable_review:
-                result.add_if(self.stats, "unapproved", "success")
-
-                # Approved with suggestions
-                result.add_if(self.stats, "approved_suggestions", "primary")
-
-            # Unfinished strings
-            result.add_if(self.stats, "todo", "")
-
-            # Untranslated strings
-            result.add_if(self.stats, "nottranslated", "")
-
-            # Fuzzy strings
-            result.add_if(self.stats, "fuzzy", "")
-
-            # Translations with suggestions
-            if result.add_if(self.stats, "suggestions", ""):
-                result.add_if(self.stats, "nosuggestions", "")
-
-        # All checks
-        result.add_if(self.stats, "allchecks", "")
-
-        # Translated strings with checks
-        if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "")
-
-        # Dismissed checks
-        result.add_if(self.stats, "dismissed_checks", "")
-
-        # Process specific checks
-        for check in CHECKS:
-            check_obj = CHECKS[check]
-            result.add_if(self.stats, check_obj.url_id, "")
-
-        # Grab comments
-        result.add_if(self.stats, "comments", "")
-
-        # Include labels
-        labels = self.component.project.label_set.order_by("name")
-        if labels:
-            has_label = False
-            for label in labels:
-                has_label |= result.add_if(
-                    self.stats,
-                    f"label:{label.name}",
-                    f"label label-{label.color}",
-                )
-            if has_label:
-                result.add_if(self.stats, "unlabeled", "")
-
-        return result
 
     def log_upload_not_found(
         self, not_found_log: list[str], unit: TranslationUnit

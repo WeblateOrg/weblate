@@ -1132,6 +1132,7 @@ class BasePoFormat(TTKitFormat):
         plural = language.plural
 
         self.store.updateheader(
+            add=True,
             last_translator="Automatically generated",
             plural_forms=plural.plural_form,
             language_team="none",
@@ -1150,7 +1151,7 @@ class BasePoFormat(TTKitFormat):
         ):
             kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
-        self.store.updateheader(**kwargs)
+        self.store.updateheader(add=True, **kwargs)
 
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()

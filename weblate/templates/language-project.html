@@ -17,10 +17,13 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Components" %}</a>
+      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    </li>
+    <li>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
       <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
@@ -81,26 +84,28 @@
         <li>
           <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
-        {% if delete_form %}
-          <li role="separator" class="divider"></li>
-          <li>
-            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-          </li>
-        {% endif %}
       </ul>
     </li>
-    {% if user_can_edit_project %}
+    {% if user_can_edit_project or announcement_form or delete_form %}
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           {% translate "Manage" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
-          </li>
+          {% if user_can_edit_project %}
+            <li>
+              <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+            </li>
+          {% endif %}
           {% if announcement_form %}
             <li>
               <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+            </li>
+          {% endif %}
+          {% if delete_form %}
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
             </li>
           {% endif %}
         </ul>
@@ -112,7 +117,8 @@
 
   <div class="tab-content">
 
-    <div class="tab-pane active" id="overview">
+    <div class="tab-pane active" id="translation">{% include "snippets/translation.html" %}</div>
+    <div class="tab-pane" id="components">
       {% include "snippets/list-objects.html" with objects=translation_objects list_categories=categories name_source="component_name" label=_("Component") %}
 
       {% include "paginator.html" with page_obj=translations %}

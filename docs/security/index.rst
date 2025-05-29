@@ -36,3 +36,18 @@ Compliance
 ----------
 
 * :doc:`privacy-compliance`
+
+Terms of service and privacy policy
+-----------------------------------
+
+.. note::
+
+    These documents apply to Weblate deployments operated by Weblate s.r.o., such as Hosted Weblate.
+
+* `General terms and conditions`_
+* `Privacy policy`_
+* The data processing agreement can be obtained in the `Customer area`_.
+
+.. _General terms and conditions: https://weblate.org/terms/
+.. _Privacy policy: https://weblate.org/privacy/
+.. _Customer area: https://weblate.org/user/

@@ -6,7 +6,7 @@
 # Ldm Public <ldmpub@gmail.com>, 2023, 2024, 2025.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Brewen Couaran <45310490+brewcoua@users.noreply.github.com>, 2023.
-# ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2024.
+# ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2024, 2025.
 # aleksej0R <omolice@hotmail.fr>, 2024.
 # Lionel HANNEQUIN <Lionel-HANNEQUIN@users.noreply.hosted.weblate.org>, 2024.
 # Rodolphe Veniel <weblate.irhsp@shield.veniel.fr>, 2024.
@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-23 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-05-29 12:02+0000\n"
+"Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -9003,6 +9003,8 @@ msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Le contrôle est basé sur le journal d'audit, :setting:`AUDITLOG_EXPIRY` doit "
+"au moins être égal à ceci."
 
 #: ../../admin/config.rst:170
 msgid ""
@@ -9027,10 +9029,12 @@ msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
 msgstr ""
+"Fournit le chemin complètement qualifié de la classe Python qui implémente "
+"l'interface autofixer."
 
 #: ../../admin/config.rst:186
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr ""
+msgstr "Les corrections disponibles sont décrites dans :ref:`autofix`."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
@@ -9049,10 +9053,12 @@ msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Définit la fréquence de déclenchement des tâches longues de maintenance pour "
+"un composant."
 
 #: ../../admin/config.rst:211
 msgid "Right now this controls:"
-msgstr ""
+msgstr "Actuellement ceci contrôle :"
 
 #: ../../admin/config.rst:213
 #, fuzzy
@@ -9062,7 +9068,7 @@ msgstr "Greffon :ref:`addon-weblate.autotranslate.autotranslate`"
 
 #: ../../admin/config.rst:214
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr "calcul de :doc:`checks` à nouveau"
 
 #: ../../admin/config.rst:216
 msgid "Possible choices:"
@@ -9070,7 +9076,7 @@ msgstr "Choix possibles :"
 
 #: ../../admin/config.rst:218
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (valeur par défaut)"
 
 #: ../../admin/config.rst:219
 msgid "``weekly``"
@@ -9113,6 +9119,8 @@ msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
 msgstr ""
+"Ceci ne définit pas de nouvelles langues pour Weblate — il ne filtre que "
+"celles qui existent dans la base de données."
 
 #: ../../admin/config.rst:255 ../../faq.rst:376
 msgid ":ref:`languages`"
@@ -13205,6 +13213,10 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and web server):"
 msgstr ""
+"Weblate devrait fonctionner sur n'importe quel matériel moderne sans "
+"problème, ce qui suit est la configuration minimale requise pour faire "
+"fonctionner Weblate sur un seul hôte (Weblate, base de données et serveur "
+"Web) :"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "3 GB of RAM"
@@ -13223,6 +13235,8 @@ msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Les exigences réelles pour votre installation de Weblate varient fortement "
+"en fonction de la taille des traductions qui y seront gérées."
 
 #: ../../admin/install/steps/hw.rst:18
 msgid "Memory usage"
@@ -17670,6 +17684,9 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Nous utilisons virtualenv pour installer Weblate dans un environnement "
+"séparé de votre système. Si vous n'êtes pas familier avec ce système, "
+"consultez virtualenv :doc:`venv:user_guide`."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
@@ -17707,16 +17724,12 @@ msgstr ""
 "(voir :ref:`requirements`) :"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
-#, fuzzy
-#| msgid ""
-#| "Install the dependencies needed to build the Python modules (see :ref:"
-#| "`requirements`):"
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
-"Installez les dépendances nécessaires à la construction des modules Python "
-"(voir :ref:`requirements`) :"
+"Installez les dépendances facultatives souhaitées en fonction des "
+"fonctionnalités que vous souhaitez utiliser (voir :ref:`python-deps`) :"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -17734,10 +17747,8 @@ msgid "uv package manager"
 msgstr ""
 
 #: ../../admin/install/steps/install-uv.rst:6
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "We're using uv package manager to install Weblate."
-msgstr "Les droits ne sont pas gérés par Weblate."
+msgstr "Nous utilisons le gestionnaire de paquets uv pour installer Weblate."
 
 #: ../../admin/install/steps/install-uv.rst:15
 msgid ""
@@ -19599,6 +19610,10 @@ msgid ""
 "`./setup.py` script, the :command:`weblate` is installed to your path (or "
 "virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"Si vous avez installé Weblate à l'aide du programme d'installation pip ou du "
+"script :file:`./setup.py`, le :command:`weblate` est installé sur votre "
+"chemin (ou chemin virtualenv), à partir duquel vous pouvez l'utiliser pour "
+"contrôler Weblate :"
 
 #: ../../admin/management.rst:50
 msgid ""
@@ -21020,6 +21035,8 @@ msgstr ":file:`legal/documents/summary.html`"
 #: ../../admin/optionals.rst:136
 msgid "Short overview of the terms of service and privacy policy"
 msgstr ""
+"Bref aperçu des conditions d'utilisation et de la politique de "
+"confidentialité"
 
 #: ../../admin/optionals.rst:138
 msgid ""
@@ -21737,6 +21754,9 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Appliquer :ref:`2fa` à tous les contributeurs. Les Utilisateurs ne seront "
+"pas autorisés à effectuer des opérations au sein du projet sans l'avoir "
+"configuré."
 
 #: ../../admin/projects.rst:216 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -21746,6 +21766,8 @@ msgstr "Activer les révisions"
 #: ../../admin/projects.rst:218
 msgid "Enable review workflow for translations, see :ref:`reviews`."
 msgstr ""
+"Activer le flux de travail de révision pour les traductions, voir "
+":ref:`reviews`."
 
 #: ../../admin/projects.rst:222 ../../admin/projects.rst:626
 #: ../../admin/projects.rst:637 ../../admin/projects.rst:648
@@ -21840,6 +21862,8 @@ msgstr ""
 msgid ""
 "Optionally, it can be also used as a source for the machine translation."
 msgstr ""
+"Optionnellement, elle peut également être utilisée comme source pour la "
+"traduction automatique."
 
 #: ../../admin/projects.rst:291 ../../admin/projects.rst:1004
 #, fuzzy
@@ -23430,7 +23454,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1252
 msgid "Automatic creation of components"
-msgstr ""
+msgstr "Création automatique de composants"
 
 #: ../../admin/projects.rst:1254
 msgid ""
@@ -40823,7 +40847,7 @@ msgstr ""
 
 #: ../../contributing/documentation.rst:2
 msgid "Contribute to Weblate documentation"
-msgstr "Contribuez à la documentation Weblate"
+msgstr "Contribuer à la documentation de Weblate"
 
 #: ../../contributing/documentation.rst:4
 msgid ""
@@ -40942,7 +40966,7 @@ msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
-"Vous pouvez `traduire les documents <https://hosted.weblate.org/projects/"
+"Vous pouvez `traduire la documentation <https://hosted.weblate.org/projects/"
 "weblate/documentation/>`_."
 
 #: ../../contributing/documentation.rst:42
@@ -41795,10 +41819,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/release.rst:23
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../admin/upgrade`, :ref:`security-updates`"
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
@@ -42591,7 +42613,7 @@ msgstr ""
 
 #: ../../contributing/trademark.rst:85
 msgid "Weblate Community Guidelines"
-msgstr ""
+msgstr "Règles de la communauté Weblate"
 
 #: ../../contributing/trademark.rst:87
 msgid ""
@@ -42713,10 +42735,8 @@ msgid ":ref:`production-certs`"
 msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
-#, fuzzy
-#| msgid "Building community"
 msgid "Building a translators community"
-msgstr "Construire une communauté"
+msgstr "Créer une communauté de traducteurs"
 
 #: ../../devel/community.rst:4
 msgid ""
@@ -44060,6 +44080,8 @@ msgid ""
 "`Weblate documentation <https://docs.weblate.org/>`_ (you are reading that "
 "now)"
 msgstr ""
+"`Documentation de Weblate <https://docs.weblate.org/>`_ (que vous êtes en "
+"train de lire)"
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
@@ -48072,10 +48094,8 @@ msgid "Indices and tables"
 msgstr "Index et tables des matières"
 
 #: ../../index.rst:2
-#, fuzzy
-#| msgid "Documentation"
 msgid "Weblate Documentation"
-msgstr "Documentation"
+msgstr "Documentation de Weblate"
 
 #: ../../index.rst:8
 msgid ""
@@ -48083,6 +48103,9 @@ msgid ""
 "Expand the \"Read the Docs\" panel at the bottom of the sidebar to see the "
 "list."
 msgstr ""
+"La documentation de Weblate est disponible en plusieurs langues et versions. "
+"Déroulez le panneau « Lire la documentation » en bas de la barre latérale "
+"pour afficher la liste."
 
 #: ../../index.rst:16
 msgid ""
@@ -48090,6 +48113,9 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"Cette documentation est traduite de la `version originale anglaise <https://"
+"docs.weblate.org/en/latest/>`_ par les membres de la communauté sur `Hosted "
+"Weblate <https://hosted.weblate.org/projects/weblate/documentation/>`_."
 
 #: ../../index.rst:20
 msgid ""
@@ -48098,12 +48124,18 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Selon le niveau d'avancement de la traduction, vous pourriez trouver des "
+"paragraphes ou des pages entières encore en anglais. Vous pouvez aider la "
+"communauté en proposant de nouvelles traductions ou en révisant celles "
+"existantes sur Weblate."
 
 #: ../../index.rst:25
 msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
+"Bienvenue dans la documentation officielle de `Weblate <https://weblate.org>`"
+"_, le système libre de localisation continue basé sur le Web."
 
 #: ../../index.rst:28
 msgid ""
@@ -48111,40 +48143,35 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"La table des matières dans la barre latérale devrait vous permettre "
+"d'accéder facilement à la documentation relative au sujet qui vous "
+"intéresse. Vous pouvez également utiliser la fonction de recherche située "
+"dans le coin supérieur gauche."
 
 #: ../../index.rst:32
-#, fuzzy
-#| msgid "First name"
 msgid "First time here?"
-msgstr "Prénom"
+msgstr "C'est la première fois que vous venez ici ?"
 
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
 msgstr ""
+"Lisez les :doc:`user/basic` pour avoir un aperçu de ce que fait Weblate."
 
 #: ../../index.rst:36
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Joining a translation project"
-msgstr "Promouvoir les projets de traduction"
+msgstr "Participer à un projet de traduction"
 
 #: ../../index.rst:37
-#, fuzzy
-#| msgid ""
-#| "If you would like to contribute to translation of %(project)s, you need "
-#| "to register on this server."
 msgid ""
 "If you would like to contribute to a project as a translator, read about :"
 "doc:`user/translating`."
 msgstr ""
-"Si vous souhaitez contribuer à la traduction de %(project)s, vous devez vous "
-"inscrire."
+"Si vous souhaitez contribuer à un projet en tant que traducteur, lisez à "
+"propos de :doc:`user/translating`."
 
 #: ../../index.rst:40
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Starting a translation project"
-msgstr "Promouvoir les projets de traduction"
+msgstr "Démarrer un projet de traduction"
 
 #: ../../index.rst:41
 msgid ""
@@ -48152,6 +48179,9 @@ msgid ""
 "doc:`admin/projects`. For self-hosting your own Weblate clone, read our :doc:"
 "`admin/install`."
 msgstr ""
+"Pour démarrer votre propre projet sur notre service cloud hébergé Hosted "
+"Weblate, consultez :doc:`admin/projects`. Pour héberger vous-même votre "
+"propre instance de Weblate, consultez nos :doc:`admin/install`."
 
 #: ../../index.rst:45
 msgid "FAQ"
@@ -48159,19 +48189,15 @@ msgstr ""
 
 #: ../../index.rst:46
 msgid "Check our :doc:`faq`."
-msgstr ""
+msgstr "Consultez notre :doc:`faq`."
 
 #: ../../index.rst:49
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Commit"
+msgstr "Communauté"
 
 #: ../../index.rst:50
-#, fuzzy
-#| msgid ":ref:`contributing`"
 msgid "Learn more about :ref:`contributing`."
-msgstr ":ref:`contributing`"
+msgstr "En savoir plus sur comment :ref:`contributing`."
 
 #: ../../legal.rst:2
 msgid "Legal documents"
@@ -48187,10 +48213,8 @@ msgid ""
 msgstr ""
 
 #: ../../legal.rst:13
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Licensing compliance"
-msgstr "Licence des traductions"
+msgstr "Conformité des licences"
 
 #: ../../legal.rst:15
 msgid ""
@@ -48516,10 +48540,8 @@ msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Désactiver la découverte"
+msgstr "Plan de reprise après sinistre"
 
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
@@ -48948,18 +48970,18 @@ msgid ""
 "Development of Weblate adheres to the `Best Practices of the Open Source "
 "Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 msgstr ""
-"Le développement de Weblate suit les meilleures pratiques de l’initiative "
-"sur l’infrastructure de base de la fondation Linux."
+"Le développement de Weblate adhère aux « meilleures pratiques de l'Open "
+"Source Security Foundation <https://www.bestpractices.dev/en/projects/552> »."
 
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
 msgstr ""
+"Vous avez découvert un problème de sécurité dans Weblate ? Veuillez "
+"consulter :ref:`security`."
 
 #: ../../security/index.rst:17
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security updates"
-msgstr "Problèmes de sécurité"
+msgstr "Mises à jour de sécurité"
 
 #: ../../security/index.rst:19
 msgid ""
@@ -48969,54 +48991,44 @@ msgid ""
 "benefit from the latest security improvements. Learn more about :ref:"
 "`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate fournit des mises à jour de sécurité pour corriger les "
+"vulnérabilités et améliorer la sécurité de l'application. Seule la dernière "
+"version est garantie de recevoir les mises à jour de sécurité. Nous "
+"encourageons les utilisateurs à maintenir Weblate à jour pour bénéficier des "
+"dernières améliorations de sécurité. En savoir plus sur :ref:`Weblate "
+"releases and the release life cycle <release-cycle>`."
 
 #: ../../security/index.rst:26
-#, fuzzy
-#| msgid "Security issues"
 msgid "Security policies"
-msgstr "Problèmes de sécurité"
+msgstr "Politiques de sécurité"
 
 #: ../../security/index.rst:28
-#, fuzzy
-#| msgid "Documentation updates."
 msgid ":doc:`dependencies`"
-msgstr "Modifications de la documentation."
+msgstr ":doc:`dependencies`"
 
 #: ../../security/index.rst:29
-#, fuzzy
-#| msgid "Disable discovery"
 msgid ":doc:`disaster-recovery-plan`"
-msgstr "Désactiver la découverte"
+msgstr ":doc:`disaster-recovery-plan`"
 
 #: ../../security/index.rst:30
-#, fuzzy
-#| msgid "Fetching remote changes into Weblate"
 msgid ":doc:`incident-response-plan`"
-msgstr "Récupérer les modifications distantes dans Weblate"
+msgstr ":doc:`incident-response-plan`"
 
 #: ../../security/index.rst:32
-#, fuzzy
-#| msgid "``password``"
 msgid ":doc:`passwords`"
-msgstr "``password``"
+msgstr ":doc:`passwords`"
 
 #: ../../security/index.rst:33
-#, fuzzy
-#| msgid ":doc:`html`"
 msgid ":doc:`threat-model`"
-msgstr ":doc:`html`"
+msgstr ":doc:`threat-model`"
 
 #: ../../security/index.rst:36
-#, fuzzy
-#| msgid "Company"
 msgid "Compliance"
-msgstr "Société"
+msgstr "Conformité"
 
 #: ../../security/index.rst:38
-#, fuzzy
-#| msgid ":doc:`psa:pipeline`"
 msgid ":doc:`privacy-compliance`"
-msgstr ":doc:`psa:pipeline`"
+msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -49269,10 +49281,8 @@ msgid ":doc:`/admin/auth`"
 msgstr ":doc:`/admin/auth`"
 
 #: ../../security/privacy-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Privacy regulations compliance"
-msgstr "Licence des traductions"
+msgstr "Conformité aux réglementations en matière de confidentialité"
 
 #: ../../security/privacy-compliance.rst:6
 msgid ""
@@ -49284,7 +49294,7 @@ msgstr ""
 
 #: ../../security/privacy-compliance.rst:11
 msgid "This document outlines how Weblate supports compliance with:"
-msgstr ""
+msgstr "Ce document décrit comment Weblate prend en charge la conformité avec :"
 
 #: ../../security/privacy-compliance.rst:13
 msgid "EU General Data Protection Regulation (GDPR)"
@@ -49551,10 +49561,8 @@ msgid "Purpose limitation, data minimization, localization"
 msgstr ""
 
 #: ../../security/privacy-compliance.rst:99
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Recommendations for compliance"
-msgstr "Licence des traductions"
+msgstr "Recommandations en matière de conformité"
 
 #: ../../security/privacy-compliance.rst:101
 msgid ""
@@ -49587,10 +49595,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/threat-model.rst:2
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate threat model"
-msgstr "Code source de Weblate"
+msgstr "Modèle de menace Weblate"
 
 #: ../../security/threat-model.rst:4
 msgid ""
@@ -53753,6 +53759,7 @@ msgstr "Ajouter une nouvelle chaîne"
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
 msgstr ""
+"Ajoute de nouvelles chaînes à traduire. Les chaînes existantes sont sautées."
 
 #: ../../user/files.rst:143
 #, fuzzy
@@ -53790,11 +53797,11 @@ msgstr ""
 
 #: ../../user/files.rst:158
 msgid "Conflicts handling"
-msgstr ""
+msgstr "Gestion des conflits"
 
 #: ../../user/files.rst:160
 msgid "Defines how to deal with uploaded strings which are already translated:"
-msgstr ""
+msgstr "Définit la manière de traiter les chaînes téléversées déjà traduites :"
 
 #: ../../user/files.rst:162
 #, fuzzy
@@ -53836,7 +53843,7 @@ msgstr ""
 
 #: ../../user/files.rst:172
 msgid "Strings needing edit"
-msgstr ""
+msgstr "Chaînes à modifier"
 
 #: ../../user/files.rst:174
 msgid ""
@@ -53848,7 +53855,7 @@ msgstr ""
 
 #: ../../user/files.rst:182
 msgid "Overriding authorship"
-msgstr ""
+msgstr "Redéfinition de la paternité"
 
 #: ../../user/files.rst:184
 msgid ""
@@ -53907,6 +53914,9 @@ msgid ""
 "Weblate features on them — commenting, storing in a remote repository, or "
 "adding explanations."
 msgstr ""
+"Les glossaires sont désormais des composants réguliers de traduction et vous "
+"pouvez utiliser sur eux toutes les fonctionnalités de Weblate — commenter, "
+"enregistrer dans un dépôt distant, ou ajouter des explications."
 
 #: ../../user/glossary.rst:29
 #, fuzzy
@@ -53942,6 +53952,8 @@ msgid ""
 "The glossary component looks like any other component in Weblate with added "
 "colored label:"
 msgstr ""
+"Le composant du glossaire ressemble à tout autre composant de Weblate avec "
+"l'ajout d'un libellé colorisé :"
 
 #: ../../user/glossary.rst:42
 msgid "You can browse all glossary terms:"
@@ -54020,6 +54032,9 @@ msgid ""
 "Variants are a generic way to group strings together. All term variants are "
 "listed in the glossary sidebar when translating."
 msgstr ""
+"Les variantes sont une manière générique de regrouper des chaînes de "
+"caractères. Chaque terme qui les compose est listé dans la barre latérale du "
+"glossaire lors de la traduction."
 
 #: ../../user/glossary.rst:116
 msgid ""
@@ -54044,6 +54059,10 @@ msgid ""
 "glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
 "tbx` are supported and can be uploaded, see :ref:`upload`."
 msgstr ""
+"Similaire aux composants de traduction réguliers, vous pouvez téléverser "
+"dans Weblate les glossaires existants. Les formats tels que :doc:`/formats/"
+"csv` ou :doc:`/formats/tbx` sont pris en charge et peuvent être téléversés, "
+"voir :ref:`upload`."
 
 #: ../../user/glossary.rst:132
 msgid "Glossaries in automatic suggestion"
