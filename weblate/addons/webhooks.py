@@ -48,7 +48,7 @@ class WebhookAddon(ChangeBaseAddon):
     name = "weblate.webhook.webhook"
     verbose = gettext_lazy("Webhook")
     description = gettext_lazy(
-        "Sends notification to external service based on selected events."
+        "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
     )
 
     settings_form = WebhooksAddonForm
