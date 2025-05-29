@@ -453,7 +453,7 @@ ignore = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "--reuse-db --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
+addopts = "--reuse-db"  # --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
 DJANGO_SETTINGS_MODULE = "weblate.settings_test"
 FAIL_INVALID_TEMPLATE_VARS = true
 python_files = ["test_*.py", "tests.py"]

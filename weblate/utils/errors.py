@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, Literal
 import sentry_sdk
 from django.conf import settings
 from django.utils.translation import get_language
-from sentry_sdk.integrations import DidNotEnable
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -108,12 +107,6 @@ def init_sentry() -> None:
         DjangoIntegration(),
         RedisIntegration(),
     ]
-    try:
-        from sentry_sdk.integrations.openai import OpenAIIntegration
-
-        integrations.append(OpenAIIntegration(include_prompts=True))
-    except DidNotEnable:
-        pass
 
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
