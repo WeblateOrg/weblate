@@ -1505,6 +1505,7 @@ class ComponentSettingsForm(
             "license",
             "agreement",
             "allow_translation_propagation",
+            "contribute_project_tm",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -1604,6 +1605,7 @@ class ComponentSettingsForm(
                     Fieldset(
                         gettext("Translation settings"),
                         "allow_translation_propagation",
+                        "contribute_project_tm",
                         "manage_units",
                         "check_flags",
                         "variant_regex",
