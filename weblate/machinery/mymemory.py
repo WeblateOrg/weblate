@@ -60,7 +60,7 @@ class MyMemoryTranslation(ResponseStatusMachineTranslation):
     ) -> DownloadTranslations:
         """Download list of possible translations from MyMemory."""
         args = {
-            "q": text.split(". ")[0][:500],
+            "q": text.split(". ", 1)[0][:500],
             "langpair": f"{source_language}|{target_language}",
         }
         if self.settings["email"]:

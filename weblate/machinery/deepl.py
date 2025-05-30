@@ -176,8 +176,8 @@ class DeepLTranslation(
 
             cache.set(cache_key, languages, 24 * 3600)
 
-        source_language = source_language.split("-")[0]
-        target_language = target_language.split("-")[0]
+        source_language = source_language.split("-", 1)[0]
+        target_language = target_language.split("-", 1)[0]
         return (source_language, target_language) in languages
 
     def list_glossaries(self) -> dict[str, str]:
@@ -218,8 +218,8 @@ class DeepLTranslation(
             self.get_api_url("glossaries"),
             json={
                 "name": name,
-                "source_lang": source_language.split("-")[0],
-                "target_lang": target_language.split("-")[0],
+                "source_lang": source_language.split("-", 1)[0],
+                "target_lang": target_language.split("-", 1)[0],
                 "entries": tsv,
                 "entries_format": "tsv",
             },
