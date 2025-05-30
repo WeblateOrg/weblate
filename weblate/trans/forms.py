@@ -76,7 +76,6 @@ from weblate.utils.forms import (
     SortedSelect,
     SortedSelectMultiple,
     UserField,
-    UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
@@ -2851,24 +2850,13 @@ class ChangesForm(forms.Form):
         widget=SortedSelectMultiple,
         choices=ActionEvents.choices,
     )
-    user = UsernameField(
+    user = UserField(
         label=gettext_lazy("Author username"), required=False, help_text=None
     )
     period = DateRangeField(
         label=gettext_lazy("Change period"),
         required=False,
     )
-
-    def clean_user(self):
-        username = self.cleaned_data.get("user")
-        if not username:
-            return None
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist as error:
-            raise forms.ValidationError(
-                gettext("Could not find matching user!")
-            ) from error
 
     def items(self):
         items = []
