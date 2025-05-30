@@ -385,7 +385,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
-    if component and all_components.paginator.num_pages == 1:
+    if component:
         add_ghost_translations(
             component,
             user,
