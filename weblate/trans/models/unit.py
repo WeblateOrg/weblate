@@ -310,7 +310,7 @@ class UnitQuerySet(models.QuerySet):
         return self.order_by(*sort_list)
 
     def order_by_count(self, choice: str, count_filter) -> UnitQuerySet:
-        model = choice.split("__")[0].replace("-", "")
+        model = choice.split("__", 1)[0].replace("-", "")
         annotation_name = choice.replace("-", "")
         return self.annotate(
             **{annotation_name: Count(model, filter=count_filter)}
