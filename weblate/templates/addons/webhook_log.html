@@ -12,14 +12,14 @@
 <div class="tab-content">
   <div class="tab-pane active" id="response-{{ activity.id }}">
     <h5>{% translate "HTTP headers" %}</h5>
-    <pre>{{ details.response.headers|format_headers }}</pre>
+    <pre>{{ details.response.headers }}</pre>
 
     <h5>{% translate "Response content" %}</h5>
     <pre>{{ details.response.content }}</pre>
   </div>
   <div class="tab-pane" id="request-{{ activity.id }}">
     <h5>{% translate "HTTP headers" %}</h5>
-    <pre>{{ details.request.headers|format_headers }}</pre>
+    <pre>{{ details.request.headers }}</pre>
     <h5>{% translate "Request payload" %}</h5>
     <pre>{{ details.request.payload|format_json }}</pre>
   </div>

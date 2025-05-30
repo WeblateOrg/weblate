@@ -184,6 +184,31 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
                 },
             ]
         }
+
+        description = []
+        if change.old:
+            description.append(f"*Old:* {change.old}")
+        if change.target:
+            description.append(f"*Target:* {change.target}")
+
+        if (
+            path_object_breadcrumbs := key_name(change.path_object)
+            if change.path_object
+            else " "
+        ):
+            description.append(
+                f"<{get_site_url(change.get_absolute_url())}|{path_object_breadcrumbs}>"
+            )
+        else:
+            description.append(f"<{get_site_url(change.get_absolute_url())}>")
+
+        if description:
+            payload["blocks"].append(
+                {
+                    "type": "section",
+                    "text": {"type": "mrkdwn", "text": "\n".join(description)},
+                }
+            )
         if change_details := change.get_details_display():
             payload["blocks"].append(
                 {
@@ -191,22 +216,4 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
                     "text": {"type": "plain_text", "text": change_details},
                 }
             )
-        path_object_breadcrumbs = (
-            key_name(change.path_object) if change.path_object else " "
-        )
-        payload["blocks"].append(
-            {
-                "type": "section",
-                "text": {"type": "plain_text", "text": path_object_breadcrumbs},
-                "accessory": {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "View",
-                    },
-                    "url": get_site_url(change.get_absolute_url()),
-                    "action_id": "view-button",
-                },
-            }
-        )
         return payload
