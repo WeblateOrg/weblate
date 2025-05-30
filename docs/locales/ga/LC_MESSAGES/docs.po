@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-24 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-05-27 20:55+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -2257,6 +2257,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"An céatadán de theaghráin aistrithe nach mór a bheith i láthair le go "
+"gcuirfear aistriúchán san áireamh."
 
 #: ../../admin/addons.rst:192
 msgid "``css_selector``"
@@ -3264,7 +3266,7 @@ msgstr "``prefix``"
 
 #: ../../admin/addons.rst:647
 msgid "Prepended static text"
-msgstr ""
+msgstr "Téacs statach curtha roimh"
 
 #: ../../admin/addons.rst:649
 msgid "``var_prefix``"
@@ -3272,7 +3274,7 @@ msgstr "``var_prefix``"
 
 #: ../../admin/addons.rst:649
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Téacs athrógach curtha roimh"
 
 #: ../../admin/addons.rst:651
 msgid "``suffix``"
@@ -3280,39 +3282,31 @@ msgstr "``suffix``"
 
 #: ../../admin/addons.rst:651
 msgid "Appended static text"
-msgstr ""
+msgstr "Téacs statach curtha leis"
 
 #: ../../admin/addons.rst:653
 msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Athróg neamhshainithe: \"%s\""
+msgstr "Téacs athraitheach curtha leis"
 
 #: ../../admin/addons.rst:655
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Iolraitheoir páirt athraitheach"
+msgstr "Iolraitheoir téacs athraitheach"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Cé mhéad uair chun an chuid athróg a athdhéanamh ag brath ar fhad na "
-"sreangán foinse."
+"Cé mhéad uair is ceart an téacs athrógach a athdhéanamh ag brath ar fhad an "
+"teaghráin foinse."
 
 #: ../../admin/addons.rst:657
 msgid "``include_readonly``"
@@ -3351,15 +3345,6 @@ msgstr ""
 "leagan amach freisin."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3369,33 +3354,28 @@ msgid ""
 "world___________`` - the text is repeated once for each character in the "
 "source string."
 msgstr ""
-"Trí úsáid a bhaint as na codanna athraitheacha is féidir teaghráin a lorg "
-"nach bhféadfadh a bheith oiriúnach sa chomhéadan úsáideora tar éis an "
-"logánaithe - leathnaíonn sé an téacs bunaithe ar fad na sreangán foinse. "
-"Déantar na codanna athraitheacha arís agus arís eile de réir fad an téacs "
-"iolraithe leis an iolraitheoir. Mar shampla ```Dia duit domhan`` le iarmhír "
-"athraitheach ``_`` agus iolraitheoir athraitheach de 1 éiríonn ```Dia duit "
-"domhan___________`` - déantar an iarmhír arís uair amháin do gach carachtar "
-"sa teaghrán foinse."
+"Trí na codanna athraitheacha a úsáid, is féidir teaghráin a lorg nach n-"
+"oirfeadh don chomhéadan úsáideora tar éis an logánaithe - síneann sé an "
+"téacs bunaithe ar fhad an teaghráin foinse. Déantar na téacsanna "
+"athraitheacha a athdhéanamh de réir fhad an téacs iolraithe faoin "
+"iolraitheoir. Mar shampla, éiríonn ``Haigh a dhomhan`` le téacs athraitheach "
+"``_`` agus iolraitheoir athraitheach de 1 ina ``Haigh a dhomhan__________`` -"
+" déantar an téacs a athdhéanamh uair amháin do gach carachtar sa teaghrán "
+"foinse."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
 msgstr "Ginfear na teaghráin ag baint úsáide as an bpatrún seo a leanas:"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :guilabel:"
-"`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
-"suffix`"
+":guilabel:`Prepended static text` :guilabel:`Prepended variable text` "
+":guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:`"
+"Appended static text`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3794,7 +3774,7 @@ msgstr "Saincheap aschur JSON"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr ":guilabel:`Avoid spaces after separators` rogha curtha leis.."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -3814,7 +3794,7 @@ msgstr "``use_compact_separators``"
 
 #: ../../admin/addons.rst:886
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Seachain spásanna i ndiaidh deighilteoirí"
 
 #: ../../admin/addons.rst:888 ../../admin/addons.rst:1165
 msgid "``indent``"
@@ -3842,15 +3822,12 @@ msgid "``tabs`` -- Tabs"
 msgstr "``cluaisíní`` -- Cluaisíní"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Ligeann sé seo iompraíocht aschuir JSON a choigeartú, mar shampla eangú nó "
-"sórtáil."
+"Ceadaíonn sé iompar aschuir JSON a choigeartú, mar shampla eangú, sórtáil nó "
+"formáidiú dlúth ag baint úsáide as spás bán íosta."
 
 #: ../../admin/addons.rst:903
 msgid "Format the Java properties file"
@@ -5017,22 +4994,18 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Braitheann Weblate ar Django don fhíordheimhniú. Áirítear leis seo "
+"fíordheimhniú bunaithe ar phasfhocal, fíordheimhniú sóisialta, agus córais "
+"chúltaca fíordheimhnithe tríú páirtí do Django."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Úsáidtear réiteach ionsuite Django le haghaidh fíordheimhnithe, lena n-"
-"áirítear roghanna sóisialta éagsúla chun é sin a dhéanamh. Trí úsáid a "
-"bhaint as ciallaíonn sé gur féidir leat bunachar sonraí úsáideoirí na "
-"dtionscadal eile atá bunaithe ar Django a allmhairiú (féach :ref:`pootle-"
-"migration`)."
+"Trí úsáid a bhaint as fíordheimhniú ionsuite Django, is féidir leat bunachar "
+"sonraí úsáideoirí tionscadal eile atá bunaithe ar Django a allmhairiú (féach "
+":ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -5501,14 +5474,12 @@ msgstr ""
 "a cheadaíonn pasfhocail a dhiúltú faoi thairseach áirithe."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ""
-#| ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, :"
 "doc:`/security/passwords`"
 msgstr ""
-":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, "
+":doc:`/security/passwords`"
 
 #: ../../admin/auth.rst:476
 msgid "SAML authentication"
@@ -5705,15 +5676,11 @@ msgid "CAS authentication"
 msgstr "Fíordheimhniú CAS"
 
 #: ../../admin/auth.rst:690
-#, fuzzy
-#| msgid ""
-#| "CAS authentication can be achieved using a package such as `django-cas-"
-#| "ng`."
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
-"Is féidir fíordheimhniú CAS a bhaint amach trí phacáiste mar `django-cas-ng` "
-"a úsáid."
+"Is féidir fíordheimhniú CAS a bhaint amach trí phacáiste ar nós `Django CAS "
+"NG`_ a úsáid."
 
 #: ../../admin/auth.rst:692
 msgid ""
@@ -5732,10 +5699,8 @@ msgstr ""
 "tréithe a úsáid."
 
 #: ../../admin/auth.rst:698
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "Chun `django-cas-ng` a shuiteáil:"
+msgstr "Chun `Django CAS NG`_ a shuiteáil:"
 
 #: ../../admin/auth.rst:704
 msgid ""
@@ -7425,10 +7390,9 @@ msgid "``ignore-automattic-components-format``"
 msgstr "``ignore-automattic-components-format``"
 
 #: ../../admin/checks.rst:213
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "Scipeáil ar an seiceáil cáilíochta :ref:`check-icu-message-format`."
+msgstr ""
+"Seachain an seiceáil cáilíochta :ref:`check-automattic-components-format`."
 
 #: ../../admin/checks.rst:214 ../../user/checks.rst:485
 msgid "``ignore-c-format``"
@@ -7756,10 +7720,8 @@ msgid "``ignore-kabyle-characters``"
 msgstr "``ignore-kabyle-characters``"
 
 #: ../../admin/checks.rst:295
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "Scipeáil an seiceáil cáilíochta :ref:`check-fluent-parts`."
+msgstr "Seachain an seiceáil cáilíochta :ref:`check-kabyle-characters`."
 
 #: ../../admin/checks.rst:296 ../../user/checks.rst:1381
 msgid "``ignore-placeholders``"
@@ -13775,23 +13737,17 @@ msgstr ""
 "ndoiciméadú Django."
 
 #: ../../admin/install.rst:706
-#, fuzzy
-#| msgid ""
-#| "In case you get error about not supported authentication (for example "
-#| "``SMTP AUTH extension not supported by server``), it is most likely "
-#| "caused by using insecure connection and server refuses to authenticate "
-#| "this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgid ""
 "In case you get error about not supported authentication (for example :samp:"
 "`SMTP AUTH extension not supported by server`), it is most likely caused by "
 "using insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
-"Sa chás go bhfaigheann tú earráid maidir le fíordheimhniú nach dtacaítear "
-"leis (mar shampla `` SMTP AUTH extension not supported by server``), is "
-"dóichí go mbaintear úsáid as nasc neamhdhaingean agus go ndiúltaíonn an "
-"freastalaí fíordheimhnithe mar seo. Bain triail as :setting:`django:"
-"EMAIL_USE_TLS` a chumasú sa chás sin."
+"Sa chás go bhfaigheann tú earráid faoi fhíordheimhniú nach dtacaítear leis ("
+"mar shampla :samp:`SMTP AUTH extension not supported by server`), is dóichí "
+"gur nasc neamhshlán is cúis leis agus go ndiúltaíonn an freastalaí "
+"fíordheimhniú a dhéanamh ar an mbealach seo. Bain triail as "
+":setting:`django:EMAIL_USE_TLS` a chumasú sa chás sin."
 
 #: ../../admin/install.rst:713
 msgid ""
@@ -13811,54 +13767,36 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Braitheann roinnt gnéithe i Weblate ar cheanntásca HTTP cearta a chur chuig "
+"Weblate. Agus seachfhreastalaí droim ar ais á úsáid agat, déan cinnte go "
+"gcuirtear an fhaisnéis riachtanach ar aghaidh i gceart."
 
 #: ../../admin/install.rst:725
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "Seoladh IP"
+msgstr "Seoladh IP an chliaint"
 
 #: ../../admin/install.rst:726
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
 msgstr ""
-"Braitheann roinnt gnéithe i Weblate ar a bheith in ann seoladh IP an "
-"chliaint a fháil. Cuimsíonn sé seo :ref:`rate-limit`, :ref:`spam-protection` "
+"Tá sé seo ag teastáil le haghaidh :ref:`rate-limit`, :ref:`spam-protection` "
 "nó :ref:`audit-log`."
 
 #: ../../admin/install.rst:728
-#, fuzzy
-#| msgid ""
-#| "Weblate parses IP address from the ``REMOTE_ADDR`` which is set by the "
-#| "WSGI handler. This might be empty (when using socket for WSGI) or contain "
-#| "a reverse proxy address, so Weblate needs an additional HTTP header with "
-#| "client IP address."
 msgid ""
 "Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI "
 "handler. This might be empty (when using socket for WSGI) or contain a "
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
-"Parsálann an chomhchlár Gréasáin seoladh IP ón ``REMOTE_ADDR`` atá socraithe "
-"ag an láimhseálaí WSGI. D’fhéadfadh sé seo a bheith folamh (agus soicéad á "
-"úsáid le haghaidh WSGI) nó seoladh seachfhreastalaí droim ar ais a bheith "
-"ann, mar sin tá ceanntásc HTTP breise ag teastáil ó Weblate le seoladh IP an "
-"chliaint."
+"Déanann Weblate parsáil ar an seoladh IP ón ``REMOTE_ADDR``, atá socraithe "
+"ag an láimhseálaí WSGI. D’fhéadfadh sé seo a bheith folamh (nuair a "
+"úsáidtear soicéad le haghaidh WSGI) nó seoladh seachfhreastalaí droim ar ais "
+"a bheith ann, mar sin teastaíonn ceanntásc HTTP breise le seoladh IP cliaint "
+"ó Weblate."
 
 #: ../../admin/install.rst:733
-#, fuzzy
-#| msgid ""
-#| "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most "
-#| "usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
-#| "and :setting:`IP_PROXY_OFFSET` as well (use :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
-#| "Docker container)."
 msgid ""
 "Enabling :setting:`IP_BEHIND_REVERSE_PROXY` should be sufficient for the "
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
@@ -13866,58 +13804,42 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
-"Cumasach:SETTING: B'fhéidir go leor :setting:`IP_BEHIND_REVERSE_PROXY` do na "
-"socruithe is gnách, ach b'fhéidir go mbeidh ort a choigeartú :setting:"
-"`IP_PROXY_HEADER` agus :setting:`IP_PROXY_OFFSET` chomh maith (úsáid :envvar:"
-"`WEBLATE_IP_PROXY_HEADER` agus :envvar:`WEBLATE_IP_PROXY_OFFSET` sa "
+"Ba cheart go mbeadh :setting:`IP_BEHIND_REVERSE_PROXY` leordhóthanach do na "
+"socruithe is gnách, ach b'fhéidir go mbeadh ort :setting:`IP_PROXY_HEADER` "
+"agus :setting:`IP_PROXY_OFFSET` a choigeartú chomh maith (bain úsáid as "
+":envvar:`WEBLATE_IP_PROXY_HEADER` agus :envvar:`WEBLATE_IP_PROXY_OFFSET` sa "
 "choimeádán Docker)."
 
 #: ../../admin/install.rst:740
-#, fuzzy
-#| msgid ""
-#| "This configuration cannot be turned on by default because it would allow "
-#| "IP address spoofing on installations that don't have a properly "
-#| "configured reverse proxy."
 msgid ""
 "This configuration cannot be turned on by default, because it would allow IP "
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
-"Ní féidir an chumraíocht seo a chur ar siúl de réir réamhshocraithe toisc go "
-"gceadódh sé do sheoladh IP a spoofing ar shuiteálacha nach bhfuil "
-"seachfhreastalaí cúltaca cumraithe i gceart acu."
+"Ní féidir an chumraíocht seo a chasadh air de réir réamhshocraithe, mar go "
+"gceadódh sé bréagadóireacht seoltaí IP ar shuiteálacha nach bhfuil "
+"seachfhreastalaí droim ar ais cumraithe i gceart acu."
 
 #: ../../admin/install.rst:744
-#, fuzzy
-#| msgid "Service name"
 msgid "Server host name"
-msgstr "Ainm seirbhíse"
+msgstr "Ainm óstach an fhreastalaí"
 
 #: ../../admin/install.rst:745
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured as :"
 "setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"Rud eile ar chóir aire a thabhairt dó ná an ceanntásc :http:header:`Host`. "
-"Ba cheart go mbeadh sé ag teacht le cibé rud atá cumraithe mar :setting:"
-"`SITE_DOMAIN`. Seans go mbeidh gá le cumraíocht bhreise i do "
-"sheachfhreastalaí droim ar ais (mar shampla úsáid `` ProxyPreserveHost On`` "
-"le haghaidh Apache nó `` proxy_set_header Host $host;`` le nginx)."
+"Ba chóir go mbeadh an ceanntásc :http:header:`Host` ag teacht leis an méid "
+"atá cumraithe mar :setting:`SITE_DOMAIN`. D’fhéadfadh go mbeadh gá le "
+"cumraíocht bhreise i do sheachfhreastalaí droim ar ais (mar shampla bain "
+"úsáid as ``ProxyPreserveHost On`` le haghaidh Apache nó ``proxy_set_header "
+"Host $host;`` le nginx)."
 
 #: ../../admin/install.rst:750
-#, fuzzy
-#| msgid "Client secret"
 msgid "Client protocol"
-msgstr "Rún an chliaint"
+msgstr "Prótacal cliant"
 
 #: ../../admin/install.rst:751
 msgid ""
@@ -13925,15 +13847,12 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"Mura gcuirtear an prótacal ceart i bhfeidhm, d’fhéadfadh sé go mbeadh "
+"Weblate i lúb atreoraithe agus é ag iarraidh an cliant a uasghrádú go HTTPS. "
+"Cinntigh go bhfuil sé nochta i gceart ag an seachfhreastalaí droim ar ais "
+"mar :http:header:`X-Forwarded-Proto`."
 
 #: ../../admin/install.rst:757
-#, fuzzy
-#| msgid ""
-#| ":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:"
-#| "`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :"
-#| "setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-#| "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-#| "`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 msgid ""
 ":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref:"
 "`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref:"
@@ -13942,11 +13861,12 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`, :envvar:"
 "`WEBLATE_IP_PROXY_OFFSET`"
 msgstr ""
-":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, :ref:`uwsgi`, :"
-"ref:`nginx-gunicorn`, :ref:`apache`, :ref:`apache-gunicorn`, :setting:"
-"`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
-"`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:"
-"`WEBLATE_IP_PROXY_HEADER`, :envvar:`WEBLATE_IP_PROXY_OFFSET`"
+":ref:`docker-ssl-proxy`, :ref:`spam-protection`, :ref:`rate-limit`, :ref"
+":`audit-log`, :ref:`uwsgi`, :ref:`nginx-gunicorn`, :ref:`apache`, :ref"
+":`apache-gunicorn`, :setting:`IP_BEHIND_REVERSE_PROXY`, "
+":setting:`IP_PROXY_HEADER`, :setting:`IP_PROXY_OFFSET`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :envvar:`WEBLATE_IP_PROXY_HEADER`"
+", :envvar:`WEBLATE_IP_PROXY_OFFSET`"
 
 #: ../../admin/install.rst:773
 msgid "HTTP proxy"
@@ -15806,7 +15726,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:127
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "Seachfhreastalaí críochnúcháin SSL"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
@@ -15815,14 +15735,20 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"Is féidir SSL a fhoirceannadh lasmuigh de choimeádán Weblate. Chun go n-"
+"oibreoidh sé seo go maith le chéile, ní mór roinnt ceanntásca a chur chuig "
+"an gcoimeádán ionas go mbeidh sé ar an eolas faoina thimpeallacht iarbhír. "
+"Déantar cur síos níos mine ar na ceanntásca seo i :ref:`reverse-proxy`."
 
 #: ../../admin/install/docker.rst:134
 msgid "Example nginx reverse proxy configuration for a Docker container."
 msgstr ""
+"Cumraíocht seachfhreastalaí droim ar ais nginx samplach le haghaidh "
+"coimeádán Docker."
 
 #: ../../admin/install/docker.rst:147
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "Timpeallacht coimeádáin Docker le haghaidh foirceannadh seachtrach SSL."
 
 #: ../../admin/install/docker.rst:154
 msgid "Using own SSL certificates"
@@ -16694,26 +16620,19 @@ msgstr ""
 "`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:905
-#, fuzzy
-#| msgid ""
-#| "Configures the used time zone in Weblate, see :std:setting:`django:"
-#| "TIME_ZONE`."
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
 msgstr ""
-"Cumraíonn sé an crios ama in úsáid i Weblate, féach :std:setting:`django:"
-"TIME_ZONE`."
+"Cumraíonn sé URL a láimhseálann na meáin a sheirbheáiltear ó "
+":setting:`django:MEDIA_ROOT`."
 
 #: ../../admin/install/docker.rst:910
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgid ""
 "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgstr ""
-"Cumraigh réimír URL an áit a bhfuil Weblate ag rith, féach :setting:"
-"`URL_PREFIX`."
+"Cumraíonn sé réimír URL don fhreastalaí comhad statach ó "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/install/docker.rst:914
 msgid ""
@@ -17790,16 +17709,21 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL an fhreastalaí `Anubis`_ chun fíordheimhniú fo-iarrata a láimhseáil. Is "
+"féidir leis seo a bheith úsáideach chun iarratais HTTP isteach a scagadh ag "
+"baint úsáide as cruthúnas oibre chun crawlers AI a stopadh. Ní mór duit `"
+"Anubis le haghaidh Fíordheimhniú Fo-iarrata`_ a chumrú chun go n-oibreoidh "
+"sé."
 
 #: ../../admin/install/docker.rst:2009
 msgid "This can be done using docker compose, for example:"
 msgstr ""
+"Is féidir é seo a dhéanamh ag baint úsáide as docker compose, mar shampla:"
 
 #: ../../admin/install/docker.rst:2024
-#, fuzzy
-#| msgid "You can have a number of fonts loaded into Weblate:"
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr "Is féidir leat roinnt clónna a lódáil isteach i Weblate:"
+msgstr ""
+"Ansin is féidir leat úsáid Anubis a chasadh air i Weblate ag baint úsáide as:"
 
 #: ../../admin/install/docker.rst:2037
 msgid "Docker container volumes"
@@ -21742,37 +21666,28 @@ msgid "move_language"
 msgstr "move_language"
 
 #: ../../admin/management.rst:787
-#, fuzzy
-#| msgid ""
-#| "Allows you to merge language content. This is useful when updating to a "
-#| "new version which contains aliases for previously unknown languages that "
-#| "have been created with the `(generated)` suffix. It moves all content "
-#| "from the `source` language to the `target` one."
 msgid ""
 "Allows you to merge language content. This is useful when updating to a new "
 "version which contains aliases for previously unknown languages that have "
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
-"Ligeann sé duit ábhar teanga a chumasc. Tá sé seo úsáideach agus tú ag "
-"nuashonrú go leagan nua ina bhfuil ailiasanna do theangacha nach raibh ar "
-"eolas cheana agus a cruthaíodh leis an iarmhír `(ghinte)`. Bogann sé gach "
-"ábhar ón teanga `foinse` go dtí an `sprioc`."
+"Ligeann sé seo duit ábhar teanga a chumasc. Tá sé seo úsáideach agus tú ag "
+"nuashonrú chuig leagan nua ina bhfuil leasainmneacha do theangacha nach "
+"raibh aithne orthu roimhe seo a cruthaíodh leis an iarmhír "
+":samp:`(generated)`. Bogann sé an t-ábhar go léir ón teanga `source` go dtí "
+"an teanga `target`."
 
 #: ../../admin/management.rst:798
-#, fuzzy
-#| msgid ""
-#| "After moving the content, you should check whether there is anything left "
-#| "(this is subject to race conditions when somebody updates the repository "
-#| "meanwhile) and remove the `(generated)` language."
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
-"Tar éis duit an t-ábhar a bhogadh, ba cheart duit seiceáil an bhfuil aon rud "
-"fágtha (tá sé seo faoi réir coinníollacha cine nuair a dhéanann duine éigin "
-"an stór a nuashonrú idir an dá linn) agus an teanga `(ghinte)` a bhaint."
+"Tar éis an t-ábhar a bhogadh, ba cheart duit a sheiceáil an bhfuil aon rud "
+"fágtha (tá sé seo faoi réir coinníollacha rása nuair a dhéanann duine éigin "
+"an stór a nuashonrú idir an dá linn) agus an teanga :samp:`(generated)` a "
+"bhaint."
 
 #: ../../admin/management.rst:803
 msgid "pushgit"
@@ -22358,10 +22273,8 @@ msgstr ""
 "rochtain aige ar níos mó acu."
 
 #: ../../admin/optionals.rst:125
-#, fuzzy
-#| msgid "Legal documents"
 msgid "Legal module"
-msgstr "Doiciméid dlí"
+msgstr "Modúl dlí"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -22693,20 +22606,16 @@ msgid "2"
 msgstr "2"
 
 #: ../../admin/optionals.rst:291
-#, fuzzy
-#| msgid "Password authentication on sign in"
 msgid "Password authentication on sign-in"
-msgstr "Fíordheimhniú pasfhocail agus síniú isteach"
+msgstr "Fíordheimhniú pasfhocail ar logáil isteach"
 
 #: ../../admin/optionals.rst:291
 msgid "``LOGIN``"
 msgstr "``LOGIN``"
 
 #: ../../admin/optionals.rst:293
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Second-factor authentication"
-msgstr "Fíordheimhniú dhá-fhachtóir"
+msgstr "Fíordheimhniú dara fachtóir"
 
 #: ../../admin/optionals.rst:293
 msgid "``SECOND_FACTOR``"
@@ -24763,53 +24672,47 @@ msgid "Use as a glossary"
 msgstr "Úsáid mar ghluais"
 
 #: ../../admin/projects.rst:1064
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "Allows using this component as a glossary. Use when you want to manage "
 "terminology separately from normal translations."
 msgstr ""
-"Is féidir an chomhpháirt seo a úsáid mar ghluais. Is féidir leat an chaoi a "
-"liostófar é a chumrú trí úsáid a bhaint as :ref:`component-glossary_color`."
+"Ceadaíonn sé seo úsáid a bhaint as an gcomhpháirt seo mar ghlós. Bain úsáid "
+"as nuair is mian leat téarmaíocht a bhainistiú ar leithligh ó ghnáth-"
+"aistriúcháin."
 
 #: ../../admin/projects.rst:1067
 msgid "Glossaries are best for:"
-msgstr ""
+msgstr "Is fearr na gluaiseanna seo a leanas a úsáid:"
 
 #: ../../admin/projects.rst:1069
 msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
 msgstr ""
+"Úsáid chomhsheasmhach téarmaí a chinntiú (e.g., lipéid Chomhéadain "
+"Úsáideora, ainmneacha táirgí)."
 
 #: ../../admin/projects.rst:1070
-#, fuzzy
-#| msgid "Shows Weblate object (translation, component or project)."
 msgid "Sharing preferred translations across multiple components or projects."
-msgstr "Taispeáin réad Weblate (aistriúchán, comhpháirt nó tionscadal)."
+msgstr ""
+"Aistriúcháin is fearr a roinnt ar fud comhpháirteanna nó tionscadal iolracha."
 
 #: ../../admin/projects.rst:1071
-#, fuzzy
-#| msgid "Add support for translating non VCS based content."
 msgid "Supporting translators with definitions and context."
-msgstr "Cuir tacaíocht leis chun ábhar nach bhfuil bunaithe ar VCS a aistriú."
+msgstr "Ag tacú le haistritheoirí le sainmhínithe agus comhthéacs."
 
 #: ../../admin/projects.rst:1075
 msgid ""
 "Glossaries are not for regular translations—they are for managing terms only."
 msgstr ""
+"Ní le haghaidh aistriúcháin rialta atá gluaiseanna ann, níl iontu ach chun "
+"téarmaí a bhainistiú."
 
 #: ../../admin/projects.rst:1077
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "You can configure how it will be listed using :ref:`component-"
 "glossary_color`."
 msgstr ""
-"Is féidir an chomhpháirt seo a úsáid mar ghluais. Is féidir leat an chaoi a "
-"liostófar é a chumrú trí úsáid a bhaint as :ref:`component-glossary_color`."
+"Is féidir leat a chumrú conas a liostálfar é ag baint úsáide as :ref"
+":`component-glossary_color`."
 
 #: ../../admin/projects.rst:1079
 msgid ""
@@ -25951,7 +25854,7 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr "Weblate's REST API"
+msgstr "API REST Weblate"
 
 #: ../../api.rst:10
 msgid ""
@@ -26426,15 +26329,12 @@ msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
 msgstr "nasc le grúpaí gaolmhara; féach :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:327
-#, fuzzy
-#| msgid ""
-#| "translation language code; see :http:get:`/api/languages/(string:"
-#| "language)/`"
 msgid ""
 "link to translated languages; see :http:get:`/api/languages/(string:"
 "language)/`"
 msgstr ""
-"cód teanga aistriúcháin; féach :http:get:`/api/languages/(string:language)/`"
+"nasc chuig teangacha aistrithe; féach :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:329 ../../api.rst:519 ../../api.rst:712 ../../api.rst:789
 #: ../../api.rst:900 ../../api.rst:972 ../../api.rst:1373 ../../api.rst:1574
@@ -28314,67 +28214,57 @@ msgstr ""
 "aistriúcháin foinse a thugtar air."
 
 #: ../../api.rst:2297
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Create a new comment on the given translation unit."
-msgstr "Cruthaigh stór le do chomhaid aistriúcháin."
+msgstr "Cruthaigh trácht nua ar an aonad aistriúcháin tugtha."
 
 #: ../../api.rst:2301
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "comment scope - global, translation (available on all non-source units), "
 "report (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"stát aonaid, 0 - gan aistriú, 10 - teastaíonn eagarthóireacht, 20 - "
-"aistrithe, 30 - ceadaithe (gá sreabhadh oibre athbhreithnithe a chumasú, "
-"féach :ref:`reviews`)"
+"raon feidhme tráchta - domhanda, aistriúchán (ar fáil ar gach aonad "
+"neamhfhoinseach), tuarascáil (ní mór sreabhadh oibre athbhreithnithe a "
+"chumasú, féach :ref:`reviews`)"
 
 #: ../../api.rst:2302
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
-msgstr "Is féidir leat Markdown a úsáid agus úsáideoirí a lua le @username."
+msgstr ""
+"ábhar an tráchta nua, is féidir leat Markdown a úsáid agus úsáideoirí a lua "
+"de réir @ainm úsáideora."
 
 #: ../../api.rst:2303
 msgid ""
 "commenter's email, can be set only by project admins and defaults to the "
 "authenticated user."
 msgstr ""
+"ríomhphost an tráchtaire, ní féidir ach le riarthóirí tionscadail é seo a "
+"shocrú agus is é an t-úsáideoir fíordheimhnithe an réamhshocrú."
 
 #: ../../api.rst:2304
 msgid ""
 "creation timestamp of the comment, can be set only by project admins and "
 "defaults to now."
 msgstr ""
+"stampa ama cruthaithe an tráchta, ní féidir ach le riarthóirí tionscadail é "
+"seo a shocrú agus is é seo an réamhshocrú."
 
 #: ../../api.rst:2305
-#, fuzzy
-#| msgid "unit identifier"
 msgid "comment identifier"
-msgstr "aitheantóir aonaid"
+msgstr "aitheantóir tráchta"
 
 #: ../../api.rst:2306
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "content of the new comment"
-msgstr "Trácht nua postáilte"
+msgstr "ábhar an tráchta nua"
 
 #: ../../api.rst:2307
-#, fuzzy
-#| msgid "URL of a related component object"
 msgid "URL of the commenter's object"
-msgstr "URL réad comhpháirte gaolmhar"
+msgstr "URL réada an tráchtaire"
 
 #: ../../api.rst:2308
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "creation timestamp of the comment"
-msgstr "Ginte ar %(timestamp)s."
+msgstr "stampa ama cruthaithe an tráchta"
 
 #: ../../api.rst:2318
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -29289,16 +29179,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.12"
-msgstr "Gréasán 5.1"
+msgstr "Weblate 5.12"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet released."
 msgid "*Not yet released.*"
-msgstr "Gan scaoileadh go fóill."
+msgstr "*Níl sé eisithe fós.*"
 
 #: ../../changes.rst:7 ../../changes.rst:149 ../../changes.rst:315
 #: ../../changes.rst:426 ../../changes.rst:568 ../../changes.rst:673
@@ -29309,44 +29195,29 @@ msgid "New features"
 msgstr "Gnéithe nua"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for "
 "the given translation unit."
 msgstr ""
-"Cuireadh :http:get:`/api/units/(int:id)/translations/` leis chun liosta de "
-"na haonaid aistriúcháin sprice go léir a aisghabháil don aonad aistriúcháin "
-"foinseach tugtha."
+"Cuireadh :http:post:`/api/units/(int:id)/comments/` leis chun trácht nua a "
+"chruthú don aonad aistriúcháin tugtha."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 ":ref:`addon-weblate.json.customize` now has a configurable compact mode."
-msgstr ""
-"Is beag roghanna cumraíochta a sholáthraíonn an breiseán :ref:`addon-weblate."
-"cdn.cdnjs`."
+msgstr "Tá mód dlúth inchumraithe ag :ref:`addon-weblate.json.customize` anois."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Added :ref:`check-kabyle-characters` quality check."
-msgstr "Scipeáil an seiceáil cáilíochta :ref:`check-fluent-parts`."
+msgstr "Seiceáil cáilíochta :ref:`check-kabyle-characters` curtha leis."
 
 #: ../../changes.rst:11
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr "Tá :ref:`sbom` á chur ar fáil do Weblate anois."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ":doc:`/contributing/documentation`"
 msgid ":doc:`/security/index` documentation."
-msgstr ":doc:`/contributing/documentation`"
+msgstr "doiciméadacht :doc:`/security/index`."
 
 #: ../../changes.rst:15 ../../changes.rst:54 ../../changes.rst:96
 #: ../../changes.rst:123 ../../changes.rst:159 ../../changes.rst:227
@@ -29363,68 +29234,54 @@ msgid "Improvements"
 msgstr "Feabhsuithe"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-same` is now skipped for Toki Pona."
-msgstr ""
-"Níl :ref:`check-reused` spreagtha a thuilleadh le haghaidh teaghráin bhána."
+msgstr "Tá :ref:`check-same` scipeáilte anois do Toki Pona."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ":ref:`search-strings` supports searching by source string state."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr ""
-"Tacaíonn :ref:`search-strings` le cuardach de réir stát teaghrán foinse."
+msgstr "Tacaíonn :ref:`search-strings` le cuardach ``has:location``."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
-#| "see :ref:`check-prohibited-initial-character`."
 msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
-"Is seiceálacha iad príomhcharachtair fadhbanna i CSV anois le haghaidh :ref:"
-"`glossary`, féach :ref:`check-prohibited-initial-character`."
+"Meastar anois gur carachtair fhadhbacha iad spásanna bána Unicode le "
+"haghaidh :ref:`glossary`, féach :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr "Taispeántar logaí :ref:`addon-weblate.webhook.webhook` go deas anois."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr ""
+"Is féidir :ref:`addon-weblate.webhook.webhook` a shuiteáil arís agus arís "
+"eile."
 
 #: ../../changes.rst:21
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr "Is féidir le :ref:`user-profile` URL teagmhála a áireamh anois."
 
 #: ../../changes.rst:22
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
 msgstr ""
+"Ligeann :http:post:`/api/projects/` do dhaoine nach sárúsáideoirí iad "
+"tionscadail a chruthú nuair a bhíonn an modúl :ref:`billing` cumasaithe."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":http:get:`/api/users/` supports searching by user ID."
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
-"Tacaíonn :http:get:`/api/users/` le cuardach de réir aitheantais úsáideora."
+"Tacaíonn :http:post:`/api/groups/` le cruthú foirne atá dírithe ar "
+"thionscadail ag daoine nach sárúsáideoirí iad."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ":http:get:`/api/users/` now includes ``languages``."
-msgstr ""
-":http:get:`/api/changes/(int:id)/` áirítear anois `sean` agus `mionsonraí`."
+msgstr "Tá ``teangacha`` san áireamh anois i :http:get:`/api/users/`."
 
 #: ../../changes.rst:27 ../../changes.rst:58 ../../changes.rst:77
 #: ../../changes.rst:101 ../../changes.rst:128 ../../changes.rst:175
@@ -29445,36 +29302,29 @@ msgid "Bug fixes"
 msgstr "Ceartúcháin fabhtanna"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid ":ref:`dashboard` translations ordering when paginating."
-msgstr "Láimhseáil feabhsaithe glasála aistriúcháin."
+msgstr ":ref:`dashboard` ag ordú aistriúcháin agus leathanaigh á n-úsáid."
 
 #: ../../changes.rst:29
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Teorainneacha gluaise saor in aisce API Honor DeepL i :ref:`mt-deepl`."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr ""
+":ref:`addon-weblate.webhook.webhook` seachadadh imeachtaí ar fud an "
+"tionscadail."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-"Seasta :ref:`check-translated` chun athrú teaghrán foinse a láimhseáil i "
-"gceart."
+"Tuairiscí bréagacha ar :ref:`check-translated` le bratacha nó athruithe "
+"míniúcháin."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "Cruthaíonn aistriúchán nua sa chomhpháirt tugtha."
+msgstr "Ag cruthú aistriúcháin nua i :doc:`/formats/appstore`."
 
 #: ../../changes.rst:35 ../../changes.rst:183 ../../changes.rst:266
 #: ../../changes.rst:356 ../../changes.rst:457 ../../changes.rst:597
@@ -29487,6 +29337,8 @@ msgstr "Comhoiriúnacht"
 #: ../../changes.rst:36
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
+"Taispeánann an cluaisín réamhshocraithe tionscadail agus catagóirí teangacha "
+"aistrithe anois."
 
 #: ../../changes.rst:39 ../../changes.rst:62 ../../changes.rst:81
 #: ../../changes.rst:108 ../../changes.rst:134 ../../changes.rst:187
@@ -29551,41 +29403,31 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"141?closed=1>`__."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Weblate 5.10.4"
 msgid "Weblate 5.11.4"
-msgstr "Réasáin 5.10.4"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on May 7th 2020.*"
 msgid "*Released on May 7th 2025.*"
-msgstr "*Eisithe ar 7 Bealtaine 2020.*"
+msgstr "*Scaoilte ar an 7 Bealtaine 2025.*"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr "Logálann :ref:`addon-weblate.webhook.webhook` iarratais agus freagraí."
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr ""
+"Níor cuireadh :ref:`addon-weblate.webhook.webhook` i ngníomh i gcásanna "
+"áirithe."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29630,90 +29472,64 @@ msgid "Documentation contributions"
 msgstr "Ranníocaíochtaí doiciméadaithe"
 
 #: ../../changes.rst:69
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/136?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/136?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"146?closed=1>`__."
 
 #: ../../changes.rst:72
-#, fuzzy
-#| msgid "Weblate 5.10.3"
 msgid "Weblate 5.11.3"
-msgstr "Weblate 5.10.3"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:74 ../../changes.rst:93
-#, fuzzy
-#| msgid "*Released on May 3rd 2024.*"
 msgid "*Released on May 3rd 2025.*"
-msgstr "*Eisithe ar 3 Bealtaine 2024.*"
+msgstr "*Scaoilte ar an 3 Bealtaine 2025.*"
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
-msgstr "Liostáil scáileáin seasta."
+msgstr "Foilsiú eisiúna seasta."
 
 #: ../../changes.rst:88
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"145?closed=1>`__."
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.2"
-msgstr "Gréasán 5.10.2"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "Gluaiseanna i moladh uathoibríoch"
+msgstr "Feidhmíocht glosaire i mód zen agus moltaí uathoibríocha."
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
-msgstr "Cumraíocht le haghaidh :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Formáidí leathnaithe tacaithe le haghaidh :ref:`addon-"
+"weblate.json.customize`."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid ""
-#| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
 msgstr ""
-"Tacaíocht bhreise chun méarchlár amhairc a chumrú le carachtair speisialta."
+"Ní thuairteann easpórtáil XML a thuilleadh in áiteanna ina bhfuil carachtair "
+"speisialta."
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Láimhseáil feabhsaithe earráide ar bhaint sreang."
+msgstr "Láimhseáil earráide feabhsaithe ar uaslódáil ZIP."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
-msgstr "Comhoiriúnacht Django 1.4."
+msgstr "Comhoiriúnacht le Django 5.2."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "Seachain focail agus carachtair arís agus arís eile."
+msgstr "Seachain sioncrónúcháin glosáir arís agus arís eile."
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -29730,68 +29546,54 @@ msgid "Translations contributions"
 msgstr "Ranníocaíochtaí aistriúcháin"
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"144?closed=1>`__."
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
-msgstr "Gréasán 5.1.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:120
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 25th 2025.*"
-msgstr "*Scaoilte an 15 Aibreán 2025.*"
+msgstr "*Scaoilte ar an 25 Aibreán 2025.*"
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr "Tá :ref:`reports` ar fáil anois do chatagóirí."
+msgstr "Tá foirne agus catagóirí san áireamh anois i :ref:`projectbackup`."
 
 #: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
+"Tacaítear le seiceáil sláinte Docker anois i gcoimeádáin seirbhíse "
+"neamhghréasáin."
 
 #: ../../changes.rst:129
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
+"Aimsíonn comhtháthú :ref:`vcs-gitlab` coinbhleachtaí iarratas comhcheangail "
+"ar bhealach níos láidre anois."
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr "Tá :ref:`addon-weblate.webhook.webhook` cumasaithe anois i Docker."
 
 #: ../../changes.rst:131
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
-msgstr "Téarma gluais toirmiscthe"
+msgstr "Ag baint téarmaí atá ar feitheamh."
 
 #: ../../changes.rst:141
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"142?closed=1>`__."
 
 #: ../../changes.rst:144
 msgid "Weblate 5.11"
@@ -29819,10 +29621,8 @@ msgstr ""
 "ról a scriosadh ó ghrúpa."
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
-msgstr ":ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
+msgstr "Tá :ref:`addon-weblate.webhook.webhook` ar fáil anois mar bhreiseán."
 
 #: ../../changes.rst:153
 msgid ""
@@ -29893,15 +29693,11 @@ msgid ":doc:`/admin/machine` documentation extended."
 msgstr ":doc:`/admin/machine` doiciméadú leathnaithe."
 
 #: ../../changes.rst:167
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` better handles hundredths of "
-#| "matches."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` better handles hundreds of matches."
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` láimhseálann níos fearr na céadta "
-"cuid de chluichí."
+"Láimhseálann :ref:`addon-weblate.discovery.discovery` na céadta cluiche níos "
+"fearr."
 
 #: ../../changes.rst:168
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
@@ -29944,6 +29740,8 @@ msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
 msgstr ""
+"**Slándáil:** D’fhéadfadh clónáil comhpháirte cumraíocht chomhpháirte a "
+"sceitheadh isteach san URL (CVE-2025-32021)."
 
 #: ../../changes.rst:177
 msgid "Fixed captcha verification when some time zone was configured."
@@ -30400,16 +30198,12 @@ msgstr ""
 "Django, féach :doc:`/contributing/tests`."
 
 #: ../../changes.rst:358
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` "
-#| "flag is required to activate this check, see :ref:`custom-checks`."
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
-"tá seiceáil :ref:`check-bbcode` díchumasaithe anois de réir réamhshocraithe. "
-"Tá an bhratach `bbcode-text` ag teastáil chun an tseiceáil seo a "
+"Tá seiceáil :ref:`check-bbcode` díchumasaithe anois de réir réamhshocraithe. "
+"Tá an bhratach ``bbcode-text`` riachtanach chun an seiceáil seo a "
 "ghníomhachtú, féach :ref:`custom-checks`."
 
 #: ../../changes.rst:359
@@ -30640,14 +30434,11 @@ msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Tá Git 2.28 nó níos nuaí ag teastáil ó Weblate anois."
 
 #: ../../changes.rst:460
-#, fuzzy
-#| msgid ""
-#| "Any custom code that relied on `Change` models signals should be reviewed."
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
 msgstr ""
 "Ba cheart athbhreithniú a dhéanamh ar aon chód saincheaptha a bhí ag brath "
-"ar chomharthaí samhlacha `Change`."
+"ar chomharthaí mhúnla \"Change\"."
 
 #: ../../changes.rst:461
 msgid ""
@@ -30914,10 +30705,8 @@ msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Tá Python 3.11 nó níos nuaí ag teastáil ó Weblate anois."
 
 #: ../../changes.rst:599
-#, fuzzy
-#| msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
-msgstr "Teastaíonn cead :ref:`mt-aws` anois ó `TranslateFullAccess`."
+msgstr "Éilíonn :ref:`mt-aws` cead ``TranslateFullAccess`` anois."
 
 #: ../../changes.rst:605
 msgid ""
@@ -30985,16 +30774,12 @@ msgid "*Released on August 30th 2024.*"
 msgstr "*Eisithe ar 30 Lúnasa 2024.*"
 
 #: ../../changes.rst:646
-#, fuzzy
-#| msgid ""
-#| "Updated language names to better describe different scripts and Sintic "
-#| "languages."
 msgid ""
 "Updated language names to better describe different scripts and Sinitic "
 "languages."
 msgstr ""
-"Ainmneacha teanga nuashonraithe chun cur síos níos fearr a dhéanamh ar "
-"scripteanna éagsúla agus ar theangacha Sinteacha."
+"Ainmneacha teangacha nuashonraithe chun cur síos níos fearr a dhéanamh ar "
+"scripteanna agus teangacha Siníteacha éagsúla."
 
 #: ../../changes.rst:647
 msgid ""
@@ -31357,21 +31142,18 @@ msgstr ""
 "moltaí uathoibríocha."
 
 #: ../../changes.rst:779
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
 msgstr ""
-":http:get:`/api/units/(int:id)/` áirítear stampa ama `last_updated` anois."
+"Tá stampa ama ``last_updated`` san áireamh anois i :http:get:`/api/units/"
+"(int:id)/`."
 
 #: ../../changes.rst:780
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ""
 ":http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``."
 msgstr ""
-":http:get:`/api/changes/(int:id)/` áirítear anois `sean` agus `mionsonraí`."
+"Tá ``old`` agus ``details`` san áireamh anois i :http:get:`/api/changes/"
+"(int:id)/`."
 
 #: ../../changes.rst:781
 msgid "Reduced memory usage and increased performance of some views."
@@ -31939,10 +31721,8 @@ msgstr ""
 "Tá ionchur cuardaigh aibhsithe anois sa chomhréir, féach :doc:`/user/search`."
 
 #: ../../changes.rst:1034
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Tamil."
-msgstr "Tá Weblate ar fáil anois i Mumbai."
+msgstr "Tá Weblate ar fáil anois i dTamil."
 
 #: ../../changes.rst:1038
 msgid "Better logging in :wladmin:`createadmin`."
@@ -36990,10 +36770,8 @@ msgstr ""
 "breiseán."
 
 #: ../../changes/v3.rst:427
-#, fuzzy
-#| msgid "Allow more fine grained ratelimit settings."
 msgid "Allow more fine grained :ref:`rate-limit` settings."
-msgstr "Ceadaigh socruithe teorann ráta níos míne."
+msgstr "Ceadaigh socruithe :ref:`rate-limit` níos mínmhionsonraithe."
 
 #: ../../changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
@@ -40036,16 +39814,12 @@ msgstr ""
 "ar ghluaiseanna."
 
 #: ../../changes/v4.rst:867
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate."
-#| "metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
 "should be added."
 msgstr ""
-"Tá athrú ar :setting:`django:INSTALLED_APPS` - ba cheart ``weblate.metrics`` "
-"a chur leis."
+"Tá athrú i :setting:`django:INSTALLED_APPS`; ba chóir ``weblate.metrics`` a "
+"chur leis."
 
 #: ../../changes/v4.rst:871
 msgid "There is a new dependency on the `pyahocorasick` module."
@@ -41654,10 +41428,8 @@ msgid "ORM object for an unit."
 msgstr "Réad ORM le haghaidh aonad."
 
 #: ../../contributing/addons.rst:37
-#, fuzzy
-#| msgid "ORM object for an add-on."
 msgid "ORM object for an change."
-msgstr "Réad ORM le haghaidh breiseán."
+msgstr "Réad ORM le haghaidh athraithe."
 
 #: ../../contributing/addons.rst:41
 msgid "ORM object for an user."
@@ -41695,10 +41467,8 @@ msgstr ""
 "Breathnaigh ar :ref:`internals` chun breathnú ar Weblate ón taobh istigh."
 
 #: ../../contributing/snippets/code-guide.rst:3
-#, fuzzy
-#| msgid "License changed"
 msgid "License and copyright"
-msgstr "Athraíodh an ceadúnas"
+msgstr "Ceadúnas agus cóipcheart"
 
 #: ../../contributing/snippets/code-guide.rst:5
 msgid ""
@@ -41706,22 +41476,21 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"Agus cód á chur leis, aontaíonn tú do chuid athruithe agus cód nua a chur "
+"faoin gceadúnas céanna atá á úsáid ag an stór cheana féin, mura luaitear "
+"agus mura gcomhaontaítear a mhalairt."
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr "Míníonn :doc:`/contributing/license` ceadúnú níos mine."
 
 #: ../../contributing/snippets/code-guide.rst:14
-#, fuzzy
-#| msgid "Writing own checks"
 msgid "Writing a good patch"
-msgstr "Ag scríobh seiceanna féin"
+msgstr "Ag scríobh paiste maith"
 
 #: ../../contributing/snippets/code-guide.rst:17
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Write separate changes"
-msgstr "Athruithe le déanaí"
+msgstr "Scríobh athruithe ar leithligh"
 
 #: ../../contributing/snippets/code-guide.rst:19
 msgid ""
@@ -41731,6 +41500,12 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"Is crá croí é nuair a fhaigheann tú paiste ollmhór a deirtear a shocraíonn "
+"11 fhadhb corr, ach nach n-aontaíonn plé agus tuairimí le 10 gcinn acu nó go "
+"raibh 9 gcinn acu socraithe ar bhealach difriúil cheana féin. Ansin, "
+"caithfidh an duine atá ag cumasc an t-athrú seo an paiste suimiúil amháin a "
+"bhaint as áit éigin laistigh den charn ollmhór foinsí, agus cruthaíonn sé "
+"sin go leor oibre breise."
 
 #: ../../contributing/snippets/code-guide.rst:25
 msgid ""
@@ -41739,12 +41514,19 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"Más fearr, ba chóir go mbeadh gach socrú a réitíonn fadhb ina phaiste/"
+"thiomantas féin lena thuairisc/theachtaireacht thiomnaithe féin ina luaitear "
+"go díreach cad a cheartaítear ionas gur féidir leis an gcothaitheoir nó le "
+"páirtithe leasmhara eile na hathruithe go léir a chur i bhfeidhm go roghnach."
 
 #: ../../contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"Ina theannta sin, cuireann athruithe ar leithligh ar chumas an roinneadh ina "
+"dhá leath i bhfad níos fearr chun fadhbanna agus aischéimniú a rianú amach "
+"anseo."
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -41757,12 +41539,15 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"Is féidir le doiciméadú a bheith ina thasc leadránach; áfach, is gá do "
+"dhuine éigin é a chríochnú. Déanann sé rudaí i bhfad níos éasca má chuireann "
+"tú an doiciméadú isteach in éineacht le hathruithe cóid. Cuimhnigh le do "
+"thoil modhanna, bloic chóid chasta, nó gnéithe atá le feiceáil ag an "
+"úsáideoir a dhoiciméadú."
 
 #: ../../contributing/snippets/code-guide.rst:46
-#, fuzzy
-#| msgid "Use case"
 msgid "Test cases"
-msgstr "Bain úsáid as cás"
+msgstr "Cásanna tástála"
 
 #: ../../contributing/snippets/code-guide.rst:48
 msgid ""
@@ -41772,6 +41557,11 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"Ligeann na tástálacha dúinn a fhíorú go tapa go bhfuil na gnéithe ag obair "
+"mar is ceart dóibh. Chun an cás seo a choinneáil agus a fheabhsú, ní mór "
+"gach gné agus feidhm nua a chuirtear leis a thástáil sa tsraith tástála. Ba "
+"chóir go mbeadh cás tástála bailí amháin ar a laghad ag gach gné a chuirtear "
+"leis a fhíoraíonn go n-oibríonn sí mar atá doiciméadaithe."
 
 #: ../../contributing/snippets/code-guide.rst:56
 msgid ":doc:`/contributing/tests`"
@@ -41794,16 +41584,12 @@ msgid "Coding standard and linting the code"
 msgstr "Códú caighdeánach agus linting an cód"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "The code should follow PEP-8 coding guidelines and should be formatted "
-#| "using :program:`ruff` code formatter."
 msgid ""
 "The code should follow :pep:`8` coding guidelines and should be formatted "
 "using :program:`ruff` code formatter."
 msgstr ""
-"Ba cheart go leanfadh an cód treoirlínte códaithe PEP-8 agus ba chóir é a "
-"fhormáidiú ag baint úsáide as formáidí cód :program:`ruff`."
+"Ba chóir don chód treoirlínte códaithe :pep:`8` a leanúint agus ba chóir é a "
+"fhormáidiú ag baint úsáide as formáideoir cóid :program:`ruff`."
 
 #: ../../contributing/snippets/code-guide.rst:71
 msgid ""
@@ -41844,10 +41630,8 @@ msgstr ""
 "rith a sheiceáil:"
 
 #: ../../contributing/snippets/code-guide.rst:92
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding securely"
-msgstr "Stíl códaithe"
+msgstr "Códú slán"
 
 #: ../../contributing/snippets/code-guide.rst:94
 msgid ""
@@ -41858,10 +41642,8 @@ msgstr ""
 "trí Dhearadh`_ san áireamh."
 
 #: ../../contributing/snippets/code-guide.rst:100
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "AI guidelines"
-msgstr "Treoracha códaithe"
+msgstr "Treoirlínte na hintleachta saorga"
 
 #: ../../contributing/snippets/code-guide.rst:102
 msgid ""
@@ -41872,10 +41654,17 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"Agus ábhar á chur leis an tionscadal, tugann tú cead dúinn é a úsáid mar "
+"atá, agus ní mór duit a chinntiú go bhfuil cead agat é a dháileadh chugainn. "
+"Trí athrú a chur isteach chugainn, aontaíonn tú gur féidir leis an "
+"tionscadal na hathruithe a ghlacadh agus gur cheart iad a athdháileadh faoin "
+"gceadúnas tionscadail. Ba chóir d’údair a bheith ar an eolas go soiléir gurb "
+"orthu féin atá an dualgas a chinntiú nach gcuirtear aon chód "
+"neamhcheadúnaithe isteach sa tionscadal."
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "Tá sé seo neamhspleách ar cibé an n-úsáidtear AI nó nach n-úsáidtear."
 
 #: ../../contributing/snippets/code-guide.rst:111
 msgid ""
@@ -41884,6 +41673,11 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"Agus iarratas tarraingthe á chur isteach agat, ba cheart duit a chinntiú i "
+"gcónaí, ar ndóigh, go bhfuil an togra d’ardchaighdeán agus gurb é an "
+"iarracht is fearr a dhéantar ná ár dtreoirlínte a leanúint. Riail bhunúsach "
+"ordóige is ea má fheiceann duine gur rinneadh an ranníocaíocht le cabhair ó "
+"intleacht shaorga, go bhfuil níos mó oibre le déanamh agat."
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid ""
@@ -41891,6 +41685,10 @@ msgid ""
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
+"Is féidir linn cód atá scríofa le cabhair ó shaorga a ghlacadh isteach sa "
+"tionscadal, ach ní mór don chód cloí le caighdeáin chódaithe fós, a bheith "
+"scríofa go soiléir, a bheith doiciméadaithe, cásanna tástála a bheith ann, "
+"agus cloí leis na ceanglais ghnáthúla go léir atá againn."
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -42603,18 +42401,12 @@ msgid "Icons"
 msgstr "Deilbhíní"
 
 #: ../../contributing/frontend.rst:123
-#, fuzzy
-#| msgid ""
-#| "Weblate currently uses material design icons. In case you are looking for "
-#| "new symbol, check `Material Design Icons`_ or `Material Design "
-#| "Resources`_."
 msgid ""
 "Weblate currently uses `Material Design Icons`_, in case you are looking for "
 "new symbol, check that."
 msgstr ""
-"Úsáideann Weblate deilbhíní dearaidh ábhar faoi láthair. I gcás go bhfuil "
-"siombail nua á lorg agat, seiceáil `Deilbhíní Dearaidh Ábhar`_ nó `Acmhainní "
-"Dearaidh Ábhar`_."
+"Úsáideann Weblate `Material Design Icons`_ faoi láthair, más siombail nua "
+"atá uait, féach air sin."
 
 #: ../../contributing/frontend.rst:126
 msgid ""
@@ -43010,16 +42802,12 @@ msgstr ""
 "go compordach tríd an tuarascáil eisiúint."
 
 #: ../../contributing/issues.rst:13
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid ""
 "If what you have found is a security issue in Weblate, please see :ref:"
 "`security`."
 msgstr ""
-"Más saincheist slándála é an rud a d’aimsigh tú in Weblate, féach ar an "
-"rannán :ref:`security` thíos le do thoil."
+"Más fadhb slándála atá aimsithe agat i Weblate, féach le do thoil ar "
+":ref:`security`."
 
 #: ../../contributing/issues.rst:15
 msgid ""
@@ -43031,13 +42819,15 @@ msgstr ""
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to created issues"
-msgstr ""
+msgstr "Úsáid AI chun fadhbanna a chruthú"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Má d’iarr tú ar uirlis AI fadhbanna a aimsiú i Weblate nó ina mhodúil, **ní "
+"mór** duit a chinntiú go nochtfaidh tú an fhíric seo i do thuairisc."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -43046,6 +42836,10 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"Ní mór duit na torthaí a sheiceáil faoi dhó go cúramach sula dtugann tú "
+"tuairisc dúinn orthu chun a bhailíochtú go bhfuil na fadhbanna ann i "
+"ndáiríre agus go bhfuil siad ag obair díreach mar a deir an AI. Is minic a "
+"ghineann uirlisí bunaithe ar AI torthaí míchruinne nó bréige."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -43057,6 +42851,15 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"Is annamh a bhíonn sé ina smaoineamh maith tuarascáil a ghintear ag an "
+"Intleacht Shaorga a chóipeáil agus a ghreamú isteach sa tionscadal. De "
+"ghnáth bíonn na tuarascálacha sin rófhoclach agus is annamh a bhíonn siad "
+"díreach (chomh maith leis na sonraí coitianta bréagacha). Má aimsíonn tú "
+"fadhb le hintleacht shaorga agus má dheimhnigh tú féin go bhfuil sí fíor, "
+"scríobh an tuarascáil tú féin agus mínigh an fhadhb mar a d'fhoghlaim tú í. "
+"Cinntíonn sé seo go ndéantar na míchruinnis agus na fadhbanna cruthaitheacha "
+"a ghintear ag an Intleacht Shaorga a scagadh amach go luath sula gcuireann "
+"siad níos mó ama daoine amú."
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -43066,25 +42869,30 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"Ós rud é go nglacaimid dáiríre le tuarascálacha slándála, déanaimid imscrúdú "
+"ar gach tuarascáil mar thosaíocht. Tógann an obair seo am agus fuinneamh "
+"araon agus cuireann sí ar shiúl sinn ó obair bhríoch eile a dhéanamh. "
+"Cuireann saincheisteanna slándála bréige nó bréagacha cosc orainn fíorobair "
+"thionscadail a dhéanamh agus cuireann siad am agus acmhainní amú orainn."
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
+"Cuirimid cosc láithreach ar úsáideoirí a chuireann tuairiscí bréige "
+"bréagacha isteach chuig an tionscadal."
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
-msgstr ""
+msgstr "Saolré na saincheisteanna"
 
 #: ../../contributing/license.rst:2
 msgid "License"
 msgstr "Ceadúnas"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate license"
-msgstr "Cliant Gréasáin"
+msgstr "Ceadúnas Weblate"
 
 #: ../../contributing/license.rst:7
 msgid ""
@@ -43130,16 +42938,16 @@ msgstr ""
 "gclár seo faighte agat. Mura bhfuil, féach <https://www.gnu.org/licenses/ >."
 
 #: ../../contributing/license.rst:25
-#, fuzzy
-#| msgid "Weblate deployments"
 msgid "Weblate modules license"
-msgstr "Imscaradh gréasáin"
+msgstr "Ceadúnas modúl Weblate"
 
 #: ../../contributing/license.rst:27
 msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
 msgstr ""
+"Úsáideann roinnt modúl Weblate ceadúnais MIT nó ISC. Seiceáil na stórtha "
+"faoi seach le haghaidh an cheadúnais iarbhír."
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -43194,25 +43002,19 @@ msgid "Releasing Weblate"
 msgstr "Gréasáin a scaoileadh"
 
 #: ../../contributing/release.rst:7
-#, fuzzy
-#| msgid "Release process"
 msgid "Release cycle"
-msgstr "Próiseas scaoilte"
+msgstr "Timthriall scaoilte"
 
 #: ../../contributing/release.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has two month release cycle for releases (x.y). These are usually "
-#| "followed by a bunch of bugfix releases to fix issues which slip into them "
-#| "(x.y.z)."
 msgid ""
 "Weblate has two month release cycle for releases (x.y). These are usually "
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z). This includes bug fixes and addressing security issues."
 msgstr ""
-"Tá timthriall scaoileadh dhá mhí ag Weblate le haghaidh eisiúintí (x.y). Is "
-"iondúil go mbíonn roinnt eisiúintí fabhtanna ina ndiaidh chun fadhbanna a "
-"shleamhnaíonn isteach iontu a réiteach (x.y.z)."
+"Tá timthriall scaoilte dhá mhí ag Weblate le haghaidh scaoileadh (x.y). De "
+"ghnáth, leanann roinnt scaoileadh fabhtcheartúcháin iad seo chun fadhbanna a "
+"thagann isteach iontu a shocrú (x.y.z). Áirítear leis seo socruithe fabht "
+"agus aghaidh a thabhairt ar shaincheisteanna slándála."
 
 #: ../../contributing/release.rst:13
 msgid ""
@@ -43230,12 +43032,13 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"Cuimsíonn coimeádán Docker digit bhreise i leaganacha chun athruithe sa "
+"choimeádán féin a rianú, amhail spleáchais. D’fhéadfadh nuashonruithe "
+"slándála a bheith san áireamh sna nuashonruithe seo."
 
 #: ../../contributing/release.rst:23
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../admin/upgrade`, :ref:`security-updates`"
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
@@ -43368,10 +43171,8 @@ msgid ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :wladmin:`dumpuserdata`"
 
 #: ../../contributing/schemas.rst:40
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
-msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
+msgstr ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -43730,10 +43531,8 @@ msgid "The simple execution can look like:"
 msgstr "Is féidir breathnú ar fhorghníomhú simplí mar:"
 
 #: ../../contributing/tests.rst:47
-#, fuzzy
-#| msgid "Local testing"
 msgid "Local testing of Weblate"
-msgstr "Tástáil áitiúil"
+msgstr "Tástáil áitiúil ar Weblate"
 
 #: ../../contributing/tests.rst:49
 msgid ""
@@ -43805,10 +43604,8 @@ msgstr ""
 "rith agus scríobh trialacha do Django."
 
 #: ../../contributing/tests.rst:103
-#, fuzzy
-#| msgid "Contributing to Weblate modules"
 msgid "Local testing of Weblate modules"
-msgstr "Ag cur le modúil Weblate"
+msgstr "Tástáil áitiúil ar mhodúil Weblate"
 
 #: ../../contributing/tests.rst:105
 msgid ""
@@ -45478,10 +45275,8 @@ msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/mobile.rst:2
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Multi-platform localization"
-msgstr "Logánú leanúnach"
+msgstr "Logánú il-ardáin"
 
 #: ../../devel/mobile.rst:4
 msgid ""
@@ -45489,34 +45284,43 @@ msgid ""
 "configure separate components for each platform. The :ref:`translation-"
 "propagation` will help you to keep the strings in sync."
 msgstr ""
+"Agus aipeanna á n-aistriú do il-ardáin (e.g., Android agus iOS), cumraigh "
+"comhpháirteanna ar leithligh do gach ardán. Cabhróidh an :ref:`translation-"
+"propagation` leat na teaghráin a choinneáil sioncrónaithe."
 
 #: ../../devel/mobile.rst:8
-#, fuzzy
-#| msgid "CII Best Practices"
 msgid "Best practices:"
-msgstr "CII Cleachtais is Fearr"
+msgstr "Dea-chleachtais:"
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
 msgstr ""
+"Cruthaigh comhpháirt amháin in aghaidh an ardáin (e.g., `MyApp Android`, `"
+"MyApp iOS`)."
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
 msgstr ""
+"Cinntigh go n-úsáidtear teaghráin foinse agus eochracha comhionanna ar fud "
+"ardáin nuair is féidir."
 
 #: ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Cumasaigh :ref:`component-allow_translation_propagation` chun aistriúcháin a "
+"athúsáid go huathoibríoch le haghaidh teaghráin chomhoiriúnacha."
 
 #: ../../devel/mobile.rst:14
 msgid ""
 "This setup avoids duplicate work and keeps translations consistent across "
 "platforms."
 msgstr ""
+"Seachnaíonn an socrú seo obair dhúblach agus coinníonn sé aistriúcháin "
+"comhsheasmhach ar fud ardáin."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -50493,10 +50297,8 @@ msgid "Contributor docs"
 msgstr "Doiciméid ranníocóirí"
 
 #: ../../index.rst:145
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Secure Weblate"
-msgstr "Tacaíocht Weblate"
+msgstr "Weblate Slán"
 
 #: ../../index.rst:159
 msgid "File formats"
@@ -50938,14 +50740,12 @@ msgid "Main class for invoking commands."
 msgstr "Príomhrang le haghaidh orduithe a agairt."
 
 #: ../../security/dependencies.rst:2
-#, fuzzy
-#| msgid "Dependencies updates."
 msgid "Dependencies"
-msgstr "Nuashonruithe spleáchais."
+msgstr "Spleáchais"
 
 #: ../../security/dependencies.rst:7
 msgid "Software Bill of Material"
-msgstr ""
+msgstr "Bille Ábhar Bogearraí"
 
 #: ../../security/dependencies.rst:9
 msgid ""
@@ -50953,6 +50753,10 @@ msgid ""
 "file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be "
 "used to review the dependencies for security issues or license compliance."
 msgstr ""
+"Tagann Bille Ábhar Bogearraí (SBOM) le Weblate sa chroílár foinse mar :file:`"
+"docs/specs/sbom/sbom.json` ag baint úsáide as an bhformáid CycloneDX. Is "
+"féidir é seo a úsáid chun na spleáchais a athbhreithniú le haghaidh "
+"saincheisteanna slándála nó comhlíonadh ceadúnais."
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
@@ -51013,33 +50817,35 @@ msgid ":ref:`ci-tests`"
 msgstr ":ref:`ci-tests`"
 
 #: ../../security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Díchumasaigh fionnachtain"
+msgstr "Plean téarnaimh tubaiste"
 
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
 msgid "Scope and objectives"
-msgstr ""
+msgstr "Raon feidhme agus cuspóirí"
 
 #: ../../security/disaster-recovery-plan.rst:7
 msgid ""
 "This plan addresses recovery from catastrophic events impacting Weblate "
 "service availability, data integrity, or operational continuity."
 msgstr ""
+"Tugann an plean seo aghaidh ar aisghabháil ó imeachtaí tubaisteacha a mbíonn "
+"tionchar acu ar infhaighteacht sheirbhís Weblate, sláine sonraí nó "
+"leanúnachas oibríochtúil."
 
 #: ../../security/disaster-recovery-plan.rst:11
 msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate s.r."
 "o., but it can be applied to other deployments similarly."
 msgstr ""
+"Tá an plean deartha go sonrach le haghaidh imscaradh Weblate ag Weblate "
+"s.r.o., ach is féidir é a chur i bhfeidhm ar imscaradh eile ar an gcaoi "
+"chéanna."
 
 #: ../../security/disaster-recovery-plan.rst:14
-#, fuzzy
-#| msgid "definitions"
 msgid "Definitions"
-msgstr "sainmhínithe"
+msgstr "Sainmhínithe"
 
 #: ../../security/disaster-recovery-plan.rst:16
 msgid ""
@@ -51047,48 +50853,58 @@ msgid ""
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
 msgstr ""
+"**Tubaiste:** Aon teagmhas gan phleanáil a mbíonn cailliúint iomlán nó "
+"shuntasach seirbhíse, sonraí nó feidhmiúlacht an chórais mar thoradh air. I "
+"measc na samplaí tá teip crua-earraí, truailliú sonraí, briseadh bonneagair, "
+"nó ionsaí mailíseach."
 
 #: ../../security/disaster-recovery-plan.rst:17
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
 msgstr ""
+"**Cuspóir Pointe Aisghabhála (RPO):** An t-eatramh uasta inghlactha maidir "
+"le caillteanas sonraí: **24 uair an chloig**."
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
 msgstr ""
+"**Cuspóir Ama Aisghabhála (AAT):** An t-am is faide inghlactha chun seirbhís "
+"iomlán a athbhunú: **8 n-uaire an chloig**."
 
 #: ../../security/disaster-recovery-plan.rst:21
-#, fuzzy
-#| msgid "Bilingual components"
 msgid "Critical components"
-msgstr "Comhpháirteanna dátheangacha"
+msgstr "Comhpháirteanna criticiúla"
 
 #: ../../security/disaster-recovery-plan.rst:23
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
 msgstr ""
+"**Sraith Feidhmchláir:** Feidhmchlár Weblate Python/Django, oibrithe cúlra "
+"(Celery), agus tascanna sceidealaithe."
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
 msgstr ""
+"**Sraith Sonraí:** Bunachar sonraí PostgreSQL, stórtha aistriúcháin (Git), "
+"agus logaí."
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
 msgstr ""
+"**Bonneagar:** Freastalaí gréasáin (NGINX/Apache), seachfhreastalaí droim ar "
+"ais, toirteanna stórála, cumraíocht SSL/TLS, agus córas logála SIEM roghnach."
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup colicy"
-msgstr "Stór cúltaca"
+msgstr "Colic cúltaca"
 
 #: ../../security/disaster-recovery-plan.rst:30
 msgid ""
@@ -51098,242 +50914,262 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+"Ráthaíonn an próiseas :ref:`automated-backup` go ndéantar cúltaca laethúil "
+"de na comhpháirteanna riachtanacha go léir (sonraí bunachar, sonraí, agus "
+"cumraíocht). Stóráiltear na cúltacaí i ndá shuíomh geografach difriúla. "
+"Cinntíonn an polasaí coinneála cúltacaí go bhfuil cúltacaí le déanaí ar fáil "
+"go laethúil agus go gcoinnítear sé mhí de chúltacaí."
 
 #: ../../security/disaster-recovery-plan.rst:36
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery Procedures"
-msgstr "Cóid aisghabhála"
+msgstr "Nósanna Imeachta Aisghabhála"
 
 #: ../../security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
-msgstr ""
+msgstr "Cás teipe: cailliúint iomlán óstach/córais"
 
 #: ../../security/disaster-recovery-plan.rst:43
-#, fuzzy
-#| msgid "Provisioning"
 msgid "Provision new host."
-msgstr "Soláthar"
+msgstr "Soláthar óstach nua."
 
 #: ../../security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
-msgstr ""
+msgstr "Bootstrap Weblate ag baint úsáide as bogearraí soláthair."
 
 #: ../../security/disaster-recovery-plan.rst:45
 #: ../../security/disaster-recovery-plan.rst:53
 msgid "Restore Weblate backup following :ref:`restore-borg`."
-msgstr ""
+msgstr "Athchóirigh cúltaca Weblate ag leanúint :ref:`restore-borg`."
 
 #: ../../security/disaster-recovery-plan.rst:46
-#, fuzzy
-#| msgid "Start Weblate containers:"
 msgid "Restart Weblate container."
-msgstr "Tosaigh coimeádáin Ghréasáin:"
+msgstr "Atosaigh coimeádán Weblate."
 
 #: ../../security/disaster-recovery-plan.rst:47
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid "Verify functionality and perform consistency checks."
-msgstr "Feidhmíocht fheabhsaithe seiceálacha comhsheasmhachta."
+msgstr "Fíoraigh feidhmiúlacht agus déan seiceálacha comhsheasmhachta."
 
 #: ../../security/disaster-recovery-plan.rst:50
 msgid "Failure scenario: database corruption or data volume loss"
-msgstr ""
+msgstr "Cás teipe: truailliú bunachar sonraí nó cailliúint toirte sonraí"
 
 #: ../../security/disaster-recovery-plan.rst:52
 msgid "Stop Weblate to prevent further write operations."
 msgstr ""
+"Stop Weblate chun cosc a chur ar thuilleadh oibríochtaí scríbhneoireachta."
 
 #: ../../security/disaster-recovery-plan.rst:54
 msgid "Restart services and verify translation and user data consistency."
 msgstr ""
+"Atosaigh seirbhísí agus fíoraigh comhsheasmhacht aistriúcháin agus sonraí "
+"úsáideora."
 
 #: ../../security/disaster-recovery-plan.rst:57
 msgid "Failure scenario: malicious tampering or ransomware"
-msgstr ""
+msgstr "Cás teipe: cur isteach mailíseach nó ransomware"
 
 #: ../../security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "An t-óstach atá buailte a leithlisiú ón líonra."
 
 #: ../../security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
-msgstr ""
+msgstr "Aithin an cúltaca deireanach a bhí bailí (réamh-ionfhabhtú)."
 
 #: ../../security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
+"Lean na céimeanna ó :ref:`drp-host` chun an córas a imscaradh ar óstach nua."
 
 #: ../../security/disaster-recovery-plan.rst:64
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Validation and testing"
-msgstr "Theip ar bhailíochtú, bain triail eile as."
+msgstr "Bailíochtú agus tástáil"
 
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
-msgstr ""
+msgstr "**Fíorú Cúltaca:** Tástáil athchóirithe mhíosúil ar chúltacaí Weblate."
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
 msgstr ""
+"**Cleachtadh Aisghabhála ó Thubaiste:** Déan é seo uair sa bhliain ar a "
+"laghad, lena n-áirítear athchóiriú iomlán chuig timpeallacht stáitsithe."
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
 msgstr ""
+"**Seiceálacha Uathoibrithe Ionracais:** Cinntíonn BorgBackup sláine na "
+"gcartlann cúltaca."
 
 #: ../../security/disaster-recovery-plan.rst:71
-#, fuzzy
-#| msgid "Use recovery codes"
 msgid "Post-recovery steps"
-msgstr "Bain úsáid as cóid athshlánaithe"
+msgstr "Céimeanna iar-aisghabhála"
 
 #: ../../security/disaster-recovery-plan.rst:73
 msgid "Confirm all services are operational and accessible."
-msgstr ""
+msgstr "Deimhnigh go bhfuil na seirbhísí uile ag feidhmiú agus inrochtana."
 
 #: ../../security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
 msgstr ""
+"Cuir úsáideoirí agus geallsealbhóirí ar an eolas faoin stádas téarnaimh."
 
 #: ../../security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
 msgstr ""
+"Doiciméadaigh an t-amlíne, an chúis bhunúsach, agus na ceachtanna foghlamtha."
 
 #: ../../security/disaster-recovery-plan.rst:76
 msgid "Apply updates or infrastructure changes to prevent recurrence."
 msgstr ""
+"Cuir nuashonruithe nó athruithe bonneagair i bhfeidhm chun atarlú a chosc."
 
 #: ../../security/disaster-recovery-plan.rst:77
 msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
 msgstr ""
+"Lean :ref:`vulnerability-disclosure-policy` i gcás go raibh leochaileacht i "
+"gceist."
 
 #: ../../security/incident-response-plan.rst:2
-#, fuzzy
-#| msgid "Third-party deployments for Weblate"
 msgid "Incident response plan for Weblate"
-msgstr "Imscaradh tríú páirtí le haghaidh Weblate"
+msgstr "Plean freagartha teagmhais do Weblate"
 
 #: ../../security/incident-response-plan.rst:7
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of a Weblate deployment."
 msgstr ""
+"Clúdaíonn an IRP seo teagmhais a mbíonn tionchar acu ar rúndacht, sláine nó "
+"infhaighteacht imscaradh Weblate."
 
 #: ../../security/incident-response-plan.rst:8
 msgid ""
 "It applies to self-hosted Weblate instances, whether on-premise or in cloud "
 "infrastructure."
 msgstr ""
+"Baineann sé le cásanna Weblate féinóstáilte, bíodh siad ar an láthair féin "
+"nó i mbonneagar scamall."
 
 #: ../../security/incident-response-plan.rst:11
-#, fuzzy
-#| msgid "Extended search possibilities."
 msgid "Roles and responsibilities"
-msgstr "Féidearthachtaí cuardaigh leathnaithe."
+msgstr "Róil agus freagrachtaí"
 
 #: ../../security/incident-response-plan.rst:13
 msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
 msgstr ""
+"**Ceannaire Freagartha Teagmhais (IRL):** Comhordaíonn gach céim den "
+"phróiseas freagartha."
 
 #: ../../security/incident-response-plan.rst:14
 msgid "**System Administrator:** Executes containment and recovery measures."
 msgstr ""
+"**Riarthóir Córais:** Cuireann sé bearta coinneála agus téarnaimh i bhfeidhm."
 
 #: ../../security/incident-response-plan.rst:15
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
 msgstr ""
+"**Oifigeach Slándála:** Déanann measúnú ar thionchar slándála agus ar "
+"iarmhairtí rialála."
 
 #: ../../security/incident-response-plan.rst:16
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
 msgstr ""
+"**Ceannaire Cumarsáide:** Bainistíonn fógraí chuig geallsealbhóirí "
+"inmheánacha agus seachtracha más gá."
 
 #: ../../security/incident-response-plan.rst:19
-#, fuzzy
-#| msgid "Components and categories"
 msgid "Incident categories"
-msgstr "Comhpháirteanna agus catagóirí"
+msgstr "Catagóirí teagmhais"
 
 #: ../../security/incident-response-plan.rst:21
 msgid "Category 1 – Unauthorized Access"
-msgstr ""
+msgstr "Catagóir 1 – Rochtain Neamhúdaraithe"
 
 #: ../../security/incident-response-plan.rst:22
 msgid "Category 2 – Data Integrity Violation"
-msgstr ""
+msgstr "Catagóir 2 – Sárú Ionracais Sonraí"
 
 #: ../../security/incident-response-plan.rst:23
 msgid "Category 3 – Service Outage or Degradation"
-msgstr ""
+msgstr "Catagóir 3 – Briseadh nó Meath Seirbhíse"
 
 #: ../../security/incident-response-plan.rst:24
 msgid "Category 4 – Misconfiguration or Deployment Error"
-msgstr ""
+msgstr "Catagóir 4 – Earráid Mhíchumraíochta nó Imscartha"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Incident response lifecycle"
-msgstr ""
+msgstr "Timthriall saoil freagartha teagmhais"
 
 #: ../../security/incident-response-plan.rst:30
-#, fuzzy
-#| msgid "Explanation"
 msgid "Preparation"
-msgstr "Míniú"
+msgstr "Ullmhúchán"
 
 #: ../../security/incident-response-plan.rst:32
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory."
 msgstr ""
+"Cinntigh go ndéantar cúltacaí laethúla rialta den bhunachar sonraí "
+"PostgreSQL agus den eolaire sonraí."
 
 #: ../../security/incident-response-plan.rst:33
 msgid ""
 "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
 "1.2+)."
 msgstr ""
+"Cosain Weblate le seachfhreastalaí droim ar ais (e.g., NGINX nó Apache) agus "
+"HTTPS (TLS 1.2+)."
 
 #: ../../security/incident-response-plan.rst:34
 msgid "Enable 2FA for admin-level accounts."
-msgstr ""
+msgstr "Cumasaigh 2FA do chuntais ar leibhéal an riarthóra."
 
 #: ../../security/incident-response-plan.rst:35
 msgid ""
 "Keep the Weblate instance and its dependencies (Python, Django, Celery, "
 "database, etc.) up to date."
 msgstr ""
+"Coinnigh an sampla de Weblate agus a spleáchais (Python, Django, Celery, "
+"bunachar sonraí, srl.) cothrom le dáta."
 
 #: ../../security/incident-response-plan.rst:36
 msgid ""
 "Integrate with SIEM systems using the GELF protocol for audit and "
 "application log forwarding."
 msgstr ""
+"Comhtháthú le córais SIEM ag baint úsáide as an bprótacal GELF le haghaidh "
+"iniúchta agus atreorú logaí feidhmchlár."
 
 #: ../../security/incident-response-plan.rst:39
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Identification"
-msgstr "Aitheantas inlíne"
+msgstr "Aitheantas"
 
 #: ../../security/incident-response-plan.rst:41
 msgid ""
 "Monitor system and application logs (``journalctl``, reverse proxy logs, "
 "Weblate application and audit logs)."
 msgstr ""
+"Monatóireacht a dhéanamh ar logaí an chórais agus na bhfeidhmchlár "
+"(``journalctl``, logaí seachfhreastalaí droim ar ais, logaí feidhmchláir "
+"agus iniúchta Weblate)."
 
 #: ../../security/incident-response-plan.rst:42
 msgid "Analyze login events, webhook executions, and push/pull failures."
 msgstr ""
+"Déan anailís ar imeachtaí logála isteach, forghníomhuithe webhook, agus "
+"teipeanna brú/tarraingthe."
 
 #: ../../security/incident-response-plan.rst:43
 msgid ""
@@ -51341,90 +51177,97 @@ msgid ""
 "login failures - Unexpected service restarts or memory usage spikes - "
 "Irregular push/pull actions from version control systems"
 msgstr ""
+"Cumraigh foláirimh (m.sh., trí Prometheus, Zabbix, nó SIEM) le haghaidh: - "
+"Il-theipeanna logála isteach - Atosú seirbhíse gan choinne nó borrtha úsáide "
+"cuimhne - Gníomhartha brú/tarraingthe neamhrialta ó chórais rialaithe "
+"leaganacha"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Content"
 msgid "Containment"
-msgstr "Ábhar"
+msgstr "Coinneáil"
 
 #: ../../security/incident-response-plan.rst:51
 msgid ""
 "Temporarily restrict access (e.g., via firewall rules or service isolation)."
 msgstr ""
+"Srian sealadach a chur ar rochtain (e.g., trí rialacha balla dóiteáin nó "
+"leithlisiú seirbhíse)."
 
 #: ../../security/incident-response-plan.rst:52
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
 msgstr ""
+"Díchumasaigh comhtháthú seachtrach (Git/webhooks) má tá siad mar chuid den "
+"veicteoir ionsaithe."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Suspend affected user accounts immediately."
-msgstr ""
+msgstr "Cuir cuntais úsáideoirí lena mbaineann ar fionraí láithreach."
 
 #: ../../security/incident-response-plan.rst:56
-#, fuzzy
-#| msgid "Explanation"
 msgid "Eradication"
-msgstr "Míniú"
+msgstr "Díothú"
 
 #: ../../security/incident-response-plan.rst:58
 msgid "Remove any unauthorized code or data."
-msgstr ""
+msgstr "Bain aon chód nó sonraí neamhúdaraithe."
 
 #: ../../security/incident-response-plan.rst:59
 msgid "Patch known vulnerabilities by upgrading Weblate or server components."
 msgstr ""
+"Paisteáil leochaileachtaí aitheanta trí Weblate nó comhpháirteanna "
+"freastalaí a uasghrádú."
 
 #: ../../security/incident-response-plan.rst:60
 msgid ""
 "Validate binary and repository integrity using SHA-256 checksums or Git logs."
 msgstr ""
+"Déan sláine na ndéanártha agus na stórtha a bhailíochtú ag baint úsáide as "
+"suimeanna seiceála SHA-256 nó logaí Git."
 
 #: ../../security/incident-response-plan.rst:63
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery"
-msgstr "Cóid aisghabhála"
+msgstr "Aisghabháil"
 
 #: ../../security/incident-response-plan.rst:65
 msgid "Restore affected services or data from the latest known-good backups."
 msgstr ""
+"Athchóirigh seirbhísí nó sonraí lena mbaineann ó na cúltacaí is déanaí a "
+"bhfuil aithne orthu gur féidir iad a úsáid."
 
 #: ../../security/incident-response-plan.rst:66
 msgid "Reintroduce services in a phased approach."
-msgstr ""
+msgstr "Seirbhísí a athbhunú de réir a chéile."
 
 #: ../../security/incident-response-plan.rst:67
 msgid ""
 "Monitor logs and system behavior continuously for at least 72 hours post-"
 "recovery."
 msgstr ""
+"Déan monatóireacht leanúnach ar logaí agus ar iompar an chórais ar feadh 72 "
+"uair an chloig ar a laghad tar éis an aisghabhála."
 
 #: ../../security/incident-response-plan.rst:70
-#, fuzzy
-#| msgid "Source in review"
 msgid "Post-incident review"
-msgstr "Foinse san athbhreithniú"
+msgstr "Athbhreithniú iar-eachtra"
 
 #: ../../security/incident-response-plan.rst:72
 msgid "Compile a full incident timeline and actions taken."
 msgstr ""
+"Cuir amlíne iomlán na teagmhais agus na gníomhartha a glacadh le chéile."
 
 #: ../../security/incident-response-plan.rst:73
 msgid "Perform Root Cause Analysis (RCA)."
-msgstr ""
+msgstr "Déan Anailís Fréamhchúise (RCA)."
 
 #: ../../security/incident-response-plan.rst:74
-#, fuzzy
-#| msgid "Typo fixes in the documentation."
 msgid "Update security policies and IRP documentation."
-msgstr "Ceartúcháin Typo sa doiciméadú."
+msgstr "Nuashonraigh beartais slándála agus doiciméadacht IRP."
 
 #: ../../security/incident-response-plan.rst:75
 msgid "Review the effectiveness of detection and containment mechanisms."
-msgstr ""
+msgstr "Athbhreithnigh éifeachtacht na meicníochtaí braite agus coinneála."
 
 #: ../../security/index.rst:2
 msgid "Security and privacy"
@@ -51439,18 +51282,12 @@ msgstr ""
 "phríobháideachas ár n-úsáideoirí."
 
 #: ../../security/index.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://www.bestpractices."
-#| "dev/en/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Open Source "
 "Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 msgstr ""
-"Cloíonn Forbairt Weblate leis na `Chleachtais is Fearr de Thionscnamh Croí-"
-"Bhonneagar an Fhorais Linux <https://www.bestpractices.dev/ga/"
-"projects/552>`_."
+"Cloíonn forbairt Weblate le `Cleachtais is Fearr Fhondúireacht Slándála "
+"Foinse Oscailte <https://www.bestpractices.dev/en/projects/552>`_."
 
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
@@ -51469,12 +51306,16 @@ msgid ""
 "benefit from the latest security improvements. Learn more about :ref:"
 "`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Cuireann Weblate nuashonruithe slándála ar fáil chun aghaidh a thabhairt ar "
+"leochaileachtaí agus chun feabhas a chur ar staid slándála an fheidhmchláir. "
+"Ní ráthaítear ach go bhfaighidh an scaoileadh is déanaí nuashonruithe "
+"slándála. Moltar d’úsáideoirí Weblate a choinneáil cothrom le dáta chun leas "
+"a bhaint as na feabhsuithe slándála is déanaí. Foghlaim tuilleadh faoi :ref:`"
+"Weblate releases and the release life cycle <release-cycle>`."
 
 #: ../../security/index.rst:26
-#, fuzzy
-#| msgid "Security updates"
 msgid "Security policies"
-msgstr "Nuashonruithe slándála"
+msgstr "Polasaithe slándála"
 
 #: ../../security/index.rst:28
 msgid ":doc:`dependencies`"
@@ -51497,10 +51338,8 @@ msgid ":doc:`threat-model`"
 msgstr ":doc:`threat-model`"
 
 #: ../../security/index.rst:36
-#, fuzzy
-#| msgid "Company"
 msgid "Compliance"
-msgstr "Comhlacht"
+msgstr "Comhlíonadh"
 
 #: ../../security/index.rst:38
 msgid ":doc:`privacy-compliance`"
@@ -51508,7 +51347,7 @@ msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
-msgstr ""
+msgstr "Leochaileacht agus láimhseáil teagmhas"
 
 #: ../../security/issues.rst:7
 msgid "Reporting security issues"
@@ -51519,6 +51358,8 @@ msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
 msgstr ""
+"Léigh :ref:`ai-issues` le do thoil i gcás gur úsáid tú AI chun fadhb "
+"slándála a aimsiú i Weblate."
 
 #: ../../security/issues.rst:13
 msgid ""
@@ -51533,22 +51374,16 @@ msgstr ""
 "leanaimid iad."
 
 #: ../../security/issues.rst:17
-#, fuzzy
-#| msgid ""
-#| "Most normal bugs in Weblate are reported to our public `GitHub issues "
-#| "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
-#| "sensitive nature of security issues, we ask that they not be publicly "
-#| "reported in this fashion."
 msgid ""
 "Most normal bugs in Weblate are reported to our public `GitHub issues "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
 "sensitive nature of security issues, we ask them not to be publicly reported "
 "in this fashion."
 msgstr ""
-"Tuairiscítear an chuid is mó de na gnáthfhabhtanna in Weblate dár n-riantóir "
-"`saincheisteanna GitHub <https://github.com/WeblateOrg/weblate/issues>`_, "
-"ach mar gheall ar nádúr íogair na saincheisteanna slándála, iarraimid gan "
-"iad a thuairisciú go poiblí ar an mbealach seo."
+"Tuairiscítear formhór na bhfabhtanna gnáth i Weblate chuig ár `rianaitheoir "
+"saincheisteanna GitHub <https://github.com/WeblateOrg/weblate/issues>`_ "
+"poiblí, ach mar gheall ar nádúr íogair saincheisteanna slándála, iarraimid "
+"gan iad a thuairisciú go poiblí ar an mbealach seo."
 
 #: ../../security/issues.rst:22
 msgid ""
@@ -51619,7 +51454,7 @@ msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../security/issues.rst:54
 msgid "Vulnerability disclosure policy"
-msgstr ""
+msgstr "Polasaí nochta leochaileachta"
 
 #: ../../security/issues.rst:56
 msgid ""
@@ -51628,6 +51463,10 @@ msgid ""
 "security/advisories. The advisory is available immediately with a release "
 "when possible."
 msgstr ""
+"Laistigh de 30 lá tar éis eisiúint ina bhfuil ceartú leochaileachta, "
+"foilsítear comhairle slándála ag https://github.com/WeblateOrg/weblate/"
+"security/advisories. Bíonn an chomhairle ar fáil láithreach le heisiúint "
+"nuair is féidir."
 
 #: ../../security/issues.rst:61
 msgid ""
@@ -51635,113 +51474,105 @@ msgid ""
 "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
 "and a full report is provided within 14 days."
 msgstr ""
+"Cuirtear aon leochaileacht a shaothraítear go gníomhach nó aon teagmhais "
+"thromchúiseacha in iúl do CSIRT laistigh de 24 uair an chloig, cuirtear "
+"faisnéis ghinearálta ar fáil do CSIRT laistigh de 72 uair an chloig, agus "
+"cuirtear tuarascáil iomlán ar fáil laistigh de 14 lá."
 
 #: ../../security/issues.rst:65
 msgid ""
 "All users of Hosted or Dedicated Weblate impacted by a severe incident or an "
 "actively exploited vulnerability are notified within 7 days."
 msgstr ""
+"Cuirtear fógra laistigh de 7 lá do gach úsáideoir de Weblate Óstáilte nó "
+"Tiomnaithe a bhfuil teagmhas tromchúiseach nó leochaileacht a shaothraítear "
+"go gníomhach ag cur isteach orthu."
 
 #: ../../security/passwords.rst:2
-#, fuzzy
-#| msgid "Password reset"
 msgid "Password security"
-msgstr "Athshocraigh an pasfhocal"
+msgstr "Slándáil pasfhocail"
 
 #: ../../security/passwords.rst:5
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "How Weblate stores passwords"
-msgstr "Cód foinse gréasáin"
+msgstr "Conas a stórálann Weblate pasfhocail"
 
 #: ../../security/passwords.rst:7
 msgid ""
 "Weblate uses a Django implementation to store hashed passwords; see :ref:"
 "`django:auth_password_storage`."
 msgstr ""
+"Úsáideann Weblate cur i bhfeidhm Django chun pasfhocail haisithe a stóráil; "
+"féach :ref:`django:auth_password_storage`."
 
 #: ../../security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"Úsáideann an chumraíocht Weblate molta Argon2 le costas_ama = 2, "
+"costas_memory = 102400, agus comhthreomhaireacht = 8."
 
 #: ../../security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized using :setting:`django:"
 "PASSWORD_HASHERS`."
 msgstr ""
-"Is féidir cruthú an chúltaca a shaincheapadh trí :setting:`BORG_EXTRA_ARGS` "
-"a úsáid."
+"Is féidir an haiséáil pasfhocal a shaincheapadh ag baint úsáide as "
+":setting:`django:PASSWORD_HASHERS`."
 
 #: ../../security/passwords.rst:16
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Password validation"
-msgstr "Fíordheimhniú pasfhocal"
+msgstr "Bailíochtú pasfhocail"
 
 #: ../../security/passwords.rst:18
 msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
 msgstr ""
+"Nuair a bhíonn úsáideoir ag cumrú pasfhocail, déantar é a bhailíochtú chun "
+"an riosca a bhaineann le pasfhocail laga a úsáid a laghdú."
 
 #: ../../security/passwords.rst:20
-#, fuzzy
-#| msgid "Per project configuration file"
 msgid "The recommended Weblate configuration verifies:"
-msgstr "De réir comhad cumraíochta an tionscadail"
+msgstr "Fíoraíonn cumraíocht molta Weblate:"
 
 #: ../../security/passwords.rst:22
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid ""
 "The password has to be at least 10 characters long, and at most 72 "
 "characters long."
 msgstr ""
-"Tá an pasfhocal seo ró-fhada. Caithfidh %(max_length)d carachtar ar a mhéad "
-"a bheith ann."
+"Caithfidh an focal faire a bheith 10 gcarachtar ar a laghad, agus 72 "
+"carachtar ar a mhéad."
 
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
-msgstr ""
+msgstr "Diúltaítear do phasfhocal cosúil le hainm úsáideora agus tréithe eile."
 
 #: ../../security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "Diúltaítear do phasfhocal coitianta nó ró-shimplí."
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr ""
+msgstr "Diúltaítear d'aon phasfhocal a úsáideadh le déanaí."
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
 msgstr ""
+"Is féidir neart an phasfhocail a sheiceáil ag baint úsáide as an algartam "
+"zxcvbn más mian leat."
 
 #: ../../security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized using :setting:`django:"
 "AUTH_PASSWORD_VALIDATORS`."
 msgstr ""
-"Is féidir cruthú an chúltaca a shaincheapadh trí :setting:`BORG_EXTRA_ARGS` "
-"a úsáid."
+"Is féidir bailíochtú an phasfhocail a shaincheapadh ag baint úsáide as "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`."
 
 #: ../../security/passwords.rst:33
-#, fuzzy
-#| msgid "Social authentication"
 msgid "Social or third-party authentication"
-msgstr "Fíordheimhniú sóisialta"
+msgstr "Fíordheimhniú sóisialta nó tríú páirtí"
 
 #: ../../security/passwords.rst:35
 msgid ""
@@ -51749,16 +51580,18 @@ msgid ""
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
 msgstr ""
+"Ní stórálann Weblate aon phasfhocail ná ní fhorfheidhmíonn sé aon pholasaí "
+"pasfhocal nuair a bhíonn fíordheimhniú sóisialta nó tríú páirtí cumraithe. "
+"Déantar na pasfhocail a bhainistiú go hiomlán go seachtrach i gcás den sórt "
+"sin."
 
 #: ../../security/passwords.rst:41
 msgid ":doc:`/admin/auth`"
 msgstr ":doc:`/admin/auth`"
 
 #: ../../security/privacy-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Privacy regulations compliance"
-msgstr "Comhlíonadh ceadúnais"
+msgstr "Comhlíonadh rialachán príobháideachta"
 
 #: ../../security/privacy-compliance.rst:6
 msgid ""
@@ -51767,210 +51600,241 @@ msgid ""
 "data ownership, and fine-grained access control. All hosting and compliance "
 "responsibilities remain fully within the deploying organization’s control."
 msgstr ""
+"Cuireann Weblate ar chumas eagraíochtaí oibriú laistigh de chreatlacha "
+"príobháideachta ar nós GDPR, DPDPA, PIPL, agus cinn eile trí íoslaghdú "
+"sonraí dian, úinéireacht iomlán sonraí, agus rialú rochtana mionsonraithe a "
+"thairiscint. Fanann gach freagracht óstála agus comhlíontachta go hiomlán "
+"faoi smacht na heagraíochta imscartha."
 
 #: ../../security/privacy-compliance.rst:11
 msgid "This document outlines how Weblate supports compliance with:"
 msgstr ""
+"Leagtar amach sa cháipéis seo conas a thacaíonn Weblate le comhlíonadh le:"
 
 #: ../../security/privacy-compliance.rst:13
 msgid "EU General Data Protection Regulation (GDPR)"
-msgstr ""
+msgstr "Rialachán Ginearálta maidir le Cosaint Sonraí an AE (GDPR)"
 
 #: ../../security/privacy-compliance.rst:14
 msgid "California Consumer Privacy Act (CCPA)"
-msgstr ""
+msgstr "Acht Príobháideachta Tomhaltóirí California (CCPA)"
 
 #: ../../security/privacy-compliance.rst:15
 msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
-msgstr ""
+msgstr "Lei Geral de Proteção de Dados na Brasaíle (LGPD)"
 
 #: ../../security/privacy-compliance.rst:16
 msgid "Swiss Federal Act on Data Protection (nFADP)"
-msgstr ""
+msgstr "Acht Cónaidhme na hEilvéise maidir le Cosaint Sonraí (nFADP)"
 
 #: ../../security/privacy-compliance.rst:17
 msgid ""
 "Canadian Personal Information Protection and Electronic Documents Act "
 "(PIPEDA)"
 msgstr ""
+"Acht um Chosaint Faisnéise Pearsanta agus Doiciméid Leictreonacha Cheanada "
+"(PIPEDA)"
 
 #: ../../security/privacy-compliance.rst:18
 msgid "Indian Digital Personal Data Protection Act (DPDPA)"
-msgstr ""
+msgstr "Acht um Chosaint Sonraí Pearsanta Digiteacha na hIndia (DPDPA)"
 
 #: ../../security/privacy-compliance.rst:19
 msgid "China’s Personal Information Protection Law (PIPL)"
-msgstr ""
+msgstr "Dlí um Chosaint Faisnéise Pearsanta na Síne (PIPL)"
 
 #: ../../security/privacy-compliance.rst:22
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "Privacy principles"
-msgstr "Beartas Príobháideachais"
+msgstr "Prionsabail phríobháideachta"
 
 #: ../../security/privacy-compliance.rst:25
-#, fuzzy
-#| msgid "Grant administration"
 msgid "Data minimization"
-msgstr "Riarachán deontais"
+msgstr "Íoslaghdú sonraí"
 
 #: ../../security/privacy-compliance.rst:27
 msgid ""
 "Weblate collects only data strictly necessary for the operation of the "
 "platform. By default, the following personal data may be processed:"
 msgstr ""
+"Ní bhailíonn Weblate ach sonraí atá riachtanach go hiomlán chun an t-ardán a "
+"oibriú. De réir réamhshocraithe, féadfar na sonraí pearsanta seo a leanas a "
+"phróiseáil:"
 
 #: ../../security/privacy-compliance.rst:29
 msgid "Username or real name (user-supplied)"
-msgstr ""
+msgstr "Ainm úsáideora nó fíorainm (arna sholáthar ag an úsáideoir)"
 
 #: ../../security/privacy-compliance.rst:30
 msgid "Email address (required for notifications and access control)"
 msgstr ""
+"Seoladh ríomhphoist (riachtanach le haghaidh fógraí agus rialú rochtana)"
 
 #: ../../security/privacy-compliance.rst:31
 msgid "Optional profile metadata (avatar, bio)"
-msgstr ""
+msgstr "Meiteashonraí próifíle roghnacha (avatar, beathaisnéis)"
 
 #: ../../security/privacy-compliance.rst:33
 msgid ""
 "No telemetry, analytics, or third-party tracking is embedded by default."
 msgstr ""
+"Níl aon teileamaitríocht, anailísíocht ná rianú tríú páirtí leabaithe de "
+"réir réamhshocraithe."
 
 #: ../../security/privacy-compliance.rst:36
 msgid "User consent and transparency"
-msgstr ""
+msgstr "Toiliú agus trédhearcacht úsáideoirí"
 
 #: ../../security/privacy-compliance.rst:38
 msgid ""
 "Weblate interfaces allow full transparency into collected personal data."
 msgstr ""
+"Ligeann comhéadain Weblate trédhearcacht iomlán maidir le sonraí pearsanta a "
+"bhailítear."
 
 #: ../../security/privacy-compliance.rst:39
 msgid ""
 "Administrators may provide custom privacy policy and consent requests at "
 "user registration."
 msgstr ""
+"Féadfaidh riarthóirí polasaí príobháideachais saincheaptha agus iarratais ar "
+"thoiliú a sholáthar nuair a chláraíonn an t-úsáideoir."
 
 #: ../../security/privacy-compliance.rst:40
 msgid ""
 "Data collection occurs only as a result of direct user interaction or "
 "administrator-defined configuration."
 msgstr ""
+"Ní tharlaíonn bailiú sonraí ach mar thoradh ar idirghníomhaíocht dhíreach "
+"úsáideora nó ar chumraíocht atá sainmhínithe ag an riarthóir."
 
 #: ../../security/privacy-compliance.rst:43
 msgid "Data access and portability"
-msgstr ""
+msgstr "Rochtain agus iniomparthacht sonraí"
 
 #: ../../security/privacy-compliance.rst:45
 msgid ""
 "Users may export their personal data and translation contributions using the "
 "user interface or API."
 msgstr ""
+"Féadfaidh úsáideoirí a gcuid sonraí pearsanta agus ranníocaíochtaí "
+"aistriúcháin a onnmhairiú trí úsáid a bhaint as an gcomhéadan úsáideora nó "
+"an API."
 
 #: ../../security/privacy-compliance.rst:46
 msgid ""
 "Administrators can support data portability upon user request, fulfilling "
 "legal obligations for access."
 msgstr ""
+"Is féidir le riarthóirí tacú le hiniomparthacht sonraí ar iarratas ón "
+"úsáideoir, ag comhlíonadh oibleagáidí dlíthiúla maidir le rochtain."
 
 #: ../../security/privacy-compliance.rst:49
 msgid "Right to erasure and correction"
-msgstr ""
+msgstr "An ceart chun scriosadh agus ceartúcháin"
 
 #: ../../security/privacy-compliance.rst:51
 msgid ""
 "Weblate allows full deletion of user accounts via the user and admin "
 "interface."
 msgstr ""
+"Ceadaíonn Weblate scriosadh iomlán cuntas úsáideora tríd an gcomhéadan "
+"úsáideora agus riaracháin."
 
 #: ../../security/privacy-compliance.rst:52
 msgid "Deleted users are removed or anonymized across the system."
 msgstr ""
+"Baintear úsáideoirí scriosta nó déantar iad a anaithnidiú ar fud an chórais."
 
 #: ../../security/privacy-compliance.rst:53
 msgid ""
 "Users may update or correct personal information directly via the profile "
 "interface."
 msgstr ""
+"Féadfaidh úsáideoirí faisnéis phearsanta a nuashonrú nó a cheartú go díreach "
+"tríd an gcomhéadan próifíle."
 
 #: ../../security/privacy-compliance.rst:56
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Data retention and deletion"
-msgstr "Theip ar bhailíochtú, bain triail eile as."
+msgstr "Coinneáil agus scriosadh sonraí"
 
 #: ../../security/privacy-compliance.rst:58
 msgid "No automatic data persistence beyond system necessity."
-msgstr ""
+msgstr "Gan aon bhuanseasmhacht sonraí uathoibríoch thar riachtanas an chórais."
 
 #: ../../security/privacy-compliance.rst:59
 msgid ""
 "Logs and backups are locally controlled; deletion policies are operator-"
 "configurable."
 msgstr ""
+"Déantar logaí agus cúltacaí a rialú go háitiúil; is féidir le hoibreoirí na "
+"beartais scriosta a chumrú."
 
 #: ../../security/privacy-compliance.rst:60
 msgid ""
 "No third-party data sharing unless explicitly configured by administrators."
 msgstr ""
+"Gan aon chomhroinnt sonraí le tríú páirtithe mura bhfuil sé cumraithe go "
+"sainráite ag riarthóirí."
 
 #: ../../security/privacy-compliance.rst:63
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security and confidentiality"
-msgstr "Slándáil agus príobháideacht"
+msgstr "Slándáil agus rúndacht"
 
 #: ../../security/privacy-compliance.rst:65
 msgid "Encrypted TLS is required for all user interactions (HTTPS)."
 msgstr ""
+"Tá TLS criptithe ag teastáil do gach idirghníomhaíocht úsáideora (HTTPS)."
 
 #: ../../security/privacy-compliance.rst:66
 msgid ""
 "Failed logins, permission changes, and other security events are logged."
 msgstr ""
+"Déantar logáil isteach teipthe, athruithe ceadanna, agus imeachtaí slándála "
+"eile."
 
 #: ../../security/privacy-compliance.rst:67
 msgid ""
 "Optional SIEM integration (via GELF) enables compliance with audit "
 "requirements."
 msgstr ""
+"Cumasaíonn comhtháthú roghnach SIEM (trí GELF) comhlíonadh le ceanglais "
+"iniúchóireachta."
 
 #: ../../security/privacy-compliance.rst:68
 msgid "Role-based access controls enforce data access separation."
 msgstr ""
+"Forfheidhmíonn rialuithe rochtana bunaithe ar róil scaradh rochtana sonraí."
 
 #: ../../security/privacy-compliance.rst:71
-#, fuzzy
-#| msgid "Integration services"
 msgid "International transfers"
-msgstr "Seirbhísí comhtháthaithe"
+msgstr "Aistrithe idirnáisiúnta"
 
 #: ../../security/privacy-compliance.rst:73
 msgid "Weblate itself performs no automatic data transfers."
-msgstr ""
+msgstr "Ní dhéanann Weblate féin aon aistrithe sonraí uathoibríocha."
 
 #: ../../security/privacy-compliance.rst:74
 msgid "All hosting and data residency is controlled by the system operator."
 msgstr ""
+"Tá an t-óstáil agus an chónaitheacht sonraí go léir faoi rialú an oibreoir "
+"córais."
 
 #: ../../security/privacy-compliance.rst:75
 msgid ""
 "Organizations may host Weblate within specific jurisdictions (e.g., EU, "
 "India, China) to ensure compliance with data localization laws."
 msgstr ""
+"Féadfaidh eagraíochtaí Weblate a óstáil laistigh de dhlínsí sonracha (e.g., "
+"an AE, an India, an tSín) chun comhlíonadh le dlíthe logánaithe sonraí a "
+"chinntiú."
 
 #: ../../security/privacy-compliance.rst:78
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regulatory mapping"
-msgstr "Léiriú rialta"
+msgstr "Mapáil rialála"
 
 #: ../../security/privacy-compliance.rst:81
-#, fuzzy
-#| msgid "Django REST Framework"
 msgid "Framework"
-msgstr "Fráma REST Django"
+msgstr "Creat"
 
 #: ../../security/privacy-compliance.rst:81
 msgid "Weblate support"
@@ -51978,101 +51842,108 @@ msgstr "Tacaíocht láithreán gréasáin"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "GDPR (EU)"
-msgstr ""
+msgstr "GDPR (AE)"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Minimization, consent, erasure, auditability, locality"
-msgstr ""
+msgstr "Íoslaghdú, toiliú, scriosadh, iniúchóireacht, logántacht"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "CCPA (California)"
-msgstr ""
+msgstr "CCPA (California)"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "Access, deletion, no sale, user control"
-msgstr ""
+msgstr "Rochtain, scriosadh, gan díol, rialú úsáideora"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "LGPD (Brazil)"
-msgstr ""
+msgstr "LGPD (An Bhrasaíl)"
 
 #: ../../security/privacy-compliance.rst:87
 msgid "Legal basis, access, correction, deletion"
-msgstr ""
+msgstr "Bunús dlíthiúil, rochtain, ceartú, scriosadh"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "nFADP (Switzerland)"
-msgstr ""
+msgstr "nFADP (An Eilvéis)"
 
 #: ../../security/privacy-compliance.rst:89
 msgid "Purpose limitation, disclosure transparency"
-msgstr ""
+msgstr "Teorannú cuspóir, trédhearcacht nochta"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "PIPEDA (Canada)"
-msgstr ""
+msgstr "PIPEDA (Ceanada)"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "Consent, access, individual rights"
-msgstr ""
+msgstr "Toiliú, rochtain, cearta aonair"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "DPDPA (India)"
-msgstr ""
+msgstr "DPDPA (An India)"
 
 #: ../../security/privacy-compliance.rst:93
 msgid "Lawful processing, consent, notice, user rights"
-msgstr ""
+msgstr "Próiseáil dhleathach, toiliú, fógra, cearta úsáideora"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "PIPL (China)"
-msgstr ""
+msgstr "PIPL (An tSín)"
 
 #: ../../security/privacy-compliance.rst:95
 msgid "Purpose limitation, data minimization, localization"
-msgstr ""
+msgstr "Teorannú cuspóireach, íoslaghdú sonraí, logánú"
 
 #: ../../security/privacy-compliance.rst:99
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Recommendations for compliance"
-msgstr "Comhlíonadh ceadúnais"
+msgstr "Moltaí maidir le comhlíonadh"
 
 #: ../../security/privacy-compliance.rst:101
 msgid ""
 "**Consent capture:** Provide a notice and/or explicit consent checkbox "
 "during registration, via :ref:`legal`."
 msgstr ""
+"**Gabháil toiliú:** Cuir fógra agus/nó bosca seiceála toiliú sainráite ar "
+"fáil le linn clárúcháin, tríd an nasc :ref:`legal`."
 
 #: ../../security/privacy-compliance.rst:102
 msgid ""
 "**Policy display:** Link to privacy and retention policies directly in "
 "Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`."
 msgstr ""
+"**Taispeántas beartais:** Nasc chuig beartais phríobháideachais agus "
+"choinneála go díreach i gcomhéadan úsáideora Weblate, trí :ref:`legal` nó "
+":setting:`PRIVACY_URL`."
 
 #: ../../security/privacy-compliance.rst:103
 msgid ""
 "**Audit integration:** Use the built-in audit log and GELF forwarding to "
 "meet logging mandates."
 msgstr ""
+"**Comhtháthú iniúchta:** Bain úsáid as an log iniúchta ionsuite agus as an "
+"atreorú GELF chun freastal ar shainorduithe logála."
 
 #: ../../security/privacy-compliance.rst:104
 msgid ""
 "**Data subject requests:** Define a manual or automated procedure to fulfill "
 "access/erasure requests."
 msgstr ""
+"**Iarratais ábhair sonraí:** Sainmhínigh nós imeachta láimhe nó uathoibrithe "
+"chun iarratais rochtana/scriosta a chomhlíonadh."
 
 #: ../../security/privacy-compliance.rst:105
 msgid ""
 "**Localization:** Ensure infrastructure is physically located within the "
 "target jurisdiction as required."
 msgstr ""
+"**Lonnú:** Cinntigh go bhfuil an bonneagar suite go fisiciúil laistigh den "
+"dlínse sprice de réir mar is gá."
 
 #: ../../security/threat-model.rst:2
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate threat model"
-msgstr "Cód foinse gréasáin"
+msgstr "Múnla bagairt Weblate"
 
 #: ../../security/threat-model.rst:4
 msgid ""
@@ -52083,12 +51954,17 @@ msgid ""
 "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
+"**Raon Feidhmchláir Ghréasáin:** Feidhmchlár Gréasáin Lárnach Weblate, a "
+"idirghníomhaíochtaí le brabhsálaithe úsáideoirí, comhpháirteanna cúil ("
+"freastalaí gréasáin, WSGI, bunachar sonraí, Redis, Celery), agus comhtháthú "
+"le VCS seachtrach. **Toimhdí:** Imscaradh caighdeánach Weblate le "
+"comhpháirteanna tipiciúla (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, "
+"Celery) agus róil úsáideora (Gan Fhíordheimhniú, Aistritheoir, Bainisteoir "
+"Tionscadail, Riarthóir)."
 
 #: ../../security/threat-model.rst:8
-#, fuzzy
-#| msgid "text description of action"
 msgid "System description an scope"
-msgstr "cur síos téacs ar an ngníomh"
+msgstr "Cur síos ar an gcóras agus ar raon feidhme"
 
 #: ../../security/threat-model.rst:10
 msgid ""
@@ -52096,10 +51972,14 @@ msgid ""
 "It integrates tightly with Git repositories to manage translations and "
 "offers CI/CD-style features for automation, hooks, and VCS synchronization."
 msgstr ""
+"Is ardán logánaithe gréasánbhunaithe foinse oscailte é Weblate atá tógtha ar "
+"Django. Comhtháthaíonn sé go dlúth le stórtha Git chun aistriúcháin a "
+"bhainistiú agus cuireann sé gnéithe stíl CI/CD ar fáil le haghaidh "
+"uathoibrithe, crúcaí, agus sioncrónaithe VCS."
 
 #: ../../security/threat-model.rst:14
 msgid "Assets:"
-msgstr ""
+msgstr "Sócmhainní:"
 
 #: ../../security/threat-model.rst:16
 msgid ""
@@ -52107,186 +51987,202 @@ msgid ""
 "integration, user credentials (passwords, 2FA secrets), user personal data "
 "(email, name), session tokens, audit logs, private project data."
 msgstr ""
+"**Rúndacht:** Teaghráin aistriúcháin, eochracha/dintiúir API le haghaidh "
+"comhtháthú VCS, dintiúir úsáideora (pasfhocail, rúin 2FA), sonraí pearsanta "
+"úsáideora (ríomhphost, ainm), comharthaí seisiúin, logaí iniúchta, sonraí "
+"tionscadail príobháideacha."
 
 #: ../../security/threat-model.rst:17
 msgid ""
 "**Integrity:** Translation string content, VCS repository integrity, project "
 "and component configurations, user permissions, audit logs."
 msgstr ""
+"**Sláine:** Ábhar teaghrán aistriúcháin, sláine stórtha VCS, cumraíochtaí "
+"tionscadail agus comhpháirteanna, ceadanna úsáideoirí, logaí iniúchta."
 
 #: ../../security/threat-model.rst:18
 msgid ""
 "**Availability:** Weblate web interface, VCS integration, database access, "
 "background task processing."
 msgstr ""
+"**Infhaighteacht:** Comhéadan gréasáin Weblate, comhtháthú VCS, rochtain ar "
+"bhunachar sonraí, próiseáil tascanna cúlra."
 
 #: ../../security/threat-model.rst:19
 msgid ""
 "**Authenticity/Non-repudiation:** Translation commit history, user "
 "attribution for translations, audit logs of administrative actions."
 msgstr ""
+"**Barántúlacht/Neamh-shéanadh:** Stair tiomantais aistriúcháin, "
+"leithdháileadh úsáideoirí le haghaidh aistriúcháin, logaí iniúchta ar "
+"ghníomhartha riaracháin."
 
 #: ../../security/threat-model.rst:22
 msgid "Conceptual data flow diagram"
-msgstr ""
+msgstr "Léaráid shreafa sonraí coincheapúil"
 
 #: ../../security/threat-model.rst:41
 msgid "Trust boundaries"
-msgstr ""
+msgstr "Teorainneacha muiníne"
 
 #: ../../security/threat-model.rst:43
 msgid ""
 "**Internet ↔ Web server:** Public internet traffic interacting with the "
 "first line of defense."
 msgstr ""
+"**Idirlíon ↔ Freastalaí gréasáin:** Trácht idirlín poiblí ag idirghníomhú "
+"leis an gcéad líne chosanta."
 
 #: ../../security/threat-model.rst:44
 msgid ""
 "**Web server ↔ Weblate application:** Communication between the reverse "
 "proxy/web server and the application logic."
 msgstr ""
+"**Freastalaí gréasáin ↔ Feidhmchlár Weblate:** Cumarsáid idir an "
+"seachfhreastalaí droim ar ais/freastalaí gréasáin agus loighic an "
+"fheidhmchláir."
 
 #: ../../security/threat-model.rst:45
 msgid ""
 "**Weblate application ↔ Database** Application logic accessing persistent "
 "and cached data."
 msgstr ""
+"**Feidhmchlár Weblate ↔ Bunachar Sonraí** Loighic feidhmchláir ag rochtain "
+"sonraí buana agus taisceáilte."
 
 #: ../../security/threat-model.rst:46
 msgid "**Weblate application ↔ Logging:** Application logic creating logs."
-msgstr ""
+msgstr "**Feidhmchlár Weblate ↔ Logáil:** Loighic feidhmchláir ag cruthú logaí."
 
 #: ../../security/threat-model.rst:47
 msgid ""
 "**Weblate application ↔ Internal VCS repository:** Application logic "
 "interacting with its local copy of the VCS repository."
 msgstr ""
+"**Feidhmchlár Weblate ↔ Stór VCS inmheánach:** Loighic an fheidhmchláir ag "
+"idirghníomhú lena chóip áitiúil den stór VCS."
 
 #: ../../security/threat-model.rst:48
 msgid ""
 "**Weblate application ↔ External VCS repository:** Weblate reaching out to "
 "external code hosting platforms."
 msgstr ""
+"**Feidhmchlár Weblate ↔ Stór seachtrach VCS:** Weblate ag teagmháil le "
+"hardáin óstála cóid sheachtracha."
 
 #: ../../security/threat-model.rst:49
 msgid ""
 "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
 "within the web application."
 msgstr ""
+"**Úsáideoir Fíordheimhnithe ↔ Úsáideoir Neamhúdaraithe:** Leibhéil "
+"phribhléide éagsúla laistigh den fheidhmchlár gréasáin."
 
 #: ../../security/threat-model.rst:52
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Threat identification"
-msgstr "Aitheantas inlíne"
+msgstr "Aitheantas bagairtí"
 
 #: ../../security/threat-model.rst:57
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component/Interaction"
-msgstr "Faisnéis Chomhpháirte"
+msgstr "Comhpháirt/Idirghníomhaíocht"
 
 #: ../../security/threat-model.rst:58
-#, fuzzy
-#| msgid "Delete category."
 msgid "STRIDE threat category"
-msgstr "Scrios catagóir."
+msgstr "Catagóir bhagairt STRIDE"
 
 #: ../../security/threat-model.rst:59
-#, fuzzy
-#| msgid "Label description"
 msgid "Threat description"
-msgstr "Cur síos ar an lipéad"
+msgstr "Cur síos ar an bhagairt"
 
 #: ../../security/threat-model.rst:60
 msgid "Potential impact"
-msgstr ""
+msgstr "Tionchar féideartha"
 
 #: ../../security/threat-model.rst:61
 msgid "**Web server** (nginx/Apache)"
-msgstr ""
+msgstr "**Freastalaí gréasáin** (nginx/Apache)"
 
 #: ../../security/threat-model.rst:62 ../../security/threat-model.rst:98
 #: ../../security/threat-model.rst:118
-#, fuzzy
-#| msgid "**Do:**"
 msgid "**DoS**"
-msgstr "**Déan:**"
+msgstr "**DoS**"
 
 #: ../../security/threat-model.rst:63
 msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
 msgstr ""
+"**Diúltú seirbhíse:** Cuireann an t-ionsaitheoir iarratais ar an "
+"bhfreastalaí gréasáin, rud a fhágann nach bhfuil Weblate ar fáil."
 
 #: ../../security/threat-model.rst:64
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String is available for translation"
 msgid "Loss of availability for translation."
-msgstr "Tá teaghrán ar fáil le haistriú"
+msgstr "Cailliúint infhaighteachta le haghaidh aistriúcháin."
 
 #: ../../security/threat-model.rst:66 ../../security/threat-model.rst:90
 #: ../../security/threat-model.rst:94 ../../security/threat-model.rst:114
 #: ../../security/threat-model.rst:138 ../../security/threat-model.rst:142
 msgid "**Information disclosure**"
-msgstr ""
+msgstr "**Nochtadh faisnéise**"
 
 #: ../../security/threat-model.rst:67
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files (e."
 "g., config files, private keys)."
 msgstr ""
+"** Nochtadh cumraíochta: ** Nochtann freastalaí míchumraithe comhaid íogaire "
+"(m.sh., comhaid cumraíochta, eochracha príobháideacha)."
 
 #: ../../security/threat-model.rst:68
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "Nochtadh dintiúir, ailtireacht inmheánach."
 
 #: ../../security/threat-model.rst:70 ../../security/threat-model.rst:78
 #: ../../security/threat-model.rst:82 ../../security/threat-model.rst:110
 #: ../../security/threat-model.rst:122 ../../security/threat-model.rst:134
 msgid "**Tampering**"
-msgstr ""
+msgstr "**Cur isteach**"
 
 #: ../../security/threat-model.rst:71
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
 msgstr ""
+"**Instealladh iarratais mailíseacha:** Cuireann an t-ionsaitheoir sonraí "
+"mailíseacha isteach i gceanntásca HTTP nó i gcorp iarratais."
 
 #: ../../security/threat-model.rst:72
 msgid ""
 "Potential for SQL injection, XSS, or other injections if not properly "
 "handled by the backend."
 msgstr ""
+"Poitéinseal ann d’instealladh SQL, XSS, nó instealltaí eile mura "
+"láimhseálann an cúl-deireadh i gceart é."
 
 #: ../../security/threat-model.rst:73
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "**Weblate application**"
-msgstr "Aistriúcháin gréasáin"
+msgstr "**Feidhmchlár Weblate**"
 
 #: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
 msgid "**Spoofing**"
-msgstr ""
+msgstr "**Céilliú**"
 
 #: ../../security/threat-model.rst:75
 msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
 msgstr ""
+"**Pearsantú úsáideora:** Faigheann ionsaitheoir rochtain ar sheisiún "
+"úsáideora dlisteanaigh (e.g., trí fhuadach seisiúin, dintiúir a ndearnadh "
+"comhréiteach orthu)."
 
 #: ../../security/threat-model.rst:76
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Unauthorized translation, repo access."
-msgstr "Meaitseálann cuimhne aistriúcháin feabhsaithe."
+msgstr "Aistriúchán neamhúdaraithe, rochtain ar stór."
 
 #: ../../security/threat-model.rst:77
-#, fuzzy
-#| msgid "Celery"
 msgid "(WSGI/Celery)"
-msgstr "Soilire"
+msgstr "(WSGI/Soilire)"
 
 #: ../../security/threat-model.rst:79
 msgid ""
@@ -52294,10 +52190,13 @@ msgid ""
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
 msgstr ""
+"**Modhnú neamhúdaraithe ar aistriúchán:** Ligeann leochaileacht úsáideora "
+"mailíseach nó leochaileacht a shaothraítear aistriúchán, cumraíochtaí "
+"tionscadail, nó socruithe comhtháthaithe VCS a athrú."
 
 #: ../../security/threat-model.rst:80
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
-msgstr ""
+msgstr "Aistriúcháin mhíchearta, tógáil briste, RCE trí crúcaí VCS."
 
 #: ../../security/threat-model.rst:83
 msgid ""
@@ -52305,26 +52204,30 @@ msgid ""
 "with the VCS (e.g., injecting malicious commands via crafted repository URLs "
 "if not sanitized, leading to RCE)."
 msgstr ""
+"**Ionramháil ar chomhtháthú VCS:** Déanann an t-ionsaitheoir ionramháil ar "
+"idirghníomhaíocht Weblate leis an VCS (e.g., orduithe mailíseacha a "
+"instealladh trí URLanna stórais cheardaíochta mura ndéantar iad a shláintiú, "
+"rud a fhágann go mbíonn RCE ann)."
 
 #: ../../security/threat-model.rst:84
 msgid "Code injection in target projects, data exfiltration."
-msgstr ""
+msgstr "Instealladh cóid i dtionscadail sprice, eis-scagadh sonraí."
 
 #: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
-#, fuzzy
-#| msgid "**action**"
 msgid "**Repudiation**"
-msgstr "**gníomh**"
+msgstr "**Séanadh**"
 
 #: ../../security/threat-model.rst:87
 msgid ""
 "**Unattributed changes:** Malicious changes are made without proper "
 "attribution to the user or system responsible."
 msgstr ""
+"**Athruithe gan chur i leith:** Déantar athruithe mailíseacha gan cur i "
+"leith an úsáideora nó an chórais atá freagrach i gceart."
 
 #: ../../security/threat-model.rst:88
 msgid "Difficulty in auditing and accountability."
-msgstr ""
+msgstr "Deacracht iniúchóireachta agus cuntasachta."
 
 #: ../../security/threat-model.rst:91
 msgid ""
@@ -52332,110 +52235,117 @@ msgid ""
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
 msgstr ""
+"**Sceitheadh sonraí íogaire:** Nochtann instealladh SQL, críochphointí API "
+"neamhshábháilte, nó earráidí sonraí íogaire (e.g., aistriúcháin úsáideoirí "
+"eile, dintiúir VCS, faisnéis freastalaí)."
 
 #: ../../security/threat-model.rst:92
 msgid "Privacy breach, intellectual property theft."
-msgstr ""
+msgstr "Sárú príobháideachta, goid maoine intleachtúla."
 
 #: ../../security/threat-model.rst:95
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
 msgstr ""
+"**Nochtadh dintiúir VCS:** Faigheann ionsaitheoir rochtain ar dhintiúir VCS "
+"stóráilte Weblate (eochracha SSH, comharthaí)."
 
 #: ../../security/threat-model.rst:96
-#, fuzzy
-#| msgid "Access the internal repository"
 msgid "Direct access to integrated code repositories."
-msgstr "Faigh rochtain ar an stór inmheánach"
+msgstr "Rochtain dhíreach ar stórtha cóid comhtháite."
 
 #: ../../security/threat-model.rst:99
 msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
 msgstr ""
+"**Ídiú acmhainní:** Bíonn moilliú nó tuairteáil córais mar thoradh ar "
+"thascanna cúlra iomarcacha nó ar cheisteanna neamhéifeachtúla bunachar "
+"sonraí arna spreagadh ag ionsaitheoir."
 
 #: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate unavailability."
-msgstr "Tá Weblate ar fáil anois i Mumbai."
+msgstr "Neamh-infhaighteacht Weblate."
 
 #: ../../security/threat-model.rst:102 ../../security/threat-model.rst:106
-#, fuzzy
-#| msgid "List of privileges"
 msgid "**Elevation of privilege**"
-msgstr "Liosta pribhléidí"
+msgstr "**Ardú pribhléide**"
 
 #: ../../security/threat-model.rst:103
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
-msgstr ""
+msgstr "**Méadú rólanna:** Faigheann aistritheoir rialta pribhléidí riaracháin."
 
 #: ../../security/threat-model.rst:104
 msgid "Complete system compromise."
-msgstr ""
+msgstr "Comhréiteach iomlán córais."
 
 #: ../../security/threat-model.rst:107
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
 msgstr ""
+"**Instealladh ordaithe:** Forghníomhú cód treallach mar gheall ar "
+"bhailíochtú ionchuir míchuí in URLanna stórais nó breiseáin."
 
 #: ../../security/threat-model.rst:108
 msgid "System compromise, data exfiltration."
-msgstr ""
+msgstr "Comhréiteach córais, eis-síothlú sonraí."
 
 #: ../../security/threat-model.rst:109
-#, fuzzy
-#| msgid "Database"
 msgid "**Database/Redis**"
-msgstr "Bunachar Sonraí"
+msgstr "**Bunachar Sonraí/Redis**"
 
 #: ../../security/threat-model.rst:111
 msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
 msgstr ""
+"**Éilliú sonraí:** Ceadaíonn rochtain dhíreach ar an mbunachar sonraí athrú "
+"a dhéanamh ar shreangáin aistriúcháin, ar shonraí úsáideora, nó ar "
+"chumraíocht."
 
 #: ../../security/threat-model.rst:112
 msgid "System malfunction, data integrity loss."
-msgstr ""
+msgstr "Mífheidhmiú córais, cailliúint sláine sonraí."
 
 #: ../../security/threat-model.rst:115
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/Redis exposes all "
 "stored data (credentials, translation memory, user profiles)."
 msgstr ""
+"**Rochtain ar shonraí íogaire:** Nochtann rochtain neamhúdaraithe ar "
+"bhunachar sonraí/Redis na sonraí stóráilte go léir (dintiúir, cuimhne "
+"aistriúcháin, próifílí úsáideoirí)."
 
 #: ../../security/threat-model.rst:116
 msgid "Major data breach."
-msgstr ""
+msgstr "Sárú mór sonraí."
 
 #: ../../security/threat-model.rst:119
 msgid ""
 "**Database exhaustion:** Attacker floods the database with queries, or "
 "consumes all Redis memory/connections."
 msgstr ""
+"**Ídiú bunachar sonraí:** Líonann an t-ionsaitheoir an bunachar sonraí le "
+"fiosrúcháin, nó ídíonn sé gach cuimhne/naisc Redis."
 
 #: ../../security/threat-model.rst:121
-#, fuzzy
-#| msgid "Site integration"
 msgid "**VCS integration**"
-msgstr "Comhtháthú suímh"
+msgstr "**Comhtháthú VCS**"
 
 #: ../../security/threat-model.rst:123
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid ""
 "**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
 "changes to the upstream repository."
 msgstr ""
-"Níorbh fhéidir le Weblate athruithe a bhrú ar an stór in aghaidh an tsrutha."
+"**Cumhachtuithe mailíseacha ó Weblate:** Cuireann Weblate atá i mbaol "
+"athruithe mailíseacha chuig an stórlann suas an sruth."
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
-msgstr ""
+msgstr "Tabhairt isteach malware/doirse cúil i dtionscadail sprice."
 
 #: ../../security/threat-model.rst:127
 msgid ""
@@ -52443,94 +52353,93 @@ msgid ""
 "user (e.g., an admin forcing a commit in a translator's name without their "
 "consent)."
 msgstr ""
+"**Attribution bréige:** Déanann Weblate athruithe a chuirtear i leith "
+"úsáideoir mícheart a thiomnú (e.g., riarthóir ag cur iallach ar thiomnú in "
+"ainm aistritheora gan a dtoiliú)."
 
 #: ../../security/threat-model.rst:128
-#, fuzzy
-#| msgid "Account activity"
 msgid "Accountability issues."
-msgstr "Gníomhaíocht an chuntais"
+msgstr "Saincheisteanna cuntasachta."
 
 #: ../../security/threat-model.rst:129
-#, fuzzy
-#| msgid "User interface"
 msgid "**User interaction**"
-msgstr "Comhéadan úsáideora"
+msgstr "**Idirghníomhaíocht úsáideora**"
 
 #: ../../security/threat-model.rst:131
 msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
 msgstr ""
+"**Innealtóireacht shóisialta/fioscaireachta:** Cuireann an t-ionsaitheoir "
+"cleas ar úsáideoirí chun dintiúir Weblate nó cuntais VCS nasctha a nochtadh."
 
 #: ../../security/threat-model.rst:132
-#, fuzzy
-#| msgid "Account e-mail"
 msgid "Account compromise."
-msgstr "Ríomhphost cuntais"
+msgstr "Comhréiteach cuntais."
 
 #: ../../security/threat-model.rst:133
 msgid "(Web UI)"
-msgstr ""
+msgstr "(Comhéadan Gréasáin)"
 
 #: ../../security/threat-model.rst:135
 msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
 msgstr ""
+"**Scriptiú Tras-Láithreáin (XSS):** Scripteanna mailíseacha a chuirtear "
+"isteach in aistriúcháin nó i bpróifílí úsáideoirí a fhorghníomhaítear i "
+"mbrabhsálaithe úsáideoirí eile."
 
 #: ../../security/threat-model.rst:136
 msgid "Session hijacking, credential theft, defacement."
-msgstr ""
+msgstr "Fuadach seisiúin, goid dintiúir, milleadh."
 
 #: ../../security/threat-model.rst:139
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
 msgstr ""
+"**Clickjacking/Ceartú ar Chomhéadan Úsáideora:** Cuireann an t-ionsaitheoir "
+"eilimintí mailíseacha chomhéadain úsáideora thar Weblate, ag mealladh "
+"úsáideoirí chun gníomhartha neamhbheartaithe a dhéanamh."
 
 #: ../../security/threat-model.rst:140
 msgid "Unauthorized actions, data manipulation."
-msgstr ""
+msgstr "Gníomhartha neamhúdaraithe, ionramháil sonraí."
 
 #: ../../security/threat-model.rst:143
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
 msgstr ""
+"**Sonraí íogaire san Chomhéadan Úsáideora:** Nochtadh neamhbheartaithe "
+"sonraí íogaire (e.g., ríomhphost úsáideora eile) san Chomhéadan Úsáideora "
+"mar gheall ar lochtanna údaraithe."
 
 #: ../../security/threat-model.rst:144
-#, fuzzy
-#| msgid "Privacy"
 msgid "Privacy breach."
-msgstr "Príobháideacht"
+msgstr "Sárú príobháideachta."
 
 #: ../../security/threat-model.rst:147
-#, fuzzy
-#| msgid "Integration services"
 msgid "Mitigation strategies"
-msgstr "Seirbhísí comhtháthaithe"
+msgstr "Straitéisí maolaithe"
 
 #: ../../security/threat-model.rst:149
-#, fuzzy
-#| msgid "Authentication settings"
 msgid "**Authentication & authorization:**"
-msgstr "Socruithe fíordheimhnithe"
+msgstr "**Fíordheimhniú & údarú:**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
 msgstr ""
+"Polasaithe láidre maidir le pasfhocail, féach :doc:`/security/passwords`."
 
 #: ../../security/threat-model.rst:151
-#, fuzzy
-#| msgid "Source string, see :ref:`additional`."
 msgid "Enforced 2FA, see :ref:`2fa`."
-msgstr "Sreang foinse, féach :ref:`additional`."
+msgstr "2FA forfheidhmithe, féach :ref:`2fa`."
 
 #: ../../security/threat-model.rst:152
-#, fuzzy
-#| msgid "Per-project permission management"
 msgid "Robust session management."
-msgstr "Bainistíocht ceada in aghaidh an tionscadail"
+msgstr "Bainistíocht láidir seisiún."
 
 #: ../../security/threat-model.rst:153
 msgid ""
@@ -52538,150 +52447,174 @@ msgid ""
 "translators can only edit translations, not change project configs), see :"
 "doc:`/admin/access`."
 msgstr ""
+"Rialú rochtana bunaithe ar róil (RBAC) chun an pribhléid is lú a "
+"fhorfheidhmiú (e.g., ní féidir le haistritheoirí ach aistriúcháin a chur in "
+"eagar, ní féidir leo cumraíochtaí tionscadail a athrú), féach :doc:`/admin/"
+"access`."
 
 #: ../../security/threat-model.rst:154
 msgid ""
 "Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
 "admin/auth`."
 msgstr ""
+"Comhtháthú le soláthraithe aitheantais seachtracha (SAML, OAuth, LDAP), "
+"féach :doc:`/admin/auth`."
 
 #: ../../security/threat-model.rst:155
 msgid "**Input validation and output encoding:**"
-msgstr ""
+msgstr "**Bailíochtú ionchuir agus ionchódú aschuir:**"
 
 #: ../../security/threat-model.rst:156
 msgid ""
 "Strict validation of all user inputs (forms, API requests, VCS URLs) to "
 "prevent injection attacks (SQL injection, command injection, XSS)."
 msgstr ""
+"Bailíochtú dian ar gach ionchur úsáideora (foirmeacha, iarratais API, "
+"URLanna VCS) chun ionsaithe insteallta (instealladh SQL, instealladh "
+"orduithe, XSS) a chosc."
 
 #: ../../security/threat-model.rst:157
 msgid ""
 "Context-aware output encoding for all user-supplied data displayed on the "
 "web UI to prevent XSS."
 msgstr ""
+"Ionchódú aschuir atá feasach ar chomhthéacs do na sonraí uile a "
+"sholáthraíonn an t-úsáideoir a thaispeántar ar an gcomhéadan úsáideora "
+"gréasáin chun XSS a chosc."
 
 #: ../../security/threat-model.rst:158
-#, fuzzy
-#| msgid "Integration services"
 msgid "**VCS integration security:**"
-msgstr "Seirbhísí comhtháthaithe"
+msgstr "**Slándáil chomhtháthaithe VCS:**"
 
 #: ../../security/threat-model.rst:159
 msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
 msgstr ""
+"Prionsabal na pribhléide is lú do dhintiúir VCS (e.g., rochtain léite amháin "
+"nuair is féidir, raon feidhme teoranta do chomharthaí)."
 
 #: ../../security/threat-model.rst:160
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Secure storage of VCS credentials."
-msgstr "Dintiúir Subversion"
+msgstr "Stóráil shlán dintiúir VCS."
 
 #: ../../security/threat-model.rst:161
 msgid ""
 "Strict sanitization and validation of all data coming from VCS (e.g., "
 "filenames, branch names, commit messages that might be displayed)."
 msgstr ""
+"Glanadh agus bailíochtú dian ar na sonraí uile a thagann ó VCS (e.g., "
+"ainmneacha comhad, ainmneacha brainse, teachtaireachtaí tiomantais a "
+"d'fhéadfadh a bheith ar taispeáint)."
 
 #: ../../security/threat-model.rst:162
 msgid ""
 "Secure execution of Git/Mercurial commands (avoiding shell execution with "
 "user-controlled input)."
 msgstr ""
+"Forghníomhú slán orduithe Git/Mercurial (ag seachaint forghníomhú sliogáin "
+"le hionchur atá faoi rialú an úsáideora)."
 
 #: ../../security/threat-model.rst:163
-#, fuzzy
-#| msgid "Spam protection"
 msgid "**Data protection:**"
-msgstr "Cosaint spam"
+msgstr "**Cosaint sonraí:**"
 
 #: ../../security/threat-model.rst:164
 msgid "Encryption of sensitive data at rest."
-msgstr ""
+msgstr "Criptiú sonraí íogaire atá ar fos."
 
 #: ../../security/threat-model.rst:165
 msgid ""
 "Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication)."
 msgstr ""
+"Criptiú sonraí atá á n-aistriú (TLS/SSL do gach cumarsáid HTTP/S agus VCS)."
 
 #: ../../security/threat-model.rst:166
 msgid ""
 "Database hardening (the least privilege for Weblate user, strong passwords)."
 msgstr ""
+"Cruaú bunachar sonraí (an pribhléid is lú d'úsáideoir Weblate, pasfhocail "
+"láidre)."
 
 #: ../../security/threat-model.rst:167
-#, fuzzy
-#| msgid "System encoding"
 msgid "**System hardening:**"
-msgstr "Ionchódú córais"
+msgstr "**Cruadú an chórais:**"
 
 #: ../../security/threat-model.rst:168
 msgid "Regular patching of OS, Weblate, and all dependencies."
-msgstr ""
+msgstr "Paistí rialta ar an gcóras oibriúcháin, Weblate, agus gach spleáchas."
 
 #: ../../security/threat-model.rst:169
 msgid "Principle of least privilege for Weblate user account on the OS."
 msgstr ""
+"Prionsabal na pribhléide is lú do chuntas úsáideora Weblate ar an gcóras "
+"oibriúcháin."
 
 #: ../../security/threat-model.rst:170
 msgid ""
 "Network segmentation (e.g., separating database/Redis from public access)."
 msgstr ""
+"Deighilt líonra (e.g., bunachar sonraí/Redis a dheighilt ó rochtain phoiblí)."
 
 #: ../../security/threat-model.rst:171
 msgid "Use of WAF (Web Application Firewall)."
-msgstr ""
+msgstr "Úsáid WAF (Balla Dóiteáin Feidhmchláir Gréasáin)."
 
 #: ../../security/threat-model.rst:172
 msgid "**Logging and monitoring:**"
-msgstr ""
+msgstr "**Logáil agus monatóireacht:**"
 
 #: ../../security/threat-model.rst:173
 msgid ""
 "Comprehensive audit logging of all security-relevant events (logins, failed "
 "logins, permission changes, critical configuration changes, VCS operations)."
 msgstr ""
+"Logáil iniúchta chuimsitheach ar gach imeacht a bhaineann le slándáil ("
+"logálacha isteach, logálacha isteach nár éirigh leo, athruithe ceadanna, "
+"athruithe cumraíochta criticiúla, oibríochtaí VCS)."
 
 #: ../../security/threat-model.rst:174
 msgid ""
 "Centralized logging and alerting for security incidents, for example :ref:"
 "`graylog`."
 msgstr ""
+"Logáil agus foláirimh láraithe le haghaidh teagmhas slándála, mar shampla "
+":ref:`graylog`."
 
 #: ../../security/threat-model.rst:175
-#, fuzzy
-#| msgid "Start a development server:"
 msgid "**Secure development practices:**"
-msgstr "Tosaigh freastalaí forbartha:"
+msgstr "**Cleachtais forbartha slána:**"
 
 #: ../../security/threat-model.rst:176
 msgid "Code reviews with a security focus."
-msgstr ""
+msgstr "Athbhreithnithe cóid le fócas ar shlándáil."
 
 #: ../../security/threat-model.rst:177
 msgid ""
 "Static Application Security Testing (SAST) and Dynamic Application Security "
 "Testing (DAST), see :doc:`/contributing/code`."
 msgstr ""
+"Tástáil Slándála Feidhmchláir Statach (SAST) agus Tástáil Slándála "
+"Feidhmchláir Dinimiciúil (DAST), féach :doc:`/contributing/code`."
 
 #: ../../security/threat-model.rst:178
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
-msgstr ""
+msgstr "Scanadh leochaileachta spleáchais, féach :doc:`/security/dependencies`."
 
 #: ../../security/threat-model.rst:179
 msgid "Regular security audits and penetration testing."
-msgstr ""
+msgstr "Iniúchtaí slándála rialta agus tástáil treáite."
 
 #: ../../security/threat-model.rst:180
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**Láimhseáil earráide:**"
 
 #: ../../security/threat-model.rst:181
 msgid ""
 "Generic error messages that do not reveal sensitive internal information."
 msgstr ""
+"Teachtaireachtaí earráide cineálacha nach nochtann faisnéis inmheánach "
+"íogair."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -53895,16 +53828,12 @@ msgid "``java_format``"
 msgstr "``java_format``"
 
 #: ../../user/checks.rst:653
-#, fuzzy
-#| msgid ""
-#| "``auto-java-messageformat`` enables check only if there is a format "
-#| "string in the source"
 msgid ""
 "``java-format``, ``auto-java-messageformat`` enables check only if there is "
 "a format string in the source"
 msgstr ""
-"Ceadaíonn ``auto-java-messageformat`` seiceáil ach amháin má tá teaghrán "
-"formáide san fhoinse"
+"Cumasaíonn ``java-format``, ``auto-java-messageformat`` seiceáil ach amháin "
+"má tá teaghrán formáide sa fhoinse"
 
 #: ../../user/checks.rst:659
 msgid ""
@@ -55068,13 +54997,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1356
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Carachtair neamhchaighdeánacha i gCabile"
 
 #: ../../user/checks.rst:1360
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Bain úsáid as carachtair chaighdeánaithe Laidine Kabyle (e.g. \\u0263 in "
+"ionad na Gréigise \\u03b3; \\u025b in ionad \\u03b5)."
 
 #: ../../user/checks.rst:1362
 msgid "``weblate.checks.chars.KabyleCharactersCheck``"
@@ -55090,6 +55021,9 @@ msgid ""
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
 msgstr ""
+"Seiceálann sé go n-úsáideann aistriúcháin Kabyle litreacha cearta Kabyle "
+"agus ní cinn Gréigise cosúla, a úsáideadh go minic sular caighdeánaíodh "
+"carachtair Kabyle in Unicode."
 
 #: ../../user/checks.rst:1374
 msgid "Placeholders"
@@ -56619,18 +56553,13 @@ msgstr ""
 "agat."
 
 #: ../../user/glossary.rst:6
-#, fuzzy
-#| msgid ""
-#| "Each project can include one or more glossaries as a shorthand for "
-#| "storing terminology. Glossary easify maintaining consistency of the "
-#| "translation."
 msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossaries help to maintain consistency of the translation."
 msgstr ""
-"Is féidir gluais amháin nó níos mó a áireamh i ngach tionscadal mar "
-"ghearrscannán chun téarmaíocht a stóráil. Gluais comhsheasmhacht an "
-"aistriúcháin a éascú."
+"Is féidir le gach tionscadal gluais amháin nó níos mó a áireamh mar "
+"ghiorrúchán chun téarmaíocht a stóráil. Cuidíonn gluaiseanna le "
+"comhsheasmhacht an aistriúcháin a choinneáil."
 
 #: ../../user/glossary.rst:9
 msgid ""
@@ -56804,10 +56733,8 @@ msgid ":ref:`variants`"
 msgstr ":ref:`variants`"
 
 #: ../../user/glossary.rst:123
-#, fuzzy
-#| msgid "Glossary color"
 msgid "Glossary import"
-msgstr "Dath gluais"
+msgstr "Iompórtáil glosaire"
 
 #: ../../user/glossary.rst:125
 msgid ""
@@ -56815,6 +56742,10 @@ msgid ""
 "glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
 "tbx` are supported and can be uploaded, see :ref:`upload`."
 msgstr ""
+"Cosúil le comhpháirteanna aistriúcháin rialta, is féidir leat gluaiseanna "
+"atá ann cheana a uaslódáil chuig Weblate. Tacaítear le formáidí cosúil le "
+":doc:`/formats/csv` nó :doc:`/formats/tbx` agus is féidir iad a uaslódáil, "
+"féach :ref:`upload`."
 
 #: ../../user/glossary.rst:132
 msgid "Glossaries in automatic suggestion"
@@ -57492,22 +57423,16 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:56
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``, ``label``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``, ``location``."
 msgstr ""
-"Cuardaigh teaghrán a bhfuil tréithe aici - ``iolra``, ``comhthéacs``, "
-"``mol``, ``trácht``, ``seiceáil``, `` seiceáil as feidhm``, `` "
-"aistriúchán``, ``athraitheach``, `` gabháil scáileáin``, ``bratacha``, `` "
-"míniú``, ``gluais``, ``nóta``, ``lipéad``."
+"Cuardaigh teaghrán a bhfuil tréithe aige - ``iolra``, ``comhthéacs``, "
+"``moladh``, ``trácht``, ``seiceáil``, ``seiceáil-diúscairte``, "
+"``aistriúchán``, ``leagan``, ``screenshot``, ``bratacha``, ``míniú``, "
+"``glosáir``, ``nóta``, ``label``, ``suíomh``."
 
 #: ../../user/search.rst:57
 msgid "``is:TEXT``"
@@ -58069,11 +57994,6 @@ msgid "Fuzzy values for DATETIME fields"
 msgstr "Luachanna doiléir do réimsí DATETIME"
 
 #: ../../user/search.rst:255
-#, fuzzy
-#| msgid ""
-#| "Instead of using DATETIME values like MM-DD-YYYY, a string containing "
-#| "adverb of time like ``yesterday``, ``last month``, and ``2 days ago`` can "
-#| "be used as values in the DATETIME fields."
 msgid ""
 "Instead of using DATETIME values like MM-DD-YYYY, a string containing an "
 "adverb of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days "
@@ -58081,8 +58001,9 @@ msgid ""
 "supported here."
 msgstr ""
 "In ionad luachanna DATETIME cosúil le MM-DD-YYYY a úsáid, is féidir teaghrán "
-"ina bhfuil adverb ama cosúil le ``inné``, ``mhí seo caite``, agus `` 2 lá ó "
-"shin`` a úsáid mar luachanna sna réimsí DATETIME."
+"ina bhfuil dobhriathar ama cosúil le :samp:`yesterday`, :samp:`last month`, "
+"agus :samp:`2 days ago` a úsáid mar luachanna sna réimsí DATETIME. Ní "
+"thacaítear ach le frásaí Béarla anseo."
 
 #: ../../user/search.rst:262
 msgid "``changed:>=\"2 weeks ago\"``"

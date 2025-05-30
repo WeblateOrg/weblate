@@ -22,6 +22,7 @@ Weblate 5.12
 * :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 * :http:get:`/api/users/` now includes ``languages``.
+* :ref:`addon-weblate.webhook.webhook` documentation improved.
 
 .. rubric:: Bug fixes
 
@@ -34,6 +35,7 @@ Weblate 5.12
 .. rubric:: Compatibility
 
 * The projects and categories default tab now shows translated languages.
+* If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
 
 .. rubric:: Upgrading
 

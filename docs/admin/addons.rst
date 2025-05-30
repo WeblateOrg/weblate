@@ -984,7 +984,7 @@ Webhook
 :Configuration: +-----------------+---------------+-------------------------------------------------+
                 | ``webhook_url`` | Webhook URL   |                                                 |
                 +-----------------+---------------+-------------------------------------------------+
-                | ``secret``      | Secret        |                                                 |
+                | ``secret``      | Secret        | A Base64 encoded string                         |
                 +-----------------+---------------+-------------------------------------------------+
                 | ``events``      | Change events | Available choices:                              |
                 |                 |               |                                                 |
@@ -1138,7 +1138,53 @@ Webhook
                 +-----------------+---------------+-------------------------------------------------+
 :Triggers: :ref:`addon-event-event-change`
 
-Sends notification to external service based on selected events.
+Sends notifications to external services based on selected events, following
+the Standard Webhooks specification.
+
+The request payload complies with the :ref:`schema-messaging` schema.
+The OpenAPI description can also be found at ``/api/docs/``.
+Sample request body:
+
+.. code-block:: json
+
+   {
+      "change_id": 99,
+      "action": "Translation changed",
+      "timestamp": "2019-08-24T14:15:22Z",
+      "target": "Nazdar svete!",
+      "old": "Nazdar!",
+      "source": "Hello, world",
+      "url": "/translate/project-slug/component-slug/cs/?checksum=46add148a53cab6f",
+      "author": "author-username",
+      "user": "user-username",
+      "project": "project-slug",
+      "component": "component-slug",
+      "translation": "cs"
+   }
+
+Sample request headers:
+
+.. code-block:: json
+
+   {
+      "webhook-id": "7f1c5477f6275a69af7b83236c20cb1a",
+      "webhook-timestamp": "1748505623.044281",
+      "webhook-signature": "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc="
+   }
+
+The ``webhook-signature`` is a space separated list of HMAC signatures generated using the ``secret`` string,
+the request payload, the ``webhook-timestamp``, and the ``webhook-id``. This ensures the authenticity
+and integrity of the webhook request.
+
+To verify a request, you can use the ``Webhook.verify`` method from the ``standardwebhooks`` library
+or an implementation of the "Standard Webhooks Specification".
+
+
+.. seealso::
+
+   `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_,
+   :ref:`schema-messaging`,
+   `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
 
 .. _addon-weblate.xml.customize:
 

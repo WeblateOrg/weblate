@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-23 10:45+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-05-27 20:55+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -459,10 +459,8 @@ msgstr "因多次登入失敗導致帳號被鎖定。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:248
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "不能向管理員傳送訊息。"
+msgstr "帳號被網站管理員鎖定。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:250
@@ -778,15 +776,13 @@ msgid "Website URL"
 msgstr "網站 URL"
 
 #: weblate/accounts/models.py:716
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "聯絡"
+msgstr "聯絡網址"
 
 #: weblate/accounts/models.py:720
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
-msgstr ""
+msgstr "透過 Signal、SimpleX 或 Telegram 等服務線上聯絡您的連結。"
 
 #: weblate/accounts/models.py:724
 msgid "Liberapay username"
@@ -1012,12 +1008,10 @@ msgid_plural ""
 msgstr[0] "這個密碼過長。密碼最多只能有 %(max_length)d 個字元。"
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password must contain at most %(min_length)d character."
-#| msgid_plural "Your password must contain at most %(min_length)d characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "您的密碼最多只能包含 %(min_length)d 個字元。"
+msgstr[0] "您的密碼最多只能包含 %(max_length)d 個字元。"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1092,10 +1086,8 @@ msgid "Could not send message to administrator."
 msgstr "不能向管理員傳送訊息。"
 
 #: weblate/accounts/views.py:277
-#, fuzzy
-#| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
-msgstr "傳送訊息太多，請稍後重試。"
+msgstr "無法開啟工單，請稍後重試。"
 
 #: weblate/accounts/views.py:282 weblate/accounts/views.py:303
 msgid "Your request has been sent, you will shortly hear from us."
@@ -1535,7 +1527,7 @@ msgstr "短 JSON 金鑰"
 
 #: weblate/addons/forms.py:215
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "分隔符號後不要有空白"
 
 #: weblate/addons/forms.py:219
 msgid "JSON indentation"
@@ -1699,7 +1691,7 @@ msgstr "最低翻譯數"
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
-msgstr ""
+msgstr "翻譯字串必須達到的百分比，才能納入翻譯。"
 
 #: weblate/addons/forms.py:526
 msgid "CSS selector"
@@ -1750,37 +1742,29 @@ msgstr "本翻譯中的所有字串都將被覆寫"
 
 #: weblate/addons/forms.py:595 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr ""
+msgstr "前置靜態文字"
 
 #: weblate/addons/forms.py:600 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "前置可變文字"
 
 #: weblate/addons/forms.py:605 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "後置靜態文字"
 
 #: weblate/addons/forms.py:610 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "未定義的變數：「%s」"
+msgstr "後置可變文字"
 
 #: weblate/addons/forms.py:615
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "可變部分乘數"
+msgstr "可變文字乘數"
 
 #: weblate/addons/forms.py:619
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr "重複可變部分的次數多寡，取決於來源字串的長度。"
+msgstr "根據來源字串的長度，決定變數文字要重複多少次。"
 
 #: weblate/addons/forms.py:624
 msgid "Include read-only strings"
@@ -1795,20 +1779,16 @@ msgid "Enable case-sensitive key sorting"
 msgstr "啟用區分大小寫的字串鍵排序"
 
 #: weblate/addons/forms.py:677
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "授權變更"
+msgstr "變更事件"
 
 #: weblate/addons/forms.py:688
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "網站 URL"
+msgstr "Webhook 網址"
 
 #: weblate/addons/forms.py:692
 msgid "Secret"
-msgstr ""
+msgstr "秘密金鑰"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1968,13 +1948,11 @@ msgstr "已安裝附加元件，請查看整合說明。"
 
 #: weblate/addons/webhooks.py:49
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:51
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to external service based on selected events."
-msgstr "向訂閱使用者寄出通知信。"
+msgstr "根據選擇事件傳送通知到外部服務。"
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2042,10 +2020,8 @@ msgid ""
 msgstr "您的評註是只針對此一翻譯，還是廣泛適用全部的翻譯？"
 
 #: weblate/api/serializers.py:345
-#, fuzzy
-#| msgid "Comments"
 msgid "Comment text"
-msgstr "評論"
+msgstr "評論文字"
 
 #: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
@@ -2053,28 +2029,24 @@ msgid "You can use Markdown and mention users by @username."
 msgstr "您可使用 Markdown 並透過 @使用者名稱 標注使用者。"
 
 #: weblate/api/serializers.py:350
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "生成時間 %(timestamp)s。"
+msgstr "建立時間戳"
 
 #: weblate/api/serializers.py:352
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
-msgstr ""
+msgstr "如果您是管理員，您可以設定這個評註建立的具體時間戳。"
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "已提出的評註"
+msgstr "評註者的電子信箱"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
-msgstr ""
+msgstr "如果您是管理員，您可以透過電子信箱將評註者更改為另一名使用者。"
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -2087,7 +2059,7 @@ msgstr "無法取得鎖定以執行操作。"
 
 #: weblate/api/views.py:160
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "指定的單位 ID 不是翻譯原文單位。"
 
 #: weblate/api/views.py:171
 #, python-format
@@ -3132,10 +3104,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS 插值字串"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "AngularJS 插值字串與來源不符"
+msgstr "AngularJS 插值字串與來源不符。"
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3154,30 +3124,24 @@ msgid "Starting newline"
 msgstr "開頭換行"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "翻譯沒有和來源一致以換列符開頭"
+msgstr "翻譯沒有和來源一致以換列符開頭。"
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "後隨換行"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "翻譯沒有和來源一致以換列結尾"
+msgstr "翻譯沒有和來源一致以換列結尾。"
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "開頭空格"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "翻譯沒有和來源一致以相同數目的空格開頭"
+msgstr "翻譯沒有和來源一致以相同數目的空格開頭。"
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
