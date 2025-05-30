@@ -977,7 +977,6 @@ class Translation(
                 % count,
                 strings,
             ),
-            fail_silently=True,
         )
 
     def merge_translations(
