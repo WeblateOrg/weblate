@@ -1173,18 +1173,18 @@ Sample request headers:
    }
 
 The ``webhook-signature`` is a space separated list of HMAC signatures generated using the ``secret`` string,
-the request payload, the ``webhook-timestamp``, and the ``webhook-id``.
-This ensures the authenticity and integrity of the webhook request, and can be verified
-with the ``StandardWebhooksUtils.verify`` method.
+the request payload, the ``webhook-timestamp``, and the ``webhook-id``. This ensures the authenticity
+and integrity of the webhook request.
 
-.. literalinclude:: ../../weblate/addons/webhooks.py
-   :pyobject: StandardWebhooksUtils.verify
+To verify a request, you can use the ``Webhook.verify`` method from the ``standardwebhooks`` library
+or an implementation of the "Standard Webhooks Specification".
 
 
 .. seealso::
 
-   `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_
-   :ref:`schema-messaging`
+   `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_,
+   :ref:`schema-messaging`,
+   `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
 
 .. _addon-weblate.xml.customize:
 
