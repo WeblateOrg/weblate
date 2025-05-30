@@ -118,14 +118,20 @@ class WebhookAddon(ChangeBaseAddon):
         self, change: Change, payload: dict[str, int | str | list[str]]
     ) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
-        wh = Webhook(self.instance.configuration.get("secret"))
         webhook_id = change.get_uuid().hex
         attempt_time = dj_timezone.now()
-        return {
+        headers: dict[str, str] = {
             "webhook-timestamp": str(attempt_time.timestamp()),
             "webhook-id": webhook_id,
-            "webhook-signature": wh.sign(webhook_id, attempt_time, json.dumps(payload)),
+            "webhook-signature": "",
         }
+
+        if secret := self.instance.configuration.get("secret", ""):
+            headers["webhook-signature"] = Webhook(secret).sign(
+                webhook_id, attempt_time, json.dumps(payload)
+            )
+
+        return headers
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
         return render_to_string(

@@ -693,8 +693,7 @@ class WebhooksAddonForm(ChangeBaseAddonForm):
         validators=[
             validate_base64_encoded_string,
         ],
-        required=True,
-        initial="XXXX-XXXX",
+        required=False,
         help_text=gettext_lazy("A Base64 encoded string"),
     )
 

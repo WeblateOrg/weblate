@@ -1650,7 +1650,6 @@ class WebhookAddonsTest(ViewTestCase):
     addon_configuration: ClassVar[dict] = {
         "webhook_url": "https://example.com/webhooks",
         "events": [],
-        "secret": "XXXXXXXX",
     }
 
     def setUp(self) -> None:
@@ -1928,7 +1927,7 @@ class WebhookAddonsTest(ViewTestCase):
         )
         self.assertNotContains(response, "Installed 1 add-on")
 
-        # empty secret not allowed
+        # empty secret
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -1939,7 +1938,16 @@ class WebhookAddonsTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertNotContains(response, "Installed 1 add-on")
+        self.assertContains(response, "Installed 1 add-on")
+
+        # delete addon
+        addon_id = Addon.objects.get(component=self.component).id
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon_id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
 
         # invalid secret
         response = self.client.post(
@@ -1968,12 +1976,3 @@ class WebhookAddonsTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
-
-        # delete addon
-        addon_id = Addon.objects.get(component=self.component).id
-        response = self.client.post(
-            reverse("addon-detail", kwargs={"pk": addon_id}),
-            {"delete": "weblate.webhook.webhook"},
-            follow=True,
-        )
-        self.assertContains(response, "No add-ons currently installed")
