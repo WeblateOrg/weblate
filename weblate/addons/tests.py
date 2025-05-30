@@ -21,6 +21,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
+from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -68,7 +69,7 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
-from .webhooks import StandardWebhooksUtils, WebhookAddon, WebhookVerificationError
+from .webhooks import WebhookAddon
 from .xml import XMLCustomizeAddon
 from .yaml import YAMLCustomizeAddon
 
@@ -1850,13 +1851,13 @@ class WebhookAddonsTest(ViewTestCase):
         self.do_translation_added_test(response_code=200)
 
         wh_request = responses.calls[0].request
-        wh_utils = StandardWebhooksUtils("secret-string")
+        wh_utils = Webhook("secret-string")
 
         # valid request
         wh_utils.verify(wh_request.body, wh_request.headers)
 
         # valid request with bytes
-        StandardWebhooksUtils(base64.b64decode("secret-string")).verify(
+        Webhook(base64.b64decode("secret-string")).verify(
             wh_request.body, wh_request.headers
         )
 
@@ -1887,7 +1888,7 @@ class WebhookAddonsTest(ViewTestCase):
 
         #  "Invalid secret"
         with self.assertRaises(WebhookVerificationError):
-            StandardWebhooksUtils("xxxx-xxxx-xxxx").verify(wh_request.body, wh_headers)
+            Webhook("xxxx-xxxx-xxxx").verify(wh_request.body, wh_headers)
 
         #  "Invalid format of timestamp"
         with self.assertRaises(WebhookVerificationError):
@@ -1915,7 +1916,7 @@ class WebhookAddonsTest(ViewTestCase):
         """Test WebhooksAddonForm."""
         self.user.is_superuser = True
         self.user.save()
-        # Missing params
+        # Missing url param
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -1933,6 +1934,7 @@ class WebhookAddonsTest(ViewTestCase):
                 "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
+                "secret": "",
             },
             follow=True,
         )
