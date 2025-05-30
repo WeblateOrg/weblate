@@ -562,6 +562,7 @@ currently translating user in all components.
 Propagation preconditions:
 
 - All components have to reside in a single project (linking component is not enough).
+- Enable :ref:`component-allow_translation_propagation` to automatically reuse translations for matching strings.
 - The translation propagation requires the key to be match for monolingual
   translation formats, so keep that in mind when creating translation keys.
 - The strings are propagated while translating, strings loaded from the
