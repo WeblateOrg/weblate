@@ -4,8 +4,6 @@
 
 from __future__ import annotations
 
-import hashlib
-import hmac
 import json
 from typing import TYPE_CHECKING
 
@@ -26,10 +24,6 @@ from weblate.utils.requests import request
 if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
-
-
-def hmac_data(key: bytes, data: bytes) -> bytes:
-    return hmac.new(key, data, hashlib.sha256).digest()
 
 
 class MessageNotDeliveredError(Exception):
