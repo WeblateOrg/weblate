@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-29 12:01+0000\n"
+"PO-Revision-Date: 2025-05-30 13:03+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -822,6 +822,8 @@ msgstr "URL de Contacto"
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
+"Hiperligação para o contactar on-line utilizando os serviços, tais como, "
+"Signal, Simplex ou Telegram."
 
 #: weblate/accounts/models.py:724
 msgid "Liberapay username"
@@ -1623,7 +1625,7 @@ msgstr "Ordenar chaves JSON"
 
 #: weblate/addons/forms.py:215
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Evitar espaços depois dos separadores"
 
 #: weblate/addons/forms.py:219
 msgid "JSON indentation"
@@ -1794,6 +1796,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"A percentagem de cadeias de carateres traduzidas que devem estar presentes "
+"para que a tradução seja incluída."
 
 #: weblate/addons/forms.py:526
 msgid "CSS selector"
@@ -1845,48 +1849,41 @@ msgid "All strings in this translation will be overwritten"
 msgstr "Todas as cadeias nesta tradução serão sobrescritas"
 
 #: weblate/addons/forms.py:595 weblate/templates/addons/pseudolocale.html:9
+#, fuzzy
 msgid "Prepended static text"
-msgstr ""
+msgstr "Texto estático prévio"
 
 #: weblate/addons/forms.py:600 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Texto variável prefixado"
 
 #: weblate/addons/forms.py:605 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "Texto estático prefixado"
 
 #: weblate/addons/forms.py:610 weblate/templates/addons/pseudolocale.html:12
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Variável indefinida: \"%s\""
+msgstr "Texto de variável acrescentado"
 
 #: weblate/addons/forms.py:615
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Multiplicador de partes variável"
+msgstr "Multiplicador de texto variável"
 
 #: weblate/addons/forms.py:619
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Quantas vezes repetir a parte variável dependendo do comprimento da cadeia "
-"fonte."
+"Repetir quantas vezes o texto variável dependendo do comprimento da cadeia "
+"de carateres fonte."
 
 #: weblate/addons/forms.py:624
 msgid "Include read-only strings"
-msgstr "Incluir cadeias de apenas leitura"
+msgstr "Incluir cadeias de carateres de apenas leitura"
 
 #: weblate/addons/forms.py:654
 msgid "The source and target have to be different languages."
-msgstr "A origem e o destino devem ser idiomas diferentes."
+msgstr "A origem e o destino devem ter idiomas diferentes."
 
 #: weblate/addons/forms.py:667
 msgid "Enable case-sensitive key sorting"
@@ -2154,10 +2151,8 @@ msgstr ""
 "O seu comentário é específico para esta tradução ou genérico para todas?"
 
 #: weblate/api/serializers.py:345
-#, fuzzy
-#| msgid "Comments"
 msgid "Comment text"
-msgstr "Comentários"
+msgstr "Texto do comentário"
 
 #: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
@@ -2165,28 +2160,28 @@ msgid "You can use Markdown and mention users by @username."
 msgstr "Pode usar o Markdown e mencionar utilizadores por @username."
 
 #: weblate/api/serializers.py:350
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "Gerado em %(timestamp)s."
+msgstr "Data/hora de criação"
 
 #: weblate/api/serializers.py:352
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
 msgstr ""
+"Se for um administrador, pode definir a data/hora explícita no qual o "
+"comentário foi criado."
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Comentários adicionados"
+msgstr "E-mail do comentador"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Se for um administrador, pode atribuir este comentário a outro utilizador "
+"pelo seu e-mail."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -2223,7 +2218,7 @@ msgstr ""
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Não foi possível efetuar o bloqueio de %(scope)s de %(origin)s para executar "
+"Não foi possível obter o bloqueio de %(scope)s para %(origin)s para executar "
 "a operação."
 
 #: weblate/api/views.py:2468 weblate/auth/models.py:968
@@ -3278,7 +3273,9 @@ msgstr "Cadeia de interpolação AngularJS"
 
 #: weblate/checks/angularjs.py:33
 msgid "AngularJS interpolation strings do not match source."
-msgstr "As strings de interpolação AngularJS não correspondem com a fonte"
+msgstr ""
+"As cadeias de carateres de interpolação AngularJS não correspondem com a "
+"fonte."
 
 #: weblate/checks/base.py:324
 msgid "The following format strings are missing: {}"
@@ -3318,13 +3315,15 @@ msgstr "A fonte e a tradução não iniciam ambas com o mesmo número de espaço
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Carateres não padrão em Kabyle"
 
 #: weblate/checks/chars.py:109
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Utilize carateres padronizados Kabyle Latim (exemplo, ɣ em vez de γ grego; ɛ "
+"em vez de ε)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -3405,7 +3404,7 @@ msgstr "Quebras de linha não coincidentes"
 
 #: weblate/checks/chars.py:435
 msgid "Number of new lines in translation does not match source."
-msgstr "O número das novas linhas na tradução não correspondem com a fonte"
+msgstr "O número das novas linhas na tradução não correspondem com a fonte."
 
 #: weblate/checks/chars.py:443 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
@@ -7650,30 +7649,24 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:5
 msgid "HTTP Response"
-msgstr ""
+msgstr "Resposta HTTP"
 
 #: weblate/templates/addons/webhook_log.html:8
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "Pedido incorreto"
+msgstr "Pedido HTTP"
 
 #: weblate/templates/addons/webhook_log.html:14
 #: weblate/templates/addons/webhook_log.html:21
 msgid "HTTP headers"
-msgstr ""
+msgstr "Cabeçalhos HTTP"
 
 #: weblate/templates/addons/webhook_log.html:17
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "Resolver comentário"
+msgstr "Conteúdo da resposta"
 
 #: weblate/templates/addons/webhook_log.html:23
-#, fuzzy
-#| msgid "Requested by:"
 msgid "Request payload"
-msgstr "Solicitado por:"
+msgstr "Solicitar carga útil"
 
 #: weblate/templates/auth/team.html:11
 #: weblate/templates/trans/project-access.html:10
@@ -7910,10 +7903,8 @@ msgid "Help"
 msgstr "Ajuda"
 
 #: weblate/templates/base.html:378
-#, fuzzy
-#| msgid "Weblate support status"
 msgid "Weblate support"
-msgstr "Estado do apoio do Weblate"
+msgstr "Apoio do Weblate"
 
 #: weblate/templates/base.html:382
 msgid "Get support"
@@ -7924,32 +7915,24 @@ msgid "Get help"
 msgstr "Obter Ajuda"
 
 #: weblate/templates/base.html:391
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Weblate community"
-msgstr "Apagar comentário"
+msgstr "Comunidade do Weblate"
 
 #: weblate/templates/base.html:395
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact site administrators"
-msgstr "Contactar os administradores do servidor"
+msgstr "Contactar administradores do site"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
 msgstr "Colaborar com o Weblate"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate website"
-msgstr "Chaves do Weblate"
+msgstr "Site da Web Weblate"
 
 #: weblate/templates/base.html:412
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "Administração do Weblate"
+msgstr "Documentação do Weblate"
 
 #: weblate/templates/base.html:415 weblate/templates/keyboard-shortcuts.html:18
 msgid "Keyboard shortcuts"
@@ -9545,16 +9528,13 @@ msgid "Current translation"
 msgstr "Tradução atual"
 
 #: weblate/templates/last-changes-content.html:72
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Previous translation"
-msgstr "A tradução anterior era: \"%s\"."
+msgstr "Tradução anterior"
 
 #: weblate/templates/last-changes-content.html:75
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "Estado do Weblate"
+msgstr "Estado: %(state)s"
 
 #: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
@@ -9872,20 +9852,16 @@ msgstr[0] "O convite irá expirar dentro de %(count)s hora."
 msgstr[1] "O convite irá expirar dentro de %(count)s horas."
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
 msgstr ""
-"%(from_user)s convida-vos a colaborar no projeto de tradução "
-"%(project_name)s em %(site_title)s."
+"%(invitation_author)s convidou-o para aderir ao projeto %(project_name)s."
 
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "%(invitation_author)s convidou-o para aderir"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10204,28 +10180,24 @@ msgid "Turned off"
 msgstr "Desligado"
 
 #: weblate/templates/manage/backups.html:28
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed with an error"
-msgstr "Falha ao alterar uma prioridade!"
+msgstr "Falhou com um erro"
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Unpaid service subscription"
-msgstr "Gerir as suas traduções"
+msgstr "Subscrição do serviço não paga"
 
 #: weblate/templates/manage/backups.html:55
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"O serviço de cópias de segurança foi temporariamente desativado devido a uma "
+"subscrição não paga. Ative as cópias de segurança renovando a sua subscrição."
 
 #: weblate/templates/manage/backups.html:59
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Manage your subscription"
-msgstr "Gerir as suas traduções"
+msgstr "Gerir a sua subscrição"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Backup service credentials"
@@ -10957,7 +10929,7 @@ msgstr "Colar da área de transferência"
 
 #: weblate/templates/search.html:26
 msgid "strings"
-msgstr "cadeias"
+msgstr "cadeias de carateres"
 
 #: weblate/templates/search.html:26
 msgid "words"
@@ -10966,7 +10938,7 @@ msgstr "palavras"
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:124
 msgid "No matching strings found."
-msgstr "Sem cadeias correspondentes."
+msgstr "Não foram encontradas cadeias de carateres correspondentes."
 
 #: weblate/templates/snippets/about.html:4
 msgid ""
@@ -10975,10 +10947,10 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"O Weblate é uma ferramenta de tradução baseada na Web com uma forte "
-"integração de controlo de versões. Possui uma interface de utilizador "
-"simples e intuitiva, propagação de traduções entre componentes, verificações "
-"de qualidade e links automáticos para ficheiros fonte."
+"Weblate é uma ferramenta de tradução baseada na Web com uma forte integração "
+"de controlo de versões. Esta possui uma interface de utilizador simples e "
+"intuitiva, propagação de traduções entre componentes, verificações de "
+"qualidade e hiperligações automáticas para os ficheiros fonte."
 
 #: weblate/templates/snippets/about.html:8
 #, python-format
@@ -10990,10 +10962,12 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate é um programa livre com apoio e serviços profissionais para os "
+"utilizadores comerciais."
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "Explore as opões de apoio em weblate.org."
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -16110,7 +16084,7 @@ msgstr "há uma semana"
 
 #: weblate/trans/templatetags/translations.py:730
 msgid "yesterday"
-msgstr "Ontem"
+msgstr "ontem"
 
 #: weblate/trans/templatetags/translations.py:731
 #, python-format
