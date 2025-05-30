@@ -251,7 +251,7 @@ change_event_webhook = OpenApiWebhook(
 )
 
 
-class SlackWebhooksAddon(JSONWebhookBaseAddon):
+class SlackWebhookAddon(JSONWebhookBaseAddon):
     name = "weblate.webhook.slack"
     verbose = gettext_lazy("Slack Webhooks")
     description = gettext_lazy(
@@ -259,11 +259,9 @@ class SlackWebhooksAddon(JSONWebhookBaseAddon):
     )
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
-    schema_file = "weblate-slack-messaging.schema.json"
 
-    def build_webhook_payload(self, change: Change):
-        # TODO: validate against a json schema
-        payload = {
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
+        payload: dict[str, list] = {
             "blocks": [
                 {
                     "type": "header",
@@ -278,10 +276,13 @@ class SlackWebhooksAddon(JSONWebhookBaseAddon):
                     "text": {"type": "plain_text", "text": change_details},
                 }
             )
+        path_object_breadcrumbs = (
+            key_name(change.path_object) if change.path_object else " "
+        )
         payload["blocks"].append(
             {
                 "type": "section",
-                "text": {"type": "plain_text", "text": key_name(change.path_object)},
+                "text": {"type": "plain_text", "text": path_object_breadcrumbs},
                 "accessory": {
                     "type": "button",
                     "text": {

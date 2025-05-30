@@ -70,7 +70,7 @@ from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
 from .webhooks import (
     JSONWebhookBaseAddon,
-    SlackWebhooksAddon,
+    SlackWebhookAddon,
     StandardWebhooksUtils,
     WebhookAddon,
     WebhookVerificationError,
@@ -1988,7 +1988,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
 
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
-    WEBHOOK_CLS = SlackWebhooksAddon
+    WEBHOOK_CLS = SlackWebhookAddon
     WEBHOOK_URL = (
         "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
     )
