@@ -1451,7 +1451,9 @@ class AndroidFormat(TTKitFormat):
     loader = ("aresource", "AndroidResourceFile")
     monolingual = True
     unit_class = AndroidUnit
-    new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
+    new_translation = (
+        '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n</resources>'
+    )
     autoload: tuple[str, ...] = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-printf-format",)
