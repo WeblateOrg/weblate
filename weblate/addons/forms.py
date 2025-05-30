@@ -693,7 +693,9 @@ class WebhooksAddonForm(ChangeBaseAddonForm):
         validators=[
             validate_base64_encoded_string,
         ],
-        required=False,
+        required=True,
+        initial="XXXX-XXXX",
+        help_text=gettext_lazy("A Base64 encoded string"),
     )
 
     field_order = ["webhook_url", "secret", "events"]

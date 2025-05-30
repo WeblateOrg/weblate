@@ -34,6 +34,7 @@ Weblate 5.12
 .. rubric:: Compatibility
 
 * The projects and categories default tab now shows translated languages.
+* The ``secret`` string is now required for Webhooks add-on configuration, see :ref:`addon-weblate.webhook.webhook`.
 
 .. rubric:: Upgrading
 
