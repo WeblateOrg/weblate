@@ -365,11 +365,12 @@ def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
+            is_hosted = support_status_instance.name == "hosted"
             support_status = {
                 "name": support_status_instance.name,
-                "is_hosted_weblate": support_status_instance.name
-                == "special:hosted-weblate",
-                "is_dedicated": support_status_instance.name.startswith("dedicated:"),
+                "is_hosted_weblate": is_hosted
+                and settings.SITE_DOMAIN == "hosted.weblate.org",
+                "is_dedicated": is_hosted,
                 "has_support": support_status_instance.has_support,
                 "has_expired_support": support_status_instance.has_expired_support,
                 "in_limits": support_status_instance.in_limits,
