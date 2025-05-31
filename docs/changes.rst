@@ -10,6 +10,7 @@ Weblate 5.12
 * Added :ref:`check-kabyle-characters` quality check.
 * :ref:`sbom` is now being provided for Weblate.
 * :doc:`/security/index` documentation.
+* :ref:`addon-weblate.webhook.slack` is now available as an add-on.
 
 .. rubric:: Improvements
 
