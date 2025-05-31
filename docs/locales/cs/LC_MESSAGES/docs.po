@@ -9,13 +9,14 @@
 # Martin Najemi <martin@najemi.cz>, 2024.
 # Fjuro <fjuro@users.noreply.hosted.weblate.org>, 2025.
 # Fjuro <git@alius.cz>, 2025.
+# zenobit <zenobit@disroot.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-05-31 10:45+0000\n"
-"Last-Translator: Fjuro <git@alius.cz>\n"
+"PO-Revision-Date: 2025-05-31 17:00+0000\n"
+"Last-Translator: zenobit <zenobit@disroot.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "documentation/cs/>\n"
 "Language: cs\n"
@@ -63,10 +64,12 @@ msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
+"Omezte přístup uživatelů k jednotlivým projektům výběrem jiného nastavení "
+":ref:`project-access_control`. K dispozici jsou tyto možnosti:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:489
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Veřejný`"
 
 #: ../../admin/access.rst:26 ../../admin/access.rst:34
 msgid "Visible to everybody."
@@ -85,10 +88,13 @@ msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Tuto možnost zvolte pro projekty s otevřeným zdrojovým kódem, nebo v "
+"případě že je vaše instance Weblate soukromá nebo uzamčená.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:491
+#, fuzzy
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Chráněno`"
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
@@ -105,10 +111,12 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Zvolte tuto možnost, pro získání viditelnosti, ale zároveň měli kontrolu "
+"nad tím, kdo může přispívat.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:493
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Soukromé`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -118,10 +126,11 @@ msgstr "Viditelné pouze zvoleným uživatelům."
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
+"**Toto zvolte u projektů, které by neměly být vůbec veřejně vystaveny.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:495
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Osobní`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
@@ -129,7 +138,7 @@ msgstr "Není dostupné na Hosted Weblate."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Všechna oprávnění budete muset nastavit pomocí :ref:`custom-acl`."
 
 #: ../../admin/access.rst:60
 msgid ""
@@ -1941,10 +1950,8 @@ msgid "Component update"
 msgstr "Název součásti"
 
 #: ../../admin/addons.rst:32
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "Triggered whenever a change happens in a component such as:"
-msgstr "Přidat novou součást překladu"
+msgstr "Spuštěno, kdykoli dojde ke změně v části, jako např.:"
 
 #: ../../admin/addons.rst:34
 #, fuzzy
@@ -17273,7 +17280,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:254
 msgid "DeepL"
-msgstr ""
+msgstr "DeepL"
 
 #: ../../admin/machine.rst:256
 msgid "``deepl``"
@@ -17315,16 +17322,21 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL je placená služba poskytující kvalitní strojový překlad pro několik "
+"jazyků. Musíte si zakoupit :guilabel:`DeepL API` předplatné, nebo můžete "
+"použít starší :guilabel:`DeepL Pro (classic)` balíček."
 
 #: ../../admin/machine.rst:280
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"API URL adresa pro použití se službou DeepL. V době psaní, byla k dispozici "
+"rozhraní API v1 a také bezplatná a placená verze rozhraní API v2."
 
 #: ../../admin/machine.rst:283
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr ""
+msgstr "``https://api.deepl.com/v2/`` (standard ve Weblate)"
 
 #: ../../admin/machine.rst:284
 msgid ""
@@ -17355,6 +17367,10 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Dříve byl Weblate podle DeepL klasifikován jako nástroj CAT, takže měl "
+"používat rozhraní API v1, ale nyní má používat rozhraní API v2. Proto je "
+"výchozí nastavení v2 a můžete jej změnit na v1 v případě, že máte existující "
+"předplatné CAT a chcete, aby Weblate používal toto."
 
 #: ../../admin/machine.rst:295
 msgid ""
@@ -17366,6 +17382,7 @@ msgstr ""
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/machine.rst:300
 msgid ""
@@ -17378,6 +17395,8 @@ msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate podporuje DeepL formality, vybere odpovídající na základě jazyka ("
+"například existuje ``de@formal`` a ``de@informal``)."
 
 #: ../../admin/machine.rst:306
 msgid ""
@@ -17385,6 +17404,9 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentation "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"Pro zlepšení kvality překladu lze volitelně zadat kontext překladu. Více se "
+"o tom dočtete v dokumentaci k překladovému kontextu `DeepL <https://"
+"developers.deepl.com/docs/best-practices/working-with-context>`_."
 
 #: ../../admin/machine.rst:313
 msgid ""
@@ -17392,6 +17414,9 @@ msgid ""
 "<https://www.deepl.com/pro>`_, `DeepL API documentation <https://developers."
 "deepl.com/docs>`_"
 msgstr ""
+"`Překladač DeepL <https://www.deepl.com/translator>`_, `Ceny DeepL <https://"
+"www.deepl.com/pro>`_, `Dokumentace k DeepL API <https://developers.deepl.com/"
+"docs>`_"
 
 #: ../../admin/machine.rst:320
 msgid "Glosbe"
@@ -18886,7 +18911,7 @@ msgstr "Používat automatické návrhy"
 
 #: ../../admin/management.rst:616
 msgid "Name of the service to install. For example ``deepl``."
-msgstr ""
+msgstr "Název služby, k instalaci. Například ``deepl``."
 
 #: ../../admin/management.rst:620
 #, fuzzy
@@ -18902,7 +18927,7 @@ msgstr "Chybné nastavení"
 
 #: ../../admin/management.rst:626
 msgid "To install :ref:`mt-deepl`:"
-msgstr ""
+msgstr "Pro instalaci :ref:`mt-deepl`:"
 
 #: ../../admin/management.rst:634
 msgid ":doc:`machine`"
@@ -19476,7 +19501,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:69
 msgid "Billing"
-msgstr "Předplatné"
+msgstr "Placení"
 
 #: ../../admin/optionals.rst:71
 msgid ""
@@ -25917,7 +25942,7 @@ msgstr ""
 
 #: ../../changes.rst:29
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Respektujte omezení bezplatného glosáře DeepL API v :ref:`mt-deepl`."
 
 #: ../../changes.rst:30
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
@@ -26687,6 +26712,8 @@ msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
 msgstr ""
+"Automaticky použít volný DeepL API koncový bod pro Volné DeepL API "
+"autentikační klíče v :ref:`mt-deepl`."
 
 #: ../../changes.rst:333
 msgid ""
@@ -27203,10 +27230,8 @@ msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
 #: ../../changes.rst:578
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "Umístění zdrojového řetězce"
+msgstr ":ref:`mt-deepl` nyní podporuje zadání kontextu překladu."
 
 #: ../../changes.rst:579
 #, fuzzy
@@ -27380,7 +27405,7 @@ msgstr ""
 
 #: ../../changes.rst:653
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Podpora formální a neformální portugalštiny v :ref:`mt-deepl`."
 
 #: ../../changes.rst:654
 msgid "QR code for TOTP is now black/white even in dark mode."
@@ -28160,7 +28185,7 @@ msgstr ""
 
 #: ../../changes.rst:980
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
-msgstr ""
+msgstr ":ref:`mt-deepl` elegantně zpracovává glosáře pro jazykové varianty."
 
 #: ../../changes.rst:981
 msgid ":doc:`/formats/excel` better handles blank cells."
@@ -28448,6 +28473,8 @@ msgid ""
 ":ref:`mt-deepl` performs better in :ref:`auto-translation` and supports :ref:"
 "`glossary-mt`."
 msgstr ""
+":ref:`mt-deepl` je výkonější v :ref:`auto-translation` a podporuje :ref"
+":`glossary-mt`."
 
 #: ../../changes.rst:1103
 #, fuzzy
@@ -28575,7 +28602,7 @@ msgstr ""
 
 #: ../../changes.rst:1161
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
-msgstr ""
+msgstr ":ref:`mt-deepl` nyní může nastavit výchozí formálnost pro překlady."
 
 #: ../../changes.rst:1162
 #, fuzzy
@@ -30265,7 +30292,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:22
 msgid "Added support for DeepL machine translation service."
-msgstr ""
+msgstr "Přidána podpora pro strojový překlad službou DeepL."
 
 #: ../../changes/v2.rst:23
 msgid "Machine translation results are now cached inside Weblate."
@@ -34298,10 +34325,8 @@ msgid "Fixed CAPTCHA entering on unsuccessful registration."
 msgstr ""
 
 #: ../../changes/v4.rst:267
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Improved languages support in DeepL."
-msgstr "Přidat definice jazyka"
+msgstr "Vylepšená podpora jazyků v DeepL."
 
 #: ../../changes/v4.rst:268
 msgid "Improved webhooks compatibility with authenticated repositories."
