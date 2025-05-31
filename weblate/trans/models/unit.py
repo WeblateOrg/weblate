@@ -2007,8 +2007,6 @@ class Unit(models.Model, LoggerMixin):
         units: Iterable[Unit] = []
         if self.is_source:
             units = self.unit_set.exclude(id=self.id).select_for_update()
-        # Always generate change for self
-        units = [*units, self]
         # Mark change as pending if file format supports this
         if file_format_support:
             if self.is_source:
@@ -2017,6 +2015,9 @@ class Unit(models.Model, LoggerMixin):
                 self.pending = True
         if save:
             self.save(update_fields=["explanation", "pending"], only_save=True)
+
+        # Always generate change for self
+        units = [*units, self]
 
         for unit in units:
             unit.generate_change(
