@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-01 15:50+0000\n"
+"PO-Revision-Date: 2025-06-02 16:01+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -39,9 +39,9 @@ msgid ""
 "projects, components, glossaries, and so on."
 msgstr ""
 "Weblate leveres med et detaljeret system til indstilling af "
-"brugertilladelser. Du kan indstille tilladelser for hele instansen med "
-"foruddefinerede roller eller tildele tilladelser til brugere for "
-"individuelle projekter, komponenter, ordlister osv."
+"brugertilladelser. Du kan tildele tilladelser til hele instansen med "
+"foruddefinerede roller eller til brugere for individuelle projekter, "
+"komponenter, ordlister osv."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -412,9 +412,9 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Du kan indstille dine projekter til :guilabel:`Beskyttet` eller :guilabel:"
-"`Privat` (se :ref:`acl`) og :ref:`administrer brugeradgang <manage-acl>` pr. "
-"projekt."
+"Du kan indstille dine projekter til :guilabel:`Beskyttet` eller "
+":guilabel:`Privat` (se :ref:`acl`) og :ref:`administrere brugeradgang "
+"<manage-acl>` pr. projekt."
 
 #: ../../admin/access.rst:202
 msgid ""
@@ -454,6 +454,9 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Du kan definere projektomfattende adgangstokens på fanen :guilabel:`API-"
+"adgang`. API-tokens kan have en udløbsdato, og deres tilladelser kan "
+"tilpasses efter teammedlemskab på samme måde som med brugere."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -485,6 +488,11 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
+"De mest kraftfulde funktioner i Weblates adgangskontrolsystem kan "
+"konfigureres i :ref:`management-interface`. Du kan bruge det til at "
+"administrere tilladelser til ethvert projekt. Du behøver ikke nødvendigvis "
+"at skifte til :guilabel:`Tilpasset` :ref:`adgangskontrol <acl>` for at bruge "
+"det, men du skal have superbrugerrettigheder for at bruge det."
 
 #: ../../admin/access.rst:245
 msgid ""
@@ -494,10 +502,15 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"Hvis du ikke er interesseret i implementeringsdetaljer og blot ønsker at "
+"oprette en simpel nok konfiguration baseret på standardindstillingerne, "
+"eller hvis du ikke har adgang til hele Weblate-installationen (som på `"
+"Hosted Weblate <https://hosted.weblate.org/>`_), så se afsnittet :ref"
+":`manage-acl`."
 
 #: ../../admin/access.rst:251
 msgid "Site-wide permission management"
-msgstr "Administration af tilladelser på hele websiden"
+msgstr "Administration af tilladelser på hele webstedet"
 
 #: ../../admin/access.rst:253
 msgid ""
@@ -553,6 +566,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Du kan også definere nye brugerdefinerede teams. Hvis du vil fortsætte med "
+"at administrere dine tilladelser for hele webstedet for disse teams, skal du "
+"vælge en passende værdi for :guilabel:`Projektvalg` (f.eks. :guilabel:`Alle "
+"projekter` eller :guilabel:`Alle offentlige projekter`)."
 
 #: ../../admin/access.rst:277
 msgid "Custom permissions for languages, components or projects"
@@ -565,6 +582,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
+"Du kan oprette dine egne dedikerede teams til at administrere tilladelser "
+"til forskellige objekter såsom sprog, komponenter og projekter. De kan dog "
+"kun give ekstra rettigheder – du kan ikke tilbagekalde tilladelser givet af "
+"teams på hele webstedet eller pr. projekt ved at tilføje et andet "
+"brugerdefineret team."
 
 #: ../../admin/access.rst:284 ../../admin/access.rst:412
 #: ../../admin/config.rst:247 ../../admin/config.rst:266
@@ -586,6 +608,8 @@ msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
+"Begrænsning af tjekkisk oversættelse til et udvalgt sæt oversættere (mens "
+"oversættelser til andre sprog forbliver offentlige):"
 
 #: ../../admin/access.rst:289
 msgid ""
@@ -593,6 +617,9 @@ msgid ""
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
+"Fjern oversættelsestilladelsen til `tjekkisk` fra alle brugere. I "
+"standardkonfigurationen kan dette gøres ved at ændre `Brugere` :ref:`"
+"standardteam <default-teams>`."
 
 #: ../../admin/access.rst:293
 msgid "Group `Users`"
@@ -613,11 +640,11 @@ msgstr "Sprog"
 
 #: ../../admin/access.rst:299
 msgid "All but `Czech`"
-msgstr "Alle undtagen `Tjekkisk`"
+msgstr "Alle undtagen `tjekkisk`"
 
 #: ../../admin/access.rst:301
 msgid "Add a dedicated team for `Czech` translators."
-msgstr ""
+msgstr "Tilføj et dedikeret team til `tjekkiske` oversættere."
 
 #: ../../admin/access.rst:303
 msgid "Group `Czech translators`"
@@ -652,6 +679,8 @@ msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
+"Denne måde at administrere tilladelser på er kraftfuld, men kan være ret "
+"kedelig. Du kan kun delegere det til andre ved at give dem superbrugerstatus."
 
 #: ../../admin/access.rst:324
 msgid "Users, roles, teams, and permissions"
@@ -670,6 +699,8 @@ msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
+"Individuel tilladelse defineret af Weblate. Tilladelser kan ikke tildeles "
+"til brugere, kun gennem tildeling af roller."
 
 #: ../../admin/access.rst:331
 msgid "`Role`"
@@ -705,6 +736,8 @@ msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Et team kan ikke tildeles nogen roller – i så fald antages det, at alle har "
+"adgang til at gennemse projektet (se nedenfor)."
 
 #: ../../admin/access.rst:359
 msgid "Project-browsing access"
@@ -21599,7 +21632,7 @@ msgstr ""
 
 #: ../../admin/support.rst:55
 msgid "Discover Weblate"
-msgstr "Oplev Weblate"
+msgstr "Opdag Weblate"
 
 #: ../../admin/support.rst:59
 msgid ""
@@ -42476,7 +42509,7 @@ msgstr ""
 
 #: ../../formats/fluent.rst:4
 msgid "Fluent format"
-msgstr "Flydende format"
+msgstr "Fluent-format"
 
 #: ../../snippets/format-in-development.rst:3
 msgid ""
@@ -42692,7 +42725,7 @@ msgstr "`go-i18n v2 JSON-fil`"
 
 #: ../../formats/gotext.rst:4
 msgid "gotext JSON files"
-msgstr "gottext JSON-filer"
+msgstr "gotext JSON-filer"
 
 #: ../../formats/gotext.rst:11
 msgid ""
@@ -42722,7 +42755,7 @@ msgstr "`gotext JSON-fil`"
 
 #: ../../formats/gwt.rst:4
 msgid "GWT properties"
-msgstr "GWT-properties"
+msgstr "GWT-egenskaber"
 
 #: ../../formats/gwt.rst:9
 msgid "Native GWT format for translations."
