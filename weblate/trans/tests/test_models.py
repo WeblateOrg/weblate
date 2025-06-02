@@ -263,6 +263,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all_words, 0)
 
     def test_commit_groupping(self) -> None:
+        # TODO: add helper to list revision since a given revision and update test
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
@@ -287,7 +288,6 @@ class TranslationTest(RepoTestCase):
             )
             # Fetch current pending state, it might have been
             # updated by background commit
-            unit.pending = Unit.objects.get(pk=unit.pk).pending
             unit.translate(user, "test", STATE_TRANSLATED)
             if i == 0:
                 # First edit should trigger commit

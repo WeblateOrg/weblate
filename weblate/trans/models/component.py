@@ -56,6 +56,7 @@ from weblate.trans.mixins import (
 )
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
 from weblate.trans.models.change import Change
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
@@ -2005,6 +2006,7 @@ class Component(
     @transaction.atomic
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
+        # TODO: remove use of pending=true
 
         Unit.objects.filter(
             Q(translation__component=self)
@@ -2061,7 +2063,7 @@ class Component(
 
         # Get all translation with pending changes, source translation first
         translations = sorted(
-            Translation.objects.filter(unit__pending=True)
+            Translation.objects.filter(unit__pending_changes__isnull=False)
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
             .prefetch_related("component"),
@@ -3423,14 +3425,13 @@ class Component(
 
     @property
     def pending_units(self):
-        from weblate.trans.models import Unit
-
-        return Unit.objects.filter(translation__component=self, pending=True)
+        """Return queryset with pending units."""
+        return PendingUnitChange.objects.for_component(self)
 
     @property
     def count_pending_units(self):
-        """Check for uncommitted changes."""
-        return self.pending_units.count()
+        """Return count of pending units."""
+        return PendingUnitChange.objects.for_component(self).count()
 
     @property
     def count_repo_missing(self):

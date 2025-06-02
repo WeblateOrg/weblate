@@ -404,7 +404,7 @@ class UnitTermExpr(BaseTermExpr):
         "state": "state",
         "source_state": "source_unit__state",
         "position": "position",
-        "pending": "pending",
+        "pending": "pending_changes__isnull",
         "changed": "change__timestamp",
         "source_changed": "source_unit__last_updated",
         "change_time": "change__timestamp",
@@ -442,7 +442,7 @@ class UnitTermExpr(BaseTermExpr):
         if text == "untranslated":
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
-            return Q(pending=True)
+            return Q(pending_changes__isnull=False)
 
         return super().is_field(text, context)
 
@@ -507,6 +507,8 @@ class UnitTermExpr(BaseTermExpr):
                     "|".join(re_escape(term) for term in terms)
                 )
             )
+        if text == "pending":
+            return Q(pending_changes__isnull=False)
 
         return super().has_field(text, context)
 
@@ -562,6 +564,10 @@ class UnitTermExpr(BaseTermExpr):
         msg = f"Unsupported path lookup: {obj}"
         raise TypeError(msg)
 
+    def pending_field(self, text: str, context: dict) -> Q:
+        boolean_value = self.convert_bool(text)
+        return Q(pending_changes__isnull=not boolean_value)
+
     def convert_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -570,9 +576,6 @@ class UnitTermExpr(BaseTermExpr):
 
     def convert_added(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
-
-    def convert_pending(self, text: str) -> bool:
-        return self.convert_bool(text)
 
     def convert_position(self, text: str) -> int:
         return self.convert_int(text)

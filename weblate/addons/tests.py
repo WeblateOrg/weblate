@@ -29,6 +29,7 @@ from weblate.trans.models import (
     Announcement,
     Comment,
     Component,
+    PendingUnitChange,
     Suggestion,
     Translation,
     Unit,
@@ -438,7 +439,7 @@ class GettextAddonTest(ViewTestCase):
                 sources = unit.get_source_plurals()
                 for text in unit.get_target_plurals():
                     self.assertIn(text, sources)
-        self.assertFalse(Unit.objects.filter(pending=True).exists())
+        self.assertFalse(PendingUnitChange.objects.exists())
 
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(self.component, None))
