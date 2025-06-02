@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-02 16:01+0000\n"
+"PO-Revision-Date: 2025-06-03 00:00+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -15357,9 +15357,9 @@ msgid ""
 "using this URL."
 msgstr ""
 "Weblate stellt die URL ``/healthz/`` zur Verfügung, die für einfache "
-"Gesundheitsprüfungen verwendet werden kann, zum Beispiel mit Kubernetes. Der "
-"Docker-Container verfügt über integrierte Gesundheitsprüfungen, die diese "
-"URL verwenden."
+"Integritätsprüfungen, zum Beispiel mit Kubernetes, verwendet werden kann. "
+"Der Docker-Container verfügt über eine integrierte Integritätsprüfung unter "
+"dieser URL."
 
 #: ../../admin/install.rst:1740
 msgid ""
@@ -29516,20 +29516,15 @@ msgstr ""
 ":ref:`addon-weblate.webhook.webhook`-Durchführung projektweiter Ereignisse."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-":ref:`check-translated` korrigiert, um Änderungen an der "
-"Ausgangszeichenkette korrekt zu behandeln."
+"Falsche Berichte von :ref:`check-translated` mit Markierungen oder "
+"Erklärungsänderungen."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "Erstellt eine neue Übersetzung in der angegebenen Komponente."
+msgstr "Erstellen neuer Übersetzungen in :doc:`/formats/appstore`."
 
 #: ../../changes.rst:35 ../../changes.rst:183 ../../changes.rst:266
 #: ../../changes.rst:356 ../../changes.rst:457 ../../changes.rst:597
@@ -29542,6 +29537,8 @@ msgstr "Kompatibilität"
 #: ../../changes.rst:36
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
+"In den Projekt- und Kategorie-Reitern werden jetzt übersetzte Sprachen "
+"angezeigt."
 
 #: ../../changes.rst:39 ../../changes.rst:62 ../../changes.rst:81
 #: ../../changes.rst:108 ../../changes.rst:134 ../../changes.rst:187
@@ -29622,19 +29619,16 @@ msgid "*Released on May 7th 2025.*"
 msgstr "*Veröffentlicht am 7. Mai 2025.*"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
+":ref:`addon-weblate.webhook.webhook` protokolliert Anfragen und Antworten."
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
+":ref:`addon-weblate.webhook.webhook` wurde in einigen Situationen nicht "
+"ausgelöst."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29711,41 +29705,30 @@ msgid "Weblate 5.11.2"
 msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "Glossare in automatischen Vorschlägen"
+msgstr "Glossarleistung im Zen-Modus und bei automatischen Vorschlägen."
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
-msgstr "Konfiguration für :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Erweiterte Unterstützung von Formaten für :ref:`addon-"
+"weblate.json.customize`."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid ""
-#| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
-msgstr ""
-"Unterstützung für die Konfiguration der visuellen Tastatur mit Sonderzeichen "
-"hinzugefügt."
+msgstr "Der XML-Export stürzt an Stellen mit Sonderzeichen nicht mehr ab."
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Verbesserte Fehlerbehandlung beim Entfernen von Zeichenketten."
+msgstr "Verbesserte Fehlerbehandlung beim ZIP-Upload."
 
 #: ../../changes.rst:104
 msgid "Django 5.2 compatibility."
 msgstr "Kompatibilität mit Django 5.2."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "Vermeiden Sie Wort- und Zeichenwiederholungen."
+msgstr "Vermeiden von wiederholten Synchronisierungen des Glossars."
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -29762,16 +29745,12 @@ msgid "Translations contributions"
 msgstr "Beiträge zu Übersetzungen"
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"144?closed=1>`__."
 
 #: ../../changes.rst:118
 msgid "Weblate 5.11.1"
@@ -29782,33 +29761,30 @@ msgid "*Released on April 25th 2025.*"
 msgstr "*Veröffentlicht am 25. April 2025.*"
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid ":ref:`reports` are now available for categories."
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr ":ref:`reports` sind jetzt für Kategorien verfügbar."
+msgstr ":ref:`projectbackup` enthalten jetzt auch Teams und Kategorien."
 
 #: ../../changes.rst:125
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
+"Die Docker-Integritätsprüfung wird jetzt auch in Containern unterstützt, die "
+"keine Web-Dienste sind."
 
 #: ../../changes.rst:129
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
+"Integration von :ref:`vcs-gitlab` erkennt jetzt Merge-Request-Konflikte "
+"zuverlässiger."
 
 #: ../../changes.rst:130
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
-msgstr ""
-":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
+msgstr ":ref:`addon-weblate.webhook.webhook` ist jetzt in Docker aktiviert."
 
 #: ../../changes.rst:131
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
-msgstr "Unzulässiger Glossarbegriff"
+msgstr "Entfernen von ausstehenden Glossarbegriffen."
 
 #: ../../changes.rst:141
 msgid ""
@@ -29844,8 +29820,6 @@ msgstr ""
 "Rolle aus einer Gruppe zu löschen."
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` are now available as a add-on."
 msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgstr ""
 ":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
@@ -29920,10 +29894,6 @@ msgid ":doc:`/admin/machine` documentation extended."
 msgstr "Dokumentation zu :doc:`/admin/machine` erweitert."
 
 #: ../../changes.rst:167
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` better handles hundredths of "
-#| "matches."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` better handles hundreds of matches."
 msgstr ""
@@ -29972,6 +29942,8 @@ msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (CVE-2025-32021)."
 msgstr ""
+"**Sicherheit:** Durch das Klonen einer Komponente kann die "
+"Komponentenkonfiguration in die URL gelangen (CVE-2025-32021)."
 
 #: ../../changes.rst:177
 msgid "Fixed captcha verification when some time zone was configured."
@@ -30439,16 +30411,12 @@ msgstr ""
 "unterstützt, siehe :doc:`/contributing/tests`."
 
 #: ../../changes.rst:358
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-bbcode` check is now disabled by default. The `bbcode-text` "
-#| "flag is required to activate this check, see :ref:`custom-checks`."
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
 "Die Prüfung der :ref:`check-bbcode` ist jetzt standardmäßig deaktiviert. Die "
-"Markierung `bbcode-text` ist erforderlich, um diese Prüfung zu aktivieren, "
+"Markierung ``bbcode-text`` ist erforderlich, um diese Prüfung zu aktivieren, "
 "siehe :ref:`custom-checks`."
 
 #: ../../changes.rst:359
@@ -30687,13 +30655,10 @@ msgid "Weblate now requires Git 2.28 or newer."
 msgstr "Weblate erfordert jetzt Git 2.28 oder neuer."
 
 #: ../../changes.rst:460
-#, fuzzy
-#| msgid ""
-#| "Any custom code that relied on `Change` models signals should be reviewed."
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
 msgstr ""
-"Jeder benutzerdefinierte Code, der sich auf Signale von `Change`-Modellen "
+"Jeder benutzerdefinierte Code, der sich auf Signale von ``Change``-Modellen "
 "stützt, sollte überprüft werden."
 
 #: ../../changes.rst:461
@@ -30967,10 +30932,8 @@ msgid "Weblate now requires Python 3.11 or newer."
 msgstr "Weblate erfordert jetzt Python 3.11 oder neuer."
 
 #: ../../changes.rst:599
-#, fuzzy
-#| msgid ":ref:`mt-aws` now requires the `TranslateFullAccess` permission."
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
-msgstr ":ref:`mt-aws` erfordert nun die Berechtigung `TranslateFullAccess`."
+msgstr ":ref:`mt-aws` erfordert nun die Berechtigung ``TranslateFullAccess``."
 
 #: ../../changes.rst:605
 msgid ""
@@ -31041,10 +31004,6 @@ msgid "*Released on August 30th 2024.*"
 msgstr "*Veröffentlicht am 30. August 2024.*"
 
 #: ../../changes.rst:646
-#, fuzzy
-#| msgid ""
-#| "Updated language names to better describe different scripts and Sintic "
-#| "languages."
 msgid ""
 "Updated language names to better describe different scripts and Sinitic "
 "languages."
@@ -31412,21 +31371,17 @@ msgstr ""
 "werden problemlos verarbeitet."
 
 #: ../../changes.rst:779
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
 msgstr ""
 ":http:get:`/api/units/(int:id)/` enthält jetzt den Zeitstempel "
-"`last_updated`."
+"``last_updated``."
 
 #: ../../changes.rst:780
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ""
 ":http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``."
-msgstr ":http:get:`/api/changes/(int:id)/` enthält jetzt `old` und `details`."
+msgstr ""
+":http:get:`/api/changes/(int:id)/` enthält jetzt ``old`` und ``details``."
 
 #: ../../changes.rst:781
 msgid "Reduced memory usage and increased performance of some views."
@@ -32004,8 +31959,6 @@ msgstr ""
 "Die Syntax der Sucheingabe wird nun hervorgehoben, siehe :doc:`/user/search`."
 
 #: ../../changes.rst:1034
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Tamil."
 msgstr "Weblate ist jetzt auf Tamil verfügbar."
 
@@ -39684,7 +39637,7 @@ msgstr "*Veröffentlicht am 17. Juni 2021.*"
 
 #: ../../changes/v4.rst:678
 msgid "Improved configuration health check."
-msgstr "Verbesserte Zustandsprüfung der Konfiguration."
+msgstr "Verbesserte Integritätsprüfung der Konfiguration."
 
 #: ../../changes/v4.rst:679
 msgid ""
@@ -40358,16 +40311,12 @@ msgstr ""
 "für den Zugriff auf Glossare."
 
 #: ../../changes/v4.rst:867
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate."
-#| "metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
 "should be added."
 msgstr ""
-"Es gibt eine Änderung in :setting:`django:INSTALLED_APPS` – ``weblate."
-"metrics`` sollte hinzugefügt werden."
+"Es gibt eine Änderung in :setting:`django:INSTALLED_APPS`; "
+"``weblate.metrics`` sollte hinzugefügt werden."
 
 #: ../../changes/v4.rst:871
 msgid "There is a new dependency on the `pyahocorasick` module."
