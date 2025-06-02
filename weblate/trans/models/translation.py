@@ -39,6 +39,7 @@ from weblate.trans.exceptions import (
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
@@ -671,29 +672,32 @@ class Translation(
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        units = list(
-            self.unit_set.filter(pending=True)
-            .prefetch_recent_content_changes()
-            .select_for_update()
+        pending_changes = list(
+            PendingUnitChange.objects.for_translation(self)
+            .select_related("unit", "author")
+            .order_by("timestamp")
         )
 
-        self.log_info("committing %d pending changes (%s)", len(units), reason)
+        if not pending_changes:
+            return False
 
-        for unit in units:
-            # We reuse the queryset, so pending units might reappear here
-            if not unit.pending:
-                continue
+        self.log_info(
+            "committing %d pending changes (%s)", len(pending_changes), reason
+        )
 
-            # Get last change metadata
-            author, timestamp = unit.get_last_content_change()
-
+        commit_groups = self._group_changes_by_author(pending_changes)
+        for author, changes in commit_groups:
             author_name = author.get_author_name()
+            timestamp = max(change.timestamp for change in changes)
 
-            # Flush pending units for this author
-            self.update_units(units, store, author_name, author.id)
+            # Flush the grouped pending changes for this author
+            self.update_units(changes, store, author_name)
 
             # Commit changes
             self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
+
+        pending_changes_ids = [p.pk for p in pending_changes]
+        PendingUnitChange.objects.filter(pk__in=pending_changes_ids).delete()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -703,13 +707,77 @@ class Translation(
 
         return True
 
+    def _group_changes_by_author(
+        self, pending_changes: list[PendingUnitChange]
+    ) -> list[tuple[User, list[PendingUnitChange]]]:
+        """
+        Organize pending changes into groups where each group represents the set of changes that can be safely committed together.
+
+        Assuming pending_changes is sorted by timestamp in ascending order, the changes are
+        grouped according to the following logic:
+
+        1. Maintain active groups per author in a dict ({author_id: {"changes": [...], "units": {...}}})
+        2. For each pending change, check if the unit conflicts with ANY active group
+        3. If conflict found: finalize conflicting group(s)
+        4. Add change to the author's existing group or create a new one if needed
+
+        Example:
+            Consider the following changes were made in chronological order:
+
+            - A1: Author 1 edits Unit A -> Group 1: Author1
+            - A2: Author 2 edits Unit A -> Unit A conflicts -> Finalize Group 1, start Group 2: Author2
+            - B3: Author 1 edits Unit B -> No conflicts -> Start Group 3: Author1
+            - C4: Author 2 edits Unit C -> No conflicts -> Add to Group 2: Author2
+            - D5: Author 1 edits Unit D -> No conflicts -> Add to Group 3: Author1
+
+        Result:
+            - Commit 1: Author1 [A1]
+            - Commit 2: Author2 [A2, C4]
+            - Commit 3: Author1 [B3, D5]
+
+        """
+        author_map = {
+            change.author.id: change.author
+            for change in pending_changes
+            if change.author
+        }
+
+        active_groups = {}
+        finalized_groups = []
+
+        for change in pending_changes:
+            unit_id = change.unit.id
+            author_id = change.author.id
+
+            conflicting_authors = []
+            for other_author_id, group_data in active_groups.items():
+                if unit_id in group_data["units"]:
+                    conflicting_authors.append(other_author_id)
+
+            for conflicting_author_id in conflicting_authors:
+                group_data = active_groups.pop(conflicting_author_id)
+                finalized_groups.append((conflicting_author_id, group_data["changes"]))
+
+            if author_id in active_groups:
+                active_groups[author_id]["changes"].append(change)
+                active_groups[author_id]["units"].add(unit_id)
+            else:
+                active_groups[author_id] = {"changes": [change], "units": {unit_id}}
+
+        for author_id, group_data in active_groups.items():
+            author = author_map[author_id]
+            finalized_groups.append((author, group_data["changes"]))
+
+        return finalized_groups
+
     def get_commit_message(self, author: str, template: str, **kwargs):
         """Format commit message based on project configuration."""
         return render_template(template, translation=self, author=author, **kwargs)
 
     @property
     def count_pending_units(self):
-        return self.unit_set.filter(pending=True).count()
+        """Return count of units with pending changes."""
+        return PendingUnitChange.objects.for_translation(self).count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -773,35 +841,23 @@ class Translation(
 
         return True
 
-    def update_units(  # noqa: C901
+    def update_units(
         self,
-        units: list[Unit],
+        pending_changes: list[PendingUnitChange],
         store: TranslationFormat,
         author_name: str,
-        author_id: int,
     ) -> None:
         """Update backend file and unit."""
         updated = False
-        clear_pending = []
-        for unit in units:
-            # We reuse the queryset, so pending units might reappear here
-            if not unit.pending:
-                continue
-            # Skip changes by other authors
-            change_author = unit.get_last_content_change()[0]
-            if change_author.id != author_id:
-                continue
-
-            details = unit.details
-
-            # Remove pending flag
-            unit.pending = False
+        for pending_change in pending_changes:
+            unit = pending_change.unit
+            details = pending_change.details
 
             if details.get("add_unit"):
                 pounit = store.new_unit(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
-                pounit.set_explanation(unit.explanation)
+                pounit.set_explanation(pending_change.explanation)
                 pounit.set_source_explanation(unit.source_unit.explanation)
                 # Check if context has changed while adding to storage
                 if pounit.context != unit.context:
@@ -815,7 +871,6 @@ class Translation(
                         Unit.objects.filter(pk=unit.pk).update(context=pounit.context)
                     unit.context = pounit.context
                 updated = True
-                del details["add_unit"]
             else:
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
@@ -831,7 +886,6 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
-                    clear_pending.append(unit.pk)
                     continue
 
                 # Optionally add unit to translation file.
@@ -861,24 +915,12 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target=self.component.get_parse_error_message(error),
                     )
-                    clear_pending.append(unit.pk)
                     continue
 
                 updated = True
 
             # Update fuzzy/approved flag
             pounit.set_state(unit.state)
-
-            # Do not go via save() to avoid triggering signals
-            if unit.details:
-                Unit.objects.filter(pk=unit.pk).update(
-                    pending=unit.pending, details=unit.details
-                )
-            else:
-                clear_pending.append(unit.pk)
-
-        if clear_pending:
-            Unit.objects.filter(pk__in=clear_pending).update(pending=False, details={})
 
         # Did we do any updates?
         if not updated:
@@ -962,7 +1004,7 @@ class Translation(
         count = len(not_found_log)
 
         strings = format_html_join_comma(
-            gettext("“{}”"), ((string,) for string in not_found_log[:string_limit])
+            gettext('"{}"'), ((string,) for string in not_found_log[:string_limit])
         )
         if count > string_limit:
             strings = format_html_join_comma("{}", [(strings,), (gettext("…"),)])
@@ -1606,12 +1648,8 @@ class Translation(
         for translation in translations:
             is_source = translation.is_source
             kwargs = {}
-            if has_template:
-                kwargs["pending"] = is_source
-            else:
-                kwargs["pending"] = not is_source
-            if kwargs["pending"]:
-                kwargs["details"] = {"add_unit": True}
+            pending = is_source if has_template else not is_source
+
             if (self.is_source and is_source) or (not self.is_source and not is_source):
                 kwargs["explanation"] = explanation
             if is_source:
@@ -1686,6 +1724,10 @@ class Translation(
                             force_insert=True,
                             sync_terminology=False,
                         )
+                        if pending:
+                            PendingUnitChange.store_unit_change(
+                                unit=unit, author=user, details={"add_unit": True}
+                            )
                         changes.append(
                             unit.generate_change(
                                 user=user,

@@ -8,6 +8,7 @@ from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
 from weblate.trans.models.label import TRANSLATION_LABELS
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = {STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED}
@@ -56,7 +57,7 @@ def bulk_perform(  # noqa: C901
                     component_units.values_list("source_unit_id", flat=True)
                 )
             else:
-                update_unit_ids = []
+                to_update = []
                 source_units = []
                 unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
@@ -75,21 +76,22 @@ def bulk_perform(  # noqa: C901
                             user, user, ActionEvents.BULK_EDIT, check_new=False
                         )
                         updated += 1
-                        update_unit_ids.append(unit.pk)
+                        to_update.append(unit)
                         if unit.is_source:
                             source_units.append(unit)
 
                 # Bulk update state
-                Unit.objects.filter(pk__in=update_unit_ids).update(
-                    pending=True, state=target_state
+                Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
+                    state=target_state
                 )
+                for unit in to_update:
+                    PendingUnitChange.store_unit_change(unit=unit, author=user)
                 # Fire source_change event in bulk for source units
                 for unit in source_units:
                     # The change is already done in the database, we
                     # need it here to recalculate state of translation
                     # units
                     unit.is_batch_update = True
-                    unit.pending = True
                     unit.state = target_state
                     unit.source_unit_save()
 

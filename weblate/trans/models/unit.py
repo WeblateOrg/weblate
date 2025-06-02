@@ -21,6 +21,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
+from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
@@ -32,6 +33,7 @@ from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.project import Project
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
@@ -947,7 +949,6 @@ class Unit(models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
-        self.pending = pending
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
@@ -973,6 +974,11 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
         )
+        if pending:
+            PendingUnitChange.store_unit_change(
+                unit=self,
+                author=get_anonymous(),
+            )
         # Track updated sources for source checks
         if translation.is_template:
             component.updated_sources[self.id] = self
@@ -1131,13 +1137,14 @@ class Unit(models.Model, LoggerMixin):
                         )
                     continue
 
-                # Commit any previous pending changes
-                unit.commit_if_pending(user)
-
                 # Update unit attributes for the current instance, the database is bulk updated later
                 unit.target = self.target
                 unit.state = self.state
-                unit.pending = True
+
+                PendingUnitChange.store_unit_change(
+                    unit=unit,
+                    author=author,
+                )
 
                 to_update.append(unit)
 
@@ -1165,7 +1172,6 @@ class Unit(models.Model, LoggerMixin):
                 target=self.target,
                 state=self.state,
                 original_state=self.state,
-                pending=True,
                 last_updated=self.last_updated,
             )
 
@@ -1190,16 +1196,6 @@ class Unit(models.Model, LoggerMixin):
 
             return True
 
-    def commit_if_pending(self, author: User | None) -> None:
-        """Commit possible previous changes on this unit."""
-        if self.pending:
-            change_author = self.get_last_content_change()[0]
-            if change_author != author:
-                # This intentionally discards user - the translating user
-                # has no control on what this does (it can even trigger update
-                # of the repo)
-                self.translation.commit_pending("pending unit", None)
-
     def save_backend(
         self,
         user: User | None,
@@ -1221,9 +1217,6 @@ class Unit(models.Model, LoggerMixin):
         # For case when authorship specified, use user
         author = author or user
 
-        # Commit possible previous changes on this unit
-        self.commit_if_pending(author)
-
         # Propagate to other projects
         # This has to be done before changing source for template
         was_propagated = False
@@ -1243,13 +1236,17 @@ class Unit(models.Model, LoggerMixin):
         ):
             return False
 
-        update_fields = ["target", "state", "original_state", "pending", "explanation"]
+        update_fields = ["target", "state", "original_state", "explanation"]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             update_fields.extend(["source"])
 
         # Unit is pending for write
-        self.pending = True
+        PendingUnitChange.store_unit_change(
+            unit=self,
+            author=author,
+        )
+
         # Update translated flag (not fuzzy and at least one translation)
         translation = any(self.get_target_plurals())
         if self.state >= STATE_TRANSLATED and not translation:
@@ -1326,7 +1323,6 @@ class Unit(models.Model, LoggerMixin):
 
             # Find relevant units
             for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
-                unit.commit_if_pending(author)
                 # Update source and number of words
                 unit.source = self.target
                 unit.num_words = self.num_words
@@ -1338,7 +1334,10 @@ class Unit(models.Model, LoggerMixin):
                 ):
                     # Unset fuzzy on reverted
                     unit.original_state = unit.state = STATE_TRANSLATED
-                    unit.pending = True
+                    PendingUnitChange.store_unit_change(
+                        unit=unit,
+                        author=author,
+                    )
                     unit.previous_source = ""
                 elif (
                     unit.original_state == STATE_FUZZY
@@ -1353,7 +1352,10 @@ class Unit(models.Model, LoggerMixin):
                     unit.original_state = STATE_FUZZY
                     if unit.state < STATE_READONLY:
                         unit.state = STATE_FUZZY
-                        unit.pending = True
+                        PendingUnitChange.store_unit_change(
+                            unit=unit,
+                            author=author,
+                        )
                     unit.previous_source = previous_source
 
                 # Save unit
@@ -2011,12 +2013,18 @@ class Unit(models.Model, LoggerMixin):
             units = self.unit_set.exclude(id=self.id).select_for_update()
         # Mark change as pending if file format supports this
         if file_format_support:
-            if self.is_source:
-                units.update(pending=True)
-            else:
-                self.pending = True
+            for unit in units:
+                PendingUnitChange.store_unit_change(
+                    unit=unit,
+                    author=user,
+                )
+            PendingUnitChange.store_unit_change(
+                unit=self,
+                author=user,
+            )
+
         if save:
-            self.save(update_fields=["explanation", "pending"], only_save=True)
+            self.save(update_fields=["explanation"], only_save=True)
 
         # Always generate change for self
         units = [*units, self]
