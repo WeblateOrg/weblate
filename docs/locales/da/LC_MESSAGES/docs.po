@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-02 16:02+0000\n"
+"PO-Revision-Date: 2025-06-03 00:00+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -227,7 +227,8 @@ msgstr "Godkende oversættelser under gennemgang."
 
 #: ../../admin/access.rst:105
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr "Kun tilgængelig, hvis :ref:`review workflow <reviews>` er slået til."
+msgstr ""
+"Kun tilgængelig, hvis :ref:`gennemgå arbejdsgang <reviews>` er slået til."
 
 #: ../../admin/access.rst:107
 msgid "For `Protected` and `Private` projects only:"
@@ -827,6 +828,8 @@ msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
+"Et projekt ``foo`` med komponenterne: ``foo/bar`` og ``foo/baz``, med "
+"gennemgangs- og administrationsrettigheder, i følgende team:"
 
 #: ../../admin/access.rst:418
 msgid "Group `Spanish Admin-Reviewers`"
@@ -834,7 +837,7 @@ msgstr ""
 
 #: ../../admin/access.rst:422
 msgid "`Review Strings`, `Manage repository`"
-msgstr "`Gennemgå Strenge`, `Administrér repository`"
+msgstr "`Gennemgå strenge`, `Administrer repository`"
 
 #: ../../admin/access.rst:423 ../../api.rst:1298
 msgid "Components"
@@ -859,16 +862,22 @@ msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Generel (browsing) adgang til hele projektet ``foo`` inklusive begge "
+"komponenter i det: ``foo/bar`` og ``foo/baz``."
 
 #: ../../admin/access.rst:433
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Gennemgå strenge i den spanske oversættelse af ``foo/bar`` (ikke andre "
+"steder)."
 
 #: ../../admin/access.rst:434
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Administrer VCS for hele ``foo/bar``-repositoriet, f.eks. commit afventende "
+"ændringer foretaget af oversættere for alle sprog."
 
 #: ../../admin/access.rst:440
 msgid "Automatic team assignments"
@@ -881,6 +890,10 @@ msgid ""
 "automatically assign newly created users to a team based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
+"Når du redigerer :guilabel:`Team`, kan du angive :guilabel:`Automatiske "
+"tildelinger`, som er en liste over regulære udtryk, der bruges til "
+"automatisk at tildele nyoprettede brugere til et team baseret på deres e-"
+"mailadresser. Denne tildeling sker kun, når kontoen oprettes."
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -889,6 +902,10 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Den mest almindelige brugssag for funktionen er at tildele alle nye brugere "
+"til et standardteam. Denne adfærd bruges til standardholdene `Brugere` og "
+"`Gæster` (se :ref:`default-teams`). Brug det regulære udtryk ``^.*$`` til at "
+"matche alle brugere."
 
 #: ../../admin/access.rst:451
 msgid ""
@@ -897,6 +914,10 @@ msgid ""
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
+"En anden brugssag for denne mulighed kan være at give nogle ekstra "
+"rettigheder til ansatte i din virksomhed som standard. Forudsat at alle "
+"bruger virksomhedens e-mailadresser på dit domæne, kan det gøres med et "
+"udtryk som ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:458
 msgid ""
@@ -904,6 +925,9 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Automatisk teamtildeling til `Brugere` og `Seere` genskabes altid, når man "
+"opgraderer fra en Weblate-version til en anden. Hvis du vil slå det fra, "
+"skal du indstille det regulære udtryk til ``^$`` (som ikke matcher noget)."
 
 #: ../../admin/access.rst:464
 msgid ""
@@ -911,6 +935,9 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"Indtil videre er der ingen måde at føje allerede eksisterende brugere til et "
+"team via brugergrænsefladen. Til det formål kan du bruge :ref:`REST API "
+"<api>`."
 
 #: ../../admin/access.rst:468
 msgid "Default teams and roles"
@@ -931,15 +958,19 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Disse roller og teams oprettes ved installationen. De indbyggede roller "
+"holdes altid opdateret af databasemigreringen, når der opgraderes. Du kan "
+"faktisk ikke ændre dem, så du skal definere en ny rolle, hvis du vil have "
+"dit eget sæt tilladelser."
 
 #: ../../admin/access.rst:480
 msgid "List of privileges"
-msgstr "Liste over privilegier"
+msgstr "Liste over rettigheder"
 
 #: ../../admin/access.rst:486 ../../admin/optionals.rst:285
 #: ../../user/checks.rst:0
 msgid "Scope"
-msgstr "Område"
+msgstr "Omfang"
 
 #: ../../admin/access.rst:486
 msgid "Permission"
@@ -993,8 +1024,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Redigér kilde`, :guilabel:"
-"`Superbruger`, :guilabel:`Gennemgå strenge`, :guilabel:`Oversæt`"
+":guilabel:`Administration`, :guilabel:`Rediger kilde`, "
+":guilabel:`Superbruger`, :guilabel:`Gennemgå strenge`, :guilabel:`Oversæt`"
 
 #: ../../admin/access.rst:494
 msgid "Delete comment"
@@ -1025,7 +1056,7 @@ msgstr "Låse komponent, så oversættelser forhindres"
 #: ../../admin/access.rst:574 ../../admin/access.rst:576
 #: ../../admin/access.rst:580
 msgid ":guilabel:`Administration`, :guilabel:`Manage repository`"
-msgstr ":guilabel:`Administration`, :guilabel:`Administrér repository`"
+msgstr ":guilabel:`Administration`, :guilabel:`Administrer repository`"
 
 #: ../../admin/access.rst:502 ../../api.rst:2605 ../../user/glossary.rst:4
 #: ../../user/translating.rst:310
@@ -1042,8 +1073,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Manage glossary`, :guilabel:`Power "
 "user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Administrér ordliste`, :guilabel:"
-"`Superbruger`"
+":guilabel:`Administration`, :guilabel:`Administrer ordliste`, "
+":guilabel:`Superbruger`"
 
 #: ../../admin/access.rst:504
 msgid "Add glossary terminology"
@@ -1085,7 +1116,7 @@ msgstr "Redigere oversættelseshukommelse"
 #: ../../admin/access.rst:514 ../../admin/access.rst:516
 msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Administrér oversættelseshukommelse`"
+":guilabel:`Administration`, :guilabel:`Administrer oversættelseshukommelse`"
 
 #: ../../admin/access.rst:516
 msgid "Delete translation memory"
@@ -1122,7 +1153,7 @@ msgstr "Tilføje skærmbillede"
 #: ../../admin/access.rst:524 ../../admin/access.rst:526
 #: ../../admin/access.rst:528
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr ":guilabel:`Administration`, :guilabel:`Administrér skærmbilleder`"
+msgstr ":guilabel:`Administration`, :guilabel:`Administrer skærmbilleder`"
 
 #: ../../admin/access.rst:526
 msgid "Edit screenshot"
@@ -1138,11 +1169,11 @@ msgstr "Kildestrenge"
 
 #: ../../admin/access.rst:530
 msgid "Edit additional string info"
-msgstr "Redigere yderligere strenginfo"
+msgstr "Redigere ekstra strenginfo"
 
 #: ../../admin/access.rst:530
 msgid ":guilabel:`Administration`, :guilabel:`Edit source`"
-msgstr ":guilabel:`Administration`, :guilabel:`Redigér kilde`"
+msgstr ":guilabel:`Administration`, :guilabel:`Rediger kilde`"
 
 #: ../../admin/access.rst:532
 msgid "Strings"
@@ -1180,8 +1211,8 @@ msgstr "Redigere kildestrenge"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Redigér kilde`, :guilabel:"
-"`Superbruger`"
+":guilabel:`Administration`, :guilabel:`Rediger kilde`, "
+":guilabel:`Superbruger`"
 
 #: ../../admin/access.rst:546 ../../user/translating.rst:46
 #: ../../workflows.rst:83
@@ -1202,9 +1233,9 @@ msgid ""
 "suggestion`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Redigér kilde`, :guilabel:`Tilføj "
-"forslag`, :guilabel:`Superbruger`, :guilabel:`Gennemgå strenge`, :guilabel:"
-"`Oversæt`"
+":guilabel:`Administration`, :guilabel:`Rediger kilde`, :guilabel:`Tilføj "
+"forslag`, :guilabel:`Superbruger`, :guilabel:`Gennemgå strenge`, "
+":guilabel:`Oversæt`"
 
 #: ../../admin/access.rst:550
 msgid "Delete suggestion"
@@ -1231,7 +1262,7 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Power user`, :guilabel:`Manage "
 "languages`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Superbruger`, :guilabel:`Administrér "
+":guilabel:`Administration`, :guilabel:`Superbruger`, :guilabel:`Administrer "
 "sprog`"
 
 #: ../../admin/access.rst:556
@@ -1248,7 +1279,7 @@ msgstr "Slette eksisterende oversættelse"
 
 #: ../../admin/access.rst:558 ../../admin/access.rst:562
 msgid ":guilabel:`Administration`, :guilabel:`Manage languages`"
-msgstr ":guilabel:`Administration`, :guilabel:`Administrér sprog`"
+msgstr ":guilabel:`Administration`, :guilabel:`Administrer sprog`"
 
 #: ../../admin/access.rst:560
 msgid "Download translation file"
@@ -1260,9 +1291,9 @@ msgid ""
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Redigér kilde`, :guilabel:`Adgang til "
-"repository`, :guilabel:`Superbruger`, :guilabel:`Gennemgå strenge`, :"
-"guilabel:`Oversæt`, :guilabel:`Administrér sprog`"
+":guilabel:`Administration`, :guilabel:`Rediger kilde`, :guilabel:`Adgang til "
+"repository`, :guilabel:`Superbruger`, :guilabel:`Gennemgå strenge`, "
+":guilabel:`Oversæt`, :guilabel:`Administrer sprog`"
 
 #: ../../admin/access.rst:562
 msgid "Add several languages for translation"
@@ -1274,7 +1305,7 @@ msgstr "Uploads"
 
 #: ../../admin/access.rst:564
 msgid "Define author of uploaded translation"
-msgstr "Definere forfatter af den uploadede oversættelse"
+msgstr "Definere forfatter af uploadet oversættelse"
 
 #: ../../admin/access.rst:566
 msgid "Overwrite existing strings with upload"
@@ -1297,8 +1328,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Adgang til repository`, :guilabel:"
-"`Superbruger`, :guilabel:`Administrér repository`"
+":guilabel:`Administration`, :guilabel:`Adgang til repository`, "
+":guilabel:`Superbruger`, :guilabel:`Administrer repository`"
 
 #: ../../admin/access.rst:572
 msgid "Commit changes to the internal repository"
@@ -1322,7 +1353,7 @@ msgstr "Opdatere det interne repository"
 
 #: ../../admin/access.rst:582
 msgid "Site wide privileges"
-msgstr "Privilegier for hele webstedet"
+msgstr "Rettigheder på hele webstedet"
 
 #: ../../admin/access.rst:582
 msgid "Use management interface"
@@ -1381,18 +1412,13 @@ msgid "Manage site-wide add-ons"
 msgstr "Administrere tilføjelser på hele webstedet"
 
 #: ../../admin/access.rst:611
-#, fuzzy
-#| msgid ""
-#| "Site-wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to superuser status. Most of them affect all "
-#| "projects in your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
-"Privilegier for hele webstedet gives ikke til nogen standardrolle. Disse er "
-"magtfulde og ret tæt på superbrugerstatus. De fleste af dem påvirker alle "
+"Rettigheder på hele webstedet gives ikke til nogen standardrolle. Disse er "
+"magtfulde og ganske tæt på superbrugerstatus. De fleste af dem påvirker alle "
 "projekter i din Weblate-installation."
 
 #: ../../admin/access.rst:616
@@ -1427,7 +1453,7 @@ msgstr ":guilabel:`Rediger komponentindstillinger`"
 
 #: ../../admin/access.rst:630 ../../admin/access.rst:756
 msgid ":guilabel:`Lock component, preventing translations`"
-msgstr ":guilabel:`Lås komponent, forhindre oversættelser`"
+msgstr ":guilabel:`Lås komponent, så oversættelser forhindres`"
 
 #: ../../admin/access.rst:631 ../../admin/access.rst:691
 #: ../../admin/access.rst:698
@@ -1446,7 +1472,7 @@ msgstr ":guilabel:`Rediger ord i ordliste`"
 
 #: ../../admin/access.rst:634 ../../admin/access.rst:694
 msgid ":guilabel:`Add glossary terminology`"
-msgstr ":guilabel:`Føj terminologi til ordliste`"
+msgstr ":guilabel:`Føj begreb til ordliste`"
 
 #: ../../admin/access.rst:635 ../../admin/access.rst:695
 #: ../../admin/access.rst:701
@@ -1618,7 +1644,7 @@ msgstr ":guilabel:`Se placering af upstream-repository`"
 
 #: ../../admin/access.rst:671
 msgid "`Edit source`"
-msgstr "`Redigér kilde`"
+msgstr "`Rediger kilde`"
 
 #: ../../admin/access.rst:684
 msgid "`Add suggestion`"
@@ -1626,11 +1652,11 @@ msgstr "`Tilføj forslag`"
 
 #: ../../admin/access.rst:686
 msgid "`Access repository`"
-msgstr "`Adgang til repository`"
+msgstr "`Tilgå repository`"
 
 #: ../../admin/access.rst:690
 msgid "`Manage glossary`"
-msgstr "`Administrér ordliste`"
+msgstr "`Administrer ordliste`"
 
 #: ../../admin/access.rst:696
 msgid "`Power user`"
@@ -1642,19 +1668,19 @@ msgstr "`Gennemgå strenge`"
 
 #: ../../admin/access.rst:741
 msgid "`Manage languages`"
-msgstr "`Administrér sprog`"
+msgstr "`Administrer sprog`"
 
 #: ../../admin/access.rst:748
 msgid "`Manage translation memory`"
-msgstr "`Administrér oversættelseshukommelse`"
+msgstr "`Administrer oversættelseshukommelse`"
 
 #: ../../admin/access.rst:751
 msgid "`Manage screenshots`"
-msgstr "`Administrér skærmbilleder`"
+msgstr "`Administrer skærmbilleder`"
 
 #: ../../admin/access.rst:755
 msgid "`Manage repository`"
-msgstr "`Administrér repository`"
+msgstr "`Administrer repository`"
 
 #: ../../admin/access.rst:765
 msgid "`Add new projects`"
@@ -1670,6 +1696,9 @@ msgid ""
 "wladmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
+"Følgende teams oprettes ved installationen (eller efter udførelse af "
+":wladmin:`setupgroups`), og du kan frit ændre dem. Migreringen vil dog "
+"genskabe dem, hvis du sletter eller omdøber dem."
 
 #: ../../admin/access.rst:778
 msgid "`Guests`"
@@ -1714,6 +1743,8 @@ msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
+"Som standard gør :ref:`automatisk teamtildeling <autoteam>` alle nye konti "
+"til medlemmer af dette team, når de tilmelder sig."
 
 #: ../../admin/access.rst:795
 msgid "Default roles: none"
@@ -1774,6 +1805,9 @@ msgid ""
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
+"Fjern aldrig de foruddefinerede Weblate-teams og -brugere, da det kan føre "
+"til uventede problemer! Har du ikke brug for dem, så fjern i stedet alle "
+"deres rettigheder."
 
 #: ../../admin/access.rst:829
 msgid "Additional access restrictions"
@@ -1789,10 +1823,18 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Hvis du vil bruge din Weblate-installation på en mindre offentlig måde, dvs. "
+"kun tillade nye brugere på invitationsbasis, kan det gøres ved at "
+"konfigurere Weblate således, at kun kendte brugere har adgang til den. For "
+"at gøre det kan du sætte :setting:`REGISTRATION_OPEN` til ``False`` for at "
+"forhindre registrering af nye brugere og sætte :setting:`REQUIRE_LOGIN` til "
+"``/.*`` for at kræve login for at tilgå alle sider på webstedet. Dette er "
+"stort set måden at låse din Weblate-installation på."
 
 #: ../../admin/access.rst:840
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
+"Du kan bruge den indbyggede :ref:`invite-user` til at tilføje nye brugere."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2463
 msgid "Add-ons"
@@ -1805,6 +1847,11 @@ msgid ""
 "`Add-ons` menu of each respective translation project or component. Add-ons "
 "can be also installed site-wide in :ref:`management-interface`."
 msgstr ""
+"Tilføjelser gør det muligt at tilpasse og automatisere "
+"oversættelsesarbejdsgangen. Administratorer kan tilføje og administrere "
+"tilføjelser fra menuen :guilabel:`Administrer` ↓ :guilabel:`Tilføjelser` for "
+"hvert oversættelsesprojekt eller komponent. De kan også installeres for hele "
+"webstedet i :ref:`management-interface`."
 
 #: ../../admin/addons.rst:12
 msgid ""
@@ -1855,6 +1902,8 @@ msgid ""
 "Triggered daily, but add-ons usually split the daily load between components "
 "depending on :setting:`BACKGROUND_TASKS`."
 msgstr ""
+"Udløses dagligt, men tilføjelser deler normalt den daglige belastning mellem "
+"komponenter afhængigt af :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:48
 #, fuzzy
@@ -2031,7 +2080,7 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Bemærk, at oversættelse af alle strenge vil kassere alle eksisterende "
+"Bemærk, at oversættelse af alle strenge kasserer alle eksisterende "
 "oversættelser."
 
 #: ../../admin/addons.rst:147
@@ -2083,8 +2132,8 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Indtast slug for en komponent til brug som kilde, eller lad den være tom for "
-"at bruge alle komponenter i det aktuelle projekt."
+"Indtast slug for en komponent til brug som kilde; lad stå tomt for at bruge "
+"alle komponenter i det aktuelle projekt."
 
 #: ../../admin/addons.rst:167
 msgid "``engines``"
@@ -2104,7 +2153,7 @@ msgstr "Pointgrænse"
 
 #: ../../admin/addons.rst:0
 msgid "Triggers"
-msgstr ""
+msgstr "Udløsere"
 
 #: ../../admin/addons.rst:171 ../../admin/addons.rst:575
 #: ../../admin/addons.rst:626 ../../admin/addons.rst:659
@@ -2123,16 +2172,16 @@ msgstr ""
 "Oversætter automatisk strenge med maskinoversættelse eller andre komponenter."
 
 #: ../../admin/addons.rst:177
-#, fuzzy
-#| msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
 msgid ""
 ":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
 "translation-services-priority`"
-msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
+msgstr ""
+":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
+"translation-services-priority`"
 
 #: ../../admin/addons.rst:184
 msgid "JavaScript localization CDN"
-msgstr "JavaScript-lokalisering CDN"
+msgstr "JavaScript lokaliserings-CDN"
 
 #: ../../admin/addons.rst:188
 msgid "``weblate.cdn.cdnjs``"
@@ -2185,7 +2234,7 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Liste over filnavne i aktuelt repository eller eksterne URL'er at analysere "
+"Liste over filnavne i aktuelt repository eller eksterne URL'er til analyse "
 "for oversættelige strenge."
 
 #: ../../admin/addons.rst:198
@@ -2201,7 +2250,7 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Udgiver oversættelser til indholdsleveringsnetværk til brug i JavaScript "
+"Udgiver oversættelser til Content Delivery Network til brug i JavaScript- "
 "eller HTML-lokalisering."
 
 #: ../../admin/addons.rst:203
@@ -2228,12 +2277,19 @@ msgid ""
 "be served (URL). Serving of the files is not done by Weblate and has to be "
 "set up externally (typically using a CDN service)."
 msgstr ""
+"Denne tilføjelse kræver yderligere konfiguration på Weblate-serveren. "
+":setting:`LOCALIZE_CDN_PATH` angiver, hvor de genererede filer gemmes (på et "
+"filsystem), og :setting:`LOCALIZE_CDN_URL` hvor de skal tilgås (URL). "
+"Filerne leveres ikke af Weblate og skal opsættes eksternt (typisk via en CDN-"
+"tjeneste)."
 
 #: ../../admin/addons.rst:217
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
+"Denne tilføjelse er konfigureret på :guilabel:`Hosted Weblate` og leverer "
+"filerne via ``https://weblate-cdn.com/``."
 
 #: ../../admin/addons.rst:222
 msgid ""
@@ -2278,6 +2334,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Brug dette for at undgå tomme strenge i oversættelsesfiler (f.eks. hvis dit "
+"lokaliseringsbibliotek viser dem som manglende i stedet for at falde tilbage "
+"til kildestrengen)."
 
 #: ../../admin/addons.rst:246 ../../admin/addons.rst:267
 #: ../../admin/addons.rst:828 ../../admin/addons.rst:974
@@ -2307,7 +2366,7 @@ msgid ""
 "in the base file."
 msgstr ""
 "Opdater alle oversættelsesfiler, så de matcher den ensprogede basisfil. For "
-"de fleste filformater betyder dette fjernelse af gamle oversættelsesnøgler, "
+"de fleste filformater betyder det fjernelse af gamle oversættelsesnøgler, "
 "som ikke længere findes i basisfilen."
 
 #: ../../admin/addons.rst:261
@@ -2316,6 +2375,9 @@ msgid ""
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
+"For formater med ekstra indhold udover oversættelsesstrenge (såsom "
+":ref:`html`, :ref:`winrc` eller :ref:`odf`) synkroniserer dette også "
+"oversættelsesfilen med basisfilen."
 
 #: ../../admin/addons.rst:272
 msgid "Add missing languages"
