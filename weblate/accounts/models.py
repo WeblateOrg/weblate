@@ -659,6 +659,13 @@ class Profile(models.Model):
             "Whenever you translate a string in a project, you will start watching it."
         ),
     )
+    contribute_personal_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to personal translation memory"),
+        default=True,
+        help_text=gettext_lazy(
+            "Allow your translations to be added to your personal translation memory."
+        ),
+    )
 
     DASHBOARD_WATCHED = 1
     DASHBOARD_COMPONENT_LIST = 4
@@ -804,6 +811,22 @@ class Profile(models.Model):
 
     def __str__(self) -> str:
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        """Save profile and handle personal TM changes."""
+        from weblate.memory.tasks import import_user_memory
+
+        update_tm = self.contribute_personal_tm
+
+        # Check if contribute_personal_tm was enabled
+        if self.id:
+            old = Profile.objects.get(pk=self.id)
+            update_tm = self.contribute_personal_tm and not old.contribute_personal_tm
+
+        super().save(*args, **kwargs)
+
+        if update_tm:
+            import_user_memory.delay_on_commit(self.user.id)
 
     def get_absolute_url(self) -> str:
         return self.user.get_absolute_url()

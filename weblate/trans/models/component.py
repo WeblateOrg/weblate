@@ -37,6 +37,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
+from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -544,6 +545,14 @@ class Component(
             "will cause automatic translation in this one"
         ),
     )
+    contribute_project_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to project translation memory"),
+        default=True,
+        help_text=gettext_lazy(
+            "Allow this component's translations to be added to the project-level"
+            " translation memory."
+        ),
+    )
     # This should match definition in WorkflowSetting
     enable_suggestions = models.BooleanField(
         verbose_name=gettext_lazy("Turn on suggestions"),
@@ -901,6 +910,8 @@ class Component(
         if self.key_filter and not self.has_template():
             self.key_filter = ""
 
+        update_tm = self.contribute_project_tm
+
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -945,6 +956,9 @@ class Component(
             )
 
             create = False
+
+            # detect if the component had TM contribution disabled but changed to enabled
+            update_tm = self.contribute_project_tm and not old.contribute_project_tm
         elif self.is_glossary:
             # Creating new glossary
 
@@ -1005,6 +1019,9 @@ class Component(
         self.project.invalidate_source_language_cache()
         for project in self.links.all():
             project.invalidate_source_language_cache()
+
+        if update_tm:
+            import_memory.delay_on_commit(self.project.id, self.pk)
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
