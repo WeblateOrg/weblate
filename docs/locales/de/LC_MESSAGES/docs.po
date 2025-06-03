@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-03 00:00+0000\n"
+"PO-Revision-Date: 2025-06-04 05:01+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -42032,22 +42032,21 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"Wenn Sie Code beitragen, stimmen Sie zu, Ihre Änderungen und neuen Code "
+"unter dieselbe Lizenz zu stellen, die das Repository bereits verwendet, "
+"sofern nicht anders angegeben und vereinbart."
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` erklärt die Lizenzierung genauer."
 
 #: ../../contributing/snippets/code-guide.rst:14
-#, fuzzy
-#| msgid "Writing own checks"
 msgid "Writing a good patch"
-msgstr "Eigene Qualitätsprüfungen schreiben"
+msgstr "Einen guten Patch schreiben"
 
 #: ../../contributing/snippets/code-guide.rst:17
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Write separate changes"
-msgstr "Letzte Änderungen"
+msgstr "Separate Änderungen schreiben"
 
 #: ../../contributing/snippets/code-guide.rst:19
 msgid ""
@@ -42057,6 +42056,12 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"Es ist ärgerlich, wenn man einen großen Patch erhält, der angeblich 11 "
+"Probleme behebt, aber die Diskussionen und Meinungen stimmen mit 10 davon "
+"nicht überein oder 9 davon wurden bereits anders behoben. Dann muss die "
+"Person, die diese Änderung zusammenführt, den einzigen interessanten Patch "
+"irgendwo aus dem riesigen Haufen von Quellen herausziehen, und das "
+"verursacht eine Menge zusätzliche Arbeit."
 
 #: ../../contributing/snippets/code-guide.rst:25
 msgid ""
@@ -42065,12 +42070,18 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"Vorzugsweise sollte jede Korrektur, die ein Problem behebt, in einem eigenen "
+"Patch/Commit mit einer eigenen Beschreibung/Commit-Nachricht sein, die genau "
+"angibt, was korrigiert wird, so dass alle Änderungen vom Betreuer oder "
+"anderen interessierten Parteien selektiv angewendet werden können."
 
 #: ../../contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"Außerdem lassen sich durch getrennte Änderungen Probleme und Regressionen in "
+"Zukunft viel besser verfolgen."
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -42083,6 +42094,11 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"Dokumentation kann eine mühsame Aufgabe sein, aber es ist notwendig, dass "
+"jemand sie erledigt. Es macht die Sache viel einfacher, wenn Sie die "
+"Dokumentation zusammen mit den Codeänderungen einreichen. Bitte denken Sie "
+"daran, Methoden, komplexe Codeblöcke oder für den Benutzer sichtbare "
+"Funktionen zu dokumentieren."
 
 #: ../../contributing/snippets/code-guide.rst:46
 msgid "Test cases"
@@ -42096,6 +42112,11 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"Die Tests ermöglichen es uns, schnell zu überprüfen, ob die Funktionen wie "
+"vorgesehen funktionieren. Um dies aufrechtzuerhalten und zu verbessern, "
+"müssen alle neu hinzugefügten Funktionen in der Testsuite getestet werden. "
+"Für jede hinzugefügte Funktion sollte mindestens ein gültiger Testfall "
+"erstellt werden, der die dokumentierte Funktion überprüft."
 
 #: ../../contributing/snippets/code-guide.rst:56
 msgid ":doc:`/contributing/tests`"
@@ -42186,10 +42207,17 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"Wenn Sie Inhalte zum Projekt beitragen, erteilen Sie uns die Erlaubnis, "
+"diese unverändert zu verwenden, und Sie müssen sicherstellen, dass Sie sie "
+"an uns weitergeben dürfen. Indem Sie uns eine Änderung übermitteln, stimmen "
+"Sie zu, dass die Änderungen vom Projekt übernommen und unter der "
+"Projektlizenz weiterverbreitet werden können. Die Autoren sollten sich "
+"ausdrücklich darüber im Klaren sein, dass sie dafür verantwortlich sind, "
+"dass kein unlizenzierter Code an das Projekt übermittelt wird."
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "Dies ist unabhängig davon, ob KI eingesetzt wird oder nicht."
 
 #: ../../contributing/snippets/code-guide.rst:111
 msgid ""
@@ -42198,6 +42226,10 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"Wenn Sie einen Pull Request einreichen, sollten Sie natürlich immer darauf "
+"achten, dass der Vorschlag qualitativ hochwertig ist und unseren Richtlinien "
+"entspricht. Als Faustregel gilt: Wenn jemand erkennen kann, dass der Beitrag "
+"mithilfe von KI erstellt wurde, haben Sie mehr Arbeit zu erledigen."
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid ""
@@ -42205,6 +42237,10 @@ msgid ""
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
+"Wir können mithilfe von KI geschriebenen Code in das Projekt aufnehmen, aber "
+"der Code muss weiterhin den Kodierungsstandards entsprechen, klar "
+"geschrieben und dokumentiert sein, Testfälle enthalten und alle unsere "
+"normalen Anforderungen erfüllen."
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -42920,18 +42956,12 @@ msgid "Icons"
 msgstr "Symbole"
 
 #: ../../contributing/frontend.rst:123
-#, fuzzy
-#| msgid ""
-#| "Weblate currently uses material design icons. In case you are looking for "
-#| "new symbol, check `Material Design Icons`_ or `Material Design "
-#| "Resources`_."
 msgid ""
 "Weblate currently uses `Material Design Icons`_, in case you are looking for "
 "new symbol, check that."
 msgstr ""
-"Weblate verwendet derzeit Material-Design-Symbole. Falls Sie auf der Suche "
-"nach neuen Symbolen sind, schauen Sie unter `Material Design Icons`_ oder "
-"`Material Design Resources`_."
+"Weblate verwendet derzeit `Material Design Icons`_, falls Sie auf der Suche "
+"nach einem neuen Symbol sind, sehen Sie sich das an."
 
 #: ../../contributing/frontend.rst:126
 msgid ""
@@ -43331,16 +43361,12 @@ msgstr ""
 "bequem durch den Problembericht führen."
 
 #: ../../contributing/issues.rst:13
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid ""
 "If what you have found is a security issue in Weblate, please see :ref:"
 "`security`."
 msgstr ""
 "Wenn Sie ein Sicherheitsproblem in Weblate gefunden haben, lesen Sie bitte "
-"den unten stehenden Abschnitt :ref:`security`."
+":ref:`security`."
 
 #: ../../contributing/issues.rst:15
 msgid ""
@@ -43353,7 +43379,7 @@ msgstr ""
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to created issues"
-msgstr ""
+msgstr "Verwenden von KI zum Erstellen von Issues"
 
 #: ../../contributing/issues.rst:22
 msgid ""
@@ -43403,10 +43429,8 @@ msgid "License"
 msgstr "Lizenz"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate license"
-msgstr "Weblate-Client"
+msgstr "Weblate-Lizenz"
 
 #: ../../contributing/license.rst:7
 msgid ""
@@ -43454,10 +43478,8 @@ msgstr ""
 "Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>."
 
 #: ../../contributing/license.rst:25
-#, fuzzy
-#| msgid "Weblate deployments"
 msgid "Weblate modules license"
-msgstr "Weblate-Bereitstellungen"
+msgstr "Lizenz für Weblate-Module"
 
 #: ../../contributing/license.rst:27
 msgid ""
@@ -43519,25 +43541,19 @@ msgid "Releasing Weblate"
 msgstr "Weblate-Veröffentlichungen"
 
 #: ../../contributing/release.rst:7
-#, fuzzy
-#| msgid "Release process"
 msgid "Release cycle"
-msgstr "Veröffentlichungsprozess"
+msgstr "Veröffentlichungszyklus"
 
 #: ../../contributing/release.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has two month release cycle for releases (x.y). These are usually "
-#| "followed by a bunch of bugfix releases to fix issues which slip into them "
-#| "(x.y.z)."
 msgid ""
 "Weblate has two month release cycle for releases (x.y). These are usually "
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z). This includes bug fixes and addressing security issues."
 msgstr ""
 "Weblate hat einen zweimonatigen Veröffentlichungszyklus für neue Versionen "
-"(x.y). Darauf folgen normalerweise eine Reihe von Veröffentlichungen zur "
-"Behebung von Fehlern, die sich eingeschlichen haben (x.y.z)."
+"(x.y). Darauf folgen normalerweise eine Reihe von Veröffentlichungen zum "
+"Beheben von Fehlern, die sich eingeschlichen haben (x.y.z). Dies umfasst "
+"Fehlerbehebungen und die Behebung von Sicherheitsproblemen."
 
 #: ../../contributing/release.rst:13
 msgid ""
