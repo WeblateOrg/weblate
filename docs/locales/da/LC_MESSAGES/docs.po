@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-03 00:00+0000\n"
+"PO-Revision-Date: 2025-06-04 05:01+0000\n"
 "Last-Translator: cat <catsnote@proton.me>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -2400,8 +2400,7 @@ msgstr ""
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
-msgstr ""
-"Sikrer, at et ensartet sprogsæt bruges til alle komponenter i et projekt."
+msgstr "Sikrer et ensartet sæt sprog for alle komponenter i et projekt."
 
 #: ../../admin/addons.rst:281
 msgid ""
@@ -2413,7 +2412,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:284
 msgid "Unlike most others, this add-on affects the whole project."
-msgstr ""
+msgstr "Modsat de fleste andre påvirker denne tilføjelse hele projektet."
 
 #: ../../admin/addons.rst:288
 msgid ""
@@ -2582,6 +2581,9 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
+"Matchningen foretages med regulære udtryk, hvilket muliggør avanceret "
+"konfiguration, men kræver en vis viden. Du finder eksempler på almindelige "
+"brugstilfælde i hjælpesektionen for tilføjelsen."
 
 #: ../../admin/addons.rst:328
 msgid ""
@@ -2589,8 +2591,8 @@ msgid ""
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
 msgstr ""
-"Det regulære udtryk, der skal matche oversættelsesfiler, skal indeholde to "
-"navngivne grupper for at matche komponent og sprog. Alle navngivne grupper i "
+"Det regulære udtryk til at matche oversættelsesfiler skal indeholde to "
+"navngivne grupper til at matche komponent og sprog. Alle navngivne grupper i "
 "det regulære udtryk kan bruges som variabler i skabelonfelterne."
 
 #: ../../admin/addons.rst:332
@@ -2604,7 +2606,7 @@ msgstr "``{{ component }}``"
 
 #: ../../admin/addons.rst:335
 msgid "Component filename match"
-msgstr "Komponent filnavn match"
+msgstr "Match af komponentfilnavn"
 
 #: ../../admin/addons.rst:336
 msgid "``{{ component|title }}``"
@@ -2612,7 +2614,7 @@ msgstr "``{{ component|title }}``"
 
 #: ../../admin/addons.rst:337
 msgid "Component filename with upper case first letter"
-msgstr "Komponentfilnavn med stort begyndende bogstav"
+msgstr "Komponentfilnavn med stort forbogstav"
 
 #: ../../admin/addons.rst:338
 msgid "``{{ path }}: {{ component }}``"
@@ -2638,11 +2640,11 @@ msgstr "Eksempler på komponentopdagelse"
 
 #: ../../admin/addons.rst:350
 msgid "One folder per language"
-msgstr "En mappe pr. sprog"
+msgstr "Én mappe pr. sprog"
 
 #: ../../admin/addons.rst:352
 msgid "One folder per language containing translation files for components."
-msgstr "En mappe pr. sprog som indeholder oversættelsesfiler til komponenter."
+msgstr "Én mappe pr. sprog, som indeholder oversættelsesfiler til komponenter."
 
 #: ../../admin/addons.rst:354 ../../admin/addons.rst:367
 #: ../../admin/addons.rst:380 ../../admin/addons.rst:393
@@ -2678,7 +2680,7 @@ msgstr ":file:`de/website.po`"
 
 #: ../../admin/addons.rst:363
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Layout for gettext-lokaliteter"
 
 #: ../../admin/addons.rst:365
 msgid "Usual structure for storing gettext PO files."
@@ -2762,10 +2764,8 @@ msgid ":file:`locale/de/website/de.po`"
 msgstr ":file:`locale/de/website/de.po`"
 
 #: ../../admin/addons.rst:403
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "Godkendte strenge"
+msgstr "Opdel Android-strenge"
 
 #: ../../admin/addons.rst:405
 msgid "Android resource strings, split into several files."
@@ -2797,7 +2797,7 @@ msgstr "Matcher flere stier"
 
 #: ../../admin/addons.rst:418
 msgid "Multi-module Maven project with Java properties translations."
-msgstr ""
+msgstr "Multi-modul Maven-projekt med oversættelser af Java-egenskaber."
 
 #: ../../admin/addons.rst:421
 msgid ""
@@ -2809,7 +2809,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:422
 msgid "Component name:"
-msgstr "Komponent navn:"
+msgstr "Komponentnavn:"
 
 #: ../../admin/addons.rst:423
 msgid "``{{ originalHierarchy }}: {{ component }}``"
@@ -2853,6 +2853,13 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"Tilføjelsen til komponentopdagelse bruger :ref:`internal-urls`. Det er en "
+"praktisk måde at dele VCS-opsætning mellem flere komponenter. Tilknyttede "
+"komponenter bruger det lokale repository for hovedkomponenten angivet ved at "
+"udfylde ``weblate://project/main-component`` i feltet :ref:`component-repo` ("
+"under :guilabel:`Administrer` ↓ :guilabel:`Indstillinger` ↓ "
+":guilabel:`Versionskontrolsystem`) for hver enkelt komponent. Det sparer "
+"både tid på opsætning og systemressourcer."
 
 #: ../../admin/addons.rst:442
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -2880,7 +2887,7 @@ msgstr "``state``"
 
 #: ../../admin/addons.rst:454
 msgid "State to set"
-msgstr "Tilstand som skal sættes"
+msgstr "Tilstand at sætte"
 
 #: ../../admin/addons.rst:456
 msgid "``-1`` -- Do not change"
@@ -2913,7 +2920,7 @@ msgstr "``remove_flags``"
 
 #: ../../admin/addons.rst:466
 msgid "Translation flags to remove"
-msgstr "Oversættelsesflag til fjernelse"
+msgstr "Oversættelsesflag at fjerne"
 
 #: ../../admin/addons.rst:468
 msgid "``add_labels``"
@@ -2921,7 +2928,7 @@ msgstr "``add_labels``"
 
 #: ../../admin/addons.rst:468 ../../admin/addons.rst:483
 msgid "Labels to add"
-msgstr "Etiketter som skal tilføjes"
+msgstr "Etiketter at tilføje"
 
 #: ../../admin/addons.rst:470
 msgid "``remove_labels``"
@@ -2929,7 +2936,7 @@ msgstr "``remove_labels``"
 
 #: ../../admin/addons.rst:470
 msgid "Labels to remove"
-msgstr "Etiketter som skal fjernes"
+msgstr "Etiketter at fjerne"
 
 #: ../../admin/addons.rst:472
 msgid ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
@@ -2962,7 +2969,7 @@ msgstr "*seneste*"
 
 #: ../../admin/addons.rst:486
 msgid "Marking all :ref:`appstore` changelog strings read-only"
-msgstr ""
+msgstr "Markerer alle :ref:`appstore` ændringslog-strenge som skrivebeskyttet"
 
 #: ../../admin/addons.rst:490
 msgid "``language:en AND key:changelogs/``"
@@ -3013,6 +3020,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Du kan også stramme kontrollen :ref:`check-same` ved at føje ``strict-same``-"
+"flaget til :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:530 ../../admin/addons.rst:547
 #: ../../admin/addons.rst:564
@@ -3105,7 +3114,7 @@ msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
-"Du kan bruge en Django-skabelon i både filnavn og indhold, se :ref:`markup` "
+"Du kan bruge en Django-skabelon i både filnavn og indhold; se :ref:`markup` "
 "for en detaljeret beskrivelse af markup."
 
 #: ../../admin/addons.rst:597
@@ -3142,10 +3151,13 @@ msgid ""
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
+"Alle uoversatte strenge i komponenten udfyldes med kildestrengen og markeres "
+"som \"Skal redigeres\". Brug dette, når du ikke kan have tomme strenge i "
+"oversættelsesfilerne."
 
 #: ../../admin/addons.rst:637
 msgid "Pseudolocale generation"
-msgstr "Pseudolokalgenerering"
+msgstr "Generering af pseudolokalitet"
 
 #: ../../admin/addons.rst:641
 msgid "``weblate.generate.pseudolocale``"
@@ -3232,7 +3244,7 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genererer en oversættelse ved at tilføje præfiks og suffiks til kildestrenge "
+"Genererer en oversættelse ved at føje præfiks og suffiks til kildestrenge "
 "automatisk."
 
 #: ../../admin/addons.rst:664
@@ -3242,12 +3254,18 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolokaliteter hjælper med at finde strenge, der ikke er klar til "
+"lokalisering. Det sker ved at ændre alle oversættelige kildetekster, så "
+"uændrede strenge er lette at få øje på, når appen køres på "
+"pseudolokalisering."
 
 #: ../../admin/addons.rst:669
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Det er også muligt at finde strenge, hvor de oversatte versioner måske ikke "
+"passer til layoutet."
 
 #: ../../admin/addons.rst:672
 msgid ""
@@ -3284,6 +3302,8 @@ msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Du kan bruge rigtige sprog til test, men der findes dedikerede "
+"pseudolokaliteter i Weblate – `en_XA` og `ar_XB`."
 
 #: ../../admin/addons.rst:694
 msgid ""
@@ -3293,12 +3313,19 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"Du kan bruge denne tilføjelse til at starte en oversættelse til en ny "
+"lokalitet af et eksisterende eller beslægtet sprog. Tilføj først "
+"oversættelsen til komponenten, og gå derefter til tilføjelsen. *Eksempel:* "
+"Har du `fr` og vil lave `fr_CA`, så angiv `fr` som kilde og `fr_CA` som mål. "
+"Lad præfiks og suffiks stå tomme."
 
 #: ../../admin/addons.rst:700
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Afinstaller tilføjelsen, når den nye oversættelse er udfyldt, for at undgå "
+"at Weblate ændrer oversættelser foretaget efter kopieringen."
 
 #: ../../admin/addons.rst:707
 msgid "Contributors in comment"
@@ -3318,7 +3345,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:716
 msgid "The PO file header will look like this:"
-msgstr ""
+msgstr "PO-filens header vil se sådan ud:"
 
 #: ../../admin/addons.rst:728
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -3333,6 +3360,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Opdaterer variablen ALL_LINGUAS i :file:`configure`, :file:`configure.in` "
+"eller enhver :file:`configure.ac`-fil, når en ny oversættelse tilføjes."
 
 #: ../../admin/addons.rst:740
 msgid "Customize gettext output"
@@ -3464,6 +3493,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Placeringen af den genererede MO-fil kan tilpasses, og feltet til den bruger "
+":ref:`markup`."
 
 #: ../../admin/addons.rst:800
 msgid ""
@@ -3471,10 +3502,13 @@ msgid ""
 "repository, but the MO file generated by this add-on will not. The MO file "
 "must be removed from the upstream manually."
 msgstr ""
+"Hvis en oversættelse fjernes, slettes dens PO-fil fra repositoriet, men MO-"
+"filen, der genereres af denne tilføjelse, gør ikke. Den skal fjernes fra "
+"upstream manuelt."
 
 #: ../../admin/addons.rst:808
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Opdater PO-filerne til at matche POT (msgmerge)"
+msgstr "Opdater PO-filer til at matche POT (msgmerge)"
 
 #: ../../admin/addons.rst:810
 msgid "``weblate.gettext.msgmerge``"
@@ -3589,13 +3623,14 @@ msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 
 #: ../../admin/addons.rst:853
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Squash Git-commits inden ændringer pushes."
+msgstr "Squash Git-commits, inden ændringer pushes."
 
 #: ../../admin/addons.rst:855
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
+"Git-commits kan squashes, før ændringer pushes, i en af følgende tilstande:"
 
 #: ../../admin/addons.rst:858
 msgid "All commits into one"
@@ -3618,6 +3653,9 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
+"Originale commit-beskeder bevares, men forfatterskabet går tabt, medmindre "
+":guilabel:`Pr. forfatter` er valgt, eller commit-beskeden er tilpasset til "
+"at inkludere det."
 
 #: ../../admin/addons.rst:866
 msgid ""
@@ -3634,6 +3672,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
+"Slutlinjer (commit-linjer som ``Medforfatter: …``) kan eventuelt fjernes fra "
+"de oprindelige commit-beskeder og føjes til slutningen af den squashed "
+"commit-besked. Dette genererer også korrekt ``Medforfatter:`` kreditering "
+"for hver oversætter."
 
 #: ../../admin/addons.rst:876
 msgid "Customize JSON output"
