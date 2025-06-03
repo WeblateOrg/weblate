@@ -37,6 +37,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
+from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import (
     BRANCH_LENGTH,
@@ -55,6 +56,7 @@ from weblate.trans.mixins import (
 )
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
 from weblate.trans.models.change import Change
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
@@ -544,6 +546,14 @@ class Component(
             "will cause automatic translation in this one"
         ),
     )
+    contribute_project_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to project translation memory"),
+        default=True,
+        help_text=gettext_lazy(
+            "Allow this component's translations to be added to the project-level"
+            " translation memory."
+        ),
+    )
     # This should match definition in WorkflowSetting
     enable_suggestions = models.BooleanField(
         verbose_name=gettext_lazy("Turn on suggestions"),
@@ -901,6 +911,8 @@ class Component(
         if self.key_filter and not self.has_template():
             self.key_filter = ""
 
+        update_tm = self.contribute_project_tm
+
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -945,6 +957,9 @@ class Component(
             )
 
             create = False
+
+            # detect if the component had TM contribution disabled but changed to enabled
+            update_tm = self.contribute_project_tm and not old.contribute_project_tm
         elif self.is_glossary:
             # Creating new glossary
 
@@ -1005,6 +1020,9 @@ class Component(
         self.project.invalidate_source_language_cache()
         for project in self.links.all():
             project.invalidate_source_language_cache()
+
+        if update_tm:
+            import_memory.delay_on_commit(self.project.id, self.pk)
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
@@ -1988,6 +2006,7 @@ class Component(
     @transaction.atomic
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
+        # TODO: remove use of pending=true
 
         Unit.objects.filter(
             Q(translation__component=self)
@@ -2044,7 +2063,7 @@ class Component(
 
         # Get all translation with pending changes, source translation first
         translations = sorted(
-            Translation.objects.filter(unit__pending=True)
+            Translation.objects.filter(unit__pending_changes__isnull=False)
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
             .prefetch_related("component"),
@@ -3406,14 +3425,13 @@ class Component(
 
     @property
     def pending_units(self):
-        from weblate.trans.models import Unit
-
-        return Unit.objects.filter(translation__component=self, pending=True)
+        """Return queryset with pending units."""
+        return PendingUnitChange.objects.for_component(self)
 
     @property
     def count_pending_units(self):
-        """Check for uncommitted changes."""
-        return self.pending_units.count()
+        """Return count of pending units."""
+        return PendingUnitChange.objects.for_component(self).count()
 
     @property
     def count_repo_missing(self):
