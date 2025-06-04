@@ -9,11 +9,11 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.template import Context, Engine, TemplateSyntaxError
-from jinja2.sandbox import SandboxedEnvironment
+from django.template import Engine, TemplateSyntaxError
 from django.urls import reverse
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
+from jinja2.sandbox import SandboxedEnvironment
 
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
