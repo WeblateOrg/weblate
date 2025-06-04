@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-04 05:01+0000\n"
+"PO-Revision-Date: 2025-06-05 03:40+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -43386,6 +43386,8 @@ msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Wenn Sie ein KI-Tool gebeten haben, Probleme in Weblate oder seinen Modulen "
+"zu finden, **müssen** Sie dies unbedingt in Ihrem Bericht offenlegen."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -43394,6 +43396,10 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"Außerdem müssen Sie die Ergebnisse sorgfältig prüfen, bevor Sie sie uns "
+"melden, um sicherzustellen, dass die Probleme tatsächlich bestehen und genau "
+"wie von der KI angegeben funktionieren. KI-basierte Tools erzeugen häufig "
+"ungenaue oder gefälschte Ergebnisse."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -43405,6 +43411,15 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"Es ist *selten* eine gute Idee, einen von der KI erzeugten Bericht einfach "
+"zu kopieren und in das Projekt einzufügen. Diese Berichte sind in der Regel "
+"zu wortreich und kommen selten auf den Punkt (zusätzlich zu den üblichen "
+"erfundenen Details). Wenn Sie tatsächlich ein Problem mit einer KI entdecken "
+"und sich selbst davon überzeugt haben, dass es wahr ist, schreiben Sie den "
+"Bericht selbst und erklären Sie das Problem so, wie Sie es erfahren haben. "
+"Dadurch wird sichergestellt, dass die von der KI erzeugten Ungenauigkeiten "
+"und erfundenen Probleme frühzeitig herausgefiltert werden, bevor sie noch "
+"mehr Zeit verschwenden."
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -43414,15 +43429,22 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"Da wir Sicherheitsberichte ernst nehmen, gehen wir jedem Bericht mit "
+"Priorität nach. Diese Arbeit ist sowohl zeit- als auch energieaufwändig und "
+"hält uns von anderen sinnvollen Aufgaben ab. Gefälschte oder anderweitig "
+"erfundene Sicherheitsprobleme hindern uns effektiv an der eigentlichen "
+"Projektarbeit und führen dazu, dass wir Zeit und Ressourcen verschwenden."
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
+"Wir sperren Benutzer sofort, die erfundene Berichte an das Projekt "
+"übermitteln."
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
-msgstr ""
+msgstr "Lebenszyklus von Problemen"
 
 #: ../../contributing/license.rst:2
 msgid "License"
@@ -43486,6 +43508,8 @@ msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
 msgstr ""
+"Einige Weblate-Module verwenden MIT- oder ISC-Lizenzen. Bitte prüfen Sie die "
+"jeweiligen Repositorys auf die aktuelle Lizenz."
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -43571,6 +43595,9 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"Der Docker-Container enthält eine zusätzliche Stelle in der Versionierung, "
+"um Änderungen im Container selbst wie Abhängigkeiten zu verfolgen. Diese "
+"Aktualisierungen können Sicherheitsaktualisierungen beinhalten."
 
 #: ../../contributing/release.rst:23
 msgid ":doc:`../admin/upgrade`, :ref:`security-updates`"
@@ -45852,6 +45879,9 @@ msgid ""
 "configure separate components for each platform. The :ref:`translation-"
 "propagation` will help you to keep the strings in sync."
 msgstr ""
+"Wenn Sie Apps für mehrere Plattformen (z. B. Android und iOS) übersetzen, "
+"konfigurieren Sie separate Komponenten für jede Plattform. Die :ref"
+":`translation-propagation` hilft Ihnen, die Zeichenketten synchron zu halten."
 
 #: ../../devel/mobile.rst:8
 msgid "Best practices:"
@@ -45860,24 +45890,32 @@ msgstr "Bewährte Praktiken:"
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
 msgstr ""
+"Erstellen Sie eine Komponente pro Plattform (z. B. `MyApp Android`, `MyApp "
+"iOS`)."
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
 msgstr ""
+"Achten Sie darauf, dass Ausgangszeichenketten und Schlüssel möglichst "
+"plattformübergreifend verwendet werden."
 
 #: ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Aktivieren Sie :ref:`component-allow_translation_propagation`, um "
+"Übersetzungen für passende Zeichenketten automatisch wiederzuverwenden."
 
 #: ../../devel/mobile.rst:14
 msgid ""
 "This setup avoids duplicate work and keeps translations consistent across "
 "platforms."
 msgstr ""
+"Auf diese Weise wird doppelte Arbeit vermieden und die Übersetzungen bleiben "
+"plattformübergreifend konsistent."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -50888,10 +50926,8 @@ msgid "Contributor docs"
 msgstr "Dokumentation für Mitwirkende"
 
 #: ../../index.rst:145
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Secure Weblate"
-msgstr "Weblate unterstützen"
+msgstr "Weblate absichern"
 
 #: ../../index.rst:159
 msgid "File formats"
@@ -51351,6 +51387,10 @@ msgid ""
 "file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be "
 "used to review the dependencies for security issues or license compliance."
 msgstr ""
+"Weblate verfügt über eine Software-Stückliste (SBOM) im Quellcode als :file:`"
+"docs/specs/sbom/sbom.json` im CycloneDX-Format. Damit können die "
+"Abhängigkeiten auf Sicherheitsprobleme oder Lizenzkonformität überprüft "
+"werden."
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
@@ -51424,12 +51464,18 @@ msgid ""
 "This plan addresses recovery from catastrophic events impacting Weblate "
 "service availability, data integrity, or operational continuity."
 msgstr ""
+"Dieser Plan befasst sich mit der Wiederherstellung bei katastrophalen "
+"Ereignissen, welche die Verfügbarkeit des Weblate-Dienstes, die "
+"Datenintegrität oder das Fortbestehen des Betriebs beeinträchtigen."
 
 #: ../../security/disaster-recovery-plan.rst:11
 msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate s.r."
 "o., but it can be applied to other deployments similarly."
 msgstr ""
+"Der Plan ist speziell für Bereitstellungen von Weblate durch Weblate s.r.o. "
+"konzipiert, kann aber in ähnlicher Weise auf andere Bereitstellungen "
+"angewendet werden."
 
 #: ../../security/disaster-recovery-plan.rst:14
 msgid "Definitions"
@@ -51441,18 +51487,26 @@ msgid ""
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
 msgstr ""
+"**Notfall:** Jedes ungeplante Ereignis, das zu einem vollständigen oder "
+"erheblichen Verlust von Diensten, Daten oder Systemfunktionen führt. "
+"Beispiele hierfür sind Hardwarefehler, Datenbeschädigungen, "
+"Infrastrukturausfälle oder böswillige Angriffe."
 
 #: ../../security/disaster-recovery-plan.rst:17
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
 msgstr ""
+"**Recovery Point Objective (RPO):** Maximal akzeptables "
+"Datenverlustintervall: **24 Stunden**."
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
 msgstr ""
+"**Recovery Time Objective (RTO):** Maximal akzeptable Zeit zur vollständigen "
+"Wiederherstellung des Dienstes: **8 Stunden**."
 
 #: ../../security/disaster-recovery-plan.rst:21
 msgid "Critical components"
@@ -51463,18 +51517,24 @@ msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
 msgstr ""
+"**Anwendungsebene:** Weblate-Python/Django-Anwendung, Hintergrund-Worker "
+"(Celery) und geplante Aufgaben."
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
 msgstr ""
+"**Datenebene:** PostgreSQL-Datenbank, Übersetzungs-Repositorys (Git) und "
+"Protokolle."
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
 msgstr ""
+"**Infrastruktur:** Webserver (NGINX/Apache), Reverse-Proxy, Speichervolumes, "
+"SSL/TLS-Konfiguration und optionales SIEM-Protokollierungssystem."
 
 #: ../../security/disaster-recovery-plan.rst:28
 msgid "Backup colicy"
@@ -51488,6 +51548,12 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+"Der prozess :ref:`automated-backup` garantiert, dass alle wesentlichen "
+"Komponenten (Datenbank, Daten und Konfiguration) täglich gesichert werden. "
+"Die Sicherungen werden an zwei geografisch unterschiedlichen Orten "
+"aufbewahrt. Die Richtlinie zur Aufbewahrung von Sicherungen stellt sicher, "
+"dass die neuesten Sicherungen täglich verfügbar sind und die Sicherungen "
+"sechs Monate aufbewahrt werden."
 
 #: ../../security/disaster-recovery-plan.rst:36
 msgid "Recovery Procedures"
@@ -51495,60 +51561,62 @@ msgstr "Wiederherstellungsabläufe"
 
 #: ../../security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
-msgstr ""
+msgstr "Fehlerszenario: vollständiger Ausfall des Hosts/Systems"
 
 #: ../../security/disaster-recovery-plan.rst:43
-#, fuzzy
-#| msgid "Provisioning"
 msgid "Provision new host."
-msgstr "Bereitstellung"
+msgstr "Neuen Host bereitstellen."
 
 #: ../../security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
-msgstr ""
+msgstr "Weblate mithilfe einer Bereitstellungssoftware laden."
 
 #: ../../security/disaster-recovery-plan.rst:45
 #: ../../security/disaster-recovery-plan.rst:53
 msgid "Restore Weblate backup following :ref:`restore-borg`."
-msgstr ""
+msgstr "Weblate-Backup laut :ref:`restore-borg` wiederherstellen."
 
 #: ../../security/disaster-recovery-plan.rst:46
 msgid "Restart Weblate container."
 msgstr "Weblate-Container neu starten."
 
 #: ../../security/disaster-recovery-plan.rst:47
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid "Verify functionality and perform consistency checks."
-msgstr "Verbesserte Leistung der Konsistenzprüfungen."
+msgstr "Funktionalität überprüfen und Konsistenzprüfungen durchführen."
 
 #: ../../security/disaster-recovery-plan.rst:50
 msgid "Failure scenario: database corruption or data volume loss"
-msgstr ""
+msgstr "Fehlerszenario: Datenbankbeschädigung oder Verlust des Daten-Volumens"
 
 #: ../../security/disaster-recovery-plan.rst:52
 msgid "Stop Weblate to prevent further write operations."
-msgstr ""
+msgstr "Weblate stoppen, um weitere Schreibvorgänge zu verhindern."
 
 #: ../../security/disaster-recovery-plan.rst:54
 msgid "Restart services and verify translation and user data consistency."
 msgstr ""
+"Neustart der Dienste und Konsistenzüberprüfung von Übersetzungen und "
+"Benutzerdaten."
 
 #: ../../security/disaster-recovery-plan.rst:57
 msgid "Failure scenario: malicious tampering or ransomware"
-msgstr ""
+msgstr "Fehlerszenario: böswillige Manipulation oder Ransomware"
 
 #: ../../security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "Den betroffenen Host vom Netzwerk isolieren."
 
 #: ../../security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
 msgstr ""
+"Die letzte als funktionierend bekannte Sicherung identifizieren (vor der "
+"Infektion)."
 
 #: ../../security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
+"Die Schritte von :ref:`drp-host` befolgen, um das System auf einem neuen "
+"Host bereitzustellen."
 
 #: ../../security/disaster-recovery-plan.rst:64
 msgid "Validation and testing"
@@ -51557,64 +51625,75 @@ msgstr "Validierung und Testen"
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
 msgstr ""
+"**Sicherungsüberprüfung:** Monatlicher Wiederherstellungstest der Weblate-"
+"Sicherungen."
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
 msgstr ""
+"**Disaster-Recovery-Übung:** Mindestens einmal jährlich durchführen, wobei "
+"eine vollständige Wiederherstellung in einer Staging-Umgebung erfolgt."
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
 msgstr ""
+"**Automatisierte Integritätsprüfungen:** BorgBackup stellt die Integrität "
+"von Sicherungsarchiven sicher."
 
 #: ../../security/disaster-recovery-plan.rst:71
-#, fuzzy
-#| msgid "Use recovery codes"
 msgid "Post-recovery steps"
-msgstr "Wiederherstellungscodes verwenden"
+msgstr "Schritte nach Wiederherstellung"
 
 #: ../../security/disaster-recovery-plan.rst:73
 msgid "Confirm all services are operational and accessible."
-msgstr ""
+msgstr "Bestätigen, dass alle Dienste betriebsbereit und zugänglich sind."
 
 #: ../../security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
 msgstr ""
+"Benutzer und Beteiligte über den Stand der Wiederherstellung benachrichtigen."
 
 #: ../../security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
-msgstr ""
+msgstr "Zeitplan, Ursachen und gewonnene Erkenntnisse dokumentieren."
 
 #: ../../security/disaster-recovery-plan.rst:76
 msgid "Apply updates or infrastructure changes to prevent recurrence."
 msgstr ""
+"Aktualisierungen oder Infrastrukturänderungen vornehmen, um ein erneutes "
+"Auftreten zu verhindern."
 
 #: ../../security/disaster-recovery-plan.rst:77
 msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
 msgstr ""
+":ref:`vulnerability-disclosure-policy` befolgen, falls eine Schwachstelle "
+"vorliegt."
 
 #: ../../security/incident-response-plan.rst:2
-#, fuzzy
-#| msgid "Third-party deployments for Weblate"
 msgid "Incident response plan for Weblate"
-msgstr "Drittanbieterbereitstellungen für Weblate"
+msgstr "Vorfallsreaktionsplan für Weblate"
 
 #: ../../security/incident-response-plan.rst:7
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of a Weblate deployment."
 msgstr ""
+"Dieser Vorfallsreaktionsplan deckt Vorfälle ab, welche die Vertraulichkeit, "
+"Integrität oder Verfügbarkeit einer Weblate-Bereitstellung beeinträchtigen."
 
 #: ../../security/incident-response-plan.rst:8
 msgid ""
 "It applies to self-hosted Weblate instances, whether on-premise or in cloud "
 "infrastructure."
 msgstr ""
+"Er gilt für selbst gehostete Weblate-Instanzen, egal ob vor Ort oder in "
+"einer Cloud-Infrastruktur."
 
 #: ../../security/incident-response-plan.rst:11
 msgid "Roles and responsibilities"
@@ -51625,21 +51704,29 @@ msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
 msgstr ""
+"**Leiter der Vorfallsreaktion:** Koordiniert alle Phasen des "
+"Reaktionsprozesses."
 
 #: ../../security/incident-response-plan.rst:14
 msgid "**System Administrator:** Executes containment and recovery measures."
 msgstr ""
+"**Systemadministrator:** Führt Eindämmungs- und Wiederherstellungsmaßnahmen "
+"durch."
 
 #: ../../security/incident-response-plan.rst:15
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
 msgstr ""
+"**Sicherheitsbeauftragter:** Bewertet die Auswirkungen auf die Sicherheit "
+"und die regulatorischen Konsequenzen."
 
 #: ../../security/incident-response-plan.rst:16
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
 msgstr ""
+"**Kommunikationsleiter:** Verwaltet bei Bedarf Benachrichtigungen an interne "
+"Interessengruppen und externe Parteien."
 
 #: ../../security/incident-response-plan.rst:19
 msgid "Incident categories"
@@ -51663,7 +51750,7 @@ msgstr "Kategorie 4 – Fehlkonfiguration oder Bereitstellungsfehler"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Incident response lifecycle"
-msgstr ""
+msgstr "Lebenszyklus der Vorfallsreaktion"
 
 #: ../../security/incident-response-plan.rst:30
 msgid "Preparation"
@@ -51674,28 +51761,36 @@ msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory."
 msgstr ""
+"Sorgen Sie für regelmäßige tägliche Sicherungen der PostgreSQL-Datenbank und "
+"des Datenverzeichnisses."
 
 #: ../../security/incident-response-plan.rst:33
 msgid ""
 "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
 "1.2+)."
 msgstr ""
+"Schützen Sie Weblate mit einem Reverse-Proxy (z. B. NGINX oder Apache) und "
+"HTTPS (TLS 1.2+)."
 
 #: ../../security/incident-response-plan.rst:34
 msgid "Enable 2FA for admin-level accounts."
-msgstr ""
+msgstr "Aktivieren Sie 2FA für Konten auf Administratorebene."
 
 #: ../../security/incident-response-plan.rst:35
 msgid ""
 "Keep the Weblate instance and its dependencies (Python, Django, Celery, "
 "database, etc.) up to date."
 msgstr ""
+"Halten Sie die Weblate-Instanz und ihre Abhängigkeiten (Python, Django, "
+"Celery, Datenbank usw.) auf dem neuesten Stand."
 
 #: ../../security/incident-response-plan.rst:36
 msgid ""
 "Integrate with SIEM systems using the GELF protocol for audit and "
 "application log forwarding."
 msgstr ""
+"Integrieren Sie SIEM-Systeme mithilfe des GELF-Protokolls für die "
+"Weiterleitung von Audit- und Anwendungsprotokollen."
 
 #: ../../security/incident-response-plan.rst:39
 msgid "Identification"
@@ -51706,10 +51801,14 @@ msgid ""
 "Monitor system and application logs (``journalctl``, reverse proxy logs, "
 "Weblate application and audit logs)."
 msgstr ""
+"Überwachen Sie System- und Anwendungsprotokolle (``journalctl``, Reverse-"
+"Proxy-Protokolle, Weblate-Anwendungs- und Audit-Protokolle)."
 
 #: ../../security/incident-response-plan.rst:42
 msgid "Analyze login events, webhook executions, and push/pull failures."
 msgstr ""
+"Analysieren Sie Ereignisse bei der Anmeldung, Webhook-Ausführungen und Push-/"
+"Pull-Fehler."
 
 #: ../../security/incident-response-plan.rst:43
 msgid ""
@@ -51717,90 +51816,101 @@ msgid ""
 "login failures - Unexpected service restarts or memory usage spikes - "
 "Irregular push/pull actions from version control systems"
 msgstr ""
+"Konfigurieren Sie Warnmeldungen (z. B. über Prometheus, Zabbix oder SIEM) "
+"für: – Mehrfache Anmeldefehler – Unerwartete Neustarts von Diensten oder "
+"Spitzen beim Speicherverbrauch – Unregelmäßige Push-/Pull-Aktionen von "
+"Versionsverwaltungen"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Content"
 msgid "Containment"
-msgstr "Inhalt"
+msgstr "Eindämmung"
 
 #: ../../security/incident-response-plan.rst:51
 msgid ""
 "Temporarily restrict access (e.g., via firewall rules or service isolation)."
 msgstr ""
+"Vorübergehende Einschränkung des Zugriffs (z. B. über Firewall-Regeln oder "
+"die Isolierung von Diensten)."
 
 #: ../../security/incident-response-plan.rst:52
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
 msgstr ""
+"Deaktivieren Sie externe Integrationen (Git/Webhooks), wenn diese Teil des "
+"Angriffsvektors sind."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Suspend affected user accounts immediately."
-msgstr ""
+msgstr "Sperren Sie betroffene Benutzerkonten sofort."
 
 #: ../../security/incident-response-plan.rst:56
-#, fuzzy
-#| msgid "Explanation"
 msgid "Eradication"
-msgstr "Erklärung"
+msgstr "Eliminierung"
 
 #: ../../security/incident-response-plan.rst:58
 msgid "Remove any unauthorized code or data."
-msgstr ""
+msgstr "Entfernen Sie alle nicht autorisierten Codes oder Daten."
 
 #: ../../security/incident-response-plan.rst:59
 msgid "Patch known vulnerabilities by upgrading Weblate or server components."
 msgstr ""
+"Schließen Sie bekannte Sicherheitslücken, indem Sie Weblate oder "
+"Serverkomponenten aktualisieren."
 
 #: ../../security/incident-response-plan.rst:60
 msgid ""
 "Validate binary and repository integrity using SHA-256 checksums or Git logs."
 msgstr ""
+"Validieren Sie die Integrität von Binärdateien und Repositorys anhand von "
+"SHA-256-Prüfsummen oder Git-Protokollen."
 
 #: ../../security/incident-response-plan.rst:63
-#, fuzzy
-#| msgid "Recovery codes"
 msgid "Recovery"
-msgstr "Wiederherstellungscodes"
+msgstr "Wiederherstellung"
 
 #: ../../security/incident-response-plan.rst:65
 msgid "Restore affected services or data from the latest known-good backups."
 msgstr ""
+"Stellen Sie betroffene Dienste oder Daten aus den letzten als funktionierend "
+"bekannten Sicherungen wieder her."
 
 #: ../../security/incident-response-plan.rst:66
 msgid "Reintroduce services in a phased approach."
-msgstr ""
+msgstr "Führen Sie die Dienste schrittweise wieder ein."
 
 #: ../../security/incident-response-plan.rst:67
 msgid ""
 "Monitor logs and system behavior continuously for at least 72 hours post-"
 "recovery."
 msgstr ""
+"Überwachen Sie die Protokolle und das Systemverhalten kontinuierlich für "
+"mindestens 72 Stunden nach der Wiederherstellung."
 
 #: ../../security/incident-response-plan.rst:70
-#, fuzzy
-#| msgid "Source in review"
 msgid "Post-incident review"
-msgstr "Quelle wird überprüft"
+msgstr "Überprüfung nach Vorfall"
 
 #: ../../security/incident-response-plan.rst:72
 msgid "Compile a full incident timeline and actions taken."
 msgstr ""
+"Erstellen Sie einen vollständigen Zeitplan für den Vorfall und die "
+"ergriffenen Maßnahmen."
 
 #: ../../security/incident-response-plan.rst:73
 msgid "Perform Root Cause Analysis (RCA)."
-msgstr ""
+msgstr "Führen Sie eine Fehler-Ursachen-Analyse durch."
 
 #: ../../security/incident-response-plan.rst:74
-#, fuzzy
-#| msgid "Typo fixes in the documentation."
 msgid "Update security policies and IRP documentation."
-msgstr "Korrektur von Tippfehlern in der Dokumentation."
+msgstr ""
+"Aktualisieren Sie die Dokumentation zu den Sicherheitsrichtlinien und zum "
+"Vorfallsreaktionsplan."
 
 #: ../../security/incident-response-plan.rst:75
 msgid "Review the effectiveness of detection and containment mechanisms."
 msgstr ""
+"Überprüfen Sie die Wirksamkeit der Erkennungs- und Eindämmungsmechanismen."
 
 #: ../../security/index.rst:2
 msgid "Security and privacy"
@@ -51815,18 +51925,13 @@ msgstr ""
 "seiner Nutzer."
 
 #: ../../security/index.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://www.bestpractices."
-#| "dev/en/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Open Source "
 "Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 msgstr ""
-"Die Entwicklung von Weblate richtet sich nach den `Best Practices der Core-"
-"Infrastruktur-Initiative der Linux Foundation <https://www.bestpractices.dev/"
-"en/projects/552>`_."
+"Die Entwicklung von Weblate richtet sich nach den `Bewährten Praktiken der "
+"Open Source Security Foundation <https://www.bestpractices.dev/en/projects/"
+"552>`_."
 
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
@@ -59353,10 +59458,11 @@ msgid ""
 "bootstrapping a translation for a new component using existing translations "
 "(translation memory)."
 msgstr ""
-"Nützlich in verschiedenen Situationen, wie z. B. bei der Konsolidierung von "
+"Nützlich in verschiedenen Situationen, wie z. B. beim Konsolidieren von "
 "Übersetzungen zwischen verschiedenen Komponenten (z. B. der Anwendung und "
 "ihrer Website) oder beim Bootstrapping einer Übersetzung für eine neue "
-"Komponente unter Verwendung bestehender Übersetzungen (Übersetzungsspeicher)."
+"Komponente unter dem Verwenden bestehender Übersetzungen "
+"(Übersetzungsspeicher)."
 
 #: ../../user/translating.rst:387
 msgid ""
