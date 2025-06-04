@@ -244,6 +244,12 @@ LICENSES = (
         True,
     ),
     (
+        "Artistic-dist",
+        "Artistic License 1.0 (dist)",
+        "https://spdx.org/licenses/Artistic-dist.html",
+        False,
+    ),
+    (
         "Artistic-1.0-Perl",
         "Artistic License 1.0 (Perl)",
         "https://spdx.org/licenses/Artistic-1.0-Perl.html",
@@ -260,6 +266,12 @@ LICENSES = (
         "Artistic License 2.0",
         "https://spdx.org/licenses/Artistic-2.0.html",
         True,
+    ),
+    (
+        "Aspell-RU",
+        "Aspell Russian License",
+        "https://spdx.org/licenses/Aspell-RU.html",
+        False,
     ),
     (
         "ASWF-Digital-Assets-1.1",
@@ -1504,6 +1516,12 @@ LICENSES = (
         False,
     ),
     (
+        "FSFULLRSD",
+        "FSF Unlimited License (with License Retention and Short Disclaimer)",
+        "https://spdx.org/licenses/FSFULLRSD.html",
+        False,
+    ),
+    (
         "FSFULLRWD",
         "FSF Unlimited License (With License Retention and Warranty Disclaimer)",
         "https://spdx.org/licenses/FSFULLRWD.html",
@@ -1819,6 +1837,12 @@ LICENSES = (
         "HaskellReport",
         "Haskell Language Report License",
         "https://spdx.org/licenses/HaskellReport.html",
+        False,
+    ),
+    (
+        "HDF5",
+        "HDF5 License",
+        "https://spdx.org/licenses/HDF5.html",
         False,
     ),
     (
@@ -2668,6 +2692,12 @@ LICENSES = (
         False,
     ),
     (
+        "ngrep",
+        "ngrep License",
+        "https://spdx.org/licenses/ngrep.html",
+        False,
+    ),
+    (
         "NICTA-1.0",
         "NICTA Public Software License, Version 1.0",
         "https://spdx.org/licenses/NICTA-1.0.html",
@@ -3064,6 +3094,12 @@ LICENSES = (
         False,
     ),
     (
+        "libpng-1.6.35",
+        "PNG Reference Library License v1 (for libpng 0.5 through 1.6.35",
+        "https://spdx.org/licenses/libpng-1.6.35.html",
+        False,
+    ),
+    (
         "libpng-2.0",
         "PNG Reference Library version 2",
         "https://spdx.org/licenses/libpng-2.0.html",
@@ -3373,6 +3409,12 @@ LICENSES = (
         "snprintf",
         "snprintf License",
         "https://spdx.org/licenses/snprintf.html",
+        False,
+    ),
+    (
+        "SOFA",
+        "SOFA Software License",
+        "https://spdx.org/licenses/SOFA.html",
         False,
     ),
     (
@@ -3721,6 +3763,18 @@ LICENSES = (
         "UnixCrypt",
         "UnixCrypt License",
         "https://spdx.org/licenses/UnixCrypt.html",
+        False,
+    ),
+    (
+        "Unlicense-libtelnet",
+        "Unlicense - libtelnet variant",
+        "https://spdx.org/licenses/Unlicense-libtelnet.html",
+        False,
+    ),
+    (
+        "Unlicense-libwhirlpool",
+        "Unlicense - libwhirlpool variant",
+        "https://spdx.org/licenses/Unlicense-libwhirlpool.html",
         False,
     ),
     (
