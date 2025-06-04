@@ -9,7 +9,8 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.template import Context, Engine, TemplateSyntaxError
+from jinja2.sandbox import SandboxedEnvironment
 from django.urls import reverse
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
@@ -96,9 +97,9 @@ def render_template(template: str, **kwargs):
     kwargs["site_url"] = get_site_url()
 
     with override("en"):
-        return Template(template, engine=RestrictedEngine()).render(
-            Context(kwargs, autoescape=False)
-        )
+        env = SandboxedEnvironment()
+        t = env.from_string(template)
+        return t.render(kwargs)
 
 
 def validate_render(value: str, **kwargs) -> str:
