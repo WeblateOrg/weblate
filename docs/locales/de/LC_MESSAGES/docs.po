@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 07:04+0200\n"
-"PO-Revision-Date: 2025-06-05 03:40+0000\n"
+"PO-Revision-Date: 2025-06-06 00:26+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -51951,6 +51951,12 @@ msgid ""
 "benefit from the latest security improvements. Learn more about :ref:"
 "`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate stellt Sicherheitsupdates bereit, um Schwachstellen zu beheben und "
+"die Sicherheit der Anwendung zu verbessern. Nur bei der neuesten Version ist "
+"sichergestellt, dass sie Sicherheitsupdates erhält. Benutzern wird "
+"empfohlen, Weblate auf dem neuesten Stand zu halten, um von den neuesten "
+"Sicherheitsverbesserungen zu profitieren. Erfahren Sie mehr über :ref:`"
+"Weblate releases and the release life cycle <release-cycle>`."
 
 #: ../../security/index.rst:26
 msgid "Security policies"
@@ -51986,7 +51992,7 @@ msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
-msgstr ""
+msgstr "Schwachstellen und Umgang mit Vorfällen"
 
 #: ../../security/issues.rst:7
 msgid "Reporting security issues"
@@ -51997,6 +52003,8 @@ msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
 msgstr ""
+"Bitte lesen Sie :ref:`ai-issues`, falls Sie mithilfe von KI ein "
+"Sicherheitsproblem in Weblate entdeckt haben."
 
 #: ../../security/issues.rst:13
 msgid ""
@@ -52011,12 +52019,6 @@ msgstr ""
 "Weblate zeitnah mit Sicherheitsupdates zu versorgen."
 
 #: ../../security/issues.rst:17
-#, fuzzy
-#| msgid ""
-#| "Most normal bugs in Weblate are reported to our public `GitHub issues "
-#| "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
-#| "sensitive nature of security issues, we ask that they not be publicly "
-#| "reported in this fashion."
 msgid ""
 "Most normal bugs in Weblate are reported to our public `GitHub issues "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_, but due to the "
@@ -52097,7 +52099,7 @@ msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../security/issues.rst:54
 msgid "Vulnerability disclosure policy"
-msgstr ""
+msgstr "Richtlinie zur Offenlegung von Schwachstellen"
 
 #: ../../security/issues.rst:56
 msgid ""
@@ -52106,6 +52108,10 @@ msgid ""
 "security/advisories. The advisory is available immediately with a release "
 "when possible."
 msgstr ""
+"Innerhalb von 30 Tagen nach einer Veröffentlichung, die das Beheben einer "
+"Schwachstelle enthält, wird ein Sicherheitshinweis unter https://github.com/"
+"WeblateOrg/weblate/security/advisories veröffentlicht. Wenn möglich, wird "
+"der Hinweis sofort mit einer neuen Version veröffentlicht."
 
 #: ../../security/issues.rst:61
 msgid ""
@@ -52113,12 +52119,19 @@ msgid ""
 "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
 "and a full report is provided within 14 days."
 msgstr ""
+"Jede aktiv ausgenutzte Schwachstelle oder schwerwiegende Vorfälle werden dem "
+"CSIRT innerhalb von 24 Stunden gemeldet, allgemeine Informationen werden dem "
+"CSIRT innerhalb von 72 Stunden zur Verfügung gestellt, und ein vollständiger "
+"Bericht wird innerhalb von 14 Tagen bereitgestellt."
 
 #: ../../security/issues.rst:65
 msgid ""
 "All users of Hosted or Dedicated Weblate impacted by a severe incident or an "
 "actively exploited vulnerability are notified within 7 days."
 msgstr ""
+"Alle Benutzer von Hosted oder Dedicated Weblate, die von einem "
+"schwerwiegenden Vorfall oder einer aktiv ausgenutzten Schwachstelle "
+"betroffen sind, werden innerhalb von 7 Tagen benachrichtigt."
 
 #: ../../security/passwords.rst:2
 msgid "Password security"
@@ -52133,23 +52146,24 @@ msgid ""
 "Weblate uses a Django implementation to store hashed passwords; see :ref:"
 "`django:auth_password_storage`."
 msgstr ""
+"Weblate verwendet eine Django-Implementierung zum Speichern von gehashten "
+"Passwörtern; siehe :ref:`django:auth_password_storage`."
 
 #: ../../security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"Die empfohlene Weblate-Konfiguration verwendet Argon2 mit time_cost = 2, "
+"memory_cost = 102400 und parallelism = 8."
 
 #: ../../security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized using :setting:`django:"
 "PASSWORD_HASHERS`."
 msgstr ""
-"Die Erstellung von Sicherungskopien kann mit :setting:`BORG_EXTRA_ARGS` "
-"angepasst werden."
+"Das Passwort-Hashing kann mit :setting:`django:PASSWORD_HASHERS` angepasst "
+"werden."
 
 #: ../../security/passwords.rst:16
 msgid "Password validation"
@@ -52160,12 +52174,12 @@ msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
 msgstr ""
+"Wenn ein Benutzer ein Passwort einrichtet, wird dieses validiert, um das "
+"Risiko des Verwendens schwacher Passwörter zu verringern."
 
 #: ../../security/passwords.rst:20
-#, fuzzy
-#| msgid "Per project configuration file"
 msgid "The recommended Weblate configuration verifies:"
-msgstr "Pro Projekt-Konfigurationsdatei"
+msgstr "Die empfohlene Weblate-Konfiguration prüft:"
 
 #: ../../security/passwords.rst:22
 msgid ""
@@ -52178,28 +52192,27 @@ msgstr ""
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
 msgstr ""
+"Ein Passwort, das dem Benutzernamen und anderen Attributen ähnelt, wird "
+"abgelehnt."
 
 #: ../../security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "Ein gewöhnliches oder zu einfaches Passwort wird abgelehnt."
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr ""
+msgstr "Alle kürzlich vom Benutzer verwendeten Passwörter werden abgelehnt."
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
-msgstr ""
+msgstr "Die Passwortstärke wird optional mit dem zxcvbn-Algorithmus geprüft."
 
 #: ../../security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized using :setting:`django:"
 "AUTH_PASSWORD_VALIDATORS`."
 msgstr ""
-"Die Erstellung von Sicherungskopien kann mit :setting:`BORG_EXTRA_ARGS` "
+"Die Passwort-Validierung kann mit :setting:`django:AUTH_PASSWORD_VALIDATORS` "
 "angepasst werden."
 
 #: ../../security/passwords.rst:33
@@ -52212,6 +52225,9 @@ msgid ""
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
 msgstr ""
+"Weblate speichert keine Passwörter und erzwingt keine Passwort-Richtlinien, "
+"wenn eine soziale oder Drittanbieter-Authentifizierung konfiguriert ist. Die "
+"Passwörter werden in einem solchen Fall vollständig extern verwaltet."
 
 #: ../../security/passwords.rst:41
 msgid ":doc:`/admin/auth`"
@@ -52234,36 +52250,40 @@ msgstr ""
 #: ../../security/privacy-compliance.rst:11
 msgid "This document outlines how Weblate supports compliance with:"
 msgstr ""
+"Dieses Dokument beschreibt, wie Weblate die Einhaltung folgender "
+"Vorschriften unterstützt:"
 
 #: ../../security/privacy-compliance.rst:13
 msgid "EU General Data Protection Regulation (GDPR)"
-msgstr ""
+msgstr "EU-Datenschutz-Grundverordnung (GDPR)"
 
 #: ../../security/privacy-compliance.rst:14
 msgid "California Consumer Privacy Act (CCPA)"
-msgstr ""
+msgstr "Kalifornisches Verbraucherschutzgesetz (CCPA)"
 
 #: ../../security/privacy-compliance.rst:15
 msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
-msgstr ""
+msgstr "Brasilianisches Allgemeines Datenschutzgesetz (LGPD)"
 
 #: ../../security/privacy-compliance.rst:16
 msgid "Swiss Federal Act on Data Protection (nFADP)"
-msgstr ""
+msgstr "Schweizerisches Bundesgesetz über den Datenschutz (nFADP)"
 
 #: ../../security/privacy-compliance.rst:17
 msgid ""
 "Canadian Personal Information Protection and Electronic Documents Act "
 "(PIPEDA)"
 msgstr ""
+"Kanadisches Gesetz zum Schutz personenbezogener Informationen und "
+"elektronischer Dokumente (PIPEDA)"
 
 #: ../../security/privacy-compliance.rst:18
 msgid "Indian Digital Personal Data Protection Act (DPDPA)"
-msgstr ""
+msgstr "Indisches Gesetz zum Schutz digitaler personenbezogener Daten (DPDPA)"
 
 #: ../../security/privacy-compliance.rst:19
 msgid "China’s Personal Information Protection Law (PIPL)"
-msgstr ""
+msgstr "Chinas Gesetz zum Schutz persönlicher Daten (PIPL)"
 
 #: ../../security/privacy-compliance.rst:22
 #, fuzzy
