@@ -163,6 +163,24 @@ WLT.Editor = (() => {
       WLT.Utils.indicateChanges(e);
     });
 
+    // Disable insertion and copy buttons for read only strings
+    $(".translator").each(function () {
+      const $this = $(this);
+
+      if ($this.find(".translation-editor").first().attr("readonly")) {
+        // Apply to zen unit or the entire document
+        // the latter also disables insertion from related strings
+        let root = $this.closest(".zen-unit");
+        if (root.length === 0) {
+          root = $(document);
+        }
+
+        root.find(".specialchar").attr("disabled", "");
+        root.find("[data-clone-value]").attr("disabled", "");
+        root.find(".hlcheck").addClass("disabled");
+      }
+    });
+
     this.initHighlight();
     this.init();
 
@@ -202,7 +220,10 @@ WLT.Editor = (() => {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       const $this = $(this);
-      insertEditor(this.getAttribute("data-value"), $this);
+      // Do not insert if highlighted element is disabled
+      if (!$this.hasClass("disabled")) {
+        insertEditor(this.getAttribute("data-value"), $this);
+      }
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
     });
