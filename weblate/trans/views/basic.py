@@ -33,6 +33,7 @@ from weblate.trans.forms import (
     ComponentDeleteForm,
     ComponentRenameForm,
     DownloadForm,
+    NewProjectLanguageForm,
     ProjectDeleteForm,
     ProjectFilterForm,
     ProjectLanguageDeleteForm,
@@ -41,7 +42,7 @@ from weblate.trans.forms import (
     ReportsForm,
     SearchForm,
     TranslationDeleteForm,
-    get_new_language_form,
+    get_new_component_language_form,
     get_new_unit_form,
     get_upload_form,
 )
@@ -713,73 +714,30 @@ def data_project(request: AuthenticatedHttpRequest, project):
 @session_ratelimit_post("language", logout_user=False)
 @transaction.atomic
 def new_language(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component,))
+    obj = parse_path(request, path, (Component, Project))
+    if isinstance(obj, Component):
+        return new_component_language(request, obj)
+    if isinstance(obj, Project):
+        return new_project_language(request, obj)
+    msg = f"Not supported new language: {obj}"
+    raise TypeError(msg)
+
+
+def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
     user = request.user
 
-    form_class = get_new_language_form(request, obj)
-    can_add = obj.can_add_new_language(user)
-    added = False
+    form_class = get_new_component_language_form(request, obj)
 
     if request.method == "POST":
         form = form_class(user, obj, request.POST)
-
         if form.is_valid():
-            result = obj
-            langs = form.cleaned_data["lang"]
-            kwargs = {
-                "user": user,
-                "author": user,
-                "component": obj,
-                "details": {},
-            }
-            with obj.repository.lock:
-                obj.commit_pending("add language", None)
-                for language in Language.objects.filter(code__in=langs):
-                    kwargs["details"]["language"] = language.code
-                    if can_add:
-                        translation = obj.add_new_language(
-                            language, request, create_translations=False
-                        )
-                        if translation:
-                            added = True
-                            kwargs["translation"] = translation
-                            if len(langs) == 1:
-                                result = translation
-                            obj.change_set.create(
-                                action=ActionEvents.ADDED_LANGUAGE, **kwargs
-                            )
-                    elif obj.new_lang == "contact":
-                        obj.change_set.create(
-                            action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
-                        )
-                        messages.success(
-                            request,
-                            gettext(
-                                "A request for a new translation has been "
-                                "sent to the project's maintainers."
-                            ),
-                        )
-                try:
-                    # force_scan needed, see add_new_language
-                    if added and not obj.create_translations(
-                        request=request, force_scan=True
-                    ):
-                        messages.success(
-                            request,
-                            gettext(
-                                "All languages have been added, updates of translations are in progress."
-                            ),
-                        )
-                        result = "{}?info=1".format(
-                            reverse(
-                                "show_progress",
-                                kwargs={"path": result.get_url_path()},
-                            )
-                        )
-                except FileParseError:
-                    pass
-            if user.has_perm("component.edit", obj):
-                reset_rate_limit("language", request)
+            result = add_languages_to_component(
+                request,
+                user,
+                form.cleaned_data["lang"],
+                obj,
+                include_component_name=False,
+            )
             return redirect(result)
         messages.error(request, gettext("Please fix errors in the form."))
     else:
@@ -794,9 +752,115 @@ def new_language(request: AuthenticatedHttpRequest, path):
             "project": obj.project,
             "component": obj,
             "form": form,
-            "can_add": can_add,
+            "can_add": obj.can_add_new_language(user),
         },
     )
+
+
+def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
+    user = request.user
+    # TODO: check project permissions
+    if request.method == "POST":
+        form = NewProjectLanguageForm(user, obj, request.POST)
+        if form.is_valid():
+            # TODO: atomic transaction ?
+            for component in obj.get_child_components_access(request.user):
+                add_languages_to_component(
+                    request,
+                    user,
+                    form.cleaned_data["lang"],
+                    component,
+                    include_component_name=True,
+                )
+            return redirect(obj)
+        messages.error(request, gettext("Please fix errors in the form."))
+    else:
+        form = NewProjectLanguageForm(user, obj)
+
+    return render(
+        request,
+        "new-project-language.html",
+        {
+            "object": obj,
+            "path_object": obj,
+            "project": obj,
+            "form": form,
+        },
+    )
+
+
+def add_languages_to_component(
+    request: AuthenticatedHttpRequest,
+    user: User,
+    languages: list[Language],
+    component: Component,
+    include_component_name: bool = False,
+):
+    added = False
+    result = component
+    kwargs = {
+        "user": user,
+        "author": user,
+        "component": component,
+        "details": {},
+    }
+    with component.repository.lock:
+        component.commit_pending("add language", None)
+        for language in Language.objects.filter(code__in=languages):
+            kwargs["details"]["language"] = language.code
+            if component.can_add_new_language(user):
+                # TODO: pass down include_component_name to ?
+                translation = component.add_new_language(
+                    language, request, create_translations=False
+                )
+                if translation:
+                    added = True
+                    kwargs["translation"] = translation
+                    if len(languages) == 1:
+                        result = translation
+                    component.change_set.create(
+                        action=ActionEvents.ADDED_LANGUAGE, **kwargs
+                    )
+            elif component.new_lang == "contact":
+                component.change_set.create(
+                    action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
+                )
+                message = gettext(
+                    "A request for a new translation has been "
+                    "sent to the project's maintainers."
+                )
+                if include_component_name:
+                    message = gettext(
+                        "A request for a new translation of %(component)s has been "
+                        "sent to the project's maintainers."
+                    ) % {"component": component.name}
+                messages.success(request, message)
+        try:
+            # force_scan needed, see add_new_language
+            if added and not component.create_translations(
+                request=request, force_scan=True
+            ):
+                message = gettext(
+                    "All languages have been added, updates of translations are in progress."
+                )
+                if include_component_name:
+                    message = gettext(
+                        "All languages have been added to %(component)s, updates of translations are in progress."
+                    ) % {"component": component.name}
+                messages.success(request, message)
+                result = "{}?info=1".format(
+                    reverse(
+                        "show_progress",
+                        kwargs={"path": result.get_url_path()},
+                    )
+                )
+        except FileParseError:
+            pass
+
+    if user.has_perm("component.edit", component):
+        reset_rate_limit("language", request)
+
+    return result
 
 
 @never_cache

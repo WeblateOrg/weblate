@@ -106,6 +106,9 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        <li>
+          <a href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+        </li>
       </ul>
     </li>
     {% if user_can_manage_acl or user_can_edit_project or user_can_see_repository_status or user.is_authenticated %}
