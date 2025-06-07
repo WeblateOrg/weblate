@@ -638,27 +638,26 @@ def translate(request: AuthenticatedHttpRequest, path):
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
 
-    from_offset = int(request.GET.get("from_offset", offset - 1))
-    if from_offset and 1 <= from_offset <= len(search_result["ids"]):
-        previous_unit = unit_set.get(pk=search_result["ids"][from_offset - 1])
-
+    previous_unit_id = int(request.session['previous_unit_id']) if 'previous_unit_id' in request.session else None
+    if previous_unit_id:
+        previous_unit = unit_set.get(pk=previous_unit_id)
         if unit.translation.component != previous_unit.translation.component:
             messages.warning(
                 request,
                 gettext("You have shifted from %(previous)s to %(current)s.")
                 % {
-                    "previous": previous_unit.translation.component.name,
-                    "current": unit.translation.component.name,
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
                 },
             )
+    request.session['previous_unit_id'] = unit.id
 
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
     )
-    this_unit_url = f"{base_unit_url}{offset}&from_offset={from_offset or offset}"
-    next_unit_url = f"{base_unit_url}{offset + 1}&from_offset={offset}"
-    prev_unit_url = f"{base_unit_url}{offset - 1}&from_offset={offset}"
+    this_unit_url = base_unit_url + str(offset)
+    next_unit_url = base_unit_url + str(offset + 1)
 
     response = None
 
@@ -715,7 +714,7 @@ def translate(request: AuthenticatedHttpRequest, path):
             "prev_section_url": base_unit_url
             + str(max(1, offset - user.profile.nearby_strings)),
             "next_unit_url": next_unit_url,
-            "prev_unit_url": prev_unit_url,
+            "prev_unit_url": base_unit_url + str(offset - 1),
             "object": obj,
             "project": project,
             "component": obj.component if isinstance(obj, Translation) else None,
