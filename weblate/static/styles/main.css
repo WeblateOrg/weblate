@@ -293,13 +293,19 @@ textarea#id_check_flags {
 .hlspace,
 .nbsp,
 .token.newline {
-  outline: 1px dotted red;
   color: #bfc3c7;
   white-space: pre-wrap;
 }
+
+.hlspace,
+.nbsp {
+  outline: 1px dotted red;
+}
+
 .nbsp {
   white-space: nowrap !important;
 }
+
 .space-tab,
 .space-nl,
 .space-space,
@@ -308,6 +314,7 @@ textarea#id_check_flags {
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
 }
+
 .space-tab::before {
   content: "→";
   position: relative;
@@ -316,7 +323,8 @@ textarea#id_check_flags {
 .space-nl::before,
 .token.newline::before {
   content: "↵";
-  position: relative;
+  position: absolute;
+  outline: 1px dotted red;
 }
 
 .space-space::before {
