@@ -638,6 +638,24 @@ def translate(request: AuthenticatedHttpRequest, path):
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
 
+    previous_unit_id = (
+        int(request.session["previous_unit_id"])
+        if "previous_unit_id" in request.session
+        else None
+    )
+    if previous_unit_id:
+        previous_unit = unit_set.get(pk=previous_unit_id)
+        if unit.translation.component != previous_unit.translation.component:
+            messages.warning(
+                request,
+                gettext("You have shifted from %(previous)s to %(current)s.")
+                % {
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
+                },
+            )
+    request.session["previous_unit_id"] = unit.id
+
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
