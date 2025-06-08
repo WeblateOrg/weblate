@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-05-29 12:01+0000\n"
+"PO-Revision-Date: 2025-06-08 17:01+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -2123,10 +2123,8 @@ msgstr ""
 "Je váš komentár špecifický pre tento preklad, alebo všeobecný pre všetky?"
 
 #: weblate/api/serializers.py:345
-#, fuzzy
-#| msgid "Comments"
 msgid "Comment text"
-msgstr "Komentáre"
+msgstr "Text komentára"
 
 #: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
@@ -2134,28 +2132,27 @@ msgid "You can use Markdown and mention users by @username."
 msgstr "Môžete použiť Markdown alebo spomenúť používateľa pomocou @meno."
 
 #: weblate/api/serializers.py:350
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "Vytvorené %(timestamp)s."
+msgstr "Čas vytvorenia"
 
 #: weblate/api/serializers.py:352
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
 msgstr ""
+"Ak ste správca, môžete nastaviť explicitný čas, kedy bol komentár vytvorený."
 
 #: weblate/api/serializers.py:357
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Komentárov"
+msgstr "E-mail komentujúceho"
 
 #: weblate/api/serializers.py:359
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Ak ste správca, môžete priradiť tento komentár k inému užívateľovi podľa "
+"jeho e-mailu."
 
 #: weblate/api/spectacular.py:59
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3276,13 +3273,15 @@ msgstr "Preklad a zdroj nezačínajú rovnakým počtom medzier."
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Neštandardné znaky v kabyľčine"
 
 #: weblate/checks/chars.py:109
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Používať štandardizované latinkové znaky kabyľčiny (napr. ɣ namiesto "
+"gréckeho γ; ɛ namiesto znaku ε)."
 
 #: weblate/checks/chars.py:142
 msgid "Trailing space"
@@ -7574,24 +7573,20 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:5
 msgid "HTTP Response"
-msgstr ""
+msgstr "HTTP odpoveď"
 
 #: weblate/templates/addons/webhook_log.html:8
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "Chybná požiadavka"
+msgstr "HTTP požiadavka"
 
 #: weblate/templates/addons/webhook_log.html:14
 #: weblate/templates/addons/webhook_log.html:21
 msgid "HTTP headers"
-msgstr ""
+msgstr "HTTP hlavičky"
 
 #: weblate/templates/addons/webhook_log.html:17
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "Vyriešiť komentár"
+msgstr "Obsah odpovede"
 
 #: weblate/templates/addons/webhook_log.html:23
 #, fuzzy
@@ -7846,32 +7841,24 @@ msgid "Get help"
 msgstr "Získať pomoc"
 
 #: weblate/templates/base.html:391
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Weblate community"
-msgstr "Zmazať komentár"
+msgstr "Komunita Weblate"
 
 #: weblate/templates/base.html:395
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact site administrators"
-msgstr "Kontaktujte správcov servera"
+msgstr "Kontaktujte správcu webu"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
 msgstr "Prispejte do Weblate"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate website"
-msgstr "Weblate kľúče"
+msgstr "Webové stránky Weblate"
 
 #: weblate/templates/base.html:412
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "Správa Weblate"
+msgstr "Dokumentácia Weblate"
 
 #: weblate/templates/base.html:415 weblate/templates/keyboard-shortcuts.html:18
 msgid "Keyboard shortcuts"
@@ -9470,16 +9457,13 @@ msgid "Current translation"
 msgstr "Aktuálny preklad"
 
 #: weblate/templates/last-changes-content.html:72
-#, fuzzy
-#| msgid "Previous translation was \"%s\"."
 msgid "Previous translation"
-msgstr "Posledný preklad bol „%s“."
+msgstr "Predchádzajúci preklad"
 
 #: weblate/templates/last-changes-content.html:75
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "Stav Weblate"
+msgstr "Stav: %(state)s"
 
 #: weblate/templates/last-changes-content.html:121
 msgid "No matching activity found."
@@ -9803,11 +9787,13 @@ msgstr[2] "Platnosť pozvánky uplynie po %(count)s hodinách."
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
 msgstr ""
+"Používateľ %(invitation_author)s vás pozval na spoluprácu na projekte "
+"%(project_name)s"
 
 #: weblate/templates/mail/invite_subject.txt:6
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "Používateľ %(invitation_author)s vás pozval na pripojenie sa"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10128,28 +10114,24 @@ msgid "Turned off"
 msgstr "Vypnuté"
 
 #: weblate/templates/manage/backups.html:28
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed with an error"
-msgstr "Nepodarilo sa zmeniť prioritu!"
+msgstr "Zlyhalo s chybou"
 
 #: weblate/templates/manage/backups.html:49
-#, fuzzy
-#| msgid "Manage your subscriptions"
 msgid "Unpaid service subscription"
-msgstr "Spravujte svoje prihlásenia"
+msgstr "Nezaplatené predplatné služby"
 
 #: weblate/templates/manage/backups.html:55
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"Služba zálohy bola dočasne deaktivovaná z dôvodu nezaplateného predplatného. "
+"Zálohy znovu aktivujete obnovením svojho predplatného."
 
 #: weblate/templates/manage/backups.html:59
-#, fuzzy
-#| msgid "Manage your subscriptions"
 msgid "Manage your subscription"
-msgstr "Spravujte svoje prihlásenia"
+msgstr "Spravujte svoje predplatné"
 
 #: weblate/templates/manage/backups.html:75
 msgid "Backup service credentials"
@@ -10909,10 +10891,12 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate je slobodný softvér s profesionálnou podporou a službami pre "
+"komerčných používateľov."
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "Objavte možnosti podpory na weblate.org."
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -13375,10 +13359,8 @@ msgstr ""
 "prispievateľov."
 
 #: weblate/templates/widgets.html:39
-#, fuzzy
-#| msgid "Widgets"
 msgid "Widget"
-msgstr "Widgety"
+msgstr "Widget"
 
 #: weblate/templates/widgets.html:57
 msgid "Code"
@@ -13409,20 +13391,16 @@ msgid "Image URL"
 msgstr "URL adresa obrázku"
 
 #: weblate/templates/widgets.html:76
-#, fuzzy
-#| msgid "Overview"
 msgid "Live Preview"
-msgstr "Prehľad"
+msgstr "Živý náhľad"
 
 #: weblate/templates/widgets.html:90
-#, fuzzy
-#| msgid "Recovery codes copied to clipboard."
 msgid "Embed code copied to clipboard."
-msgstr "Obnovovacie kódy skopírované do schránky."
+msgstr "Kód vloženia skopírovaný do schránky."
 
 #: weblate/templates/widgets.html:92
 msgid "Embed Code"
-msgstr ""
+msgstr "Kód vloženia"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -15276,6 +15254,8 @@ msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
 msgstr ""
+"Slovníky sa líšia od bežných prekladov, ale pomáhajú spravovať a zdieľať "
+"jednotnú terminológiu."
 
 #: weblate/trans/models/component.py:788
 msgid "Glossary color"
@@ -16701,10 +16681,8 @@ msgid "Language count badge"
 msgstr "Stavový odznak s počtom jazykov"
 
 #: weblate/trans/widgets.py:537
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Threshold"
-msgstr "Prah hodnotenia"
+msgstr "Prah"
 
 #: weblate/trans/widgets.py:552 weblate/utils/views.py:624
 #, python-format
@@ -16931,7 +16909,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:117
 msgid "The uploaded image was invalid."
-msgstr ""
+msgstr "Nahraný obrázok bol neplatný."
 
 #: weblate/utils/validators.py:126
 #, python-format
@@ -17029,10 +17007,8 @@ msgid "String location"
 msgstr "Umiestnenie reťazca"
 
 #: weblate/utils/views.py:217
-#, fuzzy
-#| msgid "Position and priority"
 msgid "Component and priority"
-msgstr "Pozícia a priorita"
+msgstr "Súčasť a priorita"
 
 #: weblate/vcs/base.py:71
 msgid "This will push changes to the upstream repository."
@@ -17254,10 +17230,8 @@ msgid "Premium self-hosted support"
 msgstr "Prémiová podpora pre vlastnú inštaláciu"
 
 #: weblate/wladmin/models.py:162
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Unpaid subscription"
-msgstr "Skúšobné predplatné"
+msgstr "Nezaplatené predplatné"
 
 #: weblate/wladmin/models.py:256
 msgid "Backup repository URL"
