@@ -31,6 +31,7 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
 * Creating new translations in :doc:`/formats/appstore`.
+* :ref:`search-replace` correctly handles plurals.
 
 .. rubric:: Compatibility
 
