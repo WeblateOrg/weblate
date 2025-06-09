@@ -651,7 +651,7 @@ def translate(request: AuthenticatedHttpRequest, path):
                     "current": unit.translation.full_slug,
                 },
             )
-    search_result['last_viewed_unit_id'] = unit.id
+    search_result["last_viewed_unit_id"] = unit.id
 
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
