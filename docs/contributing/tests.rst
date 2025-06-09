@@ -9,8 +9,10 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on `GitHub Actions`_ and coverage is reported
-on `Codecov`_.
+Weblate relies on `GitHub Actions`_ to run tests, build documentation, code
+linting, and other tasks to ensure code quality.
+
+`Codecov`_ collects the code coverage information from the tests that were run.
 
 .. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
 .. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
