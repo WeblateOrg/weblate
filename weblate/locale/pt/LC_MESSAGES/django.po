@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-05-24 05:04+0000\n"
-"PO-Revision-Date: 2025-06-02 16:01+0000\n"
+"PO-Revision-Date: 2025-06-09 06:58+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -499,7 +499,7 @@ msgstr "Confirmação de remoção de conta enviada para {email}."
 #: weblate/accounts/models.py:254
 #, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Aceitação dos Termos gerais e condições - {date}."
+msgstr "Acordo com os Termos Gerais e Condições - {date}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:256
@@ -516,7 +516,7 @@ msgstr "Convite de {username} foi aceite."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:260
 msgid "Started trial period."
-msgstr "Período de avaliação iniciado."
+msgstr "Período do teste de avaliação iniciado."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:262
@@ -551,7 +551,7 @@ msgstr "O utilizador foi desativado pelo administrador."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:275
 msgid "Semiannual support status review was displayed."
-msgstr "A revisão semestral do estado do suporte foi exibida."
+msgstr "A revisão semestral do estado do apoio foi exibida."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:277
@@ -714,9 +714,9 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Insira o URL personalizado para ser utilizado como uma hiperligação para o "
-"código-fonte. Pode utilizar {{branch}}, para um ramo, {{filename}} e "
-"{{line}} como nome de ficheiro e símbolos de linha."
+"Insira um URL personalizado para ser utilizado como uma hiperligação para o "
+"código fonte. Pode utilizar {{branch}}, para um ramo, {{filename}} e {{line}}"
+" como nome de ficheiro e símbolos de linha."
 
 #: weblate/accounts/models.py:619
 msgid "Translation editor mode"
@@ -850,7 +850,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:742
 msgid "Code site URL"
-msgstr "URL do sítio de gestão de código"
+msgstr "URL do site de código"
 
 #: weblate/accounts/models.py:745
 msgid "Link to your code profile for services like Codeberg or GitLab."
@@ -933,7 +933,7 @@ msgstr "Resumo mensal"
 #: weblate/accounts/notifications.py:533
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Operação foi realizada no repositório"
+msgstr "A operação foi realizada no repositório"
 
 #: weblate/accounts/notifications.py:544
 msgctxt "Notification name"
@@ -1028,7 +1028,7 @@ msgstr "Novo alerta surgiu num componente"
 #: weblate/accounts/notifications.py:847
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "Operação do repositório falhou"
+msgstr "A operação do repositório falhou"
 
 #: weblate/accounts/notifications.py:921
 msgctxt "Notification name"
@@ -1189,21 +1189,22 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
-"Parece que já pediu um período experimental recentemente. Por favor contacte-"
-"nos com o seu pedido para que possamos encontrar a melhor solução para si."
+"Parece que já solicitou recentemente um período de teste de avaliação. Por "
+"favor, contacte-nos com o seu pedido, e assim, nós podemos encontrar a "
+"melhor solução para si."
 
 #: weblate/accounts/views.py:652
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
-"O seu período experimental já está a decorrer; crie o seu projeto de "
-"tradução e comece a Weblatar!"
+"O seu período de teste de avaliação já está a decorrer; crie o seu projeto "
+"de tradução e comece a Weblating!"
 
 #: weblate/accounts/views.py:658 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr "Teste gratuito"
+msgstr "Teste de Avaliação Gratuito"
 
 #: weblate/accounts/views.py:866 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1335,8 +1336,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"O link de alteração de notificação já não é válido, inicie sessão para "
-"configurar as notificações."
+"A hiperligação da alteração de notificação já não é válida, por favor, "
+"inicie a sessão para configurar as notificações."
 
 #: weblate/accounts/views.py:1677
 msgid "The security key was removed."
@@ -1599,33 +1600,30 @@ msgid "Per author"
 msgstr "Por autor"
 
 #: weblate/addons/forms.py:182
-#, fuzzy
 msgid "Append trailers to squashed commit message"
-msgstr "Anexar as linhas finalizadoras à mensagem da submissão de squash"
+msgstr "Acrescentar linhas finalizadoras à mensagem de submissão resumida"
 
 #: weblate/addons/forms.py:186
-#, fuzzy
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"As linhas finalizadoras são linhas semelhantes aos cabeçalhos de e-mail RFC "
-"822, no final de uma mensagem de commit de outra forma livre, como "
-"'Coautoria-de: …'."
+"As linhas finalizadoras que parecem similares aos cabeçalhos de ''e-mail'' "
+"RFC 822, no final de uma mensagem de submissão de outra forma livre, tal "
+"como 'Coautoria por: …'."
 
 #: weblate/addons/forms.py:192
 msgid "Commit message"
 msgstr "Mensagem de submissão"
 
 #: weblate/addons/forms.py:196
-#, fuzzy
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
 "Esta mensagem de submissão será utilizada em vez das mensagens de submissão "
-"combinadas das submissões de squash."
+"combinadas das submissões resumidas."
 
 #: weblate/addons/forms.py:213
 msgid "Sort JSON keys"
@@ -1832,8 +1830,8 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
-"Lista de nomes de ficheiros no repositório atual ou URLs remotas a serem "
-"analisados para obter cadeias traduzíveis."
+"Lista dos nomes de ficheiro no repositório atual ou URLs remotos para "
+"analisar as cadeias de carateres traduzíveis."
 
 #: weblate/addons/forms.py:571
 #, python-format
@@ -1927,8 +1925,8 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Gera uma tradução ao adicionar automaticamente um prefixo e sufixo às "
-"cadeias fonte."
+"Gera uma tradução adicionando automaticamente um prefixo e sufixo às cadeias "
+"de carateres fonte."
 
 #: weblate/addons/generate.py:208
 msgid "Prefill translation with source"
@@ -2012,9 +2010,8 @@ msgstr ""
 "nomes dos colaboradores e os anos de contribuições."
 
 #: weblate/addons/git.py:26
-#, fuzzy
 msgid "Squash Git commits"
-msgstr "Squash de commits git"
+msgstr "Resumir Submissões do Git"
 
 #: weblate/addons/git.py:27
 msgid "Squash Git commits prior to pushing changes."
@@ -2218,7 +2215,7 @@ msgstr ""
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr ""
-"Não foi possível obter o bloqueio de atualização do repositório %s para "
+"Não foi possível efetuar o bloqueio da atualização do repositório %s para "
 "executar a operação."
 
 #: weblate/api/views.py:186
@@ -2322,7 +2319,7 @@ msgstr "Publicar comentário"
 #. Translators: Permission name
 #: weblate/auth/data.py:27
 msgid "Delete comment"
-msgstr "Apagar comentário"
+msgstr "Eliminar comentário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
@@ -2342,7 +2339,7 @@ msgstr "Bloquear componente, impedindo traduções"
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Adicionar entrada de glossário"
+msgstr "Adicionar entrada do glossário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
@@ -2352,17 +2349,17 @@ msgstr "Adicionar terminologia ao Glossário"
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Edit glossary entry"
-msgstr "Editar entrada de glossário"
+msgstr "Editar entrada do glossário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Delete glossary entry"
-msgstr "Apagar entrada de glossário"
+msgstr "Eliminar entrada do glossário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
 msgid "Upload glossary entries"
-msgstr "Carregar entradas de glossário"
+msgstr "Enviar entradas do glossário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -2409,17 +2406,17 @@ msgstr "Editar captura de ecrã"
 #: weblate/auth/data.py:61
 #: weblate/templates/screenshots/screenshot_detail.html:131
 msgid "Delete screenshot"
-msgstr "Apagar captura de ecrã"
+msgstr "Eliminar captura de ecrã"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:63 weblate/templates/translate.html:889
 msgid "Edit additional string info"
-msgstr "Editar informação adicional da cadeia"
+msgstr "Editar informação adicional da cadeia de carateres"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:65
 msgid "Add new string"
-msgstr "Adicionar nova cadeia"
+msgstr "Adicionar nova cadeia de carateres"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:67
@@ -2464,7 +2461,7 @@ msgstr "Adicionar sugestão"
 #. Translators: Permission name
 #: weblate/auth/data.py:83
 msgid "Delete suggestion"
-msgstr "Apagar sugestão"
+msgstr "Eliminar sugestão"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:85
@@ -2484,7 +2481,7 @@ msgstr "Realizar tradução automática"
 #. Translators: Permission name
 #: weblate/auth/data.py:91
 msgid "Delete existing translation"
-msgstr "Apagar tradução existente"
+msgstr "Eliminar tradução existente"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:93
@@ -2605,7 +2602,7 @@ msgstr "Gerir a faturação"
 #. Translators: Permission name
 #: weblate/auth/data.py:145
 msgid "Manage site-wide add-ons"
-msgstr "Gerir extensões de todo o sítio"
+msgstr "Gerir extensões de todo o site"
 
 #: weblate/auth/data.py:176
 msgctxt "Access-control role"
@@ -2923,7 +2920,7 @@ msgstr "Já existe um utilizador com esse nome de utilizador."
 
 #: weblate/auth/models.py:464 weblate/auth/models.py:1176
 msgid "Superuser status"
-msgstr "Estado de super utilizador"
+msgstr "Estado do super utilizador"
 
 #: weblate/auth/models.py:466 weblate/auth/models.py:1178
 msgid "User has all possible permissions."
@@ -3088,8 +3085,8 @@ msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Só os revisores podem alterar uma cadeia aprovada. Por favor, adicione uma "
-"sugestão se pensa que a tradução deva ser alterada."
+"Só os revisores podem alterar as cadeias de carateres aprovadas. Por favor, "
+"adicione uma sugestão se pensa que a tradução deveria ser alterada."
 
 #: weblate/auth/permissions.py:292
 msgid "The translation is read-only."
@@ -3097,7 +3094,7 @@ msgstr "A tradução é apenas de leitura."
 
 #: weblate/auth/permissions.py:309
 msgid "Add the string to the source language instead."
-msgstr "Em vez disso, adicionar a cadeia ao idioma fonte."
+msgstr "Em vez disso, adicionar a cadeia de carateres ao idioma fonte."
 
 #: weblate/auth/permissions.py:313
 msgid "Adding strings is disabled in the component configuration."
@@ -3167,7 +3164,7 @@ msgstr "Responsáveis de faturação"
 #: weblate/billing/models.py:179 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:18
 msgid "Trial"
-msgstr "Teste"
+msgstr "Teste de Avaliação"
 
 #: weblate/billing/models.py:180 weblate/templates/billing/state-snippet.html:9
 #: weblate/templates/manage/billing.html:33
@@ -3181,7 +3178,7 @@ msgstr "Estado da faturação"
 #: weblate/billing/models.py:188 weblate/templates/billing/list.html:11
 #: weblate/templates/billing/status.html:19
 msgid "Trial expiry date"
-msgstr "Data de expiração do teste"
+msgstr "Data de expiração do teste de avaliação"
 
 #: weblate/billing/models.py:194 weblate/templates/billing/list.html:14
 #: weblate/templates/billing/state-snippet.html:13
@@ -3239,7 +3236,7 @@ msgstr[1] "Contém %d projetos"
 
 #: weblate/billing/models.py:489
 msgid "Project website missing!"
-msgstr "Sítio Web do projeto em falta!"
+msgstr "Site da Web do projeto em falta!"
 
 #: weblate/billing/models.py:493
 msgid "Only public projects are allowed"
@@ -3265,7 +3262,7 @@ msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Deixará de receber esta notificação assim que pagar as contas ou o projeto "
+"Deixará de receber esta notificação assim que pagar as faturas ou o projeto "
 "for removido."
 
 #: weblate/billing/tasks.py:77
@@ -4580,7 +4577,7 @@ msgstr "Já existe uma fonte com esse nome."
 
 #: weblate/fonts/views.py:78
 msgid "Creation failed, please fix the errors below."
-msgstr "A criação falhou. Por favor, corrija os erros abaixo."
+msgstr "A criação falhou. Por favor, corrija os erros em baixo."
 
 #: weblate/fonts/views.py:101
 msgid "Font deleted."
@@ -5221,15 +5218,15 @@ msgstr "Idioma %s removido."
 
 #: weblate/legal/forms.py:11
 msgid "I agree with the General Terms and Conditions document"
-msgstr "Concordo com o documento dos Termos gerais e condições"
+msgstr "Eu concordo com o documento dos Termos Gerais e Condições"
 
 #: weblate/legal/middleware.py:50
 msgid ""
 "We have an updated version of the General Terms and Conditions document, "
 "please read it and confirm that you agree with it."
 msgstr ""
-"Temos uma nova versão do documento Termos gerais e condições. Por favor, "
-"leia-o e confirme que concorda com o mesmo."
+"Nós temos uma versão atualizada do documento dos Termos Gerais e Condições. "
+"Por favor, leia-o e confirme que concorda com o mesmo."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -5243,11 +5240,11 @@ msgstr "Jurídico"
 
 #: weblate/legal/templates/legal/confirm.html:16
 msgid "You have to agree to the General Terms and Conditions"
-msgstr "Tem de concordar com os Termos gerais e condições"
+msgstr "Tem de concordar com os Termos Gerais e Condições"
 
 #: weblate/legal/templates/legal/confirm.html:19
 msgid "Please read following General Terms and Conditions document:"
-msgstr "Por favor, leia o documento Termos gerais e condições:"
+msgstr "Por favor, leia o documento Termos Gerais e Condições:"
 
 #: weblate/legal/templates/legal/confirm.html:25
 #: weblate/templates/contributor-agreement.html:33
@@ -5262,7 +5259,7 @@ msgstr "Privacidade"
 
 #: weblate/legal/templates/legal/contracts.html:20 weblate/legal/views.py:22
 msgid "Subcontractors"
-msgstr "Subcontratantes"
+msgstr "Subcontratados"
 
 #: weblate/legal/templates/legal/cookies.html:10 weblate/legal/views.py:20
 msgid "Cookies"
@@ -5279,15 +5276,16 @@ msgid ""
 "Policy, you should still read the original documents to fully understand "
 "them:"
 msgstr ""
-"Esta página é baseada nos Termos gerais e condições e na Política de "
-"privacidade, mas deve ler os documentos originais para melhor compreensão:"
+"Esta página é baseada nos Termos Gerais e Condições e na Política de "
+"Privacidade, mas ainda deveria ler os documentos originais para uma melhor "
+"compreensão:"
 
 #: weblate/legal/templates/legal/cookies.html:30
 #: weblate/legal/templates/legal/index.html:29
 #: weblate/legal/templates/legal/terms.html:20 weblate/legal/views.py:19
 #: weblate/templates/accounts/snippets/login-info.html:9
 msgid "General Terms and Conditions"
-msgstr "Termos gerais e condições"
+msgstr "Termos Gerais e Condições"
 
 #: weblate/legal/templates/legal/cookies.html:33
 #: weblate/legal/templates/legal/index.html:32
@@ -5435,8 +5433,8 @@ msgstr "URL do serviço de autenticação"
 #: weblate/machinery/forms.py:172
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
-"Serviço regional ou multisserviço podem ser especificados através do campo "
-"de região abaixo."
+"O serviço regional ou os múltiplos serviços podem ser especificados "
+"utilizando o campo de região em baixo."
 
 #: weblate/machinery/forms.py:178
 msgctxt "Automatic suggestion service configuration"
@@ -5542,7 +5540,7 @@ msgstr "Nome da região"
 #: weblate/machinery/forms.py:266
 msgctxt "Alibaba Translate configuration"
 msgid "Access key ID"
-msgstr "ID da chave de acesso"
+msgstr "Id. da chave de acesso"
 
 #: weblate/machinery/forms.py:269
 msgctxt "Alibaba Translate configuration"
@@ -5552,7 +5550,7 @@ msgstr "Segredo da chave de acesso"
 #: weblate/machinery/forms.py:272
 msgctxt "Alibaba Translate configuration"
 msgid "Region ID"
-msgstr "ID da região"
+msgstr "Id. da Região"
 
 #: weblate/machinery/forms.py:283
 msgctxt "Automatic suggestion service configuration"
@@ -5915,7 +5913,8 @@ msgstr "A captura do ecrã foi enviada, agora pode atribuí-la a cadeias fonte."
 #: weblate/screenshots/views.py:250
 msgid "Could not upload screenshot, please fix errors below."
 msgstr ""
-"Não foi possível fazer upload da captura de ecrã. Corrija os erros abaixo."
+"Não foi possível enviar a captura de ecrã, por favor, corrija os erros em "
+"baixo."
 
 #: weblate/screenshots/views.py:309
 #, python-format
@@ -6121,7 +6120,7 @@ msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
 "Esta instância do Weblate hospeda traduções de vários projetos de programas "
-"gratuitos."
+"livres."
 
 #: weblate/templates/about/index.html:32
 msgid "Weblate can host your project as well, please get in touch."
@@ -6133,23 +6132,23 @@ msgid ""
 "Start your gratis trial today and explore our competitively priced "
 "commercial hosting solutions."
 msgstr ""
-"Comece hoje o seu teste gratuito e explore as nossas soluções de hospedagem "
-"comercial com preços competitivos."
+"Comece hoje o seu teste de avaliação gratuito e explore as nossas soluções "
+"de hospedagem comercial com preços competitivos."
 
 #: weblate/templates/about/index.html:39 weblate/templates/base.html:305
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "Ask for Libre hosting"
-msgstr "Pedir alojamento Libre"
+msgstr "Solicitar Hospedagem Gratuita"
 
 #: weblate/templates/about/index.html:40
 #: weblate/templates/billing/overview.html:25
 msgid "View hosting plans"
-msgstr "Ver planos de hospedagem"
+msgstr "Ver Planos de Hospedagem"
 
 #: weblate/templates/about/index.html:42
 #: weblate/templates/snippets/billing-failure.html:9
 msgid "Gratis trial for commercial hosting"
-msgstr "Teste gratuito para hospedagem comercial"
+msgstr "Teste de Avaliação Gratuito para Hospedagem Comercial"
 
 #: weblate/templates/about/index.html:44
 msgid "Contact us for commercial hosting"
@@ -6157,7 +6156,7 @@ msgstr "Contacte-nos para hospedagem comercial"
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
-msgstr "Weblate é criado com programa livre"
+msgstr "Weblate utiliza programas livres"
 
 #: weblate/templates/about/keys.html:10 weblate/trans/views/about.py:95
 msgid "Weblate keys"
@@ -6198,7 +6197,7 @@ msgstr "Chave pública copiada para a área de transferência."
 #: weblate/templates/trans/project-access.html:361
 #: weblate/templates/widgets.html:91
 msgid "Copy to clipboard"
-msgstr "Copiar para área de transferência"
+msgstr "Copiar para a área de transferência"
 
 #: weblate/templates/about/keys.html:34
 #, python-format
@@ -6261,23 +6260,20 @@ msgstr "Confirmar"
 #: weblate/templates/accounts/contact.html:19
 #, python-format
 msgid "You can only contact administrators of %(site_title)s server here."
-msgstr ""
-"Só pode entrar em contacto com os administradores do servidor %(site_title)s "
-"aqui."
+msgstr "Só pode contactar os administradores do servidor %(site_title)s aqui."
 
 #: weblate/templates/accounts/contact.html:21
 msgid "You can only contact administrators of the whole server here."
-msgstr ""
-"Só pode entrar em contacto com os administradores de todo o servidor aqui."
+msgstr "Só contactar os administradores de todo o servidor aqui."
 
 #: weblate/templates/accounts/contact.html:25
 msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
-"Para dúvidas sobre um projeto de tradução específico, não utilize este "
-"formulário. Consulte a aba Informações do projeto e entre em contacto com os "
-"seus gestores."
+"Para questões sobre um projeto de tradução específico, não utilize este "
+"formulário. Consulte o separador da informação do projeto e contacte os seus "
+"gestores."
 
 #: weblate/templates/accounts/contact.html:29
 #, python-format
@@ -6404,15 +6400,15 @@ msgstr "Registar"
 
 #: weblate/templates/accounts/hosting.html:16
 msgid "Trial subscriptions"
-msgstr "Assinaturas de avaliação"
+msgstr "Subscrições de teste de avaliação"
 
 #: weblate/templates/accounts/hosting.html:30
 msgid "Set up your libre project"
-msgstr "Configure o seu projeto Libre"
+msgstr "Configurar o seu projeto gratuito"
 
 #: weblate/templates/accounts/hosting.html:35
 msgid "Your trial"
-msgstr "O seu teste"
+msgstr "O seu teste de avaliação"
 
 #: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
@@ -6425,15 +6421,15 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:39
 msgid "Unapproved projects will be removed."
-msgstr "Projetos não aprovados serão removidos."
+msgstr "Os projetos não aprovados serão removidos."
 
 #: weblate/templates/accounts/hosting.html:40
 msgid ""
 "We reserve our right to reject inappropriate content (erotic, gambling, "
 "etc.)."
 msgstr ""
-"Nós temos o direito de rejeitar o conteúdo inapropriado (erótico, apostas, "
-"etc.)."
+"Nós reservamos o direito para rejeitar conteúdo inapropriado (erótico, "
+"apostas, etc.)."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Get started"
@@ -6441,7 +6437,7 @@ msgstr "Começar"
 
 #: weblate/templates/accounts/hosting.html:54
 msgid "Looking for commercial hosting?"
-msgstr "À procura de alojamento comercial?"
+msgstr "Está à procura de hospedagem comercial?"
 
 #: weblate/templates/accounts/login.html:16
 msgid "This username/password combination was not found. Please try again."
@@ -6476,7 +6472,7 @@ msgstr ""
 
 #: weblate/templates/accounts/password-warning.html:13
 msgid "Configure the password"
-msgstr "Defina a palavra-passe"
+msgstr "Configurar a palavra-passe"
 
 #: weblate/templates/accounts/password.html:21
 msgid ""
@@ -7000,9 +6996,8 @@ msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Visão geral rápida dos Termos gerais e condições e da Política de "
-"privacidade. Deve ler os documentos originais para os compreender "
-"completamente:"
+"Sinopse rápida dos Termos Gerais e Condições e da Política de Privacidade. "
+"Mas deveria ler os documentos originais para uma melhor compreensão:"
 
 #: weblate/templates/accounts/snippets/login-info.html:24
 msgid ""
@@ -7052,21 +7047,21 @@ msgstr "Confirmar registo"
 
 #: weblate/templates/accounts/trial.html:15
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Obrigado pelo seu interesse para avaliar o Weblate!"
+msgstr "Obrigado pelo seu interesse para testar o Weblate!"
 
 #: weblate/templates/accounts/trial.html:22
 msgid "Your trial offer"
-msgstr "A sua oferta de avaliação"
+msgstr "A oferta para o seu teste de avaliação"
 
 #: weblate/templates/accounts/trial.html:26
 msgid "Your trial will last 14 days."
-msgstr "A sua avaliação vai durar 14 dias."
+msgstr "O seu teste de avaliação irá durar 14 dias."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
 msgstr ""
-"O seu período de testes vai utilizar o plano 640k, mas pode escolher outro "
-"plano mais tarde."
+"O seu período de teste de avaliação irá utilizar o plano 640k, mas mais "
+"tarde pode escolher outro plano."
 
 #: weblate/templates/accounts/trial.html:28
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -7080,7 +7075,7 @@ msgstr "Toda a configuração ficará assim que começar a pagar."
 
 #: weblate/templates/accounts/trial.html:34
 msgid "Start the trial!"
-msgstr "Iniciar a avaliação!"
+msgstr "Iniciar o teste de avaliação!"
 
 #: weblate/templates/accounts/user.html:7
 #: weblate/templates/accounts/user_contributions.html:7
@@ -7461,8 +7456,8 @@ msgstr[1] "Gerir extensões em todo o projeto (%(count)s instaladas)"
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
-msgstr[0] "Gerir extensões em todo o sítio (%(count)s extensão instalada)"
-msgstr[1] "Gerir extensões em todo o sítio (%(count)s extensões instaladas)"
+msgstr[0] "Gerir extensões em todo o site (%(count)s extensão instalada)"
+msgstr[1] "Gerir extensões em todo o site (%(count)s extensões instaladas)"
 
 #: weblate/templates/addons/addon_list.html:91
 msgid "Available add-ons"
@@ -7708,7 +7703,7 @@ msgstr ""
 
 #: weblate/templates/auth/team.html:81
 msgid "Add automatic assignment"
-msgstr "Adicionar atribuição automática"
+msgstr "Adicionar tarefa automática"
 
 #: weblate/templates/auth/team.html:102
 #: weblate/templates/trans/project-access.html:47
@@ -7931,7 +7926,7 @@ msgstr "Comunidade do Weblate"
 
 #: weblate/templates/base.html:395
 msgid "Contact site administrators"
-msgstr "Contactar administradores do site"
+msgstr "Contactar administradores do ''site''"
 
 #: weblate/templates/base.html:399
 msgid "Contribute to Weblate"
@@ -7953,7 +7948,8 @@ msgstr "Atalhos de teclado"
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr ""
-"O seu Weblate está a exceder os limites de serviço. Atualize a assinatura."
+"O seu Weblate está a exceder os limites de serviço. Por favor, atualize a "
+"subscrição."
 
 #: weblate/templates/base.html:489
 #: weblate/templates/screenshots/screenshot_detail.html:108
@@ -8020,7 +8016,7 @@ msgstr "Não foram encontradas faturas."
 
 #: weblate/templates/billing/detail.html:114
 msgid "Libre hosting"
-msgstr "Alojamento Libre"
+msgstr "Hospedagem Gratuita"
 
 #: weblate/templates/billing/detail.html:116
 #: weblate/templates/billing/state-snippet.html:5
@@ -8034,19 +8030,19 @@ msgstr "Aprovação pendente"
 #: weblate/templates/project.html:144
 #: weblate/templates/snippets/project/billing-libre-trial.html:12
 msgid "Request approval for Libre hosting"
-msgstr "Solicitar aprovação para o alojamento Libre"
+msgstr "Solicitar aprovação para a hospedagem Gratuita"
 
 #: weblate/templates/billing/detail.html:140
 msgid "Approve as libre"
-msgstr "Aprovar como libre"
+msgstr "Aprovar como livre"
 
 #: weblate/templates/billing/detail.html:152
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
 msgstr ""
-"Esta assinatura não é elegível para o plano libre, por favor corrija os "
-"erros acima ou compre uma assinatura."
+"Esta subscrição não é elegível para o plano gratuito, por favor, corrija os "
+"erros em cima ou compre uma subscrição."
 
 #: weblate/templates/billing/list.html:8
 msgid "Plan"
@@ -8109,7 +8105,7 @@ msgstr "Alterar o plano"
 #: weblate/templates/billing/status.html:26
 #: weblate/templates/billing/status.html:40
 msgid "Extend trial"
-msgstr "Estender avaliação"
+msgstr "Prolongar teste de avaliação"
 
 #: weblate/templates/billing/status.html:46
 msgid "Monthly price"
@@ -8621,8 +8617,8 @@ msgid ""
 "This site runs %(weblate_name_link)s for translating the software projects "
 "listed below."
 msgstr ""
-"Este site utiliza %(weblate_name_link)s para traduzir os projetos de "
-"software listados em baixo."
+"Este ''site'' utiliza %(weblate_name_link)s para traduzir os projetos de "
+"programas listados em baixo."
 
 #: weblate/templates/dashboard/anonymous.html:9
 msgid ""
@@ -8769,7 +8765,7 @@ msgstr "Colaborar com <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:16
 msgid "Hello and thank you for your interest"
-msgstr "Olá, obrigado pelo seu interesse"
+msgstr "Olá e obrigado pelo seu interesse"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -8969,7 +8965,7 @@ msgstr "Mantido por %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:22
 msgid "Privacy policy"
-msgstr "Política de privacidade"
+msgstr "Política de Privacidade"
 
 #: weblate/templates/footer.html:27
 msgid "Service status"
@@ -9424,7 +9420,7 @@ msgstr "Focar no editor de comentários."
 
 #: weblate/templates/keyboard-shortcuts.html:124
 msgid "Shows Automatic suggestions tab."
-msgstr "Mostrar aba de sugestões automáticas."
+msgstr "Mostra o separador das sugestões 'Automáticas'."
 
 #: weblate/templates/keyboard-shortcuts.html:128
 #: weblate/templates/keyboard-shortcuts.html:131
@@ -9579,7 +9575,7 @@ msgstr "Este serviço está instalado em todo o site."
 
 #: weblate/templates/machinery/detail.html:7
 msgid "site wide"
-msgstr "todo o sítio"
+msgstr "todo o site"
 
 #: weblate/templates/machinery/detail.html:11
 msgid "This service is installed site wide, but disabled."
@@ -9699,7 +9695,7 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid "Your trial period is going to expire in less than a week."
-msgstr "O seu período de testes vai expirar em menos de uma semana."
+msgstr "O seu período de teste de avaliação vai expirar em menos de uma semana."
 
 #: weblate/templates/mail/billing_expired.html:12
 msgid ""
@@ -9714,8 +9710,8 @@ msgid ""
 "If you like Weblate and you want to continue using it, just request an "
 "approval of your libre plan."
 msgstr ""
-"Se gosta de Weblate e quer continuar a usá-lo, basta solicitar a aprovação "
-"do seu plano libre."
+"Se gosta do Weblate e quer continuar a utilizá-lo, basta solicitar a "
+"aprovação do seu plano gratuito."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -9730,7 +9726,7 @@ msgstr "Este plano de faturação cobre os seguintes projetos:"
 
 #: weblate/templates/mail/billing_expired.html:31
 msgid "Remove the project"
-msgstr "Apagar o projeto"
+msgstr "Remover o projeto"
 
 #: weblate/templates/mail/billing_expired.html:38
 msgid ""
@@ -9760,8 +9756,8 @@ msgid ""
 "If your Libre hosting is not approved for it, all projects within this "
 "billing plan will be removed on %(date)s."
 msgstr ""
-"Se o seu alojamento Libre não for aprovado, todos os projetos neste plano de "
-"faturação serão removidos em %(date)s."
+"Se a sua hospedagem Gratuita não for aprovada, todos os projetos neste plano "
+"de faturação serão removidos em %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -9773,7 +9769,7 @@ msgstr "O seu projeto de tradução está agendado para ser removido"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr "O seu período de testes está prestes a expirar"
+msgstr "O seu período de teste de avaliação está prestes a expirar"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -10090,9 +10086,9 @@ msgid ""
 "might need to copy the URL on next line into the browser address bar to "
 "proceed."
 msgstr ""
-"Por favor, clique no botão de confirmação abaixo. Caso não funcione, poderá "
-"ter que copiar o URL na linha seguinte para a barra de endereço do navegador "
-"para continuar."
+"Por favor, clique no botão de confirmação em baixo. Se este não funcionar, "
+"poderá ter que copiar o URL na linha seguinte para a barra de endereço do "
+"navegador para continuar."
 
 #: weblate/templates/mail/shared-registration.html:17
 msgid "Confirm password reset"
@@ -10242,7 +10238,7 @@ msgid ""
 "credentials below."
 msgstr ""
 "Caso queira restaurar as cópias de segurança, por favor, grave as "
-"credenciais abaixo."
+"credenciais em baixo."
 
 #: weblate/templates/manage/backups.html:174
 msgid "Add backup service"
@@ -10259,7 +10255,7 @@ msgstr "Livre"
 #: weblate/templates/manage/index.html:17
 #: weblate/wladmin/templates/admin/weblate-index.html:15
 msgid "Weblate support status"
-msgstr "Estado do apoio do Weblate"
+msgstr "Estado do Apoio do Weblate"
 
 #: weblate/templates/manage/index.html:22
 msgid "Weblate version"
@@ -10696,7 +10692,7 @@ msgstr "Importar memória de tradução"
 
 #: weblate/templates/message.html:9
 msgid "Delete announcement"
-msgstr "Apagar anúncio"
+msgstr "Eliminar anúncio"
 
 #: weblate/templates/multi-progress.html:16
 msgid "Components are being updated…"
@@ -10772,7 +10768,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:73
 msgid "Request new translation"
-msgstr "Pedir nova tradução"
+msgstr "Solicitar nova tradução"
 
 #: weblate/templates/new-language.html:90
 #: weblate/templates/snippets/list-objects.html:308
@@ -10849,7 +10845,7 @@ msgstr ""
 
 #: weblate/templates/projects.html:23
 msgid "Ask for project hosting"
-msgstr "Pedir alojamento para um projeto"
+msgstr "Solicitar alojamento para um projeto"
 
 #: weblate/templates/ratelimit.html:4
 msgid ""
@@ -11131,7 +11127,7 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:7
 #: weblate/trans/models/component.py:399
 msgid "Source code repository"
-msgstr "Repositório do código-fonte"
+msgstr "Repositório do código fonte"
 
 #: weblate/templates/snippets/git-info.html:17
 #: weblate/trans/templatetags/translations.py:1186
@@ -11199,7 +11195,7 @@ msgstr "Não foram encontradas cadeias relacionadas no glossário."
 
 #: weblate/templates/snippets/info.html:16 weblate/trans/models/project.py:179
 msgid "Project website"
-msgstr "Sítio Web do projeto"
+msgstr "Site da Web do Projeto"
 
 #: weblate/templates/snippets/info.html:25
 msgid "Instructions for translators"
@@ -11457,12 +11453,12 @@ msgid ""
 "Please check in advance whether your project is eligible for gratis project "
 "hosting on this site."
 msgstr ""
-"Por favor, verifique antecipadamente se o seu projeto satisfaz as condições "
-"de alojamento gratuito deste sítio Web."
+"Por favor, verifique antecipadamente se o seu projeto é elegível para o "
+"alojamento do projeto gratuito neste site."
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr "Projeto livre e com código fonte público"
+msgstr "Projeto Gratuito e com código fonte público"
 
 #: weblate/templates/snippets/libre-basic.html:10
 #, python-format
@@ -11472,7 +11468,7 @@ msgid ""
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
 "O conteúdo traduzido deve ser lançado sob uma licença %(link_osi_start)s "
-"aprovada pela OSI %(link_end)s ou %(link_fsf_start)s reconhecida como libre "
+"aprovada pela OSI %(link_end)s ou %(link_fsf_start)s reconhecida como livre "
 "pela FSF %(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:13
@@ -11480,21 +11476,22 @@ msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
 msgstr ""
-"Todo o código-fonte deve ter licença livre e estar disponível publicamente "
-"num sistema de controlo de versão compatível."
+"Todo o código fonte deve ter uma licença livre e estar disponível "
+"publicamente num sistema de controlo de versão compatível."
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"As traduções devem estar no mesmo repositório como o código-fonte, ou sob o "
-"mesmo projeto/organização como o repositório de código-fonte."
+"As traduções devem estar no mesmo repositório como o código fonte, ou sob o "
+"mesmo projeto/organização como o repositório de código fonte."
 
 #: weblate/templates/snippets/libre-basic.html:18
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
-"Projetos não-código (como livros ou conteúdo gráfico) também são bem-vindos."
+"Os projetos não código (tais como livros ou conteúdo gráfico) também são bem-"
+"vindos."
 
 #: weblate/templates/snippets/libre-basic.html:21
 msgid "Project approval"
@@ -11502,15 +11499,15 @@ msgstr "Aprovação do projeto"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "O uso de Weblate foi aprovado pelo projeto upstream."
+msgstr "A utilização do Weblate foi aprovada pelo projeto ''upstream''."
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
-"Mencione que usa Weblate para as traduções no README. Isto vai atrair novos "
-"tradutores e também ajudar o Weblate a ser livre para mais projetos."
+"Mencione que utiliza o Weblate para as traduções no README. Isto irá atrair "
+"novos tradutores e também ajudar o Weblate a ser livre para mais projetos."
 
 #: weblate/templates/snippets/libre-basic.html:29
 msgid "Established projects"
@@ -11679,22 +11676,22 @@ msgid ""
 "announcement and/or lock it if you don’t want contributions until you finish "
 "the setup."
 msgstr ""
-"Este projeto está no período de avaliação e está publicamente acessível. "
-"Pode bloqueá-lo e publicar um anúncio no caso de querer evitar contribuições "
-"até finalizar a configuração."
+"Este projeto está no período de teste de avaliação e está acessível "
+"publicamente. Pode bloqueá-lo e publicar um anúncio no caso de querer evitar "
+"contribuições até finalizar a configuração."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:16
 msgid ""
 "This project is in a trial period, be cautious while contributing. Setup can "
 "still change before being approved as a libre project."
 msgstr ""
-"Este projeto está no período de testes, tenha cuidado ao colaborar. A "
-"configuração ainda pode ser alterada antes de ser aprovado como um projeto "
-"de código livre."
+"Este projeto está num período de teste de avaliação, tenha cuidado enquanto "
+"colabora. A configuração ainda pode ser alterada antes de ser aprovado como "
+"um projeto livre."
 
 #: weblate/templates/snippets/project/billing-trial.html:10
 msgid "This project is in the trial period."
-msgstr "Este projeto está no período de avaliação."
+msgstr "Este projeto está no período de teste de avaliação."
 
 #: weblate/templates/snippets/query-builder.html:5
 msgid "Advanced query builder"
@@ -12101,7 +12098,7 @@ msgstr "Este projeto está configurado incorretamente."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:5
 msgid "The project website URL points to a non-existing location:"
-msgstr "O URL do sítio Web do projeto aponta para um destino inexistente:"
+msgstr "O URL do ''site'' da Web do projeto aponta para um destino inexistente:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -12341,7 +12338,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
-msgstr "Este projeto já não se enquadra nas condições de alojamento Libre."
+msgstr "Este projeto já não se enquadra nas condições de alojamento Gratuito."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:3
 msgid "This component set up is incomplete, as it lacks any translations."
@@ -12536,7 +12533,7 @@ msgstr "Ramo adicional"
 
 #: weblate/templates/trans/component_create.html:42
 msgid "Upload translations files"
-msgstr "Carregar ficheiros de tradução"
+msgstr "Enviar ficheiros de tradução"
 
 #: weblate/templates/trans/component_create.html:47
 msgid "Translate document"
@@ -12570,7 +12567,7 @@ msgid ""
 "Create a new translation component from a repository already cloned in "
 "Weblate."
 msgstr ""
-"Criar um novo componente de tradução de um repositório já clonado no Weblate."
+"Crie um novo componente de tradução de um repositório já clonado no Weblate."
 
 #: weblate/templates/trans/component_create.html:103
 msgid ""
@@ -12635,8 +12632,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Essa ação não pode ser desfeita. Isso permanentemente apagará as traduções "
-"de %(object)s e todo o conteúdo relacionado."
+"Esta ação não pode ser anulada. Isto irá eliminar permanentemente as "
+"traduções de %(object)s e todo o conteúdo relacionado."
 
 #: weblate/templates/trans/delete-category-language.html:7
 #: weblate/templates/trans/delete-project-language.html:7
@@ -12697,7 +12694,7 @@ msgstr "Componente a remover"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
-msgstr "Compreendo as consequências, apagar esta tradução"
+msgstr "Eu compreendo as consequências, eliminar esta tradução"
 
 #: weblate/templates/trans/delete-project.html:4
 #, python-format
@@ -12705,8 +12702,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
-"Esta ação não pode ser desfeita. Isto apagará permanentemente a categoria "
-"%(object)s e todo o conteúdo relacionado."
+"Esta ação não pode ser anulada. Isto irá eliminar permanentemente a "
+"categoria %(object)s e todo o conteúdo relacionado."
 
 #: weblate/templates/trans/delete-project.html:10
 #, python-format
@@ -12850,7 +12847,7 @@ msgstr "Convidar"
 #: weblate/templates/trans/project-access.html:257
 #, python-format
 msgid "This will delete the team <b>%(name)s</b> from this project."
-msgstr "Isto irá apagar a equipa <b>%(name)s</b> deste projeto."
+msgstr "Isto irá eliminar a equipa <b>%(name)s</b> deste projeto."
 
 #: weblate/templates/trans/project-access.html:259
 #, python-format
@@ -12916,7 +12913,7 @@ msgstr "Token copiado para área de transferência."
 
 #: weblate/templates/trans/projecttoken-created.html:7
 msgid "Copy token to clipboard"
-msgstr "Copiar token para área de transferência"
+msgstr "Copiar código para a área de transferência"
 
 #: weblate/templates/trans/projecttoken-created.html:10
 #, python-format
@@ -13848,7 +13845,7 @@ msgstr "Categoria movida"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:146
 msgid "Saving string failed"
-msgstr "Falha ao guardar a cadeia"
+msgstr "Falha ao guardar a cadeia de carateres"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:148
@@ -13961,7 +13958,8 @@ msgstr "Hosted Weblate, o local para traduzir o seu projeto de software."
 
 #: weblate/trans/context_processors.py:138
 msgid "This site runs Weblate for localizing various software projects."
-msgstr "Este site utiliza o Weblate para traduzir vários projetos de software."
+msgstr ""
+"Este ''site'' utiliza o Weblate para traduzir vários projetos de programas."
 
 #: weblate/trans/discovery.py:320
 msgid "File mask matches the main component."
@@ -14032,7 +14030,7 @@ msgstr "Cadeias aprovadas"
 
 #: weblate/trans/filter.py:59 weblate/trans/filter.py:132
 msgid "Strings waiting for review"
-msgstr "Cadeias a aguardar revisão"
+msgstr "Cadeias de carateres a aguardarem revisão"
 
 #: weblate/trans/filter.py:64
 msgid "Strings without screenshots"
@@ -14104,7 +14102,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:502
 msgid "Review state"
-msgstr "Estado da revisão"
+msgstr "Estado da Revisão"
 
 #: weblate/trans/forms.py:515 weblate/trans/models/unit.py:458
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -14650,7 +14648,7 @@ msgstr "Define instruções de tradução para dar orientação aos tradutores."
 
 #: weblate/trans/guide.py:143
 msgid "Make your translations available under a libre license."
-msgstr "Disponibilize as suas traduções sob uma licença libre."
+msgstr "Disponibilize as suas traduções sob uma licença livre."
 
 #: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1194
 msgid "Fix this component to clear its alerts."
@@ -14771,7 +14769,7 @@ msgstr "URL de navegador do repositório com problemas"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:556
 msgid "Broken project website URL"
-msgstr "O URL do sítio Web do projeto está com problemas"
+msgstr "O URL do ''site'' da Web do projeto está com problemas"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:578
@@ -14786,7 +14784,7 @@ msgstr "Código de idioma ambíguo."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:618
 msgid "Does not meet Libre hosting conditions."
-msgstr "Não satisfaz as condições de alojamento Libre."
+msgstr "Não satisfaz as condições de hospedagem Gratuita."
 
 #: weblate/trans/models/alert.py:632
 msgid "Unused enforced checks."
@@ -15266,9 +15264,9 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Ativa a adição e remoção de cadeias diretamente do Weblate. Se as suas "
-"cadeias são extraídas do código-fonte ou geridas externamente, provavelmente "
-"irá querer manter isto desativado."
+"Ativa a adição e remoção de cadeias de carateres diretamente do Weblate. Se "
+"as suas cadeias de carateres são extraídas do código fonte ou geridas "
+"externamente, provavelmente irá querer manter isto desativado."
 
 #: weblate/trans/models/component.py:636
 msgid "Merge style"
@@ -15922,14 +15920,16 @@ msgstr "Falha ao adicionar cadeia, nenhuma tradução encontrada."
 #: weblate/trans/models/unit.py:1127
 #, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
-msgstr "Não foi possível propagar a cadeia para %(component)s : %(reason)s"
+msgstr ""
+"Não foi possível propagar a cadeia de carateres para %(component)s : "
+"%(reason)s"
 
 #: weblate/trans/models/unit.py:1150
 #, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "Não foi possível propagar a string para %d componente."
-msgstr[1] "Não foi possível propagar a string para %d componentes."
+msgstr[0] "Não foi possível propagar a cadeia de carateres para %d componente."
+msgstr[1] "Não foi possível propagar a cadeia de carateres para %d componentes."
 
 #: weblate/trans/models/unit.py:1940
 msgid "Unmark as read-only"

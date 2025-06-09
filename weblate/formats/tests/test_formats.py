@@ -710,7 +710,7 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
     MIME = "application/xml"
     EXT = "xml"
     COUNT = 1
-    MATCH = "<resources></resources>"
+    MATCH = "<resources>\n</resources>"
     MASK = "res/values-*/strings.xml"
     EXPECTED_PATH = "res/values-cs-rCZ/strings.xml"
     FIND = "Hello, world!\n"
