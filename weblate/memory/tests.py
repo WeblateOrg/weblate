@@ -18,7 +18,6 @@ from weblate.memory.models import Memory
 from weblate.memory.tasks import (
     handle_unit_translation_change,
     import_memory,
-    import_user_memory,
 )
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -227,12 +226,12 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         unit = self.get_unit()
         unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
         self.assertEqual(Memory.objects.count(), 2)
-        import_user_memory(self.user.id)
-        self.assertEqual(Memory.objects.count(), 2)
 
         self.user.profile.contribute_personal_tm = True
         self.user.profile.save()
-        self.assertEqual(Memory.objects.count(), 3)
+        # enabling personal translation memory doesn't add previously
+        # translated units to memory
+        self.assertEqual(Memory.objects.count(), 2)
 
     def test_component_contribute_project_tm(self) -> None:
         unit = self.get_unit()
