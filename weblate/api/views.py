@@ -600,13 +600,15 @@ class UserViewSet(viewsets.ModelViewSet):
             .order()
         )
 
+        page = self.paginate_queryset(user_translations)
+
         serializer = TranslationSerializer(
-            user_translations,
+            page,
             many=True,
             context={"request": request},
         )
 
-        return Response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
 
 @extend_schema_view(
