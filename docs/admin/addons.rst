@@ -1181,7 +1181,7 @@ Sample request body with categories:
          "child-category",
          "parent-category"
       ]
-}
+   }
 
 Sample request headers:
 
