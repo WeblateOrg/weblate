@@ -4,8 +4,6 @@ const CACHE_NAME = `weblate-pwa-cache-${APP_VERSION}`;
 const urlsToCache = [
   // Core pages
   "/",
-  "/projects/",
-  "/languages/",
 
   // User account pages
   "/accounts/profile/",
