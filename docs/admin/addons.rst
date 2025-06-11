@@ -1370,6 +1370,11 @@ Slack Webhooks
 
 Sends notification to a Slack channel based on selected events.
 
+.. hint::
+
+   To obtain a webhook URL, follow the steps outlined in the `Slack Incoming Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks>`_
+
+
 .. _addon-weblate.xml.customize:
 
 Customize XML output

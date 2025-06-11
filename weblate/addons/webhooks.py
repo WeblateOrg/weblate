@@ -35,11 +35,11 @@ class MessageNotDeliveredError(Exception):
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
         raise NotImplementedError
 
     def build_headers(
-        self, change: Change, payload: dict[str, int | str | list[str]]
+        self, change: Change, payload: dict[str, int | str | list]
     ) -> dict[str, str]:
         return {}
 
@@ -95,9 +95,9 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
     settings_form = WebhooksAddonForm
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
         """Build a Schema-valid payload from change event."""
-        data: dict[str, int | str | list[str]] = {
+        data: dict[str, int | str | list] = {
             "change_id": change.id,
             "action": change.get_action_display(),
             "timestamp": change.timestamp.isoformat(),
@@ -131,7 +131,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
         return data
 
     def build_headers(
-        self, change: Change, payload: dict[str, int | str | list[str]]
+        self, change: Change, payload: dict[str, int | str | list]
     ) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         webhook_id = change.get_uuid().hex
@@ -181,45 +181,35 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+        message_header = ""
+        if change.path_object:
+            message_header += key_name(change.path_object) + " - "
+        message_header += change.get_action_display()
         payload: dict[str, list] = {
             "blocks": [
                 {
                     "type": "header",
-                    "text": {"type": "plain_text", "text": change.get_action_display()},
+                    "text": {"type": "plain_text", "text": message_header},
                 },
             ]
         }
 
-        description = []
-        if change.old:
-            description.append(f"*Old:* {change.old}")
-        if change.target:
-            description.append(f"*Target:* {change.target}")
+        change_details = change.get_details_display() or "No details"
 
-        if (
-            path_object_breadcrumbs := key_name(change.path_object)
-            if change.path_object
-            else " "
-        ):
-            description.append(
-                f"<{get_site_url(change.get_absolute_url())}|{path_object_breadcrumbs}>"
-            )
-        else:
-            description.append(f"<{get_site_url(change.get_absolute_url())}>")
-
-        if description:
-            payload["blocks"].append(
-                {
-                    "type": "section",
-                    "text": {"type": "mrkdwn", "text": "\n".join(description)},
-                }
-            )
-        if change_details := change.get_details_display():
-            payload["blocks"].append(
-                {
-                    "type": "section",
-                    "text": {"type": "plain_text", "text": change_details},
-                }
-            )
+        payload["blocks"].append(
+            {
+                "type": "section",
+                "text": {"type": "plain_text", "text": change_details},
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "View",
+                    },
+                    "value": "view-change",
+                    "url": get_site_url(change.get_absolute_url()),
+                },
+            }
+        )
         return payload
