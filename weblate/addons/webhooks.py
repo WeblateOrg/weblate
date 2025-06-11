@@ -104,7 +104,7 @@ class WebhookAddon(ChangeBaseAddon):
             data["component"] = change.component.slug
         if change.translation:
             data["translation"] = change.translation.language.code
-        if change.path_object and (category := change.path_object.category):
+        if change.component and (category := change.component.category):
             categories = []
             while category is not None:
                 categories.append(category.slug)
