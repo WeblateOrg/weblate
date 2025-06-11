@@ -17,9 +17,11 @@ from standardwebhooks.webhooks import Webhook
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.addons.base import ChangeBaseAddon
-from weblate.addons.forms import WebhooksAddonForm
+from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.requests import request
+from weblate.utils.site import get_site_url
+from weblate.utils.views import key_name
 
 if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
@@ -30,44 +32,46 @@ class MessageNotDeliveredError(Exception):
     """Exception raised when a message could not be delivered."""
 
 
-class WebhookAddon(ChangeBaseAddon):
-    """Class for Webhooks Addon."""
-
-    name = "weblate.webhook.webhook"
-    verbose = gettext_lazy("Webhook")
-    description = gettext_lazy(
-        "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
-    )
-
-    settings_form = WebhooksAddonForm
+class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
+
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+        raise NotImplementedError
+
+    def build_headers(
+        self, change: Change, payload: dict[str, int | str | list]
+    ) -> dict[str, str]:
+        return {}
+
+    def render_activity_log(self, activity: AddonActivityLog) -> str:
+        return render_to_string(
+            "addons/webhook_log.html",
+            {"activity": activity, "details": activity.details["result"]},
+        )
+
+    def send_message(
+        self, change: Change, headers: dict, payload: dict[str, int | str | list[str]]
+    ) -> requests.Response:
+        try:
+            return request(
+                method="post",
+                url=self.instance.configuration["webhook_url"],
+                json=payload,
+                headers=headers,
+                timeout=15,
+                raise_for_status=False,
+            )
+        except requests.exceptions.ConnectionError as error:
+            raise MessageNotDeliveredError from error
 
     def change_event(self, change: Change) -> dict | None:
         """Deliver notification message."""
         config = self.instance.configuration
         events = {int(event) for event in config["events"]}
         if change.action in events:
-            try:
-                payload = self.build_webhook_payload(change)
-            except (
-                jsonschema.exceptions.ValidationError,
-                jsonschema.exceptions.SchemaError,
-            ) as error:
-                raise MessageNotDeliveredError from error
-
+            payload = self.build_webhook_payload(change)
             headers = self.build_headers(change, payload)
-
-            try:
-                response = request(
-                    method="post",
-                    url=config["webhook_url"],
-                    json=payload,
-                    headers=self.build_headers(change, payload),
-                    timeout=15,
-                    raise_for_status=False,
-                )
-            except requests.exceptions.ConnectionError as error:
-                raise MessageNotDeliveredError from error
+            response = self.send_message(change, headers, payload)
 
             return {
                 "request": {"headers": headers, "payload": payload},
@@ -79,9 +83,21 @@ class WebhookAddon(ChangeBaseAddon):
             }
         return None
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list[str]]:
+
+class WebhookAddon(JSONWebhookBaseAddon):
+    """Class for Webhooks Addon."""
+
+    name = "weblate.webhook.webhook"
+    verbose = gettext_lazy("Webhook")
+    description = gettext_lazy(
+        "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
+    )
+
+    settings_form = WebhooksAddonForm
+
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
         """Build a Schema-valid payload from change event."""
-        data: dict[str, int | str | list[str]] = {
+        data: dict[str, int | str | list] = {
             "change_id": change.id,
             "action": change.get_action_display(),
             "timestamp": change.timestamp.isoformat(),
@@ -111,11 +127,11 @@ class WebhookAddon(ChangeBaseAddon):
                 category = category.category
             if categories:
                 data["category"] = categories
-        validate_schema(data, "weblate-messaging.schema.json")
+        self.validate_payload(data)
         return data
 
     def build_headers(
-        self, change: Change, payload: dict[str, int | str | list[str]]
+        self, change: Change, payload: dict[str, int | str | list]
     ) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         webhook_id = change.get_uuid().hex
@@ -125,7 +141,6 @@ class WebhookAddon(ChangeBaseAddon):
             "webhook-id": webhook_id,
             "webhook-signature": "",
         }
-
         if secret := self.instance.configuration.get("secret", ""):
             headers["webhook-signature"] = Webhook(secret).sign(
                 webhook_id, attempt_time, json.dumps(payload)
@@ -133,11 +148,14 @@ class WebhookAddon(ChangeBaseAddon):
 
         return headers
 
-    def render_activity_log(self, activity: AddonActivityLog) -> str:
-        return render_to_string(
-            "addons/webhook_log.html",
-            {"activity": activity, "details": activity.details["result"]},
-        )
+    def validate_payload(self, payload) -> None:
+        try:
+            validate_schema(payload, "weblate-messaging.schema.json")
+        except (
+            jsonschema.exceptions.ValidationError,
+            jsonschema.exceptions.SchemaError,
+        ) as error:
+            raise MessageNotDeliveredError from error
 
 
 change_event_webhook = OpenApiWebhook(
@@ -152,3 +170,46 @@ change_event_webhook = OpenApiWebhook(
         },
     ),
 )
+
+
+class SlackWebhookAddon(JSONWebhookBaseAddon):
+    name = "weblate.webhook.slack"
+    verbose = gettext_lazy("Slack Webhooks")
+    description = gettext_lazy(
+        "Sends notification to a Slack channel based on selected events."
+    )
+    icon = "slack.svg"
+    settings_form = BaseWebhooksAddonForm
+
+    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+        message_header = ""
+        if change.path_object:
+            message_header += key_name(change.path_object) + " - "
+        message_header += change.get_action_display()
+        payload: dict[str, list] = {
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {"type": "plain_text", "text": message_header},
+                },
+            ]
+        }
+
+        change_details = change.get_details_display() or "No details"
+
+        payload["blocks"].append(
+            {
+                "type": "section",
+                "text": {"type": "plain_text", "text": change_details},
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "View",
+                    },
+                    "value": "view-change",
+                    "url": get_site_url(change.get_absolute_url()),
+                },
+            }
+        )
+        return payload
