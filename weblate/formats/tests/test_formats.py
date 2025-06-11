@@ -1352,6 +1352,34 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b"<term>Source string</term>"
     EXPECTED_FLAGS = ""
 
+    def test_extended_metadata(self):
+        storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
+        self.assertEqual(len(storage.all_units), 3)
+        self.assertEqual(storage.mimetype(), self.MIME)
+        self.assertEqual(storage.extension(), self.EXT)
+
+        unit, _ = storage.find_unit("e001", "data bus")
+        self.assertEqual(unit.notes, "Avoid using this term in any documentation.")
+        self.assertEqual(
+            unit.source_explanation, "Superseded but still found in older manuals."
+        )
+        self.assertEqual(unit.flags, "forbidden")
+        self.assertEqual(unit.is_readonly(), False)
+
+        unit, _ = storage.find_unit("e002", "SYS_ERR_406")
+        self.assertEqual(unit.notes, "Do not translate error codes.")
+        self.assertEqual(
+            unit.source_explanation, "An internal code identifier not to be localized."
+        )
+        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.is_readonly(), True)
+
+        unit, _ = storage.find_unit("e003", "combo box")
+        self.assertEqual(unit.notes, "")
+        self.assertEqual(unit.source_explanation, "")
+        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.is_readonly(), False)
+
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     format_class = StringsdictFormat
