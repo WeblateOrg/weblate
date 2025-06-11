@@ -24,6 +24,7 @@ Weblate 5.12
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 * :http:get:`/api/users/` now includes ``languages``.
 * :ref:`addon-weblate.webhook.webhook` documentation improved.
+* Improved support for extended metadata in :ref:`tbx`.
 
 .. rubric:: Bug fixes
 
@@ -32,6 +33,7 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
 * Creating new translations in :doc:`/formats/appstore`.
+* :ref:`search-replace` correctly handles plurals.
 
 .. rubric:: Compatibility
 

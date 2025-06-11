@@ -430,7 +430,7 @@ class CaptchaWidget(forms.TextInput):
                 {
                     "algorithm": self.challenge.algorithm,
                     "challenge": self.challenge.challenge,
-                    "maxnumber": self.challenge.maxnumber,
+                    "maxnumber": self.challenge.max_number,
                     "salt": self.challenge.salt,
                     "signature": self.challenge.signature,
                 }
