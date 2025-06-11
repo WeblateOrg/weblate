@@ -12,6 +12,7 @@ Weblate 5.12
 * :doc:`/security/index` documentation.
 * Added :guilabel:`Translation Coordinator` role.
 * :ref:`addon-weblate.webhook.slack` is now available as an add-on.
+* Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
 
 .. rubric:: Improvements
 

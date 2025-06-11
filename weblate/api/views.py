@@ -575,6 +575,39 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @extend_schema(
+        description="List translation contributions of a user.",
+        methods=["get"],
+        tags=["users", "contributions"],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
+    def contributions(self, request: Request, **kwargs):
+        user_translation_ids = set(
+            Change.objects.content()
+            .filter(user=self.get_object())
+            .values_list("translation", flat=True)
+        )
+        user_translations = (
+            Translation.objects.filter_access(request.user)
+            .prefetch()
+            .filter(
+                id__in=user_translation_ids,
+            )
+            .order()
+        )
+
+        serializer = TranslationSerializer(
+            user_translations,
+            many=True,
+            context={"request": request},
+        )
+
+        return Response(serializer.data)
+
 
 @extend_schema_view(
     create=extend_schema(description="Create a new group."),
