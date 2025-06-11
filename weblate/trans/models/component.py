@@ -3945,7 +3945,7 @@ class Component(
         for unit in units.select_for_update():
             unit.translate(
                 None,
-                unit.target,
+                unit.get_target_plurals(),
                 STATE_FUZZY,
                 change_action=ActionEvents.ENFORCED_CHECK,
                 propagate=False,

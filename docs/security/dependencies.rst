@@ -25,18 +25,16 @@ its dependencies updated to avoid vulnerabilities.
 Docker container security
 -------------------------
 
-The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_
-security scanners.
-
-This allows us to detect vulnerabilities early and release improvements quickly.
+The Docker containers are scanned for security vulnerabilities in our CI. This
+allows us to detect vulnerabilities early and release improvements quickly.
 
 You can get the results of these scans at GitHub — they are stored as artifacts
 on our CI as :abbr:`SARIF (Static Analysis Results Interchange Format)`.
 
 .. seealso::
 
-   :ref:`ci-tests`
+   :ref:`ci-tests`,
+   `Renovate <https://www.mend.io/renovate/>`_,
+   `Anchore <https://anchore.com/>`_
 
-.. _Renovate: https://www.mend.io/renovate/
-.. _Anchore: https://anchore.com/
 .. _Trivy: https://github.com/aquasecurity/trivy
