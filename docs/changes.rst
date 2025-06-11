@@ -10,6 +10,7 @@ Weblate 5.12
 * Added :ref:`check-kabyle-characters` quality check.
 * :ref:`sbom` is now being provided for Weblate.
 * :doc:`/security/index` documentation.
+* Added support for :doc:`/formats/compose-multiplatform-resources`.
 
 .. rubric:: Improvements
 
