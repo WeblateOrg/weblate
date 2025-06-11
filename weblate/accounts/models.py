@@ -8,6 +8,7 @@ import datetime
 import logging
 import re
 from datetime import timedelta
+from ipaddress import IPv6Network, ip_network
 from typing import TYPE_CHECKING, Literal
 from urllib.parse import urlparse
 
@@ -517,6 +518,15 @@ class AuditLog(models.Model):
                 return True
 
         return False
+
+    @property
+    def shortened_address(self) -> str:
+        if not self.address:
+            return ""
+        network = ip_network(self.address)
+        prefix_len = 48 if isinstance(network, IPv6Network) else 16
+        supernet = network.supernet(new_prefix=prefix_len)
+        return str(supernet.network_address)
 
 
 class VerifiedEmail(models.Model):

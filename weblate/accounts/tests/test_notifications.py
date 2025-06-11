@@ -409,6 +409,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Verify site root expansion in email
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('href="/', content)
+        # Shortened address is used
+        self.assertIn("<td>127.0.0.0</td>", content)
 
     def test_notify_html_language(self) -> None:
         self.user.profile.language = "cs"
