@@ -6,6 +6,7 @@ from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, GROUPS, PERMISSION
 from weblate.utils.management.base import BaseCommand
 
 GROUP_NAMES = {
+    "announcement": "Announcements",
     "billing": "Billing (see :ref:`billing`)",
     "change": "Changes",
     "comment": "Comments",
