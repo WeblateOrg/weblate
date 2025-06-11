@@ -2024,18 +2024,29 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit(TTKitUnit):
-    def _get_notes(self, *origins: str) -> str:
-        notes = []
-        for origin in origins:
-            note = self.unit.getnotes(origin)
-            if note:
-                notes.append(note)
-        return "\n".join(notes)
+    unit: tbxunit
+
+    def _is_usage_node(self, node: etree.Element) -> bool:
+        return (
+            self.unit.namespaced("descrip") == node.tag
+            and node.get("type") == "Usage note"
+        )
 
     @cached_property
     def notes(self):
         """Return notes or notes from units."""
-        return self._get_notes("pos", "developer")
+        notes = []
+        for origin in ["pos", "developer"]:
+            note = self.unit.getnotes(origin)
+            if note:
+                notes.append(note)
+
+        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
+            if self._is_usage_node(node):
+                notes.append(self.unit._getnodetext(node))  # noqa: SLF001
+                break
+
+        return "\n".join(notes)
 
     @cached_property
     def context(self):
@@ -2048,7 +2059,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def explanation(self) -> str:
-        return self._get_notes("translator")
+        return self.unit.getnotes("translator")
 
     def set_source_explanation(self, explanation: str) -> None:
         if explanation or self.source_explanation:
@@ -2057,7 +2068,35 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def source_explanation(self) -> str:
-        return self._get_notes("definition")
+        seen_notes = set()
+        notes = []
+        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
+            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):  # noqa: SLF001
+                continue
+            note = self.unit._getnodetext(node)  # noqa: SLF001
+            if note not in seen_notes:
+                notes.append(note)
+                seen_notes.add(note)
+
+        return "\n".join(notes)
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+
+        for node in self.unit._getnotenodes(origin="pos"):  # noqa: SLF001
+            # each tig in the two langsets in the termEntry can have the
+            # <termNote type="administrativeStatus">, consider forbidden
+            # if either of the two is forbidden/obsolete
+            if self.unit._is_administrative_status_term_node(node):  # noqa: SLF001
+                if self.unit._getnodetext(node).strip().lower() in {  # noqa: SLF001
+                    "forbidden",
+                    "obsolete",
+                }:
+                    flags.merge("forbidden")
+                break
+
+        return flags.format()
 
 
 class TBXFormat(TTKitFormat):
