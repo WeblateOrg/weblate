@@ -104,7 +104,13 @@ class WebhookAddon(ChangeBaseAddon):
             data["component"] = change.component.slug
         if change.translation:
             data["translation"] = change.translation.language.code
-
+        if change.component and (category := change.component.category):
+            categories = []
+            while category is not None:
+                categories.append(category.slug)
+                category = category.category
+            if categories:
+                data["category"] = categories
         validate_schema(data, "weblate-messaging.schema.json")
         return data
 

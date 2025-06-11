@@ -1162,6 +1162,27 @@ Sample request body:
       "translation": "cs"
    }
 
+Sample request body with categories:
+
+.. code-block:: json
+
+   {
+      "change_id": 8910,
+      "action": "Component renamed",
+      "timestamp": "2025-06-11T07:15:09Z",
+      "target": ["new-name"],
+      "old": ["component-slug"],
+      "url": "/projects/project-slug/parent-category/child-category/sub-category/component-slug/",
+      "user": "testuser",
+      "project": "project-slug",
+      "component": "component-slug",
+      "category": [
+         "sub-category",
+         "child-category",
+         "parent-category"
+      ]
+   }
+
 Sample request headers:
 
 .. code-block:: json
