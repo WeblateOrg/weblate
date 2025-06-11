@@ -27,6 +27,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
+    Category,
     Comment,
     Component,
     Suggestion,
@@ -1728,6 +1729,48 @@ class WebhookAddonsTest(ViewTestCase):
         )
         # Both site-wide and project-wide add-ons should receive this
         self.assertEqual(len(responses.calls), 2)
+
+    @responses.activate
+    def test_category_in_payload(self) -> None:
+        """Test webhook payload includes category field when available."""
+        self.project.add_user(self.user, "Administration")
+        self.addon_configuration["events"] = [ActionEvents.RENAME_COMPONENT]
+        WebhookAddon.create(
+            configuration=self.addon_configuration, component=self.component
+        )
+        parent_category = Category.objects.create(
+            name="Parent Category", slug="parent-category", project=self.project
+        )
+        child_category = Category.objects.create(
+            name="Child Category",
+            slug="child-category",
+            category=parent_category,
+            project=self.project,
+        )
+        sub_category = Category.objects.create(
+            name="Sub Category",
+            slug="sub-category",
+            category=child_category,
+            project=self.project,
+        )
+        self.component.category = sub_category
+        self.component.save()
+
+        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+        self.client.post(
+            reverse("rename", kwargs={"path": self.component.get_url_path()}),
+            {
+                "name": "New name",
+                "slug": "new-name",
+                "project": self.project.pk,
+                "category": sub_category.pk,
+            },
+        )
+
+        request_body = json.loads(responses.calls[0].request.body)
+        self.assertIn("child-category", request_body["category"])
+        self.assertIn("parent-category", request_body["category"])
+        self.assertIn("sub-category", request_body["category"])
 
     @responses.activate
     def test_component_scopes(self) -> None:

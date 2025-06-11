@@ -23,6 +23,7 @@ Weblate 5.12
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 * :http:get:`/api/users/` now includes ``languages``.
 * :ref:`addon-weblate.webhook.webhook` documentation improved.
+* :ref:`addon-weblate.webhook.webhook` now includes category field when available.
 
 .. rubric:: Bug fixes
 
