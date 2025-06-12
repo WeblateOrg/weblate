@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-05-24 05:04+0000\n"
+"POT-Creation-Date: 2025-06-12 08:16+0000\n"
 "PO-Revision-Date: 2025-06-11 18:04+0000\n"
 "Last-Translator: Wael Ibrahim <dr.wael.ibrahim@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -64,7 +64,7 @@ msgstr "الاسم الكامل"
 msgid "Name is also used in version control commits."
 msgstr "يستعمل الاسم أيضا في إيداعات نظام التحكم بالإصدار."
 
-#: weblate/accounts/forms.py:196 weblate/accounts/models.py:785
+#: weblate/accounts/forms.py:196 weblate/accounts/models.py:795
 msgid "Commit e-mail"
 msgstr "البريد الإلكتروني للإيداع"
 
@@ -80,7 +80,7 @@ msgstr ""
 "تستخدم في إيداعات التحكم بالإصدار. سيبقى العنوان في المستودع إلى الأبد بمجرد "
 "إيداع التغييرات بواسطة Weblate."
 
-#: weblate/accounts/forms.py:231 weblate/accounts/models.py:779
+#: weblate/accounts/forms.py:231 weblate/accounts/models.py:789
 msgid "Public e-mail"
 msgstr "البريد الإلكتروني العمومي"
 
@@ -242,13 +242,13 @@ msgstr "أستخدم الإعداد الإفتراضي"
 msgid "Other projects"
 msgstr "مشاريع اخرى"
 
-#: weblate/accounts/forms.py:909 weblate/accounts/models.py:701
+#: weblate/accounts/forms.py:909 weblate/accounts/models.py:711
 #: weblate/templates/accounts/profile.html:101
 #: weblate/templates/accounts/user.html:161
 msgid "Watched projects"
 msgstr "المشاريع المُراقبة"
 
-#: weblate/accounts/forms.py:911 weblate/accounts/models.py:674
+#: weblate/accounts/forms.py:911 weblate/accounts/models.py:684
 #: weblate/templates/accounts/user.html:158
 #: weblate/templates/dashboard/user.html:31
 msgid "Managed projects"
@@ -335,7 +335,7 @@ msgid "Username"
 msgstr "اسم المستخدم"
 
 #: weblate/accounts/forms.py:1001 weblate/auth/models.py:482
-#: weblate/trans/forms.py:1352
+#: weblate/trans/forms.py:1351
 msgid "Date joined"
 msgstr "تاريخ الانضمام"
 
@@ -395,260 +395,260 @@ msgid "Enter the code from the app"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:218
+#: weblate/accounts/models.py:219
 msgid "Password changed."
 msgstr "عُدّلت كلمة السر."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:220
+#: weblate/accounts/models.py:221
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
 msgstr "غُيّر اسم المستخدم مِن {old} إلى {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:222
+#: weblate/accounts/models.py:223
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
 msgstr "غُيّر البريد الإلكتروني مِن {old} إلى {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:224
+#: weblate/accounts/models.py:225
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
 msgstr "غُيّر الاسم الكامل مِن {old} إلى {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:226
+#: weblate/accounts/models.py:227
 msgid "Password reset requested."
 msgstr "طُلب تغيير كلمة السر."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:228
+#: weblate/accounts/models.py:229
 msgid "Password reset confirmed, password turned off."
 msgstr "تم تأكيد إعادة تعيين كلمة السر، تم إيقاف كلمة السر."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:230
+#: weblate/accounts/models.py:231
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "تسجيل الدخول المكون باستخدام {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:232
+#: weblate/accounts/models.py:233
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
 msgstr "إزالة تسجيل الدخول باستخدام {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:234
+#: weblate/accounts/models.py:235
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "تسجيل الدخول باستخدام {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:236
+#: weblate/accounts/models.py:237
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "تسجيل الدخول باستخدام {method} ({name}) من جهاز جديد."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:238
+#: weblate/accounts/models.py:239
 msgid "Somebody attempted to register with your e-mail."
 msgstr "حاول أحدهم إنشاء حساب ببريدك الإلكتروني."
 
-#: weblate/accounts/models.py:241
+#: weblate/accounts/models.py:242
 msgid "Somebody attempted to register using your e-mail address."
 msgstr "حاول أحد إنشاء حساب جديد باستخدام بريدك الإلكتروني."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:244
+#: weblate/accounts/models.py:245
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "لا يمكن تسجيل الدخول باستخدام {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:246
+#: weblate/accounts/models.py:247
 msgid "Account locked due to many failed sign in attempts."
 msgstr "أقفل الحساب بسبب العديد من محاولات تسجيل الدخول الفاشلة."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:248
+#: weblate/accounts/models.py:249
 #, fuzzy
 #| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
 msgstr "لا يمكن إرسال رسالة إلى المسؤول."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:250
+#: weblate/accounts/models.py:251
 msgid "Account and all private data removed."
 msgstr "حُذف الحساب وكافة البيانات الخاصة."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:252
+#: weblate/accounts/models.py:253
 #, python-brace-format
 msgid "Account removal confirmation sent to {email}."
 msgstr "أُرسل تأكيد حذف الحساب إلى {email}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:254
+#: weblate/accounts/models.py:255
 #, fuzzy, python-brace-format
 #| msgid "Agreement with Terms of Service {date}."
 msgid "Agreement with General Terms and Conditions {date}."
 msgstr "اتفاقية شروط الخدمة {date}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:256
+#: weblate/accounts/models.py:257
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
 msgstr "دعاه {username} إلى {site_title}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:258
+#: weblate/accounts/models.py:259
 #, python-brace-format
 msgid "Accepted invitation from {username}."
 msgstr "الدعوة من {username} مقبولة."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:260
+#: weblate/accounts/models.py:261
 msgid "Started trial period."
 msgstr "بدأت الفترة التجريبية."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:262
+#: weblate/accounts/models.py:263
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
 msgstr "أُرسلت رسالة تأكيد إلى {email}."
 
-#: weblate/accounts/models.py:265
+#: weblate/accounts/models.py:266
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr "أنشأ النظام مستخدما لكي يتتبع تأليف الترجمات التي رفعها مستخدم آخر."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:269
+#: weblate/accounts/models.py:270
 #, fuzzy, python-brace-format
 #| msgid "Access to project {project} was blocked"
 msgid "Access to project {project} was blocked."
 msgstr "النفاذ إلى مشروع {project} حُظر"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:271
+#: weblate/accounts/models.py:272
 #, fuzzy
 #| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
 msgstr "فعَّل المشرف المستخدم"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:273
+#: weblate/accounts/models.py:274
 #, fuzzy
 #| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
 msgstr "عطَّل المشرف المستخدم"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:275
+#: weblate/accounts/models.py:276
 msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:277
+#: weblate/accounts/models.py:278
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
 msgstr "تمت إضافة المستخدم إلى فريق {team} بواسطة {username}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:279
+#: weblate/accounts/models.py:280
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
 
-#: weblate/accounts/models.py:282
+#: weblate/accounts/models.py:283
 msgid "Two-factor authentication recovery codes were generated"
 msgstr ""
 
-#: weblate/accounts/models.py:286
+#: weblate/accounts/models.py:287
 msgid "Two-factor authentication recovery codes were viewed"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:289
+#: weblate/accounts/models.py:290
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:291
+#: weblate/accounts/models.py:292
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:293
+#: weblate/accounts/models.py:294
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:300
+#: weblate/accounts/models.py:301
 msgid "Configured password to sign in."
 msgstr "كلمة المرور المكونة لتسجيل الدخول."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:302
+#: weblate/accounts/models.py:303
 msgid "Signed in using password."
 msgstr "تسجيل الدخول باستخدام كلمة المرور."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:304
+#: weblate/accounts/models.py:305
 msgid "Signed in using password from a new device."
 msgstr "تسجيل الدخول باستخدام كلمة المرور من جهاز جديد."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:307
 msgid "Could not sign in using password."
 msgstr "تعذر تسجيل الدخول باستخدام كلمة المرور."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:310
+#: weblate/accounts/models.py:311
 #, python-brace-format
 msgid "Invited to {project} by {username}."
 msgstr "دعاه {username} إلى {project}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:314
+#: weblate/accounts/models.py:315
 msgid "Password configured."
 msgstr "تم تكوين كلمة المرور."
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:322
 msgid "To restore access to your account, please reset your password."
 msgstr "لاستعادة النفاذ إلى حسابك، رجاءً أعِد تعيين كلمة السر."
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:326
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "الرجاء التواصل مع مشرفي المشروع إن شعرت بأن هذا ليس مناسبا."
 
-#: weblate/accounts/models.py:329 weblate/accounts/models.py:333
+#: weblate/accounts/models.py:330 weblate/accounts/models.py:334
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
 "إذا كنت أنت من فعل ذلك، فيرجى استخدام إعادة تعيين كلمة المرور لاستعادة "
 "الوصول إلى حسابك."
 
-#: weblate/accounts/models.py:475 weblate/templates/accounts/profile.html:494
+#: weblate/accounts/models.py:476 weblate/templates/accounts/profile.html:494
 #: weblate/templates/accounts/user.html:296
 msgid "Account activity"
 msgstr "نشاط الحساب"
 
-#: weblate/accounts/models.py:554
+#: weblate/accounts/models.py:564
 msgid "Interface Language"
 msgstr "لغة الواجهة"
 
-#: weblate/accounts/models.py:560
+#: weblate/accounts/models.py:570
 msgid "Translated languages"
 msgstr "اللغات المترجَمة"
 
-#: weblate/accounts/models.py:563
+#: weblate/accounts/models.py:573
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -656,52 +656,52 @@ msgstr ""
 "اختر اللغات التي تقدر أن تترجم إليها. ستظهر لك هذه اللغات في لوحة المراقبة "
 "لكي تتمكن بسهولة مِن الوصول إلى الترجمات المختارة."
 
-#: weblate/accounts/models.py:570
+#: weblate/accounts/models.py:580
 msgid "Secondary languages"
 msgstr "اللغات الثانوية"
 
-#: weblate/accounts/models.py:572
+#: weblate/accounts/models.py:582
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr "اختر اللغات التي يمكنك فهمها، ستظهر سلاسل هذه اللغات مع سلاسل المصدر."
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:594
 msgid "Theme"
 msgstr "السمة"
 
-#: weblate/accounts/models.py:587
+#: weblate/accounts/models.py:597
 msgctxt "Theme selection"
 msgid "Sync with system"
 msgstr "نسِّق مع النظام"
 
-#: weblate/accounts/models.py:588
+#: weblate/accounts/models.py:598
 msgctxt "Theme selection"
 msgid "Light"
 msgstr "فاتح"
 
-#: weblate/accounts/models.py:589
+#: weblate/accounts/models.py:599
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "داكن"
 
-#: weblate/accounts/models.py:593
+#: weblate/accounts/models.py:603
 msgid "Hide completed translations on the dashboard"
 msgstr "إخفاء الترجمات المكتملة عن لوحة المراقبة"
 
-#: weblate/accounts/models.py:597
+#: weblate/accounts/models.py:607
 msgid "Show secondary translations in the Zen mode"
 msgstr "أظهر الترجمات الثانوية في وضع زين"
 
-#: weblate/accounts/models.py:601
+#: weblate/accounts/models.py:611
 msgid "Hide source if a secondary translation exists"
 msgstr "أخفِ المصدر إذا وُجدت لغة ثانوية"
 
-#: weblate/accounts/models.py:608
+#: weblate/accounts/models.py:618
 msgid "Editor link"
 msgstr "رابط المُحرّر"
 
-#: weblate/accounts/models.py:610
+#: weblate/accounts/models.py:620
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -710,35 +710,35 @@ msgstr ""
 "أدخِل رابطًا مخصصًا لكي يُستخدم رابطًا للكود المصدري. يمكنك استخدام {{branch}} "
 "لأجل الفرع، {{filename}} و{{line}} لأجل اسم الملف ومكان السطر."
 
-#: weblate/accounts/models.py:619
+#: weblate/accounts/models.py:629
 msgid "Translation editor mode"
 msgstr "وضع مُحرّر الترجمة"
 
-#: weblate/accounts/models.py:621
+#: weblate/accounts/models.py:631
 msgid "Full editor"
 msgstr "المُحرّر الكامل"
 
-#: weblate/accounts/models.py:622
+#: weblate/accounts/models.py:632
 msgid "Zen mode"
 msgstr "وضع زين"
 
-#: weblate/accounts/models.py:629
+#: weblate/accounts/models.py:639
 msgid "Zen editor mode"
 msgstr "وضع تعديل زين"
 
-#: weblate/accounts/models.py:631
+#: weblate/accounts/models.py:641
 msgid "Top to bottom"
 msgstr "من الأعلى إلى الأسفل"
 
-#: weblate/accounts/models.py:632
+#: weblate/accounts/models.py:642
 msgid "Side by side"
 msgstr "جنبًا إلى جنب"
 
-#: weblate/accounts/models.py:640
+#: weblate/accounts/models.py:650
 msgid "Special characters"
 msgstr "الأحرف الخاصة"
 
-#: weblate/accounts/models.py:642
+#: weblate/accounts/models.py:652
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -748,49 +748,49 @@ msgstr ""
 "الترجمة. يمكنها أن تكون نافعةً في بعض الأحيان للأحرف التي تستخدمها غالبًا لكن "
 "يصعب كتابتها بلوحة المفاتيح."
 
-#: weblate/accounts/models.py:648
+#: weblate/accounts/models.py:658
 msgid "Number of nearby strings"
 msgstr "عدد السلاسل المجاورة"
 
-#: weblate/accounts/models.py:652
+#: weblate/accounts/models.py:662
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "عدد السلاسل المجاورة التي ستُعرض في كل اتجاه في المُحرّر الكامل."
 
-#: weblate/accounts/models.py:656
+#: weblate/accounts/models.py:666
 msgid "Automatically watch projects on contribution"
 msgstr "معلومات المشروع"
 
-#: weblate/accounts/models.py:659
+#: weblate/accounts/models.py:669
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr "عندما تترجم سلسلة في مشروعٍ ما، ستبدأ بمراقبته."
 
-#: weblate/accounts/models.py:670 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:680 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
 msgstr "الترجمات المُراقبة"
 
-#: weblate/accounts/models.py:671 weblate/auth/models.py:168
+#: weblate/accounts/models.py:681 weblate/auth/models.py:168
 #: weblate/templates/dashboard/user.html:23
 msgid "Component lists"
 msgstr "قوائم المكونات"
 
-#: weblate/accounts/models.py:672 weblate/templates/dashboard/user.html:83
+#: weblate/accounts/models.py:682 weblate/templates/dashboard/user.html:83
 msgid "Component list"
 msgstr "قائمة المكونات"
 
-#: weblate/accounts/models.py:673 weblate/templates/dashboard/user.html:27
+#: weblate/accounts/models.py:683 weblate/templates/dashboard/user.html:27
 msgid "Suggested translations"
 msgstr "الترجمات المُقترحة"
 
-#: weblate/accounts/models.py:687
+#: weblate/accounts/models.py:697
 msgid "Default dashboard view"
 msgstr "عرض لوحة المراقبة الافتراضية"
 
-#: weblate/accounts/models.py:693
+#: weblate/accounts/models.py:703
 msgid "Default component list"
 msgstr "قائمة المكونات الافتراضية"
 
-#: weblate/accounts/models.py:703
+#: weblate/accounts/models.py:713
 #: weblate/templates/snippets/watch-dropdown.html:59
 #: weblate/templates/snippets/watch-dropdown.html:66
 msgid ""
@@ -800,36 +800,36 @@ msgstr ""
 "يمكنك استقبال الإشعارات من الترجمات المُراقبة وسوف تظهر على لوحة المراقبة "
 "افتراضيًا."
 
-#: weblate/accounts/models.py:711
+#: weblate/accounts/models.py:721
 msgid "Website URL"
 msgstr "رابط الموقع"
 
-#: weblate/accounts/models.py:716
+#: weblate/accounts/models.py:726
 #, fuzzy
 #| msgid "Contact"
 msgid "Contact URL"
 msgstr "المراسلة"
 
-#: weblate/accounts/models.py:720
+#: weblate/accounts/models.py:730
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
 
-#: weblate/accounts/models.py:724
+#: weblate/accounts/models.py:734
 msgid "Liberapay username"
 msgstr "اسم مستخدم Liberapay"
 
-#: weblate/accounts/models.py:727
+#: weblate/accounts/models.py:737
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr "Liberapay هي عبارة عن منصة للتبرع بالمال للفرق والمؤسسات والأفراد."
 
-#: weblate/accounts/models.py:733
+#: weblate/accounts/models.py:743
 msgid "Fediverse URL"
 msgstr "عنوان URL متنوع"
 
-#: weblate/accounts/models.py:736
+#: weblate/accounts/models.py:746
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
@@ -837,58 +837,58 @@ msgstr ""
 "اربط بملف تعريف Fediverse الخاص بك للحصول على الخدمات الموحدة مثل Mastodon "
 "أو diaspora*."
 
-#: weblate/accounts/models.py:742
+#: weblate/accounts/models.py:752
 msgid "Code site URL"
 msgstr "عنوان URL لموقع الكود"
 
-#: weblate/accounts/models.py:745
+#: weblate/accounts/models.py:755
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 "قم بالارتباط بملف تعريف التعليمات البرمجية الخاص بك للحصول على خدمات مثل "
 "Codeberg أو GitLab."
 
-#: weblate/accounts/models.py:750
+#: weblate/accounts/models.py:760
 msgid "GitHub username"
 msgstr "اسم مستخدم GitHub"
 
-#: weblate/accounts/models.py:755
+#: weblate/accounts/models.py:765
 msgid "X username"
 msgstr "اسم مستخدم التويتر"
 
-#: weblate/accounts/models.py:760
+#: weblate/accounts/models.py:770
 msgid "LinkedIn profile name"
 msgstr "اسم ملف LinkedIn الشخصي"
 
-#: weblate/accounts/models.py:762
+#: weblate/accounts/models.py:772
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr "اسم ملفك الشخصي على LinkedIn من linkedin.com/in/profilename"
 
-#: weblate/accounts/models.py:769
+#: weblate/accounts/models.py:779
 #: weblate/templates/snippets/embed-units.html:57
 msgid "Location"
 msgstr "الموقع"
 
-#: weblate/accounts/models.py:774
+#: weblate/accounts/models.py:784
 msgid "Company"
 msgstr "شركة"
 
-#: weblate/accounts/models.py:854
+#: weblate/accounts/models.py:864
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "يُرجى اختيار قائمة المكونات التي تريد عرضها على لوحة المراقبة."
 
-#: weblate/accounts/models.py:865
+#: weblate/accounts/models.py:875
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "تحديد قائمة المكونات ليس له أي تأثير عندما لا يظهر على لوحة المراقبة."
 
-#: weblate/accounts/models.py:1043 weblate/trans/views/edit.py:374
+#: weblate/accounts/models.py:1053 weblate/trans/views/edit.py:374
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr "أُضيفت %(language)s إلى لغاتك المترجمة. يمكنك ضبطها في الإعدادات."
 
-#: weblate/accounts/models.py:1175
+#: weblate/accounts/models.py:1185
 #, fuzzy
 #| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
@@ -1218,8 +1218,7 @@ msgstr "تجربة مجانية"
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
 #: weblate/templates/accounts/2fa.html:33
 #: weblate/templates/accounts/login.html:7
-#: weblate/templates/accounts/login.html:26
-#: weblate/templates/accounts/login.html:36
+#: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:270
 #: weblate/templates/registration/logged_out.html:15
 #: weblate/templates/weblate_auth/invitation_detail.html:33
@@ -1371,7 +1370,7 @@ msgid "Second factor sign in"
 msgstr "آخر دخول"
 
 #: weblate/addons/autotranslate.py:28 weblate/templates/translation.html:94
-#: weblate/templates/translation.html:284
+#: weblate/templates/translation.html:181
 msgid "Automatic translation"
 msgstr "ترجمة تلقائية"
 
@@ -1517,12 +1516,12 @@ msgstr ""
 
 #: weblate/addons/flags.py:100 weblate/templates/category-language.html:54
 #: weblate/templates/category-language.html:130
-#: weblate/templates/category.html:92 weblate/templates/category.html:203
+#: weblate/templates/category.html:92 weblate/templates/category.html:205
 #: weblate/templates/component.html:98 weblate/templates/component.html:266
-#: weblate/templates/language-project.html:78
-#: weblate/templates/language-project.html:180
+#: weblate/templates/language-project.html:81
+#: weblate/templates/language-project.html:186
 #: weblate/templates/project.html:100 weblate/templates/project.html:276
-#: weblate/templates/translation.html:89 weblate/templates/translation.html:335
+#: weblate/templates/translation.html:89 weblate/templates/translation.html:232
 msgid "Bulk edit"
 msgstr "تعديل بالجملة"
 
@@ -1744,8 +1743,8 @@ msgstr "تعبير نمطي لمطابقة الملفات المترجمة ضد"
 
 #: weblate/addons/forms.py:297
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
-#: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:638
-#: weblate/trans/forms.py:1876 weblate/trans/models/component.py:526
+#: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:637
+#: weblate/trans/forms.py:1875 weblate/trans/models/component.py:526
 msgid "File format"
 msgstr "نُسق الملف"
 
@@ -1876,7 +1875,7 @@ msgstr "فشل تحليل محدد CSS: %s"
 #: weblate/addons/forms.py:583 weblate/billing/models.py:305
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/snippets/query-builder.html:23
-#: weblate/templates/translation.html:149 weblate/trans/admin.py:92
+#: weblate/templates/snippets/translation.html:12 weblate/trans/admin.py:92
 #: weblate/wladmin/models.py:224
 msgid "Source strings"
 msgstr "السلاسل المصدرية"
@@ -1945,9 +1944,15 @@ msgstr "غُيّر الترخيص"
 msgid "Webhook URL"
 msgstr "رابط الموقع"
 
-#: weblate/addons/forms.py:692
+#: weblate/addons/forms.py:699
 msgid "Secret"
 msgstr ""
+
+#: weblate/addons/forms.py:704
+#, fuzzy
+#| msgid "Invalid search string!"
+msgid "A Base64 encoded string"
+msgstr "سلسلة البحث غير صالحة !"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2082,7 +2087,8 @@ msgstr "تخصيص خرج JSON"
 #| "Allows to customize JSON output behavior, for example indentation or "
 #| "sorting."
 msgid ""
-"Allows adjusting JSON output behavior, for example indentation or sorting."
+"Allows adjusting JSON output behavior, for example indentation, sorting or "
+"compact formatting using minimal whitespace."
 msgstr "يسمح بتخصيص سلوك خرج JSON، كالإزاحة والترتيب."
 
 #: weblate/addons/properties.py:142
@@ -2148,12 +2154,22 @@ msgstr "اسم المُلحق المحدد غير صالح!"
 msgid "Add-on installed, please review integration instructions."
 msgstr "تم تثبيت الملحق ، يرجى مراجعة تعليمات التكامل."
 
-#: weblate/addons/webhooks.py:49
+#: weblate/addons/webhooks.py:91
 msgid "Webhook"
 msgstr ""
 
-#: weblate/addons/webhooks.py:51
-msgid "Sends notification to external service based on selected events."
+#: weblate/addons/webhooks.py:93
+msgid ""
+"Sends notifications to external services based on selected events, following "
+"the Standard Webhooks specification."
+msgstr ""
+
+#: weblate/addons/webhooks.py:177
+msgid "Slack Webhooks"
+msgstr ""
+
+#: weblate/addons/webhooks.py:179
+msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
 
 #: weblate/addons/xml.py:26
@@ -2220,11 +2236,11 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
 
 #: weblate/api/serializers.py:337 weblate/templates/accounts/user.html:263
-#: weblate/trans/forms.py:1092
+#: weblate/trans/forms.py:1091
 msgid "Scope"
 msgstr "النطاق"
 
-#: weblate/api/serializers.py:339 weblate/trans/forms.py:1094
+#: weblate/api/serializers.py:339 weblate/trans/forms.py:1093
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
@@ -2236,7 +2252,7 @@ msgstr ""
 msgid "Comment text"
 msgstr "علق"
 
-#: weblate/api/serializers.py:346 weblate/trans/forms.py:1116
+#: weblate/api/serializers.py:346 weblate/trans/forms.py:1115
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:187
 msgid "You can use Markdown and mention users by @username."
 msgstr "يمكنك الكتابة بالمارك داون والإشارة إلى المستخدِمين عبر @username."
@@ -2307,13 +2323,13 @@ msgstr "فشلت عملية تنضيف المستودع على %s."
 #: weblate/templates/dashboard/user.html:89 weblate/templates/data.html:28
 #: weblate/templates/data.html:69 weblate/templates/data.html:113
 #: weblate/templates/language.html:66 weblate/templates/list-projects.html:3
-#: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1832
+#: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1831
 #: weblate/trans/models/announcement.py:77 weblate/trans/models/category.py:67
 #: weblate/trans/models/component.py:375 weblate/trans/models/component.py:408
 msgid "Project"
 msgstr "المشروع"
 
-#: weblate/api/views.py:2476 weblate/trans/forms.py:1836
+#: weblate/api/views.py:2476 weblate/trans/forms.py:1835
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
 #: weblate/trans/models/component.py:381
 msgid "Category"
@@ -2323,12 +2339,12 @@ msgstr "الفئة"
 #: weblate/checks/views.py:239 weblate/templates/accounts/user.html:266
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-language.html:74
-#: weblate/templates/category.html:134 weblate/templates/component-list.html:36
-#: weblate/templates/language-project.html:116
+#: weblate/templates/category.html:136 weblate/templates/component-list.html:36
+#: weblate/templates/language-project.html:122
 #: weblate/templates/project.html:207 weblate/templates/translate.html:372
-#: weblate/templates/translate.html:727 weblate/templates/translation.html:253
-#: weblate/templates/widgets.html:51 weblate/trans/forms.py:939
-#: weblate/trans/forms.py:992 weblate/trans/forms.py:1775
+#: weblate/templates/translate.html:727 weblate/templates/translation.html:152
+#: weblate/templates/widgets.html:51 weblate/trans/forms.py:938
+#: weblate/trans/forms.py:991 weblate/trans/forms.py:1774
 #: weblate/trans/models/announcement.py:91
 msgid "Component"
 msgstr "مكون"
@@ -2338,7 +2354,7 @@ msgid "User"
 msgstr "المستخدم"
 
 #: weblate/api/views.py:2500 weblate/fonts/models.py:148
-#: weblate/templates/category.html:146 weblate/templates/component.html:181
+#: weblate/templates/category.html:148 weblate/templates/component.html:181
 #: weblate/templates/lang/language_form.html:20
 #: weblate/templates/languages.html:14 weblate/templates/project.html:219
 #: weblate/templates/screenshots/screenshot_detail.html:121
@@ -2346,8 +2362,8 @@ msgstr "المستخدم"
 #: weblate/templates/snippets/info.html:189
 #: weblate/templates/trans/alert/duplicatelanguage.html:51
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/templates/widgets.html:45 weblate/trans/forms.py:1191
-#: weblate/trans/forms.py:1344 weblate/trans/models/announcement.py:98
+#: weblate/templates/widgets.html:45 weblate/trans/forms.py:1190
+#: weblate/trans/forms.py:1343 weblate/trans/models/announcement.py:98
 msgid "Language"
 msgstr "اللغة"
 
@@ -2629,47 +2645,54 @@ msgid "Update the internal repository"
 msgstr "تحديث المستودع الداخلي"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:121
+#: weblate/auth/data.py:115
+#, fuzzy
+#| msgid "Post comment"
+msgid "Post announcements"
+msgstr "نشر تعليق"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:123
 #, fuzzy
 #| msgid "Use management interface (on the entire platform)"
 msgid "Use management interface"
 msgstr "استخدم الواجهة الإدارية (على كافة المنصة)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:123
+#: weblate/auth/data.py:125
 #, fuzzy
 #| msgid "Additional context"
 msgid "Add new projects"
 msgstr "سياق إضافي"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:125
+#: weblate/auth/data.py:127
 #, fuzzy
 #| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions"
 msgstr "إضافة تعريفات اللغة (على كافة المنصة)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:127
+#: weblate/auth/data.py:129
 #, fuzzy
 #| msgid "Manage language definitions (on the entire platform)"
 msgid "Manage language definitions"
 msgstr "إدارة تعريفات اللغة (على كافة المنصة)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:129 weblate/templates/manage/teams.html:18
+#: weblate/auth/data.py:131 weblate/templates/manage/teams.html:18
 #, fuzzy
 #| msgid "Manage users"
 msgid "Manage teams"
 msgstr "إدارة المستخدمين"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:131 weblate/templates/manage/users.html:18
+#: weblate/auth/data.py:133 weblate/templates/manage/users.html:18
 msgid "Manage users"
 msgstr "إدارة المستخدمين"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:133
+#: weblate/auth/data.py:135
 #, fuzzy
 #| msgctxt "Access-control team name"
 #| msgid "Managers"
@@ -2677,33 +2700,33 @@ msgid "Manage roles"
 msgstr "المُدَراء"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:135
+#: weblate/auth/data.py:137
 #, fuzzy
 #| msgid "New comment"
 msgid "Manage announcements"
 msgstr "تعليق جديد"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:137
+#: weblate/auth/data.py:139
 msgid "Manage translation memory"
 msgstr "إدارة ذاكرة الترجمة"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:139
+#: weblate/auth/data.py:141
 #, fuzzy
 #| msgid "Machame"
 msgid "Manage machinery"
 msgstr "الماتشامية"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:141
+#: weblate/auth/data.py:143
 #, fuzzy
 #| msgid "Manage users (on the entire platform)"
 msgid "Manage component lists"
 msgstr "إدارة المستخدمين (على كافة المنصة)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:143
+#: weblate/auth/data.py:145
 #: weblate/templates/snippets/project/billing-trial.html:9
 #, fuzzy
 #| msgctxt "Access-control role"
@@ -2712,174 +2735,181 @@ msgid "Manage billing"
 msgstr "إدارة اللغات"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:145
+#: weblate/auth/data.py:147
 #, fuzzy
 #| msgid "Installed addons"
 msgid "Manage site-wide add-ons"
 msgstr "الإضافات المُثبّتة"
 
-#: weblate/auth/data.py:176
+#: weblate/auth/data.py:178
 msgctxt "Access-control role"
 msgid "Administration"
 msgstr "الإدارة"
 
-#: weblate/auth/data.py:180
+#: weblate/auth/data.py:182
 msgctxt "Access-control role"
 msgid "Edit source"
 msgstr "تعديل المصدر"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access-control role"
 msgid "Add suggestion"
 msgstr "إضافة اقتراح"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access-control role"
 msgid "Access repository"
 msgstr "النفاذ إلى المستودع"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 msgctxt "Access-control role"
 msgid "Manage glossary"
 msgstr "إدارة معجم المفردات"
 
-#: weblate/auth/data.py:193
+#: weblate/auth/data.py:195
 msgctxt "Access-control role"
 msgid "Power user"
 msgstr "مستخدم ذو صلاحيات أكبر"
 
-#: weblate/auth/data.py:205
+#: weblate/auth/data.py:207
+#, fuzzy
+#| msgid "Translation comment"
+msgctxt "Access-control role"
+msgid "Translation coordinator"
+msgstr "تعليق الترجمة"
+
+#: weblate/auth/data.py:224
 msgctxt "Access-control role"
 msgid "Review strings"
 msgstr "مراجعة السلاسل"
 
-#: weblate/auth/data.py:208
+#: weblate/auth/data.py:227
 msgctxt "Access-control role"
 msgid "Translate"
 msgstr "ترجمة"
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:229
 msgctxt "Access-control role"
 msgid "Manage languages"
 msgstr "إدارة اللغات"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:233
 msgctxt "Access-control role"
 msgid "Automatic translation"
 msgstr "ترجمة تلقائية"
 
-#: weblate/auth/data.py:218
+#: weblate/auth/data.py:237
 msgctxt "Access-control role"
 msgid "Manage translation memory"
 msgstr "إدارة ذاكرة الترجمة"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:241
 msgctxt "Access-control role"
 msgid "Manage screenshots"
 msgstr "إدارة لقطات الشاشة"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:245
 msgctxt "Access-control role"
 msgid "Manage repository"
 msgstr "إدارة المستودع"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:248
 msgctxt "Access-control role"
 msgid "Billing"
 msgstr "الفَوترة"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:249
 #, fuzzy
 #| msgid "Additional context"
 msgctxt "Access-control role"
 msgid "Add new projects"
 msgstr "سياق إضافي"
 
-#: weblate/auth/data.py:236
+#: weblate/auth/data.py:255
 msgctxt "Access-control team name"
 msgid "Guests"
 msgstr "الضيوف"
 
-#: weblate/auth/data.py:240
+#: weblate/auth/data.py:259
 msgctxt "Access-control team name"
 msgid "Viewers"
 msgstr "القرّاء"
 
-#: weblate/auth/data.py:242
+#: weblate/auth/data.py:261
 msgctxt "Access-control team name"
 msgid "Users"
 msgstr "المستخدمون"
 
-#: weblate/auth/data.py:247
+#: weblate/auth/data.py:266
 msgctxt "Access-control team name"
 msgid "Reviewers"
 msgstr "المُراجِعون"
 
-#: weblate/auth/data.py:252
+#: weblate/auth/data.py:271
 msgctxt "Access-control team name"
 msgid "Managers"
 msgstr "المُدَراء"
 
-#: weblate/auth/data.py:257
+#: weblate/auth/data.py:276
 #, fuzzy
 #| msgid "Project Information"
 msgctxt "Access-control team name"
 msgid "Project creators"
 msgstr "معلومات المشروع"
 
-#: weblate/auth/data.py:266
+#: weblate/auth/data.py:285
 msgctxt "Per-project access-control team name"
 msgid "Administration"
 msgstr "الإدارة"
 
-#: weblate/auth/data.py:268
+#: weblate/auth/data.py:287
 msgctxt "Per-project access-control team name"
 msgid "Review"
 msgstr "مراجعة"
 
-#: weblate/auth/data.py:269
+#: weblate/auth/data.py:288
 msgctxt "Per-project access-control team name"
 msgid "Translate"
 msgstr "الترجمة"
 
-#: weblate/auth/data.py:270
+#: weblate/auth/data.py:289
 #, fuzzy
 #| msgid "Source"
 msgctxt "Per-project access-control team name"
 msgid "Sources"
 msgstr "المصدر"
 
-#: weblate/auth/data.py:272
+#: weblate/auth/data.py:291
 msgctxt "Per-project access-control team name"
 msgid "Languages"
 msgstr "اللغات"
 
-#: weblate/auth/data.py:275
+#: weblate/auth/data.py:294
 msgctxt "Per-project access-control team name"
 msgid "Glossary"
 msgstr "مفردات"
 
-#: weblate/auth/data.py:278
+#: weblate/auth/data.py:297
 msgctxt "Per-project access-control team name"
 msgid "Memory"
 msgstr "الذاكرة"
 
-#: weblate/auth/data.py:281
+#: weblate/auth/data.py:300
 msgctxt "Per-project access-control team name"
 msgid "Screenshots"
 msgstr "لقطات الشاشة"
 
-#: weblate/auth/data.py:284
+#: weblate/auth/data.py:303
 msgctxt "Per-project access-control team name"
 msgid "Automatic translation"
 msgstr "ترجمة تلقائية"
 
-#: weblate/auth/data.py:286
+#: weblate/auth/data.py:305
 msgctxt "Per-project access-control team name"
 msgid "VCS"
 msgstr "نظام تحكم بالمراجعات"
 
-#: weblate/auth/data.py:287
+#: weblate/auth/data.py:306
 msgctxt "Per-project access-control team name"
 msgid "Billing"
 msgstr "الفَوترة"
@@ -2907,7 +2937,7 @@ msgstr "%s (إذن على مستوى الموقع)"
 #: weblate/templates/manage/performance.html:80
 #: weblate/templates/manage/teams.html:23
 #: weblate/templates/trans/project-access.html:211
-#: weblate/templates/trans/project-access.html:308 weblate/trans/forms.py:1571
+#: weblate/templates/trans/project-access.html:308 weblate/trans/forms.py:1570
 msgid "Name"
 msgstr "الاسم"
 
@@ -2968,11 +2998,11 @@ msgstr "المشاريع"
 #: weblate/templates/auth/team.html:67
 #: weblate/templates/category-language.html:13
 #: weblate/templates/category.html:29 weblate/templates/component-list.html:15
-#: weblate/templates/language-project.html:20
+#: weblate/templates/language-project.html:23
 #: weblate/templates/mail/base.html:80 weblate/templates/manage/teams.html:27
 #: weblate/templates/project.html:31 weblate/templates/snippets/info.html:420
 #: weblate/templates/snippets/info.html:456
-#: weblate/templates/trans/project-access.html:214 weblate/trans/forms.py:2256
+#: weblate/templates/trans/project-access.html:214 weblate/trans/forms.py:2255
 msgid "Components"
 msgstr "المكونات"
 
@@ -2987,7 +3017,7 @@ msgid "Language selection"
 msgstr "اختيار اللغة"
 
 #: weblate/auth/models.py:176 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1148 weblate/trans/forms.py:1345
+#: weblate/trans/forms.py:1147 weblate/trans/forms.py:1344
 msgid "All languages"
 msgstr "كل اللغات"
 
@@ -3005,7 +3035,7 @@ msgstr "كل اللغات"
 #: weblate/templates/project.html:28 weblate/templates/snippets/info.html:414
 #: weblate/templates/snippets/info.html:449
 #: weblate/templates/trans/project-access.html:213 weblate/trans/admin.py:100
-#: weblate/trans/forms.py:1172 weblate/trans/forms.py:2417
+#: weblate/trans/forms.py:1171 weblate/trans/forms.py:2416
 #: weblate/trans/templatetags/translations.py:1533
 #: weblate/wladmin/models.py:226
 msgid "Languages"
@@ -3081,7 +3111,7 @@ msgstr "مُنتهي المدة"
 #: weblate/templates/trans/project-access.html:23
 #: weblate/templates/trans/project-access.html:48
 #: weblate/templates/trans/project-access.html:205
-#: weblate/templates/trans/project-access.html:310 weblate/trans/forms.py:2973
+#: weblate/templates/trans/project-access.html:310 weblate/trans/forms.py:2964
 #: weblate/wladmin/views.py:87
 msgid "Teams"
 msgstr "الفرق"
@@ -3109,7 +3139,7 @@ msgstr ""
 msgid "Team to assign"
 msgstr "مجموعة لكل تحددها"
 
-#: weblate/auth/models.py:963 weblate/trans/forms.py:1307
+#: weblate/auth/models.py:963 weblate/trans/forms.py:1306
 #, fuzzy
 #| msgid "User to add"
 msgid "User to block"
@@ -3121,12 +3151,12 @@ msgstr "المستخدِم الذي تريد إضافته"
 msgid "Block expiry"
 msgstr "انتهاء صلاحية الدعم"
 
-#: weblate/auth/models.py:1140 weblate/trans/forms.py:1288
+#: weblate/auth/models.py:1140 weblate/trans/forms.py:1287
 msgid "User to add"
 msgstr "المستخدِم الذي تريد إضافته"
 
-#: weblate/auth/models.py:1142 weblate/trans/forms.py:1291
-#: weblate/trans/forms.py:1309
+#: weblate/auth/models.py:1142 weblate/trans/forms.py:1290
+#: weblate/trans/forms.py:1308
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 
@@ -3840,13 +3870,13 @@ msgstr "الترجمة الأصل قد تم تغيرها"
 msgid "Strict format string checks"
 msgstr "سلاسل ذات فحوص مُخفَقة"
 
-#: weblate/checks/flags.py:65 weblate/trans/forms.py:2555
+#: weblate/checks/flags.py:65 weblate/trans/forms.py:2554
 #, fuzzy
 #| msgid "Hosting translations"
 msgid "Forbidden translation"
 msgstr "استضافة الترجمات"
 
-#: weblate/checks/flags.py:66 weblate/trans/forms.py:2550
+#: weblate/checks/flags.py:66 weblate/trans/forms.py:2549
 msgid "Terminology"
 msgstr "مصطلحات"
 
@@ -4859,7 +4889,7 @@ msgstr "لقد تم ترجمة هذه السلسة من قبلُ"
 
 #: weblate/checks/views.py:220 weblate/templates/category-language.html:58
 #: weblate/templates/category.html:96 weblate/templates/component.html:105
-#: weblate/templates/language-project.html:82
+#: weblate/templates/language-project.html:85
 #: weblate/templates/language.html:43 weblate/templates/project.html:107
 #: weblate/templates/translation.html:101
 msgid "Failing checks"
@@ -4874,12 +4904,14 @@ msgstr "تحقق"
 #: weblate/templates/dashboard/user.html:67
 #: weblate/templates/dashboard/user.html:99
 #: weblate/templates/dashboard/user.html:110
+#: weblate/templates/language-project.html:20
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:9
 #: weblate/templates/mail/todo_strings.html:9
 #: weblate/templates/snippets/embed-units.html:10
 #: weblate/templates/translate.html:89 weblate/templates/translate.html:375
-#: weblate/templates/translate.html:475 weblate/trans/forms.py:1597
+#: weblate/templates/translate.html:475 weblate/templates/translation.html:33
+#: weblate/trans/forms.py:1596
 msgid "Translation"
 msgstr "الترجمة"
 
@@ -5044,15 +5076,15 @@ msgstr "CSV"
 msgid "XLSX"
 msgstr ""
 
-#: weblate/formats/exporters.py:282 weblate/trans/forms.py:1335
+#: weblate/formats/exporters.py:282 weblate/trans/forms.py:1334
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1507
+#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1516
 msgid "JSON nested structure file"
 msgstr "ملف JSON ذات بنية متداخلة"
 
-#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1448
+#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1449
 msgid "Android String Resource"
 msgstr "ملف موارد أندرويد"
 
@@ -5070,237 +5102,241 @@ msgstr "إكسيل افتح XML"
 msgid "Multivalue CSV file (UTF-8)"
 msgstr "ملف CSV بسيط"
 
-#: weblate/formats/ttkit.py:1165
+#: weblate/formats/ttkit.py:1166
 msgid "gettext PO file"
 msgstr "ملف Gettext PO"
 
-#: weblate/formats/ttkit.py:1232
+#: weblate/formats/ttkit.py:1233
 msgid "gettext PO file (monolingual)"
 msgstr "ملف Gettext PO (أحادي اللغة)"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1257
 #, fuzzy
 #| msgid "Cleanup translation files"
 msgid "Qt Linguist translation file"
 msgstr "تنظيف ملفات الترجمة"
 
-#: weblate/formats/ttkit.py:1270
+#: weblate/formats/ttkit.py:1271
 #, fuzzy
 #| msgid "XLIFF translation file"
 msgid "XLIFF 1.2 translation file"
 msgstr "ملف ترجمة XLIFF"
 
-#: weblate/formats/ttkit.py:1300
+#: weblate/formats/ttkit.py:1301
 msgid "XLIFF 1.2 with placeables support"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1307
+#: weblate/formats/ttkit.py:1308
 #, fuzzy
 #| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "صيغة XLIFF مع إضافات Gettext"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1339
 #, fuzzy
 #| msgid "iOS strings (UTF-8)"
 msgid "iOS strings (UTF-16)"
 msgstr "سلاسل iOS (UTF-8)"
 
-#: weblate/formats/ttkit.py:1347
+#: weblate/formats/ttkit.py:1348
 msgid "iOS strings (UTF-8)"
 msgstr "سلاسل iOS (UTF-8)"
 
-#: weblate/formats/ttkit.py:1354
+#: weblate/formats/ttkit.py:1355
 msgid "Java Properties (UTF-8)"
 msgstr "خصائص جافا (UTF-8)"
 
-#: weblate/formats/ttkit.py:1363
+#: weblate/formats/ttkit.py:1364
 msgid "Java Properties (UTF-16)"
 msgstr "خصائص جافا (UTF-16)"
 
-#: weblate/formats/ttkit.py:1373
+#: weblate/formats/ttkit.py:1374
 msgid "Java Properties (ISO 8859-1)"
 msgstr "خصائص جافا (ISO 8859-1)"
 
-#: weblate/formats/ttkit.py:1385
+#: weblate/formats/ttkit.py:1386
 #, fuzzy
 #| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "ملف لغة جوملا"
 
-#: weblate/formats/ttkit.py:1394
+#: weblate/formats/ttkit.py:1395
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "GWT properties (UTF-8)"
 msgstr "خصائص جافا (UTF-8)"
 
-#: weblate/formats/ttkit.py:1404
+#: weblate/formats/ttkit.py:1405
 #, fuzzy
 #| msgid "Java Properties (ISO 8859-1)"
 msgid "GWT properties (ISO-8859-1)"
 msgstr "خصائص جافا (ISO 8859-1)"
 
-#: weblate/formats/ttkit.py:1410
+#: weblate/formats/ttkit.py:1411
 msgid "PHP strings"
 msgstr "نصوص PHP"
 
-#: weblate/formats/ttkit.py:1429
+#: weblate/formats/ttkit.py:1430
 msgid "Laravel PHP strings"
 msgstr "سلاسل Laravel PHP"
 
-#: weblate/formats/ttkit.py:1436
+#: weblate/formats/ttkit.py:1437
 msgid ".NET resource file"
 msgstr "ملف موارد .Net"
 
-#: weblate/formats/ttkit.py:1468
+#: weblate/formats/ttkit.py:1471
 #, fuzzy
 #| msgid "Android String Resource"
 msgid "Mobile Kotlin Resource"
 msgstr "ملف موارد أندرويد"
 
-#: weblate/formats/ttkit.py:1482
+#: weblate/formats/ttkit.py:1477
+msgid "Compose Multiplatform Resource"
+msgstr ""
+
+#: weblate/formats/ttkit.py:1491
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not parse the key: %s"
 msgstr "فشل توليد المفتاح: %s"
 
-#: weblate/formats/ttkit.py:1487
+#: weblate/formats/ttkit.py:1496
 msgid "JSON file"
 msgstr "ملف جسون"
 
-#: weblate/formats/ttkit.py:1514
+#: weblate/formats/ttkit.py:1523
 msgid "WebExtension JSON file"
 msgstr "ملف WebExtension JSON"
 
-#: weblate/formats/ttkit.py:1524
+#: weblate/formats/ttkit.py:1533
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
 msgstr "ملف JSON i18next"
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1543
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "i18next JSON file v4"
 msgstr "ملف JSON i18next"
 
-#: weblate/formats/ttkit.py:1540
+#: weblate/formats/ttkit.py:1549
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v1 JSON file"
 msgstr "ملف JSON i18next"
 
-#: weblate/formats/ttkit.py:1549
+#: weblate/formats/ttkit.py:1558
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n v2 JSON file"
 msgstr "ملف JSON i18next"
 
-#: weblate/formats/ttkit.py:1557
+#: weblate/formats/ttkit.py:1566
 msgid "ARB file"
 msgstr "ملف ARB"
 
-#: weblate/formats/ttkit.py:1566
+#: weblate/formats/ttkit.py:1575
 #, fuzzy
 #| msgid "gettext PO file"
 msgid "gotext JSON file"
 msgstr "ملف Gettext PO"
 
-#: weblate/formats/ttkit.py:1575
+#: weblate/formats/ttkit.py:1584
 #, fuzzy
 #| msgid "gettext PO file"
 msgid "Format.JS JSON file"
 msgstr "ملف Gettext PO"
 
-#: weblate/formats/ttkit.py:1583
+#: weblate/formats/ttkit.py:1592
 msgid "CSV file"
 msgstr "ملف CSV"
 
-#: weblate/formats/ttkit.py:1683
+#: weblate/formats/ttkit.py:1692
 #, fuzzy
 #| msgid "CSV file"
 msgid "CSV file (UTF-8)"
 msgstr "ملف CSV"
 
-#: weblate/formats/ttkit.py:1690
+#: weblate/formats/ttkit.py:1699
 msgid "Simple CSV file"
 msgstr "ملف CSV بسيط"
 
-#: weblate/formats/ttkit.py:1708
+#: weblate/formats/ttkit.py:1717
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "ملف CSV بسيط (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1715
+#: weblate/formats/ttkit.py:1724
 #, fuzzy
 #| msgid "Simple CSV file"
 msgid "Simple CSV file (UTF-8)"
 msgstr "ملف CSV بسيط"
 
-#: weblate/formats/ttkit.py:1722
+#: weblate/formats/ttkit.py:1731
 msgid "YAML file"
 msgstr "ملف YAML"
 
-#: weblate/formats/ttkit.py:1741
+#: weblate/formats/ttkit.py:1750
 msgid "Ruby YAML file"
 msgstr "ملف YAML روبي"
 
-#: weblate/formats/ttkit.py:1749
+#: weblate/formats/ttkit.py:1758
 msgid "DTD file"
 msgstr "ملف DTD"
 
-#: weblate/formats/ttkit.py:1793
+#: weblate/formats/ttkit.py:1802
 msgid "SubRip subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1808
+#: weblate/formats/ttkit.py:1817
 msgid "MicroDVD subtitle file"
 msgstr "ملف ترجمة MicroDVD"
 
-#: weblate/formats/ttkit.py:1815
+#: weblate/formats/ttkit.py:1824
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1822
+#: weblate/formats/ttkit.py:1831
 msgid "SubStation Alpha subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1829
+#: weblate/formats/ttkit.py:1838
 msgid "Flat XML file"
 msgstr "ملف XML مسطح"
 
-#: weblate/formats/ttkit.py:1838
+#: weblate/formats/ttkit.py:1847
 #, fuzzy
 #| msgid "Repository failure"
 msgid "ResourceDictionary file"
 msgstr "خطأ فادح في المستودع"
 
-#: weblate/formats/ttkit.py:1851
+#: weblate/formats/ttkit.py:1860
 msgid "INI file"
 msgstr "ملف INI"
 
-#: weblate/formats/ttkit.py:1892
+#: weblate/formats/ttkit.py:1901
 msgid "Inno Setup INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:2061
+#: weblate/formats/ttkit.py:2109
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "تبادل قاعدي المدي (TBX)"
 
-#: weblate/formats/ttkit.py:2095
+#: weblate/formats/ttkit.py:2143
 #, fuzzy
 #| msgid "Failing file"
 msgid "@draggable/i18n lang file"
 msgstr "ملف فاشل"
 
-#: weblate/formats/ttkit.py:2104
+#: weblate/formats/ttkit.py:2152
 #, fuzzy
 #| msgid "Strings with comments"
 msgid "Stringsdict file"
 msgstr "سلاسل تحتوي على تعليقات"
 
-#: weblate/formats/ttkit.py:2175
+#: weblate/formats/ttkit.py:2223
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"
@@ -5323,7 +5359,7 @@ msgid "Invalid integer list!"
 msgstr ""
 
 #: weblate/glossary/forms.py:81 weblate/templates/mail/base.html:37
-#: weblate/templates/translate.html:687 weblate/trans/forms.py:1590
+#: weblate/templates/translate.html:687 weblate/trans/forms.py:1589
 #: weblate/trans/templatetags/translations.py:1484
 msgid "Glossary"
 msgstr "المفردات"
@@ -5666,13 +5702,13 @@ msgstr "نوع الجمع"
 msgid "Example counts for this plural form."
 msgstr ""
 
-#: weblate/lang/models.py:1121 weblate/templates/translation.html:368
-#: weblate/templates/translation.html:397
+#: weblate/lang/models.py:1121 weblate/templates/translation.html:265
+#: weblate/templates/translation.html:294
 msgid "Singular"
 msgstr "مفرد"
 
-#: weblate/lang/models.py:1123 weblate/templates/translation.html:372
-#: weblate/templates/translation.html:401
+#: weblate/lang/models.py:1123 weblate/templates/translation.html:269
+#: weblate/templates/translation.html:298
 msgid "Plural"
 msgstr "الجمع"
 
@@ -5821,8 +5857,12 @@ msgstr "نظرة عامة للشروط القانونية"
 msgid "Terms"
 msgstr "الشروط"
 
-#: weblate/legal/views.py:18 weblate/templates/snippets/info.html:9
-#: weblate/templates/translation.html:33
+#: weblate/legal/views.py:18 weblate/templates/category-language.html:16
+#: weblate/templates/category.html:32 weblate/templates/component-list.html:18
+#: weblate/templates/component.html:32
+#: weblate/templates/language-project.html:26
+#: weblate/templates/language.html:29 weblate/templates/project.html:34
+#: weblate/templates/translation.html:36
 msgid "Overview"
 msgstr "نظرة عامة"
 
@@ -6240,7 +6280,7 @@ msgstr "الخدمة غير متوفرة حاليا."
 
 #: weblate/memory/forms.py:21
 #: weblate/templates/trans/alert/duplicatestring.html:11
-#: weblate/trans/forms.py:662
+#: weblate/trans/forms.py:661
 msgid "File"
 msgstr "الملف"
 
@@ -6257,7 +6297,7 @@ msgstr "لغة المصدر"
 msgid "Source language of the document when not specified in file"
 msgstr ""
 
-#: weblate/memory/forms.py:37 weblate/trans/forms.py:1910
+#: weblate/memory/forms.py:37 weblate/trans/forms.py:1909
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage languages"
@@ -6978,7 +7018,7 @@ msgid "Verify new e-mail address"
 msgstr "البريد الالكتروني للمستخدم"
 
 #: weblate/templates/accounts/email.html:25
-#: weblate/templates/accounts/register.html:45 weblate/templates/base.html:264
+#: weblate/templates/accounts/register.html:48 weblate/templates/base.html:264
 #: weblate/templates/engage.html:65
 msgid "Register"
 msgstr "سجّل"
@@ -7033,15 +7073,21 @@ msgstr "هل تبحث عن استضافة تجارية؟"
 msgid "This username/password combination was not found. Please try again."
 msgstr "لم أجد اسم المستخدم أو كلمة السر. من فضلك حاول مجدداً."
 
-#: weblate/templates/accounts/login.html:42
+#: weblate/templates/accounts/login.html:28
+#, fuzzy, python-format
+#| msgid "Invitation to %(site_title)s"
+msgid "Sign in to %(formatted_site_title)s"
+msgstr "دعوة إلى %(site_title)s"
+
+#: weblate/templates/accounts/login.html:45
 msgid "Sign in with:"
 msgstr "تسجيل الدخول بـ:"
 
-#: weblate/templates/accounts/login.html:60
+#: weblate/templates/accounts/login.html:63
 msgid "Forgot your password?"
 msgstr "هل نسيت كلمتك السرية ؟"
 
-#: weblate/templates/accounts/login.html:66
+#: weblate/templates/accounts/login.html:69
 #, fuzzy
 #| msgid "Remove my account"
 msgid "Register new account"
@@ -7537,21 +7583,21 @@ msgstr "يوجّهك إلى موفّر المصادقة."
 msgid "Please complete the registration to accept the invitation."
 msgstr "الرجاء إدخال رمز التنشيط الذي تم الحصول عليه عند إجراء الاشتراك."
 
-#: weblate/templates/accounts/register.html:34
-#, fuzzy
-#| msgid "Return to Weblate"
-msgid "Register in Weblate"
-msgstr "ارجع إلى Weblate"
+#: weblate/templates/accounts/register.html:36
+#, fuzzy, python-format
+#| msgid "Your registration on %(site_title)s"
+msgid "Register in %(formatted_site_title)s"
+msgstr "تسجيلك في %(site_title)s"
 
-#: weblate/templates/accounts/register.html:53
+#: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
 msgstr ""
 
-#: weblate/templates/accounts/register.html:78
+#: weblate/templates/accounts/register.html:81
 msgid "Sorry, new registrations are turned off on this site."
 msgstr "نعتذر، إنّ تسجيل الحسابات الجديدة على هذا الموقع معطّل."
 
-#: weblate/templates/accounts/register.html:79
+#: weblate/templates/accounts/register.html:82
 msgid "You can contact us for more details."
 msgstr "يمكنك التواصل معنا لمزيد من التفاصيل."
 
@@ -7639,6 +7685,29 @@ msgid ""
 msgstr ""
 "من خلال التسجيل ، فإنك توافق على استخدام اسمك وبريدك الإلكتروني في نظام "
 "التحكم في الإصدار وتقديم مساهمتك بموجب الترخيص المحدد من قبل كل مشروع مترجم."
+
+#: weblate/templates/accounts/snippets/login-title.html:4
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "Weblate single sign on"
+msgstr "ترجمات وابلايت"
+
+#: weblate/templates/accounts/snippets/login-title.html:5
+msgctxt "Badge for site title for Hosted Weblate"
+msgid "Cloud"
+msgstr ""
+
+#: weblate/templates/accounts/snippets/login-title.html:9
+#, fuzzy
+#| msgid "Terminated"
+msgctxt "Badge for site title for dedicated instances"
+msgid "Dedicated"
+msgstr "اكتملت"
+
+#: weblate/templates/accounts/snippets/login-title.html:11
+msgctxt "Badge for site title for self-hosted instances"
+msgid "Self-hosted"
+msgstr ""
 
 #: weblate/templates/accounts/totp.html:27
 msgid ""
@@ -7805,7 +7874,7 @@ msgstr "معرفات المستخدم"
 #: weblate/templates/billing/detail.html:10
 #: weblate/templates/billing/overview.html:10
 #: weblate/templates/manage/billing.html:10 weblate/templates/project.html:179
-#: weblate/templates/snippets/info.html:35 weblate/trans/forms.py:2292
+#: weblate/templates/snippets/info.html:35 weblate/trans/forms.py:2291
 #: weblate/wladmin/views.py:94
 msgid "Billing"
 msgstr "الفَوترة"
@@ -8071,7 +8140,7 @@ msgstr "حجم المستودع"
 #: weblate/templates/addons/addon_list.html:13
 #: weblate/templates/auth/team.html:15 weblate/templates/category.html:103
 #: weblate/templates/component.html:120
-#: weblate/templates/language-project.html:95
+#: weblate/templates/language-project.html:92
 #: weblate/templates/machinery/edit.html:18
 #: weblate/templates/machinery/list.html:15
 #: weblate/templates/manage/alerts.html:7
@@ -8091,7 +8160,7 @@ msgstr "إدارة"
 #: weblate/templates/category-language.html:27
 #: weblate/templates/category.html:43 weblate/templates/component.html:48
 #: weblate/templates/dashboard/user.html:45
-#: weblate/templates/language-project.html:34
+#: weblate/templates/language-project.html:37
 #: weblate/templates/language.html:35 weblate/templates/project.html:45
 #: weblate/templates/translate.html:327 weblate/templates/translation.html:47
 msgid "History"
@@ -8357,7 +8426,7 @@ msgstr "سيتم إنشاء السلاسل باستخدام النمط التا�
 #: weblate/templates/snippets/unit-readonly-badge.html:7
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:87 weblate/trans/forms.py:2518
+#: weblate/templates/translate.html:87 weblate/trans/forms.py:2517
 #: weblate/utils/views.py:208
 msgid "Source string"
 msgstr "السلسلة المصدرية"
@@ -8409,7 +8478,7 @@ msgstr "التحكم في الوصول"
 #: weblate/templates/auth/team.html:33 weblate/templates/base.html:350
 #: weblate/templates/component-settings.html:8
 #: weblate/templates/component.html:162
-#: weblate/templates/language-project.html:99
+#: weblate/templates/language-project.html:97
 #: weblate/templates/project-language-settings.html:8
 #: weblate/templates/project-settings.html:8 weblate/templates/project.html:189
 msgid "Settings"
@@ -8440,7 +8509,7 @@ msgstr "تحديد المجموعة التلقائي"
 msgid "Last sign in"
 msgstr "آخر دخول"
 
-#: weblate/templates/auth/team.html:112 weblate/trans/forms.py:1300
+#: weblate/templates/auth/team.html:112 weblate/trans/forms.py:1299
 #, fuzzy
 #| msgid "Administrators"
 msgid "Team administrator"
@@ -8476,9 +8545,9 @@ msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr "سيؤدي هذا إلى إزالة <b>وصول %(user)s</b> إلى هذا المشروع."
 
 #: weblate/templates/auth/team.html:226 weblate/templates/base.html:279
-#: weblate/templates/category.html:230 weblate/templates/category.html:288
+#: weblate/templates/category.html:232 weblate/templates/category.html:290
 #: weblate/templates/component.html:301 weblate/templates/lang/create.html:20
-#: weblate/templates/language-project.html:210
+#: weblate/templates/language-project.html:216
 #: weblate/templates/manage/backups.html:182
 #: weblate/templates/manage/users.html:31 weblate/templates/project.html:307
 #: weblate/templates/project.html:328
@@ -8496,13 +8565,13 @@ msgstr "سيؤدي هذا إلى إزالة <b>وصول %(user)s</b> إلى هذ
 #: weblate/templates/snippets/query-builder.html:221
 #: weblate/templates/trans/project-access.html:156
 #: weblate/templates/trans/project-access.html:291
-#: weblate/templates/translate.html:962 weblate/templates/translation.html:377
-#: weblate/templates/translation.html:405
-#: weblate/templates/translation.html:526
+#: weblate/templates/translate.html:962 weblate/templates/translation.html:274
+#: weblate/templates/translation.html:302
+#: weblate/templates/translation.html:422
 msgid "Add"
 msgstr "إضافة"
 
-#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1155
+#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1154
 msgid "All components"
 msgstr "كافة العناصر"
 
@@ -8532,7 +8601,7 @@ msgstr "تبديل التصفح"
 #: weblate/templates/base.html:141 weblate/templates/category-language.html:19
 #: weblate/templates/category.html:35 weblate/templates/component.html:40
 #: weblate/templates/dashboard/user.html:59
-#: weblate/templates/language-project.html:26
+#: weblate/templates/language-project.html:29
 #: weblate/templates/language.html:32 weblate/templates/manage/users.html:109
 #: weblate/templates/project.html:37
 #: weblate/templates/screenshots/screenshot_detail.html:75
@@ -8597,7 +8666,7 @@ msgstr "خطأ في التكوين"
 msgid "Add new translation project"
 msgstr "إضافة مشروع جديد للترجمة"
 
-#: weblate/templates/base.html:287 weblate/templates/category.html:112
+#: weblate/templates/base.html:287 weblate/templates/category.html:113
 #: weblate/templates/project.html:138
 #: weblate/templates/snippets/list-objects.html:21
 #: weblate/templates/snippets/list-objects.html:28
@@ -8948,7 +9017,7 @@ msgstr ""
 "إمكانية وصولك أنت لهذا المشروع."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:77
-#: weblate/trans/forms.py:2153 weblate/trans/forms.py:2200
+#: weblate/trans/forms.py:2152 weblate/trans/forms.py:2199
 msgid "You do not have permission to change project access control."
 msgstr "ليس لديك تصريح لتغيير إعدادت النفاذ إلى المشروع."
 
@@ -8962,8 +9031,8 @@ msgstr "تحقق من حالة الفاتورة"
 #: weblate/templates/snippets/list-objects.html:152
 #: weblate/templates/snippets/list-objects.html:204
 #: weblate/templates/snippets/list-objects.html:205
-#: weblate/templates/translation.html:167
-#: weblate/templates/translation.html:239
+#: weblate/templates/snippets/translation.html:30
+#: weblate/templates/snippets/translation.html:103
 msgid "Browse"
 msgstr "استعراض"
 
@@ -8974,17 +9043,10 @@ msgstr "استعراض"
 msgid "No strings found!"
 msgstr "لا كلمات موجودة!"
 
-#: weblate/templates/category-language.html:16
-#: weblate/templates/category.html:32 weblate/templates/component.html:32
-#: weblate/templates/language-project.html:23 weblate/templates/project.html:34
-#: weblate/templates/translation.html:36
-msgid "Info"
-msgstr "معلومات"
-
 #: weblate/templates/category-language.html:23
 #: weblate/templates/category.html:39 weblate/templates/component.html:44
 #: weblate/templates/dashboard/user.html:41
-#: weblate/templates/language-project.html:30 weblate/templates/project.html:41
+#: weblate/templates/language-project.html:33 weblate/templates/project.html:41
 #: weblate/templates/translation.html:43
 msgid "Insights"
 msgstr "مُتابَعة"
@@ -8992,8 +9054,8 @@ msgstr "مُتابَعة"
 #: weblate/templates/category-language.html:33
 #: weblate/templates/category.html:59 weblate/templates/component-list.html:22
 #: weblate/templates/component.html:65
-#: weblate/templates/language-project.html:45 weblate/templates/project.html:67
-#: weblate/templates/translation.html:59 weblate/trans/forms.py:1651
+#: weblate/templates/language-project.html:48 weblate/templates/project.html:67
+#: weblate/templates/translation.html:59 weblate/trans/forms.py:1650
 msgid "Files"
 msgstr "الملفات"
 
@@ -9003,10 +9065,10 @@ msgstr "الملفات"
 #: weblate/templates/component-list.html:27 weblate/templates/component.html:70
 #: weblate/templates/component.html:74 weblate/templates/component.html:78
 #: weblate/templates/component.html:82
-#: weblate/templates/language-project.html:50
-#: weblate/templates/language-project.html:54
-#: weblate/templates/language-project.html:58
-#: weblate/templates/language-project.html:62 weblate/templates/project.html:72
+#: weblate/templates/language-project.html:53
+#: weblate/templates/language-project.html:57
+#: weblate/templates/language-project.html:61
+#: weblate/templates/language-project.html:65 weblate/templates/project.html:72
 #: weblate/templates/project.html:76 weblate/templates/project.html:80
 #: weblate/templates/project.html:84
 msgid "Download for offline translation."
@@ -9014,13 +9076,13 @@ msgstr "تحميل من أجل الترجمة من غير إنترنيت."
 
 #: weblate/templates/category-language.html:38
 #: weblate/templates/component-list.html:27
-#: weblate/templates/language-project.html:50
+#: weblate/templates/language-project.html:53
 msgid "Download original translation files as ZIP file"
 msgstr "قم بتنزيل ملفات الترجمة الأصلية كملف ZIP"
 
 #: weblate/templates/category-language.html:44
 #: weblate/templates/category.html:82 weblate/templates/component.html:88
-#: weblate/templates/language-project.html:68
+#: weblate/templates/language-project.html:71
 #: weblate/templates/language.html:39 weblate/templates/manage/tools.html:10
 #: weblate/templates/project.html:90 weblate/templates/translate.html:196
 #: weblate/templates/translation.html:79 weblate/wladmin/views.py:89
@@ -9029,19 +9091,19 @@ msgstr "الأدوات"
 
 #: weblate/templates/category-language.html:49
 #: weblate/templates/category-language.html:109
-#: weblate/templates/category.html:87 weblate/templates/category.html:182
+#: weblate/templates/category.html:87 weblate/templates/category.html:184
 #: weblate/templates/component.html:93 weblate/templates/component.html:245
-#: weblate/templates/language-project.html:73
-#: weblate/templates/language-project.html:159
+#: weblate/templates/language-project.html:76
+#: weblate/templates/language-project.html:165
 #: weblate/templates/project.html:95 weblate/templates/project.html:255
 #: weblate/templates/replace.html:7 weblate/templates/translation.html:84
-#: weblate/templates/translation.html:314
+#: weblate/templates/translation.html:211
 msgid "Search and replace"
 msgstr "البحث و الإستبدال"
 
 #: weblate/templates/category-language.html:63
-#: weblate/templates/category.html:122 weblate/templates/component.html:167
-#: weblate/templates/language-project.html:87
+#: weblate/templates/category.html:124 weblate/templates/component.html:167
+#: weblate/templates/language-project.html:108
 #: weblate/templates/project.html:194 weblate/templates/translation.html:132
 #, fuzzy
 #| msgid "Translation to remove"
@@ -9049,7 +9111,7 @@ msgid "Organize or remove"
 msgstr "الترجمة المطلوب إزالتها"
 
 #: weblate/templates/category-language.html:85
-#: weblate/templates/language-project.html:127
+#: weblate/templates/language-project.html:133
 #: weblate/templates/language.html:76
 #, fuzzy
 #| msgid "Browse all changes for user"
@@ -9057,23 +9119,23 @@ msgid "Browse all changes for this language"
 msgstr "تصفح كل تغييرات المستخدم"
 
 #: weblate/templates/category-language.html:114
-#: weblate/templates/category.html:187 weblate/templates/component.html:250
-#: weblate/templates/language-project.html:164
+#: weblate/templates/category.html:189 weblate/templates/component.html:250
+#: weblate/templates/language-project.html:170
 #: weblate/templates/project.html:260 weblate/templates/replace.html:53
-#: weblate/templates/translation.html:319
+#: weblate/templates/translation.html:216
 msgid "Replace"
 msgstr "استبدل"
 
 #: weblate/templates/category-language.html:135
-#: weblate/templates/category.html:208 weblate/templates/component.html:271
-#: weblate/templates/language-project.html:185
-#: weblate/templates/project.html:281 weblate/templates/translation.html:297
-#: weblate/templates/translation.html:340
+#: weblate/templates/category.html:210 weblate/templates/component.html:271
+#: weblate/templates/language-project.html:191
+#: weblate/templates/project.html:281 weblate/templates/translation.html:194
+#: weblate/templates/translation.html:237
 msgid "Apply"
 msgstr "طبّق"
 
 #: weblate/templates/category.html:47
-#: weblate/templates/language-project.html:38 weblate/templates/project.html:49
+#: weblate/templates/language-project.html:41 weblate/templates/project.html:49
 msgid "Announcements"
 msgstr "تصريحات"
 
@@ -9088,83 +9150,83 @@ msgid "Download translation files as ZIP file"
 msgstr "قم بتنزيل ملفات الترجمة كملف ZIP"
 
 #: weblate/templates/category.html:68 weblate/templates/component.html:74
-#: weblate/templates/language-project.html:54 weblate/templates/project.html:76
+#: weblate/templates/language-project.html:57 weblate/templates/project.html:76
 #, fuzzy
 #| msgid "Download translation files as ZIP file"
 msgid "Download translations as CSV in a ZIP file"
 msgstr "قم بتنزيل ملفات الترجمة كملف ZIP"
 
 #: weblate/templates/category.html:72 weblate/templates/component.html:78
-#: weblate/templates/language-project.html:58 weblate/templates/project.html:80
+#: weblate/templates/language-project.html:61 weblate/templates/project.html:80
 #, fuzzy
 #| msgid "Download translation as XLIFF 1.2"
 msgid "Download translations as XLIFF 1.1 in a ZIP file"
 msgstr "تحميل الترجمة بصيغة XLIFF 1.2"
 
 #: weblate/templates/category.html:76 weblate/templates/component.html:82
-#: weblate/templates/language-project.html:62 weblate/templates/project.html:84
+#: weblate/templates/language-project.html:65 weblate/templates/project.html:84
 #, fuzzy
 #| msgid "Download translation files as ZIP file"
 msgid "Download translations as XLSX in a ZIP file"
 msgstr "قم بتنزيل ملفات الترجمة كملف ZIP"
 
-#: weblate/templates/category.html:108 weblate/templates/project.html:135
+#: weblate/templates/category.html:109 weblate/templates/project.html:135
 #, fuzzy
 #| msgid "Add a user"
 msgid "Add new category"
 msgstr "أضف مستخدم"
 
-#: weblate/templates/category.html:116 weblate/templates/category.html:277
+#: weblate/templates/category.html:118 weblate/templates/category.html:279
 #: weblate/templates/component.html:139 weblate/templates/component.html:290
-#: weblate/templates/language-project.html:103
-#: weblate/templates/language-project.html:199
+#: weblate/templates/language-project.html:102
+#: weblate/templates/language-project.html:205
 #: weblate/templates/manage/tools.html:23 weblate/templates/project.html:130
 #: weblate/templates/project.html:296 weblate/templates/translation.html:126
-#: weblate/templates/translation.html:515
+#: weblate/templates/translation.html:411
 #, fuzzy
 #| msgid "Post comment"
 msgid "Post announcement"
 msgstr "نشر تعليق"
 
-#: weblate/templates/category.html:152 weblate/templates/category.html:159
-#: weblate/templates/language-project.html:134
+#: weblate/templates/category.html:154 weblate/templates/category.html:161
+#: weblate/templates/language-project.html:140
 #: weblate/templates/project.html:225 weblate/templates/project.html:232
 msgid "Browse all project changes"
 msgstr "إكتشاف كافة التغييرات في المشروع"
 
-#: weblate/templates/category.html:223 weblate/templates/project.html:321
+#: weblate/templates/category.html:225 weblate/templates/project.html:321
 #, fuzzy
 #| msgid "Add a user"
 msgid "Add a category"
 msgstr "أضف مستخدم"
 
-#: weblate/templates/category.html:245
+#: weblate/templates/category.html:247
 #, fuzzy
 #| msgid "Rename project"
 msgid "Organize category"
 msgstr "إعادة تسمية المشروع"
 
-#: weblate/templates/category.html:250
+#: weblate/templates/category.html:252
 msgid ""
 "Moving or renaming the category will also change URLs for all its components."
 msgstr ""
 
-#: weblate/templates/category.html:251 weblate/templates/component.html:322
+#: weblate/templates/category.html:253 weblate/templates/component.html:322
 #: weblate/templates/project.html:350
 msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
 
-#: weblate/templates/category.html:257 weblate/templates/component.html:328
+#: weblate/templates/category.html:259 weblate/templates/component.html:328
 #: weblate/templates/project.html:356
 #, fuzzy
 #| msgid "Translation to remove"
 msgid "Organize"
 msgstr "الترجمة المطلوب إزالتها"
 
-#: weblate/templates/category.html:284
-#: weblate/templates/language-project.html:206
+#: weblate/templates/category.html:286
+#: weblate/templates/language-project.html:212
 #: weblate/templates/project.html:303
 msgid ""
 "The message is shown for all translations within the project, until its "
@@ -9173,19 +9235,19 @@ msgstr ""
 "تظهر الرسالة لجميع الترجمات داخل المشروع ، حتى انتهاء صلاحيتها المحددة ، أو "
 "بشكل دائم حتى يتم حذفها."
 
-#: weblate/templates/category.html:298 weblate/templates/component.html:352
+#: weblate/templates/category.html:300 weblate/templates/component.html:352
 #: weblate/templates/dashboard/user.html:124 weblate/templates/project.html:379
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
 
-#: weblate/templates/category.html:310 weblate/templates/component.html:364
+#: weblate/templates/category.html:312 weblate/templates/component.html:364
 #: weblate/templates/dashboard/user.html:134 weblate/templates/project.html:391
 msgid "Credits"
 msgstr "الإعتمادات"
 
-#: weblate/templates/category.html:315 weblate/templates/project.html:396
+#: weblate/templates/category.html:317 weblate/templates/project.html:396
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -9194,7 +9256,7 @@ msgstr ""
 "يسرد جميع المترجمين الذين يساهمون في هذا المشروع في فترة زمنية معينة. مفيد "
 "للتضمين في التوثيق أو التطبيق نفسه ، لشكر المترجمين وتوليد التعليقات لهم."
 
-#: weblate/templates/category.html:320 weblate/templates/category.html:341
+#: weblate/templates/category.html:322 weblate/templates/category.html:343
 #: weblate/templates/component.html:374 weblate/templates/component.html:395
 #: weblate/templates/dashboard/user.html:144
 #: weblate/templates/dashboard/user.html:163 weblate/templates/project.html:401
@@ -9202,12 +9264,12 @@ msgstr ""
 msgid "Generate"
 msgstr "توليد"
 
-#: weblate/templates/category.html:333 weblate/templates/component.html:387
+#: weblate/templates/category.html:335 weblate/templates/component.html:387
 #: weblate/templates/dashboard/user.html:155 weblate/templates/project.html:414
 msgid "Contributor stats"
 msgstr "حالة المُساهم"
 
-#: weblate/templates/category.html:337 weblate/templates/component.html:391
+#: weblate/templates/category.html:339 weblate/templates/component.html:391
 #: weblate/templates/dashboard/user.html:159 weblate/templates/project.html:418
 msgid "Reports the number of strings and words translated by each translator."
 msgstr "تقرير عن عدد السلاسل والكلمات المُترجمة لكل مترجم."
@@ -9235,10 +9297,6 @@ msgstr "تم ترجمتها"
 #| msgid "Git export documentation"
 msgid "View check documentation"
 msgstr "دليل التصدير إلى جيت"
-
-#: weblate/templates/component-list.html:18 weblate/templates/language.html:29
-msgid "Information"
-msgstr "معلومات"
 
 #: weblate/templates/component-progress.html:9
 #: weblate/templates/multi-progress.html:9
@@ -9300,7 +9358,7 @@ msgstr "صيانة المستودع"
 #: weblate/templates/component.html:132
 #: weblate/templates/screenshots/screenshot_detail.html:21
 #: weblate/templates/screenshots/screenshot_list.html:16
-#: weblate/trans/forms.py:1673
+#: weblate/trans/forms.py:1672
 msgid "Screenshots"
 msgstr "لقطات الشاشة"
 
@@ -9360,7 +9418,7 @@ msgid "Moving or renaming the component will also change its URLs."
 msgstr "أصلح هذا المكون لمحو التنبيهات فيه."
 
 #: weblate/templates/component.html:345 weblate/templates/project.html:372
-#: weblate/templates/translate.html:451 weblate/templates/translation.html:540
+#: weblate/templates/translate.html:451 weblate/templates/translation.html:435
 msgid "Loading…"
 msgstr "التحميل جارٍ …"
 
@@ -9816,8 +9874,8 @@ msgstr "ضف خطا"
 #: weblate/templates/fonts/font_list.html:112
 #: weblate/templates/memory/index.html:295
 #: weblate/templates/screenshots/screenshot_list.html:38
-#: weblate/templates/translate.html:995 weblate/templates/translation.html:486
-#: weblate/templates/translation.html:500
+#: weblate/templates/translate.html:995 weblate/templates/translation.html:383
+#: weblate/templates/translation.html:397
 msgid "Upload"
 msgstr "رفع"
 
@@ -10281,7 +10339,7 @@ msgstr "تغييرات المستودع"
 msgid "Shortcut"
 msgstr ""
 
-#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2849
+#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:2848
 msgid "Action"
 msgstr "العملية"
 
@@ -10443,7 +10501,7 @@ msgstr "إبقاء عناوين msgid للسلاسل المُترجمة"
 msgid "Add language"
 msgstr "إضافة لغة"
 
-#: weblate/templates/lang/language_form.html:23 weblate/trans/forms.py:2231
+#: weblate/templates/lang/language_form.html:23 weblate/trans/forms.py:2230
 msgid "Workflow"
 msgstr ""
 
@@ -11097,6 +11155,10 @@ msgid "Password reset on %(site_title)s"
 msgstr "إسترجاع كلمة السر علي %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:21
+msgid "Sign in to see the full audit log, including the IP address."
+msgstr ""
+
+#: weblate/templates/mail/shared-activity.html:22
 #, fuzzy
 #| msgid ""
 #| "If you did not request this change, please report it as soon as possible."
@@ -11105,7 +11167,13 @@ msgid ""
 "by clicking the button below."
 msgstr "إذا لم تطلب هذا التغيير ، يرجى الإبلاغ عنه في أقرب وقت ممكن."
 
-#: weblate/templates/mail/shared-activity.html:25
+#: weblate/templates/mail/shared-activity.html:26
+#, fuzzy
+#| msgid "Audit log"
+msgid "View audit log"
+msgstr "سجل التدقيق"
+
+#: weblate/templates/mail/shared-activity.html:27
 #, fuzzy
 #| msgid "Reports"
 msgid "Report"
@@ -12025,8 +12093,8 @@ msgid "Add new screenshot"
 msgstr "إضافة لقطة شاشة"
 
 #: weblate/templates/screenshots/screenshot_list.html:49
-#: weblate/templates/translation.html:159
-#: weblate/templates/translation.html:208
+#: weblate/templates/snippets/translation.html:22
+#: weblate/templates/snippets/translation.html:71
 msgid "Strings"
 msgstr "سلاسل"
 
@@ -12261,7 +12329,7 @@ msgstr "هذا المكون مرتبط بمستودع %(target)s."
 msgid "Repository URL copied to clipboard."
 msgstr "تم نسخ عنوان URL للمستودع إلى الحافظة."
 
-#: weblate/templates/snippets/git-info.html:29 weblate/trans/forms.py:1788
+#: weblate/templates/snippets/git-info.html:29 weblate/trans/forms.py:1787
 #: weblate/trans/models/component.py:449
 msgid "Repository branch"
 msgstr "فرع المستودع"
@@ -12323,6 +12391,12 @@ msgstr "مكان سلسة المصدر"
 #: weblate/templates/snippets/glossary.html:47
 msgid "No related strings found in the glossary."
 msgstr "لا سلاسل مشابهة موجودة في القاموس."
+
+#: weblate/templates/snippets/info.html:9
+#, fuzzy
+#| msgid "Your summary"
+msgid "Summary"
+msgstr "مُلخصك"
 
 #: weblate/templates/snippets/info.html:16 weblate/trans/models/project.py:179
 msgid "Project website"
@@ -12423,7 +12497,7 @@ msgid "Translation file"
 msgstr "ملف الترجمة"
 
 #: weblate/templates/snippets/info.html:170
-#: weblate/templates/translation.html:470
+#: weblate/templates/translation.html:367
 msgid "Download"
 msgstr "التنزيل"
 
@@ -12751,7 +12825,7 @@ msgstr "غير مترجم"
 #: weblate/templates/snippets/list-objects.html:123
 #: weblate/templates/trans/suggestion_list.html:13
 #: weblate/templates/translate.html:292 weblate/templates/translate.html:571
-#: weblate/trans/forms.py:1599
+#: weblate/trans/forms.py:1598
 msgid "Suggestions"
 msgstr "اقتراحات"
 
@@ -12773,8 +12847,9 @@ msgstr "تعذر تحليل ملفات الترجمة."
 
 #: weblate/templates/snippets/list-objects.html:199
 #: weblate/templates/snippets/list-objects.html:200
-#: weblate/templates/translate.html:20 weblate/templates/translation.html:169
-#: weblate/templates/translation.html:240
+#: weblate/templates/snippets/translation.html:32
+#: weblate/templates/snippets/translation.html:104
+#: weblate/templates/translate.html:20
 msgid "Translate"
 msgstr "ترجم"
 
@@ -13062,13 +13137,13 @@ msgstr "قوائم الحالات"
 msgid "Sort By"
 msgstr "صنف حسب"
 
-#: weblate/templates/snippets/sort-field.html:34 weblate/trans/forms.py:1360
+#: weblate/templates/snippets/sort-field.html:34 weblate/trans/forms.py:1359
 #, fuzzy
 #| msgid "Browse pending"
 msgid "Ascending"
 msgstr "تصفح المُعلق"
 
-#: weblate/templates/snippets/sort-field.html:35 weblate/trans/forms.py:1359
+#: weblate/templates/snippets/sort-field.html:35 weblate/trans/forms.py:1358
 #, fuzzy
 #| msgid "Browse pending"
 msgid "Descending"
@@ -13163,6 +13238,36 @@ msgstr "التغيير المقترح:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "الفحوص الفاشلة:"
+
+#: weblate/templates/snippets/translation.html:14
+#: weblate/templates/widgets.html:80 weblate/trans/views/widgets.py:104
+msgid "Translation status"
+msgstr "حالة الترجمة"
+
+#: weblate/templates/snippets/translation.html:39
+#: weblate/templates/snippets/translation.html:72
+msgid "Words"
+msgstr "الكلمات"
+
+#: weblate/templates/snippets/translation.html:46
+#: weblate/templates/snippets/translation.html:73
+#, fuzzy
+#| msgid "Control characters"
+msgid "Characters"
+msgstr "أحرف التحكم"
+
+#: weblate/templates/snippets/translation.html:54
+msgid "This translation is being used as source strings within this component."
+msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
+
+#: weblate/templates/snippets/translation.html:64
+msgid "Strings status"
+msgstr "حالة السلاسل"
+
+#: weblate/templates/snippets/translation.html:105
+#: weblate/templates/translate.html:51 weblate/templates/zen.html:15
+msgid "Zen"
+msgstr "زين"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:5
 msgid "Source in review"
@@ -14167,11 +14272,6 @@ msgstr ""
 msgid "Open in Zen mode"
 msgstr "تعديل في وضع الزين"
 
-#: weblate/templates/translate.html:51 weblate/templates/translation.html:241
-#: weblate/templates/zen.html:15
-msgid "Zen"
-msgstr "زين"
-
 #: weblate/templates/translate.html:55 weblate/templates/zen.html:43
 #, fuzzy
 #| msgid "Configure addon"
@@ -14207,14 +14307,14 @@ msgid "Intermediate language"
 msgstr "اللغة المتوسطة"
 
 #: weblate/templates/translate.html:139 weblate/templates/translate.html:767
-#: weblate/templates/zen-units.html:35 weblate/trans/forms.py:513
+#: weblate/templates/zen-units.html:35 weblate/trans/forms.py:512
 #: weblate/trans/models/unit.py:454
 #, fuzzy
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "الترجمة"
 
-#: weblate/templates/translate.html:165 weblate/trans/forms.py:1099
+#: weblate/templates/translate.html:165 weblate/trans/forms.py:1098
 #, fuzzy
 #| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
@@ -14392,7 +14492,7 @@ msgstr "الأصل"
 msgid "Similarity"
 msgstr "تشابه"
 
-#: weblate/templates/translate.html:535 weblate/trans/forms.py:1115
+#: weblate/templates/translate.html:535 weblate/trans/forms.py:1114
 msgid "New comment"
 msgstr "تعليق جديد"
 
@@ -14469,7 +14569,7 @@ msgid "Browse glossary %(name)s"
 msgstr "تصفح المسرد %(name)s"
 
 #: weblate/templates/translate.html:708 weblate/templates/translate.html:1021
-#: weblate/trans/models/component.py:3897
+#: weblate/trans/models/component.py:3884
 msgid "Add term to glossary"
 msgstr "أضف مصطلح إلى المسرد"
 
@@ -14579,7 +14679,7 @@ msgstr "تنزيل الإحصائيات (JSON)"
 msgid "Download translation"
 msgstr "تحميل الترجمة بصيغة CSV"
 
-#: weblate/templates/translation.html:68 weblate/templates/translation.html:465
+#: weblate/templates/translation.html:68 weblate/templates/translation.html:362
 msgid "Customize download"
 msgstr "تخصيص التنزيل"
 
@@ -14587,46 +14687,21 @@ msgstr "تخصيص التنزيل"
 msgid "Upload translation"
 msgstr "ارفع ترجمة"
 
-#: weblate/templates/translation.html:151 weblate/templates/widgets.html:80
-#: weblate/trans/views/widgets.py:104
-msgid "Translation status"
-msgstr "حالة الترجمة"
-
-#: weblate/templates/translation.html:176
-#: weblate/templates/translation.html:209
-msgid "Words"
-msgstr "الكلمات"
-
-#: weblate/templates/translation.html:183
-#: weblate/templates/translation.html:210
-#, fuzzy
-#| msgid "Control characters"
-msgid "Characters"
-msgstr "أحرف التحكم"
-
-#: weblate/templates/translation.html:191
-msgid "This translation is being used as source strings within this component."
-msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
-
-#: weblate/templates/translation.html:201
-msgid "Strings status"
-msgstr "حالة السلاسل"
-
-#: weblate/templates/translation.html:251
+#: weblate/templates/translation.html:150
 msgid "Other components"
 msgstr "المكونات الأخرى"
 
-#: weblate/templates/translation.html:256
+#: weblate/templates/translation.html:155
 #, fuzzy
 #| msgid "Browse all component changes"
 msgid "Browse all components"
 msgstr "تصفح كل تغيرات العناصر"
 
-#: weblate/templates/translation.html:270
+#: weblate/templates/translation.html:168
 msgid "Browse all translation changes"
 msgstr "تصفح كل تغييرات الترجمة"
 
-#: weblate/templates/translation.html:289
+#: weblate/templates/translation.html:186
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -14637,7 +14712,7 @@ msgstr ""
 "الحالي. يمكن استخدامه لدفع الترجمات إلى فرع مختلف ، لإصلاح الترجمات غير "
 "المتسقة أو لترجمة مكون جديد باستخدام ذاكرة الترجمة."
 
-#: weblate/templates/translation.html:292
+#: weblate/templates/translation.html:189
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -14646,48 +14721,48 @@ msgstr ""
 "تستخدم الترجمة التلقائية عبر الترجمة الآلية محركات الترجمة الآلية النشطة "
 "للحصول على أفضل الترجمات الممكنة وتطبيقها في هذا المشروع."
 
-#: weblate/templates/translation.html:357
-#: weblate/templates/translation.html:391
+#: weblate/templates/translation.html:254
+#: weblate/templates/translation.html:288
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
 msgstr "يمكنك إضافة سلسلة ترجمة جديدة هنا ، وستظهر تلقائيًا في جميع الترجمات."
 
-#: weblate/templates/translation.html:419
+#: weblate/templates/translation.html:316
 #, fuzzy
 #| msgid "Customize download"
 msgid "Quick downloads"
 msgstr "تخصيص التنزيل"
 
-#: weblate/templates/translation.html:426
+#: weblate/templates/translation.html:323
 #, fuzzy
 #| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
 msgstr "بعض صيغ الجمع مترجَمة بنفس الأسلوب"
 
-#: weblate/templates/translation.html:434
+#: weblate/templates/translation.html:331
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
 msgstr ""
 
-#: weblate/templates/translation.html:445
+#: weblate/templates/translation.html:342
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
 
-#: weblate/templates/translation.html:491
+#: weblate/templates/translation.html:388
 msgid "The uploaded file will be merged with the current translation."
 msgstr "سيتم دمج الملف الذي تم إرساله مع الترجمة الحالية."
 
-#: weblate/templates/translation.html:493
+#: weblate/templates/translation.html:390
 msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
 
-#: weblate/templates/translation.html:522
+#: weblate/templates/translation.html:418
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
@@ -14784,7 +14859,7 @@ msgstr "الإضافات"
 msgid "Code"
 msgstr "شيفرة BB"
 
-#: weblate/templates/widgets.html:59 weblate/trans/forms.py:1336
+#: weblate/templates/widgets.html:59 weblate/trans/forms.py:1335
 msgid "HTML"
 msgstr "HTML"
 
@@ -14798,7 +14873,7 @@ msgstr "شيفرة BB"
 msgid "Markdown"
 msgstr "شيفرة ماركداون"
 
-#: weblate/templates/widgets.html:62 weblate/trans/forms.py:1334
+#: weblate/templates/widgets.html:62 weblate/trans/forms.py:1333
 msgid "reStructuredText"
 msgstr "نسق reStructuredText"
 
@@ -15519,47 +15594,47 @@ msgstr "بحث مخصص"
 msgid "Labeled: {}"
 msgstr "المشاركة: {}"
 
-#: weblate/trans/forms.py:161
+#: weblate/trans/forms.py:160
 #, fuzzy
 #| msgid "Invalid image!"
 msgid "Invalid date!"
 msgstr "الصورة غير صالحة !"
 
-#: weblate/trans/forms.py:170
+#: weblate/trans/forms.py:169
 msgid "The starting date has to be before the ending date."
 msgstr "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء."
 
-#: weblate/trans/forms.py:194
+#: weblate/trans/forms.py:193
 msgid "Invalid checksum specified!"
 msgstr ""
 
-#: weblate/trans/forms.py:251 weblate/trans/forms.py:259
+#: weblate/trans/forms.py:250 weblate/trans/forms.py:258
 msgid "Toggle text direction"
 msgstr "بدّل اتجاه النص"
 
-#: weblate/trans/forms.py:370
+#: weblate/trans/forms.py:369
 #, fuzzy
 #| msgid "Create translation"
 msgid "Alternative translation"
 msgstr "إنشاء ترجمة"
 
-#: weblate/trans/forms.py:434
+#: weblate/trans/forms.py:433
 msgid "Search filter"
 msgstr "تصفية البحث"
 
-#: weblate/trans/forms.py:439
+#: weblate/trans/forms.py:438
 msgid "Please choose a valid filter type."
 msgstr "الرجاء اختيار نوع عامل تصفية صالح."
 
-#: weblate/trans/forms.py:470
+#: weblate/trans/forms.py:469
 msgid "The string you wanted to translate is no longer available."
 msgstr "لم تعد السلسلة التي تريد ترجمتها متوفرة."
 
-#: weblate/trans/forms.py:485
+#: weblate/trans/forms.py:484
 msgid "Needs editing"
 msgstr "تحتاج إلى تعديل"
 
-#: weblate/trans/forms.py:487
+#: weblate/trans/forms.py:486
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -15567,33 +15642,33 @@ msgstr ""
 "السلاسل المُعلّمة بأنها \"تحتاج تعديلًا\" بعد تحديث النص المصدر، أو عندما يُعلّم "
 "يدويًّا."
 
-#: weblate/trans/forms.py:502
+#: weblate/trans/forms.py:501
 msgid "Review state"
 msgstr "حالة المراجعة"
 
-#: weblate/trans/forms.py:515 weblate/trans/models/unit.py:458
+#: weblate/trans/forms.py:514 weblate/trans/models/unit.py:458
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/forms.py:566
+#: weblate/trans/forms.py:565
 #, fuzzy
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "مكان سلسة المصدر"
 
-#: weblate/trans/forms.py:568
+#: weblate/trans/forms.py:567
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Translation explanation"
 msgstr "إشعارات الترجمة"
 
-#: weblate/trans/forms.py:585
+#: weblate/trans/forms.py:584
 #, fuzzy
 #| msgid "Source string has been changed meanwhile. Please check your changes."
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "لقد طرأ تغيير على السلسلة المصدرية مؤخرا. الرجاء التحقق من التعديلات."
 
-#: weblate/trans/forms.py:596
+#: weblate/trans/forms.py:595
 #, fuzzy
 #| msgid ""
 #| "Translation of the string has been changed meanwhile. Please check your "
@@ -15603,93 +15678,93 @@ msgid ""
 "changes."
 msgstr "لقد تم تعديل السلسلة المترجَمة مؤخرا. الرجاء التحقق من التعديلات."
 
-#: weblate/trans/forms.py:607
+#: weblate/trans/forms.py:606
 msgid "Translation text too long!"
 msgstr "حروف الترجمة طويلة للغاية!"
 
-#: weblate/trans/forms.py:665
+#: weblate/trans/forms.py:664
 #, fuzzy
 #| msgid "File upload has failed: %s"
 msgid "File upload mode"
 msgstr "فشلت عملية رفع الملف : %s"
 
-#: weblate/trans/forms.py:671
+#: weblate/trans/forms.py:670
 #, fuzzy
 #| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
 msgstr "معالجة النص المحتاج إلى تعديل"
 
-#: weblate/trans/forms.py:673
+#: weblate/trans/forms.py:672
 msgid "Do not import"
 msgstr "لا تقم باستيراده"
 
-#: weblate/trans/forms.py:674
+#: weblate/trans/forms.py:673
 #, fuzzy
 #| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
 msgstr "تحتاج إلى تعديل"
 
-#: weblate/trans/forms.py:675
+#: weblate/trans/forms.py:674
 msgid "Import as translated"
 msgstr "إستعادة السلاسل كمُترجَمة"
 
-#: weblate/trans/forms.py:700
+#: weblate/trans/forms.py:699
 msgid "Conflict handling"
 msgstr ""
 
-#: weblate/trans/forms.py:702
+#: weblate/trans/forms.py:701
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "هل يبدل الترجمات الموجودة إن كانت السلسلة مترجمة من قبل أم لا."
 
-#: weblate/trans/forms.py:706
+#: weblate/trans/forms.py:705
 msgid "Change only untranslated strings"
 msgstr "تغيير السلاسل غير المترجمة فقط"
 
-#: weblate/trans/forms.py:707
+#: weblate/trans/forms.py:706
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Change translated strings"
 msgstr "السلاسل المُترجمة"
 
-#: weblate/trans/forms.py:710
+#: weblate/trans/forms.py:709
 #, fuzzy
 #| msgid "Not translated strings"
 msgid "Change translated and approved strings"
 msgstr "سلاسل غير مترجَمة"
 
-#: weblate/trans/forms.py:721
+#: weblate/trans/forms.py:720
 msgid "Author name"
 msgstr "اسم المؤلّف"
 
-#: weblate/trans/forms.py:722
+#: weblate/trans/forms.py:721
 msgid "Author e-mail"
 msgstr "بريد المؤلف الإلكتروني"
 
-#: weblate/trans/forms.py:885
+#: weblate/trans/forms.py:884
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "Could not find the merged string."
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/forms.py:890
+#: weblate/trans/forms.py:889
 msgid "Could not find merged string."
 msgstr ""
 
-#: weblate/trans/forms.py:909
+#: weblate/trans/forms.py:908
 #, fuzzy
 #| msgid "Could not parse translation files."
 msgid "Could not find the reverted change."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/forms.py:918
+#: weblate/trans/forms.py:917
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic translation mode"
 msgstr "الترجمة الآلية"
 
-#: weblate/trans/forms.py:925
+#: weblate/trans/forms.py:924
 #, fuzzy
 #| msgid ""
 #| "Weblate could not parse the translation files while updating the "
@@ -15699,479 +15774,479 @@ msgid ""
 "translations."
 msgstr "تعذر على Weblate تحليل ملفات الترجمة أثناء تحديث الترجمات."
 
-#: weblate/trans/forms.py:930
+#: weblate/trans/forms.py:929
 #, fuzzy
 #| msgid "Perform automatic translation"
 msgid "Source of automated translations"
 msgstr "القيام بترجمة آلية"
 
-#: weblate/trans/forms.py:932
+#: weblate/trans/forms.py:931
 msgid "Other translation components"
 msgstr "عنصر الترجمة الأخرى"
 
-#: weblate/trans/forms.py:933
+#: weblate/trans/forms.py:932
 msgid "Machine translation"
 msgstr "الترجمة الألية"
 
-#: weblate/trans/forms.py:942
+#: weblate/trans/forms.py:941
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
 
-#: weblate/trans/forms.py:948
+#: weblate/trans/forms.py:947
 msgid "Machine translation engines"
 msgstr "محركات الترجمة الآلية"
 
-#: weblate/trans/forms.py:951
+#: weblate/trans/forms.py:950
 msgid "Score threshold"
 msgstr "عتبة التنقيط"
 
-#: weblate/trans/forms.py:994
+#: weblate/trans/forms.py:993
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
 
-#: weblate/trans/forms.py:1005
+#: weblate/trans/forms.py:1004
 msgid "All components in current project"
 msgstr "كافة العناصر في المشروع الحالي"
 
-#: weblate/trans/forms.py:1038 weblate/utils/files.py:36
+#: weblate/trans/forms.py:1037 weblate/utils/files.py:36
 msgid "Add as suggestion"
 msgstr "إضافة كاقتراح"
 
-#: weblate/trans/forms.py:1039 weblate/utils/files.py:34
+#: weblate/trans/forms.py:1038 weblate/utils/files.py:34
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Add as translation"
 msgstr "إضافة كترجمة بديلة"
 
-#: weblate/trans/forms.py:1040
+#: weblate/trans/forms.py:1039
 #, fuzzy
 #| msgid "Add as needing edit"
 msgid "Add as \"Needing edit\""
 msgstr "إضافة على أنها تحتاج إلى التعديل"
 
-#: weblate/trans/forms.py:1043 weblate/utils/files.py:35
+#: weblate/trans/forms.py:1042 weblate/utils/files.py:35
 msgid "Add as approved translation"
 msgstr "إضافة كترجمة تم التحقق منها"
 
-#: weblate/trans/forms.py:1063 weblate/trans/forms.py:1066
-#: weblate/trans/forms.py:1070 weblate/trans/forms.py:1075
+#: weblate/trans/forms.py:1062 weblate/trans/forms.py:1065
+#: weblate/trans/forms.py:1069 weblate/trans/forms.py:1074
 msgid "Component not found!"
 msgstr "لا يوجد هذا المكون!"
 
-#: weblate/trans/forms.py:1082
+#: weblate/trans/forms.py:1081
 msgid "Source component needs to have same source language as target one."
 msgstr ""
 
-#: weblate/trans/forms.py:1104
+#: weblate/trans/forms.py:1103
 msgid "Source string comment, suggestions for changes to this string"
 msgstr ""
 
-#: weblate/trans/forms.py:1109
+#: weblate/trans/forms.py:1108
 msgid "Translation comment, discussions with other translators"
 msgstr "تعليق عن الترجمة، مناقشات مع مترجمين آخرين"
 
-#: weblate/trans/forms.py:1215
+#: weblate/trans/forms.py:1214
 msgid "Please choose"
 msgstr "الرجاء الإختيار"
 
-#: weblate/trans/forms.py:1301
+#: weblate/trans/forms.py:1300
 msgid "Allow user to add or remove users from a team."
 msgstr ""
 
-#: weblate/trans/forms.py:1313
+#: weblate/trans/forms.py:1312
 #, fuzzy
 #| msgid "Location"
 msgid "Block duration"
 msgstr "الموقع"
 
-#: weblate/trans/forms.py:1315
+#: weblate/trans/forms.py:1314
 msgid "Block the user until I unblock"
 msgstr ""
 
-#: weblate/trans/forms.py:1316
+#: weblate/trans/forms.py:1315
 msgid "Block the user for one day"
 msgstr ""
 
-#: weblate/trans/forms.py:1317
+#: weblate/trans/forms.py:1316
 msgid "Block the user for one week"
 msgstr ""
 
-#: weblate/trans/forms.py:1318
+#: weblate/trans/forms.py:1317
 msgid "Block the user for one month"
 msgstr ""
 
-#: weblate/trans/forms.py:1331
+#: weblate/trans/forms.py:1330
 msgid "Report format"
 msgstr "صيغة التقرير"
 
-#: weblate/trans/forms.py:1332
+#: weblate/trans/forms.py:1331
 #, fuzzy
 #| msgid "Choose file format for the report"
 msgid "Choose a file format for the report"
 msgstr "إختر صيغة ملف التقرير"
 
-#: weblate/trans/forms.py:1340
+#: weblate/trans/forms.py:1339
 msgid "Report period"
 msgstr "فترة التقرير"
 
-#: weblate/trans/forms.py:1349
+#: weblate/trans/forms.py:1348
 #, fuzzy
 #| msgid "Sort By"
 msgid "Sort by"
 msgstr "صنف حسب"
 
-#: weblate/trans/forms.py:1351
+#: weblate/trans/forms.py:1350
 #, fuzzy
 #| msgid "Notification on new string to translate"
 msgid "Strings translated"
 msgstr "إشعار عند توفّر سلاسل جديدة لترجمتها"
 
-#: weblate/trans/forms.py:1357
+#: weblate/trans/forms.py:1356
 msgid "Sort order"
 msgstr ""
 
-#: weblate/trans/forms.py:1412
+#: weblate/trans/forms.py:1411
 msgid "You do not have permission to access this component."
 msgstr "ليس لديك إذن للوصول إلى هذا المكون."
 
-#: weblate/trans/forms.py:1483
+#: weblate/trans/forms.py:1482
 #, fuzzy
 #| msgid "Your suggestion has been identified as spam!"
 msgid "This submission has been identified as spam!"
 msgstr "عُرِّفت اقترحاتك للترجمة على أنها إزعاج!"
 
-#: weblate/trans/forms.py:1569 weblate/trans/forms.py:2207
+#: weblate/trans/forms.py:1568 weblate/trans/forms.py:2206
 msgid "Basic"
 msgstr "أساسي"
 
-#: weblate/trans/forms.py:1581
+#: weblate/trans/forms.py:1580
 msgid "License"
 msgstr "الرخصة"
 
-#: weblate/trans/forms.py:1582
+#: weblate/trans/forms.py:1581
 msgid "Upstream links"
 msgstr "الروابط المنبعية"
 
-#: weblate/trans/forms.py:1584
+#: weblate/trans/forms.py:1583
 msgid "Listing and access"
 msgstr ""
 
-#: weblate/trans/forms.py:1605
+#: weblate/trans/forms.py:1604
 msgid "Translation settings"
 msgstr "إعدادات الترجمة"
 
-#: weblate/trans/forms.py:1616
+#: weblate/trans/forms.py:1615
 msgid "Version control"
 msgstr "التحكم في الإصدار"
 
-#: weblate/trans/forms.py:1618
+#: weblate/trans/forms.py:1617
 msgid "Locations"
 msgstr "الموقع"
 
-#: weblate/trans/forms.py:1628
+#: weblate/trans/forms.py:1627
 msgid "Version control settings"
 msgstr "إعدادات التحكم في الإصدار"
 
-#: weblate/trans/forms.py:1637
+#: weblate/trans/forms.py:1636
 msgid "Commit messages"
 msgstr "تقديم الرسائل"
 
-#: weblate/trans/forms.py:1653
+#: weblate/trans/forms.py:1652
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation files"
 msgstr "ملف الترجمة"
 
-#: weblate/trans/forms.py:1661
+#: weblate/trans/forms.py:1660
 #, fuzzy
 #| msgid "Hosting translations"
 msgid "Monolingual translations"
 msgstr "استضافة الترجمات"
 
-#: weblate/trans/forms.py:1667
+#: weblate/trans/forms.py:1666
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage languages"
 msgid "Adding new languages"
 msgstr "إدارة اللغات"
 
-#: weblate/trans/forms.py:1776
+#: weblate/trans/forms.py:1775
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Select an existing component configuration to copy."
 msgstr "نسق الملف غير مدعوم."
 
-#: weblate/trans/forms.py:1890
+#: weblate/trans/forms.py:1889
 #, fuzzy
 #| msgid "New translation"
 msgid "ZIP file containing translations"
 msgstr "ترجمة جديدة"
 
-#: weblate/trans/forms.py:1904
+#: weblate/trans/forms.py:1903
 #, fuzzy
 #| msgid "Units to translate"
 msgid "Document to translate"
 msgstr "وحدات لترجمتها"
 
-#: weblate/trans/forms.py:1911
+#: weblate/trans/forms.py:1910
 msgid "Target language of the document for bilingual files"
 msgstr ""
 
-#: weblate/trans/forms.py:1978
+#: weblate/trans/forms.py:1977
 msgid "Choose translation files to import"
 msgstr "اختر ملفات الترجمة التي ترغب في استيرادها"
 
-#: weblate/trans/forms.py:1979
+#: weblate/trans/forms.py:1978
 msgid "Specify configuration manually"
 msgstr ""
 
-#: weblate/trans/forms.py:2166
+#: weblate/trans/forms.py:2165
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible: %s"
 msgstr ""
 
-#: weblate/trans/forms.py:2221
+#: weblate/trans/forms.py:2220
 #, fuzzy
 #| msgid "API access"
 msgid "Access"
 msgstr "دخول API"
 
-#: weblate/trans/forms.py:2270
+#: weblate/trans/forms.py:2269
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/forms.py:2338
+#: weblate/trans/forms.py:2337
 #, fuzzy
 #| msgid "New translation"
 msgid "ZIP file containing project backup"
 msgstr "ترجمة جديدة"
 
-#: weblate/trans/forms.py:2363
+#: weblate/trans/forms.py:2362
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not load project backup: %s"
 msgstr "فشل توليد المفتاح: %s"
 
-#: weblate/trans/forms.py:2372
+#: weblate/trans/forms.py:2371
 msgid "Optional additional filter applied to the strings"
 msgstr "مرشح إضافي اختياري مطبق على السلاسل"
 
-#: weblate/trans/forms.py:2376
+#: weblate/trans/forms.py:2375
 msgid "Search string"
 msgstr "إبحث عن ترجمة"
 
-#: weblate/trans/forms.py:2380
+#: weblate/trans/forms.py:2379
 msgid "Case-sensitive string to search for and replace."
 msgstr ""
 
-#: weblate/trans/forms.py:2383
+#: weblate/trans/forms.py:2382
 msgid "Replacement string"
 msgstr "السلسلة البديلة"
 
-#: weblate/trans/forms.py:2482
+#: weblate/trans/forms.py:2481
 msgid "Translation key"
 msgstr "مفتاح الترجمة"
 
-#: weblate/trans/forms.py:2484
+#: weblate/trans/forms.py:2483
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:2490
+#: weblate/trans/forms.py:2489
 msgid "Source language text"
 msgstr "نص لغة المصدر"
 
-#: weblate/trans/forms.py:2492
+#: weblate/trans/forms.py:2491
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "يمكنك تعديل هذا لاحقا ، كما هو الأمر مع أي سلسلة أخرى في اللغة المصدر."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2506 weblate/trans/models/component.py:3809
+#: weblate/trans/forms.py:2505 weblate/trans/models/component.py:3796
 msgid "Context"
 msgstr "السياق"
 
-#: weblate/trans/forms.py:2507
+#: weblate/trans/forms.py:2506
 #, fuzzy
 #| msgid ""
 #| "Screenshot is shown to add visual context for all listed source strings."
 msgid "Optional context to clarify the source strings."
 msgstr "لقطات الشاشة يتم عرضها لإضافة السياق لكل سلاسل المصدر المُختارة."
 
-#: weblate/trans/forms.py:2514
+#: weblate/trans/forms.py:2513
 #, fuzzy
 #| msgid "Entry with same name already exists."
 msgid "Auto-adjust context when an identical string already exists."
 msgstr "يوجد داخل آخَر يحمل نفس الإسم."
 
-#: weblate/trans/forms.py:2534
+#: weblate/trans/forms.py:2533
 msgid "Translated string"
 msgstr "سلسلة مُترجَمة"
 
-#: weblate/trans/forms.py:2536
+#: weblate/trans/forms.py:2535
 #, fuzzy
 #| msgid ""
 #| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
 msgstr "يمكنك تعديل هذا لاحقا ، كما هو الأمر مع أي سلسلة أخرى في اللغة المصدر."
 
-#: weblate/trans/forms.py:2551
+#: weblate/trans/forms.py:2550
 #, fuzzy
 #| msgid "String target language"
 msgid "String will be part of the glossary in all languages"
 msgstr "سلسلة اللغة الهدف"
 
-#: weblate/trans/forms.py:2559
+#: weblate/trans/forms.py:2558
 #, fuzzy
 #| msgid "Not translated"
 msgid "Untranslatable term"
 msgstr "ليست مترجَمة"
 
-#: weblate/trans/forms.py:2587
+#: weblate/trans/forms.py:2586
 #, fuzzy
 #| msgid "You currently do not have permission to create projects."
 msgid "You do not have permission to create terminology."
 msgstr "حاليا ليس لديك التصريحات اللازمة لإنشاء مشاريع."
 
-#: weblate/trans/forms.py:2653
+#: weblate/trans/forms.py:2652
 msgid "State to set"
 msgstr "ضبط الحالة"
 
-#: weblate/trans/forms.py:2654
+#: weblate/trans/forms.py:2653
 #, fuzzy
 #| msgid "Download changes"
 msgid "Do not change"
 msgstr "تنزيل التغييرات"
 
-#: weblate/trans/forms.py:2658
+#: weblate/trans/forms.py:2657
 #, fuzzy
 #| msgid "Translation flags"
 msgid "Translation flags to add"
 msgstr "أعلام الترجمة"
 
-#: weblate/trans/forms.py:2661
+#: weblate/trans/forms.py:2660
 msgid "Translation flags to remove"
 msgstr "علامات الترجمة المراد إزالتها"
 
-#: weblate/trans/forms.py:2665
+#: weblate/trans/forms.py:2664
 #, fuzzy
 #| msgid "User to add"
 msgid "Labels to add"
 msgstr "المستخدِم الذي تريد إضافته"
 
-#: weblate/trans/forms.py:2671
+#: weblate/trans/forms.py:2670
 #, fuzzy
 #| msgid "Suggestion removed"
 msgid "Labels to remove"
 msgstr "تمت إزالة الإقتراح"
 
-#: weblate/trans/forms.py:2725
+#: weblate/trans/forms.py:2724
 #, fuzzy
 #| msgid "I agree with the contributor agreement"
 msgid "I accept the contributor license agreement"
 msgstr "أنا أوافق على مستند عقد المساهِمين"
 
-#: weblate/trans/forms.py:2754
+#: weblate/trans/forms.py:2753
 #, fuzzy
 #| msgid "The translation name does not match the one to delete!"
 msgid "The slug does not match the one marked for deletion!"
 msgstr "اسم الترجمة غير مطابِق مع الذي تود حذفت!"
 
-#: weblate/trans/forms.py:2760 weblate/trans/forms.py:2779
-#: weblate/trans/forms.py:2790 weblate/trans/forms.py:2806
-#: weblate/trans/forms.py:2815 weblate/trans/forms.py:2826
+#: weblate/trans/forms.py:2759 weblate/trans/forms.py:2778
+#: weblate/trans/forms.py:2789 weblate/trans/forms.py:2805
+#: weblate/trans/forms.py:2814 weblate/trans/forms.py:2825
 #, fuzzy
 #| msgid "Bad configuration"
 msgid "Removal confirmation"
 msgstr "خطأ في الإعداد"
 
-#: weblate/trans/forms.py:2762
+#: weblate/trans/forms.py:2761
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2781
+#: weblate/trans/forms.py:2780
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2791
+#: weblate/trans/forms.py:2790
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2807
+#: weblate/trans/forms.py:2806
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the category to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2817
+#: weblate/trans/forms.py:2816
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2828
+#: weblate/trans/forms.py:2827
 #, fuzzy
 #| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "يرجى كتابة اسم الترجمة للتاكيد."
 
-#: weblate/trans/forms.py:2855
+#: weblate/trans/forms.py:2854
 #, fuzzy
 #| msgid "Author name"
 msgid "Author username"
 msgstr "اسم المؤلّف"
 
-#: weblate/trans/forms.py:2858
+#: weblate/trans/forms.py:2857
+#, fuzzy
+#| msgid "Author name"
+msgid "Exclude author (username)"
+msgstr "اسم المؤلّف"
+
+#: weblate/trans/forms.py:2860
 #, fuzzy
 #| msgid "Change password"
 msgid "Change period"
 msgstr "تغيير كلمة السر"
 
-#: weblate/trans/forms.py:2870
-#, fuzzy
-#| msgid "Could not parse translation files."
-msgid "Could not find matching user!"
-msgstr "تعذر تحليل ملفات الترجمة."
-
-#: weblate/trans/forms.py:2952
+#: weblate/trans/forms.py:2943
 #, fuzzy
 #| msgid "The filename can not be an absolute path."
 msgid "Expiry cannot be in the past."
 msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
 
-#: weblate/trans/forms.py:2991
+#: weblate/trans/forms.py:2982
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "Customize translation workflow for this language"
 msgstr "إبدأ ترجمةً جديدةً إلى عِدّة لغاتٍ أخرى"
 
-#: weblate/trans/forms.py:2993
+#: weblate/trans/forms.py:2984
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
 
-#: weblate/trans/forms.py:3036
+#: weblate/trans/forms.py:3027
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid "Customize translation workflow for this language in this project"
 msgstr "إبدأ ترجمةً جديدةً إلى عِدّة لغاتٍ أخرى"
 
-#: weblate/trans/forms.py:3039
+#: weblate/trans/forms.py:3030
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
@@ -17290,44 +17365,44 @@ msgstr "ملف اللغة الأساسية أحادي اللغة غير صالح
 msgid "The template for new translations is invalid."
 msgstr "قالب الترجمات الجديدة غير صالح."
 
-#: weblate/trans/models/component.py:3665
+#: weblate/trans/models/component.py:3664
 #, fuzzy
 #| msgid ""
 #| "This translation is being used as source strings within this component."
 msgid "The given language is used as a source language."
 msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
 
-#: weblate/trans/models/component.py:3673
+#: weblate/trans/models/component.py:3669
 #, fuzzy
 #| msgid "Entry with same name already exists."
 msgid "The given language already exists."
 msgstr "يوجد داخل آخَر يحمل نفس الإسم."
 
-#: weblate/trans/models/component.py:3682
+#: weblate/trans/models/component.py:3676
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:3717
+#: weblate/trans/models/component.py:3708
 msgid "Translation file already exists!"
 msgstr "ملف الترجمة موجود بالفعل!"
 
-#: weblate/trans/models/component.py:3751
+#: weblate/trans/models/component.py:3739
 #, fuzzy
 #| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
 msgstr "لقد بلَغتِ الترجمة إلى نهايتها."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3811 weblate/utils/views.py:215
+#: weblate/trans/models/component.py:3798 weblate/utils/views.py:215
 msgctxt "Translation key"
 msgid "Key"
 msgstr "مفاتيح"
 
-#: weblate/trans/models/component.py:3898
+#: weblate/trans/models/component.py:3885
 msgid "Add new translation string"
 msgstr "إضافة سلسلة جديدة للترجمة"
 
-#: weblate/trans/models/component.py:3947
+#: weblate/trans/models/component.py:3934
 #, fuzzy
 #| msgid "Could not merge the repository."
 msgid "Could not get repository status!"
@@ -17477,7 +17552,7 @@ msgstr ""
 msgid "Could not accept suggestion!"
 msgstr "لقد أخفق قبول الإقتراح !"
 
-#: weblate/trans/models/translation.py:265
+#: weblate/trans/models/translation.py:277
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -17486,21 +17561,21 @@ msgstr ""
 "لا يوجد الملف %s في المخزن. لإضافة ترجمة جديدة، عليك إضافة ملف الترجمة إلى "
 "المخزن."
 
-#: weblate/trans/models/translation.py:274
+#: weblate/trans/models/translation.py:286
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "فشل تحليل الملف %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1026
+#: weblate/trans/models/translation.py:965
 msgid "“{}”"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1029
+#: weblate/trans/models/translation.py:968
 msgid "…"
 msgstr "…"
 
-#: weblate/trans/models/translation.py:1036
+#: weblate/trans/models/translation.py:975
 #, fuzzy, python-format
 #| msgid "Could not update the repository."
 msgid "Could not find %d string:"
@@ -17512,43 +17587,43 @@ msgstr[3] "لا يمكن تحديث المستودع."
 msgstr[4] "لا يمكن تحديث المستودع."
 msgstr[5] "لا يمكن تحديث المستودع."
 
-#: weblate/trans/models/translation.py:1222
-#: weblate/trans/models/translation.py:1281
-#: weblate/trans/models/translation.py:1363
+#: weblate/trans/models/translation.py:1160
+#: weblate/trans/models/translation.py:1219
+#: weblate/trans/models/translation.py:1301
 #, fuzzy, python-format
 #| msgid "Failed to commit pending changes: %s"
 msgid "Could not commit pending changes: %s"
 msgstr "فشل تنفيذ التغييرات المعلقة: %s"
 
-#: weblate/trans/models/translation.py:1889
+#: weblate/trans/models/translation.py:1827
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Plurals are not supported by the file format."
 msgstr "نسق الملف غير مدعوم."
 
-#: weblate/trans/models/translation.py:1894 weblate/trans/models/unit.py:774
+#: weblate/trans/models/translation.py:1832 weblate/trans/models/unit.py:774
 #: weblate/utils/forms.py:127
 #, python-format
 msgid "String contains control character: %s"
 msgstr "تحتوي السلسلة على حرف التحكم: %s"
 
-#: weblate/trans/models/translation.py:1899
+#: weblate/trans/models/translation.py:1837
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1902
+#: weblate/trans/models/translation.py:1840
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1906
+#: weblate/trans/models/translation.py:1844
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1914
+#: weblate/trans/models/translation.py:1852
 msgid "This string seems to already exist."
 msgstr "يبدو أن هذه السلسلة موجودة بالفعل."
 
-#: weblate/trans/models/translation.py:1921
+#: weblate/trans/models/translation.py:1859
 #, fuzzy
 #| msgid "Duplicated string for translation."
 msgid "Failed adding string, no translation found."
@@ -18317,7 +18392,7 @@ msgid "Invalid search string!"
 msgstr "سلسلة البحث غير صالحة !"
 
 #: weblate/trans/views/edit.py:767 weblate/trans/views/search.py:57
-#: weblate/trans/views/search.py:216
+#: weblate/trans/views/search.py:220
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "Could not process form!"
@@ -18446,11 +18521,11 @@ msgstr "إنّ العنصر مفتوح الآن لتقبُّل تحديثات ا
 msgid "All components are now open for translation updates."
 msgstr "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
 
-#: weblate/trans/views/search.py:116
+#: weblate/trans/views/search.py:120
 msgid "Search and replace completed, no strings were updated."
 msgstr "اكتمل البحث و الاستبدال، و لم تُحدَّث أية سلسلة."
 
-#: weblate/trans/views/search.py:118
+#: weblate/trans/views/search.py:122
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
@@ -18461,24 +18536,24 @@ msgstr[3] "اكتمل البحث والاستبدال ، تم تحديث %d سل
 msgstr[4] "اكتمل البحث والاستبدال ، تم تحديث %d سلاسل."
 msgstr[5] "اكتمل البحث والاستبدال ، تم تحديث %d سلاسل."
 
-#: weblate/trans/views/search.py:178
+#: weblate/trans/views/search.py:182
 #, python-format
 msgid "Search for %s"
 msgstr "البحث عن %s"
 
-#: weblate/trans/views/search.py:189
+#: weblate/trans/views/search.py:193
 msgid "Too many search queries, please try again later."
 msgstr "أُرسِلت طلبات كثيرة، من فضلك حاول مجددًا في وقت لاحق."
 
-#: weblate/trans/views/search.py:192
+#: weblate/trans/views/search.py:196
 msgid "Invalid search query!"
 msgstr "طلب البحث غير صالح !"
 
-#: weblate/trans/views/search.py:236
+#: weblate/trans/views/search.py:240
 msgid "Bulk edit completed, no strings were updated."
 msgstr "اكتمل التعديل المجمع ، ولم يتم تحديث أي سلاسل."
 
-#: weblate/trans/views/search.py:238
+#: weblate/trans/views/search.py:242
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
@@ -18552,7 +18627,7 @@ msgid ""
 "%(error)s"
 msgstr ""
 
-#: weblate/trans/views/settings.py:415
+#: weblate/trans/views/settings.py:417
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
 
@@ -19352,6 +19427,22 @@ msgid "Could not dismiss the configuration error!"
 msgstr "لا يمكن استبعاد خطأ التكوين!"
 
 #, fuzzy
+#~| msgid "Return to Weblate"
+#~ msgid "Register in Weblate"
+#~ msgstr "ارجع إلى Weblate"
+
+#~ msgid "Info"
+#~ msgstr "معلومات"
+
+#~ msgid "Information"
+#~ msgstr "معلومات"
+
+#, fuzzy
+#~| msgid "Could not parse translation files."
+#~ msgid "Could not find matching user!"
+#~ msgstr "تعذر تحليل ملفات الترجمة."
+
+#, fuzzy
 #~| msgid "Threshold for included translations."
 #~ msgid "Threshold for inclusion of translations."
 #~ msgstr "الحد الأدنى للترجمات المضمنة."
@@ -19378,10 +19469,6 @@ msgstr "لا يمكن استبعاد خطأ التكوين!"
 
 #~ msgid "Donate to Weblate"
 #~ msgstr "تبرع لِ Weblate"
-
-#, python-format
-#~ msgid "Invitation to %(site_title)s"
-#~ msgstr "دعوة إلى %(site_title)s"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -20877,9 +20964,6 @@ msgstr "لا يمكن استبعاد خطأ التكوين!"
 
 #~ msgid "Overwrite existing translations"
 #~ msgstr "تجاوز الترجمات الموجودة"
-
-#~ msgid "Your summary"
-#~ msgstr "مُلخصك"
 
 #~ msgid "Your public appearance on this site."
 #~ msgstr "مظهرك العام في هذا الموقع."
