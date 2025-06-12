@@ -1008,7 +1008,7 @@ class Translation(
         count = len(not_found_log)
 
         strings = format_html_join_comma(
-            gettext('"{}"'), ((string,) for string in not_found_log[:string_limit])
+            gettext("“{}”"), ((string,) for string in not_found_log[:string_limit])
         )
         if count > string_limit:
             strings = format_html_join_comma("{}", [(strings,), (gettext("…"),)])
