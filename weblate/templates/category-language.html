@@ -10,7 +10,10 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Components" %}</a>
+      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
+    </li>
+    <li>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
     </li>
     <li>
       <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
@@ -70,7 +73,8 @@
 
   <div class="tab-content">
 
-    <div class="tab-pane active" id="overview">
+    <div class="tab-pane active" id="translation">{% include "snippets/translation.html" %}</div>
+    <div class="tab-pane active" id="components">
       {% include "snippets/list-objects.html" with objects=translation_objects list_categories=categories name_source="component_name" label=_("Component") %}
 
       {% include "paginator.html" with page_obj=translations %}
