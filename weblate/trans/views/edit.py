@@ -278,6 +278,7 @@ def search(
             "name": str(name),
             "ids": unit_ids,
             "ttl": now + SESSION_SEARCH_CACHE_TTL,
+            "last_viewed_unit_id": None,
         }
         if use_cache:
             request.session[session_key] = store_result
@@ -637,6 +638,20 @@ def translate(request: AuthenticatedHttpRequest, path):
             # Can happen when using SID for other translation
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
+
+    last_viewed_unit_id = search_result.get("last_viewed_unit_id")
+    if last_viewed_unit_id:
+        previous_unit = unit_set.get(pk=last_viewed_unit_id)
+        if unit.translation.component != previous_unit.translation.component:
+            messages.warning(
+                request,
+                gettext("You have shifted from %(previous)s to %(current)s.")
+                % {
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
+                },
+            )
+    search_result["last_viewed_unit_id"] = unit.id
 
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
