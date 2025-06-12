@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.db import models
 
+from weblate.utils.db import using_postgresql
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
@@ -33,6 +34,13 @@ class PendingChangeQuerySet(models.QuerySet):
         """Return pending changes older than given timestamp."""
         return self.filter(timestamp__lt=timestamp)
 
+    def select_for_update(self) -> PendingChangeQuerySet:  # type: ignore[override]
+        if using_postgresql():
+            # Use weaker locking and limit locking to this table only
+            return super().select_for_update(no_key=True, of=("self",))
+        # Discard any select_related to avoid locking additional tables
+        return super().select_for_update().select_related(None)
+
 
 class PendingUnitChange(models.Model):
     """Stores actual change data that needs to be committed to a repository."""
@@ -52,7 +60,7 @@ class PendingUnitChange(models.Model):
         choices=StringState.choices,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
-    details = models.JSONField(default=dict, blank=True)
+    add_unit = models.BooleanField(default=False)
 
     objects = PendingChangeQuerySet.as_manager()
 
@@ -73,12 +81,12 @@ class PendingUnitChange(models.Model):
     def store_unit_change(
         cls,
         unit: Unit,
-        author: User,
         *,
+        author: User | None = None,
         target: str | None = None,
         explanation: str | None = None,
         state: int | None = None,
-        details: dict | None = None,
+        add_unit: bool = False,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
         from weblate.auth.models import get_anonymous
@@ -89,8 +97,6 @@ class PendingUnitChange(models.Model):
             explanation = unit.explanation
         if state is None:
             state = unit.state
-        if details is None:
-            details = unit.details
 
         pending, _ = cls.objects.update_or_create(
             unit=unit,
@@ -99,7 +105,7 @@ class PendingUnitChange(models.Model):
                 "target": target,
                 "explanation": explanation,
                 "state": state,
-                "details": details,
+                "add_unit": add_unit,
             },
         )
         return pending

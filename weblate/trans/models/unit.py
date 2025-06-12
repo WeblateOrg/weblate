@@ -21,7 +21,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
-from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
@@ -975,10 +974,7 @@ class Unit(models.Model, LoggerMixin):
             run_checks=not same_source or not same_target or not same_state,
         )
         if pending:
-            PendingUnitChange.store_unit_change(
-                unit=self,
-                author=get_anonymous(),
-            )
+            PendingUnitChange.store_unit_change(unit=self)
         # Track updated sources for source checks
         if translation.is_template:
             component.updated_sources[self.id] = self

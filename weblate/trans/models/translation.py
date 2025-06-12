@@ -674,8 +674,9 @@ class Translation(
 
         pending_changes = list(
             PendingUnitChange.objects.for_translation(self)
-            .select_related("unit", "author")
+            .prefetch_related("unit", "author")
             .order_by("timestamp")
+            .select_for_update()
         )
 
         if not pending_changes:
@@ -851,9 +852,12 @@ class Translation(
         updated = False
         for pending_change in pending_changes:
             unit = pending_change.unit
-            details = pending_change.details
 
-            if details.get("add_unit"):
+            # update the unit in memory so that get_target_plurals returns
+            # the correct result for this change
+            unit.target = pending_change.target
+
+            if pending_change.add_unit:
                 pounit = store.new_unit(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
@@ -1726,7 +1730,7 @@ class Translation(
                         )
                         if pending:
                             PendingUnitChange.store_unit_change(
-                                unit=unit, author=user, details={"add_unit": True}
+                                unit=unit, author=user, add_unit=True
                             )
                         changes.append(
                             unit.generate_change(
