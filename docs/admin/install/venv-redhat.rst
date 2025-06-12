@@ -17,7 +17,7 @@ Installing on RedHat, Fedora and CentOS
 
 .. code-block:: sh
 
-    dnf install openldap-devel libsasl2-devel
+    dnf install openldap-devel cyrus-sasl-devel
     dnf install xmlsec1-devel
 
 
