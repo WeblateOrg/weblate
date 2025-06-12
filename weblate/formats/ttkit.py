@@ -1473,6 +1473,12 @@ class MOKOFormat(AndroidFormat):
     loader = ("aresource", "MOKOResourceFile")
 
 
+class CMPFormat(AndroidFormat):
+    name = gettext_lazy("Compose Multiplatform Resource")
+    format_id = "cmp-resource"
+    loader = ("aresource", "CMPResourceFile")
+
+
 class DictStoreFormat(TTKitFormat):
     @classmethod
     def validate_context(cls, context: str) -> None:
