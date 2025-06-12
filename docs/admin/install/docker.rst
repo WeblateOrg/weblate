@@ -35,7 +35,6 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
 
    .. code-block:: yaml
 
-        version: '3'
         services:
           weblate:
             ports:
