@@ -2226,6 +2226,7 @@ class FluentFormat(TTKitFormat):
     unit_class = FluentUnit
     autoload: tuple[str, ...] = ("*.ftl",)
     new_translation = ""
+    language_format: str = "bcp"
     check_flags = (
         "fluent-source-syntax",
         "fluent-target-syntax",

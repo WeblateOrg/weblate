@@ -1431,7 +1431,7 @@ class FluentFormatTest(BaseFormatTest):
     COUNT = 4
     MATCH = ""
     MASK = "locales/*/messages.ftl"
-    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    EXPECTED_PATH = "locales/cs-CZ/messages.ftl"
     BASE = ""
     FIND = 'Ahoj "světe"!\\n'
     FIND_CONTEXT = "hello"
