@@ -302,6 +302,7 @@ class UserSettingsForm(ProfileBaseForm):
             "hide_source_secondary",
             "editor_link",
             "special_chars",
+            "contribute_personal_tm",
         )
 
     def __init__(self, *args, **kwargs) -> None:

@@ -669,6 +669,13 @@ class Profile(models.Model):
             "Whenever you translate a string in a project, you will start watching it."
         ),
     )
+    contribute_personal_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to personal translation memory"),
+        default=True,
+        help_text=gettext_lazy(
+            "Allow your translations to be added to your personal translation memory."
+        ),
+    )
 
     DASHBOARD_WATCHED = 1
     DASHBOARD_COMPONENT_LIST = 4
