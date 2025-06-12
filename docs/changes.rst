@@ -11,6 +11,8 @@ Weblate 5.12
 * :ref:`sbom` is now being provided for Weblate.
 * :doc:`/security/index` documentation.
 * Added support for :doc:`/formats/compose-multiplatform-resources`.
+* Added :guilabel:`Translation Coordinator` role.
+* :ref:`addon-weblate.webhook.slack` is now available as an add-on.
 
 .. rubric:: Improvements
 
@@ -25,6 +27,7 @@ Weblate 5.12
 * :http:get:`/api/users/` now includes ``languages``.
 * :ref:`addon-weblate.webhook.webhook` documentation improved.
 * Improved support for extended metadata in :ref:`tbx`.
+* :ref:`addon-weblate.webhook.webhook` now includes a category field when available.
 
 .. rubric:: Bug fixes
 

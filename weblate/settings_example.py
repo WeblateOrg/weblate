@@ -825,6 +825,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.yaml.YAMLCustomizeAddon",
 #     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.webhooks.WebhookAddon",
+#     "weblate.addons.webhooks.SlackWebhookAddon",
 # )
 
 # E-mail address that error messages come from.
