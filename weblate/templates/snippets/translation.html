@@ -1,0 +1,110 @@
+{% load humanize i18n translations %}
+
+{% get_translate_url object as translate_url %}
+{% url 'translate' path=object.get_url_path as edit_url %}
+{% url 'zen' path=object.get_url_path as zen_url %}
+{% url 'browse' path=object.get_url_path as browse_url %}
+
+<div class="panel {% if object.is_source %}panel-warning{% else %}panel-default{% endif %}">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% if object.is_source %}
+        {% translate "Source strings" %}
+      {% else %}
+        {% translate "Translation status" %}
+      {% endif %}
+    </h4>
+  </div>
+
+  <table class="table table-autowidth">
+    <tr>
+      <th class="number">{{ object.stats.all|intcomma }}</th>
+      <td>{% translate "Strings" %}</td>
+      <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
+      <td class="percent">{{ object.stats.translated_without_checks_percent|percent_format }}</td>
+      <td rowspan="3" class="buttons-cell full-cell">
+        <div class="pull-right flip">
+          {% if user_can_add_unit %}
+            <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
+          {% endif %}
+          <a href="{{ browse_url }}" class=" btn btn-info">{% translate "Browse" %}</a>
+          <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
+             class="btn btn-primary">{% translate "Translate" %}</a>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <th class="number">{{ object.stats.all_words|intcomma }}</th>
+      <td>{% translate "Words" %}</td>
+      <td class="progress-cell hidden-xs">{% words_progress object %}</td>
+      <td class="percent">{{ object.stats.translated_without_checks_words_percent|percent_format }}</td>
+    </tr>
+
+    <tr>
+      <th class="number">{{ object.stats.all_chars|intcomma }}</th>
+      <td>{% translate "Characters" %}</td>
+      <td class="progress-cell hidden-xs">{% chars_progress object %}</td>
+      <td class="percent">{{ object.stats.translated_without_checks_chars_percent|percent_format }}</td>
+    </tr>
+  </table>
+
+  {% if object.is_source %}
+    <div class="panel-footer">
+      {% translate "This translation is being used as source strings within this component." %}
+    </div>
+  {% endif %}
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      {% documentation_icon 'user/translating' 'strings-to-check' right=True %}
+      {% translate "Strings status" %}
+    </h4>
+  </div>
+  <table class="table table-autowidth table-listing">
+    <thead>
+      <tr>
+        <th class="number split-cell wrap-cell">
+          <span>{% translate "Strings" %}</span>
+          <span>{% translate "Words" %}</span>
+          <span>{% translate "Characters" %}</span>
+        </th>
+      </tr>
+    </thead>
+    {% for query, name, count, color, words, characters in object.list_translation_checks %}
+      <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
+        <th class="number split-cell wrap-cell">
+          <span>{{ count|intcomma }}</span>
+          <span>{{ words|intcomma }}</span>
+          <span>{{ characters|intcomma }}</span>
+        </th>
+        <td class="legend">
+          {% if name != "all" %}
+            <div class="progress">
+              {% if color %}
+                <div class="progress-bar{% if color != "primary" %} progress-bar-{{ color }}{% endif %}"
+                     role="progressbar"
+                     aria-valuenow="100"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-labelledby="check-label-{{ forloop.counter }}"
+                     style="width: 100%"></div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </td>
+        <td class="full-cell">
+          <a href="{{ translate_url }}?q={{ query }}" id="check-label-{{ forloop.counter }}">{{ name }}</a>
+        </td>
+        <td class="wrap-cell">
+          <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% translate "Browse" %}</a>
+          <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% translate "Translate" %}</a>
+          <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% translate "Zen" %}</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

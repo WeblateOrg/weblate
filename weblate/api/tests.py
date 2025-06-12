@@ -9,6 +9,7 @@ from io import BytesIO
 
 import responses
 from django.core.files import File
+from django.test.utils import modify_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -29,7 +30,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import fixup_languages_seq
-from weblate.trans.tests.utils import RepoTestMixin, get_test_file
+from weblate.trans.tests.utils import RepoTestMixin, create_test_billing, get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -73,6 +74,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.project_kwargs = {"slug": "test"}
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
+        self.user.profile.languages.add(Language.objects.get(code="cs"))
         group = Group.objects.get(name="Users")
         self.user.groups.add(group)
 
@@ -137,6 +139,7 @@ class UserAPITest(APIBaseTest):
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
+        language = Language.objects.get(code="cs")
         response = self.do_request(
             "api:user-detail",
             kwargs={"username": User.objects.filter(is_active=True)[0].username},
@@ -145,6 +148,10 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
+        self.assertIn(
+            f"http://example.com/api/languages/{language.code}/",
+            response.data["languages"],
+        )
 
     def test_filter(self) -> None:
         response = self.client.get(reverse("api:user-list"), {"username": "api"})
@@ -425,7 +432,9 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "Users")
 
     def test_create(self) -> None:
-        self.do_request("api:group-list", method="post", code=403)
+        self.do_request(
+            "api:group-list", method="post", code=403, request={"name": "Group"}
+        )
         self.do_request(
             "api:group-list",
             method="post",
@@ -455,6 +464,41 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.count(), 8)
         group = Group.objects.get(name="Group")
         self.assertEqual(group.defining_project, self.component.project)
+
+        admin = User.objects.create_user("admin", "admin@example.com")
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + admin.auth_token.key)
+
+        # serializer validation fails before perm check even happens causing 400 error
+        # if trying to use a project without permissions
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=400,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+
+        self.component.project.add_user(admin, "Administration")
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(Group.objects.count(), 9)
 
     def test_add_role(self) -> None:
         role = Role.objects.get(name="Administration")
@@ -904,7 +948,7 @@ class RoleAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 2)
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 15)
+        self.assertEqual(response.data["count"], 16)
 
     def test_get_role(self) -> None:
         role = Role.objects.get(name="Access repository")
@@ -929,7 +973,7 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
-        self.assertEqual(Role.objects.count(), 16)
+        self.assertEqual(Role.objects.count(), 17)
         self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
     def test_delete(self) -> None:
@@ -940,7 +984,7 @@ class RoleAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Role.objects.count(), 14)
+        self.assertEqual(Role.objects.count(), 15)
 
     def test_put(self) -> None:
         self.do_request(
@@ -1147,6 +1191,96 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Project.objects.count(), 2)
+
+    def test_create_with_billing(self) -> None:
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "Can not create projects",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
+
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "No valid billing found or limit exceeded.",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
+
+            billing = create_test_billing(self.user, invoice=False)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            project = Project.objects.get(pk=response.data["id"])
+            self.assertEqual(project.billing, billing)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project 2",
+                    "slug": "api-project-2",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "No valid billing found or limit exceeded.",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
 
     def test_create_with_source_language(self) -> None:
         self.do_request(

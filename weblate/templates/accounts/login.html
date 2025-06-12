@@ -17,13 +17,16 @@
       {% show_message "error" msg %}
     {% endif %}
 
-    <h2>{{ site_title }}</h2>
+    <h2>{% include "accounts/snippets/login-title.html" %}</h2>
     <div class="row">
 
 
       <div class="col-sm-6 col-sm-push-6">
 
-        <h4>{% translate "Sign in" %}</h4>
+        <h4>
+          {% format_site_title as formatted_site_title %}
+          {% blocktranslate %}Sign in to {{ formatted_site_title }}{% endblocktranslate %}
+        </h4>
         <div class="panel panel-default">
           <div class="panel-body">
             <form method="post" action="{% url 'login' %}">
@@ -76,7 +79,7 @@
 
       </div>
 
-      <div class="col-sm-6 col-sm-pull-6">{% include "snippets/login-info.html" %}</div>
+      <div class="col-sm-6 col-sm-pull-6">{% include "accounts/snippets/login-info.html" %}</div>
 
     </div>
   </div>

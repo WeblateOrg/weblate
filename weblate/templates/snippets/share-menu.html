@@ -8,10 +8,7 @@
     <ul class="dropdown-menu">
       {% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
         <li>
-          <a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% translate "Share on Facebook" %}</a>
-        </li>
-        <li>
-          <a href="https://x.com/share?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on X" %}</a>
+          <a href="https://bsky.app/intent/compose?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on Bluesky" %}</a>
         </li>
         {% with fediverse_url=user.profile.get_fediverse_share %}
           {% if fediverse_url %}
@@ -20,6 +17,12 @@
             </li>
           {% endif %}
         {% endwith %}
+        <li>
+          <a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% translate "Share on Facebook" %}</a>
+        </li>
+        <li>
+          <a href="https://x.com/share?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on X" %}</a>
+        </li>
         <li>
           <a href="{{ share_url }}">{% translate "Engage page" %}</a>
         </li>

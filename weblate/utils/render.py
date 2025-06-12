@@ -175,7 +175,7 @@ def validate_repoweb(val: str, allow_editor: bool = False) -> None:
     validator: URLValidator
     if (
         allow_editor
-        and val.split("://")[0].lower() in WeblateEditorURLValidator.schemes
+        and val.split("://", 1)[0].lower() in WeblateEditorURLValidator.schemes
     ):
         validator = WeblateEditorURLValidator()
     else:

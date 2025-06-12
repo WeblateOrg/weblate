@@ -42,7 +42,7 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
-    - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -86,7 +86,7 @@ jobs:
       run: |
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
+    - uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations

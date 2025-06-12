@@ -1061,8 +1061,20 @@ Use as a glossary
 
 .. versionadded:: 4.5
 
-Allows using this component as a glossary. You can configure how it will be
-listed using :ref:`component-glossary_color`.
+Allows using this component as a glossary. Use when you want to manage
+terminology separately from normal translations.
+
+Glossaries are best for:
+
+- Ensuring consistent use of terms (e.g., UI labels, product names).
+- Sharing preferred translations across multiple components or projects.
+- Supporting translators with definitions and context.
+
+.. note::
+
+   Glossaries are not for regular translations—they are for managing terms only.
+
+You can configure how it will be listed using :ref:`component-glossary_color`.
 
 The glossary will be accessible in all projects defined by :ref:`component-links`.
 

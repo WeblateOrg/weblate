@@ -360,7 +360,7 @@ class TranslationManipulationTest(ViewTestCase):
         translation = self.component.translation_set.get(language_code="de")
         translation.remove(self.user)
         # Force scanning of the repository
-        self.component.create_translations()
+        self.component.create_translations_immediate()
         self.assertFalse(
             self.component.translation_set.filter(language_code="de").exists()
         )

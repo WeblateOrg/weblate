@@ -121,8 +121,8 @@ for the project in case he has access to more of them.
 
 .. _legal:
 
-Legal
------
+Legal module
+------------
 
 This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to provide required
 legal documents. It comes provided with blank documents, and you are expected to fill out the
@@ -288,7 +288,9 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sending message to admins         | ``MESSAGE``        | 2                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Password authentication on sign in| ``LOGIN``          | 5                | 300              | 600            |
+| Password authentication on sign-in| ``LOGIN``          | 5                | 300              | 600            |
++-----------------------------------+--------------------+------------------+------------------+----------------+
+| Second-factor authentication      | ``SECOND_FACTOR``  | 5                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sitewide search                   | ``SEARCH``         | 6                | 60               | 60             |
 +-----------------------------------+--------------------+------------------+------------------+----------------+

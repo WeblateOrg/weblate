@@ -9,8 +9,10 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on `GitHub Actions`_ and coverage is reported
-on `Codecov`_.
+Weblate relies on `GitHub Actions`_ to run tests, build documentation, code
+linting, and other tasks to ensure code quality.
+
+`Codecov`_ collects the code coverage information from the tests that were run.
 
 .. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
 .. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
@@ -43,8 +45,8 @@ The simple execution can look like:
 
 .. _local-tests:
 
-Local testing
-+++++++++++++
+Local testing of Weblate
++++++++++++++++++++++++++
 
 Before running test, please ensure test dependencies are installed. This can be done by ``pip install -e .[test]``.
 
@@ -97,3 +99,19 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 
     See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
+
+
+Local testing of Weblate modules
+--------------------------------
+
+The tests are executed using :program:`py.test`. First you need to install test requirements:
+
+.. code-block:: sh
+
+   uv pip install -e '.[dev]'
+
+You can then execute the testsuite in the repository checkout:
+
+.. code-block:: sh
+
+   py.test

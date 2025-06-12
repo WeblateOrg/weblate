@@ -25,13 +25,13 @@
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
-    </li>
-    <li>
       <a href="#languages" data-toggle="tab">{% translate "Languages" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    </li>
+    <li>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
       <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
@@ -202,7 +202,7 @@
   </ul>
 
   <div class="tab-content">
-    <div class="tab-pane active" id="components">
+    <div class="tab-pane" id="components">
 
       {% include "snippets/list-objects.html" with objects=components list_categories=categories name_source="name" label=_("Component") add_link="component" %}
 
@@ -214,7 +214,7 @@
       {% show_info project=object stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
-    <div class="tab-pane" id="languages">
+    <div class="tab-pane active" id="languages">
 
       {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats %}
 

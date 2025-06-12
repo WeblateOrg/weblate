@@ -114,7 +114,7 @@ def validate_bitmap(value) -> None:
     except Exception as exc:
         # Pillow doesn't recognize it as an image.
         raise ValidationError(
-            gettext("Invalid image!"), code="invalid_image"
+            gettext("The uploaded image was invalid."), code="invalid_image"
         ).with_traceback(sys.exc_info()[2]) from exc
     if hasattr(value.file, "seek") and callable(value.file.seek):
         value.file.seek(0)

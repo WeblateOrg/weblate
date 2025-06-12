@@ -382,7 +382,7 @@ class EditResourceTest(EditTest):
         self.assertEqual(
             Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
         )
-        self.component.create_translations(force=True)
+        self.component.create_translations_immediate(force=True)
         self.assertEqual(
             Unit.objects.filter(context="key", state=STATE_TRANSLATED).count(), 2
         )
@@ -1193,7 +1193,7 @@ class EditSourceTest(ViewTestCase):
         )
 
         # Check sync should be no-op now
-        self.component.create_translations()
+        self.component.create_translations_immediate()
 
         # Check that translation was preserved
         self.assertEqual(

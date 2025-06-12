@@ -5,7 +5,7 @@ Security and privacy
 
    At Weblate, security maintains an environment that values the privacy of our users.
 
-Development of Weblate adheres to the `Best Practices of the Linux Foundation's Core Infrastructure Initiative <https://www.bestpractices.dev/en/projects/552>`_.
+Development of Weblate adheres to the `Best Practices of the Open Source Security Foundation <https://www.bestpractices.dev/en/projects/552>`_.
 
 .. seealso::
 
@@ -22,33 +22,32 @@ receive security updates. Users are encouraged to keep Weblate up to date to
 benefit from the latest security improvements. Learn more about :ref:`Weblate
 releases and the release life cycle <release-cycle>`.
 
-Tracking dependencies for vulnerabilities
------------------------------------------
+Security policies
+-----------------
 
-Security issues in our dependencies are monitored using `Renovate`_. This
-covers the Python and JavaScript libraries, and the latest stable release has
-its dependencies updated to avoid vulnerabilities.
+* :doc:`dependencies`
+* :doc:`disaster-recovery-plan`
+* :doc:`incident-response-plan`
+* :doc:`issues`
+* :doc:`passwords`
+* :doc:`threat-model`
 
-.. hint::
+Compliance
+----------
 
-   There might be vulnerabilities in third-party libraries which do not affect
-   Weblate, so those are not addressed by releasing bugfix versions of Weblate.
+* :doc:`privacy-compliance`
 
-Docker container security
--------------------------
+Terms of service and privacy policy
+-----------------------------------
 
-The Docker containers are regularly scanned using `Anchore`_ and `Trivy`_
-security scanners.
+.. note::
 
-This allows us to detect vulnerabilities early and release improvements quickly.
+    These documents apply to Weblate deployments operated by Weblate s.r.o., such as Hosted Weblate.
 
-You can get the results of these scans at GitHub — they are stored as artifacts
-on our CI as :abbr:`SARIF (Static Analysis Results Interchange Format)`.
+* `General terms and conditions`_
+* `Privacy policy`_
+* The data processing agreement can be obtained in the `Customer area`_.
 
-.. seealso::
-
-   :ref:`ci-tests`
-
-.. _Renovate: https://www.mend.io/renovate/
-.. _Anchore: https://anchore.com/
-.. _Trivy: https://github.com/aquasecurity/trivy
+.. _General terms and conditions: https://weblate.org/terms/
+.. _Privacy policy: https://weblate.org/privacy/
+.. _Customer area: https://weblate.org/user/

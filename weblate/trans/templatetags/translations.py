@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
 from datetime import date, datetime
@@ -15,7 +16,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape, format_html, format_html_join, urlize
+from django.utils.html import escape, format_html, format_html_join, linebreaks, urlize
 from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -1533,7 +1534,7 @@ def get_breadcrumbs(path_object, *, flags: bool = True, only_names: bool = False
         yield with_url(path_object)
     elif isinstance(path_object, ProjectLanguage):
         yield (
-            f"{path_object.project.get_absolute_url()}#languages",
+            path_object.project.get_absolute_url(),
             path_object.project.name,
         )
         yield with_url(path_object.language)
@@ -1547,7 +1548,7 @@ def get_breadcrumbs(path_object, *, flags: bool = True, only_names: bool = False
                 path_object.category.project, flags=flags, only_names=only_names
             )
         yield (
-            f"{path_object.category.get_absolute_url()}#languages",
+            path_object.category.get_absolute_url(),
             path_object.category.name,
         )
         yield with_url(path_object.language)
@@ -1722,3 +1723,15 @@ def show_info(  # noqa: PLR0913
         "top_users": top_users,
         "total_translations": total_translations,
     }
+
+
+@register.filter(is_safe=True)
+def format_json(value: dict) -> str:
+    return mark_safe(  # noqa: S308
+        linebreaks(json.dumps(value, indent=4), autoescape=True)
+    )
+
+
+@register.filter(is_safe=True)
+def format_headers(value: dict[str, str]) -> str:
+    return format_html_join(mark_safe("<br>"), "<b>{}</b>: {}", value.items())

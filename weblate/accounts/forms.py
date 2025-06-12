@@ -237,6 +237,7 @@ class ProfileForm(ProfileBaseForm):
         model = Profile
         fields = (
             "website",
+            "contact",
             "public_email",
             "liberapay",
             "codesite",
@@ -301,6 +302,7 @@ class UserSettingsForm(ProfileBaseForm):
             "hide_source_secondary",
             "editor_link",
             "special_chars",
+            "contribute_personal_tm",
         )
 
     def __init__(self, *args, **kwargs) -> None:
@@ -429,7 +431,7 @@ class CaptchaWidget(forms.TextInput):
                 {
                     "algorithm": self.challenge.algorithm,
                     "challenge": self.challenge.challenge,
-                    "maxnumber": self.challenge.maxnumber,
+                    "maxnumber": self.challenge.max_number,
                     "salt": self.challenge.salt,
                     "signature": self.challenge.signature,
                 }

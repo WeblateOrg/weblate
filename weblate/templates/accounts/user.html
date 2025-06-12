@@ -92,6 +92,11 @@
               <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website|urlformat }}</a>
             </span>
           {% endif %}
+          {% if page_profile.contact %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "chat.svg" %}</span> <a href="{{ page_profile.contact }}" rel="ugc">{{ page_profile.contact|urlformat }}</a>
+            </span>
+          {% endif %}
           {% if page_profile.public_email %}
             <span class="middle-dot-divider">
               <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>

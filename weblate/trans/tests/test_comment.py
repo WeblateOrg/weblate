@@ -36,6 +36,29 @@ class CommentViewTest(FixtureTestCase):
         self.assertTrue(unit.has_comment)
         self.assertEqual(translation.stats.comments, 1)
 
+    def test_add_long_comment(self) -> None:
+        unit = self.get_unit()
+
+        # Add comment which is 1000 charters long, but is using \r\n as newlines
+        # which makes it too long. This happens in the browser as it counts newline
+        # as a single character, but posts it as \r\n.
+        response = self.client.post(
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "123456789\r\n" * 100, "scope": "translation"},
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        # Check it is shown on page
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, "123456789")
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.component.translation_set.get(language_code="cs")
+        # Check number of comments
+        self.assertTrue(unit.has_comment)
+        self.assertEqual(translation.stats.comments, 1)
+
     def test_add_source_comment(self) -> None:
         unit = self.get_unit()
 

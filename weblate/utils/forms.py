@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
+from django.utils.text import normalize_newlines
 from django.utils.translation import gettext, gettext_lazy
 from pyparsing import ParseException
 
@@ -253,3 +254,8 @@ class CachedModelMultipleChoiceField(
 
 class WeblateServiceURLField(forms.URLField):
     default_validators = [WeblateServiceURLValidator()]
+
+
+class NormalizedNewlineCharField(forms.CharField):
+    def to_python(self, value):
+        return normalize_newlines(super().to_python(value))

@@ -18,9 +18,11 @@
 </table>
 
 <p>
+  {% blocktranslate %}Sign in to see the full audit log, including the IP address.{% endblocktranslate %}
   {% blocktranslate %}If you didn’t initiate this, please report it to the server administrators by clicking the button below.{% endblocktranslate %}
 </p>
 
 <div class="line buttons">
+  <a class="button" href="{% url 'profile' %}#audit">{% translate "View audit log" %}</a>
   <a class="button" href="{% url 'contact' %}?t=account">{% translate "Report" %}</a>
 </div>

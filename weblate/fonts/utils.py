@@ -254,6 +254,7 @@ def render_size(
     pixel_size, line_count, buffer = _render_size(
         text,
         font=font,
+        weight=weight,
         size=size,
         spacing=spacing,
         width=width,

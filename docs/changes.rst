@@ -7,18 +7,41 @@ Weblate 5.12
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
 * :ref:`addon-weblate.json.customize` now has a configurable compact mode.
+* Added :ref:`check-kabyle-characters` quality check.
+* :ref:`sbom` is now being provided for Weblate.
+* :doc:`/security/index` documentation.
+* Added support for :doc:`/formats/compose-multiplatform-resources`.
+* Added :guilabel:`Translation Coordinator` role.
+* :ref:`addon-weblate.webhook.slack` is now available as an add-on.
 
 .. rubric:: Improvements
 
 * :ref:`check-same` is now skipped for Toki Pona.
 * :ref:`search-strings` supports ``has:location`` lookup.
 * Unicode whitespaces are now considered as problematic characters for :ref:`glossary`, see :ref:`check-prohibited-initial-character`.
+* :ref:`addon-weblate.webhook.webhook` logs are now displayed nicely.
+* :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
+* :ref:`user-profile` can now include contact URL.
+* :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
+* :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
+* :http:get:`/api/users/` now includes ``languages``.
+* :ref:`addon-weblate.webhook.webhook` documentation improved.
+* Improved support for extended metadata in :ref:`tbx`.
+* :ref:`addon-weblate.webhook.webhook` now includes a category field when available.
 
 .. rubric:: Bug fixes
 
 * :ref:`dashboard` translations ordering when paginating.
+* Honor DeepL API Free glossary limits in :ref:`mt-deepl`.
+* :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
+* False reports of :ref:`check-translated` with flags or explanation changes.
+* Creating new translations in :doc:`/formats/appstore`.
+* :ref:`search-replace` correctly handles plurals.
 
 .. rubric:: Compatibility
+
+* The projects and categories default tab now shows translated languages.
+* If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
 
 .. rubric:: Upgrading
 
@@ -340,7 +363,7 @@ Weblate 5.10
 .. rubric:: Compatibility
 
 * Running tests using Django test executor is no longer supported, see :doc:`/contributing/tests`.
-* :ref:`check-bbcode` check is now disabled by default. The `bbcode-text` flag is required to activate this check, see :ref:`custom-checks`.
+* :ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` flag is required to activate this check, see :ref:`custom-checks`.
 * API error responses format has changed, see :ref:`api-errors`.
 
 .. rubric:: Upgrading
@@ -442,7 +465,7 @@ Weblate 5.9
 
 * :ref:`rollbar-errors` integration no longer includes client-side error collection.
 * Weblate now requires Git 2.28 or newer.
-* Any custom code that relied on `Change` models signals should be reviewed.
+* Any custom code that relied on ``Change`` models signals should be reviewed.
 * :ref:`fedora-messaging` integration needs to be updated to be compatible with this release.
 * :envvar:`WEB_WORKERS` now configures number of threads instead of processes.
 
@@ -581,7 +604,7 @@ Weblate 5.8
 .. rubric:: Compatibility
 
 * Weblate now requires Python 3.11 or newer.
-* :ref:`mt-aws` now requires the `TranslateFullAccess` permission.
+* :ref:`mt-aws` now requires the ``TranslateFullAccess`` permission.
 
 .. rubric:: Upgrading
 
@@ -628,7 +651,7 @@ Weblate 5.7.1
 
 .. rubric:: Improvements
 
-* Updated language names to better describe different scripts and Sintic languages.
+* Updated language names to better describe different scripts and Sinitic languages.
 * :ref:`addon-weblate.cleanup.generic` is now automatically installed for formats which need it to update non-translation content in the translated files.
 
 .. rubric:: Bug fixes
@@ -761,8 +784,8 @@ Weblate 5.6
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
 * Gracefully handle temporary machine translation errors in automatic suggestions.
-* :http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp.
-* :http:get:`/api/changes/(int:id)/` now includes `old` and `details`.
+* :http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp.
+* :http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``.
 * Reduced memory usage and increased performance of some views.
 
 .. rubric:: Bug fixes
@@ -1016,7 +1039,7 @@ Weblate 5.4
 * :doc:`/formats/moko`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
-* Weblate is now available in தமிழ்.
+* Weblate is now available in Tamil.
 
 .. rubric:: Improvements
 

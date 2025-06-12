@@ -209,6 +209,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-fluent-target-syntax` quality check.
 ``ignore-angularjs-format``
     Skip the :ref:`check-angularjs-format` quality check.
+``ignore-automattic-components-format``
+    Skip the :ref:`check-automattic-components-format` quality check.
 ``ignore-c-format``
     Skip the :ref:`check-c-format` quality check.
 ``ignore-c-sharp-format``
@@ -289,6 +291,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-newline-count` quality check.
 ``ignore-plurals``
     Skip the :ref:`check-plurals` quality check.
+``ignore-kabyle-characters``
+    Skip the :ref:`check-kabyle-characters` quality check.
 ``ignore-placeholders``
     Skip the :ref:`check-placeholders` quality check.
 ``ignore-prohibited-initial-character``

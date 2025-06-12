@@ -710,7 +710,7 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
     MIME = "application/xml"
     EXT = "xml"
     COUNT = 1
-    MATCH = "<resources></resources>"
+    MATCH = "<resources>\n</resources>"
     MASK = "res/values-*/strings.xml"
     EXPECTED_PATH = "res/values-cs-rCZ/strings.xml"
     FIND = "Hello, world!\n"
@@ -1352,6 +1352,34 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b"<term>Source string</term>"
     EXPECTED_FLAGS = ""
 
+    def test_extended_metadata(self):
+        storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
+        self.assertEqual(len(storage.all_units), 3)
+        self.assertEqual(storage.mimetype(), self.MIME)
+        self.assertEqual(storage.extension(), self.EXT)
+
+        unit, _ = storage.find_unit("e001", "data bus")
+        self.assertEqual(unit.notes, "Avoid using this term in any documentation.")
+        self.assertEqual(
+            unit.source_explanation, "Superseded but still found in older manuals."
+        )
+        self.assertEqual(unit.flags, "forbidden")
+        self.assertEqual(unit.is_readonly(), False)
+
+        unit, _ = storage.find_unit("e002", "SYS_ERR_406")
+        self.assertEqual(unit.notes, "Do not translate error codes.")
+        self.assertEqual(
+            unit.source_explanation, "An internal code identifier not to be localized."
+        )
+        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.is_readonly(), True)
+
+        unit, _ = storage.find_unit("e003", "combo box")
+        self.assertEqual(unit.notes, "")
+        self.assertEqual(unit.source_explanation, "")
+        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.is_readonly(), False)
+
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     format_class = StringsdictFormat
@@ -1403,7 +1431,7 @@ class FluentFormatTest(BaseFormatTest):
     COUNT = 4
     MATCH = ""
     MASK = "locales/*/messages.ftl"
-    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    EXPECTED_PATH = "locales/cs-CZ/messages.ftl"
     BASE = ""
     FIND = 'Ahoj "světe"!\\n'
     FIND_CONTEXT = "hello"

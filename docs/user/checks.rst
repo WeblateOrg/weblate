@@ -650,8 +650,7 @@ Java MessageFormat
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
 :Check identifier: ``java_format``
-:Flag to enable unconditionally: ``java-format``
-:Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
+:Flag to enable: ``java-format``, ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-format``
 :Position format string example: ``There are {0} apples``
 
@@ -1349,6 +1348,25 @@ Specifics on how each plural form is used can be found in the string definition.
 
 Failing to fill in plural forms will in some cases lead to displaying nothing when
 the plural form is in use.
+
+.. _check-kabyle-characters:
+
+
+Non‑standard characters in Kabyle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.12
+
+:Summary: Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.KabyleCharactersCheck``
+:Check identifier: ``kabyle-characters``
+:Flag to ignore: ``ignore-kabyle-characters``
+
+Checks that Kabyle translations use correct Kabyle letters and not similar
+Greek ones, which were often used before Kabyle characters were standardized in
+Unicode.
+
 
 .. _check-placeholders:
 

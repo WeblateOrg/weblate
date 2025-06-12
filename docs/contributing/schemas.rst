@@ -3,9 +3,11 @@ Data schemas
 
 Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of external JSON files.
 
-.. _schema-memory:
+.. only:: not gettext
 
-.. jsonschema:: ../schemas/weblate-memory.schema.json
+   .. _schema-memory:
+
+   .. jsonschema:: ../schemas/weblate-memory.schema.json
 
 .. seealso::
 
@@ -13,9 +15,12 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
     :wladmin:`dump_memory`,
     :wladmin:`import_memory`
 
-.. _schema-userdata:
 
-.. jsonschema:: ../schemas/weblate-userdata.schema.json
+.. only:: not gettext
+
+   .. _schema-userdata:
+
+   .. jsonschema:: ../schemas/weblate-userdata.schema.json
 
 .. seealso::
 
@@ -23,9 +28,12 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
     :wladmin:`dumpuserdata`
 
 
-.. _schema-messaging:
 
-.. jsonschema:: ../schemas/weblate-messaging.schema.json
+.. only:: not gettext
+
+   .. _schema-messaging:
+
+   .. jsonschema:: ../schemas/weblate-messaging.schema.json
 
 .. seealso::
 

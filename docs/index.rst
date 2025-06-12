@@ -76,6 +76,7 @@ Learn more about :ref:`contributing`.
     devel/starting
     devel/integration
     devel/gettext
+    devel/mobile
     devel/sphinx
     devel/html
     devel/third-party
@@ -147,8 +148,13 @@ Learn more about :ref:`contributing`.
    :hidden:
 
    security/index
+   security/dependencies
    security/issues
-
+   security/incident-response-plan
+   security/passwords
+   security/disaster-recovery-plan
+   security/threat-model
+   security/privacy-compliance
 
 .. toctree::
    :caption: File formats

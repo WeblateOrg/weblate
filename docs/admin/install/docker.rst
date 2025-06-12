@@ -35,7 +35,6 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
 
    .. code-block:: yaml
 
-        version: '3'
         services:
           weblate:
             ports:
@@ -1997,6 +1996,39 @@ Container settings
    ``web``
       Web server.
 
+.. envvar:: WEBLATE_ANUBIS_URL
+
+   .. versionadded:: 5.11.4
+
+   URL of `Anubis`_ server to handle subrequest authentication. This can be
+   useful to filter incoming HTTP requests using proof-of-work to stop AI
+   crawlers. You need to configure `Anubis for Subrequest Authentication`_ to
+   make it work.
+
+   This can be done using docker compose, for example:
+
+   .. code-block:: yaml
+
+      anubis:
+         image: ghcr.io/techarohq/anubis:latest
+         environment:
+            BIND: ":8923"
+            DIFFICULTY: "4"
+            METRICS_BIND: ":9090"
+            SERVE_ROBOTS_TXT: "false"
+            TARGET: " "
+            OG_PASSTHROUGH: "false"
+            ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
+
+   You can then turn on the Anubis usage in Weblate using:
+
+   .. code-block:: yaml
+
+      environment:
+         WEBLATE_ANUBIS_URL: http://anubis:8923
+
+.. _Anubis: https://anubis.techaro.lol/
+.. _Anubis for Subrequest Authentication: https://anubis.techaro.lol/docs/admin/configuration/subrequest-auth
 
 .. _docker-volume:
 

@@ -45,7 +45,8 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
                 needs_create = True
 
         if needs_create:
-            component.create_translations_task()
+            # force_scan needed, see add_new_language
+            component.create_translations_immediate(force_scan=True)
 
 
 @app.task(trail=False, autoretry_for=(Project.DoesNotExist, WeblateLockTimeoutError))

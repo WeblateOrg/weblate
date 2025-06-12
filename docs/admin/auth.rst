@@ -17,12 +17,12 @@ The authentication attempts are subject to :ref:`rate-limit`.
 Authentication backends
 -----------------------
 
-The built-in solution of Django is used for authentication,
-including various social options to do so.
-Using it means you can import the user database of other Django-based projects
-(see :ref:`pootle-migration`).
+Weblate relies on Django for the authentication. This includes built-in
+password-based authentication, social authentication, and third-party
+authentication backends for Django.
 
-Django can additionally be set up to authenticate against other means too.
+Using Django's built-in authentication means you can import the user database
+of other Django-based projects (see :ref:`pootle-migration`).
 
 .. seealso::
 
@@ -466,7 +466,9 @@ passwords below a certain threshold.
 .. seealso::
 
    :setting:`PASSWORD_MINIMAL_STRENGTH`,
-   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`,
+   :doc:`/security/passwords`
+
 
 .. _saml-auth:
 
@@ -685,7 +687,7 @@ Active Directory integration
 CAS authentication
 ------------------
 
-CAS authentication can be achieved using a package such as `django-cas-ng`.
+CAS authentication can be achieved using a package such as `Django CAS NG`_.
 
 Step one is disclosing the e-mail field of the user via CAS. This has to be
 configured on the CAS server itself, and requires you run at least CAS v2 since
@@ -693,7 +695,7 @@ CAS v1 doesn't support attributes at all.
 
 Step two is updating Weblate to use your CAS server and attributes.
 
-To install `django-cas-ng`:
+To install `Django CAS NG`_:
 
 .. code-block:: sh
 
@@ -738,9 +740,7 @@ cause problems, therefore it's suggested to put it:
         user.email = attributes["email"]
         user.save()
 
-.. seealso::
-
-    `Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_
+.. _Django CAS NG: https://github.com/django-cas-ng/django-cas-ng
 
 Configuring third party Django authentication
 ---------------------------------------------

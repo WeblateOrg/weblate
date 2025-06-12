@@ -786,7 +786,7 @@ move_language
 
 Allows you to merge language content. This is useful when updating to a new
 version which contains aliases for previously unknown languages that have been
-created with the `(generated)` suffix. It moves all content from the `source`
+created with the :samp:`(generated)` suffix. It moves all content from the `source`
 language to the `target` one.
 
 Example:
@@ -797,7 +797,7 @@ Example:
 
 After moving the content, you should check whether there is anything left (this is
 subject to race conditions when somebody updates the repository meanwhile) and
-remove the `(generated)` language.
+remove the :samp:`(generated)` language.
 
 pushgit
 -------

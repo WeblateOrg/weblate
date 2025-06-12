@@ -2,7 +2,7 @@
   "$id": "https://weblate.org/schemas/weblate-messaging.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Weblate Messaging",
-  "description": "Schema for Weblate Fedora Messaging",
+  "description": "Schema for Weblate Messaging",
   "additionalProperties": false,
   "definitions": {},
   "type": "object",
@@ -77,6 +77,14 @@
     "translation": {
       "title": "Translation Language Code",
       "type": "string"
+    },
+    "category": {
+      "title": "Category and subcategory slugs",
+      "type": "array",
+      "items": {
+        "title": "Category slug",
+        "type": "string"
+      }
     }
   }
 }

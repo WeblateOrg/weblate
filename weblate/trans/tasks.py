@@ -19,6 +19,7 @@ from django.core.cache import cache
 from django.db import IntegrityError, transaction
 from django.db.models import Count, F
 from django.http import Http404
+from django.http.request import HttpRequest
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import override
@@ -59,7 +60,17 @@ if TYPE_CHECKING:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_update(cls, pk, auto=False, obj=None) -> None:
+def perform_update(
+    cls: Literal["Project", "Component"],
+    pk: int,
+    auto: bool = False,
+    obj=None,
+    user_id: int = 0,
+) -> None:
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
     try:
         if obj is None:
             if cls == "Project":
@@ -67,7 +78,7 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
             else:
                 obj = Component.objects.get(pk=pk)
         if settings.AUTO_UPDATE in {"full", True} or not auto:
-            obj.do_update()
+            obj.do_update(request)
         else:
             obj.update_remote_branch()
     except (FileParseError, RepositoryError, FileNotFoundError):
@@ -83,15 +94,18 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
 )
 def perform_load(
     pk: int,
+    *,
     force: bool = False,
+    force_scan: bool = False,
     langs: list[str] | None = None,
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
 ) -> None:
     component = Component.objects.get(pk=pk)
-    component.create_translations_task(
+    component.create_translations_immediate(
         force=force,
+        force_scan=force_scan,
         langs=langs,
         changed_template=changed_template,
         from_link=from_link,

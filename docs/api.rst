@@ -324,6 +324,7 @@ Users
     :>json string date_joined: date the user is created
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
+    :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
 
     **Example JSON data:**
 
@@ -336,6 +337,9 @@ Users
             "groups": [
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
+            ],
+            "languages": [
+                "http://example.com/api/languages/cs/",
             ],
             "is_superuser": true,
             "is_active": true,

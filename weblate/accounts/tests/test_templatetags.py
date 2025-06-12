@@ -5,6 +5,8 @@
 from django.template import Context, Template
 from django.test import SimpleTestCase
 
+from weblate.accounts.templatetags.urlformat import urlformat
+
 
 class TemplateTagsTestCase(SimpleTestCase):
     def test_simple(self):
@@ -35,4 +37,12 @@ class TemplateTagsTestCase(SimpleTestCase):
             </html>
             """,
             template.render(Context()),
+        )
+
+    def test_urlformat(self):
+        self.assertEqual(urlformat("https://weblate.org/"), "weblate.org")
+        self.assertEqual(urlformat("https://weblate.org/user/"), "weblate.org/user")
+        self.assertEqual(
+            urlformat("https://weblate.org/user/xxxxxxxxxxxxxxxxxxxxxxxxx"),
+            "weblate.org",
         )
