@@ -28,6 +28,7 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` documentation improved.
 * Improved support for extended metadata in :ref:`tbx`.
 * :ref:`addon-weblate.webhook.webhook` now includes a category field when available.
+* Uploaded fonts can be updated and changes to them are tracked, see :ref:`fonts`.
 
 .. rubric:: Bug fixes
 
