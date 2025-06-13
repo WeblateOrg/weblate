@@ -34,7 +34,7 @@ class GlossaryCheckTest(ViewTestCase):
         )
 
     def add_glossary(self, target: str, context="") -> None:
-        self.glossary.add_unit(None, context, "hello", target)
+        self.glossary.add_unit(None, context, "hello", target, author=self.user)
 
     def test_missing(self) -> None:
         self.assertFalse(
@@ -119,7 +119,9 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
 
     def add_glossary(self, source: str) -> Unit:
         """Add a glossary term."""
-        return self.glossary.add_unit(None, context="", source=source, target=source)
+        return self.glossary.add_unit(
+            None, context="", source=source, target=source, author=self.user
+        )
 
     def get_term(self) -> str:
         char = choice(list(PROHIBITED_INITIAL_CHARS))  # noqa: S311
@@ -154,5 +156,7 @@ class ProhibitedInitialCharacterCheckTest(ViewTestCase):
         self.assertEqual(Check.objects.filter(name=self.check.check_id).count(), 0)
         translation = self.get_translation()
         term = self.get_term()
-        translation.add_unit(None, context="", source=term, target=term)
+        translation.add_unit(
+            None, context="", source=term, target=term, author=self.user
+        )
         self.assertEqual(Check.objects.filter(name=self.check.check_id).count(), 0)

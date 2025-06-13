@@ -1562,6 +1562,9 @@ class Translation(
         parsed_flags = Flags(extra_flags)
 
         user = request.user if request else author
+        if user is None:
+            msg = "Can not add unit without an author!"
+            raise ValueError(msg)
         component = self.component
         add_terminology = False
         if is_plural(source) and not component.file_format_cls.supports_plural:
