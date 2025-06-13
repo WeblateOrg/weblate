@@ -424,7 +424,6 @@ class Unit(models.Model, LoggerMixin):
 
     priority = models.IntegerField(default=100)
 
-    pending = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -476,16 +475,6 @@ class Unit(models.Model, LoggerMixin):
             ),
             models.Index(
                 MD5(Lower("context")), "translation", name="trans_unit_context_md5"
-            ),
-            # Partial index for pending field to optimize lookup in translation
-            # commit pending method. Full table index performs poorly here because
-            # it becomes huge.
-            # MySQL/MariaDB does not supports condition and uses full index instead.
-            models.Index(
-                "translation",
-                "pending",
-                condition=Q(pending=True),
-                name="trans_unit_pending",
             ),
         ]
 
