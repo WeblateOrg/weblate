@@ -477,6 +477,12 @@ SAML authentication
 
 .. versionadded:: 4.1.1
 
+.. versionchanged:: 5.12
+
+   The dependencies for SAML authentication are no longer included in the
+   default ``all`` extras. You need to include ``saml`` while installing the
+   Weblate package using pip (``uv pip install Weblate[all,saml]``).
+
 Please follow the Python Social Auth instructions for configuration. Notable differences:
 
 * Weblate supports single IDP which has to be called ``weblate`` in

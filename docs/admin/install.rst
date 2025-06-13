@@ -206,7 +206,7 @@ Django REST Framework
      :header-rows: 1
 
      * - Optional dependency specifier
-       - Python Packages
+       - Python packages
        - Weblate feature
 
      * - ``alibaba``
@@ -231,8 +231,8 @@ Django REST Framework
        - :ref:`vcs-gerrit`
 
      * - ``google``
-       - | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-         | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+       - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+         | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
        - :ref:`mt-google-translate-api-v3` with glossary support
 
      * - ``ldap``
@@ -276,7 +276,7 @@ Django REST Framework
        - wsgi server for Weblate
 
      * - ``zxcvbn``
-       - | `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - | `django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-password-validator>`_
        - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
@@ -326,6 +326,16 @@ Troubleshooting pip install
    .. code-block:: sh
 
       uv pip install --force-reinstall --no-binary :all: cffi
+
+``error: ‘xmlSecKeyDataFormatEngine’ undeclared (first use in this function); did you mean ‘xmlSecKeyDataFormat’?``
+   This is a known issue of the xmlsec package, please see https://github.com/xmlsec/python-xmlsec/issues/314.
+
+``lxml & xmlsec libxml2 library version mismatch``
+   The ``lxml`` and ``xmlsec`` packages have to be built against one ``libxml2``. You should build them locally to avoid this issue:
+
+   .. code-block:: sh
+
+      uv pip install --force-reinstall --no-binary xmlsec --no-binary lxml lxml xmlsec
 
 Other system requirements
 +++++++++++++++++++++++++
