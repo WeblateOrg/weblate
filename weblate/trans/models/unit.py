@@ -230,6 +230,7 @@ class UnitQuerySet(models.QuerySet):
         translation = unit.translation
         component = translation.component
         result = self.filter(
+            state__gte=STATE_TRANSLATED,
             target__lower__md5=MD5(Lower(Value(target))),
             target=target,
             translation__component__project_id=component.project_id,
