@@ -13,6 +13,7 @@ Weblate 5.12
 * Added support for :doc:`/formats/compose-multiplatform-resources`.
 * Added :guilabel:`Translation Coordinator` role.
 * :ref:`addon-weblate.webhook.slack` is now available as an add-on.
+* Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
 
 .. rubric:: Improvements
 
