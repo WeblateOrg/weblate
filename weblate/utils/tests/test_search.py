@@ -633,7 +633,7 @@ class SearchTest(ViewTestCase, SearchTestCase):
 
     def test_glossary_match(self) -> None:
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
-        glossary.add_unit(None, "", "hello", "ahoj")
+        glossary.add_unit(None, "", "hello", "ahoj", author=self.user)
 
         if using_postgresql():
             expected = "[[:<:]](hello)[[:>:]]"
