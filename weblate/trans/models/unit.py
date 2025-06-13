@@ -184,21 +184,6 @@ class UnitQuerySet(models.QuerySet):
         """Prefetch useful for bulk editing."""
         return self.prefetch_full().prefetch_related("defined_variants")
 
-    def prefetch_recent_content_changes(self):
-        """
-        Prefetch recent content changes.
-
-        This is used in commit pending, where we need this
-        for all pending units.
-        """
-        return self.prefetch_related(
-            models.Prefetch(
-                "change_set",
-                queryset=Change.objects.content().order().prefetch_related("author"),
-                to_attr="recent_content_changes",
-            )
-        )
-
     def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
         from weblate.utils.search import parse_query
@@ -2089,3 +2074,7 @@ class Unit(models.Model, LoggerMixin):
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
             handle_unit_translation_change(self, user)
+
+    @property
+    def has_pending_changes(self) -> bool:
+        return self.pending_changes.exists()

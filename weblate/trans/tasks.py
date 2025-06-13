@@ -148,7 +148,7 @@ def commit_pending(
 
     # All components with pending units
     components = components.filter(
-        translation__unit__pending_changes__isnull=True
+        translation__unit__pending_changes__isnull=False
     ).distinct()
 
     for component in prefetch_stats(components.prefetch()):

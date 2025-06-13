@@ -2006,14 +2006,12 @@ class Component(
     @transaction.atomic
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
-        # TODO: remove use of pending=true
 
-        Unit.objects.filter(
+        for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
-        ).exclude(
-            translation__language_id=self.source_language_id
-        ).select_for_update().update(pending=True)
+        ).exclude(translation__language_id=self.source_language_id):
+            PendingUnitChange.store_unit_change(unit)
         return self.commit_pending("file-sync", request.user if request else None)
 
     @perform_on_link
