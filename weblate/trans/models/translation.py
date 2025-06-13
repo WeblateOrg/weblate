@@ -1556,6 +1556,7 @@ class Translation(
 
     @overload
     def add_unit(
+        self,
         request: AuthenticatedHttpRequest,
         context: str,
         source: str | list[str],
