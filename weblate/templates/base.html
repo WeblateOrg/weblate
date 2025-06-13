@@ -103,6 +103,13 @@
           content="{% if title %}{{ title }}{% elif object %}{{ object }}{% elif page_user %}{{ page_user }}{% else %}{{ site_title }}{% endif %}" />
     <meta property="og:description" content="{{ description }}" />
 
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="{{ site_title }}">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{ site_title }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#144d3f">
+
     {% block extra_meta %}{% endblock %}
 
     {% block extra_styles %}{% endblock %}
