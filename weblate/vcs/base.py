@@ -76,7 +76,7 @@ class Repository:
     _version = None
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.identifier or cls.name.lower()
 
     def __init__(
@@ -206,6 +206,9 @@ class Repository:
             args = [cls._cmd, *list(args)]
         text_cmd = " ".join(args)
         try:
+            # These are mutually exclusive, gevent actually checks
+            # for their presence, not a avalue
+            kwargs = {"stdin": subprocess.PIPE} if stdin is None else {"input": stdin}
             process = subprocess.run(
                 args,
                 cwd=cwd,
@@ -214,11 +217,9 @@ class Repository:
                 stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
                 text=not raw,
                 check=False,
-                # These are mutually exclusive
-                input=stdin,
-                stdin=subprocess.PIPE if stdin is None else None,
                 # Excessively long timeout to catch misbehaving processes
                 timeout=3600,
+                **kwargs,
             )
         except subprocess.TimeoutExpired as error:
             raise RepositoryError(

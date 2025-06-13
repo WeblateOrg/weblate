@@ -14,6 +14,7 @@ from typing import NamedTuple
 import cairo
 import gi
 from django.core.cache import cache as django_cache
+from django.db.models.fields.files import FieldFile
 
 from weblate.utils.data import data_dir
 from weblate.utils.icons import find_static_file
@@ -254,6 +255,7 @@ def render_size(
     pixel_size, line_count, buffer = _render_size(
         text,
         font=font,
+        weight=weight,
         size=size,
         spacing=spacing,
         width=width,
@@ -295,6 +297,10 @@ def check_render_size(
 def get_font_name(filelike):
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     from PIL import ImageFont
+
+    # Form uploaded file
+    if isinstance(filelike, FieldFile):
+        filelike = filelike.file
 
     if not hasattr(filelike, "loaded_font"):
         filelike.loaded_font = ImageFont.truetype(filelike)

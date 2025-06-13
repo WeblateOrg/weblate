@@ -1132,6 +1132,7 @@ class BasePoFormat(TTKitFormat):
         plural = language.plural
 
         self.store.updateheader(
+            add=True,
             last_translator="Automatically generated",
             plural_forms=plural.plural_form,
             language_team="none",
@@ -1150,7 +1151,7 @@ class BasePoFormat(TTKitFormat):
         ):
             kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
-        self.store.updateheader(**kwargs)
+        self.store.updateheader(add=True, **kwargs)
 
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()
@@ -1450,7 +1451,9 @@ class AndroidFormat(TTKitFormat):
     loader = ("aresource", "AndroidResourceFile")
     monolingual = True
     unit_class = AndroidUnit
-    new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
+    new_translation = (
+        '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n</resources>'
+    )
     autoload: tuple[str, ...] = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-printf-format",)
@@ -1468,6 +1471,12 @@ class MOKOFormat(AndroidFormat):
     name = gettext_lazy("Mobile Kotlin Resource")
     format_id = "moko-resource"
     loader = ("aresource", "MOKOResourceFile")
+
+
+class CMPFormat(AndroidFormat):
+    name = gettext_lazy("Compose Multiplatform Resource")
+    format_id = "cmp-resource"
+    loader = ("aresource", "CMPResourceFile")
 
 
 class DictStoreFormat(TTKitFormat):
@@ -2021,18 +2030,29 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit(TTKitUnit):
-    def _get_notes(self, *origins: str) -> str:
-        notes = []
-        for origin in origins:
-            note = self.unit.getnotes(origin)
-            if note:
-                notes.append(note)
-        return "\n".join(notes)
+    unit: tbxunit
+
+    def _is_usage_node(self, node: etree.Element) -> bool:
+        return (
+            self.unit.namespaced("descrip") == node.tag
+            and node.get("type") == "Usage note"
+        )
 
     @cached_property
     def notes(self):
         """Return notes or notes from units."""
-        return self._get_notes("pos", "developer")
+        notes = []
+        for origin in ["pos", "developer"]:
+            note = self.unit.getnotes(origin)
+            if note:
+                notes.append(note)
+
+        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
+            if self._is_usage_node(node):
+                notes.append(self.unit._getnodetext(node))  # noqa: SLF001
+                break
+
+        return "\n".join(notes)
 
     @cached_property
     def context(self):
@@ -2045,7 +2065,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def explanation(self) -> str:
-        return self._get_notes("translator")
+        return self.unit.getnotes("translator")
 
     def set_source_explanation(self, explanation: str) -> None:
         if explanation or self.source_explanation:
@@ -2054,7 +2074,35 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def source_explanation(self) -> str:
-        return self._get_notes("definition")
+        seen_notes = set()
+        notes = []
+        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
+            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):  # noqa: SLF001
+                continue
+            note = self.unit._getnodetext(node)  # noqa: SLF001
+            if note not in seen_notes:
+                notes.append(note)
+                seen_notes.add(note)
+
+        return "\n".join(notes)
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+
+        for node in self.unit._getnotenodes(origin="pos"):  # noqa: SLF001
+            # each tig in the two langsets in the termEntry can have the
+            # <termNote type="administrativeStatus">, consider forbidden
+            # if either of the two is forbidden/obsolete
+            if self.unit._is_administrative_status_term_node(node):  # noqa: SLF001
+                if self.unit._getnodetext(node).strip().lower() in {  # noqa: SLF001
+                    "forbidden",
+                    "obsolete",
+                }:
+                    flags.merge("forbidden")
+                break
+
+        return flags.format()
 
 
 class TBXFormat(TTKitFormat):
@@ -2178,6 +2226,7 @@ class FluentFormat(TTKitFormat):
     unit_class = FluentUnit
     autoload: tuple[str, ...] = ("*.ftl",)
     new_translation = ""
+    language_format: str = "bcp"
     check_flags = (
         "fluent-source-syntax",
         "fluent-target-syntax",

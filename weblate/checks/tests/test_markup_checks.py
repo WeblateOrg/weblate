@@ -656,6 +656,16 @@ class RSTReferencesCheckTest(CheckTestCase):
             result, {"errors": [], "extra": [], "missing": [":guilabel:", ":guilabel:"]}
         )
 
+    def test_references_short(self) -> None:
+        self.do_test(
+            False,
+            (
+                "The code should follow :pep:`8` coding guidelines and should be formatted using :program:`ruff` code formatter.",
+                "Kód by měl následovat :pep:`8` a být zformátovan programem :program:`ruff`.",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()

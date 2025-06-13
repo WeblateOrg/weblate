@@ -111,6 +111,8 @@ PERMISSIONS = (
     ("vcs.view", gettext_noop("View upstream repository location")),
     # Translators: Permission name
     ("vcs.update", gettext_noop("Update the internal repository")),
+    # Translators: Permission name
+    ("announcement.add", gettext_noop("Post announcements")),
 )
 
 PERMISSION_NAMES = {perm[0] for perm in PERMISSIONS}
@@ -200,6 +202,23 @@ ROLES = (
             "vcs.view",
         }
         | filter_perms("glossary.", {"glossary.terminology"}),
+    ),
+    (
+        pgettext_noop("Access-control role", "Translation coordinator"),
+        TRANSLATE_PERMS
+        | {
+            "announcement.add",
+            "translation.add",
+            "unit.template",
+            "suggestion.delete",
+            "vcs.access",
+            "vcs.view",
+            "unit.review",
+            "unit.override",
+            "comment.resolve",
+        }
+        | filter_perms("glossary.")
+        | filter_perms("screenshot."),
     ),
     (
         pgettext_noop("Access-control role", "Review strings"),

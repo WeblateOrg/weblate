@@ -252,9 +252,10 @@ Additional lookups are available in the :ref:`management-interface`:
 Fuzzy values for DATETIME fields
 ++++++++++++++++++++++++++++++++
 
-Instead of using DATETIME values like MM-DD-YYYY, a string containing adverb
-of time like ``yesterday``, ``last month``, and ``2 days ago`` can be used as
-values in the DATETIME fields.
+Instead of using DATETIME values like MM-DD-YYYY, a string containing an adverb
+of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days ago` can
+be used as values in the DATETIME fields. Only English phrases are supported
+here.
 
 Examples:
 

@@ -1,0 +1,1201 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "lifecycles": [
+      {
+        "phase": "build"
+      }
+    ],
+    "tools": [
+      {
+        "vendor": "npm",
+        "name": "cli",
+        "version": "10.8.2"
+      }
+    ],
+    "component": {
+      "bom-ref": "weblate-client-libs@5.12.0",
+      "type": "application",
+      "name": "client",
+      "version": "5.12.0",
+      "scope": "required",
+      "description": "Used to manage 3rd party libraries for the  client side.",
+      "purl": "pkg:npm/weblate-client-libs@5.12.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": ""
+        }
+      ],
+      "externalReferences": [],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "@altcha/crypto@0.0.1",
+      "type": "library",
+      "name": "@altcha/crypto",
+      "version": "0.0.1",
+      "scope": "required",
+      "author": "Daniel Regeci",
+      "description": "A lightweight library simplifying asymmetric data encryption using Web Crypto",
+      "purl": "pkg:npm/%40altcha/crypto@0.0.1",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@altcha/crypto"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@altcha/crypto/-/crypto-0.0.1.tgz"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
+      "type": "library",
+      "name": "@rollup/rollup-linux-x64-gnu",
+      "version": "4.18.0",
+      "scope": "optional",
+      "author": "Lukas Taegert-Atkinson",
+      "description": "Native bindings for Rollup",
+      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.18.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@rollup/rollup-linux-x64-gnu"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/rollup/rollup.git"
+        },
+        {
+          "type": "website",
+          "url": "https://rollupjs.org/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/rollup/rollup/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c6e825476ac154703952c23c87c51b5f8549e3bd0fb4609fe55a6cc21ee9dae91aa811854e7b1fcf15017ada16056ca61ccc5b206d029b1ed8f6a0d9cebeb8f3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry-internal/browser-utils@9.29.0",
+      "type": "library",
+      "name": "@sentry-internal/browser-utils",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "Browser Utilities for all Sentry JavaScript SDKs",
+      "purl": "pkg:npm/%40sentry-internal/browser-utils@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry-internal/browser-utils"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/getsentry/sentry-javascript/tree/master/packages/browser-utils"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5a9e942420d55762952be4c6f06c1d2d9c83cb81ad5180e656118ca4728f4b71bf420a5fdfa718fd71f00a1c1a1d9e4ff41935b234bd3a4ebdf09e7d4bc2f69f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry-internal/feedback@9.29.0",
+      "type": "library",
+      "name": "@sentry-internal/feedback",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "Sentry SDK integration for user feedback",
+      "purl": "pkg:npm/%40sentry-internal/feedback@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry-internal/feedback"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/getsentry/sentry-javascript/tree/master/packages/feedback"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "003bdeb46aedafe45f61c40aad0c5a8787c7b3fc4327f5636d2b55312b9a365973c163d836458818513a62343bc19b338f40d022ee7f1fe07a9592ac158938c7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry-internal/replay@9.29.0",
+      "type": "library",
+      "name": "@sentry-internal/replay",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "User replays for Sentry",
+      "purl": "pkg:npm/%40sentry-internal/replay@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry-internal/replay"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://docs.sentry.io/platforms/javascript/session-replay/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c1eff524f4637bcb0da30402ca880e5753985ae0ce3ffdd79838b8f17a051b61c1d17325d877cbe4b23c02f800bc2ff99eba95000a3892d6e3a152e6d5f6fbae"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry-internal/replay-canvas@9.29.0",
+      "type": "library",
+      "name": "@sentry-internal/replay-canvas",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "Replay canvas integration",
+      "purl": "pkg:npm/%40sentry-internal/replay-canvas@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry-internal/replay-canvas"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://docs.sentry.io/platforms/javascript/session-replay/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4eb4188520153e1c9e9efbb47cd9289fb0739c589bbb59b34b96c2b9dc6180e59a8d996e515ad771ba7c437599dd1f80a20adc800dd5cba6ae98fffe7cc29dc2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry/browser@9.29.0",
+      "type": "library",
+      "name": "@sentry/browser",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "Official Sentry SDK for browsers",
+      "purl": "pkg:npm/%40sentry/browser@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry/browser"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/getsentry/sentry-javascript/tree/master/packages/browser"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f86157ff26feae1e95d5f4a04d833ab6d02095e765d9a511dd3dd183ce8736e7a06dd5fcca6ea53ad50e219d23f633cad35e47478eca20fc8865565927b463f6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@sentry/core@9.29.0",
+      "type": "library",
+      "name": "@sentry/core",
+      "version": "9.29.0",
+      "scope": "required",
+      "author": "Sentry",
+      "description": "Base implementation for all Sentry JavaScript SDKs",
+      "purl": "pkg:npm/%40sentry/core@9.29.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@sentry/core"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@sentry/core/-/core-9.29.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/getsentry/sentry-javascript.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/getsentry/sentry-javascript/tree/master/packages/core"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/getsentry/sentry-javascript/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c03c8d7b8e4f33e4421ad527d6d2bb2f3274f24b2ff22f0a4541ebb2dee5b229c47d19bcdd81fec1b5ab3e6c2454d12781466f6241f018b6cd5ccef180552e0d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@tarekraafat/autocomplete.js@10.2.9",
+      "type": "library",
+      "name": "@tarekraafat/autocomplete.js",
+      "version": "10.2.9",
+      "scope": "required",
+      "author": "Tarek Raafat",
+      "description": "Simple autocomplete pure vanilla Javascript library.",
+      "purl": "pkg:npm/%40tarekraafat/autocomplete.js@10.2.9",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@tarekraafat/autocomplete.js"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@tarekraafat/autocomplete.js/-/autocomplete.js-10.2.9.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/TarekRaafat/autoComplete.js.git"
+        },
+        {
+          "type": "website",
+          "url": "https://tarekraafat.github.io/autoComplete.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/TarekRaafat/autoComplete.js/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "03b38fde22434d678ef39337571bb7f7569cbbd4a60e0ba8ae61e9319d77921bb2335f3474a97d3b58005d20c0df6d97c2462e514d4077b59c856d5340d36e0f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "altcha@2.0.3",
+      "type": "library",
+      "name": "altcha",
+      "version": "2.0.3",
+      "scope": "required",
+      "author": "Daniel Regeci",
+      "description": "Privacy-first CAPTCHA widget, compliant with global regulations (GDPR/HIPAA/CCPA/LGDP/DPDPA/PIPL) and WCAG accessible. No tracking, self-verifying.",
+      "purl": "pkg:npm/altcha@2.0.3",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/altcha"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/altcha/-/altcha-2.0.3.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/altcha-org/altcha.git"
+        },
+        {
+          "type": "website",
+          "url": "https://altcha.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/altcha-org/altcha/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "bebae894723bdb52ce7a00d22589dfda845894fd95222f3737dc2b25ef8fae3915d4eef094c701c65a79b80721e1176c45e09882de8827b0806db93fddeb11a0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "autosize@6.0.1",
+      "type": "library",
+      "name": "autosize",
+      "version": "6.0.1",
+      "scope": "required",
+      "author": "Jack Moore",
+      "description": "Autosize is a small, stand-alone script to automatically adjust textarea height to fit text.",
+      "purl": "pkg:npm/autosize@6.0.1",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/autosize"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/autosize/-/autosize-6.0.1.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jackmoore/autosize.git"
+        },
+        {
+          "type": "website",
+          "url": "http://www.jacklmoore.com/autosize"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jackmoore/autosize/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7fce848e250a13a5ef7337388a83f52419561bb14aac4d77a9efc3c410a97bc1828a90aada7170ef768ef101012877d26d8183379781f635d629e9fbb6ca43a9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "daterangepicker@3.1.0",
+      "type": "library",
+      "name": "daterangepicker",
+      "version": "3.1.0",
+      "scope": "required",
+      "author": "Dan Grossman",
+      "description": "Date range picker component for Bootstrap",
+      "purl": "pkg:npm/daterangepicker@3.1.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/daterangepicker"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/daterangepicker/-/daterangepicker-3.1.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/dangrossman/daterangepicker.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/dangrossman/daterangepicker"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/dangrossman/daterangepicker/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0f1597bef3eae2cad62c2a85ba0a9257ee8206dfc2bd0d1d9e95e1437825d1abad7080c0aee1b53ee186de00bbc8f44dcad003d6853501c50ecda62139ac214f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "jquery@3.7.1",
+      "type": "library",
+      "name": "jquery",
+      "version": "3.7.1",
+      "scope": "required",
+      "author": "OpenJS Foundation and other contributors",
+      "description": "JavaScript library for DOM operations",
+      "purl": "pkg:npm/jquery@3.7.1",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/jquery"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jquery/jquery.git"
+        },
+        {
+          "type": "website",
+          "url": "https://jquery.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jquery/jquery/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9b86afafcc8bf2498537ca6cadb14516607f21fd7888de68f67c3f3609e733e9326c326946c0329d5d81b1fa5362b4d1cac6147400d50fb0a45148b3824a4b7e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "moment@2.30.1",
+      "type": "library",
+      "name": "moment",
+      "version": "2.30.1",
+      "scope": "required",
+      "author": "Iskren Ivov Chernev",
+      "description": "Parse, validate, manipulate, and display dates",
+      "purl": "pkg:npm/moment@2.30.1",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/moment"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/moment/moment.git"
+        },
+        {
+          "type": "website",
+          "url": "https://momentjs.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/moment/moment/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b849ad3616c33ab58f152fa176314205fcbd7f6628cb3469c1c97e0eaa42ead697db5173b132d055b315fd6ecfccd497eb1fdb842d73037736510e4dcc7ea1a3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "mousetrap@1.6.5",
+      "type": "library",
+      "name": "mousetrap",
+      "version": "1.6.5",
+      "scope": "required",
+      "author": "Craig Campbell",
+      "description": "Simple library for handling keyboard shortcuts",
+      "purl": "pkg:npm/mousetrap@1.6.5",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/mousetrap"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.5.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/ccampbell/mousetrap.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/ccampbell/mousetrap#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/ccampbell/mousetrap/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "40da389047a9688070893f020e13fdf2e9937ada7e24d7d06015af0b5a5cebf38089bb97b51731679f10cfcb24bc41d8bd44677bfed1f13e55a0e23bac3b0450"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "mousetrap-global-bind@1.1.0",
+      "type": "library",
+      "name": "mousetrap-global-bind",
+      "version": "1.1.0",
+      "scope": "required",
+      "author": "Elvynia",
+      "description": "Mousetrap plugin for global bindings (works in input elements) with an additionnal unbindGlobal method.",
+      "purl": "pkg:npm/mousetrap-global-bind@1.1.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/mousetrap-global-bind"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/mousetrap-global-bind/-/mousetrap-global-bind-1.1.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Elvynia/mousetrap-global-bind.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/Elvynia/mousetrap-global-bind#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Elvynia/mousetrap-global-bind/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "01fc4a07439873fc14eba1369f61d771998a1eb7793bfea611db52ad902ddedb0ca9ca5ca58028950763eb4d8bd1282b3f7f27726ffa88ea71afd4881a0c4ea5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "multi.js@0.5.3",
+      "type": "library",
+      "name": "multi.js",
+      "version": "0.5.3",
+      "scope": "required",
+      "author": "Fabian Lindfors",
+      "description": "A user-friendly replacement for select boxes with multiple attribute enabled",
+      "purl": "pkg:npm/multi.js@0.5.3",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/multi.js"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/multi.js/-/multi.js-0.5.3.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Fabianlindfors/multi.js.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/Fabianlindfors/multi.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Fabianlindfors/multi.js/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0da60e45f4aaa9863713ace18dbe021987b65549d05d5db6b190e816ce87dc67b9b3387c155a1a934b49a6e605829c67f35921390af6c0cf3e80c0e08cbf46c9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "prismjs@1.30.0",
+      "type": "library",
+      "name": "prismjs",
+      "version": "1.30.0",
+      "scope": "required",
+      "author": "Lea Verou",
+      "description": "Lightweight, robust, elegant syntax highlighting. A spin-off project from Dabblet.",
+      "purl": "pkg:npm/prismjs@1.30.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/prismjs"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/prismjs/-/prismjs-1.30.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/PrismJS/prism.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/PrismJS/prism#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/PrismJS/prism/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0c4bd5d99176af6ffadd5fad2bc850beb4766469f5d2cac76d7be24e572fecaa73c3c8d688d4ea6d58233b7218f11c6bace505f153cc410172b18618bf4619c7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "slugify@1.6.6",
+      "type": "library",
+      "name": "slugify",
+      "version": "1.6.6",
+      "scope": "required",
+      "author": "Simeon Velichkov",
+      "description": "Slugifies a String",
+      "purl": "pkg:npm/slugify@1.6.6",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/slugify"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/slugify/-/slugify-1.6.6.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/simov/slugify.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/simov/slugify"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/simov/slugify/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "87ecfb1ca1d85e3eb0254f809d2ffe207f1487d7dd717d4bae1835fd531d7fd3f0a0141715c5e201db32dad48ad0fea02b024b5e9d36afdd1a8540aa1e4f6baf"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "source-code-pro@2.38.0",
+      "type": "library",
+      "name": "source-code-pro",
+      "version": "2.38.0",
+      "scope": "required",
+      "author": "Paul D. Hunt",
+      "description": "Source Code Pro is a set of OpenType fonts that have been designed to work well in user interface (UI) environments.",
+      "purl": "pkg:npm/source-code-pro@2.38.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/source-code-pro"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/source-code-pro/-/source-code-pro-2.38.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/adobe-fonts/source-code-pro.git#release"
+        },
+        {
+          "type": "website",
+          "url": "https://adobe-fonts.github.io/source-code-pro"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/adobe-fonts/source-code-pro/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "24c5eeee5dd7acb4441b5ede13063ae80346f7bd7a593bba39e36f65f44a40a00d12f6d21110d98e4e406131de57aa3040d3d04de8a25b7ae2d8ebbddd7146be"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "source-sans@3.46.0",
+      "type": "library",
+      "name": "source-sans",
+      "version": "3.46.0",
+      "scope": "required",
+      "author": "Paul D. Hunt",
+      "description": "Source Sans is a set of OpenType fonts that have been designed to work well in user interface (UI) environments.",
+      "purl": "pkg:npm/source-sans@3.46.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/source-sans"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/source-sans/-/source-sans-3.46.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/adobe-fonts/source-sans.git#release"
+        },
+        {
+          "type": "website",
+          "url": "https://adobe-fonts.github.io/source-sans"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/adobe-fonts/source-sans/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6d50b6617e15362bf9bcc732efb74bd172ac369efde1385fca736cafe16a480c24f13186d2966c83b794422eb21f069104c56667701a7f8158e3a7712081a0b2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "tributejs@5.1.3",
+      "type": "library",
+      "name": "tributejs",
+      "version": "5.1.3",
+      "scope": "required",
+      "author": "Jordan Humphreys",
+      "description": "Native ES6 @mentions",
+      "purl": "pkg:npm/tributejs@5.1.3",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/tributejs"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/tributejs/-/tributejs-5.1.3.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/zurb/tribute.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/zurb/tribute#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/zurb/tribute/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0790978a1695cd7c3ed541e1345c80c144cc0e4d447e82cfe538f55610fdcb26d9d48f0364912ff2d675974449a34b74b64f59851f1e1b9b44b1a0af46282675"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "weblate-client-libs@5.12.0",
+      "dependsOn": [
+        "@sentry/browser@9.29.0",
+        "@tarekraafat/autocomplete.js@10.2.9",
+        "altcha@2.0.3",
+        "autosize@6.0.1",
+        "daterangepicker@3.1.0",
+        "jquery@3.7.1",
+        "moment@2.30.1",
+        "mousetrap@1.6.5",
+        "mousetrap-global-bind@1.1.0",
+        "multi.js@0.5.3",
+        "prismjs@1.30.0",
+        "slugify@1.6.6",
+        "source-code-pro@2.38.0",
+        "source-sans@3.46.0",
+        "tributejs@5.1.3"
+      ]
+    },
+    {
+      "ref": "@altcha/crypto@0.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "@sentry-internal/browser-utils@9.29.0",
+      "dependsOn": [
+        "@sentry/core@9.29.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/feedback@9.29.0",
+      "dependsOn": [
+        "@sentry/core@9.29.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/replay@9.29.0",
+      "dependsOn": [
+        "@sentry-internal/browser-utils@9.29.0",
+        "@sentry/core@9.29.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/replay-canvas@9.29.0",
+      "dependsOn": [
+        "@sentry-internal/replay@9.29.0",
+        "@sentry/core@9.29.0"
+      ]
+    },
+    {
+      "ref": "@sentry/browser@9.29.0",
+      "dependsOn": [
+        "@sentry-internal/browser-utils@9.29.0",
+        "@sentry-internal/feedback@9.29.0",
+        "@sentry-internal/replay@9.29.0",
+        "@sentry-internal/replay-canvas@9.29.0",
+        "@sentry/core@9.29.0"
+      ]
+    },
+    {
+      "ref": "@sentry/core@9.29.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "@tarekraafat/autocomplete.js@10.2.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "altcha@2.0.3",
+      "dependsOn": [
+        "@altcha/crypto@0.0.1",
+        "@rollup/rollup-linux-x64-gnu@4.18.0"
+      ]
+    },
+    {
+      "ref": "autosize@6.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "daterangepicker@3.1.0",
+      "dependsOn": [
+        "jquery@3.7.1",
+        "moment@2.30.1"
+      ]
+    },
+    {
+      "ref": "jquery@3.7.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "moment@2.30.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "mousetrap@1.6.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "mousetrap-global-bind@1.1.0",
+      "dependsOn": [
+        "mousetrap@1.6.5"
+      ]
+    },
+    {
+      "ref": "multi.js@0.5.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "prismjs@1.30.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "slugify@1.6.6",
+      "dependsOn": []
+    },
+    {
+      "ref": "source-code-pro@2.38.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "source-sans@3.46.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "tributejs@5.1.3",
+      "dependsOn": []
+    }
+  ]
+}

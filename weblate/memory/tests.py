@@ -15,7 +15,10 @@ from weblate_schemas import load_schema
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
-from weblate.memory.tasks import handle_unit_translation_change, import_memory
+from weblate.memory.tasks import (
+    handle_unit_translation_change,
+    import_memory,
+)
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -215,6 +218,38 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(Memory.objects.count(), 4)
         import_memory(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
+
+    def test_user_contribute_personal_tm(self) -> None:
+        self.user.profile.contribute_personal_tm = False
+        self.user.profile.save()
+
+        unit = self.get_unit()
+        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.assertEqual(Memory.objects.count(), 2)
+
+        self.user.profile.contribute_personal_tm = True
+        self.user.profile.save()
+        # enabling personal translation memory doesn't add previously
+        # translated units to memory
+        self.assertEqual(Memory.objects.count(), 2)
+
+    def test_component_contribute_project_tm(self) -> None:
+        unit = self.get_unit()
+        component = unit.translation.component
+        component.contribute_project_tm = False
+        component.save()
+
+        unit = self.get_unit()
+        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        # hello, world! unit X 2 (user memory and shared memory)
+        self.assertEqual(Memory.objects.count(), 2)
+
+        component.contribute_project_tm = True
+        component.save()
+        # hello, world! unit X 3 (user, project and shared memory)
+        # + other units (try weblate string) in the components
+        # 2 translations X 2 (project and shared memory) = total 7
+        self.assertEqual(Memory.objects.count(), 7)
 
     def test_import_unit(self) -> None:
         unit = self.get_unit()

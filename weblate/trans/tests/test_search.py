@@ -344,6 +344,42 @@ class ReplaceTest(ViewTestCase):
             )
         )
 
+    def test_replace_plurals(self) -> None:
+        unit = self.get_unit("Orangutan")
+        url = reverse("replace", kwargs=self.kw_translation)
+        self.edit_unit(
+            "Orangutan",
+            "Opice má %d banán.\n",
+            target_1="Opice má %d banány.\n",
+            target_2="Opice má %d banánů.\n",
+        )
+        response = self.client.post(
+            url, {"q": "", "search": "Opice", "replacement": "Orangutan"}, follow=True
+        )
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        payload = {
+            "q": "",
+            "search": "Opice",
+            "replacement": "Orangutan",
+            "confirm": "1",
+            "units": unit.pk,
+        }
+        response = self.client.post(url, payload, follow=True)
+        unit = self.get_unit("Orangutan")
+        self.assertContains(
+            response, "Search and replace completed, 1 string was updated."
+        )
+        self.assertEqual(
+            unit.get_target_plurals(),
+            [
+                "Orangutan má %d banán.\n",
+                "Orangutan má %d banány.\n",
+                "Orangutan má %d banánů.\n",
+            ],
+        )
+
 
 class BulkEditTest(ViewTestCase):
     """Test for build edit functionality."""

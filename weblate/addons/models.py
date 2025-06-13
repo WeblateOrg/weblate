@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, Literal, overload
 
 import sentry_sdk
 from appconf import AppConf
@@ -17,6 +17,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
+from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
 from weblate.trans.signals import (
@@ -41,6 +42,8 @@ from .events import AddonEvent
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+
+    from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
 
@@ -258,6 +261,7 @@ class AddonsConf(AppConf):
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         "weblate.addons.webhooks.WebhookAddon",
+        "weblate.addons.webhooks.SlackWebhookAddon",
     )
 
     LOCALIZE_CDN_URL = None
@@ -289,25 +293,48 @@ REPO_EVENTS = {
 
 def execute_addon_event(
     addon: Addon,
-    component: Component,
-    scope: Translation | Component,
+    component: Component | None,
+    scope: Translation | Component | Project | None,
     event: AddonEvent,
     method: str | Callable[[Addon, Component], None],
     args: tuple | None = None,
 ) -> None:
     # Trigger repository scoped add-ons only on the main component
-    if addon.repo_scope and component.linked_component and event in REPO_EVENTS:
+    if (
+        addon.repo_scope
+        and component
+        and component.linked_component
+        and event in REPO_EVENTS
+    ):
         return
+
+    def addon_logger(
+        level: Literal["debug", "error"], message: str, *args: StrOrPromise
+    ):
+        if scope is None:
+            if level == "debug":
+                LOGGER.debug(message, *args)
+            else:
+                LOGGER.error(message, *args)
+        elif level == "debug":
+            scope.log_debug(message, *args)
+        else:
+            scope.log_error(message, *args)
 
     # Log logging result and error flag for add-on activity log
     log_result = None
     error_occurred = False
 
     with transaction.atomic():
-        scope.log_debug("running %s add-on: %s", event.label, addon.name)
+        addon_logger("debug", "running %s add-on: %s", event.label, addon.name)
         # Skip unsupported components silently
-        if not addon.component and not addon.addon.can_install(component, None):
-            scope.log_debug(
+        if (
+            component
+            and not addon.component
+            and not addon.addon.can_install(component, None)
+        ):
+            addon_logger(
+                "debug",
                 "Skipping incompatible %s add-on: %s for component: %s",
                 event.label,
                 addon.name,
@@ -320,6 +347,9 @@ def execute_addon_event(
             with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
                 if isinstance(method, str):
                     log_result = getattr(addon.addon, method)(*args)
+                elif component is None:
+                    log_result = "Missing component parameter!"
+                    error_occurred = True
                 else:
                     # Callback is used in tasks
                     log_result = method(addon, component)
@@ -329,14 +359,19 @@ def execute_addon_event(
             # Log failure
             error_occurred = True
             log_result = str(error)
-            scope.log_error("failed %s add-on: %s: %s", event.label, addon.name, error)
-            report_error(f"add-on {addon.name} failed", project=component.project)
+            addon_logger(
+                "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
+            )
+            report_error(
+                f"add-on {addon.name} failed",
+                project=component.project if component else None,
+            )
             # Uninstall no longer compatible add-ons
-            if not addon.addon.can_install(component, None):
+            if component and not addon.addon.can_install(component, None):
                 addon.disable()
                 component.drop_addons_cache()
         else:
-            scope.log_debug("completed %s add-on: %s", event.label, addon.name)
+            addon_logger("debug", "completed %s add-on: %s", event.label, addon.name)
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
@@ -354,22 +389,10 @@ def handle_addon_event(
     method: str,
     args: tuple,
     *,
-    component: Component,
-    translation: None = None,
-    addon_queryset: AddonQuerySet | None = None,
-    auto_scope: bool = False,
-) -> None: ...
-
-
-@overload
-def handle_addon_event(
-    event: AddonEvent,
-    method: str,
-    args: tuple,
-    *,
-    component: None = None,
-    translation: Translation,
-    addon_queryset: AddonQuerySet | None = None,
+    project: Project | None = None,
+    component: Component | None = None,
+    translation: Translation | None = None,
+    addon_queryset: AddonQuerySet | list[Addon] | None = None,
     auto_scope: bool = False,
 ) -> None: ...
 
@@ -380,6 +403,7 @@ def handle_addon_event(
     method: Callable[[Addon, Component], None],
     args: None = None,
     *,
+    project: None = None,
     component: None = None,
     translation: None = None,
     addon_queryset: AddonQuerySet | None,
@@ -393,29 +417,28 @@ def handle_addon_event(
     method,
     args=None,
     *,
+    project=None,
     component=None,
     translation=None,
     addon_queryset=None,
     auto_scope=False,
 ) -> None:
     # Scope is used for logging
-    scope = translation or component
+    scope: Translation | Component | Project | None = (
+        translation or component or project
+    )
 
     # Shortcuts for frequently used variables
     if component is None and translation is not None:
         component = translation.component
 
-    if component is None and not auto_scope:
-        msg = "Missing event scope!"
-        raise ValueError(msg)
-
-    # EVENT_DAILY uses custom queryset because it is not triggered from the
-    # object scope
+    # EVENT_DAILY and EVENT_CHANGE use custom queryset because it is not
+    # triggered from the object scope
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
     for addon in addon_queryset:
-        if scope is not None:
+        if not auto_scope:
             execute_addon_event(addon, component, scope, event, method, args)
         else:
             components: Iterable[Component]
@@ -581,7 +604,9 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
 class AddonActivityLog(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
-    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey(
+        Component, on_delete=models.deletion.CASCADE, null=True
+    )
     event = models.IntegerField(choices=AddonEvent.choices)
     created = models.DateTimeField(auto_now_add=True)
     details = models.JSONField(default=dict)
@@ -593,3 +618,6 @@ class AddonActivityLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"
+
+    def get_details_display(self) -> str:
+        return self.addon.addon.render_activity_log(self)

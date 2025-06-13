@@ -162,6 +162,12 @@ class ActionEvents(IntegerChoices):
     FILE_UPLOAD = 78, gettext_lazy("File uploaded")
     # Translators: Name of event in the history
     EXTRA_FLAGS = 79, gettext_lazy("Extra flags updated")
+    # Translators: Name of event in the history
+    FONT_CREATE = 80, gettext_lazy("Font uploaded")
+    # Translators: Name of event in the history
+    FONT_CHANGE = 81, gettext_lazy("Font changed")
+    # Translators: Name of event in the history
+    FONT_REMOVE = 82, gettext_lazy("Font removed")
 
 
 # Actions which can be reverted

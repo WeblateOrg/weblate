@@ -4,7 +4,7 @@ Glossary
 ========
 
 Each project can include one or more glossaries as a shorthand for storing
-terminology. Glossary easify maintaining consistency of the translation.
+terminology. Glossaries help to maintain consistency of the translation.
 
 A glossary for each language can be managed on its own, but they are
 stored together as a single component which helps project admins
@@ -56,6 +56,8 @@ toggle additional features using the :guilabel:`Tools` menu for each term.
 .. seealso::
 
    :ref:`adding-strings`
+
+.. _glossary-untranslatable:
 
 Untranslatable terms
 ++++++++++++++++++++
@@ -118,6 +120,13 @@ listed in the glossary sidebar when translating.
 .. seealso::
 
    :ref:`variants`
+
+Glossary import
+---------------
+
+Similar to regular translation components, you can upload existing glossaries
+to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/tbx` are
+supported and can be uploaded, see :ref:`upload`.
 
 .. _glossary-mt:
 

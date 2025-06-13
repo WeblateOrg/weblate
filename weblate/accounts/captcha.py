@@ -117,7 +117,7 @@ def solve_altcha(challenge: Challenge, number: int | None = None) -> str:
         challenge=challenge.challenge,
         salt=challenge.salt,
         algorithm=challenge.algorithm,
-        max_number=challenge.maxnumber,
+        max_number=challenge.max_number,
         start=0,
     )
     # Make sure the challenge expiry is in past

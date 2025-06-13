@@ -12,7 +12,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
     name = "weblate.json.customize"
     verbose = gettext_lazy("Customize JSON output")
     description = gettext_lazy(
-        "Allows adjusting JSON output behavior, for example indentation or sorting."
+        "Allows adjusting JSON output behavior, for example indentation, sorting or compact formatting using minimal whitespace."
     )
     settings_form = JSONCustomizeForm
     compat = {

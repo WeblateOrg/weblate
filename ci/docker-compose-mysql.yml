@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 services:
-  database:
-    image: mysql:9.3.0@sha256:2247f6d47a59e5fa30a27ddc2e183a3e6b05bc045e3d12f8d429532647f61358
-    ports:
-    - 60000:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: weblate
   cache:
-    image: redis:8.0.1-alpine@sha256:62b5498c91778f738f0efbf0a6fd5b434011235a3e7b5f2ed4a2c0c63bb1c786
-    restart: always
+    image: redis:8.0.2-alpine@sha256:48501c5ad00d5563bc30c075c7bcef41d7d98de3e9a1e6c752068c66f0a8463b
     ports:
     - 60001:6379
+    restart: always
+  database:
+    image: mysql:9.3.0@sha256:072f96c2f1ebb13f712fd88d0ef98f2ef9a52ad4163ae67b550ed6720b6d642e
+    environment:
+      MYSQL_ROOT_PASSWORD: weblate
+    ports:
+    - 60000:3306

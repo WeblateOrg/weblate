@@ -400,15 +400,23 @@ http_strict_mode = True
 # Autodocs
 autodoc_mock_imports = [
     "django",
+    "unidecode",
+    "nh3",
+    "html2text",
+    "weblate_language_data",
     "celery",
     "sentry_sdk",
     "crispy_forms",
+    "social_django",
+    "social_core",
     "weblate.utils.errors",
     "weblate.trans.discovery",
     "weblate.checks.models",
     "weblate.trans.forms",
     "weblate.addons.forms",
     "weblate.trans.tasks",
+    "weblate.formats",
+    "weblate.trans.templatetags.translations",
     "dateutil",
     "filelock",
     "redis_lock",
@@ -426,6 +434,9 @@ autodoc_mock_imports = [
     "weblate.vcs.git",
     "weblate.utils.files",
     "weblate.utils.validators",
+    "django_otp",
+    "django_otp_webauthn",
+    "rest_framework",
 ]
 
 # Create single gettext PO file for while documentation,

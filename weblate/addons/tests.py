@@ -21,10 +21,13 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
+from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
+    Announcement,
+    Category,
     Comment,
     Component,
     Suggestion,
@@ -67,7 +70,7 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
-from .webhooks import StandardWebhooksUtils, WebhookAddon, WebhookVerificationError
+from .webhooks import JSONWebhookBaseAddon, SlackWebhookAddon, WebhookAddon
 from .xml import XMLCustomizeAddon
 from .yaml import YAMLCustomizeAddon
 
@@ -631,7 +634,7 @@ class JsonAddonTest(ViewTestCase):
         SameEditAddon.create(component=self.component)
 
         Unit.objects.filter(translation__language__code="cs").delete()
-        self.component.create_translations(force=True)
+        self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.filter(translation__language__code="cs")
             .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
@@ -639,7 +642,7 @@ class JsonAddonTest(ViewTestCase):
         )
 
         Unit.objects.all().delete()
-        self.component.create_translations(force=True)
+        self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.exclude(
                 state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
@@ -1642,13 +1645,10 @@ class TasksTest(TestCase):
         cleanup_addon_activity_log()
 
 
-class WebhookAddonsTest(ViewTestCase):
-    """Test for Webhook Addon."""
-
-    addon_configuration: ClassVar[dict] = {
-        "webhook_url": "https://example.com/webhooks",
-        "events": [],
-    }
+class BaseWebhookTests:
+    addon_configuration: ClassVar[dict]
+    WEBHOOK_CLS: type[JSONWebhookBaseAddon]
+    WEBHOOK_URL: str
 
     def setUp(self) -> None:
         super().setUp()
@@ -1661,12 +1661,10 @@ class WebhookAddonsTest(ViewTestCase):
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ):
         """Install addon, edit unit and assert outgoing calls."""
-        WebhookAddon.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
         if response_code:
             responses_kwargs |= {"status": response_code}
-        responses.add(
-            responses.POST, "https://example.com/webhooks", **responses_kwargs
-        )
+        responses.add(responses.POST, self.WEBHOOK_URL, **responses_kwargs)
 
         self.edit_unit(
             "Hello, world!\n", "Nazdar svete!\n"
@@ -1687,11 +1685,11 @@ class WebhookAddonsTest(ViewTestCase):
         # listen to propagate change event
         self.addon_configuration["events"].append(ActionEvents.PROPAGATED_EDIT)
 
-        WebhookAddon.create(
+        self.WEBHOOK_CLS.create(
             configuration=self.addon_configuration, project=self.project
         )
         self.component.drop_addons_cache()
-        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         # create translation for unit and similar units across project
         self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
@@ -1707,22 +1705,42 @@ class WebhookAddonsTest(ViewTestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
+    def test_announcement(self) -> None:
+        """Test project and site wide events."""
+        self.addon_configuration["events"].append(ActionEvents.ANNOUNCEMENT)
+        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        self.WEBHOOK_CLS.create(
+            configuration=self.addon_configuration, project=self.project
+        )
+
+        responses.calls.reset()
+        Announcement.objects.create(user=self.user, message="Site-wide")
+        # Only site-wide add-on should receive this
+        self.assertEqual(len(responses.calls), 1)
+
+        responses.calls.reset()
+        Announcement.objects.create(
+            user=self.user, message="Project-wide", project=self.project
+        )
+        # Both site-wide and project-wide add-ons should receive this
+        self.assertEqual(len(responses.calls), 2)
+
+    @responses.activate
     def test_component_scopes(self) -> None:
         """Test webhook addon installed at component level."""
+        secondary_url = self.WEBHOOK_URL + "-2"
         component1 = self.component
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
         )
         config1 = self.addon_configuration.copy()
-        config2 = self.addon_configuration.copy() | {
-            "webhook_url": "https://example.com/webhooks-2"
-        }
+        config2 = self.addon_configuration.copy() | {"webhook_url": secondary_url}
 
-        WebhookAddon.create(configuration=config1, component=component1)
-        WebhookAddon.create(configuration=config2, component=component2)
+        self.WEBHOOK_CLS.create(configuration=config1, component=component1)
+        self.WEBHOOK_CLS.create(configuration=config2, component=component2)
 
-        resp1 = responses.post("https://example.com/webhooks", status=200)
-        resp2 = responses.post("https://example.com/webhooks-2", status=200)
+        resp1 = responses.post(self.WEBHOOK_URL, status=200)
+        resp2 = responses.post(secondary_url, status=200)
         translation1 = self.get_translation()
         translation2 = component2.translation_set.get(language__code="cs")
 
@@ -1743,6 +1761,7 @@ class WebhookAddonsTest(ViewTestCase):
     @responses.activate
     def test_project_scopes(self) -> None:
         """Test webhook addon installed at project level."""
+        secondary_url = self.WEBHOOK_URL + "-2"
         project_a = self.project
         component_a1 = self.component
         component_a2 = self.create_po(
@@ -1755,15 +1774,13 @@ class WebhookAddonsTest(ViewTestCase):
         )
 
         config_a = self.addon_configuration.copy()
-        config_b = self.addon_configuration.copy() | {
-            "webhook_url": "https://example.com/webhooks-2"
-        }
+        config_b = self.addon_configuration.copy() | {"webhook_url": secondary_url}
 
-        WebhookAddon.create(configuration=config_a, project=project_a)
-        WebhookAddon.create(configuration=config_b, project=project_b)
+        self.WEBHOOK_CLS.create(configuration=config_a, project=project_a)
+        self.WEBHOOK_CLS.create(configuration=config_b, project=project_b)
 
-        resp_a = responses.post("https://example.com/webhooks", status=200)
-        resp_b = responses.post("https://example.com/webhooks-2", status=200)
+        resp_a = responses.post(self.WEBHOOK_URL, status=200)
+        resp_b = responses.post(secondary_url, status=200)
 
         translation_a1 = component_a1.translation_set.get(language__code="cs")
         translation_a2 = component_a2.translation_set.get(language__code="cs")
@@ -1792,8 +1809,8 @@ class WebhookAddonsTest(ViewTestCase):
             new_base="po/project.pot", project=project_b, name="Component B1"
         )
 
-        WebhookAddon.create(configuration=self.addon_configuration)
-        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         translation_a1 = self.get_translation()
         translation_b1 = component_b1.translation_set.get(language__code="cs")
@@ -1803,23 +1820,26 @@ class WebhookAddonsTest(ViewTestCase):
         self.assertEqual(len(responses.calls), 2)
 
     @responses.activate
-    def test_invalid_response(self):
-        """Test invalid response from client."""
-        self.do_translation_added_test(response_code=301)
-
-    @responses.activate
     def test_connection_error(self):
         """Test connection error when during message delivery."""
         self.do_translation_added_test(body=requests.ConnectionError())
 
+
+class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
+    """Test for Webhook Addon."""
+
+    WEBHOOK_CLS = WebhookAddon
+    WEBHOOK_URL = "https://example.com/webhooks"
+
+    addon_configuration: ClassVar[dict] = {
+        "webhook_url": WEBHOOK_URL,
+        "events": [],
+    }
+
     @responses.activate
-    def test_jsonschema_error(self):
-        """Test payload schema validation error."""
-        with patch(
-            "weblate.addons.webhooks.validate_schema",
-            side_effect=jsonschema.exceptions.ValidationError("message"),
-        ):
-            self.do_translation_added_test(expected_calls=0)
+    def test_invalid_response(self):
+        """Test invalid response from client."""
+        self.do_translation_added_test(response_code=301)
 
     @responses.activate
     def test_webhook_signature(self):
@@ -1828,13 +1848,13 @@ class WebhookAddonsTest(ViewTestCase):
         self.do_translation_added_test(response_code=200)
 
         wh_request = responses.calls[0].request
-        wh_utils = StandardWebhooksUtils("secret-string")
+        wh_utils = Webhook("secret-string")
 
         # valid request
         wh_utils.verify(wh_request.body, wh_request.headers)
 
         # valid request with bytes
-        StandardWebhooksUtils(base64.b64decode("secret-string")).verify(
+        Webhook(base64.b64decode("secret-string")).verify(
             wh_request.body, wh_request.headers
         )
 
@@ -1865,7 +1885,7 @@ class WebhookAddonsTest(ViewTestCase):
 
         #  "Invalid secret"
         with self.assertRaises(WebhookVerificationError):
-            StandardWebhooksUtils("xxxx-xxxx-xxxx").verify(wh_request.body, wh_headers)
+            Webhook("xxxx-xxxx-xxxx").verify(wh_request.body, wh_headers)
 
         #  "Invalid format of timestamp"
         with self.assertRaises(WebhookVerificationError):
@@ -1893,7 +1913,7 @@ class WebhookAddonsTest(ViewTestCase):
         """Test WebhooksAddonForm."""
         self.user.is_superuser = True
         self.user.save()
-        # Missing params
+        # Missing url param
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -1911,6 +1931,7 @@ class WebhookAddonsTest(ViewTestCase):
                 "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
+                "secret": "",
             },
             follow=True,
         )
@@ -1952,3 +1973,71 @@ class WebhookAddonsTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+
+    @responses.activate
+    def test_jsonschema_error(self):
+        """Test payload schema validation error."""
+        with patch(
+            "weblate.addons.webhooks.validate_schema",
+            side_effect=jsonschema.exceptions.ValidationError("message"),
+        ):
+            self.do_translation_added_test(expected_calls=0)
+
+    @responses.activate
+    def test_category_in_payload(self) -> None:
+        """Test webhook payload includes category field when available."""
+        self.project.add_user(self.user, "Administration")
+        self.addon_configuration["events"] = [ActionEvents.RENAME_COMPONENT]
+        self.WEBHOOK_CLS.create(
+            configuration=self.addon_configuration, component=self.component
+        )
+        parent_category = Category.objects.create(
+            name="Parent Category", slug="parent-category", project=self.project
+        )
+        child_category = Category.objects.create(
+            name="Child Category",
+            slug="child-category",
+            category=parent_category,
+            project=self.project,
+        )
+        sub_category = Category.objects.create(
+            name="Sub Category",
+            slug="sub-category",
+            category=child_category,
+            project=self.project,
+        )
+        self.component.category = sub_category
+        self.component.save()
+
+        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+        self.client.post(
+            reverse("rename", kwargs={"path": self.component.get_url_path()}),
+            {
+                "name": "New name",
+                "slug": "new-name",
+                "project": self.project.pk,
+                "category": sub_category.pk,
+            },
+        )
+
+        request_body = json.loads(responses.calls[0].request.body)
+        self.assertIn("child-category", request_body["category"])
+        self.assertIn("parent-category", request_body["category"])
+        self.assertIn("sub-category", request_body["category"])
+
+
+class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
+    WEBHOOK_CLS = SlackWebhookAddon
+    WEBHOOK_URL = (
+        "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+    )
+
+    addon_configuration: ClassVar[dict] = {
+        "webhook_url": WEBHOOK_URL,
+        "events": [str(ActionEvents.NEW)],
+    }
+
+    @responses.activate
+    def test_invalid_response(self):
+        """Test invalid response from client."""
+        self.do_translation_added_test(response_code=410, body=b"channel_is_archived")

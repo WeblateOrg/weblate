@@ -373,31 +373,43 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  {% if not support_status.has_support %}
+                  {% if support_status.has_support %}
+                    <li>
+                      <a href="https://care.weblate.org/">{% translate "Weblate support" %}</a>
+                    </li>
+                  {% else %}
                     <li>
                       <a href="https://weblate.org/support/">{% translate "Get support" %}</a>
                     </li>
-                  {% endif %}
-                  {% if get_help_url %}
-                    <li>
-                      <a href="{{ get_help_url }}">{% translate "Get help" %}</a>
-                    </li>
+                    {% if get_help_url %}
+                      <li>
+                        <a href="{{ get_help_url }}">{% translate "Get help" %}</a>
+                      </li>
+                    {% endif %}
                   {% endif %}
                   <li>
-                    <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+                    <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Weblate community" %}</a>
                   </li>
+
                   <li>
-                    <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
+                    <a href="{% url 'contact' %}">{% translate "Contact site administrators" %}</a>
                   </li>
                   <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
-                  </li>
                   <li>
                     <a href="https://weblate.org/contribute/">{% translate "Contribute to Weblate" %}</a>
                   </li>
                   <li>
-                    <a href="{% url 'donate' %}">{% translate "Donate to Weblate" %}</a>
+                    <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
+                  </li>
+                  <li>
+                    <a href="https://weblate.org/">{% translate "Weblate website" %}</a>
+                  </li>
+                  <li>
+                    <a href="{% documentation 'index' %}">{% translate "Weblate documentation" %}</a>
                   </li>
                   <li>
                     <a id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
@@ -434,7 +446,7 @@
       {% endif %}
 
       {% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
-        {% include "snippets/enforced_2fa.html" %}
+        {% include "snippets/enforced_2fa.html" with project="" %}
       {% endif %}
 
       {% if messages %}

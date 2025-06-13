@@ -83,6 +83,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
 
         if not confirm.is_valid():
             for unit in matching:
+                # This is rendered using format_unit_target which does split_plurals
                 unit.replacement = unit.target.replace(search_text, replacement)
             context.update(
                 {
@@ -104,7 +105,10 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     continue
                 unit.translate(
                     request.user,
-                    unit.target.replace(search_text, replacement),
+                    [
+                        plural.replace(search_text, replacement)
+                        for plural in unit.get_target_plurals()
+                    ],
                     unit.state,
                     change_action=ActionEvents.REPLACE,
                 )

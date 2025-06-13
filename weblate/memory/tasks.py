@@ -57,8 +57,12 @@ def handle_unit_translation_change(
         project = component.project
 
     # Do not keep per-user memory for bots
-    if user and user.is_bot:
-        user = None
+    if user is None or (user and user.is_bot):
+        user_id = None
+        add_user = False
+    else:
+        user_id = user.id
+        add_user = user.profile.contribute_personal_tm
 
     source_language: Language = get_machinery_language(component.source_language)
     target_language: Language = get_machinery_language(unit.translation.language)
@@ -76,8 +80,10 @@ def handle_unit_translation_change(
         target=target,
         origin=origin,
         add_shared=project.contribute_shared_tm,
-        user_id=user.id if user is not None else None,
+        user_id=user_id,
         project_id=project.id,
+        add_project=component.contribute_project_tm,
+        add_user=add_user,
     )
 
 
@@ -90,12 +96,11 @@ def update_memory(
     target: str,
     origin: str,
     add_shared: bool,
+    add_project: bool,
+    add_user: bool,
     user_id: int | None,
     project_id: int,
 ) -> None:
-    add_project = True
-    add_user = user_id is not None
-
     # Check matching entries in memory
     for matching in Memory.objects.filter(
         from_file=False,

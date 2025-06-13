@@ -15,7 +15,8 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy
+from django.utils.functional import cached_property
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.models import Component, Project
@@ -79,6 +80,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C037",
             "weblate.C038",
             "weblate.C040",
+            "weblate.C041",
         }
         removals = []
         existing = {error.name: error for error in self.all()}
@@ -156,6 +158,8 @@ class SupportStatus(models.Model):
         return f"{self.name}:{self.expiry}"
 
     def get_verbose(self):
+        if self.has_expired_support:
+            return gettext("Unpaid subscription")
         return SUPPORT_NAMES.get(self.name, self.name)
 
     def refresh(self) -> None:
@@ -236,6 +240,14 @@ class SupportStatus(models.Model):
             )
         return result
 
+    @property
+    def has_support(self) -> bool:
+        return self.name != "community"
+
+    @property
+    def has_expired_support(self) -> bool:
+        return self.pk is not None and self.has_subscription and not self.has_support
+
 
 class BackupService(models.Model):
     repository = models.CharField(
@@ -261,8 +273,18 @@ class BackupService(models.Model):
     def __str__(self) -> str:
         return self.repository
 
-    def last_logs(self):
+    @cached_property
+    def last_logs(self) -> models.QuerySet[BackupLog]:
         return self.backuplog_set.order_by("-timestamp")[:10]
+
+    @cached_property
+    def has_errors(self) -> bool:
+        for log in self.last_logs:
+            if log.event == "error":
+                return True
+            if log.event == "backup":
+                return True
+        return False
 
     def ensure_init(self) -> None:
         if not self.paperkey:
@@ -328,18 +350,31 @@ class BackupLog(models.Model):
 class SupportStatusDict(TypedDict):
     has_support: bool
     in_limits: bool
+    has_expired_support: bool
+    backup_repository: str
+    name: str
+    is_hosted_weblate: bool
+    is_dedicated: bool
 
 
 def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
+    support_status: SupportStatusDict
     if hasattr(request, "weblate_support_status"):
-        support_status: SupportStatusDict = request.weblate_support_status
+        support_status = request.weblate_support_status
     else:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
+            is_hosted = support_status_instance.name == "hosted"
             support_status = {
-                "has_support": support_status_instance.name != "community",
+                "name": support_status_instance.name,
+                "is_hosted_weblate": is_hosted
+                and settings.SITE_DOMAIN == "hosted.weblate.org",
+                "is_dedicated": is_hosted,
+                "has_support": support_status_instance.has_support,
+                "has_expired_support": support_status_instance.has_expired_support,
                 "in_limits": support_status_instance.in_limits,
+                "backup_repository": support_status_instance.backup_repository,
             }
             cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
         request.weblate_support_status = support_status

@@ -5,11 +5,13 @@
 from __future__ import annotations
 
 import codecs
+import contextlib
 import os
 import tempfile
 from datetime import UTC
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict
+from pathlib import Path
+from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
 import sentry_sdk
 from django.core.cache import cache
@@ -23,13 +25,12 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags
-from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import TranslationFormat, TranslationUnit, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.checklists import TranslationChecklist
+from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -63,6 +64,8 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+    from .project import Project
 
 UploadResult = tuple[int, int, int, int]
 
@@ -171,7 +174,14 @@ class TranslationQuerySet(models.QuerySet):
         )
 
 
-class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin):
+class Translation(
+    models.Model,
+    URLMixin,
+    LoggerMixin,
+    CacheKeyMixin,
+    LockMixin,
+    TranslationChecklistMixin,
+):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -222,6 +232,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
     def log_hook(self, level, msg, *args) -> None:
         self.component.store_log(self.full_slug, msg, *args)
+
+    @property
+    def project(self) -> Project:
+        return self.component.project
 
     @cached_property
     def is_template(self):
@@ -579,13 +593,13 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
     def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_file_scan(request)
 
-    def can_push(self):
+    def can_push(self) -> bool:
         return self.component.can_push()
 
-    def has_push_configuration(self):
+    def has_push_configuration(self) -> bool:
         return self.component.has_push_configuration()
 
-    def get_hash_filenames(self):
+    def get_hash_filenames(self) -> list[str]:
         """Return filenames to include in the hash."""
         component = self.component
         filenames = [self.get_filename()]
@@ -601,13 +615,11 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         return filenames
 
-    def get_git_blob_hash(self):
+    def get_git_blob_hash(self) -> str:
         """Return current VCS blob hash for file."""
         get_object_hash = self.component.repository.get_object_hash
-
-        return ",".join(
-            get_object_hash(filename) for filename in self.get_hash_filenames()
-        )
+        filenames = self.get_hash_filenames()
+        return ",".join(get_object_hash(filename) for filename in filenames)
 
     def store_hash(self) -> None:
         """Store current hash in database."""
@@ -879,7 +891,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
 
         # Prepare headers to update
         headers = {
-            "add": True,
             "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
@@ -937,78 +948,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             return self.workflow_settings.suggestion_autoaccept
         return self.component.suggestion_autoaccept
 
-    @cached_property
-    def list_translation_checks(self):
-        """Return list of failing checks on current translation."""
-        result = TranslationChecklist()
-
-        # All strings
-        result.add(self.stats, "all", "")
-
-        result.add_if(
-            self.stats, "readonly", "primary" if self.enable_review else "success"
-        )
-
-        if not self.is_readonly:
-            if self.enable_review:
-                result.add_if(self.stats, "approved", "primary")
-
-            # Count of translated strings
-            result.add_if(self.stats, "translated", "success")
-
-            # To approve
-            if self.enable_review:
-                result.add_if(self.stats, "unapproved", "success")
-
-                # Approved with suggestions
-                result.add_if(self.stats, "approved_suggestions", "primary")
-
-            # Unfinished strings
-            result.add_if(self.stats, "todo", "")
-
-            # Untranslated strings
-            result.add_if(self.stats, "nottranslated", "")
-
-            # Fuzzy strings
-            result.add_if(self.stats, "fuzzy", "")
-
-            # Translations with suggestions
-            if result.add_if(self.stats, "suggestions", ""):
-                result.add_if(self.stats, "nosuggestions", "")
-
-        # All checks
-        result.add_if(self.stats, "allchecks", "")
-
-        # Translated strings with checks
-        if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "")
-
-        # Dismissed checks
-        result.add_if(self.stats, "dismissed_checks", "")
-
-        # Process specific checks
-        for check in CHECKS:
-            check_obj = CHECKS[check]
-            result.add_if(self.stats, check_obj.url_id, "")
-
-        # Grab comments
-        result.add_if(self.stats, "comments", "")
-
-        # Include labels
-        labels = self.component.project.label_set.order_by("name")
-        if labels:
-            has_label = False
-            for label in labels:
-                has_label |= result.add_if(
-                    self.stats,
-                    f"label:{label.name}",
-                    f"label label-{label.color}",
-                )
-            if has_label:
-                result.add_if(self.stats, "unlabeled", "")
-
-        return result
-
     def log_upload_not_found(
         self, not_found_log: list[str], unit: TranslationUnit
     ) -> None:
@@ -1038,7 +977,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 % count,
                 strings,
             ),
-            fail_silently=True,
         )
 
     def merge_translations(
@@ -1520,6 +1458,12 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
                 )
                 self.component.push_if_needed()
 
+        # Remove blank directory if still present (appstore)
+        filename = Path(self.get_filename())
+        if filename.is_dir():
+            with contextlib.suppress(OSError):
+                filename.rmdir()
+
         # Delete from the database
         self.delete()
         transaction.on_commit(self.stats.update_parents)
@@ -1547,9 +1491,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         # delete_unit might do changes in the database only and not touch the files
         # for pending new units
         if self.is_source:
-            self.component.create_translations(
-                request=request, change=change, run_async=True
-            )
+            self.component.create_translations(request=request, change=change)
             self.component.invalidate_cache()
         else:
             self.check_sync(request=request, change=change)
@@ -1566,10 +1508,10 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         result.append(self)
         return result
 
-    @transaction.atomic
-    def add_unit(  # noqa: C901,PLR0914,PLR0915,PLR0912
+    @overload
+    def add_unit(
         self,
-        request: AuthenticatedHttpRequest | None,
+        request: AuthenticatedHttpRequest,
         context: str,
         source: str | list[str],
         target: str | list[str] | None = None,
@@ -1581,6 +1523,38 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+    ) -> Unit | None: ...
+    @overload
+    def add_unit(
+        self,
+        request: None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
+        *,
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User,
+    ) -> Unit | None: ...
+    @transaction.atomic
+    def add_unit(  # noqa: C901,PLR0914,PLR0915,PLR0912
+        self,
+        request,
+        context,
+        source,
+        target=None,
+        *,
+        extra_flags="",
+        explanation="",
+        auto_context=False,
+        is_batch_update=False,
+        skip_existing=False,
+        state=None,
+        author=None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1882,7 +1856,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin, LockMixin)
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
             raise ValidationError(
-                gettext("Plurals are not supported by the file format!")
+                gettext("Plurals are not supported by the file format.")
             )
         for text in chain(source, [context]):
             if any(char in text for char in CONTROLCHARS):
