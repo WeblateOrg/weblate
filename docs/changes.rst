@@ -43,6 +43,7 @@ Weblate 5.12
 
 * The projects and categories default tab now shows translated languages.
 * If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
+* :ref:`saml-auth` support is no longer included in the default dependencies.
 
 .. rubric:: Upgrading
 
