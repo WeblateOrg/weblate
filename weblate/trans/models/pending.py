@@ -13,24 +13,26 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from weblate.auth.models import User
-    from weblate.trans.models import Unit
+    from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class PendingChangeQuerySet(models.QuerySet):
-    def for_project(self, project):
+    def for_project(self, project: Project):
         """Return pending changes for a specific component."""
         return self.filter(unit__translation__component__project=project)
 
-    def for_component(self, component):
+    def for_component(self, component: Component):
         """Return pending changes for a specific component."""
         return self.filter(unit__translation__component=component)
 
-    def for_translation(self, translation):
+    def for_translation(self, translation: Translation):
         """Return pending changes for a specific translation."""
         return self.filter(unit__translation=translation)
 
-    def older_than(self, timestamp):
+    def older_than(self, timestamp: datetime):
         """Return pending changes older than given timestamp."""
         return self.filter(timestamp__lt=timestamp)
 
@@ -66,9 +68,6 @@ class PendingUnitChange(models.Model):
 
     class Meta:
         app_label = "trans"
-        indexes = [
-            models.Index(fields=["timestamp"]),
-        ]
         # Ensure each author can only have one pending change per unit at a time
         unique_together = [("unit", "author")]
         verbose_name = "pending change"
@@ -89,18 +88,18 @@ class PendingUnitChange(models.Model):
         add_unit: bool = False,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
-        from weblate.auth.models import get_anonymous
-
         if target is None:
             target = unit.target
         if explanation is None:
             explanation = unit.explanation
         if state is None:
             state = unit.state
+        if author is None:
+            author = unit.get_last_content_change()[0]
 
         pending, _ = cls.objects.update_or_create(
             unit=unit,
-            author=author or get_anonymous(),
+            author=author,
             defaults={
                 "target": target,
                 "explanation": explanation,
