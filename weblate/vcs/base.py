@@ -76,7 +76,7 @@ class Repository:
     _version = None
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.identifier or cls.name.lower()
 
     def __init__(
