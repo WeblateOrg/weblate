@@ -33,21 +33,8 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
 2. Create a :file:`docker-compose.override.yml` file with your settings.
    See :ref:`docker-environment` for full list of environment variables.
 
-   .. code-block:: yaml
-
-        services:
-          weblate:
-            ports:
-              - 80:8080
-            environment:
-              WEBLATE_EMAIL_HOST: smtp.example.com
-              WEBLATE_EMAIL_HOST_USER: user
-              WEBLATE_EMAIL_HOST_PASSWORD: pass
-              WEBLATE_SERVER_EMAIL: weblate@example.com
-              WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
-              WEBLATE_SITE_DOMAIN: weblate.example.com
-              WEBLATE_ADMIN_PASSWORD: password for the admin user
-              WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
+   .. literalinclude:: ../../../weblate/examples/docker-compose.yml
+      :language: yaml
 
    .. note::
 
