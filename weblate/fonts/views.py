@@ -16,7 +16,8 @@ from django.views.generic import DetailView, ListView, View
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
 from weblate.fonts.utils import get_font_name
-from weblate.trans.models import Project
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Project
 from weblate.utils import messages
 from weblate.utils.views import parse_path
 
@@ -63,8 +64,14 @@ class FontListView(ProjectViewMixin, ListView):
             )
         if form.is_valid():
             instance = form.save(commit=False)
+            Change.objects.create(
+                action=ActionEvents.FONT_CREATE,
+                user=request.user,
+                target=str(instance),
+                project=self.project,
+            )
             instance.project = self.project
-            instance.user = self.request.user
+            instance.user = request.user
             try:
                 instance.validate_unique()
             except ValidationError:
@@ -103,6 +110,12 @@ class FontDetailView(ProjectViewMixin, DetailView):
 
         if "delete" in request.POST:
             self.object.delete()
+            Change.objects.create(
+                action=ActionEvents.FONT_REMOVE,
+                user=request.user,
+                target=str(self.object),
+                project=self.project,
+            )
             messages.error(request, gettext("Font deleted."))
             return redirect("fonts", project=self.project.slug)
 
@@ -136,10 +149,15 @@ class FontDetailView(ProjectViewMixin, DetailView):
                 gettext("The uploaded font file is identical to the current one."),
             )
         else:
-            # TODO: create a Change entry
             self.object.font = new_file
             self.object.user = request.user
             self.object.save()
+            Change.objects.create(
+                action=ActionEvents.FONT_CHANGE,
+                user=request.user,
+                target=str(self.object),
+                project=self.project,
+            )
             messages.success(request, gettext("Font updated successfully."))
 
         return redirect(self.object)
