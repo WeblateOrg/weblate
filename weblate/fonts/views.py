@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, View
@@ -102,23 +101,19 @@ class FontDetailView(ProjectViewMixin, DetailView):
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
 
-        if "font" not in request.FILES:
-            messages.error(request, "No file uploaded.")
+        if "delete" in request.POST:
+            self.object.delete()
+            messages.error(request, gettext("Font deleted."))
+            return redirect("fonts", project=self.project.slug)
+
+        form = self._fort_form = FontForm(data=request.POST, files=request.FILES)
+        if not form.is_valid():
             return self.get(request, **kwargs)
 
-        new_file = request.FILES["font"]
+        new_file = form.cleaned_data["font"]
 
-        try:
-            uploaded_family, uploaded_style = get_font_name(new_file)
-            new_file.seek(0)
-        except Exception:
-            messages.error(
-                request,
-                gettext(
-                    "Could not extract font metadata. Ensure it’s a valid font file."
-                ),
-            )
-            return self.get(request, **kwargs)
+        # This should not fail as font was loaded during the form validation
+        uploaded_family, uploaded_style = get_font_name(new_file)
 
         # Enforce same family & style
         if uploaded_family != self.object.family or uploaded_style != self.object.style:
@@ -131,22 +126,19 @@ class FontDetailView(ProjectViewMixin, DetailView):
             )
             return self.get(request, **kwargs)
 
-        # Compare file content hashes
-        new_content = new_file.read()
-        new_file.seek(0)
-
+        # Compare file content
         current_content = self.object.font.read()
         self.object.font.seek(0)
 
-        if new_content == current_content:
+        if new_file.loaded_font.font_bytes == current_content:
             messages.info(
                 request,
                 gettext("The uploaded font file is identical to the current one."),
             )
         else:
+            # TODO: create a Change entry
             self.object.font = new_file
             self.object.user = request.user
-            self.object.timestamp = timezone.now()
             self.object.save()
             messages.success(request, gettext("Font updated successfully."))
 
