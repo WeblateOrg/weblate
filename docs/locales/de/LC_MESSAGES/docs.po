@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-12 10:17+0200\n"
-"PO-Revision-Date: 2025-06-12 18:31+0000\n"
+"PO-Revision-Date: 2025-06-14 00:02+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1434,7 +1434,7 @@ msgstr "Mitteilungen veröffentlichen"
 
 #: ../../admin/access.rst:582
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
+msgstr ":guilabel:`Verwaltung`, :guilabel:`Übersetzungskoordinator`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1511,10 +1511,8 @@ msgid "List of built-in roles"
 msgstr "Liste der integrierten Rollen"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Kommentar erstellen`"
+msgstr ":guilabel:`Mitteilungen veröffentlichen`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -3437,9 +3435,9 @@ msgid ""
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
-"guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
-"`Appended static text`"
+":guilabel:`Vorangestellter statischer Text` :guilabel:`Vorangestellter "
+"variabler Text` :guilabel:`Ausgangszeichenkette` :guilabel:`Angehängter "
+"variabler Text` :guilabel:`Angehängter statischer Text`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3838,7 +3836,7 @@ msgstr "JSON-Ausgabe anpassen"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr "Option :guilabel:`Avoid spaces after separators` hinzugefügt."
+msgstr "Option :guilabel:`Leerzeichen nach Trennzeichen vermeiden` hinzugefügt."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -4416,16 +4414,17 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"Die Nutzdaten der Anfrage entsprechen dem Schema :ref:`schema-messaging`. "
+"Die OpenAPI-Beschreibung kann auch unter ``/api/docs/`` gefunden werden. "
+"Beispielanfrage :"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Beispielanfrage mit Kategorien:"
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "Anfrage-Header"
+msgstr "Anfrage-Header-Beispiel:"
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -11643,10 +11642,11 @@ msgid ""
 "request)."
 msgstr ""
 "Selbst wenn Weblate die einzige Quelle der Änderungen in den "
-"Übersetzungsdateien ist, können Konflikte auftreten, wenn die Erweiterung :"
-"ref:`addon-weblate.git.squash` verwendet wird, :ref:`component-merge_style` "
-"auf :guilabel:`Rebase` konfiguriert ist oder Sie Commits außerhalb von "
-"Weblate zusammenfassen (z. B. beim Zusammenführen eines Pull Requests)."
+"Übersetzungsdateien ist, können Konflikte auftreten, wenn die Erweiterung "
+":ref:`addon-weblate.git.squash` verwendet wird, :ref:`component-merge_style` "
+"auf :guilabel:`Umbasieren (Rebase)` konfiguriert ist oder Sie Commits "
+"außerhalb von Weblate zusammenfassen (z. B. beim Zusammenführen eines Pull "
+"Requests)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -12316,10 +12316,8 @@ msgstr ""
 "in allen Komponenten korrekt zugeordnet."
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "Beiträge zu Übersetzungen"
+msgstr "Voraussetzungen für die Weitergabe:"
 
 #: ../../admin/continuous.rst:564
 msgid ""
@@ -19424,7 +19422,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:50
 msgid ":guilabel:`Automatic selection`"
-msgstr ":guilabel:`Automatic selection`"
+msgstr ":guilabel:`Automatische Auswahl`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
@@ -19436,7 +19434,7 @@ msgstr "Dies ist das Standardverhalten."
 
 #: ../../admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
-msgstr ":guilabel:`Component source language`"
+msgstr ":guilabel:`Ausgangssprache der Komponente`"
 
 #: ../../admin/machine.rst:55
 msgid "Uses the component source language."
@@ -19448,7 +19446,7 @@ msgstr "Dies war das Verhalten vor der Version 5.11."
 
 #: ../../admin/machine.rst:58
 msgid ":guilabel:`Secondary language defined in project or component`"
-msgstr ":guilabel:`Secondary language defined in project or component`"
+msgstr ":guilabel:`Im Projekt oder in der Komponente definierte Zweitsprache`"
 
 #: ../../admin/machine.rst:59
 msgid ""
@@ -19556,8 +19554,7 @@ msgstr "``source`` -- Ausgangssprache der Komponente"
 #: ../../admin/machine.rst:978
 msgid "``secondary`` -- Secondary language defined in project or component"
 msgstr ""
-"``secondary`` -- Zweitsprache, die im Projekt oder in der Komponente "
-"definiert ist"
+"``secondary`` -- Im Projekt oder in der Komponente definierte Zweitsprache"
 
 #: ../../admin/machine.rst:81 ../../admin/machine.rst:142
 #: ../../admin/machine.rst:178 ../../admin/machine.rst:211
@@ -29572,17 +29569,17 @@ msgstr "Dokumentation :doc:`/security/index`."
 #: ../../changes.rst:13
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Unterstützung für :doc:`/formats/compose-multiplatform-resources` "
+"hinzugefügt."
 
 #: ../../changes.rst:14
 msgid "Added :guilabel:`Translation Coordinator` role."
-msgstr "Rolle :guilabel:`Translation Coordinator` hinzugefügt."
+msgstr "Rolle :guilabel:`Übersetzungskoordinator` hinzugefügt."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
+":ref:`addon-weblate.webhook.slack` sind jetzt als Erweiterung verfügbar."
 
 #: ../../changes.rst:18 ../../changes.rst:62 ../../changes.rst:104
 #: ../../changes.rst:131 ../../changes.rst:167 ../../changes.rst:235
@@ -29649,25 +29646,20 @@ msgid ":http:get:`/api/users/` now includes ``languages``."
 msgstr ":http:get:`/api/users/` enthält jetzt ``languages``."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgid ":ref:`addon-weblate.webhook.webhook` documentation improved."
-msgstr ":ref:`addon-weblate.webhook.webhook` ist jetzt in Docker aktiviert."
+msgstr ":ref:`addon-weblate.webhook.webhook`-Dokumentation verbessert."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Improved support for Qt TS files."
 msgid "Improved support for extended metadata in :ref:`tbx`."
-msgstr "Verbesserte Unterstützung für Qt-TS-Dateien."
+msgstr "Verbesserte Unterstützung für erweiterte Metadaten in :ref:`tbx`."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` now includes a category field when "
 "available."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
+":ref:`addon-weblate.webhook.webhook` enthält nun auch ein Feld für die "
+"Kategorie, sofern verfügbar."
 
 #: ../../changes.rst:33 ../../changes.rst:66 ../../changes.rst:85
 #: ../../changes.rst:109 ../../changes.rst:136 ../../changes.rst:183
@@ -29715,12 +29707,8 @@ msgid "Creating new translations in :doc:`/formats/appstore`."
 msgstr "Erstellen neuer Übersetzungen in :doc:`/formats/appstore`."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`search-replace` correctly handles plurals."
-msgstr ""
-":ref:`check-icu-message-format` verarbeitet problemlos Zeichenketten mit "
-"Pluralformen."
+msgstr ":ref:`search-replace` verarbeitet Pluralformen korrekt."
 
 #: ../../changes.rst:42 ../../changes.rst:191 ../../changes.rst:274
 #: ../../changes.rst:364 ../../changes.rst:465 ../../changes.rst:605
@@ -29741,6 +29729,9 @@ msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"Wenn in der Konfiguration der Webhook-Erweiterung kein ``secret`` angegeben "
+"ist, wird die Webhook-Anfrage nicht signiert, siehe :ref:`addon-"
+"weblate.webhook.webhook`."
 
 #: ../../changes.rst:47 ../../changes.rst:70 ../../changes.rst:89
 #: ../../changes.rst:116 ../../changes.rst:142 ../../changes.rst:195
@@ -43580,10 +43571,8 @@ msgstr ""
 "ausprobieren."
 
 #: ../../contributing/issues.rst:20
-#, fuzzy
-#| msgid "Using AI to created issues"
 msgid "Using AI to create issues"
-msgstr "Verwenden von KI zum Erstellen von Issues"
+msgstr "Verwenden von KI zum Erstellen von Problemen"
 
 #: ../../contributing/issues.rst:22
 msgid ""
@@ -49235,33 +49224,22 @@ msgid "`ARB file`"
 msgstr "`ARB-Datei`"
 
 #: ../../formats/compose-multiplatform-resources.rst:2
-#, fuzzy
-#| msgid "How to translate multi-platform projects?"
 msgid "Compose Multiplatform resources"
-msgstr "Wie übersetzt man plattformübergreifende Projekte?"
+msgstr "Compose-Multiplatform-Ressourcen"
 
 #: ../../formats/compose-multiplatform-resources.rst:9
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ""
 
 #: ../../formats/compose-multiplatform-resources.rst:14
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
 "formats/android`, :doc:`tt:formats/android`"
 msgstr ""
-"`Dokumentation der Android-Zeichenketten-Ressourcen <https://developer."
-"android.com/guide/topics/resources/string-resource>`_, `JetBrains-Compose-"
-"Multiplatform-Kotlin-Ressourcen <https://www.jetbrains.com/help/kotlin-"
-"multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:formats/"
-"android`"
+"`JetBrains Compose-Multiplatform-Ressourcen <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
+"formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/compose-multiplatform-resources.rst:24
 #: ../../formats/moko-resources.rst:24
@@ -49275,7 +49253,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/compose-multiplatform-resources.rst:30
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Compose-Multiplatform-Ressource`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -50711,10 +50689,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/tbx.rst:15
-#, fuzzy
-#| msgid "Translation added"
 msgid "Translation needed"
-msgstr "Übersetzung hinzugefügt"
+msgstr "Übersetzung benötigt"
 
 #: ../../formats/tbx.rst:16
 msgid ""
@@ -51826,8 +51802,6 @@ msgstr ""
 "SSL/TLS-Konfiguration und optionales SIEM-Protokollierungssystem."
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup colicy"
 msgid "Backup policy"
 msgstr "Sicherungsrichtlinie"
 
@@ -52282,10 +52256,8 @@ msgid ":doc:`privacy-compliance`"
 msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/index.rst:41
-#, fuzzy
-#| msgid "Short overview of the terms of service and privacy policy"
 msgid "Terms of service and privacy policy"
-msgstr "Kurze Übersicht über die Nutzungsbedingungen und Datenschutzerklärung"
+msgstr "Nutzungsbedingungen und Datenschutzerklärung"
 
 #: ../../security/index.rst:45
 msgid ""
@@ -52294,16 +52266,12 @@ msgid ""
 msgstr ""
 
 #: ../../security/index.rst:47
-#, fuzzy
-#| msgid "General Terms and Conditions"
 msgid "`General terms and conditions`_"
-msgstr "Allgemeine Geschäftsbedingungen"
+msgstr "`Allgemeine Geschäftsbedingungen`_"
 
 #: ../../security/index.rst:48
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "`Privacy policy`_"
-msgstr "Datenschutzerklärung"
+msgstr "`Datenschutzerklärung`_"
 
 #: ../../security/index.rst:49
 msgid "The data processing agreement can be obtained in the `Customer area`_."
@@ -52860,8 +52828,6 @@ msgid "PIPL (China)"
 msgstr "PIPL (China)"
 
 #: ../../security/privacy-compliance.rst:95
-#, fuzzy
-#| msgid "Purpose limitation, data minimization, localization"
 msgid "Purpose limitation, data minimization, locality"
 msgstr "Zweckbindung, Datenminimierung, Lokalität"
 
@@ -52904,10 +52870,6 @@ msgstr ""
 "automatisiertes Verfahren zum Erfüllen von Auskunfts-/Löschanfragen."
 
 #: ../../security/privacy-compliance.rst:105
-#, fuzzy
-#| msgid ""
-#| "**Localization:** Ensure infrastructure is physically located within the "
-#| "target jurisdiction as required."
 msgid ""
 "**Locality:** Ensure infrastructure is physically located within the target "
 "jurisdiction as required."
