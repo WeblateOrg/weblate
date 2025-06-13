@@ -11,7 +11,7 @@ import tempfile
 from datetime import UTC
 from itertools import chain
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
 import sentry_sdk
 from django.core.cache import cache
@@ -1554,10 +1554,9 @@ class Translation(
         result.append(self)
         return result
 
-    @transaction.atomic
-    def add_unit(  # noqa: C901, PLR0914, PLR0915
-        self,
-        request: AuthenticatedHttpRequest | None,
+    @overload
+    def add_unit(
+        request: AuthenticatedHttpRequest,
         context: str,
         source: str | list[str],
         target: str | list[str] | None = None,
@@ -1569,6 +1568,38 @@ class Translation(
         skip_existing: bool = False,
         state: StringState | None = None,
         author: User | None = None,
+    ) -> Unit | None: ...
+    @overload
+    def add_unit(
+        self,
+        request: None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
+        *,
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User,
+    ) -> Unit | None: ...
+    @transaction.atomic
+    def add_unit(  # noqa: C901, PLR0914, PLR0915
+        self,
+        request,
+        context,
+        source,
+        target=None,
+        *,
+        extra_flags="",
+        explanation="",
+        auto_context=False,
+        is_batch_update=False,
+        skip_existing=False,
+        state=None,
+        author=None,
     ):
         if isinstance(source, list):
             source = join_plural(source)
@@ -1576,6 +1607,9 @@ class Translation(
         parsed_flags = Flags(extra_flags)
 
         user = request.user if request else author
+        if user is None:
+            msg = "Can not add unit without an author!"
+            raise ValueError(msg)
         component = self.component
         add_terminology = False
         if is_plural(source) and not component.file_format_cls.supports_plural:

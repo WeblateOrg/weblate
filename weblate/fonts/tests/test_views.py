@@ -5,7 +5,7 @@
 from django.urls import reverse
 
 from weblate.fonts.models import Font, FontGroup
-from weblate.fonts.tests.utils import FONT, FontTestCase
+from weblate.fonts.tests.utils import FONT, FONT_BOLD, FontTestCase
 from weblate.lang.models import Language
 
 
@@ -29,7 +29,7 @@ class FontViewTest(FontTestCase):
         self.assertContains(response, "Add font")
 
         # Upload font
-        with open(FONT, "rb") as handle:
+        with FONT.open("rb") as handle:
             response = self.client.post(self.fonts_url, {"font": handle}, follow=True)
             self.assertContains(response, "Kurinto Sans")
         font = Font.objects.get()
@@ -63,6 +63,35 @@ class FontViewTest(FontTestCase):
         self.client.post(group.get_absolute_url())
         self.assertEqual(FontGroup.objects.count(), 0)
 
-        # Remove font
+        # Invalid edit of font
         self.client.post(font.get_absolute_url())
+        self.assertEqual(Font.objects.count(), 1)
+
+        # No-op edit of font
+        with FONT.open("rb") as handle:
+            response = self.client.post(
+                font.get_absolute_url(), {"font": handle}, follow=True
+            )
+        self.assertContains(response, "identical to the current one")
+        self.assertEqual(Font.objects.count(), 1)
+
+        # Different family edit of font
+        with FONT_BOLD.open("rb") as handle:
+            response = self.client.post(font.get_absolute_url(), {"font": handle})
+        self.assertContains(response, "must match the existing family")
+        self.assertEqual(Font.objects.count(), 1)
+
+        # Edit of font (after tinkering current one)
+        font = Font.objects.get()
+        with font.font.open("wb") as handle:
+            handle.write(b"")
+        with FONT.open("rb") as handle:
+            response = self.client.post(
+                font.get_absolute_url(), {"font": handle}, follow=True
+            )
+        self.assertNotContains(response, "identical to the current one")
+        self.assertEqual(Font.objects.count(), 1)
+
+        # Remove font
+        self.client.post(font.get_absolute_url(), {"delete": 1})
         self.assertEqual(Font.objects.count(), 0)

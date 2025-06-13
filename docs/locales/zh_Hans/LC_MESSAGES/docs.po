@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-12 10:17+0200\n"
-"PO-Revision-Date: 2025-06-12 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-12 18:31+0000\n"
+"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1325,16 +1325,12 @@ msgid "Announcements"
 msgstr "公告"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
 msgstr "发布公告"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`管理`, :guilabel:`管理翻译记忆库`"
+msgstr ":guilabel:`管理`, :guilabel:`翻译协调员`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1410,10 +1406,8 @@ msgid "List of built-in roles"
 msgstr "内置角色列表"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`发表评论`"
+msgstr ":guilabel:`发布公告`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -1664,10 +1658,8 @@ msgid "`Power user`"
 msgstr "`高级用户`"
 
 #: ../../admin/access.rst:719
-#, fuzzy
-#| msgid "Translation comment"
 msgid "`Translation coordinator`"
-msgstr "译文评论"
+msgstr "`翻译协调员`"
 
 #: ../../admin/access.rst:747
 msgid "`Review strings`"
@@ -3789,10 +3781,8 @@ msgstr ""
 "如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
 
 #: ../../admin/addons.rst:980
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhook"
+msgstr "Slack Webhooks"
 
 #: ../../admin/addons.rst:984
 msgid "``weblate.webhook.slack``"
@@ -4115,23 +4105,17 @@ msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:1140
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "根据选中事件向外部服务发送通知。"
+msgstr "根据所选事件向 Slack 频道发送通知。"
 
 #: ../../admin/addons.rst:1144
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
-"Google Analytics 4 集成当前对 Weblate 不可用，请见 https://github.com/"
-"WeblateOrg/weblate/issues/14015。"
+"通知内容可能会显示 HTML 标签。这是一个已知问题，很快就会解决；请查看 https://"
+"github.com/WeblateOrg/weblate/issues/15056。"
 
 #: ../../admin/addons.rst:1148
 msgid ""
@@ -4139,6 +4123,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"要获取 webhook URL，请按照 `Slack Incoming Webhooks 文档 <https://"
+"docs.slack.dev/messaging/sending-messages-using-incoming-webhooks>`_ "
+"中概述的步骤操作"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4159,34 +4146,30 @@ msgid "Secret"
 msgstr "Secret"
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "无效的 base64 编码字符串"
+msgstr "Base64 编码字符串"
 
 #: ../../admin/addons.rst:1315
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
-msgstr "根据选中事件向外部服务发送通知。"
+msgstr "按照 Standard Webhooks 规范，根据所选事件向外部服务发送通知。"
 
 #: ../../admin/addons.rst:1318
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"请求负载符合 :ref:`schema-messaging` 模式。OpenAPI 描述也可在 ``/api/docs/`` "
+"找到。示例请求正文："
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "带有类别的示例请求正文："
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "请求标头"
+msgstr "示例请求标头："
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -4195,6 +4178,9 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"``webhook-signature`` 是一个空格分隔的 HMAC 签名列表，使用 ``secret`` "
+"字符串、请求负载、``webhook-timestamp`` 和 ``webhook-id`` 生成。这确保了 "
+"webhook 请求的真实性和完整性。"
 
 #: ../../admin/addons.rst:1374
 msgid ""
@@ -4202,6 +4188,8 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"要验证请求，您可以使用 ``standardwebhooks`` 库中的 ``Webhook.verify`` 方法或“"
+"Standard Webhooks 规范”的实现。"
 
 #: ../../admin/addons.rst:1380
 msgid ""
@@ -4210,6 +4198,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Standard Webhooks 规范 <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `Standard Webhooks 的 Python 库 <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1389
 msgid "Customize XML output"
@@ -11341,16 +11333,14 @@ msgstr ""
 "行。在所有的部件中这样的翻译都适当地归功于当前翻译的用户。"
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "翻译贡献"
+msgstr "传播前提条件："
 
 #: ../../admin/continuous.rst:564
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
-msgstr ""
+msgstr "所有部件必须位于单个项目中（仅链接部件是不够的）。"
 
 #: ../../admin/continuous.rst:565 ../../devel/mobile.rst:12
 msgid ""
@@ -11370,20 +11360,16 @@ msgstr "翻译传播需要密钥来匹配单语言翻译格式，因此在建立
 msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
-msgstr ""
+msgstr "字符串在翻译时会传播，从仓库加载的字符串不会传播。"
 
 #: ../../admin/continuous.rst:573
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "This feature currently has limitations, and we want to make it more "
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
-"Google Analytics 4 集成当前对 Weblate 不可用，请见 https://github.com/"
-"WeblateOrg/weblate/issues/14015。"
+"此功能目前存在一些限制，我们希望使其更加通用。请在 https://github.com/"
+"WeblateOrg/weblate/issues/3166 分享您的反馈。"
 
 #: ../../admin/continuous.rst:578
 msgid "Consistency check"
@@ -27029,19 +27015,15 @@ msgstr ":doc:`/security/index` 文档。"
 
 #: ../../changes.rst:13
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
-msgstr ""
+msgstr "添加了对 :doc:`/formats/compose-multiplatform-resources` 的支持。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Added :guilabel:`Translation Coordinator` role."
-msgstr "译文评论"
+msgstr "添加了 :guilabel:`翻译协调员` 角色。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.webhook.slack` 现作为附加组件可用。"
 
 #: ../../changes.rst:18 ../../changes.rst:62 ../../changes.rst:104
 #: ../../changes.rst:131 ../../changes.rst:167 ../../changes.rst:235
@@ -27104,24 +27086,18 @@ msgid ":http:get:`/api/users/` now includes ``languages``."
 msgstr ":http:get:`/api/users/` 现包含 ``languages``."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgid ":ref:`addon-weblate.webhook.webhook` documentation improved."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现在在 Docker 中启用。"
+msgstr ":ref:`addon-weblate.webhook.webhook` 文档已改进。"
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Improved support for Qt TS files."
 msgid "Improved support for extended metadata in :ref:`tbx`."
-msgstr "改进了对 Qt TS 文件的支持。"
+msgstr "改进了对 :ref:`tbx` 中扩展元数据的支持。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` now includes a category field when "
 "available."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.webhook.webhook` 现在包含一个类别字段（如果可用）。"
 
 #: ../../changes.rst:33 ../../changes.rst:66 ../../changes.rst:85
 #: ../../changes.rst:109 ../../changes.rst:136 ../../changes.rst:183
@@ -27163,10 +27139,8 @@ msgid "Creating new translations in :doc:`/formats/appstore`."
 msgstr "在 :doc:`/formats/appstore` 中创建新翻译。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`search-replace` correctly handles plurals."
-msgstr ":ref:`check-icu-message-format` 优雅地处理复数字符串。"
+msgstr ":ref:`search-replace` 能正确处理复数。"
 
 #: ../../changes.rst:42 ../../changes.rst:191 ../../changes.rst:274
 #: ../../changes.rst:364 ../../changes.rst:465 ../../changes.rst:605
@@ -27185,6 +27159,8 @@ msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"如果 Webhook 附加组件配置中未提供 ``secret``，则 Webhook 请求将不会被签名，"
+"请参阅 :ref:`addon-weblate.webhook.webhook`。"
 
 #: ../../changes.rst:47 ../../changes.rst:70 ../../changes.rst:89
 #: ../../changes.rst:116 ../../changes.rst:142 ../../changes.rst:195
@@ -39559,18 +39535,15 @@ msgid ""
 msgstr "如果您不确定您的缺陷报告或功能请求，您可以尝试 :ref:`discussions`。"
 
 #: ../../contributing/issues.rst:20
-#, fuzzy
-#| msgid "Using AI to created issues"
 msgid "Using AI to create issues"
-msgstr "使用 AI 创建 issues"
+msgstr "使用 AI 创建问题"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
-msgstr ""
-"如你请求 AI 工具寻找 Weblate 或其模块中的问题，你 **必须** 确保在报告中届时这"
-"一事实。"
+msgstr "如你请求 AI 工具寻找 Weblate 或其模块中的问题，你 **必须** "
+"确保在报告中披露这一事实。"
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -40160,13 +40133,14 @@ msgstr "持续集成"
 msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
-msgstr ""
+msgstr "Weblate 依赖 `GitHub Actions`_ 来运行测试、构建文档、代码 linting "
+"和其他任务，以确保代码质量。"
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
-msgstr ""
+msgstr "`Codecov`_ 从已运行的测试中收集代码覆盖率信息。"
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
@@ -44250,21 +44224,15 @@ msgid "Supporting other formats"
 msgstr "支持其他格式"
 
 #: ../../formats.rst:495
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) receive any testing. In "
-#| "most cases some thin layer is needed in Weblate to hide differences in "
-#| "behavior of different `translate-toolkit`_ storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) received any testing. In most "
 "cases, an additional thin layer is needed in Weblate to hide differences in "
 "behavior of different storages."
 msgstr ""
-"`translate-toolkit`_ 支持的大多数支持序列化的格式都可以轻松支持，但它们（尚"
-"未）接受任何测试。在大多数情况下，Weblate 需要一些薄层来隐藏不同 `translate-"
-"toolkit`_ 存储的行为差异。"
+"`translate-toolkit`_ "
+"支持的大多数支持序列化的格式都可以轻松支持，但它们（尚未）接受任何测试。在大"
+"多数情况下，Weblate 需要一个额外的薄层来隐藏不同存储的行为差异。"
 
 #: ../../formats.rst:500
 msgid ""
@@ -44287,6 +44255,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"非常相似的格式是 :doc:`/formats/compose-multiplatform-resources` 和 :doc:`/"
+"formats/moko-resources`。"
 
 #: ../../formats/android.rst:17
 msgid ""
@@ -44359,22 +44329,14 @@ msgstr ""
 "为了避免翻译某些字符串，可以将它们标记为不可翻译。这对于字符串引用特别有用："
 
 #: ../../formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`/formats/compose-multiplatform-"
 "resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 msgstr ""
 "`Android 字符串资源文档 <https://developer.android.com/guide/topics/"
-"resources/string-resource>`_, `JetBrains Compose 多平台 Kotlin 资源 <https://"
-"www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-"
-"resources.html>`_, :doc:`tt:formats/android`"
+"resources/string-resource>`_, :doc:`/formats/compose-multiplatform-resources`"
+", :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -44601,32 +44563,22 @@ msgid "`ARB file`"
 msgstr "`ARB 文件`"
 
 #: ../../formats/compose-multiplatform-resources.rst:2
-#, fuzzy
-#| msgid "How to translate multi-platform projects?"
 msgid "Compose Multiplatform resources"
-msgstr "如何翻译多平台项目？"
+msgstr "Compose 多平台资源"
 
 #: ../../formats/compose-multiplatform-resources.rst:9
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
-msgstr ""
+msgstr ":doc:`/formats/android` 的变体，转义规则不同。"
 
 #: ../../formats/compose-multiplatform-resources.rst:14
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
 "formats/android`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android 字符串资源文档 <https://developer.android.com/guide/topics/"
-"resources/string-resource>`_, `JetBrains Compose 多平台 Kotlin 资源 <https://"
-"www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-"
-"resources.html>`_, :doc:`tt:formats/android`"
+"`JetBrains Compose 多平台资源 <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
+"formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/compose-multiplatform-resources.rst:24
 #: ../../formats/moko-resources.rst:24
@@ -44640,7 +44592,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/compose-multiplatform-resources.rst:30
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Compose 多平台资源`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -45665,12 +45617,16 @@ msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+":doc:`/formats/android` 的变体。它的区别在于复数标签（使用 ``plural`` 而不是 "
+"``plurals``）和转义。"
 
 #: ../../formats/moko-resources.rst:14
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_, :"
 "doc:`/formats/android`, :doc:`tt:formats/android`"
 msgstr ""
+"`Mobile Kotlin 资源 <https://github.com/icerockdev/moko-resources>`_, :doc:`/"
+"formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -45966,10 +45922,8 @@ msgstr ""
 "from=\"translator\">`` 保存和加载。"
 
 #: ../../formats/tbx.rst:12
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative status"
-msgstr "管理"
+msgstr "管理状态"
 
 #: ../../formats/tbx.rst:13
 msgid ""
@@ -45977,30 +45931,30 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
+"在 ``<termNote type=\"administrativeStatus\">`` 中，有 ``禁止`` 或 ``过时`` "
+"管理状态的术语将标有 ``禁止`` 标记（:ref:`glossary-forbidden`）。"
 
 #: ../../formats/tbx.rst:15
-#, fuzzy
-#| msgid "Translation added"
 msgid "Translation needed"
-msgstr "添加了译文"
+msgstr "需要翻译"
 
 #: ../../formats/tbx.rst:16
 msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`)."
 msgstr ""
+"有 ``<termNote type=\"translationNote\">`` 且包含 ``no`` "
+"的术语被标记为只读（:ref:`glossary-untranslatable`）。"
 
 #: ../../formats/tbx.rst:17
-#, fuzzy
-#| msgid "Other notes"
 msgid "Usage notes"
-msgstr "其他注意事项"
+msgstr "使用说明"
 
 #: ../../formats/tbx.rst:18
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
-msgstr ""
+msgstr "来自 ``<descrip type=\"Usage note\">`` 标签的使用说明会显示在术语表中。"
 
 #: ../../formats/tbx.rst:23
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -46893,15 +46847,12 @@ msgid "Docker container security"
 msgstr "Docker 容器安全"
 
 #: ../../security/dependencies.rst:28
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release improvements "
-#| "quickly."
 msgid ""
 "The Docker containers are scanned for security vulnerabilities in our CI. "
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
-msgstr "这使我们能够及早发现漏洞并迅速发布改进措施。"
+msgstr "在我们的 CI 中会对 Docker "
+"容器进行安全漏洞扫描。这使我们能够及早发现漏洞并快速发布改进措施。"
 
 #: ../../security/dependencies.rst:31
 msgid ""
@@ -46917,6 +46868,8 @@ msgid ""
 ":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
 "<https://anchore.com/>`_"
 msgstr ""
+":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
+"<https://anchore.com/>`_"
 
 #: ../../security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -46996,8 +46949,6 @@ msgstr ""
 "及可选的 SIEM 日志系统。"
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup colicy"
 msgid "Backup policy"
 msgstr "备份策略"
 
@@ -47384,32 +47335,26 @@ msgid ":doc:`privacy-compliance`"
 msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/index.rst:41
-#, fuzzy
-#| msgid "Short overview of the terms of service and privacy policy"
 msgid "Terms of service and privacy policy"
-msgstr "服务条款与隐私政策的简短概况"
+msgstr "服务条款和隐私政策"
 
 #: ../../security/index.rst:45
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate."
-msgstr ""
+msgstr "这些文档适用于由 Weblate s.r.o. 运营的 Weblate 部署，例如 Hosted Weblate。"
 
 #: ../../security/index.rst:47
-#, fuzzy
-#| msgid "General Terms and Conditions"
 msgid "`General terms and conditions`_"
-msgstr "一般条款和条件"
+msgstr "`一般条款和条件`_"
 
 #: ../../security/index.rst:48
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "`Privacy policy`_"
-msgstr "隐私政策"
+msgstr "`隐私政策`_"
 
 #: ../../security/index.rst:49
 msgid "The data processing agreement can be obtained in the `Customer area`_."
-msgstr ""
+msgstr "可以在 `客户专区`_ 获得数据处理协议。"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -47846,7 +47791,7 @@ msgstr "GDPR（欧盟）"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Minimization, consent, erasure, auditability, locality"
-msgstr "最小化、同意、擦除、可审计性、本地化"
+msgstr "最小化、同意、擦除、可审计性、地域性"
 
 #: ../../security/privacy-compliance.rst:85
 msgid "CCPA (California)"
@@ -47869,10 +47814,8 @@ msgid "nFADP (Switzerland)"
 msgstr "nFADP（瑞士）"
 
 #: ../../security/privacy-compliance.rst:89
-#, fuzzy
-#| msgid "Purpose limitation, disclosure transparency"
 msgid "Purpose limitation, consent, transparency"
-msgstr "目的限制、披露透明度"
+msgstr "目的限制、同意、透明度"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "PIPEDA (Canada)"
@@ -47895,10 +47838,8 @@ msgid "PIPL (China)"
 msgstr "PIPL（中国）"
 
 #: ../../security/privacy-compliance.rst:95
-#, fuzzy
-#| msgid "Purpose limitation, data minimization, localization"
 msgid "Purpose limitation, data minimization, locality"
-msgstr "目的限制、数据最小化、本地化"
+msgstr "目的限制、数据最小化、‌地域性"
 
 #: ../../security/privacy-compliance.rst:99
 msgid "Recommendations for compliance"
@@ -47932,14 +47873,10 @@ msgid ""
 msgstr "**数据对象请求：**\\ 定义手动或自动的流程满足访问、擦除请求。"
 
 #: ../../security/privacy-compliance.rst:105
-#, fuzzy
-#| msgid ""
-#| "**Localization:** Ensure infrastructure is physically located within the "
-#| "target jurisdiction as required."
 msgid ""
 "**Locality:** Ensure infrastructure is physically located within the target "
 "jurisdiction as required."
-msgstr "**本地化：**\\ 确保基础设置物理位置按照要求位于目标司法管辖区内。"
+msgstr "**地域性：**\\ 确保基础设置物理位置按照要求位于目标司法管辖区内。"
 
 #: ../../security/threat-model.rst:2
 msgid "Weblate threat model"
@@ -47960,8 +47897,6 @@ msgstr ""
 "Celery）和用户角色（未经身份验证、翻译者、项目经理、管理员）。"
 
 #: ../../security/threat-model.rst:8
-#, fuzzy
-#| msgid "System description an scope"
 msgid "System description and scope"
 msgstr "系统描述和范围"
 
