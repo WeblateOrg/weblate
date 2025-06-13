@@ -3402,6 +3402,9 @@ paths:
             - 78
             - 79
             - 8
+            - 80
+            - 81
+            - 82
             - 9
         description: |-
           * `0` - Resource updated
@@ -3478,6 +3481,9 @@ paths:
           * `77` - Propagated change
           * `78` - File uploaded
           * `79` - Extra flags updated
+          * `80` - Font uploaded
+          * `81` - Font changed
+          * `82` - Font removed
         explode: true
         style: form
       - in: query
@@ -43176,6 +43182,9 @@ components:
       - 77
       - 78
       - 79
+      - 80
+      - 81
+      - 82
       type: integer
       description: |-
         * `0` - Resource updated
@@ -43252,6 +43261,9 @@ components:
         * `77` - Propagated change
         * `78` - File uploaded
         * `79` - Extra flags updated
+        * `80` - Font uploaded
+        * `81` - Font changed
+        * `82` - Font removed
     Addon:
       type: object
       properties:
