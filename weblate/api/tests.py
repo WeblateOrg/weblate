@@ -3933,6 +3933,14 @@ class UnitAPITest(APIBaseTest):
             code=200,
             request={"state": "20", "target": "Test translation"},
         )
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="get",
+            code=200,
+        )
+        data = response.json()
+        self.assertEqual(data["pending"], True)
         # Adding plural where it is not
         self.do_request(
             "api:unit-detail",
