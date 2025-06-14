@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
-# Tuomas Hietala <tuomas.hietala@iki.fi>, 2024.
+# Tuomas Hietala <tuomas.hietala@iki.fi>, 2024, 2025.
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2024.
 # Ricky Tigg <ricky.tigg@gmail.com>, 2024, 2025.
 # Michal Čihař <michal@weblate.org>, 2025.
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-12 10:17+0200\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-14 19:10+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "documentation/fi/>\n"
 "Language: fi\n"
@@ -1269,10 +1269,8 @@ msgid "Announcements"
 msgstr "Tiedotukset"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Julkaise tiedotus"
+msgstr "Julkaise tiedotuksia"
 
 #: ../../admin/access.rst:582
 #, fuzzy
@@ -2219,6 +2217,8 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
+"Käännettyjen tekstien prosenttiosuus, joka vaaditaan käännöksen ottamiseksi "
+"mukaan."
 
 #: ../../admin/addons.rst:192
 msgid "``css_selector``"
@@ -3673,7 +3673,7 @@ msgstr "``sort_keys``"
 
 #: ../../admin/addons.rst:884
 msgid "Sort JSON keys"
-msgstr "Lajittele JSON-avaimet"
+msgstr "Järjestä JSON-avaimet"
 
 #: ../../admin/addons.rst:886
 msgid "``use_compact_separators``"
@@ -3681,7 +3681,7 @@ msgstr "``use_compact_separators``"
 
 #: ../../admin/addons.rst:886
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Vältä välilyöntejä erottimien jälkeen"
 
 #: ../../admin/addons.rst:888 ../../admin/addons.rst:1408
 msgid "``indent``"
@@ -3733,11 +3733,11 @@ msgstr "``case_sensitive``"
 
 #: ../../admin/addons.rst:908
 msgid "Enable case-sensitive key sorting"
-msgstr "Ota käyttöön isojen ja pienten kirjainten välinen avainten lajittelu"
+msgstr "Ota käyttöön isot ja pienet kirjaimet erotteleva avainten järjestäminen"
 
 #: ../../admin/addons.rst:912
 msgid "Formats and sorts the Java properties file."
-msgstr "Muotoilee ja lajittelee Java-ominaisuustiedoston (Java properties)."
+msgstr "Muotoilee ja järjestää Java-ominaisuustiedoston (Java properties)."
 
 #: ../../admin/addons.rst:914
 msgid "Consolidates newlines to Unix ones."
@@ -4326,10 +4326,9 @@ msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:1140
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "Lähetä ilmoitus tilaaneille käyttäjille."
+msgstr ""
+"Lähettää ilmoituksen Slack-kanavalle valittujen tapahtumien perusteella."
 
 #: ../../admin/addons.rst:1144
 msgid ""
@@ -4364,10 +4363,8 @@ msgid "Secret"
 msgstr ""
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "A Base64 encoded string"
-msgstr "Virheellinen hakulause!"
+msgstr "Base64-koodattu teksti"
 
 #: ../../admin/addons.rst:1315
 #, fuzzy
@@ -20743,20 +20740,14 @@ msgstr ""
 ":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-codes`"
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:990
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "Toissijaiset kielet"
+msgstr "Toissijainen kieli"
 
 #: ../../admin/projects.rst:285 ../../admin/projects.rst:994
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "Toissijaiset kielet näytetään lähdetekstin vieressä kun käännetään."
+msgstr "Toissijainen kieli näytetään lähdekielen ohella käännettäessä."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
 msgid ""
@@ -21376,16 +21367,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:682
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Käyttäjäsopimus joka käyttäjän pitää hyväksyä ennen kuin hän voi aloittaa "
-"komponentin kääntämisen."
+"Käyttäjälisenssisopimus, joka käyttäjän pitää hyväksyä ennen tämän "
+"komponentin kääntämistä."
 
 #: ../../admin/projects.rst:685
 msgid "Markdown can be used for text formatting or inserting links."
@@ -21949,10 +21936,8 @@ msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgstr ":ref:`faq-vcs`, :ref:`alerts`"
 
 #: ../../admin/projects.rst:1000
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "Yhtään tekstiä ei tuotu lähetetystä tiedostosta."
+msgstr "Jos asetus on tyhjä, se peritään projektista."
 
 #: ../../admin/projects.rst:1010
 msgid "Priority"
@@ -47997,10 +47982,8 @@ msgid "BBCode markup"
 msgstr "BBCode-merkintä"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Summaries"
 msgid "Summary"
-msgstr "Yhteenvedot"
+msgstr "Yhteenveto"
 
 #: ../../user/checks.rst:116
 msgid "BBCode in translation does not match source."
