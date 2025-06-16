@@ -44,6 +44,7 @@ jobs:
         echo "::add-matcher::.github/matchers/setuptools.json"
         uv build
         echo "::remove-matcher owner=setuptools::"
+        rm -f dist/.gitignore
     - name: Sign the dists with Sigstore
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       uses: sigstore/gh-action-sigstore-python@f514d46b907ebcd5bedc05145c03b69c1edd8b46 # v3.0.0
