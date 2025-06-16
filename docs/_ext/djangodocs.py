@@ -6,6 +6,7 @@
 
 import re
 
+from docutils import nodes
 from docutils.nodes import literal
 from sphinx import addnodes
 from sphinx.domains.std import Cmdoption
@@ -13,12 +14,21 @@ from sphinx.domains.std import Cmdoption
 # RE for option descriptions without a '--' prefix
 simple_option_desc_re = re.compile(r"([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)")
 
+GHSSA_URL = "https://github.com/WeblateOrg/weblate/security/advisories/{}"
+
 
 class WeblateCommandLiteral(literal):
     def __init__(self, rawsource="", text="", *children, **attributes) -> None:
         if not text:
             text = "weblate "
         super().__init__(rawsource, text, *children, **attributes)
+
+
+def ghsa_link(name, rawtext, text, lineno, inliner, options={}, content=[]):  # noqa:B006
+    fullname = f"GHSA-{text}"
+    url = GHSSA_URL.format(fullname)
+    node = nodes.reference(rawtext, fullname, refuri=url, **options)
+    return [node], []
 
 
 def setup(app) -> None:
@@ -39,6 +49,7 @@ def setup(app) -> None:
         indextemplate="pair: %s; django-admin command",
         parse_node=parse_django_admin_node,
     )
+    app.add_role("ghsa", ghsa_link)
     return {
         "parallel_read_safe": True,
         "parallel_write_safe": True,

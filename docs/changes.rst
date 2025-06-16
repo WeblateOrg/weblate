@@ -26,8 +26,8 @@ Weblate 5.12
 
 .. rubric:: Security
 
-* Exposure of personal IP address via e-mail (:cve:`2025-49134`).
-* Lack of rate limiting when verifying second factor (:cve:`2025-47951`).
+* Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:`4qqf-9m5c-w2c5`).
+* Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`).
 
 .. rubric:: New features
 
@@ -770,7 +770,7 @@ Weblate 5.6.2
 * :ref:`addons` button layout.
 * Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
 * Removal of source strings in :ref:`glossary`.
-* Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:`2024-39303` / GHSA-jfgp-674x-6q4p).
+* Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`).
 
 .. rubric:: Upgrading
 
