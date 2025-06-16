@@ -132,7 +132,7 @@ class ProjectBackup:
         return list(getattr(obj, relation).values_list(field, flat=True))
 
     def backup_teams(self, project: Project) -> list[dict]:
-        extras = {}
+        extras: dict[str, Callable] = {}
         for schema_name, relation, field in [
             ("roles", "roles", "name"),
             ("languages", "languages", "code"),
@@ -416,7 +416,7 @@ class ProjectBackup:
         *,
         skip_linked: bool = False,
         do_restore: bool = False,
-    ) -> None:
+    ) -> bool:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
@@ -480,7 +480,7 @@ class ProjectBackup:
             unit.source_unit = source_unit_lookup[item["id_hash"]]
         return unit
 
-    def restore_user(self, username):
+    def restore_user(self, username: str) -> User:
         if not self.user_cache:
             self.user_cache[settings.ANONYMOUS_USER_NAME] = get_anonymous()
         if username not in self.user_cache:
@@ -501,7 +501,7 @@ class ProjectBackup:
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_users(self, usernames: list[str]):
+    def restore_users(self, usernames: list[str]) -> list[User]:
         users = []
         for username in usernames:
             user = self.restore_user(username)
@@ -514,7 +514,7 @@ class ProjectBackup:
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
 
-    def restore_team(self, team: dict):
+    def restore_team(self, team: dict) -> None:
         if team["name"] == "Administration":
             group = Group.objects.get(name=team["name"], defining_project=self.project)
         else:
@@ -539,7 +539,7 @@ class ProjectBackup:
         ]
         AutoGroup.objects.bulk_create(autogroups)
 
-    def restore_teams(self, data: list[dict]):
+    def restore_teams(self, data: list[dict]) -> None:
         self.roles_cache = {r.name: r for r in Role.objects.all()}
         self.create_language_cache()
         for team in data:
@@ -708,11 +708,11 @@ class ProjectBackup:
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
 
-    def create_language_cache(self):
+    def create_language_cache(self) -> None:
         if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
 
-    def import_language(self, code: str):
+    def import_language(self, code: str) -> Language:
         self.create_language_cache()
         try:
             return self.languages_cache[code]
@@ -724,7 +724,7 @@ class ProjectBackup:
 
     def restore_categories(
         self, categories: list[dict], parent_category: Category | None = None
-    ):
+    ) -> None:
         category_objs = [
             Category(
                 name=category["name"],
