@@ -73,6 +73,7 @@ jobs:
         # Remove dev files for SBOM
         uv sync --all-extras --no-dev
         uv tool run --from cyclonedx-bom cyclonedx-py environment --output-reproducible --output-file docs/specs/sbom/partial/python.json "$(uv python find)"
+        ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
 
     - name: Merge SBOM
       if: hashFiles('docs/specs/sbom/partial/python.json') != ''
@@ -83,7 +84,7 @@ jobs:
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
-        sed -i -e '/"serialNumber":/D' -e '/"timestamp":/D' docs/specs/sbom/sbom.json
+        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
