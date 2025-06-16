@@ -4,6 +4,8 @@
 
 # mypy: disable-error-code="var-annotated"
 
+import os
+
 from appconf import AppConf
 
 
@@ -66,7 +68,7 @@ class WeblateConf(AppConf):
 
     BORG_EXTRA_ARGS = None
 
-    HIDE_VERSION = False
+    HIDE_VERSION = "WEBLATE_HIDE_VERSION" in os.environ
 
     CSP_SCRIPT_SRC = []
     CSP_IMG_SRC = []
