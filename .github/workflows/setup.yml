@@ -58,7 +58,7 @@ jobs:
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
       with:
         subject-path: dist/*
-        sbom-path: sbom/sbom.json
+        sbom-path: docs/specs/sbom/sbom.json
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         path: dist/*
