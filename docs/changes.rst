@@ -24,6 +24,11 @@ Weblate 5.12
 
 *Released on June 16th 2025.*
 
+.. rubric:: Security
+
+* Exposure of personal IP address via e-mail (:cve:`2025-49134`).
+* Lack of rate limiting when verifying second factor (:cve:`2025-47951`).
+
 .. rubric:: New features
 
 * Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for the given translation unit.
