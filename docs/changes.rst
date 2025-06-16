@@ -9,6 +9,8 @@ Weblate 5.12.2
 
 .. rubric:: Bug fixes
 
+* Restoring :ref:`projectbackup` with votes.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
