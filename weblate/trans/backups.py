@@ -494,7 +494,9 @@ class ProjectBackup:
 
         return self.user_cache[username]
 
-    def restore_with_user(self, data, field: str = "user", remove: str | None = None):
+    def restore_with_user(
+        self, data: dict[str, Any], field: str = "user", remove: str | None = None
+    ) -> dict[str, Any]:
         data = data.copy()
         if remove is not None:
             data.pop(remove)
@@ -669,9 +671,17 @@ class ProjectBackup:
                 }
                 for suggestion in suggestions:
                     if suggestion_data[suggestion.target]["votes"]:
+                        # Ignore conflicts here as more users can be mapped to anonymous
+                        # in restore_user().
                         Vote.objects.bulk_create(
-                            Vote(suggestion=suggestion, **self.restore_with_user(vote))
-                            for vote in suggestion_data[suggestion.target]["votes"]
+                            [
+                                Vote(
+                                    suggestion=suggestion,
+                                    **self.restore_with_user(vote),
+                                )
+                                for vote in suggestion_data[suggestion.target]["votes"]
+                            ],
+                            ignore_conflicts=True,
                         )
 
         # Create screenshots
