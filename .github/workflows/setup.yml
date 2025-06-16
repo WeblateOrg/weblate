@@ -51,10 +51,12 @@ jobs:
       with:
         inputs: dist/*
     - name: Attest
+      if: github.event_name == 'push'
       uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
       with:
         subject-path: dist/*
     - uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b # v2.4.0
+      if: github.event_name == 'push'
       with:
         subject-path: dist/*
         sbom-path: docs/specs/sbom/sbom.json
