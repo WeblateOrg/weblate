@@ -73,6 +73,7 @@ jobs:
         # Remove dev files for SBOM
         uv sync --all-extras --no-dev
         uv tool run --from cyclonedx-bom cyclonedx-py environment --output-reproducible --output-file docs/specs/sbom/partial/python.json "$(uv python find)"
+        ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
 
     - name: Merge SBOM
       if: hashFiles('docs/specs/sbom/partial/python.json') != ''
