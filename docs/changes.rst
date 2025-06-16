@@ -3,8 +3,6 @@ Weblate 5.12.1
 
 *Released on June 16th 2025.*
 
-.. rubric:: Improvements
-
 .. rubric:: Bug fixes
 
 * :ref:`sbom` is now includes serial number.
