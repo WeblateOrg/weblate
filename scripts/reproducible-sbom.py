@@ -26,7 +26,7 @@ data["metadata"].pop("timestamp", None)
 
 # Generate UUID based on the content (with serialNumber excluded)
 checksum_data = data.copy()
-checksum_data.pop("serialNumber")
+checksum_data.pop("serialNumber", None)
 reproducible_uuid = uuid.uuid5(NullNamespace, json.dumps(checksum_data))
 
 # Update serial number
