@@ -86,7 +86,7 @@ jobs:
       working-directory: ./client
       run: |
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../docs/specs/sbom/partial/javascript.json
-        sed -i -e '/"serialNumber":/D' -e '/"timestamp":/D' ../docs/specs/sbom/partial/javascript.json
+        ../scripts/reproducible-sbom.py ../docs/specs/sbom/partial/javascript.json
 
     - name: Merge SBOM
       if: hashFiles('docs/specs/sbom/partial/python.json') != ''
@@ -97,7 +97,7 @@ jobs:
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
-        sed -i -e '/"serialNumber":/D' -e '/"timestamp":/D' docs/specs/sbom/sbom.json
+        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
