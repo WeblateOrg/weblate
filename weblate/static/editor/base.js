@@ -7,6 +7,8 @@ var WLT = WLT || {};
 
 WLT.Config = (() => ({
   IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
+  HAS_REVIEW_WORKFLOW:
+    $('.translation-form input[name="review"][value="30"]').length > 0,
 }))();
 
 WLT.Utils = (() => ({
@@ -24,6 +26,13 @@ WLT.Utils = (() => ({
     $el.find('input[name="fuzzy"]').prop("checked", false);
     /* Review workflow */
     $el.find('input[name="review"][value="20"]').prop("checked", true);
+  },
+
+  markApproved: ($el) => {
+    /* Standard workflow */
+    $el.find('input[name="fuzzy"]').prop("checked", false);
+    /* Review workflow */
+    $el.find('input[name="review"][value="30"]').prop("checked", true);
   },
 
   /**
