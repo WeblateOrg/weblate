@@ -115,7 +115,7 @@ $(document).ready(() => {
         const source = result.source;
 
         // Make the URL relative
-        // biome-ignore lint/performance/useTopLevelRegex: TODO: is this regexp really needed?
+        // TODO: is this regexp really needed?
         const url = result.web_url.replace(/^[a-zA-Z]+:\/\/[^/]+\//, "/");
         const resultHtml = `
           <a href="${url}" target="_blank" id="search-result" rel="noopener noreferrer">

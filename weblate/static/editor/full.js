@@ -24,7 +24,6 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
@@ -37,7 +36,6 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
@@ -72,7 +70,6 @@
         }
         $deleteEntriesDialog.modal("hide");
 
-        // biome-ignore lint/complexity/noForEach: TODO
         Object.entries($deleteEntries).forEach(([_, entry]) => {
           if (typeof entry.id !== "undefined") {
             this.removeTranslationEntry(entry.id);
@@ -171,7 +168,6 @@
     if (restoreValue !== null) {
       const translationRestore = JSON.parse(restoreValue);
 
-      // biome-ignore lint/complexity/noForEach: TODO
       translationRestore.forEach((restoreArea) => {
         const target = document.getElementById(restoreArea.id);
         if (target) {
@@ -221,7 +217,6 @@
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
 
-    // biome-ignore lint/complexity/noForEach: TODO
     $("#js-translate")
       .data("services")
       .forEach((serviceName) => {
@@ -635,7 +630,6 @@
       const translations = this.state.translations;
       const modalBody = $("<label>").text("");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       translations.forEach((translation) => {
         if (
           text === translation.text &&
@@ -662,14 +656,12 @@
 
     render(translations) {
       const $translations = $("#machinery-translations");
-      // biome-ignore lint/complexity/noForEach: TODO
       translations.forEach((translation) => {
         const service = this.renderService(translation);
         let insertBefore = null;
         let done = false;
 
         /* This is the merging and insert sort logic */
-        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
         $translations.children("tr").each(function (_idx) {
           const $this = $(this);
           const base = $this.data("raw");

@@ -2,13 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// biome-ignore lint/style/noVar: TODO: doesn't work without that
 // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: TODO: doesn't work without that
 var WLT = WLT || {};
 
 WLT.Config = (() => ({
-  // biome-ignore lint/performance/useTopLevelRegex: TODO: factor out
-  // biome-ignore lint/style/useNamingConvention: TODO: fix naming
   IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
 }))();
 
@@ -210,7 +207,6 @@ WLT.Editor = (() => {
     });
   }
 
-  // biome-ignore lint/suspicious/noEmptyBlockStatements: TODO
   EditorBase.prototype.init = () => {};
 
   EditorBase.prototype.initHighlight = function () {
@@ -305,7 +301,6 @@ WLT.Editor = (() => {
   }
 
   return {
-    // biome-ignore lint/style/useNamingConvention: TODO
     Base: EditorBase,
   };
 })();

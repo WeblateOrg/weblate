@@ -1,4 +1,3 @@
-// biome-ignore lint/style/noVar: keep upstream compatibility
 // biome-ignore lint/suspicious/noAssignInExpressions: keep upstream compatibility
 var _paq = (window._paq = window._paq || []);
 let _trackId = 1;
