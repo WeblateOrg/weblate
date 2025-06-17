@@ -41,6 +41,8 @@ def migrate_changes(apps, schema_editor) -> None:
                 target=unit.target,
                 explanation=unit.explanation,
                 state=unit.state,
+                source_unit_explanation=unit.source_unit.explanation,
+                add_unit=unit.details.get("add_unit", False),
             )
         )
     PendingUnitChange.objects.bulk_create(pending_changes)
@@ -52,8 +54,15 @@ def reverse_migrate_changes(apps, schema_editor) -> None:
     PendingUnitChange = apps.get_model("trans", "PendingUnitChange")
     Unit = apps.get_model("trans", "Unit")
     pending_changes = PendingUnitChange.objects.select_related("unit").all()
-    unit_pks = pending_changes.values_list("unit__pk", flat=True)
-    Unit.objects.filter(pk__in=unit_pks).update(pending=True)
+    all_units_to_update = []
+    add_unit_updates = []
+    for change in PendingUnitChange.objects.select_related("unit").iterator():
+        pk = change.unit.pk
+        all_units_to_update.append(pk)
+        if change.add_unit:
+            add_unit_updates.append(pk)
+    Unit.objects.filter(pk__in=all_units_to_update).update(pending=True)
+    Unit.objects.filter(pk__in=add_unit_updates).update(details={"add_unit": True})
     pending_changes.delete()
 
 
