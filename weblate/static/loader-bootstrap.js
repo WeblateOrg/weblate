@@ -365,15 +365,15 @@ function quoteSearch(value) {
   return value;
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
-  // biome-ignore lint/complexity/noForEach: TODO
-  root.querySelectorAll("textarea[name='q']").forEach((input) => {
+  for (const input of root.querySelectorAll("textarea[name='q']")) {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
-      return;
+      continue;
     }
 
     input.addEventListener("keydown", (event) => {
@@ -429,16 +429,13 @@ function initHighlight(root) {
     });
 
     resizeObserver.observe(input);
-  });
-  // biome-ignore lint/complexity/noForEach: TODO
-  // biome-ignore lint/complexity/useSimplifiedLogicExpression: TODO
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
-  root.querySelectorAll(".highlight-editor").forEach((editor) => {
+  }
+  for (const editor of root.querySelectorAll(".highlight-editor")) {
     const parent = editor.parentElement;
     const hasFocus = editor === document.activeElement;
 
     if (parent.classList.contains("editor-wrap")) {
-      return;
+      continue;
     }
 
     const mode = editor.getAttribute("data-mode");
@@ -546,7 +543,7 @@ function initHighlight(root) {
     resizeObserver.observe(editor);
     /* Autosizing */
     autosize(editor);
-  });
+  }
 }
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
@@ -1250,13 +1247,12 @@ $(function () {
     },
   });
   tribute.attach(document.querySelectorAll(".markdown-editor"));
-  // biome-ignore lint/complexity/noForEach: TODO
-  document.querySelectorAll(".markdown-editor").forEach((editor) => {
+  for (const editor of document.querySelectorAll(".markdown-editor")) {
     editor.addEventListener("tribute-active-true", (_e) => {
       $(".tribute-container").addClass("open");
       $(".tribute-container ul").addClass("dropdown-menu");
     });
-  });
+  }
 
   /* forset fields adding */
   $(".add-multifield").on("click", function () {
@@ -1308,90 +1304,88 @@ $(function () {
   });
 
   /* Notifications removal */
-  // biome-ignore lint/complexity/noForEach: TODO
-  document
-    .querySelectorAll(".nav-pills > li > a > button.close")
-    .forEach((button) => {
-      button.addEventListener("click", (_e) => {
-        const link = button.parentElement;
-        // biome-ignore lint/complexity/noForEach: TODO
-        document
-          .querySelectorAll(`${link.getAttribute("href")} select`)
-          .forEach((select) => select.remove());
-        //      document.getElementById(link.getAttribute("href").substring(1)).remove();
-        link.parentElement.remove();
-        /* Activate watched tab */
-        $("a[href='#notifications__1']").tab("show");
-        addAlert(
-          gettext(
-            "Notification settings removed, please do not forget to save the changes.",
-          ),
-          "info",
-        );
-      });
+  for (const button of document.querySelectorAll(
+    ".nav-pills > li > a > button.close",
+  )) {
+    button.addEventListener("click", (_e) => {
+      const link = button.parentElement;
+      for (const select of document.querySelectorAll(
+        `${link.getAttribute("href")} select`,
+      )) {
+        select.remove();
+      }
+      //      document.getElementById(link.getAttribute("href").substring(1)).remove();
+      link.parentElement.remove();
+      /* Activate watched tab */
+      $("a[href='#notifications__1']").tab("show");
+      addAlert(
+        gettext(
+          "Notification settings removed, please do not forget to save the changes.",
+        ),
+        "info",
+      );
     });
+  }
 
   /* User autocomplete */
-  // biome-ignore lint/complexity/noForEach: TODO
-  document
-    .querySelectorAll(".user-autocomplete")
-    .forEach((autoCompleteInput) => {
-      const autoCompleteJs = new autoComplete({
-        selector: () => {
-          return autoCompleteInput;
+  for (const autoCompleteInput of document.querySelectorAll(
+    ".user-autocomplete",
+  )) {
+    const autoCompleteJs = new autoComplete({
+      selector: () => {
+        return autoCompleteInput;
+      },
+      debounce: 300,
+      resultsList: {
+        class: "autoComplete dropdown-menu",
+      },
+      resultItem: {
+        class: "autoComplete_result",
+        element: (item, data) => {
+          item.textContent = "";
+          const child = document.createElement("a");
+          child.textContent = data.value.full_name;
+          item.appendChild(child);
         },
-        debounce: 300,
-        resultsList: {
-          class: "autoComplete dropdown-menu",
+        selected: "autoComplete_selected",
+      },
+      data: {
+        keys: ["username"],
+        src: async (query) => {
+          try {
+            // Fetch Data from external Source
+            const source = await fetch(`/api/users/?username=${query}`);
+            // Data should be an array of `Objects` or `Strings`
+            const data = await source.json();
+            return data.results.map((user) => {
+              return {
+                username: user.username,
+                // biome-ignore lint/style/useNamingConvention: special case
+                full_name: `${user.full_name} (${user.username})`,
+              };
+            });
+          } catch (error) {
+            return error;
+          }
         },
-        resultItem: {
-          class: "autoComplete_result",
-          element: (item, data) => {
-            item.textContent = "";
-            const child = document.createElement("a");
-            child.textContent = data.value.full_name;
-            item.appendChild(child);
-          },
-          selected: "autoComplete_selected",
-        },
-        data: {
-          keys: ["username"],
-          src: async (query) => {
-            try {
-              // Fetch Data from external Source
-              const source = await fetch(`/api/users/?username=${query}`);
-              // Data should be an array of `Objects` or `Strings`
-              const data = await source.json();
-              return data.results.map((user) => {
-                return {
-                  username: user.username,
-                  // biome-ignore lint/style/useNamingConvention: special case
-                  full_name: `${user.full_name} (${user.username})`,
-                };
-              });
-            } catch (error) {
-              return error;
+      },
+      events: {
+        input: {
+          focus() {
+            if (autoCompleteInput.value.length > 0) {
+              autoCompleteJs.start();
             }
           },
-        },
-        events: {
-          input: {
-            focus() {
-              if (autoCompleteInput.value.length > 0) {
-                autoCompleteJs.start();
-              }
-            },
-            selection(event) {
-              const feedback = event.detail;
-              autoCompleteInput.blur();
-              const selection =
-                feedback.selection.value[feedback.selection.key];
-              autoCompleteInput.value = selection;
-            },
+          selection(event) {
+            const feedback = event.detail;
+            autoCompleteInput.blur();
+            const selection = feedback.selection.value[feedback.selection.key];
+            autoCompleteInput.value = selection;
           },
         },
-      });
+      },
     });
+  }
 
   /* Site-wide search */
   const siteSearch = new autoComplete({
@@ -1440,8 +1434,7 @@ $(function () {
   });
 
   /* Workflow customization form */
-  // biome-ignore lint/complexity/noForEach: TODO
-  document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
+  for (const enableInput of document.querySelectorAll("#id_workflow-enable")) {
     enableInput.addEventListener("click", () => {
       if (enableInput.checked) {
         document.getElementById("workflow-enable-target").style.visibility =
@@ -1454,7 +1447,7 @@ $(function () {
       }
     });
     enableInput.dispatchEvent(new Event("click"));
-  });
+  }
 
   /* Move current translation into the view */
   $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", (_e) => {
@@ -1465,17 +1458,15 @@ $(function () {
     });
   });
 
-  // biome-ignore lint/complexity/noForEach: TODO
-  document.querySelectorAll("[data-visibility]").forEach((toggle) => {
+  for (const toggle of document.querySelectorAll("[data-visibility]")) {
     toggle.addEventListener("click", (_event) => {
-      // biome-ignore lint/complexity/noForEach: TODO
-      document
-        .querySelectorAll(toggle.getAttribute("data-visibility"))
-        .forEach((element) => {
-          element.classList.toggle("visible");
-        });
+      for (const element of document.querySelectorAll(
+        toggle.getAttribute("data-visibility"),
+      )) {
+        element.classList.toggle("visible");
+      }
     });
-  });
+  }
 
   $("input[name='period']").daterangepicker({
     autoApply: false,

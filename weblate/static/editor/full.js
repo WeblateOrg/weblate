@@ -24,10 +24,9 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
-      raw.plural_forms.forEach((pluralForm) => {
+      for (const pluralForm of raw.plural_forms) {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
-      });
+      }
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -37,10 +36,9 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
-      raw.plural_forms.forEach((pluralForm) => {
+      for (const pluralForm of raw.plural_forms) {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
-      });
+      }
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -72,12 +70,11 @@
         }
         $deleteEntriesDialog.modal("hide");
 
-        // biome-ignore lint/complexity/noForEach: TODO
-        Object.entries($deleteEntries).forEach(([_, entry]) => {
+        for (const [_, entry] of Object.entries($deleteEntries)) {
           if (typeof entry.id !== "undefined") {
             this.removeTranslationEntry(entry.id);
           }
-        });
+        }
         return false;
       });
     });
@@ -171,14 +168,13 @@
     if (restoreValue !== null) {
       const translationRestore = JSON.parse(restoreValue);
 
-      // biome-ignore lint/complexity/noForEach: TODO
-      translationRestore.forEach((restoreArea) => {
+      for (const restoreArea of translationRestore) {
         const target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
           autosize.update(target);
         }
-      });
+      }
       localStorage.removeItem(restoreKey);
     }
 
@@ -221,13 +217,10 @@
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
 
-    // biome-ignore lint/complexity/noForEach: TODO
-    $("#js-translate")
-      .data("services")
-      .forEach((serviceName) => {
-        increaseLoading("machinery");
-        this.fetchMachinery(serviceName);
-      });
+    for (const serviceName of $("#js-translate").data("services")) {
+      increaseLoading("machinery");
+      this.fetchMachinery(serviceName);
+    }
 
     this.$editor.on("submit", "#memory-search", (e) => {
       const $form = $(e.currentTarget);
@@ -635,8 +628,7 @@
       const translations = this.state.translations;
       const modalBody = $("<label>").text("");
 
-      // biome-ignore lint/complexity/noForEach: TODO
-      translations.forEach((translation) => {
+      for (const translation of translations) {
         if (
           text === translation.text &&
           typeof translation.delete_url !== "undefined"
@@ -656,14 +648,13 @@
             .append(inputElement, labelElement);
           modalBody.append(divElement);
         }
-      });
+      }
       return modalBody;
     }
 
     render(translations) {
       const $translations = $("#machinery-translations");
-      // biome-ignore lint/complexity/noForEach: TODO
-      translations.forEach((translation) => {
+      for (const translation of translations) {
         const service = this.renderService(translation);
         let insertBefore = null;
         let done = false;
@@ -708,7 +699,7 @@
             $translations.append(newRow);
           }
         }
-      });
+      }
     }
   }
 

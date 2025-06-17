@@ -15,13 +15,12 @@ const getCookie = (name) => {
 };
 
 const translateDocument = (data) => {
-  // biome-ignore lint/complexity/noForEach: TODO
   // biome-ignore lint/correctness/noUndeclaredVariables: weblate_selector defined externally
-  document.querySelectorAll(weblate_selector).forEach((element) => {
+  for (const element of document.querySelectorAll(weblate_selector)) {
     if (element.children.length === 0 && element.textContent in data) {
       element.textContent = data[element.textContent];
     }
-  });
+  }
 };
 
 ready(() => {
