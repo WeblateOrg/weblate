@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     Label,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
@@ -306,6 +307,23 @@ class ProjectBackup:
                     translation__component=component
                 ).iterator()
             ],
+            "pending_unit_changes": [
+                self.backup_object(
+                    pending_unit_change,
+                    self.component_schema["properties"]["pending_unit_changes"][
+                        "items"
+                    ]["required"],
+                    extras={
+                        "unit_id_hash": lambda obj: obj.unit.checksum,
+                        "translation_id": lambda obj: obj.unit.translation_id,
+                    },
+                )
+                for pending_unit_change in PendingUnitChange.objects.for_component(
+                    component
+                )
+                .prefetch_related("unit", "author")
+                .iterator(2000)
+            ],
         }
         # component category is not a required field
         if component.category:
@@ -470,8 +488,8 @@ class ProjectBackup:
 
     def restore_unit(self, item, translation_lookup, source_unit_lookup=None):
         kwargs = item.copy()
-        for skip in ("labels", "comments", "suggestions", "checks"):
-            kwargs.pop(skip)
+        for skip in ("labels", "comments", "suggestions", "checks", "pending"):
+            kwargs.pop(skip, None)
         kwargs["id_hash"] = checksum_to_hash(kwargs["id_hash"])
         kwargs["translation_id"] = translation_lookup[kwargs["translation_id"]].id
         unit = Unit(**kwargs)
@@ -546,6 +564,49 @@ class ProjectBackup:
         self.create_language_cache()
         for team in data:
             self.restore_team(team)
+
+    def restore_pending_unit_changes(
+        self,
+        data: dict,
+        *,
+        translation_lookup: dict,
+        source_units: list[Unit],
+        units: list[Unit],
+    ) -> None:
+        if "pending_unit_changes" in data:
+            pending_unit_changes = [
+                PendingUnitChange(
+                    unit=Unit.objects.get(
+                        translation=translation_lookup[item["translation_id"]],
+                        id_hash=checksum_to_hash(item["unit_id_hash"]),
+                    ),
+                    author=self.restore_user(item["author"]),
+                    target=item["target"],
+                    explanation=item["explanation"],
+                    source_unit_explanation=item["source_unit_explanation"],
+                    timestamp=item["timestamp"],
+                    add_unit=item["add_unit"],
+                    state=item["state"],
+                )
+                for item in data["pending_unit_changes"]
+            ]
+        else:
+            pending_unit_changes = [
+                PendingUnitChange(
+                    unit=unit,
+                    author=unit.get_last_content_change()[0],
+                    target=unit.target,
+                    explanation=unit.explanation,
+                    source_unit_explanation=unit.source_unit.explanation,
+                    state=unit.state,
+                    add_unit=unit.details.get("add_unit", False),
+                )
+                for unit in chain(source_units, units)
+                if unit.import_data.get("pending")
+            ]
+
+        if pending_unit_changes:
+            PendingUnitChange.objects.bulk_create(pending_unit_changes)
 
     def restore_component(self, zipfile, data) -> None:  # noqa: C901
         kwargs = data["component"].copy()
@@ -683,6 +744,13 @@ class ProjectBackup:
                             ],
                             ignore_conflicts=True,
                         )
+
+        self.restore_pending_unit_changes(
+            data,
+            translation_lookup=translation_lookup,
+            source_units=source_units,
+            units=units,
+        )
 
         # Create screenshots
         screenshots = []

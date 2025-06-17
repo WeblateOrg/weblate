@@ -57,11 +57,12 @@ class PendingUnitChange(models.Model):
     )
     target = models.TextField(default="", blank=True)
     explanation = models.TextField(default="", blank=True)
+    source_unit_explanation = models.TextField(default="", blank=True)
     state = models.IntegerField(
         default=0,
         choices=StringState.choices,
     )
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    timestamp = models.DateTimeField(auto_now=True, db_index=True)
     add_unit = models.BooleanField(default=False)
 
     objects = PendingChangeQuerySet.as_manager()
@@ -74,7 +75,7 @@ class PendingUnitChange(models.Model):
         verbose_name_plural = "pending changes"
 
     def __str__(self) -> str:
-        return f"Pending change for {self.unit} by {self.author}"
+        return f"Pending change for {self.unit} -> {self.target} by {self.author}"
 
     @classmethod
     def store_unit_change(
@@ -86,6 +87,7 @@ class PendingUnitChange(models.Model):
         explanation: str | None = None,
         state: int | None = None,
         add_unit: bool = False,
+        source_unit_explanation: str | None = None,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
         if target is None:
@@ -94,6 +96,8 @@ class PendingUnitChange(models.Model):
             explanation = unit.explanation
         if state is None:
             state = unit.state
+        if source_unit_explanation is None:
+            source_unit_explanation = unit.source_unit.explanation
         if author is None:
             author = unit.get_last_content_change()[0]
 
@@ -105,6 +109,7 @@ class PendingUnitChange(models.Model):
                 "explanation": explanation,
                 "state": state,
                 "add_unit": add_unit,
+                "source_unit_explanation": source_unit_explanation,
             },
         )
         return pending

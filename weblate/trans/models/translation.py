@@ -708,8 +708,9 @@ class Translation(
 
         return True
 
+    @staticmethod
     def _group_changes_by_author(
-        self, pending_changes: list[PendingUnitChange]
+        pending_changes: list[PendingUnitChange],
     ) -> list[tuple[User, list[PendingUnitChange]]]:
         """
         Organize pending changes into groups where each group represents the set of changes that can be safely committed together.
@@ -757,7 +758,8 @@ class Translation(
 
             for conflicting_author_id in conflicting_authors:
                 group_data = active_groups.pop(conflicting_author_id)
-                finalized_groups.append((conflicting_author_id, group_data["changes"]))
+                author = author_map[conflicting_author_id]
+                finalized_groups.append((author, group_data["changes"]))
 
             if author_id in active_groups:
                 active_groups[author_id]["changes"].append(change)
@@ -862,7 +864,7 @@ class Translation(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
                 pounit.set_explanation(pending_change.explanation)
-                pounit.set_source_explanation(unit.source_unit.explanation)
+                pounit.set_source_explanation(pending_change.source_unit_explanation)
                 # Check if context has changed while adding to storage
                 if pounit.context != unit.context:
                     if self.is_source:
@@ -903,9 +905,11 @@ class Translation(
                     if unit.is_plural:
                         pounit.set_target(unit.get_target_plurals())
                     else:
-                        pounit.set_target(unit.target)
-                    pounit.set_explanation(unit.explanation)
-                    pounit.set_source_explanation(unit.source_unit.explanation)
+                        pounit.set_target(pending_change.target)
+                    pounit.set_explanation(pending_change.explanation)
+                    pounit.set_source_explanation(
+                        pending_change.source_unit_explanation
+                    )
                 except Exception as error:
                     report_error(
                         "Could not update unit", project=self.component.project

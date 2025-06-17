@@ -29,6 +29,7 @@ class Migration(migrations.Migration):
                 ),
                 ("target", models.TextField(blank=True, default="")),
                 ("explanation", models.TextField(blank=True, default="")),
+                ("source_unit_explanation", models.TextField(blank=True, default="")),
                 (
                     "state",
                     models.IntegerField(
@@ -42,7 +43,7 @@ class Migration(migrations.Migration):
                         default=0,
                     ),
                 ),
-                ("timestamp", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("timestamp", models.DateTimeField(auto_now=True, db_index=True)),
                 ("add_unit", models.BooleanField(default=False)),
                 (
                     "author",
