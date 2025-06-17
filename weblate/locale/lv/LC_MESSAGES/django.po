@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-12 08:16+0000\n"
-"PO-Revision-Date: 2025-06-12 11:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-06-17 11:51+0000\n"
+"Last-Translator: \"ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)\" <coool@mail.lv>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/weblate/"
 "application/lv/>\n"
 "Language: lv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= "
 "19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -55,10 +55,8 @@ msgid "Name is also used in version control commits."
 msgstr ""
 
 #: weblate/accounts/forms.py:196 weblate/accounts/models.py:795
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Commit e-mail"
-msgstr "Jūsu e-pasta adrese"
+msgstr "Iesniegto izmaiņu e-pasts"
 
 #: weblate/accounts/forms.py:197
 msgid "Use account e-mail address"
@@ -487,10 +485,9 @@ msgstr ""
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:253
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Nosūtīta apstiprinājuma vēstule uz {email}."
+msgstr "Konta dzēšanas apstiprinājums nosūtīts uz {email} e-pasta adresi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:255
@@ -877,10 +874,8 @@ msgid "Please provide an e-mail address for submitting translations."
 msgstr ""
 
 #: weblate/accounts/notifications.py:61
-#, fuzzy
-#| msgid "Instant notification"
 msgid "No notification"
-msgstr "Nekavējoši paziņot"
+msgstr "Nav paziņojuma"
 
 #: weblate/accounts/notifications.py:62
 msgid "Instant notification"
@@ -928,18 +923,14 @@ msgid "String is available for translation"
 msgstr "Pievienot tulkojuma valodu"
 
 #: weblate/accounts/notifications.py:594
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Veikt automātisko tulkošanu"
+msgstr "Tulkotājs veica savu pirmo tulkojumu"
 
 #: weblate/accounts/notifications.py:603
-#, fuzzy
-#| msgid "Suggestions made"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Veiktie ieteikumi"
+msgstr "Pievienots ieteikums"
 
 #: weblate/accounts/notifications.py:612
 #, fuzzy
@@ -1761,10 +1752,9 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:571
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not parse CSS selector: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt CSS atlasītāju: %s"
 
 #: weblate/addons/forms.py:583 weblate/billing/models.py:305
 #: weblate/templates/snippets/query-builder.html:18
@@ -4639,10 +4629,9 @@ msgid "Compose Multiplatform Resource"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1491
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt atslēgu: %s"
 
 #: weblate/formats/ttkit.py:1496
 msgid "JSON file"
@@ -5230,10 +5219,9 @@ msgid "No supported languages found: %s"
 msgstr "Neatbalstīts attēla formāts: %s"
 
 #: weblate/machinery/apertium.py:116 weblate/machinery/base.py:131
-#, fuzzy, python-format
-#| msgid "Download translation file"
+#, python-format
 msgid "Could not fetch translation: %s"
-msgstr "Lejupielādēt tulkojuma failu"
+msgstr "Nevarēja iegūt tulkojumu: %s"
 
 #: weblate/machinery/forms.py:22
 #, fuzzy
@@ -5396,10 +5384,9 @@ msgid ""
 msgstr ""
 
 #: weblate/machinery/forms.py:247
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not parse JSON: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt JSON: %s"
 
 #: weblate/machinery/forms.py:254
 msgctxt "AWS Translate configuration"
@@ -5636,16 +5623,14 @@ msgid "No valid entries found in the uploaded file!"
 msgstr ""
 
 #: weblate/memory/models.py:244 weblate/memory/models.py:251
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not parse JSON file: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt JSON datni: %s"
 
 #: weblate/memory/models.py:289
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt TMX datni: %s"
 
 #: weblate/memory/models.py:298
 msgid "Source language not defined in the TMX file!"
@@ -5979,9 +5964,9 @@ msgstr[2] ""
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Lejupielādēt izmaiņas"
-msgstr[1] "Lejupielādēt izmaiņas"
-msgstr[2] "Lejupielādēt izmaiņas"
+msgstr[0] "Nesenās izmaiņas"
+msgstr[1] "Nesenā izmaiņa"
+msgstr[2] "Nesenās izmaiņas"
 
 #: weblate/templates/about/index.html:19 weblate/templates/base.html:402
 #: weblate/templates/footer.html:37 weblate/templates/manage/index.html:98
@@ -9122,7 +9107,7 @@ msgstr ""
 #: weblate/templates/keyboard-shortcuts.html:45
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the last translation in the current search."
-msgstr ""
+msgstr "Doties uz pēdējo tulkojumu pašreizējā meklēšanā."
 
 #: weblate/templates/keyboard-shortcuts.html:49
 #: weblate/templates/keyboard-shortcuts.html:51
@@ -13528,10 +13513,9 @@ msgid "Trailing and leading whitespace"
 msgstr ""
 
 #: weblate/trans/autotranslate.py:304
-#, fuzzy, python-format
-#| msgid "Download translation file"
+#, python-format
 msgid "Automatic translation failed: %s"
-msgstr "Lejupielādēt tulkojuma failu"
+msgstr "Automātiskā tulkošana neizdevās: %s"
 
 #: weblate/trans/autotranslate.py:310
 msgid "Automatic translation completed, no strings were updated."
@@ -15193,10 +15177,8 @@ msgid "Add new translation string"
 msgstr ""
 
 #: weblate/trans/models/component.py:3934
-#, fuzzy
-#| msgid "Download translation file"
 msgid "Could not get repository status!"
-msgstr "Lejupielādēt tulkojuma failu"
+msgstr "Nevarēja iegūt repozitorija statusu!"
 
 #: weblate/trans/models/componentlist.py:25
 msgid "Component list name"
@@ -15329,10 +15311,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/suggestion.py:159
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Could not accept suggestion!"
-msgstr "Dzēst ieteikumu"
+msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
 
 #: weblate/trans/models/translation.py:277
 #, python-format
@@ -15523,13 +15503,11 @@ msgid "{target} [{source}]"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:285
-#, fuzzy
-#| msgid "Upload translations"
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
-msgstr[0] "Augšupielādēt tulkojumus"
-msgstr[1] "Augšupielādēt tulkojumus"
-msgstr[2] "Augšupielādēt tulkojumus"
+msgstr[0] "Aizliegtie tulkojumi:"
+msgstr[1] "Aizliegts tulkojums:"
+msgstr[2] "Aizliegtie tulkojumi:"
 
 #: weblate/trans/templatetags/translations.py:298
 msgid "Untranslatable term:"
@@ -16740,10 +16718,9 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/ssh.py:245 weblate/vcs/ssh.py:251
-#, fuzzy, python-format
-#| msgid "Download translation file"
+#, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "Lejupielādēt tulkojuma failu"
+msgstr "Nevarēja iegūt saimnieka (servera) publisko atslēgu: %s"
 
 #: weblate/vcs/ssh.py:255
 #, python-format
@@ -16933,7 +16910,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Download translation file"
 msgid "Could not activate your installation: %s"
-msgstr "Lejupielādēt tulkojuma failu"
+msgstr "Nevarēja aktivizēt jūsu uzstādīto: %s"
 
 #: weblate/wladmin/views.py:283
 msgid "Activation completed."
