@@ -686,19 +686,21 @@ class Translation(
             "committing %d pending changes (%s)", len(pending_changes), reason
         )
 
+        all_applied_changes_ids = set()
+
         commit_groups = self._group_changes_by_author(pending_changes)
         for author, changes in commit_groups:
             author_name = author.get_author_name()
             timestamp = max(change.timestamp for change in changes)
 
             # Flush the grouped pending changes for this author
-            self.update_units(changes, store, author_name)
+            changes_applied = self.update_units(changes, store, author_name)
+            all_applied_changes_ids.update(c.pk for c in changes_applied)
 
             # Commit changes
             self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
 
-        pending_changes_ids = [p.pk for p in pending_changes]
-        PendingUnitChange.objects.filter(pk__in=pending_changes_ids).delete()
+        PendingUnitChange.objects.filter(pk__in=all_applied_changes_ids).delete()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -849,8 +851,9 @@ class Translation(
         pending_changes: list[PendingUnitChange],
         store: TranslationFormat,
         author_name: str,
-    ) -> None:
+    ) -> list[PendingUnitChange]:
         """Update backend file and unit."""
+        changes_applied = []
         updated = False
         for pending_change in pending_changes:
             unit = pending_change.unit
@@ -925,6 +928,7 @@ class Translation(
                     )
                     continue
 
+                changes_applied.append(pending_change)
                 updated = True
 
             # Update fuzzy/approved flag
@@ -932,7 +936,7 @@ class Translation(
 
         # Did we do any updates?
         if not updated:
-            return
+            return []
 
         # Update po file header
         now = timezone.now()
@@ -963,6 +967,8 @@ class Translation(
 
         # save translation changes
         store.save()
+
+        return changes_applied
 
     @cached_property
     def workflow_settings(self):
