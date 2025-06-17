@@ -269,20 +269,13 @@ class TranslationTest(RepoTestCase):
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
         start_rev = component.repository.last_revision
-        # Initial translation
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test2", STATE_TRANSLATED)
-        # Translation completed, no commit forced
-        self.assertEqual(start_rev, component.repository.last_revision)
-        # Translation from same author should be in one commit
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test3", STATE_TRANSLATED)
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test4", STATE_TRANSLATED)
-        self.assertEqual(start_rev, component.repository.last_revision)
+        units = list(translation.unit_set.all())
+        # translations by same author in one commit
+        units[0].translate(user, "test1", STATE_TRANSLATED)
+        units[1].translate(user, "test2", STATE_TRANSLATED)
         count = 1
-        # Translation from each author should be in their own commit
-        for unit in translation.unit_set.iterator():
+        # translations by different author in different commits
+        for unit in [units[2], units[3]]:
             user = User.objects.create(
                 full_name=f"User {unit.pk}",
                 username=f"user-{unit.pk}",
@@ -292,6 +285,7 @@ class TranslationTest(RepoTestCase):
             count += 1
         # no instant automatic commit
         self.assertEqual(start_rev, component.repository.last_revision)
+
         # Commit pending changes
         translation.commit_pending("test", None)
         self.assertNotEqual(start_rev, component.repository.last_revision)

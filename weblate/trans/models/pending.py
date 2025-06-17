@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from weblate.utils.db import using_postgresql
 from weblate.utils.state import StringState
@@ -48,7 +49,10 @@ class PendingUnitChange(models.Model):
     """Stores actual change data that needs to be committed to a repository."""
 
     unit = models.ForeignKey(
-        "trans.Unit", on_delete=models.CASCADE, related_name="pending_changes"
+        "trans.Unit",
+        on_delete=models.CASCADE,
+        related_name="pending_changes",
+        db_index=True,
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -62,15 +66,13 @@ class PendingUnitChange(models.Model):
         default=0,
         choices=StringState.choices,
     )
-    timestamp = models.DateTimeField(auto_now=True, db_index=True)
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     add_unit = models.BooleanField(default=False)
 
     objects = PendingChangeQuerySet.as_manager()
 
     class Meta:
         app_label = "trans"
-        # Ensure each author can only have one pending change per unit at a time
-        unique_together = [("unit", "author")]
         verbose_name = "pending change"
         verbose_name_plural = "pending changes"
 
@@ -88,6 +90,7 @@ class PendingUnitChange(models.Model):
         state: int | None = None,
         add_unit: bool = False,
         source_unit_explanation: str | None = None,
+        timestamp: datetime | None = None,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
         if target is None:
@@ -101,15 +104,18 @@ class PendingUnitChange(models.Model):
         if author is None:
             author = unit.get_last_content_change()[0]
 
-        pending, _ = cls.objects.update_or_create(
-            unit=unit,
-            author=author,
-            defaults={
-                "target": target,
-                "explanation": explanation,
-                "state": state,
-                "add_unit": add_unit,
-                "source_unit_explanation": source_unit_explanation,
-            },
-        )
-        return pending
+        kwargs = {
+            "unit": unit,
+            "author": author,
+            "target": target,
+            "explanation": explanation,
+            "state": state,
+            "add_unit": add_unit,
+            "source_unit_explanation": source_unit_explanation,
+        }
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+
+        pending_unit_change = PendingUnitChange(**kwargs)
+        pending_unit_change.save()
+        return pending_unit_change
