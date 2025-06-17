@@ -285,11 +285,13 @@ class TranslationTest(RepoTestCase):
             count += 1
         # no instant automatic commit
         self.assertEqual(start_rev, component.repository.last_revision)
+        self.assertEqual(translation.count_pending_units, 4)
 
         # Commit pending changes
         translation.commit_pending("test", None)
         self.assertNotEqual(start_rev, component.repository.last_revision)
         self.assertEqual(component.repository.count_outgoing(), count)
+        self.assertEqual(translation.count_pending_units, 0)
 
     def test_group_changes_by_author(self):
         component = self.create_component()
