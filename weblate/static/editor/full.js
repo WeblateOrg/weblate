@@ -44,6 +44,19 @@
       submitForm({ target: this.$translationArea });
     });
 
+    /* Copy, approve and save machinery results */
+    this.$editor.on("click", ".js-copy-approve-save-machinery", (e) => {
+      const $el = $(e.target);
+      const raw = $el.parent().parent().data("raw");
+
+      raw.plural_forms.forEach((pluralForm) => {
+        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
+      });
+      autosize.update(this.$translationArea);
+      WLT.Utils.markApproved(this.$translationForm);
+      submitForm({ target: this.$translationArea });
+    });
+
     /* Delete machinery results */
     this.$editor.on("click", ".js-delete-machinery", (e) => {
       const $el = $(e.target);
@@ -588,6 +601,18 @@
           )}</a></td>`,
         ),
       );
+
+      if (WLT.Config.HAS_REVIEW_WORKFLOW) {
+        row.append(
+          $(
+            `<td><a class="js-copy-approve-save-machinery btn btn-warning">${gettext(
+              "Accept and approve",
+            )}</a></td>`,
+          ),
+        );
+      } else {
+        row.append($("<td></td>"));
+      }
 
       if (this.state.weblateTranslationMemory.has(el.text)) {
         row.append(
