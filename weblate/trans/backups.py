@@ -574,22 +574,26 @@ class ProjectBackup:
         units: list[Unit],
     ) -> None:
         if "pending_unit_changes" in data:
-            pending_unit_changes = [
-                PendingUnitChange(
-                    unit=Unit.objects.get(
-                        translation=translation_lookup[item["translation_id"]],
-                        id_hash=checksum_to_hash(item["unit_id_hash"]),
-                    ),
-                    author=self.restore_user(item["author"]),
-                    target=item["target"],
-                    explanation=item["explanation"],
-                    source_unit_explanation=item["source_unit_explanation"],
-                    timestamp=item["timestamp"],
-                    add_unit=item["add_unit"],
-                    state=item["state"],
+            all_units = defaultdict(dict)
+            for unit in chain(source_units, units):
+                all_units[unit.translation.id][unit.checksum] = unit
+
+            pending_unit_changes = []
+            for item in data["pending_unit_changes"]:
+                new_translation = translation_lookup[item["translation_id"]]
+                unit = all_units[new_translation.id][item["unit_id_hash"]]
+                pending_unit_changes.append(
+                    PendingUnitChange(
+                        unit=unit,
+                        author=self.restore_user(item["author"]),
+                        target=item["target"],
+                        explanation=item["explanation"],
+                        source_unit_explanation=item["source_unit_explanation"],
+                        timestamp=item["timestamp"],
+                        add_unit=item["add_unit"],
+                        state=item["state"],
+                    )
                 )
-                for item in data["pending_unit_changes"]
-            ]
         else:
             pending_unit_changes = [
                 PendingUnitChange(
