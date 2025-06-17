@@ -22,7 +22,15 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.backups import ProjectBackup
-from weblate.trans.models import Category, Comment, Project, Suggestion, Unit, Vote
+from weblate.trans.models import (
+    Category,
+    Comment,
+    PendingUnitChange,
+    Project,
+    Suggestion,
+    Unit,
+    Vote,
+)
 from weblate.trans.tasks import cleanup_project_backup_download, cleanup_project_backups
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -63,6 +71,9 @@ class BackupsTest(ViewTestCase):
             user=self.user,
         )
         Vote.objects.create(suggestion=suggestion, user=self.user, value=1)
+
+        PendingUnitChange.store_unit_change(unit)
+
         team = Group.objects.create(name="Test group", defining_project=self.project)
         team.roles.set([Role.objects.get(name="Translate")])
         team.admins.add(self.user)
@@ -148,6 +159,10 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.category_set.values_list("slug", flat=True)),
             set(restored.category_set.values_list("slug", flat=True)),
+        )
+        self.assertEqual(
+            self.project.count_pending_units,
+            restored.count_pending_units,
         )
 
         restored_team = restored.defined_groups.filter(name=team.name).first()

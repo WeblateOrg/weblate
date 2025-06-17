@@ -159,7 +159,7 @@ def commit_pending(
         units = component.pending_units.older_than(age)
 
         # No pending units
-        if not units:
+        if not units.exists():
             continue
 
         if logger:
