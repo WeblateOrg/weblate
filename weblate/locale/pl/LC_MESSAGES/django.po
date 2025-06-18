@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 10:47+0000\n"
-"PO-Revision-Date: 2025-06-12 21:32+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2025-06-18 15:05+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -774,15 +774,13 @@ msgstr ""
 "obserwować."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Przyczynia się do wspólnej pamięci tłumaczeń"
+msgstr "Przyczynia się do osobistej pamięci tłumaczeń"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "Zezwól na dodawanie Twoich tłumaczeń do osobistej pamięci tłumaczeń."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1324,10 +1322,8 @@ msgstr ""
 "Dostarczony identyfikator użytkownika jest już używany dla innego konta."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "Aplikacja uwierzytelniająca została usunięta."
+msgstr "Nie można nawiązać kontaktu z dostawcą uwierzytelniania."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -4613,16 +4609,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Przesłana czcionka musi pasować do istniejącej rodziny i stylu: „%(family)s "
+"%(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Przesłany plik zostanie scalony z bieżącym tłumaczeniem."
+msgstr "Przesłany plik czcionki jest identyczny z bieżącym."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Czcionka została pomyślnie zaktualizowana."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5646,11 +5642,13 @@ msgstr "Opisz kontekst tłumaczenia, aby zwiększyć dokładność tłumaczenia.
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Użyj modelu nowej generacji"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Preferuj LLM nowej generacji zamiast klasycznego modelu tłumaczenia "
+"maszynowego."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8996,10 +8994,8 @@ msgid "Used in groups"
 msgstr "Używane w grupach"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Edytuj grupę czcionek"
+msgstr "Edytuj czcionkę"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10895,7 +10891,7 @@ msgstr "Nie masz uprawnień do rozpoczynania nowego tłumaczenia"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "Obecnie nie masz połączenia z żadną siecią."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -14029,24 +14025,18 @@ msgstr "Zaktualizowano dodatkowe flagi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Przesłano plik"
+msgstr "Przesłano czcionkę"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Nie zmieniaj"
+msgstr "Zmieniono czcionkę"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Usunięto komentarz"
+msgstr "Usunięto czcionkę"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -15325,20 +15315,16 @@ msgstr ""
 "tłumaczenie w tym komponencie"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Przyczynia się do wspólnej pamięci tłumaczeń"
+msgstr "Przyczynia się do pamięci tłumaczeń projektu"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "Wysłano żądanie nowego tłumaczenia do utrzymujących projekt."
+msgstr ""
+"Zezwalaj na dodawanie tłumaczeń tego komponentu do pamięci tłumaczeń na "
+"poziomie projektu."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16745,7 +16731,7 @@ msgstr "Nieprawidłowy szukany ciąg!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Dokonano przejścia z %(previous)s na %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
