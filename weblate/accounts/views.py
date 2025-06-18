@@ -81,6 +81,7 @@ from social_core.exceptions import (
     AuthMissingParameter,
     AuthStateForbidden,
     AuthStateMissing,
+    AuthUnreachableProvider,
     InvalidEmail,
     MissingBackend,
 )
@@ -1500,6 +1501,11 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             gettext(
                 "The supplied user identity is already in use for another account."
             ),
+        )
+    except AuthUnreachableProvider:
+        return registration_fail(
+            request,
+            gettext("The authentication provider could not be reached."),
         )
     except ValidationError as error:
         report_error("Could not register")

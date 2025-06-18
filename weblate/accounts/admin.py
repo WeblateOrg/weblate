@@ -30,6 +30,11 @@ class AuditLogAdmin(WeblateModelAdmin):
     def has_add_permission(self, request: AuthenticatedHttpRequest, obj=None) -> bool:
         return False
 
+    def has_change_permission(
+        self, request: AuthenticatedHttpRequest, obj=None
+    ) -> bool:
+        return False
+
 
 @admin.register(Profile)
 class ProfileAdmin(WeblateModelAdmin):

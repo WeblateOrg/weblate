@@ -944,7 +944,16 @@ class ResponseStatusMachineTranslation(MachineTranslation):
         payload = response.json()
 
         # Check response status
-        if payload["responseStatus"] != 200:
-            raise MachineTranslationError(payload["responseDetails"])
+        response_status = payload.get("responseStatus", payload.get("code", None))
+        if response_status and response_status != 200:
+            raise MachineTranslationError(
+                payload.get(
+                    "responseDetails",
+                    payload.get(
+                        "message",
+                        payload.get("status", f"Response status {response_status}"),
+                    ),
+                )
+            )
 
         super().check_failure(response)

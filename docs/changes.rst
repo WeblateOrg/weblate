@@ -1,7 +1,59 @@
+Weblate 5.12.2
+--------------
+
+*Released on June 20th 2025.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* :ref:`mt-deepl` integration now supports using next-gen LLM model.
+
+.. rubric:: Bug fixes
+
+* Restoring :ref:`projectbackup` with votes.
+* Improved error handling in :ref:`mt-apertium-apy`.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.12.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?closed=1>`__.
+
+Weblate 5.12.1
+--------------
+
+*Released on June 16th 2025.*
+
+.. rubric:: Bug fixes
+
+* :ref:`sbom` is now includes serial number.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.12.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?closed=1>`__.
+
 Weblate 5.12
 ------------
 
-*Not yet released.*
+*Released on June 16th 2025.*
+
+.. rubric:: Security
+
+* Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:`4qqf-9m5c-w2c5`).
+* Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`).
 
 .. rubric:: New features
 
@@ -13,6 +65,7 @@ Weblate 5.12
 * Added support for :doc:`/formats/compose-multiplatform-resources`.
 * Added :guilabel:`Translation Coordinator` role.
 * :ref:`addon-weblate.webhook.slack` is now available as an add-on.
+* Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
 
 .. rubric:: Improvements
 
@@ -29,6 +82,7 @@ Weblate 5.12
 * Improved support for extended metadata in :ref:`tbx`.
 * :ref:`addon-weblate.webhook.webhook` now includes a category field when available.
 * Uploaded fonts can be updated and changes to them are tracked, see :ref:`fonts`.
+* Weblate is now available in Bashkir language.
 
 .. rubric:: Bug fixes
 
@@ -43,6 +97,7 @@ Weblate 5.12
 
 * The projects and categories default tab now shows translated languages.
 * If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
+* :ref:`saml-auth` support is no longer included in the default dependencies.
 
 .. rubric:: Upgrading
 
@@ -182,7 +237,7 @@ Weblate 5.11
 
 .. rubric:: Bug fixes
 
-* **Security:** Cloning a component could leak component configuration into the URL (CVE-2025-32021).
+* **Security:** Cloning a component could leak component configuration into the URL (:cve:`2025-32021`).
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
 * Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.
@@ -741,7 +796,7 @@ Weblate 5.6.2
 * :ref:`addons` button layout.
 * Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
 * Removal of source strings in :ref:`glossary`.
-* Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / GHSA-jfgp-674x-6q4p).
+* Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`).
 
 .. rubric:: Upgrading
 

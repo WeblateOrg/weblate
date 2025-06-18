@@ -45,9 +45,7 @@
                        data-parent="#accordion-{{ service.pk }}"
                        href="#error-{{ service.pk }}"
                        aria-expanded="true"
-                       aria-controls="collapse-{{ service.pk }}">
-                      {% translate "Unpaid service subscription" %}{{ support_status }}
-                    </a>
+                       aria-controls="collapse-{{ service.pk }}">{% translate "Unpaid service subscription" %}</a>
                   </h4>
                 </div>
                 <div id="error-{{ service.pk }}" class="panel-collapse collapse in" role="tabpanel">

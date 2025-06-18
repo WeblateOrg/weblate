@@ -373,6 +373,15 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(request.data["commented"], user.profile.commented)
 
+    def test_contributions(self) -> None:
+        user = User.objects.filter(is_active=True)[0]
+        request = self.do_request(
+            "api:user-contributions",
+            kwargs={"username": user.username},
+            superuser=True,
+        )
+        self.assertEqual(request.data["results"], [])
+
     def test_put(self) -> None:
         self.do_request(
             "api:user-detail",
