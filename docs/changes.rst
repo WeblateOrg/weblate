@@ -10,6 +10,7 @@ Weblate 5.12.2
 .. rubric:: Bug fixes
 
 * Restoring :ref:`projectbackup` with votes.
+* Improved error handling in :ref:`mt-apertium-apy`.
 
 .. rubric:: Compatibility
 
