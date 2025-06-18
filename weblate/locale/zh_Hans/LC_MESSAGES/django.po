@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 10:47+0000\n"
-"PO-Revision-Date: 2025-06-12 18:31+0000\n"
+"PO-Revision-Date: 2025-06-19 11:46+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -742,15 +742,13 @@ msgid ""
 msgstr "只要你翻译了项目中的字符串，就开始关注这个项目。"
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "贡献到共享的翻译记忆库"
+msgstr "贡献到个人翻译记忆库"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "允许将您的译文添加到您的个人翻译记忆库中。"
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1258,10 +1256,8 @@ msgid "The supplied user identity is already in use for another account."
 msgstr "提供的用户身份已被另一个账户使用。"
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "身份验证应用程序已被删除。"
+msgstr "无法访问身份验证提供者。"
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -4399,17 +4395,15 @@ msgstr "字体已删除。"
 msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
-msgstr ""
+msgstr "上传的字体必须与现有的系列和样式匹配：“%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "已上传的文件将与当前译文合并。"
+msgstr "上传的字体文件与当前字体相同。"
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "字体更新成功。"
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5409,11 +5403,11 @@ msgstr "描述翻译上下文改进翻译准确性。"
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "使用下一代模型"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "优先选择下一代 LLM 而非经典机器翻译模型。"
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8569,10 +8563,8 @@ msgid "Used in groups"
 msgstr "用于分组"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "编辑字体组"
+msgstr "编辑字体"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10346,7 +10338,7 @@ msgstr "您没有开始新翻译的权限"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "您当前未连接到任何网络。"
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -13262,24 +13254,18 @@ msgstr "额外标记已更新"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "文件已上传"
+msgstr "字体已上传"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "请勿更改"
+msgstr "字体已更改"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "删除了评论"
+msgstr "字体已移除"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14504,20 +14490,14 @@ msgid ""
 msgstr "其他部件中的译文更新时，是否自动翻译"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "贡献到共享的翻译记忆库"
+msgstr "贡献到项目翻译记忆库"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "新增翻译的请求已发送给项目维护者。"
+msgstr "允许将此部件的译文添加到项目级翻译记忆库中。"
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -15805,7 +15785,7 @@ msgstr "搜索的字符无效！"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "您已从 %(previous)s 切换至 %(current)s。"
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
@@ -16520,7 +16500,7 @@ msgstr "测试电子邮件将发送至该地址。"
 
 #: weblate/wladmin/forms.py:58
 msgid "Please provide font family suitable for CSS."
-msgstr "请提供适合CSS的字体家族。"
+msgstr "请提供适合 CSS 的字体系列。"
 
 #: weblate/wladmin/forms.py:92
 msgid "Page font"
