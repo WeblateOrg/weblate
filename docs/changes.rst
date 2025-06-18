@@ -7,6 +7,8 @@ Weblate 5.12.2
 
 .. rubric:: Improvements
 
+* :ref:`mt-deepl` integration now supports using next-gen LLM model.
+
 .. rubric:: Bug fixes
 
 * Restoring :ref:`projectbackup` with votes.

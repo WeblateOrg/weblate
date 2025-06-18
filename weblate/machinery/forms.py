@@ -336,6 +336,16 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         required=False,
     )
+    next_gen = forms.BooleanField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Use next-gen model",
+        ),
+        help_text=gettext_lazy(
+            "Prefer next-gen LLM over classic machine translation model."
+        ),
+        required=False,
+    )
 
 
 class BaseOpenAIMachineryForm(KeyMachineryForm):
