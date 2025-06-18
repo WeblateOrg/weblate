@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 10:47+0000\n"
-"PO-Revision-Date: 2025-06-14 00:01+0000\n"
+"PO-Revision-Date: 2025-06-19 11:46+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:86
@@ -771,15 +771,15 @@ msgstr ""
 "Ogni volta che traduci una stringa in un progetto, inizia a monitorarlo."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Contribuisci alla memoria traduzione condivisa"
+msgstr "Contribuisci alla memoria di traduzione personale"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Consenti che le tue traduzioni vengano aggiunte alla tua memoria di "
+"traduzione personale."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1320,10 +1320,8 @@ msgid "The supplied user identity is already in use for another account."
 msgstr "L'identità fornita è già associata ad un altro account."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "L'app di autenticazione è stata rimossa."
+msgstr "Non è stato possibile raggiungere il provider di autenticazione."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -3627,19 +3625,19 @@ msgstr "Usa segnaposto senza distinzione tra maiuscole e minuscole"
 #: weblate/templates/fonts/font_detail.html:25
 #: weblate/templates/fonts/font_list.html:83
 msgid "Font family"
-msgstr "Tipo di carattere"
+msgstr "Famiglia del font"
 
 #: weblate/checks/flags.py:74
 msgid "Font size"
-msgstr "Dimensione del carattere"
+msgstr "Dimensione del font"
 
 #: weblate/checks/flags.py:76
 msgid "Font weight"
-msgstr "Peso del carattere"
+msgstr "Peso del font"
 
 #: weblate/checks/flags.py:78
 msgid "Font spacing"
-msgstr "Spaziatura del carattere"
+msgstr "Spaziatura del font"
 
 #: weblate/checks/flags.py:80
 msgid "ICU MessageFormat flags"
@@ -4569,38 +4567,38 @@ msgstr "Configurazione Weblate"
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:84
 msgid "Font style"
-msgstr "Stile del carattere"
+msgstr "Stile del font"
 
 #: weblate/fonts/models.py:33
 msgid "Font file"
-msgstr "File del carattere"
+msgstr "File del font"
 
 #: weblate/fonts/models.py:36
 msgid "OpenType and TrueType fonts are supported."
-msgstr "Sono supportati i caratteri OpenType e TrueType."
+msgstr "Sono supportati i font OpenType e TrueType."
 
 #: weblate/fonts/models.py:103
 msgid "Font group name"
-msgstr "Nome del gruppo di caratteri"
+msgstr "Nome del gruppo di font"
 
 #: weblate/fonts/models.py:106
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Identificatore usato nei controlli per selezionare questo gruppo di "
-"caratteri. Evita gli spazi e i caratteri speciali."
+"Identificatore usato nei controlli per selezionare questo gruppo di font. "
+"Evita gli spazi e i caratteri speciali."
 
 #: weblate/fonts/models.py:112 weblate/templates/fonts/font_list.html:32
 #: weblate/templates/fonts/fontgroup_detail.html:29
 msgid "Default font"
-msgstr "Carattere predefinito"
+msgstr "Font predefinito"
 
 #: weblate/fonts/models.py:115
 msgid "Default font is used unless per language override matches."
 msgstr ""
-"Viene usato la font predefinita a meno che non prevalgano le corrispondenze "
-"della lingua."
+"Viene usato il font predefinito, a meno che non vi siano corrispondenze di "
+"sostituzione della lingua."
 
 #: weblate/fonts/models.py:143 weblate/templates/fonts/font_detail.html:21
 msgid "Font"
@@ -4613,7 +4611,7 @@ msgstr "Formato file non supportato."
 
 #: weblate/fonts/views.py:79
 msgid "Font with the same name already exists."
-msgstr "Esiste già una font con questo nome."
+msgstr "Esiste già un font con lo stesso nome."
 
 #: weblate/fonts/views.py:86
 msgid "Creation failed, please fix the errors below."
@@ -4621,7 +4619,7 @@ msgstr "Creazione fallita. Correggi gli errori indicati di seguito."
 
 #: weblate/fonts/views.py:119
 msgid "Font deleted."
-msgstr "Tipo di carattere eliminato."
+msgstr "Font eliminato."
 
 #: weblate/fonts/views.py:136
 #, python-format
@@ -4629,20 +4627,20 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Il font caricato deve corrispondere alla famiglia e allo stile esistenti: "
+"“%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Il file caricato verrà unito alla traduzione attuale."
+msgstr "Il file del font caricato è identico a quello attuale."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Font aggiornato con successo."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
-msgstr "Esiste già un gruppo font con questo nome."
+msgstr "Esiste già un gruppo di font con questo nome."
 
 #: weblate/fonts/views.py:230
 msgid "No override found."
@@ -4650,7 +4648,7 @@ msgstr "Nessuna sovrascrittura trovata."
 
 #: weblate/fonts/views.py:235
 msgid "Font group deleted."
-msgstr "Gruppo del tipo di carattere eliminato."
+msgstr "Gruppo di font eliminato."
 
 #: weblate/formats/base.py:389
 msgid "Could not load strings from the file, try choosing other format."
@@ -5667,11 +5665,13 @@ msgstr ""
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Usa il modello di nuova generazione"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Preferisci l'LLM di nuova generazione al modello classico di traduzione "
+"automatica."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8976,7 +8976,7 @@ msgstr "Visualizza le lingue del progetto"
 #: weblate/templates/fonts/font_list.html:10
 #: weblate/templates/fonts/font_list.html:21 weblate/templates/project.html:160
 msgid "Fonts"
-msgstr "Tipi di carattere"
+msgstr "Font"
 
 #: weblate/templates/fonts/font_detail.html:33
 msgid "File size"
@@ -8997,10 +8997,8 @@ msgid "Used in groups"
 msgstr "Usato nei gruppi"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Modifica gruppo di caratteri"
+msgstr "Modifica font"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -9010,7 +9008,7 @@ msgstr "Aggiorna"
 #: weblate/templates/fonts/font_list.html:18
 #: weblate/templates/fonts/fontgroup_detail.html:10
 msgid "Font groups"
-msgstr "Gruppi di caratteri"
+msgstr "Gruppi di font"
 
 #: weblate/templates/fonts/font_list.html:31
 msgid "Group name"
@@ -9022,15 +9020,15 @@ msgstr "Sovrascritture lingua"
 
 #: weblate/templates/fonts/font_list.html:62
 msgid "Add font group"
-msgstr "Aggiungi gruppo di caratteri"
+msgstr "Aggiungi gruppo di font"
 
 #: weblate/templates/fonts/font_list.html:72
 msgid "Please upload fonts to be able to define font groups."
-msgstr "Per definire i gruppi di caratteri, carica i tipi di carattere."
+msgstr "Carica i font per poter definire i gruppi di font."
 
 #: weblate/templates/fonts/font_list.html:106
 msgid "Add font"
-msgstr "Aggiungi tipo di carattere"
+msgstr "Aggiungi font"
 
 #: weblate/templates/fonts/font_list.html:112
 #: weblate/templates/memory/index.html:295
@@ -9042,7 +9040,7 @@ msgstr "Carica"
 
 #: weblate/templates/fonts/fontgroup_detail.html:21
 msgid "Font group"
-msgstr "Gruppo di caratteri"
+msgstr "Gruppo di font"
 
 #: weblate/templates/fonts/fontgroup_detail.html:37
 msgid "language override"
@@ -9054,7 +9052,7 @@ msgstr "Aggiungi sovrascrittura lingua"
 
 #: weblate/templates/fonts/fontgroup_detail.html:81
 msgid "Edit font group"
-msgstr "Modifica gruppo di caratteri"
+msgstr "Modifica gruppo di font"
 
 #: weblate/templates/footer.html:6
 #, python-format
@@ -10893,7 +10891,7 @@ msgstr "Non hai i permessi per iniziare una nuova traduzione"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "Al momento non sei connesso ad alcuna rete."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -14026,24 +14024,18 @@ msgstr "Flag extra aggiornati"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "File caricato"
+msgstr "Font caricato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Non modificare"
+msgstr "Font modificato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Commento rimosso"
+msgstr "Font rimosso"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -15341,22 +15333,16 @@ msgstr ""
 "traduzione automatica in questo"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Contribuisci alla memoria traduzione condivisa"
+msgstr "Contribuisci alla memoria di traduzione del progetto"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
 msgstr ""
-"È stata inviata una richiesta di nuova traduzione ai responsabili del "
-"progetto."
+"Consenti che le traduzioni di questo componente vengano aggiunte alla "
+"memoria di traduzione a livello di progetto."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16761,7 +16747,7 @@ msgstr "Stringa di ricerca non valida!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Sei passato da %(previous)s a %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
@@ -17501,15 +17487,15 @@ msgstr "È stata inviata la e-mail di test a questo indirizzo."
 
 #: weblate/wladmin/forms.py:58
 msgid "Please provide font family suitable for CSS."
-msgstr "Indica una famiglia di font adatta per CSS."
+msgstr "Fornisci una famiglia di font adatta al CSS."
 
 #: weblate/wladmin/forms.py:92
 msgid "Page font"
-msgstr "Font pagina"
+msgstr "Font della pagina"
 
 #: weblate/wladmin/forms.py:93
 msgid "Header font"
-msgstr "Font intestazione"
+msgstr "Font dell'intestazione"
 
 #: weblate/wladmin/forms.py:96 weblate/wladmin/forms.py:103
 msgid "Navigation color (Light, Dark)"
