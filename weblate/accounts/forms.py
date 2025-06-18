@@ -458,6 +458,15 @@ class CaptchaForm(forms.Form):
         required=True, widget=CaptchaWidget, label=gettext_lazy("Human verification")
     )
 
+    @staticmethod
+    def is_altcha_available():
+        # Altcha requires secure context in browser, which is available
+        # with HTTPS or on localhost
+        return settings.ENABLE_HTTPS or settings.SITE_DOMAIN.rsplit(":", 1)[0] in {
+            "localhost",
+            "127.0.0.1",
+        }
+
     def __init__(
         self,
         *,
@@ -467,23 +476,30 @@ class CaptchaForm(forms.Form):
         initial=None,
     ) -> None:
         super().__init__(data=data, initial=initial)
-        self.has_captcha = True
         self.request = request
         self.challenge: Challenge | None = None
+
+        # Possibly hide fields
         if not settings.REGISTRATION_CAPTCHA or hide_captcha:
-            self.has_captcha = False
             self.fields["altcha"].widget = forms.HiddenInput()
             self.fields["altcha"].required = False
             self.fields["captcha"].widget = forms.HiddenInput()
             self.fields["captcha"].required = False
-        else:
-            self.generate_challenge()
+        elif not self.is_altcha_available():
+            self.fields["altcha"].widget = forms.HiddenInput()
+            self.fields["altcha"].required = False
+
+        # Initialize captcha if required
+        if self.fields["captcha"].required:
             if data is None or "captcha" not in request.session:
                 self.generate_captcha()
             else:
                 self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
             self.set_label()
 
+        # Initialize altcha if required
+        if self.fields["altcha"].required:
+            self.generate_challenge()
             self.fields["altcha"].widget.challenge = self.challenge
             if data is None:
                 self.store_challenge()
@@ -525,7 +541,7 @@ class CaptchaForm(forms.Form):
 
     def clean_captcha(self) -> None:
         """Validate math captcha."""
-        if not self.has_captcha:
+        if not self.fields["altcha"].required and not self.fields["captcha"].required:
             return
         if not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
@@ -537,7 +553,7 @@ class CaptchaForm(forms.Form):
 
     def clean_altcha(self) -> None:
         """Validate altcha."""
-        if not self.has_captcha:
+        if not self.fields["altcha"].required:
             return
         payload = self.data.get("altcha", "")
 
@@ -558,7 +574,7 @@ class CaptchaForm(forms.Form):
         result = super().is_valid()
         if result:
             self.cleanup_session()
-        elif self.has_captcha:
+        elif self.fields["altcha"].required:
             self.store_challenge()
         return result
 
