@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-12 10:17+0200\n"
-"PO-Revision-Date: 2025-06-18 04:45+0000\n"
+"PO-Revision-Date: 2025-06-18 10:45+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -50697,6 +50697,9 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
+"Begriffe mit Verwaltungsstatus ``forbidden`` oder ``obsolete`` in ``"
+"<termNote type=\"administrativeStatus\">`` werden mit der Markierung "
+"``forbidden`` gekennzeichnet (:ref:`glossary-forbidden`)."
 
 #: ../../formats/tbx.rst:15
 msgid "Translation needed"
@@ -50707,6 +50710,8 @@ msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`)."
 msgstr ""
+"Begriffe mit ``<termNote type=\"translationNote\">`` die ``no`` enthalten, "
+"werden als schreibgeschützt markiert (:ref:`glossary-untranslatable`)."
 
 #: ../../formats/tbx.rst:17
 msgid "Usage notes"
@@ -50717,6 +50722,8 @@ msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
 msgstr ""
+"Anwendungshinweise aus ``<descrip type=\"Usage note\">``-Tags werden im "
+"Glossar angezeigt."
 
 #: ../../formats/tbx.rst:23
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -51668,7 +51675,7 @@ msgstr ""
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
-msgstr "Nachverfolgung der Abhängigkeiten auf Schwachstellen"
+msgstr "Nachverfolgen der Abhängigkeiten auf Schwachstellen"
 
 #: ../../security/dependencies.rst:16
 msgid ""
@@ -51701,7 +51708,7 @@ msgid ""
 "quickly."
 msgstr ""
 "Die Docker-Container werden in unserer CI auf Sicherheitsschwachstellen "
-"gescannt.  So können wir Schwachstellen frühzeitig erkennen und "
+"gescannt. So können wir Schwachstellen frühzeitig erkennen und "
 "Verbesserungen schnell veröffentlichen."
 
 #: ../../security/dependencies.rst:31
@@ -51719,6 +51726,8 @@ msgid ""
 ":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
 "<https://anchore.com/>`_"
 msgstr ""
+":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
+"<https://anchore.com/>`_"
 
 #: ../../security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -52269,6 +52278,8 @@ msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate."
 msgstr ""
+"Diese Dokumente gelten für Weblate-Bereitstellungen, die von Weblate s.r.o. "
+"betrieben werden, wie beispielsweise Hosted Weblate."
 
 #: ../../security/index.rst:47
 msgid "`General terms and conditions`_"
@@ -52281,6 +52292,7 @@ msgstr "`Datenschutzerklärung`_"
 #: ../../security/index.rst:49
 msgid "The data processing agreement can be obtained in the `Customer area`_."
 msgstr ""
+"Der Auftragsverarbeitungsvertrag kann im `Kundenbereich`_ eingesehen werden."
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -52881,10 +52893,8 @@ msgstr ""
 "physisch im Zielgebiet befindet."
 
 #: ../../security/threat-model.rst:2
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate threat model"
-msgstr "Weblate-Quellcode"
+msgstr "Weblate-Bedrohungsmodell"
 
 #: ../../security/threat-model.rst:4
 msgid ""
@@ -52895,6 +52905,12 @@ msgid ""
 "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
+"**Umfang:** Kern der Weblate-Webanwendung, ihre Interaktion mit den Browsern "
+"der Benutzer, Backend-Komponenten (Webserver, WSGI, Datenbank, Redis, Celery)"
+" und die Integration mit externem VCS. **Annahmen:** Standard-Weblate-"
+"Bereitstellung mit typischen Komponenten (nginx/Apache, Gunicorn/uWSGI, "
+"PostgreSQL, Redis, Celery) und Benutzerrollen (Nicht authentifiziert, "
+"Übersetzer, Projektmanager, Administrator)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -52906,10 +52922,14 @@ msgid ""
 "It integrates tightly with Git repositories to manage translations and "
 "offers CI/CD-style features for automation, hooks, and VCS synchronization."
 msgstr ""
+"Weblate ist eine webbasierte Open-Source-Lokalisierungsplattform, die auf "
+"Django basiert. Sie lässt sich nahtlos in Git-Repositorys integrieren, um "
+"Übersetzungen zu verwalten, und bietet CI/CD-ähnliche Funktionen für "
+"Automatisierung, Hooks und VCS-Synchronisierung."
 
 #: ../../security/threat-model.rst:14
 msgid "Assets:"
-msgstr ""
+msgstr "Assets:"
 
 #: ../../security/threat-model.rst:16
 msgid ""
@@ -52917,170 +52937,187 @@ msgid ""
 "integration, user credentials (passwords, 2FA secrets), user personal data "
 "(email, name), session tokens, audit logs, private project data."
 msgstr ""
+"**Vertraulichkeit:** Übersetzungszeichenketten, API-Schlüssel/Zugangsdaten "
+"für die VCS-Integration, Benutzeranmeldeinformationen (Passwörter, 2FA-"
+"Geheimnisse), personenbezogene Benutzerdaten (E-Mail-Adresse, Name), "
+"Sitzungstoken, Audit-Protokolle, private Projektdaten."
 
 #: ../../security/threat-model.rst:17
 msgid ""
 "**Integrity:** Translation string content, VCS repository integrity, project "
 "and component configurations, user permissions, audit logs."
 msgstr ""
+"**Integrität:** Inhalt der Übersetzungszeichenkette, Integrität des VCS-"
+"Repository, Projekt- und Komponentenkonfigurationen, Benutzerberechtigungen, "
+"Audit-Protokolle."
 
 #: ../../security/threat-model.rst:18
 msgid ""
 "**Availability:** Weblate web interface, VCS integration, database access, "
 "background task processing."
 msgstr ""
+"**Verfügbarkeit:** Weblate-Weboberfläche, VCS-Integration, Datenbankzugriff, "
+"Verarbeitung von Hintergrundaufgaben."
 
 #: ../../security/threat-model.rst:19
 msgid ""
 "**Authenticity/Non-repudiation:** Translation commit history, user "
 "attribution for translations, audit logs of administrative actions."
 msgstr ""
+"**Echtheit/Nachweisbarkeit:** Verlauf der Übersetzungs-Commits, "
+"Benutzerzuordnung für Übersetzungen, Audit-Protokolle für administrative "
+"Aktionen."
 
 #: ../../security/threat-model.rst:22
 msgid "Conceptual data flow diagram"
-msgstr ""
+msgstr "Konzeptionelles Datenflussdiagramm"
 
 #: ../../security/threat-model.rst:41
 msgid "Trust boundaries"
-msgstr ""
+msgstr "Vertrauensgrenzen"
 
 #: ../../security/threat-model.rst:43
 msgid ""
 "**Internet ↔ Web server:** Public internet traffic interacting with the "
 "first line of defense."
 msgstr ""
+"**Internet ↔ Webserver:** Öffentlicher Internetverkehr, der mit der ersten "
+"Verteidigungslinie interagiert."
 
 #: ../../security/threat-model.rst:44
 msgid ""
 "**Web server ↔ Weblate application:** Communication between the reverse "
 "proxy/web server and the application logic."
 msgstr ""
+"**Webserver ↔ Weblate-Anwendung:** Kommunikation zwischen dem Reverse-Proxy/"
+"Webserver und der Anwendungslogik."
 
 #: ../../security/threat-model.rst:45
 msgid ""
 "**Weblate application ↔ Database** Application logic accessing persistent "
 "and cached data."
 msgstr ""
+"**Weblate-Anwendung ↔ Datenbank** Anwendungslogik, die auf persistente und "
+"zwischengespeicherte Daten zugreift."
 
 #: ../../security/threat-model.rst:46
 msgid "**Weblate application ↔ Logging:** Application logic creating logs."
 msgstr ""
+"**Weblate-Anwendung ↔ Protokollierung:** Anwendungslogik, die Protokolle "
+"erstellt."
 
 #: ../../security/threat-model.rst:47
 msgid ""
 "**Weblate application ↔ Internal VCS repository:** Application logic "
 "interacting with its local copy of the VCS repository."
 msgstr ""
+"**Weblate-Anwendung ↔ Internes VCS-Repository:** Anwendungslogik, die mit "
+"ihrer lokalen Kopie des VCS-Repositorys interagiert."
 
 #: ../../security/threat-model.rst:48
 msgid ""
 "**Weblate application ↔ External VCS repository:** Weblate reaching out to "
 "external code hosting platforms."
 msgstr ""
+"**Weblate-Anwendung ↔ Externes VCS-Repository:** Weblate greift auf externe "
+"Code-Hosting-Plattformen zu."
 
 #: ../../security/threat-model.rst:49
 msgid ""
 "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
 "within the web application."
 msgstr ""
+"**Authentifizierter Benutzer ↔ Nicht authentifizierter Benutzer:** "
+"Unterschiedliche Berechtigungsstufen innerhalb der Webanwendung."
 
 #: ../../security/threat-model.rst:52
-#, fuzzy
-#| msgid "Inline identification"
 msgid "Threat identification"
-msgstr "Inline-Erkennung"
+msgstr "Bedrohungsidentifizierung"
 
 #: ../../security/threat-model.rst:57
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component/Interaction"
-msgstr "Komponenteninformation"
+msgstr "Komponente/Interaktion"
 
 #: ../../security/threat-model.rst:58
-#, fuzzy
-#| msgid "Delete category."
 msgid "STRIDE threat category"
-msgstr "Löscht die Kategorie."
+msgstr "STRIDE-Bedrohungskategorie"
 
 #: ../../security/threat-model.rst:59
-#, fuzzy
-#| msgid "Label description"
 msgid "Threat description"
-msgstr "Label-Beschreibung"
+msgstr "Bedrohungsbeschreibung"
 
 #: ../../security/threat-model.rst:60
 msgid "Potential impact"
-msgstr ""
+msgstr "Mögliche Auswirkungen"
 
 #: ../../security/threat-model.rst:61
 msgid "**Web server** (nginx/Apache)"
-msgstr ""
+msgstr "**Webserver** (nginx/Apache)"
 
 #: ../../security/threat-model.rst:62 ../../security/threat-model.rst:98
 #: ../../security/threat-model.rst:118
-#, fuzzy
-#| msgid "**Do:**"
 msgid "**DoS**"
-msgstr "**Tun:**"
+msgstr "**DoS**"
 
 #: ../../security/threat-model.rst:63
 msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
 msgstr ""
+"**Verweigerung des Dienstes:** Der Angreifer überflutet den Webserver mit "
+"Anfragen, wodurch Weblate nicht mehr verfügbar ist."
 
 #: ../../security/threat-model.rst:64
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String is available for translation"
 msgid "Loss of availability for translation."
-msgstr "Zeichenkette zur Übersetzung verfügbar"
+msgstr "Verlust der Verfügbarkeit für Übersetzungen."
 
 #: ../../security/threat-model.rst:66 ../../security/threat-model.rst:90
 #: ../../security/threat-model.rst:94 ../../security/threat-model.rst:114
 #: ../../security/threat-model.rst:138 ../../security/threat-model.rst:142
-#, fuzzy
-#| msgid "Information about project"
 msgid "**Information disclosure**"
-msgstr "Informationen zum Projekt"
+msgstr "**Information disclosure**"
 
 #: ../../security/threat-model.rst:67
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files (e."
 "g., config files, private keys)."
 msgstr ""
+"**Offenlegung der Konfiguration:** Ein falsch konfigurierter Server gibt "
+"sensible Dateien preis (z. B. Konfigurationsdateien, private Schlüssel)."
 
 #: ../../security/threat-model.rst:68
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "Offenlegung von Zugangsdaten, interne Architektur."
 
 #: ../../security/threat-model.rst:70 ../../security/threat-model.rst:78
 #: ../../security/threat-model.rst:82 ../../security/threat-model.rst:110
 #: ../../security/threat-model.rst:122 ../../security/threat-model.rst:134
 msgid "**Tampering**"
-msgstr ""
+msgstr "**Tampering**"
 
 #: ../../security/threat-model.rst:71
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
 msgstr ""
+"**Einschleusung böswilliger Anfragen:** Der Angreifer injiziert schädliche "
+"Daten in HTTP-Header oder Anfragetexte."
 
 #: ../../security/threat-model.rst:72
 msgid ""
 "Potential for SQL injection, XSS, or other injections if not properly "
 "handled by the backend."
 msgstr ""
+"Potenzial für SQL-Injection, XSS oder andere Injections, wenn diese vom "
+"Backend nicht richtig verarbeitet werden."
 
 #: ../../security/threat-model.rst:73
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "**Weblate application**"
-msgstr "Weblate-Übersetzungen"
+msgstr "**Weblate-Anwendung**"
 
 #: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
 msgid "**Spoofing**"
-msgstr ""
+msgstr "**Spoofing**"
 
 #: ../../security/threat-model.rst:75
 msgid ""
@@ -53123,10 +53160,8 @@ msgid "Code injection in target projects, data exfiltration."
 msgstr ""
 
 #: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
-#, fuzzy
-#| msgid "**action**"
 msgid "**Repudiation**"
-msgstr "**action**"
+msgstr "**Repudiation**"
 
 #: ../../security/threat-model.rst:87
 msgid ""
@@ -53174,10 +53209,8 @@ msgid "Weblate unavailability."
 msgstr "Weblate ist jetzt auf Tamil verfügbar."
 
 #: ../../security/threat-model.rst:102 ../../security/threat-model.rst:106
-#, fuzzy
-#| msgid "List of privileges"
 msgid "**Elevation of privilege**"
-msgstr "Liste der Berechtigungen"
+msgstr "**Elevation of privilege**"
 
 #: ../../security/threat-model.rst:103
 msgid ""
