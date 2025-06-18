@@ -14,11 +14,7 @@ def migrate_changes(apps, schema_editor) -> None:
     Unit = apps.get_model("trans", "Unit")
 
     User = apps.get_model(*settings.AUTH_USER_MODEL.split("."))  # noqa: N806
-    try:
-        anonymous_user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
-    except User.DoesNotExist:
-        # should only happen during tests
-        anonymous_user = None
+    anonymous_user = None
 
     pending_units = Unit.objects.filter(pending=True)
 
@@ -32,6 +28,11 @@ def migrate_changes(apps, schema_editor) -> None:
                 .author
             )
         except IndexError:
+            # load anonymous user lazily as it doesn't exist when a new database
+            # is created, such a database would not have any pending units either,
+            # and this code block would never be executed.
+            if anonymous_user is None:
+                anonymous_user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
             author = anonymous_user
 
         pending_changes.append(
