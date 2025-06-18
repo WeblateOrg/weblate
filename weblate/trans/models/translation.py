@@ -686,7 +686,7 @@ class Translation(
             "committing %d pending changes (%s)", len(pending_changes), reason
         )
 
-        all_applied_changes_ids = set()
+        all_changes_status = {}
 
         commit_groups = self._group_changes_by_author(pending_changes)
         for author, changes in commit_groups:
@@ -694,13 +694,29 @@ class Translation(
             timestamp = max(change.timestamp for change in changes)
 
             # Flush the grouped pending changes for this author
-            changes_applied = self.update_units(changes, store, author_name)
-            all_applied_changes_ids.update(c.pk for c in changes_applied)
+            changes_status = self.update_units(changes, store, author_name)
+            all_changes_status.update(changes_status)
 
             # Commit changes
             self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
 
-        PendingUnitChange.objects.filter(pk__in=all_applied_changes_ids).delete()
+        # A pending change can be deleted from the database:
+        # 1. Always, if it has been applied successfully.
+        # 2. If it failed to apply, it can be removed only if a newer pending
+        #    change targeting the same unit has since been successfully applied.
+        changes_to_delete = []
+        units_updated = set()
+        # iterate the pending changes in reverse order to ensure only changes made after
+        # a failed change are considered.
+        for change in reversed(pending_changes):
+            status = all_changes_status[change.pk]
+            if status:
+                changes_to_delete.append(change.pk)
+                units_updated.add(change.unit.pk)
+            elif change.unit.pk in units_updated:
+                changes_to_delete.append(change.pk)
+
+        PendingUnitChange.objects.filter(pk__in=changes_to_delete).delete()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -851,9 +867,9 @@ class Translation(
         pending_changes: list[PendingUnitChange],
         store: TranslationFormat,
         author_name: str,
-    ) -> list[PendingUnitChange]:
+    ) -> dict[int, bool]:
         """Update backend file and unit."""
-        changes_applied = []
+        changes_status = {}
         updated = False
         for pending_change in pending_changes:
             unit = pending_change.unit
@@ -879,6 +895,8 @@ class Translation(
                         # Update this unit only
                         Unit.objects.filter(pk=unit.pk).update(context=pounit.context)
                     unit.context = pounit.context
+
+                changes_status[pending_change.pk] = True
                 updated = True
             else:
                 try:
@@ -895,6 +913,7 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
+                    changes_status[pending_change.pk] = False
                     continue
 
                 # Optionally add unit to translation file.
@@ -926,9 +945,10 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target=self.component.get_parse_error_message(error),
                     )
+                    changes_status[pending_change.pk] = False
                     continue
 
-                changes_applied.append(pending_change)
+                changes_status[pending_change.pk] = True
                 updated = True
 
             # Update fuzzy/approved flag
@@ -968,7 +988,7 @@ class Translation(
         # save translation changes
         store.save()
 
-        return changes_applied
+        return changes_status
 
     @cached_property
     def workflow_settings(self):
