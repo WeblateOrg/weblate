@@ -1200,7 +1200,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     last_updated = serializers.DateTimeField(read_only=True)
-    pending = serializers.BooleanField(read_only=True)
+    pending = serializers.BooleanField(source="has_pending_changes", read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
     class Meta:

@@ -853,7 +853,7 @@
                   {% else %}
                     <span class="wrap-text">{% blocktranslate with position=unit.position %}string {{ position }}{% endblocktranslate %}</span>
                   {% endif %}
-                  {% if unit.pending %}
+                  {% if unit.has_pending_changes %}
                     <span class="badge"
                           title="{% translate "Pending changes not yet committed to the Weblate repository" %}">{% translate "pending" %}</span>
                   {% endif %}
