@@ -1391,6 +1391,7 @@ class Unit(models.Model, LoggerMixin):
         # Notify about new contributor
         if (
             check_new
+            and not self.is_batch_update
             and user is not None
             and not user.is_bot
             and not self.translation.change_set.filter(user=user).exists()
