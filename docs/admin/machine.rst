@@ -272,6 +272,8 @@ DeepL
                 +---------------------+---------------------------+-------------------------------------------------------------------------------------+
                 | ``context``         | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
                 +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``next_gen``        | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy

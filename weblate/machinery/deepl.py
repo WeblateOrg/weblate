@@ -136,6 +136,9 @@ class DeepLTranslation(
             params["formality"] = "less"
         if glossary_id is not None:
             params["glossary_id"] = glossary_id
+        if self.settings.get("next_gen"):
+            params["model_type"] = "prefer_quality_optimized"
+
         response = self.request(
             "post",
             self.get_api_url("translate"),
