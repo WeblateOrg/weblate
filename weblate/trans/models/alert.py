@@ -7,7 +7,7 @@ from __future__ import annotations
 import os
 from collections import defaultdict
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
@@ -38,7 +38,7 @@ ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
 
 
-def register(cls):
+def register(cls: type[BaseAlert]) -> type[BaseAlert]:
     name = cls.__name__
     ALERTS[name] = cls
     if cls.on_import:
@@ -91,10 +91,10 @@ class Alert(models.Model):
             )
 
     @cached_property
-    def obj(self):
+    def obj(self) -> BaseAlert:
         return ALERTS[self.name](self, **self.details)
 
-    def render(self, user: User):
+    def render(self, user: User) -> str:
         return self.obj.render(user)
 
 
@@ -107,13 +107,13 @@ class BaseAlert:
     doc_page = ""
     doc_anchor = ""
 
-    def __init__(self, instance) -> None:
+    def __init__(self, instance: Alert) -> None:
         self.instance = instance
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         return {}
 
-    def get_context(self, user: User):
+    def get_context(self, user: User) -> dict[str, Any]:
         result = {
             "alert": self.instance,
             "component": self.instance.component,
@@ -125,7 +125,7 @@ class BaseAlert:
         result.update(self.instance.details)
         return result
 
-    def render(self, user: User):
+    def render(self, user: User) -> str:
         return render_to_string(
             f"trans/alert/{self.__class__.__name__.lower()}.html",
             self.get_context(user),
@@ -137,7 +137,7 @@ class BaseAlert:
 
 
 class ErrorAlert(BaseAlert):
-    def __init__(self, instance, error) -> None:
+    def __init__(self, instance: Alert, error: str) -> None:
         super().__init__(instance)
         self.error = error
 
@@ -145,7 +145,7 @@ class ErrorAlert(BaseAlert):
 class MultiAlert(BaseAlert):
     occurrences_limit = 100
 
-    def __init__(self, instance, occurrences) -> None:
+    def __init__(self, instance: Alert, occurrences: list[dict[str, str]]) -> None:
         super().__init__(instance)
         self.occurrences = self.process_occurrences(
             occurrences[: self.occurrences_limit]
@@ -153,14 +153,16 @@ class MultiAlert(BaseAlert):
         self.total_occurrences = len(occurrences)
         self.missed_occurrences = self.total_occurrences > self.occurrences_limit
 
-    def get_context(self, user: User):
+    def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
         result["occurrences"] = self.occurrences
         result["total_occurrences"] = self.total_occurrences
         result["missed_occurrences"] = self.missed_occurrences
         return result
 
-    def process_occurrences(self, occurrences):
+    def process_occurrences(
+        self, occurrences: list[dict[str, str]]
+    ) -> list[dict[str, Any]]:
         from weblate.lang.models import Language
         from weblate.trans.models import Unit
 
@@ -203,7 +205,7 @@ class DuplicateLanguage(MultiAlert):
     verbose = gettext_lazy("Duplicated translation.")
     on_import = True
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         component = self.instance.component
         result = {"monolingual": bool(component.template)}
         source = component.source_language.code
@@ -227,7 +229,7 @@ class DuplicateFilemask(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
 
-    def __init__(self, instance, duplicates) -> None:
+    def __init__(self, instance: Alert, duplicates: list[str]) -> None:
         super().__init__(instance)
         self.duplicates = duplicates
 
@@ -265,7 +267,7 @@ class DuplicateFilemask(BaseAlert):
             return self.instance.component.component_set.filter(filemask=filename)
         return self.get_translations(self.instance.component).filter(filename=filename)
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         return {
             "duplicates_resolved": [
                 (filename, self.resolve_filename(filename))
@@ -283,10 +285,7 @@ class MergeFailure(ErrorAlert):
     doc_anchor = "merge"
 
 
-@register
-class PushFailure(ErrorAlert):
-    # Translators: Name of an alert
-    verbose = gettext_lazy("Could not push the repository.")
+class BaseGitFailure(ErrorAlert):
     link_wide = True
     behind_messages = (
         "The tip of your current branch is behind its remote counterpart",
@@ -316,10 +315,8 @@ class PushFailure(ErrorAlert):
         "is not registered in your account, and you lack 'forge",
         "prohibited by Gerrit",
     )
-    doc_page = "admin/continuous"
-    doc_anchor = "push-changes"
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         terminal_disabled = self.terminal_message in self.error
         repo_suggestion = None
         force_push_suggestion = False
@@ -359,6 +356,12 @@ class PushFailure(ErrorAlert):
             ),
         }
 
+
+@register
+class PushFailure(BaseGitFailure):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not push the repository.")
+
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         if not component.can_push():
@@ -368,7 +371,7 @@ class PushFailure(ErrorAlert):
 
 
 @register
-class UpdateFailure(PushFailure):
+class UpdateFailure(BaseGitFailure):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not update the repository.")
     link_wide = True
@@ -492,7 +495,7 @@ class UnsupportedConfiguration(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component"
 
-    def __init__(self, instance, vcs, file_format) -> None:
+    def __init__(self, instance: Alert, vcs: str, file_format: str) -> None:
         super().__init__(instance)
         self.vcs = vcs
         self.file_format = file_format
@@ -514,7 +517,7 @@ class BrokenBrowserURL(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-repoweb"
 
-    def __init__(self, instance, link, error) -> None:
+    def __init__(self, instance: Alert, link: str, error: str) -> None:
         super().__init__(instance)
         self.link = link
         self.error = error
@@ -559,7 +562,7 @@ class BrokenProjectURL(BaseAlert):
     doc_anchor = "project-web"
     project_wide = True
 
-    def __init__(self, instance, error=None) -> None:
+    def __init__(self, instance: Alert, error: str | None = None) -> None:
         super().__init__(instance)
         self.error = error
 
@@ -599,7 +602,7 @@ class AmbiguousLanguage(BaseAlert):
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
 
-    def get_context(self, user: User):
+    def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
         ambgiuous = self.instance.component.get_ambiguous_translations().values_list(
             "language__code", flat=True
@@ -644,7 +647,7 @@ class NoMaskMatches(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         return {
             "can_add": self.instance.component.can_add_new_language(None, fast=True),
         }
@@ -664,7 +667,7 @@ class InexistantFiles(BaseAlert):
     doc_page = "admin/projects"
     doc_anchor = "component-template"
 
-    def __init__(self, instance, files) -> None:
+    def __init__(self, instance: Alert, files: list[str]) -> None:
         super().__init__(instance)
         self.files = files
 
@@ -685,7 +688,7 @@ class UnusedComponent(BaseAlert):
     verbose = gettext_lazy("Component seems unused.")
     doc_page = "devel/community"
 
-    def get_analysis(self):
+    def get_analysis(self) -> dict[str, Any]:
         return {"days": settings.UNUSED_ALERT_DAYS}
 
     @staticmethod
