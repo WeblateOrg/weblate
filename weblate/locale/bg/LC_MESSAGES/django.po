@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 10:47+0000\n"
-"PO-Revision-Date: 2025-06-14 00:02+0000\n"
+"PO-Revision-Date: 2025-06-19 11:46+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -769,15 +769,14 @@ msgstr ""
 "Когато преведете низ в някой проект, автоматично ще започнете да го следите."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Допринасяне към споделената памет за преводи"
+msgstr "Допринасяне към личната памет за преводи"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Позволява преводите Ви да бъдат добавяни към личната ви памет за преводи."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1317,10 +1316,8 @@ msgstr ""
 "профил."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "Удостоверителното приложение е премахнато."
+msgstr "Доставчикът за удостоверяване не е достъпен."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -4614,16 +4611,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Каченият шрифт трябва да отговаря на текущото семейство и стил на шрифта: "
+"“%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Каченият файл ще бъде слят с текущия превод."
+msgstr "Каченият файл с шрифт е същият като текущия."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Шрифтът е обновен успешно."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5651,11 +5648,13 @@ msgstr "Опишете контекста на превода, за да под�
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Използване на модел от следващо поколение"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Предпочитане на езиков модел от следващо поколение, вместо класическия модел "
+"за машинен превод."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8983,10 +8982,8 @@ msgid "Used in groups"
 msgstr "Използван в групи"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Редактиране на групата от шрифтове"
+msgstr "Редактиране на шрифта"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10867,7 +10864,7 @@ msgstr "Нямате права да започнете нов превод"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "В момента нямате връзка с нито една мрежа."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -13984,24 +13981,18 @@ msgstr "Обновени са допълнителни флагове"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Качен е файл"
+msgstr "Качен е шрифт"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Да не се променя"
+msgstr "Променен е шрифт"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Коментарът е премахнат"
+msgstr "Премахнат е шрифт"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -15286,20 +15277,16 @@ msgstr ""
 "превод в този"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Допринасяне към споделената памет за преводи"
+msgstr "Допринасяне към паметта за преводи на проекта"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "Заявка за нов език е изпратена до отговорниците за проекта."
+msgstr ""
+"Позволяване на преводите на този компонент да бъдат добавяни към паметта за "
+"преводи на проекта."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16696,7 +16683,7 @@ msgstr "Грешен низ за търсене!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Вие преминахте от %(previous)s към %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
