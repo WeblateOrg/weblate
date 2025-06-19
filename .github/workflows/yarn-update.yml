@@ -47,7 +47,7 @@ jobs:
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@a02a550bdd3185dba2ebb6aa98d77047ce54ad21 # v6.2.1
+    - uses: astral-sh/setup-uv@445689ea25e0de0a23313031f5fe577c74ae45a1 # v6.3.0
       with:
         enable-cache: true
         cache-dependency-glob: ''
