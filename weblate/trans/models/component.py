@@ -3799,11 +3799,12 @@ class Component(
         # Override Django implementation as that rebuilds the dict every time
         return get_license_name(self.license)
 
-    def post_create(self, user: User) -> None:
+    def post_create(self, user: User, *, origin: str) -> None:
         self.change_set.create(
             action=ActionEvents.CREATE_COMPONENT,
             user=user,
             author=user,
+            details={"origin": origin},
         )
 
     @property

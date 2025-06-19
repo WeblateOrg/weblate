@@ -62,6 +62,15 @@ PREFETCH_FIELDS = (
     "translation__plural",
 )
 
+COMPONENT_ORIGINS = {
+    "scratch": gettext_lazy("Component created from scratch"),
+    "branch": gettext_lazy("Component created as a branch"),
+    "api": gettext_lazy("Component created via API"),
+    "vcs": gettext_lazy("Component created from version control"),
+    "zip": gettext_lazy("Component created via ZIP upload"),
+    "document": gettext_lazy("Component created via document upload"),
+}
+
 
 def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     """
@@ -667,12 +676,22 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self):  # noqa: C901
+    def get_details_display(self):  # noqa: C901, PLR0911
         from weblate.addons.models import ADDONS
         from weblate.utils.markdown import render_markdown
 
         details = self.details
         action = self.action
+
+        if action == ActionEvents.CREATE_COMPONENT:
+            try:
+                origin = details["origin"]
+            except KeyError:
+                return ActionEvents.CREATE_COMPONENT.label
+            try:
+                return COMPONENT_ORIGINS[origin]
+            except KeyError:
+                return f"{ActionEvents.CREATE_COMPONENT.label} ({origin})"
 
         if action == ActionEvents.FILE_UPLOAD:
             try:
