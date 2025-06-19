@@ -1035,7 +1035,7 @@ class ProjectViewSet(
                 )
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
-                serializer.instance.post_create(self.request.user)
+                serializer.instance.post_create(self.request.user, origin="api")
                 return Response(
                     serializer.data,
                     status=HTTP_201_CREATED,
