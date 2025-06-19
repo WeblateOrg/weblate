@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 12:47+0200\n"
-"PO-Revision-Date: 2025-06-12 18:31+0000\n"
+"PO-Revision-Date: 2025-06-19 11:47+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -5262,6 +5262,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"SAML 身份验证的依赖项不再包括在默认的 ``all`` 附加项中。在使用 pip 安装 "
+"Weblate 软件包时，您需要包括 ``saml``（``uv pip install Weblate[all,saml]"
+"``）。"
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -11954,8 +11957,6 @@ msgid "Optional dependency specifier"
 msgstr "可选的依赖项指定程序"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
 msgstr "Python 包"
 
@@ -12168,15 +12169,12 @@ msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -12255,16 +12253,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:331
-#, fuzzy
-#| msgid ""
-#| "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
-#| "xmlsec/issues/254 is addressed."
 msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
-"在 解决 https://github.com/xmlsec/python-xmlsec/issues/254 前需要使用较旧的 "
-"libxmlsec。"
+"这是 xmlsec 包的已知问题，请参阅 https://github.com/xmlsec/python-xmlsec/"
+"issues/314 。"
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -12274,7 +12268,8 @@ msgstr ""
 msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
-msgstr ""
+msgstr "``lxml`` 和 ``xmlsec`` 包必须基于同一个 ``libxml2`` "
+"构建。您应该在本地构建它们以避免此问题："
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -18263,11 +18258,11 @@ msgstr "``never``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "使用下一代模型"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "优先选择下一代 LLM 而非经典机器翻译模型。"
 
 #: ../../admin/machine.rst:278
 msgid ""
@@ -24384,22 +24379,16 @@ msgid "Number of languages user can translate"
 msgstr "用户能够翻译的语言数量"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "有贡献的翻译"
+msgstr "列出用户贡献的翻译。"
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"翻译对象的数组；请参见 :http:get:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/`"
+"链接到翻译；请参见： :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -27047,16 +27036,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.11.2"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 5.11.2"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on June 24th 2024.*"
 msgid "*Released on June 20th 2025.*"
-msgstr "*发布于 2024 年 6 月 24 日。*"
+msgstr "*发布于 2025 年 6 月 20 日。*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -27082,10 +27067,8 @@ msgid "Improvements"
 msgstr "改进"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr ":ref:`mt-deepl` 现在支持指定翻译上下文。"
+msgstr ":ref:`mt-deepl` 集成现在支持使用下一代 LLM 模型。"
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -27107,16 +27090,12 @@ msgid "Bug fixes"
 msgstr "缺陷修复"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "导入 :ref:`projectbackup`。"
+msgstr "恢复带有投票的 :ref:`projectbackup`。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "改进了 :ref:`invite-user` 中的错误处理。"
+msgstr "改进了 :ref:`mt-apertium-apy` 中的错误处理。"
 
 #: ../../changes.rst:18 ../../changes.rst:97 ../../changes.rst:247
 #: ../../changes.rst:330 ../../changes.rst:420 ../../changes.rst:521
@@ -27190,34 +27169,24 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"148?closed=1>`__。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on June 16th 2023.*"
 msgid "*Released on June 16th 2025.*"
-msgstr "*发布于 2023 年 6 月 16 日。*"
+msgstr "*发布于 2025 年 6 月 16 日。*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr ":ref:`sbom` 现正由 Weblate 提供。"
+msgstr ":ref:`sbom` 现在包括序列号。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -27282,38 +27251,32 @@ msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"147?closed=1>`__。"
 
 #: ../../changes.rst:49
 msgid "Weblate 5.12"
 msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "安全问答 FAQ"
+msgstr "安全"
 
 #: ../../changes.rst:55
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
-msgstr ""
+msgstr "通过电子邮件泄露个人 IP 地址（:cve:`2025-49134` / :ghsa:`4qqf-9m5c-w2c5`）。"
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
-msgstr ""
+msgstr "验证第二因素时缺乏速率限制（:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`）。"
 
 #: ../../changes.rst:60
 msgid ""
@@ -27352,16 +27315,12 @@ msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr ":ref:`addon-weblate.webhook.slack` 现作为附加组件可用。"
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"新增 :http:get:`/api/units/(int:id)/translations/` 获取给定源字符串翻译单元所"
-"有目标翻译单元的列表。"
+"添加了 :http:get:`/api/users/(str:username)/contributions/` "
+"以检索用户贡献的所有翻译的列表。"
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -27428,13 +27387,11 @@ msgstr ""
 msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
-msgstr ""
+msgstr "可以更新上传的字体，并跟踪其更改，请参阅 :ref:`fonts`。"
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Weblate is now available in Tamil."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Weblate 现在可用泰米尔语显示。"
+msgstr "Weblate 现在可用巴什基尔语显示。"
 
 #: ../../changes.rst:89
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -27476,7 +27433,7 @@ msgstr ""
 #: ../../changes.rst:100
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
-msgstr ""
+msgstr ":ref:`saml-auth` 支持不再包括在默认依赖项中。"
 
 #: ../../changes.rst:110
 msgid ""
@@ -27731,14 +27688,10 @@ msgid ""
 msgstr "现在程序优雅地处理创建重复术语表的错误和术语表删除的失败。"
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
-msgstr "**安全性：**\\ 克隆部件可能泄露部件配置到 URL (CVE-2025-32021)."
+msgstr "**安全性：**\\ 克隆部件可能会将部件配置泄露到 URL 中（:cve:`2025-32021`）。"
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -28920,16 +28873,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "删除 :ref:`glossary` 中的源字符串。"
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
-"还原时 :ref:`projectbackup` ZIP 文件的验证 (CVE-2024-39303 / GHSA-"
-"jfgp-674x-6q4p)。"
+"还原时 :ref:`projectbackup` ZIP 文件的验证（:cve:`2024-39303` / :ghsa:`jfgp-"
+"674x-6q4p`）。"
 
 #: ../../changes.rst:805
 msgid ""
@@ -32043,12 +31992,9 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*发布于 2017年 1 月 20 日。*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
-msgstr "不泄露密码重置表单上存在账户（CVE-2017-5537）。"
+msgstr "不泄露密码重置表单上存在账户（:cve:`2017-5537`）。"
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -32927,10 +32873,8 @@ msgid "Reduced false negatives for unchanged translation check."
 msgstr "减少了未更改的译文检查的误报。"
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "提升了 bleach 依赖项以解决 CVE-2020-6802。"
+msgstr "提升了 bleach 依赖项以解决 :cve:`2020-6802`。"
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -35720,18 +35664,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"修复了遗漏的 Git 和 Mercurial 变量清理 - CVE-2022-23915，请参阅 `GHSA-3872-"
-"f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/"
-"GHSA-3872-f48p-pxqj>`_ 了解更多信息。"
+"修复了遗漏的 Git 和 Mercurial 变量清理 - :cve:`2022-23915`，请参阅 "
+":ghsa:`3872-f48p-pxqj` 了解更多信息。"
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -35766,18 +35704,11 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*发布于 2022 年 2 月 25 日。*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
-msgstr ""
-"修复了存储型 XSS - CVE-2022-24710，请参阅 `GHSA-6jp6-9rf9-gc66 <https://"
-"github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ 了解"
-"更多信息。"
+msgstr "修复了存储型 XSS - :cve:`2022-24710`，请参阅 :ghsa:`6jp6-9rf9-gc66` "
+"了解更多信息。"
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
