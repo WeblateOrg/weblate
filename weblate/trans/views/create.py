@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 from contextlib import suppress
+from functools import lru_cache
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
@@ -482,6 +483,15 @@ class CreateFromDoc(CreateComponent):
         return self.get(self.request)
 
 
+@lru_cache(maxsize=1024)
+def component_branches(repo: str) -> set[str]:
+    return set(Component.objects.filter(repo=repo).values_list("branch", flat=True))
+
+
+def branch_exists(repo: str, branch: str) -> bool:
+    return branch in component_branches(repo)
+
+
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
@@ -491,9 +501,6 @@ class CreateComponentSelection(CreateComponent):
 
     @cached_property
     def branch_data(self):
-        def branch_exists(repo, branch):
-            return Component.objects.filter(repo=repo, branch=branch).exists()
-
         result = {}
         for component in self.components:
             repo = component.repo
