@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-18 12:47+0200\n"
-"PO-Revision-Date: 2025-06-12 18:31+0000\n"
-"Last-Translator: Максим Горпиніч <maksimgorpinic4@gmail.com>\n"
+"PO-Revision-Date: 2025-06-19 11:47+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -5590,6 +5590,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Залежності для розпізнавання у SAML виключено з типового списку додаткових "
+"пакунків ``all``. Вам слід включити ``saml`` під час встановлення пакунка "
+"Weblate за допомогою pip (``uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -12877,10 +12880,8 @@ msgid "Optional dependency specifier"
 msgstr "Необов'язковий специфікатор залежності"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
-msgstr "Пакети Python"
+msgstr "Пакунки Python"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -13091,15 +13092,12 @@ msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13185,16 +13183,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:331
-#, fuzzy
-#| msgid ""
-#| "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
-#| "xmlsec/issues/254 is addressed."
 msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
-"Використання застарілого libxmlsec потрібне, до того, як буде вирішено "
-"https://github.com/xmlsec/python-xmlsec/issues/254 ."
+"Це відома проблема пакунка xmlsec, будь ласка, див. https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13205,6 +13199,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Пакунки ``lxml`` і ``xmlsec`` має бути зібрано з однаковою ``libxml2``. Щоб "
+"уникнути цієї проблеми, вам слід зібрати їх локально:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -19747,11 +19743,12 @@ msgstr "``never``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Використати модель next-gen"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Надавати перевагу ВММ next-gen над класичною моделлю комп'ютерного перекладу."
 
 #: ../../admin/machine.rst:278
 msgid ""
@@ -26496,22 +26493,16 @@ msgid "Number of languages user can translate"
 msgstr "Кількість мов, якими може перекладати користувач"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "Участь у перекладах"
+msgstr "Показати список перекладів із внесками учасника."
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"масив об'єктів перекладу, див. :http:get:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/`"
+"посилання на переклади; див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -29281,16 +29272,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.11.2"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 5.11.2"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on June 24th 2024.*"
 msgid "*Released on June 20th 2025.*"
-msgstr "*Випущено 24 червня 2024 року.*"
+msgstr "*Випущено 20 червня 2025 року.*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -29316,10 +29303,10 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr ":ref:`mt-deepl` тепер підтримує вказівку контексту перекладу."
+msgstr ""
+"В інтеграції :ref:`mt-deepl` у новій версії передбачено використання ВММ "
+"next-gen."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -29341,16 +29328,12 @@ msgid "Bug fixes"
 msgstr "Виправлення помилок"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "Імпортує :ref:`projectbackup`."
+msgstr "Відновлено :ref:`projectbackup` з голосуванням."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Удосконалено обробку помилок у модулі :ref:`invite-user`."
+msgstr "Удосконалено обробку помилок у :ref:`mt-apertium-apy`."
 
 #: ../../changes.rst:18 ../../changes.rst:97 ../../changes.rst:247
 #: ../../changes.rst:330 ../../changes.rst:420 ../../changes.rst:521
@@ -29426,34 +29409,24 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__."
+"`Всі зміни докладно <https://github.com/WeblateOrg/weblate/milestone/"
+"148?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on June 16th 2023.*"
 msgid "*Released on June 16th 2025.*"
-msgstr "*Випущено 16 червня 2023 року.*"
+msgstr "*Випущено 16 червня 2025 року.*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr ":ref:`sbom` тепер доступний для Weblate."
+msgstr "До :ref:`sbom` у новій версії включено серійний номер."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29518,38 +29491,36 @@ msgid "Documentation contributions"
 msgstr "Оновлення документації"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__."
+"`Всі зміни докладно <https://github.com/WeblateOrg/weblate/milestone/"
+"147?closed=1>`__."
 
 #: ../../changes.rst:49
 msgid "Weblate 5.12"
 msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "ЧАП з безпеки"
+msgstr "Безпека"
 
 #: ../../changes.rst:55
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Розкриття особистої IP-адреси через електронну пошту (:cve:`2025-49134` / "
+":ghsa:`4qqf-9m5c-w2c5`)."
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Не вистачає обмеження частоти при перевірці множника секунд "
+"(:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:60
 msgid ""
@@ -29591,16 +29562,12 @@ msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr ":ref:`addon-weblate.webhook.slack` тепер доступний як доповнення."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"Додано :http:get:`/api/units/(int:id)/translations/` для отримання списку "
-"всіх цільових одиниць перекладу для даної вихідної одиниці перекладу."
+"Додано :http:get:`/api/users/(str:username)/contributions/` для отримання "
+"усіх перекладів користувача."
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -29672,12 +29639,12 @@ msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"Можна оновлювати вивантажені шрифти, а програма стежить за ними, див. "
+":ref:`fonts`."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Weblate is now available in Tamil."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Weblate тепер доступний тамільською мовою."
+msgstr "Нову версію Weblate перекладено башкирською мовою."
 
 #: ../../changes.rst:89
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -29724,7 +29691,7 @@ msgstr ""
 #: ../../changes.rst:100
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
-msgstr ""
+msgstr "Підтримку :ref:`saml-auth` виключено з типових залежностей."
 
 #: ../../changes.rst:110
 msgid ""
@@ -29995,16 +29962,12 @@ msgstr ""
 "глосарія, тепер обробляються штатно."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
 msgstr ""
-"**Безпека:** Клонування компонента може призвести до витоку конфігурації "
-"компонента в URL-адресу (CVE-2025-32021)."
+"**Безпека:** Клонування складника може призвести до витоку налаштувань "
+"складника до адреси (:cve:`2025-32021`)."
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -31304,16 +31267,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Реалізовано вилучення початкових рядків у компоненті :ref:`glossary`."
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
 "Реалізовано перевірку файла ZIP :ref:`projectbackup` до відновлення "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 
 #: ../../changes.rst:805
 msgid ""
@@ -34753,14 +34712,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*Випущено 20 січня 2017 року.*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
 "Усунено витік даних щодо існування облікового запису у формі скидання пароля "
-"(CVE-2017-5537)."
+"(:cve:`2017-5537`)."
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -35704,10 +35660,9 @@ msgstr ""
 "Зменшено частину помилкових результатів у перевірках незмінених перекладів."
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "Підвищено залежність bleach з метою усування наслідків CVE-2020-6802."
+msgstr ""
+"Підвищено залежність bleach з метою усування наслідків :cve:`2020-6802`."
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -38791,18 +38746,13 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Виправлено пропущене очищення аргументів для Git і Mercurial - "
-"CVE-2022-23915, див. `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-"weblate/security/advisories/GHSA-3872-f48p-pxqj>`_, щоб дізнатися більше."
+"Виправлено пропущене очищення аргументів для Git і Mercurial - CVE-2022-"
+"23915, див. :cve:`2022-23915`, see :ghsa:`3872-f48p-pxqj`, щоб дізнатися "
+"більше."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -38837,18 +38787,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Випущено 25 лютого 2022 року.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Виправлено XSS - CVE-2022-24710, див. `GHSA-6jp6-9rf9-gc66 <https://github."
-"com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_, щоб "
-"дізнатися більше."
+"Виправлено :cve:`2022-24710`, див. :ghsa:`6jp6-9rf9-gc66`, щоб дізнатися "
+"більше."
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
