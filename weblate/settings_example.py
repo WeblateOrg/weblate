@@ -555,10 +555,6 @@ LOGGING: dict = {
             # Toggle to DEBUG to log all database queries
             "level": "CRITICAL",
         },
-        "redis_lock": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-        },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
@@ -842,7 +838,7 @@ ALLOWED_HOSTS = ["*"]
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "redis_lock.django_cache.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:

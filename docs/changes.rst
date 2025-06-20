@@ -15,6 +15,8 @@ Weblate 5.13
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* The distributed locking now uses a different what introduced several changes in :file:`settings_example.py`.
+
 .. rubric:: Contributors
 
 .. include:: changes/contributors/5.13.rst

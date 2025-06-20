@@ -55,7 +55,6 @@ REQUIRES = [
     "borgbackup",
     "pyparsing",
     "ahocorasick_rs",
-    "python-redis-lock",
     "charset-normalizer",
     "cyrtranslit",
     "drf_spectacular",
