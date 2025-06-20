@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-14 19:10+0000\n"
+"PO-Revision-Date: 2025-06-21 07:18+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -771,15 +771,13 @@ msgstr ""
 "Bir projedeki bir dizgeyi her çevirdiğinizde, onu izlemeye başlayacaksınız."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Paylaşılan çeviri belleğine katkıda bulunulsun"
+msgstr "Kişisel çeviri belleğine katkıda bulunulsun"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "Çevirilerinizin kişisel çeviri belleğinize eklenmesini sağlayın."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1312,10 +1310,8 @@ msgid "The supplied user identity is already in use for another account."
 msgstr "Belirtilen kullanıcı kimliği zaten başka bir hesap için kullanılıyor."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "Kimlik doğrulama uygulaması kaldırıldı."
+msgstr "Kimlik doğrulama sağlayıcısına erişilemedi."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -4574,16 +4570,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Yüklenen yazı tipi var olan aile ve biçemle eşleşmelidir: “%(family)s "
+"%(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Yüklenen dosya var olan çeviri ile birleştirilecek."
+msgstr "Yüklenen yazı tipi dosyası şu ankiyle aynı."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Yazı tipi başarıyla güncellendi."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5607,11 +5603,11 @@ msgstr "Çevirinin doğruluğunu artırmak için çevirinin bağlamını tanıml
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Yeni nesil model kullan"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "Klasik makine çeviri modeli yerine yeni nesil LLM'yi yeğle."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8905,10 +8901,8 @@ msgid "Used in groups"
 msgstr "Şu gruplarda kullanılıyor"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Yazı tipi grubunu düzenle"
+msgstr "Yazı tipini düzenle"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10779,7 +10773,7 @@ msgstr "Yeni çeviri başlatma izniniz yok"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "Şu anda herhangi bir ağa bağlı değilsiniz."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -13877,24 +13871,18 @@ msgstr "Ek bayraklar güncellendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Dosya yüklendi"
+msgstr "Yazı tipi yüklendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Durum değiştirilmesin"
+msgstr "Yazı tipi değiştirildi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Yorum silindi"
+msgstr "Yazı tipi kaldırıldı"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14885,40 +14873,28 @@ msgid "Parent category has to be different!"
 msgstr "Üst kategori farklı olmalıdır!"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "Bileşen oluşturuldu"
+msgstr "Bileşen en baştan oluşturuldu"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "Bileşen oluşturuldu"
+msgstr "Bileşen dal olarak oluşturuldu"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "Bileşen oluşturuldu"
+msgstr "Bileşen, API aracılığıyla oluşturuldu"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "Sürüm denetiminden"
+msgstr "Bileşen, sürüm denetiminden oluşturuldu"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "Bileşen oluşturuldu"
+msgstr "Bileşen, ZIP yüklemesi aracılığıyla oluşturuldu"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "Bileşen oluşturuldu"
+msgstr "Bileşen, belge yüklemesi aracılığıyla oluşturuldu"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -15206,20 +15182,16 @@ msgstr ""
 "çevrilmeyeceği"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Paylaşılan çeviri belleğine katkıda bulunulsun"
+msgstr "Proje çeviri belleğine katkıda bulunulsun"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "Proje sorumlularına yeni bir çeviri isteği gönderildi."
+msgstr ""
+"Bu bileşenin çevirilerinin proje düzeyinde çeviri belleğine eklenmesini "
+"sağla."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16594,7 +16566,7 @@ msgstr "Arama dizgesi geçersiz!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Şundan (%(previous)s), şuna (%(current)s) geçtiniz."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
