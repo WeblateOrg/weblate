@@ -117,7 +117,7 @@ jobs:
 
     - name: Create Pull Request
       id: cpr
-      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
       uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/yarn-update
