@@ -3,8 +3,6 @@ Weblate 5.12.2
 
 *Released on June 20th 2025.*
 
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * :ref:`mt-deepl` integration now supports using next-gen LLM model.
@@ -13,8 +11,6 @@ Weblate 5.12.2
 
 * Restoring :ref:`projectbackup` with votes.
 * Improved error handling in :ref:`mt-apertium-apy`.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
