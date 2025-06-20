@@ -889,10 +889,6 @@ LOGGING: dict = {
             # Toggle to DEBUG to log all database queries
             "level": get_env_str("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
-        "redis_lock": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-        },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
@@ -1246,7 +1242,7 @@ REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "redis_lock.django_cache.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
             get_env_str("REDIS_HOST", "cache", required=True),
