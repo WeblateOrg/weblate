@@ -440,6 +440,7 @@
           "position",
           "num_words",
           "priority",
+          "pending",
           "timestamp",
           "extra_flags",
           "explanation",
@@ -748,102 +749,6 @@
               "pattern": "[0-9a-f]{16}",
               "type": "string"
             }
-          }
-        }
-      }
-    },
-    "pending_unit_changes": {
-      "$id": "#root/pending_unit_changes",
-      "title": "Pending unit changes data",
-      "type": "array",
-      "items": {
-        "$id": "#root/pending_unit_changes/items",
-        "title": "Pending unit change data",
-        "type": "object",
-        "required": [
-          "translation_id",
-          "unit_id_hash",
-          "author",
-          "target",
-          "explanation",
-          "state",
-          "timestamp",
-          "add_unit",
-          "source_unit_explanation"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "translation_id": {
-            "$id": "#root/pending_unit_changes/items/translation_id",
-            "title": "",
-            "type": "integer"
-          },
-          "unit_id_hash": {
-            "$id": "#root/pending_unit_changes/items/unit_id_hash",
-            "title": "",
-            "pattern": "[0-9a-f]{16}",
-            "examples": [
-              "1234567890abcdef"
-            ]
-          },
-          "author": {
-            "$id": "#root/pending_unit_changes/items/author",
-            "title": "",
-            "type": "string",
-            "examples": [
-              "weblate"
-            ]
-          },
-          "target": {
-            "$id": "#root/pending_unit_changes/items/target",
-            "title": "",
-            "type": "string",
-            "examples": [
-              "hello"
-            ]
-          },
-          "explanation": {
-            "$id": "#root/pending_unit_changes/items/explanation",
-            "title": "",
-            "type": "string",
-            "examples": [
-              "used as a greeting to begin conversation"
-            ]
-          },
-          "state": {
-            "$id": "#root/pending_unit_changes/items/state",
-            "title": "",
-            "type": "integer",
-            "examples": [
-              0
-            ]
-          },
-          "timestamp": {
-            "$id": "#root/pending_unit_changes/items/timestamp",
-            "type": "string",
-            "format": "date-time",
-            "default": "",
-            "examples": [
-              "2019-11-18T18:53:54.862Z"
-            ]
-          },
-          "add_unit": {
-            "$id": "#root/pending_unit_changes/items/add_unit",
-            "title": "",
-            "type": "boolean",
-            "default": false,
-            "examples": [
-              true,
-              false
-            ]
-          },
-          "source_unit_explanation": {
-            "$id": "#root/pending_unit_changes/items/source_unit_explanation",
-            "title": "",
-            "type": "string",
-            "examples": [
-              "used as a greeting to begin conversation"
-            ]
           }
         }
       }
