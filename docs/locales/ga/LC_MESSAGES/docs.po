@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-19 11:47+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-21 07:18+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.12.1\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
 msgid "Access control"
@@ -5610,6 +5610,10 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Níl na spleáchais le haghaidh fíordheimhniú SAML san áireamh sna breiseáin "
+"réamhshocraithe ``all`` a thuilleadh. Ní mór duit ``saml`` a chur san "
+"áireamh agus an pacáiste Weblate á shuiteáil agat ag baint úsáide as pip (``"
+"uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -12940,8 +12944,6 @@ msgid "Optional dependency specifier"
 msgstr "Sonróir spleáchais roghnach"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
 msgstr "Pacáistí Python"
 
@@ -13154,15 +13156,12 @@ msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`bailíochtú-pasfhocal-django-zxcvbn <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13256,6 +13255,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"Is fadhb aitheanta í seo den phacáiste xmlsec, féach https://github.com/"
+"xmlsec/python-xmlsec/issues/314 le do thoil."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13266,6 +13267,9 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Caithfear na pacáistí ``lxml`` agus ``xmlsec`` a thógáil i gcoinne "
+"``libxml2`` amháin. Ba chóir duit iad a thógáil go háitiúil chun an fhadhb "
+"seo a sheachaint:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -19810,11 +19814,13 @@ msgstr "``next_gen``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Úsáid samhail an chéad ghlúin eile"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Is fearr LLM den chéad ghlúin eile seachas an tsamhail aistriúcháin meaisín "
+"clasaiceach."
 
 #: ../../admin/machine.rst:278
 msgid ""
@@ -26604,22 +26610,16 @@ msgid "Number of languages user can translate"
 msgstr "Líon na dteangacha is féidir leis an úsáideoir a aistriú"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "Aistriúcháin le ranníocaíocht"
+msgstr "Liostaigh aistriúcháin le ranníocaíochtaí ó úsáideoir."
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"sraith rudaí aistriúcháin; féach :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/`"
+"nasc chuig aistriúcháin; féach :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -29408,16 +29408,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.11.2"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 5.11.2"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on June 24th 2024.*"
 msgid "*Released on June 20th 2025.*"
-msgstr "*Eisithe ar 24 Meitheamh 2024.*"
+msgstr "*Scaoilte ar an 20 Meitheamh 2025.*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -29443,10 +29439,10 @@ msgid "Improvements"
 msgstr "Feabhsuithe"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr "Tacaíonn :ref:`mt-deepl` anois le comhthéacs aistriúcháin a shonrú."
+msgstr ""
+"Tacaíonn comhtháthú :ref:`mt-deepl` anois le húsáid mhúnla LLM den chéad "
+"ghlúin eile."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -29468,16 +29464,12 @@ msgid "Bug fixes"
 msgstr "Ceartúcháin fabhtanna"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "Iompórtálacha :ref:`projectbackup`."
+msgstr "Ag athchóiriú :ref:`projectbackup` le vótaí."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Láimhseáil earráide feabhsaithe i :ref:`invite-user`."
+msgstr "Láimhseáil earráide feabhsaithe i :ref:`mt-apertium-apy`."
 
 #: ../../changes.rst:18 ../../changes.rst:97 ../../changes.rst:247
 #: ../../changes.rst:330 ../../changes.rst:420 ../../changes.rst:521
@@ -29553,34 +29545,24 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"148?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Gréasán 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on June 16th 2023.*"
 msgid "*Released on June 16th 2025.*"
-msgstr "*Eisithe ar 16 Meitheamh 2023.*"
+msgstr "*Scaoilte ar an 16 Meitheamh 2025.*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr "Tá :ref:`sbom` á chur ar fáil do Weblate anois."
+msgstr "Tá uimhir sraitheach san áireamh anois sa :ref:`sbom`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29645,38 +29627,36 @@ msgid "Documentation contributions"
 msgstr "Ranníocaíochtaí doiciméadaithe"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/141?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"147?closed=1>`__."
 
 #: ../../changes.rst:49
 msgid "Weblate 5.12"
 msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Severity"
 msgid "Security"
-msgstr "Déine"
+msgstr "Slándáil"
 
 #: ../../changes.rst:55
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Nochtadh seoladh IP pearsanta trí ríomhphost (:cve:`2025-49134` / :ghsa"
+":`4qqf-9m5c-w2c5`)."
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Easpa teorannú ráta agus an dara fachtóir á fhíorú (:cve:`2025-47951` / "
+":ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:60
 msgid ""
@@ -29718,17 +29698,12 @@ msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr "Tá :ref:`addon-weblate.webhook.slack` ar fáil anois mar bhreiseán."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"Cuireadh :http:get:`/api/units/(int:id)/translations/` leis chun liosta de "
-"na haonaid aistriúcháin sprice go léir a aisghabháil don aonad aistriúcháin "
-"foinseach tugtha."
+"Cuireadh :http:get:`/api/users/(str:username)/contributions/` leis chun "
+"liosta de na haistriúcháin uile a chuir an t-úsáideoir leis a aisghabháil."
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -29801,12 +29776,12 @@ msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"Is féidir clónna uaslódáilte a nuashonrú agus athruithe orthu a rianú, féach "
+":ref:`fonts`."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Weblate is now available in Tamil."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Tá Weblate ar fáil anois i dTamil."
+msgstr "Tá Weblate ar fáil anois i dteanga na Baiscíre."
 
 #: ../../changes.rst:89
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -29855,6 +29830,8 @@ msgstr ""
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"Níl tacaíocht do :ref:`saml-auth` san áireamh sna spleáchais réamhshocraithe "
+"a thuilleadh."
 
 #: ../../changes.rst:110
 msgid ""
@@ -30134,16 +30111,12 @@ msgstr ""
 "agus gan gluais a scriosadh."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
 msgstr ""
 "**Slándáil:** D’fhéadfadh clónáil comhpháirte cumraíocht chomhpháirte a "
-"sceitheadh isteach san URL (CVE-2025-32021)."
+"sceitheadh isteach sa URL (:cve:`2025-32021`)."
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -31456,16 +31429,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Teaghráin foinse a bhaint in :ref:`glossary`."
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
-"Comhad ZIP :ref:`projectbackup` a bhailíochtú agus é á athchóiriú "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"Bailíochtú ar chomhad ZIP :ref:`projectbackup` tar éis athchóiriú "
+"(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 
 #: ../../changes.rst:805
 msgid ""
@@ -34859,14 +34828,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*Eisithe ar 20 Eanáir 2017.*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
-"Ná sceith go bhfuil cuntas ar an bhfoirm athshocraithe pasfhocail "
-"(CVE-2017-5537)."
+"Ná sceith láithreacht cuntais ar an bhfoirm athshocraithe pasfhocail "
+"(:cve:`2017-5537`)."
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -35793,10 +35759,9 @@ msgstr ""
 "athrú."
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "Spleáchas bleach ardaithe chun aghaidh a thabhairt ar CVE-2020-6802."
+msgstr ""
+"Spleáchas méadaithe ar thuaradh chun aghaidh a thabhairt ar :cve:`2020-6802`."
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -38829,18 +38794,12 @@ msgid "Weblate 4.11.1"
 msgstr "Gréasán 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Sláintíocht seasta argóintí i leith Git agus Mercurial - CVE-2022-23915, "
-"féach `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
-"advisories/GHSA-3872-f48p-pxqj>`_ le haghaidh tuilleadh sonraí."
+"Deisíodh sláintíocht ar argóintí a bhí ar iarraidh i Git agus Mercurial - "
+":cve:`2022-23915`, féach :ghsa:`3872-f48p-pxqj` le haghaidh tuilleadh sonraí."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -38875,18 +38834,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Eisithe ar 25 Feabhra 2022.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Ceartúcháin arna stóráil XSS - CVE-2022-24710, féach `GHSA-6jp6-9rf9-gc66 "
-"<https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-"
-"gc66>`_ le haghaidh tuilleadh sonraí."
+"Ceartúcháin stóráilte XSS - :cve:`2022-24710`, féach :ghsa:`6jp6-9rf9-gc66` "
+"le haghaidh tuilleadh sonraí."
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
