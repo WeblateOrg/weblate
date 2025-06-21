@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-06-22 06:46+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -793,15 +793,13 @@ msgstr ""
 "отслеживаемые."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Вносить вклад в совместную память переводов"
+msgstr "Внести вклад в собственную память переводов"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "Разрешить добавлять свои переводы в собственную память переводов."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1937,10 +1935,8 @@ msgid "Secret"
 msgstr "Секрет"
 
 #: weblate/addons/forms.py:704
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Недопустимая строка в кодировке base64"
+msgstr "Строка в кодировке base64"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2054,15 +2050,13 @@ msgid "Customize JSON output"
 msgstr "Настройка вывода в JSON"
 
 #: weblate/addons/json.py:15
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Позволяет подправить поведение вывода в JSON, например, отступы или "
-"сортировку ключей."
+"Позволяет подправить поведение вывода в JSON, например, отступы, сортировку "
+"или компактное форматирование с использованием минимального количества "
+"пробелов."
 
 #: weblate/addons/properties.py:142
 msgid "Format the Java properties file"
@@ -2118,12 +2112,12 @@ msgid "Webhook"
 msgstr "Вебхук"
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
-msgstr "Отправка уведомлений внешней службе на основе выбранных событий."
+msgstr ""
+"Отправка уведомлений внешним службам на основе выбранных событий в "
+"соответствии со спецификацией Standard WebHooks."
 
 #: weblate/addons/webhooks.py:177
 #, fuzzy
@@ -2589,10 +2583,8 @@ msgstr "Обновление внутреннего репозитория"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Опубликовать объявление"
+msgstr "Опубликовать объявления"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2691,11 +2683,9 @@ msgid "Power user"
 msgstr "Опытный пользователь"
 
 #: weblate/auth/data.py:207
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Access-control role"
 msgid "Translation coordinator"
-msgstr "Комментарий к переводу"
+msgstr "Координатор переводов"
 
 #: weblate/auth/data.py:224
 msgctxt "Access-control role"
@@ -4652,16 +4642,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Загружаемый шрифт должен соответствовать существующему семейству и стилю: "
+"«%(family)s %(style)s»"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Загруженный файл будет объединён с текущим переводом."
+msgstr "Загруженный файл шрифта идентичен текущему."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Шрифт успешно обновлён."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5686,11 +5676,13 @@ msgstr "Опишите контекст перевода, чтобы повыс�
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Использовать модель следующего поколения"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Отдавать предпочтение большим языковым моделям (LLM) следующего поколения, а "
+"не классической модели машинного перевода."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -6548,10 +6540,9 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "Эта комбинация логина/пароля не найдена. Попробуйте снова."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Приглашение в %(site_title)s"
+msgstr "Войти в %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:45
 msgid "Sign in with:"
@@ -7032,10 +7023,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "Пожалуйста, завершите регистрацию, чтобы принять приглашение."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "Ваша регистрация на %(site_title)s"
+msgstr "Зарегистрироваться в %(formatted_site_title)s"
 
 #: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
@@ -7130,10 +7120,8 @@ msgstr ""
 "каждого переводимого проекта."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate single sign on"
-msgstr "Версия Weblate"
+msgstr "Единый вход Weblate"
 
 #: weblate/templates/accounts/snippets/login-title.html:5
 msgctxt "Badge for site title for Hosted Weblate"
@@ -9046,10 +9034,8 @@ msgid "Used in groups"
 msgstr "Используемые в группах"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Править группу шрифтов"
+msgstr "Изменить шрифт"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10216,7 +10202,7 @@ msgstr "Сброс пароля на %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:21
 msgid "Sign in to see the full audit log, including the IP address."
-msgstr ""
+msgstr "Войдите, чтобы просмотреть полный журнал аудита, включая IP-адрес."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid ""
@@ -10227,10 +10213,8 @@ msgstr ""
 "администраторам сервера, нажав на кнопку ниже."
 
 #: weblate/templates/mail/shared-activity.html:26
-#, fuzzy
-#| msgid "Audit log"
 msgid "View audit log"
-msgstr "Журнал аудита"
+msgstr "Посмотреть журнал аудита"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -10935,7 +10919,7 @@ msgstr "У вас нет разрешения начинать новый пер
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "В настоящее время вы не подключены ни к одной сети."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -14065,24 +14049,18 @@ msgstr "Обновлены дополнительные флаги"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Файл загружен"
+msgstr "Шрифт загружен"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Не изменять"
+msgstr "Шрифт изменён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Комментарий удалён"
+msgstr "Шрифт удалён"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14775,10 +14753,8 @@ msgid "Author username"
 msgstr "Имя пользователя автора"
 
 #: weblate/trans/forms.py:2859
-#, fuzzy
-#| msgid "Author username"
 msgid "Exclude author (username)"
-msgstr "Имя пользователя автора"
+msgstr "Исключить автора (username)"
 
 #: weblate/trans/forms.py:2862
 msgid "Change period"
@@ -15078,40 +15054,28 @@ msgid "Parent category has to be different!"
 msgstr "Родительская категория должна быть другой!"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "Компонент заблокирован"
+msgstr "Компонент создан с нуля"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "Компонент заблокирован"
+msgstr "Компонент создан как ответвление"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "Компонент заблокирован"
+msgstr "Компонент создан посредством API"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "Из системы контроля версий"
+msgstr "Компонент создан из системы контроля версий"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "Компонент заблокирован"
+msgstr "Компонент создан посредством загрузки ZIP-файла"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "Компонент заблокирован"
+msgstr "Компонент создан посредством загрузки документа"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -15404,20 +15368,16 @@ msgstr ""
 "переводу этого"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Вносить вклад в совместную память переводов"
+msgstr "Вносить вклад в проект памяти переводов"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "Запрос на новый перевод отправлен кураторам проекта."
+msgstr ""
+"Разрешить добавление переводов этого компонента в память переводов на уровне "
+"проекта."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16831,7 +16791,7 @@ msgstr "Недопустимая строка поиска!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Вы перешли с %(previous)s на %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
