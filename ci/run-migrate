@@ -92,7 +92,7 @@ from django.contrib.auth import get_user_model
 from weblate.trans.models import Unit, Change
 from weblate.utils.state import STATE_TRANSLATED
 User = get_user_model()
-user = User.objects.get(username="admin")
+user = User.objects.get_or_create(username="admin")[0]
 unit = Unit.objects.all()[0]
 unit.target = "Test Target"
 unit.explanation = "Test Explanation"
