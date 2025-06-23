@@ -83,6 +83,27 @@ check
 ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
 check
 
+# Add a pending unit
+semver_compare "$TAG" "<=" "5.12"
+pending_migration_test=$?
+if [ "$pending_migration_test" -eq 0 ]; then
+    ./manage.py shell << EOF
+from django.contrib.auth import get_user_model
+from weblate.trans.models import Unit, Change, STATE_TRANSLATED
+User = get_user_model()
+user = User.objects.get(username="admin")
+unit = Unit.objects.all()[0]
+unit.target = "Test Target"
+unit.explanation = "Test Explanation"
+unit.state = STATE_TRANSLATED
+unit.save()
+Change.objects.create(translation=unit.translation, user=user, action=1, unit=unit, target=unit.target)
+unit.pending = True
+unit.save()
+EOF
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -95,3 +116,29 @@ check
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell -c 'from weblate.trans.models import Vote; Vote.objects.get(value=1)'
 check
+
+# Check migrated pending unit
+if [ "$pending_migration_test" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell << EOF
+from weblate.changes.models import PendingUnitChange
+
+change = PendingUnitChange.objects.get()
+unit = change.unit
+
+errors = []
+if change.target != unit.target:
+    errors.append(f"Target mismatch: '{change.target}' != '{unit.target}'")
+if change.explanation != unit.explanation:
+    errors.append(f"Explanation mismatch: '{change.explanation}' != '{unit.explanation}'")
+if change.state != unit.state:
+    errors.append(f"State mismatch: {change.state} != {unit.state}")
+# The migration uses get_last_content_change to get author
+author = unit.get_last_content_change()[0]
+if change.author != author:
+    errors.append(f"Author mismatch: {change.author} != {author}")
+if change.source_unit_explanation != unit.source_unit.explanation:
+    errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
+assert not errors, "\n".join(errors)
+EOF
+    check
+fi
