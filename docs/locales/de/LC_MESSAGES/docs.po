@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-19 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-22 11:07+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 5.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1829,7 +1829,7 @@ msgstr ""
 
 #: ../../admin/access.rst:817
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr "Standard-Rollen: `Vorschlag hinzufügen`, `Auf Repository zugreifen`"
+msgstr "Standardrollen: `Vorschlag hinzufügen`, `Auf Repository zugreifen`"
 
 #: ../../admin/access.rst:819
 msgid "`Viewers`"
@@ -1854,7 +1854,7 @@ msgstr ""
 
 #: ../../admin/access.rst:826
 msgid "Default roles: none"
-msgstr "Standard-Rollen: keine"
+msgstr "Standardrollen: keine"
 
 #: ../../admin/access.rst:828 ../../workflows.rst:121 ../../workflows.rst:153
 #: ../../workflows.rst:186
@@ -1867,7 +1867,7 @@ msgstr "Standardteam für alle Benutzer."
 
 #: ../../admin/access.rst:834
 msgid "Default roles: `Power user`"
-msgstr "Standard-Rollen: `Hauptbenutzer`"
+msgstr "Standardrollen: `Hauptbenutzer`"
 
 #: ../../admin/access.rst:836 ../../workflows.rst:190
 msgid "`Reviewers`"
@@ -1879,7 +1879,7 @@ msgstr "Gruppe für Prüfer (siehe :ref:`workflows`)."
 
 #: ../../admin/access.rst:839
 msgid "Default roles: `Review strings`"
-msgstr "Standard-Rollen: `Zeichenketten überprüfen`"
+msgstr "Standardrollen: `Zeichenketten überprüfen`"
 
 #: ../../admin/access.rst:841
 msgid "`Managers`"
@@ -1891,7 +1891,7 @@ msgstr "Gruppe für Administratoren."
 
 #: ../../admin/access.rst:844
 msgid "Default roles: `Administration`"
-msgstr "Standard-Rollen: `Verwaltung`"
+msgstr "Standardrollen: `Verwaltung`"
 
 #: ../../admin/access.rst:846
 msgid "`Project creators`"
@@ -1903,7 +1903,7 @@ msgstr "Benutzer, die neue Projekte erstellen können."
 
 #: ../../admin/access.rst:851
 msgid "Default roles: `Add new projects`"
-msgstr "Standard-Rollen: `Neue Projekte hinzufügen`"
+msgstr "Standardrollen: `Neue Projekte hinzufügen`"
 
 #: ../../admin/access.rst:855
 msgid ""
@@ -5642,6 +5642,10 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Die Abhängigkeiten für die SAML-Authentifizierung sind nicht mehr in den "
+"standardmäßigen Extras ``all`` enthalten. Sie müssen ``saml`` einbinden, "
+"während Sie das Weblate-Paket mit pip installieren (``uv pip install Weblate"
+"[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -13319,16 +13323,12 @@ msgstr ""
 "function); did you mean ‘xmlSecKeyDataFormat’?``"
 
 #: ../../admin/install.rst:331
-#, fuzzy
-#| msgid ""
-#| "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
-#| "xmlsec/issues/254 is addressed."
 msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
-"Die Verwendung der älteren libxmlsec ist erforderlich, bis https://github."
-"com/xmlsec/python-xmlsec/issues/254 behoben ist."
+"Dies ist ein bekanntes Problem des xmlsec-Pakets, siehe https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13339,6 +13339,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Die Pakete ``lxml`` und ``xmlsec`` müssen mit ``libxml2`` gebaut werden. Um "
+"dieses Problem zu vermeiden, sollten Sie sie lokal erstellen:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -26791,22 +26793,16 @@ msgid "Number of languages user can translate"
 msgstr "Anzahl der Sprachen, die der Benutzer übersetzen kann"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "Übersetzungen mit Beitrag"
+msgstr "Listet Übersetzungen mit Beiträgen eines Benutzers auf."
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"Array von Übersetzungsobjekten; siehe :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/`"
+"Link zu Übersetzungen; siehe :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -29639,10 +29635,10 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr ":ref:`mt-deepl` unterstützt nun die Angabe des Übersetzungskontextes."
+msgstr ""
+":ref:`mt-deepl`-Integration unterstützt jetzt die Verwendung des LLM-Modells "
+"der nächsten Generation."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -29664,10 +29660,8 @@ msgid "Bug fixes"
 msgstr "Fehlerbehebungen"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "Importiert :ref:`projectbackup`."
+msgstr "Wiederherstellung von :ref:`projectbackup` mit Stimmen."
 
 #: ../../changes.rst:15
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
@@ -29763,10 +29757,8 @@ msgid "*Released on June 16th 2025.*"
 msgstr "*Veröffentlicht am 16. Juni 2025.*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr ":ref:`sbom` wird jetzt für Weblate bereitgestellt."
+msgstr ":ref:`sbom` enthält jetzt die Seriennummer."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29851,12 +29843,16 @@ msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Offenlegung der persönlichen IP-Adresse per E-Mail (:cve:`2025-49134` / :ghsa"
+":`4qqf-9m5c-w2c5`)."
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Fehlende Ratenbegrenzung beim Überprüfen des zweiten Faktors "
+"(:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:60
 msgid ""
@@ -29901,17 +29897,12 @@ msgstr ""
 ":ref:`addon-weblate.webhook.slack` sind jetzt als Erweiterung verfügbar."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-":http:get:`/api/units/(int:id)/translations/` hinzugefügt, um eine Liste "
-"aller Zielübersetzungseinheiten für die angegebene Quellübersetzungseinheit "
-"abzurufen."
+":http:get:`/api/users/(str:username)/contributions/` hinzugefügt, um eine "
+"Liste aller vom Benutzer beigetragenen Übersetzungen abzurufen."
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -29984,6 +29975,8 @@ msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"Hochgeladene Schriftarten können aktualisiert werden und Änderungen an ihnen "
+"werden nachverfolgt, siehe :ref:`fonts`."
 
 #: ../../changes.rst:85
 msgid "Weblate is now available in Bashkir language."
@@ -30039,6 +30032,8 @@ msgstr ""
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+":ref:`saml-auth`-Unterstützung ist nicht mehr in den Standardabhängigkeiten "
+"enthalten."
 
 #: ../../changes.rst:110
 msgid ""
@@ -39266,18 +39261,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
 "Fehlende Bereinigung von Argumenten für Git und Mercurial behoben – "
-"CVE-2022-23915, siehe `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-"weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ für weitere Details."
+":cve:`2022-23915`, siehe :ghsa:`3872-f48p-pxqj` für weitere Details."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -39312,17 +39301,11 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Veröffentlicht am 25. Februar 2022.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Behebt stored XSS – CVE-2022-24710, siehe `GHSA-6jp6-9rf9-gc66 <https://"
-"github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ für "
+"Behebt beständiges XSS – :cve:`2022-24710`, siehe :ghsa:`6jp6-9rf9-gc66` für "
 "weitere Details."
 
 #: ../../changes/v4.rst:466
@@ -51954,7 +51937,7 @@ msgid ""
 msgstr ""
 "**Notfall:** Jedes ungeplante Ereignis, das zu einem vollständigen oder "
 "erheblichen Verlust von Diensten, Daten oder Systemfunktionen führt. "
-"Beispiele hierfür sind Hardwarefehler, Datenbeschädigungen, "
+"Beispiele hierfür sind Hardwarefehler, Datenkorruption, "
 "Infrastrukturausfälle oder böswillige Angriffe."
 
 #: ../../security/disaster-recovery-plan.rst:17
@@ -53310,12 +53293,13 @@ msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
 msgstr ""
+"**Benutzeridentitätsmissbrauch:** Der Angreifer verschafft sich Zugriff auf "
+"die Sitzung eines legitimen Benutzers (z. B. durch Session-Hijacking oder "
+"kompromittierte Zugangsdaten)."
 
 #: ../../security/threat-model.rst:76
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Unauthorized translation, repo access."
-msgstr "Verbessertes Zuordnen vom Übersetzungsspeicher."
+msgstr "Nicht autorisierte Übersetzung, Repo-Zugriff."
 
 #: ../../security/threat-model.rst:77
 msgid "(WSGI/Celery)"
@@ -53327,10 +53311,13 @@ msgid ""
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
 msgstr ""
+"**Unbefugte Übersetzungsänderung:** Ein böswilliger Benutzer oder eine "
+"ausgenutzte Schwachstelle ermöglicht die Änderung von Übersetzungen, "
+"Projektkonfigurationen oder VCS-Integrationseinstellungen."
 
 #: ../../security/threat-model.rst:80
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
-msgstr ""
+msgstr "Falsche Übersetzungen, fehlerhafter Build, RCE über VCS-Hooks."
 
 #: ../../security/threat-model.rst:83
 msgid ""
@@ -53338,10 +53325,14 @@ msgid ""
 "with the VCS (e.g., injecting malicious commands via crafted repository URLs "
 "if not sanitized, leading to RCE)."
 msgstr ""
+"**Manipulation der VCS-Integration:** Der Angreifer manipuliert die "
+"Interaktion von Weblate mit dem VCS (z. B. Einschleusen bösartiger Befehle "
+"über manipulierte Repository-URLs, wenn diese nicht bereinigt sind, was zu "
+"RCE führt)."
 
 #: ../../security/threat-model.rst:84
 msgid "Code injection in target projects, data exfiltration."
-msgstr ""
+msgstr "Code-Injektion in Zielprojekte, Datenexfiltration."
 
 #: ../../security/threat-model.rst:86 ../../security/threat-model.rst:126
 msgid "**Repudiation**"
@@ -53352,10 +53343,13 @@ msgid ""
 "**Unattributed changes:** Malicious changes are made without proper "
 "attribution to the user or system responsible."
 msgstr ""
+"**Nicht zugewiesene Änderungen:** Es werden böswillige Änderungen "
+"vorgenommen, ohne dass diese dem verantwortlichen Benutzer oder System "
+"zugeordnet werden."
 
 #: ../../security/threat-model.rst:88
 msgid "Difficulty in auditing and accountability."
-msgstr ""
+msgstr "Schwierigkeiten bei der Auditierung und Rechenschaftspflicht."
 
 #: ../../security/threat-model.rst:91
 msgid ""
@@ -53363,34 +53357,38 @@ msgid ""
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
 msgstr ""
+"**Durchsickern sensibler Daten:** SQL-Injection, unsichere API-Endpunkte "
+"oder -Fehler geben sensible Daten preis (z. B. Übersetzungen anderer "
+"Benutzer, VCS-Zugangsdaten, Serverinformationen)."
 
 #: ../../security/threat-model.rst:92
 msgid "Privacy breach, intellectual property theft."
-msgstr ""
+msgstr "Datenschutzverletzung, Diebstahl geistigen Eigentums."
 
 #: ../../security/threat-model.rst:95
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
 msgstr ""
+"**Offenlegung von VCS-Zugangsdaten:** Weblates gespeicherte VCS-Zugangsdaten "
+"(SSH-Schlüssel, Token) werden von einem Angreifer eingesehen."
 
 #: ../../security/threat-model.rst:96
-#, fuzzy
-#| msgid "Access the internal repository"
 msgid "Direct access to integrated code repositories."
-msgstr "Zugriff auf das interne Repository"
+msgstr "Direkter Zugriff auf integrierte Code-Repositorys."
 
 #: ../../security/threat-model.rst:99
 msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
 msgstr ""
+"**Ressourcenerschöpfung:** Übermäßige Hintergrundaufgaben oder ineffiziente "
+"Datenbankabfragen, die von einem Angreifer ausgelöst werden, führen zu einer "
+"Verlangsamung oder einem Absturz des Systems."
 
 #: ../../security/threat-model.rst:100 ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate unavailability."
-msgstr "Weblate ist jetzt auf Tamil verfügbar."
+msgstr "Weblate ist nicht verfügbar."
 
 #: ../../security/threat-model.rst:102 ../../security/threat-model.rst:106
 msgid "**Elevation of privilege**"
@@ -53400,20 +53398,23 @@ msgstr "**Elevation of privilege**"
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
 msgstr ""
+"**Rollenausweitung:** Ein regulärer Übersetzer erhält administrative Rechte."
 
 #: ../../security/threat-model.rst:104
 msgid "Complete system compromise."
-msgstr ""
+msgstr "Vollständige Systemkompromittierung."
 
 #: ../../security/threat-model.rst:107
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
 msgstr ""
+"**Befehlsinjektion:** Willkürliche Codeausführung durch unsachgemäße "
+"Eingabevalidierung in Repository-URLs oder Erweiterungen."
 
 #: ../../security/threat-model.rst:108
 msgid "System compromise, data exfiltration."
-msgstr ""
+msgstr "Systemkompromittierung, Datenexfiltration."
 
 #: ../../security/threat-model.rst:109
 msgid "**Database/Redis**"
@@ -53424,10 +53425,12 @@ msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
 msgstr ""
+"**Datenkorruption:** Der direkte Zugriff auf die Datenbank ermöglicht die "
+"Änderung von Übersetzungszeichenketten, Benutzerdaten oder der Konfiguration."
 
 #: ../../security/threat-model.rst:112
 msgid "System malfunction, data integrity loss."
-msgstr ""
+msgstr "Systemstörung, Verlust der Datenintegrität."
 
 #: ../../security/threat-model.rst:115
 msgid ""
@@ -53444,6 +53447,9 @@ msgid ""
 "**Database exhaustion:** Attacker floods the database with queries, or "
 "consumes all Redis memory/connections."
 msgstr ""
+"**Datenbankerschöpfung:** Der Angreifer überflutet die Datenbank mit "
+"Anfragen oder verbraucht den gesamten Redis-Speicher bzw. alle Redis-"
+"Verbindungen."
 
 #: ../../security/threat-model.rst:121
 msgid "**VCS integration**"
@@ -56113,7 +56119,7 @@ msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
-"Verwenden Sie standardisierte lateinische Kabyle-Zeichen (z. B. ɣ statt "
+"Verwenden von standardisierten lateinischen Kabyle-Zeichen (z. B. ɣ statt "
 "griechischem γ; ɛ statt ε)."
 
 #: ../../user/checks.rst:1362
@@ -56130,6 +56136,9 @@ msgid ""
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
 msgstr ""
+"Überprüft, ob in den kabylischen Übersetzungen die korrekten kabylischen "
+"Buchstaben verwendet werden und nicht ähnliche griechische Buchstaben, die "
+"oft verwendet wurden, bevor Kabyle-Zeichen in Unicode standardisiert wurden."
 
 #: ../../user/checks.rst:1374
 msgid "Placeholders"
@@ -57870,6 +57879,10 @@ msgid ""
 "glossaries to Weblate. Formats like :doc:`/formats/csv` or :doc:`/formats/"
 "tbx` are supported and can be uploaded, see :ref:`upload`."
 msgstr ""
+"Ähnlich wie bei regulären Übersetzungskomponenten können Sie vorhandene "
+"Glossare in Weblate hochladen. Formate wie :doc:`/formats/csv` oder :doc:`/"
+"formats/tbx` werden unterstützt und können hochgeladen werden, siehe "
+":ref:`upload`."
 
 #: ../../user/glossary.rst:134
 msgid "Glossaries in automatic suggestion"
@@ -60144,11 +60157,11 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side`, depending on your personal preference."
 msgstr ""
-"Sie können den Zen-Editor als Standard-Editor auswählen, indem Sie den "
-"Reiter :ref:`profile-preferences` in Ihrem :ref:`user-profile` verwenden. "
-"Dort können Sie auch auswählen, ob die Übersetzungen :guilabel:`Von oben "
-"nach unten` oder :guilabel:`Nebeneinander` aufgelistet werden sollen, je "
-"nach Ihrer persönlichen Vorliebe."
+"Sie können den Zen-Editor als Standardeditor auswählen, indem Sie den Reiter "
+":ref:`profile-preferences` in Ihrem :ref:`user-profile` verwenden. Dort "
+"können Sie auch auswählen, ob die Übersetzungen :guilabel:`Von oben nach "
+"unten` oder :guilabel:`Nebeneinander` aufgelistet werden sollen, je nach "
+"Ihrer persönlichen Vorliebe."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
