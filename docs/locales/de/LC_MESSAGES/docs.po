@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-22 11:07+0000\n"
+"PO-Revision-Date: 2025-06-24 08:02+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -53437,10 +53437,13 @@ msgid ""
 "**Sensitive data access:** Unauthorized access to database/Redis exposes all "
 "stored data (credentials, translation memory, user profiles)."
 msgstr ""
+"**Zugriff auf sensible Daten:** Unbefugter Zugriff auf Datenbank/Redis legt "
+"alle gespeicherten Daten offen (Zugangsdaten, Übersetzungsspeicher, "
+"Benutzerprofile)."
 
 #: ../../security/threat-model.rst:116
 msgid "Major data breach."
-msgstr ""
+msgstr "Große Datenpanne."
 
 #: ../../security/threat-model.rst:119
 msgid ""
@@ -53456,16 +53459,16 @@ msgid "**VCS integration**"
 msgstr "**VCS-Integration**"
 
 #: ../../security/threat-model.rst:123
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid ""
 "**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
 "changes to the upstream repository."
-msgstr "Weblate konnte keine Änderungen ins Upstream-Repository pushen."
+msgstr ""
+"**Bösartige Commits von Weblate:** Ein kompromittiertes Weblate pusht "
+"böswillige Änderungen in das Upstream-Repository."
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
-msgstr ""
+msgstr "Einschleusen von Schadsoftware/Hintertüren in Zielprojekte."
 
 #: ../../security/threat-model.rst:127
 msgid ""
@@ -53473,12 +53476,13 @@ msgid ""
 "user (e.g., an admin forcing a commit in a translator's name without their "
 "consent)."
 msgstr ""
+"**Gefälschte Commit-Zuordnung:** Weblate führt Commits durch, die einem "
+"falschen Benutzer zugeordnet sind (z. B. ein Administrator, der einen Commit "
+"im Namen eines Übersetzers ohne dessen Zustimmung durchführt)."
 
 #: ../../security/threat-model.rst:128
-#, fuzzy
-#| msgid "Security issues"
 msgid "Accountability issues."
-msgstr "Sicherheitslücken"
+msgstr "Probleme mit der Rechenschaftspflicht."
 
 #: ../../security/threat-model.rst:129
 msgid "**User interaction**"
@@ -53489,12 +53493,12 @@ msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
 msgstr ""
+"**Phishing/Social Engineering:** Der Angreifer bringt Benutzer dazu, "
+"Zugangsdaten für Weblate oder verknüpfte VCS-Konten preiszugeben."
 
 #: ../../security/threat-model.rst:132
-#, fuzzy
-#| msgid "Account e-mail"
 msgid "Account compromise."
-msgstr "E-Mail-Konto"
+msgstr "Benutzerkonto kompromittiert."
 
 #: ../../security/threat-model.rst:133
 msgid "(Web UI)"
@@ -53505,38 +53509,42 @@ msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
 msgstr ""
+"**Cross-Site-Scripting (XSS):** In Übersetzungen oder Benutzerprofile "
+"eingeschleuste bösartige Skripte werden in den Browsern anderer Benutzer "
+"ausgeführt."
 
 #: ../../security/threat-model.rst:136
 msgid "Session hijacking, credential theft, defacement."
-msgstr ""
+msgstr "Session-Hijacking, Diebstahl von Zugangsdaten, Verunstaltung."
 
 #: ../../security/threat-model.rst:139
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
 msgstr ""
+"**Clickjacking/UI-Umgestaltung:** Der Angreifer legt bösartige UI-Elemente "
+"über Weblate und verleitet Benutzer zu unbeabsichtigten Aktionen."
 
 #: ../../security/threat-model.rst:140
 msgid "Unauthorized actions, data manipulation."
-msgstr ""
+msgstr "Unbefugte Handlungen, Datenmanipulation."
 
 #: ../../security/threat-model.rst:143
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
 msgstr ""
+"**Sensible Daten in der Bedienoberfläche:** Unbeabsichtigte Offenlegung "
+"sensibler Daten (z. B. die E-Mail-Adresse eines anderen Benutzers) in der "
+"Bedienoberfläche aufgrund von Autorisierungsfehlern."
 
 #: ../../security/threat-model.rst:144
-#, fuzzy
-#| msgid "Privacy"
 msgid "Privacy breach."
-msgstr "Datenschutz"
+msgstr "Datenschutzverletzung."
 
 #: ../../security/threat-model.rst:147
-#, fuzzy
-#| msgid "Integration services"
 msgid "Mitigation strategies"
-msgstr "Dienste integrieren"
+msgstr "Strategien zur Schadensbegrenzung"
 
 #: ../../security/threat-model.rst:149
 msgid "**Authentication & authorization:**"
@@ -53544,19 +53552,15 @@ msgstr "**Authentifizierung und Autorisierung:**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
-msgstr ""
+msgstr "Richtlinien für sichere Passwörter, siehe :doc:`/security/passwords`."
 
 #: ../../security/threat-model.rst:151
-#, fuzzy
-#| msgid "Source string, see :ref:`additional`."
 msgid "Enforced 2FA, see :ref:`2fa`."
-msgstr "Ausgangszeichenkette, siehe :ref:`additional`."
+msgstr "Erzwungene 2FA, siehe :ref:`2fa`."
 
 #: ../../security/threat-model.rst:152
-#, fuzzy
-#| msgid "Per-project permission management"
 msgid "Robust session management."
-msgstr "Berechtigungsverwaltung pro Projekt"
+msgstr "Robuste Sitzungsverwaltung."
 
 #: ../../security/threat-model.rst:153
 msgid ""
@@ -53564,150 +53568,177 @@ msgid ""
 "translators can only edit translations, not change project configs), see :"
 "doc:`/admin/access`."
 msgstr ""
+"Rollenbasierte Zugriffskontrolle (RBAC) zum Durchsetzen der geringsten "
+"Berechtigungen (z. B. können Übersetzer nur Übersetzungen bearbeiten, aber "
+"keine Projektkonfigurationen ändern), siehe :doc:`/admin/access`."
 
 #: ../../security/threat-model.rst:154
 msgid ""
 "Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
 "admin/auth`."
 msgstr ""
+"Integration mit externen Identitätsanbietern (SAML, OAuth, LDAP), siehe "
+":doc:`/admin/auth`."
 
 #: ../../security/threat-model.rst:155
 msgid "**Input validation and output encoding:**"
-msgstr ""
+msgstr "**Eingabevalidierung und Ausgabekodierung:**"
 
 #: ../../security/threat-model.rst:156
 msgid ""
 "Strict validation of all user inputs (forms, API requests, VCS URLs) to "
 "prevent injection attacks (SQL injection, command injection, XSS)."
 msgstr ""
+"Strenges Validieren aller Benutzereingaben (Formulare, API-Anfragen, VCS-"
+"URLs) zum Vermeiden von Injection-Angriffen (SQL-Injection, "
+"Befehlsinjektion, XSS)."
 
 #: ../../security/threat-model.rst:157
 msgid ""
 "Context-aware output encoding for all user-supplied data displayed on the "
 "web UI to prevent XSS."
 msgstr ""
+"Kontextabhängige Ausgabekodierung für alle vom Benutzer eingegebenen Daten, "
+"die auf der Web-Bedienoberfläche angezeigt werden, um XSS zu verhindern."
 
 #: ../../security/threat-model.rst:158
-#, fuzzy
-#| msgid "Integration services"
 msgid "**VCS integration security:**"
-msgstr "Dienste integrieren"
+msgstr "**Sicherheit der VCS-Integration:**"
 
 #: ../../security/threat-model.rst:159
 msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
 msgstr ""
+"Prinzip der geringsten Berechtigungen für VCS-Zugangsdaten (z. B. wo möglich "
+"schreibgeschützter Zugriff, begrenzter Geltungsbereich für Token)."
 
 #: ../../security/threat-model.rst:160
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Secure storage of VCS credentials."
-msgstr "Subversion-Zugangsdaten"
+msgstr "Sicheres Speichern von VCS-Zugangsdaten."
 
 #: ../../security/threat-model.rst:161
 msgid ""
 "Strict sanitization and validation of all data coming from VCS (e.g., "
 "filenames, branch names, commit messages that might be displayed)."
 msgstr ""
+"Strenges Bereinigen und Validieren aller vom VCS kommenden Daten (z. B. "
+"Dateinamen, Branches, möglicherweise angezeigte Commit-Nachrichten)."
 
 #: ../../security/threat-model.rst:162
 msgid ""
 "Secure execution of Git/Mercurial commands (avoiding shell execution with "
 "user-controlled input)."
 msgstr ""
+"Sicheres Ausführen von Git/Mercurial-Befehlen (Vermeiden der Shell-"
+"Ausführung mit benutzergesteuerter Eingabe)."
 
 #: ../../security/threat-model.rst:163
-#, fuzzy
-#| msgid "Spam protection"
 msgid "**Data protection:**"
-msgstr "Spamschutz"
+msgstr "**Datenschutz:**"
 
 #: ../../security/threat-model.rst:164
 msgid "Encryption of sensitive data at rest."
-msgstr ""
+msgstr "Verschlüsselung von sensiblen Daten im Ruhezustand."
 
 #: ../../security/threat-model.rst:165
 msgid ""
 "Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication)."
 msgstr ""
+"Verschlüsselung der Daten beim Übertragen (TLS/SSL für die gesamte HTTP/S- "
+"und VCS-Kommunikation)."
 
 #: ../../security/threat-model.rst:166
 msgid ""
 "Database hardening (the least privilege for Weblate user, strong passwords)."
 msgstr ""
+"Datenbankhärtung (geringste Berechtigungen für Weblate-Benutzer, sichere "
+"Passwörter)."
 
 #: ../../security/threat-model.rst:167
-#, fuzzy
-#| msgid "System encoding"
 msgid "**System hardening:**"
-msgstr "Systemkodierung"
+msgstr "**Systemhärtung:**"
 
 #: ../../security/threat-model.rst:168
 msgid "Regular patching of OS, Weblate, and all dependencies."
 msgstr ""
+"Regelmäßiges Patchen des Betriebssystems, von Weblate und allen "
+"Abhängigkeiten."
 
 #: ../../security/threat-model.rst:169
 msgid "Principle of least privilege for Weblate user account on the OS."
 msgstr ""
+"Prinzip der geringsten Berechtigungen für das Weblate-Benutzerkonto auf dem "
+"Betriebssystem."
 
 #: ../../security/threat-model.rst:170
 msgid ""
 "Network segmentation (e.g., separating database/Redis from public access)."
 msgstr ""
+"Netzwerksegmentierung (z. B. Trennung von Datenbank/Redis vom öffentlichen "
+"Zugriff)."
 
 #: ../../security/threat-model.rst:171
 msgid "Use of WAF (Web Application Firewall)."
-msgstr ""
+msgstr "Einsatz von WAF (Web Application Firewall)."
 
 #: ../../security/threat-model.rst:172
 msgid "**Logging and monitoring:**"
-msgstr ""
+msgstr "**Protokollierung und Überwachung:**"
 
 #: ../../security/threat-model.rst:173
 msgid ""
 "Comprehensive audit logging of all security-relevant events (logins, failed "
 "logins, permission changes, critical configuration changes, VCS operations)."
 msgstr ""
+"Umfassende Audit-Protokollierung aller sicherheitsrelevanten Ereignisse ("
+"Anmeldungen, fehlgeschlagene Anmeldungen, Berechtigungsänderungen, kritische "
+"Konfigurationsänderungen, VCS-Operationen)."
 
 #: ../../security/threat-model.rst:174
 msgid ""
 "Centralized logging and alerting for security incidents, for example :ref:"
 "`graylog`."
 msgstr ""
+"Zentralisierte Protokollierung und Alarmierung bei Sicherheitsvorfällen, z. "
+"B. :ref:`graylog`."
 
 #: ../../security/threat-model.rst:175
-#, fuzzy
-#| msgid "Start a development server:"
 msgid "**Secure development practices:**"
-msgstr "Einen Entwicklungsserver starten:"
+msgstr "**Sichere Entwicklungspraktiken:**"
 
 #: ../../security/threat-model.rst:176
 msgid "Code reviews with a security focus."
-msgstr ""
+msgstr "Codeüberprüfungen mit Schwerpunkt auf Sicherheit."
 
 #: ../../security/threat-model.rst:177
 msgid ""
 "Static Application Security Testing (SAST) and Dynamic Application Security "
 "Testing (DAST), see :doc:`/contributing/code`."
 msgstr ""
+"Statischer Anwendungssicherheitstest (SAST) und dynamischer "
+"Anwendungssicherheitstest (DAST), siehe :doc:`/contributing/code`."
 
 #: ../../security/threat-model.rst:178
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgstr ""
+"Suche nach Schwachstellen in Abhängigkeiten, siehe :doc:`/security/"
+"dependencies`."
 
 #: ../../security/threat-model.rst:179
 msgid "Regular security audits and penetration testing."
-msgstr ""
+msgstr "Regelmäßige Sicherheitsaudits und Penetrationstests."
 
 #: ../../security/threat-model.rst:180
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**Fehlerbehandlung:**"
 
 #: ../../security/threat-model.rst:181
 msgid ""
 "Generic error messages that do not reveal sensitive internal information."
 msgstr ""
+"Allgemeine Fehlermeldungen, die keine sensiblen internen Informationen "
+"preisgeben."
 
 #: ../../user/checks.rst:4
 msgid ""
