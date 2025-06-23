@@ -1617,7 +1617,7 @@ class Translation(
         author: User,
     ) -> Unit | None: ...
     @transaction.atomic
-    def add_unit(  # noqa: C901,PLR0914,PLR0915,PLR0912
+    def add_unit(  # noqa: C901, PLR0914, PLR0915
         self,
         request,
         context,
