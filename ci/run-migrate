@@ -84,7 +84,7 @@ check
 check
 
 # Add a pending unit
-semver_compare "$TAG" "<=" "5.12"
+semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
 if [ "$pending_migration_test" -eq 0 ]; then
     ./manage.py shell << EOF
