@@ -11,13 +11,14 @@
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Emilia Meza <emiliameza@users.noreply.hosted.weblate.org>, 2025.
+# Eisuke Kawashima <e.kawaschima+weblate@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-19 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-24 08:02+0000\n"
+"Last-Translator: Eisuke Kawashima <e.kawaschima+weblate@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 5.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -442,10 +443,8 @@ msgstr ""
 "は、プロジェクトの `管理` チームに追加します。"
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid "Project access control"
 msgid "Per-project access tokens"
-msgstr "プロジェクトのアクセス制御"
+msgstr "プロジェクトごとのアクセストークン"
 
 #: ../../admin/access.rst:220
 msgid ""
@@ -1371,16 +1370,12 @@ msgid "Announcements"
 msgstr "お知らせ"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
 msgstr "お知らせの投稿"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`管理`、:guilabel:`翻訳メモリの管理`"
+msgstr ":guilabel:`管理`、:guilabel:`翻訳管理者`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1457,10 +1452,8 @@ msgid "List of built-in roles"
 msgstr "組み込みロールの一覧"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`コメントの投稿`"
+msgstr ":guilabel:`告知の投稿`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -1711,10 +1704,8 @@ msgid "`Power user`"
 msgstr "`パワー ユーザー`"
 
 #: ../../admin/access.rst:719
-#, fuzzy
-#| msgid "Translation comment"
 msgid "`Translation coordinator`"
-msgstr "翻訳文へのコメント"
+msgstr "`翻訳管理者`"
 
 #: ../../admin/access.rst:747
 msgid "`Review strings`"
@@ -1956,16 +1947,12 @@ msgstr ""
 "日の負荷をコンポーネント間で分割します。"
 
 #: ../../admin/addons.rst:48
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Event change"
-msgstr "最近の更新"
+msgstr ""
 
 #: ../../admin/addons.rst:50
-#, fuzzy
-#| msgid "Triggered just after the string is saved."
 msgid "Triggered after a Change event is created."
-msgstr "文字列が保存された直後にトリガーされます。"
+msgstr ""
 
 #: ../../admin/addons.rst:55
 msgid "Repository post-add"
@@ -2222,7 +2209,9 @@ msgstr "機械翻訳または他のコンポーネントを使用して文字列
 msgid ""
 ":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
 "translation-services-priority`"
-msgstr ":ref:`auto-translation`、:ref:`translation-consistency`"
+msgstr ""
+":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
+"translation-services-priority`"
 
 #: ../../admin/addons.rst:184
 msgid "JavaScript localization CDN"
@@ -3258,20 +3247,16 @@ msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "未定義の変数: \"%s\""
+msgstr ""
 
 #: ../../admin/addons.rst:655
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "可変部分の係数"
+msgstr ""
 
 #: ../../admin/addons.rst:655
 #, fuzzy
@@ -3931,10 +3916,8 @@ msgstr ""
 "します。"
 
 #: ../../admin/addons.rst:980
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "ウェブフック"
+msgstr "Slackウェブフック"
 
 #: ../../admin/addons.rst:984
 msgid "``weblate.webhook.slack``"
@@ -3957,459 +3940,310 @@ msgid "Change events"
 msgstr "変更イベント"
 
 #: ../../admin/addons.rst:990 ../../admin/addons.rst:1165
-#, fuzzy
-#| msgid "Resource updated"
 msgid "``0`` -- Resource updated"
-msgstr "リソース更新"
+msgstr "``0`` -- リソース更新"
 
 #: ../../admin/addons.rst:992 ../../admin/addons.rst:1167
-#, fuzzy
-#| msgid "Translation completed"
 msgid "``1`` -- Translation completed"
-msgstr "翻訳完了"
+msgstr "``1`` -- 翻訳完了"
 
 #: ../../admin/addons.rst:994 ../../admin/addons.rst:1169
-#, fuzzy
-#| msgid "Translation changed"
 msgid "``2`` -- Translation changed"
-msgstr "翻訳の変更"
+msgstr "``2`` -- 翻訳の変更"
 
 #: ../../admin/addons.rst:996 ../../admin/addons.rst:1171
-#, fuzzy
-#| msgid "Comment added"
 msgid "``3`` -- Comment added"
-msgstr "コメントの追加"
+msgstr "``3`` -- コメントの追加"
 
 #: ../../admin/addons.rst:998 ../../admin/addons.rst:1173
-#, fuzzy
-#| msgid "Suggestion added"
 msgid "``4`` -- Suggestion added"
-msgstr "提案の追加"
+msgstr "``4`` -- 提案の追加"
 
 #: ../../admin/addons.rst:1000 ../../admin/addons.rst:1175
-#, fuzzy
-#| msgid "Translation added"
 msgid "``5`` -- Translation added"
-msgstr "翻訳追加"
+msgstr "``5`` -- 翻訳追加"
 
 #: ../../admin/addons.rst:1002 ../../admin/addons.rst:1177
-#, fuzzy
-#| msgid "Automatically translated"
 msgid "``6`` -- Automatically translated"
-msgstr "自動翻訳された文字列"
+msgstr "``6`` -- 自動翻訳された文字列"
 
 #: ../../admin/addons.rst:1004 ../../admin/addons.rst:1179
-#, fuzzy
-#| msgid "Suggestion accepted"
 msgid "``7`` -- Suggestion accepted"
-msgstr "提案の採用"
+msgstr "``7`` -- 提案の採用"
 
 #: ../../admin/addons.rst:1006 ../../admin/addons.rst:1181
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "``8`` -- Translation reverted"
-msgstr "翻訳の差し戻し"
+msgstr "``8`` -- 翻訳の差し戻し"
 
 #: ../../admin/addons.rst:1008 ../../admin/addons.rst:1183
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "``9`` -- Translation uploaded"
-msgstr "翻訳のアップロード"
+msgstr "``9`` -- 翻訳のアップロード"
 
 #: ../../admin/addons.rst:1010 ../../admin/addons.rst:1185
-#, fuzzy
-#| msgid "Source string added"
 msgid "``13`` -- Source string added"
-msgstr "原文追加"
+msgstr "``13`` -- 原文追加"
 
 #: ../../admin/addons.rst:1012 ../../admin/addons.rst:1187
-#, fuzzy
-#| msgid "Component locked"
 msgid "``14`` -- Component locked"
-msgstr "コンポーネントのロック"
+msgstr "``14`` -- コンポーネントのロック"
 
 #: ../../admin/addons.rst:1014 ../../admin/addons.rst:1189
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "``15`` -- Component unlocked"
-msgstr "コンポーネントのアンロック"
+msgstr "``15`` -- コンポーネントのロック解除"
 
 #: ../../admin/addons.rst:1016 ../../admin/addons.rst:1191
-#, fuzzy
-#| msgid "Changes committed"
 msgid "``17`` -- Changes committed"
-msgstr "変更のコミット"
+msgstr "``17`` -- 変更のコミット"
 
 #: ../../admin/addons.rst:1018 ../../admin/addons.rst:1193
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "``18`` -- Changes pushed"
-msgstr "変更のプッシュ"
+msgstr "``18`` -- 変更のプッシュ"
 
 #: ../../admin/addons.rst:1020 ../../admin/addons.rst:1195
-#, fuzzy
-#| msgid "Repository reset"
 msgid "``19`` -- Repository reset"
-msgstr "リポジトリのリセット"
+msgstr "``19`` -- リポジトリのリセット"
 
 #: ../../admin/addons.rst:1022 ../../admin/addons.rst:1197
-#, fuzzy
-#| msgid "Repository merged"
 msgid "``20`` -- Repository merged"
-msgstr "リポジトリ統合"
+msgstr "``20`` -- リポジトリのマージ"
 
 #: ../../admin/addons.rst:1024 ../../admin/addons.rst:1199
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "``21`` -- Repository rebased"
-msgstr "リポジトリのリベース"
+msgstr "``21`` -- リポジトリのリベース"
 
 #: ../../admin/addons.rst:1026 ../../admin/addons.rst:1201
-#, fuzzy
-#| msgid "Repository merge failed"
 msgid "``22`` -- Repository merge failed"
-msgstr "リポジトリのマージに失敗"
+msgstr "``22`` -- リポジトリのマージに失敗"
 
 #: ../../admin/addons.rst:1028 ../../admin/addons.rst:1203
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "``23`` -- Repository rebase failed"
-msgstr "リポジトリのリベースに失敗"
+msgstr "``23`` -- リポジトリのリベースに失敗"
 
 #: ../../admin/addons.rst:1030 ../../admin/addons.rst:1205
-#, fuzzy
-#| msgid "Parsing failed"
 msgid "``24`` -- Parsing failed"
-msgstr "解析に失敗"
+msgstr "``24`` -- 解析に失敗"
 
 #: ../../admin/addons.rst:1032 ../../admin/addons.rst:1207
-#, fuzzy
-#| msgid "Translation removed"
 msgid "``25`` -- Translation removed"
-msgstr "翻訳の削除"
+msgstr "``25`` -- 翻訳の削除"
 
 #: ../../admin/addons.rst:1034 ../../admin/addons.rst:1209
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "``26`` -- Suggestion removed"
-msgstr "提案の削除"
+msgstr "``26`` -- 提案の削除"
 
 #: ../../admin/addons.rst:1036 ../../admin/addons.rst:1211
-#, fuzzy
-#| msgid "Translation replaced"
 msgid "``27`` -- Translation replaced"
-msgstr "翻訳の置換"
+msgstr "``27`` -- 翻訳の置換"
 
 #: ../../admin/addons.rst:1038 ../../admin/addons.rst:1213
-#, fuzzy
-#| msgid "Repository push failed"
 msgid "``28`` -- Repository push failed"
-msgstr "リポジトリのプッシュに失敗"
+msgstr "``28`` -- リポジトリのプッシュに失敗"
 
 #: ../../admin/addons.rst:1040 ../../admin/addons.rst:1215
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "``29`` -- Suggestion removed during cleanup"
-msgstr "クリーンアップ処理での提案の削除"
+msgstr "``29`` -- クリーンアップ処理での提案の削除"
 
 #: ../../admin/addons.rst:1042 ../../admin/addons.rst:1217
-#, fuzzy
-#| msgid "Source string changed"
 msgid "``30`` -- Source string changed"
-msgstr "原文の変更"
+msgstr "``30`` -- 原文の変更"
 
 #: ../../admin/addons.rst:1044 ../../admin/addons.rst:1219
-#, fuzzy
-#| msgid "String added"
 msgid "``31`` -- String added"
-msgstr "文字列追加"
+msgstr "``31`` -- 文字列追加"
 
 #: ../../admin/addons.rst:1046 ../../admin/addons.rst:1221
-#, fuzzy
-#| msgid "Bulk status changed"
 msgid "``32`` -- Bulk status changed"
-msgstr "状態の一括変更"
+msgstr "``32`` -- 状態の一括変更"
 
 #: ../../admin/addons.rst:1048 ../../admin/addons.rst:1223
 #, fuzzy
 #| msgid "Visibility changed"
 msgid "``33`` -- Visibility changed"
-msgstr "アクセス制御の変更"
+msgstr "``33`` -- アクセス制御の変更"
 
 #: ../../admin/addons.rst:1050 ../../admin/addons.rst:1225
-#, fuzzy
-#| msgid "User added"
 msgid "``34`` -- User added"
-msgstr "ユーザー追加"
+msgstr "``34`` -- ユーザー追加"
 
 #: ../../admin/addons.rst:1052 ../../admin/addons.rst:1227
-#, fuzzy
-#| msgid "User removed"
 msgid "``35`` -- User removed"
-msgstr "ユーザー削除"
+msgstr "``35`` -- ユーザー削除"
 
 #: ../../admin/addons.rst:1054 ../../admin/addons.rst:1229
-#, fuzzy
-#| msgid "Translation approved"
 msgid "``36`` -- Translation approved"
-msgstr "翻訳の承認"
+msgstr "``36`` -- 翻訳の承認"
 
 #: ../../admin/addons.rst:1056 ../../admin/addons.rst:1231
-#, fuzzy
-#| msgid "Marked for edit"
 msgid "``37`` -- Marked for edit"
-msgstr "要編集としてマーク"
+msgstr "``37`` -- 要編集としてマーク"
 
 #: ../../admin/addons.rst:1058 ../../admin/addons.rst:1233
-#, fuzzy
-#| msgid "Component removed"
 msgid "``38`` -- Component removed"
-msgstr "コンポーネント削除"
+msgstr "``38`` -- コンポーネント削除"
 
 #: ../../admin/addons.rst:1060 ../../admin/addons.rst:1235
-#, fuzzy
-#| msgid "Project removed"
 msgid "``39`` -- Project removed"
-msgstr "プロジェクト削除"
+msgstr "``39`` -- プロジェクト削除"
 
 #: ../../admin/addons.rst:1062 ../../admin/addons.rst:1237
-#, fuzzy
-#| msgid "Project renamed"
 msgid "``41`` -- Project renamed"
-msgstr "プロジェクト名変更"
+msgstr "``41`` -- プロジェクト名変更"
 
 #: ../../admin/addons.rst:1064 ../../admin/addons.rst:1239
-#, fuzzy
-#| msgid "Component renamed"
 msgid "``42`` -- Component renamed"
-msgstr "コンポーネント名変更"
+msgstr "``42`` -- コンポーネント名変更"
 
 #: ../../admin/addons.rst:1066 ../../admin/addons.rst:1241
-#, fuzzy
-#| msgid "Moved component"
 msgid "``43`` -- Moved component"
-msgstr "コンポーネントの移動"
+msgstr "``43`` -- コンポーネントの移動"
 
 #: ../../admin/addons.rst:1068 ../../admin/addons.rst:1243
-#, fuzzy
-#| msgid "Contributor joined"
 msgid "``45`` -- Contributor joined"
-msgstr "貢献者加入"
+msgstr "``45`` -- 貢献者加入"
 
 #: ../../admin/addons.rst:1070 ../../admin/addons.rst:1245
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "``46`` -- Announcement posted"
-msgstr "お知らせ掲載"
+msgstr "``46`` -- 告知の投稿"
 
 #: ../../admin/addons.rst:1072 ../../admin/addons.rst:1247
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "``47`` -- Alert triggered"
-msgstr "警告が発生しました"
+msgstr "``47`` -- 警告の発生"
 
 #: ../../admin/addons.rst:1074 ../../admin/addons.rst:1249
-#, fuzzy
-#| msgid "Language added"
 msgid "``48`` -- Language added"
-msgstr "言語追加"
+msgstr "``48`` -- 言語追加"
 
 #: ../../admin/addons.rst:1076 ../../admin/addons.rst:1251
-#, fuzzy
-#| msgid "Language requested"
 msgid "``49`` -- Language requested"
-msgstr "言語追加要求"
+msgstr "``49`` -- 言語追加要求"
 
 #: ../../admin/addons.rst:1078 ../../admin/addons.rst:1253
-#, fuzzy
-#| msgid "Project created"
 msgid "``50`` -- Project created"
-msgstr "プロジェクト作成"
+msgstr "``50`` -- プロジェクト作成"
 
 #: ../../admin/addons.rst:1080 ../../admin/addons.rst:1255
-#, fuzzy
-#| msgid "Component created"
 msgid "``51`` -- Component created"
-msgstr "コンポーネント作成"
+msgstr "``51`` -- コンポーネント作成"
 
 #: ../../admin/addons.rst:1082 ../../admin/addons.rst:1257
-#, fuzzy
-#| msgid "User invited"
 msgid "``52`` -- User invited"
-msgstr "ユーザー招待"
+msgstr "``52`` -- ユーザー招待"
 
 #: ../../admin/addons.rst:1084 ../../admin/addons.rst:1259
-#, fuzzy
-#| msgid "Repository notification received"
 msgid "``53`` -- Repository notification received"
-msgstr "リポジトリ通知受信"
+msgstr "``53`` -- リポジトリ通知受信"
 
 #: ../../admin/addons.rst:1086 ../../admin/addons.rst:1261
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "``54`` -- Translation replaced file by upload"
-msgstr "ファイル アップロードによる翻訳置き換え"
+msgstr "``54`` -- ファイル アップロードによる翻訳置き換え"
 
 #: ../../admin/addons.rst:1088 ../../admin/addons.rst:1263
-#, fuzzy
-#| msgid "License changed"
 msgid "``55`` -- License changed"
-msgstr "ライセンスの変更"
+msgstr "``55`` -- ライセンスの変更"
 
 #: ../../admin/addons.rst:1090 ../../admin/addons.rst:1265
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "``56`` -- Contributor license agreement changed"
-msgstr "貢献者ライセンス同意書の変更"
+msgstr "``56`` -- 貢献者ライセンス同意書の変更"
 
 #: ../../admin/addons.rst:1092 ../../admin/addons.rst:1267
-#, fuzzy
-#| msgid "Screenshot added"
 msgid "``57`` -- Screenshot added"
-msgstr "スクリーンショット追加"
+msgstr "``57`` -- スクリーンショット追加"
 
 #: ../../admin/addons.rst:1094 ../../admin/addons.rst:1269
-#, fuzzy
-#| msgid "Screenshot uploaded"
 msgid "``58`` -- Screenshot uploaded"
-msgstr "スクリーンショット アップロード"
+msgstr "``58`` -- スクリーンショットのアップロード"
 
 #: ../../admin/addons.rst:1096 ../../admin/addons.rst:1271
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "``59`` -- String updated in the repository"
-msgstr "リポジトリでの文字列の更新"
+msgstr "``59`` -- リポジトリでの文字列の更新"
 
 #: ../../admin/addons.rst:1098 ../../admin/addons.rst:1273
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "``60`` -- Add-on installed"
-msgstr "アドオンのインストール"
+msgstr "``60`` -- アドオンのインストール"
 
 #: ../../admin/addons.rst:1100 ../../admin/addons.rst:1275
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "``61`` -- Add-on configuration changed"
-msgstr "アドオンの設定変更"
+msgstr "``61`` -- アドオンの設定変更"
 
 #: ../../admin/addons.rst:1102 ../../admin/addons.rst:1277
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "``62`` -- Add-on uninstalled"
-msgstr "アドオンのアンインストール"
+msgstr "``62`` -- アドオンのアンインストール"
 
 #: ../../admin/addons.rst:1104 ../../admin/addons.rst:1279
-#, fuzzy
-#| msgid "String removed"
 msgid "``63`` -- String removed"
-msgstr "文字列削除"
+msgstr "``63`` -- 文字列削除"
 
 #: ../../admin/addons.rst:1106 ../../admin/addons.rst:1281
-#, fuzzy
-#| msgid "Comment removed"
 msgid "``64`` -- Comment removed"
-msgstr "コメント削除"
+msgstr "``64`` -- コメント削除"
 
 #: ../../admin/addons.rst:1108 ../../admin/addons.rst:1283
-#, fuzzy
-#| msgctxt "Name of event in the history"
-#| msgid "Comment resolved"
 msgid "``65`` -- Comment resolved"
-msgstr "コメント解決"
+msgstr "``65`` -- コメント解決"
 
 #: ../../admin/addons.rst:1110 ../../admin/addons.rst:1285
-#, fuzzy
-#| msgid "Explanation updated"
 msgid "``66`` -- Explanation updated"
-msgstr "解説の更新"
+msgstr "``66`` -- 解説の更新"
 
 #: ../../admin/addons.rst:1112 ../../admin/addons.rst:1287
-#, fuzzy
-#| msgid "Category removed"
 msgid "``67`` -- Category removed"
-msgstr "カテゴリ削除"
+msgstr "``67`` -- カテゴリー削除"
 
 #: ../../admin/addons.rst:1114 ../../admin/addons.rst:1289
-#, fuzzy
-#| msgid "Category renamed"
 msgid "``68`` -- Category renamed"
-msgstr "カテゴリ名変更"
+msgstr "``68`` -- カテゴリー名変更"
 
 #: ../../admin/addons.rst:1116 ../../admin/addons.rst:1291
-#, fuzzy
-#| msgid "Category moved"
 msgid "``69`` -- Category moved"
-msgstr "カテゴリ移動"
+msgstr "``69`` -- カテゴリー移動"
 
 #: ../../admin/addons.rst:1118 ../../admin/addons.rst:1293
-#, fuzzy
-#| msgid "Saving string failed"
 msgid "``70`` -- Saving string failed"
-msgstr "文字列の保存失敗"
+msgstr "``70`` -- 文字列の保存失敗"
 
 #: ../../admin/addons.rst:1120 ../../admin/addons.rst:1295
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "``71`` -- String added in the repository"
-msgstr "リポジトリに文字列の追加"
+msgstr "``71`` -- リポジトリに文字列の追加"
 
 #: ../../admin/addons.rst:1122 ../../admin/addons.rst:1297
-#, fuzzy
-#| msgid "String updated in the upload"
 msgid "``72`` -- String updated in the upload"
-msgstr "アップロードでの文字列の更新"
+msgstr "``72`` -- アップロードでの文字列の更新"
 
 #: ../../admin/addons.rst:1124 ../../admin/addons.rst:1299
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "``73`` -- String added in the upload"
-msgstr "アップロードでの文字列の追加"
+msgstr "``73`` -- アップロードでの文字列の追加"
 
 #: ../../admin/addons.rst:1126 ../../admin/addons.rst:1301
-#, fuzzy
-#| msgid "Translation updated by source upload"
 msgid "``74`` -- Translation updated by source upload"
-msgstr "原文アップロードによる翻訳更新"
+msgstr "``74`` -- 原文アップロードによる翻訳更新"
 
 #: ../../admin/addons.rst:1128 ../../admin/addons.rst:1303
-#, fuzzy
-#| msgid "Component translation completed"
 msgid "``75`` -- Component translation completed"
-msgstr "コンポーネント翻訳完了"
+msgstr "``75`` -- コンポーネント翻訳完了"
 
 #: ../../admin/addons.rst:1130 ../../admin/addons.rst:1305
-#, fuzzy
-#| msgid "Applied enforced check"
 msgid "``76`` -- Applied enforced check"
-msgstr "検査の強制を適用"
+msgstr "``76`` -- 検査の強制を適用"
 
 #: ../../admin/addons.rst:1132 ../../admin/addons.rst:1307
-#, fuzzy
-#| msgid "Propagated change"
 msgid "``77`` -- Propagated change"
-msgstr "変更の反映"
+msgstr "``77`` -- 変更の反映"
 
 #: ../../admin/addons.rst:1134 ../../admin/addons.rst:1309
-#, fuzzy
-#| msgid "File upload mode"
 msgid "``78`` -- File uploaded"
-msgstr "ファイル アップロードのモード"
+msgstr "``78`` -- ファイルのアップロード"
 
 #: ../../admin/addons.rst:1136 ../../admin/addons.rst:1311
-#, fuzzy
-#| msgid "Last updated"
 msgid "``79`` -- Extra flags updated"
-msgstr "最終更新"
+msgstr ""
 
 #: ../../admin/addons.rst:1138 ../../admin/addons.rst:1313
 msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:1140
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "選択したイベントに基づいて外部サービスに通知を送信します。"
+msgstr "選択したイベントに基づいてSlackチャンネルに通知を送信します。"
 
 #: ../../admin/addons.rst:1144
 msgid ""
@@ -4444,10 +4278,8 @@ msgid "Secret"
 msgstr "秘密鍵"
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "無効な base64 エンコード文字列"
+msgstr "base64 エンコード文字列"
 
 #: ../../admin/addons.rst:1315
 #, fuzzy
@@ -4468,10 +4300,8 @@ msgid "Sample request body with categories:"
 msgstr ""
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "リクエスト ヘッダー"
+msgstr ""
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -4510,7 +4340,7 @@ msgstr "``closing_tags``"
 
 #: ../../admin/addons.rst:1395
 msgid "Include closing tag for blank XML tags"
-msgstr "空白の XML タグに終了タグを含める"
+msgstr "空の XML タグに終了タグを含める"
 
 #: ../../admin/addons.rst:1399
 msgid "Allows adjusting XML output behavior, for example closing tags."
@@ -16153,7 +15983,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:374
 msgid "You can also fine-tune individual worker categories:"
-msgstr "個々のワーカーのカテゴリを詳細に設定する方法:"
+msgstr "個々のワーカーのカテゴリーを詳細に設定する方法:"
 
 #: ../../admin/install/docker.rst:384
 msgid ""
@@ -20151,7 +19981,7 @@ msgstr "``category``"
 
 #: ../../admin/machine.rst:548 ../../admin/projects.rst:1102
 msgid "Category"
-msgstr "カテゴリ"
+msgstr "カテゴリー"
 
 #: ../../admin/machine.rst:548
 msgid ""
@@ -22831,9 +22661,8 @@ msgstr ""
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
-msgstr ""
-"中間レベルは、必要に応じて :ref:`category` を作成できます。カテゴリを入れ子に"
-"して、より複雑な構造を実現できます。"
+msgstr "中間レベルは、必要に応じて :ref:`category` "
+"を作成できます。カテゴリーを入れ子にして、より複雑な構造を実現できます。"
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -23273,20 +23102,14 @@ msgstr ""
 "codes`"
 
 #: ../../admin/projects.rst:281 ../../admin/projects.rst:990
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "参考言語"
+msgstr "第二言語"
 
 #: ../../admin/projects.rst:285 ../../admin/projects.rst:994
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "第 2 言語は、翻訳するとき原文の横に表示されます。"
+msgstr ""
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
 #, fuzzy
@@ -24553,10 +24376,8 @@ msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgstr ":ref:`faq-vcs`、:ref:`alerts`"
 
 #: ../../admin/projects.rst:1000
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "アップロードしたファイルからは文字列をインポートしていません。"
+msgstr ""
 
 #: ../../admin/projects.rst:1010
 msgid "Priority"
@@ -24724,9 +24545,8 @@ msgstr ""
 msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
-msgstr ""
-"カテゴリは、プロジェクト内のコンポーネントに構造を与えるためのものです。カテ"
-"ゴリを入れ子にして、より複雑な構造を実現できます。"
+msgstr "カテゴリーはプロジェクト内のコンポーネントに構造を与えるためのものです。カテ"
+"ゴリーを入れ子にして、より複雑な構造を実現できます。"
 
 #: ../../admin/projects.rst:1110
 msgid "Template markup"
@@ -26056,7 +25876,7 @@ msgstr "**CURL JSON の例:**"
 
 #: ../../api.rst:184
 msgid "Components and categories"
-msgstr "コンポーネントとカテゴリ"
+msgstr "コンポーネントとカテゴリー"
 
 #: ../../api.rst:186
 msgid ""
@@ -53250,10 +53070,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS 補間文字列"
 
 #: ../../user/checks.rst:444
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "原文と AngularJS 補間文字列が一致してないもの"
+msgstr "AngularJS 補間文字列が原文と一致しません。"
 
 #: ../../user/checks.rst:446
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -53286,10 +53104,8 @@ msgid "Automattic components formatting"
 msgstr "自動割り当て"
 
 #: ../../user/checks.rst:462
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "% プレースホルダーが原文と不一致"
+msgstr "Automattic コンポーネントのプレースホルダーが原文と不一致"
 
 #: ../../user/checks.rst:464
 msgid "``weblate.checks.format.AutomatticComponentsCheck``"
@@ -56846,7 +56662,7 @@ msgstr ""
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
-msgstr "参考言語"
+msgstr "第二言語"
 
 #: ../../user/profile.rst:99
 msgid ""
