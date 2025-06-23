@@ -121,7 +121,7 @@ check
 # Check migrated pending unit
 if [ "$pending_migration_test" -eq 0 ]; then
     uv run --all-extras ./manage.py shell << EOF
-from weblate.changes.models import PendingUnitChange
+from weblate.trans.models import PendingUnitChange
 
 change = PendingUnitChange.objects.get()
 unit = change.unit
