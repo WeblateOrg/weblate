@@ -3134,23 +3134,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/fd/8b/1eeb4025dc1d3ac2f16678f38dec9ebdde6271c74955b72db5ce7a4dbfbd/python-ldap-3.4.4.tar.gz", hash = "sha256:7edb0accec4e037797705f3a05cbf36a9fde50d08c8f67f2aef99a2628fab828", size = 377889, upload-time = "2023-11-17T21:14:16.32Z" }
 
 [[package]]
-name = "python-redis-lock"
-version = "4.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "redis" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/19/d7/a2a97c73d39e68aacce02667885b9e0b575eb9082866a04fbf098b4c4d99/python-redis-lock-4.0.0.tar.gz", hash = "sha256:4abd0bcf49136acad66727bf5486dd2494078ca55e49efa693f794077319091a", size = 162533, upload-time = "2022-10-17T13:12:45.534Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/09/70/c5dfaec2085d9be10792704f108543ba1802e228bf040632c673066d8e78/python_redis_lock-4.0.0-py3-none-any.whl", hash = "sha256:ff786e587569415f31e64ca9337fce47c4206e832776e9e42b83bfb9ee1af4bd", size = 12165, upload-time = "2022-10-17T13:12:43.035Z" },
-]
-
-[package.optional-dependencies]
-django = [
-    { name = "django-redis" },
-]
-
-[[package]]
 name = "python3-openid"
 version = "3.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4515,7 +4498,6 @@ dependencies = [
     { name = "pyicumessageformat" },
     { name = "pyparsing" },
     { name = "python-dateutil" },
-    { name = "python-redis-lock", extra = ["django"] },
     { name = "qrcode" },
     { name = "rapidfuzz" },
     { name = "redis" },
@@ -4780,7 +4762,6 @@ requires-dist = [
     { name = "pyparsing", specifier = ">=3.2.0,<3.3" },
     { name = "python-akismet", marker = "extra == 'antispam'", specifier = ">=0.4.2,<0.5" },
     { name = "python-dateutil", specifier = ">=2.8.2" },
-    { name = "python-redis-lock", extras = ["django"], specifier = ">=4,<4.1" },
     { name = "python3-saml", marker = "extra == 'saml'", specifier = ">=1.2.1" },
     { name = "qrcode", specifier = ">=8.2,<8.3" },
     { name = "rapidfuzz", specifier = ">=3.12.1,<3.14" },

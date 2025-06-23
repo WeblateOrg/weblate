@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:e61d104a-8457-5921-9254-705902fb4d54",
+  "serialNumber": "urn:uuid:ff537bb4-0642-507f-af59-fe073fac499a",
   "version": 1,
   "metadata": {
     "tools": [
@@ -6214,56 +6214,6 @@
     },
     {
       "type": "library",
-      "bom-ref": "python-redis-lock==4.0.0",
-      "name": "python-redis-lock",
-      "version": "4.0.0",
-      "description": "Lock context manager implemented via redis SETNX/BLPOP.",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-2-Clause",
-            "acknowledgement": "declared"
-          }
-        },
-        {
-          "license": {
-            "name": "License :: OSI Approved :: BSD License",
-            "acknowledgement": "declared"
-          }
-        }
-      ],
-      "purl": "pkg:pypi/python-redis-lock@4.0.0",
-      "externalReferences": [
-        {
-          "url": "https://python-redis-lock.readthedocs.io/",
-          "type": "documentation",
-          "comment": "from packaging metadata Project-URL: Documentation"
-        },
-        {
-          "url": "https://github.com/ionelmc/python-redis-lock/issues",
-          "type": "issue-tracker",
-          "comment": "from packaging metadata Project-URL: Issue Tracker"
-        },
-        {
-          "url": "https://python-redis-lock.readthedocs.io/en/latest/changelog.html",
-          "type": "release-notes",
-          "comment": "from packaging metadata Project-URL: Changelog"
-        },
-        {
-          "url": "https://github.com/ionelmc/python-redis-lock",
-          "type": "website",
-          "comment": "from packaging metadata: Home-page"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:python:package:required-extra",
-          "value": "django"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "bom-ref": "python3-openid==3.2.0",
       "name": "python3-openid",
       "version": "3.2.0",
@@ -9358,13 +9308,6 @@
       ]
     },
     {
-      "ref": "python-redis-lock==4.0.0",
-      "dependsOn": [
-        "django-redis==6.0.0",
-        "redis==5.2.1"
-      ]
-    },
-    {
       "ref": "python3-openid==3.2.0",
       "dependsOn": [
         "defusedxml==0.7.1"
@@ -9716,7 +9659,6 @@
         "pyparsing==3.2.3",
         "python-akismet==0.4.3",
         "python-dateutil==2.9.0.post0",
-        "python-redis-lock==4.0.0",
         "python3-saml==1.16.0",
         "qrcode==8.2",
         "redis==5.2.1",
