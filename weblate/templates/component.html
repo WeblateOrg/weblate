@@ -48,6 +48,9 @@
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+        <li>
           <a href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
         </li>
         <li>
@@ -58,6 +61,12 @@
             <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
+        <li>
+          <a href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -98,12 +107,6 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
         <li>
           <a href="{% url 'matrix' path=object.get_url_path %}">{% translate "Matrix view" %}</a>
         </li>
@@ -147,9 +150,6 @@
           {% if user_can_edit_component %}
             <li>
               <a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% translate "Duplicate this component" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
             </li>
             <li>
               <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>

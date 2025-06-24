@@ -44,6 +44,9 @@
         <li>
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
         {% if last_announcements %}
           <li>
             <a href="#announcement-history" data-toggle="tab">{% translate "Announcements" %}</a>
@@ -60,6 +63,9 @@
             <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
+        <li>
+          <a href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -100,12 +106,6 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
       </ul>
     </li>
     {% if user_can_manage_acl or user_can_edit_project or user_can_see_repository_status or user.is_authenticated %}

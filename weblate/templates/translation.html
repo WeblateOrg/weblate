@@ -52,6 +52,9 @@
         <li>
           <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
         </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -96,9 +99,6 @@
         {% endif %}
         <li>
           <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if user_can_add_unit %}
           <li>

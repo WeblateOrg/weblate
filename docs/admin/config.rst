@@ -733,7 +733,11 @@ sites without HTTPS.
 ENABLE_SHARING
 --------------
 
-Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
+Turn on/off the :guilabel:`Community` menu so users can share translation progress on social networks.
+
+.. seealso::
+
+   :ref:`promotion`
 
 .. setting:: EXTRA_HTML_HEAD
 
