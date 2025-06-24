@@ -72,6 +72,7 @@ def bulk_perform(  # noqa: C901
                         and unit.state in EDITABLE_STATES
                     ):
                         # Create change object for edit, update is done outside the loop
+                        unit.state = target_state
                         unit.generate_change(
                             user, user, ActionEvents.BULK_EDIT, check_new=False
                         )
@@ -92,7 +93,6 @@ def bulk_perform(  # noqa: C901
                     # need it here to recalculate state of translation
                     # units
                     unit.is_batch_update = True
-                    unit.state = target_state
                     unit.source_unit_save()
 
             if update_source and (
