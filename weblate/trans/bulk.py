@@ -46,7 +46,6 @@ def bulk_perform(  # noqa: C901
         prev_updated = updated
         component.batch_checks = True
         with transaction.atomic():
-            component.commit_pending("bulk edit", user)
             component_units = matching.filter(translation__component=component)
 
             source_unit_ids = set()

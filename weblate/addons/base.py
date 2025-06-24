@@ -197,6 +197,7 @@ class BaseAddon:
             self.post_commit(component, True)
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
+            # The post_update typically operates on files, so make sure these are updated
             component.commit_pending("add-on", None)
             self.post_update(component, "", False)
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
