@@ -29,6 +29,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
@@ -436,11 +437,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self):
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit
-
-        return Unit.objects.filter(
-            translation__component__project=self, pending=True
-        ).count()
+        return PendingUnitChange.objects.for_project(self).count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""

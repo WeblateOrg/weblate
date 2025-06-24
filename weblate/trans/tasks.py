@@ -147,25 +147,19 @@ def commit_pending(
         components = Component.objects.filter(translation__pk__in=pks)
 
     # All components with pending units
-    components = components.filter(translation__unit__pending=True).distinct()
+    components = components.filter(
+        translation__unit__pending_changes__isnull=False
+    ).distinct()
 
     for component in prefetch_stats(components.prefetch()):
         age = timezone.now() - timedelta(
             hours=component.commit_pending_age if hours is None else hours
         )
 
-        units = component.pending_units.prefetch_recent_content_changes()
+        units = component.pending_units.older_than(age)
 
         # No pending units
-        if not units:
-            continue
-
-        # All pending units are recent
-        if all(
-            unit.recent_content_changes
-            and unit.recent_content_changes[0].timestamp > age
-            for unit in units
-        ):
+        if not units.exists():
             continue
 
         if logger:

@@ -216,7 +216,7 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_bool(self) -> None:
-        self.assert_query("pending:true", Q(pending=True))
+        self.assert_query("pending:true", Q(pending_changes__isnull=False))
 
     def test_nonexisting(self) -> None:
         with self.assertRaises(ValueError):
@@ -376,7 +376,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("has:glossary", Q(source__isnull=True))
 
     def test_is(self) -> None:
-        self.assert_query("is:pending", Q(pending=True))
+        self.assert_query("is:pending", Q(pending_changes__isnull=False))
         self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
