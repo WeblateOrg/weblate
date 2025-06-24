@@ -507,8 +507,6 @@ class UnitTermExpr(BaseTermExpr):
                     "|".join(re_escape(term) for term in terms)
                 )
             )
-        if text == "pending":
-            return Q(pending_changes__isnull=False)
 
         return super().has_field(text, context)
 
