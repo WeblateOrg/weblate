@@ -295,36 +295,31 @@ class AutoTranslate:
         source: int | None,
     ) -> str:
         translation = self.translation
-        with translation.component.lock:
-            translation.log_info(
-                "starting automatic translation (%s) %s: %s: %s",
-                self.mode,
-                current_task.request.id
-                if current_task and current_task.request.id
-                else "",
-                auto_source,
-                ", ".join(engines) if engines else source,
-            )
-            try:
-                if auto_source == "mt":
-                    self.process_mt(engines, threshold)
-                else:
-                    self.process_others(source)
-            except (MachineTranslationError, Component.DoesNotExist) as error:
-                translation.log_error("failed automatic translation: %s", error)
-                return gettext("Automatic translation failed: %s") % error
+        translation.log_info(
+            "starting automatic translation (%s) %s: %s: %s",
+            self.mode,
+            current_task.request.id if current_task and current_task.request.id else "",
+            auto_source,
+            ", ".join(engines) if engines else source,
+        )
+        try:
+            if auto_source == "mt":
+                self.process_mt(engines, threshold)
+            else:
+                self.process_others(source)
+        except (MachineTranslationError, Component.DoesNotExist) as error:
+            translation.log_error("failed automatic translation: %s", error)
+            return gettext("Automatic translation failed: %s") % error
 
-            translation.log_info("completed automatic translation")
+        translation.log_info("completed automatic translation")
 
-            if self.updated == 0:
-                return gettext(
-                    "Automatic translation completed, no strings were updated."
-                )
-            return (
-                ngettext(
-                    "Automatic translation completed, %d string was updated.",
-                    "Automatic translation completed, %d strings were updated.",
-                    self.updated,
-                )
-                % self.updated
+        if self.updated == 0:
+            return gettext("Automatic translation completed, no strings were updated.")
+        return (
+            ngettext(
+                "Automatic translation completed, %d string was updated.",
+                "Automatic translation completed, %d strings were updated.",
+                self.updated,
             )
+            % self.updated
+        )
