@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-19 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-06-25 10:02+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 5.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1409,16 +1409,12 @@ msgid "Announcements"
 msgstr "Aankondigingen"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Berichtaankondiging"
+msgstr "Aankondigingen posten"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`Beheer`, :guilabel:`Vertaalgeheugen beheren`"
+msgstr ":guilabel:`Beheer`, :guilabel:`Coördinator vertaling`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1495,10 +1491,8 @@ msgid "List of built-in roles"
 msgstr "Lijst met ingebouwde rollen"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Opmerking plaatsen`"
+msgstr ":guilabel:`Aankondigingen posten`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -1749,10 +1743,8 @@ msgid "`Power user`"
 msgstr "`Ervaren gebruiker`"
 
 #: ../../admin/access.rst:719
-#, fuzzy
-#| msgid "Translation comment"
 msgid "`Translation coordinator`"
-msgstr "Opmerking bij vertaling"
+msgstr "`Coördinator vertaling`"
 
 #: ../../admin/access.rst:747
 msgid "`Review strings`"
@@ -3995,10 +3987,8 @@ msgstr ""
 "sleutels voor vertalingen wilt verwijderen."
 
 #: ../../admin/addons.rst:980
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhaak"
+msgstr "Slack webhaken"
 
 #: ../../admin/addons.rst:984
 msgid "``weblate.webhook.slack``"
@@ -4321,25 +4311,20 @@ msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:1140
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
-"Stuurt notificatie aan externe service, gebaseerd op geselecteerde "
+"Stuurt notificatie aan een kanaal van Slack, gebaseerd op geselecteerde "
 "gebeurtenissen."
 
 #: ../../admin/addons.rst:1144
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
-"Integratie van Google Analytics 4 is momenteel niet beschikbaar voor "
-"Weblate, bekijk https://github.com/WeblateOrg/weblate/issues/14015."
+"De inhoud van de notificatie mist tags voor HTML. Dit is een bekend probleem "
+"dat binnenkort zal worden aangepakt, bekijk https://github.com/WeblateOrg/"
+"weblate/issues/15056."
 
 #: ../../admin/addons.rst:1148
 msgid ""
@@ -4347,6 +4332,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Verkrijgen van een URL voor een webhaak, volg de stappen zoals die zijn "
+"vermeld in de `Slack Incoming Webhooks documentatie <https://docs.slack.dev/"
+"messaging/sending-messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4367,36 +4355,33 @@ msgid "Secret"
 msgstr "Geheim"
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Ongeldige base64-gecodeerde tekenreeks"
+msgstr "Een Base64-gecodeerde tekenreeks"
 
 #: ../../admin/addons.rst:1315
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Stuurt notificatie aan externe service, gebaseerd op geselecteerde "
-"gebeurtenissen."
+"Stuurt notificaties aan externe services, gebaseerd op geselecteerde "
+"gebeurtenissen, volgens de specificatie van Standard Webhooks."
 
 #: ../../admin/addons.rst:1318
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"De aangevraagde lading voldoet aan het schema :ref:`schema-messaging`. De "
+"OpenAPI-beschrijving is ook te vinden op ``/api/docs/``. Voorbeeld tekstblok "
+"voor aanvraag:"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Voorbeeld aanvraag tekstblok met categorieën:"
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "Koppen voor verzoeken"
+msgstr "Voorbeeld koppen voor verzoeken:"
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -4405,6 +4390,11 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"De ``webhook-signature`` is een door een spatie gescheiden lijst van "
+"handtekeningen HMAC die is gegenereerd met de tekenreeks ``secret``, de "
+"lading van het verzoek, de ``webhook-timestamp`` en de ``webhook-id``. Dat "
+"zorgt voor de authenticiteit en de integriteit van het verzoek voor de "
+"webhaak."
 
 #: ../../admin/addons.rst:1374
 msgid ""
@@ -4412,6 +4402,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Voor het verifiëren van een verzoek kunt u de methode ``Webhook.verify`` uit "
+"de bibliotheek ``standardwebhooks`` gebruiken of een implementatie van de "
+"\"Standard Webhooks Specificatie\"."
 
 #: ../../admin/addons.rst:1380
 msgid ""
@@ -4420,6 +4413,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Standard Webhooks Specificatie <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1389
 msgid "Customize XML output"
@@ -5599,6 +5596,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"De afhankelijkheden voor authenticatie van SAML zijn niet langer opgenomen "
+"in de standaard extra's ``all``. U moet ``saml`` opnemen bij het installeren "
+"van het pakket van Weblate met pip (``uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -12269,16 +12269,16 @@ msgstr ""
 "huidige vertalende gebruiker in alle onderdelen."
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "Bijgedragen vertalingen"
+msgstr "Doorgegeven voorwaarden vooraf:"
 
 #: ../../admin/continuous.rst:564
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"Alle onderdelen moeten in een enkel project zijn geplaatst (koppelen van "
+"onderdelen is niet voldoende)."
 
 #: ../../admin/continuous.rst:565 ../../devel/mobile.rst:12
 msgid ""
@@ -12302,19 +12302,18 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"De tekenreeksen worden doorgegeven tijdens het vertalen, tekenreeksen die "
+"worden geladen vanuit de opslagruimte worden niet doorgegeven."
 
 #: ../../admin/continuous.rst:573
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "This feature currently has limitations, and we want to make it more "
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
-"Integratie van Google Analytics 4 is momenteel niet beschikbaar voor "
-"Weblate, bekijk https://github.com/WeblateOrg/weblate/issues/14015."
+"Deze mogelijkheid heeft momenteel beperkingen en we willen het meer "
+"universeel maken. Deel uw terugkoppeling in https://github.com/WeblateOrg/"
+"weblate/issues/3166."
 
 #: ../../admin/continuous.rst:578
 msgid "Consistency check"
@@ -12939,8 +12938,6 @@ msgid "Optional dependency specifier"
 msgstr "Specificatie optionele afhankelijkheden"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
 msgstr "Python pakketten"
 
@@ -13154,15 +13151,12 @@ msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13255,6 +13249,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"Dit is een bekend probleem van het pakket xmlsec, bekijk https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13265,6 +13261,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"De pakketten ``lxml`` en ``xmlsec`` moeten worden gebouwd met een ``libxml2``"
+". U zou ze lokaal moeten bouwen om dit probleem te vermijden:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -19834,11 +19832,11 @@ msgstr "``next_gen``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Next-gen-model gebruiken"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "Voorkeur voor next-gen LLM boven klassieke model voor machinevertaling."
 
 #: ../../admin/machine.rst:278
 msgid ""
@@ -26625,22 +26623,16 @@ msgid "Number of languages user can translate"
 msgstr "Aantal talen die een gebruiker mag vertalen"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "Vertalingen met bijdragen"
+msgstr "Lijst vertalingen met bijdragen van een gebruiker."
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"array met vertaalobjecten; bekijk :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/`"
+"koppeling naar vertalingen; bekijk :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -29427,16 +29419,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.11.2"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 5.11.2"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on June 24th 2024.*"
 msgid "*Released on June 20th 2025.*"
-msgstr "*Uitgegeven op 24 juni 2024.*"
+msgstr "*Uitgegeven op 20 juni 2025.*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -29462,12 +29450,10 @@ msgid "Improvements"
 msgstr "Verbeteringen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
 msgstr ""
-":ref:`mt-deepl` ondersteunt nu het specificeren van context voor de "
-"vertaling."
+":ref:`mt-deepl`-integratie ondersteunt nu het gebruiken van het LLM-model "
+"next-gen."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -29489,16 +29475,12 @@ msgid "Bug fixes"
 msgstr "Gerepareerde bugs"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "Importeert :ref:`projectbackup`."
+msgstr "Herstellen van :ref:`projectbackup` met stemmen."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Verbeterde foutafhandeling in :ref:`invite-user`."
+msgstr "Verbeterde foutafhandeling in :ref:`mt-apertium-apy`."
 
 #: ../../changes.rst:18 ../../changes.rst:97 ../../changes.rst:247
 #: ../../changes.rst:330 ../../changes.rst:420 ../../changes.rst:521
@@ -29573,34 +29555,24 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/141?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"148?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on June 16th 2023.*"
 msgid "*Released on June 16th 2025.*"
-msgstr "*Uitgegeven op 16 juni 2023.*"
+msgstr "*Uitgegeven op 16 juni 2025.*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr ":ref:`sbom` wordt nu verschaft voor Weblate."
+msgstr ":ref:`sbom` is bevat nu serienummer."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29665,38 +29637,36 @@ msgid "Documentation contributions"
 msgstr "Bijgedragen documentatie"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
-"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/"
-"milestone/141?closed=1>`__."
+"`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
+"147?closed=1>`__."
 
 #: ../../changes.rst:49
 msgid "Weblate 5.12"
 msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "Veiligheidsvragen"
+msgstr "Beveiliging"
 
 #: ../../changes.rst:55
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Weergeven van persoonlijk IP-adres via e-mail (:cve:`2025-49134` / :ghsa"
+":`4qqf-9m5c-w2c5`)."
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Ontbreken van snelheidsbeperking bij verifiëren tweede factor "
+"(:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:60
 msgid ""
@@ -29728,30 +29698,24 @@ msgstr ":doc:`/security/index` documentatie."
 #: ../../changes.rst:65
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Toegevoegde ondersteuning voor :doc:`/formats/compose-multiplatform-"
+"resources`."
 
 #: ../../changes.rst:66
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Added :guilabel:`Translation Coordinator` role."
-msgstr "Opmerking bij vertaling"
+msgstr "Toegevoegde rol :guilabel:`Coördinator vertaling`."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
-msgstr ":ref:`addon-weblate.webhook.webhook` is nu beschikbaar als een add-on."
+msgstr ":ref:`addon-weblate.webhook.slack` is nu beschikbaar als een add-on."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"Toegevoegd :http:get:`/api/units/(int:id)/translations/` om een lijst met "
-"alle doel-vertaaleenheden op te halen voor de opgegeven bron-vertaaleenheid."
+"Toegevoegd :http:get:`/api/users/(str:username)/contributions/` om een lijst "
+"met vertalingen, die zijn bijgedragen door de gebruiker, op te halen."
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -29805,36 +29769,32 @@ msgid ":http:get:`/api/users/` now includes ``languages``."
 msgstr ":http:get:`/api/users/` bevat nu ``languages``."
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgid ":ref:`addon-weblate.webhook.webhook` documentation improved."
-msgstr ":ref:`addon-weblate.webhook.webhook` is nu ingeschakeld in Docker."
+msgstr ":ref:`addon-weblate.webhook.webhook` documentatie verbeterd."
 
 #: ../../changes.rst:82
-#, fuzzy
-#| msgid "Improved support for Qt TS files."
 msgid "Improved support for extended metadata in :ref:`tbx`."
-msgstr "Verbeterde ondersteuning voor TS-bestanden van Qt."
+msgstr "Verbeterde ondersteuning voor uitgebreide metadata in :ref:`tbx`."
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` now includes a category field when "
 "available."
-msgstr ":ref:`addon-weblate.webhook.webhook` is nu beschikbaar als een add-on."
+msgstr ""
+":ref:`addon-weblate.webhook.webhook` bevat nu een veld Categorie indien "
+"beschikbaar."
 
 #: ../../changes.rst:84
 msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"Geüploade lettertypen kunnen worden bijgewerkt en wijzigingen eraan worden "
+"bijgehouden, bekijk :ref:`fonts`."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Weblate is now available in Tamil."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Weblate is nu beschikbaar in Tamil."
+msgstr "Weblate is nu beschikbaar in de taal Bashkir."
 
 #: ../../changes.rst:89
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -29863,11 +29823,8 @@ msgid "Creating new translations in :doc:`/formats/appstore`."
 msgstr "Nieuwe vertalingen maken in :doc:`/formats/appstore`."
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`search-replace` correctly handles plurals."
-msgstr ""
-":ref:`check-icu-message-format` behandelt tekenreeksen van meervouden netjes."
+msgstr ":ref:`search-replace` behandelt tekenreeksen van meervouden netjes."
 
 #: ../../changes.rst:98
 msgid "The projects and categories default tab now shows translated languages."
@@ -29879,11 +29836,16 @@ msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"Als geen ``secret`` wordt opgegeven in de configuratie van de add-on "
+"Webhook, zal het verzoek aan Webhook niet worden ondertekend, bekijk :ref"
+":`addon-weblate.webhook.webhook`."
 
 #: ../../changes.rst:100
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"ondersteuning voor :ref:`saml-auth` is niet langer opgenomen in de standaard "
+"afhankelijkheden."
 
 #: ../../changes.rst:110
 msgid ""
@@ -30162,16 +30124,12 @@ msgstr ""
 "verwijderen van een woordenlijst worden nu netjes afgehandeld."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
 msgstr ""
 "**Beveiliging:** Klonen van een onderdeel zou de configuratie van het "
-"onderdeel kunnen lekken naar de URL (CVE-2025-32021)."
+"onderdeel kunnen lekken naar de URL (:cve:`2025-32021`)."
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -31494,16 +31452,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Verwijderen van brontekenreeksen in :ref:`glossary`."
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
 "Valideren van :ref:`projectbackup` ZIP-bestand bij herstellen "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 
 #: ../../changes.rst:805
 msgid ""
@@ -34906,14 +34860,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*Uitgegeven op 20 januari 2017.*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
 "Niet lekken van bestaan account in formulier voor herstellen van wachtwoord "
-"(CVE-2017-5537)."
+"(:cve:`2017-5537`)."
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -35856,10 +35807,8 @@ msgid "Reduced false negatives for unchanged translation check."
 msgstr "Verminderde valse negatieven voor controle niet gewijzigde vertaling."
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "Afhankelijkheid bleach verhoogd om CVE-2020-6802 aan te pakken."
+msgstr "Afhankelijkheid bleach verhoogd om :cve:`2020-6802` aan te pakken."
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -38933,18 +38882,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
 "Gerepareerd ontbrekend opschonen van argumenten voor Git en Mercurial - "
-"CVE-2022-23915, bekijk `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-"weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ voor meer details."
+":cve:`2022-23915`, bekijk :ghsa:`3872-f48p-pxqj` voor meer details."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -38979,18 +38922,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Uitgegeven op 25 februari 2022.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Gerepareerd opgeslagen XSS - CVE-2022-24710, bekijk `GHSA-6jp6-9rf9-gc66 "
-"<https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-"
-"gc66>`_ voor meer details."
+"Gerepareerd opgeslagen XSS - :cve:`2022-24710`, bekijk :ghsa:`6jp6-9rf9-gc66`"
+" voor meer details."
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
@@ -43387,10 +43324,8 @@ msgstr ""
 "verbetering, kunt u :ref:`discussions` proberen."
 
 #: ../../contributing/issues.rst:20
-#, fuzzy
-#| msgid "Using AI to created issues"
 msgid "Using AI to create issues"
-msgstr "AI gebruiken voor gemaakte issues"
+msgstr "AI gebruiken om issues te maken"
 
 #: ../../contributing/issues.rst:22
 msgid ""
@@ -44049,12 +43984,17 @@ msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
+"Weblate vertrouwt op `GitHub Actions`_ om testen uit te voeren, documentatie "
+"te bouwen, uitpluizen van code en ander taken om de kwaliteit van de code te "
+"verzekeren."
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
 msgstr ""
+"`Codecov`_ verzamelt de informatie over de bedekking van de code uit de "
+"testen die we uitvoeren."
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
@@ -48619,12 +48559,6 @@ msgid "Supporting other formats"
 msgstr "Andere indelingen ondersteunen"
 
 #: ../../formats.rst:495
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) receive any testing. In "
-#| "most cases some thin layer is needed in Weblate to hide differences in "
-#| "behavior of different `translate-toolkit`_ storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) received any testing. In most "
@@ -48633,9 +48567,9 @@ msgid ""
 msgstr ""
 "De meeste indelingen die worden ondersteund door `translate-toolkit`_, welke "
 "serialisatie van ondersteuning gemakkelijk kan worden ondersteund, maar die "
-"zijn (nog) niet getest. In de meeste gevallen is een dunne laag in Weblate "
-"vereist om de verschillen in gedrag van de verschillende opslag in "
-"`translate-toolkit`_ te verbergen."
+"zijn (nog) niet getest. In de meeste gevallen is een aanvullende dunne laag "
+"in Weblate vereist om de verschillen in gedrag van de verschillende "
+"opslagmogelijkheden te verbergen."
 
 #: ../../formats.rst:500
 msgid ""
@@ -48659,6 +48593,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"Hele soortgelijke indelingen zijn :doc:`/formats/compose-multiplatform-"
+"resources` en :doc:`/formats/moko-resources`."
 
 #: ../../formats/android.rst:17
 msgid ""
@@ -48744,22 +48680,14 @@ msgstr ""
 "voor verwijzingen naar tekenreeksen:"
 
 #: ../../formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`/formats/compose-multiplatform-"
 "resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 msgstr ""
 "`Android string resources documentatie <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_, :doc:`tt:formats/android`"
+"topics/resources/string-resource>`_, :doc:`/formats/compose-multiplatform-"
+"resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -48994,32 +48922,22 @@ msgid "`ARB file`"
 msgstr "`ARB-bestand`"
 
 #: ../../formats/compose-multiplatform-resources.rst:2
-#, fuzzy
-#| msgid "How to translate multi-platform projects?"
 msgid "Compose Multiplatform resources"
-msgstr "Hoe projecten op meerdere platforms te vertalen?"
+msgstr "Meerdere platforms bronnen samenstellen"
 
 #: ../../formats/compose-multiplatform-resources.rst:9
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
-msgstr ""
+msgstr "Een variant van :doc:`/formats/android`. Het verschilt in het escapen."
 
 #: ../../formats/compose-multiplatform-resources.rst:14
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
 "formats/android`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android string resources documentatie <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_, `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_, :doc:`tt:formats/android`"
+"`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
+"formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/compose-multiplatform-resources.rst:24
 #: ../../formats/moko-resources.rst:24
@@ -49033,7 +48951,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/compose-multiplatform-resources.rst:30
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Meerdere platforms bronnen samenstellen`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -50128,12 +50046,17 @@ msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+"Een variant van :doc:`/formats/android`. Het verschilt in de tag voor "
+"meervouden (``plural`` wordt gebruikt in plaats van ``plurals``) en in "
+"escapen."
 
 #: ../../formats/moko-resources.rst:14
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_, :"
 "doc:`/formats/android`, :doc:`tt:formats/android`"
 msgstr ""
+"`Mobile Kotlin bronnen <https://github.com/icerockdev/moko-resources>`_, "
+":doc:`/formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -50442,10 +50365,8 @@ msgstr ""
 "from=\"translator\">``."
 
 #: ../../formats/tbx.rst:12
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative status"
-msgstr "Beheer"
+msgstr "Beheersstatus"
 
 #: ../../formats/tbx.rst:13
 msgid ""
@@ -50453,30 +50374,33 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
+"Termen met de beheersstatus ``forbidden`` of ``obsolete`` in ``<termNote "
+"type=\"administrativeStatus\">`` worden gemarkeerd met de vlag ``forbidden`` "
+"(:ref:`glossary-forbidden`)."
 
 #: ../../formats/tbx.rst:15
-#, fuzzy
-#| msgid "Translation added"
 msgid "Translation needed"
-msgstr "Vertaling toegevoegd"
+msgstr "Vertaling nodig"
 
 #: ../../formats/tbx.rst:16
 msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`)."
 msgstr ""
+"Termen met ``<termNote type=\"translationNote\">`` die ``no`` bevatten "
+"worden gemarkeerd als alleen-lezen (:ref:`glossary-untranslatable`)."
 
 #: ../../formats/tbx.rst:17
-#, fuzzy
-#| msgid "Other notes"
 msgid "Usage notes"
-msgstr "Andere opmerkingen"
+msgstr "Opmerkingen voor gebruik"
 
 #: ../../formats/tbx.rst:18
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
 msgstr ""
+"Opmerkingen voor gebruik uit de tags ``<descrip type=\"Usage note\">`` "
+"worden in de woordenlijst weergegeven."
 
 #: ../../formats/tbx.rst:23
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -51458,17 +51382,14 @@ msgid "Docker container security"
 msgstr "Docker container beveiliging"
 
 #: ../../security/dependencies.rst:28
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release improvements "
-#| "quickly."
 msgid ""
 "The Docker containers are scanned for security vulnerabilities in our CI. "
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
-"Dit stelt ons in staat kwetsbaarheden vroeg te detecteren en snel "
-"verbeteringen uit te geven."
+"De containers van Docker worden gescand op kwetsbaarheden in de beveiliging "
+"in onze CI. Dat stelt ons in staat kwetsbaarheden vroeg te detecteren en "
+"snel verbeteringen uit te geven."
 
 #: ../../security/dependencies.rst:31
 msgid ""
@@ -51485,6 +51406,8 @@ msgid ""
 ":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
 "<https://anchore.com/>`_"
 msgstr ""
+":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
+"<https://anchore.com/>`_"
 
 #: ../../security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -51572,8 +51495,6 @@ msgstr ""
 "opslag, SSL/TLS-configuratie en optioneel SIEM logsysteem."
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup colicy"
 msgid "Backup policy"
 msgstr "Back-up beleid"
 
@@ -52017,32 +51938,30 @@ msgid ":doc:`privacy-compliance`"
 msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/index.rst:41
-#, fuzzy
-#| msgid "Short overview of the terms of service and privacy policy"
 msgid "Terms of service and privacy policy"
-msgstr "Kort overzicht van de algemene voorwaarden en privacy policy"
+msgstr "Algemene voorwaarden en privacy policy"
 
 #: ../../security/index.rst:45
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate."
 msgstr ""
+"Deze documenten zijn van toepassing op uitgerolde Weblate die wordt "
+"uitgevoerd door Weblate s.r.o., zoals Hosted Weblate."
 
 #: ../../security/index.rst:47
-#, fuzzy
-#| msgid "General Terms and Conditions"
 msgid "`General terms and conditions`_"
-msgstr "Algemene voorwaarden"
+msgstr "`Algemene voorwaarden en voorwaarden`_"
 
 #: ../../security/index.rst:48
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "`Privacy policy`_"
-msgstr "Privacybeleid"
+msgstr "`Privacybeleid`_"
 
 #: ../../security/index.rst:49
 msgid "The data processing agreement can be obtained in the `Customer area`_."
 msgstr ""
+"De instemming voor het verwerken van gegevens is te verkrijgen in het `"
+"Customer area`_."
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -52572,10 +52491,8 @@ msgid "nFADP (Switzerland)"
 msgstr "nFADP (Zwitserland)"
 
 #: ../../security/privacy-compliance.rst:89
-#, fuzzy
-#| msgid "Purpose limitation, disclosure transparency"
 msgid "Purpose limitation, consent, transparency"
-msgstr "Beperking van doel, transparantie openheid"
+msgstr "Beperking van doel, consent, openheid"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "PIPEDA (Canada)"
@@ -52598,10 +52515,8 @@ msgid "PIPL (China)"
 msgstr "PIPL (China)"
 
 #: ../../security/privacy-compliance.rst:95
-#, fuzzy
-#| msgid "Purpose limitation, data minimization, localization"
 msgid "Purpose limitation, data minimization, locality"
-msgstr "Beperking doel, minimalisatie gegevens, plaatsing"
+msgstr "Beperking doel, minimaliseren gegevens, plaatsing"
 
 #: ../../security/privacy-compliance.rst:99
 msgid "Recommendations for compliance"
@@ -52641,10 +52556,6 @@ msgstr ""
 "geautomatiseerde procedure om te voldoen aan verzoeken voor toegang/wissen."
 
 #: ../../security/privacy-compliance.rst:105
-#, fuzzy
-#| msgid ""
-#| "**Localization:** Ensure infrastructure is physically located within the "
-#| "target jurisdiction as required."
 msgid ""
 "**Locality:** Ensure infrastructure is physically located within the target "
 "jurisdiction as required."
@@ -52673,10 +52584,8 @@ msgstr ""
 "Projectbeheerder, Systeembeheerder)."
 
 #: ../../security/threat-model.rst:8
-#, fuzzy
-#| msgid "System description an scope"
 msgid "System description and scope"
-msgstr "Systeembeschrijving van een bereik"
+msgstr "Systeembeschrijving en bereik"
 
 #: ../../security/threat-model.rst:10
 msgid ""
