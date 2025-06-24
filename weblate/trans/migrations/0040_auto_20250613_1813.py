@@ -21,6 +21,8 @@ def migrate_changes(apps, schema_editor) -> None:
     pending_changes = []
     for unit in pending_units:
         try:
+            # can be None in some cases, for instance unit updated in the
+            # repository outside of weblate
             author = (
                 unit.change_set.filter(action__in=ACTIONS_CONTENT)
                 .select_related("author")
@@ -28,6 +30,9 @@ def migrate_changes(apps, schema_editor) -> None:
                 .author
             )
         except IndexError:
+            author = None
+
+        if author is None:
             # load anonymous user lazily as it doesn't exist when a new database
             # is created, such a database would not have any pending units either,
             # and this code block would never be executed.
