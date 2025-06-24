@@ -289,7 +289,7 @@ def mail_admins_contact(
 
         if settings.CONTACT_FORM == "reply-to":
             headers["Reply-To"] = sender
-            from_email = to[0]
+            from_email = settings.DEFAULT_FROM_EMAIL
         else:
             from_email = sender
 
