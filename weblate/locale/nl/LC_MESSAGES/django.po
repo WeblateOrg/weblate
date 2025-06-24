@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-06-25 10:02+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -772,15 +772,15 @@ msgstr ""
 "aan uw volglijst."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Bijdragen aan gedeeld vertaalgeheugen"
+msgstr "Bijdragen aan persoonlijk vertaalgeheugen"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Sta toe dat uw vertalingen worden toegevoegd aan uw persoonlijk "
+"vertaalgeheugen."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1314,10 +1314,8 @@ msgstr ""
 "De opgegeven gebruikersidentiteit is al in gebruik op een ander account."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "De app voor authenticatie is verwijderd."
+msgstr "De provider voor authenticatie kon niet worden bereikt."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -1902,10 +1900,8 @@ msgid "Secret"
 msgstr "Geheim"
 
 #: weblate/addons/forms.py:704
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Ongeldige base64-gecodeerde tekenreeks"
+msgstr "Een Base64-gecodeerde tekenreeks"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2082,27 +2078,21 @@ msgid "Webhook"
 msgstr "Webhaak"
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Stuurt notificatie aan externe service, gebaseerd op geselecteerde "
-"gebeurtenissen."
+"Stuurt notificaties aan externe services, gebaseerd op geselecteerde "
+"gebeurtenissen, volgens de specificatie van Standard Webhooks."
 
 #: weblate/addons/webhooks.py:177
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhaak"
+msgstr "Slack webhaken"
 
 #: weblate/addons/webhooks.py:179
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
-"Stuurt notificatie aan externe service, gebaseerd op geselecteerde "
+"Stuurt notificatie aan een kanaal van Slack, gebaseerd op geselecteerde "
 "gebeurtenissen."
 
 #: weblate/addons/xml.py:26
@@ -2557,10 +2547,8 @@ msgstr "Interne opslagruimte bijwerken"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Berichtaankondiging"
+msgstr "Aankondigingen posten"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2659,11 +2647,9 @@ msgid "Power user"
 msgstr "Ervaren gebruiker"
 
 #: weblate/auth/data.py:207
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Access-control role"
 msgid "Translation coordinator"
-msgstr "Opmerking bij vertaling"
+msgstr "Coördinator vertaling"
 
 #: weblate/auth/data.py:224
 msgctxt "Access-control role"
@@ -4650,17 +4636,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Het geüploade lettertype moet overeenkomen met de bestaande familie en "
+"opmaak: “%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr ""
-"Het geüploade bestand zal worden samengevoegd met de huidige vertaling."
+msgstr "Het geüploade lettertypebestand is identiek aan het huidige."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Lettertype met succes bijgewerkt."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -4842,7 +4827,7 @@ msgstr "Mobile Kotlin Resource-bestand"
 
 #: weblate/formats/ttkit.py:1477
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Bron voor meerdere platforms samenstellen"
 
 #: weblate/formats/ttkit.py:1491
 #, python-format
@@ -5683,11 +5668,11 @@ msgstr ""
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Next-gen-model gebruiken"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "Voorkeur voor next-gen LLM boven klassieke model voor machinevertaling."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -6532,10 +6517,9 @@ msgstr ""
 "het opnieuw."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Uitnodiging voor %(site_title)s"
+msgstr "Aanmelden bij %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:45
 msgid "Sign in with:"
@@ -7014,10 +6998,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "Voltooi de registratie om deze uitnodiging te aanvaarden."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "Uw registratie op %(site_title)s"
+msgstr "Registreren in %(formatted_site_title)s"
 
 #: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
@@ -7112,10 +7095,8 @@ msgstr ""
 "onder dezelfde licentie als elk vertaald project."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate single sign on"
-msgstr "Weblate-versie"
+msgstr "Weblate eenmalig aanmelden"
 
 #: weblate/templates/accounts/snippets/login-title.html:5
 msgctxt "Badge for site title for Hosted Weblate"
@@ -7123,11 +7104,9 @@ msgid "Cloud"
 msgstr "Cloud"
 
 #: weblate/templates/accounts/snippets/login-title.html:9
-#, fuzzy
-#| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
-msgstr "Afgebroken"
+msgstr "Toegewezen"
 
 #: weblate/templates/accounts/snippets/login-title.html:11
 msgctxt "Badge for site title for self-hosted instances"
@@ -9017,10 +8996,8 @@ msgid "Used in groups"
 msgstr "Gebruikt in groepen"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Lettertypegroep bewerken"
+msgstr "Lettertype bewerken"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10199,6 +10176,7 @@ msgstr "Wachtwoordherstel op %(site_title)s"
 #: weblate/templates/mail/shared-activity.html:21
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
+"Aanmelden om volledig revisielogboek te bekijken, inclusief het IP-adres."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid ""
@@ -10209,10 +10187,8 @@ msgstr ""
 "door op onderstaande knop te klikken."
 
 #: weblate/templates/mail/shared-activity.html:26
-#, fuzzy
-#| msgid "Audit log"
 msgid "View audit log"
-msgstr "Revisielogboek"
+msgstr "Revisielogboek bekijken"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -10909,7 +10885,7 @@ msgstr "U bent niet bevoegd om een nieuwe vertaling te beginnen"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "U bent momenteel niet verbonden met enig netwerk."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -14026,24 +14002,18 @@ msgstr "Extra vlaggen bijgewerkt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Bestand geüpload"
+msgstr "Lettertype geüpload"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Niet wijzigen"
+msgstr "Lettertype gewijzigd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Opmerking verwijderd"
+msgstr "Lettertype verwijderd"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14739,10 +14709,8 @@ msgid "Author username"
 msgstr "Gebruikersnaam van auteur"
 
 #: weblate/trans/forms.py:2859
-#, fuzzy
-#| msgid "Author username"
 msgid "Exclude author (username)"
-msgstr "Gebruikersnaam van auteur"
+msgstr "Auteur uitsluiten (gebruikersnaam)"
 
 #: weblate/trans/forms.py:2862
 msgid "Change period"
@@ -15041,40 +15009,28 @@ msgid "Parent category has to be different!"
 msgstr "De hoofdcategorie dient te verschillen!"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "Onderdeel aangemaakt"
+msgstr "Onderdeel vanaf niets aangemaakt"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "Onderdeel aangemaakt"
+msgstr "Onderdeel als branch aangemaakt"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "Onderdeel aangemaakt"
+msgstr "Onderdeel via API aangemaakt"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "Uit versiebeheer"
+msgstr "Onderdeel uit versiebeheer aangemaakt"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "Onderdeel aangemaakt"
+msgstr "Onderdeel via geüploade ZIP aangemaakt"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "Onderdeel aangemaakt"
+msgstr "Onderdeel via geüpload document aangemaakt"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -15367,20 +15323,16 @@ msgstr ""
 "vertaling in dit onderdeel"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Bijdragen aan gedeeld vertaalgeheugen"
+msgstr "Bijdragen aan vertaalgeheugen van project"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "De taalaanvraag is verstuurd naar de projectbeheerders."
+msgstr ""
+"Sta toe dat de vertalingen van dit onderdeel worden toegevoegd aan het "
+"vertaalgeheugen voor het project."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16772,7 +16724,7 @@ msgstr "Ongeldige zoekterm!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "U bent overgestapt van %(previous)s naar %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220
