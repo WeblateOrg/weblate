@@ -55,6 +55,9 @@
         <li>
           <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
+        <li>
+          <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -79,7 +82,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -97,44 +100,33 @@
             <a href="#auto" data-toggle="tab">{% translate "Automatic translation" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
+        <li role="separator" class="divider"></li>
         {% if user_can_add_unit %}
           <li>
             <a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a>
           </li>
         {% endif %}
+        {% if user_can_see_repository_status %}
+          <li>
+            <a href="#repository"
+               data-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
+          </li>
+        {% endif %}
+        {% if announcement_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if delete_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
-    {% if user_can_see_repository_status or announcement_form %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_see_repository_status %}
-            <li>
-              <a href="#repository"
-                 data-toggle="tab"
-                 data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
-            </li>
-          {% endif %}
-          {% if announcement_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if delete_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-            </li>
-          {% endif %}
-        </ul>
-      </li>
-    {% endif %}
     {% include "snippets/share-menu.html" with object=object %}
   </ul>
 

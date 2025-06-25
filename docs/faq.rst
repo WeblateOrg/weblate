@@ -40,7 +40,7 @@ both Weblate and the upstream repository concurrently. You can usually avoid thi
 Weblate translations prior to making changes in the translation files (e.g.
 before running msgmerge). Just tell Weblate to commit all pending
 translations (you can do it in :guilabel:`Repository maintenance` in the
-:guilabel:`Manage` menu) and merge the repository (if automatic push is not
+:guilabel:`Operations` menu) and merge the repository (if automatic push is not
 on).
 
 If you've already encountered a merge conflict, the easiest way to solve all

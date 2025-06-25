@@ -13,7 +13,7 @@ Weblate comes with a built-in translation memory consisting of:
 Content in the translation memory can be applied to strings in several ways:
 
 * User can accept suggestions from the :ref:`machine-translation` tab while editing the string.
-* The selected strings can be processed using :ref:`auto-translation` from the :guilabel:`Tools` menu.
+* The selected strings can be processed using :ref:`auto-translation` from the :guilabel:`Operations` menu.
 * :ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically apply changes to new and existing strings.
 
 For installation tips, see :ref:`mt-weblate-translation-memory`, which is
