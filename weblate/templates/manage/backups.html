@@ -22,10 +22,10 @@
             {% documentation_icon 'admin/backup' right=True %}
             {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
             {% if service.has_errors %}
-              <span class="label label-warning">{% translate "Turned off" %}</span>
+              <span class="label label-danger">{% translate "Failed with an error" %}</span>
             {% endif %}
             {% if not service.enabled %}
-              <span class="label label-danger">{% translate "Failed with an error" %}</span>
+              <span class="label label-warning">{% translate "Turned off" %}</span>
             {% endif %}
           </h4>
         </div>
