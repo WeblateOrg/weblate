@@ -84,6 +84,18 @@ SIMPLE_FILTERS: dict[str, dict[str, Any]] = {
 NEWLINES = re.compile(r"\r\n|\r|\n")
 
 
+def fill_in_source_translation(units: Iterable[Unit]) -> None:
+    """
+    Inject source translation intro component from the source unit.
+
+    This materializes the query.
+
+    This assumes prefetch_source() was called before on the query.
+    """
+    for unit in units:
+        unit.translation.component.source_translation = unit.source_unit.translation
+
+
 class UnitQuerySet(models.QuerySet):
     def filter_type(self, rqtype):
         """Filter based on unit state or failed checks."""
@@ -146,8 +158,7 @@ class UnitQuerySet(models.QuerySet):
 
         This assumes prefetch_source() was called before on the query.
         """
-        for unit in self:
-            unit.translation.component.source_translation = unit.source_unit.translation
+        fill_in_source_translation(self)
         return self
 
     def prefetch_all_checks(self):
