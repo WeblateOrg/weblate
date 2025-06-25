@@ -908,23 +908,6 @@ real_patterns = [
             )
         ),
     ),
-    path(
-        "service-worker.js",
-        cache_control(max_age=86400)(
-            TemplateView.as_view(
-                template_name="js/service-worker.js",
-                content_type="application/javascript",
-            )
-        ),
-        name="service-worker",
-    ),
-    path(
-        "pwa/offline/",
-        cache_control(max_age=86400)(
-            TemplateView.as_view(template_name="offline.html")
-        ),
-        name="pwa-offline",
-    ),
     # Redirects for .well-known
     path(
         ".well-known/change-password",
