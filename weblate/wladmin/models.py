@@ -283,7 +283,7 @@ class BackupService(models.Model):
             if log.event == "error":
                 return True
             if log.event == "backup":
-                return True
+                return False
         return False
 
     def ensure_init(self) -> None:
