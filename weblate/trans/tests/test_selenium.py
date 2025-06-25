@@ -795,7 +795,7 @@ class SeleniumTests(
             self.click("WeblateOrg")
 
         # Engage page
-        self.click("Share")
+        self.click("Community")
         with self.wait_for_page_load():
             self.click("Status widgets")
         self.screenshot("promote.png")
@@ -1059,7 +1059,7 @@ class SeleniumTests(
         self.click("Alerts")
         self.screenshot("alerts.png")
 
-        self.click("Manage")
+        self.click("Insights")
         with self.wait_for_page_load():
             self.click("Community localization checklist")
         self.screenshot("guide.png")
