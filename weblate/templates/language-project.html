@@ -71,7 +71,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -84,33 +84,25 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        <li role="separator" class="divider"></li>
+        {% if user_can_edit_project %}
+          <li>
+            <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+          </li>
+        {% endif %}
+        {% if announcement_form %}
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if delete_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
-    {% if user_can_edit_project or announcement_form or delete_form %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_edit_project %}
-            <li>
-              <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
-            </li>
-          {% endif %}
-          {% if announcement_form %}
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if delete_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-            </li>
-          {% endif %}
-        </ul>
-      </li>
-    {% endif %}
     {% include "snippets/share-menu.html" with object=object %}
     {% include "snippets/watch-dropdown.html" %}
   </ul>
