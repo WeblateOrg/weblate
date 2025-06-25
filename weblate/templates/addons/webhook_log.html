@@ -1,26 +1,28 @@
 {% load i18n translations %}
 
-<ul class="nav nav-pills">
-  <li role="presentation" class="active">
-    <a href="#response-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
-  </li>
-  <li role="presentation">
-    <a href="#request-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Request" %}</a>
-  </li>
-</ul>
+{% if details %}
+  <ul class="nav nav-pills">
+    <li role="presentation" class="active">
+      <a href="#response-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
+    </li>
+    <li role="presentation">
+      <a href="#request-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Request" %}</a>
+    </li>
+  </ul>
 
-<div class="tab-content">
-  <div class="tab-pane active" id="response-{{ activity.id }}">
-    <h5>{% translate "HTTP headers" %}</h5>
-    <pre>{{ details.response.headers|format_headers }}</pre>
+  <div class="tab-content">
+    <div class="tab-pane active" id="response-{{ activity.id }}">
+      <h5>{% translate "HTTP headers" %}</h5>
+      <pre>{{ details.response.headers|format_headers }}</pre>
 
-    <h5>{% translate "Response content" %}</h5>
-    <pre>{{ details.response.content }}</pre>
+      <h5>{% translate "Response content" %}</h5>
+      <pre>{{ details.response.content }}</pre>
+    </div>
+    <div class="tab-pane" id="request-{{ activity.id }}">
+      <h5>{% translate "HTTP headers" %}</h5>
+      <pre>{{ details.request.headers|format_headers }}</pre>
+      <h5>{% translate "Request payload" %}</h5>
+      <pre>{{ details.request.payload|format_json }}</pre>
+    </div>
   </div>
-  <div class="tab-pane" id="request-{{ activity.id }}">
-    <h5>{% translate "HTTP headers" %}</h5>
-    <pre>{{ details.request.headers|format_headers }}</pre>
-    <h5>{% translate "Request payload" %}</h5>
-    <pre>{{ details.request.payload|format_json }}</pre>
-  </div>
-</div>
+{% endif %}
