@@ -11,6 +11,7 @@ Weblate 5.13
 * A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry monitoring of Celery Beat tasks.
 * :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
 * Background commits are now identified by an internal user.
+* Reorganized navigation menu.
 
 .. rubric:: Bug fixes
 
@@ -529,7 +530,7 @@ Weblate 5.9
 .. rubric:: Improvements
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate this component`).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Operations` → :guilabel:`Duplicate this component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
