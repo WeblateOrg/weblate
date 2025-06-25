@@ -48,6 +48,7 @@ from weblate.trans.forms import (
     get_new_unit_form,
 )
 from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
     try_linkify_filename,
@@ -892,6 +893,7 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][offset : offset + 20]
     )
+    fill_in_source_translation(units)
     fetch_glossary_terms(units)
 
     unitdata = [

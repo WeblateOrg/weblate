@@ -24,6 +24,7 @@ from weblate.trans.forms import (
     SearchForm,
 )
 from weblate.trans.models import Category, Component, Project, Translation, Unit
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
@@ -172,6 +173,8 @@ def search(request: AuthenticatedHttpRequest, path=None):
         units = get_paginator(
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
+        # Make sure source translation is available
+        fill_in_source_translation(units)
         # Rebuild context from scratch here to get new form
         context.update(
             {
