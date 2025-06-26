@@ -1655,12 +1655,12 @@ class BaseWebhookTests:
         super().setUp()
         self.reset_addon_configuration()
 
-    def reset_addon_configuration(self):
+    def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
 
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
-    ):
+    ) -> None:
         """Install addon, edit unit and assert outgoing calls."""
         self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
         if response_code:
@@ -1677,7 +1677,7 @@ class BaseWebhookTests:
         self.assertEqual(len(responses.calls), expected_calls)
 
     @responses.activate
-    def test_bulk_changes(self):
+    def test_bulk_changes(self) -> None:
         """Test bulk change create via the propagate() method."""
         # create another component in project with same units as self.component
         self.create_po(
@@ -1821,7 +1821,7 @@ class BaseWebhookTests:
         self.assertEqual(len(responses.calls), 2)
 
     @responses.activate
-    def test_connection_error(self):
+    def test_connection_error(self) -> None:
         """Test connection error when during message delivery."""
         self.do_translation_added_test(body=requests.ConnectionError())
 
@@ -1838,12 +1838,12 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
     }
 
     @responses.activate
-    def test_invalid_response(self):
+    def test_invalid_response(self) -> None:
         """Test invalid response from client."""
         self.do_translation_added_test(response_code=301)
 
     @responses.activate
-    def test_webhook_signature(self):
+    def test_webhook_signature(self) -> None:
         """Test webhook signature features."""
         self.addon_configuration["secret"] = "secret-string"
         self.do_translation_added_test(response_code=200)
@@ -1910,7 +1910,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             )
             wh_utils.verify(wh_request.body, new_headers)
 
-    def test_form(self):
+    def test_form(self) -> None:
         """Test WebhooksAddonForm."""
         self.user.is_superuser = True
         self.user.save()
@@ -1976,7 +1976,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
     @responses.activate
-    def test_jsonschema_error(self):
+    def test_jsonschema_error(self) -> None:
         """Test payload schema validation error."""
         with patch(
             "weblate.addons.webhooks.validate_schema",
@@ -2039,6 +2039,6 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     }
 
     @responses.activate
-    def test_invalid_response(self):
+    def test_invalid_response(self) -> None:
         """Test invalid response from client."""
         self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
