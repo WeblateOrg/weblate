@@ -199,7 +199,8 @@ class UnitQuerySet(models.QuerySet):
         """High level wrapper for searching."""
         from weblate.utils.search import parse_query
 
-        result = self.filter(parse_query(query, **context))
+        filters, annotations = parse_query(query, **context)
+        result = self.annotate(**annotations).filter(filters)
         return result.distinct()
 
     def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:

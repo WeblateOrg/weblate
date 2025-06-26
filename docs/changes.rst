@@ -7,6 +7,8 @@ Weblate 5.13
 
 .. rubric:: Improvements
 
+* :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
