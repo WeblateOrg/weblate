@@ -44,6 +44,9 @@ def get_fallback_avatar_url(size: int):
 def get_fallback_avatar(size: int):
     """Return fallback avatar."""
     filename = finders.find(f"weblate-{size}.png")
+    if filename is None:
+        msg = f"Missing fallback avatar file for {size=}!"
+        raise OSError(msg)
     with open(filename, "rb") as handle:
         return handle.read()
 
