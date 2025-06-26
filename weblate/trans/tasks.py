@@ -534,27 +534,26 @@ def auto_translate_component(
 ):
     component_obj = Component.objects.get(pk=component_id)
 
-    with component_obj.lock:
-        for translation in component_obj.translation_set.iterator():
-            if translation.is_source:
-                continue
+    for translation in component_obj.translation_set.iterator():
+        if translation.is_source:
+            continue
 
-            auto = AutoTranslate(
-                user=None,
-                translation=translation,
-                filter_type=filter_type,
-                mode=mode,
-                component_wide=True,
-            )
-            auto.perform(
-                auto_source=auto_source,
-                engines=engines,
-                threshold=threshold,
-                source=component,
-            )
-        component_obj.update_source_checks()
-        component_obj.run_batched_checks()
-        return {"component": component_obj.id}
+        auto = AutoTranslate(
+            user=None,
+            translation=translation,
+            filter_type=filter_type,
+            mode=mode,
+            component_wide=True,
+        )
+        auto.perform(
+            auto_source=auto_source,
+            engines=engines,
+            threshold=threshold,
+            source=component,
+        )
+    component_obj.update_source_checks()
+    component_obj.run_batched_checks()
+    return {"component": component_obj.id}
 
 
 @app.task(trail=False)
