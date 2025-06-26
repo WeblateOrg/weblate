@@ -40,8 +40,8 @@
         </td>
         <td class="history-data full-cell">
           <div class="comment-content">
-            {% if item.history_data.main_content %}{{ item.history_data.main_content }}{% endif %}
-            {% for history_field in item.history_data.fields %}
+            {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
+            {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
                 {% for tag in history_field.tags %}<span class="badge">{{ tag }}</span>{% endfor %}

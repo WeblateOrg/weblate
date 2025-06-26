@@ -38,11 +38,7 @@ AUTO_ACTIONS = {
 class ChangeDetailsRenderFactory:
     @staticmethod
     def get_strategy(change: Change) -> "BaseDetailsRenderStrategy":
-        """
-        Get strategy for displaying change details.
-
-        This is used to determine how to display the details of a change.
-        """
+        """Get strategy for displaying change details."""
         for strategy in [
             s for s in DETAILS_DISPLAY_STRATEGIES if not s.details_required
         ]:
@@ -52,6 +48,7 @@ class ChangeDetailsRenderFactory:
         if not change.details:
             return RenderEmptyDetails()
 
+        # Following rendering relies on details present
         for strategy in [s for s in DETAILS_DISPLAY_STRATEGIES if s.details_required]:
             if change.action in strategy.actions:
                 return strategy()
@@ -63,14 +60,10 @@ class ChangeDetailsRenderFactory:
 DETAILS_DISPLAY_STRATEGIES: list[type["BaseDetailsRenderStrategy"]] = []
 
 
-def register_strategy(
+def register_details_display_strategy(
     strategy: type["BaseDetailsRenderStrategy"],
 ) -> type["BaseDetailsRenderStrategy"]:
-    """
-    Register a new strategy for displaying change details.
-
-    This function allows you to add a new strategy to the list of available strategies.
-    """
+    """Register a new strategy for displaying change details."""
     DETAILS_DISPLAY_STRATEGIES.append(strategy)
     return strategy
 
@@ -83,13 +76,13 @@ class BaseDetailsRenderStrategy:
         raise NotImplementedError
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderEmptyDetails(BaseDetailsRenderStrategy):
     def render_details(self, change: Change) -> str:
         return ""
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderFileUploadDetails(BaseDetailsRenderStrategy):
     actions = {ActionEvents.FILE_UPLOAD}
 
@@ -102,7 +95,7 @@ class RenderFileUploadDetails(BaseDetailsRenderStrategy):
         return format_html(
             "{}<br>{} {}",
             get_upload_message(
-                details["filename"],
+                details["not_found"],
                 details["skipped"],
                 details["accepted"],
                 details["total"],
@@ -112,7 +105,7 @@ class RenderFileUploadDetails(BaseDetailsRenderStrategy):
         )
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderTarget(BaseDetailsRenderStrategy):
     actions = {ActionEvents.ANNOUNCEMENT, ActionEvents.AGREEMENT_CHANGE}
 
@@ -120,7 +113,7 @@ class RenderTarget(BaseDetailsRenderStrategy):
         return render_markdown(change.target)
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderComment(BaseDetailsRenderStrategy):
     actions = {ActionEvents.COMMENT_DELETE, ActionEvents.COMMENT}
 
@@ -130,7 +123,7 @@ class RenderComment(BaseDetailsRenderStrategy):
         return ""
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderAddon(BaseDetailsRenderStrategy):
     actions = {
         ActionEvents.ADDON_CREATE,
@@ -145,7 +138,7 @@ class RenderAddon(BaseDetailsRenderStrategy):
             return change.target
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderUpdateEventDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an update event."""
 
@@ -173,26 +166,25 @@ class RenderUpdateEventDetails(BaseDetailsRenderStrategy):
         return format_html(escape(message), filename)
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderLicenceChangeDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a license change event."""
 
     actions = {ActionEvents.LICENSE_CHANGE}
 
     def render_details(self, change: Change) -> str:
-        details = change.details
         not_available = pgettext("License information not available", "N/A")
         return gettext(
             'The license of the "%(component)s" component was changed '
             "from %(old)s to %(target)s."
         ) % {
             "component": change.component,
-            "old": details.get("old", not_available),
-            "target": details.get("target", not_available),
+            "old": change.old or not_available,
+            "target": change.target or not_available,
         }
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderAutoActions(BaseDetailsRenderStrategy):
     actions = set(AUTO_ACTIONS.keys())
 
@@ -202,7 +194,7 @@ class RenderAutoActions(BaseDetailsRenderStrategy):
         return ""
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderAccessEdit(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an access edit event."""
 
@@ -210,13 +202,14 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
     actions = {ActionEvents.ACCESS_EDIT}
 
     def render_details(self, change: Change) -> str:
+        details = change.details
         for number, name in Project.ACCESS_CHOICES:
-            if number == change.details["access_control"]:
+            if number == details["access_control"]:
                 return name
-        return "Unknown {}".format(change.details["access_control"])
+        return "Unknown {}".format(details["access_control"])
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderUserActions(BaseDetailsRenderStrategy):
     """Strategy for displaying details of user actions."""
 
@@ -238,7 +231,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
         return result
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderLanguage(BaseDetailsRenderStrategy):
     """Strategy for displaying details of language actions."""
 
@@ -255,7 +248,7 @@ class RenderLanguage(BaseDetailsRenderStrategy):
             return change.details["language"]
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderAlert(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an alert event."""
 
@@ -269,7 +262,7 @@ class RenderAlert(BaseDetailsRenderStrategy):
             return change.details["alert"]
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderRepositoryDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of repository events."""
 
@@ -294,31 +287,29 @@ class RenderRepositoryDetails(BaseDetailsRenderStrategy):
         )
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderParseError(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a parse error event."""
 
-    format_string = "{filename}: {error_message}"
     actions = {ActionEvents.PARSE_ERROR}
     details_required = True
 
     def render_details(self, change: Change) -> str:
-        return self.format_string.format(**change.details)
+        return "{filename}: {error_message}".format(**change.details)
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderHook(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a hook event."""
 
     actions = {ActionEvents.HOOK}
-    format_string = "{service_long_name}: {repo_url}, {branch}"
     details_required = True
 
     def render_details(self, change: Change) -> str:
-        return self.format_string.format(**change.details)
+        return "{service_long_name}: {repo_url}, {branch}".format(**change.details)
 
 
-@register_strategy
+@register_details_display_strategy
 class RenderCreateComponent(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a component creation event."""
 
@@ -343,7 +334,7 @@ def get_change_history_context(change: Change) -> dict[str, Any]:
     for displaying the change history.
     """
     if details := change.get_details_display():
-        return {"main_content": details, "fields": []}
+        return {"description": details, "change_details_fields": []}
     if change.show_content() and change.unit:
         return ShowChangeContent(change).get_context()
     if change.show_source():
@@ -366,14 +357,21 @@ class BaseChangeHistoryContext:
     def get_context(self) -> dict[str, Any]:
         """Get context for rendering change history."""
         return {
-            "main_content": self.get_main_content(),
-            "fields": self.get_fields(),
+            "description": self.get_description(),
+            "change_details_fields": self.get_change_details_fields(),
         }
 
-    def get_main_content(self) -> str | None:
-        return None
+    def get_description(self) -> str:
+        return ""
 
-    def get_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[dict]:
+        """
+        Generate a list of dictionaries representing fields to be displayed as label and input-like content.
+
+        Returns:
+            list[dict]: A list of dictionaries, each representing a field as returned by `make_field`.
+
+        """
         return []
 
     def make_field(
@@ -385,8 +383,8 @@ class BaseChangeHistoryContext:
     ) -> dict:
         return {
             "label": label,
-            "content": field_content or [],
-            "tags": label_badges,
+            "content": field_content,
+            "tags": label_badges or [],
             "label_class": " ".join(extra_label_classes or []),
         }
 
@@ -407,27 +405,27 @@ class BaseChangeHistoryContext:
 class ShowChangeTarget(BaseChangeHistoryContext):
     """Display the target of a change in the history context."""
 
-    def get_main_content(self) -> str | None:
+    def get_description(self) -> str | None:
         return format_html("<pre>{}</pre>", self.change.target)
 
 
 class ShowChangeAction(BaseChangeHistoryContext):
     """Display the action of a change in the history context."""
 
-    def get_main_content(self) -> str | None:
+    def get_description(self) -> str | None:
         return self.change.get_action_display()
 
 
 class ShowChangeContent(BaseChangeHistoryContext):
     """Display the content of a change in the history context."""
 
-    SIMPLE_CONTENT_TEMPLATE = """
+    LIST_GROUP_ITEM_TEMPLATE = """
     <div class="list-group">
         <div class="list-group-item sidebar-button">{0}</div>
     </div>
     """
 
-    def get_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[dict]:
         """Return the fields to be displayed in the change history."""
         fields = []
         change = self.change
@@ -438,7 +436,8 @@ class ShowChangeContent(BaseChangeHistoryContext):
                 self.make_field(
                     gettext("Rejection reason"),
                     format_html(
-                        self.SIMPLE_CONTENT_TEMPLATE, change.details["rejection_reason"]
+                        self.LIST_GROUP_ITEM_TEMPLATE,
+                        change.details["rejection_reason"],
                     ),
                 )
             )
@@ -486,7 +485,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
 class ShowChangeSource(BaseChangeHistoryContext):
     """Display the source of a change in the history context."""
 
-    def get_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[dict]:
         fields = []
         change = self.change
 
@@ -517,7 +516,7 @@ class ShowChangeSource(BaseChangeHistoryContext):
 class ShowChangeDiff(BaseChangeHistoryContext):
     """Display the diff of a change in the history context."""
 
-    def get_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[dict]:
         change = self.change
         return [
             self.make_field(
@@ -535,7 +534,7 @@ class ShowChangeDiff(BaseChangeHistoryContext):
 class ShowRemovedString(BaseChangeHistoryContext):
     """Display the removed string of a change in the history context."""
 
-    def get_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[dict]:
         change = self.change
         fields = [
             self.make_field(

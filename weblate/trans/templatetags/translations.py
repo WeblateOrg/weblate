@@ -11,6 +11,7 @@ from html import escape as html_escape
 from typing import TYPE_CHECKING
 
 from django import forms, template
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -1739,7 +1740,12 @@ def format_headers(value: dict[str, str]) -> str:
 
 @register.inclusion_tag("snippets/last-changes-content.html")
 def format_last_changes_content(
-    last_changes, user, in_email=False, debug=False, search_url=None, offset=None
+    last_changes,
+    user: str | User,
+    in_email=False,
+    debug=False,
+    search_url=None,
+    offset=None,
 ):
     """
     Format last changes content for display.
@@ -1747,6 +1753,9 @@ def format_last_changes_content(
     This is a simplified version of the prepare_last_changes_context function.
     """
     from weblate.trans.change_display import get_change_history_context
+
+    if isinstance(user, str):  # e.g in email digest
+        user = AnonymousUser()
 
     processed_changes = []
     for change in last_changes:
