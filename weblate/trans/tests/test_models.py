@@ -293,7 +293,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(component.repository.count_outgoing(), count)
         self.assertEqual(translation.count_pending_units, 0)
 
-    def test_group_changes_by_author(self):
+    def test_group_changes_by_author(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user1 = create_test_user()

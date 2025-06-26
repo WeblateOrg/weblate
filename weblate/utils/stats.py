@@ -1174,7 +1174,7 @@ class ChecklistStats(SingleLanguageStats):
         elif name.startswith("label:"):
             self.calculate_labels()
 
-    def aggregate_stats(self, keys: Iterable[str]):
+    def aggregate_stats(self, keys: Iterable[str]) -> None:
         self.ensure_loaded()
         all_stats: list[BaseStats] = self.aggregated_stats
         suffixes: tuple[str, ...] = ("", "_words", "_chars")

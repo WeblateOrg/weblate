@@ -2004,7 +2004,7 @@ class Component(
 
     @perform_on_link
     @transaction.atomic
-    def do_file_sync(self, request=None):
+    def do_file_sync(self, request=None) -> None:
         from weblate.trans.models import Unit
         from weblate.trans.tasks import perform_commit
 
@@ -2020,7 +2020,7 @@ class Component(
 
     @perform_on_link
     @transaction.atomic
-    def do_file_scan(self, request=None):
+    def do_file_scan(self, request=None) -> bool:
         self.commit_pending("file-scan", request.user if request else None)
         self.create_translations(request=request, force=True)
         return True

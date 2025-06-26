@@ -1352,7 +1352,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b"<term>Source string</term>"
     EXPECTED_FLAGS = ""
 
-    def test_extended_metadata(self):
+    def test_extended_metadata(self) -> None:
         storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
         self.assertEqual(len(storage.all_units), 3)
         self.assertEqual(storage.mimetype(), self.MIME)

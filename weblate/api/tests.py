@@ -4274,7 +4274,7 @@ class UnitAPITest(APIBaseTest):
         self.assertNotEqual(revision, component.repository.last_revision)
         self.assertEqual(component.stats.all, 12)
 
-    def test_unit_translations(self):
+    def test_unit_translations(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="en", source="Thank you for using Weblate."
         )
@@ -4293,7 +4293,7 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["code"], "not-a-source-unit")
 
-    def test_add_comment(self):
+    def test_add_comment(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="en", source="Thank you for using Weblate."
         )
@@ -4415,7 +4415,7 @@ class UnitAPITest(APIBaseTest):
             "You do not have permission to perform this action.",
         )
 
-    def test_import_comment(self):
+    def test_import_comment(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="en", source="Thank you for using Weblate."
         )
@@ -4518,7 +4518,7 @@ class UnitAPITest(APIBaseTest):
         self.assertGreaterEqual(datetime.fromisoformat(comment["timestamp"]), timestamp)
         self.assertEqual(comment["user"], "http://example.com/api/users/apitest/")
 
-    def test_comment_serializer(self):
+    def test_comment_serializer(self) -> None:
         # test CommentSerializer works even if unit is not provided in context
         serializer = CommentSerializer(
             data={"scope": "translation", "comment": "note"},

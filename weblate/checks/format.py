@@ -261,7 +261,7 @@ def name_format_is_position_based(string: str) -> bool:  # noqa: FURB118
     return not string
 
 
-def format_not_position_based(string: str):
+def format_not_position_based(string: str) -> bool:
     return False
 
 

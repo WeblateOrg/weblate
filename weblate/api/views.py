@@ -650,7 +650,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         self.perm_check(
             self.request, project=serializer.validated_data.get("defining_project")
         )

@@ -1678,7 +1678,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-    def test_glossary_with_delete_fail(self):
+    def test_glossary_with_delete_fail(self) -> None:
         self.test_glossary(fail_delete_glossary=True)
 
     @responses.activate
@@ -2681,7 +2681,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
         results = machine.translate(unit, self.user)
         self.assertEqual(results, [])
 
-    def test_fallback_language(self):
+    def test_fallback_language(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -2764,7 +2764,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
 
-    def test_multiple_languages(self):
+    def test_multiple_languages(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -2795,7 +2795,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
             ],
         )
 
-    def test_placeholders(self):
+    def test_placeholders(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -3084,7 +3084,7 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
         self.edit_unit(self.SOURCE, self.TRANSLATION, language=self.LANGUAGE)
         return self.get_unit(self.SOURCE)
 
-    def test_translate(self):
+    def test_translate(self) -> None:
         czech_unit = self.prepare()
         machine = DummyTranslation({})
         translation = machine.translate(
@@ -3105,7 +3105,7 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
             ],
         )
 
-    def test_batch_translate(self):
+    def test_batch_translate(self) -> None:
         czech_unit = self.prepare()
         machine = DummyTranslation({})
         machine.batch_translate(
