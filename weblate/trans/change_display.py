@@ -11,8 +11,8 @@ from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
 from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
 from weblate.trans.models.alert import ALERTS
+from weblate.trans.models.change import COMPONENT_ORIGINS, Change
 from weblate.trans.models.project import Project
 from weblate.trans.templatetags.translations import (
     format_language_string,
@@ -316,6 +316,23 @@ class RenderHook(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> str:
         return self.format_string.format(**change.details)
+
+
+@register_strategy
+class RenderCreateComponent(BaseDetailsRenderStrategy):
+    """Strategy for displaying details of a component creation event."""
+
+    actions = {ActionEvents.CREATE_COMPONENT}
+
+    def render_details(self, change: Change) -> str:
+        try:
+            origin = change.details["origin"]
+        except KeyError:
+            return ActionEvents.CREATE_COMPONENT.label
+        try:
+            return COMPONENT_ORIGINS[origin]
+        except KeyError:
+            return f"{ActionEvents.CREATE_COMPONENT.label} ({origin})"
 
 
 def get_change_history_context(change: Change) -> dict[str, Any]:
