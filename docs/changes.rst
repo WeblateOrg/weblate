@@ -56,7 +56,7 @@ Weblate 5.12.1
 
 .. rubric:: Bug fixes
 
-* :ref:`sbom` is now includes serial number.
+* :ref:`sbom` now includes serial number.
 
 .. rubric:: Upgrading
 
