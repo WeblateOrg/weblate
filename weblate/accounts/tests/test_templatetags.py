@@ -9,7 +9,7 @@ from weblate.accounts.templatetags.urlformat import urlformat
 
 
 class TemplateTagsTestCase(SimpleTestCase):
-    def test_simple(self):
+    def test_simple(self) -> None:
         template = Template("""
                 {% load site_url %}
                 <html><body>
@@ -39,7 +39,7 @@ class TemplateTagsTestCase(SimpleTestCase):
             template.render(Context()),
         )
 
-    def test_urlformat(self):
+    def test_urlformat(self) -> None:
         self.assertEqual(urlformat("https://weblate.org/"), "weblate.org")
         self.assertEqual(urlformat("https://weblate.org/user/"), "weblate.org/user")
         self.assertEqual(

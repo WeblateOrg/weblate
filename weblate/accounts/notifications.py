@@ -142,15 +142,15 @@ class Notification:
         return None
 
     @classmethod
-    def get_freq_choices(cls):
+    def get_freq_choices(cls) -> list[tuple[int, StrOrPromise]]:
         return NotificationFrequency.choices
 
     @classmethod
-    def get_choice(cls):
+    def get_choice(cls) -> tuple[str, StrOrPromise]:
         return (cls.get_name(), cls.verbose)
 
     @classmethod
-    def get_name(cls):
+    def get_name(cls) -> str:
         return cls.__name__
 
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
@@ -211,13 +211,15 @@ class Notification:
 
             yield subscription
 
-    def has_required_attrs(self, change):
+    def missing_required_attrs(self, change) -> bool:
+        if not self.required_attr:
+            return False
         try:
-            return self.required_attr and getattr(change, self.required_attr) is None
+            return getattr(change, self.required_attr) is None
         except ObjectDoesNotExist:
             return False
 
-    def is_admin(self, user: User, project):
+    def is_admin(self, user: User, project) -> bool:
         if project is None:
             return False
 
@@ -237,7 +239,7 @@ class Notification:
         translation: Translation | None = None,
         users: list[int] | None = None,
     ) -> Iterable[User]:
-        if self.has_required_attrs(change):
+        if self.missing_required_attrs(change):
             return
         if change is not None:
             project = change.project
@@ -311,8 +313,10 @@ class Notification:
         change: Change | None = None,
         subscription: Subscription | None = None,
         extracontext: dict | None = None,
-        changes=None,
-    ):
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
         """Return context for rendering mail."""
         result = {
             "LANGUAGE_CODE": get_language(),
@@ -323,6 +327,8 @@ class Notification:
         }
         if changes is not None:
             result["changes"] = changes
+        elif summaries is not None:
+            result["changes"] = summaries
         if subscription is not None:
             result["unsubscribe_url"] = get_site_url(
                 "{}?i={}".format(
@@ -359,7 +365,7 @@ class Notification:
                 )
         return result
 
-    def get_headers(self, context):
+    def get_headers(self, context: dict[str, Any]) -> dict[str, str]:
         headers = get_email_headers(self.get_name())
 
         # Set From header to contain user full name
@@ -442,16 +448,29 @@ class Notification:
                     current_subscription.delete()
 
     def send_digest(
-        self, language, email, changes, subscription=None, *, overlimit: bool = False
+        self,
+        language: str,
+        email: str,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+        subscription: Subscription | None = None,
+        overlimit: bool = False,
     ) -> None:
         with override("en" if language is None else language):
             context = self.get_context(
                 subscription=subscription,
                 changes=changes,
+                summaries=summaries,
                 extracontext={"overlimit": overlimit},
             )
             subject = self.render_template("_subject.txt", context, digest=True)
             context["subject"] = subject
+            length = 0
+            if changes:
+                length = len(changes)
+            elif summaries:
+                length = len(summaries)
             try:
                 body = self.render_template(".html", context, digest=True)
             except Exception:
@@ -459,14 +478,14 @@ class Notification:
                 LOGGER.exception(
                     "sending digest notification %s on %d changes to %s failed",
                     self.get_name(),
-                    len(changes),
+                    length,
                     email,
                 )
             else:
                 LOGGER.info(
                     "sending digest notification %s on %d changes to %s",
                     self.get_name(),
-                    len(changes),
+                    length,
                     email,
                 )
                 self.send(email, subject, body, self.get_headers(context))
@@ -476,7 +495,7 @@ class Notification:
         frequency: NotificationFrequency,
         changes: QuerySet[Change],
     ) -> None:
-        notifications = defaultdict(list)
+        notifications: dict[int, list[Change]] = defaultdict(list)
         users = {}
         for change in changes:
             for user in self.get_users(frequency, change):
@@ -493,12 +512,12 @@ class Notification:
             self.send_digest(
                 user.profile.language,
                 user.email,
-                user_changes,
+                changes=user_changes,
                 subscription=user.current_subscription,
                 overlimit=overlimit,
             )
 
-    def filter_changes(self, **kwargs):
+    def filter_changes(self, **kwargs) -> QuerySet[Change]:
         return Change.objects.filter(
             action__in=self.actions,
             timestamp__gte=timezone.now() - relativedelta(**kwargs),
@@ -562,10 +581,18 @@ class ParseErrorNotification(Notification):
     template_name = "parse_error"
 
     def get_context(
-        self, change=None, subscription=None, extracontext=None, changes=None
-    ):
-        context = super().get_context(change, subscription, extracontext, changes)
-        if change:
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        context = super().get_context(
+            change, subscription, extracontext, changes=changes, summaries=summaries
+        )
+        if change and change.component:
             context["details"]["filelink"] = change.component.get_repoweb_link(
                 change.details.get("filename"), "1", user=context["user"]
             )
@@ -668,7 +695,7 @@ class MentionCommentNotificaton(Notification):
         translation: Translation | None = None,
         users: list[int] | None = None,
     ) -> Iterable[User]:
-        if change is None or self.has_required_attrs(change):
+        if change is None or self.missing_required_attrs(change):
             return []
         return super().get_users(
             frequency,
@@ -751,9 +778,17 @@ class NewTranslationNotificaton(Notification):
     template_name = "new_language"
 
     def get_context(
-        self, change=None, subscription=None, extracontext=None, changes=None
-    ):
-        context = super().get_context(change, subscription, extracontext, changes)
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        context = super().get_context(
+            change, subscription, extracontext, changes=changes, summaries=summaries
+        )
         if change:
             context["language"] = Language.objects.get(code=change.details["language"])
             context["was_added"] = change.action == ActionEvents.ADDED_LANGUAGE
@@ -880,7 +915,7 @@ class SummaryNotification(Notification):
         frequency: NotificationFrequency,
     ) -> None:
         users = {}
-        notifications = defaultdict(list)
+        notifications: dict[int, list[dict[str, Any]]] = defaultdict(list)
         for translation in prefetch_stats(Translation.objects.prefetch()):
             count = self.get_count(translation)
             if not count:
@@ -895,24 +930,33 @@ class SummaryNotification(Notification):
             for user in current_users:
                 users[user.pk] = user
                 notifications[user.pk].append(context)
-        for userid, changes in notifications.items():
+        for userid, summaries in notifications.items():
             user = users[userid]
             self.send_digest(
                 user.profile.language,
                 user.email,
-                changes,
+                summaries=summaries,
                 subscription=user.current_subscription,
             )
 
     @staticmethod
-    def get_count(translation) -> int:
+    def get_count(translation: Translation) -> int:
         raise NotImplementedError
 
     def get_context(
-        self, change=None, subscription=None, extracontext=None, changes=None
-    ):
-        context = super().get_context(change, subscription, extracontext, changes)
-        context["total_count"] = sum(change["count"] for change in changes)
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        context = super().get_context(
+            change, subscription, extracontext, changes=changes, summaries=summaries
+        )
+        if summaries:
+            context["total_count"] = sum(item["count"] for item in summaries)
         return context
 
 
@@ -922,7 +966,7 @@ class PendingSuggestionsNotification(SummaryNotification):
     digest_template = "pending_suggestions"
 
     @staticmethod
-    def get_count(translation) -> int:
+    def get_count(translation: Translation) -> int:
         return translation.stats.suggestions
 
 
@@ -932,12 +976,16 @@ class ToDoStringsNotification(SummaryNotification):
     digest_template = "todo_strings"
 
     @staticmethod
-    def get_count(translation) -> int:
+    def get_count(translation: Translation) -> int:
         return translation.stats.todo
 
 
 def get_notification_emails(
-    language, recipients, notification, context=None, info=None
+    language: str,
+    recipients: list[str],
+    notification: str,
+    context: dict[str, Any] | None = None,
+    info: str | None = None,
 ):
     """Render notification email."""
     context = context or {}
@@ -974,7 +1022,11 @@ def get_notification_emails(
 
 
 def send_notification_email(
-    language, recipients, notification, context=None, info=None
+    language: str,
+    recipients: list[str],
+    notification: str,
+    context: dict[str, Any] | None = None,
+    info: str | None = None,
 ) -> None:
     """Render and sends notification email."""
     send_mails.delay(

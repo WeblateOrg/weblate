@@ -118,7 +118,7 @@ def key_name(device: Device) -> str:
 
 
 @register.simple_tag
-def second_factor_name(name: DeviceType) -> str:
+def second_factor_name(name: DeviceType) -> StrOrPromise:
     return SECOND_FACTORS[name]
 
 

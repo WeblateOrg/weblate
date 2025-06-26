@@ -12,18 +12,18 @@ from weblate.accounts.models import AuditLog
 
 
 class AuditLogTestCase(SimpleTestCase):
-    def test_address_ipv4(self):
+    def test_address_ipv4(self) -> None:
         audit = AuditLog(address="127.0.0.1")
         self.assertEqual(audit.shortened_address, "127.0.0.0")
 
-    def test_address_ipv6_local(self):
+    def test_address_ipv6_local(self) -> None:
         audit = AuditLog(address="fe80::54c2:1234:5678:90ab")
         self.assertEqual(audit.shortened_address, "fe80::")
 
-    def test_address_ipv6_weblate(self):
+    def test_address_ipv6_weblate(self) -> None:
         audit = AuditLog(address="2a01:4f8:c0c:a84b::1")
         self.assertEqual(audit.shortened_address, "2a01:4f8:c0c::")
 
-    def test_address_blank(self):
+    def test_address_blank(self) -> None:
         audit = AuditLog()
         self.assertEqual(audit.shortened_address, "")
