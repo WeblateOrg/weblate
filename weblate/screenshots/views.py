@@ -365,13 +365,14 @@ def search_source(request: AuthenticatedHttpRequest, pk):
     form = SearchForm(request.POST)
     if not form.is_valid():
         return search_results(request, 400, obj)
+    filters, annotations = parse_query(
+        form.cleaned_data["q"], project=translation.component.project
+    )
     return search_results(
         request,
         200,
         obj,
-        translation.unit_set.filter(
-            parse_query(form.cleaned_data["q"], project=translation.component.project)
-        ),
+        translation.unit_set.annotate(**annotations).filter(filters),
     )
 
 

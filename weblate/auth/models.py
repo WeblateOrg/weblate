@@ -314,7 +314,8 @@ class UserQuerySet(models.QuerySet["User"]):
                 Q(username__icontains=query) | Q(full_name__icontains=query)
             )
         else:
-            result = self.filter(parse_query(query, parser=parser, **context))
+            filters, annotations = parse_query(query, parser=parser, **context)
+            result = self.annotate(**annotations).filter(filters)
         return result.distinct()
 
     def get_author_by_email(

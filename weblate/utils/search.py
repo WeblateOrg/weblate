@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import F, Q, Value
+from django.db.models import Aggregate, Count, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -338,7 +338,7 @@ class BaseTermExpr:
             return self.convert_non_field()
 
         # Field specific code
-        field_method: Callable[[str, dict], Q] = cast(
+        field_method: Callable[[str, dict], Q] | None = cast(
             "Callable[[str, dict], Q] | None",
             getattr(self, f"{field}_field", None),
         )
@@ -384,6 +384,9 @@ class BaseTermExpr:
 
         return self.field_extra(field, query, match)
 
+    def get_annotations(self, context: dict) -> dict[str, Aggregate]:
+        return {}
+
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         return query
 
@@ -410,6 +413,7 @@ class UnitTermExpr(BaseTermExpr):
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
+        "labels_count": "labels_count",
     }
     STRING_FIELD_MAP: dict[str, str] = {
         "suggestion": "suggestion__target",
@@ -581,6 +585,9 @@ class UnitTermExpr(BaseTermExpr):
     def convert_priority(self, text: str) -> int:
         return self.convert_int(text)
 
+    def convert_labels_count(self, text: str) -> int:
+        return self.convert_int(text)
+
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         from weblate.trans.models import Change
 
@@ -607,6 +614,11 @@ class UnitTermExpr(BaseTermExpr):
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )
+
+    def get_annotations(self, context: dict) -> dict[str, Aggregate]:
+        if self.field == "labels_count":
+            return {"labels_count": Count("source_unit__labels") + Count("labels")}
+        return super().get_annotations(context)
 
 
 class UserTermExpr(BaseTermExpr):
@@ -671,14 +683,14 @@ PARSERS: dict[Literal["unit", "user", "superuser"], ParserElement] = {
 PARSER_LOCK = threading.Lock()
 
 
-def parser_to_query(obj, context: dict) -> Q:
+def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
     # Simple lookups
     if isinstance(obj, BaseTermExpr):
         return obj.as_query(context)
 
     # Operators
     operator = ""
-    expressions = []
+    expressions: list[Q] = []
     was_operator = False
     for item in obj:
         if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
@@ -705,6 +717,19 @@ def parser_to_query(obj, context: dict) -> Q:
     return reduce(or_, expressions)
 
 
+def parser_annotations(
+    obj: ParseResults | BaseTermExpr, context: dict
+) -> dict[str, Aggregate]:
+    result: dict[str, Aggregate] = {}
+    if isinstance(obj, BaseTermExpr):
+        result.update(obj.get_annotations(context))
+    else:
+        for item in obj:
+            if isinstance(item, (BaseTermExpr, ParseResults)):
+                result.update(parser_annotations(item, context))
+    return result
+
+
 @lru_cache(maxsize=512)
 def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
@@ -718,6 +743,6 @@ def parse_string(
 
 def parse_query(
     text: str, parser: Literal["unit", "user", "superuser"] = "unit", **context
-) -> Q:
+) -> tuple[Q, dict[str, Aggregate]]:
     parsed = parse_string(text, parser)
-    return parser_to_query(parsed, context)
+    return parser_to_query(parsed, context), parser_annotations(parsed, context)
