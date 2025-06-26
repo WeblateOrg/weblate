@@ -15,7 +15,7 @@ from django.db import models
 from django.db.models import Q, Value
 from django.db.models.functions import MD5
 from django.utils.encoding import force_str
-from django.utils.translation import gettext, pgettext
+from django.utils.translation import gettext, gettext_lazy, pgettext
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
@@ -414,6 +414,14 @@ class MemoryManager(models.Manager):
 
 
 class Memory(models.Model):
+    # Status choices for the memory entry
+    STATUS_PENDING = "pending"
+    STATUS_ACTIVE = "active"
+    STATUS_CHOICES = [
+        (STATUS_PENDING, gettext_lazy("Pending")),
+        (STATUS_ACTIVE, gettext_lazy("Active")),
+    ]
+
     source_language = models.ForeignKey(
         "lang.Language",
         on_delete=models.deletion.CASCADE,
@@ -443,6 +451,11 @@ class Memory(models.Model):
     )
     from_file = models.BooleanField(default=False)
     shared = models.BooleanField(default=False)
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+    )
 
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
