@@ -2006,13 +2006,17 @@ class Component(
     @transaction.atomic
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
+        from weblate.trans.tasks import perform_commit
 
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
         ).exclude(translation__language_id=self.source_language_id):
             PendingUnitChange.store_unit_change(unit)
-        return self.commit_pending("file-sync", request.user if request else None)
+
+        perform_commit.delay_on_commit(
+            self.pk, "file-sync", user_id=request.user.id if request else None
+        )
 
     @perform_on_link
     @transaction.atomic
@@ -3783,7 +3787,9 @@ class Component(
             details={"auto": auto},
         )
         if lock and not auto:
-            perform_commit.delay_on_commit(self.pk, "lock", None)
+            perform_commit.delay_on_commit(
+                self.pk, "lock", user_id=user.id if user else None
+            )
         return change
 
     @cached_property

@@ -119,9 +119,10 @@ def perform_load(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_commit(pk, *args) -> None:
+def perform_commit(pk, reason: str, *, user_id: int | None = None) -> None:
+    user = User.objects.get(pk=user_id) if user_id else None
     component = Component.objects.get(pk=pk)
-    component.commit_pending(*args)
+    component.commit_pending(reason, user=user)
 
 
 @app.task(
@@ -165,7 +166,7 @@ def commit_pending(
         if logger:
             logger(f"Committing {component}")
 
-        perform_commit.delay(component.pk, "commit_pending", None)
+        perform_commit.delay(component.pk, "commit_pending")
 
 
 @app.task(trail=False)
