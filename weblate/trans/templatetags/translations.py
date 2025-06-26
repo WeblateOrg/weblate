@@ -1735,3 +1735,45 @@ def format_json(value: dict) -> str:
 @register.filter(is_safe=True)
 def format_headers(value: dict[str, str]) -> str:
     return format_html_join(mark_safe("<br>"), "<b>{}</b>: {}", value.items())
+
+
+@register.inclusion_tag("snippets/last-changes-content.html")
+def format_last_changes_content(
+    last_changes, user, in_email=False, debug=False, search_url=None, offset=None
+):
+    """
+    Format last changes content for display.
+
+    This is a simplified version of the prepare_last_changes_context function.
+    """
+    from weblate.trans.change_display import get_change_history_context
+
+    processed_changes = []
+    for change in last_changes:
+        # Permissions
+        can_revert = change.can_revert() and user.has_perm("unit.edit", change.unit)
+        can_block_user = (
+            change.user
+            and not change.user.is_anonymous
+            and change.project
+            and user.has_perm("project.permissions", change.project)
+        )
+
+        processed_changes.append(
+            {
+                "change": change,
+                "permissions": {
+                    "can_revert": can_revert,
+                    "can_block_user": can_block_user,
+                },
+                "ip_address": change.get_ip_address() if user.is_superuser else None,
+                "history_data": get_change_history_context(change),
+            }
+        )
+    return {
+        "changes_with_context": processed_changes,
+        "in_email": in_email,
+        "debug": debug,
+        "search_url": search_url,
+        "offset": offset,
+    }
