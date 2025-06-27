@@ -541,18 +541,18 @@ class ShowRemovedString(BaseChangeHistoryContext):
                 change.component.source_translation.language,
                 self.format_translation(
                     format_language_string(
-                        change.details.source, change.component.source_translation
+                        change.details["source"], change.component.source_translation
                     )
                 ),
             )
         ]
-        if change.details.target and not change.translation.is_source:
+        if "target" in change.details and not change.translation.is_source:
             fields.append(
                 self.make_field(
                     change.translation.language,
                     self.format_translation(
                         format_language_string(
-                            change.details.target, change.translation
+                            change.details["target"], change.translation
                         )
                     ),
                 )

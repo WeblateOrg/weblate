@@ -608,3 +608,4 @@ class CreateTest(ViewTestCase):
         component = Component.objects.get(slug="create-component")
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "scratch")
+        self.assertIn("scratch", change.get_details_display())
