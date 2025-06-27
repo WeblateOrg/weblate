@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+import threading
 from typing import TYPE_CHECKING, cast
 
 import sentry_sdk
@@ -20,12 +21,18 @@ if TYPE_CHECKING:
     from redis.lock import Lock as RedisLock
 
 
-class WeblateLockTimeoutError(Exception):
-    """Weblate lock timeout."""
-
+class WeblateLockError(Exception):
     def __init__(self, message: str, *, lock: WeblateLock) -> None:
         super().__init__(message)
         self.lock = lock
+
+
+class WeblateLockTimeoutError(WeblateLockError):
+    """Weblate lock timeout."""
+
+
+class WeblateLockNotLockedError(WeblateLockError):
+    """Weblate lock not locked on release."""
 
 
 class WeblateLock:
@@ -33,6 +40,8 @@ class WeblateLock:
 
     _redis_lock: RedisLock
     _file_lock: FileLock
+
+    _redis_expiry_timeout = 3600
 
     def __init__(
         self,
@@ -51,15 +60,19 @@ class WeblateLock:
         self._scope = scope
         self._key = key
         self._slug = slug
-        self._depth = 0
         self._origin = origin
         self._using_redis = is_redis_cache()
+        self._local = threading.local()
+        self._local.depth = 0
         if self._using_redis:
             # Prefer Redis locking as it works distributed
             self._name = self._format_template(cache_template)
             self._redis_lock = cast("RedisCache", cache).lock(
                 key=self._name,
-                timeout=3600,
+                blocking=True,
+                timeout=self._redis_expiry_timeout,
+                blocking_timeout=self._timeout,
+                thread_local=True,
             )
         else:
             # Fall back to file based locking
@@ -90,7 +103,14 @@ class WeblateLock:
         return f"Lock on {self._name} could not be acquired in {self._timeout}s"
 
     def _enter_redis(self) -> None:
-        lock_result = self._redis_lock.acquire(blocking_timeout=self._timeout)
+        # Make the lock reentrant
+        if self._redis_lock.owned():
+            # Extend lock if already owned (nested with statements)
+            lock_result = self._redis_lock.extend(
+                additional_time=self._redis_expiry_timeout
+            )
+        else:
+            lock_result = self._redis_lock.acquire()
 
         if not lock_result:
             raise WeblateLockTimeoutError(self.get_error_message(), lock=self)
@@ -105,14 +125,13 @@ class WeblateLock:
             ) from error
 
     def __enter__(self) -> None:
-        self._depth += 1
-        if self._depth > 1:
-            return
-        with sentry_sdk.start_span(op="lock.wait", name=self._name):
-            if self._using_redis:
-                self._enter_redis()
-            else:
-                self._enter_file()
+        if not self.is_locked:
+            with sentry_sdk.start_span(op="lock.wait", name=self._name):
+                if self._using_redis:
+                    self._enter_redis()
+                else:
+                    self._enter_file()
+        self._local.depth += 1
 
     def __exit__(
         self,
@@ -120,14 +139,19 @@ class WeblateLock:
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        self._depth -= 1
-        if self._depth > 0:
-            return
-        if self._using_redis:
-            self._redis_lock.release()
-        else:
-            self._file_lock.release()
+        if not self.is_locked:
+            msg = f"Lock on {self._name} was not held on release"
+            raise WeblateLockNotLockedError(msg, lock=self)
+
+        self._local.depth -= 1
+
+        # Release underlying lock
+        if self._local.depth == 0:
+            if self._using_redis:
+                self._redis_lock.release()
+            else:
+                self._file_lock.release()
 
     @property
     def is_locked(self) -> bool:
-        return bool(self._depth)
+        return self._local.depth > 0
