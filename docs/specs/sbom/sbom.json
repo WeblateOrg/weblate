@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:1d552bc7-f55b-572a-863f-16c8cbfd2f52",
+  "serialNumber": "urn:uuid:1512dd16-e5c0-55b5-b48f-885ec030e545",
   "version": 1,
   "metadata": {
     "tools": [
@@ -7123,30 +7123,22 @@
     },
     {
       "type": "library",
-      "bom-ref": "social-auth-app-django==5.4.3",
+      "bom-ref": "social-auth-app-django==5.5.1",
       "name": "social-auth-app-django",
-      "version": "5.4.3",
+      "version": "5.5.1",
       "description": "Python Social Authentication, Django integration.",
-      "licenses": [
+      "purl": "pkg:pypi/social-auth-app-django@5.5.1",
+      "externalReferences": [
         {
-          "license": {
-            "name": "License :: OSI Approved :: BSD License",
-            "acknowledgement": "declared"
-          }
+          "url": "https://opencollective.com/python-social-auth",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Funding"
         },
         {
-          "license": {
-            "name": "declared license of 'social-auth-app-django'",
-            "text": {
-              "contentType": "text/plain",
-              "content": "BSD"
-            },
-            "acknowledgement": "declared"
-          }
-        }
-      ],
-      "purl": "pkg:pypi/social-auth-app-django@5.4.3",
-      "externalReferences": [
+          "url": "https://github.com/python-social-auth/social-app-django/blob/master/CHANGELOG.md",
+          "type": "release-notes",
+          "comment": "from packaging metadata Project-URL: Changelog"
+        },
         {
           "url": "https://github.com/python-social-auth/social-app-django",
           "type": "website",
@@ -7156,12 +7148,22 @@
     },
     {
       "type": "library",
-      "bom-ref": "social-auth-core==4.6.1",
+      "bom-ref": "social-auth-core==4.7.0",
       "name": "social-auth-core",
-      "version": "4.6.1",
+      "version": "4.7.0",
       "description": "Python social authentication made simple.",
-      "purl": "pkg:pypi/social-auth-core@4.6.1",
+      "purl": "pkg:pypi/social-auth-core@4.7.0",
       "externalReferences": [
+        {
+          "url": "https://opencollective.com/python-social-auth",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Funding"
+        },
+        {
+          "url": "https://github.com/python-social-auth/social-core/blob/master/CHANGELOG.md",
+          "type": "release-notes",
+          "comment": "from packaging metadata Project-URL: Changelog"
+        },
         {
           "url": "https://github.com/python-social-auth/social-core",
           "type": "website",
@@ -9433,14 +9435,14 @@
       "ref": "sniffio==1.3.1"
     },
     {
-      "ref": "social-auth-app-django==5.4.3",
+      "ref": "social-auth-app-django==5.5.1",
       "dependsOn": [
         "Django==5.2.3",
-        "social-auth-core==4.6.1"
+        "social-auth-core==4.7.0"
       ]
     },
     {
-      "ref": "social-auth-core==4.6.1",
+      "ref": "social-auth-core==4.7.0",
       "dependsOn": [
         "PyJWT==2.10.1",
         "cryptography==45.0.4",
@@ -9649,8 +9651,8 @@
         "ruamel.yaml==0.18.14",
         "sentry-sdk==2.30.0",
         "siphashc==2.5",
-        "social-auth-app-django==5.4.3",
-        "social-auth-core==4.6.1",
+        "social-auth-app-django==5.5.1",
+        "social-auth-core==4.7.0",
         "standardwebhooks==1.0.0",
         "tesserocr==2.8.0",
         "translate-toolkit==3.15.5",
