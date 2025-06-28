@@ -10,7 +10,6 @@ from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
 from datetime import timedelta
-from importlib import import_module
 from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
 
@@ -25,13 +24,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMessage
-from django.core.signing import (
-    BadSignature,
-    SignatureExpired,
-    TimestampSigner,
-    dumps,
-    loads,
-)
+from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
@@ -71,7 +64,6 @@ from django_otp_webauthn.views import (
 )
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
-from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
@@ -159,9 +151,6 @@ from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
-
-AUTHID_SALT = "weblate.authid"
-AUTHID_MAX_AGE = 600
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -1339,16 +1328,6 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
         msg = "Backend not found"
         raise Http404(msg) from None
 
-    # Store session ID for OpenID based auth. The session cookies will
-    # not be sent on returning POST request due to SameSite cookie policy
-    if isinstance(request.backend, OpenIdAuth):
-        request.backend.redirect_uri += "?authid={}".format(
-            dumps(
-                (request.session.session_key, get_ip_address(request)),
-                salt=AUTHID_SALT,
-            )
-        )
-
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
     except AuthException as error:
@@ -1414,7 +1393,7 @@ def handle_missing_parameter(
 
 @csrf_exempt
 @never_cache
-def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C901
+def social_complete(request: AuthenticatedHttpRequest, backend: str):
     """
     Social authentication completion endpoint.
 
@@ -1423,23 +1402,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by JavaScript) to avoid
       confirmations by bots
-    - Restores session from authid for some backends (see social_auth)
     """
-    if "authid" in request.GET:
-        try:
-            session_key, ip_address = loads(
-                request.GET["authid"],
-                max_age=AUTHID_MAX_AGE,
-                salt=AUTHID_SALT,
-            )
-        except (BadSignature, SignatureExpired):
-            report_error("authid signature")
-            return auth_redirect_token(request)
-        if ip_address != get_ip_address(request):
-            return auth_fail(request, "IP address changed, please try again.")
-        engine = import_module(settings.SESSION_ENGINE)
-        request.session = engine.SessionStore(session_key)
-
     if (
         "partial_token" in request.GET
         and "verification_code" in request.GET
