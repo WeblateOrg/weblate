@@ -1765,6 +1765,7 @@ def format_last_changes_content(
             change.user
             and not change.user.is_anonymous
             and change.project
+            and change.user != user
             and user.has_perm("project.permissions", change.project)
         )
 
