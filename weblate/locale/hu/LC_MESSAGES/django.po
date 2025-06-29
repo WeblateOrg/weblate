@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-06-29 19:24+0000\n"
+"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -770,15 +770,14 @@ msgstr ""
 "Amikor lefordít egy szöveget egy projektben, akkor elkezdi megfigyelni azt."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Hozzájárulás a megosztott fordítási memóriához"
+msgstr "Hozzájárulás a személyes fordítási memóriához"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Engedélyezi, hogy fordításai bekerüljenek a személyes fordítási memóriájába."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1322,10 +1321,8 @@ msgstr ""
 "fióknál."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "A hitelesítő alkalmazás el lett távolítva."
+msgstr "A hitelesítési szolgáltató nem elérhető."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -1915,10 +1912,8 @@ msgid "Secret"
 msgstr "Titkos kulcs"
 
 #: weblate/addons/forms.py:704
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Érvénytelen Base64 kódolású szöveg"
+msgstr "Base64 kódolt szöveg"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2097,26 +2092,20 @@ msgid "Webhook"
 msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Értesítés küldése külső szolgáltatásnak a kiválasztott események alapján."
+"Értesítéseket küld külső szolgáltatásoknak a kiválasztott események alapján, "
+"a Standard Webhooks szabványnak megfelelően."
 
 #: weblate/addons/webhooks.py:177
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhook"
+msgstr "Slack Webhookok"
 
 #: weblate/addons/webhooks.py:179
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr ""
-"Értesítés küldése külső szolgáltatásnak a kiválasztott események alapján."
+msgstr "Értesítést küld egy Slack csatornára a kiválasztott események alapján."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2577,10 +2566,8 @@ msgstr "A belső tároló frissítése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Bejelentés küldése"
+msgstr "Közlemény közzététele"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2679,11 +2666,9 @@ msgid "Power user"
 msgstr "Képzett felhasználó"
 
 #: weblate/auth/data.py:207
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Access-control role"
 msgid "Translation coordinator"
-msgstr "Fordítási megjegyzés"
+msgstr "Fordítási koordinátor"
 
 #: weblate/auth/data.py:224
 msgctxt "Access-control role"
@@ -4651,16 +4636,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"A feltöltött betűtípusnak egyeznie kell a meglévő családdal és stílussal: "
+"„%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "A feltöltött fájl összefésülésre kerül a jelenlegi fordítással."
+msgstr "A feltöltött betűtípus megegyezik a jelenlegivel."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "A betűtípus sikeresen frissítve."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -4842,7 +4827,7 @@ msgstr "Mobil Kotlin erőforrás"
 
 #: weblate/formats/ttkit.py:1477
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Multiplatform erőforrás összeállítása"
 
 #: weblate/formats/ttkit.py:1491
 #, python-format
@@ -5689,11 +5674,13 @@ msgstr "Írja le a fordítás szövegkörnyezetét a pontosabb fordítás érdek
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Következő generációs modell használata"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Előnyben részesíti az új generációs LLM modellt a hagyományos gépi "
+"fordítással szemben."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -6538,10 +6525,9 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "Ez a felhasználónév és jelszó páros nem található. Próbálja meg újra."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Meghívás a(z) %(site_title)s webhelyre"
+msgstr "Regisztráció a(z) %(formatted_site_title)s oldalon"
 
 #: weblate/templates/accounts/login.html:45
 msgid "Sign in with:"
