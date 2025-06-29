@@ -2062,7 +2062,10 @@ class Unit(models.Model, LoggerMixin):
             not user
             or user.is_bot
             or not user.is_active
-            or self.target == self.old_unit["target"]
+            or (
+                self.target == self.old_unit["target"]
+                and self.state == self.old_unit["state"]
+            )
         ):
             return
 
@@ -2070,7 +2073,7 @@ class Unit(models.Model, LoggerMixin):
         component = translation.component
         if (
             (not translation.is_source or component.intermediate)
-            and self.state >= STATE_TRANSLATED
+            and (self.state >= STATE_TRANSLATED or self.state != self.old_unit["state"])
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):

@@ -11,7 +11,7 @@ from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -84,6 +84,8 @@ def handle_unit_translation_change(
         project_id=project.id,
         add_project=component.contribute_project_tm,
         add_user=add_user,
+        state=unit.state,
+        translation_review_enabled=project.translation_review,
     )
 
 
@@ -100,38 +102,57 @@ def update_memory(
     add_user: bool,
     user_id: int | None,
     project_id: int,
+    state: int,
+    translation_review_enabled: bool,
 ) -> None:
-    # Check matching entries in memory
-    for matching in Memory.objects.filter(
+    check_matching = True
+
+    matching_qs = Memory.objects.filter(
         from_file=False,
         source=source,
-        target=target,
         origin=origin,
         source_language_id=source_language_id,
         target_language_id=target_language_id,
+    )
+    if (translation_review_enabled and state == STATE_APPROVED) or (
+        not translation_review_enabled and state >= STATE_TRANSLATED
     ):
-        if (
-            matching.user_id is None
-            and matching.project_id == project_id
-            and not matching.shared
-        ):
-            add_project = False
-        elif (
-            add_shared
-            and matching.user_id is None
-            and matching.project_id is None
-            and matching.shared
-        ):
-            add_shared = False
-        elif (
-            add_user
-            and matching.user_id == user_id
-            and matching.project_id is None
-            and not matching.shared
-        ):
-            add_user = False
+        memory_status = Memory.STATUS_ACTIVE
+        matching_qs.delete()  # delete old entries
+        check_matching = False
+    else:
+        memory_status = Memory.STATUS_PENDING
 
     to_create = []
+    to_update = []
+
+    if check_matching:
+        # Check matching entries in memory
+        for matching in matching_qs:
+            if matching.target == target and matching.status != memory_status:
+                matching.status = memory_status
+                to_update.append(matching)
+
+            if (
+                matching.user_id is None
+                and matching.project_id == project_id
+                and not matching.shared
+            ):
+                add_project = target != matching.target
+            elif (
+                add_shared
+                and matching.user_id is None
+                and matching.project_id is None
+                and matching.shared
+            ):
+                add_shared = target != matching.target
+            elif (
+                add_user
+                and matching.user_id == user_id
+                and matching.project_id is None
+                and not matching.shared
+            ):
+                add_user = target != matching.target
 
     if add_project:
         to_create.append(
@@ -145,6 +166,7 @@ def update_memory(
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
     if add_shared:
@@ -159,6 +181,7 @@ def update_memory(
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
     if add_user:
@@ -173,7 +196,12 @@ def update_memory(
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
+
     if to_create:
         Memory.objects.bulk_create(to_create)
+
+    if to_update:
+        Memory.objects.bulk_update(to_update, fields=["status"])

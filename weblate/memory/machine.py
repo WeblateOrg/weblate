@@ -7,6 +7,8 @@ from django.urls import reverse
 from weblate.machinery.base import DownloadTranslations, InternalMachineTranslation
 from weblate.memory.models import Memory
 
+PENDING_MEMORY_PENALTY = 0.7  # TODO: ask what value is reasonable for this constant
+
 
 class WeblateMemory(InternalMachineTranslation):
     """Translation service using strings already translated in Weblate."""
@@ -35,6 +37,9 @@ class WeblateMemory(InternalMachineTranslation):
             threshold=threshold,
         ):
             quality = self.comparer.similarity(text, result.source)
+            if result.status == Memory.STATUS_PENDING:
+                quality *= PENDING_MEMORY_PENALTY  # Pending matches are less reliable
+
             if quality < threshold:
                 continue
             yield {
