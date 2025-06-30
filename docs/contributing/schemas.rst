@@ -7,7 +7,7 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
    .. _schema-memory:
 
-   .. jsonschema:: ../schemas/weblate-memory.schema.json
+   .. jsonschema:: ../specs/schemas/weblate-memory.schema.json
 
 .. seealso::
 
@@ -20,7 +20,7 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
    .. _schema-userdata:
 
-   .. jsonschema:: ../schemas/weblate-userdata.schema.json
+   .. jsonschema:: ../specs/schemas/weblate-userdata.schema.json
 
 .. seealso::
 
@@ -33,7 +33,7 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
    .. _schema-messaging:
 
-   .. jsonschema:: ../schemas/weblate-messaging.schema.json
+   .. jsonschema:: ../specs/schemas/weblate-messaging.schema.json
 
 .. seealso::
 
