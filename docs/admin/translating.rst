@@ -125,7 +125,7 @@ The uploaded screenshot is shown in the translation context sidebar:
 .. image:: /screenshots/screenshot-context.webp
 
 In addition to :ref:`additional`, screenshots have a separate management
-interface under the :guilabel:`Tools` menu.
+interface under the :guilabel:`Operations` menu.
 Upload screenshots, assign them to source strings manually, or use optical
 character recognition (OCR) to do so by pressing the :guilabel:`Automatically
 recognize` button.

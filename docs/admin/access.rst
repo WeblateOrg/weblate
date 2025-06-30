@@ -60,7 +60,7 @@ Limit user access to individual projects by selecting a different
    **Choose this on your own Weblate instance if you want to define access in a specific, finely customizable way.**
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
-configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
+configuration (:guilabel:`Operations` ↓ :guilabel:`Settings`) of each respective
 project.
 
 .. image:: /screenshots/project-access.webp
@@ -138,7 +138,7 @@ For `Protected` and `Private` projects only:
 .. image:: /screenshots/manage-users.webp
 
 These features are available on the :guilabel:`Access control` page in
-the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
+the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
 
 .. hint::
 

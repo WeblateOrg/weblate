@@ -491,7 +491,7 @@ class SeleniumTests(
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Screenshots")
         self.screenshot("screenshot-filemask-repository-filename.png")
@@ -553,7 +553,7 @@ class SeleniumTests(
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Screenshots")
 
@@ -648,7 +648,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         self.click("Post announcement")
         self.screenshot("announcement-project.png")
 
@@ -760,7 +760,7 @@ class SeleniumTests(
         self.screenshot("project-overview.png")
 
         # User management
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Users")
         element = self.driver.find_element(By.ID, "id_user")
@@ -774,7 +774,7 @@ class SeleniumTests(
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Automatic suggestions")
         self.screenshot("project-machinery.png")
@@ -782,7 +782,7 @@ class SeleniumTests(
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Access")
@@ -810,10 +810,10 @@ class SeleniumTests(
             self.click("Language names")
 
         # Repository
-        self.click("Manage")
+        self.click("Operations")
         self.click("Repository maintenance")
         time.sleep(0.2)
-        self.click("Manage")
+        self.click("Operations")
         self.screenshot("component-repository.png")
 
         # Add-ons
@@ -858,7 +858,7 @@ class SeleniumTests(
         self.screenshot("reporting.png")
 
         # Contributor license agreement
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         element = self.driver.find_element(By.ID, "id_agreement")
@@ -888,10 +888,10 @@ class SeleniumTests(
         self.click("Customize download")
         self.click("Files")
         self.screenshot("file-download.png")
-        self.click("Tools")
+        self.click("Operations")
         self.click("Automatic translation")
         self.click(htmlid="id_auto_source_1")
-        self.click("Tools")
+        self.click("Operations")
         self.screenshot("automatic-translation.png")
         self.click("Search")
         element = self.driver.find_element(By.ID, "id_q")
@@ -1072,7 +1072,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Fonts")
 
@@ -1179,7 +1179,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Labels")
         element = self.driver.find_element(By.ID, "id_name")
@@ -1202,7 +1202,7 @@ class SeleniumTests(
             self.click("Android")
 
         # Edit variant configuration
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Translation")

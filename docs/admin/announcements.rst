@@ -15,7 +15,7 @@ projects (unless they opt out).
 This can be useful for various things from announcing the purpose of the website to
 specifying targets for translations.
 
-The announcements can posted on each level in the :guilabel:`Manage` menu, using
+The announcements can posted on each level in the :guilabel:`Operations` menu, using
 :guilabel:`Post announcement`:
 
 .. image:: /screenshots/announcement-project.webp
