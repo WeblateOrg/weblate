@@ -222,7 +222,9 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
 
 class FullUserSerializer(serializers.ModelSerializer[User]):
     contact = serializers.CharField(
-        source="profile.contact", allow_blank=True, read_only=True,
+        source="profile.contact",
+        allow_blank=True,
+        read_only=True,
     )
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail",
