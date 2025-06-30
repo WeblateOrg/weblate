@@ -432,7 +432,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                 excepted_deleted_count += 3  # 1 for each [project, user, shared]
 
         total_memory_count = Memory.objects.count()
-        call_command("clean_memory")
+        call_command("cleanup_memory")
         self.assertEqual(
             Memory.objects.all().count(), total_memory_count - excepted_deleted_count
         )

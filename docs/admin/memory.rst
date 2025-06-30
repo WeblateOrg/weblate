@@ -90,8 +90,6 @@ In the Docker container this can be configured using :envvar:`WEBLATE_AUTOCLEAN_
 
    :ref:`project-autoclean_tm`
 
-.. _memory-status:
-
 Managing the Translation Memory
 -------------------------------
 
@@ -148,7 +146,7 @@ These operate on the translation memory as a whole, unfiltered by scopes
     Exports the memory into JSON
 :wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory
-:wladmin:`clean_memory`
+:wladmin:`cleanup_memory`
     Removes all entries with pending status from the translation memory
 
 .. versionadded:: 4.14

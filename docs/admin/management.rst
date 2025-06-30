@@ -219,6 +219,17 @@ manually, as the cleanups happen automatically in the background.
 
    :ref:`production-cron`
 
+
+cleanup_memory
+----------------
+
+.. weblate-admin:: cleanup_memory
+
+.. versionadded:: 5.13
+
+Removes all obsolete entries with pending status from the translation memory.
+
+
 cleanup_ssh_keys
 ----------------
 
