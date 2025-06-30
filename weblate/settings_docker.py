@@ -1442,6 +1442,8 @@ DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
+AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
+
 CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
 

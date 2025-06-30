@@ -85,7 +85,6 @@ def handle_unit_translation_change(
         add_project=component.contribute_project_tm,
         add_user=add_user,
         state=unit.state,
-        translation_review_enabled=project.translation_review,
     )
 
 
@@ -103,32 +102,40 @@ def update_memory(
     user_id: int | None,
     project_id: int,
     state: int,
-    translation_review_enabled: bool,
 ) -> None:
+    from weblate.trans.models import Project
+
+    project = Project.objects.get(pk=project_id)
     check_matching = True
 
-    matching_qs = Memory.objects.filter(
-        from_file=False,
-        source=source,
-        origin=origin,
-        source_language_id=source_language_id,
-        target_language_id=target_language_id,
-    )
-    if (translation_review_enabled and state == STATE_APPROVED) or (
-        not translation_review_enabled and state >= STATE_TRANSLATED
+    if (project.translation_review and state == STATE_APPROVED) or (
+        not project.translation_review and state >= STATE_TRANSLATED
     ):
         memory_status = Memory.STATUS_ACTIVE
-        matching_qs.delete()  # delete old entries
-        check_matching = False
+        if project.autoclean_tm:
+            Memory.objects.filter(
+                from_file=False,
+                source=source,
+                origin=origin,
+                source_language_id=source_language_id,
+                target_language_id=target_language_id,
+            ).delete()  # delete old entries, including those with different targets
+            check_matching = False
     else:
         memory_status = Memory.STATUS_PENDING
-
     to_create = []
     to_update = []
 
     if check_matching:
         # Check matching entries in memory
-        for matching in matching_qs:
+        for matching in Memory.objects.filter(
+            from_file=False,
+            source=source,
+            target=target,
+            origin=origin,
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+        ):
             if matching.target == target and matching.status != memory_status:
                 matching.status = memory_status
                 to_update.append(matching)
@@ -138,21 +145,21 @@ def update_memory(
                 and matching.project_id == project_id
                 and not matching.shared
             ):
-                add_project = target != matching.target
+                add_project = False
             elif (
                 add_shared
                 and matching.user_id is None
                 and matching.project_id is None
                 and matching.shared
             ):
-                add_shared = target != matching.target
+                add_shared = False
             elif (
                 add_user
                 and matching.user_id == user_id
                 and matching.project_id is None
                 and not matching.shared
             ):
-                add_user = target != matching.target
+                add_user = False
 
     if add_project:
         to_create.append(

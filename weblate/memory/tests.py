@@ -36,6 +36,7 @@ def add_document() -> None:
         origin="test",
         from_file=True,
         shared=False,
+        status=Memory.STATUS_ACTIVE,
     )
 
 
@@ -267,24 +268,62 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(Memory.objects.count(), 3)
 
     def test_memory_status_no_review(self) -> None:
-        self.project.translation_review = False
+        self.test_memory_status_with_review(translation_review=False)
+
+    def test_memory_status_with_review(self, translation_review: bool = True) -> None:
+        self.project.translation_review = translation_review
         self.project.save()
         machine_translation = WeblateMemory({})
-        unit = self.get_unit()
 
+        unit = self.get_unit()
         unit.translate(self.user, "Hello", STATE_TRANSLATED)
 
-        # check that one memory is created with status active
+        # check memory status is created with status pending
+        expected_status = (
+            Memory.STATUS_PENDING if translation_review else Memory.STATUS_ACTIVE
+        )
         self.assertEqual(
             1,
-            Memory.objects.filter(
-                project=self.project, status=Memory.STATUS_ACTIVE
-            ).count(),
+            Memory.objects.filter(project=self.project, status=expected_status).count(),
         )
 
-        # check that suggestion quality is 100% because no penalty is applied
         suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
-        self.assertEqual(suggestion["quality"], 100)
+        if translation_review:
+            # quality is less than 100% because of penalty
+            self.assertLess(suggestion["quality"], 100)
+        else:
+            self.assertEqual(suggestion["quality"], 100)
+
+        if translation_review:
+            self.project.add_user(
+                self.user, "Administration"
+            )  # allow user to approve translations
+            # approve the translation
+            params = self.approve_translation_params(unit, "Hello")
+            self.client.post(unit.translation.get_translate_url(), params, follow=True)
+
+            # check that memory status is updated to active
+            self.assertEqual(
+                1,
+                Memory.objects.filter(
+                    project=self.project, status=Memory.STATUS_ACTIVE
+                ).count(),
+            )
+            suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+            self.assertEqual(suggestion["quality"], 100)
+
+            # mark the translation as needing editing
+            params |= {"review": "10"}
+            self.client.post(unit.translation.get_translate_url(), params, follow=True)
+            # check that memory status is updated to pending
+            self.assertEqual(
+                1,
+                Memory.objects.filter(
+                    project=self.project, status=Memory.STATUS_PENDING
+                ).count(),
+            )
+            suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+            self.assertLess(suggestion["quality"], 100)
 
     def approve_translation_params(
         self,
@@ -300,70 +339,24 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             "review": "30",
         }
 
-    def test_memory_status_with_review(self) -> None:
-        self.project.translation_review = True
-        self.project.save()
-        machine_translation = WeblateMemory({})
+    def test_pending_memory_autoclean(self, autoclean_active: bool = False) -> None:
+        import_memory(self.project.id)
+        imported_memory_ids = [m.pk for m in Memory.objects.all()]
+        initial_memory_count = len(imported_memory_ids)
+        not_imported_memory_qs = Memory.objects.exclude(id__in=imported_memory_ids)
 
-        unit = self.get_unit()
-        unit.translate(self.user, "Hello", STATE_TRANSLATED)
-
-        # check memory status is created with status pending
-        self.assertEqual(
-            1,
-            Memory.objects.filter(
-                project=self.project, status=Memory.STATUS_PENDING
-            ).count(),
-        )
-
-        # check that suggestion quality is less than 100% because of penalty
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
-        self.assertLess(suggestion["quality"], 100)
-
-        self.project.add_user(
-            self.user, "Administration"
-        )  # allow user to approve translations
-        # approve the translation
-        params = self.approve_translation_params(unit, "Hello")
-        self.client.post(unit.translation.get_translate_url(), params, follow=True)
-
-        # check that memory status is updated to active
-        self.assertEqual(
-            1,
-            Memory.objects.filter(
-                project=self.project, status=Memory.STATUS_ACTIVE
-            ).count(),
-        )
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
-        self.assertEqual(suggestion["quality"], 100)
-
-        # mark the translation as needing editing
-        params |= {"review": "10"}
-        self.client.post(unit.translation.get_translate_url(), params, follow=True)
-        # check that memory status is updated to pending
-        self.assertEqual(
-            1,
-            Memory.objects.filter(
-                project=self.project, status=Memory.STATUS_PENDING
-            ).count(),
-        )
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
-        self.assertLess(suggestion["quality"], 100)
-
-    def test_pending_memory_autoclean(self, autoclean_active: bool = True) -> None:
-        # TODO: we suppose autoclean is active
         # create a translation with review enabled
         self.project.translation_review = True
         self.project.save()
         machine_translation = WeblateMemory({})
 
         unit = self.get_unit()
-        unit.translate(self.user, "Hello", STATE_TRANSLATED)
+        unit.translate(self.user, "Hello 1", STATE_TRANSLATED)
 
         # check memory status is created with status pending
         self.assertEqual(
             1,
-            Memory.objects.filter(
+            not_imported_memory_qs.filter(
                 project=self.project, status=Memory.STATUS_PENDING
             ).count(),
         )
@@ -376,7 +369,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         unit.translate(self.anotheruser, "Hello 2", STATE_TRANSLATED)
         self.assertEqual(
             2,
-            Memory.objects.filter(
+            not_imported_memory_qs.filter(
                 project=self.project, status=Memory.STATUS_PENDING
             ).count(),
         )
@@ -387,22 +380,42 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.project.add_user(
             self.user, "Administration"
         )  # allow user to approve translations
-        params = self.approve_translation_params(unit, "Hello")
+        params = self.approve_translation_params(unit, "Hello 1")
         self.client.post(unit.translation.get_translate_url(), params, follow=True)
-
-        # check that only an active memory is left
         self.assertEqual(
             1,
-            Memory.objects.filter(
+            not_imported_memory_qs.filter(
                 project=self.project, status=Memory.STATUS_ACTIVE
             ).count(),
         )
         suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
         self.assertEqual(suggestion["quality"], 100)
 
-    def test_pending_memory_no_autoclean(self) -> None:
-        # TODO: find how to activate and deactivate autoclean
-        self.test_pending_memory_autoclean(autoclean_active=False)
+        if not autoclean_active:
+            # check that the other pending memory has not been deleted
+            self.assertEqual(
+                1,
+                not_imported_memory_qs.filter(
+                    project=self.project, status=Memory.STATUS_PENDING
+                ).count(),
+            )
+            for suggestion in machine_translation.search(unit, "Hello, world!\n", None):
+                if suggestion["text"] in {
+                    "Hello 1",
+                    "Hello 2",
+                }:  # ignore imported entries
+                    self.assertLess(suggestion["quality"], 100)
+
+        # check that imported memory entries were not affected by autoclean
+        self.assertEqual(
+            initial_memory_count,
+            Memory.objects.filter(pk__in=imported_memory_ids).count(),
+        )
+
+    def test_pending_memory_autoclean_active(self) -> None:
+        self.project.autoclean_tm = True
+        self.project.save()
+        self.test_pending_memory_autoclean(autoclean_active=True)
 
 
 class MemoryViewTest(FixtureTestCase):

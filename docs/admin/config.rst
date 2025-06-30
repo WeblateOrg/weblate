@@ -644,6 +644,11 @@ DEFAULT_SHARED_TM
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
+AUTOCLEAN_TM
+------------
+
+Configures the default value of :ref:`project-autoclean_tm`.
+
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
 DEFAULT_TRANSLATION_PROPAGATION
