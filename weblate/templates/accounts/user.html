@@ -223,7 +223,7 @@
       <div class="tab-pane" id="activity">{% include "snippets/activity.html" with metrics=page_user|metrics %}</div>
 
       <div class="tab-pane" id="changes">
-        {% include "last-changes-content.html" %}
+        {% format_last_changes_content last_changes=last_changes user=user %}
         <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
       </div>
 

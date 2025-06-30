@@ -176,6 +176,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             details={"error_message": "Failed merge", "filename": "test/file.po"},
             action=ActionEvents.PARSE_ERROR,
         )
+        self.assertIn("test/file.po", change.get_details_display())
+        self.assertIn("Failed merge", change.get_details_display())
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
