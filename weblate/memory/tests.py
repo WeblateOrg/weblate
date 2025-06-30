@@ -119,6 +119,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     "target": "Ahoj",
                     "origin": "test",
                     "category": CATEGORY_FILE,
+                    "status": 1,
                 }
             ],
         )

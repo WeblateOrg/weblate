@@ -16,10 +16,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="memory",
             name="status",
-            field=models.CharField(
-                choices=[("pending", "Pending"), ("active", "Active")],
-                default="pending",
-                max_length=10,
+            field=models.IntegerField(
+                choices=[(0, "Pending"), (1, "Active")], default=0
             ),
         ),
     ]

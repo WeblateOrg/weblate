@@ -415,8 +415,8 @@ class MemoryManager(models.Manager):
 
 class Memory(models.Model):
     # Status choices for the memory entry
-    STATUS_PENDING = "pending"
-    STATUS_ACTIVE = "active"
+    STATUS_PENDING = 0
+    STATUS_ACTIVE = 1
     STATUS_CHOICES = [
         (STATUS_PENDING, gettext_lazy("Pending")),
         (STATUS_ACTIVE, gettext_lazy("Active")),
@@ -451,8 +451,7 @@ class Memory(models.Model):
     )
     from_file = models.BooleanField(default=False)
     shared = models.BooleanField(default=False)
-    status = models.CharField(
-        max_length=10,
+    status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=STATUS_PENDING,
     )
@@ -518,4 +517,5 @@ class Memory(models.Model):
             "target_language": self.target_language.code,
             "origin": self.origin,
             "category": self.get_category(),
+            "status": self.status,
         }
