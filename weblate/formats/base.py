@@ -20,6 +20,7 @@ from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
+from weblate.checks.flags import Flags
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
@@ -197,9 +198,9 @@ class TranslationUnit:
         return ""
 
     @cached_property
-    def flags(self) -> str:
+    def flags(self) -> Flags:
         """Return flags or typecomments from units."""
-        return ""
+        return Flags()
 
     @cached_property
     def notes(self) -> str:
