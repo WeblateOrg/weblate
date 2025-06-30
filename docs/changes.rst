@@ -5,6 +5,9 @@ Weblate 5.13
 
 .. rubric:: New features
 
+* Enhanced :ref:`translation-memory` management with configurable status control, see :ref:`memory-status`.
+* Added :wladmin:`clean_memory` management command to remove obsolete translation memory entries.
+
 .. rubric:: Improvements
 
 * :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.

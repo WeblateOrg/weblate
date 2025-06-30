@@ -64,6 +64,34 @@ installations, as it can have severe implications:
 
    :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
 
+.. _memory-status:
+
+Translation memory status
+-------------------------
+
+.. versionadded:: 5.13
+
+Translation memory entries can have two different statuses: **active** and **pending**.
+Pending entries are included in suggestions, but with a quality penalty applied.
+If :ref:`autoclean-tm` is enabled, stale and obsolete entries with pending status are automatically removed when a translation is approved.
+
+.. _autoclean-tm:
+
+Autoclean translation memory
+-----------------------------
+
+.. versionadded:: 5.13
+
+The translation memory is automatically cleaned up by removing obsolete and outdated entries.
+
+In the Docker container this can be configured using :envvar:`WEBLATE_AUTOCLEAN_TM`.
+
+.. seealso::
+
+   :ref:`project-autoclean_tm`
+
+.. _memory-status:
+
 Managing the Translation Memory
 -------------------------------
 
@@ -120,6 +148,8 @@ These operate on the translation memory as a whole, unfiltered by scopes
     Exports the memory into JSON
 :wladmin:`import_memory`
     Imports TMX or JSON files into the translation memory
+:wladmin:`clean_memory`
+    Removes all entries with pending status from the translation memory
 
 .. versionadded:: 4.14
 

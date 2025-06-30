@@ -647,6 +647,8 @@ Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-c
 AUTOCLEAN_TM
 ------------
 
+.. versionchanged:: 5.13
+
 Configures the default value of :ref:`project-autoclean_tm`.
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION

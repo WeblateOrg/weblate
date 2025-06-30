@@ -192,8 +192,11 @@ The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
     This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
 .. _project-autoclean_tm:
+
 Autoclean translation memory
 +++++++++++++++++++++++++++++
+
+.. versionadded:: 5.13
 
 Whether to automatically remove outdated and obsolete entries from translation memory.
 
