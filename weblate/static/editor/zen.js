@@ -225,9 +225,7 @@
           addAlert(val.text, val.kind);
         });
 
-        $row
-          .removeClass("translation-modified")
-          .addClass("translation-saved");
+        $row.removeClass("translation-modified").addClass("translation-saved");
         $row.find("#unsaved-label").remove();
         $row.find(".translation-editor").removeClass("has-changes");
 
