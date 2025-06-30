@@ -208,7 +208,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">{% translate "Repository changes" %}</h4>
     </div>
-    <div class="panel-body">{% include "last-changes-content.html" with last_changes=changes %}</div>
+    <div class="panel-body">{% format_last_changes_content last_changes=changes user=user %}</div>
   </div>
 
 {% endwith %}

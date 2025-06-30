@@ -108,9 +108,10 @@ class SettingsTest(ViewTestCase):
         # Verify change has been done
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
-        self.assertTrue(
-            project.change_set.filter(action=ActionEvents.ACCESS_EDIT).exists()
-        )
+        change = project.change_set.filter(action=ActionEvents.ACCESS_EDIT).get()
+
+        # Check change details display
+        self.assertEqual(change.get_details_display(), "Protected")
 
     def test_component_denied(self) -> None:
         url = reverse("settings", kwargs=self.kw_component)

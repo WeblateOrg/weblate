@@ -13,6 +13,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.hooks import HOOK_HANDLERS
 
@@ -1306,6 +1307,12 @@ class HooksViewTest(ViewTestCase):
             headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
+
+        # Check change details display
+        change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
+        self.assertIn("GitHub", change.get_details_display())
+        self.assertIn("http://github.com/defunkt/github", change.get_details_display())
+        self.assertIn("main", change.get_details_display())
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_new(self) -> None:

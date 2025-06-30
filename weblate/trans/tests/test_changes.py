@@ -103,3 +103,11 @@ class ChangesTest(ViewTestCase):
             reverse("changes"), {"page": 2, "limit": 20, "period": period}
         )
         self.assertContains(response, "String added in the upload")
+
+    def test_last_changes_display(self):
+        unit_to_delete = self.get_unit("Orangutan has %d banana")
+        self.translation.delete_unit(None, unit_to_delete)
+        response = self.client.get(reverse("changes"))
+        self.assertContains(
+            response, "String removed", count=2
+        )  # one is from search options, second from history-data

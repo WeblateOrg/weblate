@@ -1669,11 +1669,11 @@ class BaseWebhookTests:
 
         self.edit_unit(
             "Hello, world!\n", "Nazdar svete!\n"
-        )  # triggers ACTION_NEW event
+        )  # triggers ActionEvents.NEW event
         unit_to_delete = self.get_unit("Orangutan has %d banana")
         self.translation.delete_unit(
             None, unit_to_delete
-        )  # triggers ACTION_STRING_REMOVE event
+        )  # triggers ActionEvents.STRING_REMOVE event
         self.assertEqual(len(responses.calls), expected_calls)
 
     @responses.activate

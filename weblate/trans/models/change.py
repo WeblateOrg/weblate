@@ -16,11 +16,9 @@ from django.db.models import Count, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.html import escape, format_html
-from django.utils.translation import gettext, gettext_lazy, pgettext
+from django.utils.translation import gettext, gettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
-from weblate.lang.models import Language
 from weblate.trans.actions import (
     ACTIONS_ADDON,
     ACTIONS_CONTENT,
@@ -31,13 +29,10 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.files import FileUploadMethod, get_upload_message
-from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
@@ -676,152 +671,11 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self):  # noqa: C901, PLR0911
-        from weblate.addons.models import ADDONS
-        from weblate.utils.markdown import render_markdown
+    def get_details_display(self) -> str:
+        from weblate.trans.change_display import ChangeDetailsRenderFactory
 
-        details = self.details
-        action = self.action
-
-        if action == ActionEvents.CREATE_COMPONENT:
-            try:
-                origin = details["origin"]
-            except KeyError:
-                return ActionEvents.CREATE_COMPONENT.label
-            try:
-                return COMPONENT_ORIGINS[origin]
-            except KeyError:
-                return f"{ActionEvents.CREATE_COMPONENT.label} ({origin})"
-
-        if action == ActionEvents.FILE_UPLOAD:
-            try:
-                method = FileUploadMethod[details["method"].upper()].label
-            except KeyError:
-                method = details["method"]
-            return format_html(
-                "{}<br>{} {}",
-                get_upload_message(
-                    details["not_found"],
-                    details["skipped"],
-                    details["accepted"],
-                    details["total"],
-                ),
-                gettext("File upload mode:"),
-                method,
-            )
-
-        if action in {
-            ActionEvents.ANNOUNCEMENT,
-            ActionEvents.AGREEMENT_CHANGE,
-        }:
-            return render_markdown(self.target)
-
-        if action == ActionEvents.COMMENT_DELETE and "comment" in details:
-            return render_markdown(details["comment"])
-
-        if action in {
-            ActionEvents.ADDON_CREATE,
-            ActionEvents.ADDON_CHANGE,
-            ActionEvents.ADDON_REMOVE,
-        }:
-            try:
-                return ADDONS[self.target].name
-            except KeyError:
-                return self.target
-
-        if action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[action])
-
-        if action == ActionEvents.UPDATE:
-            reason = details.get("reason", "content changed")
-            filename = format_html(
-                "<code>{}</code>",
-                details.get(
-                    "filename",
-                    self.translation.filename if self.translation else "",
-                ),
-            )
-            if reason == "content changed":
-                message = gettext("The “{}” file was changed.")
-            elif reason == "check forced":
-                message = gettext("Parsing of the “{}” file was enforced.")
-            elif reason == "new file":
-                message = gettext("File “{}” was added.")
-            else:
-                msg = f"Unknown reason: {reason}"
-                raise ValueError(msg)
-            return format_html(escape(message), filename)
-
-        if action == ActionEvents.LICENSE_CHANGE:
-            not_available = pgettext("License information not available", "N/A")
-            return gettext(
-                'The license of the "%(component)s" component was changed '
-                "from %(old)s to %(target)s."
-            ) % {
-                "component": self.component,
-                "old": self.old or not_available,
-                "target": self.target or not_available,
-            }
-
-        # Following rendering relies on details present
-        if not details:
-            return ""
-        user_actions = {
-            ActionEvents.ADD_USER,
-            ActionEvents.INVITE_USER,
-            ActionEvents.REMOVE_USER,
-        }
-        if action == ActionEvents.ACCESS_EDIT:
-            for number, name in Project.ACCESS_CHOICES:
-                if number == details["access_control"]:
-                    return name
-            return "Unknown {}".format(details["access_control"])
-        if action in user_actions:
-            if "username" in details:
-                result = details["username"]
-            else:
-                result = mask_email(details["email"])
-            if "group" in details:
-                result = f"{result} ({details['group']})"
-            return result
-        if action in {
-            ActionEvents.ADDED_LANGUAGE,
-            ActionEvents.REQUESTED_LANGUAGE,
-        }:
-            try:
-                return Language.objects.get(code=details["language"])
-            except Language.DoesNotExist:
-                return details["language"]
-        if action == ActionEvents.ALERT:
-            try:
-                return ALERTS[details["alert"]].verbose
-            except KeyError:
-                return details["alert"]
-        if action == ActionEvents.PARSE_ERROR:
-            return "{filename}: {error_message}".format(**details)
-        if action == ActionEvents.HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**details)
-        if action == ActionEvents.COMMENT and "comment" in details:
-            return render_markdown(details["comment"])
-        if action in {
-            ActionEvents.RESET,
-            ActionEvents.MERGE,
-            ActionEvents.REBASE,
-        }:
-            return format_html(
-                "{}<br/><br/>{}<br/>{}",
-                self.get_action_display(),
-                format_html(
-                    escape(gettext("Original revision: {}")),
-                    details.get("previous_head", "N/A"),
-                ),
-                format_html(
-                    escape(gettext("New revision: {}")),
-                    details.get("new_head", "N/A"),
-                ),
-            )
-
-        return ""
+        strategy = ChangeDetailsRenderFactory.get_strategy(self)
+        return strategy.render_details(self)
 
     def get_distance(self):
         return DamerauLevenshtein.distance(self.old, self.target)

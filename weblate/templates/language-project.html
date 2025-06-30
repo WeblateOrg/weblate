@@ -129,13 +129,13 @@
     </div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
-        {% include "last-changes-content.html" with last_changes=last_announcements %}
+        {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
            href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>
