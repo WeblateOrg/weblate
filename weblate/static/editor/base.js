@@ -42,13 +42,18 @@ WLT.Utils = (() => ({
    * @returns {void}
    */
   indicateChanges: (e) => {
-    const $warning = $("<span id='unsaved-label' class='text-warning'/>");
+    const $warning = $(
+      "<div id='unsaved-label' class='text-warning pull-right flip'/>",
+    );
     const $editorArea = e
       ? $(e.target).closest(".translation-editor")
       : $(".translator .translation-editor");
+    const $target = $editorArea
+      .closest(".translation-item")
+      .find(".editor-footer");
     $warning.text(gettext("Unsaved changes!"));
-    if ($editorArea.next(".text-warning").length === 0) {
-      $warning.insertAfter($editorArea);
+    if ($target.next(".text-warning").length === 0) {
+      $warning.insertAfter($target);
       $editorArea.addClass("has-changes");
     }
   },
