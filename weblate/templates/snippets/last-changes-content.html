@@ -44,9 +44,7 @@
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
-                {% for tag in history_field.tags %}
-                  <span class="badge">{{ tag }}</span>
-                {% endfor %}
+                {% for tag in history_field.tags %}<span class="badge">{{ tag }}</span>{% endfor %}
               </label>
               {{ history_field.content }}
             {% endfor %}
