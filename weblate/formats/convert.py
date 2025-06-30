@@ -102,7 +102,7 @@ class ConvertXliffUnit(XliffUnit):
     def flags(self):
         flags = Flags(super().flags)
         flags.remove("xml-text")
-        return flags.format()
+        return flags
 
 
 class ConvertFormat(TranslationFormat):
