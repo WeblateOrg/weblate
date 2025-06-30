@@ -295,12 +295,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             self.assertEqual(suggestion["quality"], 100)
 
         if translation_review:
-            self.project.add_user(
-                self.user, "Administration"
-            )  # allow user to approve translations
-            # approve the translation
-            params = self.approve_translation_params(unit, "Hello")
-            self.client.post(unit.translation.get_translate_url(), params, follow=True)
+            self.approve_translation(unit, "Hello")
 
             # check that memory status is updated to active
             self.assertEqual(
@@ -313,8 +308,8 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             self.assertEqual(suggestion["quality"], 100)
 
             # mark the translation as needing editing
-            params |= {"review": "10"}
-            self.client.post(unit.translation.get_translate_url(), params, follow=True)
+            self.approve_translation(unit, "Hello", review="10")
+
             # check that memory status is updated to pending
             self.assertEqual(
                 1,
@@ -325,19 +320,17 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
             self.assertLess(suggestion["quality"], 100)
 
-    def approve_translation_params(
-        self,
-        unit,
-        target: str,
-    ) -> dict:
-        """Create POST request parameters for approving a translation."""
-        return {
+    def approve_translation(self, unit, target: str, review: str = "30"):
+        # allow user to approve translations
+        self.project.add_user(self.user, "Administration")
+        params = {
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
             "target_0": target,
-            "review": "30",
+            "review": review,
         }
+        self.client.post(unit.translation.get_translate_url(), params, follow=True)
 
     def test_pending_memory_autoclean(self, autoclean_active: bool = False) -> None:
         import_memory(self.project.id)
@@ -377,11 +370,8 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             self.assertLess(suggestion["quality"], 100)
 
         # approve one translation, check that only 1 memory left with status active
-        self.project.add_user(
-            self.user, "Administration"
-        )  # allow user to approve translations
-        params = self.approve_translation_params(unit, "Hello 1")
-        self.client.post(unit.translation.get_translate_url(), params, follow=True)
+        self.approve_translation(unit, "Hello 1")
+
         self.assertEqual(
             1,
             not_imported_memory_qs.filter(
@@ -416,6 +406,44 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.project.autoclean_tm = True
         self.project.save()
         self.test_pending_memory_autoclean(autoclean_active=True)
+
+    def test_clean_memory_command(
+        self, autoclean_tm: bool = False, translation_review: bool = False
+    ) -> None:
+        if autoclean_tm:
+            self.project.autoclean_tm = True
+            self.project.save()
+
+        import_memory(self.project.id)
+        excepted_deleted_count = 0
+
+        unit = self.get_unit()
+        if translation_review:
+            self.project.translation_review = translation_review
+            self.project.save()
+
+        unit.translate(self.user, "Hello 1", STATE_TRANSLATED)
+        unit.translate(self.anotheruser, "Hello 2", STATE_TRANSLATED)
+
+        if translation_review:
+            self.approve_translation(unit, "Hello 1")
+            if not autoclean_tm:
+                excepted_deleted_count += 3  # 1 for each [project, user, shared]
+
+        total_memory_count = Memory.objects.count()
+        call_command("clean_memory")
+        self.assertEqual(
+            Memory.objects.all().count(), total_memory_count - excepted_deleted_count
+        )
+
+    def test_clean_memory_command_with_translation_review_no_autoclean(self) -> None:
+        self.test_clean_memory_command(autoclean_tm=False, translation_review=True)
+
+    def test_clean_memory_command_with_translation_review_and_autoclean(self) -> None:
+        self.test_clean_memory_command(autoclean_tm=True, translation_review=True)
+
+    def test_clean_memory_command_no_translation_review_with_autoclean(self) -> None:
+        self.test_clean_memory_command(autoclean_tm=True, translation_review=False)
 
 
 class MemoryViewTest(FixtureTestCase):
