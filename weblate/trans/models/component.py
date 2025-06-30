@@ -3659,16 +3659,18 @@ class Component(
         return code
 
     @transaction.atomic
-    def add_new_language(
+    def add_new_language(  # noqa: C901
         self,
         language,
         request,
         send_signal: bool = True,
         create_translations: bool = True,
+        show_messages: bool = True,
     ) -> Translation | None:
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
-            messages.error(request, self.new_lang_error_message)
+            if show_messages:
+                messages.error(request, self.new_lang_error_message)
             return None
 
         file_format = self.file_format_cls
@@ -3680,21 +3682,27 @@ class Component(
         new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
         if new_lang is not None:
             if new_lang == self.source_language:
-                messages.error(
-                    request, gettext("The given language is used as a source language.")
-                )
+                if show_messages:
+                    messages.error(
+                        request,
+                        gettext("The given language is used as a source language."),
+                    )
                 return None
 
             if self.translation_set.filter(language=new_lang).exists():
-                messages.error(request, gettext("The given language already exists."))
+                if show_messages:
+                    messages.error(
+                        request, gettext("The given language already exists.")
+                    )
                 return None
 
         # Check if language code is valid
         if re.match(self.language_regex, code) is None:
-            messages.error(
-                request,
-                gettext("The given language is filtered by the language filter."),
-            )
+            if show_messages:
+                messages.error(
+                    request,
+                    gettext("The given language is filtered by the language filter."),
+                )
             return None
 
         base_filename = self.get_new_base_filename()
@@ -3725,7 +3733,8 @@ class Component(
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
                 # can submit again)
-                messages.error(request, gettext("Translation file already exists!"))
+                if show_messages:
+                    messages.error(request, gettext("Translation file already exists!"))
             else:
                 file_format.add_language(
                     fullname,
@@ -3755,9 +3764,11 @@ class Component(
             # Forced scanning is needed in case adding file does not trigger commit,
             # for example when adding appstore metadata which only creates directory.
             self.create_translations(request=request, force_scan=True)
-            messages.info(
-                request, gettext("The translation will be updated in the background.")
-            )
+            if show_messages:
+                messages.info(
+                    request,
+                    gettext("The translation will be updated in the background."),
+                )
 
         # Delete no matches alert as we have just added the file
         self.delete_alert("NoMaskMatches")

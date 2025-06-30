@@ -4,16 +4,17 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
-from django.utils.translation import gettext
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
@@ -731,12 +732,12 @@ def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
     if request.method == "POST":
         form = form_class(user, obj, request.POST)
         if form.is_valid():
-            result = add_languages_to_component(
+            result, _ = add_languages_to_component(
                 request,
                 user,
                 form.cleaned_data["lang"],
                 obj,
-                include_component_name=False,
+                show_messages=True,
             )
             return redirect(result)
         messages.error(request, gettext("Please fix errors in the form."))
@@ -759,19 +760,63 @@ def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
 
 def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
     user = request.user
-    # TODO: check project permissions
+    eligible_components = obj.get_child_components_access(
+        request.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
+    )
+    if not eligible_components.exists():
+        return None
+
+    components_added, components_requested, components_failed = 0, 0, 0
+
     if request.method == "POST":
         form = NewProjectLanguageForm(user, obj, request.POST)
         if form.is_valid():
-            # TODO: atomic transaction ?
-            for component in obj.get_child_components_access(request.user):
-                add_languages_to_component(
+            for component in eligible_components:
+                _, action = add_languages_to_component(
                     request,
                     user,
                     form.cleaned_data["lang"],
                     component,
-                    include_component_name=True,
+                    show_messages=False,
                 )
+                if action == ActionEvents.ADDED_LANGUAGE:
+                    components_added += 1
+                elif action == ActionEvents.REQUESTED_LANGUAGE:
+                    components_requested += 1
+                else:
+                    components_failed += 1
+
+            if components_added > 0:
+                messages.success(
+                    request,
+                    ngettext(
+                        "Success: The language was added to %d component.",
+                        "Success: The language was added to %d components.",
+                        components_added,
+                    )
+                    % components_added,
+                )
+            if components_requested > 0:
+                messages.success(
+                    request,
+                    ngettext(
+                        "Success: The language was requested for %d component.",
+                        "Success: The language was requested for %d components.",
+                        components_requested,
+                    )
+                    % components_requested,
+                )
+            if components_failed > 0:
+                messages.warning(
+                    request,
+                    ngettext(
+                        "Warning: The language could not be added to %d component. Please look into individual components' configuration for more info.",
+                        "Warning: The language could not be added to %d components. Please look into individual components' configuration for more info.",
+                        components_failed,
+                    )
+                    % components_failed,
+                )
+
             return redirect(obj)
         messages.error(request, gettext("Please fix errors in the form."))
     else:
@@ -794,8 +839,8 @@ def add_languages_to_component(
     user: User,
     languages: list[Language],
     component: Component,
-    include_component_name: bool = False,
-):
+    show_messages: bool,
+) -> tuple[Any, ActionEvents | None]:
     added = False
     result = component
     kwargs = {
@@ -804,50 +849,49 @@ def add_languages_to_component(
         "component": component,
         "details": {},
     }
+    action = None
     with component.repository.lock:
         component.commit_pending("add language", None)
         for language in Language.objects.filter(code__in=languages):
             kwargs["details"]["language"] = language.code
             if component.can_add_new_language(user):
-                # TODO: pass down include_component_name to ?
+                # TODO: handle language already exists error specially?
                 translation = component.add_new_language(
-                    language, request, create_translations=False
+                    language,
+                    request,
+                    create_translations=False,
+                    show_messages=show_messages,
                 )
                 if translation:
                     added = True
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
-                    component.change_set.create(
-                        action=ActionEvents.ADDED_LANGUAGE, **kwargs
-                    )
+                    action = ActionEvents.ADDED_LANGUAGE
+                    component.change_set.create(action=action, **kwargs)
             elif component.new_lang == "contact":
-                component.change_set.create(
-                    action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
-                )
-                message = gettext(
-                    "A request for a new translation has been "
-                    "sent to the project's maintainers."
-                )
-                if include_component_name:
-                    message = gettext(
-                        "A request for a new translation of %(component)s has been "
-                        "sent to the project's maintainers."
-                    ) % {"component": component.name}
-                messages.success(request, message)
+                action = ActionEvents.REQUESTED_LANGUAGE
+                component.change_set.create(action=action, **kwargs)
+                if show_messages:
+                    messages.success(
+                        request,
+                        gettext(
+                            "A request for a new translation has been "
+                            "sent to the project's maintainers."
+                        ),
+                    )
         try:
             # force_scan needed, see add_new_language
             if added and not component.create_translations(
                 request=request, force_scan=True
             ):
-                message = gettext(
-                    "All languages have been added, updates of translations are in progress."
-                )
-                if include_component_name:
-                    message = gettext(
-                        "All languages have been added to %(component)s, updates of translations are in progress."
-                    ) % {"component": component.name}
-                messages.success(request, message)
+                if show_messages:
+                    messages.success(
+                        request,
+                        gettext(
+                            "All languages have been added, updates of translations are in progress."
+                        ),
+                    )
                 result = "{}?info=1".format(
                     reverse(
                         "show_progress",
@@ -860,7 +904,7 @@ def add_languages_to_component(
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)
 
-    return result
+    return result, action
 
 
 @never_cache
