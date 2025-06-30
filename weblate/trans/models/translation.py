@@ -956,7 +956,7 @@ class Translation(
 
         # Did we do any updates?
         if not updated:
-            return []
+            return changes_status
 
         # Update po file header
         now = timezone.now()
