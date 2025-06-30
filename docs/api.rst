@@ -318,6 +318,7 @@ Users
     :>json string username: username of a user
     :>json string full_name: full name of a user
     :>json string email: email of a user
+    :>json string email: contact url of a user
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
@@ -334,6 +335,7 @@ Users
             "email": "user@example.com",
             "full_name": "Example User",
             "username": "exampleusername",
+            "contact": "https://signal.me/example-user",
             "groups": [
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"

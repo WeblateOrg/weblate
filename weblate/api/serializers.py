@@ -221,6 +221,9 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
 
 
 class FullUserSerializer(serializers.ModelSerializer[User]):
+    contact = serializers.CharField(
+        source="profile.contact", allow_blank=True, read_only=True,
+    )
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail",
         lookup_field="id",
@@ -253,6 +256,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "email",
             "full_name",
             "username",
+            "contact",
             "groups",
             "languages",
             "notifications",
