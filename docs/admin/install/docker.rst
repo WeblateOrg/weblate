@@ -1420,6 +1420,8 @@ OpenID Connect
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_IMAGE
 
    Configures generic OpenID Connect integration.
 
