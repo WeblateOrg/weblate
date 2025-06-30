@@ -109,7 +109,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
         username = format_html(
-            '<img src="{}" class="avatar w32" alt="{}" /> {}',
+            '<img src="{}" class="avatar w32" loading="lazy" alt="{}" /> {}',
             avatar,
             gettext("User avatar"),
             username,
@@ -117,7 +117,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
 
     if link and user is not None:
         return format_html(
-            '<a href="{}" title="{}">{}</a>',
+            '<a href="{}" title="{}" class="user-link"><span>{}</span></a>',
             user.get_absolute_url(),
             full_name,
             username,
