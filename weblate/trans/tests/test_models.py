@@ -6,6 +6,7 @@
 
 import os
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -16,6 +17,7 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
+from weblate.formats.base import UnitNotFoundError
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
@@ -286,6 +288,15 @@ class TranslationTest(RepoTestCase):
         # no instant automatic commit
         self.assertEqual(start_rev, component.repository.last_revision)
         self.assertEqual(translation.count_pending_units, 4)
+
+        with patch.object(
+            translation.store, "find_unit", side_effect=UnitNotFoundError("test error")
+        ):
+            # Check failure in committing pending changes retains them in db
+            # use _commit_pending, patching won't work if the Translation object
+            # is loaded from the db
+            translation._commit_pending("test", None)  # noqa: SLF001
+            self.assertEqual(translation.count_pending_units, 4)
 
         # Commit pending changes
         translation.commit_pending("test", None)
