@@ -1753,6 +1753,15 @@ SENTRY_ENVIRONMENT
 
 Configures environment for Sentry. Defaults to ``devel``.
 
+.. setting:: SENTRY_MONITOR_BEAT_TASKS
+
+SENTRY_MONITOR_BEAT_TASKS
+-------------------------
+
+.. versionadded:: 5.13
+
+Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``.
+
 .. setting:: SENTRY_PROFILES_SAMPLE_RATE
 
 SENTRY_PROFILES_SAMPLE_RATE

@@ -47,6 +47,7 @@ class WeblateConf(AppConf):
     SENTRY_DSN = None
     SENTRY_SECURITY = None
     SENTRY_ENVIRONMENT = "devel"
+    SENTRY_MONITOR_BEAT_TASKS = True
     SENTRY_TOKEN = None
     SENTRY_SEND_PII = False
     SENTRY_PROJECTS = ["weblate"]

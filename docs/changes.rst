@@ -8,6 +8,7 @@ Weblate 5.13
 .. rubric:: Improvements
 
 * :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
+* A new ``SENTRY_MONITOR_BEAT_TASKS`` setting allows disabling Sentry monitoring of Celery Beat tasks.
 
 .. rubric:: Bug fixes
 

@@ -1788,6 +1788,10 @@ To enable support for Sentry, set following:
 
     Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN`.
 
+.. envvar:: SENTRY_MONITOR_BEAT_TASKS
+
+    Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``.
+
 .. envvar:: SENTRY_TRACES_SAMPLE_RATE
 
    Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`.
