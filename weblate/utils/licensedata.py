@@ -3095,7 +3095,7 @@ LICENSES = (
     ),
     (
         "libpng-1.6.35",
-        "PNG Reference Library License v1 (for libpng 0.5 through 1.6.35",
+        "PNG Reference Library License v1 (for libpng 0.5 through 1.6.35)",
         "https://spdx.org/licenses/libpng-1.6.35.html",
         False,
     ),
@@ -3535,6 +3535,12 @@ LICENSES = (
         "SunPro",
         "SunPro License",
         "https://spdx.org/licenses/SunPro.html",
+        False,
+    ),
+    (
+        "SUL-1.0",
+        "Sustainable Use License v1.0",
+        "https://spdx.org/licenses/SUL-1.0.html",
         False,
     ),
     (
