@@ -366,6 +366,102 @@ class TranslationManipulationTest(ViewTestCase):
         )
 
 
+class ProjectLanguageAdditionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # default test component is new_lang = "contact"
+        self.components = {"contact": self.component}
+        for new_lang in ["add", "none", "url"]:
+            self.components[new_lang] = self.create_po_new_base(
+                new_lang=new_lang,
+                name=f"test-{new_lang}",
+                project=self.project,
+            )
+        self.url = reverse("new-language", kwargs={"path": self.project.get_url_path()})
+
+    def create_component(self):
+        return self.create_po_new_base()
+
+    def test_view_add_language(self) -> None:
+        self.assertTrue(
+            all(
+                not c.translation_set.filter(language_code="af").exists()
+                for c in self.components.values()
+            )
+        )
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+
+        messages = [m.message for m in response.context["messages"]]
+        self.assertCountEqual(
+            messages,
+            [
+                "Success: The language was added to 1 component.",
+                "Success: The language was requested for 1 component.",
+            ],
+        )
+        for new_lang, component in self.components.items():
+            lang_exists = component.translation_set.filter(language_code="af").exists()
+            self.assertEqual(lang_exists, new_lang == "add")
+
+    def test_view_add_duplicate_language(self) -> None:
+        """Test adding a language that already exists in some components."""
+        # Add the language to one component directly
+        self.assertTrue(
+            all(
+                not c.translation_set.filter(language_code="af").exists()
+                for c in self.components.values()
+            )
+        )
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertTrue(
+            self.component.add_new_language(
+                Language.objects.get(code="af"), self.get_request()
+            )
+        )
+
+        self.user.is_superuser = False
+        self.user.save()
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+
+        messages = [m.message for m in response.context["messages"]]
+        self.assertCountEqual(
+            messages,
+            [
+                "Success: The language was added to 1 component.",
+            ],
+        )
+
+    def test_view_add_language_superuser(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        self.assertTrue(
+            all(
+                not c.translation_set.filter(language_code="af").exists()
+                for c in self.components.values()
+            )
+        )
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+
+        messages = [m.message for m in response.context["messages"]]
+        self.assertCountEqual(
+            messages,
+            [
+                "Success: The language was added to 2 components.",
+            ],
+        )
+
+        for new_lang, component in self.components.items():
+            lang_exists = component.translation_set.filter(language_code="af").exists()
+            self.assertEqual(lang_exists, new_lang in {"add", "contact"})
+
+
 class BasicViewTest(ViewTestCase):
     def test_view_project(self) -> None:
         response = self.client.get(self.project.get_absolute_url())

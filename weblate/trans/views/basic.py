@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
@@ -766,55 +767,49 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
     if not eligible_components.exists():
         return None
 
-    components_added, components_requested, components_failed = 0, 0, 0
-
     if request.method == "POST":
         form = NewProjectLanguageForm(user, obj, request.POST)
         if form.is_valid():
+            counter = Counter()
             for component in eligible_components:
-                _, action = add_languages_to_component(
+                _, component_count = add_languages_to_component(
                     request,
                     user,
                     form.cleaned_data["lang"],
                     component,
                     show_messages=False,
                 )
-                if action == ActionEvents.ADDED_LANGUAGE:
-                    components_added += 1
-                elif action == ActionEvents.REQUESTED_LANGUAGE:
-                    components_requested += 1
-                else:
-                    components_failed += 1
+                counter.update(component_count)
 
-            if components_added > 0:
+            if counter["added"] > 0:
                 messages.success(
                     request,
                     ngettext(
                         "Success: The language was added to %d component.",
                         "Success: The language was added to %d components.",
-                        components_added,
+                        counter["added"],
                     )
-                    % components_added,
+                    % counter["added"],
                 )
-            if components_requested > 0:
+            if counter["requested"] > 0:
                 messages.success(
                     request,
                     ngettext(
                         "Success: The language was requested for %d component.",
                         "Success: The language was requested for %d components.",
-                        components_requested,
+                        counter["requested"],
                     )
-                    % components_requested,
+                    % counter["requested"],
                 )
-            if components_failed > 0:
+            if counter["errors"] > 0:
                 messages.warning(
                     request,
                     ngettext(
                         "Warning: The language could not be added to %d component. Please look into individual components' configuration for more info.",
                         "Warning: The language could not be added to %d components. Please look into individual components' configuration for more info.",
-                        components_failed,
+                        counter["errors"],
                     )
-                    % components_failed,
+                    % counter["errors"],
                 )
 
             return redirect(obj)
@@ -840,7 +835,7 @@ def add_languages_to_component(
     languages: list[Language],
     component: Component,
     show_messages: bool,
-) -> tuple[Any, ActionEvents | None]:
+) -> tuple[Any, Counter]:
     added = False
     result = component
     kwargs = {
@@ -849,7 +844,7 @@ def add_languages_to_component(
         "component": component,
         "details": {},
     }
-    action = None
+    counts = Counter()
     with component.repository.lock:
         component.commit_pending("add language", None)
         for language in Language.objects.filter(code__in=languages):
@@ -867,11 +862,20 @@ def add_languages_to_component(
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
-                    action = ActionEvents.ADDED_LANGUAGE
-                    component.change_set.create(action=action, **kwargs)
+                    component.change_set.create(
+                        action=ActionEvents.ADDED_LANGUAGE, **kwargs
+                    )
+                    counts["added"] += 1
+                    continue
+
             elif component.new_lang == "contact":
-                action = ActionEvents.REQUESTED_LANGUAGE
-                component.change_set.create(action=action, **kwargs)
+                if component.translation_set.filter(
+                    language_code=language.code
+                ).exists():
+                    continue
+                component.change_set.create(
+                    action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
+                )
                 if show_messages:
                     messages.success(
                         request,
@@ -880,6 +884,11 @@ def add_languages_to_component(
                             "sent to the project's maintainers."
                         ),
                     )
+                counts["requested"] += 1
+                continue
+
+            counts["errors"] += 1
+
         try:
             # force_scan needed, see add_new_language
             if added and not component.create_translations(
@@ -904,7 +913,7 @@ def add_languages_to_component(
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)
 
-    return result, action
+    return result, counts
 
 
 @never_cache
