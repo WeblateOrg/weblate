@@ -2008,10 +2008,16 @@ class Unit(models.Model, LoggerMixin):
                     unit=unit,
                     author=user,
                 )
-            PendingUnitChange.store_unit_change(
-                unit=self,
-                author=user,
-            )
+
+            # translation file does not exist for source strings in bilingual formats
+            if (
+                not self.is_source
+                or self.translation.component.file_format_cls.monolingual
+            ):
+                PendingUnitChange.store_unit_change(
+                    unit=self,
+                    author=user,
+                )
 
         if save:
             self.save(update_fields=["explanation"], only_save=True)
