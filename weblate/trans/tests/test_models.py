@@ -341,6 +341,32 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(len(changes), 1)
         self.assertEqual([c.unit for c in changes], [units[3]])
 
+    def test_commit_explanation(self):
+        user = create_test_user()
+        component = self.create_tbx()
+
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+        en_translation = component.translation_set.get(language_code="en")
+        source_unit = en_translation.unit_set.get(source="address bar")
+        source_unit.update_explanation("explanation 1", user)
+
+        # one change for each translation file, source language does not have
+        # a translation file
+        self.assertFalse(PendingUnitChange.objects.filter(unit=source_unit).exists())
+        self.assertEqual(
+            PendingUnitChange.objects.count(), component.translation_set.count() - 1
+        )
+        component.commit_pending("test", None)
+
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+        cs_translation = component.translation_set.get(language_code="cs")
+        target_unit = cs_translation.unit_set.get(source="address bar")
+        target_unit.update_explanation("explanation 2", user)
+        # only adds pending change for target unit's translation file
+        self.assertEqual(PendingUnitChange.objects.count(), 1)
+
 
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
