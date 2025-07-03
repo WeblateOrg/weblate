@@ -803,7 +803,15 @@ class Unit(models.Model, LoggerMixin):
             )
         self.source_unit = source_unit
 
-    def update_from_unit(self, unit, pos, created) -> None:  # noqa: C901
+    def update_from_unit(  # noqa: C901
+        self,
+        *,
+        unit: TranslationUnit,
+        pos: int,
+        created: bool,
+        user: User | None = None,
+        author: User | None = None,
+    ) -> None:
         """Update Unit from ttkit unit."""
         translation = self.translation
         component = translation.component
@@ -968,8 +976,8 @@ class Unit(models.Model, LoggerMixin):
         if not same_source and source_change:
             translation.update_changes.append(
                 self.generate_change(
-                    None,
-                    None,
+                    user,
+                    author,
                     ActionEvents.SOURCE_CHANGE,
                     check_new=False,
                     old=source_change,
@@ -981,8 +989,8 @@ class Unit(models.Model, LoggerMixin):
         if not same_data:
             translation.update_changes.append(
                 self.generate_change(
-                    user=None,
-                    author=None,
+                    user,
+                    author,
                     change_action=translation.create_unit_change_action
                     if created
                     else translation.update_unit_change_action,

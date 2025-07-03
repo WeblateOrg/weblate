@@ -3365,6 +3365,30 @@ class TranslationAPITest(APIBaseTest):
         )
         self.check_upload_changes(changes_start, 3)
 
+    def test_upload_replace(self) -> None:
+        self.authenticate(superuser=True)
+        changes_start = self.component.change_set.count()
+        with open(TEST_PO) as handle:
+            content = handle.read()
+        content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
+
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": BytesIO(content.encode()), "method": "replace"},
+        )
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 5,
+                "count": 5,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 5,
+            },
+        )
+        self.check_upload_changes(changes_start, 7)
+
     def test_upload_invalid(self) -> None:
         self.authenticate()
         response = self.client.put(
