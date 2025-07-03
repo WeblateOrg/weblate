@@ -361,11 +361,14 @@ class Translation(
 
     def sync_unit(
         self,
+        *,
         dbunits: dict[int, Unit],
         updated: dict[int, Unit],
         id_hash: int,
-        unit,
+        unit: TranslationUnit,
         pos: int,
+        user: User | None = None,
+        author: User | None = None,
     ) -> None:
         try:
             newunit = dbunits[id_hash]
@@ -383,7 +386,9 @@ class Translation(
         with sentry_sdk.start_span(
             op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
         ):
-            newunit.update_from_unit(unit, pos, is_new)
+            newunit.update_from_unit(
+                unit=unit, pos=pos, created=is_new, user=user, author=author
+            )
 
         # Store current unit ID
         updated[id_hash] = newunit
@@ -393,6 +398,7 @@ class Translation(
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
         change: int | None = None,
+        author: User | None = None,
     ) -> None:
         """Check whether database is in sync with git and possibly updates."""
         with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
@@ -528,7 +534,15 @@ class Translation(
                         )
                         continue
 
-                    self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
+                    self.sync_unit(
+                        dbunits=dbunits,
+                        updated=updated,
+                        id_hash=id_hash,
+                        unit=unit,
+                        pos=pos + 1,
+                        user=user,
+                        author=author,
+                    )
 
             except FileParseError as error:
                 report_error(
@@ -556,7 +570,7 @@ class Translation(
                     translation=self,
                     action=change,
                     user=user,
-                    author=user,
+                    author=author,
                     details=details,
                 )
             )
@@ -853,7 +867,9 @@ class Translation(
                 store_hash=store_hash,
             ):
                 self.log_info("committed %s as %s", self.filenames, author)
-                self.change_set.create(action=ActionEvents.COMMIT, user=user)
+                self.change_set.create(
+                    action=ActionEvents.COMMIT, user=user, author=user
+                )
 
             # Store updated hash
             if store_hash:
@@ -1198,6 +1214,7 @@ class Translation(
 
         self.create_unit_change_action = ActionEvents.NEW_UNIT_UPLOAD
         self.update_unit_change_action = ActionEvents.STRING_UPLOAD_UPDATE
+        self.component.acting_user = author
 
         previous_revision = component.repository.last_revision
         self.drop_store_cache()
@@ -1570,7 +1587,7 @@ class Translation(
             self.component.create_translations(request=request, change=change)
             self.component.invalidate_cache()
         else:
-            self.check_sync(request=request, change=change)
+            self.check_sync(request=request, change=change, author=user)
             self.invalidate_cache()
         # Trigger post-update signal
         self.component.trigger_post_update(previous_revision, False)

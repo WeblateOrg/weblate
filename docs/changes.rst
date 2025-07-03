@@ -13,6 +13,8 @@ Weblate 5.13
 
 .. rubric:: Bug fixes
 
+* :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
