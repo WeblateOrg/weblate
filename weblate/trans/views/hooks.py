@@ -184,7 +184,7 @@ def vcs_service_hook(request: AuthenticatedHttpRequest, service: str) -> HttpRes
     )
     user = User.objects.get_or_create_bot(
         scope="webhook",
-        username=service,
+        name=service,
         verbose=f"{service_data['service_long_name']} webhook",
     )
 

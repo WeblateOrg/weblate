@@ -423,7 +423,9 @@ class BaseAddon:
             raise ValueError(msg)
 
         return User.objects.get_or_create_bot(
-            "addon", self.user_name, self.user_verbose
+            scope="addon",
+            name=self.user_name,
+            verbose=self.user_verbose,
         )
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:

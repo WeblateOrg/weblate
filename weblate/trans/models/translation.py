@@ -1921,7 +1921,9 @@ class Translation(
                 continue
             if author is None:
                 author = User.objects.get_or_create_bot(
-                    scope="glossary", username="sync", verbose="Glossary sync"
+                    scope="glossary",
+                    name="sync",
+                    verbose="Glossary sync",
                 )
             # Add unit
             self.add_unit(
