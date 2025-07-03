@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-03 07:01+0000\n"
+"Last-Translator: Wael Ibrahim <dr.wael.ibrahim@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -181,10 +181,8 @@ msgid "E-mail"
 msgstr "البريد الإلكتروني"
 
 #: weblate/accounts/forms.py:618
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "ستُرسل رسالة بريد إلكتروني تحوي رابط التفعيل إلى هذا."
+msgstr "ستُرسل رسالة بريد إلكتروني تحوي رابط التفعيل إلى هنا."
 
 #: weblate/accounts/forms.py:668
 msgid "New password"
@@ -388,11 +386,11 @@ msgstr "رمز الإسترداد"
 #: weblate/accounts/forms.py:1176
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
-msgstr ""
+msgstr "تستخدم رموز الاستعادة مرة واحدة. لا تنس وضع علامة على المستخدم منها."
 
 #: weblate/accounts/forms.py:1233
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "أدخل الرمز من التطبيق"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:219
@@ -473,10 +471,8 @@ msgstr "أقفل الحساب بسبب العديد من محاولات تسجي
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:249
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "لا يمكن إرسال رسالة إلى المسؤول."
+msgstr "أقفل مدير الموقع هذا الحساب."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:251
@@ -491,10 +487,9 @@ msgstr "أُرسل تأكيد حذف الحساب إلى {email}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:255
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "اتفاقية شروط الخدمة {date}."
+msgstr "الموافقة على الشروط والأحكام العامة {date}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:257
@@ -527,29 +522,24 @@ msgstr "أنشأ النظام مستخدما لكي يتتبع تأليف الت
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:270
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "النفاذ إلى مشروع {project} حُظر"
+msgstr "النفاذ إلى المشروع {project} محظور."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:272
-#, fuzzy
-#| msgid "User was enabled by administrator"
 msgid "User was enabled by administrator."
-msgstr "فعَّل المشرف المستخدم"
+msgstr "فعَّل المدير المستخدم"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:274
-#, fuzzy
-#| msgid "User was disabled by administrator"
 msgid "User was disabled by administrator."
-msgstr "عطَّل المشرف المستخدم"
+msgstr "عطَّل المدير المستخدم"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:276
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "عرضت مراجعة حالة الدعم نصف السنوية."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:278
@@ -561,33 +551,33 @@ msgstr "تمت إضافة المستخدم إلى فريق {team} بواسطة {
 #: weblate/accounts/models.py:280
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "أزال {username} المستخدم من فريق {team}."
 
 #: weblate/accounts/models.py:283
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "أنشئت رموز الاستعادة للتحقق الثنائي"
 
 #: weblate/accounts/models.py:287
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "شوهدت رموز الاستعادة للتحقق الثنائي"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:290
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "أضاف التحقق الثنائي: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:292
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "أزال التحقق الثنائي: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:294
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "تسجيل الدخول بالتحقق الثنائي باستخدام {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:301
@@ -766,15 +756,13 @@ msgid ""
 msgstr "عندما تترجم سلسلة في مشروعٍ ما، ستبدأ بمراقبته."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "المساهمة في ذاكرة الترجمة المشتركة"
+msgstr "الإسهام في ذاكرة الترجمة الشخصية"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "السماح بإضافة ترجمتك إلى ذاكرة الترجمة الشخصية."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -816,15 +804,13 @@ msgid "Website URL"
 msgstr "رابط الموقع"
 
 #: weblate/accounts/models.py:733
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "المراسلة"
+msgstr "رابط المراسلة"
 
 #: weblate/accounts/models.py:737
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
-msgstr ""
+msgstr "رابط التواصل معك عبر خدمات مثل Signal وSimpleX وTelegram."
 
 #: weblate/accounts/models.py:741
 msgid "Liberapay username"
@@ -900,10 +886,8 @@ msgid ""
 msgstr "أُضيفت %(language)s إلى لغاتك المترجمة. يمكنك ضبطها في الإعدادات."
 
 #: weblate/accounts/models.py:1192
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "تصاريح غير كافية لحفظ الترجمات."
+msgstr "يرجى توفير عنوان بريد إلكتروني لإرسال الترجمات."
 
 #: weblate/accounts/notifications.py:61
 msgid "No notification"
@@ -949,19 +933,14 @@ msgid "Parse error occurred"
 msgstr "حصل خطأ في التحليل"
 
 #: weblate/accounts/notifications.py:584
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New string is available for translation"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "سلسلة جديدة متاحة للترجمة"
+msgstr "نص متاح للترجمة"
 
 #: weblate/accounts/notifications.py:594
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "المساهمة في ذاكرة الترجمة المشتركة"
+msgstr "باشر المسهم بالترجمة"
 
 #: weblate/accounts/notifications.py:603
 msgctxt "Notification name"
@@ -969,18 +948,14 @@ msgid "Suggestion was added"
 msgstr "أُضيف اقتراح"
 
 #: weblate/accounts/notifications.py:612
-#, fuzzy
-#| msgid "Message is translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "الرسالة مُترجَمة"
+msgstr "ترجمت هذه اللغة"
 
 #: weblate/accounts/notifications.py:620
-#, fuzzy
-#| msgid "Import as translated"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "إستعادة السلاسل كمُترجَمة"
+msgstr "ترجم هذا المكوّن"
 
 #: weblate/accounts/notifications.py:628
 msgctxt "Notification name"
@@ -1013,11 +988,9 @@ msgid "String was changed"
 msgstr "غُيرت السلسلة"
 
 #: weblate/accounts/notifications.py:750
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr "أُضيفت لغة جديدة إلى %(component)s"
+msgstr "أُضيفت أو طُلبت لغة جديدة"
 
 #: weblate/accounts/notifications.py:767
 msgctxt "Notification name"
@@ -1030,18 +1003,14 @@ msgid "Announcement was published"
 msgstr "تم نشر الإعلان"
 
 #: weblate/accounts/notifications.py:794
-#, fuzzy
-#| msgid "New alert on %(component)s"
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "تنبيه جديد على %(component)s"
+msgstr "ظهر تنبيه جديد على أحد المكونات"
 
 #: weblate/accounts/notifications.py:847
-#, fuzzy
-#| msgid "Repository operation"
 msgctxt "Notification name"
 msgid "Repository operation failed"
-msgstr "إجراء في المستودع"
+msgstr "فشل عملية المستودع"
 
 #: weblate/accounts/notifications.py:921
 msgctxt "Notification name"
