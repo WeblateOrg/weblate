@@ -733,10 +733,11 @@ def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
     if request.method == "POST":
         form = form_class(user, obj, request.POST)
         if form.is_valid():
+            languages = Language.objects.filter(code__in=form.cleaned_data["lang"])
             result, _ = add_languages_to_component(
                 request,
                 user,
-                form.cleaned_data["lang"],
+                languages,
                 obj,
                 show_messages=True,
             )
@@ -770,47 +771,68 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
     if request.method == "POST":
         form = NewProjectLanguageForm(user, obj, request.POST)
         if form.is_valid():
-            counter = Counter()
+            languages = Language.objects.filter(code__in=form.cleaned_data["lang"])
+            language_map = {lang.code: lang for lang in languages}
+            lang_counters = {lang_code: Counter() for lang_code in language_map}
+
             for component in eligible_components:
-                _, component_count = add_languages_to_component(
+                _, component_counts = add_languages_to_component(
                     request,
                     user,
-                    form.cleaned_data["lang"],
+                    languages,
                     component,
                     show_messages=False,
                 )
-                counter.update(component_count)
 
-            if counter["added"] > 0:
-                messages.success(
-                    request,
-                    ngettext(
-                        "Success: The language was added to %d component.",
-                        "Success: The language was added to %d components.",
-                        counter["added"],
+                for lang_code in language_map:
+                    for action in ["added", "requested", "errors"]:
+                        key = f"{action}_{lang_code}"
+                        lang_counters[lang_code][action] += component_counts[key]
+
+            for lang_code, lang in language_map.items():
+                counter = lang_counters[lang_code]
+
+                if counter["added"] > 0:
+                    messages.success(
+                        request,
+                        ngettext(
+                            "Success: Language %(language)s added to %(count)d component.",
+                            "Success: Language %(language)s added to %(count)d components.",
+                            counter["added"],
+                        )
+                        % {
+                            "language": lang.name,
+                            "count": counter["added"],
+                        },
                     )
-                    % counter["added"],
-                )
-            if counter["requested"] > 0:
-                messages.success(
-                    request,
-                    ngettext(
-                        "Success: The language was requested for %d component.",
-                        "Success: The language was requested for %d components.",
-                        counter["requested"],
+
+                if counter["requested"] > 0:
+                    messages.success(
+                        request,
+                        ngettext(
+                            "Success: Language %(language)s requested for %(count)d component.",
+                            "Success: Language %(language)s requested for %(count)d components.",
+                            counter["requested"],
+                        )
+                        % {
+                            "language": lang.name,
+                            "count": counter["requested"],
+                        },
                     )
-                    % counter["requested"],
-                )
-            if counter["errors"] > 0:
-                messages.warning(
-                    request,
-                    ngettext(
-                        "Warning: The language could not be added to %d component. Please look into individual components' configuration for more info.",
-                        "Warning: The language could not be added to %d components. Please look into individual components' configuration for more info.",
-                        counter["errors"],
+
+                if counter["errors"] > 0:
+                    messages.warning(
+                        request,
+                        ngettext(
+                            "Warning: Language %(language)s could not be added to %(count)d component. Please check the components' configuration.",
+                            "Warning: Language %(language)s could not be added to %(count)d components. Please check the components' configuration.",
+                            counter["errors"],
+                        )
+                        % {
+                            "language": lang.name,
+                            "count": counter["errors"],
+                        },
                     )
-                    % counter["errors"],
-                )
 
             return redirect(obj)
         messages.error(request, gettext("Please fix errors in the form."))
@@ -840,17 +862,17 @@ def add_languages_to_component(
     result = component
     kwargs = {
         "user": user,
-        "author": user,
         "component": component,
         "details": {},
     }
-    counts = Counter()
+    lang_counts = Counter()
     with component.repository.lock:
         component.commit_pending("add language", None)
-        for language in Language.objects.filter(code__in=languages):
-            kwargs["details"]["language"] = language.code
+        for language in languages:
+            lang_code = language.code
+            kwargs["details"]["language"] = lang_code
+
             if component.can_add_new_language(user):
-                # TODO: handle language already exists error specially?
                 translation = component.add_new_language(
                     language,
                     request,
@@ -865,13 +887,11 @@ def add_languages_to_component(
                     component.change_set.create(
                         action=ActionEvents.ADDED_LANGUAGE, **kwargs
                     )
-                    counts["added"] += 1
+                    lang_counts[f"added_{lang_code}"] += 1
                     continue
 
             elif component.new_lang == "contact":
-                if component.translation_set.filter(
-                    language_code=language.code
-                ).exists():
+                if component.translation_set.filter(language_code=lang_code).exists():
                     continue
                 component.change_set.create(
                     action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
@@ -884,10 +904,10 @@ def add_languages_to_component(
                             "sent to the project's maintainers."
                         ),
                     )
-                counts["requested"] += 1
+                lang_counts[f"requested_{lang_code}"] += 1
                 continue
 
-            counts["errors"] += 1
+            lang_counts[f"errors_{lang_code}"] += 1
 
         try:
             # force_scan needed, see add_new_language
@@ -913,7 +933,7 @@ def add_languages_to_component(
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)
 
-    return result, counts
+    return result, lang_counts
 
 
 @never_cache

@@ -382,6 +382,49 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
+    def test_exising_language_excluded(self):
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse(
+                "new-language", kwargs={"path": self.components["add"].get_url_path()}
+            ),
+            {"lang": "af"},
+            follow=True,
+        )
+        self.assertTrue(
+            self.components["add"].translation_set.filter(language_code="af").exists()
+        )
+        response = self.client.post(
+            reverse(
+                "new-language",
+                kwargs={"path": self.components["contact"].get_url_path()},
+            ),
+            {"lang": "af"},
+            follow=True,
+        )
+        self.assertTrue(
+            self.components["contact"]
+            .translation_set.filter(language_code="af")
+            .exists()
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("form", response.context)
+        codes = {c[0] for c in response.context["form"]["lang"].field.choices}
+        self.assertNotIn("af", codes)
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        messages = [m.message for m in response.context["messages"]]
+        self.assertCountEqual(
+            messages,
+            [
+                "Please fix errors in the form.",
+            ],
+        )
+
     def test_view_add_language(self) -> None:
         self.assertTrue(
             all(
@@ -396,8 +439,8 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: The language was added to 1 component.",
-                "Success: The language was requested for 1 component.",
+                "Success: Language Afrikaans added to 1 component.",
+                "Success: Language Afrikaans requested for 1 component.",
             ],
         )
         for new_lang, component in self.components.items():
@@ -417,11 +460,15 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
         self.assertTrue(
-            self.component.add_new_language(
+            self.components["contact"].add_new_language(
                 Language.objects.get(code="af"), self.get_request()
             )
         )
-
+        self.assertTrue(
+            self.components["add"].add_new_language(
+                Language.objects.get(code="pa"), self.get_request()
+            )
+        )
         self.user.is_superuser = False
         self.user.save()
 
@@ -432,7 +479,18 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: The language was added to 1 component.",
+                "Success: Language Afrikaans added to 1 component.",
+            ],
+        )
+
+        response = self.client.post(self.url, {"lang": "pa"}, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+        messages = [m.message for m in response.context["messages"]]
+        self.assertCountEqual(
+            messages,
+            [
+                "Success: Language Punjabi requested for 1 component.",
+                "Warning: Language Punjabi could not be added to 1 component. Please check the components' configuration.",
             ],
         )
 
@@ -453,7 +511,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: The language was added to 2 components.",
+                "Success: Language Afrikaans added to 2 components.",
             ],
         )
 

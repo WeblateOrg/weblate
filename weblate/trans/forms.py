@@ -1229,7 +1229,7 @@ class NewProjectLanguageForm(forms.Form):
 
     def get_lang_objects(self):
         components = self.project.get_child_components_access(
-            self.user, lambda qs: qs.exclude(new_lang="none")
+            self.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
         )
         components_count = components.count()
 
