@@ -858,7 +858,7 @@ Qt format
 .. seealso::
 
    :ref:`check-formats`,
-   `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+   `Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_
 
 .. _check-qt-plural-format:
 
@@ -876,7 +876,7 @@ Qt plural format
 .. seealso::
 
    :ref:`check-formats`,
-   `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+   `Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handling-plurals>`_
 
 .. _check-ruby-format:
 

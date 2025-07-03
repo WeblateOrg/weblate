@@ -875,7 +875,7 @@ class TSUnit(MonolingualIDUnit):
         """Return a comma-separated list of locations."""
         result = super().locations
         # Do not try to handle relative locations in Qt TS, see
-        # http://doc.qt.io/qt-5/linguist-ts-file-format.html
+        # https://doc.qt.io/qt-6/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
             return ""
         return result
