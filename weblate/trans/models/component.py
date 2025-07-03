@@ -2053,6 +2053,7 @@ class Component(
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
+        from weblate.auth.models import User
 
         def reuse_self(translation):
             if translation.component_id == self.id:
@@ -2062,6 +2063,11 @@ class Component(
             if translation.pk == translation.component.source_translation.pk:
                 translation = translation.component.source_translation
             return translation
+
+        if user is None:
+            user = User.objects.get_or_create_bot(
+                scope="weblate", username="commit", verbose="Background commit"
+            )
 
         # Get all translation with pending changes, source translation first
         translations = sorted(
