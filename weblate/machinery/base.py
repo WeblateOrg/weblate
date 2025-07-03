@@ -683,7 +683,11 @@ class BatchMachineTranslation:
         """Weblate user used to track changes by this engine."""
         from weblate.auth.models import User
 
-        return User.objects.get_or_create_bot("mt", self.get_identifier(), self.name)
+        return User.objects.get_or_create_bot(
+            scope="mt",
+            name=self.get_identifier(),
+            verbose=self.name,
+        )
 
 
 class MachineTranslation(BatchMachineTranslation):
