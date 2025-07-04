@@ -2066,7 +2066,7 @@ class Component(
 
         if user is None:
             user = User.objects.get_or_create_bot(
-                scope="weblate", username="commit", verbose="Background commit"
+                scope="weblate", name="commit", verbose="Background commit"
             )
 
         # Get all translation with pending changes, source translation first
