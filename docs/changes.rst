@@ -10,7 +10,6 @@ Weblate 5.13
 * :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
 * A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry monitoring of Celery Beat tasks.
 * :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
-* A new ``SENTRY_MONITOR_BEAT_TASKS`` setting allows disabling Sentry monitoring of Celery Beat tasks.
 * Background commits are now identified by an internal user.
 
 .. rubric:: Bug fixes
