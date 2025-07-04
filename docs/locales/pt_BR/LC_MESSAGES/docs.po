@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-03 07:02+0000\n"
+"PO-Revision-Date: 2025-07-05 05:01+0000\n"
 "Last-Translator: Juno Takano <weblate@jutty.dev>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3372,15 +3372,6 @@ msgstr ""
 "se ajustar ao layout."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3391,31 +3382,26 @@ msgid ""
 "source string."
 msgstr ""
 "O uso das partes variáveis torna possível buscar por textos que podem não "
-"caber na interface do usuário após a localização -- isso estende o texto com "
-"base no comprimento do texto fonte. As partes variáveis são repetidas pelo "
+"caber na interface do usuário após a localização - elas estendem o texto com "
+"base no comprimento do texto fonte. Os textos variáveis são repetidos pelo "
 "comprimento do texto multiplicado pelo multiplicador. Por exemplo ``Hello "
-"world`` com sufixo variável ``_`` e multiplicador variável de 1 se torna "
-"``Hello world___________`` -- o sufixo é repetido uma vez para cada "
-"caractere no texto fonte."
+"world`` com texto variável ``_`` e multiplicador variável de 1 se torna ``"
+"Hello world___________`` - o texto é repetido uma vez para cada caractere no "
+"texto fonte."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
 msgstr "Os textos serão gerados usando o seguinte padrão:"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Prefixo de texto fixo` :guilabel:`Prefixo de texto variável` :"
-"guilabel:`Texto fonte` :guilabel:`Sufixo de texto variável` :guilabel:"
-"`Sufixo de texto fixo`"
+":guilabel:`Texto estático prefixado` :guilabel:`Texto variável prefixado` "
+":guilabel:`Texto fonte` :guilabel:`Texto variável pós-fixado` :guilabel:`"
+"Texto estático como pós-fixado`"
 
 #: ../../admin/addons.rst:689
 msgid ""
@@ -3810,7 +3796,7 @@ msgstr "Personalizar saída JSON"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr ":guilabel:`Evite espaços após separadores` opção adicionada."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -4333,17 +4319,14 @@ msgstr ""
 "Envia notificação a um canal do Slack com base nos eventos selecionados."
 
 #: ../../admin/addons.rst:1144
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
-"No momento, a integração com o Google Analytics 4 não está disponível para o "
-"Weblate; consulte https://github.com/WeblateOrg/weblate/issues/14015."
+"O conteúdo da notificação pode exibir tags HTML. Este é um problema "
+"conhecido que será resolvido em breve; ver https://github.com/WeblateOrg/"
+"weblate/issues/15056."
 
 #: ../../admin/addons.rst:1148
 msgid ""
@@ -4351,6 +4334,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Para obter uma URL de webhook, siga as instruções na `Documentação de "
+"Incoming Webhooks do Slack <https://docs.slack.dev/messaging/sending-"
+"messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4387,16 +4373,17 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"O conteúdo da requisição segue o esquema :ref:`schema-messaging`. A "
+"descrição OpenAPI também pode ser encontrada em ``/api/docs/``. Exemplo de "
+"corpo de requisição:"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Exemplo de corpo de requisição com categorias:"
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "Cabeçalhos de solicitação"
+msgstr "Exemplo de cabeçalhos de requisição:"
 
 #: ../../admin/addons.rst:1370
 msgid ""
