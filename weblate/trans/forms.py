@@ -18,7 +18,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator, validate_slug
-from django.db.models import Model, Q
+from django.db.models import Count, F, Model, Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
@@ -1164,7 +1164,7 @@ class EngageForm(forms.Form):
         )
 
 
-class NewLanguageOwnerForm(forms.Form):
+class NewComponentLanguageOwnerForm(forms.Form):
     """Form for requesting a new language."""
 
     lang = forms.MultipleChoiceField(
@@ -1183,7 +1183,7 @@ class NewLanguageOwnerForm(forms.Form):
         self.fields["lang"].choices = languages.as_choices(user=user)
 
 
-class NewLanguageForm(NewLanguageOwnerForm):
+class NewComponentLanguageForm(NewComponentLanguageOwnerForm):
     """Form for requesting a new language."""
 
     lang = forms.ChoiceField(
@@ -1220,15 +1220,53 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
-def get_new_language_form(
+class NewProjectLanguageForm(forms.Form):
+    """Form for adding a new language to all components in a project."""
+
+    lang = forms.MultipleChoiceField(
+        label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
+    )
+
+    def get_lang_objects(self):
+        components = self.project.get_child_components_access(
+            self.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
+        )
+        components_count = components.count()
+
+        languages_in_all_components = (
+            Language.objects.annotate(
+                source_count=Count(
+                    "component", filter=Q(component__in=components), distinct=True
+                ),
+                translation__count=Count(
+                    "translation__component",
+                    filter=Q(translation__component__in=components),
+                    distinct=True,
+                ),
+            )
+            .annotate(num_components=F("source_count") + F("translation__count"))
+            .filter(num_components__gte=components_count)
+        )
+
+        return Language.objects.exclude(id__in=languages_in_all_components.values("id"))
+
+    def __init__(self, user: User, project: Project, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.project = project
+        self.user = user
+        languages = self.get_lang_objects()
+        self.fields["lang"].choices = languages.as_choices(user=user)
+
+
+def get_new_component_language_form(
     request: AuthenticatedHttpRequest, component: Component
-) -> type[NewLanguageOwnerForm | NewLanguageForm]:
+) -> type[NewComponentLanguageOwnerForm | NewComponentLanguageForm]:
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):
         raise PermissionDenied
     if request.user.has_perm("translation.add_more", component):
-        return NewLanguageOwnerForm
-    return NewLanguageForm
+        return NewComponentLanguageOwnerForm
+    return NewComponentLanguageForm
 
 
 class ContextForm(FieldDocsMixin, forms.ModelForm):
