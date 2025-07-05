@@ -857,6 +857,7 @@ class ProjectBackup:
                         target=entry["target"],
                         source_language=self.import_language(entry["source_language"]),
                         target_language=self.import_language(entry["target_language"]),
+                        status=entry.get("status", Memory.STATUS_ACTIVE),
                     )
                     for entry in memory
                 ]
