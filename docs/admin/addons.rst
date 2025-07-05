@@ -444,7 +444,7 @@ Matching files:
 
 .. warning::
 
-   To be discovered a new component must contain a file that matches ``base_file_template``
+   To be discovered, a new component must contain a file that matches ``base_file_template``
    **and** at least one file with a name that matches ``match`` -- i.e., the component must
    contain a base language file and at least one existing translation. Otherwise, it will be
    ignored.
