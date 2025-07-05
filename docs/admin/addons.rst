@@ -437,6 +437,18 @@ Matching files:
    :guilabel:`Version control system`) of each respective component.
    This saves time with configuration and system resources too.
 
+.. hint::
+
+   Ensure the new component contains the full set of translatable languages with
+   :ref:`addon-weblate.consistency.languages`.
+
+.. warning::
+
+   To be discovered, a new component must contain a file that matches ``base_file_template``
+   **and** at least one file with a name that matches ``match`` -- i.e., the component must
+   contain a base language file and at least one existing translation. Otherwise, it will be
+   ignored.
+
 .. seealso::
 
    :ref:`markup`,
