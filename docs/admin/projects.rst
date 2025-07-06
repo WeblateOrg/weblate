@@ -233,6 +233,26 @@ Enable review workflow for source strings, see :ref:`source-reviews`.
    :ref:`report-source`,
    :ref:`user-comments`
 
+.. _project-commit_policy:
+
+Commit Policy
++++++++++++++
+
+.. versionadded:: 5.13
+
+The commit policy determines which translations are included when committing changes
+to the version control system. This setting is available at the project level and
+supports the following options:
+
+* **Commit all translations regardless of quality**: All translations will be committed,
+  including those marked as needing editing or not reviewed.
+* **Skip translations marked as needing editing**: Only translations that don't have the
+  "needs editing" flag will be committed.
+* **Only include approved translations**: Only translations that have been approved by a
+  reviewer will be committed. This option requires :ref:`project-translation_review`
+  to be enabled.
+
+
 .. _project-enable_hooks:
 
 Enable hooks

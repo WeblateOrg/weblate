@@ -5,6 +5,8 @@ Weblate 5.13
 
 .. rubric:: New features
 
+* Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
+
 .. rubric:: Improvements
 
 * :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
