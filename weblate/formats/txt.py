@@ -178,7 +178,7 @@ class TextUnit(TranslationUnit):
     @cached_property
     def flags(self):
         """Return flags from unit."""
-        from weblate.checks.base import Flags
+        from weblate.checks.flags import Flags
 
         if self.mainunit.flags:
             return Flags(self.mainunit.flags)
