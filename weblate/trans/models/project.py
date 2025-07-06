@@ -53,6 +53,15 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import TranslationQuerySet
 
 
+class CommitPolicyChoices(models.IntegerChoices):
+    ALL = 0, gettext_lazy("Commit all translations regardless of quality")
+    WITHOUT_NEEDS_EDITING = (
+        20,
+        gettext_lazy("Skip translations marked as needing editing"),
+    )
+    APPROVED_ONLY = 30, gettext_lazy("Only include approved translations")
+
+
 class ProjectLanguageFactory(UserDict):
     def __init__(self, project: Project) -> None:
         super().__init__()
@@ -236,6 +245,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=False,
         help_text=gettext_lazy(
             "Requires dedicated reviewers to approve source strings."
+        ),
+    )
+    commit_policy = models.IntegerField(
+        verbose_name=gettext_lazy("Translation quality filter"),
+        default=CommitPolicyChoices.ALL,
+        choices=CommitPolicyChoices,
+        help_text=gettext_lazy(
+            "Select which translations should be included when committing changes. "
+            "More restrictive options will skip translations with potential quality issues."
         ),
     )
     enable_hooks = models.BooleanField(

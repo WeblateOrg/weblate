@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
@@ -42,7 +43,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 
 def fixup_languages_seq() -> None:
@@ -366,6 +367,60 @@ class TranslationTest(RepoTestCase):
         target_unit.update_explanation("explanation 2", user)
         # only adds pending change for target unit's translation file
         self.assertEqual(PendingUnitChange.objects.count(), 1)
+
+    def test_commit_policy(self):
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.save()
+
+        unit1 = translation.unit_set.get(source="Hello, world!\n")
+        unit1.translate(user, "Unit 1 - Test 1", STATE_TRANSLATED)
+        unit1.translate(user, "Unit 1 - Test 2", STATE_FUZZY)
+        unit1.translate(user, "Unit 1 - Test 3", STATE_APPROVED)
+        unit1.translate(user, "Unit 1 - Test 4", STATE_FUZZY)
+
+        unit2 = translation.unit_set.get(source="Thank you for using Weblate.")
+        unit2.translate(user, "Unit 2 - Test 1", STATE_FUZZY)
+
+        unit3 = translation.unit_set.get(
+            source="Try Weblate at <https://demo.weblate.org/>!\n"
+        )
+        unit3.translate(user, "Unit 3 - Test 1", STATE_TRANSLATED)
+
+        self.assertEqual(PendingUnitChange.objects.count(), 6)
+        changes = list(PendingUnitChange.objects.for_translation(translation))
+        self.assertEqual(len(changes), 3)
+        self.assertTrue(all(p.unit == unit1 for p in changes))
+        self.assertEqual(
+            [STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED], [p.state for p in changes]
+        )
+
+        component.commit_pending("test", None)
+        self.assertEqual(PendingUnitChange.objects.count(), 3)
+
+        project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        project.save()
+
+        changes = list(PendingUnitChange.objects.for_translation(translation))
+        self.assertEqual(len(changes), 1)
+        self.assertTrue(all(p.unit == unit3 for p in changes))
+        self.assertEqual([STATE_TRANSLATED], [p.state for p in changes])
+
+        component.commit_pending("test", None)
+        self.assertEqual(PendingUnitChange.objects.count(), 2)
+
+        project.commit_policy = CommitPolicyChoices.ALL
+        project.save()
+
+        changes = list(PendingUnitChange.objects.for_translation(translation))
+        self.assertEqual(len(changes), 2)
+        self.assertEqual([STATE_FUZZY, STATE_FUZZY], [p.state for p in changes])
+        component.commit_pending("test", None)
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
 
 
 class ComponentListTest(RepoTestCase):
