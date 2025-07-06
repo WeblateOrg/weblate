@@ -51,9 +51,7 @@ class PendingChangeQuerySet(models.QuerySet):
         # based on the project's commit policy, and returns all changes up to and
         # including that change.
         latest_eligible_changes = (
-            PendingUnitChange.objects.filter(
-                *filters, has_failing_check=False, unit_id=OuterRef("unit_id")
-            )
+            PendingUnitChange.objects.filter(*filters, unit_id=OuterRef("unit_id"))
             .order_by("-timestamp")
             .values("timestamp")[:1]
         )
