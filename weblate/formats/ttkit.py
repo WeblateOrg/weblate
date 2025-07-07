@@ -27,6 +27,7 @@ from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
@@ -2146,6 +2147,25 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
+
+
+class CatkeysFormat(TTKitFormat):
+    name = gettext_lazy("Haiku catkeys")
+    format_id = "catkeys"
+    loader = CatkeysFile
+    autoload: tuple[str, ...] = ("*.catkeys",)
+    unit_class = TTKitUnit
+    monolingual = False
+    supports_explanation = False
+    store: CatkeysFile
+
+    @classmethod
+    def mimetype(cls) -> str:
+        return "text/x-catkeys"
+
+    @classmethod
+    def extension(cls) -> str:
+        return "catkeys"
 
 
 class StringsdictFormat(DictStoreFormat):
