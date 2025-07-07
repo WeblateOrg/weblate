@@ -352,7 +352,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             expected_list = [self.EXPECTED_FLAGS]
         for i, expected_flag in enumerate(expected_list):
             unit = units[i]
-            self.assertEqual(unit.flags, expected_flag)
+            self.assertTrue(unit.flags.equals(expected_flag))
 
     def test_add_monolingual(self) -> None:
         """
