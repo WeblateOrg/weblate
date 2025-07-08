@@ -778,7 +778,7 @@ class Unit(models.Model, LoggerMixin):
                 "flags": flags.format(),
             },
         )
-        same_flags = flags == source_unit.flags
+        same_flags = flags == Flags(source_unit.flags)
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
@@ -906,7 +906,7 @@ class Unit(models.Model, LoggerMixin):
                 previous_source = self.previous_source
 
         # Update checks on fuzzy update or on content change
-        same_state = state == self.state and flags == self.flags
+        same_state = state == self.state and flags == Flags(self.flags)
         same_metadata = (
             location == self.location
             and explanation == self.explanation
@@ -920,7 +920,7 @@ class Unit(models.Model, LoggerMixin):
             and same_target
             and same_state
             and original_state == self.original_state
-            and flags == self.flags
+            and flags == Flags(self.flags)
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
             and old_source_unit is not None

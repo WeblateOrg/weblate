@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from types import NoneType
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django.core.exceptions import ValidationError
@@ -289,9 +288,9 @@ class Flags:
 
     def __eq__(self, other: object) -> bool:
         """Check if current flags are equal to other flags."""
-        if type(other) not in {Flags, str, etree._Element, NoneType}:
+        if not isinstance(other, Flags):
             return False
-        return self.items() == set(self.get_items(other))
+        return self.items() == other.items()
 
     def __hash__(self) -> int:
         return hash(self.items())

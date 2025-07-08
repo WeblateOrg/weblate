@@ -18,6 +18,7 @@ from unittest import TestCase
 from lxml import etree
 from translate.storage.po import pofile
 
+from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.ttkit import (
@@ -352,7 +353,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             expected_list = [self.EXPECTED_FLAGS]
         for i, expected_flag in enumerate(expected_list):
             unit = units[i]
-            self.assertEqual(unit.flags, expected_flag)
+            self.assertEqual(unit.flags, Flags(expected_flag))
 
     def test_add_monolingual(self) -> None:
         """
