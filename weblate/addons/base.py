@@ -22,6 +22,7 @@ from weblate.trans.templatetags.translations import format_json
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
@@ -324,7 +325,7 @@ class BaseAddon:
                 {
                     "addon": self.name,
                     "command": " ".join(cmd),
-                    "output": output,
+                    "output": cleanup_error_message(output),
                     "error": str(err),
                 }
             )
