@@ -560,28 +560,26 @@ class CatkeysFormatTest(BaseFormatTest):
     BASE = TEST_CATKEYS
     MIME = "text/x-catkeys"
     EXT = "catkeys"
-    COUNT = 63
-    MATCH = "Skip all"
+    COUNT = 2
+    MATCH = "none"
     MASK = "*.catkeys"
-    EXPECTED_PATH = "cs.catkeys"
-    FIND = "Skip all"
+    EXPECTED_PATH = "cs_CZ.catkeys"
+    FIND = "none"
     FIND_CONTEXT = "PackageView"
-    FIND_MATCH = "Přeskočit vše"
+    FIND_MATCH = "není"
     NEW_UNIT_MATCH = b"Source string\tNewSource\t\t\n"
     NEW_UNIT_KEY = "NewSource"
     SUPPORTS_FLAG = False
-    SUPPORTS_NOTES = False
+    SUPPORTS_NOTES = True
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 0
-    EDIT_TARGET = "Nový překlad"
+    EDIT_TARGET = "není"
     MONOLINGUAL = False
 
     def test_get_language_filename(self) -> None:
-        # Override to handle catkeys specific language code handling
         self.assertEqual(
             self.format_class.get_language_filename(
-                self.MASK,
-                "cs",  # Use base language code
+                self.MASK, self.format_class.get_language_code("cs_CZ")
             ),
             self.EXPECTED_PATH,
         )

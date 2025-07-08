@@ -2156,7 +2156,7 @@ class CatkeysFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.catkeys",)
     unit_class = TTKitUnit
     monolingual = False
-    supports_explanation = False
+    supports_explanation = True
     store: CatkeysFile
 
     @classmethod
