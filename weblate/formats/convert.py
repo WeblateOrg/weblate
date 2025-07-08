@@ -38,7 +38,6 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
-from weblate.checks.flags import Flags
 from weblate.formats.base import (
     TranslationFormat,
     TranslationUnit,
@@ -100,9 +99,9 @@ class ConvertXliffUnit(XliffUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
         flags.remove("xml-text")
-        return flags.format()
+        return flags
 
 
 class ConvertFormat(TranslationFormat):

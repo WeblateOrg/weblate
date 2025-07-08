@@ -18,6 +18,7 @@ from unittest import TestCase
 from lxml import etree
 from translate.storage.po import pofile
 
+from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.ttkit import (
@@ -354,7 +355,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             expected_list = [self.EXPECTED_FLAGS]
         for i, expected_flag in enumerate(expected_list):
             unit = units[i]
-            self.assertEqual(unit.flags, expected_flag)
+            self.assertEqual(unit.flags, Flags(expected_flag))
 
     def test_add_monolingual(self) -> None:
         """
@@ -1417,7 +1418,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "Superseded but still found in older manuals."
         )
-        self.assertEqual(unit.flags, "forbidden")
+        self.assertEqual(unit.flags, Flags("forbidden"))
         self.assertEqual(unit.is_readonly(), False)
 
         unit, _ = storage.find_unit("e002", "SYS_ERR_406")
@@ -1425,13 +1426,13 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "An internal code identifier not to be localized."
         )
-        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), True)
 
         unit, _ = storage.find_unit("e003", "combo box")
         self.assertEqual(unit.notes, "")
         self.assertEqual(unit.source_explanation, "")
-        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), False)
 
 

@@ -286,6 +286,15 @@ class Flags:
     def __bool__(self) -> bool:
         return bool(self._items)
 
+    def __eq__(self, other: object) -> bool:
+        """Check if current flags are equal to other flags."""
+        if not isinstance(other, Flags):
+            return False
+        return self.items() == other.items()
+
+    def __hash__(self) -> int:
+        return hash(self.items())
+
     @staticmethod
     def format_value(value):
         # Regexp objects

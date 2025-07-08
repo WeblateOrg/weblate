@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
+from collections.abc import Iterable
 from datetime import date, datetime
 from html import escape as html_escape
 from typing import TYPE_CHECKING
@@ -31,8 +32,10 @@ from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import (
+    Alert,
     Announcement,
     Category,
+    Change,
     Component,
     ComponentList,
     ContributorAgreement,
@@ -63,7 +66,8 @@ from weblate.utils.views import SORT_CHOICES
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
-    from django.db.models import QuerySet
+    from django.db.models import Model, QuerySet
+    from django.forms.boundfield import BoundField
     from django.template.context import Context
     from django_stubs_ext import StrOrPromise
 
@@ -662,7 +666,7 @@ def documentation(context: Context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-def render_documentation_icon(doc_url: str, *, right: bool = False):
+def render_documentation_icon(doc_url: str | None, *, right: bool = False) -> str:
     if not doc_url:
         return ""
     return format_html(
@@ -677,7 +681,7 @@ def render_documentation_icon(doc_url: str, *, right: bool = False):
 @register.simple_tag(takes_context=True)
 def documentation_icon(
     context: Context, page: str, anchor: str = "", right: bool = False
-):
+) -> str:
     return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
@@ -1292,7 +1296,7 @@ def indicate_alerts(
     | ProjectLanguage
     | Project
     | GhostProjectLanguageStats,
-):
+) -> str:
     translation: Translation | GhostTranslation | None = None
     component: Component | None = None
     project: Project | None = None
@@ -1353,12 +1357,12 @@ def indicate_alerts(
 
 
 @register.filter(is_safe=True)
-def markdown(text):
+def markdown(text: str) -> str:
     return format_html('<div class="markdown">{}</div>', render_markdown(text))
 
 
 @register.filter
-def choiceval(boundfield):
+def choiceval(boundfield: BoundField) -> str:
     """
     Get literal value from a field's choices.
 
@@ -1371,7 +1375,9 @@ def choiceval(boundfield):
         return gettext("enabled")
     if not hasattr(boundfield.field, "choices"):
         return value
-    choices = {str(choice): value for choice, value in boundfield.field.choices}
+    choices: dict[str, str] = {
+        str(choice): value for choice, value in boundfield.field.choices
+    }
     if isinstance(value, list):
         return format_html_join_comma(
             "{}", list_to_tuples(choices.get(val, val) for val in value)
@@ -1380,7 +1386,7 @@ def choiceval(boundfield):
 
 
 @register.filter
-def format_commit_author(commit):
+def format_commit_author(commit) -> str:
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
     )
@@ -1391,7 +1397,7 @@ def format_commit_author(commit):
 
 
 @register.filter
-def percent_format(number):
+def percent_format(number: float) -> str:
     if number < 0.1:
         percent = 0
     elif number < 1:
@@ -1409,7 +1415,7 @@ def percent_format(number):
 
 
 @register.filter
-def number_format(number):
+def number_format(number: int) -> str:
     format_string = "%s"
     if number > 99999999:
         number //= 1000000
@@ -1423,7 +1429,7 @@ def number_format(number):
 
 
 @register.filter
-def trend_format(number):
+def trend_format(number: int) -> str:
     if number < 0:
         prefix = "−"
         trend = "trend-down"
@@ -1442,7 +1448,7 @@ def trend_format(number):
 
 
 @register.filter
-def hash_text(name):
+def hash_text(name: str) -> str:
     """Hash text for use in HTML id."""
     return hash_to_checksum(siphash("Weblate URL hash", name.encode()))
 
@@ -1453,22 +1459,22 @@ def sort_choices():
 
 
 @register.simple_tag(takes_context=True)
-def render_alert(context: Context, alert):
+def render_alert(context: Context, alert: Alert) -> str:
     return alert.render(user=context["user"])
 
 
 @register.simple_tag
-def get_message_kind(tags):
+def get_message_kind(tags) -> str:
     return get_message_kind_impl(tags)
 
 
 @register.simple_tag
-def any_unit_has_context(units: Iterable[Unit]):
+def any_unit_has_context(units: Iterable[Unit]) -> bool:
     return any(unit.context for unit in units)
 
 
 @register.filter(is_safe=True, needs_autoescape=True)
-def urlize_ugc(value, autoescape=True):
+def urlize_ugc(value: str, autoescape: bool = True) -> str:
     """Convert URLs in plain text into clickable links."""
     html = urlize(value, nofollow=True, autoescape=autoescape)
     return mark_safe(  # noqa: S308
@@ -1487,8 +1493,14 @@ def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
     return ""
 
 
-def get_breadcrumbs(path_object, *, flags: bool = True, only_names: bool = False):
-    def with_url(name, url=None):
+def get_breadcrumbs(  # noqa: C901
+    path_object, *, flags: bool = True, only_names: bool = False
+) -> Generator[str | tuple[str, str]]:
+    def with_url(
+        name: Model | int | str, url: str | None = None
+    ) -> str | tuple[str, str]:
+        if not isinstance(name, str):
+            name = str(name)
         if only_names:
             return name
         if url is None:
@@ -1566,12 +1578,12 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
 
 
 @register.simple_tag
-def get_projectlanguage(project, language):
+def get_projectlanguage(project: Project, language: Language) -> ProjectLanguage:
     return ProjectLanguage(project=project, language=language)
 
 
 @register.simple_tag
-def get_workflow_flags(translation, component):
+def get_workflow_flags(translation: Translation | None, component: Component):
     if translation:
         return {
             "suggestion_voting": translation.suggestion_voting,
@@ -1640,6 +1652,7 @@ def list_objects_percent(
 ):
     url_start: str | SafeString
     url_end: str | SafeString
+    percent_formatted: str | SafeString
     if search_url or translate_url:
         url_start = format_html(
             '<a href="{url}?{query}">',
@@ -1740,12 +1753,12 @@ def format_headers(value: dict[str, str]) -> str:
 
 @register.inclusion_tag("snippets/last-changes-content.html")
 def format_last_changes_content(
-    last_changes,
-    user: str | User,
-    in_email=False,
-    debug=False,
-    search_url=None,
-    offset=None,
+    last_changes: Iterable[Change],
+    user: str | User | AnonymousUser,
+    in_email: bool = False,
+    debug: bool = False,
+    search_url: str | None = None,
+    offset: int | None = None,
 ):
     """
     Format last changes content for display.

@@ -7,45 +7,45 @@
 set -e
 
 if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-    echo "Usage: ./scripts/create-release [--tag]"
-    exit 1
+	echo "Usage: ./scripts/create-release [--tag]"
+	exit 1
 fi
 
 if ! git diff --exit-code --quiet; then
-    echo "There are not committed changes!"
-    exit 1
+	echo "There are not committed changes!"
+	exit 1
 fi
 
 DO_TAG=0
 if [ "$1" = "--tag" ]; then
-    DO_TAG=1
-    shift
+	DO_TAG=1
+	shift
 fi
 
 # What are we going to build?
 if [ "$DO_TAG" -eq 1 ]; then
-    ./scripts/prepare-release
+	./scripts/prepare-release
 
-    # Grab version
-    version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
-    namever="weblate-$version"
+	# Grab version
+	version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
+	namever="weblate-$version"
 
-    # Tag release
-    git tag -s "$namever" -m "Version $version"
-    cd ~/weblate/test
-    git pull -q
-    git tag -s "$namever" -m "Test data for version $version"
-    cd ~/weblate/weblate
+	# Tag release
+	git tag -s "$namever" -m "Version $version"
+	cd ~/weblate/test
+	git pull -q
+	git tag -s "$namever" -m "Test data for version $version"
+	cd ~/weblate/weblate
 
-    # Push git tags
-    git push --tags
-    cd ~/weblate/test
-    git push --tags
-    cd ~/weblate/weblate
+	# Push git tags
+	git push --tags
+	cd ~/weblate/test
+	git push --tags
+	cd ~/weblate/weblate
 
-    # Update stable branch
-    git checkout stable
-    git merge "$namever"
-    git push origin stable
-    git checkout main
+	# Update stable branch
+	git checkout stable
+	git merge "$namever"
+	git push origin stable
+	git checkout main
 fi
