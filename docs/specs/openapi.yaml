@@ -44707,6 +44707,16 @@ components:
         * `report` - report
         * `global` - global
         * `translation` - translation
+    CommitPolicyEnum:
+      enum:
+      - 0
+      - 20
+      - 30
+      type: integer
+      description: |-
+        * `0` - Commit all translations regardless of quality
+        * `20` - Skip translations marked as needing editing
+        * `30` - Only include approved translations
     Component:
       type: object
       properties:
@@ -61276,6 +61286,18 @@ components:
           type: boolean
           title: Enable source reviews
           description: Requires dedicated reviewers to approve source strings.
+        commit_policy:
+          allOf:
+          - $ref: '#/components/schemas/CommitPolicyEnum'
+          title: Translation quality filter
+          description: |-
+            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
+
+            * `0` - Commit all translations regardless of quality
+            * `20` - Skip translations marked as needing editing
+            * `30` - Only include approved translations
+          minimum: -2147483648
+          maximum: 2147483647
         set_language_team:
           type: boolean
           title: Set "Language-Team" header
@@ -61477,6 +61499,18 @@ components:
           type: boolean
           title: Enable source reviews
           description: Requires dedicated reviewers to approve source strings.
+        commit_policy:
+          allOf:
+          - $ref: '#/components/schemas/CommitPolicyEnum'
+          title: Translation quality filter
+          description: |-
+            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
+
+            * `0` - Commit all translations regardless of quality
+            * `20` - Skip translations marked as needing editing
+            * `30` - Only include approved translations
+          minimum: -2147483648
+          maximum: 2147483647
         set_language_team:
           type: boolean
           title: Set "Language-Team" header
@@ -61570,6 +61604,32 @@ components:
       - attr
       - code
       - detail
+    ProjectsAddonsCreateCommitPolicyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - commit_policy
+          type: string
+          description: '* `commit_policy` - commit_policy'
+        code:
+          enum:
+          - invalid_choice
+          - max_value
+          - min_value
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ProjectsAddonsCreateEnableHooksErrorComponent:
       type: object
       properties:
@@ -61623,6 +61683,7 @@ components:
       - $ref: '#/components/schemas/ProjectsAddonsCreateCheckFlagsErrorComponent'
       - $ref: '#/components/schemas/ProjectsAddonsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ProjectsAddonsCreateSourceReviewErrorComponent'
+      - $ref: '#/components/schemas/ProjectsAddonsCreateCommitPolicyErrorComponent'
       - $ref: '#/components/schemas/ProjectsAddonsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ProjectsAddonsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ProjectsAddonsCreateEnableHooksErrorComponent'
@@ -61639,6 +61700,7 @@ components:
           check_flags: '#/components/schemas/ProjectsAddonsCreateCheckFlagsErrorComponent'
           translation_review: '#/components/schemas/ProjectsAddonsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ProjectsAddonsCreateSourceReviewErrorComponent'
+          commit_policy: '#/components/schemas/ProjectsAddonsCreateCommitPolicyErrorComponent'
           set_language_team: '#/components/schemas/ProjectsAddonsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ProjectsAddonsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ProjectsAddonsCreateEnableHooksErrorComponent'
@@ -63675,6 +63737,32 @@ components:
       - attr
       - code
       - detail
+    ProjectsCreateCommitPolicyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - commit_policy
+          type: string
+          description: '* `commit_policy` - commit_policy'
+        code:
+          enum:
+          - invalid_choice
+          - max_value
+          - min_value
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ProjectsCreateEnableHooksErrorComponent:
       type: object
       properties:
@@ -63728,6 +63816,7 @@ components:
       - $ref: '#/components/schemas/ProjectsCreateCheckFlagsErrorComponent'
       - $ref: '#/components/schemas/ProjectsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ProjectsCreateSourceReviewErrorComponent'
+      - $ref: '#/components/schemas/ProjectsCreateCommitPolicyErrorComponent'
       - $ref: '#/components/schemas/ProjectsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ProjectsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ProjectsCreateEnableHooksErrorComponent'
@@ -63744,6 +63833,7 @@ components:
           check_flags: '#/components/schemas/ProjectsCreateCheckFlagsErrorComponent'
           translation_review: '#/components/schemas/ProjectsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ProjectsCreateSourceReviewErrorComponent'
+          commit_policy: '#/components/schemas/ProjectsCreateCommitPolicyErrorComponent'
           set_language_team: '#/components/schemas/ProjectsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ProjectsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ProjectsCreateEnableHooksErrorComponent'
@@ -64080,6 +64170,32 @@ components:
       - attr
       - code
       - detail
+    ProjectsLabelsCreateCommitPolicyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - commit_policy
+          type: string
+          description: '* `commit_policy` - commit_policy'
+        code:
+          enum:
+          - invalid_choice
+          - max_value
+          - min_value
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ProjectsLabelsCreateEnableHooksErrorComponent:
       type: object
       properties:
@@ -64133,6 +64249,7 @@ components:
       - $ref: '#/components/schemas/ProjectsLabelsCreateCheckFlagsErrorComponent'
       - $ref: '#/components/schemas/ProjectsLabelsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ProjectsLabelsCreateSourceReviewErrorComponent'
+      - $ref: '#/components/schemas/ProjectsLabelsCreateCommitPolicyErrorComponent'
       - $ref: '#/components/schemas/ProjectsLabelsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ProjectsLabelsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ProjectsLabelsCreateEnableHooksErrorComponent'
@@ -64149,6 +64266,7 @@ components:
           check_flags: '#/components/schemas/ProjectsLabelsCreateCheckFlagsErrorComponent'
           translation_review: '#/components/schemas/ProjectsLabelsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ProjectsLabelsCreateSourceReviewErrorComponent'
+          commit_policy: '#/components/schemas/ProjectsLabelsCreateCommitPolicyErrorComponent'
           set_language_team: '#/components/schemas/ProjectsLabelsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ProjectsLabelsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ProjectsLabelsCreateEnableHooksErrorComponent'
@@ -64492,6 +64610,32 @@ components:
       - attr
       - code
       - detail
+    ProjectsPartialUpdateCommitPolicyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - commit_policy
+          type: string
+          description: '* `commit_policy` - commit_policy'
+        code:
+          enum:
+          - invalid_choice
+          - max_value
+          - min_value
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ProjectsPartialUpdateEnableHooksErrorComponent:
       type: object
       properties:
@@ -64545,6 +64689,7 @@ components:
       - $ref: '#/components/schemas/ProjectsPartialUpdateCheckFlagsErrorComponent'
       - $ref: '#/components/schemas/ProjectsPartialUpdateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ProjectsPartialUpdateSourceReviewErrorComponent'
+      - $ref: '#/components/schemas/ProjectsPartialUpdateCommitPolicyErrorComponent'
       - $ref: '#/components/schemas/ProjectsPartialUpdateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ProjectsPartialUpdateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ProjectsPartialUpdateEnableHooksErrorComponent'
@@ -64561,6 +64706,7 @@ components:
           check_flags: '#/components/schemas/ProjectsPartialUpdateCheckFlagsErrorComponent'
           translation_review: '#/components/schemas/ProjectsPartialUpdateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ProjectsPartialUpdateSourceReviewErrorComponent'
+          commit_policy: '#/components/schemas/ProjectsPartialUpdateCommitPolicyErrorComponent'
           set_language_team: '#/components/schemas/ProjectsPartialUpdateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ProjectsPartialUpdateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ProjectsPartialUpdateEnableHooksErrorComponent'
@@ -64973,6 +65119,32 @@ components:
       - attr
       - code
       - detail
+    ProjectsUpdateCommitPolicyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - commit_policy
+          type: string
+          description: '* `commit_policy` - commit_policy'
+        code:
+          enum:
+          - invalid_choice
+          - max_value
+          - min_value
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `max_value` - max_value
+            * `min_value` - min_value
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ProjectsUpdateEnableHooksErrorComponent:
       type: object
       properties:
@@ -65026,6 +65198,7 @@ components:
       - $ref: '#/components/schemas/ProjectsUpdateCheckFlagsErrorComponent'
       - $ref: '#/components/schemas/ProjectsUpdateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ProjectsUpdateSourceReviewErrorComponent'
+      - $ref: '#/components/schemas/ProjectsUpdateCommitPolicyErrorComponent'
       - $ref: '#/components/schemas/ProjectsUpdateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ProjectsUpdateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ProjectsUpdateEnableHooksErrorComponent'
@@ -65042,6 +65215,7 @@ components:
           check_flags: '#/components/schemas/ProjectsUpdateCheckFlagsErrorComponent'
           translation_review: '#/components/schemas/ProjectsUpdateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ProjectsUpdateSourceReviewErrorComponent'
+          commit_policy: '#/components/schemas/ProjectsUpdateCommitPolicyErrorComponent'
           set_language_team: '#/components/schemas/ProjectsUpdateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ProjectsUpdateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ProjectsUpdateEnableHooksErrorComponent'

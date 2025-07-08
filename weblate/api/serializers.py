@@ -528,6 +528,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "credits_url",
             "translation_review",
             "source_review",
+            "commit_policy",
             "set_language_team",
             "instructions",
             "enable_hooks",
