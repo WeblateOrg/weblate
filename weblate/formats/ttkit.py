@@ -178,7 +178,7 @@ class TTKitUnit(TranslationUnit):
             flags.merge(self.unit.xmlelement)
         if self.template is not None and hasattr(self.template, "xmlelement"):
             flags.merge(self.template.xmlelement)
-        return flags.format()
+        return flags
 
     def clone_template(self) -> None:
         super().clone_template()
@@ -550,7 +550,7 @@ class PoUnit(TTKitUnit):
             msg = f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
             raise ValueError(msg) from error
         flags.remove({"fuzzy"})
-        return flags.format()
+        return flags
 
     @cached_property
     def previous_source(self):
@@ -803,7 +803,7 @@ class RichXliffUnit(XliffUnit):
     def flags(self):
         flags = Flags(super().flags)
         flags.merge("xml-text")
-        return flags.format()
+        return flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
@@ -938,19 +938,19 @@ class PlaceholdersJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
+        flags = Flags()
         if not placeholders:
-            return ""
-        flags = ""
+            return flags
+
         if isinstance(placeholders, list):
             # golang placeholders
             placeholder_ids = [f"{{{p['id']}}}" for p in placeholders]
         else:
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
-            flags = ",case-insensitive"
-        return "placeholders:{}{}".format(
-            ":".join(Flags.format_value(key) for key in placeholder_ids), flags
-        )
+            flags.merge("case-insensitive")
+        flags.merge(f"placeholders:{Flags.format_flag(*placeholder_ids)}")
+        return flags
 
 
 class CSVUnit(MonolingualSimpleUnit):
@@ -2102,7 +2102,7 @@ class TBXUnit(TTKitUnit):
                     flags.merge("forbidden")
                 break
 
-        return flags.format()
+        return flags
 
 
 class TBXFormat(TTKitFormat):
@@ -2216,7 +2216,7 @@ class FluentUnit(MonolingualSimpleUnit):
     def flags(self):
         flags = Flags()
         flags.set_value("fluent-type", self.mainunit.fluent_type)
-        return flags.format()
+        return flags
 
 
 class FluentFormat(TTKitFormat):

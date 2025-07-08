@@ -763,7 +763,7 @@ class Unit(models.Model, LoggerMixin):
                 )
 
     def update_source_unit(
-        self, component, source, context, pos, note, location, flags, explanation
+        self, component, source, context, pos, note, location, flags: Flags, explanation
     ) -> None:
         source_unit = component.get_source(
             self.id_hash,
@@ -775,10 +775,10 @@ class Unit(models.Model, LoggerMixin):
                 "note": note,
                 "location": location,
                 "explanation": explanation,
-                "flags": flags,
+                "flags": flags.format(),
             },
         )
-        same_flags = flags == source_unit.flags
+        same_flags = flags == Flags(source_unit.flags)
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
@@ -793,7 +793,7 @@ class Unit(models.Model, LoggerMixin):
             source_unit.source_updated = True
             source_unit.location = location
             source_unit.explanation = explanation
-            source_unit.flags = flags
+            source_unit.flags = flags.format()
             source_unit.note = note
             source_unit.save(
                 update_fields=["position", "location", "explanation", "flags", "note"],
@@ -827,7 +827,7 @@ class Unit(models.Model, LoggerMixin):
             else:
                 explanation = self.explanation
                 source_explanation = "" if created else self.source_unit.explanation
-            flags = unit.flags
+            flags = Flags(unit.flags)
             source = unit.source
             self.check_valid(split_plural(source))
             if not translation.is_template and translation.is_source:
@@ -906,7 +906,7 @@ class Unit(models.Model, LoggerMixin):
                 previous_source = self.previous_source
 
         # Update checks on fuzzy update or on content change
-        same_state = state == self.state and flags == self.flags
+        same_state = state == self.state and flags == Flags(self.flags)
         same_metadata = (
             location == self.location
             and explanation == self.explanation
@@ -920,7 +920,7 @@ class Unit(models.Model, LoggerMixin):
             and same_target
             and same_state
             and original_state == self.original_state
-            and flags == self.flags
+            and flags == Flags(self.flags)
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
             and old_source_unit is not None
@@ -935,7 +935,7 @@ class Unit(models.Model, LoggerMixin):
         self.position = pos
         self.location = location
         self.explanation = explanation
-        self.flags = flags
+        self.flags = flags.format()
         self.source = source
         self.target = target
         self.state = state
