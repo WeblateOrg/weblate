@@ -55,6 +55,7 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1212,8 +1213,11 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
+            error_output = error.output + error.stderr
             report_error("Failed msgmerge")
-            raise UpdateError(" ".join(cmd), error.output + error.stderr) from error
+            raise UpdateError(
+                " ".join(cmd), cleanup_error_message(error_output)
+            ) from error
         else:
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)

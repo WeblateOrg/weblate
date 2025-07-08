@@ -12,6 +12,7 @@ from siphashc import siphash
 
 from weblate.trans.util import get_clean_env
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 
 GPG_ERRORS: dict[str, str] = {}
 
@@ -21,7 +22,9 @@ def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
 
     if not silent:
         GPG_ERRORS[name] = "{}\n{}\n{}".format(
-            error, getattr(error, "stderr", ""), getattr(error, "stdout", "")
+            cleanup_error_message(str(error)),
+            cleanup_error_message(getattr(error, "stderr", "")),
+            cleanup_error_message(getattr(error, "stdout", "")),
         )
 
 
