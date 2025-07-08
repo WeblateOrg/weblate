@@ -1364,7 +1364,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "Superseded but still found in older manuals."
         )
-        self.assertEqual(unit.flags, "forbidden")
+        self.assertEqual(unit.flags, Flags("forbidden"))
         self.assertEqual(unit.is_readonly(), False)
 
         unit, _ = storage.find_unit("e002", "SYS_ERR_406")
@@ -1372,13 +1372,13 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "An internal code identifier not to be localized."
         )
-        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), True)
 
         unit, _ = storage.find_unit("e003", "combo box")
         self.assertEqual(unit.notes, "")
         self.assertEqual(unit.source_explanation, "")
-        self.assertEqual(unit.flags, "")
+        self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), False)
 
 
