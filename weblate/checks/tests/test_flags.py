@@ -208,3 +208,21 @@ class FlagTest(SimpleTestCase):
             flags.validate()
         flags = FlagsValidator("discard:ignore-same")
         flags.validate()
+
+    def test_equals(self) -> None:
+        from lxml import etree
+
+        flags = Flags("foo:foo, bar:bar")
+        self.assertEqual(flags, Flags("bar:bar, foo:foo"))
+        self.assertEqual(flags, Flags(Flags("bar:bar, foo:foo")))
+        self.assertEqual(flags, "bar:bar, foo:foo")
+
+        flags_xml = etree.fromstring(
+            """<flags weblate-flags="bar:bar, foo:foo"></flags>"""
+        )
+        self.assertEqual(flags, flags_xml)
+
+        flags = Flags(None)
+        self.assertEqual(flags, Flags())
+        self.assertEqual(flags, "")
+        self.assertEqual(flags, None)
