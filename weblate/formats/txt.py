@@ -178,11 +178,10 @@ class TextUnit(TranslationUnit):
     @cached_property
     def flags(self):
         """Return flags from unit."""
-        from weblate.checks.flags import Flags
-
+        flags = super().flags
         if self.mainunit.flags:
-            return Flags(self.mainunit.flags)
-        return Flags()
+            flags.merge(self.mainunit.flags)
+        return flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""

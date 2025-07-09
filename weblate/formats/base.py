@@ -200,7 +200,15 @@ class TranslationUnit:
     @cached_property
     def flags(self) -> Flags:
         """Return flags or typecomments from units."""
-        return Flags()
+        flags = Flags()
+        # add default flags based location extensions
+        for location in self.locations.split(","):
+            _, extension = os.path.splitext(location.split(":")[0].strip())
+            if extension == ".rst":
+                flags.merge("rst-text")
+            elif extension in {".md", ".markdown"}:
+                flags.merge("md-text")
+        return flags
 
     @cached_property
     def notes(self) -> str:

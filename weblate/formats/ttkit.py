@@ -175,7 +175,7 @@ class TTKitUnit(TranslationUnit):
 
         We currently extract maxwidth attribute.
         """
-        flags = Flags()
+        flags = super().flags
         if hasattr(self.unit, "xmlelement"):
             flags.merge(self.unit.xmlelement)
         if self.template is not None and hasattr(self.template, "xmlelement"):
@@ -546,8 +546,9 @@ class PoUnit(TTKitUnit):
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
+        flags = super().flags
         try:
-            flags = Flags(*self.mainunit.typecomments)
+            flags.merge(Flags(*self.mainunit.typecomments))
         except ParseException as error:
             msg = f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
             raise ValueError(msg) from error
@@ -803,7 +804,7 @@ class RichXliffUnit(XliffUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
         flags.merge("xml-text")
         return flags
 
@@ -939,8 +940,8 @@ class JSONUnit(MonolingualSimpleUnit):
 class PlaceholdersJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
+        flags = super().flags
         placeholders = self.mainunit.placeholders
-        flags = Flags()
         if not placeholders:
             return flags
 
@@ -2093,7 +2094,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
 
         for node in self.unit._getnotenodes(origin="pos"):  # noqa: SLF001
             # each tig in the two langsets in the termEntry can have the
@@ -2238,7 +2239,7 @@ class FluentUnit(MonolingualSimpleUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags()
+        flags = super().flags
         flags.set_value("fluent-type", self.mainunit.fluent_type)
         return flags
 
