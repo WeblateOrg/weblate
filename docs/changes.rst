@@ -1123,7 +1123,7 @@ Weblate 5.4
 .. rubric:: New features
 
 * :ref:`check-perl-brace-format` quality check.
-* :doc:`/formats/moko`.
+* :doc:`/formats/moko-resources`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
 * Weblate is now available in Tamil.
