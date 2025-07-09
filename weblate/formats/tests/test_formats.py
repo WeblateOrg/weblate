@@ -23,6 +23,7 @@ from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import TranslationFormat, UpdateError
 from weblate.formats.ttkit import (
     AndroidFormat,
+    CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
     DTDFormat,
@@ -76,6 +77,7 @@ TEST_LARAVEL = get_test_file("laravel.php")
 TEST_JOOMLA = get_test_file("cs.joomla.ini")
 TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
+TEST_CATKEYS = get_test_file("cs.catkeys")
 TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
@@ -551,6 +553,58 @@ class PropertiesFormatTest(BaseFormatTest):
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
         )
+
+
+class CatkeysFormatTest(BaseFormatTest):
+    format_class = CatkeysFormat
+    FILE = TEST_CATKEYS
+    BASE = TEST_CATKEYS
+    MIME = "text/x-catkeys"
+    EXT = "catkeys"
+    COUNT = 2
+    MATCH = "none"
+    MASK = "*.catkeys"
+    EXPECTED_PATH = "cs_CZ.catkeys"
+    FIND = "none"
+    FIND_CONTEXT = "PackageView"
+    FIND_MATCH = "není"
+    NEW_UNIT_MATCH = b"Source string\tNewSource\t\t\n"
+    NEW_UNIT_KEY = "NewSource"
+    SUPPORTS_FLAG = False
+    SUPPORTS_NOTES = True
+    EXPECTED_FLAGS = ""
+    EDIT_OFFSET = 0
+    EDIT_TARGET = "není"
+    MONOLINGUAL = False
+
+    def test_get_language_filename(self) -> None:
+        self.assertEqual(
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("cs_CZ")
+            ),
+            self.EXPECTED_PATH,
+        )
+
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
+        # For catkeys, ignore the hash in the header line as it may change
+        new_lines = newdata.decode().strip().split("\n")
+        test_lines = testdata.decode().strip().split("\n")
+
+        # Compare header lines but ignore the hash (last field)
+        if new_lines and test_lines:
+            new_header = new_lines[0].split("\t")
+            test_header = test_lines[0].split("\t")
+            if len(new_header) >= 4 and len(test_header) >= 4:
+                # Compare first 3 fields, ignore the hash (4th field)
+                self.assertEqual(new_header[:3], test_header[:3])
+                # Compare the rest of the lines
+                self.assertEqual(new_lines[1:], test_lines[1:])
+            else:
+                # Fallback to normal comparison
+                self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
+        else:
+            # Fallback to normal comparison
+            self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
 
 class GWTFormatTest(BaseFormatTest):
