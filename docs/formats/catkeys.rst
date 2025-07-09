@@ -9,8 +9,7 @@ File format used for Haiku operating system translations.
 
 .. seealso::
 
-    :doc:`/formats/ttkit`,
-    `Haiku Catkeys documentation <https://translate-toolkit.readthedocs.org/en/latest/formats/catkeys.html>`_
+    :doc:`tt:formats/catkeys`
 
 Example file:
 
