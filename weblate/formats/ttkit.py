@@ -1,4 +1,4 @@
-# Copyright © Michal Čihař <michal@weblate.org>
+# weblate/formats/ttkit.py Copyright © Michal Čihař <michal@weblate.org>
 # Copyright © WofWca <wofwca@protonmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -951,7 +951,7 @@ class PlaceholdersJSONUnit(JSONUnit):
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
             flags.merge("case-insensitive")
-        flags.merge(f"placeholders:{Flags.format_flag(*placeholder_ids)}")
+        flags.merge(f"placeholders:{Flags.format_flag(placeholder_ids)}")
         return flags
 
 
