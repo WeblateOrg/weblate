@@ -876,7 +876,7 @@ Qt plural format
 .. seealso::
 
    :ref:`check-formats`,
-   `Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handling-plurals>`_
+   `Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handle-plural-forms>`_
 
 .. _check-ruby-format:
 
