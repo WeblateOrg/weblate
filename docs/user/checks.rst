@@ -2040,7 +2040,7 @@ For example with Gettext in Python it could be:
 Location-based flags
 ----------------------
 
-Some flags are added to strings by default based on their locations.
+Some flags are added to strings by default, based on their locations.
 This means that certain checks will be automatically enabled depending on where the string is used.
 
 * ``rst-text``: This flag is automatically added to strings in reStructuredText files, if location extension is ``.rst``.
