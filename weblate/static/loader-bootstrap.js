@@ -257,8 +257,12 @@ function loadTableSorting() {
           if (!th.hasClass("sort-cell")) {
             // Skip statically initialized parts (when server side ordering is supported)
             th.attr("title", gettext("Sort this column"))
-              .addClass("sort-cell")
-              .append('<span class="sort-icon" />');
+              .addClass("sort-cell");
+            if (th.hasClass("number")) {
+                th.innerHTML = '<span class="sort-icon"> </span>' + th.text();
+            } else {
+                th.append('<span class="sort-icon" />');
+            }
           }
 
           // Click handler

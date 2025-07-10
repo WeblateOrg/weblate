@@ -57,8 +57,8 @@
               {% if objects.paginator.num_pages > 1 %}
                 <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved">
                 {% endif %}
+                <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}" > </span>
                 {% translate "Approved" %}
-                <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}" />
                 {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
             </th>
           {% endif %}
@@ -66,8 +66,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "translated" %}sort-down{% elif objects.paginator.sort_by == "-translated" %}sort-up{% endif %}" > </span>
               {% translate "Translated" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "translated" %}sort-down{% elif objects.paginator.sort_by == "-translated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -75,8 +75,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}" > </span>
               {% translate "Unfinished" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -84,8 +84,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}" > </span>
               {% translate "Unfinished words" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -93,8 +93,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}" > </span>
               {% translate "Unfinished characters" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -102,8 +102,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "nottranslated" %}sort-down{% elif objects.paginator.sort_by == "-nottranslated" %}sort-up{% endif %}" > </span>
               {% translate "Untranslated" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "nottranslated" %}sort-down{% elif objects.paginator.sort_by == "-nottranslated" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -111,8 +111,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "checks" %}-{% endif %}checks">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "checks" %}sort-down{% elif objects.paginator.sort_by == "-checks" %}sort-up{% endif %}" > </span>
               {% translate "Checks" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "checks" %}sort-down{% elif objects.paginator.sort_by == "-checks" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -120,8 +120,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "suggestions" %}-{% endif %}suggestions">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "suggestions" %}sort-down{% elif objects.paginator.sort_by == "-suggestions" %}sort-up{% endif %}" > </span>
               {% translate "Suggestions" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "suggestions" %}sort-down{% elif objects.paginator.sort_by == "-suggestions" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
           <th title="{% translate "Sort this column" %}"
@@ -129,8 +129,8 @@
             {% if objects.paginator.num_pages > 1 %}
               <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "comments" %}-{% endif %}comments">
               {% endif %}
+              <span class="sort-icon {% if objects.paginator.sort_by == "comments" %}sort-down{% elif objects.paginator.sort_by == "-comments" %}sort-up{% endif %}" > </span>
               {% translate "Comments" %}
-              <span class="sort-icon {% if objects.paginator.sort_by == "comments" %}sort-down{% elif objects.paginator.sort_by == "-comments" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
         </tr>
