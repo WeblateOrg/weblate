@@ -2035,9 +2035,9 @@ For example with Gettext in Python it could be:
 .. _reStructuredText Primer: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 
 
-.. _default-location-flags:
+.. _location-based-flags:
 
-Default location flags
+Location-based flags
 ----------------------
 
 Some flags are added to strings by default based on their locations.
