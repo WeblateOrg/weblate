@@ -2,7 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
@@ -23,6 +25,9 @@ from weblate.utils.files import FileUploadMethod, get_upload_message
 from weblate.utils.markdown import render_markdown
 from weblate.utils.pii import mask_email
 
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
 AUTO_ACTIONS = {
     # Translators: Name of event in the history
     ActionEvents.LOCK: gettext_lazy(
@@ -37,7 +42,7 @@ AUTO_ACTIONS = {
 
 class ChangeDetailsRenderFactory:
     @staticmethod
-    def get_strategy(change: Change) -> "BaseDetailsRenderStrategy":
+    def get_strategy(change: Change) -> BaseDetailsRenderStrategy:
         """Get strategy for displaying change details."""
         for strategy in [
             s for s in DETAILS_DISPLAY_STRATEGIES if not s.details_required
@@ -57,12 +62,12 @@ class ChangeDetailsRenderFactory:
         return RenderEmptyDetails()
 
 
-DETAILS_DISPLAY_STRATEGIES: list[type["BaseDetailsRenderStrategy"]] = []
+DETAILS_DISPLAY_STRATEGIES: list[type[BaseDetailsRenderStrategy]] = []
 
 
 def register_details_display_strategy(
-    strategy: type["BaseDetailsRenderStrategy"],
-) -> type["BaseDetailsRenderStrategy"]:
+    strategy: type[BaseDetailsRenderStrategy],
+) -> type[BaseDetailsRenderStrategy]:
     """Register a new strategy for displaying change details."""
     DETAILS_DISPLAY_STRATEGIES.append(strategy)
     return strategy
@@ -72,13 +77,13 @@ class BaseDetailsRenderStrategy:
     actions: set[ActionEvents] = set()
     details_required: bool = False
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         raise NotImplementedError
 
 
 @register_details_display_strategy
 class RenderEmptyDetails(BaseDetailsRenderStrategy):
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         return ""
 
 
@@ -86,7 +91,7 @@ class RenderEmptyDetails(BaseDetailsRenderStrategy):
 class RenderFileUploadDetails(BaseDetailsRenderStrategy):
     actions = {ActionEvents.FILE_UPLOAD}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
         try:
             method = FileUploadMethod[details["method"].upper()].label
@@ -109,7 +114,7 @@ class RenderFileUploadDetails(BaseDetailsRenderStrategy):
 class RenderTarget(BaseDetailsRenderStrategy):
     actions = {ActionEvents.ANNOUNCEMENT, ActionEvents.AGREEMENT_CHANGE}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         return render_markdown(change.target)
 
 
@@ -117,7 +122,7 @@ class RenderTarget(BaseDetailsRenderStrategy):
 class RenderComment(BaseDetailsRenderStrategy):
     actions = {ActionEvents.COMMENT_DELETE, ActionEvents.COMMENT}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         if "comment" in change.details:
             return render_markdown(change.details["comment"])
         return ""
@@ -131,7 +136,7 @@ class RenderAddon(BaseDetailsRenderStrategy):
         ActionEvents.ADDON_REMOVE,
     }
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         try:
             return ADDONS[change.target].name
         except KeyError:
@@ -144,7 +149,7 @@ class RenderUpdateEventDetails(BaseDetailsRenderStrategy):
 
     actions = {ActionEvents.UPDATE}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
         reason = details.get("reason", "content changed")
         filename = format_html(
@@ -172,7 +177,7 @@ class RenderLicenceChangeDetails(BaseDetailsRenderStrategy):
 
     actions = {ActionEvents.LICENSE_CHANGE}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         not_available = pgettext("License information not available", "N/A")
         return gettext(
             'The license of the "%(component)s" component was changed '
@@ -188,9 +193,9 @@ class RenderLicenceChangeDetails(BaseDetailsRenderStrategy):
 class RenderAutoActions(BaseDetailsRenderStrategy):
     actions = set(AUTO_ACTIONS.keys())
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         if change.auto_status:
-            return str(AUTO_ACTIONS[change.action])
+            return AUTO_ACTIONS[change.action]
         return ""
 
 
@@ -201,7 +206,7 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
     details_required = True
     actions = {ActionEvents.ACCESS_EDIT}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
         for number, name in Project.ACCESS_CHOICES:
             if number == details["access_control"]:
@@ -220,7 +225,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
     }
     details_required = True
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
         if "username" in details:
             result = details["username"]
@@ -241,7 +246,7 @@ class RenderLanguage(BaseDetailsRenderStrategy):
     }
     details_required = True
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         try:
             return Language.objects.get(code=change.details["language"])
         except Language.DoesNotExist:
@@ -255,7 +260,7 @@ class RenderAlert(BaseDetailsRenderStrategy):
     actions = {ActionEvents.ALERT}
     details_required = True
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         try:
             return ALERTS[change.details["alert"]].verbose
         except KeyError:
@@ -272,7 +277,7 @@ class RenderRepositoryDetails(BaseDetailsRenderStrategy):
         ActionEvents.REBASE,
     }
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         return format_html(
             "{}<br/><br/>{}<br/>{}",
             change.get_action_display(),
@@ -294,7 +299,7 @@ class RenderParseError(BaseDetailsRenderStrategy):
     actions = {ActionEvents.PARSE_ERROR}
     details_required = True
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         return "{filename}: {error_message}".format(**change.details)
 
 
@@ -305,7 +310,7 @@ class RenderHook(BaseDetailsRenderStrategy):
     actions = {ActionEvents.HOOK}
     details_required = True
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         return "{service_long_name}: {repo_url}, {branch}".format(**change.details)
 
 
@@ -315,7 +320,7 @@ class RenderCreateComponent(BaseDetailsRenderStrategy):
 
     actions = {ActionEvents.CREATE_COMPONENT}
 
-    def render_details(self, change: Change) -> str:
+    def render_details(self, change: Change) -> StrOrPromise:
         try:
             origin = change.details["origin"]
         except KeyError:
@@ -405,14 +410,14 @@ class BaseChangeHistoryContext:
 class ShowChangeTarget(BaseChangeHistoryContext):
     """Display the target of a change in the history context."""
 
-    def get_description(self) -> str | None:
+    def get_description(self) -> str:
         return format_html("<pre>{}</pre>", self.change.target)
 
 
 class ShowChangeAction(BaseChangeHistoryContext):
     """Display the action of a change in the history context."""
 
-    def get_description(self) -> str | None:
+    def get_description(self) -> str:
         return self.change.get_action_display()
 
 
@@ -445,7 +450,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
         # source language field
         fields.append(
             self.make_field(
-                change.unit.translation.component.source_language,
+                str(change.unit.translation.component.source_language),
                 self.format_translation(
                     format_unit_source(change.unit, value=self.change.get_source())
                 ),
@@ -469,7 +474,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
 
         fields.append(
             self.make_field(
-                change.unit.translation.language,
+                str(change.unit.translation.language),
                 self.format_translation(
                     format_unit_target(
                         change.unit, value=change.target, diff=change.old
@@ -505,7 +510,7 @@ class ShowChangeSource(BaseChangeHistoryContext):
 
         fields.append(
             self.make_field(
-                change.unit.translation.component.source_language,
+                str(change.unit.translation.component.source_language),
                 self.format_translation(souce_lang_content),
                 label_badges=source_lang_badges,
             )
@@ -538,7 +543,7 @@ class ShowRemovedString(BaseChangeHistoryContext):
         change = self.change
         fields = [
             self.make_field(
-                change.component.source_translation.language,
+                str(change.component.source_translation.language),
                 self.format_translation(
                     format_language_string(
                         change.details["source"], change.component.source_translation
@@ -549,7 +554,7 @@ class ShowRemovedString(BaseChangeHistoryContext):
         if "target" in change.details and not change.translation.is_source:
             fields.append(
                 self.make_field(
-                    change.translation.language,
+                    str(change.translation.language),
                     self.format_translation(
                         format_language_string(
                             change.details["target"], change.translation
