@@ -1234,7 +1234,7 @@ class Component(
             result = self.translation_set.select_related("plural").get(
                 language=language
             )
-        except self.translation_set.model.DoesNotExist:
+        except ObjectDoesNotExist:
             try:
                 with transaction.atomic():
                     return self.translation_set.create(

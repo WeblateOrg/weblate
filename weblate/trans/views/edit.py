@@ -817,8 +817,8 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 
 
 @login_required
-@session_ratelimit_post("comment", logout_user=False)
 @transaction.atomic
+@session_ratelimit_post("comment", logout_user=False)
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)

@@ -713,8 +713,8 @@ def data_project(request: AuthenticatedHttpRequest, project):
 
 @never_cache
 @login_required
-@session_ratelimit_post("language", logout_user=False)
 @transaction.atomic
+@session_ratelimit_post("language", logout_user=False)
 def new_language(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
