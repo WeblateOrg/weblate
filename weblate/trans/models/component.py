@@ -531,6 +531,12 @@ class Component(
         blank=False,
     )
 
+    file_format_params = models.JSONField(
+        verbose_name=gettext_lazy("File format parameters"),
+        default=dict,
+        blank=True,
+    )
+
     locked = models.BooleanField(
         verbose_name=gettext_lazy("Locked"),
         default=False,
