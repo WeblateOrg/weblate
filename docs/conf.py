@@ -386,6 +386,8 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
+    "https://wiki.gnupg.org/",
+    "https://www.bis.doc.gov/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",
