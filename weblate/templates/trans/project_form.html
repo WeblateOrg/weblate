@@ -4,15 +4,16 @@
 
 {% if can_create %}
   {% block nav_pills %}
-      <ul class="nav nav-pills">
-        <li role="presentation" class="active">
-          <a href="#create" data-toggle="tab">{% translate "Add new translation project" %}</a>
-        </li>
-        <li role="presentation">
-          <a href="#import" data-toggle="tab">{% translate "Import translation project" %}</a>
-        </li>
-      </ul>
+    <ul class="nav nav-pills">
+      <li role="presentation" class="active">
+        <a href="#create" data-toggle="tab">{% translate "Add new translation project" %}</a>
+      </li>
+      <li role="presentation">
+        <a href="#import" data-toggle="tab">{% translate "Import translation project" %}</a>
+      </li>
+    </ul>
   {% endblock nav_pills %}
+
 {% endif %}
 
 {% block breadcrumbs %}
