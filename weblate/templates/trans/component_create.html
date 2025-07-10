@@ -2,25 +2,7 @@
 
 {% load crispy_forms_tags i18n translations %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
-  </li>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% if not projects and not form.fields.component.queryset and not branch_form.fields.component.queryset %}
-
-    {% translate "You do not have permission to create components in any projects." as msg %}
-    {% show_message "warning" msg %}
-
-    {% if has_billing %}
-      {% include "snippets/billing-failure.html" %}
-    {% endif %}
-
-  {% else %}
-
+{% block nav_pills %}
     <ul class="nav nav-pills">
       {% if projects %}
         <li role="presentation" class="active">
@@ -53,6 +35,26 @@
         </li>
       {% endif %}
     </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if not projects and not form.fields.component.queryset and not branch_form.fields.component.queryset %}
+
+    {% translate "You do not have permission to create components in any projects." as msg %}
+    {% show_message "warning" msg %}
+
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
+
+  {% else %}
 
     <div class="tab-content">
 

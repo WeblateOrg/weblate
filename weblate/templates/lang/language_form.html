@@ -2,6 +2,17 @@
 
 {% load crispy_forms_tags i18n %}
 
+{% block nav_pills %}
+    <ul class="nav nav-pills">
+      <li class="active">
+        <a data-toggle="tab" href="#basic">{% translate "Language" %}</a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#workflow">{% translate "Workflow" %}</a>
+      </li>
+    </ul>
+{% endblock nav_pills %}
+
 {% block breadcrumbs %}
   <li>
     <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
@@ -15,14 +26,7 @@
 
   <form method="post">
     {% csrf_token %}
-    <ul class="nav nav-pills">
-      <li class="active">
-        <a data-toggle="tab" href="#basic">{% translate "Language" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#workflow">{% translate "Workflow" %}</a>
-      </li>
-    </ul>
+
     <div class="tab-content">
 
       <div class="tab-pane active" id="basic">{% crispy form %}</div>

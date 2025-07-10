@@ -1,6 +1,7 @@
 {% load i18n translations %}
 
 {% if details %}
+{% block nav_pills %}
   <ul class="nav nav-pills">
     <li role="presentation" class="active">
       <a href="#response-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
@@ -9,6 +10,7 @@
       <a href="#request-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Request" %}</a>
     </li>
   </ul>
+{% endblock nav_pills %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="response-{{ activity.id }}">

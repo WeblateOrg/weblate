@@ -2,22 +2,7 @@
 
 {% load compress crispy_forms_tags i18n metrics permissions static translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements project=object %}
-
-  {% include "snippets/project/state.html" %}
-
-  {% include "snippets/watch-dropdown.html" with project=object %}
-
+{% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'project.edit' object as user_can_edit_project %}
@@ -194,7 +179,28 @@
       </ul>
     </li>
     {% include "snippets/share-menu.html" with object=object %}
-  </ul>
+    {% include "snippets/watch-dropdown.html" with project=object %}
+</ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements project=object %}
+
+  {% include "snippets/project/state.html" %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'project.permissions' object as user_can_manage_acl %}
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">

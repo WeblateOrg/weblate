@@ -2,6 +2,27 @@
 
 {% load crispy_forms_tags humanize i18n icons permissions translations %}
 
+{% block nav_pills %}
+  {% perm "meta:team.users" object as user_can_edit_team_users %}
+
+  <ul class="nav nav-pills">
+    <li role="presentation" class="active">
+      <a href="#basic" role="tab" data-toggle="tab">{% translate "Settings" %}</a>
+    </li>
+    {% if form %}
+      <li role="presentation">
+        <a href="#auto" role="tab" data-toggle="tab">{% translate "Automatic assignments" %}</a>
+      </li>
+    {% endif %}
+    {% if user_can_edit_team_users %}
+      <li role="presentation">
+        <a href="#users" role="tab" data-toggle="tab">{% translate "Members" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+
 {% block breadcrumbs %}
   {% if object.defining_project %}
     <li>
@@ -28,21 +49,6 @@
 
   <form method="post">
     {% csrf_token %}
-    <ul class="nav nav-pills">
-      <li role="presentation" class="active">
-        <a href="#basic" role="tab" data-toggle="tab">{% translate "Settings" %}</a>
-      </li>
-      {% if form %}
-        <li role="presentation">
-          <a href="#auto" role="tab" data-toggle="tab">{% translate "Automatic assignments" %}</a>
-        </li>
-      {% endif %}
-      {% if user_can_edit_team_users %}
-        <li role="presentation">
-          <a href="#users" role="tab" data-toggle="tab">{% translate "Members" %}</a>
-        </li>
-      {% endif %}
-    </ul>
 
     <div class="tab-content">
       <div class="tab-pane active" id="basic">

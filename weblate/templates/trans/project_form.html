@@ -2,6 +2,19 @@
 
 {% load crispy_forms_tags i18n translations %}
 
+{% if can_create %}
+  {% block nav_pills %}
+      <ul class="nav nav-pills">
+        <li role="presentation" class="active">
+          <a href="#create" data-toggle="tab">{% translate "Add new translation project" %}</a>
+        </li>
+        <li role="presentation">
+          <a href="#import" data-toggle="tab">{% translate "Import translation project" %}</a>
+        </li>
+      </ul>
+  {% endblock nav_pills %}
+{% endif %}
+
 {% block breadcrumbs %}
   <li>
     <a href="{% url 'create-project' %}">{% translate "Create project" %}</a>
@@ -19,15 +32,6 @@
 
   {% else %}
 
-
-    <ul class="nav nav-pills">
-      <li role="presentation" class="active">
-        <a href="#create" data-toggle="tab">{% translate "Add new translation project" %}</a>
-      </li>
-      <li role="presentation">
-        <a href="#import" data-toggle="tab">{% translate "Import translation project" %}</a>
-      </li>
-    </ul>
 
     <div class="tab-content">
 
