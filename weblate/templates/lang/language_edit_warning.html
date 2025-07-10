@@ -9,7 +9,7 @@
 {% if update_languages %}
   <div class="alert alert-warning">
     {% documentation "admin/languages" "included-languages" as url %}
-    {% blocktranslate %}The language definitions are automatically updated by Weblate upon database migration. This might revert your edits. <a href="{{ url }}">Read more in the documentation.</a>{% endblocktranslate %}
+    {% blocktranslate %}The language definitions are automatically updated by Weblate upon a database migration. Improper edits will likely get reverted.<a href="{{ url }}">Consult the documentation about proper handling of this.</a>{% endblocktranslate %}
     <div class="clearfix"></div>
   </div>
 {% endif %}
