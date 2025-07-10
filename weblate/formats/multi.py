@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, ClassVar
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.checks.flags import Flags
 from weblate.trans.util import get_string
 
 from .base import TranslationFormat, TranslationUnit
@@ -108,7 +107,7 @@ class MultiUnit(TranslationUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags()
+        flags = super().flags
         for unit in self.units:
             flags.merge(unit.flags)
         return flags

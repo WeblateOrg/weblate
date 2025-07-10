@@ -6,6 +6,7 @@ Weblate 5.13
 .. rubric:: New features
 
 * :doc:`/formats/catkeys`.
+* Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 
 .. rubric:: Improvements
 

@@ -6,7 +6,28 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags, FlagsValidator
+from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.ttkit import PoFormat
 from weblate.trans.defines import VARIANT_KEY_LENGTH
+
+PO_HEADER = r"""
+msgid ""
+msgstr ""
+"Project-Id-Version: Weblate Hello World 2012\n"
+"Report-Msgid-Bugs-To: <noreply@example.net>\n"
+"POT-Creation-Date: 2012-03-14 15:54+0100\n"
+"PO-Revision-Date: 2013-08-25 15:23+0200\n"
+"Last-Translator: testuser <>\n"
+"Language-Team: Czech <http://example.com/projects/test/test/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 1.7-dev\n"
+
+
+"""
 
 
 class FlagTest(SimpleTestCase):
@@ -226,3 +247,26 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(flags, Flags())
         self.assertEqual(flags, Flags(""))
         self.assertEqual(flags, Flags(None))
+
+    def test_automatic_location_flags(self) -> None:
+        def check_location_flags(content: str, expected_flags: set[str]) -> None:
+            fileformat = PoFormat(NamedBytesIO("", content.encode()))
+            flags = list(fileformat.all_units)[0].flags  # noqa: RUF015
+            self.assertEqual(set(flags), expected_flags)
+
+        # test rst-text flag
+        content = PO_HEADER + (
+            "#: ../../path/file.rst:24 ../../path/file.rst:52"
+            "#: ../../path/file.rst:63"
+            'msgid "Hello, world!"'
+            'msgstr "Nazdar svete!"'
+        )
+        check_location_flags(content, {"rst-text"})
+
+        # test md-text flag
+        content = PO_HEADER + (
+            "#: ../../path/file.md:24 ../../path/file.md:52"
+            'msgid "Hello, world!"'
+            'msgstr "Nazdar svete!"'
+        )
+        check_location_flags(content, {"md-text"})
