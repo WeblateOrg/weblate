@@ -2,6 +2,17 @@
 
 {% load crispy_forms_tags i18n permissions translations %}
 
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a href="#groups" data-toggle="tab" id="tab_groups">{% translate "Font groups" %}</a>
+    </li>
+    <li>
+      <a href="#fonts" data-toggle="tab" id="tab_fonts">{% translate "Fonts" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
 {% block breadcrumbs %}
   <li>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
@@ -12,15 +23,6 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-
-  <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#groups" data-toggle="tab" id="tab_groups">{% translate "Font groups" %}</a>
-    </li>
-    <li>
-      <a href="#fonts" data-toggle="tab" id="tab_fonts">{% translate "Fonts" %}</a>
-    </li>
-  </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="groups">

@@ -2,17 +2,7 @@
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements language=language project=project %}
+{% block nav_pills %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
 
   <ul class="nav nav-pills">
@@ -106,6 +96,20 @@
     {% include "snippets/share-menu.html" with object=object %}
     {% include "snippets/watch-dropdown.html" %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements language=language project=project %}
+  {% perm 'project.edit' object.project as user_can_edit_project %}
 
   <div class="tab-content">
 

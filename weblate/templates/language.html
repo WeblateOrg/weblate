@@ -2,23 +2,7 @@
 
 {% load i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
-  </li>
-  <li>
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
-
-  <a class="pull-right flip">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements language=object %}
-
+{% block nav_pills %}
   {% perm 'language.edit' as user_can_edit_language %}
 
   <ul class="nav nav-pills">
@@ -58,6 +42,26 @@
       </ul>
     </li>
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+  <li>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+
+  <a class="pull-right flip">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements language=object %}
+
+  {% perm 'language.edit' as user_can_edit_language %}
 
   <div class="tab-content">
 

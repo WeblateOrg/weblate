@@ -2,12 +2,7 @@
 
 {% load crispy_forms_tags i18n metrics translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-{% endblock breadcrumbs %}
-
-{% block content %}
-
+{% block nav_pills %}
   <ul class="nav nav-pills">
     <li class="active">
       <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
@@ -70,6 +65,14 @@
     </li>
     {% include "snippets/watch-dropdown.html" with project=category.project %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
 
   <div class="tab-content">
 

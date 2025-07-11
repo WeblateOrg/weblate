@@ -10,6 +10,38 @@
   {% endcompress %}
 {% endblock extra_script %}
 
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a data-toggle="tab" href="#languages">{% translate "Languages" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#preferences">{% translate "Preferences" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#account">{% translate "Account" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#profile">{% translate "Profile" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#teams">{% translate "Teams" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#licenses">{% translate "Licenses" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#api">{% translate "API access" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
 {% block breadcrumbs %}
   <li>
     <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
@@ -26,36 +58,6 @@
   <form method="post" action="{% url 'profile' %}">
     {% csrf_token %}
     <input type="hidden" id="form-activetab" name="activetab" value="" />
-
-    <ul class="nav nav-pills">
-      <li class="active">
-        <a data-toggle="tab" href="#languages">{% translate "Languages" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#preferences">{% translate "Preferences" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#account">{% translate "Account" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#profile">{% translate "Profile" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#teams">{% translate "Teams" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#licenses">{% translate "Licenses" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#api">{% translate "API access" %}</a>
-      </li>
-    </ul>
 
     <div class="tab-content">
 
