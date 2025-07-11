@@ -5,12 +5,9 @@
 from collections.abc import Iterable
 from typing import Any
 
-from appconf import AppConf
 from django import forms
 from django.utils.translation import gettext_lazy
 from django_stubs_ext import StrOrPromise
-
-from weblate.utils.classloader import ClassLoader
 
 
 class BaseFileFormatParam:
@@ -47,6 +44,20 @@ class BaseFileFormatParam:
         }
 
 
+FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
+
+
+def register_file_format_param(
+    param_class: type[BaseFileFormatParam],
+) -> type[BaseFileFormatParam]:
+    """Register a new file format parameter class."""
+    if not hasattr(param_class, "name"):
+        msg = f"File format parameter class {param_class.__name__} must have a 'name' attribute."
+        raise ValueError(msg)
+    FILE_FORMATS_PARAMS.append(param_class)
+    return param_class
+
+
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     file_formats = (
         "json",
@@ -54,12 +65,14 @@ class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     )
 
 
+@register_file_format_param
 class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     name = "json_sort_keys"
     label = gettext_lazy("Sort JSON keys")
     field_class = forms.BooleanField
 
 
+@register_file_format_param
 class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
     name = "json_indent"
     label = gettext_lazy("JSON indentation")
@@ -71,6 +84,7 @@ class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
         return kwargs
 
 
+@register_file_format_param
 class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     name = "json_ident_style"
     label = gettext_lazy("JSON indentation style")
@@ -90,6 +104,7 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
         return kwargs
 
 
+@register_file_format_param
 class GettextPoLineWrap(BaseFileFormatParam):
     name = "po_line_wrap"
     file_formats = (
@@ -128,28 +143,6 @@ class GettextPoLineWrap(BaseFileFormatParam):
         return kwargs
 
 
-class FileFormatParamsLoader(ClassLoader):
-    def __init__(self) -> None:
-        super().__init__(
-            "FILE_FORMAT_PARAMS", construct=True, base_class=BaseFileFormatParam
-        )
-
-
-FILE_FORMATS_PARAMS = FileFormatParamsLoader()
-
-
-class FileFormatParamsConf(AppConf):
-    FILE_FORMAT_PARAMS = (
-        "weblate.trans.form_params.GettextPoLineWrap",
-        "weblate.trans.form_params.JSONOutputSortKeys",
-        "weblate.trans.form_params.JSONOutputIndentation",
-        "weblate.trans.form_params.JSONOutputIndentStyle",
-    )
-
-    class Meta:
-        prefix = ""
-
-
 class FormParamsWidget(forms.MultiWidget):
     template_name = "bootstrap3/labelled_multiwidget.html"
 
@@ -163,13 +156,7 @@ class FormParamsWidget(forms.MultiWidget):
         super().__init__(widgets, attrs)
 
     def decompress(self, value: dict) -> list[Any]:
-        return [getattr(value, param_name, None) for param_name in self.fields_order]
-
-    def render(self, *args, **kwargs):
-        return super().render(*args, **kwargs)
-
-    def get_context(self, name, value, attrs):
-        return super().get_context(name, value, attrs)
+        return [value.get(param_name) for param_name in self.fields_order]
 
 
 class FormParamsField(forms.MultiValueField):
@@ -179,8 +166,8 @@ class FormParamsField(forms.MultiValueField):
         subwidgets = {}
 
         self.fields_order: list[tuple] = []
-        for file_param in FILE_FORMATS_PARAMS.values():
-            field = file_param.get_field()
+        for file_param in FILE_FORMATS_PARAMS:
+            field = file_param().get_field()
             fields.append(field)
             subwidgets[file_param.get_identifier()] = field.widget
             self.fields_order.append(file_param.get_identifier())
@@ -189,11 +176,8 @@ class FormParamsField(forms.MultiValueField):
         super().__init__(fields, widget=widget, require_all_fields=False, **kwargs)
 
     def compress(self, data_list) -> dict:
-        # NOTE: returns a flat dict, with the name of the file format param as key
-        # it is assumed that only the param for the current format are stored
-        compressed_value: dict[str, dict] = {}
+        compressed_value: dict[str, Any] = {}
         if data_list:
-            # TODO: make sure that the default values for other formats aren't passed as well
             update_data = {
                 param_name: value
                 for param_name, value in zip(self.fields_order, data_list, strict=False)

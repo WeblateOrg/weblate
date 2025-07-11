@@ -1,0 +1,8 @@
+{% spaceless %}
+  {% for widget in widget.subwidgets %}
+    <div class="form-group row file-format-param">
+      <div class="col-sm-2">{{ widget.attrs.label }}</div>
+      <div class="col-sm-10">{% include widget.template_name %}</div>
+    </div>
+  {% endfor %}
+{% endspaceless %}

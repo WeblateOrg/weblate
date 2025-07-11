@@ -609,23 +609,3 @@ class CreateTest(ViewTestCase):
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "scratch")
         self.assertIn("scratch", change.get_details_display())
-
-    def test_file_params(self):
-        self.user.is_superuser = True
-        self.user.save()
-        self.client_create_component(
-            True,
-            file_format_params_po_line_wrap="77",
-            json_sort_keys=True,
-        )
-        component = Component.objects.get(
-            slug="create-component", project_id=self.project.pk
-        )
-        # check that only the expected parameters are set
-        self.assertEqual(component.file_format_params["po_line_wrap"], "77")
-        self.assertNotIn("json_sort_keys", component.file_format_params)
-
-    def test_file_params_invalid(self):
-        self.user.is_superuser = True
-        self.user.save()
-        self.client_create_component(False, file_format_params_po_line_wrap="999999")

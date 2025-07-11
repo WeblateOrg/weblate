@@ -1752,6 +1752,12 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+        if "file_format_params" in data:
+            # TODO: could be factored out to a mixin
+            selected_format = data["file_format"]
+            for param_format in FILE_FORMATS_PARAMS:
+                if selected_format not in param_format.file_formats:
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
@@ -1806,9 +1812,9 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         # only applicable fields are saved to model
         if "file_format_params" in data:
             selected_format = data["file_format"]
-            for name, param_format in FILE_FORMATS_PARAMS.items():
+            for param_format in FILE_FORMATS_PARAMS:
                 if selected_format not in param_format.file_formats:
-                    data["file_format_params"].pop(name, None)
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
