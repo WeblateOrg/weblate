@@ -1952,7 +1952,6 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         ),
     )
     file_format_params = FormParamsField()
-    # TODO : file_format_params ?
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_scratchcreate_%s"

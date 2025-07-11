@@ -26,16 +26,16 @@ class BaseFileFormatParam:
         return self.field_class(widget=widget, **self.get_field_kwargs())
 
     def get_widget_attrs(self) -> dict:
-        field_class = ""
+        field_classes = ["file-format-param-field"]
 
         if self.field_class != forms.BooleanField:
             # for display reason, the default radio/checkbox input looks better than bootstrap one
-            field_class += " form-control"
+            field_classes.append("form-control")
 
         return {
             "label": self.label,
             "fileformats": " ".join(self.file_formats),
-            "class": field_class,
+            "class": " ".join(field_classes),
         }
 
     def get_field_kwargs(self) -> dict:
@@ -156,6 +156,8 @@ class FormParamsWidget(forms.MultiWidget):
         super().__init__(widgets, attrs)
 
     def decompress(self, value: dict) -> list[Any]:
+        if value is None:
+            value = {}
         return [value.get(param_name) for param_name in self.fields_order]
 
 

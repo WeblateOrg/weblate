@@ -1606,4 +1606,34 @@ $(function () {
     "font-size: 20px; font-family: sans-serif",
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
+
+  /* TODO: add documentation */
+  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+    form.find(".file-format-param").each(function () {
+      const fileFormats = $(this)
+        .find(".file-format-param-field")
+        .attr("fileformats")
+        ?.split(" ");
+      if (fileFormats.includes(selectedFileFormat)) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  }
+
+  const fileformat_field_ids = [
+    "#id_file_format",
+    "#id_scratchcreate_file_format",
+  ];
+
+  fileformat_field_ids.forEach((fieldId) => {
+    const fileFormatForm = $(fieldId).closest("form");
+    displayRelevantFileFormatParams(fileFormatForm, $(fieldId).val());
+
+    $(fieldId).on("change", function () {
+      var newValue = $(this).val();
+      displayRelevantFileFormatParams(fileFormatForm, newValue);
+    });
+  });
 });
