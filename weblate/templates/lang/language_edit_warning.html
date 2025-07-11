@@ -1,0 +1,15 @@
+{% load i18n translations %}
+
+<div class="alert alert-info">
+
+  {% blocktranslate with url="https://github.com/WeblateOrg/language-data/" %}Please consider submitting your edit to the <a href="{{ url }}">Weblate language data repository</a> so that it can be included in the future Weblate releases.{% endblocktranslate %}
+  <div class="clearfix"></div>
+</div>
+
+{% if update_languages %}
+  <div class="alert alert-warning">
+    {% documentation "admin/languages" "included-languages" as url %}
+    {% blocktranslate %}The language definitions are automatically updated by Weblate upon a database migration. Improper edits will likely get reverted.<a href="{{ url }}">Consult the documentation about proper handling of this.</a>{% endblocktranslate %}
+    <div class="clearfix"></div>
+  </div>
+{% endif %}
