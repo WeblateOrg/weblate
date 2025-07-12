@@ -13,7 +13,13 @@ from typing import TYPE_CHECKING, ClassVar, Literal
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
+from crispy_forms.layout import (
+    HTML,
+    Div,
+    Field,
+    Fieldset,
+    Layout,
+)
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
@@ -49,6 +55,7 @@ from weblate.trans.defines import (
     REPO_LENGTH,
 )
 from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.format_params import FILE_FORMATS_PARAMS, FormParamsField
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -1565,6 +1572,7 @@ class ComponentSettingsForm(
             "commit_pending_age",
             "merge_style",
             "file_format",
+            "file_format_params",
             "edit_template",
             "new_lang",
             "language_code_style",
@@ -1591,7 +1599,10 @@ class ComponentSettingsForm(
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
         }
-        field_classes = {"enforced_checks": SelectChecksField}
+        field_classes = {
+            "enforced_checks": SelectChecksField,
+            "file_format_params": FormParamsField,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -1695,6 +1706,7 @@ class ComponentSettingsForm(
                         "language_regex",
                         "key_filter",
                         "source_language",
+                        "file_format_params",
                     ),
                     Fieldset(
                         gettext("Monolingual translations"),
@@ -1740,6 +1752,12 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+        if "file_format_params" in data:
+            # TODO: could be factored out to a mixin
+            selected_format = data["file_format"]
+            for param_format in FILE_FORMATS_PARAMS:
+                if selected_format not in param_format.file_formats:
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
@@ -1765,6 +1783,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "push_branch",
             "repoweb",
             "file_format",
+            "file_format_params",
             "filemask",
             "template",
             "edit_template",
@@ -1782,6 +1801,20 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "source_language": SortedSelect,
             "language_code_style": SortedSelect,
         }
+        field_classes = {
+            "file_format_params": FormParamsField,
+        }
+
+    def clean(self):
+        super().clean()
+        data = self.cleaned_data
+
+        # only applicable fields are saved to model
+        if "file_format_params" in data:
+            selected_format = data["file_format"]
+            for param_format in FILE_FORMATS_PARAMS:
+                if selected_format not in param_format.file_formats:
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
@@ -1918,6 +1951,7 @@ class ComponentScratchCreateForm(ComponentProjectForm):
             cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
         ),
     )
+    file_format_params = FormParamsField()
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_scratchcreate_%s"

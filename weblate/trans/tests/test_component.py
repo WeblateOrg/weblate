@@ -8,9 +8,10 @@ import os
 
 from django.core.exceptions import ValidationError
 from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.checks.models import Check
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component, Project, Unit
@@ -18,6 +19,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.views import get_form_data
 
 
 class ComponentTest(RepoTestCase):
@@ -1110,3 +1112,66 @@ class ComponentKeyFilterTest(ViewTestCase):
             "To use the key filter, the file format must be monolingual.",
         ):
             component.clean()
+
+
+class ComponentFileFormatsParamsTest(ViewTestCase):
+    def client_create_component(self, result, **kwargs):
+        self.user.is_superuser = True
+        self.user.save()
+        params = {
+            "name": "New Component With File Params",
+            "slug": "new-component-with-file-params",
+            "project": self.project.pk,
+            "vcs": "git",
+            "repo": self.component.get_repo_link_url(),
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "new_base": "po/project.pot",
+            "new_lang": "add",
+            "language_regex": "^[^.]+$",
+            "source_language": get_default_lang(),
+        }
+        params.update(kwargs)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(reverse("create-component-vcs"), params)
+        if result:
+            self.assertEqual(response.status_code, 302)
+        else:
+            self.assertEqual(response.status_code, 200)
+        return response
+
+    def get_new_component(self) -> Component:
+        return Component.objects.get(
+            slug="new-component-with-file-params", project_id=self.project.pk
+        )
+
+    def test_file_params(self):
+        self.client_create_component(
+            True,
+            file_format_params_po_line_wrap="77",
+            json_sort_keys=True,
+        )
+        component = self.get_new_component()
+        # check that only the expected parameters are set
+        self.assertEqual(component.file_format_params["po_line_wrap"], "77")
+        self.assertNotIn("json_sort_keys", component.file_format_params)
+
+    def test_file_params_invalid(self):
+        self.client_create_component(False, file_format_params_po_line_wrap="999999")
+        with self.assertRaises(Component.DoesNotExist):
+            self.get_new_component()
+
+    def test_file_params_update(self):
+        self.client_create_component(True)
+        component = self.get_new_component()
+        self.assertFalse(component.file_format_params["po_line_wrap"])
+
+        url = reverse("settings", kwargs={"path": component.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["file_format_params_po_line_wrap"] = "65535"
+
+        self.client.post(url, data, follow=True)
+
+        component.refresh_from_db()
+        self.assertEqual(component.file_format_params["po_line_wrap"], "65535")
