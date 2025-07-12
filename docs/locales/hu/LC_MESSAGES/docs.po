@@ -29726,12 +29726,13 @@ msgid ""
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
 "Ha a Webhook kiegészítő beállításaiban nincs megadva ``secret``, a Webhook "
-"kérés nem lesz aláírva, lásd:"
+"kérés nem lesz aláírva, lásd: :ref:`addon-weblate.webhook.webhook`."
 
 #: ../../changes.rst:100
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"A :ref:`saml-auth` támogatás már nem része az alapértelmezett függőségeknek."
 
 #: ../../changes.rst:110
 msgid ""
@@ -30015,16 +30016,12 @@ msgstr ""
 "mostantól kezelve vannak."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
 msgstr ""
-"**Biztonság:** Egy összetevő klónozása során a konfiguráció kiszivároghatott "
-"az URL-be (CVE-2025-32021)."
+"**Biztonság:** Összetevő klónozásakor kiszivároghatott a konfiguráció az URL-"
+"ben (:cve:`2025-32021`)."
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -31388,16 +31385,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Forrásszövegek eltávolítása a :ref:`szójegyzékből <glossary>`."
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
 "A :ref:`projectbackup` ZIP fájl érvényesítése visszaállításkor "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 
 #: ../../changes.rst:805
 msgid ""
@@ -34864,14 +34857,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*Kiadva: 2017. január 20.*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
-"A jelszó-visszaállítási űrlapon nem derül ki, hogy egy fiók létezik-e "
-"(CVE-2017-5537)."
+"Ne szivárogtasson ki fióklétet a jelszó-visszaállító űrlapon "
+"(:cve:`2017-5537`)."
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -35787,10 +35777,9 @@ msgstr ""
 "csökkentése."
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "A bleach csomag verziója frissítve a CVE-2020-6802 sebezhetőség miatt."
+msgstr ""
+"A bleach csomag frissítve a következő hiba javítására: :cve:`2020-6802`."
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -38822,18 +38811,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Git és Mercurial parancsargumentumok hiányzó szűrésének javítása – "
-"CVE-2022-23915, részletekért lásd: `GHSA-3872-f48p-pxqj <https://github.com/"
-"WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_."
+"Hiányzó argumentum-szűrés Git és Mercurial esetén javítva – :cve:`2022-23915`"
+", részletek: :ghsa:`3872-f48p-pxqj`."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -38868,18 +38851,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Kiadva: 2022. február 25.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Tárolt XSS sebezhetőség javítása – CVE-2022-24710, részletek: "
-"`GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/"
-"advisories/GHSA-6jp6-9rf9-gc66>`_."
+"Tárolt XSS sebezhetőség javítva – :cve:`2022-24710`, részletek: "
+":ghsa:`6jp6-9rf9-gc66`."
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
@@ -43249,10 +43226,8 @@ msgstr ""
 "próbálkozzon a :ref:`discussions` felülettel."
 
 #: ../../contributing/issues.rst:20
-#, fuzzy
-#| msgid "Using AI to created issues"
 msgid "Using AI to create issues"
-msgstr "Mesterséges intelligencia használata hibák jelentésére"
+msgstr "AI használata hibajegyek létrehozására"
 
 #: ../../contributing/issues.rst:22
 msgid ""
@@ -43904,12 +43879,15 @@ msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
+"A Weblate a `GitHub Actions`_ szolgáltatást használja a tesztek futtatására, "
+"a dokumentáció összeállítására, a kódellenőrzésre és egyéb feladatokra a "
+"kódminőség biztosítása érdekében."
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
-msgstr ""
+msgstr "A `Codecov`_ összegyűjti a tesztekből származó kódfedettségi adatokat."
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
@@ -48436,23 +48414,17 @@ msgid "Supporting other formats"
 msgstr "További formátumok támogatása"
 
 #: ../../formats.rst:495
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) receive any testing. In "
-#| "most cases some thin layer is needed in Weblate to hide differences in "
-#| "behavior of different `translate-toolkit`_ storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) received any testing. In most "
 "cases, an additional thin layer is needed in Weblate to hide differences in "
 "behavior of different storages."
 msgstr ""
-"A legtöbb, a `translate-toolkit`_ által támogatott és kiírható formátum, "
-"viszonylag könnyen használható a Weblate-ben is – bár ezek közül nem "
-"mindegyiket tesztelték még. A legtöbb esetben a Weblate egy vékony "
-"illesztőréteget használ, hogy elrejtse a `translate-toolkit`_ adattárolóinak "
-"viselkedésbeli különbségeit."
+"A `translate-toolkit`_ által támogatott legtöbb formátum, amely támogatja az "
+"adatstruktúrák fájlba történő mentését, elviekben könnyen integrálható, "
+"azonban ezek (még) nem estek át tesztelésen. A Weblate-ben a különböző "
+"tárolók viselkedésbeli eltéréseinek elfedéséhez általában egy vékony "
+"absztrakciós réteg szükséges."
 
 #: ../../formats.rst:500
 msgid ""
@@ -48477,6 +48449,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"Nagyon hasonló formátumok: :doc:`/formats/compose-multiplatform-resources` "
+"és :doc:`/formats/moko-resources`."
 
 #: ../../formats/android.rst:17
 msgid ""
@@ -48556,22 +48530,15 @@ msgstr ""
 "fordíthatóként. Ez különösen hasznos lehet hivatkozott sztringek esetén:"
 
 #: ../../formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`/formats/compose-multiplatform-"
 "resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android szövegforrások dokumentációja <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_ :doc:`tt:formats/android`"
+"`Android szöveges erőforrások dokumentációja <https://developer.android.com/"
+"guide/topics/resources/string-resource>`_, :doc:`/formats/compose-"
+"multiplatform-resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/"
+"android`"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -48805,32 +48772,24 @@ msgid "`ARB file`"
 msgstr "`ARB-fájl`"
 
 #: ../../formats/compose-multiplatform-resources.rst:2
-#, fuzzy
-#| msgid "How to translate multi-platform projects?"
 msgid "Compose Multiplatform resources"
-msgstr "Hogyan fordíthatók többplatformos projektek?"
+msgstr "Compose Multiplatform alkalmazáserőforrások"
 
 #: ../../formats/compose-multiplatform-resources.rst:9
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ""
+"A :doc:`/formats/android` formátum egy alternatívája, amely elsősorban a "
+"speciális karakterek kezelésében különbözik."
 
 #: ../../formats/compose-multiplatform-resources.rst:14
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
 "formats/android`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android szövegforrások dokumentációja <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_ :doc:`tt:formats/android`"
+"`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
+"formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/compose-multiplatform-resources.rst:24
 #: ../../formats/moko-resources.rst:24
