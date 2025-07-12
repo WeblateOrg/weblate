@@ -29,7 +29,7 @@ class BaseFileFormatParam:
         field_classes = ["file-format-param-field"]
 
         if self.field_class != forms.BooleanField:
-            # for display reason, the default radio/checkbox input looks better than bootstrap one
+            # the default radio/checkbox input looks better than bootstrap one
             field_classes.append("form-control")
 
         return {
@@ -54,8 +54,20 @@ def register_file_format_param(
     if not hasattr(param_class, "name"):
         msg = f"File format parameter class {param_class.__name__} must have a 'name' attribute."
         raise ValueError(msg)
+    if param_class.name in [p.get_identifier() for p in FILE_FORMATS_PARAMS]:
+        msg = f"File format parameter class {param_class.__name__} with name '{param_class.name}' is already registered."
+        raise ValueError(msg)
     FILE_FORMATS_PARAMS.append(param_class)
     return param_class
+
+
+def load_initial_file_format_params() -> dict[str, Any]:
+    """Load initial values for file format parameters."""
+    initial_params: dict[str, Any] = {}
+    for param_class in FILE_FORMATS_PARAMS:
+        param = param_class()
+        initial_params[param.get_identifier()] = param.get_field_kwargs().get("initial")
+    return initial_params
 
 
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
@@ -143,8 +155,91 @@ class GettextPoLineWrap(BaseFileFormatParam):
         return kwargs
 
 
+@register_file_format_param
+class XMLClosingTags(BaseFileFormatParam):
+    name = "xml_closing_tags"
+    file_formats = ("xml",)
+    label = gettext_lazy("Include closing tag for blank XML tags")
+    field_class = forms.BooleanField
+
+    def get_field_kwargs(self):
+        kwargs = super().get_field_kwargs()
+        kwargs.update({"initial": True})
+        return kwargs
+
+
+class BaseYAMLFormatParam(BaseFileFormatParam):
+    file_formats = (
+        "yaml",
+        "ryml",
+        "yml",
+    )
+
+    def get_widget_attrs(self) -> dict:
+        attrs = super().get_widget_attrs()
+        attrs["data-file-formats"] = " ".join(self.file_formats)
+        return attrs
+
+
+@register_file_format_param
+class YAMLOutputIndentation(BaseYAMLFormatParam):
+    name = "yaml_indent"
+    label = gettext_lazy("YAML indentation")
+    field_class = forms.IntegerField
+
+    def get_field_kwargs(self):
+        kwargs = super().get_field_kwargs()
+        kwargs.update({"min_value": 0, "max_value": 10, "initial": 2})
+        return kwargs
+
+
+@register_file_format_param
+class YAMLLineWrap(BaseYAMLFormatParam):
+    name = "yaml_line_wrap"
+    label = gettext_lazy("Long lines wrapping")
+    field_class = forms.ChoiceField
+
+    def get_field_kwargs(self):
+        kwargs = super().get_field_kwargs()
+        kwargs.update(
+            {
+                "choices": [
+                    ("80", gettext_lazy("Wrap lines at 80 chars")),
+                    ("100", gettext_lazy("Wrap lines at 100 chars")),
+                    ("120", gettext_lazy("Wrap lines at 120 chars")),
+                    ("180", gettext_lazy("Wrap lines at 180 chars")),
+                    ("65535", gettext_lazy("No line wrapping")),
+                ],
+                "initial": 80,
+            }
+        )
+        return kwargs
+
+
+@register_file_format_param
+class YAMLLineBreak(BaseYAMLFormatParam):
+    name = "yaml_line_break"
+    label = gettext_lazy("Line breaks")
+    field_class = forms.ChoiceField
+
+    def get_field_kwargs(self):
+        kwargs = super().get_field_kwargs()
+        kwargs.update(
+            {
+                "choices": [
+                    ("dos", gettext_lazy("DOS (\\r\\n)")),
+                    ("unix", gettext_lazy("UNIX (\\n)")),
+                    ("mac", gettext_lazy("MAC (\\r)")),
+                ],
+                "initial": "unix",
+            }
+        )
+        return kwargs
+
+
 class FormParamsWidget(forms.MultiWidget):
     template_name = "bootstrap3/labelled_multiwidget.html"
+    subwidget_class = "file-format-param"
 
     def __init__(
         self,
@@ -156,14 +251,17 @@ class FormParamsWidget(forms.MultiWidget):
         super().__init__(widgets, attrs)
 
     def decompress(self, value: dict) -> list[Any]:
-        if value is None:
-            value = {}
+        value = {**load_initial_file_format_params(), **(value or {})}
         return [value.get(param_name) for param_name in self.fields_order]
+
+    def get_context(self, *args, **kwargs) -> dict[str, Any]:
+        context = super().get_context(*args, **kwargs)
+        context["subwidget_class"] = self.subwidget_class
+        return context
 
 
 class FormParamsField(forms.MultiValueField):
     def __init__(self, encoder=None, decoder=None, **kwargs):
-        # TODO: handle encoder and decoder
         fields = []
         subwidgets = {}
 
