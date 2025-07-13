@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-10 12:54+0000\n"
+"PO-Revision-Date: 2025-07-13 20:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14451,7 +14451,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1057
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "Establecer correctamente SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:1059
 msgid ""
@@ -14459,6 +14459,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Si su sitio se sirve a través de SSL, debe considerar establecer un valor "
+"para :setting:`django:SECURE_HSTS_SECONDS` en el :file:`settings.py` para "
+"habilitar la Seguridad Estricta de Transporte HTTP. De forma predeterminada, "
+"está configurado en 0 como se muestra a continuación."
 
 #: ../../admin/install.rst:1067
 msgid ""
@@ -14466,6 +14470,10 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Si se establece en un valor entero distinto de cero, la "
+":class:`django:django.middleware.security.SecurityMiddleware` fija el "
+"encabezado :ref:`django:http-strict-transport-security` en todas las "
+"respuestas que aún no lo tienen."
 
 #: ../../admin/install.rst:1072
 msgid ""
@@ -14569,6 +14577,10 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate necesita enviar correos electrónicos en algunas ocasiones, y estos "
+"correos electrónicos han de tener correcta una dirección de remitente, "
+"configure  :setting:`SERVER_EMAIL` y :setting:`DEFAULT_FROM_EMAIL` para que "
+"coincidan con su entorno, por ejemplo:"
 
 #: ../../admin/install.rst:1184
 msgid ""
