@@ -85,6 +85,7 @@ def handle_unit_translation_change(
         add_project=component.contribute_project_tm,
         add_user=add_user,
         state=unit.state,
+        context=unit.context or "",
     )
 
 
@@ -94,6 +95,7 @@ def update_memory(
     source_language_id: int,
     target_language_id: int,
     source: str,
+    context: str,
     target: str,
     origin: str,
     add_shared: bool,
@@ -113,13 +115,15 @@ def update_memory(
     ):
         memory_status = Memory.STATUS_ACTIVE
         if project.autoclean_tm:
+            # delete old entries, including those with different targets
             Memory.objects.filter(
                 from_file=False,
                 source=source,
                 origin=origin,
+                context=context,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
-            ).delete()  # delete old entries, including those with different targets
+            ).delete()
             check_matching = False
     else:
         memory_status = Memory.STATUS_PENDING
@@ -169,6 +173,7 @@ def update_memory(
                 from_file=False,
                 shared=False,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,
@@ -184,6 +189,7 @@ def update_memory(
                 from_file=False,
                 shared=True,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,
@@ -199,6 +205,7 @@ def update_memory(
                 from_file=False,
                 shared=False,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,

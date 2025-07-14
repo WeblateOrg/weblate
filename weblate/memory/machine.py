@@ -8,6 +8,7 @@ from weblate.machinery.base import DownloadTranslations, InternalMachineTranslat
 from weblate.memory.models import Memory
 
 PENDING_MEMORY_PENALTY_FACTOR = 0.7
+DIFFERENT_CONTEXT_PENALTY_FACTOR = 0.95
 
 
 class WeblateMemory(InternalMachineTranslation):
@@ -39,6 +40,9 @@ class WeblateMemory(InternalMachineTranslation):
             quality = self.comparer.similarity(text, result.source)
             if result.status == Memory.STATUS_PENDING:
                 quality *= PENDING_MEMORY_PENALTY_FACTOR
+
+            if unit.context != result.context:
+                quality *= DIFFERENT_CONTEXT_PENALTY_FACTOR
 
             if quality < threshold:
                 continue

@@ -435,6 +435,7 @@ class Memory(models.Model):
     source = models.TextField()
     target = models.TextField()
     origin = models.TextField()
+    context = models.TextField(default="", blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,
@@ -512,6 +513,7 @@ class Memory(models.Model):
         """Convert to dict suitable for JSON export."""
         return {
             "source": self.source,
+            "context": self.context,
             "target": self.target,
             "source_language": self.source_language.code,
             "target_language": self.target_language.code,

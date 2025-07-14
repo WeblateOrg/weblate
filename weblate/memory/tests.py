@@ -120,6 +120,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     "origin": "test",
                     "category": CATEGORY_FILE,
                     "status": 1,
+                    "context": "",
                 }
             ],
         )
@@ -351,7 +352,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(
             1,
             not_imported_memory_qs.filter(
-                project=self.project, status=Memory.STATUS_PENDING
+                project=self.project, context=unit.context, status=Memory.STATUS_PENDING
             ).count(),
         )
 
@@ -364,7 +365,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(
             2,
             not_imported_memory_qs.filter(
-                project=self.project, status=Memory.STATUS_PENDING
+                project=self.project, context=unit.context, status=Memory.STATUS_PENDING
             ).count(),
         )
         for suggestion in machine_translation.search(unit, "Hello, world!\n", None):
@@ -376,7 +377,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(
             1,
             not_imported_memory_qs.filter(
-                project=self.project, status=Memory.STATUS_ACTIVE
+                project=self.project, context=unit.context, status=Memory.STATUS_ACTIVE
             ).count(),
         )
         suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
@@ -387,7 +388,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             self.assertEqual(
                 1,
                 not_imported_memory_qs.filter(
-                    project=self.project, status=Memory.STATUS_PENDING
+                    project=self.project,
+                    context=unit.context,
+                    status=Memory.STATUS_PENDING,
                 ).count(),
             )
             for suggestion in machine_translation.search(unit, "Hello, world!\n", None):
@@ -411,17 +414,16 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_clean_memory_command(
         self, autoclean_tm: bool = False, translation_review: bool = False
     ) -> None:
-        if autoclean_tm:
-            self.project.autoclean_tm = True
-            self.project.save()
+        self.project.autoclean_tm = autoclean_tm
+        self.project.save()
 
         import_memory(self.project.id)
         excepted_deleted_count = 0
 
         unit = self.get_unit()
-        if translation_review:
-            self.project.translation_review = translation_review
-            self.project.save()
+
+        self.project.translation_review = translation_review
+        self.project.save()
 
         unit.translate(self.user, "Hello 1", STATE_TRANSLATED)
         unit.translate(self.anotheruser, "Hello 2", STATE_TRANSLATED)
@@ -445,6 +447,58 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
     def test_clean_memory_command_no_translation_review_with_autoclean(self) -> None:
         self.test_clean_memory_command(autoclean_tm=True, translation_review=False)
+
+    def test_memory_context(
+        self, autoclean_tm: bool = False, translation_review: bool = False
+    ) -> None:
+        self.project.translation_review = translation_review
+        self.project.autoclean_tm = autoclean_tm
+        self.project.save()
+        machine_translation = WeblateMemory({})
+
+        # check that quality of suggestion is inferior if contexts differ
+        unit = self.get_unit()
+        unit2 = self.translation.unit_set.create(
+            context="Different context",
+            source=unit.source,
+            source_unit=unit.source_unit,
+            id_hash=1001,
+            position=1001,
+        )
+        unit.translate(self.user, "Hello no context", STATE_TRANSLATED)
+        unit2.translate(self.user, "Hello with context", STATE_TRANSLATED)
+
+        if translation_review:
+            self.approve_translation(unit, "Hello no context")
+            self.approve_translation(unit2, "Hello with context")
+
+        suggestions = machine_translation.search(unit, unit.source, None)
+        with_context = [s for s in suggestions if "Hello with context" in s["text"]][0]  # noqa: RUF015
+        no_context = [s for s in suggestions if "Hello no context" in s["text"]][0]  # noqa: RUF015
+        self.assertLess(with_context["quality"], no_context["quality"])
+
+        # check that memory with different context is not affected by autoclean
+        if autoclean_tm:
+            unit.translate(self.user, "New translation", STATE_TRANSLATED)
+            self.approve_translation(unit, "New translation")
+            suggestions = machine_translation.search(unit, unit.source, None)
+
+            self.assertFalse(
+                [s for s in suggestions if "Hello no context" in s["text"]]
+            )
+            self.assertTrue([s for s in suggestions if "New translation" in s["text"]])
+            self.assertTrue(
+                [s for s in suggestions if "Hello with context" in s["text"]]
+            )
+
+    def test_memory_context_with_review_no_autoclean(self):
+        self.test_memory_context(False, True)
+
+    def test_memory_context_with_review_and_autoclean(self):
+        self.test_memory_context(True, True)
+
+    def test_memory_context_no_review_with_autoclean(self):
+        self.test_memory_context(True, False)
 
 
 class MemoryViewTest(FixtureTestCase):
