@@ -382,6 +382,27 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
+    def test_none_eligible(self):
+        self.project.component_set.update(new_lang="none")
+
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(
+            reverse("new-language", kwargs={"path": self.project.get_url_path()}),
+            follow=True,
+        )
+        self.assertRedirects(response, self.project.get_absolute_url())
+
+    def test_permission(self):
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+        response = self.client.get(
+            reverse("new-language", kwargs={"path": self.project.get_url_path()}),
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_existing_language_excluded(self):
         self.user.is_superuser = True
         self.user.save()
@@ -439,8 +460,8 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: Language Afrikaans added to 1 component.",
-                "Success: Language Afrikaans requested for 1 component.",
+                "Language Afrikaans added to 1 component.",
+                "Language Afrikaans requested for 1 component.",
             ],
         )
         for new_lang, component in self.components.items():
@@ -479,7 +500,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: Language Afrikaans added to 1 component.",
+                "Language Afrikaans added to 1 component.",
             ],
         )
 
@@ -489,8 +510,8 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: Language Punjabi requested for 1 component.",
-                "Warning: Language Punjabi could not be added to 1 component. Please check the components' configuration.",
+                "Language Punjabi requested for 1 component.",
+                "Language Punjabi could not be added to 1 component. Please check the components' configuration.",
             ],
         )
 
@@ -511,7 +532,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Success: Language Afrikaans added to 2 components.",
+                "Language Afrikaans added to 2 components.",
             ],
         )
 
