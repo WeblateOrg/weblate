@@ -791,11 +791,19 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
         raise Http404(msg)
 
     avatar_user = get_object_or_404(User, username=user)
+    email = avatar_user.email
 
-    if avatar_user.email == "noreply@weblate.org":
-        return redirect(get_fallback_avatar_url(int(size)))
-    if avatar_user.email == f"noreply+{avatar_user.pk}@weblate.org":
-        return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
+    # Deleted users
+    if email == f"noreply+{avatar_user.pk}@weblate.org":
+        return redirect(
+            os.path.join(settings.STATIC_URL, "state/ghost.svg"), permanent=True
+        )
+    # Bot and anonymous accounts
+    if email.startswith("noreply") and email.endswith("@weblate.org"):
+        return redirect(get_fallback_avatar_url(int(size)), permanent=True)
+    # Project API tokens
+    if email.endswith("@bots.noreply.weblate.org"):
+        return redirect(get_fallback_avatar_url(int(size), "api"), permanent=True)
 
     response = HttpResponse(
         content_type="image/png", content=get_avatar_image(avatar_user, size)
