@@ -1424,14 +1424,19 @@ class ComponentViewSet(
 
             language_code = request.data["language_code"]
 
-            try:
-                language = Language.objects.get(code=language_code)
-            except Language.DoesNotExist as error:
-                msg = f"No language code {language_code!r} found!"
-                raise ValidationError({"language_code": msg}) from error
-
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+
+            if request.user.has_perm("translation.add_more", obj):
+                base_languages = obj.get_all_available_languages()
+            else:
+                base_languages = obj.get_available_languages()
+
+            try:
+                language = base_languages.get(code=language_code)
+            except Language.DoesNotExist as error:
+                message = f"Could not add {language_code!r}!"
+                raise ValidationError({"language_code": message}) from error
 
             translation = obj.add_new_language(language, request)
             if translation is None:
