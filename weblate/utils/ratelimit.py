@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from contextlib import suppress
+from functools import wraps
 from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
@@ -22,6 +23,7 @@ from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
     from django_redis.cache import RedisCache
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -124,10 +126,12 @@ def check_rate_limit(scope: str, request: AuthenticatedHttpRequest) -> bool:
 
 
 def session_ratelimit_post(scope: str, logout_user: bool = True):
-    def session_ratelimit_post_inner(function):
-        """Session based rate limiting for POST requests."""
+    """Session based rate limiting for POST requests."""
 
-        def rate_wrap(request: AuthenticatedHttpRequest, *args, **kwargs):
+    def _session_ratelimit_post_controller(function):
+        def _rate_wrap(
+            request: AuthenticatedHttpRequest, *args, **kwargs
+        ) -> HttpResponse:
             if request.method == "POST" and not check_rate_limit(scope, request):
                 # Rotate session token
                 rotate_token(request)
@@ -152,6 +156,6 @@ def session_ratelimit_post(scope: str, logout_user: bool = True):
                 return redirect("login")
             return function(request, *args, **kwargs)
 
-        return rate_wrap
+        return wraps(function)(_rate_wrap)
 
-    return session_ratelimit_post_inner
+    return _session_ratelimit_post_controller
