@@ -854,6 +854,7 @@ class ProjectBackup:
                         project=project,
                         origin=entry["origin"],
                         source=entry["source"],
+                        context=entry.get("context", ""),
                         target=entry["target"],
                         source_language=self.import_language(entry["source_language"]),
                         target_language=self.import_language(entry["target_language"]),
