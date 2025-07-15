@@ -4393,7 +4393,7 @@ msgid ""
 "integrity of the webhook request."
 msgstr ""
 "A ``webhook-signature`` é uma lista separada por espaços de assinaturas HMAC "
-"geradas usando a string ``secret``, o payload da solicitação, o ``webhook-"
+"geradas usando o texto ``secret``, o payload da solicitação, o ``webhook-"
 "timestamp`` e o ``webhook-id``. Isso garante a autenticidade e a integridade "
 "da solicitação do webhook."
 
@@ -4403,6 +4403,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Para verificar uma solicitação, você pode usar o método ``Webhook.verify`` "
+"da biblioteca ``standardwebhooks`` ou uma implementação da "
+"\"Especificação Padrão de Webhooks\"."
 
 #: ../../admin/addons.rst:1380
 msgid ""
