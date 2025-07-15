@@ -2681,11 +2681,15 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_create_translation_invalid_language_code(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
             method="post",
             code=400,
+            superuser=True,
             request={"language_code": "invalid"},
         )
 

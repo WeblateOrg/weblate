@@ -18,7 +18,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator, validate_slug
-from django.db.models import Count, F, Model, Q
+from django.db.models import Count, F, Model, Q, QuerySet
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
@@ -37,7 +37,6 @@ from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
@@ -1171,10 +1170,8 @@ class NewComponentLanguageOwnerForm(forms.Form):
         label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
-    def get_lang_objects(self):
-        return Language.objects.exclude(
-            Q(translation__component=self.component) | Q(component=self.component)
-        )
+    def get_lang_objects(self) -> QuerySet[Language]:
+        return self.component.get_all_available_languages()
 
     def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1190,23 +1187,8 @@ class NewComponentLanguageForm(NewComponentLanguageOwnerForm):
         label=gettext_lazy("Language"), choices=[], widget=forms.Select
     )
 
-    def get_lang_objects(self):
-        codes = BASIC_LANGUAGES
-        if settings.BASIC_LANGUAGES is not None:
-            codes = settings.BASIC_LANGUAGES
-        return (
-            super()
-            .get_lang_objects()
-            .filter(
-                # Include basic languages
-                Q(code__in=codes)
-                # Include source languages in a project
-                | Q(component__project=self.component.project)
-                # Include translations in a project
-                | Q(translation__component__project=self.component.project)
-            )
-            .distinct()
-        )
+    def get_lang_objects(self) -> QuerySet[Language]:
+        return self.component.get_available_languages()
 
     def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
         super().__init__(user, component, *args, **kwargs)
