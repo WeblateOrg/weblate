@@ -170,6 +170,27 @@ class ActionEvents(IntegerChoices):
     FONT_REMOVE = 82, gettext_lazy("Font removed")
 
 
+# Actions which are logged
+ACTIONS_LOG = {
+    ActionEvents.RESET,
+    ActionEvents.REMOVE_TRANSLATION,
+    ActionEvents.ACCESS_EDIT,
+    ActionEvents.ADD_USER,
+    ActionEvents.REMOVE_USER,
+    ActionEvents.REMOVE_COMPONENT,
+    ActionEvents.REMOVE_PROJECT,
+    ActionEvents.RENAME_PROJECT,
+    ActionEvents.RENAME_COMPONENT,
+    ActionEvents.MOVE_COMPONENT,
+    ActionEvents.ADDED_LANGUAGE,
+    ActionEvents.CREATE_PROJECT,
+    ActionEvents.CREATE_COMPONENT,
+    ActionEvents.REMOVE_CATEGORY,
+    ActionEvents.RENAME_CATEGORY,
+    ActionEvents.MOVE_CATEGORY,
+}
+
+
 # Actions which can be reverted
 ACTIONS_REVERTABLE = {
     ActionEvents.ACCEPT,
