@@ -16,6 +16,7 @@ Weblate 5.13
 * Background commits are now identified by an internal user.
 * Reorganized navigation menu.
 * When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
+* Avatars for API and internal accounts.
 
 .. rubric:: Bug fixes
 
