@@ -204,6 +204,6 @@ def format_html_join_comma(
     )
 
 
-def list_to_tuples(strings: Iterable[str]) -> list[tuple[str]]:
+def list_to_tuples(strings: Iterable[Any]) -> Iterable[tuple[Any]]:
     """Convert a list of strings into a list of single-element tuples."""
-    return [(s,) for s in strings]
+    return ((s,) for s in strings)
