@@ -295,7 +295,7 @@ class ComponentDiscovery:
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
-        for component in main.linked_childs.exclude(pk__in=processed):
+        for component in main.linked_children.exclude(pk__in=processed):
             if component.has_template():
                 # Valid template?
                 if os.path.exists(component.get_template_filename()):
@@ -341,8 +341,8 @@ class ComponentDiscovery:
 
         main = self.component
         category_components = main.project.component_set.filter(category=main.category)
-        existing_childs: dict[str, Component] = {
-            component.filemask: component for component in main.linked_childs.all()
+        existing_children: dict[str, Component] = {
+            component.filemask: component for component in main.linked_children.all()
         }
         existing_slugs: set[str] = {
             slug.lower() for slug in category_components.values_list("slug", flat=True)
@@ -359,7 +359,7 @@ class ComponentDiscovery:
                 continue
 
             try:
-                found = existing_childs[match["mask"]]
+                found = existing_children[match["mask"]]
             except KeyError:
                 # Create new component
                 try:
@@ -378,7 +378,7 @@ class ComponentDiscovery:
                     if component is not None and component.id:
                         processed.add(component.id)
                     created.append((match, component))
-                    existing_childs[match["mask"]] = component
+                    existing_children[match["mask"]] = component
             else:
                 # Component already exists
                 matched.append((match, found))

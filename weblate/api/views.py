@@ -1420,7 +1420,7 @@ class ComponentViewSet(
 
             if "language_code" not in request.data:
                 msg = "Missing 'language_code' parameter"
-                raise ValidationError({"languge_code": msg})
+                raise ValidationError({"language_code": msg})
 
             language_code = request.data["language_code"]
 

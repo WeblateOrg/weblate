@@ -48,7 +48,7 @@ def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str
 
 
 def highlight_string(
-    source: str, unit: Unit, *, hightlight_syntax: bool = False
+    source: str, unit: Unit, *, highlight_syntax: bool = False
 ) -> list[tuple[int, int, str]]:
     """Return highlights for a string."""
     if unit is None:
@@ -59,7 +59,7 @@ def highlight_string(
             continue
         highlights.extend(CHECKS[check].check_highlight(source, unit))
 
-    if hightlight_syntax:
+    if highlight_syntax:
         highlights.extend(highlight_pygments(source, unit))
 
     # Remove empty strings

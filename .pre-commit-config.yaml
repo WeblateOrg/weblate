@@ -107,7 +107,7 @@ repos:
   hooks:
   - id: rst-double-space
     name: rst text with double space
-    description: Detect mistake of rst containg double space
+    description: Detect mistake of rst contaning double space
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
@@ -141,6 +141,13 @@ repos:
     additional_dependencies:
     - tomli
     exclude: client/yarn.lock
+- repo: https://github.com/crate-ci/typos
+  rev: v1.34.0
+  hooks:
+  - id: typos
+    args: []
+    require_serial: true
+    pass_filenames: false
 - repo: https://github.com/rhysd/actionlint
   rev: v1.7.7
   hooks:

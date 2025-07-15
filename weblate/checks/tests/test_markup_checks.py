@@ -225,13 +225,13 @@ class MarkdownLinkCheckTest(CheckTestCase):
 
         self.assertIsNone(self.check.get_fixup(unit))
 
-    def test_mutliple_ordered(self) -> None:
+    def test_multiple_ordered(self) -> None:
         self.do_test(
             False,
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
                 "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
                 "illustriert die Verwendung von [Webspät](#weblate)",
                 "md-text",
             ),
@@ -242,7 +242,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
                 "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
                 "illustriert die Verwendung von [Webspät](#Webspät)",
                 "md-text",
             ),
@@ -252,7 +252,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             (
                 "[Weblate](#weblate) has an [example]({{example}}) "
                 "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
                 "illustriert die Verwendung von Webspät",
                 "md-text",
             ),
@@ -661,7 +661,7 @@ class RSTReferencesCheckTest(CheckTestCase):
             False,
             (
                 "The code should follow :pep:`8` coding guidelines and should be formatted using :program:`ruff` code formatter.",
-                "Kód by měl následovat :pep:`8` a být zformátovan programem :program:`ruff`.",
+                "Kód by měl následovat :pep:`8` a být zformátovan programem :program:`ruff`.",  # codespell:ignore
                 "rst-text",
             ),
         )

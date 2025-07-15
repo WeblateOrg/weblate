@@ -79,8 +79,8 @@ def render_template(template: str, **kwargs):
             )
         )
         if component.pk:
-            kwargs["component_linked_childs"] = SimpleLazyObject(
-                component.get_linked_childs_for_template
+            kwargs["component_linked_children"] = SimpleLazyObject(
+                component.get_linked_children_for_template
             )
         project = component.project
         kwargs.pop("component", None)

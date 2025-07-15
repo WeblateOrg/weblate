@@ -379,7 +379,7 @@ class RegistrationTest(BaseRegistrationTest):
         mail.outbox.clear()
 
     @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_reset_paralel(self) -> None:
+    def test_reset_parallel(self) -> None:
         """Test for password reset from two browsers."""
         User.objects.create_user("testuser", "test@example.com", "x")
         match = "[Weblate] Password reset on Weblate"
