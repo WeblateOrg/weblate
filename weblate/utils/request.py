@@ -21,7 +21,7 @@ def get_ip_address(request: AuthenticatedHttpRequest | None) -> str:
     return get_request_meta(request, "REMOTE_ADDR")
 
 
-def get_user_agent_raw(request: AuthenticatedHttpRequest) -> str:
+def get_user_agent_raw(request: AuthenticatedHttpRequest | None) -> str:
     """Return raw user agent string."""
     return get_request_meta(request, "HTTP_USER_AGENT")
 

@@ -191,7 +191,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
         ):
             return Denied(
                 gettext(
-                    "Contributing to this translation requires accepting its contributor license agreement."
+                    "Contributing to this translation requires agreeing to its contributor license agreement."
                 )
             )
 

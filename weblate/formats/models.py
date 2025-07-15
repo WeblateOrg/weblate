@@ -99,6 +99,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
         "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.CatkeysFormat",
         "weblate.formats.ttkit.I18NextV4Format",
         "weblate.formats.ttkit.GoI18JSONFormat",
         "weblate.formats.ttkit.GoI18V2JSONFormat",

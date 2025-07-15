@@ -20,7 +20,10 @@ from .base import (
 from .forms import DeepLMachineryForm
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from weblate.auth.models import User
+    from weblate.lang.models import Language
     from weblate.trans.models import Unit
 
 
@@ -54,6 +57,15 @@ class DeepLTranslation(
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
+
+    def get_language_possibilities(self, language: Language) -> Iterator[str]:
+        for value in super().get_language_possibilities(language):
+            yield value
+            # Add variant without suffix, this is needed for source languages
+            # as DeepL does not differentiate most language variants on the source
+            # string side.
+            if "-" in value:
+                yield value.split("-", 1)[0]
 
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}

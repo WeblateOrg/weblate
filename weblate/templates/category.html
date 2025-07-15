@@ -82,7 +82,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -95,38 +95,30 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        <li role="separator" class="divider"></li>
+        {% if user_can_edit_project %}
+          {% if add_form %}
+            <li>
+              <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
+            </li>
+          {% endif %}
+          <li>
+            <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
+          </li>
+        {% endif %}
+        {% if announcement_form %}
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if delete_form or rename_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
-    {% if user_can_edit_project or announcement_form %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_edit_project %}
-            {% if add_form %}
-              <li>
-                <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
-              </li>
-            {% endif %}
-            <li>
-              <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
-            </li>
-          {% endif %}
-          {% if announcement_form %}
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if delete_form or rename_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-            </li>
-          {% endif %}
-        </ul>
-      </li>
-    {% endif %}
     {% include "snippets/share-menu.html" with object=object.project %}
   </ul>
 

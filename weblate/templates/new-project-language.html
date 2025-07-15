@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="tab-pane" id="newlang">
+    <form action="{% url 'new-language' path=object.get_url_path %}" method="post">
+      {% csrf_token %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% translate "Start new translation" %}</h4>
+        </div>
+        <div class="panel-body">{{ form|crispy }}</div>
+        <input class="btn btn-primary"
+               type="submit"
+               value="{% translate "Start new translation" %}" />
+      </div>
+    </form>
+  </div>
+{% endblock content %}

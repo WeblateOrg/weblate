@@ -1,4 +1,4 @@
-# Copyright © Michal Čihař <michal@weblate.org>
+# weblate/formats/ttkit.py Copyright © Michal Čihař <michal@weblate.org>
 # Copyright © WofWca <wofwca@protonmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -27,6 +27,7 @@ from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
@@ -55,6 +56,7 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -173,12 +175,12 @@ class TTKitUnit(TranslationUnit):
 
         We currently extract maxwidth attribute.
         """
-        flags = Flags()
+        flags = super().flags
         if hasattr(self.unit, "xmlelement"):
             flags.merge(self.unit.xmlelement)
         if self.template is not None and hasattr(self.template, "xmlelement"):
             flags.merge(self.template.xmlelement)
-        return flags.format()
+        return flags
 
     def clone_template(self) -> None:
         super().clone_template()
@@ -544,13 +546,14 @@ class PoUnit(TTKitUnit):
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
+        flags = super().flags
         try:
-            flags = Flags(*self.mainunit.typecomments)
+            flags.merge(Flags(*self.mainunit.typecomments))
         except ParseException as error:
             msg = f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
             raise ValueError(msg) from error
         flags.remove({"fuzzy"})
-        return flags.format()
+        return flags
 
     @cached_property
     def previous_source(self):
@@ -801,9 +804,9 @@ class RichXliffUnit(XliffUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
         flags.merge("xml-text")
-        return flags.format()
+        return flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
@@ -875,7 +878,7 @@ class TSUnit(MonolingualIDUnit):
         """Return a comma-separated list of locations."""
         result = super().locations
         # Do not try to handle relative locations in Qt TS, see
-        # http://doc.qt.io/qt-5/linguist-ts-file-format.html
+        # https://doc.qt.io/qt-6/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
             return ""
         return result
@@ -937,20 +940,20 @@ class JSONUnit(MonolingualSimpleUnit):
 class PlaceholdersJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
+        flags = super().flags
         placeholders = self.mainunit.placeholders
         if not placeholders:
-            return ""
-        flags = ""
+            return flags
+
         if isinstance(placeholders, list):
             # golang placeholders
             placeholder_ids = [f"{{{p['id']}}}" for p in placeholders]
         else:
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
-            flags = ",case-insensitive"
-        return "placeholders:{}{}".format(
-            ":".join(Flags.format_value(key) for key in placeholder_ids), flags
-        )
+            flags.merge("case-insensitive")
+        flags.merge(f"placeholders:{Flags.format_flag(placeholder_ids)}")
+        return flags
 
 
 class CSVUnit(MonolingualSimpleUnit):
@@ -1212,8 +1215,11 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             report_error("Failed msgmerge")
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
+            error_output = error.output + error.stderr
             report_error("Failed msgmerge")
-            raise UpdateError(" ".join(cmd), error.output + error.stderr) from error
+            raise UpdateError(
+                " ".join(cmd), cleanup_error_message(error_output)
+            ) from error
         else:
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
@@ -2088,7 +2094,7 @@ class TBXUnit(TTKitUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
 
         for node in self.unit._getnotenodes(origin="pos"):  # noqa: SLF001
             # each tig in the two langsets in the termEntry can have the
@@ -2102,7 +2108,7 @@ class TBXUnit(TTKitUnit):
                     flags.merge("forbidden")
                 break
 
-        return flags.format()
+        return flags
 
 
 class TBXFormat(TTKitFormat):
@@ -2146,6 +2152,25 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
+
+
+class CatkeysFormat(TTKitFormat):
+    name = gettext_lazy("Haiku catkeys")
+    format_id = "catkeys"
+    loader = CatkeysFile
+    autoload: tuple[str, ...] = ("*.catkeys",)
+    unit_class = TTKitUnit
+    monolingual = False
+    supports_explanation = True
+    store: CatkeysFile
+
+    @classmethod
+    def mimetype(cls) -> str:
+        return "text/x-catkeys"
+
+    @classmethod
+    def extension(cls) -> str:
+        return "catkeys"
 
 
 class StringsdictFormat(DictStoreFormat):
@@ -2214,9 +2239,9 @@ class FluentUnit(MonolingualSimpleUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags()
+        flags = super().flags
         flags.set_value("fluent-type", self.mainunit.fluent_type)
-        return flags.format()
+        return flags
 
 
 class FluentFormat(TTKitFormat):

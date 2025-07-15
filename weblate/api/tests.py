@@ -131,11 +131,11 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 class UserAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["count"], 3)
         self.assertNotIn("email", response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["count"], 3)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
@@ -171,7 +171,7 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.count(), 4)
 
     def test_delete(self) -> None:
         self.do_request(
@@ -193,7 +193,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.count(), 4)
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
     def test_add_group(self) -> None:
@@ -3145,8 +3145,16 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response_json["count"], 1)
         self.assertEqual(response_json["results"][0]["source"], ["Hello, world!\n"])
 
+    def check_upload_changes(self, previous: int, expected: int) -> None:
+        changes_end = self.component.change_set.count()
+        self.assertEqual(changes_end - previous, expected)
+        for change in self.component.change_set.order_by("-timestamp")[:expected]:
+            self.assertEqual(change.user, self.user)
+            self.assertEqual(change.author, self.user)
+
     def test_upload_bytes(self) -> None:
         self.authenticate()
+        changes_start = self.component.change_set.count()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -3169,9 +3177,11 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
+        self.check_upload_changes(changes_start, 3)
 
     def test_upload(self) -> None:
         self.authenticate()
+        changes_start = self.component.change_set.count()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -3195,8 +3205,12 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
+        self.check_upload_changes(changes_start, 3)
+
     def test_upload_source(self) -> None:
         self.authenticate(True)
+
+        changes_start = self.component.change_set.count()
 
         # Upload to translation
         with open(TEST_POT, "rb") as handle:
@@ -3241,6 +3255,8 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
+        self.check_upload_changes(changes_start, 1)
+
     def test_upload_content(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
@@ -3252,6 +3268,7 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_conflicts(self) -> None:
         self.authenticate()
+        changes_start = self.component.change_set.count()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -3286,9 +3303,11 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
+        self.check_upload_changes(changes_start, 4)
 
     def test_upload_overwrite(self) -> None:
         self.test_upload()
+        changes_start = self.component.change_set.count()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -3305,9 +3324,11 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
+        self.check_upload_changes(changes_start, 1)
 
     def test_upload_suggest(self) -> None:
         self.authenticate()
+        changes_start = self.component.change_set.count()
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
@@ -3342,6 +3363,31 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
+        self.check_upload_changes(changes_start, 3)
+
+    def test_upload_replace(self) -> None:
+        self.authenticate(superuser=True)
+        changes_start = self.component.change_set.count()
+        with open(TEST_PO) as handle:
+            content = handle.read()
+        content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
+
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": BytesIO(content.encode()), "method": "replace"},
+        )
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 5,
+                "count": 5,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 5,
+            },
+        )
+        self.check_upload_changes(changes_start, 7)
 
     def test_upload_invalid(self) -> None:
         self.authenticate()

@@ -18,13 +18,15 @@
 # Alejandra Wheeler <alejandra@zearn.org>, 2025.
 # Yago Raña Gayoso <yago.rana.gayoso@gmail.com>, 2025.
 # Nat A <dontknowhat_na@hotmail.com>, 2025.
+# eulalio <eulalio@disroot.org>, 2025.
+# Arantxa <arantxafigueroa4@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-19 11:46+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-07-13 20:02+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -32,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 5.13-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:197
@@ -1425,17 +1427,14 @@ msgid "Announcements"
 msgstr "Anuncios"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Publicar anuncio"
+msgstr "Publicar anuncios"
 
 #: ../../admin/access.rst:582
 #, fuzzy
 #| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ""
-":guilabel:`Administración`, :guilabel:`Gestionar la memoria de traducción`"
+msgstr ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1515,7 +1514,7 @@ msgstr "Lista de roles incorporados"
 #, fuzzy
 #| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Publicar comentario`"
+msgstr ":guilabel:`Post announcements`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -4375,6 +4374,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Para obtener una URL de webhook, siga los pasos descritos en la "
+"documentación `Slack Incoming Webhooks <https://docs.slack.dev/messaging/"
+"sending-messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4395,8 +4397,6 @@ msgid "Secret"
 msgstr "Secreto"
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
 msgstr "Cadena codificada en base64 no válida"
 
@@ -12289,10 +12289,8 @@ msgstr ""
 "de traducción actualmente en todos los componentes."
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Propagation preconditions:"
-msgstr "Traducciones en que colabora"
+msgstr "Condiciones previas de propagación:"
 
 #: ../../admin/continuous.rst:564
 msgid ""
@@ -12305,6 +12303,8 @@ msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Habilitar :ref:`component-allow_translation_propagation` para reutilizar "
+"automáticamente las traducciones para cadenas coincidentes."
 
 #: ../../admin/continuous.rst:566
 msgid ""
@@ -12320,19 +12320,18 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"Las cadenas se propagan durante la traducción, las cadenas cargadas desde el "
+"repositorio no se propagan."
 
 #: ../../admin/continuous.rst:573
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "This feature currently has limitations, and we want to make it more "
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
-"Integración de Google Analitics 4 actualmente no está disponible para "
-"Weblate, consulte https://github.com/WeblateOrg/weblate/issues/14015."
+"Actualmente, esta función tiene limitaciones y queremos que sea más "
+"universal. Comparta sus comentarios en https://github.com/WeblateOrg/weblate/"
+"issues/3166."
 
 #: ../../admin/continuous.rst:578
 msgid "Consistency check"
@@ -13184,7 +13183,8 @@ msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13277,6 +13277,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"Este es un problema conocido del paquete xmlsec, ver https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13287,6 +13289,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Los paquetes \"lxml\" y \"xmlsec\" tienen que construirse contra un "
+"\"libxml2\". Debe compilarlos localmente para evitar este problema:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -14401,22 +14405,31 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Ajuste el nombre del sitio y el dominio en la interfaz de administración; de "
+"lo contrario, los enlaces en RSS o correos electrónicos de registro no "
+"funcionarán. Esto se configura usando :setting:`SITE_DOMAIN` que debe "
+"contener el nombre de dominio del sitio"
 
 #: ../../admin/install.rst:1021
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"Antes de la versión 4.2, se usaba el framework Django en su lugar, ver "
+":doc:`django:ref/contrib/sites`."
 
 #: ../../admin/install.rst:1026
+#, fuzzy
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:1035
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "Configurar HTTPS correctamente"
 
 #: ../../admin/install.rst:1037
 msgid ""
@@ -14438,7 +14451,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1057
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "Establecer correctamente SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:1059
 msgid ""
@@ -14446,6 +14459,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Si su sitio se sirve a través de SSL, debe considerar establecer un valor "
+"para :setting:`django:SECURE_HSTS_SECONDS` en el :file:`settings.py` para "
+"habilitar la Seguridad Estricta de Transporte HTTP. De forma predeterminada, "
+"está configurado en 0 como se muestra a continuación."
 
 #: ../../admin/install.rst:1067
 msgid ""
@@ -14453,6 +14470,10 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Si se establece en un valor entero distinto de cero, la "
+":class:`django:django.middleware.security.SecurityMiddleware` fija el "
+"encabezado :ref:`django:http-strict-transport-security` en todas las "
+"respuestas que aún no lo tienen."
 
 #: ../../admin/install.rst:1072
 msgid ""
@@ -14556,6 +14577,10 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate necesita enviar correos electrónicos en algunas ocasiones, y estos "
+"correos electrónicos han de tener correcta una dirección de remitente, "
+"configure :setting:`SERVER_EMAIL` y :setting:`DEFAULT_FROM_EMAIL` para que "
+"coincidan con su entorno, por ejemplo:"
 
 #: ../../admin/install.rst:1184
 msgid ""
@@ -14591,6 +14616,9 @@ msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django requiere :setting:`ALLOWED_HOSTS` para mantener una lista de nombres "
+"de dominio que su sitio puede servir, dejarla vacía bloqueará cualquier "
+"solicitud."
 
 #: ../../admin/install.rst:1207
 msgid ""
@@ -19098,6 +19126,8 @@ msgstr ""
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Prefiero el LLM de siguiente generación por sobre el modelo clasico de "
+"traducción."
 
 #: ../../admin/machine.rst:278
 msgid ""
@@ -51450,10 +51480,8 @@ msgid "BBCode markup"
 msgstr "Marcación BBCode"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Summaries"
 msgid "Summary"
-msgstr "Resúmenes"
+msgstr "Resumen"
 
 #: ../../user/checks.rst:116
 msgid "BBCode in translation does not match source."
@@ -53474,13 +53502,15 @@ msgstr ""
 
 #: ../../user/checks.rst:1356
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "No estándar caracteres en Kabyle"
 
 #: ../../user/checks.rst:1360
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Use caracteres Latin Kabyle estandarizados (por ejemplo ɣ en vez de ɣ; ɛ en "
+"vez de ε)."
 
 #: ../../user/checks.rst:1362
 msgid "``weblate.checks.chars.KabyleCharactersCheck``"

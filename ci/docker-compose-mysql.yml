@@ -4,12 +4,12 @@
 
 services:
   cache:
-    image: redis:8.0.2-alpine@sha256:48501c5ad00d5563bc30c075c7bcef41d7d98de3e9a1e6c752068c66f0a8463b
+    image: redis:8.0.3-alpine@sha256:73734b014e53b3067916918b70718ca188c16895511a272a020c9a71084eecda
     ports:
     - 60001:6379
     restart: always
   database:
-    image: mysql:9.3.0@sha256:9a084cc73e7186283c564875e08d8af2c0e5c925333ad0a713f02fb1d826f78a
+    image: mysql:9.3.0@sha256:297f5ead7043a440ce84b3b0f3b77430a4f233c2578ff15fff8f0de54f67f22d
     environment:
       MYSQL_ROOT_PASSWORD: weblate
     ports:

@@ -9,10 +9,10 @@
 . ci/lib.sh
 
 if [ -n "$1" ]; then
-    TAG="weblate-$1"
+	TAG="weblate-$1"
 else
-    echo "Missing version to migrate from!"
-    exit 1
+	echo "Missing version to migrate from!"
+	exit 1
 fi
 
 HEAD_COMMIT=$(git rev-parse HEAD)
@@ -24,8 +24,8 @@ print_step "Testing migration from $TAG on $CI_DATABASE..."
 cleanup_database
 check
 if ! git fetch --depth 1 origin tag "$TAG"; then
-    git remote add upstream https://github.com/WeblateOrg/weblate.git
-    git fetch --depth 1 upstream tag "$TAG"
+	git remote add upstream https://github.com/WeblateOrg/weblate.git
+	git fetch --depth 1 upstream tag "$TAG"
 fi
 check
 git checkout "$TAG"
@@ -40,15 +40,15 @@ check
 # - Force PyGobject 3.52 to be compatible with girepository-2.0
 uv pip install --override /tmp/migrate-override.txt -e ".[all,ci,mysql]"
 check
-echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
+echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >>weblate/settings_test.py
 check
 if [ -n "$CI_DB_PASSWORD" ]; then
-    echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >> weblate/settings_test.py
-    check
+	echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >>weblate/settings_test.py
+	check
 fi
 if [ -n "$CI_DB_PORT" ]; then
-    echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >> weblate/settings_test.py
-    check
+	echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >>weblate/settings_test.py
+	check
 fi
 ./manage.py migrate
 check
@@ -87,7 +87,7 @@ check
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
 if [ "$pending_migration_test" -eq 0 ]; then
-    ./manage.py shell << EOF
+	./manage.py shell <<EOF
 from django.contrib.auth import get_user_model
 from weblate.trans.models import Unit, Change
 from weblate.utils.state import STATE_TRANSLATED
@@ -102,7 +102,7 @@ Change.objects.create(translation=unit.translation, user=user, action=1, unit=un
 unit.pending = True
 unit.save()
 EOF
-    check
+	check
 fi
 
 git reset --hard
@@ -120,7 +120,7 @@ check
 
 # Check migrated pending unit
 if [ "$pending_migration_test" -eq 0 ]; then
-    uv run --all-extras ./manage.py shell << EOF
+	uv run --all-extras ./manage.py shell <<EOF
 from weblate.trans.models import PendingUnitChange
 
 change = PendingUnitChange.objects.get()
@@ -141,5 +141,5 @@ if change.source_unit_explanation != unit.source_unit.explanation:
     errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
 assert not errors, "\n".join(errors)
 EOF
-    check
+	check
 fi

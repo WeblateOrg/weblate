@@ -141,28 +141,33 @@
 
   /* Handlers */
 
-  let focusTimeout = null;
-  let editorHasFocus = false;
-
-  $document.on("focusin", ".translation-editor", () => {
-    editorHasFocus = true;
+  $document.on("focusin", ".translation-editor", function () {
+    const $this = $(this);
+    const $row = $this.closest("tr");
+    const checksum = $row.find("[name=checksum]").val();
+    const statusdiv = $(`#status-${checksum}`);
+    const focusTimeout = $row.data("focus-timer");
     // Focus returned quickly; cancel pending save
     if (focusTimeout) {
+      statusdiv.removeClass("unit-state-save-timeout");
       clearTimeout(focusTimeout);
-      focusTimeout = null;
+      $row.removeData("focus-timer");
     }
   });
   $document.on("focusout", ".translation-editor", function () {
-    editorHasFocus = false;
     const $this = $(this);
-    focusTimeout = setTimeout(() => {
-      if (!editorHasFocus) {
-        // Editor lost focus and has changes
-        if ($this.hasClass("has-changes")) {
-          handleTranslationChange.call($this[0]);
-        }
-      }
-    }, 1000); // Grace period before saving
+    const $row = $this.closest("tr");
+    const checksum = $row.find("[name=checksum]").val();
+    const statusdiv = $(`#status-${checksum}`);
+    // Editor lost focus and has changes
+    if ($this.hasClass("has-changes")) {
+      statusdiv.addClass("unit-state-save-timeout");
+      const focusTimeout = setTimeout(() => {
+        $row.removeData("focus-timer");
+        handleTranslationChange.call($this[0]);
+      }, 1000); // Grace period before saving
+      $row.data("focus-timer", focusTimeout);
+    }
   });
 
   // Allow immediate saves for checkbox/radio changes
@@ -178,19 +183,11 @@
     const payload = form.serialize();
     const lastPayload = statusdiv.data("last-payload");
 
-    // Cancel any previously scheduled save for this row
-    const existingTimer = $row.data("save-timer");
-    if (existingTimer) {
-      clearTimeout(existingTimer);
-      $row.removeData("save-timer");
-    }
-
     // Guard: skip if a save is already happening
     if (statusdiv.hasClass("unit-state-saving")) {
-      const retryTimer = setTimeout(() => {
+      setTimeout(() => {
         handleTranslationChange.call($this[0]); // Reinvoke
-      }, 500);
-      $row.data("save-timer", retryTimer);
+      }, 100);
       return;
     }
 
@@ -199,53 +196,49 @@
       statusdiv.data("last-payload", payload);
       // Check if the editor doesn't have changes
       if (!$this.closest(".translation-editor").hasClass("has-changes")) {
+        statusdiv.removeClass("unit-state-save-timeout");
         return;
       }
     }
     // Guard: skip if nothing has changed
     if (payload === lastPayload) {
+      statusdiv.removeClass("unit-state-save-timeout");
       return;
     }
 
     $row.addClass("translation-modified");
-    // Start a new save operation after delay
-    const saveTimer = setTimeout(() => {
-      statusdiv.addClass("unit-state-saving");
-      statusdiv.data("last-payload", payload);
-      $.ajax({
-        type: "POST",
-        url: form.attr("action"),
-        data: payload,
-        dataType: "json",
-        error: (_jqXhr, _textStatus, errorThrown) => {
-          addAlert(errorThrown);
-        },
-        success: (data) => {
-          statusdiv.attr("class", `unit-state-cell ${data.unit_state_class}`);
-          statusdiv.attr("title", data.unit_state_title);
+    statusdiv.addClass("unit-state-saving");
+    statusdiv.data("last-payload", payload);
+    $.ajax({
+      type: "POST",
+      url: form.attr("action"),
+      data: payload,
+      dataType: "json",
+      error: (_jqXhr, _textStatus, errorThrown) => {
+        addAlert(errorThrown);
+      },
+      success: (data) => {
+        statusdiv.attr("class", `unit-state-cell ${data.unit_state_class}`);
+        statusdiv.attr("title", data.unit_state_title);
 
-          $.each(data.messages, (_i, val) => {
-            addAlert(val.text, val.kind);
-          });
+        $.each(data.messages, (_i, val) => {
+          addAlert(val.text, val.kind);
+        });
 
-          $row
-            .removeClass("translation-modified")
-            .addClass("translation-saved");
-          $row.find("#unsaved-label").remove();
-          $row.find(".translation-editor").removeClass("has-changes");
+        $row.removeClass("translation-modified").addClass("translation-saved");
+        $row.find("#unsaved-label").remove();
+        $row.find(".translation-editor").removeClass("has-changes");
 
-          if (data.translationsum !== "") {
-            $row.find("input[name=translationsum]").val(data.translationsum);
-          }
-        },
-        complete: () => {
-          statusdiv.removeClass("unit-state-saving");
-          $row.removeData("save-timer");
-        },
-      });
-    }, 3000); // Delay actual save
-
-    $row.data("save-timer", saveTimer);
+        if (data.translationsum !== "") {
+          $row.find("input[name=translationsum]").val(data.translationsum);
+        }
+      },
+      complete: () => {
+        statusdiv.removeClass("unit-state-saving");
+        statusdiv.removeClass("unit-state-save-timeout");
+        $row.removeData("save-timer");
+      },
+    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {

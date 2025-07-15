@@ -46,7 +46,7 @@ hg branch translations
 hg mv po translations
 hg commit --date 2019-02-02 -m 'Rename'
 hg update default
-echo "Mercurial copy" >> README.md
+echo "Mercurial copy" >>README.md
 hg commit --date 2019-02-02 -m 'Update'
 hg update null
 cd ..
@@ -54,9 +54,9 @@ cd ..
 # Create SVN repo with same content as Git
 svnadmin create --compatible-version 1.6 test-base-repo.svn
 # Hardcode UUID to make this reproducible
-echo "24fccd88-22b4-439e-bb17-3cda778ca655" > test-base-repo.svn/db/uuid
+echo "24fccd88-22b4-439e-bb17-3cda778ca655" >test-base-repo.svn/db/uuid
 # Allow propset to change timestamps
-cat > test-base-repo.svn/hooks/pre-revprop-change << EOT
+cat >test-base-repo.svn/hooks/pre-revprop-change <<EOT
 #!/bin/sh
 exit 0
 EOT
@@ -73,10 +73,10 @@ svn propset -rHEAD --revprop svn:date "2019-02-02T00:44:04.921324Z" "file://$WD/
 
 # Pack them
 reproducible_tar() {
-    tar --sort=name \
-        --mtime="2019-01-01" \
-        --owner=0 --group=0 --numeric-owner \
-        -cf "$@"
+	tar --sort=name \
+		--mtime="2019-01-01" \
+		--owner=0 --group=0 --numeric-owner \
+		-cf "$@"
 }
 reproducible_tar "$OUT/test-base-repo.hg.tar" test-base-repo.hg
 reproducible_tar "$OUT/test-base-repo.git.tar" test-base-repo.git

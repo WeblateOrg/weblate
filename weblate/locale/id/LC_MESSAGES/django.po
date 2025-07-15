@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-25 10:01+0000\n"
+"PO-Revision-Date: 2025-07-02 04:01+0000\n"
 "Last-Translator: Linerly <linerly@proton.me>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -4599,16 +4599,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Fon yang diunggah harus cocok dengan keluarga dan gaya yang sudah ada: "
+"“%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Berkas unggahan akan digabungkan dengan terjemahan saat ini."
+msgstr "Berkas fon yang diunggah sama dengan yang saat ini."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Fon berhasil diperbarui."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -5630,11 +5630,12 @@ msgstr ""
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Gunakan model generasi berikutnya"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Utamakan LLM generasi berikutnya daripada model penerjemahan mesin biasa."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -8926,10 +8927,8 @@ msgid "Used in groups"
 msgstr "Dipakai dalam grup"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Sunting grup fon"
+msgstr "Sunting fon"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -10791,7 +10790,7 @@ msgstr "Anda tidak memiliki hak untuk memulai suatu terjemahan baru"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "Anda saat ini tidak terhubung ke jaringan apa pun."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -13878,24 +13877,18 @@ msgstr "Bendera tambahan diperbarui"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Berkas diunggah"
+msgstr "Fon diunggah"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Tidak berubah"
+msgstr "Fon berubah"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Komentar dihapus"
+msgstr "Fon dihapus"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14887,40 +14880,28 @@ msgid "Parent category has to be different!"
 msgstr "Induk kategori harus berbeda!"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "Komponen dibuat"
+msgstr "Komponen dibuat dari awal"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "Komponen dibuat"
+msgstr "Komponen dibuat sebagai cabang"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "Komponen dibuat"
+msgstr "Komponen dibuat melalui API"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "Dari kontrol versi"
+msgstr "Komponen dibuat dari kontrol versi"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "Komponen dibuat"
+msgstr "Komponen dibuat melalui unggahan ZIP"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "Komponen dibuat"
+msgstr "Komponen dibuat melalui unggahan dokumen"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -15210,21 +15191,16 @@ msgstr ""
 "otomatis pada komponen ini"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Berkontribusi pada memori terjemahan bersama"
+msgstr "Berkontribusi pada memori terjemahan proyek"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
 msgstr ""
-"Permintaan untuk penerjemahan baru telah dikirimkan ke pengelola proyek."
+"Perbolehkan terjemahan komponen ini ditambahkan ke dalam memori penerjemahan "
+"tingkat proyek."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16585,7 +16561,7 @@ msgstr "Pencarian string tidak valid!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Anda telah berganti dari %(previous)s ke %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220

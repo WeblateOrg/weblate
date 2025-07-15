@@ -103,7 +103,7 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
 
 def init_sentry() -> None:
     integrations = [
-        CeleryIntegration(monitor_beat_tasks=True),
+        CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
         DjangoIntegration(),
         RedisIntegration(),
     ]

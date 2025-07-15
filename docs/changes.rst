@@ -7,12 +7,21 @@ Weblate 5.13
 
 * Enhanced :ref:`translation-memory` management with configurable status control, see :ref:`memory-status`.
 * Added :wladmin:`cleanup_memory` management command to remove obsolete translation memory entries.
+* :doc:`/formats/catkeys`.
+* Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 
 .. rubric:: Improvements
 
 * :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
+* A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry monitoring of Celery Beat tasks.
+* :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
+* Background commits are now identified by an internal user.
+* Reorganized navigation menu.
 
 .. rubric:: Bug fixes
+
+* :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
+* :ref:`mt-deepl` integration now correctly handle all supported source languages.
 
 .. rubric:: Compatibility
 
@@ -527,7 +536,7 @@ Weblate 5.9
 .. rubric:: Improvements
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate this component`).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Operations` → :guilabel:`Duplicate this component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
@@ -1118,7 +1127,7 @@ Weblate 5.4
 .. rubric:: New features
 
 * :ref:`check-perl-brace-format` quality check.
-* :doc:`/formats/moko`.
+* :doc:`/formats/moko-resources`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
 * Weblate is now available in Tamil.

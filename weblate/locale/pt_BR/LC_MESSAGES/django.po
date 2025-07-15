@@ -19,13 +19,14 @@
 # dedakir923 <dedakir923@exoular.com>, 2025.
 # Jose Delvani <dedakir923@exoular.com>, 2025.
 # Juzé <dedakir923@exoular.com>, 2025.
+# Juno Takano <weblate@jutty.dev>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-03 07:02+0000\n"
+"Last-Translator: Juno Takano <weblate@jutty.dev>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -33,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -784,15 +785,15 @@ msgstr ""
 "lo."
 
 #: weblate/accounts/models.py:673
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Contribuir com memória de tradução compartilhada"
+msgstr "Contribuir com memória de tradução pessoal"
 
 #: weblate/accounts/models.py:676
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Permitir que suas traduções sejam adicionadas à sua memória de tradução "
+"pessoal."
 
 #: weblate/accounts/models.py:687 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
@@ -1336,10 +1337,8 @@ msgid "The supplied user identity is already in use for another account."
 msgstr "A identidade do usuário fornecida já está em uso para outra conta."
 
 #: weblate/accounts/views.py:1508
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "O aplicativo de autenticação foi removido."
+msgstr "Não foi possível contatar o provedor de autenticação."
 
 #: weblate/accounts/views.py:1542 weblate/accounts/views.py:1555
 msgid "Notification settings adjusted."
@@ -1920,10 +1919,8 @@ msgid "Secret"
 msgstr "Senha"
 
 #: weblate/addons/forms.py:704
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Texto codificado em base64 inválido"
+msgstr "Texto codificado em Base64"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2040,15 +2037,12 @@ msgid "Customize JSON output"
 msgstr "Personalizar saída JSON"
 
 #: weblate/addons/json.py:15
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Permite ajustar o comportamento de saída do JSON, por exemplo recuo ou "
-"classificação."
+"Permite ajustar o comportamento de saída em JSON, por exemplo recuo, "
+"ordenação ou formatação compacta usando espaçamento mínimo."
 
 #: weblate/addons/properties.py:142
 msgid "Format the Java properties file"
@@ -2102,26 +2096,21 @@ msgid "Webhook"
 msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Envia notificação ao serviço externo com base nos eventos selecionados."
+"Envia notificações para serviços externos com base nos eventos selecionados, "
+"seguindo a especificação Standard Webhooks."
 
 #: weblate/addons/webhooks.py:177
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhook"
+msgstr "Webhooks do Slack"
 
 #: weblate/addons/webhooks.py:179
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
-"Envia notificação ao serviço externo com base nos eventos selecionados."
+"Envia notificação a um canal do Slack com base nos eventos selecionados."
 
 #: weblate/addons/xml.py:26
 msgid "Customize XML output"
@@ -2575,10 +2564,8 @@ msgstr "Atualizar o repositório interno"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Publicar novidade"
+msgstr "Publicar novidades"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2677,11 +2664,9 @@ msgid "Power user"
 msgstr "Usuário avançado"
 
 #: weblate/auth/data.py:207
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Access-control role"
 msgid "Translation coordinator"
-msgstr "Comentário da tradução"
+msgstr "Coordenador de tradução"
 
 #: weblate/auth/data.py:224
 msgctxt "Access-control role"
@@ -4632,16 +4617,16 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"A fonte enviada deve ser igual à família e estilo existentes: “%(family)s "
+"%(style)s”"
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "O arquivo enviado será mesclado com a tradução atual."
+msgstr "O arquivo de fonte enviado é idêntico ao atual."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Fonte atualizada com sucesso."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -4822,7 +4807,7 @@ msgstr "Recurso Kotlin para dispositivos móveis"
 
 #: weblate/formats/ttkit.py:1477
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Recurso do Compose Multiplatform"
 
 #: weblate/formats/ttkit.py:1491
 #, python-format
@@ -5667,11 +5652,13 @@ msgstr "Descreva o contexto da tradução para melhorar a precisão da traduçã
 #: weblate/machinery/forms.py:342
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Usar modelo de nova geração"
 
 #: weblate/machinery/forms.py:345
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
+"Preferir modelo de linguagem de nova geração em vez do modelo de tradução de "
+"máquina clássico."
 
 #: weblate/machinery/forms.py:355
 msgctxt "Automatic suggestion service configuration"
@@ -6529,10 +6516,9 @@ msgstr ""
 "Esta combinação de nome de usuário/senha não foi encontrada. Tente de novo."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Convite para %(site_title)s"
+msgstr "Login em %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:45
 msgid "Sign in with:"
@@ -7011,10 +6997,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "Por favor, complete o seu cadastro para aceitar o convite."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "Seu cadastro em %(site_title)s"
+msgstr "Registre-se em %(formatted_site_title)s"
 
 #: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
@@ -7108,10 +7093,8 @@ msgstr ""
 "projeto traduzido."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate single sign on"
-msgstr "Versão do Weblate"
+msgstr "Login unificado do Weblate"
 
 #: weblate/templates/accounts/snippets/login-title.html:5
 msgctxt "Badge for site title for Hosted Weblate"
@@ -7119,11 +7102,9 @@ msgid "Cloud"
 msgstr "Nuvem"
 
 #: weblate/templates/accounts/snippets/login-title.html:9
-#, fuzzy
-#| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
-msgstr "Encerrado"
+msgstr "Dedicado"
 
 #: weblate/templates/accounts/snippets/login-title.html:11
 msgctxt "Badge for site title for self-hosted instances"
@@ -8021,7 +8002,7 @@ msgstr "Ajuda"
 
 #: weblate/templates/base.html:385
 msgid "Weblate support"
-msgstr "Suporte ao Weblate"
+msgstr "Suporte do Weblate"
 
 #: weblate/templates/base.html:389
 msgid "Get support"
@@ -9006,10 +8987,8 @@ msgid "Used in groups"
 msgstr "Usado nos grupos"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "Editar grupo de fones"
+msgstr "Editar fonte"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -9556,7 +9535,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:157
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignora o item na lista de verificações com falha."
+msgstr "Ignora um item da lista de verificações com falha."
 
 #: weblate/templates/keyboard-shortcuts.html:165
 msgid "Shows the Nearby strings tab."
@@ -10178,6 +10157,8 @@ msgstr "Senha redefinida em %(site_title)s"
 #: weblate/templates/mail/shared-activity.html:21
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
+"Faça login para ver o registro de auditoria completo, incluindo o endereço "
+"IP."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid ""
@@ -10188,10 +10169,8 @@ msgstr ""
 "no botão abaixo."
 
 #: weblate/templates/mail/shared-activity.html:26
-#, fuzzy
-#| msgid "Audit log"
 msgid "View audit log"
-msgstr "Registro de auditoria"
+msgstr "Visualizar registro de auditoria"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -10893,7 +10872,7 @@ msgstr "Você não tem permissão para iniciar uma nova tradução"
 
 #: weblate/templates/offline.html:7
 msgid "You are currently not connected to any networks."
-msgstr ""
+msgstr "Você não está conectado a uma rede no momento."
 
 #: weblate/templates/paginator.html:32
 #: weblate/templates/snippets/position-field.html:61
@@ -14012,24 +13991,18 @@ msgstr "Marcadores extras atualizados"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Arquivo enviado"
+msgstr "Fonte enviada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Não alterar"
+msgstr "Fonte alterada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "Comentário removido"
+msgstr "Fonte removida"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14721,10 +14694,8 @@ msgid "Author username"
 msgstr "Nome de usuário do autor"
 
 #: weblate/trans/forms.py:2859
-#, fuzzy
-#| msgid "Author username"
 msgid "Exclude author (username)"
-msgstr "Nome de usuário do autor"
+msgstr "Excluir autor (nome de usuário)"
 
 #: weblate/trans/forms.py:2862
 msgid "Change period"
@@ -15024,40 +14995,28 @@ msgid "Parent category has to be different!"
 msgstr "A categoria pai tem que ser diferente!"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "Componente adicionado"
+msgstr "Componente criado do zero"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "Componente adicionado"
+msgstr "Componente criado como um ramo"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "Componente adicionado"
+msgstr "Componente criado via API"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "De controle de versão"
+msgstr "Component criado via controle de versão"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "Componente adicionado"
+msgstr "Componente criado via envio ZIP"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "Componente adicionado"
+msgstr "Componente criado via envio de documento"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -15346,21 +15305,16 @@ msgstr ""
 "traduções automáticas neste projeto"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Contribuir com memória de tradução compartilhada"
+msgstr "Contribuir para a memória de tradução do projeto"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
 msgstr ""
-"Um pedido por uma nova tradução foi enviado aos mantenedores do projeto."
+"Permitir que as traduções deste componente sejam adicionadas à memória de "
+"tradução do projeto."
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -16748,7 +16702,7 @@ msgstr "Texto de busca inválido!"
 #: weblate/trans/views/edit.py:648
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Você mudou de %(previous)s para %(current)s."
 
 #: weblate/trans/views/edit.py:782 weblate/trans/views/search.py:57
 #: weblate/trans/views/search.py:220

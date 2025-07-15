@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-28 13:06+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2025-07-13 20:01+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -1708,8 +1708,8 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Jméno souboru použitého pro vytváření nových překladů. Pokud používáte "
-"gettext, zvolte .pot soubor."
+"Název souboru použitého pro vytváření nových překladů. Pokud používáte "
+"gettext, zvolte soubor .pot."
 
 #: weblate/addons/forms.py:323
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2670,7 +2670,7 @@ msgstr "Hosté"
 #: weblate/auth/data.py:259
 msgctxt "Access-control team name"
 msgid "Viewers"
-msgstr "Prohlížeče"
+msgstr "Prohlížející"
 
 #: weblate/auth/data.py:261
 msgctxt "Access-control team name"
@@ -2690,7 +2690,7 @@ msgstr "Správci"
 #: weblate/auth/data.py:276
 msgctxt "Access-control team name"
 msgid "Project creators"
-msgstr "Tvůrci projektu"
+msgstr "Tvůrci projektů"
 
 #: weblate/auth/data.py:285
 msgctxt "Per-project access-control team name"
@@ -7321,7 +7321,7 @@ msgstr "Zavřít"
 #: weblate/templates/trans/project-access.html:254
 #: weblate/templates/translate.html:501
 msgid "Are you absolutely sure?"
-msgstr "Jste si opravdu jistý?"
+msgstr "Jste si opravdu jistí?"
 
 #: weblate/templates/accounts/user.html:450
 #, python-format
@@ -8647,12 +8647,12 @@ msgstr "Různá data z Weblate jsou k dispozici ve strojově čitelném formátu
 
 #: weblate/templates/data.html:19
 msgid "RSS feeds"
-msgstr "RSS kanály"
+msgstr "Kanály RSS"
 
 #: weblate/templates/data.html:23
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
-msgstr "Sledujte průběh překladu a všechny důležité změny z RSS kanálů."
+msgstr "Sledujte průběh překladu a všechny důležité změny z kanálů RSS."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:71
 #: weblate/templates/data.html:115
@@ -10256,7 +10256,7 @@ msgstr "Stav podpory"
 
 #: weblate/templates/manage/index.html:39
 msgid "Refresh support status"
-msgstr "Obnovit stav podpory"
+msgstr "Znovu načíst stav podpory"
 
 #: weblate/templates/manage/index.html:55
 msgid "Support package limits"
@@ -10372,15 +10372,15 @@ msgstr "Připojení"
 
 #: weblate/templates/manage/performance.html:180
 msgid "Database latency"
-msgstr "Zpoždění databáze"
+msgstr "Odezva databáze"
 
 #: weblate/templates/manage/performance.html:184
 msgid "Cache latency"
-msgstr "Zpoždění mezipaměti"
+msgstr "Odezva mezipaměti"
 
 #: weblate/templates/manage/performance.html:188
 msgid "Celery latency"
-msgstr "Latence Celery"
+msgstr "Odezva Celery"
 
 #: weblate/templates/manage/performance.html:193
 msgid "Not yet measured"
@@ -10393,7 +10393,7 @@ msgstr "Stav repozitářů"
 
 #: weblate/templates/manage/repos.html:16
 msgid "Show components with linked repositories"
-msgstr "Zobrazit komponenty s propojenými repozitáři"
+msgstr "Zobrazit součásti s propojenými repozitáři"
 
 #: weblate/templates/manage/repos.html:24
 msgid "This repository is linked to:"
@@ -10447,7 +10447,7 @@ msgstr ""
 #: weblate/wladmin/templates/admin/weblate-index.html:31
 #: weblate/wladmin/views.py:83
 msgid "SSH keys"
-msgstr "SSH klíče"
+msgstr "Klíče SSH"
 
 #: weblate/templates/manage/ssh.html:25
 #, python-format
@@ -10493,9 +10493,8 @@ msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
-"Pro přístup k SSH hostitelům musí být jejich klíče ověřeny. K přidání "
-"dalšího klíče zadejte název nebo IP adresu serveru do formuláře níže na "
-"stránce."
+"Pro přístup k hostitelům SSH musí být jejich klíče ověřeny. Pro přidání "
+"dalšího klíče zadejte název nebo IP adresu serveru do formuláře níže."
 
 #: weblate/templates/manage/teams.html:73
 #, python-format
@@ -11830,11 +11829,11 @@ msgstr "Sdílet na Fediverse"
 
 #: weblate/templates/snippets/share-menu.html:21
 msgid "Share on Facebook"
-msgstr "Sdílejte na Facebooku"
+msgstr "Sdílet na Facebooku"
 
 #: weblate/templates/snippets/share-menu.html:24
 msgid "Share on X"
-msgstr "Sdílet na X"
+msgstr "Sdílet na platformě X"
 
 #: weblate/templates/snippets/share-menu.html:27
 msgid "Engage page"
@@ -11862,7 +11861,7 @@ msgstr "Sestupně"
 #: weblate/templates/snippets/ssh-key.html:9
 #, python-format
 msgid "Public %(key_type)s SSH key"
-msgstr "Veřejná část %(key_type)s SSH klíče"
+msgstr "Veřejná část klíče SSH %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:19
 msgid ""
@@ -11876,7 +11875,7 @@ msgstr ""
 #: weblate/templates/snippets/ssh-key.html:27
 #, python-format
 msgid "Download %(key_type)s private key"
-msgstr "Stáhnout %(key_type)s soukromý klíč"
+msgstr "Stáhnout soukromý klíč %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:40
 msgid "IP addresses"
@@ -12685,7 +12684,7 @@ msgstr "Součást k odstranění"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
-msgstr "Rozumím důsledkům, vymažte tento překlad"
+msgstr "Rozumím důsledkům, smazat tento překlad"
 
 #: weblate/templates/trans/delete-project.html:4
 #, python-format
@@ -14809,7 +14808,7 @@ msgstr "Upozornit uživatele"
 
 #: weblate/trans/models/announcement.py:130
 msgid "Send notification to subscribed users."
-msgstr "Odeslání oznámení přihlášeným uživatelům."
+msgstr "Odeslat oznámení přihlášeným uživatelům."
 
 #: weblate/trans/models/announcement.py:145
 msgid "Do not specify both component and project!"
@@ -15060,7 +15059,7 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Odkaz na prohlížení Gitu, použijte {{branch}} místo větve, {{filename}} a "
-"{{line}} místo jména souboru a řádky. Možná budete potřebovat odstranit "
+"{{line}} místo názvu souboru a řádku. Možná budete potřebovat odstranit "
 "úvodní adresář pomocí {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:434
@@ -17275,7 +17274,7 @@ msgstr "Aktivační klíč"
 #: weblate/wladmin/forms.py:20
 msgid ""
 "Please enter the activation token obtained when making the subscription."
-msgstr "Prosím, zadejte aktivační klíč získaný při objednání balíčku."
+msgstr "Zadejte prosím aktivační klíč získaný při objednání balíčku."
 
 #: weblate/wladmin/forms.py:30
 msgid "Port"
@@ -17331,7 +17330,7 @@ msgstr ""
 
 #: weblate/wladmin/models.py:125
 msgid "Community support"
-msgstr "Podporováno komunitou"
+msgstr "Komunitní podpora"
 
 #: weblate/wladmin/models.py:126
 msgid "Hosted service"
@@ -17355,15 +17354,16 @@ msgstr "Nezaplacené předplatné"
 
 #: weblate/wladmin/models.py:256
 msgid "Backup repository URL"
-msgstr "URL zálohovacího úložiště"
+msgstr "Adresa URL zálohovacího úložiště"
 
 #: weblate/wladmin/models.py:258
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Použijte /cesta/do/repa pro místní zálohy nebo uzivatel@host:/cesta/do/repa "
-"nebo ssh://uzivatel@host:port/cesta/k/zaloham pro vzdálené zálohy pomocí SSH."
+"Použijte /cesta/do/uloziste pro místní zálohy nebo uzivatel@host:/cesta/do/"
+"uloziste nebo ssh://uzivatel@host:port/cesta/k/zaloham pro vzdálené zálohy "
+"pomocí SSH."
 
 #: weblate/wladmin/models.py:332
 msgid "Backup performed"

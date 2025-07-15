@@ -1234,7 +1234,7 @@ class Component(
             result = self.translation_set.select_related("plural").get(
                 language=language
             )
-        except self.translation_set.model.DoesNotExist:
+        except ObjectDoesNotExist:
             try:
                 with transaction.atomic():
                     return self.translation_set.create(
@@ -2053,6 +2053,7 @@ class Component(
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
+        from weblate.auth.models import User
 
         def reuse_self(translation):
             if translation.component_id == self.id:
@@ -2062,6 +2063,11 @@ class Component(
             if translation.pk == translation.component.source_translation.pk:
                 translation = translation.component.source_translation
             return translation
+
+        if user is None:
+            user = User.objects.get_or_create_bot(
+                scope="weblate", name="commit", verbose="Background commit"
+            )
 
         # Get all translation with pending changes, source translation first
         translations = sorted(
@@ -2814,14 +2820,20 @@ class Component(
             return code.split(".")[0]
         return code
 
-    def sync_git_repo(self, validate: bool = False, skip_push: bool = False) -> None:
+    def sync_git_repo(
+        self,
+        *,
+        validate: bool = False,
+        skip_push: bool = False,
+        skip_commit: bool = False,
+    ) -> None:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
             return
         if skip_push is None:
             skip_push = validate
         self.configure_repo(validate)
-        if self.id:
+        if not skip_commit and self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
         self.configure_branch()
         if self.id:
@@ -3290,7 +3302,7 @@ class Component(
         # Configure git repo if there were changes
         if changed_git:
             # Bring VCS repo in sync with current model
-            self.sync_git_repo(skip_push=skip_push)
+            self.sync_git_repo(skip_push=skip_push, skip_commit=create)
 
         # Create template in case intermediate file is present
         self.create_template_if_missing()
@@ -3659,16 +3671,18 @@ class Component(
         return code
 
     @transaction.atomic
-    def add_new_language(
+    def add_new_language(  # noqa: C901
         self,
         language,
         request,
         send_signal: bool = True,
         create_translations: bool = True,
+        show_messages: bool = True,
     ) -> Translation | None:
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
-            messages.error(request, self.new_lang_error_message)
+            if show_messages:
+                messages.error(request, self.new_lang_error_message)
             return None
 
         file_format = self.file_format_cls
@@ -3680,21 +3694,27 @@ class Component(
         new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
         if new_lang is not None:
             if new_lang == self.source_language:
-                messages.error(
-                    request, gettext("The given language is used as a source language.")
-                )
+                if show_messages:
+                    messages.error(
+                        request,
+                        gettext("The given language is used as a source language."),
+                    )
                 return None
 
             if self.translation_set.filter(language=new_lang).exists():
-                messages.error(request, gettext("The given language already exists."))
+                if show_messages:
+                    messages.error(
+                        request, gettext("The given language already exists.")
+                    )
                 return None
 
         # Check if language code is valid
         if re.match(self.language_regex, code) is None:
-            messages.error(
-                request,
-                gettext("The given language is filtered by the language filter."),
-            )
+            if show_messages:
+                messages.error(
+                    request,
+                    gettext("The given language is filtered by the language filter."),
+                )
             return None
 
         base_filename = self.get_new_base_filename()
@@ -3725,7 +3745,8 @@ class Component(
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
                 # can submit again)
-                messages.error(request, gettext("Translation file already exists!"))
+                if show_messages:
+                    messages.error(request, gettext("Translation file already exists!"))
             else:
                 file_format.add_language(
                     fullname,
@@ -3755,9 +3776,11 @@ class Component(
             # Forced scanning is needed in case adding file does not trigger commit,
             # for example when adding appstore metadata which only creates directory.
             self.create_translations(request=request, force_scan=True)
-            messages.info(
-                request, gettext("The translation will be updated in the background.")
-            )
+            if show_messages:
+                messages.info(
+                    request,
+                    gettext("The translation will be updated in the background."),
+                )
 
         # Delete no matches alert as we have just added the file
         self.delete_alert("NoMaskMatches")

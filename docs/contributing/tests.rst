@@ -19,10 +19,12 @@ linting, and other tasks to ensure code quality.
 
 There are several jobs to verify different aspects:
 
-* Unit tests
-* Documentation build and external links
+* Unit and functional tests using `pytest <https://pytest.org/>`_.
+* Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
+* Code linting and quality assurace using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
+* Code security scanning using `CodeQL <https://codeql.github.com/>`_.
+* Code formatting using `pre-commit <https://pre-commit.com/>`_.
 * Migration testing from all supported releases
-* Code linting
 * Setup verification (ensures that generated dist files do not miss anything and can be tested)
 
 The configuration for the CI is in :file:`.github/workflows` directory. It
