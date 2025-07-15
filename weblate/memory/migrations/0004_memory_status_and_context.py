@@ -17,6 +17,18 @@ class Migration(migrations.Migration):
             model_name="memory",
             name="status",
             field=models.IntegerField(
+                choices=[(0, "Pending"), (1, "Active")], default=1
+            ),
+        ),
+        migrations.AddField(
+            model_name="memory",
+            name="context",
+            field=models.TextField(blank=True, default=""),
+        ),
+        migrations.AlterField(
+            model_name="memory",
+            name="status",
+            field=models.IntegerField(
                 choices=[(0, "Pending"), (1, "Active")], default=0
             ),
         ),
