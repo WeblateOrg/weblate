@@ -466,9 +466,11 @@ class MonolingualTranslation(BaseAlert):
 
         # Pick translation with translated strings except source one
         translation: Translation | None = None
-        for current in component.translation_set.filter(
-            unit__state__gte=STATE_TRANSLATED
-        ).exclude(language_id=component.source_language_id):
+        for current in (
+            component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
+            .exclude(language_id=component.source_language_id)
+            .select_related("language")
+        ):
             if not current.language.uses_whitespace():
                 continue
             translation = current
