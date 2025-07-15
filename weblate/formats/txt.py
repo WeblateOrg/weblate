@@ -259,7 +259,7 @@ class AppStoreFormat(TranslationFormat):
         cls,
         base: str,
         monolingual: bool,  # noqa: ARG003
-        errors: list | None = None,
+        errors: list[Exception] | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""
