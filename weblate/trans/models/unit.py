@@ -1801,7 +1801,7 @@ class Unit(models.Model, LoggerMixin):
         elif component.project.secondary_language_id:
             secondary_langs.add(component.project.secondary_language_id)
 
-        # Remove current source and trarget language
+        # Remove current source and target language
         secondary_langs -= {translation.language_id, component.source_language_id}
 
         if not secondary_langs:

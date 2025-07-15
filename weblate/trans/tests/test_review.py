@@ -55,6 +55,6 @@ class ReviewTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "", accept_edit=suggestion)
         self.check_result(fail)
 
-    def test_suggest_reviewr(self) -> None:
+    def test_suggest_reviewer(self) -> None:
         self.make_manager()
         self.test_suggest(False)

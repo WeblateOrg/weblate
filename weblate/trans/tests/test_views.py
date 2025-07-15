@@ -382,7 +382,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
-    def test_exising_language_excluded(self):
+    def test_existing_language_excluded(self):
         self.user.is_superuser = True
         self.user.save()
 

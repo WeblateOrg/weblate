@@ -573,7 +573,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
     def test_source_string_removal(self) -> None:
         self.removal_test(self.glossary_component.source_translation)
 
-    def test_string_removal_commmit(self) -> None:
+    def test_string_removal_commit(self) -> None:
         self.removal_test(self.glossary, commit=True)
 
     def test_source_string_removal_commit(self) -> None:

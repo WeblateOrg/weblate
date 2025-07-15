@@ -542,10 +542,10 @@ class Change(models.Model, UserDisplayMixin):
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
         if not self.pk:
-            self.fixup_refereces()
+            self.fixup_references()
 
     def save(self, *args, **kwargs) -> None:
-        self.fixup_refereces()
+        self.fixup_references()
 
         super().save(*args, **kwargs)
 
@@ -609,7 +609,7 @@ class Change(models.Model, UserDisplayMixin):
     def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
 
-    def fixup_refereces(self) -> None:
+    def fixup_references(self) -> None:
         """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation

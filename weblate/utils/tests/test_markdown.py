@@ -131,7 +131,7 @@ class MarkdownMentionTestCase(TestCase):
             ),
         )
 
-    def test_get_mentions_case_insentivite(self) -> None:
+    def test_get_mentions_case_insensitive(self) -> None:
         user = User.objects.create(username="testuser", full_name="Full Name")
         self.assertEqual(
             {user.pk},

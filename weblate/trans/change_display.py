@@ -502,16 +502,16 @@ class ShowChangeSource(BaseChangeHistoryContext):
             source_lang_badges.append(change.get_state_display())
 
         if change.target:
-            souce_lang_content = format_unit_source(
+            source_lang_content = format_unit_source(
                 change.unit, value=change.target, diff=change.old
             )
         else:
-            souce_lang_content = format_unit_source(change.unit)
+            source_lang_content = format_unit_source(change.unit)
 
         fields.append(
             self.make_field(
                 str(change.unit.translation.component.source_language),
-                self.format_translation(souce_lang_content),
+                self.format_translation(source_lang_content),
                 label_badges=source_lang_badges,
             )
         )

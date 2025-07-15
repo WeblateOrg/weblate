@@ -199,7 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
 
-MODERNMT_REPONSE = {
+MODERNMT_RESPONSE = {
     "data": {
         "contextVector": {
             "entries": [
@@ -1114,8 +1114,8 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
             def delete(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.delete."""
                 if fail_delete:
-                    faile_message = "Blob file was not found"
-                    raise google_api_exceptions.NotFound(faile_message)
+                    failed_message = "Blob file was not found"
+                    raise google_api_exceptions.NotFound(failed_message)
 
         return MockBlob
 
@@ -1481,7 +1481,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET,
             "https://api.modernmt.com/translate",
-            json=MODERNMT_REPONSE,
+            json=MODERNMT_RESPONSE,
             status=200,
             content_type="text/json",
         )
@@ -1554,7 +1554,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         def translate_request_callback(request: PreparedRequest):
             """Check 'glossaries' included in request params."""
             self.assertIn("glossaries", request.params)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
+            return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1694,7 +1694,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         def request_callback(request: PreparedRequest):
             """Check 'context_vector' included in request body."""
             self.assertIn("context_vector", request.params)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
+            return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         responses.add_callback(
             responses.GET,

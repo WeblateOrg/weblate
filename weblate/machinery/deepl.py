@@ -43,7 +43,7 @@ class DeepLTranslation(
         "pt@formal": "pt-pt@formal",
         "pt@informal": "pt-pt@informal",
     }
-    hightlight_syntax = True
+    highlight_syntax = True
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
 

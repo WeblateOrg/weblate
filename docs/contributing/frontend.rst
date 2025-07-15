@@ -58,7 +58,7 @@ Then, there are two ways to import the library:
       ``<lib-name>: "src/<lib-name>.js"``.
     - Add library name in ``excludePrefixes`` array in ``mainLicenseTransform`` in ``webpack.config.js``.
     - Add license file name in ``additionalFiles`` in ``LicensePlugin`` in ``plugins`` array in ``webpack.config.js``.
-    - Create a ``<lib-name>LicenseTransfrom`` function for the license file introduced in the previous steps and use it.
+    - Create a ``<lib-name>LicenseTransform`` function for the license file introduced in the previous steps and use it.
 
    Note: Replace ``<lib-name>`` with the actual name of the 3rd party library.
 
