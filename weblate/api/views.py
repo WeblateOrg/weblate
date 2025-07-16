@@ -625,10 +625,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
-            return Group.objects.order_by("id")
-        return self.request.user.groups.order_by(
-            "id"
-        ) | self.request.user.administered_group_set.order_by("id")
+            queryset = Group.objects.all()
+        else:
+            queryset = Group.objects.filter(
+                Q(user=self.request.user) | Q(admins=self.request.user)
+            ).distinct()
+        return queryset.order_by("id")
 
     def perm_check(
         self,
