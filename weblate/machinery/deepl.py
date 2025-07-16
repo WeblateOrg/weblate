@@ -50,7 +50,7 @@ class DeepLTranslation(
     @property
     def api_base_url(self):
         url = super().api_base_url
-        if self.settings["key"].endswith(":fx") and url == "https://api.deepl.com/v2":
+        if self.settings["key"].endswith(":fx") and url.startswith("https://api.deepl.com/v2"):
             return "https://api-free.deepl.com/v2"
         return url
 
@@ -242,6 +242,6 @@ class DeepLTranslation(
 
     def get_glossary_count_limit(self) -> int:
         # Free tier has lower limit on glossaries
-        if self.api_base_url == "https://api-free.deepl.com/v2":
+        if self.api_base_url.startswith("https://api-free.deepl.com/v2"):
             return 1
         return super().get_glossary_count_limit()
