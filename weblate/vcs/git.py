@@ -2046,7 +2046,7 @@ class PagureRepository(GitMergeRequestBase):
         Create pull request.
 
         Use to merge a branch in the forked repository
-        into a branch of thr remote repository.
+        into a branch of the remote repository.
         """
         if credentials["owner"]:
             pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)

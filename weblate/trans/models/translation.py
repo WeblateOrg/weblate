@@ -1489,7 +1489,7 @@ class Translation(
 
         return result
 
-    def _invalidate_triger(self) -> None:
+    def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
         self.stats.update_stats()
         self.component.invalidate_glossary_cache()
@@ -1500,7 +1500,7 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_triger)
+        transaction.on_commit(self._invalidate_trigger)
 
     def detect_completed_translation(self, change: Change, old_translated: int) -> None:
         translated = self.stats.translated

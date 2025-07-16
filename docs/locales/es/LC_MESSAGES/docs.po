@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-13 20:02+0000\n"
+"PO-Revision-Date: 2025-07-16 07:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14669,10 +14669,13 @@ msgid ""
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Para un rendimiento óptimo, es una buena idea ejecutar algunas tareas de "
+"mantenimiento en segundo plano. Esto se hace automáticamente mediante "
+":ref:`celery` y cubre las siguientes tareas:"
 
 #: ../../admin/install.rst:1244
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Comprobación del estado de la configuración (cada hora)."
 
 #: ../../admin/install.rst:1245
 msgid ""
@@ -14715,12 +14718,18 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"Las configuraciones regionales del sistema deben configurarse para que sean "
+"compatibles con UTF - 8. En la mayoría de las distribuciones de Linux, esta "
+"es la configuración predeterminada. En caso de que no sea el caso en su "
+"sistema, cambie las configuraciones regionales a la variante UTF-8."
 
 #: ../../admin/install.rst:1260
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
+"Por ejemplo, editando :file:`/etc/default/locale` y configurando allí ``LANG="
+"\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1263
 msgid ""
@@ -14728,6 +14737,10 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
+"En algunos casos, los servicios individuales tienen una configuración "
+"separada para las configuraciones regionales. Esto varía entre la "
+"distribución y los servidores web, así que consulte la documentación de los "
+"paquetes de su servidor web para eso."
 
 #: ../../admin/install.rst:1267
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
@@ -14773,6 +14786,8 @@ msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Una vez hecho esto, las herramientas del sistema confiarán en el certificado "
+"y esto incluye Git."
 
 #: ../../admin/install.rst:1307
 msgid ""
@@ -14780,6 +14795,10 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Para el código Python, deberá configurar las solicitudes para usar el "
+"paquete system CA en lugar del que se envía con él. Esto se puede lograr "
+"colocando el siguiente fragmento de código en :file:`settings.py` (la ruta "
+"es específica de Debian):"
 
 #: ../../admin/install.rst:1321
 msgid "Compressing client assets"
@@ -14794,6 +14813,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"Weblate viene con un montón de archivos JavaScript y CSS. Por razones de "
+"rendimiento, es bueno comprimirlos antes de enviarlos a un cliente. En la "
+"configuración predeterminada, esto se hace sobre la marcha a un costo de "
+"poca sobrecarga. En instalaciones grandes, se recomienda habilitar el modo "
+"de compresión sin conexión. Esto debe hacerse en la configuración y la "
+"compresión debe activarse en cada actualización de Weblate."
 
 #: ../../admin/install.rst:1330
 msgid ""
@@ -14802,10 +14827,16 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
+"El interruptor de configuración es simple al habilitar "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` y configurando "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (este "
+"último ya está incluido en la configuración de ejemplo):"
 
 #: ../../admin/install.rst:1339
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"En cada implementación, debe comprimir los archivos para que coincidan con "
+"la versión actual:"
 
 #: ../../admin/install.rst:1347
 msgid "The official Docker image has this feature already enabled."

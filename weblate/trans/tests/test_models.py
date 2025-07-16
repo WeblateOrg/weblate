@@ -266,7 +266,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
 
-    def test_commit_groupping(self) -> None:
+    def test_commit_grouping(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()

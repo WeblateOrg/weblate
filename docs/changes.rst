@@ -17,6 +17,7 @@ Weblate 5.13
 * :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
 * Background commits are now identified by an internal user.
 * Reorganized navigation menu.
+* When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
 
 .. rubric:: Bug fixes
 

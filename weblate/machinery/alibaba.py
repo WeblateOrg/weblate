@@ -57,7 +57,7 @@ class AlibabaTranslation(MachineTranslation):
             "om",
             "os",
             "tpi",
-            "ba",
+            "ba",  # codespell:ignore
             "eu",
             "be",
             "ber",

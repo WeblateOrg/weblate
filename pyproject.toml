@@ -55,15 +55,15 @@ test = [
   "selenium==4.34.2"
 ]
 types = [
-  "boto3-stubs==1.39.4",
+  "boto3-stubs==1.39.6",
   "celery-types==0.23.0",
   "django-stubs-ext==5.2.1",
   "django-stubs[compatible-mypy]==5.2.1",
-  "djangorestframework-stubs==3.16.0",
+  "djangorestframework-stubs==3.16.1",
   "mypy==1.16.1",
   "PyGObject-stubs==2.13.0",
   "types-dateparser==1.2.2.20250627",
-  "types-docutils==0.21.0.20250710",
+  "types-docutils==0.21.0.20250715",
   "types-jsonschema==4.24.0.20250708",
   "types-lxml==2025.3.30",
   "types-openpyxl==3.1.5.20250602",
@@ -533,6 +533,7 @@ ignore = [
 ]
 preview = true
 select = ["ALL"]
+task-tags = ["spellchecker"]
 
 [tool.ruff.lint.flake8-copyright]
 min-file-size = 2
@@ -579,3 +580,59 @@ sort_inline_arrays = true
 sort_inline_tables = true
 sort_table_keys = true
 spaces_before_inline_comment = 2
+
+[tool.typos.default]
+extend-ignore-re = [
+  "(?Rm)^.*# codespell:ignore.*$",
+  "(?s)(#|//)\\s*spellchecker:off.*?\\n\\s*(#|//)\\s*spellchecker:on"
+]
+
+[tool.typos.default.extend-identifiers]
+# TODO: Most of these should be probably fixed, but it requires a database migration
+ApprovedStringNotificaton = "ApprovedStringNotificaton"
+ChangedStringNotificaton = "ChangedStringNotificaton"
+ComponentTranslatedNotificaton = "ComponentTranslatedNotificaton"
+gir1 = "gir1"  # GObject Introspection packages
+InexistantFiles = "InexistantFiles"
+LangaugeConsistencyAddon = "LangaugeConsistencyAddon"  # Already deprecated, pending removal
+LanguageTranslatedNotificaton = "LanguageTranslatedNotificaton"
+LastAuthorCommentNotificaton = "LastAuthorCommentNotificaton"
+MentionCommentNotificaton = "MentionCommentNotificaton"
+NewAlertNotificaton = "NewAlertNotificaton"
+NewAnnouncementNotificaton = "NewAnnouncementNotificaton"
+NewCommentNotificaton = "NewCommentNotificaton"
+NewComponentNotificaton = "NewComponentNotificaton"
+NewContributorNotificaton = "NewContributorNotificaton"
+NewStringNotificaton = "NewStringNotificaton"
+NewSuggestionNotificaton = "NewSuggestionNotificaton"
+NewTranslationNotificaton = "NewTranslationNotificaton"
+RTO = "RTO"  # Recovery Time Objective acronym
+TranslatedStringNotificaton = "TranslatedStringNotificaton"
+Vai = "Vai"  # Language name
+
+[tool.typos.default.extend-words]
+# Name
+Automattic = "Automattic"
+# Used in settings, but could be fixed
+COMMITER = "COMMITER"  # codespell:ignore
+# Open Document Format acronym
+ODF = "ODF"
+# Often misspelled Weblate variants
+webalte = "Weblate"  # codespell:ignore
+webplate = "Weblate"
+
+[tool.typos.files]
+extend-exclude = [
+  "**.po",
+  "**.pot",
+  "docs/changes/contributors",
+  "docs/specs",
+  "scripts/codespell.txt",
+  "scripts/spdx-license-list",
+  "weblate/**/migrations",
+  "weblate/static/js/vendor",
+  "weblate/trans/fixtures/simple-project.json",
+  "weblate/trans/specialchars.py",
+  "weblate/trans/tests/data",
+  "weblate/utils/licensedata.py"
+]

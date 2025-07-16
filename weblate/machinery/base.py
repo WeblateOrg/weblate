@@ -91,7 +91,7 @@ class BatchMachineTranslation:
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
-    hightlight_syntax = False
+    highlight_syntax = False
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -340,7 +340,7 @@ class BatchMachineTranslation:
         self, text: str, unit
     ) -> Iterable[tuple[int, int, str, Unit | None]]:
         for h_start, h_end, h_text in highlight_string(
-            text, unit, hightlight_syntax=self.hightlight_syntax
+            text, unit, highlight_syntax=self.highlight_syntax
         ):
             yield h_start, h_end, h_text, None
 
@@ -571,7 +571,7 @@ class BatchMachineTranslation:
         # Fetch pending strings to translate
         if pending:
             # Unit is only used in WeblateMemory and it is used only to get a project
-            # so it doesn't matter we potentionally flatten this.
+            # so it doesn't matter we potentially flatten this.
             try:
                 translations = self.download_multiple_translations(
                     source_language,
@@ -922,7 +922,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
 
 class XMLMachineTranslationMixin(BatchMachineTranslation):
-    hightlight_syntax = True
+    highlight_syntax = True
     force_uncleanup = True
 
     def unescape_text(self, text: str) -> str:

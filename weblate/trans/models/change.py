@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, overload
 from uuid import UUID, uuid5
@@ -22,6 +23,7 @@ from rapidfuzz.distance import DamerauLevenshtein
 from weblate.trans.actions import (
     ACTIONS_ADDON,
     ACTIONS_CONTENT,
+    ACTIONS_LOG,
     ACTIONS_MERGE_FAILURE,
     ACTIONS_REPOSITORY,
     ACTIONS_REVERTABLE,
@@ -41,6 +43,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation
 
+LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 
@@ -270,6 +273,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             ):
                 transaction.on_commit(change.update_cache_last_change)
                 translations.add(change.translation_id)
+
+        # Log to the log
+        for change in changes:
+            change.log_event()
+
         return changes
 
     def filter_components(self, user: User) -> ChangeQuerySet:
@@ -542,10 +550,10 @@ class Change(models.Model, UserDisplayMixin):
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
         if not self.pk:
-            self.fixup_refereces()
+            self.fixup_references()
 
     def save(self, *args, **kwargs) -> None:
-        self.fixup_refereces()
+        self.fixup_references()
 
         super().save(*args, **kwargs)
 
@@ -564,6 +572,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == ActionEvents.RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
 
+        self.log_event()
+
     def get_absolute_url(self) -> str:
         """Return link either to unit or translation."""
         if self.unit is not None:
@@ -579,6 +589,24 @@ class Change(models.Model, UserDisplayMixin):
         if self.project is not None:
             return self.project.get_absolute_url()
         return "/"
+
+    def log_event(self) -> None:
+        if self.action in ACTIONS_LOG:
+            message = self.get_action_display()
+            if self.user:
+                message = f"{message} ({self.user.username})"
+            if self.author and self.author != self.user:
+                message = f"{message} ({self.author.username})"
+            if self.target:
+                message = f"{message}: {self.target}"
+            if self.translation:
+                self.translation.log_info("%s", message)
+            elif self.component:
+                self.component.log_info("%s", message)
+            elif self.project:
+                self.project.log_info("%s", message)
+            else:
+                LOGGER.info("%s", message)
 
     @property
     def path_object(self):
@@ -609,7 +637,7 @@ class Change(models.Model, UserDisplayMixin):
     def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
 
-    def fixup_refereces(self) -> None:
+    def fixup_references(self) -> None:
         """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation

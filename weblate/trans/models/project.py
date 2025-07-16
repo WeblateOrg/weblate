@@ -331,7 +331,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 for component in old.component_set.iterator():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
-                    component.linked_childs.update(
+                    component.linked_children.update(
                         repo=new_component.get_repo_link_url()
                     )
             update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
