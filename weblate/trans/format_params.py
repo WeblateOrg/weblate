@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from collections.abc import Iterable
-from typing import Any
 
 from django import forms
 from django.utils.translation import gettext_lazy
@@ -51,23 +50,8 @@ def register_file_format_param(
     param_class: type[BaseFileFormatParam],
 ) -> type[BaseFileFormatParam]:
     """Register a new file format parameter class."""
-    if not hasattr(param_class, "name"):
-        msg = f"File format parameter class {param_class.__name__} must have a 'name' attribute."
-        raise ValueError(msg)
-    if param_class.name in [p.get_identifier() for p in FILE_FORMATS_PARAMS]:
-        msg = f"File format parameter class {param_class.__name__} with name '{param_class.name}' is already registered."
-        raise ValueError(msg)
     FILE_FORMATS_PARAMS.append(param_class)
     return param_class
-
-
-def load_initial_file_format_params() -> dict[str, Any]:
-    """Load initial values for file format parameters."""
-    initial_params: dict[str, Any] = {}
-    for param_class in FILE_FORMATS_PARAMS:
-        param = param_class()
-        initial_params[param.get_identifier()] = param.get_field_kwargs().get("initial")
-    return initial_params
 
 
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
@@ -82,6 +66,7 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     name = "json_sort_keys"
     label = gettext_lazy("Sort JSON keys")
     field_class = forms.BooleanField
+    default = False
 
 
 @register_file_format_param
@@ -98,7 +83,7 @@ class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
 
 @register_file_format_param
 class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
-    name = "json_ident_style"
+    name = "json_indent_style"
     label = gettext_lazy("JSON indentation style")
     field_class = forms.ChoiceField
 
@@ -173,6 +158,7 @@ class BaseYAMLFormatParam(BaseFileFormatParam):
         "yaml",
         "ryml",
         "yml",
+        "ruby-yaml",
     )
 
     def get_widget_attrs(self) -> dict:
@@ -204,11 +190,11 @@ class YAMLLineWrap(BaseYAMLFormatParam):
         kwargs.update(
             {
                 "choices": [
-                    ("80", gettext_lazy("Wrap lines at 80 chars")),
-                    ("100", gettext_lazy("Wrap lines at 100 chars")),
-                    ("120", gettext_lazy("Wrap lines at 120 chars")),
-                    ("180", gettext_lazy("Wrap lines at 180 chars")),
-                    ("65535", gettext_lazy("No line wrapping")),
+                    (80, gettext_lazy("Wrap lines at 80 chars")),
+                    (100, gettext_lazy("Wrap lines at 100 chars")),
+                    (120, gettext_lazy("Wrap lines at 120 chars")),
+                    (180, gettext_lazy("Wrap lines at 180 chars")),
+                    (65535, gettext_lazy("No line wrapping")),
                 ],
                 "initial": 80,
             }
@@ -235,53 +221,3 @@ class YAMLLineBreak(BaseYAMLFormatParam):
             }
         )
         return kwargs
-
-
-class FormParamsWidget(forms.MultiWidget):
-    template_name = "bootstrap3/labelled_multiwidget.html"
-    subwidget_class = "file-format-param"
-
-    def __init__(
-        self,
-        widgets: dict[str, forms.Widget],
-        fields_order: list[tuple[str, str]],
-        attrs=None,
-    ):
-        self.fields_order = fields_order
-        super().__init__(widgets, attrs)
-
-    def decompress(self, value: dict) -> list[Any]:
-        value = {**load_initial_file_format_params(), **(value or {})}
-        return [value.get(param_name) for param_name in self.fields_order]
-
-    def get_context(self, *args, **kwargs) -> dict[str, Any]:
-        context = super().get_context(*args, **kwargs)
-        context["subwidget_class"] = self.subwidget_class
-        return context
-
-
-class FormParamsField(forms.MultiValueField):
-    def __init__(self, encoder=None, decoder=None, **kwargs):
-        fields = []
-        subwidgets = {}
-
-        self.fields_order: list[tuple] = []
-        for file_param in FILE_FORMATS_PARAMS:
-            field = file_param().get_field()
-            fields.append(field)
-            subwidgets[file_param.get_identifier()] = field.widget
-            self.fields_order.append(file_param.get_identifier())
-
-        widget = FormParamsWidget(subwidgets, self.fields_order)
-        super().__init__(fields, widget=widget, require_all_fields=False, **kwargs)
-
-    def compress(self, data_list) -> dict:
-        compressed_value: dict[str, Any] = {}
-        if data_list:
-            update_data = {
-                param_name: value
-                for param_name, value in zip(self.fields_order, data_list, strict=False)
-                if value is not None
-            }
-            compressed_value.update(update_data)
-        return compressed_value

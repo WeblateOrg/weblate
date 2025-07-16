@@ -343,6 +343,7 @@ class Translation(
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
             )
+            store.setup_serialization_params(self.component.file_format_params)
             store_post_load.send(sender=self.__class__, translation=self, store=store)
             return store
 

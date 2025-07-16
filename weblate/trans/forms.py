@@ -9,7 +9,7 @@ import json
 import re
 from datetime import datetime
 from secrets import token_hex
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -55,7 +55,7 @@ from weblate.trans.defines import (
     REPO_LENGTH,
 )
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.format_params import FILE_FORMATS_PARAMS, FormParamsField
+from weblate.trans.format_params import FILE_FORMATS_PARAMS
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -1502,6 +1502,62 @@ class SelectChecksField(forms.JSONField):
         if isinstance(data, list):
             data = json.dumps(data)
         return super().bound_data(data, initial)
+
+
+class FormParamsWidget(forms.MultiWidget):
+    template_name = "bootstrap3/labelled_multiwidget.html"
+    subwidget_class = "file-format-param"
+
+    def __init__(
+        self,
+        widgets: dict[str, forms.Widget],
+        fields_order: list[tuple[str, str]],
+        attrs=None,
+    ):
+        self.fields_order = fields_order
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value: dict) -> list[Any]:
+        initial_params: dict[str, Any] = {}
+        for param_class in FILE_FORMATS_PARAMS:
+            param = param_class()
+            initial_params[param.get_identifier()] = param.get_field_kwargs().get(
+                "initial"
+            )
+        value = {**initial_params, **(value or {})}
+        return [value.get(param_name) for param_name in self.fields_order]
+
+    def get_context(self, *args, **kwargs) -> dict[str, Any]:
+        context = super().get_context(*args, **kwargs)
+        context["subwidget_class"] = self.subwidget_class
+        return context
+
+
+class FormParamsField(forms.MultiValueField):
+    def __init__(self, encoder=None, decoder=None, **kwargs):
+        fields = []
+        subwidgets = {}
+
+        self.fields_order: list[tuple] = []
+        for file_param in FILE_FORMATS_PARAMS:
+            field = file_param().get_field()
+            fields.append(field)
+            subwidgets[file_param.get_identifier()] = field.widget
+            self.fields_order.append(file_param.get_identifier())
+
+        widget = FormParamsWidget(subwidgets, self.fields_order)
+        super().__init__(fields, widget=widget, require_all_fields=False, **kwargs)
+
+    def compress(self, data_list) -> dict:
+        compressed_value: dict[str, Any] = {}
+        if data_list:
+            update_data = {
+                param_name: value
+                for param_name, value in zip(self.fields_order, data_list, strict=False)
+                if value is not None
+            }
+            compressed_value.update(update_data)
+        return compressed_value
 
 
 class ComponentDocsMixin(FieldDocsMixin):

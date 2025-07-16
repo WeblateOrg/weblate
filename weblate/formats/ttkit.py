@@ -507,6 +507,9 @@ class TTKitFormat(TranslationFormat):
         self.store.removeunit(ttkit_unit)
         return None
 
+    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
+        """Load file format parameters into the store."""
+
 
 class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties-based units."""
@@ -1517,6 +1520,23 @@ class JSONFormat(DictStoreFormat):
         """Return most common file extension for format."""
         return "json"
 
+    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
+        indent = int(file_format_params.get("json_indent", 4))
+        style = file_format_params.get("json_indent_style", "spaces")
+        if style == "tabs":
+            indent = "\t" * indent
+        self.store.dump_args["indent"] = indent
+        self.store.dump_args["sort_keys"] = file_format_params.get(
+            "json_sort_keys", False
+        )
+
+        use_compact_separators = file_format_params.get(
+            "json_use_compact_separators", False
+        )
+        self.store.dump_args["separators"] = (
+            (",", ":") if use_compact_separators else (",", ": ")
+        )
+
 
 class JSONNestedFormat(JSONFormat):
     name = gettext_lazy("JSON nested structure file")
@@ -1750,6 +1770,16 @@ class YAMLFormat(DictStoreFormat):
     def extension() -> str:
         """Return most common file extension for format."""
         return "yml"
+
+    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
+        breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
+        self.store.dump_args["indent"] = int(file_format_params.get("yaml_indent", 2))
+        self.store.dump_args["width"] = int(
+            file_format_params.get("yaml_line_wrap", 80)
+        )
+        self.store.dump_args["line_break"] = breaks[
+            file_format_params.get("yaml_line_break", "unix")
+        ]
 
 
 class RubyYAMLFormat(YAMLFormat):
