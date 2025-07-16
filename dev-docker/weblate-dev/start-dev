@@ -9,22 +9,22 @@ set -e
 cd /app/src
 
 echo "Exporting Weblate requirements..."
-uv export --no-config --format requirements-txt --python /usr/bin/python3 --all-extras >/tmp/requirements.txt
+uv export --no-config --format requirements-txt --python /usr/bin/python3 --all-extras > /tmp/requirements.txt
 
 echo "Checking /app/venv..."
 if [ ! -f /app/venv/bin/activate ]; then
-	uv venv --no-config /app/venv
+    uv venv --no-config /app/venv
 fi
-echo "/app/data/python" >"/app/venv/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
+echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblate-docker.pth"
 # shellcheck disable=SC1091
 . /app/venv/bin/activate
 
 echo "Installing Weblate requirements..."
 uv pip install \
-	--no-config \
-	--no-binary xmlsec \
-	--no-binary lxml \
-	-r /tmp/requirements.txt
+    --no-config \
+    --no-binary xmlsec \
+    --no-binary lxml \
+    -r /tmp/requirements.txt
 
 echo "Starting Weblate..."
 exec /app/bin/start "$@"

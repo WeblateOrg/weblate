@@ -14,37 +14,37 @@ chown -R 1000:1000 /run/user/1000
 # Add PostgreSQL repo
 install -d /usr/share/postgresql-common/pgdg
 curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" >/etc/apt/sources.list.d/pgdg.list
+echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 curl -o /etc/apt/keyrings/git-core.launchpad.net.asc --fail 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xe363c90f8f1b6217'
-echo "deb [signed-by=/etc/apt/keyrings/git-core.launchpad.net.asc] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu $(lsb_release -cs) main" >/etc/apt/sources.list.d/git.list
+echo "deb [signed-by=/etc/apt/keyrings/git-core.launchpad.net.asc] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/git.list
 
 # Update package lists
 apt-get update
 
 # Install dependencies
 apt-get install -y \
-	gettext \
-	git \
-	git-svn \
-	gnupg \
-	subversion \
-	postgresql-client-17 \
-	pkg-config \
-	libxml2-dev \
-	libacl1-dev \
-	liblz4-dev \
-	libzstd-dev \
-	libxxhash-dev \
-	libxmlsec1-dev \
-	libsasl2-dev \
-	libldap2-dev \
-	libssl-dev \
-	libffi-dev \
-	libgirepository-2.0-dev \
-	libcairo-dev \
-	liblz4-dev \
-	gir1.2-rsvg-2.0 \
-	gir1.2-pango-1.0
+    gettext \
+    git \
+    git-svn \
+    gnupg \
+    subversion \
+    postgresql-client-17 \
+    pkg-config \
+    libxml2-dev \
+    libacl1-dev \
+    liblz4-dev \
+    libzstd-dev \
+    libxxhash-dev \
+    libxmlsec1-dev \
+    libsasl2-dev \
+    libldap2-dev \
+    libssl-dev \
+    libffi-dev \
+    libgirepository-2.0-dev \
+    libcairo-dev \
+    liblz4-dev \
+    gir1.2-rsvg-2.0 \
+    gir1.2-pango-1.0
 
 # TODO: remove this once Python 3.13 wheels are available, see
 # https://github.com/sirfz/tesserocr/pull/357
@@ -52,6 +52,6 @@ apt-get install -y libleptonica-dev libtesseract-dev
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ]; then
-	apt-get purge 'mysql-client.*'
-	apt-get install -y mariadb-client
+    apt-get purge 'mysql-client.*'
+    apt-get install -y mariadb-client
 fi
