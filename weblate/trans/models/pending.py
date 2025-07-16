@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.db.models import OuterRef, Q, Subquery
 from django.utils import timezone
 
 from weblate.utils.db import using_postgresql
@@ -31,8 +32,6 @@ class PendingChangeQuerySet(models.QuerySet):
 
     def for_translation(self, translation: Translation):
         """Return pending changes for a specific translation based on commit policy."""
-        from django.db.models import OuterRef, Q, Subquery
-
         from weblate.trans.models.project import CommitPolicyChoices
 
         policy = translation.component.project.commit_policy
@@ -86,10 +85,7 @@ class PendingUnitChange(models.Model):
     target = models.TextField(default="", blank=True)
     explanation = models.TextField(default="", blank=True)
     source_unit_explanation = models.TextField(default="", blank=True)
-    state = models.IntegerField(
-        default=0,
-        choices=StringState.choices,
-    )
+    state = models.IntegerField(default=0, choices=StringState.choices, db_index=True)
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     add_unit = models.BooleanField(default=False)
 
