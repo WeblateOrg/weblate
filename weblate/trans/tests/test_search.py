@@ -205,7 +205,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         de_glossary = self.glossary.translation_set.get(language__code="de")
         cs_glossary = self.glossary.translation_set.get(language__code="cs")
 
-        en_glossary.add_unit(None, "", source="glossary-term")
+        en_glossary.add_unit(None, "", source="glossary-term", author=self.user)
 
         # create a unit with a variant for both 'en' and 'de'
         de_glossary.add_unit(
@@ -213,6 +213,7 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
             "",
             source="variant-glossary-term",
             extra_flags="variant:glossary-term",
+            author=self.user,
         )
 
         self.assert_search_variant(
@@ -243,11 +244,9 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         de_glossary = mono_component.translation_set.get(language__code="de")
         cs_glossary = mono_component.translation_set.get(language__code="cs")
 
-        en_glossary.add_unit(None, "original", "glossary-term")
+        en_glossary.add_unit(None, "original", "glossary-term", author=self.user)
         de_glossary.add_unit(
-            None,
-            "original_variant",
-            source="variant-glossary-term",
+            None, "original_variant", source="variant-glossary-term", author=self.user
         )
 
         self.assert_search_variant(
@@ -342,6 +341,42 @@ class ReplaceTest(ViewTestCase):
                     "path": (self.project.slug, "-", self.translation.language.code)
                 },
             )
+        )
+
+    def test_replace_plurals(self) -> None:
+        unit = self.get_unit("Orangutan")
+        url = reverse("replace", kwargs=self.kw_translation)
+        self.edit_unit(
+            "Orangutan",
+            "Opice má %d banán.\n",
+            target_1="Opice má %d banány.\n",
+            target_2="Opice má %d banánů.\n",
+        )
+        response = self.client.post(
+            url, {"q": "", "search": "Opice", "replacement": "Orangutan"}, follow=True
+        )
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        payload = {
+            "q": "",
+            "search": "Opice",
+            "replacement": "Orangutan",
+            "confirm": "1",
+            "units": unit.pk,
+        }
+        response = self.client.post(url, payload, follow=True)
+        unit = self.get_unit("Orangutan")
+        self.assertContains(
+            response, "Search and replace completed, 1 string was updated."
+        )
+        self.assertEqual(
+            unit.get_target_plurals(),
+            [
+                "Orangutan má %d banán.\n",
+                "Orangutan má %d banány.\n",
+                "Orangutan má %d banánů.\n",
+            ],
         )
 
 

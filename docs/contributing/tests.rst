@@ -9,18 +9,22 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on `GitHub Actions`_ and coverage is reported
-on `Codecov`_.
+Weblate relies on `GitHub Actions`_ to run tests, build documentation, code
+linting, and other tasks to ensure code quality.
+
+`Codecov`_ collects the code coverage information from the tests that were run.
 
 .. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
 .. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
 
 There are several jobs to verify different aspects:
 
-* Unit tests
-* Documentation build and external links
+* Unit and functional tests using `pytest <https://pytest.org/>`_.
+* Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
+* Code linting and quality assurace using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
+* Code security scanning using `CodeQL <https://codeql.github.com/>`_.
+* Code formatting using `pre-commit <https://pre-commit.com/>`_.
 * Migration testing from all supported releases
-* Code linting
 * Setup verification (ensures that generated dist files do not miss anything and can be tested)
 
 The configuration for the CI is in :file:`.github/workflows` directory. It

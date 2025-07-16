@@ -8,6 +8,7 @@ import time
 import unicodedata
 
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -28,7 +29,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Invitation, User
+from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
@@ -267,6 +268,9 @@ def cleanup_next(strategy, **kwargs):
 
 def store_params(strategy, user: User, **kwargs):
     """Store Weblate specific parameters in the pipeline."""
+    # Map standard Django anonymuos user to Weblate database backed one
+    if isinstance(strategy.request.user, AnonymousUser):
+        strategy.request.user = get_anonymous()
     # Registering user
     registering_user = user.pk if user and user.is_authenticated else None
 

@@ -32,7 +32,7 @@ jobs:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
       with:
         enable-cache: false
     - name: Setup Python
@@ -44,21 +44,22 @@ jobs:
         echo "::add-matcher::.github/matchers/setuptools.json"
         uv build
         echo "::remove-matcher owner=setuptools::"
+        rm -f dist/.gitignore
     - name: Sign the dists with Sigstore
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
-      uses: sigstore/gh-action-sigstore-python@f514d46b907ebcd5bedc05145c03b69c1edd8b46 # v3.0.0
+      uses: sigstore/gh-action-sigstore-python@f7ad0af51a5648d09a20d00370f0a91c3bdf8f84 # v3.0.1
       with:
         inputs: dist/*
     - name: Attest
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
-      uses: actions/attest-build-provenance@db473fddc028af60658334401dc6fa3ffd8669fd # v2.3.0
+      if: github.event_name == 'push'
+      uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
       with:
         subject-path: dist/*
-    - uses: actions/attest-sbom@115c3be05ff3974bcbd596578934b3f9ce39bf68 # v2.2.0
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+    - uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b # v2.4.0
+      if: github.event_name == 'push'
       with:
         subject-path: dist/*
-        sbom-path: sbom/sbom.json
+        sbom-path: docs/specs/sbom/sbom.json
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         path: dist/*
@@ -81,7 +82,7 @@ jobs:
       uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
       with:
         python-version: '3.13'
-    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -117,7 +118,7 @@ jobs:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -166,7 +167,7 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
       with:
         enable-cache: false
     - run: uv publish --trusted-publishing always
@@ -189,7 +190,7 @@ jobs:
     - name: Extract notes title
       id: get-name
       run: echo "name=$(head -n1 notes/Weblate-*.md)"  > "$GITHUB_OUTPUT"
-    - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
+    - uses: ncipollo/release-action@bcfe5470707e8832e12347755757cec0eb3c22af # v1.18.0
       with:
         artifacts: dist/*
         bodyFile: notes.md

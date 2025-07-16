@@ -12,8 +12,8 @@
 export CELERY_APP=weblate.utils
 
 python -m celery multi "$1" \
-    celery \
-    "--pidfile=$PWD/weblate-%n.pid" \
-    "--logfile=$PWD/weblate-%n%I.log" --loglevel=DEBUG \
-    --queues:celery=celery,notify,memory,translate,backup \
-    --beat:celery
+	celery \
+	"--pidfile=$PWD/weblate-%n.pid" \
+	"--logfile=$PWD/weblate-%n%I.log" --loglevel=DEBUG \
+	--queues:celery=celery,notify,memory,translate,backup \
+	--beat:celery

@@ -2,15 +2,13 @@
 
 {% load crispy_forms_tags i18n metrics translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-{% endblock breadcrumbs %}
-
-{% block content %}
-
+{% block nav_pills %}
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Components" %}</a>
+      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
+    </li>
+    <li>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
     </li>
     <li>
       <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
@@ -25,6 +23,9 @@
       <ul class="dropdown-menu">
         <li>
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
       </ul>
     </li>
@@ -41,7 +42,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -54,9 +55,6 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
         {% if delete_form %}
           <li role="separator" class="divider"></li>
           <li>
@@ -67,10 +65,19 @@
     </li>
     {% include "snippets/watch-dropdown.html" with project=category.project %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
 
   <div class="tab-content">
 
-    <div class="tab-pane active" id="overview">
+    <div class="tab-pane active" id="translation">{% include "snippets/translation.html" %}</div>
+    <div class="tab-pane active" id="components">
       {% include "snippets/list-objects.html" with objects=translation_objects list_categories=categories name_source="component_name" label=_("Component") %}
 
       {% include "paginator.html" with page_obj=translations %}
@@ -81,7 +88,7 @@
     </div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
@@ -138,9 +145,6 @@
         </form>
       </div>
     {% endif %}
-
-
-
 
   </div>
 

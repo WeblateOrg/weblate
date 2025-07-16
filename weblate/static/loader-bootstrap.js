@@ -256,9 +256,12 @@ function loadTableSorting() {
           th.addClass("sort-init");
           if (!th.hasClass("sort-cell")) {
             // Skip statically initialized parts (when server side ordering is supported)
-            th.attr("title", gettext("Sort this column"))
-              .addClass("sort-cell")
-              .append('<span class="sort-icon" />');
+            th.attr("title", gettext("Sort this column")).addClass("sort-cell");
+            if (th.hasClass("number")) {
+              th.innerHTML = '<span class="sort-icon"> </span>' + th.text();
+            } else {
+              th.append('<span class="sort-icon" />');
+            }
           }
 
           // Click handler
@@ -369,7 +372,6 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
-  // biome-ignore lint/complexity/noForEach: TODO
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -430,9 +432,6 @@ function initHighlight(root) {
 
     resizeObserver.observe(input);
   });
-  // biome-ignore lint/complexity/noForEach: TODO
-  // biome-ignore lint/complexity/useSimplifiedLogicExpression: TODO
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
   root.querySelectorAll(".highlight-editor").forEach((editor) => {
     const parent = editor.parentElement;
     const hasFocus = editor === document.activeElement;
@@ -488,9 +487,7 @@ function initHighlight(root) {
           "\u200A|\u202F|\u205F|\u3000",
         ].join(""),
       );
-      // biome-ignore lint/performance/useTopLevelRegex: TODO
       const newlineRegex = /\n/;
-      // biome-ignore lint/performance/useTopLevelRegex: TODO
       const nonBreakingSpaceRegex = /\u00A0/;
       const extension = {
         hlspace: {
@@ -549,7 +546,6 @@ function initHighlight(root) {
   });
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
 $(function () {
   const $window = $(window);
   const $document = $(document);
@@ -648,7 +644,7 @@ $(function () {
     if (location.hash !== "") {
       activeTab = $(`[data-toggle=tab][href="${location.hash}"]`);
     } else {
-      activeTab = new Array();
+      activeTab = [];
     }
     if (activeTab.length > 0) {
       activeTab.tab("show");
@@ -865,13 +861,9 @@ $(function () {
 
   /* Override all multiple selects */
   $("select[multiple]").multi({
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     enable_search: true,
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     search_placeholder: gettext("Search…"),
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     non_selected_header: gettext("Available:"),
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     selected_header: gettext("Chosen:"),
   });
 
@@ -932,7 +924,6 @@ $(function () {
       fetch(url, {
         method: "DELETE",
         headers: {
-          // biome-ignore lint/style/useNamingConvention: special case
           Accept: "application/json",
           "X-CSRFToken": $form.find("input").val(),
         },
@@ -1243,14 +1234,12 @@ $(function () {
           callback(userMentionList);
         },
         error: (_jqXhr, _textStatus, errorThrown) => {
-          // biome-ignore lint/suspicious/noConsole: TODO
           console.error(errorThrown);
         },
       });
     },
   });
   tribute.attach(document.querySelectorAll(".markdown-editor"));
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
     editor.addEventListener("tribute-active-true", (_e) => {
       $(".tribute-container").addClass("open");
@@ -1308,13 +1297,11 @@ $(function () {
   });
 
   /* Notifications removal */
-  // biome-ignore lint/complexity/noForEach: TODO
   document
     .querySelectorAll(".nav-pills > li > a > button.close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
         const link = button.parentElement;
-        // biome-ignore lint/complexity/noForEach: TODO
         document
           .querySelectorAll(`${link.getAttribute("href")} select`)
           .forEach((select) => select.remove());
@@ -1332,7 +1319,6 @@ $(function () {
     });
 
   /* User autocomplete */
-  // biome-ignore lint/complexity/noForEach: TODO
   document
     .querySelectorAll(".user-autocomplete")
     .forEach((autoCompleteInput) => {
@@ -1365,7 +1351,6 @@ $(function () {
               return data.results.map((user) => {
                 return {
                   username: user.username,
-                  // biome-ignore lint/style/useNamingConvention: special case
                   full_name: `${user.full_name} (${user.username})`,
                 };
               });
@@ -1440,7 +1425,6 @@ $(function () {
   });
 
   /* Workflow customization form */
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
     enableInput.addEventListener("click", () => {
       if (enableInput.checked) {
@@ -1465,10 +1449,8 @@ $(function () {
     });
   });
 
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (_event) => {
-      // biome-ignore lint/complexity/noForEach: TODO
       document
         .querySelectorAll(toggle.getAttribute("data-visibility"))
         .forEach((element) => {
@@ -1610,13 +1592,11 @@ $(function () {
   });
 
   /* Warn users that they do not want to use developer console in most cases */
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
     pgettext("Alert to user when opening browser developer console", "Stop!"),
   );
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "font-size: 20px; font-family: sans-serif",
@@ -1624,7 +1604,6 @@ $(function () {
       "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
     ),
   );
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "font-size: 20px; font-family: sans-serif",

@@ -23,7 +23,10 @@
 
       <div class="col-sm-6 col-sm-push-6">
 
-        <h4>{% translate "Sign in" %}</h4>
+        <h4>
+          {% format_site_title as formatted_site_title %}
+          {% blocktranslate %}Sign in to {{ formatted_site_title }}{% endblocktranslate %}
+        </h4>
         <div class="panel panel-default">
           <div class="panel-body">
             <form method="post" action="{% url 'login' %}">

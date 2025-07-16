@@ -29,6 +29,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
@@ -323,7 +324,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 for component in old.component_set.iterator():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
-                    component.linked_childs.update(
+                    component.linked_children.update(
                         repo=new_component.get_repo_link_url()
                     )
             update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
@@ -436,11 +437,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self):
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit
-
-        return Unit.objects.filter(
-            translation__component__project=self, pending=True
-        ).count()
+        return PendingUnitChange.objects.for_project(self).count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -567,14 +564,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def all_admins(self):
         from weblate.auth.models import User
 
-        return User.objects.all_admins(self).select_related("profile")
+        return (
+            User.objects.all_admins(self).exclude(is_bot=True).select_related("profile")
+        )
 
+    @cached_property
     def all_reviewers(self):
         from weblate.auth.models import User
 
         if not self.enable_review:
             return User.objects.none()
-        return User.objects.all_reviewers(self).select_related("profile")
+        return (
+            User.objects.all_reviewers(self)
+            .exclude(is_bot=True)
+            .select_related("profile")
+        )
 
     def get_child_components_access(self, user: User, filter_callback=None):
         """
@@ -599,7 +603,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         own = filter_callback(self.component_set.defer_huge())
         if self.has_shared_components:
             shared = filter_callback(self.shared_components.defer_huge())
-            return own | shared
+            return (own | shared).distinct()
         return own
 
     @cached_property

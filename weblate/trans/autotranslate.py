@@ -10,6 +10,7 @@ from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
@@ -146,20 +147,30 @@ class AutoTranslate:
         if exclude:
             sources = sources.exclude(**exclude)
 
-        # Fetch translations
+        # Get source MD5s
+        source_md5s = list(
+            self.get_units()
+            .annotate(source__lower__md5=MD5(Lower("source")))
+            .values_list("source__lower__md5", flat=True)
+        )
+
+        # Fetch available translations
         translations = {
             source: split_plural(target)
-            for source, state, target in sources.filter(
-                source__lower__md5__in=self.get_units()
-                .annotate(source__lower__md5=MD5(Lower("source")))
-                .values("source__lower__md5")
-            ).values_list("source", "state", "target")
+            for source, target in sources.filter(
+                source__lower__md5__in=source_md5s
+            ).values_list("source", "target")
         }
 
+        # Fetch translated unit IDs
         # Cannot use get_units() directly as SELECT FOR UPDATE cannot be used with JOIN
         unit_ids = list(
             self.get_units()
-            .filter(source__in=translations.keys())
+            .filter(
+                source__lower__md5__in=[
+                    MD5(Lower(Value(translation))) for translation in translations
+                ]
+            )
             .values_list("id", flat=True)
         )
         units = (
@@ -175,7 +186,7 @@ class AutoTranslate:
             try:
                 target = translations[unit.source]
             except KeyError:
-                # Happens on MySQL due to case-insensitive lookup
+                # Happens due to case-insensitive lookup
                 continue
 
             self.set_progress(pos)
@@ -284,36 +295,31 @@ class AutoTranslate:
         source: int | None,
     ) -> str:
         translation = self.translation
-        with translation.component.lock:
-            translation.log_info(
-                "starting automatic translation (%s) %s: %s: %s",
-                self.mode,
-                current_task.request.id
-                if current_task and current_task.request.id
-                else "",
-                auto_source,
-                ", ".join(engines) if engines else source,
-            )
-            try:
-                if auto_source == "mt":
-                    self.process_mt(engines, threshold)
-                else:
-                    self.process_others(source)
-            except (MachineTranslationError, Component.DoesNotExist) as error:
-                translation.log_error("failed automatic translation: %s", error)
-                return gettext("Automatic translation failed: %s") % error
+        translation.log_info(
+            "starting automatic translation (%s) %s: %s: %s",
+            self.mode,
+            current_task.request.id if current_task and current_task.request.id else "",
+            auto_source,
+            ", ".join(engines) if engines else source,
+        )
+        try:
+            if auto_source == "mt":
+                self.process_mt(engines, threshold)
+            else:
+                self.process_others(source)
+        except (MachineTranslationError, Component.DoesNotExist) as error:
+            translation.log_error("failed automatic translation: %s", error)
+            return gettext("Automatic translation failed: %s") % error
 
-            translation.log_info("completed automatic translation")
+        translation.log_info("completed automatic translation")
 
-            if self.updated == 0:
-                return gettext(
-                    "Automatic translation completed, no strings were updated."
-                )
-            return (
-                ngettext(
-                    "Automatic translation completed, %d string was updated.",
-                    "Automatic translation completed, %d strings were updated.",
-                    self.updated,
-                )
-                % self.updated
+        if self.updated == 0:
+            return gettext("Automatic translation completed, no strings were updated.")
+        return (
+            ngettext(
+                "Automatic translation completed, %d string was updated.",
+                "Automatic translation completed, %d strings were updated.",
+                self.updated,
             )
+            % self.updated
+        )

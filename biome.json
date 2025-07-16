@@ -1,19 +1,36 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
   "files": {
-    "ignore": [
-      "weblate/trans/tests/data/*.ts",
-      "weblate/static/vendor/**",
-      "weblate/static/js/vendor/**"
+    "includes": [
+      "**",
+      "!weblate/trans/tests/data/**/*.ts",
+      "!weblate/static/vendor/**",
+      "!weblate/trans/tests/data/memory-broken.json",
+      "!weblate/templates/site.webmanifest",
+      "!weblate/templates/configuration/custom.css",
+      "!weblate/static/js/vendor/**"
     ]
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "all": true
+      "recommended": true,
+      "style": {
+        "noParameterAssign": "error",
+        "useDefaultParameterLast": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useNumberNamespace": "error",
+        "noDescendingSpecificity": "off",
+        "noUselessElse": "error"
+      }
     }
   },
   "formatter": {

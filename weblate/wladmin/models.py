@@ -283,7 +283,7 @@ class BackupService(models.Model):
             if log.event == "error":
                 return True
             if log.event == "backup":
-                return True
+                return False
         return False
 
     def ensure_init(self) -> None:
@@ -352,16 +352,25 @@ class SupportStatusDict(TypedDict):
     in_limits: bool
     has_expired_support: bool
     backup_repository: str
+    name: str
+    is_hosted_weblate: bool
+    is_dedicated: bool
 
 
 def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
+    support_status: SupportStatusDict
     if hasattr(request, "weblate_support_status"):
-        support_status: SupportStatusDict = request.weblate_support_status
+        support_status = request.weblate_support_status
     else:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
+            is_hosted = support_status_instance.name == "hosted"
             support_status = {
+                "name": support_status_instance.name,
+                "is_hosted_weblate": is_hosted
+                and settings.SITE_DOMAIN == "hosted.weblate.org",
+                "is_dedicated": is_hosted,
                 "has_support": support_status_instance.has_support,
                 "has_expired_support": support_status_instance.has_expired_support,
                 "in_limits": support_status_instance.in_limits,

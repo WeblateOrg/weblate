@@ -18,6 +18,7 @@ from django.utils.translation import gettext, pgettext_lazy
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.data import data_path
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import calculate_checksum
 
 if TYPE_CHECKING:
@@ -184,7 +185,10 @@ def generate_ssh_key(
         error = getattr(exc, "output", "").strip()
         if not error:
             error = str(exc)
-        messages.error(request, gettext("Could not generate key: %s") % error)
+        messages.error(
+            request,
+            gettext("Could not generate key: %s") % cleanup_error_message(error),
+        )
         return
 
     # Fix key permissions
@@ -248,8 +252,8 @@ def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> Non
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request,
-                gettext("Could not fetch public key for a host: %s") % exc.stderr
-                or exc.stdout,
+                gettext("Could not fetch public key for a host: %s")
+                % cleanup_error_message(exc.stderr or exc.stdout),
             )
         except OSError as exc:
             messages.error(request, gettext("Could not get host key: %s") % str(exc))

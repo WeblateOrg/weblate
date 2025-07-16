@@ -43,7 +43,7 @@ jobs:
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -73,17 +73,18 @@ jobs:
         # Remove dev files for SBOM
         uv sync --all-extras --no-dev
         uv tool run --from cyclonedx-bom cyclonedx-py environment --output-reproducible --output-file docs/specs/sbom/partial/python.json "$(uv python find)"
+        ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
 
     - name: Merge SBOM
       if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.27.2
+        CYCLONEDX_CLI_VERSION: v0.29.0
       run: |
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
-        sed -i -e '/"serialNumber":/D' -e '/"timestamp":/D' docs/specs/sbom/sbom.json
+        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
@@ -97,13 +98,13 @@ jobs:
 
     - name: Update current branch
       if: github.event_name == 'push' && github.ref_name != 'main'
-      uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v5.2.0
+      uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
       with:
         commit_message: 'chore(deps): update lockfile'
 
     - name: Create Pull Request
       id: cpr
-      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
       uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/uv-lock-update

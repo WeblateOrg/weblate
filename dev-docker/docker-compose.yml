@@ -12,6 +12,26 @@
 #########
 
 services:
+  cache:
+    image: redis:8.0.3-alpine@sha256:d12963afb039f10c1fa933187e0d60a128b4d355bc4575d6c143674b38b28019
+    volumes:
+    - redis-data:/data
+    command: [redis-server, --save, '60', '1']
+    restart: always
+  database:
+    image: postgres:17.5-alpine@sha256:796067bb1c12a8552071964286a3bb4eca86d02045acc44ffbda08bc43f25d79
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+    - ./postgres-init:/docker-entrypoint-initdb.d
+    env_file:
+    - ./environment
+    ports:
+    - 5433:5432
+    restart: always
+  maildev:
+    image: maildev/maildev:2.2.1@sha256:180ef51f65eefebb0e7122d8308813c1fd7bff164bc440ce5a3c2feee167a810
+    ports:
+    - 1080:1080
   weblate:
     image: weblate-dev:latest
     build:
@@ -19,24 +39,14 @@ services:
       args:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
-    ports:
-    - ${WEBLATE_PORT}:8080
-    user: $USER_ID:$GROUP_ID
-    userns_mode: host
-    tmpfs:
-    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
-    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
-    - /run:uid=$USER_ID,gid=$GROUP_ID
+    depends_on:
+    - cache
+    - database
+    - maildev
     volumes:
       # Local data directory
-    - $PWD/data:/app/data
-      # Override Weblate with local dir
+    - $PWD/data:/app/data   # Override Weblate with local dir
     - $PWD/..:/app/src
-    restart: always
-    depends_on:
-    - database
-    - cache
-    - maildev
     environment:
       DJANGO_SETTINGS_MODULE: weblate.settings_docker
       WEBLATE_SITE_DOMAIN: ${WEBLATE_HOST}
@@ -46,26 +56,15 @@ services:
       WEBLATE_EMAIL_USE_SSL: 0
     env_file:
     - ./environment
-  database:
-    image: postgres:17.5-alpine@sha256:f325a29ec9deb7039c5f07761d77d79d537dac836ecd99f982f6ca5476724604
-    env_file:
-    - ./environment
-    volumes:
-    - postgres-data:/var/lib/postgresql/data
-    - ./postgres-init:/docker-entrypoint-initdb.d
-    restart: always
     ports:
-    - 5433:5432
-  cache:
-    image: redis:8.0.1-alpine@sha256:62b5498c91778f738f0efbf0a6fd5b434011235a3e7b5f2ed4a2c0c63bb1c786
+    - ${WEBLATE_PORT}:8080
     restart: always
-    command: [redis-server, --save, '60', '1']
-    volumes:
-    - redis-data:/data
-  maildev:
-    image: maildev/maildev:2.2.1@sha256:180ef51f65eefebb0e7122d8308813c1fd7bff164bc440ce5a3c2feee167a810
-    ports:
-    - 1080:1080
+    user: $USER_ID:$GROUP_ID
+    tmpfs:
+    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
+    - /run:uid=$USER_ID,gid=$GROUP_ID
+    userns_mode: host
 volumes:
   weblate-data: {}
   postgres-data: {}

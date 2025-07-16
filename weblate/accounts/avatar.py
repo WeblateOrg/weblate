@@ -44,6 +44,9 @@ def get_fallback_avatar_url(size: int):
 def get_fallback_avatar(size: int):
     """Return fallback avatar."""
     filename = finders.find(f"weblate-{size}.png")
+    if filename is None:
+        msg = f"Missing fallback avatar file for {size=}!"
+        raise OSError(msg)
     with open(filename, "rb") as handle:
         return handle.read()
 
@@ -106,7 +109,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
         username = format_html(
-            '<img src="{}" class="avatar w32" alt="{}" /> {}',
+            '<img src="{}" class="avatar w32" loading="lazy" alt="{}" /> {}',
             avatar,
             gettext("User avatar"),
             username,
@@ -114,7 +117,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
 
     if link and user is not None:
         return format_html(
-            '<a href="{}" title="{}">{}</a>',
+            '<a href="{}" title="{}" class="user-link"><span>{}</span></a>',
             user.get_absolute_url(),
             full_name,
             username,

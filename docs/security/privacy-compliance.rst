@@ -86,13 +86,13 @@ Regulatory mapping
 +-----------------------------+------------------------------------------------------------+
 | LGPD (Brazil)               | Legal basis, access, correction, deletion                  |
 +-----------------------------+------------------------------------------------------------+
-| nFADP (Switzerland)         | Purpose limitation, disclosure transparency                |
+| nFADP (Switzerland)         | Purpose limitation, consent, transparency                  |
 +-----------------------------+------------------------------------------------------------+
 | PIPEDA (Canada)             | Consent, access, individual rights                         |
 +-----------------------------+------------------------------------------------------------+
 | DPDPA (India)               | Lawful processing, consent, notice, user rights            |
 +-----------------------------+------------------------------------------------------------+
-| PIPL (China)                | Purpose limitation, data minimization, localization        |
+| PIPL (China)                | Purpose limitation, data minimization, locality            |
 +-----------------------------+------------------------------------------------------------+
 
 Recommendations for compliance
@@ -102,4 +102,4 @@ Recommendations for compliance
 - **Policy display:** Link to privacy and retention policies directly in Weblate’s user interface, either via :ref:`legal` or :setting:`PRIVACY_URL`.
 - **Audit integration:** Use the built-in audit log and GELF forwarding to meet logging mandates.
 - **Data subject requests:** Define a manual or automated procedure to fulfill access/erasure requests.
-- **Localization:** Ensure infrastructure is physically located within the target jurisdiction as required.
+- **Locality:** Ensure infrastructure is physically located within the target jurisdiction as required.

@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 services:
-  database:
-    image: mariadb:11.7.2@sha256:11706a6fd276c2eada52d0d69b1a2aa1f1484cbe78137678e02cca8f7a0ae502
-    ports:
-    - 60000:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: weblate
   cache:
-    image: redis:8.0.1-alpine@sha256:62b5498c91778f738f0efbf0a6fd5b434011235a3e7b5f2ed4a2c0c63bb1c786
-    restart: always
+    image: redis:8.0.3-alpine@sha256:d12963afb039f10c1fa933187e0d60a128b4d355bc4575d6c143674b38b28019
     ports:
     - 60001:6379
+    restart: always
+  database:
+    image: mariadb:11.8.2@sha256:ee8fadc8e4b4244b636a1d7543dd8c8471a2d66d8de3033312bd3ab33f28db5e
+    environment:
+      MYSQL_ROOT_PASSWORD: weblate
+    ports:
+    - 60000:3306

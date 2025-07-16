@@ -24,7 +24,6 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
@@ -37,12 +36,24 @@
       const $el = $(e.target);
       const raw = $el.parent().parent().data("raw");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
+      submitForm({ target: this.$translationArea });
+    });
+
+    /* Copy, approve and save machinery results */
+    this.$editor.on("click", ".js-copy-approve-save-machinery", (e) => {
+      const $el = $(e.target);
+      const raw = $el.parent().parent().data("raw");
+
+      raw.plural_forms.forEach((pluralForm) => {
+        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
+      });
+      autosize.update(this.$translationArea);
+      WLT.Utils.markApproved(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
 
@@ -72,7 +83,6 @@
         }
         $deleteEntriesDialog.modal("hide");
 
-        // biome-ignore lint/complexity/noForEach: TODO
         Object.entries($deleteEntries).forEach(([_, entry]) => {
           if (typeof entry.id !== "undefined") {
             this.removeTranslationEntry(entry.id);
@@ -171,7 +181,6 @@
     if (restoreValue !== null) {
       const translationRestore = JSON.parse(restoreValue);
 
-      // biome-ignore lint/complexity/noForEach: TODO
       translationRestore.forEach((restoreArea) => {
         const target = document.getElementById(restoreArea.id);
         if (target) {
@@ -221,7 +230,6 @@
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
 
-    // biome-ignore lint/complexity/noForEach: TODO
     $("#js-translate")
       .data("services")
       .forEach((serviceName) => {
@@ -594,6 +602,18 @@
         ),
       );
 
+      if (WLT.Config.HAS_REVIEW_WORKFLOW) {
+        row.append(
+          $(
+            `<td><a class="js-copy-approve-save-machinery btn btn-warning">${gettext(
+              "Accept and approve",
+            )}</a></td>`,
+          ),
+        );
+      } else {
+        row.append($("<td></td>"));
+      }
+
       if (this.state.weblateTranslationMemory.has(el.text)) {
         row.append(
           $(
@@ -635,7 +655,6 @@
       const translations = this.state.translations;
       const modalBody = $("<label>").text("");
 
-      // biome-ignore lint/complexity/noForEach: TODO
       translations.forEach((translation) => {
         if (
           text === translation.text &&
@@ -662,14 +681,12 @@
 
     render(translations) {
       const $translations = $("#machinery-translations");
-      // biome-ignore lint/complexity/noForEach: TODO
       translations.forEach((translation) => {
         const service = this.renderService(translation);
         let insertBefore = null;
         let done = false;
 
         /* This is the merging and insert sort logic */
-        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
         $translations.children("tr").each(function (_idx) {
           const $this = $(this);
           const base = $this.data("raw");

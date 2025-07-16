@@ -100,7 +100,7 @@ def lock_user(
     user: User,
     reason: Literal["locked", "admin-locked"],
     request: AuthenticatedHttpRequest | None = None,
-):
+) -> None:
     user.set_unusable_password()
     user.save(update_fields=["password"])
     AuditLog.objects.create(user, request, reason)
@@ -124,7 +124,7 @@ def get_all_user_mails(user: User, entries=None, filter_deliverable=True):
             VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True)
         )
     emails.add(user.email)
-    emails.discard(None)
+    emails.discard(None)  # type: ignore[arg-type]
     emails.discard("")
     return emails
 

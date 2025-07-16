@@ -6,7 +6,7 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 from typing import Literal
 
-from django.db.models import F, Q
+from django.db.models import Aggregate, Count, F, Q
 from django.test import TestCase
 
 from weblate.auth.models import User
@@ -29,10 +29,26 @@ class SearchTestCase(TestCase):
     object_class = Unit
     parser: Literal["unit", "user", "superuser"] = "unit"
 
-    def assert_query(self, string, expected, exists=False, **context) -> None:
-        result = parse_query(string, parser=self.parser, **context)
-        self.assertEqual(result, expected)
-        self.assertEqual(self.object_class.objects.filter(result).exists(), exists)
+    def assert_query(
+        self,
+        string: str,
+        expected: Q | tuple[Q, dict[str, Aggregate]],
+        *,
+        expected_annotations: dict[str, Aggregate] | None = None,
+        exists: bool = False,
+        **context,
+    ) -> None:
+        filters, annotations = parse_query(string, parser=self.parser, **context)
+        if isinstance(expected, tuple):
+            expected, expected_annotations = expected
+        elif expected_annotations is None:
+            expected_annotations = {}
+        self.assertEqual(filters, expected)
+        self.assertEqual(annotations, expected_annotations)
+        self.assertEqual(
+            self.object_class.objects.annotate(**annotations).filter(filters).exists(),
+            exists,
+        )
 
 
 class UnitQueryParserTest(SearchTestCase):
@@ -216,7 +232,7 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_bool(self) -> None:
-        self.assert_query("pending:true", Q(pending=True))
+        self.assert_query("pending:true", Q(pending_changes__isnull=False))
 
     def test_nonexisting(self) -> None:
         with self.assertRaises(ValueError):
@@ -376,7 +392,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("has:glossary", Q(source__isnull=True))
 
     def test_is(self) -> None:
-        self.assert_query("is:pending", Q(pending=True))
+        self.assert_query("is:pending", Q(pending_changes__isnull=False))
         self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
@@ -512,6 +528,24 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("source:'", parse_query('''source:"'"'''))
         self.assert_query('source:"', parse_query("""source:'"'"""))
 
+    def test_labels_count(self) -> None:
+        annotation = {"labels_count": Count("source_unit__labels") + Count("labels")}
+        self.assert_query(
+            "labels_count:2", Q(labels_count=2), expected_annotations=annotation
+        )
+        self.assert_query(
+            "labels_count:=2", Q(labels_count__exact=2), expected_annotations=annotation
+        )
+        self.assert_query(
+            "labels_count:>3", Q(labels_count__gt=3), expected_annotations=annotation
+        )
+        self.assert_query(
+            "labels_count:<=1", Q(labels_count__lte=1), expected_annotations=annotation
+        )
+
+        with self.assertRaises(ValueError):
+            self.assert_query("labels_count:invalid", Q())
+
 
 class UserQueryParserTest(SearchTestCase):
     object_class = User
@@ -633,7 +667,7 @@ class SearchTest(ViewTestCase, SearchTestCase):
 
     def test_glossary_match(self) -> None:
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
-        glossary.add_unit(None, "", "hello", "ahoj")
+        glossary.add_unit(None, "", "hello", "ahoj", author=self.user)
 
         if using_postgresql():
             expected = "[[:<:]](hello)[[:>:]]"
@@ -642,6 +676,6 @@ class SearchTest(ViewTestCase, SearchTestCase):
         self.assert_query(
             "has:glossary",
             Q(source__iregex=expected),
-            True,
+            exists=True,
             project=self.project,
         )

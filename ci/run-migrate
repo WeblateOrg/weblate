@@ -9,10 +9,10 @@
 . ci/lib.sh
 
 if [ -n "$1" ]; then
-    TAG="weblate-$1"
+	TAG="weblate-$1"
 else
-    echo "Missing version to migrate from!"
-    exit 1
+	echo "Missing version to migrate from!"
+	exit 1
 fi
 
 HEAD_COMMIT=$(git rev-parse HEAD)
@@ -24,8 +24,8 @@ print_step "Testing migration from $TAG on $CI_DATABASE..."
 cleanup_database
 check
 if ! git fetch --depth 1 origin tag "$TAG"; then
-    git remote add upstream https://github.com/WeblateOrg/weblate.git
-    git fetch --depth 1 upstream tag "$TAG"
+	git remote add upstream https://github.com/WeblateOrg/weblate.git
+	git fetch --depth 1 upstream tag "$TAG"
 fi
 check
 git checkout "$TAG"
@@ -40,15 +40,15 @@ check
 # - Force PyGobject 3.52 to be compatible with girepository-2.0
 uv pip install --override /tmp/migrate-override.txt -e ".[all,ci,mysql]"
 check
-echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
+echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >>weblate/settings_test.py
 check
 if [ -n "$CI_DB_PASSWORD" ]; then
-    echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >> weblate/settings_test.py
-    check
+	echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >>weblate/settings_test.py
+	check
 fi
 if [ -n "$CI_DB_PORT" ]; then
-    echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >> weblate/settings_test.py
-    check
+	echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >>weblate/settings_test.py
+	check
 fi
 ./manage.py migrate
 check
@@ -83,6 +83,28 @@ check
 ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
 check
 
+# Add a pending unit
+semver_compare "$1" "<" "5.12"
+pending_migration_test=$?
+if [ "$pending_migration_test" -eq 0 ]; then
+	./manage.py shell <<EOF
+from django.contrib.auth import get_user_model
+from weblate.trans.models import Unit, Change
+from weblate.utils.state import STATE_TRANSLATED
+User = get_user_model()
+user = User.objects.create(username="migratetest")
+unit = Unit.objects.all()[0]
+unit.target = "Test Target"
+unit.explanation = "Test Explanation"
+unit.state = STATE_TRANSLATED
+unit.save()
+Change.objects.create(translation=unit.translation, user=user, action=1, unit=unit, target=unit.target)
+unit.pending = True
+unit.save()
+EOF
+	check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -95,3 +117,29 @@ check
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell -c 'from weblate.trans.models import Vote; Vote.objects.get(value=1)'
 check
+
+# Check migrated pending unit
+if [ "$pending_migration_test" -eq 0 ]; then
+	uv run --all-extras ./manage.py shell <<EOF
+from weblate.trans.models import PendingUnitChange
+
+change = PendingUnitChange.objects.get()
+unit = change.unit
+
+errors = []
+if change.target != unit.target:
+    errors.append(f"Target mismatch: '{change.target}' != '{unit.target}'")
+if change.explanation != unit.explanation:
+    errors.append(f"Explanation mismatch: '{change.explanation}' != '{unit.explanation}'")
+if change.state != unit.state:
+    errors.append(f"State mismatch: {change.state} != {unit.state}")
+# The migration uses get_last_content_change to get author
+author = unit.get_last_content_change()[0]
+if change.author != author:
+    errors.append(f"Author mismatch: {change.author} != {author}")
+if change.source_unit_explanation != unit.source_unit.explanation:
+    errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
+assert not errors, "\n".join(errors)
+EOF
+	check
+fi

@@ -153,7 +153,10 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api.cognitive.microsofttranslator.com", "Global (non-regional)"),
             ("api-apc.cognitive.microsofttranslator.com", "Asia Pacific"),
             ("api-eur.cognitive.microsofttranslator.com", "Europe"),
-            ("api-nam.cognitive.microsofttranslator.com", "North America"),
+            (
+                "api-nam.cognitive.microsofttranslator.com",  # codespell:ignore
+                "North America",
+            ),
             ("api.translator.azure.cn", "China"),
             ("api.cognitive.microsofttranslator.us", "Azure US Government cloud"),
         ),
@@ -333,6 +336,16 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         widget=forms.Textarea,
         help_text=gettext_lazy(
             "Describe the context of the translation to improve the accuracy of the translation."
+        ),
+        required=False,
+    )
+    next_gen = forms.BooleanField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Use next-gen model",
+        ),
+        help_text=gettext_lazy(
+            "Prefer next-gen LLM over classic machine translation model."
         ),
         required=False,
     )

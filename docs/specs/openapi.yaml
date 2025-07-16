@@ -3402,6 +3402,9 @@ paths:
             - 78
             - 79
             - 8
+            - 80
+            - 81
+            - 82
             - 9
         description: |-
           * `0` - Resource updated
@@ -3478,6 +3481,9 @@ paths:
           * `77` - Propagated change
           * `78` - File uploaded
           * `79` - Extra flags updated
+          * `80` - Font uploaded
+          * `81` - Font changed
+          * `82` - Font removed
         explode: true
         style: form
       - in: query
@@ -40546,6 +40552,282 @@ paths:
           description: ''
         '204':
           description: No response body
+  /users/{username}/contributions/:
+    get:
+      operationId: users_contributions_retrieve
+      description: List translation contributions of a user.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          - json-flat
+      - in: path
+        name: username
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - users
+      - contributions
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersContributionsRetrieveErrorResponse400'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/UsersContributionsRetrieveErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicUser'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/BasicUser'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /users/{username}/groups/:
     post:
       operationId: users_groups_create
@@ -43176,6 +43458,9 @@ components:
       - 77
       - 78
       - 79
+      - 80
+      - 81
+      - 82
       type: integer
       description: |-
         * `0` - Resource updated
@@ -43252,6 +43537,9 @@ components:
         * `77` - Propagated change
         * `78` - File uploaded
         * `79` - Extra flags updated
+        * `80` - Font uploaded
+        * `81` - Font changed
+        * `82` - Font removed
     Addon:
       type: object
       properties:
@@ -54527,6 +54815,8 @@ components:
       - arb
       - aresource
       - ass
+      - catkeys
+      - cmp-resource
       - csv
       - csv-multi-utf-8
       - csv-simple
@@ -54592,6 +54882,8 @@ components:
         * `arb` - ARB file
         * `aresource` - Android String Resource
         * `ass` - Advanced SubStation Alpha subtitle file
+        * `catkeys` - Haiku catkeys
+        * `cmp-resource` - Compose Multiplatform Resource
         * `csv` - CSV file
         * `csv-multi-utf-8` - Multivalue CSV file (UTF-8)
         * `csv-simple` - Simple CSV file
@@ -57581,9 +57873,11 @@ components:
       - APSL-2.0
       - Arphic-1999
       - Artistic-1.0
+      - Artistic-dist
       - Artistic-1.0-Perl
       - Artistic-1.0-cl8
       - Artistic-2.0
+      - Aspell-RU
       - ASWF-Digital-Assets-1.1
       - ASWF-Digital-Assets-1.0
       - AAL
@@ -57791,6 +58085,7 @@ components:
       - FSFAP
       - FSFAP-no-warranty-disclaimer
       - FSFUL
+      - FSFULLRSD
       - FSFULLRWD
       - FSFULLR
       - FSL-1.1-ALv2
@@ -57844,6 +58139,7 @@ components:
       - gtkbook
       - Gutmann
       - HaskellReport
+      - HDF5
       - hdparm
       - HP-1986
       - HP-1989
@@ -57985,6 +58281,7 @@ components:
       - NPL-1.0
       - NPL-1.1
       - Newsletr
+      - ngrep
       - NICTA-1.0
       - NIST-PD
       - NIST-PD-fallback
@@ -58051,6 +58348,7 @@ components:
       - Pixar
       - pkgconf
       - Plexus
+      - libpng-1.6.35
       - libpng-2.0
       - pnmstitch
       - PolyForm-Noncommercial-1.0.0
@@ -58103,6 +58401,7 @@ components:
       - SMAIL-GPL
       - SNIA
       - snprintf
+      - SOFA
       - softSurfer
       - SHL-0.5
       - SHL-0.51
@@ -58123,6 +58422,7 @@ components:
       - Sun-PPP-2000
       - SPL-1.0
       - SunPro
+      - SUL-1.0
       - swrule
       - Watcom-1.0
       - Symlinks
@@ -58161,6 +58461,8 @@ components:
       - UPL-1.0
       - NCSA
       - UnixCrypt
+      - Unlicense-libtelnet
+      - Unlicense-libwhirlpool
       - UCL-1.0
       - URT-RLE
       - Vim
@@ -58241,9 +58543,11 @@ components:
         * `APSL-2.0` - Apple Public Source License 2.0
         * `Arphic-1999` - Arphic Public License
         * `Artistic-1.0` - Artistic License 1.0
+        * `Artistic-dist` - Artistic License 1.0 (dist)
         * `Artistic-1.0-Perl` - Artistic License 1.0 (Perl)
         * `Artistic-1.0-cl8` - Artistic License 1.0 w/clause 8
         * `Artistic-2.0` - Artistic License 2.0
+        * `Aspell-RU` - Aspell Russian License
         * `ASWF-Digital-Assets-1.1` - ASWF Digital Assets License 1.1
         * `ASWF-Digital-Assets-1.0` - ASWF Digital Assets License version 1.0
         * `AAL` - Attribution Assurance License
@@ -58451,6 +58755,7 @@ components:
         * `FSFAP` - FSF All Permissive License
         * `FSFAP-no-warranty-disclaimer` - FSF All Permissive License (without Warranty)
         * `FSFUL` - FSF Unlimited License
+        * `FSFULLRSD` - FSF Unlimited License (with License Retention and Short Disclaimer)
         * `FSFULLRWD` - FSF Unlimited License (With License Retention and Warranty Disclaimer)
         * `FSFULLR` - FSF Unlimited License (with License Retention)
         * `FSL-1.1-ALv2` - Functional Source License, Version 1.1, ALv2 Future License
@@ -58504,6 +58809,7 @@ components:
         * `gtkbook` - gtkbook License
         * `Gutmann` - Gutmann License
         * `HaskellReport` - Haskell Language Report License
+        * `HDF5` - HDF5 License
         * `hdparm` - hdparm License
         * `HP-1986` - Hewlett-Packard 1986 License
         * `HP-1989` - Hewlett-Packard 1989 License
@@ -58645,6 +58951,7 @@ components:
         * `NPL-1.0` - Netscape Public License v1.0
         * `NPL-1.1` - Netscape Public License v1.1
         * `Newsletr` - Newsletr License
+        * `ngrep` - ngrep License
         * `NICTA-1.0` - NICTA Public Software License, Version 1.0
         * `NIST-PD` - NIST Public Domain Notice
         * `NIST-PD-fallback` - NIST Public Domain Notice with license fallback
@@ -58711,6 +59018,7 @@ components:
         * `Pixar` - Pixar License
         * `pkgconf` - pkgconf License
         * `Plexus` - Plexus Classworlds License
+        * `libpng-1.6.35` - PNG Reference Library License v1 (for libpng 0.5 through 1.6.35)
         * `libpng-2.0` - PNG Reference Library version 2
         * `pnmstitch` - pnmstitch License
         * `PolyForm-Noncommercial-1.0.0` - PolyForm Noncommercial License 1.0.0
@@ -58763,6 +59071,7 @@ components:
         * `SMAIL-GPL` - SMAIL General Public License
         * `SNIA` - SNIA Public License 1.1
         * `snprintf` - snprintf License
+        * `SOFA` - SOFA Software License
         * `softSurfer` - softSurfer License
         * `SHL-0.5` - Solderpad Hardware License v0.5
         * `SHL-0.51` - Solderpad Hardware License, Version 0.51
@@ -58783,6 +59092,7 @@ components:
         * `Sun-PPP-2000` - Sun PPP License (2000)
         * `SPL-1.0` - Sun Public License v1.0
         * `SunPro` - SunPro License
+        * `SUL-1.0` - Sustainable Use License v1.0
         * `swrule` - swrule License
         * `Watcom-1.0` - Sybase Open Watcom Public License 1.0
         * `Symlinks` - Symlinks License
@@ -58821,6 +59131,8 @@ components:
         * `UPL-1.0` - Universal Permissive License v1.0
         * `NCSA` - University of Illinois/NCSA Open Source License
         * `UnixCrypt` - UnixCrypt License
+        * `Unlicense-libtelnet` - Unlicense - libtelnet variant
+        * `Unlicense-libwhirlpool` - Unlicense - libwhirlpool variant
         * `UCL-1.0` - Upstream Compatibility License v1.0
         * `URT-RLE` - Utah Raster Toolkit Run Length Encoded License
         * `Vim` - Vim License
@@ -68029,6 +68341,13 @@ components:
           - $ref: '#/components/schemas/BlankEnum'
       required:
       - file
+    UsersContributionsRetrieveErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          client_error: '#/components/schemas/ParseErrorResponse'
     UsersCreateError:
       oneOf:
       - $ref: '#/components/schemas/UsersCreateNonFieldErrorsErrorComponent'
@@ -69247,7 +69566,7 @@ externalDocs:
 webhooks:
   AddonWebhook:
     post:
-      description: 'Pushes events to a notification URL. '
+      description: Pushes events to a notification URL.
       summary: A Webhook event for an addon
       tags:
       - webhooks
@@ -69259,7 +69578,7 @@ webhooks:
               $id: https://weblate.org/schemas/weblate-messaging.schema.json
               $schema: http://json-schema.org/draft-07/schema#
               title: Weblate Messaging
-              description: Schema for Weblate Fedora Messaging
+              description: Schema for Weblate Messaging
               additionalProperties: false
               definitions: {}
               type: object
@@ -69323,6 +69642,12 @@ webhooks:
                 translation:
                   title: Translation Language Code
                   type: string
+                category:
+                  title: Category and subcategory slugs
+                  type: array
+                  items:
+                    title: Category slug
+                    type: string
             examples:
               AuthenticationFailed:
                 value:

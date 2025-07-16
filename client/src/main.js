@@ -11,13 +11,9 @@
  */
 
 // Imports
-// biome-ignore lint/correctness/noUndeclaredDependencies: is defined
 import datarangepicker from "daterangepicker";
-// biome-ignore lint/correctness/noUndeclaredDependencies: is defined
 import jQuery from "jquery";
-// biome-ignore lint/correctness/noUndeclaredDependencies: is defined
 import moment from "moment";
-// biome-ignore lint/correctness/noUndeclaredDependencies: is defined
 import slugify from "slugify";
 
 // Definitions in global scope

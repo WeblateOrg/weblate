@@ -261,6 +261,7 @@ class AddonsConf(AppConf):
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         "weblate.addons.webhooks.WebhookAddon",
+        "weblate.addons.webhooks.SlackWebhookAddon",
     )
 
     LOCALIZE_CDN_URL = None
@@ -309,7 +310,7 @@ def execute_addon_event(
 
     def addon_logger(
         level: Literal["debug", "error"], message: str, *args: StrOrPromise
-    ):
+    ) -> None:
         if scope is None:
             if level == "debug":
                 LOGGER.debug(message, *args)

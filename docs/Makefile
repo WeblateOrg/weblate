@@ -37,10 +37,10 @@ update-screenshots: $(SCREENSHOTS)
 	@echo $(SCREENSHOTS)
 
 update-schemas:
-	@cp $$(python -c "import importlib.resources; print(importlib.resources.files('weblate_schemas'))")/schemas/* schemas/
+	@cp $$(python -c "import importlib.resources; print(importlib.resources.files('weblate_schemas'))")/schemas/* specs/schemas/
 
 update-openapi:
-	@uv run --no-sync ../manage.py spectacular --skip-checks --fail-on-warn --validate --urlconf="weblate.api.urls" > specs/openapi.yaml
+	@WEBLATE_HIDE_VERSION=1 uv run --no-sync ../manage.py spectacular --skip-checks --fail-on-warn --validate --urlconf="weblate.api.urls" > specs/openapi.yaml
 
 update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
 

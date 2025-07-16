@@ -257,7 +257,9 @@ class GlossarySameCheckTest(ViewTestCase):
         )
 
     def add_glossary(self, source: str, flags: str) -> None:
-        self.glossary.add_unit(None, context="", source=source, extra_flags=flags)
+        self.glossary.add_unit(
+            None, context="", source=source, extra_flags=flags, author=self.user
+        )
 
     def add_glossary_words(self, flags: str = "terminology,read-only") -> None:
         self.add_glossary("hello", flags)

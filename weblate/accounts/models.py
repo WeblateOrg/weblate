@@ -8,7 +8,8 @@ import datetime
 import logging
 import re
 from datetime import timedelta
-from typing import TYPE_CHECKING, Literal
+from ipaddress import IPv6Network, ip_network
+from typing import TYPE_CHECKING, Any, Literal
 from urllib.parse import urlparse
 
 from appconf import AppConf
@@ -370,7 +371,7 @@ class AuditLogManager(models.Manager):
 
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
-    def create(
+    def create(  # type: ignore[override]
         self, user: User, request: AuthenticatedHttpRequest | None, activity, **params
     ):
         address = get_ip_address(request)
@@ -433,13 +434,15 @@ class AuditLog(models.Model):
         verbose_name_plural = "Audit log entries"
 
     def __str__(self) -> str:
-        return f"{self.activity} for {self.user.username} from {self.address}"
+        if self.user:
+            return f"{self.activity} for {self.user.username} from {self.address}"
+        return f"{self.activity} from {self.address}"
 
     def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
 
         # User notification
-        if self.should_notify():
+        if self.should_notify() and self.user:
             email = self.user.email
             notify_auditlog.delay_on_commit(self.pk, email)
 
@@ -452,10 +455,10 @@ class AuditLog(models.Model):
             self.address,
         )
 
-    def get_params(self):
+    def get_params(self) -> dict[str, Any]:
         from weblate.accounts.templatetags.authnames import get_auth_name
 
-        result = {
+        result: dict[str, Any] = {
             "site_title": settings.SITE_TITLE,
         }
         for name, value in self.params.items():
@@ -480,14 +483,14 @@ class AuditLog(models.Model):
             message = ACCOUNT_ACTIVITY_METHOD[method][activity]
         else:
             message = ACCOUNT_ACTIVITY[activity]
-        return format_html(message, **self.get_params())
+        return format_html(str(message), **self.get_params())
 
-    def get_extra_message(self):
+    def get_extra_message(self) -> str | None:
         if self.activity in EXTRA_MESSAGES:
             return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None
 
-    def should_notify(self):
+    def should_notify(self) -> bool:
         return (
             self.user is not None
             and not self.user.is_bot
@@ -501,7 +504,11 @@ class AuditLog(models.Model):
         """Check whether the activity should be rate limited."""
         from weblate.accounts.utils import lock_user
 
-        if self.activity == "failed-auth" and self.user.has_usable_password():
+        if (
+            self.activity == "failed-auth"
+            and self.user
+            and self.user.has_usable_password()
+        ):
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 lock_user(self.user, "locked", request)
@@ -517,6 +524,15 @@ class AuditLog(models.Model):
                 return True
 
         return False
+
+    @property
+    def shortened_address(self) -> str:
+        if not self.address:
+            return ""
+        network = ip_network(self.address)
+        prefix_len = 48 if isinstance(network, IPv6Network) else 16
+        supernet = network.supernet(new_prefix=prefix_len)
+        return str(supernet.network_address)
 
 
 class VerifiedEmail(models.Model):
@@ -657,6 +673,13 @@ class Profile(models.Model):
         default=settings.DEFAULT_AUTO_WATCH,
         help_text=gettext_lazy(
             "Whenever you translate a string in a project, you will start watching it."
+        ),
+    )
+    contribute_personal_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to personal translation memory"),
+        default=True,
+        help_text=gettext_lazy(
+            "Allow your translations to be added to your personal translation memory."
         ),
     )
 
@@ -934,15 +957,13 @@ class Profile(models.Model):
         self, request: AuthenticatedHttpRequest | None
     ) -> Callable[
         [
-            Iterable[
-                Unit
-                | Translation
-                | Language
-                | ProjectLanguageStats
-                | CategoryLanguageStats
-                | GhostProjectLanguageStats
-                | GhostTranslation
-            ]
+            Unit
+            | Translation
+            | Language
+            | ProjectLanguageStats
+            | CategoryLanguageStats
+            | GhostProjectLanguageStats
+            | GhostTranslation
         ],
         str,
     ]:
@@ -1101,7 +1122,7 @@ class Profile(models.Model):
 
     def get_second_factor_type(self) -> Literal["totp", "webauthn"]:
         if self.last_2fa in self.second_factor_types:
-            return self.last_2fa
+            return self.last_2fa  # type: ignore[return-value]
         for tested in ("webauthn", "totp"):
             if tested in self.second_factor_types:
                 return tested

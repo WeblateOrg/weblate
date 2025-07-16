@@ -16,8 +16,8 @@ If you are not sure about your bug report or feature request, you can try :ref:`
 
 .. _ai-issues:
 
-Using AI to created issues
---------------------------
+Using AI to create issues
+-------------------------
 
 If you asked an AI tool to find problems in Weblate or its modules, you
 **must** make sure to reveal this fact in your report.

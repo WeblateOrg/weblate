@@ -1,0 +1,11 @@
+{% if user_list %}
+  <tr>
+    <th>
+      {{ user_title }}<span class="badge">{{ user_list|length }}</span>
+    </th>
+    <td colspan="2" class="full-cell">
+      {% for admin in user_list|slice:":25" %}{{ admin.profile.get_user_display_link }}{% endfor %}
+      {% if user_list|length > 25 %}…{% endif %}
+    </td>
+  </tr>
+{% endif %}

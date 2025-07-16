@@ -4,6 +4,8 @@
 
 # mypy: disable-error-code="var-annotated"
 
+import os
+
 from appconf import AppConf
 
 
@@ -45,6 +47,7 @@ class WeblateConf(AppConf):
     SENTRY_DSN = None
     SENTRY_SECURITY = None
     SENTRY_ENVIRONMENT = "devel"
+    SENTRY_MONITOR_BEAT_TASKS = True
     SENTRY_TOKEN = None
     SENTRY_SEND_PII = False
     SENTRY_PROJECTS = ["weblate"]
@@ -66,7 +69,7 @@ class WeblateConf(AppConf):
 
     BORG_EXTRA_ARGS = None
 
-    HIDE_VERSION = False
+    HIDE_VERSION = "WEBLATE_HIDE_VERSION" in os.environ
 
     CSP_SCRIPT_SRC = []
     CSP_IMG_SRC = []

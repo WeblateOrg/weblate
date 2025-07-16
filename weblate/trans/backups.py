@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     Label,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
@@ -132,7 +133,7 @@ class ProjectBackup:
         return list(getattr(obj, relation).values_list(field, flat=True))
 
     def backup_teams(self, project: Project) -> list[dict]:
-        extras = {}
+        extras: dict[str, Callable] = {}
         for schema_name, relation, field in [
             ("roles", "roles", "name"),
             ("languages", "languages", "code"),
@@ -306,6 +307,23 @@ class ProjectBackup:
                     translation__component=component
                 ).iterator()
             ],
+            "pending_unit_changes": [
+                self.backup_object(
+                    pending_unit_change,
+                    self.component_schema["properties"]["pending_unit_changes"][
+                        "items"
+                    ]["required"],
+                    extras={
+                        "unit_id_hash": lambda obj: obj.unit.checksum,
+                        "translation_id": lambda obj: obj.unit.translation_id,
+                    },
+                )
+                for pending_unit_change in PendingUnitChange.objects.for_component(
+                    component
+                )
+                .prefetch_related("unit", "author")
+                .iterator(2000)
+            ],
         }
         # component category is not a required field
         if component.category:
@@ -416,7 +434,7 @@ class ProjectBackup:
         *,
         skip_linked: bool = False,
         do_restore: bool = False,
-    ) -> None:
+    ) -> bool:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
@@ -470,8 +488,8 @@ class ProjectBackup:
 
     def restore_unit(self, item, translation_lookup, source_unit_lookup=None):
         kwargs = item.copy()
-        for skip in ("labels", "comments", "suggestions", "checks"):
-            kwargs.pop(skip)
+        for skip in ("labels", "comments", "suggestions", "checks", "pending"):
+            kwargs.pop(skip, None)
         kwargs["id_hash"] = checksum_to_hash(kwargs["id_hash"])
         kwargs["translation_id"] = translation_lookup[kwargs["translation_id"]].id
         unit = Unit(**kwargs)
@@ -480,7 +498,7 @@ class ProjectBackup:
             unit.source_unit = source_unit_lookup[item["id_hash"]]
         return unit
 
-    def restore_user(self, username):
+    def restore_user(self, username: str) -> User:
         if not self.user_cache:
             self.user_cache[settings.ANONYMOUS_USER_NAME] = get_anonymous()
         if username not in self.user_cache:
@@ -494,14 +512,16 @@ class ProjectBackup:
 
         return self.user_cache[username]
 
-    def restore_with_user(self, data, field: str = "user", remove: str | None = None):
+    def restore_with_user(
+        self, data: dict[str, Any], field: str = "user", remove: str | None = None
+    ) -> dict[str, Any]:
         data = data.copy()
         if remove is not None:
             data.pop(remove)
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_users(self, usernames: list[str]):
+    def restore_users(self, usernames: list[str]) -> list[User]:
         users = []
         for username in usernames:
             user = self.restore_user(username)
@@ -514,7 +534,7 @@ class ProjectBackup:
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
 
-    def restore_team(self, team: dict):
+    def restore_team(self, team: dict) -> None:
         if team["name"] == "Administration":
             group = Group.objects.get(name=team["name"], defining_project=self.project)
         else:
@@ -539,11 +559,58 @@ class ProjectBackup:
         ]
         AutoGroup.objects.bulk_create(autogroups)
 
-    def restore_teams(self, data: list[dict]):
+    def restore_teams(self, data: list[dict]) -> None:
         self.roles_cache = {r.name: r for r in Role.objects.all()}
         self.create_language_cache()
         for team in data:
             self.restore_team(team)
+
+    def restore_pending_unit_changes(
+        self,
+        data: dict,
+        *,
+        translation_lookup: dict,
+        source_units: list[Unit],
+        units: list[Unit],
+    ) -> None:
+        if "pending_unit_changes" in data:
+            all_units = defaultdict(dict)
+            for unit in chain(source_units, units):
+                all_units[unit.translation.id][unit.checksum] = unit
+
+            pending_unit_changes = []
+            for item in data["pending_unit_changes"]:
+                new_translation = translation_lookup[item["translation_id"]]
+                unit = all_units[new_translation.id][item["unit_id_hash"]]
+                pending_unit_changes.append(
+                    PendingUnitChange(
+                        unit=unit,
+                        author=self.restore_user(item["author"]),
+                        target=item["target"],
+                        explanation=item["explanation"],
+                        source_unit_explanation=item["source_unit_explanation"],
+                        timestamp=item["timestamp"],
+                        add_unit=item["add_unit"],
+                        state=item["state"],
+                    )
+                )
+        else:
+            pending_unit_changes = [
+                PendingUnitChange(
+                    unit=unit,
+                    author=unit.get_last_content_change()[0],
+                    target=unit.target,
+                    explanation=unit.explanation,
+                    source_unit_explanation=unit.source_unit.explanation,
+                    state=unit.state,
+                    add_unit=unit.details.get("add_unit", False),
+                )
+                for unit in chain(source_units, units)
+                if unit.import_data.get("pending")
+            ]
+
+        if pending_unit_changes:
+            PendingUnitChange.objects.bulk_create(pending_unit_changes)
 
     def restore_component(self, zipfile, data) -> None:  # noqa: C901
         kwargs = data["component"].copy()
@@ -669,10 +736,25 @@ class ProjectBackup:
                 }
                 for suggestion in suggestions:
                     if suggestion_data[suggestion.target]["votes"]:
+                        # Ignore conflicts here as more users can be mapped to anonymous
+                        # in restore_user().
                         Vote.objects.bulk_create(
-                            Vote(suggestion=suggestion, **self.restore_with_user(vote))
-                            for vote in suggestion_data[suggestion.target]["votes"]
+                            [
+                                Vote(
+                                    suggestion=suggestion,
+                                    **self.restore_with_user(vote),
+                                )
+                                for vote in suggestion_data[suggestion.target]["votes"]
+                            ],
+                            ignore_conflicts=True,
                         )
+
+        self.restore_pending_unit_changes(
+            data,
+            translation_lookup=translation_lookup,
+            source_units=source_units,
+            units=units,
+        )
 
         # Create screenshots
         screenshots = []
@@ -708,11 +790,11 @@ class ProjectBackup:
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
 
-    def create_language_cache(self):
+    def create_language_cache(self) -> None:
         if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
 
-    def import_language(self, code: str):
+    def import_language(self, code: str) -> Language:
         self.create_language_cache()
         try:
             return self.languages_cache[code]
@@ -724,7 +806,7 @@ class ProjectBackup:
 
     def restore_categories(
         self, categories: list[dict], parent_category: Category | None = None
-    ):
+    ) -> None:
         category_objs = [
             Category(
                 name=category["name"],

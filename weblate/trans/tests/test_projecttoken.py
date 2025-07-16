@@ -33,7 +33,7 @@ class ProjectTokenTest(ViewTestCase):
         return result.group(1)
 
     def delete_token(self) -> None:
-        token = User.objects.filter(is_bot=True).get()
+        token = User.objects.filter(is_bot=True).exclude(username__contains=":").get()
         response = self.client.post(
             reverse("delete-user", kwargs=self.kw_project),
             {"user": token.username},

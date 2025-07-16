@@ -2,22 +2,7 @@
 
 {% load compress crispy_forms_tags i18n metrics permissions static translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements project=object %}
-
-  {% include "snippets/project/state.html" %}
-
-  {% include "snippets/watch-dropdown.html" with project=object %}
-
+{% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'project.edit' object as user_can_edit_project %}
@@ -44,6 +29,9 @@
         <li>
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
         {% if last_announcements %}
           <li>
             <a href="#announcement-history" data-toggle="tab">{% translate "Announcements" %}</a>
@@ -60,6 +48,9 @@
             <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
+        <li>
+          <a href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -87,7 +78,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -100,106 +91,116 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
-      </ul>
-    </li>
-    {% if user_can_manage_acl or user_can_edit_project or user_can_see_repository_status or user.is_authenticated %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_see_repository_status %}
-            <li>
-              <a href="#repository"
-                 data-toggle="tab"
-                 data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
-            </li>
-            <li role="separator" class="divider"></li>
-          {% endif %}
+        <li role="separator" class="divider"></li>
+        {% if user_can_see_repository_status %}
           <li>
-            <a href="{% url 'memory' project=object.slug %}">{% translate "Translation memory" %}</a>
+            <a href="#repository"
+               data-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
           </li>
-          {% if announcement_form %}
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if user_can_edit_project %}
-            <li>
-              <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
-            </li>
-            {% if offer_hosting %}
-              {% for billing in object.billings %}
-                {% if billing.is_libre_trial %}
-                  <li>
-                    <a href="{{ billing.get_absolute_url }}">{% translate "Request approval for Libre hosting" %}</a>
-                  </li>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          {% endif %}
-          {% if user_can_manage_acl %}
-            <li>
-              <a href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
-            </li>
-          {% endif %}
-          {% if user_can_edit_project %}
-            <li>
-              <a href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'machinery-list' project=object.slug %}">{% translate "Automatic suggestions" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
-            </li>
-          {% endif %}
-
-          {% if user_can_view_billing and object.billings %}
+          <li role="separator" class="divider"></li>
+        {% endif %}
+        <li>
+          <a href="{% url 'memory' project=object.slug %}">{% translate "Translation memory" %}</a>
+        </li>
+        {% if announcement_form %}
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        <li>
+          <a href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+        </li>
+        {% if user_can_edit_project %}
+          <li>
+            <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
+          </li>
+          {% if offer_hosting %}
             {% for billing in object.billings %}
-              <li>
-                <a href="{{ billing.get_absolute_url }}">{% translate "Billing" %}</a>
-              </li>
+              {% if billing.is_libre_trial %}
+                <li>
+                  <a href="{{ billing.get_absolute_url }}">{% translate "Request approval for Libre hosting" %}</a>
+                </li>
+              {% endif %}
             {% endfor %}
           {% endif %}
+        {% endif %}
+        {% if user_can_manage_acl %}
+          <li>
+            <a href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
+          </li>
+        {% endif %}
+        {% if user_can_edit_project %}
+          <li>
+            <a href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'machinery-list' project=object.slug %}">{% translate "Automatic suggestions" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
+          </li>
+          <li>
+            <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+          </li>
+        {% endif %}
 
-          {% if delete_form or rename_form or user_can_edit_project %}
-            <li role="separator" class="divider"></li>
+        {% if user_can_view_billing and object.billings %}
+          {% for billing in object.billings %}
+            <li>
+              <a href="{{ billing.get_absolute_url }}">{% translate "Billing" %}</a>
+            </li>
+          {% endfor %}
+        {% endif %}
 
-            {% if user_can_edit_project %}
-              <li>
-                <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
-              </li>
-            {% endif %}
-            {% if delete_form or rename_form %}
-              <li>
-                <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-              </li>
-            {% endif %}
+        {% if delete_form or rename_form or user_can_edit_project %}
+          <li role="separator" class="divider"></li>
+
+          {% if user_can_edit_project %}
+            <li>
+              <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+            </li>
           {% endif %}
-        </ul>
-      </li>
-    {% endif %}
+          {% if delete_form or rename_form %}
+            <li>
+              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+    </li>
     {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements project=object %}
+
+  {% include "snippets/project/state.html" %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'project.permissions' object as user_can_manage_acl %}
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">
@@ -221,13 +222,13 @@
     </div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
-        {% include "last-changes-content.html" with last_changes=last_announcements %}
+        {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
            href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>

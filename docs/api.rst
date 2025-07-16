@@ -346,6 +346,7 @@ Users
             "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
+            "contributions_url": "http://example.com/api/users/exampleusername/contributions/"
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
@@ -413,6 +414,14 @@ Users
     :>json int uploaded: Number of uploads by user
     :>json int commented: Number of comments by user
     :>json int languages: Number of languages user can translate
+
+.. http:get:: /api/users/(str:username)/contributions/
+
+    List translations with contributions from a user.
+
+    :param username: User's username
+    :type username: string
+    :>json array translations: link to translations; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
 .. http:get:: /api/users/(str:username)/notifications/
 

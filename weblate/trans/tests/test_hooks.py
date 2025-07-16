@@ -13,6 +13,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.hooks import HOOK_HANDLERS
 
@@ -22,7 +23,7 @@ GITHUB_PAYLOAD = """
 "repository": {
 "url": "http://github.com/defunkt/github",
 "name": "github",
-"description": "You're lookin' at it.",
+"description": "You're looking at it.",
 "watchers": 5,
 "forks": 2,
 "private": 1,
@@ -69,7 +70,7 @@ GITHUB_NEW_PAYLOAD = """
 "clone_url": "https://github.com/defunkt/github.git",
 "svn_url": "https://github.com/defunkt/github",
 "name": "github",
-"description": "You're lookin' at it.",
+"description": "You're looking at it.",
 "watchers": 5,
 "forks": 2,
 "private": 1,
@@ -969,6 +970,7 @@ AZURE_PAYLOAD_OLD = """
   "createdDate": "2019-08-06T12:12:53.3798179Z"
 }
 """
+# spellchecker:off
 AZURE_PAYLOAD_SPACES = r"""
 {
     "subscriptionId": "8efced88-c100-41a3-96ca-ee29eb1f877a",
@@ -1061,6 +1063,7 @@ AZURE_PAYLOAD_SPACES = r"""
     "createdDate": "8efced88-c100-41a3-96ca-ee29eb1f877a"
 }
 """
+# spellchecker:on
 
 GITEA_PAYLOAD = """
 {
@@ -1306,6 +1309,12 @@ class HooksViewTest(ViewTestCase):
             headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
+
+        # Check change details display
+        change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
+        self.assertIn("GitHub", change.get_details_display())
+        self.assertIn("http://github.com/defunkt/github", change.get_details_display())
+        self.assertIn("main", change.get_details_display())
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_new(self) -> None:

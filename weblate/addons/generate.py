@@ -231,6 +231,7 @@ class PrefillAddon(LocaleGenerateAddonBase):
                 query=Q(state=STATE_EMPTY),
             )
         if updated:
+            # Commit generated changes to the files
             component.commit_pending("add-on", None)
 
 
@@ -262,4 +263,5 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
                 query=Q(state=STATE_READONLY) & ~Q(target=F("source")),
             )
         if updated:
+            # Commit generated changes to the files
             component.commit_pending("add-on", None)

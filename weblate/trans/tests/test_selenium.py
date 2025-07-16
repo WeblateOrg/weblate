@@ -432,20 +432,16 @@ class SeleniumTests(
         )
         return project
 
-    def create_glossary(self, project, language) -> Translation:
-        glossary = project.glossaries[0].translation_set.get(language=language)
-        glossary.add_unit(
-            None,
-            "",
-            "machine translation",
-            "strojový překlad",
+    def create_glossary(
+        self, user: User, project: Project, language: Language
+    ) -> Translation:
+        glossary: Translation = project.glossaries[0].translation_set.get(
+            language=language
         )
         glossary.add_unit(
-            None,
-            "",
-            "project",
-            "projekt",
+            None, "", "machine translation", "strojový překlad", author=user
         )
+        glossary.add_unit(None, "", "project", "projekt", author=user)
         return glossary
 
     def view_site(self) -> None:
@@ -495,7 +491,7 @@ class SeleniumTests(
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Screenshots")
         self.screenshot("screenshot-filemask-repository-filename.png")
@@ -505,6 +501,8 @@ class SeleniumTests(
         # Make sure tesseract data is present and not downloaded at request time
         # what will cause test timeout.
         ensure_tesseract_language("eng")
+
+        user = self.do_login(superuser=True)
 
         text = (
             "Automatic translation via machine translation uses active "
@@ -520,7 +518,7 @@ class SeleniumTests(
         )
         source.explanation = "Help text for automatic translation tool"
         source.save()
-        self.create_glossary(project, language)
+        self.create_glossary(user, project, language)
         source.translation.component.alert_set.all().delete()
 
         def capture_unit(name, tab) -> None:
@@ -546,7 +544,6 @@ class SeleniumTests(
                 )
             )
 
-        self.do_login(superuser=True)
         capture_unit("source-information.png", "toggle-nearby")
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
@@ -556,7 +553,7 @@ class SeleniumTests(
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Django")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Screenshots")
 
@@ -651,7 +648,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         self.click("Post announcement")
         self.screenshot("announcement-project.png")
 
@@ -763,7 +760,7 @@ class SeleniumTests(
         self.screenshot("project-overview.png")
 
         # User management
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Users")
         element = self.driver.find_element(By.ID, "id_user")
@@ -777,7 +774,7 @@ class SeleniumTests(
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Automatic suggestions")
         self.screenshot("project-machinery.png")
@@ -785,7 +782,7 @@ class SeleniumTests(
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Access")
@@ -798,7 +795,7 @@ class SeleniumTests(
             self.click("WeblateOrg")
 
         # Engage page
-        self.click("Share")
+        self.click("Community")
         with self.wait_for_page_load():
             self.click("Status widgets")
         self.screenshot("promote.png")
@@ -813,10 +810,10 @@ class SeleniumTests(
             self.click("Language names")
 
         # Repository
-        self.click("Manage")
+        self.click("Operations")
         self.click("Repository maintenance")
         time.sleep(0.2)
-        self.click("Manage")
+        self.click("Operations")
         self.screenshot("component-repository.png")
 
         # Add-ons
@@ -861,7 +858,7 @@ class SeleniumTests(
         self.screenshot("reporting.png")
 
         # Contributor license agreement
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         element = self.driver.find_element(By.ID, "id_agreement")
@@ -891,10 +888,10 @@ class SeleniumTests(
         self.click("Customize download")
         self.click("Files")
         self.screenshot("file-download.png")
-        self.click("Tools")
+        self.click("Operations")
         self.click("Automatic translation")
         self.click(htmlid="id_auto_source_1")
-        self.click("Tools")
+        self.click("Operations")
         self.screenshot("automatic-translation.png")
         self.click("Search")
         element = self.driver.find_element(By.ID, "id_q")
@@ -1062,7 +1059,7 @@ class SeleniumTests(
         self.click("Alerts")
         self.screenshot("alerts.png")
 
-        self.click("Manage")
+        self.click("Insights")
         with self.wait_for_page_load():
             self.click("Community localization checklist")
         self.screenshot("guide.png")
@@ -1075,7 +1072,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Fonts")
 
@@ -1182,7 +1179,7 @@ class SeleniumTests(
             self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Labels")
         element = self.driver.find_element(By.ID, "id_name")
@@ -1205,7 +1202,7 @@ class SeleniumTests(
             self.click("Android")
 
         # Edit variant configuration
-        self.click("Manage")
+        self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Translation")
@@ -1244,10 +1241,10 @@ class SeleniumTests(
         time.sleep(0.2)
 
     def test_glossary(self) -> None:
-        self.do_login()
+        user = self.do_login()
         project = self.create_component()
         language = Language.objects.get(code="cs")
-        glossary = self.create_glossary(project, language)
+        glossary = self.create_glossary(user, project, language)
 
         self.driver.get(f"{self.live_server_url}{glossary.get_absolute_url()}")
         self.screenshot("glossary-component.png")

@@ -1,7 +1,93 @@
-Weblate 5.12
+Weblate 5.13
 ------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+* :doc:`/formats/catkeys`.
+* Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
+
+.. rubric:: Improvements
+
+* :ref:`search-strings` supports ``labels_count:NUMBER`` lookup.
+* A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry monitoring of Celery Beat tasks.
+* :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
+* Background commits are now identified by an internal user.
+* Reorganized navigation menu.
+* When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
+
+.. rubric:: Bug fixes
+
+* :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
+* :ref:`mt-deepl` integration now correctly handle all supported source languages.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.13.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/143?closed=1>`__.
+
+Weblate 5.12.2
+--------------
+
+*Released on June 20th 2025.*
+
+.. rubric:: Improvements
+
+* :ref:`mt-deepl` integration now supports using next-gen LLM model.
+
+.. rubric:: Bug fixes
+
+* Restoring :ref:`projectbackup` with votes.
+* Improved error handling in :ref:`mt-apertium-apy`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.12.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?closed=1>`__.
+
+Weblate 5.12.1
+--------------
+
+*Released on June 16th 2025.*
+
+.. rubric:: Bug fixes
+
+* :ref:`sbom` now includes serial number.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.12.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?closed=1>`__.
+
+Weblate 5.12
+------------
+
+*Released on June 16th 2025.*
+
+.. rubric:: Security
+
+* Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:`4qqf-9m5c-w2c5`).
+* Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`).
 
 .. rubric:: New features
 
@@ -10,6 +96,10 @@ Weblate 5.12
 * Added :ref:`check-kabyle-characters` quality check.
 * :ref:`sbom` is now being provided for Weblate.
 * :doc:`/security/index` documentation.
+* Added support for :doc:`/formats/compose-multiplatform-resources`.
+* Added :guilabel:`Translation Coordinator` role.
+* :ref:`addon-weblate.webhook.slack` is now available as an add-on.
+* Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
 
 .. rubric:: Improvements
 
@@ -22,6 +112,11 @@ Weblate 5.12
 * :http:post:`/api/projects/` allows non-superusers to create projects when :ref:`billing` module is enabled.
 * :http:post:`/api/groups/` supports project-scoped team creation by non-superusers.
 * :http:get:`/api/users/` now includes ``languages``.
+* :ref:`addon-weblate.webhook.webhook` documentation improved.
+* Improved support for extended metadata in :ref:`tbx`.
+* :ref:`addon-weblate.webhook.webhook` now includes a category field when available.
+* Uploaded fonts can be updated and changes to them are tracked, see :ref:`fonts`.
+* Weblate is now available in Bashkir language.
 
 .. rubric:: Bug fixes
 
@@ -30,10 +125,13 @@ Weblate 5.12
 * :ref:`addon-weblate.webhook.webhook` delivery of project-wide events.
 * False reports of :ref:`check-translated` with flags or explanation changes.
 * Creating new translations in :doc:`/formats/appstore`.
+* :ref:`search-replace` correctly handles plurals.
 
 .. rubric:: Compatibility
 
 * The projects and categories default tab now shows translated languages.
+* If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
+* :ref:`saml-auth` support is no longer included in the default dependencies.
 
 .. rubric:: Upgrading
 
@@ -173,7 +271,7 @@ Weblate 5.11
 
 .. rubric:: Bug fixes
 
-* **Security:** Cloning a component could leak component configuration into the URL (CVE-2025-32021).
+* **Security:** Cloning a component could leak component configuration into the URL (:cve:`2025-32021`).
 * Fixed captcha verification when some time zone was configured.
 * Improved translation propagation performance.
 * Leading and trailing whitespace are now correctly stripped in glossary strings that also contain a :ref:`check-prohibited-initial-character`.
@@ -437,7 +535,7 @@ Weblate 5.9
 .. rubric:: Improvements
 
 * :ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional).
-* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Manage` → :guilabel:`Duplicate this component`).
+* A shortcut to duplicate a component is now available directly in the menu (:guilabel:`Operations` → :guilabel:`Duplicate this component`).
 * Included username when generating :ref:`credits`.
 * :ref:`bulk-edit` shows a preview of matched strings.
 * :http:get:`/api/components/(string:project)/(string:component)/` exposes component lock state.
@@ -732,7 +830,7 @@ Weblate 5.6.2
 * :ref:`addons` button layout.
 * Crash when installing :ref:`addon-weblate.discovery.discovery` add-on.
 * Removal of source strings in :ref:`glossary`.
-* Validation of :ref:`projectbackup` ZIP file upon restoring (CVE-2024-39303 / GHSA-jfgp-674x-6q4p).
+* Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`).
 
 .. rubric:: Upgrading
 
@@ -1028,7 +1126,7 @@ Weblate 5.4
 .. rubric:: New features
 
 * :ref:`check-perl-brace-format` quality check.
-* :doc:`/formats/moko`.
+* :doc:`/formats/moko-resources`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
 * Weblate is now available in Tamil.

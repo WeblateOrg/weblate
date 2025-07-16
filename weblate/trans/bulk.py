@@ -8,6 +8,7 @@ from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
 from weblate.trans.models.label import TRANSLATION_LABELS
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = {STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED}
@@ -44,8 +45,7 @@ def bulk_perform(  # noqa: C901
     for component in components:
         prev_updated = updated
         component.batch_checks = True
-        with transaction.atomic(), component.lock:
-            component.commit_pending("bulk edit", user)
+        with transaction.atomic():
             component_units = matching.filter(translation__component=component)
 
             source_unit_ids = set()
@@ -56,7 +56,7 @@ def bulk_perform(  # noqa: C901
                     component_units.values_list("source_unit_id", flat=True)
                 )
             else:
-                update_unit_ids = []
+                to_update = []
                 source_units = []
                 unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
@@ -71,26 +71,27 @@ def bulk_perform(  # noqa: C901
                         and unit.state in EDITABLE_STATES
                     ):
                         # Create change object for edit, update is done outside the loop
+                        unit.state = target_state
                         unit.generate_change(
                             user, user, ActionEvents.BULK_EDIT, check_new=False
                         )
                         updated += 1
-                        update_unit_ids.append(unit.pk)
+                        to_update.append(unit)
                         if unit.is_source:
                             source_units.append(unit)
 
                 # Bulk update state
-                Unit.objects.filter(pk__in=update_unit_ids).update(
-                    pending=True, state=target_state
+                Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
+                    state=target_state
                 )
+                for unit in to_update:
+                    PendingUnitChange.store_unit_change(unit=unit, author=user)
                 # Fire source_change event in bulk for source units
                 for unit in source_units:
                     # The change is already done in the database, we
                     # need it here to recalculate state of translation
                     # units
                     unit.is_batch_update = True
-                    unit.pending = True
-                    unit.state = target_state
                     unit.source_unit_save()
 
             if update_source and (

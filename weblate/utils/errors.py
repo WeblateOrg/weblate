@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, Literal
 import sentry_sdk
 from django.conf import settings
 from django.utils.translation import get_language
-from sentry_sdk.integrations import DidNotEnable
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -104,20 +103,15 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
 
 def init_sentry() -> None:
     integrations = [
-        CeleryIntegration(monitor_beat_tasks=True),
+        CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
         DjangoIntegration(),
         RedisIntegration(),
     ]
-    try:
-        from sentry_sdk.integrations.openai import OpenAIIntegration
-
-        integrations.append(OpenAIIntegration(include_prompts=True))
-    except DidNotEnable:
-        pass
 
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
         integrations=integrations,
+        auto_enabling_integrations=False,
         send_default_pii=settings.SENTRY_SEND_PII,
         release=weblate.utils.version.GIT_REVISION or weblate.utils.version.TAG_NAME,
         environment=settings.SENTRY_ENVIRONMENT,

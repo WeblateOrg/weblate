@@ -113,7 +113,7 @@ class AdminTest(ViewTestCase):
         response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 
-    def test_performace(self) -> None:
+    def test_performance(self) -> None:
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
 

@@ -105,6 +105,7 @@ LANGUAGE_CODE = "en-us"
 LANGUAGES = (
     ("ar", "العربية"),
     ("az", "Azərbaycan"),
+    ("ba", "башҡорт теле"),  # codespell:ignore
     ("be", "Беларуская"),
     ("be-latn", "Biełaruskaja"),
     ("bg", "Български"),
@@ -511,6 +512,8 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
         "social_core.backends.open_id_connect.OpenIdConnectAuth",
     )
     SOCIAL_AUTH_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_KEY", required=True)
+    SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_TITLE")
+    SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_IMAGE")
     SOCIAL_AUTH_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )
@@ -889,10 +892,6 @@ LOGGING: dict = {
             # Toggle to DEBUG to log all database queries
             "level": get_env_str("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
-        "redis_lock": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-        },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
@@ -1194,6 +1193,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.webhooks.WebhookAddon",
+    "weblate.addons.webhooks.SlackWebhookAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
@@ -1245,7 +1245,7 @@ REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "redis_lock.django_cache.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "{}://{}:{}/{}".format(
             REDIS_PROTO,
             get_env_str("REDIS_HOST", "cache", required=True),
@@ -1488,6 +1488,7 @@ MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")
 GOOGLE_ANALYTICS_ID = get_env_str("WEBLATE_GOOGLE_ANALYTICS_ID")
 SENTRY_DSN = get_env_str("SENTRY_DSN")
 SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
+SENTRY_MONITOR_BEAT_TASKS = get_env_bool("SENTRY_MONITOR_BEAT_TASKS", True)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE", 1.0)
 SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")

@@ -575,6 +575,41 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @extend_schema(
+        description="List translation contributions of a user.",
+        methods=["get"],
+        tags=["users", "contributions"],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
+    def contributions(self, request: Request, **kwargs):
+        user_translation_ids = set(
+            Change.objects.content()
+            .filter(user=self.get_object())
+            .values_list("translation", flat=True)
+        )
+        user_translations = (
+            Translation.objects.filter_access(request.user)
+            .prefetch()
+            .filter(
+                id__in=user_translation_ids,
+            )
+            .order()
+        )
+
+        page = self.paginate_queryset(user_translations)
+
+        serializer = TranslationSerializer(
+            page,
+            many=True,
+            context={"request": request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 @extend_schema_view(
     create=extend_schema(description="Create a new group."),
@@ -615,7 +650,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         self.perm_check(
             self.request, project=serializer.validated_data.get("defining_project")
         )
@@ -1000,7 +1035,7 @@ class ProjectViewSet(
                 )
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
-                serializer.instance.post_create(self.request.user)
+                serializer.instance.post_create(self.request.user, origin="api")
                 return Response(
                     serializer.data,
                     status=HTTP_201_CREATED,
@@ -1385,18 +1420,23 @@ class ComponentViewSet(
 
             if "language_code" not in request.data:
                 msg = "Missing 'language_code' parameter"
-                raise ValidationError({"languge_code": msg})
+                raise ValidationError({"language_code": msg})
 
             language_code = request.data["language_code"]
 
-            try:
-                language = Language.objects.get(code=language_code)
-            except Language.DoesNotExist as error:
-                msg = f"No language code {language_code!r} found!"
-                raise ValidationError({"language_code": msg}) from error
-
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+
+            if request.user.has_perm("translation.add_more", obj):
+                base_languages = obj.get_all_available_languages()
+            else:
+                base_languages = obj.get_available_languages()
+
+            try:
+                language = base_languages.get(code=language_code)
+            except Language.DoesNotExist as error:
+                message = f"Could not add {language_code!r}!"
+                raise ValidationError({"language_code": message}) from error
 
             translation = obj.add_new_language(language, request)
             if translation is None:

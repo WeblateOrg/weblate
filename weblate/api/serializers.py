@@ -242,6 +242,9 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:user-statistics", lookup_field="username"
     )
+    contributions_url = serializers.HyperlinkedIdentityField(
+        view_name="api:user-contributions", lookup_field="username"
+    )
 
     class Meta:
         model = User
@@ -260,6 +263,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "last_login",
             "url",
             "statistics_url",
+            "contributions_url",
         )
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -1196,7 +1200,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     last_updated = serializers.DateTimeField(read_only=True)
-    pending = serializers.BooleanField(read_only=True)
+    pending = serializers.BooleanField(source="has_pending_changes", read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
     class Meta:

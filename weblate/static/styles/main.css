@@ -27,6 +27,10 @@
   height: 32px;
 }
 
+.user-link {
+  margin: 3px;
+}
+
 .user-list {
   display: flex;
   flex-wrap: wrap;
@@ -288,6 +292,10 @@ textarea#id_check_flags {
   white-space: pre-wrap;
 }
 
+.hlcheck.disabled {
+  cursor: not-allowed;
+}
+
 .hlmatch {
   background-color: #eb3;
 }
@@ -295,13 +303,19 @@ textarea#id_check_flags {
 .hlspace,
 .nbsp,
 .token.newline {
-  outline: 1px dotted red;
   color: #bfc3c7;
   white-space: pre-wrap;
 }
+
+.hlspace,
+.nbsp {
+  outline: 1px dotted red;
+}
+
 .nbsp {
   white-space: nowrap !important;
 }
+
 .space-tab,
 .space-nl,
 .space-space,
@@ -310,6 +324,7 @@ textarea#id_check_flags {
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
 }
+
 .space-tab::before {
   content: "→";
   position: relative;
@@ -318,7 +333,8 @@ textarea#id_check_flags {
 .space-nl::before,
 .token.newline::before {
   content: "↵";
-  position: relative;
+  position: absolute;
+  outline: 1px dotted red;
 }
 
 .space-space::before {
@@ -1227,7 +1243,9 @@ th.number {
 .state-icon {
   vertical-align: middle;
 }
-
+.badge {
+  margin: 3px;
+}
 .badge.length,
 .badge.license {
   color: #fff;
@@ -1592,6 +1610,16 @@ a.format-item:hover {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+.label {
+  padding: 0.2em 0.6em;
+}
+
+h2 .label {
+  font-size: 12px;
+  vertical-align: middle;
+  text-transform: uppercase;
 }
 
 .label-box:empty {
@@ -2061,7 +2089,7 @@ a.language:hover {
 .unit-state-approved {
   background-color: #1fa385;
 }
-.unit-state-saving {
+.unit-state-save-timeout {
   animation: morph-state 2s infinite;
 }
 @keyframes morph-state {
@@ -2486,4 +2514,9 @@ table.table-simple tbody#glossary-terms td {
   font-size: 16px;
   border-radius: var(--border-radius-sm);
   color: #555555;
+}
+
+.text-warning {
+  font-size: 14px;
+  margin: 5px 5px 0px;
 }

@@ -40,7 +40,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -1166,22 +1166,7 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         return workflow_settings[0]
 
 
-class ProjectLanguageStats(SingleLanguageStats):
-    def __init__(self, obj: ProjectLanguage) -> None:
-        self.language = obj.language
-        self.project = obj.project
-        super().__init__(obj)
-        obj.stats = self
-
-    @cached_property
-    def has_review(self):
-        return self.project.source_review or self.project.translation_review
-
-    def get_child_objects(self):
-        return self.language.translation_set.filter(
-            component__project=self.project
-        ).only("id", "language")
-
+class ChecklistStats(SingleLanguageStats):
     def calculate_by_name(self, name: str) -> None:
         super().calculate_by_name(name)
         if name.startswith("check:"):
@@ -1189,7 +1174,7 @@ class ProjectLanguageStats(SingleLanguageStats):
         elif name.startswith("label:"):
             self.calculate_labels()
 
-    def aggregate_stats(self, keys: Iterable[str]):
+    def aggregate_stats(self, keys: Iterable[str]) -> None:
         self.ensure_loaded()
         all_stats: list[BaseStats] = self.aggregated_stats
         suffixes: tuple[str, ...] = ("", "_words", "_chars")
@@ -1212,18 +1197,47 @@ class ProjectLanguageStats(SingleLanguageStats):
         )
 
 
-class CategoryLanguage(BaseURLMixin):
+class ProjectLanguageStats(ChecklistStats):
+    def __init__(self, obj: ProjectLanguage) -> None:
+        self.language = obj.language
+        self.project = obj.project
+        super().__init__(obj)
+        obj.stats = self
+
+    @cached_property
+    def has_review(self):
+        return self.project.source_review or self.project.translation_review
+
+    def get_child_objects(self):
+        return self.language.translation_set.filter(
+            component__project=self.project
+        ).only("id", "language")
+
+
+class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     """Wrapper class used in category-language listings and stats."""
 
     remove_permission = "translation.delete"
 
-    def __init__(self, category, language: Language) -> None:
+    def __init__(self, category: Category, language: Language) -> None:
         self.category = category
         self.language = language
         self.component = ProjectLanguageComponent(self)
 
     def __str__(self) -> str:
         return f"{self.category} - {self.language}"
+
+    @property
+    def project(self) -> Project:
+        return self.category.project
+
+    @property
+    def enable_review(self) -> bool:
+        return self.project.enable_review
+
+    @property
+    def is_readonly(self) -> bool:
+        return False
 
     @property
     def code(self):
@@ -1279,7 +1293,7 @@ class CategoryLanguage(BaseURLMixin):
         return self.language.change_set.for_category(self.category)
 
 
-class CategoryLanguageStats(SingleLanguageStats):
+class CategoryLanguageStats(ChecklistStats):
     def __init__(self, obj: CategoryLanguage) -> None:
         self.language = obj.language
         self.category = obj.category

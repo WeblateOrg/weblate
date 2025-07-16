@@ -6,6 +6,7 @@
 
 import os
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -16,6 +17,7 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
+from weblate.formats.base import UnitNotFoundError
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
@@ -26,8 +28,10 @@ from weblate.trans.models import (
     Comment,
     Component,
     ComponentList,
+    PendingUnitChange,
     Project,
     Suggestion,
+    Translation,
     Unit,
     Vote,
 )
@@ -262,44 +266,106 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
 
-    def test_commit_groupping(self) -> None:
+    def test_commit_grouping(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
         start_rev = component.repository.last_revision
-        # Initial translation
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test2", STATE_TRANSLATED)
-        # Translation completed, no commit forced
-        self.assertEqual(start_rev, component.repository.last_revision)
-        # Translation from same author should not trigger commit
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test3", STATE_TRANSLATED)
-        for unit in translation.unit_set.iterator():
-            unit.translate(user, "test4", STATE_TRANSLATED)
-        self.assertEqual(start_rev, component.repository.last_revision)
-        # Translation from other author should trigger commit
-        for i, unit in enumerate(translation.unit_set.iterator()):
+        units = list(translation.unit_set.all())
+        # translations by same author in one commit
+        units[0].translate(user, "test1", STATE_TRANSLATED)
+        units[1].translate(user, "test2", STATE_TRANSLATED)
+        count = 1
+        # translations by different author in different commits
+        for unit in [units[2], units[3]]:
             user = User.objects.create(
                 full_name=f"User {unit.pk}",
                 username=f"user-{unit.pk}",
                 email=f"{unit.pk}@example.com",
             )
-            # Fetch current pending state, it might have been
-            # updated by background commit
-            unit.pending = Unit.objects.get(pk=unit.pk).pending
             unit.translate(user, "test", STATE_TRANSLATED)
-            if i == 0:
-                # First edit should trigger commit
-                self.assertNotEqual(start_rev, component.repository.last_revision)
-                start_rev = component.repository.last_revision
-
-        # No further commit now
+            count += 1
+        # no instant automatic commit
         self.assertEqual(start_rev, component.repository.last_revision)
+        self.assertEqual(translation.count_pending_units, 4)
+
+        with patch.object(
+            translation.store, "find_unit", side_effect=UnitNotFoundError("test error")
+        ):
+            # Check failure in committing pending changes retains them in db
+            # use _commit_pending, patching won't work if the Translation object
+            # is loaded from the db
+            translation._commit_pending("test", None)  # noqa: SLF001
+            self.assertEqual(translation.count_pending_units, 4)
 
         # Commit pending changes
         translation.commit_pending("test", None)
         self.assertNotEqual(start_rev, component.repository.last_revision)
+        self.assertEqual(component.repository.count_outgoing(), count)
+        self.assertEqual(translation.count_pending_units, 0)
+
+    def test_group_changes_by_author(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        user1 = create_test_user()
+        user2 = create_another_user()
+
+        units = list(translation.unit_set.all())
+        units[0].translate(user1, "test1", STATE_TRANSLATED)
+        units[1].translate(user2, "test2", STATE_TRANSLATED)
+        units[2].translate(user1, "test3", STATE_TRANSLATED)
+        # change conflicts with user 2's edit on unit 1,
+        # user 2's changes will be split into a separate commit
+        # to ensure it is applied first
+        units[1].translate(user1, "test2!", STATE_TRANSLATED)
+        units[3].translate(user2, "test4", STATE_TRANSLATED)
+
+        all_changes = list(
+            PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
+        )
+        groups = Translation._group_changes_by_author(all_changes)  # noqa: SLF001
+        self.assertEqual(len(groups), 3)
+
+        author, changes = groups[0]
+        self.assertEqual(author, user2)
+        self.assertEqual(len(changes), 1)
+        self.assertEqual([c.unit for c in changes], [units[1]])
+
+        author, changes = groups[1]
+        self.assertEqual(author, user1)
+        self.assertEqual(len(changes), 3)
+        self.assertEqual([c.unit for c in changes], [units[0], units[2], units[1]])
+
+        author, changes = groups[2]
+        self.assertEqual(author, user2)
+        self.assertEqual(len(changes), 1)
+        self.assertEqual([c.unit for c in changes], [units[3]])
+
+    def test_commit_explanation(self):
+        user = create_test_user()
+        component = self.create_tbx()
+
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+        en_translation = component.translation_set.get(language_code="en")
+        source_unit = en_translation.unit_set.get(source="address bar")
+        source_unit.update_explanation("explanation 1", user)
+
+        # one change for each translation file, source language does not have
+        # a translation file
+        self.assertFalse(PendingUnitChange.objects.filter(unit=source_unit).exists())
+        self.assertEqual(
+            PendingUnitChange.objects.count(), component.translation_set.count() - 1
+        )
+        component.commit_pending("test", None)
+
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+        cs_translation = component.translation_set.get(language_code="cs")
+        target_unit = cs_translation.unit_set.get(source="address bar")
+        target_unit.update_explanation("explanation 2", user)
+        # only adds pending change for target unit's translation file
+        self.assertEqual(PendingUnitChange.objects.count(), 1)
 
 
 class ComponentListTest(RepoTestCase):

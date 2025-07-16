@@ -22,10 +22,10 @@
             {% documentation_icon 'admin/backup' right=True %}
             {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
             {% if service.has_errors %}
-              <span class="label label-warning">{% translate "Turned off" %}</span>
+              <span class="label label-danger">{% translate "Failed with an error" %}</span>
             {% endif %}
             {% if not service.enabled %}
-              <span class="label label-danger">{% translate "Failed with an error" %}</span>
+              <span class="label label-warning">{% translate "Turned off" %}</span>
             {% endif %}
           </h4>
         </div>
@@ -45,9 +45,7 @@
                        data-parent="#accordion-{{ service.pk }}"
                        href="#error-{{ service.pk }}"
                        aria-expanded="true"
-                       aria-controls="collapse-{{ service.pk }}">
-                      {% translate "Unpaid service subscription" %}{{ support_status }}
-                    </a>
+                       aria-controls="collapse-{{ service.pk }}">{% translate "Unpaid service subscription" %}</a>
                   </h4>
                 </div>
                 <div id="error-{{ service.pk }}" class="panel-collapse collapse in" role="tabpanel">

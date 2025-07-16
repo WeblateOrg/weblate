@@ -157,6 +157,7 @@ class ChangesView(PathViewMixin, ListView):
     def get_queryset(self):
         """Return list of changes to browse."""
         filters = {}
+        excludes = {}
         params: dict[str, Model]
         if self.path_object is None:
             params = {}
@@ -189,11 +190,18 @@ class ChangesView(PathViewMixin, ListView):
                 filters["timestamp__lte"] = period["end_date"]
             if user := form.cleaned_data.get("user"):
                 filters["user"] = user
+            # If we are filtering all the entries by one user, all
+            # other users are excluded by default, so we don't need
+            # to set this exclude.
+            elif exclude_user := form.cleaned_data.get("exclude_user"):
+                excludes["user"] = exclude_user
 
         result = Change.objects.last_changes(self.request.user, **params)
 
         if filters:
             result = result.filter(**filters)
+        if excludes:
+            result = result.exclude(**excludes)
 
         return result
 

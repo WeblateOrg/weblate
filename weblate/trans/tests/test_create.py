@@ -9,6 +9,8 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language, get_default_lang
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
@@ -180,8 +182,6 @@ class CreateTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_existing(self) -> None:
-        from weblate.trans.models import Component
-
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -282,6 +282,9 @@ class CreateTest(ViewTestCase):
                 getattr(new_component, field), getattr(self.component, field)
             )
 
+        change = new_component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details["origin"], "vcs")
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch_fail(self) -> None:
         # Make superuser
@@ -326,6 +329,10 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "Return to the component")
 
+        component = Component.objects.get(slug="create-component")
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details["origin"], "branch")
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_invalid_zip(self) -> None:
         self.user.is_superuser = True
@@ -347,25 +354,24 @@ class CreateTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_zip(self) -> None:
-        self.user.is_superuser = True
-        self.user.save()
-        with (
-            open(TEST_ZIP, "rb") as handle,
-            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
-        ):
-            response = self.client.post(
-                reverse("create-component-zip"),
-                {
-                    "zipfile": handle,
-                    "name": "Create Component",
-                    "slug": "create-component",
-                    "project": self.project.pk,
-                    "source_language": get_default_lang(),
-                },
-            )
-        self.assertContains(response, "*.po")
-
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.user.is_superuser = True
+            self.user.save()
+            with (
+                open(TEST_ZIP, "rb") as handle,
+            ):
+                response = self.client.post(
+                    reverse("create-component-zip"),
+                    {
+                        "zipfile": handle,
+                        "name": "Create Component",
+                        "slug": "create-component",
+                        "project": self.project.pk,
+                        "source_language": get_default_lang(),
+                    },
+                )
+            self.assertContains(response, "*.po")
+
             response = self.client.post(
                 reverse("create-component-zip"),
                 {
@@ -378,30 +384,39 @@ class CreateTest(ViewTestCase):
                     "source_language": get_default_lang(),
                 },
             )
-        self.assertContains(response, "Adding new translation")
-        self.assertContains(response, "*.po")
+            self.assertContains(response, "Adding new translation")
+            self.assertContains(response, "*.po")
+
+            form = response.context["form"]
+            params = {field: form[field].value() or "" for field in form.fields}
+            params["new_lang"] = "none"
+            response = self.client.post(
+                reverse("create-component-zip"), params, follow=True
+            )
+            self.assertContains(response, "Test/Create Component")
+
+            component = Component.objects.get(slug="create-component")
+            change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+            self.assertEqual(change.details["origin"], "zip")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_doc(self) -> None:
-        self.user.is_superuser = True
-        self.user.save()
-        with (
-            open(TEST_HTML, "rb") as handle,
-            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
-        ):
-            response = self.client.post(
-                reverse("create-component-doc"),
-                {
-                    "docfile": handle,
-                    "name": "Create Component",
-                    "slug": "create-component",
-                    "project": self.project.pk,
-                    "source_language": get_default_lang(),
-                },
-            )
-        self.assertContains(response, "*.html")
-
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.user.is_superuser = True
+            self.user.save()
+            with open(TEST_HTML, "rb") as handle:
+                response = self.client.post(
+                    reverse("create-component-doc"),
+                    {
+                        "docfile": handle,
+                        "name": "Create Component",
+                        "slug": "create-component",
+                        "project": self.project.pk,
+                        "source_language": get_default_lang(),
+                    },
+                )
+            self.assertContains(response, "*.html")
+
             response = self.client.post(
                 reverse("create-component-doc"),
                 {
@@ -414,8 +429,21 @@ class CreateTest(ViewTestCase):
                     "source_language": get_default_lang(),
                 },
             )
-        self.assertContains(response, "Adding new translation")
-        self.assertContains(response, "*.html")
+            self.assertContains(response, "Adding new translation")
+            self.assertContains(response, "*.html")
+
+            form = response.context["form"]
+            params = {field: form[field].value() or "" for field in form.fields}
+            # TODO: Template editing not supported with HTML, but it is automatically selected
+            del params["edit_template"]
+            response = self.client.post(
+                reverse("create-component-doc"), params, follow=True
+            )
+            self.assertContains(response, "Test/Create Component")
+
+            component = Component.objects.get(slug="create-component")
+            change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+            self.assertEqual(change.details["origin"], "document")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_doc_category(self) -> None:
@@ -527,6 +555,10 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "Test/Create Component")
 
+        component = Component.objects.get(slug="create-component")
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details["origin"], "scratch")
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_bilingual(self) -> None:
         # Make superuser
@@ -548,6 +580,10 @@ class CreateTest(ViewTestCase):
             )
         self.assertContains(response, "Test/Create Component")
 
+        component = Component.objects.get(slug="create-component")
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details["origin"], "scratch")
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_strings(self) -> None:
         # Make superuser
@@ -568,3 +604,8 @@ class CreateTest(ViewTestCase):
                 follow=True,
             )
         self.assertContains(response, "Test/Create Component")
+
+        component = Component.objects.get(slug="create-component")
+        change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
+        self.assertEqual(change.details["origin"], "scratch")
+        self.assertIn("scratch", change.get_details_display())

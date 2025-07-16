@@ -10,24 +10,8 @@
   {% endcompress %}
 {% endblock extra_script %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
-  </li>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% if form.errors or userform.errors or subscriptionform.errors %}
-    {% translate "Please fix errors in the form." as msg %}
-    {% show_message "error" msg %}
-  {% endif %}
-
-  <form method="post" action="{% url 'profile' %}">
-    {% csrf_token %}
-    <input type="hidden" id="form-activetab" name="activetab" value="" />
-
-    <ul class="nav nav-pills">
+{% block nav_pills %}
+  <ul class="nav nav-pills">
       <li class="nav-item">
         <a class="nav-link active"
            data-bs-toggle="tab"
@@ -59,6 +43,24 @@
         <a class="nav-link" data-bs-toggle="tab" data-bs-target="#api" href="#">{% translate "API access" %}</a>
       </li>
     </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if form.errors or userform.errors or subscriptionform.errors %}
+    {% translate "Please fix errors in the form." as msg %}
+    {% show_message "error" msg %}
+  {% endif %}
+
+  <form method="post" action="{% url 'profile' %}">
+    {% csrf_token %}
+    <input type="hidden" id="form-activetab" name="activetab" value="" />
 
     <div class="tab-content">
 

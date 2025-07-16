@@ -9,6 +9,7 @@ from collections import defaultdict
 from collections.abc import (
     Iterable,
 )
+from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
@@ -240,6 +241,9 @@ class Group(models.Model):
         return str(self)
 
 
+bot_cache = ContextVar("bot_cache", default=dict)
+
+
 class UserManager(BaseUserManager["User"]):
     def _create_user(self, username, email, password, **extra_fields):
         """Create and save a User with the given fields."""
@@ -266,17 +270,24 @@ class UserManager(BaseUserManager["User"]):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def get_or_create_bot(self, scope: str, username: str, verbose: str):
-        return self.get_or_create(
-            username=f"{scope}:{username}",
-            defaults={
-                "is_bot": True,
-                "full_name": verbose,
-                "email": f"noreply-{scope}-{username}@weblate.org",
-                "is_active": False,
-                "password": make_password(None),
-            },
-        )[0]
+    def get_or_create_bot(self, *, scope: str, name: str, verbose: str) -> User:
+        cached = bot_cache.get({})
+        username = f"{scope}:{name}"
+        try:
+            return cached[username]
+        except KeyError:
+            user = self.get_or_create(
+                username=username,
+                defaults={
+                    "is_bot": True,
+                    "full_name": verbose,
+                    "email": f"noreply-{scope}-{name}@weblate.org",
+                    "is_active": False,
+                    "password": make_password(None),
+                },
+            )[0]
+            cached[username] = user
+            return user
 
 
 class UserQuerySet(models.QuerySet["User"]):
@@ -314,7 +325,8 @@ class UserQuerySet(models.QuerySet["User"]):
                 Q(username__icontains=query) | Q(full_name__icontains=query)
             )
         else:
-            result = self.filter(parse_query(query, parser=parser, **context))
+            filters, annotations = parse_query(query, parser=parser, **context)
+            result = self.annotate(**annotations).filter(filters)
         return result.distinct()
 
     def get_author_by_email(

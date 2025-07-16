@@ -176,6 +176,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             details={"error_message": "Failed merge", "filename": "test/file.po"},
             action=ActionEvents.PARSE_ERROR,
         )
+        self.assertIn("test/file.po", change.get_details_display())
+        self.assertIn("Failed merge", change.get_details_display())
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -409,6 +411,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Verify site root expansion in email
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('href="/', content)
+        # Shortened address is used
+        self.assertIn("<td>127.0.0.0</td>", content)
 
     def test_notify_html_language(self) -> None:
         self.user.profile.language = "cs"

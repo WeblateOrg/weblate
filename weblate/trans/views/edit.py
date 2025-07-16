@@ -48,6 +48,7 @@ from weblate.trans.forms import (
     get_new_unit_form,
 )
 from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
     try_linkify_filename,
@@ -278,6 +279,7 @@ def search(
             "name": str(name),
             "ids": unit_ids,
             "ttl": now + SESSION_SEARCH_CACHE_TTL,
+            "last_viewed_unit_id": None,
         }
         if use_cache:
             request.session[session_key] = store_result
@@ -638,6 +640,20 @@ def translate(request: AuthenticatedHttpRequest, path):
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
 
+    last_viewed_unit_id = search_result.get("last_viewed_unit_id")
+    if last_viewed_unit_id:
+        previous_unit = unit_set.get(pk=last_viewed_unit_id)
+        if unit.translation.component != previous_unit.translation.component:
+            messages.warning(
+                request,
+                gettext("You have shifted from %(previous)s to %(current)s.")
+                % {
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
+                },
+            )
+    search_result["last_viewed_unit_id"] = unit.id
+
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
@@ -801,8 +817,8 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 
 
 @login_required
-@session_ratelimit_post("comment", logout_user=False)
 @transaction.atomic
+@session_ratelimit_post("comment", logout_user=False)
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
@@ -877,6 +893,7 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][offset : offset + 20]
     )
+    fill_in_source_translation(units)
     fetch_glossary_terms(units)
 
     unitdata = [

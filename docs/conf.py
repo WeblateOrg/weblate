@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.12"
+release = "5.13"
 
 # -- General configuration ---------------------------------------------------
 
@@ -386,6 +386,8 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
+    "https://wiki.gnupg.org/",
+    "https://www.bis.doc.gov/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",
@@ -446,4 +448,5 @@ gettext_compact = "docs"
 redirects = {
     "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
     "contributing/security": "security/index.html",
+    "formats/moko": "formats/moko-resources.html",
 }

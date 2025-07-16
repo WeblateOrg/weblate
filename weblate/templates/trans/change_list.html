@@ -47,7 +47,7 @@
 {% block content %}
   {% if form.is_valid %}
     {% include "paginator.html" %}
-    {% include "last-changes-content.html" with last_changes=object_list %}
+    {% format_last_changes_content last_changes=object_list user=user %}
     {% include "paginator.html" %}
   {% endif %}
 

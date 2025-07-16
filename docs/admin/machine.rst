@@ -272,6 +272,8 @@ DeepL
                 +---------------------+---------------------------+-------------------------------------------------------------------------------------+
                 | ``context``         | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
                 +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``next_gen``        | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -504,6 +506,10 @@ and there are several mirrors available to use the API for free.
 Azure AI Translator
 -------------------
 
+
+..
+  # spellchecker:off
+
 :Service ID: ``microsoft-translator``
 :Maximal score: 90
 :Configuration: +---------------------+-------------------------------+---------------------------------------------------------------------------+
@@ -545,6 +551,9 @@ Azure AI Translator
                 +---------------------+-------------------------------+---------------------------------------------------------------------------+
                 | ``category``        | Category                      | Specify a customized system category ID to use it instead of general one. |
                 +---------------------+-------------------------------+---------------------------------------------------------------------------+
+
+..
+  # spellchecker:on
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.

@@ -681,19 +681,27 @@ class ChangeBaseAddonForm(BaseAddonForm):
     )
 
 
-class WebhooksAddonForm(ChangeBaseAddonForm):
+class BaseWebhooksAddonForm(ChangeBaseAddonForm):
     """Form for webhook add-on configuration."""
 
     webhook_url = WeblateServiceURLField(
         label=gettext_lazy("Webhook URL"),
         required=True,
     )
+
+    field_order = ["webhook_url", "events"]
+
+
+class WebhooksAddonForm(BaseWebhooksAddonForm):
+    """Form for webhook add-on configuration."""
+
     secret = forms.CharField(
         label=gettext_lazy("Secret"),
         validators=[
             validate_base64_encoded_string,
         ],
         required=False,
+        help_text=gettext_lazy("A Base64 encoded string"),
     )
 
     field_order = ["webhook_url", "secret", "events"]

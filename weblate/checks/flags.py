@@ -27,7 +27,7 @@ from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator, Iterator
 
 
 def discard_flag_validation(name: str) -> None:
@@ -203,7 +203,9 @@ def parse_flags_xml(flags: etree._Element) -> Iterator[str | tuple[Any, ...]]:
 class Flags:
     _apply_discard: ClassVar[bool] = True
 
-    def __init__(self, *args) -> None:
+    def __init__(
+        self, *args: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
+    ) -> None:
         self._items: dict[str, str | tuple[Any, ...]] = {}
         for flags in args:
             self.merge(flags)
@@ -218,7 +220,7 @@ class Flags:
         if isinstance(flags, etree._Element):  # noqa: SLF001
             return tuple(parse_flags_xml(flags))
         if isinstance(flags, Flags):
-            return flags.items()
+            return tuple(flags.items())
         return flags
 
     def merge(
@@ -255,16 +257,16 @@ class Flags:
             else:
                 self._items.pop(flag, None)
 
-    def has_value(self, key: str):
+    def has_value(self, key: str) -> bool:
         return isinstance(self._items.get(key), tuple)
 
     def get_value_raw(self, key: str) -> tuple[Any, ...]:
         return cast("tuple", self._items[key])[1:]
 
-    def get_value(self, key: str):
+    def get_value(self, key: str) -> Any:  # noqa: ANN401
         return TYPED_FLAGS_ARGS[key](self.get_value_raw(key))
 
-    def get_value_fallback(self, key: str, fallback):
+    def get_value_fallback(self, key: str, fallback: Any) -> Any:  # noqa: ANN401
         try:
             value = self.get_value_raw(key)
         except KeyError:
@@ -274,10 +276,10 @@ class Flags:
         except KeyError:
             return fallback
 
-    def items(self):
+    def items(self) -> set[str | tuple[Any, ...]]:
         return set(self._items.values())
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str | tuple[Any, ...]]:
         return self._items.__iter__()
 
     def __contains__(self, key: str) -> bool:
@@ -286,11 +288,20 @@ class Flags:
     def __bool__(self) -> bool:
         return bool(self._items)
 
+    def __eq__(self, other: object) -> bool:
+        """Check if current flags are equal to other flags."""
+        if not isinstance(other, Flags):
+            return False
+        return self.items() == other.items()
+
+    def __hash__(self) -> int:
+        return hash(self.items())
+
     @staticmethod
-    def format_value(value):
+    def format_value(value: str | re.Pattern[str]) -> str:
         # Regexp objects
         prefix = ""
-        if hasattr(value, "pattern"):
+        if isinstance(value, re.Pattern):
             value = value.pattern
             prefix = "r"
         if prefix or " " in value or any(c in value for c in SYNTAXCHARS):
@@ -301,12 +312,12 @@ class Flags:
         return value
 
     @classmethod
-    def format_flag(cls, flag):
-        if isinstance(flag, tuple):
+    def format_flag(cls, flag: tuple[str, ...] | list[str] | str) -> str:
+        if isinstance(flag, (tuple, list)):
             return ":".join(cls.format_value(val) for val in flag)
         return cls.format_value(flag)
 
-    def _format_values(self):
+    def _format_values(self) -> Generator[str]:
         return (self.format_flag(item) for item in self._items.values())
 
     def format(self) -> str:

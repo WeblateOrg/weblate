@@ -22,6 +22,7 @@ from weblate.trans.templatetags.translations import format_json
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
@@ -197,6 +198,7 @@ class BaseAddon:
             self.post_commit(component, True)
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
+            # The post_update typically operates on files, so make sure these are updated
             component.commit_pending("add-on", None)
             self.post_update(component, "", False)
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
@@ -323,7 +325,7 @@ class BaseAddon:
                 {
                     "addon": self.name,
                     "command": " ".join(cmd),
-                    "output": output,
+                    "output": cleanup_error_message(output),
                     "error": str(err),
                 }
             )
@@ -422,7 +424,9 @@ class BaseAddon:
             raise ValueError(msg)
 
         return User.objects.get_or_create_bot(
-            "addon", self.user_name, self.user_verbose
+            scope="addon",
+            name=self.user_name,
+            verbose=self.user_verbose,
         )
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:

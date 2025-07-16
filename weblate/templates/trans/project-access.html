@@ -2,17 +2,7 @@
 
 {% load crispy_forms_tags humanize i18n icons permissions translations %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
-  <li>
-    <a href="{% url 'manage-access' project=object.slug %}">{% translate "Access control" %}</a>
-  </li>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
+{% block nav_pills %}
   {% perm 'user.edit' as can_edit_user %}
 
   <ul class="nav nav-pills">
@@ -26,6 +16,20 @@
       <a href="#api" data-toggle="tab" id="tab_api">{% translate "API access" %}</a>
     </li>
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-access' project=object.slug %}">{% translate "Access control" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% perm 'user.edit' as can_edit_user %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="users">

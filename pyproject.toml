@@ -17,11 +17,11 @@ docs = [
   "furo==2024.8.6",
   "jinja2==3.1.6",
   "matplotlib==3.10.3",
-  "Pillow>=10.3.0,<12",
-  "Pygments>=2.17.0,<3.0",
+  "Pillow>=11.0.0,<12",
+  "Pygments>=2.19.0,<3.0",
   "sphinx-copybutton==0.5.2",
   "sphinx-jsonschema==1.19.1",
-  "sphinx-reredirects==0.1.6",
+  "sphinx-reredirects==1.0.0",
   "Sphinx==8.2.3",
   "sphinxcontrib-httpdomain==1.8.1",
   "sphinxext-opengraph==0.10.0"
@@ -44,33 +44,33 @@ scripts = [
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.8.2",
-  "pytest-cov==6.1.1",
+  "coverage==7.9.2",
+  "pytest-cov==6.2.1",
   "pytest-django==4.11.1",
   "pytest-profiling==1.8.1",
-  "pytest-xdist==3.7.0",
-  "pytest==8.3.5",
+  "pytest-xdist==3.8.0",
+  "pytest==8.4.1",
   "responses==0.25.7",
   "respx==0.22.0",
-  "selenium==4.33.0"
+  "selenium==4.34.2"
 ]
 types = [
-  "boto3-stubs==1.38.23",
+  "boto3-stubs==1.39.6",
   "celery-types==0.23.0",
-  "django-stubs-ext==5.2.0",
-  "django-stubs==5.2.0",
-  "djangorestframework-stubs==3.16.0",
-  "mypy==1.15.0",
+  "django-stubs-ext==5.2.1",
+  "django-stubs[compatible-mypy]==5.2.1",
+  "djangorestframework-stubs==3.16.1",
+  "mypy==1.16.1",
   "PyGObject-stubs==2.13.0",
-  "types-dateparser==1.2.0.20250516",
-  "types-docutils==0.21.0.20250526",
-  "types-jsonschema==4.23.0.20250516",
+  "types-dateparser==1.2.2.20250627",
+  "types-docutils==0.21.0.20250715",
+  "types-jsonschema==4.24.0.20250708",
   "types-lxml==2025.3.30",
-  "types-openpyxl==3.1.5.20250516",
+  "types-openpyxl==3.1.5.20250602",
   "types-Pillow==10.2.0.20240822",
-  "types-python-dateutil==2.9.0.20250516",
+  "types-python-dateutil==2.9.0.20250708",
   "types-regex==2024.11.6.20250403",
-  "types-requests==2.32.0.20250515"
+  "types-requests==2.32.4.20250611"
 ]
 
 [project]
@@ -96,75 +96,75 @@ classifiers = [
   "Topic :: Software Development :: Localization"
 ]
 dependencies = [
-  "aeidon>=1.14.1,<1.16",
-  "ahocorasick-rs>=0.20.0,<0.23.0",
-  "altcha>=0.1.9,<1.0",
-  "borgbackup>=1.2.5,<1.5",
-  "celery[redis]>=5.4.0,<5.6",
-  "certifi>=2025.4.26",
+  "aeidon>=1.15,<1.16",
+  "ahocorasick-rs>=0.22.0,<0.23.0",
+  "altcha>=0.2.0,<0.3",
+  "borgbackup>=1.4.0,<1.5",
+  "celery[redis]>=5.5.3,<5.6",
+  "certifi>=2025.6.15",
   "charset-normalizer>=3.4.0,<4.0",
   "crispy-bootstrap3==2024.1",
   "crispy-bootstrap5==2025.6",
-  "cryptography>=42.0.4",
-  "cssselect>=1.2,<1.4",
+  "cryptography>=45.0.1",
+  "cssselect>=1.3.0,<1.4",
   "cyrtranslit>=1.1.0,<1.2.0",
-  "Cython>=3.0.0,<3.2",
+  "Cython>=3.1.0,<3.2",
   "dateparser>=1.2.0,<1.3.0",
   "diff-match-patch==20241021",
-  "disposable-email-domains>=0.0.120",
-  "django-appconf>=1.0.3,<1.2",
-  "django-celery-beat>=2.7.0,<2.9",
+  "disposable-email-domains>=0.0.125",
+  "django-appconf>=1.1.0,<1.2",
+  "django-celery-beat>=2.8.0,<2.9",
   "django-compressor>=4.5.1,<5",
-  "django-cors-headers>=4.6.0,<4.8",
-  "django-crispy-forms>=2.3,<2.5",
+  "django-cors-headers>=4.7.0,<4.8",
+  "django-crispy-forms>=2.4,<2.5",
   "django-filter>=24.3,<25.2",
-  "django-otp-webauthn>=0.4.0,<0.7",
-  "django-otp>=1.5.4,<2.0",
-  "django-redis>=5.4.0,<6.0",
+  "django-otp-webauthn>=0.6.0,<0.7",
+  "django-otp>=1.6.0,<2.0",
+  "django-redis>=6.0.0,<6.1",
   "Django[argon2]>=5.1.5,<5.3",
   "djangorestframework-csv>=3.0.2,<3.1",
-  "djangorestframework>=3.15.2,<3.17",
+  "djangorestframework>=3.16.0,<3.17",
   "docutils>=0.21.2,<0.22",
   "drf-spectacular[sidecar]>=0.28.0,<0.29",
-  "drf-standardized-errors[openapi]>=0.14.1,<0.15",
-  "filelock<4,>=3.16.1",
+  "drf-standardized-errors[openapi]>=0.14.1,<0.16",
+  "filelock<4,>=3.18.0",
   "fluent.syntax>=0.19.0,<0.20",
   "GitPython>=3.1.43,<3.2",
-  "hiredis>=2.2.1,<3.3",
-  "html2text>=2024.2.25,<2025.4.16",
+  "hiredis>=3.1.0,<3.3",
+  "html2text>=2025.4.15,<2025.4.16",
   "iniparse==0.5",
   "jsonschema>=4.23.0,<5",
-  "lxml>=5.2.0,<5.5",
+  "lxml>=5.4.0,<6.1",
   "mistletoe>=1.4.0,<1.5",
-  "nh3>=0.2.14,<0.3",
+  "nh3>=0.2.20,<0.3",
   "openpyxl>=3.1.0,<3.2",
-  "packaging>=23,<26",
+  "packaging>=25,<26",
   "phply>=1.2.6,<1.3",
-  "Pillow>=10.3.0,<12",
+  "Pillow>=11.0.0,<12",
   "pycairo>=1.20.0",
-  "Pygments>=2.17.0,<3.0",
+  "Pygments>=2.19.0,<3.0",
   "PyGObject>=3.40.1,<3.53.0",
   "pyicumessageformat>=1.0.0,<1.1",
   "pyparsing>=3.2.0,<3.3",
   "python-dateutil>=2.8.2",
-  "python-redis-lock[django]>=4,<4.1",
-  "qrcode>=7.4.1,<8.3",
-  "rapidfuzz>=3.8.0,<3.14",
-  "redis>=5.0.2,<7.0.0",
+  "qrcode>=8.2,<8.3",
+  "rapidfuzz>=3.12.1,<3.14",
+  "redis>=5.2.0,<7.0.0",
   "regex>=2024.11.6,<2026",
   "requests>=2.32.2,<2.33",
   "ruamel.yaml>=0.18.0,<0.19.0",
-  "sentry-sdk>=2.15.0,<3.0",
-  "siphashc>=2.1,<3.0",
-  "social-auth-app-django>=5.4.2,<6.0.0",
-  "social-auth-core>=4.5.4,<5.0.0",
-  "tesserocr>=2.6.1,<2.9.0",
-  "translate-toolkit>=3.14.4,<3.16",
-  "translation-finder>=2.18,<3.0",
-  "unidecode>=1.3.8,<1.5",
-  "user-agents>=2.0,<2.3",
-  "weblate-language-data>=2025.2",
-  "weblate-schemas==2025.1"
+  "sentry-sdk>=2.28.0,<3.0",
+  "siphashc>=2.5,<3.0",
+  "social-auth-app-django>=5.5.1,<6.0.0",
+  "social-auth-core>=4.7.0,<5.0.0",
+  "standardwebhooks>=1.0.0,<1.1",
+  "tesserocr>=2.8.0,<2.9.0",
+  "translate-toolkit>=3.15.3,<3.16",
+  "translation-finder>=2.22,<3.0",
+  "unidecode>=1.4.0,<1.5",
+  "user-agents>=2.2.0,<2.3",
+  "weblate-language-data>=2025.7",
+  "weblate-schemas==2025.4"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -179,7 +179,7 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.11"
-version = "5.12"
+version = "5.13"
 
 [project.optional-dependencies]
 alibaba = [
@@ -187,7 +187,7 @@ alibaba = [
   "aliyun-python-sdk-core>=2.16.0,<3.0.0"
 ]
 all = [
-  "weblate[alibaba,amazon,antispam,gerrit,gelf,google,ldap,mercurial,openai,postgres,saml,zxcvbn]"
+  "weblate[alibaba,amazon,antispam,gerrit,gelf,google,ldap,mercurial,openai,postgres,zxcvbn]"
 ]
 amazon = [
   "boto3>=1.38.0,<2.0"
@@ -202,7 +202,7 @@ gerrit = [
   "git-review>=2.4.0,<2.6.0"
 ]
 google = [
-  "google-cloud-storage>=2.18.2,<3.2",
+  "google-cloud-storage>=2.18.2,<3.3",
   "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
@@ -263,6 +263,7 @@ ignore = [
   "*.toml",
   "*.yaml",
   "*.yml",
+  ".dclintrc",
   ".editorconfig",
   ".gitmodules",
   ".gitmodules",
@@ -466,6 +467,7 @@ docstring-code-format = true
 extend-safe-fixes = [
   "ANN",
   "D",
+  "EM101",
   "FA102",
   "FLY",
   "SIM",
@@ -532,6 +534,7 @@ ignore = [
 ]
 preview = true
 select = ["ALL"]
+task-tags = ["spellchecker"]
 
 [tool.ruff.lint.flake8-copyright]
 min-file-size = 2
@@ -545,7 +548,7 @@ max-complexity = 16  # TODO: should be lower
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
-"weblate/*/tests**.py" = ["S105", "S106"]
+"weblate/*/tests**.py" = ["ANN001", "S105", "S106"]
 "weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["INP001"]
 "weblate/settings_*.py" = ["F405"]
@@ -578,3 +581,59 @@ sort_inline_arrays = true
 sort_inline_tables = true
 sort_table_keys = true
 spaces_before_inline_comment = 2
+
+[tool.typos.default]
+extend-ignore-re = [
+  "(?Rm)^.*# codespell:ignore.*$",
+  "(?s)(#|//)\\s*spellchecker:off.*?\\n\\s*(#|//)\\s*spellchecker:on"
+]
+
+[tool.typos.default.extend-identifiers]
+# TODO: Most of these should be probably fixed, but it requires a database migration
+ApprovedStringNotificaton = "ApprovedStringNotificaton"
+ChangedStringNotificaton = "ChangedStringNotificaton"
+ComponentTranslatedNotificaton = "ComponentTranslatedNotificaton"
+gir1 = "gir1"  # GObject Introspection packages
+InexistantFiles = "InexistantFiles"
+LangaugeConsistencyAddon = "LangaugeConsistencyAddon"  # Already deprecated, pending removal
+LanguageTranslatedNotificaton = "LanguageTranslatedNotificaton"
+LastAuthorCommentNotificaton = "LastAuthorCommentNotificaton"
+MentionCommentNotificaton = "MentionCommentNotificaton"
+NewAlertNotificaton = "NewAlertNotificaton"
+NewAnnouncementNotificaton = "NewAnnouncementNotificaton"
+NewCommentNotificaton = "NewCommentNotificaton"
+NewComponentNotificaton = "NewComponentNotificaton"
+NewContributorNotificaton = "NewContributorNotificaton"
+NewStringNotificaton = "NewStringNotificaton"
+NewSuggestionNotificaton = "NewSuggestionNotificaton"
+NewTranslationNotificaton = "NewTranslationNotificaton"
+RTO = "RTO"  # Recovery Time Objective acronym
+TranslatedStringNotificaton = "TranslatedStringNotificaton"
+Vai = "Vai"  # Language name
+
+[tool.typos.default.extend-words]
+# Name
+Automattic = "Automattic"
+# Used in settings, but could be fixed
+COMMITER = "COMMITER"  # codespell:ignore
+# Open Document Format acronym
+ODF = "ODF"
+# Often misspelled Weblate variants
+webalte = "Weblate"  # codespell:ignore
+webplate = "Weblate"
+
+[tool.typos.files]
+extend-exclude = [
+  "**.po",
+  "**.pot",
+  "docs/changes/contributors",
+  "docs/specs",
+  "scripts/codespell.txt",
+  "scripts/spdx-license-list",
+  "weblate/**/migrations",
+  "weblate/static/js/vendor",
+  "weblate/trans/fixtures/simple-project.json",
+  "weblate/trans/specialchars.py",
+  "weblate/trans/tests/data",
+  "weblate/utils/licensedata.py"
+]
