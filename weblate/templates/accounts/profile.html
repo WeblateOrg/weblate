@@ -12,37 +12,37 @@
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-      <li class="nav-item">
-        <a class="nav-link active"
-           data-bs-toggle="tab"
-           data-bs-target="#languages"
-           href="#">{% translate "Languages" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences" href="#">{% translate "Preferences" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#account" href="#">{% translate "Account" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" href="#">{% translate "Profile" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#teams" href="#">{% translate "Teams" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#licenses" href="#">{% translate "Licenses" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#api" href="#">{% translate "API access" %}</a>
-      </li>
-    </ul>
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-toggle="tab"
+         data-bs-target="#languages"
+         href="#">{% translate "Languages" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences" href="#">{% translate "Preferences" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#account" href="#">{% translate "Account" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" href="#">{% translate "Profile" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#teams" href="#">{% translate "Teams" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#licenses" href="#">{% translate "Licenses" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#api" href="#">{% translate "API access" %}</a>
+    </li>
+  </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
@@ -128,7 +128,10 @@
             <ul class="nav nav-pills">
               {% for form in notification_forms %}
                 <li class="nav-item">
-                  <a class="nav-link{% if form.is_active %} active{% endif %}" data-bs-toggle="tab" data-bs-target="#{{ form.prefix }}" href="#">
+                  <a class="nav-link{% if form.is_active %} active{% endif %}"
+                     data-bs-toggle="tab"
+                     data-bs-target="#{{ form.prefix }}"
+                     href="#">
                     {{ form.get_name }}
                     {% if form.removable %}
                       <button type="button"
