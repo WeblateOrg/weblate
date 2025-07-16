@@ -44742,7 +44742,6 @@ components:
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
-            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -60702,7 +60701,6 @@ components:
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
-            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -69432,7 +69430,6 @@ components:
       - git-force-push
       - local
       - mercurial
-      - subversion
       type: string
       description: |-
         * `gerrit` - Gerrit
@@ -69440,7 +69437,6 @@ components:
         * `git-force-push` - Git with force push
         * `local` - No remote repository
         * `mercurial` - Mercurial
-        * `subversion` - Subversion
     patch_200_Message_response_serializer:
       type: object
       properties:
@@ -69648,6 +69644,9 @@ webhooks:
                   items:
                     title: Category slug
                     type: string
+                context:
+                  title: Translation context or key for monolingual formats
+                  type: string
             examples:
               AuthenticationFailed:
                 value:
