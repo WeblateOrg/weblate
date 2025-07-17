@@ -751,7 +751,7 @@ class Translation(
         grouped according to the following logic:
 
         1. Maintain active groups per author in a dict ({author_id: {"changes": [...], "units": {...}}})
-        2. For each pending change, check if the unit conflicts with ANY active group
+        2. For each pending change, check if the unit conflicts with ANY active group EXCEPT the change author's own group.
         3. If conflict found: finalize conflicting group(s)
         4. Add change to the author's existing group or create a new one if needed
 
@@ -762,12 +762,13 @@ class Translation(
             - A2: Author 2 edits Unit A -> Unit A conflicts -> Finalize Group 1, start Group 2: Author2
             - B3: Author 1 edits Unit B -> No conflicts -> Start Group 3: Author1
             - C4: Author 2 edits Unit C -> No conflicts -> Add to Group 2: Author2
-            - D5: Author 1 edits Unit D -> No conflicts -> Add to Group 3: Author1
+            - B5: Author 1 edits Unit B -> conflicts with own change -> Do not break group, Add to Group 3: Author1
+            - D6: Author 1 edits Unit D -> No conflicts -> Add to Group 3: Author1
 
         Result:
             - Commit 1: Author1 [A1]
             - Commit 2: Author2 [A2, C4]
-            - Commit 3: Author1 [B3, D5]
+            - Commit 3: Author1 [B3, B5, D6]
 
         """
         author_map = {
@@ -785,7 +786,7 @@ class Translation(
 
             conflicting_authors = []
             for other_author_id, group_data in active_groups.items():
-                if unit_id in group_data["units"]:
+                if unit_id in group_data["units"] and author_id != other_author_id:
                     conflicting_authors.append(other_author_id)
 
             for conflicting_author_id in conflicting_authors:
@@ -1489,7 +1490,7 @@ class Translation(
 
         return result
 
-    def _invalidate_triger(self) -> None:
+    def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
         self.stats.update_stats()
         self.component.invalidate_glossary_cache()
@@ -1500,7 +1501,7 @@ class Translation(
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_triger)
+        transaction.on_commit(self._invalidate_trigger)
 
     def detect_completed_translation(self, change: Change, old_translated: int) -> None:
         translated = self.stats.translated

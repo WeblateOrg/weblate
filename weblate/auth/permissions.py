@@ -191,7 +191,7 @@ def check_can_edit(user: User, permission: str, obj: Model, is_vote=False):  # n
         ):
             return Denied(
                 gettext(
-                    "Contributing to this translation requires accepting its contributor license agreement."
+                    "Contributing to this translation requires agreeing to its contributor license agreement."
                 )
             )
 
@@ -363,18 +363,20 @@ def check_unit_add(user: User, permission, translation):
 
 
 @register_perm("translation.add")
-def check_translation_add(user: User, permission, component):
-    if component.new_lang == "none" and not component.can_add_new_language(
-        user, fast=True
+def check_translation_add(user: User, permission: str, obj: Component | Project):
+    if (
+        isinstance(obj, Component)
+        and obj.new_lang == "none"
+        and not obj.can_add_new_language(user, fast=True)
     ):
         return Denied(
             gettext(
                 "Adding new translations is turned off in the component configuration."
             )
         )
-    if component.locked:
+    if obj.locked:
         return Denied(gettext("This component is currently locked."))
-    return check_permission(user, permission, component)
+    return check_permission(user, permission, obj)
 
 
 @register_perm("translation.auto")

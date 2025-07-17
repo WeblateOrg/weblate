@@ -67,7 +67,10 @@ class AvatarTest(FixtureTestCase):
             reverse("user_avatar", kwargs={"user": anonymous.username, "size": 32})
         )
         self.assertRedirects(
-            response, "/static/weblate-32.png", fetch_redirect_response=False
+            response,
+            "/static/weblate-32.png",
+            fetch_redirect_response=False,
+            status_code=301,
         )
 
     def test_fallback_avatar(self) -> None:

@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Aggregate, Count, F, Q, Value
+from django.db.models import Count, Expression, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -384,7 +384,7 @@ class BaseTermExpr:
 
         return self.field_extra(field, query, match)
 
-    def get_annotations(self, context: dict) -> dict[str, Aggregate]:
+    def get_annotations(self, context: dict) -> dict[str, Expression]:
         return {}
 
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
@@ -615,7 +615,7 @@ class UnitTermExpr(BaseTermExpr):
             | Q(context__substring=self.match)
         )
 
-    def get_annotations(self, context: dict) -> dict[str, Aggregate]:
+    def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "labels_count":
             return {"labels_count": Count("source_unit__labels") + Count("labels")}
         return super().get_annotations(context)
@@ -719,8 +719,8 @@ def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
 
 def parser_annotations(
     obj: ParseResults | BaseTermExpr, context: dict
-) -> dict[str, Aggregate]:
-    result: dict[str, Aggregate] = {}
+) -> dict[str, Expression]:
+    result: dict[str, Expression] = {}
     if isinstance(obj, BaseTermExpr):
         result.update(obj.get_annotations(context))
     else:
@@ -743,6 +743,6 @@ def parse_string(
 
 def parse_query(
     text: str, parser: Literal["unit", "user", "superuser"] = "unit", **context
-) -> tuple[Q, dict[str, Aggregate]]:
+) -> tuple[Q, dict[str, Expression]]:
     parsed = parse_string(text, parser)
     return parser_to_query(parsed, context), parser_annotations(parsed, context)

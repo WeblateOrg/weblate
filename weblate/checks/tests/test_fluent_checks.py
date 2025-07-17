@@ -1696,7 +1696,7 @@ class FluentInnerHTMLCheckTestBase:
             "with <SPAN>capitals</SPAN> or <sPaN>mix</sPaN>",
             "with <span DATA-val='something'></span>",
             # Can include a "'" in double quotes.
-            "before <img data-val1=\"val'ue\" other='ok'/> after",
+            "before <img data-val1=\"val'ue\" other='ok'/> after",  # codespell:ignore
             # And '"' in single quotes.
             'before <my-img data-val=\'val"ue\' other="ok"></my-img> after',  # codespell:ignore
             # Empty values.

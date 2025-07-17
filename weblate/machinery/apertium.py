@@ -51,7 +51,7 @@ LANGUAGE_MAP = {
     "mt": "mlt",
     "it": "ita",
     "zh_Hant": "zho",
-    "br": "bre",
+    "br": "bre",  # codespell:ignore
     "qu": "qve",
     "an": "arg",
     "mr": "mar",

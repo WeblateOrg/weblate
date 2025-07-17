@@ -267,7 +267,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
 
-    def test_commit_groupping(self) -> None:
+    def test_commit_grouping(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
@@ -341,6 +341,34 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(author, user2)
         self.assertEqual(len(changes), 1)
         self.assertEqual([c.unit for c in changes], [units[3]])
+
+    def test_group_changes_by_author_single_author(self) -> None:
+        """Test that multiple changes to a unit by single author are grouped."""
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+
+        units = list(translation.unit_set.all())
+        units[0].translate(user, "test1", STATE_TRANSLATED)
+        units[1].translate(user, "test2", STATE_TRANSLATED)
+        units[2].translate(user, "test3", STATE_TRANSLATED)
+        # change conflicts with earlier change to unit but
+        # don't split groups as all changes from same author
+        units[1].translate(user, "test2!", STATE_TRANSLATED)
+        units[3].translate(user, "test4", STATE_TRANSLATED)
+
+        all_changes = list(
+            PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
+        )
+        groups = Translation._group_changes_by_author(all_changes)  # noqa: SLF001
+        self.assertEqual(len(groups), 1)
+
+        author, changes = groups[0]
+        self.assertEqual(author, user)
+        self.assertEqual(
+            [c.unit for c in changes],
+            [units[0], units[1], units[2], units[1], units[3]],
+        )
 
     def test_commit_explanation(self):
         user = create_test_user()

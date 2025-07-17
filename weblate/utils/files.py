@@ -93,3 +93,8 @@ def should_skip(location):
 def is_excluded(path):
     """Whether path should be excluded from zip extraction."""
     return any(exclude in f"/{path}/" for exclude in PATH_EXCLUDES) or ".." in path
+
+
+def cleanup_error_message(text: str) -> str:
+    """Remove absolute paths from the text."""
+    return text.replace(settings.CACHE_DIR, "...").replace(settings.DATA_DIR, "...")

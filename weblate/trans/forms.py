@@ -7,7 +7,9 @@ from __future__ import annotations
 import copy
 import json
 import re
+from collections import defaultdict
 from datetime import datetime
+from itertools import chain
 from secrets import token_hex
 from typing import TYPE_CHECKING, ClassVar, Literal
 
@@ -18,7 +20,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator, validate_slug
-from django.db.models import Count, F, Model, Q
+from django.db.models import Count, Model, Q, QuerySet
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
@@ -37,7 +39,6 @@ from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
-from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
@@ -1165,98 +1166,107 @@ class EngageForm(forms.Form):
         )
 
 
-class NewComponentLanguageOwnerForm(forms.Form):
+class FullLanguageForm(forms.Form):
     """Form for requesting a new language."""
 
     lang = forms.MultipleChoiceField(
         label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
     )
+    project: Project
 
-    def get_lang_objects(self):
-        return Language.objects.exclude(
-            Q(translation__component=self.component) | Q(component=self.component)
-        )
-
-    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
+    def __init__(self, user: User, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.component = component
+        self.user = user
         languages = self.get_lang_objects()
         self.fields["lang"].choices = languages.as_choices(user=user)
 
+    def get_lang_objects(self) -> QuerySet[Language]:
+        raise NotImplementedError
 
-class NewComponentLanguageForm(NewComponentLanguageOwnerForm):
-    """Form for requesting a new language."""
 
+class RestrictedLanguageForm(forms.Form):
     lang = forms.ChoiceField(
         label=gettext_lazy("Language"), choices=[], widget=forms.Select
     )
 
-    def get_lang_objects(self):
-        codes = BASIC_LANGUAGES
-        if settings.BASIC_LANGUAGES is not None:
-            codes = settings.BASIC_LANGUAGES
-        return (
-            super()
-            .get_lang_objects()
-            .filter(
-                # Include basic languages
-                Q(code__in=codes)
-                # Include source languages in a project
-                | Q(component__project=self.component.project)
-                # Include translations in a project
-                | Q(translation__component__project=self.component.project)
-            )
-            .distinct()
-        )
-
-    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
-        super().__init__(user, component, *args, **kwargs)
+    def __init__(self, user: User, *args, **kwargs) -> None:
+        super().__init__(user, *args, **kwargs)
         self.fields["lang"].choices = [
             ("", gettext("Please choose")),
             *self.fields["lang"].choices,
         ]
+
+    def get_lang_objects(self) -> QuerySet[Language]:
+        return super().get_lang_objects().filter_for_add(self.project)
 
     def clean_lang(self):
         # Compatibility with NewLanguageOwnerForm
         return [self.cleaned_data["lang"]]
 
 
-class NewProjectLanguageForm(forms.Form):
+class NewComponentLanguageOwnerForm(FullLanguageForm):
+    def get_lang_objects(self) -> QuerySet[Language]:
+        return self.component.get_all_available_languages()
+
+    def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
+        self.component = component
+        self.project = component.project
+        super().__init__(user, *args, **kwargs)
+
+
+class NewComponentLanguageForm(RestrictedLanguageForm, NewComponentLanguageOwnerForm):
+    """Form for requesting a new language."""
+
+
+class NewProjectLanguageOwnerForm(FullLanguageForm):
     """Form for adding a new language to all components in a project."""
 
-    lang = forms.MultipleChoiceField(
-        label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
-    )
-
-    def get_lang_objects(self):
+    def get_lang_objects(self) -> QuerySet[Language]:
+        # Get all child components
         components = self.project.get_child_components_access(
             self.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
         )
         components_count = components.count()
 
-        languages_in_all_components = (
-            Language.objects.annotate(
-                source_count=Count(
-                    "component", filter=Q(component__in=components), distinct=True
-                ),
-                translation__count=Count(
-                    "translation__component",
-                    filter=Q(translation__component__in=components),
-                    distinct=True,
-                ),
-            )
-            .annotate(num_components=F("source_count") + F("translation__count"))
-            .filter(num_components__gte=components_count)
+        # Count source and target languages
+        source_languages = components.annotate(count=Count("id")).values_list(
+            "source_language", "count"
         )
+        target_languages = components.annotate(
+            count=Count("translation__id")
+        ).values_list("translation__language", "count")
 
-        return Language.objects.exclude(id__in=languages_in_all_components.values("id"))
+        # Summarize language count
+        language_counter: dict[int, int] = defaultdict(int)
+        for language_id, count in chain(source_languages, target_languages):
+            language_counter[language_id] += count
+
+        languages_in_all_components = [
+            language_id
+            for language_id, count in language_counter.items()
+            if count >= components_count
+        ]
+
+        # Exclude already existing languages from the list
+        return Language.objects.exclude(id__in=languages_in_all_components)
 
     def __init__(self, user: User, project: Project, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
         self.project = project
-        self.user = user
-        languages = self.get_lang_objects()
-        self.fields["lang"].choices = languages.as_choices(user=user)
+        super().__init__(user, *args, **kwargs)
+
+
+class NewProjectLanguageForm(RestrictedLanguageForm, NewProjectLanguageOwnerForm):
+    pass
+
+
+def get_new_project_language_form(
+    request: AuthenticatedHttpRequest, project: Project
+) -> type[NewProjectLanguageForm | NewProjectLanguageOwnerForm]:
+    if not request.user.has_perm("translation.add", project):
+        raise PermissionDenied
+    if request.user.has_perm("translation.add_more", project):
+        return NewProjectLanguageOwnerForm
+    return NewProjectLanguageForm
 
 
 def get_new_component_language_form(

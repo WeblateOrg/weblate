@@ -506,6 +506,10 @@ and there are several mirrors available to use the API for free.
 Azure AI Translator
 -------------------
 
+
+..
+  # spellchecker:off
+
 :Service ID: ``microsoft-translator``
 :Maximal score: 90
 :Configuration: +---------------------+-------------------------------+---------------------------------------------------------------------------+
@@ -547,6 +551,9 @@ Azure AI Translator
                 +---------------------+-------------------------------+---------------------------------------------------------------------------+
                 | ``category``        | Category                      | Specify a customized system category ID to use it instead of general one. |
                 +---------------------+-------------------------------+---------------------------------------------------------------------------+
+
+..
+  # spellchecker:on
 
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.

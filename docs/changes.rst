@@ -5,6 +5,8 @@ Weblate 5.13
 
 .. rubric:: New features
 
+* :doc:`/formats/catkeys`.
+* Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 * Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
 
 .. rubric:: Improvements
@@ -14,10 +16,13 @@ Weblate 5.13
 * :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the generic OIDC authentication.
 * Background commits are now identified by an internal user.
 * Reorganized navigation menu.
+* When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
+* Avatars for API and internal accounts.
 
 .. rubric:: Bug fixes
 
 * :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
+* :ref:`mt-deepl` integration now correctly handle all supported source languages.
 
 .. rubric:: Compatibility
 
@@ -1123,7 +1128,7 @@ Weblate 5.4
 .. rubric:: New features
 
 * :ref:`check-perl-brace-format` quality check.
-* :doc:`/formats/moko`.
+* :doc:`/formats/moko-resources`.
 * :doc:`/formats/formatjs`.
 * Search input is now syntax highlighted, see :doc:`/user/search`.
 * Weblate is now available in Tamil.

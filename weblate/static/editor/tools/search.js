@@ -11,24 +11,24 @@ $(document).ready(() => {
    * Add preview to the search input search results.
    *
    * @param {string} searchForm The selector string of the parent element of the search input
-   * @param {string} searchElment The selector string of the search input or textarea element
+   * @param {string} searchElement The selector string of the search input or textarea element
    *
    */
-  function searchPreview(searchForm, searchElment) {
+  function searchPreview(searchForm, searchElement) {
     const $searchForm = $(searchForm);
-    const $searchElment = $searchForm.find(searchElment);
+    const $searchElement = $searchForm.find(searchElement);
 
     // Create the preview element
     const $searchPreview = $('<div id="search-preview"></div>');
-    $searchElment.parent().parent().after($searchPreview);
+    $searchElement.parent().parent().after($searchPreview);
 
     let debounceTimeout = null;
 
     // Update the preview while typing with a debounce of 300ms
-    $searchElment.on("input", () => {
+    $searchElement.on("input", () => {
       $searchPreview.show();
-      const userSearchInput = $searchElment.val();
-      const searchQuery = buildSearchQuery($searchElment);
+      const userSearchInput = $searchElement.val();
+      const searchQuery = buildSearchQuery($searchElement);
 
       // Clear the previous timeout to prevent the previous
       // request since the user is still typing
@@ -58,8 +58,8 @@ $(document).ready(() => {
     });
 
     // Show the preview on focus
-    $searchElment.on("focus", () => {
-      if ($searchElment.val() !== "" && $searchPreview.html() !== "") {
+    $searchElement.on("focus", () => {
+      if ($searchElement.val() !== "" && $searchPreview.html() !== "") {
         $searchPreview.show();
         $("#results-num").show();
       }
@@ -68,7 +68,7 @@ $(document).ready(() => {
     // Close the preview on form submit, form reset, and form clear
     // or if there is no search query
     $searchForm.on("input", () => {
-      if ($searchElment.val() === "") {
+      if ($searchElement.val() === "") {
         $searchPreview.hide();
         $("#results-num").remove();
       }
@@ -137,15 +137,15 @@ $(document).ready(() => {
    * The path lookup is also added to the search query.
    * Built in the following format: `path:proj/comp filters`.
    *
-   * @param {jQuery} $searchElment - The user input.
+   * @param {jQuery} $searchElement - The user input.
    * @returns {string} - The built search query string.
    *
    * */
-  function buildSearchQuery($searchElment) {
+  function buildSearchQuery($searchElement) {
     let builtSearchQuery = "";
 
     // Add path lookup to the search query
-    const projectPath = $searchElment
+    const projectPath = $searchElement
       .closest("form")
       .find("input[name=path]")
       .val();
@@ -154,7 +154,7 @@ $(document).ready(() => {
     }
 
     // Add filters to the search query
-    const filters = $searchElment.val();
+    const filters = $searchElement.val();
     if (filters) {
       builtSearchQuery = `${builtSearchQuery} ${filters}`;
     }

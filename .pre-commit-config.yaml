@@ -32,13 +32,20 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.12.2
+  rev: v0.12.3
   hooks:
   - id: ruff-check
     args:
     - --fix
     - --exit-non-zero-on-fix
   - id: ruff-format
+- repo: https://github.com/adamtheturtle/doccmd-pre-commit
+  rev: v2025.4.8
+  hooks:
+  - id: doccmd
+    args: [--language, python, --no-pad-file, --command, ruff format]
+    additional_dependencies:
+    - ruff==v0.12.3
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -58,13 +65,13 @@ repos:
   - id: mdformat
     additional_dependencies:
     - mdformat-gfm==0.4.1
-    - mdformat-ruff==0.1.3
     - mdformat-shfmt==0.2.0
     - mdformat_tables==1.0.0
 - repo: https://github.com/scop/pre-commit-shfmt
-  rev: v3.11.0-1
+  rev: v3.12.0-2
   hooks:
   - id: shfmt
+    args: [--write]
 - repo: https://github.com/fsfe/reuse-tool
   rev: v5.0.2
   hooks:
@@ -74,14 +81,13 @@ repos:
   hooks:
   - id: shellcheck
     require_serial: true
-    args: [-x]
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.0.6
+  rev: v2.1.1
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.0.6'
+    - '@biomejs/biome@2.1.1'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -100,7 +106,7 @@ repos:
   hooks:
   - id: rst-double-space
     name: rst text with double space
-    description: Detect mistake of rst containg double space
+    description: Detect mistake of rst contaning double space
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
@@ -127,7 +133,6 @@ repos:
   rev: v1.0.0
   hooks:
   - id: sphinx-lint
-
 - repo: https://github.com/codespell-project/codespell
   rev: v2.4.1
   hooks:
@@ -135,14 +140,17 @@ repos:
     additional_dependencies:
     - tomli
     exclude: client/yarn.lock
+- repo: https://github.com/crate-ci/typos
+  rev: v1.34.0
+  hooks:
+  - id: typos
+    args: []
+    require_serial: true
+    pass_filenames: false
 - repo: https://github.com/rhysd/actionlint
   rev: v1.7.7
   hooks:
   - id: actionlint
-- repo: https://github.com/adamchainz/blacken-docs
-  rev: 1.19.1
-  hooks:
-  - id: blacken-docs
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
   rev: v1.11.0
   hooks:
@@ -152,6 +160,12 @@ repos:
   hooks:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.27.2
+  hooks:
+  - id: gitleaks-docker
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
 ci:
   autoupdate_schedule: quarterly
+  skip:
+  - gitleaks-docker

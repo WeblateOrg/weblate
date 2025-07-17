@@ -427,8 +427,8 @@ class RepoTestMixin:
 
     def create_link_existing(self) -> Component:
         component = self.component
-        if "linked_childs" in component.__dict__:
-            del component.__dict__["linked_childs"]
+        if "linked_children" in component.__dict__:
+            del component.__dict__["linked_children"]
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             return Component.objects.create(
                 name="Test2",

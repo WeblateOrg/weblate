@@ -39,7 +39,7 @@ class MultiparserError(Exception):
 class TextItem(BaseItem):
     """Actual text unit object."""
 
-    def __init__(self, filename, line, text, flags=None) -> None:
+    def __init__(self, filename, line, text, flags: str | None = None) -> None:
         self.filename = filename
         self.line = line
         self.text = text
@@ -56,7 +56,7 @@ class TextItem(BaseItem):
 class TextParser:
     """Simple text parser returning all content as single unit."""
 
-    def __init__(self, storefile, filename=None, flags=None) -> None:
+    def __init__(self, storefile, filename=None, flags: str | None = None) -> None:
         with open(storefile) as handle:
             content = handle.read()
         if filename:
@@ -178,9 +178,10 @@ class TextUnit(TranslationUnit):
     @cached_property
     def flags(self):
         """Return flags from unit."""
+        flags = super().flags
         if self.mainunit.flags:
-            return self.mainunit.flags
-        return ""
+            flags.merge(self.mainunit.flags)
+        return flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
@@ -258,7 +259,7 @@ class AppStoreFormat(TranslationFormat):
         cls,
         base: str,
         monolingual: bool,  # noqa: ARG003
-        errors: list | None = None,
+        errors: list[Exception] | None = None,
         fast: bool = False,
     ) -> bool:
         """Check whether base is valid."""

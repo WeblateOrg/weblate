@@ -1175,7 +1175,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-    Each license definition should be tuple of its short name, a long name and an URL.
+    Each license definition should be tuple of its short name, a long name, a URL and a boolean, indication with it is a libre license.
 
 For example:
 
@@ -1186,6 +1186,7 @@ For example:
             "AGPL-3.0",
             "GNU Affero General Public License v3.0",
             "https://www.gnu.org/licenses/agpl-3.0-standalone.html",
+            True,
         ),
     ]
 

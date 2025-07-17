@@ -2,17 +2,7 @@
 
 {% load humanize i18n %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
-  </li>
-  <li>
-    <a href="{% url 'manage-billing' %}">{% translate "Billing" %}</a>
-  </li>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
+{% block nav_pills %}
   <ul class="nav nav-pills">
     <li role="presentation" class="active">
       <a href="#trial" role="tab" data-toggle="tab">{% translate "Trial" %} <span class="badge">{{ trial|length|intcomma }}</span></a>
@@ -33,6 +23,18 @@
       <a href="#terminated" role="tab" data-toggle="tab">{% translate "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a>
     </li>
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li>
+    <a href="{% url 'manage-billing' %}">{% translate "Billing" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="trial">{% include "billing/list.html" with objects=trial show_expiry=1 %}</div>
