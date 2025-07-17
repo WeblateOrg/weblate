@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-16 07:02+0000\n"
+"PO-Revision-Date: 2025-07-18 04:13+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14931,7 +14931,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1396
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "Para fines de prueba, puede usar el servidor web incorporado en Django:"
 
 #: ../../admin/install.rst:1404
 msgid ""
@@ -14939,6 +14939,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"NO USE ESTE SERVIDOR EN UNA CONFIGURACIÓN DE PRODUCCIÓN. No ha pasado por "
+"auditorías de seguridad ni pruebas de rendimiento. Ver también la "
+"documentación de Django en :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1410
 msgid ""
@@ -14947,12 +14950,17 @@ msgid ""
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"El servidor incorporado de Django sirve archivos estáticos solo con "
+":setting:`DEBUG` habilitado ya que está destinado solo para desarrollo. Para "
+"uso en producción, consulte configuraciones de WSGI en :ref:`uwsgi`, "
+":ref:`apache`, :ref:`apache-gunicorn`, y :ref:`static-files`."
 
 #: ../../admin/install.rst:1418
 msgid "Serving static files"
 msgstr "Sirviendo archivos estáticos"
 
 #: ../../admin/install.rst:1420
+#, fuzzy
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -14960,6 +14968,11 @@ msgid ""
 "setting (this defaults to a ``static`` directory inside :setting:"
 "`CACHE_DIR`)."
 msgstr ""
+"Django necesita recopilar sus archivos estáticos en un solo directorio. Para "
+"ello, ejecute :samp:`weblate collectstatic --noinput`. Esto copiará los "
+"archivos estáticos en un directorio especificado por la configuración "
+":setting:`django:STATIC_ROOT` setting (esto por defecto es un directorio "
+"``static``interno :setting:`CACHE_DIR`)."
 
 #: ../../admin/install.rst:1425
 msgid ""
