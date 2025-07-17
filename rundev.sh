@@ -23,10 +23,10 @@ export GROUP_ID
 cd dev-docker/
 
 build() {
-	mkdir -p data
-	# Build the container
-	docker compose build --build-arg USER_ID="$USER_ID" --build-arg GROUP_ID="$GROUP_ID"
-	cat >.env <<EOT
+    mkdir -p data
+    # Build the container
+    docker compose build --build-arg USER_ID="$USER_ID" --build-arg GROUP_ID="$GROUP_ID"
+    cat > .env << EOT
 USER_ID="$USER_ID"
 GROUP_ID="$GROUP_ID"
 WEBLATE_PORT="$WEBLATE_PORT"
@@ -36,58 +36,58 @@ EOT
 
 case $1 in
 stop)
-	docker compose down
-	;;
+    docker compose down
+    ;;
 logs)
-	shift
-	docker compose logs "$@"
-	;;
+    shift
+    docker compose logs "$@"
+    ;;
 compilemessages)
-	shift
-	docker compose exec -T -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate compilemessages
-	;;
+    shift
+    docker compose exec -T -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate compilemessages
+    ;;
 test)
-	shift
-	docker compose exec -T \
-		--env CI_BASE_DIR=/tmp \
-		--env CI_DATABASE=postgresql \
-		--env CI_DB_HOST=database \
-		--env CI_DB_NAME=weblate \
-		--env CI_DB_USER=weblate \
-		--env CI_DB_PASSWORD=weblate \
-		--env DJANGO_SETTINGS_MODULE=weblate.settings_test \
-		--workdir /app/src \
-		weblate pytest -n auto "$@"
-	;;
+    shift
+    docker compose exec -T \
+        --env CI_BASE_DIR=/tmp \
+        --env CI_DATABASE=postgresql \
+        --env CI_DB_HOST=database \
+        --env CI_DB_NAME=weblate \
+        --env CI_DB_USER=weblate \
+        --env CI_DB_PASSWORD=weblate \
+        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
+        --workdir /app/src \
+        weblate pytest -n auto "$@"
+    ;;
 check)
-	shift
-	docker compose exec -T weblate weblate check "$@"
-	;;
+    shift
+    docker compose exec -T weblate weblate check "$@"
+    ;;
 build)
-	build
-	;;
+    build
+    ;;
 wait)
-	TIMEOUT=0
-	while ! docker compose ps | grep "weblate-dev:.*healthy"; do
-		echo "Waiting for the container startup..."
-		sleep 5
-		docker compose ps
-		TIMEOUT=$((TIMEOUT + 1))
-		if [ $TIMEOUT -gt 60 ]; then
-			docker compose logs
-			exit 1
-		fi
-	done
-	;;
+    TIMEOUT=0
+    while ! docker compose ps | grep "weblate-dev:.*healthy"; do
+        echo "Waiting for the container startup..."
+        sleep 5
+        docker compose ps
+        TIMEOUT=$((TIMEOUT + 1))
+        if [ $TIMEOUT -gt 60 ]; then
+            docker compose logs
+            exit 1
+        fi
+    done
+    ;;
 start | restart | "")
-	build
+    build
 
-	# Start it up
-	docker compose up -d --force-recreate
-	echo -e "\n${GREEN}Running development version of Weblate on http://${WEBLATE_HOST}/${NC}\n"
-	echo "maildev is runinng on http://localhost:1080/"
-	;;
+    # Start it up
+    docker compose up -d --force-recreate
+    echo -e "\n${GREEN}Running development version of Weblate on http://${WEBLATE_HOST}/${NC}\n"
+    echo "maildev is runinng on http://localhost:1080/"
+    ;;
 *)
-	docker compose "$@"
-	;;
+    docker compose "$@"
+    ;;
 esac

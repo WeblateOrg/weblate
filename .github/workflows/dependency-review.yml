@@ -1,0 +1,22 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: Dependency Review
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # v4.2.2
+      with:
+        persist-credentials: false
+    - name: Dependency Review
+      uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9   # v4.7.1

@@ -6,9 +6,9 @@
 
 set -e
 
-if ! command -v dot &>/dev/null; then
-	echo "dot command could not be found, please install graphviz"
-	exit 1
+if ! command -v dot &> /dev/null; then
+    echo "dot command could not be found, please install graphviz"
+    exit 1
 fi
 
 # Build documentation with warnings treated as errors

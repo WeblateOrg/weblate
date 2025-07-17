@@ -16,9 +16,9 @@ version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.V
 COMPONENTS="weblate/application weblate/javascript weblate/documentation"
 
 do_wlc() {
-	for component in $COMPONENTS; do
-		wlc "$1" "$component"
-	done
+    for component in $COMPONENTS; do
+        wlc "$1" "$component"
+    done
 }
 
 # Lock Weblate
@@ -44,12 +44,12 @@ find weblate/locale -type d -empty -delete
 # Include translations from Django
 DJANGO_DIR=$(python -c 'import django; import os.path; print(os.path.dirname(django.__file__))')
 for locale in weblate/locale/*/LC_MESSAGES/django.po; do
-	code=${locale#weblate/locale/}
-	code=${code%/LC_MESSAGES/django.po}
-	file="$DJANGO_DIR/conf/locale/$code/LC_MESSAGES/django.po"
-	if [ -f "$file" ]; then
-		msgmerge --previous -C "$file" -U "$locale" weblate/locale/django.pot
-	fi
+    code=${locale#weblate/locale/}
+    code=${code%/LC_MESSAGES/django.po}
+    file="$DJANGO_DIR/conf/locale/$code/LC_MESSAGES/django.po"
+    if [ -f "$file" ]; then
+        msgmerge --previous -C "$file" -U "$locale" weblate/locale/django.pot
+    fi
 done
 
 # Update PO files for documentation
@@ -57,24 +57,24 @@ make -C docs update-po
 
 # Update headers
 sed \
-	-i \
-	-e 's@"Report-Msgid-Bugs-To:.*@"Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\\n"@' \
-	-e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '"$version"'\\n"/' \
-	-e 's/SOME DESCRIPTIVE TITLE./Weblate localization./' \
-	-e '/^# FIRST AUTHOR/ D' \
-	-e "/^# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER/ D" \
-	-e "/^# Copyright (C) [0-9– -]* Michal Čihař/ D" \
-	-e "/^# This file is distributed under the same license as the/ D" \
-	weblate/locale/*/*/*.po weblate/locale/*.pot \
-	docs/locales/docs.pot docs/locales/*/LC_MESSAGES/docs.po
+    -i \
+    -e 's@"Report-Msgid-Bugs-To:.*@"Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\\n"@' \
+    -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '"$version"'\\n"/' \
+    -e 's/SOME DESCRIPTIVE TITLE./Weblate localization./' \
+    -e '/^# FIRST AUTHOR/ D' \
+    -e "/^# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER/ D" \
+    -e "/^# Copyright (C) [0-9– -]* Michal Čihař/ D" \
+    -e "/^# This file is distributed under the same license as the/ D" \
+    weblate/locale/*/*/*.po weblate/locale/*.pot \
+    docs/locales/docs.pot docs/locales/*/LC_MESSAGES/docs.po
 # Ensure licensing information is in place
 scripts/reuse-annotate \
-	weblate/locale/*.pot \
-	docs/locales/docs.pot
+    weblate/locale/*.pot \
+    docs/locales/docs.pot
 scripts/reuse-annotate \
-	--skip-existing \
-	weblate/locale/*/*/*.po \
-	docs/locales/*/LC_MESSAGES/docs.po
+    --skip-existing \
+    weblate/locale/*/*/*.po \
+    docs/locales/*/LC_MESSAGES/docs.po
 
 # Commit changes
 # shellcheck disable=SC2046
