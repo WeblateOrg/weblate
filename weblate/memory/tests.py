@@ -394,10 +394,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                 ).count(),
             )
             for suggestion in machine_translation.search(unit, "Hello, world!\n", None):
-                if suggestion["text"] in {
-                    "Hello 1",
-                    "Hello 2",
-                }:  # ignore imported entries
+                if suggestion["text"] == "Hello 2\n":  # ignore imported entries
                     self.assertLess(suggestion["quality"], 100)
 
         # check that imported memory entries were not affected by autoclean

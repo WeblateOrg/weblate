@@ -84,7 +84,7 @@ def handle_unit_translation_change(
         project_id=project.id,
         add_project=component.contribute_project_tm,
         add_user=add_user,
-        state=unit.state,
+        unit_state=unit.state,
         context=unit.context or "",
     )
 
@@ -103,15 +103,14 @@ def update_memory(
     add_user: bool,
     user_id: int | None,
     project_id: int,
-    state: int,
+    unit_state: int,
 ) -> None:
     from weblate.trans.models import Project
 
     project = Project.objects.get(pk=project_id)
     check_matching = True
-
-    if (project.translation_review and state == STATE_APPROVED) or (
-        not project.translation_review and state >= STATE_TRANSLATED
+    if (project.translation_review and unit_state == STATE_APPROVED) or (
+        not project.translation_review and unit_state >= STATE_TRANSLATED
     ):
         memory_status = Memory.STATUS_ACTIVE
         if project.autoclean_tm:

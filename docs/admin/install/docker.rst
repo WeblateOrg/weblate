@@ -870,9 +870,9 @@ Generic settings
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
-.. envvar:: WEBLATE_AUTOCLEAN_TM
+.. envvar:: WEBLATE_DEFAULT_AUTOCLEAN_TM
 
-   Configures :setting:`AUTOCLEAN_TM`.
+   Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
 
 .. envvar:: WEBLATE_AKISMET_API_KEY
 

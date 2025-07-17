@@ -211,7 +211,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     )
     autoclean_tm = models.BooleanField(
         verbose_name=gettext_lazy("Autoclean translation memory"),
-        default=settings.AUTOCLEAN_TM,
+        default=settings.DEFAULT_AUTOCLEAN_TM,
         help_text=gettext_lazy(
             "Automatically removes outdated and obsolete entries from translation memory."
         ),

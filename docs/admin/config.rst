@@ -644,10 +644,10 @@ DEFAULT_SHARED_TM
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
-.. setting:: AUTOCLEAN_TM
+.. setting:: DEFAULT_AUTOCLEAN_TM
 
-AUTOCLEAN_TM
-------------
+DEFAULT_AUTOCLEAN_TM
+--------------------
 
 .. versionadded:: 5.13
 
