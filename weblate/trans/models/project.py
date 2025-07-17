@@ -45,8 +45,8 @@ from weblate.utils.validators import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.auth.models import User
-    from weblate.machinery.base import SettingsDict
+    from weblate.auth.models import Group, User
+    from weblate.machinery.types import SettingsDict
     from weblate.trans.backups import BackupListDict
     from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
@@ -380,6 +380,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 group = "Review"
             else:
                 group = "Administration"
+        group_objs: Iterable[Group]
         try:
             group_objs = [self.defined_groups.get(name=group)]
         except ObjectDoesNotExist:
@@ -693,7 +694,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return get_glossary_automaton(self)
 
-    def get_machinery_settings(self) -> dict[str, SettingsDict | Project]:
+    def get_machinery_settings(self) -> dict[str, SettingsDict]:
         settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
@@ -714,7 +715,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
         backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
-        result = []
+        result: list[BackupListDict] = []
         if not os.path.exists(backup_dir):
             return result
         with os.scandir(backup_dir) as iterator:
@@ -775,5 +776,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         prefetch_stats(self.label_cleanups)
 
     def cleanup_label_stats(self, name: str) -> None:
-        for translation in self.label_cleanups:
-            translation.stats.remove_stats(f"label:{name}")
+        if self.label_cleanups is not None:
+            for translation in self.label_cleanups:
+                translation.stats.remove_stats(f"label:{name}")
