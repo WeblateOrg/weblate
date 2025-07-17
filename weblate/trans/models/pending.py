@@ -8,10 +8,11 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
+from django.db.models import OuterRef, Q, Subquery
 from django.utils import timezone
 
 from weblate.utils.db import using_postgresql
-from weblate.utils.state import StringState
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, StringState
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -30,8 +31,30 @@ class PendingChangeQuerySet(models.QuerySet):
         return self.filter(unit__translation__component=component)
 
     def for_translation(self, translation: Translation):
-        """Return pending changes for a specific translation."""
-        return self.filter(unit__translation=translation)
+        """Return pending changes for a specific translation based on commit policy."""
+        from weblate.trans.models.project import CommitPolicyChoices
+
+        policy = translation.component.project.commit_policy
+        qs = self.filter(unit__translation=translation)
+
+        if policy == CommitPolicyChoices.ALL:
+            return qs
+
+        filters = []
+        if policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
+            filters.append(~Q(state=STATE_FUZZY))
+        elif policy == CommitPolicyChoices.APPROVED_ONLY:
+            filters.append(Q(state=STATE_APPROVED))
+
+        # For each unit, finds the last change that makes it eligible for committing
+        # based on the project's commit policy, and returns all changes up to and
+        # including that change.
+        latest_eligible_changes = (
+            PendingUnitChange.objects.filter(*filters, unit_id=OuterRef("unit_id"))
+            .order_by("-timestamp")
+            .values("timestamp")[:1]
+        )
+        return qs.filter(timestamp__lte=Subquery(latest_eligible_changes))
 
     def older_than(self, timestamp: datetime):
         """Return pending changes older than given timestamp."""
@@ -62,10 +85,7 @@ class PendingUnitChange(models.Model):
     target = models.TextField(default="", blank=True)
     explanation = models.TextField(default="", blank=True)
     source_unit_explanation = models.TextField(default="", blank=True)
-    state = models.IntegerField(
-        default=0,
-        choices=StringState.choices,
-    )
+    state = models.IntegerField(default=0, choices=StringState.choices, db_index=True)
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     add_unit = models.BooleanField(default=False)
 
