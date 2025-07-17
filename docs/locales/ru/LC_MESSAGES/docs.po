@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-17 10:02+0000\n"
+"PO-Revision-Date: 2025-07-18 04:13+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1353,10 +1353,8 @@ msgid "Perform automatic translation"
 msgstr "Производство автоматического перевода"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid "`Administration`, `Automatic translation`"
 msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
-msgstr "Виканаć аŭтаматиčни пиераклад"
+msgstr ":guilabel:`Администрирование`, :guilabel:`Автоматический перевод`"
 
 #: ../../admin/access.rst:558
 msgid "Delete existing translation"
@@ -6214,9 +6212,8 @@ msgstr ""
 "учётной записи, требуя для входа больше, чем просто пароль."
 
 #: ../../admin/auth.rst:790
-#, fuzzy
 msgid "Weblate supports the following second factors:"
-msgstr "Статистика Веблате"
+msgstr "В Weblate предусмотрена поддержка следующих дополнительных факторов:"
 
 #: ../../admin/auth.rst:792
 msgid "Security keys (WebAuthn)"
@@ -7136,10 +7133,8 @@ msgstr ""
 "улучшить свой перевод. Флаги собраны из следующих источников:"
 
 #: ../../admin/checks.rst:33
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string additional flags:"
-msgstr "Расположение исходной строки"
+msgstr "Дополнительные флаги исходной строки:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
@@ -10498,16 +10493,12 @@ msgstr ""
 "пользователям будет разрешён доступ к странице входа."
 
 #: ../../admin/config.rst:1300
-#, fuzzy
-#| msgid ""
-#| ":ref:`sample-configuration` contains :setting:`django:LOGGING` "
-#| "configuration."
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr ""
-":setting:`django:LOGGING` в :ref:`примере файла настроек <sample-"
-"configuration>`."
+"Рекомендованную конфигурацию этого параметра смотрите в :ref:`sample-"
+"configuration`."
 
 #: ../../admin/config.rst:1306
 msgid "MATOMO_SITE_ID"
@@ -11825,10 +11816,8 @@ msgid ":ref:`gitea-setup`"
 msgstr ":ref:`gitea-setup`"
 
 #: ../../admin/continuous.rst:93
-#, fuzzy
-#| msgid ":ref:`project-enable_hooks`"
 msgid "You must also :ref:`project-enable_hooks` for this to work."
-msgstr "[Х0Х]"
+msgstr "Чтобы это сработало, следует установить :ref:`project-enable_hooks`."
 
 #: ../../admin/continuous.rst:95
 msgid ""
@@ -11899,21 +11888,9 @@ msgstr ":ref:`merge-weblate-git`"
 
 #: ../../admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
-msgstr "Паквиердзиć видалиенние ŭсич записаŭ памиаки пиеракладу"
+msgstr "Избегайте конфликтов слияний, изменяя файлы перевода только в Weblate"
 
 #: ../../admin/continuous.rst:121
-#, fuzzy
-#| msgid ""
-#| "The first approach is easy with monolingual files - you can add new "
-#| "strings within Weblate and leave whole editing of the files there. For "
-#| "bilingual files, there is usually some kind of message extraction process "
-#| "to generate translatable files from the source code. In some cases this "
-#| "can be split into two parts - one for the extraction generates template "
-#| "(for example gettext POT is generated using :program:`xgettext`) and then "
-#| "further process merges it into actual translations (the gettext PO files "
-#| "are updated using :program:`msgmerge`). You can perform the second step "
-#| "within Weblate and it will ensure that all pending changes are included "
-#| "prior to this operation."
 msgid ""
 "Avoiding edits outside Weblate is easy with monolingual files — you can add "
 "new strings within Weblate and leave whole editing of the files there. For "
@@ -11921,17 +11898,11 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
-"Первый подход прост с одноязычными файлами — вы можете добавлять новые "
-"строки, не выходя из Weblate’а, и возложить на него любое редактирование "
-"файлов. Для двуязычных файлов, как правило, существует некий процесс "
-"извлечения сообщений из исходного кода для генерации файлов перевода. В "
-"некоторых случаях он может быть разбит на две части — одна, извлекающая, "
-"часть генерирует шаблон (например, файл POT gettext’а генерируется с помощью "
-"программы :program:`xgettext`), а дальнейший процесс объединяет его с "
-"фактическими переводами (файлы PO gettext’а, обновляемые с помощью "
-"программы :program:`msgmerge`). Второй шаг вы можете выполнить в Weblate’е, "
-"и он удостоверится, что до выполнения этой операции все отложенные изменения "
-"были зафиксированы."
+"С одноязычными файлами легко избежать редактирования за пределами Weblate — "
+"вы можете добавлять новые строки, не выходя из Weblate, и возложить на него "
+"любое редактирование файлов. Для двуязычных файлов, как правило, существует "
+"некий процесс извлечения сообщений из исходного кода для генерации файлов "
+"перевода. В некоторых случаях это можно разделить на две части."
 
 #: ../../admin/continuous.rst:127
 msgid ""
@@ -12509,7 +12480,7 @@ msgstr "Запрос на слияние в Gitea из ветки"
 
 #: ../../admin/continuous.rst:428
 msgid "Pagure merge request from fork"
-msgstr "Pagure'вский запрос на слияние из форка"
+msgstr "Запрос на слияние в Pagure из форка"
 
 #: ../../admin/continuous.rst:429 ../../admin/continuous.rst:434
 msgid ":ref:`vcs-pagure`"
@@ -12521,7 +12492,7 @@ msgstr "Pagure ’вский запрос на слияние из ветки"
 
 #: ../../admin/continuous.rst:438
 msgid "Azure DevOps pull request from fork"
-msgstr "Запрос на извлечение Azure DevOps из форка"
+msgstr "Запрос на извлечение в Azure DevOps из форка"
 
 #: ../../admin/continuous.rst:439 ../../admin/continuous.rst:444
 msgid ":ref:`vcs-azure-devops`"
@@ -12533,7 +12504,7 @@ msgstr "Запрос на извлечение Azure DevOps из ветви"
 
 #: ../../admin/continuous.rst:448
 msgid "Bitbucket Data Center pull request from fork"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запрос на извлечение в Bitbucket Data Center из форка"
 
 #: ../../admin/continuous.rst:449 ../../admin/continuous.rst:454
 #, fuzzy
@@ -12543,11 +12514,11 @@ msgstr ":ref:`vcs-bitbucket-data-center`"
 
 #: ../../admin/continuous.rst:453
 msgid "Bitbucket Data Center pull request from branch"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запрос на извлечение в Bitbucket Data Center из форка"
 
 #: ../../admin/continuous.rst:458
 msgid "Bitbucket Cloud pull request from fork"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запрос на извлечение в Bitbucket Cloud из форка"
 
 #: ../../admin/continuous.rst:459 ../../admin/continuous.rst:464
 msgid ":ref:`vcs-bitbucket-cloud`"
@@ -12555,7 +12526,7 @@ msgstr ":ref:`vcs-bitbucket-cloud`"
 
 #: ../../admin/continuous.rst:463
 msgid "Bitbucket Cloud pull request from branch"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запрос на извлечение в Bitbucket Cloud из форка"
 
 #: ../../admin/continuous.rst:468
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -12741,22 +12712,24 @@ msgstr ""
 "переводчику во всех компонентах."
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "Інструккиі длиа пиеракладу"
+msgstr "Предпосылки распространения:"
 
 #: ../../admin/continuous.rst:564
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"Все компоненты должны находиться в одном проекте (связывания компонентов "
+"недостаточно)."
 
 #: ../../admin/continuous.rst:565 ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Включите :ref:`component-allow_translation_propagation` для автоматического "
+"повторного использования переводов для совпадающих строк."
 
 #: ../../admin/continuous.rst:566
 msgid ""
@@ -12772,6 +12745,8 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"Строки распространяются во время перевода, строки, загруженные из "
+"репозитория, не распространяются."
 
 #: ../../admin/continuous.rst:573
 msgid ""
@@ -12779,6 +12754,9 @@ msgid ""
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
+"Эта функция в настоящее время имеет ограничения, и мы хотим сделать её более "
+"универсальной. Пожалуйста, поделитесь своим мнением на https://github.com/"
+"WeblateOrg/weblate/issues/3166."
 
 #: ../../admin/continuous.rst:578
 msgid "Consistency check"
@@ -12869,12 +12847,6 @@ msgstr ""
 "объясняются основы и указаны дальнейшие учебные пособия."
 
 #: ../../admin/customize.rst:33
-#, fuzzy
-#| msgid ""
-#| "To write a file with custom Python code (called a module), a place to "
-#| "store it is needed, either in the system path (usually something like :"
-#| "file:`/usr/lib/python3.9/site-packages/`) or in the Weblate directory, "
-#| "which is also added to the interpreter search path."
 msgid ""
 "To write a file with custom Python code (called a module), a place to store "
 "it is needed, either in the system path (usually something like :file:`/usr/"
@@ -12883,7 +12855,7 @@ msgid ""
 msgstr ""
 "При написании собственного кода на Python (называемого модулем), его "
 "необходимо разместить в каталоге, находящемся либо в системном пути (обычно "
-"это путь вида :file:`/usr/lib/python3.9/site-packages/`), либо в каталоге "
+"это путь вида :file:`/usr/lib/python3.12/site-packages/`), либо в каталоге "
 "Weblate, который также добавляется к путям поиска интерпретатора."
 
 #: ../../admin/customize.rst:40
@@ -15965,18 +15937,13 @@ msgid "Periodic tasks using Celery beat"
 msgstr "Периодические задачи при помощи Celery beat"
 
 #: ../../admin/install.rst:1690
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example see :ref:"
-#| "`lazy-commit`."
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
-"Weblate поставляется со встроенной конфигурацией планировщика задач. Вы, "
-"однако, можете определить в :file:`settings.py` дополнительные задачи, для "
-"примера смотрите раздел :ref:`lazy-commit`."
+"Weblate поставляется со встроенной конфигурацией планировщика задач. "
+"Расписание задач хранится в базе данных, а задачи выполняются демоном Celery "
+"beat."
 
 #: ../../admin/install.rst:1695
 #, fuzzy
@@ -17450,16 +17417,12 @@ msgstr ""
 "описание параметра :setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:891
-#, fuzzy
-#| msgid ""
-#| "Configures the used time zone in Weblate, see :std:setting:`django:"
-#| "TIME_ZONE`."
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
 msgstr ""
-"Настраивает используемый в Weblate часовой пояс, смотрите описание "
-"параметра :std:setting:`django:TIME_ZONE`."
+"Настраивает URL, который обрабатывает медиаданные, передаваемые из "
+":setting:`django:MEDIA_ROOT`."
 
 #: ../../admin/install/docker.rst:896
 #, fuzzy
@@ -17870,10 +17833,10 @@ msgid "Keycloak"
 msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1392
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr "Включает авторизацию через Slack, смотрите раздел :ref:`slack-auth`."
+msgstr ""
+"Включает авторизацию через Keycloak, смотрите раздел :doc:`psa:backends/"
+"keycloak`."
 
 #: ../../admin/install/docker.rst:1395
 msgid "Linux vendors"
@@ -20733,7 +20696,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:377
 msgid "Google Cloud Translation Advanced"
-msgstr "Рекламаванние пиеракладнікаhа пражекта"
+msgstr "Расширенный облачный перевод Google"
 
 #: ../../admin/machine.rst:379
 msgid "``google-translate-api-v3``"
@@ -21382,35 +21345,18 @@ msgstr ""
 "``password``."
 
 #: ../../admin/machine.rst:801
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-#| "`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` "
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
-":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-"`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` `SAP "
-"Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
-"SAPTranslationHub/api/translationhub>`_"
+"`Что такое SAP Translation Hub <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:802
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-#| "`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` "
-#| "`SAP Translation Hub API <https://api.sap.com/shell/discover/"
-#| "contentpackage/SAPTranslationHub/api/translationhub>`_"
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 msgstr ""
-":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, :setting:"
-"`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, :setting:`MT_SAP_USE_MT` `SAP "
-"Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
-"SAPTranslationHub/api/translationhub>`_"
+"`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 
 #: ../../admin/machine.rst:807
 msgid "Systran"
@@ -24230,15 +24176,11 @@ msgstr ""
 "при переводе."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:996
-#, fuzzy
-#| msgid ""
-#| "The :ref:`translation-memory` can be used as a source for machine "
-#| "translation suggestions as well."
 msgid ""
 "Optionally, it can be also used as a source for the machine translation."
 msgstr ""
-":ref:`translation-memory` также может использоваться в качестве источника "
-"предложений машинного перевода."
+"При желании его можно использовать в качестве источника для машинного "
+"перевода."
 
 #: ../../admin/projects.rst:291 ../../admin/projects.rst:1004
 #, fuzzy
@@ -25669,17 +25611,12 @@ msgid "Use as a glossary"
 msgstr "Использовать в качестве словаря"
 
 #: ../../admin/projects.rst:1064
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "Allows using this component as a glossary. Use when you want to manage "
 "terminology separately from normal translations."
 msgstr ""
-"Позволяет использовать данный компонент в качестве словаря. Вы можете "
-"настроить, как именно он будет отображаться, с помощью параметра «:ref:"
-"`component-glossary_color`»."
+"Позволяет использовать данный компонент в качестве глоссария. Используйте "
+"его, когда хотите управлять терминологией отдельно от обычных переводов."
 
 #: ../../admin/projects.rst:1067
 msgid "Glossaries are best for:"
@@ -28957,11 +28894,8 @@ msgid "Returns a list of translation units."
 msgstr "Возвращает список единиц перевода."
 
 #: ../../api.rst:2039 ../../api.rst:2207
-#, fuzzy
-#| msgid "Search query string :ref:`Searching` (optional)"
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr ""
-"Строка поискового запроса (необязательный, смотреть раздел :ref:`Searching`)"
+msgstr "Строка поискового запроса :doc:`/user/search` (необязательно)"
 
 #: ../../api.rst:2041
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -29908,13 +29842,6 @@ msgid "language code (if applicable)"
 msgstr "код языка (если применимо)"
 
 #: ../../api.rst:2692
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
-#| "projects/(string:project)/statistics/`, :http:get:`/api/components/"
-#| "(string:project)/(string:component)/statistics/`, :http:get:`/api/"
-#| "translations/(string:project)/(string:component)/(string:language)/"
-#| "statistics/`"
 msgid ""
 ":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
 "projects/(string:project)/statistics/`, :http:get:`/api/categories/(int:id)/"
@@ -29923,9 +29850,10 @@ msgid ""
 "component)/(string:language)/statistics/`"
 msgstr ""
 ":http:get:`/api/languages/(string:language)/statistics/`, :http:get:`/api/"
-"projects/(string:project)/statistics/`, :http:get:`/api /comComponents/"
-"(строка:проект)/(строка:компонент)/статистика/`, :http:get:`/api/"
-"translations/(строка:проект)/(строка:компонент)/(строка:язык)/статистика/ `"
+"projects/(string:project)/statistics/`, :http:get:`/api/categories/(int:id)/"
+"statistics/`, :http:get:`/api/components/(string:project)/(string:component)/"
+"statistics/`, :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:2699
 msgid "Metrics"
@@ -31830,13 +31758,9 @@ msgstr ""
 "labels/`."
 
 #: ../../changes.rst:494
-#, fuzzy
-#| msgid ""
-#| "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
-"Добавлены метки API, смотрите :http:get:`/api/projects/(string:project)/"
-"labels/`."
+"Добавлено :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:496
 msgid ""
@@ -33009,45 +32933,32 @@ msgid "Weblate 5.5"
 msgstr "Weblate 5.5"
 
 #: ../../changes.rst:979
-#, fuzzy
-#| msgid "Released on April 20th 2024."
 msgid "*Released on April 20th 2024.*"
-msgstr "Выпущено 20 апреля 2024 года."
+msgstr "*Выпущено 20 апреля 2024 года.*"
 
 #: ../../changes.rst:983
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
 msgstr ""
 
 #: ../../changes.rst:985
-#, fuzzy
-#| msgid "API improvements"
 msgid "API improvements."
-msgstr "Улучшения API"
+msgstr "Улучшения API."
 
 #: ../../changes.rst:987
-#, fuzzy
-#| msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
-msgstr "Добавлен :http:get:`/api/component-lists/(str:slug)/components/`."
+msgstr "Добавлено :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:988
-#, fuzzy
-#| msgid ""
-#| "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr ""
-"Добавлены метки API, смотрите :http:get:`/api/projects/(string:project)/"
-"labels/`."
+msgstr "Добавлено :http:get:`/api/projects/(string:project)/file/`."
 
 #: ../../changes.rst:989
-#, fuzzy
-#| msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
-msgstr "Добавлен :http:get:`/api/component-lists/(str:slug)/components/`."
+msgstr "Добавлено :http:post:`/api/groups/(int:id)/admins/`."
 
 #: ../../changes.rst:990
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
-msgstr ""
+msgstr "Добавлено :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 
 #: ../../changes.rst:991
 msgid ""
@@ -33058,22 +32969,20 @@ msgstr ""
 "(string:language)/units/`."
 
 #: ../../changes.rst:993
-#, fuzzy
-#| msgid ":ref:`mt-yandex-v2` machine translation service."
 msgid "Added :ref:`mt-systran` automatic translation support."
-msgstr "Викаристоŭваć сервиси маšиннаhа пиеракладу"
+msgstr "Добавлено :ref:`mt-systran` поддержка автоматического перевода."
 
 #: ../../changes.rst:997
 msgid ""
 "Docker container now validates user password strength by default, see :"
 "envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 msgstr ""
+"Контейнер Docker теперь по умолчанию проверяет надежность пароля "
+"пользователя, подробнее смотрите :envvar:`WEBLATE_MIN_PASSWORD_SCORE`."
 
 #: ../../changes.rst:998
-#, fuzzy
-#| msgid "Configures :ref:`aws` machine translation."
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
-msgstr "[Х0Х]"
+msgstr "Улучшение сообщений об ошибках в :ref:`machine-translation-setup`."
 
 #: ../../changes.rst:999
 msgid ":ref:`check-max-size` better displays rendered text."
@@ -33193,10 +33102,8 @@ msgid "Weblate 5.4.3"
 msgstr "Weblate 5.4.3"
 
 #: ../../changes.rst:1035
-#, fuzzy
-#| msgid "Released on March 26th 2024."
 msgid "*Released on March 26th 2024.*"
-msgstr "Выпущено 26 марта 2024 года."
+msgstr "*Выпущено 26 марта 2024 года.*"
 
 #: ../../changes.rst:1039
 #, fuzzy
@@ -33260,10 +33167,8 @@ msgid "Weblate 5.4.2"
 msgstr "Weblate 5.4.2"
 
 #: ../../changes.rst:1058
-#, fuzzy
-#| msgid "Released on February 22nd 2024."
 msgid "*Released on February 22nd 2024.*"
-msgstr "Выпущено 22 февраля 2024 года."
+msgstr "*Выпущено 22 февраля 2024 года.*"
 
 #: ../../changes.rst:1062
 msgid "Displaying debugging page in case of database connection issues."
@@ -33286,10 +33191,8 @@ msgid "Weblate 5.4.1"
 msgstr "Weblate 5.4.1"
 
 #: ../../changes.rst:1074
-#, fuzzy
-#| msgid "Released on February 19th 2024."
 msgid "*Released on February 19th 2024.*"
-msgstr "Выпущено 19 февраля 2024 года."
+msgstr "*Выпущено 19 февраля 2024 года.*"
 
 #: ../../changes.rst:1078
 msgid ""
@@ -33310,10 +33213,8 @@ msgid "Weblate 5.4"
 msgstr "Weblate 5.4"
 
 #: ../../changes.rst:1090
-#, fuzzy
-#| msgid "Released on February 15th 2024."
 msgid "*Released on February 15th 2024.*"
-msgstr "Выпущено 15 февраля 2024 года."
+msgstr "*Выпущено 15 февраля 2024 года.*"
 
 #: ../../changes.rst:1094
 #, fuzzy
@@ -33334,10 +33235,8 @@ msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr ""
 
 #: ../../changes.rst:1098
-#, fuzzy
-#| msgid "The Weblate Client is also available as a Docker image."
 msgid "Weblate is now available in Tamil."
-msgstr "Клиент Weblate также доступен в виде образа Docker."
+msgstr "Weblate теперь доступен на тамильском языке."
 
 #: ../../changes.rst:1102
 msgid "Better logging in :wladmin:`createadmin`."
@@ -52359,7 +52258,7 @@ msgstr "Указатели и таблицы"
 
 #: ../../index.rst:2
 msgid "Weblate Documentation"
-msgstr "Дакумиентакижа"
+msgstr "Документация Weblate"
 
 #: ../../index.rst:8
 msgid ""
@@ -52403,10 +52302,12 @@ msgstr "Впервые здесь?"
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
 msgstr ""
+"Прочитайте :doc:`user/basic`, чтобы получить общее представление о том, что "
+"делает Weblate."
 
 #: ../../index.rst:36
 msgid "Joining a translation project"
-msgstr "Рекламаванние пиеракладнікаhа пражекта"
+msgstr "Присоединение к проекту перевода"
 
 #: ../../index.rst:37
 #, fuzzy
@@ -52422,7 +52323,7 @@ msgstr ""
 
 #: ../../index.rst:40
 msgid "Starting a translation project"
-msgstr "Рекламаванние пиеракладнікаhа пражекта"
+msgstr "Начало проекта перевода"
 
 #: ../../index.rst:41
 msgid ""
@@ -52433,7 +52334,7 @@ msgstr ""
 
 #: ../../index.rst:45
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: ../../index.rst:46
 msgid "Check our :doc:`faq`."
@@ -54684,14 +54585,9 @@ msgid "``weblate.trans.autofixes.html.BleachHTML``"
 msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../user/checks.rst:77
-#, fuzzy
-#| msgid ""
-#| "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :"
-#| "ref:`check-safe-html`)."
 msgid "Removes unsafe HTML markup from strings flagged as ``safe-html``."
 msgstr ""
-"Удаляет небезопасную HTML-разметку из строк, помеченных флагом ``safe-html`` "
-"(смотрите проверку :ref:`check-safe-html`)."
+"Удаляет небезопасную HTML-разметку из строк, помеченных флагом ``safe-html``"
 
 #: ../../user/checks.rst:81
 msgid ":ref:`check-safe-html`"
@@ -59326,17 +59222,13 @@ msgid "``state:TEXT``"
 msgstr "``state:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``), supports :ref:`search-operators`."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
 "Поиск по состояниям строки (``approved`` «одобрено», ``translated`` "
-"«переведено», ``needs-editing`` «на правку», ``empty`` «пусто», ``read-"
-"only`` «только чтение»), поддерживается :ref:`search-operators`."
+"«переведено», ``needs-editing`` «на правку», ``empty`` «пусто», ``read-only``"
+" «только чтение»)."
 
 #: ../../user/search.rst:50
 msgid ""
@@ -60014,14 +59906,6 @@ msgid "Translation links"
 msgstr "Ссылки на перевод"
 
 #: ../../user/translating.rst:35
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is already translated without any errors, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the :ref:"
-#| "`Search <Searching>` feature to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -60035,7 +59919,7 @@ msgstr ""
 "такие как :guilabel:`«Непереведённые строки»` или :guilabel:`«Незавершённые "
 "строки»`. Если весь проект переведён и в нём не обнаружено ошибок, то в нём "
 "всё равно будет доступна ссылка :guilabel:`«Все строки»`. Также вы можете "
-"воспользоваться функцией :ref:`поиска <Searching>`, для того чтобы найти "
+"воспользоваться функцией :doc:`Поиск </user/search>`, для того чтобы найти "
 "определённую строку или термин."
 
 #: ../../user/translating.rst:50
@@ -60092,26 +59976,16 @@ msgstr ""
 "активирован настройкой :ref:`project-source_review`."
 
 #: ../../user/translating.rst:70
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: for translations, source strings, "
-#| "or to report source string bugs when this functionality is turned on "
-#| "using :ref:`project-source_review`. Choose the one suitable to topic you "
-#| "want to discuss. Source string comments are in any event good for "
-#| "providing feedback on the original string, for example that it should be "
-#| "rephrased or to ask questions about it."
 msgid ""
 "Choose the suitable type for the topic you want to discuss. Source string "
 "comments are in any event good for providing feedback on the original "
 "string, for example that it should be rephrased, or to ask questions about "
 "it."
 msgstr ""
-"Можно разместить три типа комментариев: для переводов, исходных строк или "
-"для сообщения об ошибках в исходных строках, когда эта функциональность "
-"включена с помощью :ref:`project-source_review`. Выберите тот, который "
-"соответствует теме, которую вы хотите обсудить. Комментарии к исходным "
-"строкам в любом случае хороши для предоставления обратной связи по исходной "
-"строке, например, чтобы перефразировать её или задать вопросы по ней."
+"Выберите подходящий для темы, которую вы хотите обсудить, тип. Комментарии к "
+"исходным строкам в любом случае хороши для предоставления обратной связи по "
+"исходной строке, например, чтобы перефразировать её или задать вопросы по "
+"ней."
 
 #: ../../user/translating.rst:75
 #, fuzzy
@@ -61776,7 +61650,7 @@ msgstr ":ref:`push-changes`, :setting:`GITEA_CREDENTIALS`"
 
 #: ../../vcs.rst:423
 msgid "Bitbucket Data Center pull requests"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запросы на извлечение в Bitbucket Data Center"
 
 #: ../../vcs.rst:427
 #, fuzzy
@@ -61834,7 +61708,7 @@ msgstr ":ref:`push-changes`, :setting:`BITBUCKETSERVER_CREDENTIALS`"
 
 #: ../../vcs.rst:456
 msgid "Bitbucket Cloud pull requests"
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Запросы на извлечение в Bitbucket Cloud"
 
 #: ../../vcs.rst:460
 #, fuzzy
@@ -61853,7 +61727,7 @@ msgstr ""
 
 #: ../../vcs.rst:466
 msgid "This is different from Bitbucket Data Center API."
-msgstr "Chібнаже запитанние на зліккио!"
+msgstr "Это отличается от API Bitbucket Data Center API."
 
 #: ../../vcs.rst:469
 #, fuzzy
@@ -62115,16 +61989,13 @@ msgid "Weblate Client"
 msgstr "Клиент Weblate"
 
 #: ../../wlc.rst:15
-#, fuzzy
-#| msgid ""
-#| "The Weblate Client is shipped separately and includes the Python module. "
-#| "To use the commands below, you need to install :mod:`wlc`:"
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :program:`wlc` using pip:"
 msgstr ""
 "Клиент Weblate поставляется отдельно и включает в себя модуль Python. Для "
-"использования нижеприведённых команд необходимо установить модуль :mod:`wlc`:"
+"использования нижеприведённых команд необходимо установить :program:`wlc` "
+"используя pip:"
 
 #: ../../wlc.rst:24
 msgid ""
