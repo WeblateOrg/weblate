@@ -84,7 +84,7 @@ Autoclean translation memory
 
 The translation memory is automatically cleaned up by removing obsolete and outdated entries.
 
-In the Docker container this can be configured using :envvar:`WEBLATE_AUTOCLEAN_TM`.
+In the Docker container this can be configured using :envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`.
 
 .. seealso::
 

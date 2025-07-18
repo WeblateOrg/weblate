@@ -221,7 +221,7 @@ manually, as the cleanups happen automatically in the background.
 
 
 cleanup_memory
-----------------
+--------------
 
 .. weblate-admin:: cleanup_memory
 
