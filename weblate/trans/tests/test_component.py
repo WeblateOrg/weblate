@@ -4,9 +4,13 @@
 
 """Test for translation models."""
 
+from __future__ import annotations
+
 import os
+from typing import cast
 
 from django.core.exceptions import ValidationError
+from django.db.models import F
 from django.test.utils import override_settings
 
 from weblate.checks.models import Check
@@ -25,12 +29,12 @@ class ComponentTest(RepoTestCase):
 
     def verify_component(
         self,
-        component,
-        translations,
-        lang=None,
-        units=0,
-        unit="Hello, world!\n",
-        source_units=None,
+        component: Component,
+        translations: int,
+        lang: str | None = None,
+        units: int = 0,
+        unit: str = "Hello, world!\n",
+        source_units: int | None = None,
     ) -> None:
         if source_units is None:
             source_units = units
@@ -53,16 +57,29 @@ class ComponentTest(RepoTestCase):
                         "\n".join(translation.unit_set.values_list("source", flat=True))
                     ),
                 )
+            # Verify that units have valid link to source (non-self)
+            if lang != component.source_language.code:
+                self.assertFalse(
+                    translation.unit_set.filter(source_unit_id=F("id")).exists()
+                )
 
-        if component.has_template() and component.edit_template:
-            translation = component.translation_set.get(filename=component.template)
-            # Count units in it
-            self.assertEqual(translation.unit_set.count(), units)
-            # Count translated units in it
-            self.assertEqual(
-                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
-                source_units,
-            )
+        if component.has_template():
+            self.assertEqual(component.source_translation.filename, component.template)
+        # Count units in the source languaage
+        self.assertEqual(component.source_translation.unit_set.count(), units)
+        # Count translated units in the source language
+        self.assertEqual(
+            component.source_translation.unit_set.filter(
+                state__gte=STATE_TRANSLATED
+            ).count(),
+            source_units,
+        )
+        # Verify that source units have valid link to source
+        self.assertFalse(
+            component.source_translation.unit_set.exclude(
+                source_unit_id=F("id")
+            ).exists()
+        )
 
     def test_create(self) -> None:
         component = self.create_component()
@@ -550,7 +567,8 @@ class ComponentChangeTest(RepoTestCase):
 
     def test_rename(self) -> None:
         link_component = self.create_link()
-        component = link_component.linked_component
+        self.assertIsNotNone(link_component.linked_component)
+        component = cast("Component", link_component.linked_component)
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
 
         old_path = component.full_path
@@ -578,14 +596,14 @@ class ComponentChangeTest(RepoTestCase):
     def test_unlink_clean(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
-        component.repo = component.linked_component.repo
+        component.repo = cast("Component", component.linked_component).repo
         component.clean()
         component.save()
 
     def test_unlink(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
-        component.repo = component.linked_component.repo
+        component.repo = cast("Component", component.linked_component).repo
         component.save()
 
     def test_repo_link_generation_bitbucket(self) -> None:
