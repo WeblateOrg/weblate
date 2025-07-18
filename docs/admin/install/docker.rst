@@ -2171,7 +2171,7 @@ To override settings at the Docker image level instead of from the data volume:
    settings from Python files in the data volume.
 
 Replacing logo and other static files
--------------------------------------
++++++++++++++++++++++++++++++++++++++
 
 The static files coming with Weblate can be overridden by placing into
 :file:`/app/data/python/customize/static` (see :ref:`docker-volume`). For
@@ -2198,6 +2198,26 @@ it as separate volume to the Docker container, for example:
       - ./weblate_customization/weblate_customization:/app/data/python/weblate_customization
     environment:
       WEBLATE_ADD_APPS: weblate_customization
+
+Customizing code
+++++++++++++++++
+
+.. note::
+
+   The internal Weblate API may vary significantly between releases and is not
+   meant to be stable. Please review your custom code interacting with Weblate
+   internals on each upgrade.
+
+You can place additional Python code into :file:`/app/data/python/customize`
+(see :ref:`docker-volume`). It is already installed as a Django application
+inside Weblate (this is used for customizing templates and static files as
+described above). This can be used to place any code (for example
+:ref:`own-checks`) or to add custom maintenance tasks to the Celery task
+scheduler.
+
+.. literalinclude:: ../../../weblate/examples/custom_tasks.py
+   :language: python
+   :caption: An example of custom scheduled tasks in :file:`/app/data/python/customize/tasks.py`.
 
 Configuring PostgreSQL server
 -----------------------------
