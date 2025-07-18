@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-18 15:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-19 21:02+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -46841,17 +46841,9 @@ msgstr ""
 
 #: ../../devel/integration.rst:94
 msgid "Updating target-language files"
-msgstr "Кираванние мовами"
+msgstr "Обновление файлов языка перевода"
 
 #: ../../devel/integration.rst:96
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :ref:`component-template`, and not "
-#| "in actual translations. It does not however perform any automatic cleanup "
-#| "of stale strings as that might have unexpected outcomes. If you want to "
-#| "do this, please install :ref:`addon-weblate.cleanup.generic` add-on which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`), Weblate might add new "
 "translation strings present in the :ref:`component-template`, and not in "
@@ -46861,38 +46853,33 @@ msgid ""
 "which handles cleanup according to your requirements."
 msgstr ""
 "Для одноязычных файлов (смотрите раздел :ref:`formats`) Weblate может "
-"добавлять новые строки перевода, отсутствующие как в :ref:`базовом файле "
-"<component-template>`, так и в реальных переводах. Однако он не выполняет "
-"какую-либо автоматическую очистку устаревших строк, так как это может "
-"привести к неожиданным результатам. Если же вы хотите, чтобы она "
-"выполнялась, то установите :ref:`соответствующую надстройку <addon-weblate."
-"cleanup.generic>`, которая и будет производить такую очистку в соответствии "
-"с вашими требованиями."
+"добавлять новые строки перевода, присутствующие в :ref:`component-template`, "
+"а не в самих переводах. Однако он не выполняет какую-либо автоматическую "
+"очистку устаревших строк, так как это может привести к неожиданным "
+"результатам. Если же вы хотите, чтобы она выполнялась, то установите "
+"надстройку :ref:`addon-weblate.cleanup.generic`, которая и будет производить "
+"такую очистку в соответствии с вашими требованиями."
 
 #: ../../devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
-#| "using :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, do it "
 "yourself by using :guilabel:`Update source strings` :ref:`upload-method`, or "
 "by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgstr ""
-"Weblate также не будет пытаться каким-либо образом обновлять двуязычные "
-"файлы, так что, если вам нужно, чтобы файлы :file:`po` обновлялись из "
-"файлов :file:`pot`, вам нужно будет делать это самостоятельно через :"
-"guilabel:`Обновить исходные строки` (смотрите раздел :ref:`upload-method`) "
-"или использовать для этого надстройку :ref:`addon-weblate.gettext.msgmerge`."
+"Weblate также не будет пытаться обновлять двуязычные файлы при обновлении "
+"источника, так что, если вам нужно, чтобы файлы :file:`po` обновлялись из "
+"файлов :file:`pot`, сделайте это самостоятельно через :guilabel:`Обновить "
+"исходные строки` (смотрите раздел :ref:`upload-method`) или используйте для "
+"этого надстройку :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../devel/integration.rst:110
 msgid ""
 "Source string extraction tools, such as :program:`xgettext` or :program:"
 "`lupdate`, need to be executed outside of Weblate."
 msgstr ""
+"Инструменты извлечения исходных строк, такие как :program:`xgettext` или "
+":program:`lupdate`, необходимо запускать вне Weblate."
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -46919,22 +46906,16 @@ msgstr ""
 "кода, которые их ввели."
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Monolingual formats need addition of the new string to :ref:`component-"
-#| "template`. This is typically done by the developers during developing the "
-#| "code. You might want to introduce review of those strings using :ref:"
-#| "`source-quality-gateway`."
 msgid ""
 "Monolingual formats need to be configured so that new strings are added to :"
 "ref:`component-template`. This is typically done by developers, as they "
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
-"Одноязычные форматы требуют добавления новой строки в :ref:`component-"
-"template`. Обычно это делается разработчиками во время разработки кода. "
-"Возможно, вы захотите ввести проверку этих строк, используя :ref:`source-"
-"quality-gateway`."
+"Одноязычные форматы требуется настроить так, чтобы новые строки добавлялись "
+"в :ref:`component-template`. Обычно это делается разработчиками во время "
+"написания кода. Возможно, вам стоит использовать процесс проверки этих строк "
+"с помощью :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:135
 msgid ""
@@ -46980,47 +46961,36 @@ msgstr ""
 
 #: ../../devel/integration.rst:160
 msgid "Managing the local VCS repository"
-msgstr "Кираванние репазиторижам"
+msgstr "Управление локальным хранилищем системы контроля версий (VCS)"
 
 #: ../../devel/integration.rst:162
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translation the version control repository. It can be "
-#| "either connected to upstream one, or it can be only internal. The :"
-#| "guilabel:`Repository maintenance` lets you manipulate with the repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
 "only setup is also possible. The :guilabel:`Repository maintenance` allows "
 "controlling this repository."
 msgstr ""
-"Weblate хранит все переводы в репозитории контроля версий. Оно может быть "
-"связано с предыдущим или быть только внутренним. Раздел :guilabel:"
-"`Обслуживание репозитория` позволяет вам работать с репозиторием."
+"Weblate хранит все переводы в своём базовом репозитории контроля версий. "
+"Рекомендуется подключиться к удалённому репозиторию, но возможна и "
+"внутренняя настройка. Раздел :guilabel:`Обслуживание репозитория` позволяет "
+"вам управлять этим репозиторием."
 
 #: ../../devel/integration.rst:169
-#, fuzzy
-#| msgid ""
-#| "With :doc:`/admin/continuous` the repository is automatically pushed "
-#| "whenever there are changes and there is usually no need to manually "
-#| "manipulate with it."
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
 msgstr ""
-"При использовании :doc:`/admin/continuous` репозиторий автоматически "
-"подгружается при каждом изменении, и обычно нет необходимости вручную "
-"работать с ним."
+"При использовании :doc:`/admin/continuous` любые изменения автоматически "
+"подгружается из репозитория, поэтому нет необходимости вручную управлять "
+"этим."
 
 #: ../../devel/integration.rst:176
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
 msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/mobile.rst:2
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Multi-platform localization"
-msgstr "Непрерывный перевод"
+msgstr "Мультиплатформенная локализация"
 
 #: ../../devel/mobile.rst:4
 msgid ""
@@ -47028,28 +46998,35 @@ msgid ""
 "configure separate components for each platform. The :ref:`translation-"
 "propagation` will help you to keep the strings in sync."
 msgstr ""
+"При переводе приложений для нескольких платформ (например, Android и iOS) "
+"настройте отдельные компоненты для каждой платформы. :ref:`translation-"
+"propagation` поможет вам синхронизировать строки."
 
 #: ../../devel/mobile.rst:8
-#, fuzzy
-#| msgid "CII Best Practices"
 msgid "Best practices:"
-msgstr "Передовая практика CII"
+msgstr "Лучшие практики:"
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
 msgstr ""
+"Создать один компонент для каждой платформы (например, `MyApp Android`, `"
+"MyApp iOS`)."
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
 msgstr ""
+"Убедитесь, что на всех платформах используются одинаковые исходные строки и "
+"ключи, где это возможно."
 
 #: ../../devel/mobile.rst:14
 msgid ""
 "This setup avoids duplicate work and keeps translations consistent across "
 "platforms."
 msgstr ""
+"Такая настройка позволяет избежать дублирования работы и обеспечивает "
+"единообразие переводов на всех платформах."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -51183,38 +51160,29 @@ msgstr "`Файл Markdown`"
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
-msgstr "Памилкови файл"
+msgstr "языковые файлы draggable/i18n"
 
 #: ../../formats/mi18n.rst:14
 msgid "The library was former published as mi18n."
-msgstr ""
+msgstr "Ранее библиотека публиковалась под названием mi18n."
 
 #: ../../formats/mi18n.rst:16
-#, fuzzy
-#| msgid ""
-#| "File format used for JavaScript localization by `mi18n`_. Syntactically "
-#| "it matches :ref:`javaprop`."
 msgid ""
 "File format used for JavaScript localization by `draggable/i18n`_. "
 "Syntactically it matches :ref:`javaprop`."
 msgstr ""
-"Формат файла, используемый для локализации JavaScript программой `mi18n`_. "
-"Синтаксически он соответствует :ref:`javaprop`."
+"Формат файла, используемый для локализации JavaScript программой `draggable/"
+"i18n`_. Синтаксически он соответствует :ref:`javaprop`."
 
 #: ../../formats/mi18n.rst:20
-#, fuzzy
-#| msgid ""
-#| "`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-#| "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 "`draggable/i18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:"
 "`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
 "weblate.cleanup.generic`"
 msgstr ""
-"`mi18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
-"target-files`, :ref:`addon-weblate.properties.sort`, :ref: `addon-weblate."
-"cleanup.generic`"
+"`draggable/i18n`_, :doc:`tt:formats/properties`, :ref:`javaprop`, :ref"
+":`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats/mi18n.rst:35
 msgid "``*.lang``"
@@ -51226,7 +51194,7 @@ msgstr "``en-US.lang``"
 
 #: ../../formats/mi18n.rst:41
 msgid "`draggabble/i18n lang file`"
-msgstr "Памилкови файл"
+msgstr "`языковые файлы draggabble/i18n`"
 
 #: ../../formats/moko-resources.rst:2 ../../formats/moko.rst:2
 msgid "Mobile Kotlin resources"
@@ -51237,6 +51205,8 @@ msgid ""
 "`Mobile Kotlin resources`_ specific format heavily based on :doc:`/formats/"
 "android`."
 msgstr ""
+"`Мобильные ресурсы Kotlin`_ специфический формат в значительной степени "
+"основанный на :doc:`/formats/android`."
 
 #: ../../formats/moko.rst:13
 msgid ""
@@ -51244,6 +51214,9 @@ msgid ""
 "different format which matches :doc:`/formats/android`, please use that "
 "instead."
 msgstr ""
+"Также существуют ресурсы Compose Multiplatform от JetBrains для Kotlin, "
+"которые используют другой формат, соответствующий :doc:`/formats/android`, "
+"пожалуйста, используйте его."
 
 #: ../../formats/moko.rst:23
 msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
@@ -51255,19 +51228,23 @@ msgstr "``shared/src/commonMain/resources/MR/base/plurals.xml``"
 
 #: ../../formats/moko-resources.rst:30 ../../formats/moko.rst:29
 msgid "`Mobile Kotlin Resource`"
-msgstr "Радковижа ресурси Андроид"
+msgstr "`Мобильные ресурсы Kotlin`"
 
 #: ../../formats/moko-resources.rst:10
 msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+"Вариант :doc:`/formats/android`. Отличается меткой множественного числа ("
+"используется ``plural`` вместо ``plurals``) и экранированием."
 
 #: ../../formats/moko-resources.rst:14
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_, :"
 "doc:`/formats/android`, :doc:`tt:formats/android`"
 msgstr ""
+"`Мобильные ресурсы Kotlin <https://github.com/icerockdev/moko-resources>`_, "
+":doc:`/formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
