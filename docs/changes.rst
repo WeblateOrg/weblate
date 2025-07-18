@@ -5,6 +5,8 @@ Weblate 5.13
 
 .. rubric:: New features
 
+* Enhanced :ref:`translation-memory` management with configurable status control, see :ref:`memory-status`.
+* Added :wladmin:`cleanup_memory` management command to remove obsolete translation memory entries.
 * :doc:`/formats/catkeys`.
 * Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 

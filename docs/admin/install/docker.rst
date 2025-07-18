@@ -870,6 +870,10 @@ Generic settings
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
+.. envvar:: WEBLATE_DEFAULT_AUTOCLEAN_TM
+
+   Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.

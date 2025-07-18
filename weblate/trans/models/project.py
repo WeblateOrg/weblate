@@ -209,6 +209,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             "Contributes to the pool of shared translations between projects."
         ),
     )
+    autoclean_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Autoclean translation memory"),
+        default=settings.DEFAULT_AUTOCLEAN_TM,
+        help_text=gettext_lazy(
+            "Automatically removes outdated and obsolete entries from translation memory."
+        ),
+    )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
         db_index=True,
