@@ -585,6 +585,11 @@ class Translation(
         if self.is_source:
             self.component.preload_sources(updated)
 
+        # Unload the store, this is intentionally in a way that it would break
+        # further consumers as no further consumer is expected after this and
+        # we do not want to parse the file again.
+        self.__dict__["store"] = None
+
     def store_update_changes(self) -> None:
         # Save change
         Change.objects.bulk_create(self.update_changes, batch_size=500)
