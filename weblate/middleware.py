@@ -54,7 +54,8 @@ if TYPE_CHECKING:
 CSP_DIRECTIVES: CSP_TYPE = {
     "default-src": {"'none'"},
     "style-src": {"'self'", "'unsafe-inline'"},
-    "img-src": {"'self'"},
+    # "data:" is required for bootstrap 5 icons
+    "img-src": {"'self'", "data:"},
     "script-src": {"'self'"},
     "connect-src": {"'self'"},
     "object-src": {"'none'"},

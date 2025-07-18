@@ -2,11 +2,12 @@
 
 {% compress css %}
   {% if bootstrap_5 %}
-    <link rel="stylesheet"
-          href="{% static 'vendor/bootstrap/v5/css/bootstrap.css' %}{{ cache_param }}" />
     {% if LANGUAGE_BIDI %}
       <link rel="stylesheet"
             href="{% static 'vendor/bootstrap/v5/css/bootstrap.rtl.css' %}{{ cache_param }}" />
+    {% else %}
+      <link rel="stylesheet"
+            href="{% static 'vendor/bootstrap/v5/css/bootstrap.css' %}{{ cache_param }}" />
     {% endif %}
   {% else %}
     <link rel="stylesheet"

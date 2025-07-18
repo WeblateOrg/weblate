@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 
 <html lang="{{ LANGUAGE_CODE }}"
-      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
+      {% if theme == "dark" %} data-bs-theme="dark" {% endif %}>
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="referrer" content="origin" />
@@ -121,6 +122,7 @@
                   class="navbar-toggler"
                   data-bs-toggle="collapse"
                   data-bs-target="#wl-navbar-main"
+                  data-bs-theme="dark"
                   id="navbar-toggle">
             <span class="visually-hidden">{% translate "Toggle navigation" %}</span>
             <span class="navbar-toggler-icon"></span>
@@ -128,7 +130,7 @@
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="wl-navbar-main">
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form">
               <div class="form-group">
                 <input type="text"
                        class="form-control"
@@ -248,7 +250,7 @@
                 </li>
               {% endwith %}
             </ul>
-            <ul class="navbar-nav ms-auto navbar-right flip">
+            <ul class="navbar-nav ms-auto">
 
               {# Superuser link to admin #}
               {% if user %}
@@ -485,6 +487,8 @@
       {% if menu_items %}
         {% include 'snippets/menu.html' %}
       {% endif %}
+
+      {% block nav_pills %}{% endblock %}
 
       {% block content %}{% endblock %}
 
