@@ -53,6 +53,8 @@ jobs:
         python-version: '3.13'
 
     - name: Run mypy
+      env:
+        CI_DATABASE: postgresql
       run: uv run --all-extras --group types mypy --show-column-numbers weblate > mypy.log
       # Temporary hack until we have this fully working
       continue-on-error: true
