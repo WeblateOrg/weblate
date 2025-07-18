@@ -1719,6 +1719,7 @@ configuration error in the admin interface.
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
+   :ref:`background-tasks-internals`
    :wladmin:`celery_queues`
 
 .. _minimal-celery:

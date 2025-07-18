@@ -1989,6 +1989,10 @@ Container settings
    ``web``
       Web server.
 
+   .. seealso::
+
+      :ref:`background-tasks-internals`
+
 .. envvar:: WEBLATE_ANUBIS_URL
 
    .. versionadded:: 5.11.4

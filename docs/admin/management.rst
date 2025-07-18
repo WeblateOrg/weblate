@@ -160,6 +160,10 @@ celery_queues
 
 Displays length of Celery task queues.
 
+.. seealso::
+
+   :ref:`background-tasks-internals`
+
 checkgit
 --------
 
