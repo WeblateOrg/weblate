@@ -1299,7 +1299,11 @@ class Component(
                     create["state"] = STATE_READONLY
 
                 # Create source unit
-                source = source_units.create(id_hash=id_hash, **create)
+                source = Unit(
+                    translation=self.source_translation, id_hash=id_hash, **create
+                )
+                source.save(force_insert=True, only_save=True)
+
                 # Avoid fetching empty list of checks from the database
                 source.all_checks = []
                 source.source_updated = True
