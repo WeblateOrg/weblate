@@ -479,9 +479,16 @@ class BenchmarkCommandTest(RepoTestCase):
         output = StringIO()
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             call_command(
-                "benchmark", "test", "weblate://test/test", "po/*.po", stdout=output
+                "benchmark",
+                "--project",
+                "test",
+                "--repo",
+                "weblate://test/test",
+                "--filemask",
+                "po/*.po",
+                stdout=output,
             )
-        self.assertIn("function calls", output.getvalue())
+        self.assertEqual("", output.getvalue())
 
 
 class SuggestionCommandTest(RepoTestCase):
