@@ -2033,15 +2033,3 @@ For example with Gettext in Python it could be:
 
 
 .. _reStructuredText Primer: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
-
-
-.. _location-based-flags:
-
-Location-based flags
-----------------------
-
-Some flags are added to strings by default, based on their locations.
-This means that certain checks will be automatically enabled depending on where the string is used.
-
-* ``rst-text``: This flag is automatically added to strings in reStructuredText files, if location extension is ``.rst``.
-* ``md-text``: This flag is automatically added to strings in Markdown files, if location extension is ``.md`` or ``.markdown``.

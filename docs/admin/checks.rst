@@ -352,6 +352,17 @@ Here is a list of flags currently accepted:
 These flags are understood both in :ref:`component` settings, per source string
 settings and in the translation file itself (for example in GNU gettext).
 
+.. _location-based-flags:
+
+Location-based flags
+--------------------
+
+Some flags are added to strings by default, based on their locations.
+This means that certain checks will be automatically enabled depending on where the string is used.
+
+* ``rst-text``: This flag is automatically added to strings in reStructuredText files, if location extension is ``.rst``.
+* ``md-text``: This flag is automatically added to strings in Markdown files, if location extension is ``.md`` or ``.markdown``.
+
 .. _enforcing-checks:
 
 Enforcing checks
