@@ -14257,31 +14257,23 @@ msgstr "從頭建立了組件"
 
 #: weblate/trans/models/change.py:67
 msgid "Component created as a branch"
-msgstr "以分支形式建立組件"
+msgstr "建立了組件分支"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "建立了組件"
+msgstr "透過 API 建立了組件"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "來自版本控制"
+msgstr "從版本控制建立了組件"
 
 #: weblate/trans/models/change.py:70
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "建立了組件"
+msgstr "透過上傳 ZIP 建立了組件"
 
 #: weblate/trans/models/change.py:71
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "建立了組件"
+msgstr "透過文件上傳建立了組件"
 
 #: weblate/trans/models/change.py:414
 msgid "The component was automatically locked because of an alert."
@@ -14304,10 +14296,8 @@ msgid "%(action)s at %(time)s on %(translation)s"
 msgstr "在 %(time)s 對 %(translation)s %(action)s"
 
 #: weblate/trans/models/change.py:709
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "檔案上傳模式"
+msgstr "檔案上傳模式："
 
 #: weblate/trans/models/change.py:745
 msgid "The “{}” file was changed."
@@ -14550,20 +14540,14 @@ msgid ""
 msgstr "是否在其他組件翻譯更新時，觸發它的自動翻譯"
 
 #: weblate/trans/models/component.py:549
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "貢獻至共享翻譯記憶庫"
+msgstr "貢獻至專案翻譯記憶庫"
 
 #: weblate/trans/models/component.py:552
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
-msgstr "新增語言的要求已傳送給專案維護者。"
+msgstr "允許將此元件的翻譯加入專案層級的翻譯記憶庫。"
 
 #: weblate/trans/models/component.py:558 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -14783,20 +14767,14 @@ msgid "Secondary language"
 msgstr "第二語言"
 
 #: weblate/trans/models/component.py:823 weblate/trans/models/project.py:261
-#, fuzzy
-#| msgid ""
-#| "The secondary languages are shown next to the source string when "
-#| "translating."
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr "第二語言在翻譯時會顯示在來源字串旁邊。"
+msgstr "翻譯時，在來源語言旁另外顯示的語言。"
 
 #: weblate/trans/models/component.py:825
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "This setting is inherited from the project if left empty."
-msgstr "未從上傳的檔案中匯入任何字串。"
+msgstr "如果這個設定留空，則從專案繼承設定。"
 
 #: weblate/trans/models/component.py:1605
 msgid ""
@@ -15205,11 +15183,10 @@ msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:975
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "找不到合併的字串。"
+msgstr[0] "找不到 %d 個字串："
 
 #: weblate/trans/models/translation.py:1160
 #: weblate/trans/models/translation.py:1219
@@ -15219,10 +15196,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "無法送交未決的變動：%s"
 
 #: weblate/trans/models/translation.py:1862
-#, fuzzy
-#| msgid "Plurals are not supported by the file format!"
 msgid "Plurals are not supported by the file format."
-msgstr "此檔案格式不支援複數形！"
+msgstr "此檔案格式不支援複數形。"
 
 #: weblate/trans/models/translation.py:1867 weblate/trans/models/unit.py:775
 #: weblate/utils/forms.py:127
@@ -15256,11 +15231,10 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "字串無法傳播到 %(component)s：%(reason)s"
 
 #: weblate/trans/models/unit.py:1151
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "字串無法傳播到 %(component)s：%(reason)s"
+msgstr[0] "無法將字串傳播到 %d 個組件上。"
 
 #: weblate/trans/models/unit.py:1942
 msgid "Unmark as read-only"
@@ -15898,10 +15872,8 @@ msgid "Could not remove the string: %s"
 msgstr "無法移除字串：%s"
 
 #: weblate/trans/views/edit.py:1071
-#, fuzzy
-#| msgid "String removed"
 msgid "String was removed."
-msgstr "移除了字串"
+msgstr "移除了字串。"
 
 #: weblate/trans/views/error.py:28
 msgid "Bad Request"
@@ -16104,16 +16076,12 @@ msgid "Horizontal language bar chart"
 msgstr "水平的語言長條圖"
 
 #: weblate/trans/widgets.py:533
-#, fuzzy
-#| msgid "Language code"
 msgid "Language count badge"
-msgstr "語言碼"
+msgstr "語言數量徽章"
 
 #: weblate/trans/widgets.py:537
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Threshold"
-msgstr "分數閾值"
+msgstr "閾值"
 
 #: weblate/trans/widgets.py:552 weblate/utils/views.py:624
 #, python-format
