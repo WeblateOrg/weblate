@@ -9,7 +9,7 @@ import tomllib
 
 print(
     """
-.. Table is generated using scripts/show-extras
+.. Table is generated using scripts/show-extras.py
 
 .. list-table:: Optional dependencies
      :header-rows: 1

@@ -143,7 +143,7 @@ jobs:
         namever="weblate-$version"
         sed "s/latest/$namever/" < scripts/release-notes-filter.lua > scripts/release-notes-filter.version.lua
         mkdir dist
-        ./scripts/extract-release-notes > "dist/Weblate-$version.html"
+        ./scripts/extract-release-notes.py > "dist/Weblate-$version.html"
         pandoc "dist/Weblate-$version.html" --write=gfm --wrap=none --lua-filter=scripts/release-notes-filter.version.lua -o "dist/Weblate-$version.md"
         rm scripts/release-notes-filter.version.lua
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
