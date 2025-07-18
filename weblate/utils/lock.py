@@ -107,9 +107,7 @@ class WeblateLock:
         # Make the lock reentrant
         if self._redis_lock.owned():
             # Extend lock if already owned (nested with statements)
-            lock_result = self._redis_lock.extend(
-                additional_time=self._redis_expiry_timeout
-            )
+            lock_result = self._redis_lock.reacquire()
         else:
             lock_result = self._redis_lock.acquire()
 
