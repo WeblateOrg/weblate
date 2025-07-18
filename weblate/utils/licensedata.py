@@ -5,7 +5,7 @@
 """
 License data definitions.
 
-This is an automatically generated file, see scripts/generate-license-data
+This is an automatically generated file, see scripts/generate-license-data.py
 """
 
 LICENSES = (

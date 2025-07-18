@@ -14,7 +14,7 @@ import requests
 from ruamel.yaml import YAML
 
 if len(sys.argv) != 2:
-    print("Usage: ./scripts/set-version VERSION")
+    print("Usage: ./scripts/set-version.py VERSION")
     sys.exit(1)
 
 version = version_full = sys.argv[1]

@@ -312,7 +312,7 @@ def get_special_chars(language, additional="", source=""):
 
 RTL_CHARS_DATA = [format_char(chr(c)) for c in RTL_CHARS]
 
-# Quotes data, generated using scripts/generate-specialchars
+# Quotes data, generated using scripts/generate-specialchars.py
 ALT_OPEN = {
     "ALL": "‘",
     "af": "‘",

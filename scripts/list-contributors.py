@@ -109,7 +109,7 @@ def get_contributors_text() -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="list-contributors",
+        prog="list-contributors.py",
         description="Lists contributors in a repository since last tag",
     )
     parser.add_argument(
