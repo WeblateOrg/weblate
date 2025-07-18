@@ -359,17 +359,14 @@ class Translation(
             )
             self.component.handle_parse_error(exc, self)
 
-    def sync_unit(
+    def pre_process_unit(
         self,
         *,
         dbunits: dict[int, Unit],
-        updated: dict[int, Unit],
         id_hash: int,
         unit: TranslationUnit,
         pos: int,
-        user: User | None = None,
-        author: User | None = None,
-    ) -> None:
+    ) -> Unit:
         try:
             newunit = dbunits[id_hash]
             is_new = False
@@ -383,15 +380,10 @@ class Translation(
             }
             is_new = True
 
-        with sentry_sdk.start_span(
-            op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
-        ):
-            newunit.update_from_unit(
-                unit=unit, pos=pos, created=is_new, user=user, author=author
-            )
-
-        # Store current unit ID
-        updated[id_hash] = newunit
+        newunit.store_unit_attributes(
+            unit=unit, pos=pos, created=is_new, id_hash=id_hash
+        )
+        return newunit
 
     def check_sync(  # noqa: C901
         self,
@@ -529,20 +521,41 @@ class Translation(
                         self.component.trigger_alert(
                             "DuplicateString",
                             language_code=self.language.code,
-                            source=newunit.source,
+                            source=newunit.unit_attributes["source"],
                             unit_pk=newunit.pk,
                         )
                         continue
 
-                    self.sync_unit(
+                    # Collect source strings
+                    newunit = self.pre_process_unit(
                         dbunits=dbunits,
-                        updated=updated,
                         id_hash=id_hash,
                         unit=unit,
                         pos=pos + 1,
-                        user=user,
-                        author=author,
                     )
+
+                    # Store current unit ID
+                    updated[id_hash] = newunit
+
+                # Create source strings
+                if not self.is_source and not self.component.template:
+                    with sentry_sdk.start_span(
+                        op="component.bulk_create_source", name=self.full_slug
+                    ):
+                        self.component.bulk_create_sources(
+                            [
+                                newunit.unit_attributes
+                                for newunit in updated.values()
+                                if newunit.unit_attributes is not None
+                            ]
+                        )
+
+                # Create/update translations
+                for newunit in updated.values():
+                    with sentry_sdk.start_span(
+                        op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
+                    ):
+                        newunit.update_from_unit(user=user, author=author)
 
             except FileParseError as error:
                 report_error(
