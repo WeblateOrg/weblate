@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-18 04:13+0000\n"
+"PO-Revision-Date: 2025-07-18 15:34+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1459,10 +1459,8 @@ msgid "Add new projects"
 msgstr "Добавление новых проектов"
 
 #: ../../admin/access.rst:586 ../../admin/access.rst:797
-#, fuzzy
-#| msgid "Add new projects"
 msgid ":guilabel:`Add new projects`"
-msgstr "Усие пражекти"
+msgstr ":guilabel:`Добавление новых проектов`"
 
 #: ../../admin/access.rst:588
 msgid "Add language definitions"
@@ -1531,7 +1529,7 @@ msgstr "Список встроенных ролей"
 #, fuzzy
 #| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Post announcements`"
-msgstr "Адправиć камиентар"
+msgstr ":guilabel:`Опубликовать объявления`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 #, fuzzy
@@ -2195,41 +2193,36 @@ msgstr "Срабатывает непосредственно перед отп�
 
 #: ../../admin/addons.rst:98
 msgid "Repository pre-update"
-msgstr "Застарели репазиторий."
+msgstr "Репозиторий перед обновлением"
 
 #: ../../admin/addons.rst:100
 msgid "Triggered just before the repository update is attempted."
-msgstr ""
+msgstr "Срабатывает непосредственно перед попыткой обновления репозитория."
 
 #: ../../admin/addons.rst:105
+#, fuzzy
 msgid "Storage post-load"
 msgstr "Дасвиедčани каристаĺник"
 
 #: ../../admin/addons.rst:107
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "Triggered when file is parsed by Weblate."
-msgstr "Метка времени, когда строка была добавлена в Weblate."
+msgstr "Срабатывает, когда файл анализируется в Weblate."
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit post-save"
-msgstr "единица после создания"
+msgstr "Единица перевода после сохранения"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the string is saved."
-msgstr ""
+msgstr "Срабатывает сразу после сохранения строки."
 
 #: ../../admin/addons.rst:119
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit pre-create"
-msgstr "единица после создания"
+msgstr "Единица перевода перед созданием"
 
 #: ../../admin/addons.rst:121
 msgid "Triggered just after the newly created string is saved."
-msgstr ""
+msgstr "Срабатывает сразу после сохранения вновь созданной строки."
 
 #: ../../admin/addons.rst:125
 msgid "Built-in add-ons"
@@ -11852,23 +11845,14 @@ msgid "Avoiding merge conflicts"
 msgstr "Предотвращение конфликтов слияния"
 
 #: ../../admin/continuous.rst:109
-#, fuzzy
-#| msgid ""
-#| "The merge conflicts from Weblate arise when same file was changed both in "
-#| "Weblate and outside it. There are two approaches to deal with that - "
-#| "avoid edits outside Weblate or integrate Weblate into your updating "
-#| "process, so that it flushes changes prior to updating the files outside "
-#| "Weblate."
 msgid ""
 "The merge conflicts from Weblate arise when same file was changed both in "
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
 "Конфликты слияния из Weblate возникают, когда один и тот же файл был изменён "
-"как в Weblate, так и за его пределами. Существует два подхода к решению этой "
-"проблемы — избегать редактирования файлов вне Weblate или интегрировать "
-"Weblate в процесс обновления таким образом, чтобы изменения фиксировались до "
-"обновления файлов вне Weblate."
+"как в Weblate, так и за его пределами. В зависимости от ситуации существует "
+"несколько подходов к решению этой проблемы:"
 
 #: ../../admin/continuous.rst:112
 msgid ":ref:`merge-weblate-only`"
@@ -25465,7 +25449,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:958
 msgid "Selected keys only"
-msgstr "Клиуčи Веблате"
+msgstr "Только выбранные ключи"
 
 #: ../../admin/projects.rst:958
 msgid "``^(one|two|other)$``"
@@ -29095,13 +29079,6 @@ msgid "Units"
 msgstr "Единицы перевода"
 
 #: ../../api.rst:2198
-#, fuzzy
-#| msgid ""
-#| "A `unit` is a single piece of a translation which pairs a source string "
-#| "with a corresponding translated string and also contains some related "
-#| "metadata. The term is derived from the `Translate Toolkit <http://docs."
-#| "translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
-#| "html#translate.storage.base.TranslationUnit>`_ and XLIFF."
 msgid ""
 "A `unit` is a single piece of a translation which pairs a source string with "
 "a corresponding translated string and also contains some related metadata. "
@@ -29111,9 +29088,8 @@ msgstr ""
 "`Единица перевода` (`unit`) — это единичный фрагмент перевода, "
 "сопоставляющий исходную строку и соответствующий ей перевод, а также "
 "содержащий некоторые связанные с ними метаданные. Этот термин унаследован от "
-"`Translate Toolkit <http://docs.translatehouse.org/projects/translate-"
-"toolkit/en/latest/api/storage.html#translate.storage.base.TranslationUnit>`_ "
-"и XLIFF."
+":py:class:`tt:translate.storage.base.TranslationUnit` в Translate Toolkit и "
+"XLIFF."
 
 #: ../../api.rst:2212
 msgid ""
@@ -29131,14 +29107,12 @@ msgstr ""
 "обрабатывать строки со множественным числом."
 
 #: ../../api.rst:2223
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The ``last_updated`` attribute is now exposed."
-msgstr "Значение атрибута не заключено в кавычки."
+msgstr "Атрибут ``last_updated`` теперь доступен."
 
 #: ../../api.rst:2225
 msgid "Returns information about the translation unit."
-msgstr "Падрабиазнией пра Веблате"
+msgstr "Возвращает информацию о единице перевода."
 
 #: ../../api.rst:2227 ../../api.rst:2265 ../../api.rst:2279 ../../api.rst:2293
 #: ../../api.rst:2308 ../../api.rst:2411
@@ -29191,10 +29165,6 @@ msgid "translation unit labels, available on source units"
 msgstr "метки единиц перевода, доступные в исходных единицах"
 
 #: ../../api.rst:2240
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read-only"
@@ -29330,14 +29300,12 @@ msgstr ""
 "раздел :ref:`reviews`)"
 
 #: ../../api.rst:2311
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
 msgstr ""
-"Вы можете использовать разметку Markdown и упоминать других участников с "
-"помощью @имя_пользователя."
+"содержание нового коммита, вы можете использовать разметку Markdown и "
+"упоминать других участников с помощью @имя_пользователя."
 
 #: ../../api.rst:2312
 msgid ""
@@ -29352,10 +29320,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2314
-#, fuzzy
-#| msgid "unit identifier"
 msgid "comment identifier"
-msgstr "идентификатор единицы перевода"
+msgstr "идентификатор коммита"
 
 #: ../../api.rst:2315
 #, fuzzy
@@ -29410,7 +29376,7 @@ msgstr "Временная метка в формате ISO 8601, изменен
 
 #: ../../api.rst:2342
 msgid "Returns information about the translation change."
-msgstr "Падрабиазнией пра Веблате"
+msgstr "Возвращает информацию об изменении перевода."
 
 #: ../../api.rst:2344
 msgid "Change ID"
@@ -29447,15 +29413,15 @@ msgstr "текстовое описание действия"
 
 #: ../../api.rst:2354
 msgid "event changed text"
-msgstr "Ниадаŭніжа змиени"
+msgstr "изменённый текст"
 
 #: ../../api.rst:2355
 msgid "previous text"
-msgstr "Назад"
+msgstr "предыдущий текст"
 
 #: ../../api.rst:2356
 msgid "additional details about the change"
-msgstr ""
+msgstr "дополнительные сведения об изменении"
 
 #: ../../api.rst:2357
 msgid "change identifier"
@@ -29475,7 +29441,7 @@ msgstr ""
 
 #: ../../api.rst:2372
 msgid "Returns information about the screenshot."
-msgstr "Падрабиазнией пра Веблате"
+msgstr "Возвращает информацию о снимке экрана."
 
 #: ../../api.rst:2374 ../../api.rst:2385 ../../api.rst:2392 ../../api.rst:2409
 #: ../../api.rst:2421 ../../api.rst:2444 ../../api.rst:2455 ../../api.rst:2466
@@ -29864,6 +29830,8 @@ msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Метрики теперь можно представлять в формате, совместимом с OpenMetrics, с "
+"помощью ``?format=openmetrics``."
 
 #: ../../api.rst:2709
 msgid "Number of units"
@@ -30013,7 +29981,7 @@ msgstr "Удалить категорию."
 
 #: ../../api.rst:2796
 msgid "Returns statistics for a category."
-msgstr "Спіс правиерак"
+msgstr "Возвращает статистику категории."
 
 #: ../../api.rst:2808
 msgid "Notification hooks"
@@ -30130,10 +30098,8 @@ msgid "For instruction on setting up GitLab integration"
 msgstr "Инструкция по настройке интеграции с GitLab"
 
 #: ../../api.rst:2866
-#, fuzzy
-#| msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 msgid "https://docs.gitlab.com/user/project/integrations/webhooks/"
-msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
+msgstr "https://docs.gitlab.com/user/project/integrations/webhooks/"
 
 #: ../../api.rst:2867
 msgid "Generic information about GitLab Webhooks"
@@ -30288,16 +30254,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.12.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on June 19th 2024."
 msgid "*Released on June 20th 2025.*"
-msgstr "Выпущено 19 июня 2024 года."
+msgstr "*Выпущено 20 июня 2025 года.*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -30306,7 +30268,7 @@ msgstr "Выпущено 19 июня 2024 года."
 #: ../../changes.rst:1217 ../../changes.rst:1281 ../../changes.rst:1357
 #: ../../changes.rst:1398
 msgid "New features"
-msgstr "Адмиетнаскі"
+msgstr "Новые функции"
 
 #: ../../changes.rst:9 ../../changes.rst:71 ../../changes.rst:118
 #: ../../changes.rst:160 ../../changes.rst:187 ../../changes.rst:223
@@ -30320,13 +30282,13 @@ msgstr "Адмиетнаскі"
 #: ../../changes.rst:1258 ../../changes.rst:1289 ../../changes.rst:1332
 #: ../../changes.rst:1361 ../../changes.rst:1406
 msgid "Improvements"
-msgstr "Кампаниенти"
+msgstr "Улучшения"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr ""
+"Интеграция :ref:`mt-deepl` теперь поддерживает использование модели next-gen "
+"LLM."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -30345,7 +30307,7 @@ msgstr "Миесказначоdžанние радка-зичодніка"
 #: ../../changes.rst:1304 ../../changes.rst:1337 ../../changes.rst:1370
 #: ../../changes.rst:1427
 msgid "Bug fixes"
-msgstr "Мови"
+msgstr "Исправления ошибок"
 
 #: ../../changes.rst:14
 #, fuzzy
@@ -30391,7 +30353,7 @@ msgstr "Совместимость"
 #: ../../changes/v4.rst:934 ../../changes/v4.rst:1020 ../../changes/v4.rst:1095
 #: ../../changes/v4.rst:1168
 msgid "Upgrading"
-msgstr "Праhлиадзиеć čарhу змиен"
+msgstr "Обновление"
 
 #: ../../changes.rst:21 ../../changes.rst:40 ../../changes.rst:104
 #: ../../changes.rst:127 ../../changes.rst:146 ../../changes.rst:173
@@ -30433,28 +30395,20 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/148?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "Released on June 16th 2023."
 msgid "*Released on June 16th 2025.*"
-msgstr "Выпущено 16 июня 2023 года."
+msgstr "*Выпущено 16 июня 2025 года.*"
 
 #: ../../changes.rst:36
 msgid ":ref:`sbom` is now includes serial number."
@@ -30480,7 +30434,7 @@ msgstr ""
 #: ../../changes/contributors/5.9.1.rst:2
 #: ../../changes/contributors/5.9.2.rst:2 ../../changes/contributors/5.9.rst:1
 msgid "Code contributions"
-msgstr "Статистика ŭдзиеĺника"
+msgstr "Написание кода"
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -30496,7 +30450,7 @@ msgstr "Статистика ŭдзиеĺника"
 #: ../../changes/contributors/5.8.2.rst:7 ../../changes/contributors/5.8.rst:7
 #: ../../changes/contributors/5.9.2.rst:7 ../../changes/contributors/5.9.rst:6
 msgid "Translations contributions"
-msgstr "Інструккиі длиа пиеракладу"
+msgstr "Участие в переводах"
 
 #: ../../changes/contributors/5.10.1.rst:12
 #: ../../changes/contributors/5.10.2.rst:12
@@ -30520,31 +30474,23 @@ msgstr "Інструккиі длиа пиеракладу"
 #: ../../changes/contributors/5.9.2.rst:12
 #: ../../changes/contributors/5.9.rst:11
 msgid "Documentation contributions"
-msgstr "Дакумиентакижа длиа мноžнич формаŭ."
+msgstr "Вклад в документацию"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/147?closed=1>`__."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.12"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "ЧаВО по безопасности"
+msgstr "Безопасность"
 
 #: ../../changes.rst:55
 msgid ""
@@ -30600,6 +30546,7 @@ msgstr ":doc:`/contributing/documentation`"
 #: ../../changes.rst:65
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Добавлена поддержка для :doc:`/formats/compose-multiplatform-resources`."
 
 #: ../../changes.rst:66
 msgid "Added :guilabel:`Translation Coordinator` role."
@@ -30628,10 +30575,8 @@ msgid ":ref:`check-same` is now skipped for Toki Pona."
 msgstr ":ref:`check-reused` больше не срабатывает для пустых строк."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr ":ref:`search-strings` поддерживает поиск ``has:location``."
 
 #: ../../changes.rst:74
 msgid ""
@@ -30737,10 +30682,8 @@ msgstr ""
 "изменений в исходных строках."
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid "Creates new translation in the given component."
 msgid "Creating new translations in :doc:`/formats/appstore`."
-msgstr "Создаёт новый перевод в указанном компоненте."
+msgstr "Создание нового перевода в :doc:`/formats/appstore`."
 
 #: ../../changes.rst:94
 #, fuzzy
@@ -30764,28 +30707,20 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:110
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/141?closed=1>`__."
 
 #: ../../changes.rst:113
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.4"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid "Released on May 7th 2020."
 msgid "*Released on May 7th 2025.*"
-msgstr "Выпущено 7 мая 2020 года."
+msgstr "*Выпущено 7 мая 2025 года.*"
 
 #: ../../changes.rst:119
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
@@ -30803,52 +30738,36 @@ msgstr ""
 "«На правку»."
 
 #: ../../changes.rst:133
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/146?closed=1>`__."
 
 #: ../../changes.rst:136
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.3"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:138 ../../changes.rst:157
-#, fuzzy
-#| msgid "Released on May 3rd 2024."
 msgid "*Released on May 3rd 2025.*"
-msgstr "Выпущено 3 мая 2024 года."
+msgstr "*Выпущено 3 мая 2025 года.*"
 
 #: ../../changes.rst:142
-#, fuzzy
-#| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
-msgstr "Исправлен вывод списка снимков экрана."
+msgstr "Публикация исправленного выпуска."
 
 #: ../../changes.rst:152
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/145?closed=1>`__."
 
 #: ../../changes.rst:155
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.11.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:161
 #, fuzzy
@@ -30878,10 +30797,8 @@ msgid "Improved error handling on ZIP upload."
 msgstr "Улучшена обработка ошибок при удалении строки."
 
 #: ../../changes.rst:168
-#, fuzzy
-#| msgid "Django 1.4 compatibility."
 msgid "Django 5.2 compatibility."
-msgstr "Совместимость с Django 1.4."
+msgstr "Совместимость с Django 5.2."
 
 #: ../../changes.rst:169
 #, fuzzy
@@ -30890,28 +30807,20 @@ msgid "Avoid repeated glossary synchronizations."
 msgstr "Избегайте повторяющихся слов и символов."
 
 #: ../../changes.rst:179
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/144?closed=1>`__."
 
 #: ../../changes.rst:182
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:184
-#, fuzzy
-#| msgid "Released on April 17th 2023."
 msgid "*Released on April 25th 2025.*"
-msgstr "Выпущено 17 апреля 2023 года."
+msgstr "*Выпущено 25 апреля 2025 года.*"
 
 #: ../../changes.rst:188
 msgid ":ref:`projectbackup` now include teams and categories."
@@ -30938,28 +30847,20 @@ msgid "Removing pending glossary terms."
 msgstr "Запрещённый термин в словаре"
 
 #: ../../changes.rst:205
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/142?closed=1>`__."
 
 #: ../../changes.rst:208
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.11"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.11"
 
 #: ../../changes.rst:210
-#, fuzzy
-#| msgid "Released on April 17th 2023."
 msgid "*Released on April 15th 2025.*"
-msgstr "Выпущено 17 апреля 2023 года."
+msgstr "*Выпущено 15 апреля 2025 года.*"
 
 #: ../../changes.rst:214
 msgid ""
@@ -31136,19 +31037,15 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/136?closed=1>`__."
 
 #: ../../changes.rst:263
-#, fuzzy
-#| msgid "Weblate 5.10.2"
 msgid "Weblate 5.10.4"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.10.4"
 
 #: ../../changes.rst:265
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "*Released on March 19th 2025.*"
-msgstr "Выпущено 11 марта 2020 года."
+msgstr "*Выпущено 19 марта 2025 года.*"
 
 #: ../../changes.rst:269
 #, fuzzy
@@ -31188,19 +31085,19 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/140?closed=1>`__."
 
 #: ../../changes.rst:286
 #, fuzzy
 #| msgid "Weblate 5.10.2"
 msgid "Weblate 5.10.3"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.10.3"
 
 #: ../../changes.rst:288
 #, fuzzy
 #| msgid "Released on March 11th 2020."
 msgid "*Released on March 13th 2025.*"
-msgstr "Выпущено 11 марта 2020 года."
+msgstr "*Выпущено 13 марта 2025 года.*"
 
 #: ../../changes.rst:292
 #, fuzzy
@@ -31249,17 +31146,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/139?closed=1>`__."
 
 #: ../../changes.rst:313
 msgid "Weblate 5.10.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.10.2"
 
 #: ../../changes.rst:315
 #, fuzzy
 #| msgid "Released on February 8th 2012."
 msgid "*Released on February 28th 2025.*"
-msgstr "Выпущено 8 февраля 2012 года."
+msgstr "*Выпущено 28 февраля 2025 года.*"
 
 #: ../../changes.rst:319
 #, fuzzy
@@ -31326,17 +31223,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/138?closed=1>`__."
 
 #: ../../changes.rst:347
 msgid "Weblate 5.10.1"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.10.1"
 
 #: ../../changes.rst:349
 #, fuzzy
 #| msgid "Released on February 14th 2012."
 msgid "*Released on February 21st 2025.*"
-msgstr "Выпущено 14 февраля 2012 года."
+msgstr "*Выпущено 21 февраля 2025 года.*"
 
 #: ../../changes.rst:353
 #, fuzzy
@@ -31354,21 +31251,18 @@ msgstr ""
 "проекта."
 
 #: ../../changes.rst:355
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr ":ref:`search-strings` поддерживает поиск по состоянию исходной строки."
 
 #: ../../changes.rst:359
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 
 #: ../../changes.rst:360
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr ""
+":ref:`zen-mode` не отображает исходную строку дважды при редактировании."
 
 #: ../../changes.rst:361
 #, fuzzy
@@ -31386,17 +31280,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/137?closed=1>`__."
 
 #: ../../changes.rst:374
 msgid "Weblate 5.10"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.10"
 
 #: ../../changes.rst:376
 #, fuzzy
 #| msgid "Released on February 14th 2012."
 msgid "*Released on February 14th 2025.*"
-msgstr "Выпущено 14 февраля 2012 года."
+msgstr "*Выпущено 14 февраля 2025 года.*"
 
 #: ../../changes.rst:380
 msgid ""
@@ -31546,11 +31440,11 @@ msgstr ":ref:`check-reused` больше не срабатывает для пу
 
 #: ../../changes.rst:409
 msgid "Dark theme behavior in some situations."
-msgstr "Спампаваć длиа аŭтаномнаhа пиеракладу."
+msgstr "Поведение тёмной темы в некоторых ситуациях."
 
 #: ../../changes.rst:410
 msgid "Translation propagation sometimes did not work as expected."
-msgstr ""
+msgstr "Распространение перевода иногда не работало надлежащим образом."
 
 #: ../../changes.rst:411
 #, fuzzy
@@ -31640,7 +31534,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Django 1.8 is no longer supported."
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
-msgstr "Django 1.8 более не поддерживается."
+msgstr "PostgreSQL 12 и MariaDB 10.4 более не поддерживаются."
 
 #: ../../changes.rst:436
 #, fuzzy
@@ -31652,17 +31546,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/133?closed=1>`__."
 
 #: ../../changes.rst:439
 msgid "Weblate 5.9.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.9.2"
 
 #: ../../changes.rst:441
 #, fuzzy
 #| msgid "Released on December 19th 2023."
 msgid "*Released on December 19th 2024.*"
-msgstr "Выпущено 19 декабря 2023 года."
+msgstr "*Выпущено 19 декабря 2024 года.*"
 
 #: ../../changes.rst:445
 #, fuzzy
@@ -31702,11 +31596,11 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/135?closed=1>`__."
 
 #: ../../changes.rst:466
 msgid "Weblate 5.9.1"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.9.1"
 
 #: ../../changes.rst:468 ../../changes.rst:487
 msgid "*Released on December 16th 2024.*"
@@ -31726,11 +31620,11 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/134?closed=1>`__."
 
 #: ../../changes.rst:485
 msgid "Weblate 5.9"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.9"
 
 #: ../../changes.rst:491
 msgid ""
@@ -31744,8 +31638,7 @@ msgstr ""
 #| "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
-"Добавлены метки API, смотрите :http:get:`/api/projects/(string:project)/"
-"labels/`."
+"Добавлено :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:494
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
@@ -31862,7 +31755,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Git 2.28 or newer."
-msgstr "Weblate теперь требует Python 3.7 или новее."
+msgstr "Weblate теперь требует Git 2.28 или новее."
 
 #: ../../changes.rst:524
 msgid ""
@@ -31890,17 +31783,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/127?closed=1>`__."
 
 #: ../../changes.rst:539
 msgid "Weblate 5.8.4"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.8.4"
 
 #: ../../changes.rst:541
 #, fuzzy
 #| msgid "Released on November 19th 2021."
 msgid "*Released on November 19th 2024.*"
-msgstr "Выпущено 19 ноября 2021 года."
+msgstr "*Выпущено 19 ноября 2024 года.*"
 
 #: ../../changes.rst:545
 msgid ":ref:`search-users` can search based on user changes."
@@ -31935,17 +31828,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/132?closed=1>`__."
 
 #: ../../changes.rst:564
 msgid "Weblate 5.8.3"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.8.3"
 
 #: ../../changes.rst:566
 #, fuzzy
 #| msgid "Released on November 16th 2023."
 msgid "*Released on November 6th 2024.*"
-msgstr "Выпущено 16 ноября 2023 года."
+msgstr "*Выпущено 6 ноября 2024 года.*"
 
 #: ../../changes.rst:570
 #, fuzzy
@@ -31973,17 +31866,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/131?closed=1>`__."
 
 #: ../../changes.rst:585
 msgid "Weblate 5.8.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.8.2"
 
 #: ../../changes.rst:587
 #, fuzzy
 #| msgid "Released on November 16th 2023."
 msgid "*Released on November 1st 2024.*"
-msgstr "Выпущено 16 ноября 2023 года."
+msgstr "*Выпущено 1 ноября 2024 года.*"
 
 #: ../../changes.rst:591
 msgid "Update outdated plural definitions during the database migration."
@@ -32017,21 +31910,21 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/129?closed=1>`__."
 
 #: ../../changes.rst:608
 msgid "Weblate 5.8.1"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.8.1"
 
 #: ../../changes.rst:610 ../../changes.rst:629
 #, fuzzy
 #| msgid "Released on October 15th 2020."
 msgid "*Released on October 15th 2024.*"
-msgstr "Выпущено 15 октября 2020 года."
+msgstr "*Выпущено 15 октября 2024 года.*"
 
 #: ../../changes.rst:614
 msgid "Use lower case name for the Python package."
-msgstr ""
+msgstr "Для названия пакета Python используются строчные буквы."
 
 #: ../../changes.rst:624
 #, fuzzy
@@ -32043,17 +31936,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/128?closed=1>`__."
 
 #: ../../changes.rst:627
 msgid "Weblate 5.8"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.8"
 
 #: ../../changes.rst:633
 #, fuzzy
 #| msgid ":ref:`component-merge_style` for any new components."
 msgid "Added :ref:`component-key_filter` in the component."
-msgstr "Назва кампаниента"
+msgstr "Добавлено :ref:`component-key_filter` в компонент."
 
 #: ../../changes.rst:634
 msgid ""
@@ -32086,10 +31979,8 @@ msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr "[Х0Х]"
 
 #: ../../changes.rst:642
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr ":ref:`mt-deepl` теперь поддерживает указание контекста перевода."
 
 #: ../../changes.rst:643
 #, fuzzy
@@ -32161,7 +32052,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate now requires Python 3.7 or newer."
 msgid "Weblate now requires Python 3.11 or newer."
-msgstr "Weblate теперь требует Python 3.7 или новее."
+msgstr "Weblate теперь требует Python 3.11 или новее."
 
 #: ../../changes.rst:663
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
@@ -32193,17 +32084,17 @@ msgid ""
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/122?closed=1>`__."
 
 #: ../../changes.rst:678
 msgid "Weblate 5.7.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.7.2"
 
 #: ../../changes.rst:680
 #, fuzzy
 #| msgid "Released on September 15th 2022."
 msgid "*Released on September 5th 2024.*"
-msgstr "Выпущено 15 сентября 2022 года."
+msgstr "*Выпущено 5 сентября 2024 года.*"
 
 #: ../../changes.rst:684
 msgid ":ref:`2fa` remembers last method used by user."
@@ -32239,13 +32130,13 @@ msgstr ""
 
 #: ../../changes.rst:704
 msgid "Weblate 5.7.1"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.7.1"
 
 #: ../../changes.rst:706
 #, fuzzy
 #| msgid "Released on August 15th 2019."
 msgid "*Released on August 30th 2024.*"
-msgstr "Выпущено 15 августа 2019 года."
+msgstr "*Выпущено 30 августа 2024 года.*"
 
 #: ../../changes.rst:710
 msgid ""
@@ -32305,13 +32196,13 @@ msgstr ""
 
 #: ../../changes.rst:732
 msgid "Weblate 5.7"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.7"
 
 #: ../../changes.rst:734
 #, fuzzy
 #| msgid "Released on August 15th 2019."
 msgid "*Released on August 15th 2024.*"
-msgstr "Выпущено 15 августа 2019 года."
+msgstr "*Выпущено 15 августа 2024 года.*"
 
 #: ../../changes.rst:738
 msgid ""
@@ -32365,6 +32256,8 @@ msgid ""
 "The status widgets are now supported site-wide and language-wide, see :ref:"
 "`promotion`."
 msgstr ""
+"Виджеты статуса теперь поддерживаются на всем сайте и на всех языках, см. "
+":ref:`promotion`."
 
 #: ../../changes.rst:750
 msgid ":ref:`reports` are now available for categories."
@@ -32454,7 +32347,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Default value of BASE_DIR has been changed."
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
-msgstr "Изменено значение по умолчанию для BASE_DIR."
+msgstr "Изменено значение по умолчанию для :setting:`SENTRY_SEND_PII`."
 
 #: ../../changes.rst:772
 msgid ""
@@ -32499,19 +32392,19 @@ msgstr ""
 
 #: ../../changes.rst:788
 msgid "Weblate 5.6.2"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.6.2"
 
 #: ../../changes.rst:790
 #, fuzzy
 #| msgid "Released on July 1st 2022."
 msgid "*Released on July 1st 2024.*"
-msgstr "Выпущено 1 июля 2022 года."
+msgstr "*Выпущено 1 июля 2024 года.*"
 
 #: ../../changes.rst:794
 #, fuzzy
 #| msgid "Rendering of release notes on GitHub."
 msgid "Rendering of :ref:`labels` color selection widget."
-msgstr "Отображение примечаний к выпуску на GitHub."
+msgstr "Переписан виджет выбора цветов :ref:`labels`."
 
 #: ../../changes.rst:795
 msgid "Detection of pending outgoing commits."
@@ -32553,13 +32446,13 @@ msgstr ""
 
 #: ../../changes.rst:808
 msgid "Weblate 5.6.1"
-msgstr "Клиуčи Веблате"
+msgstr "Weblate 5.6.1"
 
 #: ../../changes.rst:810
 #, fuzzy
 #| msgid "Released on June 19th 2024."
 msgid "*Released on June 24th 2024.*"
-msgstr "Выпущено 19 июня 2024 года."
+msgstr "*Выпущено 24 июня 2024 года.*"
 
 #: ../../changes.rst:814
 msgid ""
@@ -32576,29 +32469,23 @@ msgstr ""
 #, fuzzy
 #| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr "[Х0Х]"
+msgstr "Альтернативные названия языков в :doc:`/admin/machine`."
 
 #: ../../changes.rst:825
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/121?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/123?"
 "closed=1>`__."
 msgstr ""
 "`Подробно обо всех изменениях <https://github.com/WeblateOrg/weblate/"
-"milestone/121?closed=1>`__."
+"milestone/123?closed=1>`__."
 
 #: ../../changes.rst:828
 msgid "Weblate 5.6"
 msgstr "Weblate 5.6"
 
 #: ../../changes.rst:830
-#, fuzzy
-#| msgid "Released on June 19th 2024."
 msgid "*Released on June 19th 2024.*"
-msgstr "Выпущено 19 июня 2024 года."
+msgstr "*Выпущено 19 июня 2024 года.*"
 
 #: ../../changes.rst:834
 msgid ":ref:`addons` activity log for tracking add-on activity."
@@ -32654,13 +32541,11 @@ msgstr ""
 
 #: ../../changes.rst:849
 msgid "Loading of strings with many glossary matches."
-msgstr "Радкі ź ниапройдзиенимі правиеркамі"
+msgstr "Загрузка строк с большим количеством совпадений в глоссарии."
 
 #: ../../changes.rst:850
-#, fuzzy
-#| msgid "Daily execution of project and site wide add-ons."
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Исправлено поведение некоторых общесайтовых :ref:`addons`."
 
 #: ../../changes.rst:851
 #, fuzzy
@@ -32698,10 +32583,8 @@ msgid "Weblate 5.5.5"
 msgstr "Weblate 5.5.5"
 
 #: ../../changes.rst:868
-#, fuzzy
-#| msgid "Released on May 13th 2024."
 msgid "*Released on May 13th 2024.*"
-msgstr "Выпущено 13 мая 2024 года."
+msgstr "*Выпущено 13 мая 2024 года.*"
 
 #: ../../changes.rst:872
 msgid "False-positive merge failure alert when using push branch."
@@ -32724,14 +32607,12 @@ msgid "Weblate 5.5.4"
 msgstr "Weblate 5.5.4"
 
 #: ../../changes.rst:884
-#, fuzzy
-#| msgid "Released on May 10th 2024."
 msgid "*Released on May 10th 2024.*"
-msgstr "Выпущено 10 мая 2024 года."
+msgstr "*Выпущено 10 мая 2024 года.*"
 
 #: ../../changes.rst:888
 msgid "Visually highlight explanation in :ref:`glossary`."
-msgstr ""
+msgstr "Визуальное выделение пояснения в :ref:`glossary`."
 
 #: ../../changes.rst:889
 msgid "Add :ref:`addons` history tab in management."
@@ -32744,6 +32625,7 @@ msgstr ""
 #: ../../changes.rst:891
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
+":doc:`/admin/announcements` можно опубликовать в project/language scope."
 
 #: ../../changes.rst:895
 #, fuzzy
@@ -32764,10 +32646,8 @@ msgid "Weblate 5.5.3"
 msgstr "Weblate 5.5.3"
 
 #: ../../changes.rst:906
-#, fuzzy
-#| msgid "Released on May 3rd 2024."
 msgid "*Released on May 3rd 2024.*"
-msgstr "Выпущено 3 мая 2024 года."
+msgstr "*Выпущено 3 мая 2024 года.*"
 
 #: ../../changes.rst:910
 msgid "Improved performance of rendering large lists of objects."
@@ -32783,7 +32663,7 @@ msgstr ""
 
 #: ../../changes.rst:915
 msgid "Fixed crashes with librsvg older than 2.46."
-msgstr ""
+msgstr "Исправлены сбои в librsvg старше 2.46."
 
 #: ../../changes.rst:916
 #, fuzzy
@@ -32804,10 +32684,8 @@ msgid "Weblate 5.5.2"
 msgstr "Weblate 5.5.2"
 
 #: ../../changes.rst:927 ../../changes.rst:942
-#, fuzzy
-#| msgid "Released on April 26th 2024."
 msgid "*Released on April 26th 2024.*"
-msgstr "Выпущено 26 апреля 2024 года."
+msgstr "*Выпущено 26 апреля 2024 года.*"
 
 #: ../../changes.rst:931
 msgid "Fixed publishing packages to PyPI."
@@ -32928,7 +32806,7 @@ msgstr "*Выпущено 20 апреля 2024 года.*"
 
 #: ../../changes.rst:983
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
-msgstr ""
+msgstr ":ref:`addons` может быть установлен по всему проекту и по всему сайту."
 
 #: ../../changes.rst:985
 msgid "API improvements."
@@ -46727,7 +46605,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:7
 msgid "Importing a localization project into Weblate"
-msgstr "Миеска"
+msgstr "Импорт проекта локализации в Weblate"
 
 #: ../../devel/integration.rst:9
 #, fuzzy
@@ -49264,7 +49142,7 @@ msgstr ""
 
 #: ../../formats.rst:4
 msgid "Localization file formats"
-msgstr "Миеска"
+msgstr "Форматы файлов локализации"
 
 #: ../../formats.rst:6
 msgid ""
@@ -58065,7 +57943,9 @@ msgstr "JSON (доступен только для одноязычных пер
 msgid ""
 "JSON nested structure file (only available for monolingual translations) "
 "(``json-nested``)"
-msgstr "Спампаваć длиа аŭтаномнаhа пиеракладу."
+msgstr ""
+"Файл с вложенной структурой JSON (доступно только для одноязычных переводов) "
+"(``json-nested``)"
 
 #: ../../user/files.rst:40
 msgid ""
@@ -59297,7 +59177,7 @@ msgstr "Дадаć, жак заквиерdžани пиераклад"
 
 #: ../../user/search.rst:64
 msgid "``needs-editing`` or ``fuzzy``"
-msgstr ""
+msgstr "``needs-editing`` или ``fuzzy``"
 
 #: ../../user/search.rst:65
 msgid "Needing editing strings, same as ``state:needs-editing``."
@@ -59814,7 +59694,7 @@ msgstr "Поиск по электронной почте."
 
 #: ../../user/search.rst:253
 msgid "Fuzzy values for DATETIME fields"
-msgstr ""
+msgstr "Нечёткие значения для полей DATETIME"
 
 #: ../../user/search.rst:255
 msgid ""
@@ -59831,7 +59711,7 @@ msgstr "``changed:>=\"2 weeks ago\"``"
 #: ../../user/search.rst:263
 msgid ""
 "Returns strings that are changed 2 weeks ago from the current date and time."
-msgstr ""
+msgstr "Возвращает строки, измененные 2 недели назад от текущей даты и времени."
 
 #: ../../user/search.rst:264
 msgid "``changed:>=yesterday``"
@@ -59839,7 +59719,7 @@ msgstr "``changed:>=yesterday``"
 
 #: ../../user/search.rst:265
 msgid "Returns strings that are changed starting yesterday."
-msgstr ""
+msgstr "Возвращает строки, которые были изменены начиная со вчерашнего дня."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -59853,21 +59733,21 @@ msgstr "Спасибо за проявленный интерес к перев�
 #, fuzzy
 #| msgid "Overall, there are two modes of translation:"
 msgid "Generally, there are two most used modes of translation:"
-msgstr "В целом, существует два режима перевода:"
+msgstr "Как правило, существуют два наиболее используемых способа перевода:"
 
 #: ../../user/translating.rst:8
 msgid "Project accepts direct translations"
-msgstr "Базави файл длиа нович пиеракладаŭ"
+msgstr "Проект принимает сами переводы"
 
 #: ../../user/translating.rst:9
 msgid "Project accepts the suggestions made by users."
-msgstr ""
+msgstr "Проект принимает предложения пользователей по переводу."
 
 #: ../../user/translating.rst:11
 #, fuzzy
 #| msgid "Whether translation suggestions are accepted for this component."
 msgid "Sometimes, anonymous suggestions are accepted as well."
-msgstr "Принимать ли предложения по переводу этого компонента."
+msgstr "Иногда принимаются и анонимные предложения."
 
 #: ../../user/translating.rst:13
 msgid "There are more translation workflows detailed in :ref:`workflows`."
@@ -62305,31 +62185,31 @@ msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
 msgid "Configuration file placed in the project directory."
-msgstr "Ние ŭдалосиа ствариć директорижу пражекта: %с"
+msgstr "Файл настроек размещён в каталоге проекта."
 
 #: ../../wlc.rst:299
 #, fuzzy
 #| msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
-msgstr ":file:`C:\\\\Users\\\\ИМЯ\\\\AppData\\\\weblate.ini`"
+msgstr ":file:`C:\\\\Users\\\\ИМЯ\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
 #, fuzzy
 #| msgid "User configuration file on Windows."
 msgid "User configuration file on Windows in the roamed profile."
-msgstr "Пользовательский файл настроек в Windows."
+msgstr "Пользовательский файл настроек в Windows в перемещенном профиле."
 
 #: ../../wlc.rst:301
 #, fuzzy
 #| msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
-msgstr ":file:`C:\\\\Users\\\\ИМЯ\\\\AppData\\\\weblate.ini`"
+msgstr ":file:`C:\\\\Users\\\\ИМЯ\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: ../../wlc.rst:302
 #, fuzzy
 #| msgid "User configuration file on Windows."
 msgid "User configuration file on Windows in the local profile."
-msgstr "Пользовательский файл настроек в Windows."
+msgstr "Пользовательский файл настроек в Windows в локальном профиле."
 
 #: ../../wlc.rst:303
 msgid ":file:`~/.config/weblate`"
@@ -62337,7 +62217,7 @@ msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:304
 msgid "User configuration file."
-msgstr "Ниаслуšнажа канфіhуракижа"
+msgstr "Пользовательский файл настроек."
 
 #: ../../wlc.rst:305
 msgid ":file:`/etc/xdg/weblate`"
@@ -62345,7 +62225,7 @@ msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:306
 msgid "System wide configuration file."
-msgstr "Ниаслуšнажа канфіhуракижа"
+msgstr "Системный файл настроек."
 
 #: ../../wlc.rst:308
 #, fuzzy
@@ -62360,15 +62240,16 @@ msgid ""
 "``XDG_CONFIG_DIRS``."
 msgstr ""
 "Программа следует спецификации XDG, поэтому вы можете изменить пути "
-"размещения файлов настроек с помощью переменных окружения "
-"``XDG_CONFIG_HOME`` и ``XDG_CONFIG_DIRS``. В Windows предпочтительным местом "
-"для файла настроек является каталог ``APPDATA``."
+"размещения файлов настроек с помощью переменных окружения ``XDG_CONFIG_HOME``"
+" и ``XDG_CONFIG_DIRS``."
 
 #: ../../wlc.rst:312
 msgid ""
 "On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred "
 "locations for the configuration file."
 msgstr ""
+"В Windows предпочтительными местами расположения файла настроек являются "
+"каталоги ``APPDATA`` и ``LOCALAPPDATA``."
 
 #: ../../wlc.rst:315
 msgid ""
@@ -62411,9 +62292,9 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
-"Это позволяет вам сохранять ключи в ваших личных настройках, а файл "
-"настроек :file:`.weblate` хранить в системе контроля версий, чтобы wlc знал, "
-"с каким сервером ему следует общаться."
+"Это позволяет вам сохранять ключи в ваших личных настройках, а файл настроек "
+":file:`.weblate` хранить в системе контроля версий, чтобы :program:`wlc` "
+"было известно, с каким сервером следует общаться."
 
 #: ../../wlc.rst:351
 msgid "Examples"
@@ -62435,7 +62316,8 @@ msgstr "Загрузить файл перевода:"
 #, fuzzy
 #| msgid "You can also designate what project wlc should work on:"
 msgid "You can also designate what project :program:`wlc` should work on:"
-msgstr "Также вы можете указать, с каким проектом должен работать wlc:"
+msgstr ""
+"Также вы можете указать, с каким проектом должен работать :program:`wlc`:"
 
 #: ../../wlc.rst:405
 msgid ""
@@ -62614,9 +62496,8 @@ msgid ""
 msgstr ""
 "Перевод нуждается в правке; обычно это результат изменения исходной строки, "
 "неточного соответствия или действий переводчика. Перевод хранится в файле, в "
-"зависимости от формата файла он может быть помечен как «На "
-"правку» (например, ему будет присвоен флаг ``fuzzy`` (*неточный*) в Gettext-"
-"файле)."
+"зависимости от формата файла он может быть помечен как «На правку» ("
+"например, ему будет присвоен флаг ``fuzzy`` (*неточный*) в gettext-файле)."
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
