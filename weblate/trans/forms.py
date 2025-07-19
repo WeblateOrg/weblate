@@ -11,11 +11,17 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
+from crispy_forms.layout import (
+    HTML,
+    Div,
+    Field,
+    Fieldset,
+    Layout,
+)
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
@@ -50,6 +56,7 @@ from weblate.trans.defines import (
     REPO_LENGTH,
 )
 from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.format_params import FILE_FORMATS_PARAMS
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -1507,6 +1514,62 @@ class SelectChecksField(forms.JSONField):
         return super().bound_data(data, initial)
 
 
+class FormParamsWidget(forms.MultiWidget):
+    template_name = "bootstrap3/labelled_multiwidget.html"
+    subwidget_class = "file-format-param"
+
+    def __init__(
+        self,
+        widgets: dict[str, forms.Widget],
+        fields_order: list[tuple[str, str]],
+        attrs=None,
+    ):
+        self.fields_order = fields_order
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value: dict) -> list[Any]:
+        initial_params: dict[str, Any] = {}
+        for param_class in FILE_FORMATS_PARAMS:
+            param = param_class()
+            initial_params[param.get_identifier()] = param.get_field_kwargs().get(
+                "initial"
+            )
+        value = {**initial_params, **(value or {})}
+        return [value.get(param_name) for param_name in self.fields_order]
+
+    def get_context(self, *args, **kwargs) -> dict[str, Any]:
+        context = super().get_context(*args, **kwargs)
+        context["subwidget_class"] = self.subwidget_class
+        return context
+
+
+class FormParamsField(forms.MultiValueField):
+    def __init__(self, encoder=None, decoder=None, **kwargs):
+        fields = []
+        subwidgets = {}
+
+        self.fields_order: list[tuple] = []
+        for file_param in FILE_FORMATS_PARAMS:
+            field = file_param().get_field()
+            fields.append(field)
+            subwidgets[file_param.get_identifier()] = field.widget
+            self.fields_order.append(file_param.get_identifier())
+
+        widget = FormParamsWidget(subwidgets, self.fields_order)
+        super().__init__(fields, widget=widget, require_all_fields=False, **kwargs)
+
+    def compress(self, data_list) -> dict:
+        compressed_value: dict[str, Any] = {}
+        if data_list:
+            update_data = {
+                param_name: value
+                for param_name, value in zip(self.fields_order, data_list, strict=False)
+                if value is not None
+            }
+            compressed_value.update(update_data)
+        return compressed_value
+
+
 class ComponentDocsMixin(FieldDocsMixin):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("admin/projects", f"component-{field.name}")
@@ -1575,6 +1638,7 @@ class ComponentSettingsForm(
             "commit_pending_age",
             "merge_style",
             "file_format",
+            "file_format_params",
             "edit_template",
             "new_lang",
             "language_code_style",
@@ -1601,7 +1665,10 @@ class ComponentSettingsForm(
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
         }
-        field_classes = {"enforced_checks": SelectChecksField}
+        field_classes = {
+            "enforced_checks": SelectChecksField,
+            "file_format_params": FormParamsField,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -1705,6 +1772,7 @@ class ComponentSettingsForm(
                         "language_regex",
                         "key_filter",
                         "source_language",
+                        "file_format_params",
                     ),
                     Fieldset(
                         gettext("Monolingual translations"),
@@ -1750,6 +1818,12 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+        if "file_format_params" in data:
+            # TODO: could be factored out to a mixin
+            selected_format = data["file_format"]
+            for param_format in FILE_FORMATS_PARAMS:
+                if selected_format not in param_format.file_formats:
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
@@ -1775,6 +1849,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "push_branch",
             "repoweb",
             "file_format",
+            "file_format_params",
             "filemask",
             "template",
             "edit_template",
@@ -1792,6 +1867,20 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "source_language": SortedSelect,
             "language_code_style": SortedSelect,
         }
+        field_classes = {
+            "file_format_params": FormParamsField,
+        }
+
+    def clean(self):
+        super().clean()
+        data = self.cleaned_data
+
+        # only applicable fields are saved to model
+        if "file_format_params" in data:
+            selected_format = data["file_format"]
+            for param_format in FILE_FORMATS_PARAMS:
+                if selected_format not in param_format.file_formats:
+                    data["file_format_params"].pop(param_format.name, None)
 
 
 class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
@@ -1928,6 +2017,7 @@ class ComponentScratchCreateForm(ComponentProjectForm):
             cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
         ),
     )
+    file_format_params = FormParamsField()
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_scratchcreate_%s"
