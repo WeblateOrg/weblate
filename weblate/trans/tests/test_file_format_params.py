@@ -15,8 +15,8 @@ from weblate.utils.views import get_form_data
 
 
 class BaseFileFormatsTest(ViewTestCase):
-    def update_component_file_params(self, component: Component, **file_param_kwargs):
-        url = reverse("settings", kwargs={"path": component.get_url_path()})
+    def update_component_file_params(self, **file_param_kwargs):
+        url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
         data.update(
@@ -77,7 +77,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.client_create_component(True)
         component = self.get_new_component()
         self.assertFalse(component.file_format_params["po_line_wrap"])
-        self.update_component_file_params(component, po_line_wrap=65535)
+        self.update_component_file_params(po_line_wrap=65535)
         self.assertEqual(component.file_format_params["po_line_wrap"], "65535")
 
 
@@ -105,7 +105,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
     def test_customize(self) -> None:
         self.update_component_file_params(
-            self.component,
             json_indent=8,
             json_indent_style="spaces",
             json_sort_keys=True,
@@ -121,7 +120,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
     def test_customize_no_sort(self) -> None:
         self.update_component_file_params(
-            self.component,
             json_indent=8,
             json_indent_style="spaces",
             json_sort_keys=False,
@@ -136,7 +134,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
     def test_customize_tabs(self) -> None:
         self.update_component_file_params(
-            self.component,
             json_indent=8,
             json_indent_style="tabs",
             json_sort_keys=True,
@@ -145,7 +142,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
     def test_customize_compact_mode_on(self) -> None:
         self.update_component_file_params(
-            self.component,
             json_indent=4,
             json_indent_style="spaces",
             json_sort_keys=True,
@@ -155,7 +151,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
     def test_customize_compact_mode_off(self) -> None:
         self.update_component_file_params(
-            self.component,
             json_indent=4,
             json_indent_style="spaces",
             json_sort_keys=True,
@@ -175,7 +170,6 @@ class YAMLParamsTest(BaseFileFormatsTest):
 
     def test_customize(self) -> None:
         self.update_component_file_params(
-            self.component,
             yaml_indent=8,
             yaml_line_wrap=100,
             yaml_line_break="dos",

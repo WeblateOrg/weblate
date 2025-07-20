@@ -909,6 +909,32 @@ class BilingualUpdateMixin:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
 
+    @classmethod
+    def get_update_args(cls, component) -> list[str]:
+        """
+        Return list of arguments for update command.
+
+        This is used to pass additional arguments to update command.
+        """
+        from weblate.addons.gettext import MsgmergeAddon
+
+        params = component.file_format_params
+        args: list[str] = []
+        # NOTE: is it the correct place to set this ?
+        if component.get_addon(MsgmergeAddon.name):
+            if not params.get("popo_keep_previous_fuzzy_matching", True):
+                args.append("--no-fuzzy-matching")
+            if params.get("", True):
+                args.append("--previous")
+            if params.get("po_no_location", False):
+                args.append("--no-location")
+        else:
+            args.append("--previous")
+
+        if params.get("po_line_wrap", 77) != 77:
+            args.append("--no-wrap")
+        return args
+
 
 class BaseExporter:
     content_type = "text/plain"

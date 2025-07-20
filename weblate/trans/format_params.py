@@ -14,6 +14,9 @@ class BaseFileFormatParam:
     file_formats: Iterable[str] = ()
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
+    default: str | int | bool
+    field_kwargs: dict = {}
+    choices: list[tuple[str | int, StrOrPromise]] | None = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -38,9 +41,11 @@ class BaseFileFormatParam:
         }
 
     def get_field_kwargs(self) -> dict:
-        return {
-            "required": False,
-        }
+        kwargs = self.field_kwargs.copy()
+        kwargs.update({"required": False, "initial": self.default})
+        if self.choices is not None:
+            kwargs["choices"] = self.choices
+        return kwargs
 
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
@@ -74,11 +79,8 @@ class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
     name = "json_indent"
     label = gettext_lazy("JSON indentation")
     field_class = forms.IntegerField
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update({"min_value": 0, "initial": 4})
-        return kwargs
+    default = 4
+    field_kwargs = {"min_value": 0}
 
 
 @register_file_format_param
@@ -86,58 +88,71 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     name = "json_indent_style"
     label = gettext_lazy("JSON indentation style")
     field_class = forms.ChoiceField
+    choices = [
+        ("spaces", gettext_lazy("Spaces")),
+        ("tabs", gettext_lazy("Tabs")),
+    ]
+    default = "spaces"
+
+
+class BaseGettextFormatParam(BaseFileFormatParam):
+    file_formats = (
+        "po",
+        "po-mono",
+    )
+
+
+@register_file_format_param
+class GettextPoLineWrap(BaseGettextFormatParam):
+    name = "po_line_wrap"
+    label = gettext_lazy("Long lines wrapping")
+    field_class = forms.ChoiceField
+    choices = [
+        (
+            77,
+            gettext_lazy(
+                "Wrap lines at 77 characters and at newlines (xgettext default)"
+            ),
+        ),
+        (
+            65535,
+            gettext_lazy("Only wrap lines at newlines (like 'xgettext --no-wrap')"),
+        ),
+        (-1, gettext_lazy("No line wrapping")),
+    ]
+    default = 77
 
     def get_field_kwargs(self):
         kwargs = super().get_field_kwargs()
-        kwargs.update(
-            {
-                "choices": [
-                    ("spaces", gettext_lazy("Spaces")),
-                    ("tabs", gettext_lazy("Tabs")),
-                ],
-                "initial": "spaces",
-            }
+        kwargs["help_text"] = gettext_lazy(
+            "By default gettext wraps lines at 77 characters and at newlines. "
+            "With the --no-wrap parameter, wrapping is only done at newlines."
         )
         return kwargs
 
 
 @register_file_format_param
-class GettextPoLineWrap(BaseFileFormatParam):
-    name = "po_line_wrap"
-    file_formats = (
-        "po",
-        "po-mono",
-    )
-    label = gettext_lazy("Long lines wrapping")
-    field_class = forms.ChoiceField
+class GettextKeepPreviousMsgids(BaseGettextFormatParam):
+    name = "po_keep_previous"
+    label = gettext_lazy("Keep previous msgids of translated strings")
+    field_class = forms.BooleanField
+    default = True
 
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update(
-            {
-                "choices": [
-                    (
-                        77,
-                        gettext_lazy(
-                            "Wrap lines at 77 characters and at newlines (xgettext default)"
-                        ),
-                    ),
-                    (
-                        65535,
-                        gettext_lazy(
-                            "Only wrap lines at newlines (like 'xgettext --no-wrap')"
-                        ),
-                    ),
-                    (-1, gettext_lazy("No line wrapping")),
-                ],
-                "initial": 77,
-                "help_text": gettext_lazy(
-                    "By default gettext wraps lines at 77 characters and at newlines. "
-                    "With the --no-wrap parameter, wrapping is only done at newlines."
-                ),
-            }
-        )
-        return kwargs
+
+@register_file_format_param
+class GettextNoLocation(BaseGettextFormatParam):
+    name = "po_no_location"
+    label = gettext_lazy("Do not include location information in the file")
+    field_class = forms.BooleanField
+    default = False
+
+
+@register_file_format_param
+class GettextFuzzyMatching(BaseGettextFormatParam):
+    name = "po_fuzzy_matching"
+    label = gettext_lazy("Use fuzzy matching")
+    field_class = forms.BooleanField
+    default = True
 
 
 @register_file_format_param
@@ -146,11 +161,7 @@ class XMLClosingTags(BaseFileFormatParam):
     file_formats = ("xml",)
     label = gettext_lazy("Include closing tag for blank XML tags")
     field_class = forms.BooleanField
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update({"initial": True})
-        return kwargs
+    default = True
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -161,22 +172,14 @@ class BaseYAMLFormatParam(BaseFileFormatParam):
         "ruby-yaml",
     )
 
-    def get_widget_attrs(self) -> dict:
-        attrs = super().get_widget_attrs()
-        attrs["data-file-formats"] = " ".join(self.file_formats)
-        return attrs
-
 
 @register_file_format_param
 class YAMLOutputIndentation(BaseYAMLFormatParam):
     name = "yaml_indent"
     label = gettext_lazy("YAML indentation")
     field_class = forms.IntegerField
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update({"min_value": 0, "max_value": 10, "initial": 2})
-        return kwargs
+    default = 2
+    field_kwargs = {"min_value": 0, "max_value": 10}
 
 
 @register_file_format_param
@@ -184,22 +187,14 @@ class YAMLLineWrap(BaseYAMLFormatParam):
     name = "yaml_line_wrap"
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update(
-            {
-                "choices": [
-                    (80, gettext_lazy("Wrap lines at 80 chars")),
-                    (100, gettext_lazy("Wrap lines at 100 chars")),
-                    (120, gettext_lazy("Wrap lines at 120 chars")),
-                    (180, gettext_lazy("Wrap lines at 180 chars")),
-                    (65535, gettext_lazy("No line wrapping")),
-                ],
-                "initial": 80,
-            }
-        )
-        return kwargs
+    default = 80
+    choices = [
+        (80, gettext_lazy("Wrap lines at 80 chars")),
+        (100, gettext_lazy("Wrap lines at 100 chars")),
+        (120, gettext_lazy("Wrap lines at 120 chars")),
+        (180, gettext_lazy("Wrap lines at 180 chars")),
+        (65535, gettext_lazy("No line wrapping")),
+    ]
 
 
 @register_file_format_param
@@ -207,17 +202,9 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     name = "yaml_line_break"
     label = gettext_lazy("Line breaks")
     field_class = forms.ChoiceField
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs.update(
-            {
-                "choices": [
-                    ("dos", gettext_lazy("DOS (\\r\\n)")),
-                    ("unix", gettext_lazy("UNIX (\\n)")),
-                    ("mac", gettext_lazy("MAC (\\r)")),
-                ],
-                "initial": "unix",
-            }
-        )
-        return kwargs
+    choices = [
+        ("dos", gettext_lazy("DOS (\\r\\n)")),
+        ("unix", gettext_lazy("UNIX (\\n)")),
+        ("mac", gettext_lazy("MAC (\\r)")),
+    ]
+    default = "unix"

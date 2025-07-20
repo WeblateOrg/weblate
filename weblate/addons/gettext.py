@@ -287,7 +287,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             self.trigger_alerts(component)
             component.log_info("%s addon skipped, new base was not found", self.name)
             return
-        args = self.get_msgmerge_args(component)
+        args = component.file_format_cls.get_update_args(component)
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if (

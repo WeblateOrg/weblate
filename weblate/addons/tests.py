@@ -39,6 +39,7 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
+from weblate.utils.views import get_form_data
 
 from .autotranslate import AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
@@ -354,9 +355,22 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
 
     def test_msgmerge_nowrap(self) -> None:
-        GettextCustomizeAddon.create(
-            component=self.component, configuration={"width": -1}
+        GettextCustomizeAddon.create(component=self.component)
+
+        # setup component file params
+        self.user.is_superuser = True
+        self.user.save()
+        url = reverse("settings", kwargs={"path": self.component.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(
+            response.context["form"].initial
+            | {
+                "file_format_params_po_line_wrap": -1,
+            }
         )
+        self.client.post(url, data, follow=True)
+        self.component.refresh_from_db()
+
         self.test_msgmerge(False)
 
     def test_generate(self) -> None:
