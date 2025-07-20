@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-18 04:13+0000\n"
+"PO-Revision-Date: 2025-07-21 01:03+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15008,17 +15008,23 @@ msgstr ":file:`/favicon.ico`"
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
+"Debería reescribirse para reescribir una regla para servir :file:`/static/"
+"favicon.ico`."
 
 #: ../../admin/install.rst:1438
+#, fuzzy
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
+":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1448
 msgid "Content security policy"
-msgstr ""
+msgstr "Política de seguridad de contenido"
 
 #: ../../admin/install.rst:1450
 msgid ""
@@ -15028,6 +15034,12 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
+"La configuración predeterminada de Weblate habilita "
+"``weblate.middleware.SecurityMiddleware`` que establece encabezados HTTP "
+"relacionados con la seguridad como :http:header:`Content-Security-Policy` o "
+":http:header:`X-XSS-Protection`. Estos están configurados de forma "
+"predeterminada para funcionar con Weblate y su configuración, pero es "
+"posible que deba personalizarlos para su entorno."
 
 #: ../../admin/install.rst:1457
 msgid ""
@@ -15049,6 +15061,9 @@ msgid ""
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
+"La siguiente configuración ejecuta Weblate usando Gunicorn en el servidor "
+"web NGINX (también disponible como :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1478 ../../admin/install.rst:1548
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
