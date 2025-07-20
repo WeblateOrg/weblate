@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-19 21:02+0000\n"
+"PO-Revision-Date: 2025-07-21 01:03+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -13177,15 +13177,15 @@ msgstr "Веб-сервер"
 
 #: ../../admin/install.rst:131
 msgid "Handling incoming HTTP requests, :ref:`static-files`."
-msgstr ""
+msgstr "Обработка входящих HTTP-запросов, :ref:`static-files`."
 
 #: ../../admin/install.rst:132
 msgid "Celery workers"
-msgstr "Chукі апавиаščенниаŭ"
+msgstr "Обработчики Celery"
 
 #: ../../admin/install.rst:133
 msgid ":ref:`celery` are executed here."
-msgstr ""
+msgstr ":ref:`celery` оформлены здесь."
 
 #: ../../admin/install.rst:135
 msgid ""
@@ -13198,15 +13198,15 @@ msgstr ""
 #: ../../admin/install.rst:137 ../../admin/install.rst:141
 #: ../../admin/install.rst:149
 msgid "Use dedicated node when scaling Weblate horizontally."
-msgstr ""
+msgstr "Используйте выделенный узел для масштабирования Weblate по горизонтали."
 
 #: ../../admin/install.rst:138
 msgid "WSGI server"
-msgstr "Сиервиер"
+msgstr "WSGI сервер"
 
 #: ../../admin/install.rst:139
 msgid "A WSGI server serving web pages to users."
-msgstr ""
+msgstr "Сервер WSGI, обслуживающий веб-страницы для пользователей."
 
 #: ../../admin/install.rst:143
 msgid ""
@@ -13221,6 +13221,7 @@ msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
+"Используйте выделенный узел базы данных для сайтов с сотнями миллионов слов."
 
 #: ../../admin/install.rst:146
 msgid "Redis"
@@ -13239,28 +13240,33 @@ msgid ""
 "File system storage for storing VCS repositories and uploaded user data. "
 "This is shared by all the processes."
 msgstr ""
+"Файловая система хранения репозиториев VCS и загруженных пользовательских "
+"данных. Она является общей для всех процессов."
 
 #: ../../admin/install.rst:153
 msgid "Use networked storage when scaling Weblate horizontally."
 msgstr ""
+"Используйте сетевое хранилище для масштабирования Weblate по горизонтали."
 
 #: ../../admin/install.rst:154
 msgid "E-mail server"
-msgstr "Ел. поšта"
+msgstr "Сервер электронной почты"
 
 #: ../../admin/install.rst:155
-#, fuzzy
-#| msgid "SMTP server for outgoing e-mail, see :ref:`out-mail`."
 msgid ""
 "SMTP server for outgoing e-mail, see :ref:`out-mail`. It can be provided "
 "externally."
-msgstr "SMTP-сервер для исходящей почты, смотрите раздел :ref:`out-mail`."
+msgstr ""
+"SMTP-сервер для исходящей почты, смотрите раздел :ref:`out-mail`. Он может "
+"быть предоставлен извне."
 
 #: ../../admin/install.rst:159
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
 "installation easier."
 msgstr ""
+":doc:`/admin/install/docker` включает PostgreSQL и Redis, что делает "
+"установку проще."
 
 #: ../../admin/install.rst:164
 msgid "Software requirements"
@@ -13287,32 +13293,27 @@ msgstr ""
 "он всё ещё может и патчи под неё с радостью принимаются."
 
 #: ../../admin/install.rst:177
-#, fuzzy
-#| msgid ":ref:`architecture` describes how Weblate works internally."
 msgid ""
 ":ref:`architecture` describes overall Weblate architecture and required "
 "services."
-msgstr ":ref:`architecture` описывает внутреннюю работу Weblate."
+msgstr ""
+":ref:`architecture` описывает общую архитектуру Weblate и необходимые "
+"сервисы."
 
 #: ../../admin/install.rst:182
 msgid "Python dependencies"
 msgstr "Зависимости Python"
 
 #: ../../admin/install.rst:184
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.9 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.11 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
 "Weblate написан на `Python <https://www.python.org/>`_ и поддерживает Python "
-"3.10 или новее. Вы можете установить зависимости с помощью pip или из "
-"пакетов ваших дистрибутивов, полный список доступен в файле:`requirements."
-"txt`."
+"3.11 или новее. Вы можете установить зависимости с помощью pip или из "
+"пакетов ваших дистрибутивов, полный список доступен в файле: "
+":file:`requirements.txt`."
 
 #: ../../admin/install.rst:188
 msgid "Most notable dependencies:"
@@ -13371,16 +13372,12 @@ msgid "Optional dependencies"
 msgstr "Необязательные зависимости"
 
 #: ../../admin/install.rst:208
-#, fuzzy
-#| msgid "Optional dependencies"
 msgid "Optional dependency specifier"
-msgstr "Необязательные зависимости"
+msgstr "Необязательный спецификатор зависимости"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
-msgstr "Фармат дуžак Пизон"
+msgstr "Пакеты Python"
 
 #: ../../admin/install.rst:210
 msgid "Weblate feature"
@@ -13391,18 +13388,16 @@ msgid "``alibaba``"
 msgstr "``alibaba``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
 msgid ""
 "`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
 msgid ""
 "`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_"
 
 #: ../../admin/install.rst:215
 msgid ":ref:`mt-alibaba`"
@@ -13437,10 +13432,8 @@ msgid "``gelf``"
 msgstr "``gelf``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`git-review <https://pypi.org/project/git-review>`_"
 msgid "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
-msgstr "`git-review <https://pypi.org/project/git-review>`_"
+msgstr "`logging-gelf <https://pypi.org/project/logging-gelf>`_"
 
 #: ../../admin/install.rst:227
 msgid ":ref:`graylog`"
@@ -13463,13 +13456,8 @@ msgid "``google``"
 msgstr "``google``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`google-cloud-translate <https://pypi.org/project/google-cloud-"
-#| "translate>`_"
 msgid "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
-msgstr ""
-"`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
+msgstr "`google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_"
 
 #: ../../admin/install.rst:0
 msgid ""
@@ -13478,10 +13466,8 @@ msgstr ""
 "`google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_"
 
 #: ../../admin/install.rst:236
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr "[Х0Х]"
+msgstr ":ref:`mt-google-translate-api-v3` с поддержкой глоссария"
 
 #: ../../admin/install.rst:238
 msgid "``ldap``"
@@ -13520,10 +13506,8 @@ msgid "``openai``"
 msgstr "``openai``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`openai <https://pypi.org/project/openai>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`openai <https://pypi.org/project/openai>`_"
 
 #: ../../admin/install.rst:252 ../../admin/machine.rst:193
 #: ../../user/glossary.rst:140
@@ -13559,67 +13543,56 @@ msgid "``saml2idp``"
 msgstr "``saml2idp``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
 msgid "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
-msgstr "`django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_"
+msgstr "`djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_"
 
 #: ../../admin/install.rst:264
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "Зрабіć униосак длиа Веблате"
+msgstr "Интеграция SAML 2 IDP в Weblate"
 
 #: ../../admin/install.rst:266
 msgid "``wlhosted``"
 msgstr "``wlhosted``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`boto3 <https://pypi.org/project/boto3>`_"
 msgid "`wlhosted <https://pypi.org/project/wlhosted>`_"
-msgstr "`boto3 <https://pypi.org/project/boto3>`_"
+msgstr "`wlhosted <https://pypi.org/project/wlhosted>`_"
 
 #: ../../admin/install.rst:268 ../../admin/install.rst:272
 msgid "Hosted Weblate integration"
-msgstr "Кираваńние Веблате"
+msgstr "Интеграция Hosted Weblate"
 
 #: ../../admin/install.rst:270
 msgid "``wllegal``"
 msgstr "``wllegal``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
 
 #: ../../admin/install.rst:274
 msgid "``wsgi``"
 msgstr "``wsgi``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid "`zeep <https://pypi.org/project/zeep>`_"
 msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
-msgstr "`zeep <https://pypi.org/project/zeep>`_"
+msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
 
 #: ../../admin/install.rst:276
 msgid "wsgi server for Weblate"
-msgstr "Зрабіć униосак длиа Веблате"
+msgstr "Сервер wsgi для Weblate"
 
 #: ../../admin/install.rst:278
 msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13643,10 +13616,8 @@ msgstr ""
 "Или вы можете установить Weblate без каких-либо дополнительных функций:"
 
 #: ../../admin/install.rst:303
-#, fuzzy
-#| msgid "Troubleshooting"
 msgid "Troubleshooting pip install"
-msgstr "Решение проблем"
+msgstr "Решение проблем с pip install"
 
 #: ../../admin/install.rst:305
 msgid ""
@@ -13661,18 +13632,25 @@ msgid ""
 "introspection-1.0`` and since then, it requires ``gobject-"
 "introspection-2.0``."
 msgstr ""
+"Установленный пакет ``PyGobject`` не может найти соответствующую библиотеку "
+"GObject Introspection. До выпуска 3.52 требовалась ``gobject-"
+"introspection-1.0``, а после него - ``gobject-introspection-2.0``."
 
 #: ../../admin/install.rst:311
 msgid ""
 "In case your operating system provides both, it is recommended to install "
 "the newer version and retry the installation."
 msgstr ""
+"Если ваша операционная система поддерживает обе версии библиотеки, "
+"рекомендуется установить более свежую и повторить установку."
 
 #: ../../admin/install.rst:314
 msgid ""
 "When the newer version is not available, please install the older release of "
 "PyGobject before installing Weblate:"
 msgstr ""
+"Если новая версия недоступна, установите старую версию PyGobject перед "
+"установкой Weblate:"
 
 #: ../../admin/install.rst:321
 msgid ""
@@ -13703,16 +13681,12 @@ msgstr ""
 "function); did you mean ‘xmlSecKeyDataFormat’?``"
 
 #: ../../admin/install.rst:331
-#, fuzzy
-#| msgid ""
-#| "Using older libxmlsec is needed until https://github.com/xmlsec/python-"
-#| "xmlsec/issues/254 is addressed."
 msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
-"Использование более старой версии libxmlsec необходимо до тех пор, пока не "
-"будет адресован https://github.com/xmlsec/python-xmlsec/issues/254."
+"Это известная проблема пакета xmlsec, подробнее смотрите https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13723,6 +13697,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Пакеты ``lxml`` и ``xmlsec`` должны быть собраны с одинаковой ``libxml2``. "
+"Чтобы избежать этой проблемы, вам следует собрать их локально:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -13747,16 +13723,12 @@ msgstr ""
 "GObject"
 
 #: ../../admin/install.rst:348
-#, fuzzy
-#| msgid ""
-#| "https://cairographics.org/, https://pango.gnome.org/, see :ref:"
-#| "`pangocairo`"
 msgid ""
 "https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
 "see :ref:`pangocairo`"
 msgstr ""
-"https://cairographics.org/, https://pango.gnome.org/, смотрите раздел :ref:"
-"`pangocairo`"
+"https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, "
+"смотрите раздел :ref:`pangocairo`"
 
 #: ../../admin/install.rst:349
 msgid "``git-review`` (optional for Gerrit support)"
@@ -13848,11 +13820,6 @@ msgid "Hardware requirements"
 msgstr "Требования к оборудованию"
 
 #: ../../admin/install/steps/hw.rst:4
-#, fuzzy
-#| msgid ""
-#| "Weblate should run on any contemporary hardware without problems, the "
-#| "following is the minimal configuration required to run Weblate on a "
-#| "single host (Weblate, database and webserver):"
 msgid ""
 "Weblate should run on any contemporary hardware without problems, the "
 "following is the minimal configuration required to run Weblate on a single "
@@ -13887,17 +13854,15 @@ msgid "Memory usage"
 msgstr "Использование памяти"
 
 #: ../../admin/install/steps/hw.rst:20
-#, fuzzy
-#| msgid ""
-#| "The more memory the better - it is used for caching on all levels "
-#| "(filesystem, database and Weblate)."
 msgid ""
 "The more memory the better - it is used for caching on all levels (file "
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
 "Чем больше памяти, тем лучше — она используется для кэширования на всех "
-"уровнях (на уровне файловой системы, уровне базы данных и уровне Weblate)."
+"уровнях (на уровне файловой системы, уровне базы данных и уровне Weblate). "
+"Для сотен компонентов перевода рекомендуется не менее 4 ГБ оперативной "
+"памяти."
 
 #: ../../admin/install/steps/hw.rst:27
 msgid ""
@@ -13908,16 +13873,10 @@ msgstr ""
 "использовать :ref:`minimal-celery`."
 
 #: ../../admin/install/steps/hw.rst:30
-#, fuzzy
-#| msgid "Usage"
 msgid "CPU usage"
-msgstr "Использование"
+msgstr "Использование CPU"
 
 #: ../../admin/install/steps/hw.rst:32
-#, fuzzy
-#| msgid ""
-#| "Many concurrent users increases the amount of needed CPU cores. For "
-#| "hundreds of translation components at least 4 GB of RAM is recommended."
 msgid "Many concurrent users increase the amount of needed CPU cores."
 msgstr ""
 "Множество одновременно работающих пользователей увеличивают количество "
@@ -13925,28 +13884,24 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:35
 msgid "Storage usage"
-msgstr "Дасвиедčани каристаĺник"
+msgstr "Использование хранилища"
 
 #: ../../admin/install/steps/hw.rst:37
 msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words."
 msgstr ""
+"Типовое использование дискового пространства базой данной находится в районе "
+"300MB на 1 миллион хранимых слов."
 
 #: ../../admin/install/steps/hw.rst:39
-#, fuzzy
-#| msgid ""
-#| "The typical database storage usage is around 300 MB per 1 million hosted "
-#| "words. Storage space needed for cloned repositories varies, but Weblate "
-#| "tries to keep their size minimal by doing shallow clones."
 msgid ""
 "Storage space needed for cloned repositories varies, but Weblate tries to "
 "keep their size minimal by doing shallow clones."
 msgstr ""
-"Типовое использование дискового пространства базой данной находится в районе "
-"300MB на 1 миллион хранимых слов. Пространство необходимое для клонирования "
-"репозиториев разнится, хотя Weblate и пытается поддерживать их размер "
-"минимальным, делая поверхностные (shallow) копии."
+"Пространство необходимое для клонирования репозиториев разнится, хотя "
+"Weblate и пытается поддерживать их размер минимальным, делая поверхностные "
+"(shallow) копии."
 
 #: ../../admin/install/steps/hw.rst:43
 msgid "Nodes"
