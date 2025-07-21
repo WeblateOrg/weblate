@@ -9,6 +9,7 @@ Weblate 5.13
 * Added :wladmin:`cleanup_memory` management command to remove obsolete translation memory entries.
 * :doc:`/formats/catkeys`.
 * Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
+* Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
 
 .. rubric:: Improvements
 
