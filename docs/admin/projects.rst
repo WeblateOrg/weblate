@@ -672,7 +672,7 @@ Customization of quality checks and other Weblate behavior, see :ref:`custom-che
 Enforced checks
 +++++++++++++++
 
-List of checks which can not be ignored, see :ref:`enforcing-checks`.
+List of checks which can not be dismissed, see :ref:`enforcing-checks`.
 
 .. note::
 
