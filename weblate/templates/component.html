@@ -149,6 +149,7 @@
       </ul>
     </li>
     {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object.project component=object %}
   </ul>
 {% endblock nav_pills %}
 
@@ -165,8 +166,6 @@
   {% announcements component=object %}
 
   {% include "snippets/component/state.html" %}
-
-  {% include "snippets/watch-dropdown.html" with project=object.project component=object %}
 
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
