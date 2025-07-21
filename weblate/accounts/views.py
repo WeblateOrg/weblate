@@ -860,7 +860,7 @@ class WeblateLoginView(BaseLoginView):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["can_reset"] = "email" in auth_backends
+        context["login_email"] = context["can_reset"] = "email" in auth_backends
         context["title"] = gettext("Sign in")
         return context
 
@@ -874,6 +874,9 @@ class WeblateLoginView(BaseLoginView):
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
             return redirect_single(request, auth_backends.pop())
+
+        if request.method == "POST" and "email" not in auth_backends:
+            return redirect("login")
 
         return super().dispatch(request, *args, **kwargs)
 
