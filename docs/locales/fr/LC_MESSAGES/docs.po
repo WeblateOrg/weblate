@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-18 15:34+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-22 03:25+0000\n"
+"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -483,6 +483,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
+"Vous pouvez définir des jetons d'accès par projet dans l'onglet :guilabel:`"
+"Accès API` . Les jetons de l'API peuvent avoir une date limite de validité, "
+"et leurs privilèges peuvent être adaptés aussi bien pour les membres de "
+"l'équipe que pour les utilisateurs."
 
 #: ../../admin/access.rst:226
 msgid ":ref:`api-tokens`"
@@ -1109,9 +1113,9 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power "
 "user`, :guilabel:`Review strings`, :guilabel:`Translate`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:`Modifier la source`, :guilabel:"
-"`Utilisateur expérimenté`, :guilabel:` Vérifier les chaînes`, :guilabel:"
-"`Traduire`"
+":guilabel:`Administration`, :guilabel:`Modifier la source`, :guilabel:`"
+"Utilisateur expérimenté`, :guilabel:` Vérifier les chaînes`, "
+":guilabel:`Traduire`"
 
 #: ../../admin/access.rst:494
 msgid "Delete comment"
@@ -1299,8 +1303,8 @@ msgstr "Modifier les chaînes sources"
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:` Modifier la source`, :guilabel:"
-"`Utilisateur expérimenté`"
+":guilabel:`Administration`, :guilabel:` Modifier la source`, :guilabel:`"
+"Utilisateur expérimenté`"
 
 #: ../../admin/access.rst:546 ../../user/translating.rst:46
 #: ../../workflows.rst:83
@@ -1382,8 +1386,8 @@ msgid ""
 "repository`, :guilabel:`Power user`, :guilabel:`Review strings`, :guilabel:"
 "`Translate`, :guilabel:`Manage languages`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:` Modifier la source`, :guilabel:"
-"`Accès au dépôt`, :guilabel:`Utilisateur expérimenté`, :guilabel:` Vérifier "
+":guilabel:`Administration`, :guilabel:` Modifier la source`, :guilabel:`"
+"Accès au dépôt`, :guilabel:`Utilisateur expérimenté`, :guilabel:` Vérifier "
 "les chaînes`, :guilabel:`Traduire`, :guilabel:`Gérer les langues`"
 
 #: ../../admin/access.rst:562
@@ -1420,8 +1424,8 @@ msgid ""
 ":guilabel:`Administration`, :guilabel:`Access repository`, :guilabel:`Power "
 "user`, :guilabel:`Manage repository`"
 msgstr ""
-":guilabel:` Administration`, :guilabel:`Accès au dépôt`, :guilabel:"
-"`Utilisateur expérimenté`, :guilabel:`Gérer le dépôt`"
+":guilabel:` Administration`, :guilabel:`Accès au dépôt`, :guilabel:`"
+"Utilisateur expérimenté`, :guilabel:`Gérer le dépôt`"
 
 #: ../../admin/access.rst:572
 msgid "Commit changes to the internal repository"
@@ -1448,16 +1452,12 @@ msgid "Announcements"
 msgstr "Annonces"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Publier une annonce"
+msgstr "Publier des annonces"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`Administration`, :guilabel:`Gérer la mémoire de traduction`"
+msgstr ":guilabel:`Administration`, :guilabel:`Coordinateur de traduction`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1534,10 +1534,8 @@ msgid "List of built-in roles"
 msgstr "Liste des rôles intégrés"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Envoyer le commentaire`"
+msgstr ":guilabel:`Envoyer les commentaires`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -2081,10 +2079,8 @@ msgid "Triggered just after the changes are committed."
 msgstr "Activé juste après que les modifications aient été validées."
 
 #: ../../admin/addons.rst:70
-#, fuzzy
-#| msgid "Repository status"
 msgid "Repository post-push"
-msgstr "État du dépôt"
+msgstr "Après push dans le dépôt"
 
 #: ../../admin/addons.rst:72
 msgid "Triggered just after the repository is pushed upstream."
@@ -2109,10 +2105,8 @@ msgid "Triggered just before the changes are committed."
 msgstr "Activé juste avant que les modifications ne soient validées."
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Repository pre-push"
-msgstr "Réinitialiser le dépôt"
+msgstr "Avant push dans le dépôt"
 
 #: ../../admin/addons.rst:93
 msgid "Triggered just before the repository is pushed upstream."
@@ -2127,8 +2121,6 @@ msgid "Triggered just before the repository update is attempted."
 msgstr "Activé juste avant une tentative de mise à jour du dépôt."
 
 #: ../../admin/addons.rst:105
-#, fuzzy
-#| msgid "storage post-load"
 msgid "Storage post-load"
 msgstr "stockage après chargement"
 
@@ -2137,20 +2129,16 @@ msgid "Triggered when file is parsed by Weblate."
 msgstr "Déclenché quand le fichier est analysé par Weblate."
 
 #: ../../admin/addons.rst:112
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit post-save"
-msgstr "unité après la création"
+msgstr "Unité après enregistrement"
 
 #: ../../admin/addons.rst:114
 msgid "Triggered just after the string is saved."
 msgstr "Activé juste après que la chaîne de caractère soit enregistrée."
 
 #: ../../admin/addons.rst:119
-#, fuzzy
-#| msgid "unit post-create"
 msgid "Unit pre-create"
-msgstr "unité après la création"
+msgstr "Unité avant la création"
 
 #: ../../admin/addons.rst:121
 msgid "Triggered just after the newly created string is saved."
@@ -2329,12 +2317,12 @@ msgstr ""
 "automatique ou les traductions dans d’autres composants."
 
 #: ../../admin/addons.rst:177
-#, fuzzy
-#| msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
 msgid ""
 ":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
 "translation-services-priority`"
-msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
+msgstr ""
+":ref:`auto-translation`, :ref:`translation-consistency`, :ref:`mt-"
+"translation-services-priority`"
 
 #: ../../admin/addons.rst:184
 msgid "JavaScript localization CDN"
@@ -3122,10 +3110,8 @@ msgid "Labels to remove"
 msgstr "Étiquettes à supprimer"
 
 #: ../../admin/addons.rst:472
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
 
 #: ../../admin/addons.rst:474
 msgid "Bulk edit flags, labels, or states of strings."
@@ -3169,12 +3155,8 @@ msgid "``read-only``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:495
-#, fuzzy
-#| msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgid "Marking certain strings read-only"
-msgstr ""
-"Marquer toutes les chaines du journal des modifications de :ref:`appstore` "
-"en lecture seule"
+msgstr "Marquage de certaines chaînes en lecture seule"
 
 #: ../../admin/addons.rst:499
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
@@ -3387,7 +3369,7 @@ msgstr "``prefix``"
 
 #: ../../admin/addons.rst:647
 msgid "Prepended static text"
-msgstr ""
+msgstr "Texte statique utilisé comme préfixe"
 
 #: ../../admin/addons.rst:649
 msgid "``var_prefix``"
@@ -3395,7 +3377,7 @@ msgstr "``var_prefix``"
 
 #: ../../admin/addons.rst:649
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Texte variable utilisé comme préfixe"
 
 #: ../../admin/addons.rst:651
 msgid "``suffix``"
@@ -3410,31 +3392,23 @@ msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
-msgstr "Variable non définie : « %s »"
+msgstr "Texte variable utilisé comme suffixe"
 
 #: ../../admin/addons.rst:655
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid "Variable part multiplier"
 msgid "Variable text multiplier"
-msgstr "Répétitions de la partie variable"
+msgstr "Répétition de texte variable"
 
 #: ../../admin/addons.rst:655
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Nombre de répétitions de la partie variable en fonction de la longueur de la "
+"Nombre de répétitions du texte variable en fonction de la longueur de la "
 "chaîne source."
 
 #: ../../admin/addons.rst:657
@@ -55992,19 +55966,12 @@ msgid "for source strings"
 msgstr "pour les chaînes sources"
 
 #: ../../user/translating.rst:68
-#, fuzzy
-#| msgid ""
-#| "Three types of comments can be posted: * for translations * for source "
-#| "strings * for reporting source string bugs when this functionality is "
-#| "turned on using :ref:`project-source_review`."
 msgid ""
 "for reporting source string bugs when this functionality is turned on using :"
 "ref:`project-source_review`."
 msgstr ""
-"Vous pouvez fournir trois types de commentaires : * pour les traductions * "
-"pour les chaînes source * pour signaler un bogue dans la chaîne de "
-"caractères quand cette fonctionnalité a été activée en utilisant :ref:"
-"`project-source_review`."
+"pour rapporter les bogues dans les chaînes source quand cette fonctionnalité "
+"est activée en utilisant :ref:`project-source_review`."
 
 #: ../../user/translating.rst:70
 msgid ""
@@ -56020,10 +55987,6 @@ msgstr ""
 "propos."
 
 #: ../../user/translating.rst:75
-#, fuzzy
-#| msgid ""
-#| "Markdown syntax can be used in all comments, as well as mentioning other "
-#| "users by using``@username``."
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
 "users by using ``@username``."
@@ -56048,29 +56011,21 @@ msgstr ""
 "en fonction de la taille de l’écran ou de la fenêtre."
 
 #: ../../user/translating.rst:93
-#, fuzzy
-#| msgid ":ref:`rate-limit`, :ref:`user-rate`"
 msgid ":ref:`variants`, :ref:`glossary-variants`"
-msgstr ":ref:`rate-limit`, :ref:`user-rate`"
+msgstr ":ref:`variants`, :ref:`glossary-variants`"
 
 #: ../../user/translating.rst:97
 msgid "Labels"
 msgstr "Étiquettes"
 
 #: ../../user/translating.rst:99
-#, fuzzy
-#| msgid ""
-#| "Labels are used to categorize strings within a project. These can be used "
-#| "to further customize the localization workflow, for example to define "
-#| "categories of strings."
 msgid ""
 "Labels are used to categorize strings within a project to further customize "
 "the localization workflow (for example to define categories of strings)."
 msgstr ""
 "Les libellés sont utilisées pour classer les chaînes de caractères dans un "
-"projet. Ils peuvent être utilisés pour personnaliser davantage le flux de "
-"travail de localisation, par exemple pour définir des catégories de chaînes "
-"de caractères."
+"projet pour personnaliser ultérieurement le flux de travail de localisation ("
+"par exemple pour définir des catégories de chaînes de caractères)."
 
 #: ../../user/translating.rst:102
 msgid "Following labels are used by Weblate:"
@@ -56081,43 +56036,32 @@ msgid "Automatically translated"
 msgstr "Traduit automatiquement"
 
 #: ../../user/translating.rst:105
-#, fuzzy
-#| msgid "String was translated using :ref:`auto-translation`."
 msgid "String translated using :ref:`auto-translation`."
-msgstr "La chaîne a été traduite à l'aide de :ref:`auto-translation`."
+msgstr "Chaîne traduite à l'aide de :ref:`auto-translation`."
 
 #: ../../user/translating.rst:106
 msgid "Source needs review"
 msgstr "La source doit être vérifiée"
 
 #: ../../user/translating.rst:107
-#, fuzzy
-#| msgid "String was marked for review using :ref:`source-reviews`."
 msgid "String marked for review using :ref:`source-reviews`."
-msgstr ""
-"La chaîne a été marquée pour révision à l’aide de :ref:`source-reviews`."
+msgstr "Chaîne marquée pour relecture à l’aide de :ref:`source-reviews`."
 
 #: ../../user/translating.rst:111
 msgid ":ref:`labels`"
 msgstr ":ref:`labels`"
 
 #: ../../user/translating.rst:118
-#, fuzzy
-#| msgid ""
-#| "On the translation page, the source string and an edit area for "
-#| "translating are shown. Should the translation be plural, multiple source "
-#| "strings and edit areas are shown, each described and labeled in plural "
-#| "form."
 msgid ""
 "On the translation page, the source string and an editing area for its "
 "translation are shown. Should the translation be plural, multiple source "
 "strings and editing areas are shown, each described and labeled in the "
 "amount of plural forms the translated language has."
 msgstr ""
-"Sur la page de traduction, la chaîne source et une zone d’édition pour la "
-"traduction sont affichées. Si la traduction est au pluriel, plusieurs "
+"Sur la page de traduction, la chaîne source et une zone d’édition pour sa "
+"traduction sont affichées. Si la traduction utilise le pluriel, plusieurs "
 "chaînes sources et zones d’édition sont affichées, chacune étant décrite et "
-"libellée en formule plurielle."
+"libellée en fonction du cas pluriel."
 
 #: ../../user/translating.rst:122
 msgid ""
@@ -56130,13 +56074,6 @@ msgstr ""
 "rouge pour alerter le traducteur d’un éventuel problème de formatage."
 
 #: ../../user/translating.rst:126
-#, fuzzy
-#| msgid ""
-#| "Various bits of extra information can be shown on this page, most of "
-#| "which coming from the project source code (like context, comments or "
-#| "where the message is being used). When you choose secondary languages in "
-#| "your preferences, translation to these languages will be shown (see :ref:"
-#| "`secondary-languages`) above the source string."
 msgid ""
 "Various bits of extra info can be shown on this page, most of which coming "
 "from the project source code (like context, comments or where the message is "
@@ -56144,25 +56081,21 @@ msgid ""
 "select in the preferences will be shown (see :ref:`secondary-languages`) "
 "above the source string."
 msgstr ""
-"Diverses informations supplémentaires peuvent être affichées sur cette page, "
-"dont la plupart proviennent du code source du projet (comme le contexte, les "
-"commentaires ou l’endroit où le message est utilisé). Lorsque vous "
-"choisissez des langues secondaires dans vos préférences, la traduction dans "
-"ces langues sera affichée (voir :ref:`secondary-languages`) au-dessus de la "
-"chaîne source."
+"Divers éléments d'informations supplémentaires peuvent être affichés sur "
+"cette page, dont la plupart proviennent du code source du projet (comme le "
+"contexte, les commentaires ou l’endroit où le message est utilisé). Les "
+"champs de traduction pour les traducteurs de chaque langue secondaire "
+"sélectionnée dans les préférences, seront affichés (voir :ref:`secondary-"
+"languages`) au-dessus de la chaîne source."
 
 #: ../../user/translating.rst:131
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (🖉), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgstr ""
-"Sous la traduction sont affichées les suggestions faites par d’autres "
-"personnes. Il est possible d’Accepter (✓), Accepter et Modifier (🖉) ou "
-"Supprimer (🗑) chacune de ses suggestions."
+"Sous la traduction, les traducteurs verront les suggestions faites par d’"
+"autres personnes, qu'il est possible d’accepter (✓), d'accepter en modifiant "
+"(✏️), ou de supprimer (🗑)."
 
 #: ../../user/translating.rst:137
 msgid "Plurals"
@@ -56226,10 +56159,8 @@ msgid ":ref:`plural-definitions`"
 msgstr ":ref:`plural-definitions`"
 
 #: ../../user/translating.rst:165
-#, fuzzy
-#| msgid "Create translation"
 msgid "Alternative translations"
-msgstr "Créer une traduction"
+msgstr "Traductions équivalentes"
 
 #: ../../user/translating.rst:171
 msgid "This is currently only supported with :ref:`multivalue-csv`."
@@ -56262,10 +56193,8 @@ msgid "Keyboard shortcut"
 msgstr "Raccourcis clavier"
 
 #: ../../user/translating.rst:188
-#, fuzzy
-#| msgid ":kbd:`←`"
 msgid ":kbd:`?`"
-msgstr ":kbd:`←`"
+msgstr ":kbd:`?`"
 
 #: ../../user/translating.rst:188
 msgid "Open available keyboard shortcuts."
@@ -56288,10 +56217,8 @@ msgid "Navigate to the last translation in the current search."
 msgstr "Aller à la dernière traduction de la recherche actuelle."
 
 #: ../../user/translating.rst:194
-#, fuzzy
-#| msgid ":kbd:`Alt PageUp` or"
 msgid ":kbd:`Alt+PageUp` or"
-msgstr ":kbd:`Alt + Pg. Suiv` ou"
+msgstr ":kbd:`Alt + Pg. Prec` ou"
 
 #: ../../user/translating.rst:196
 msgid ":kbd:`Ctrl+↑` or"
@@ -56961,6 +56888,11 @@ msgid ""
 "repositories or for push URLs the setup is more complex and requires "
 "authentication."
 msgstr ""
+"Le dépôt VCS que vous voulez utiliser doit être accessible à Weblate. Avec "
+"un dépôt accessible publiquement il vous suffit de saisir l'URL correcte ("
+"par exemple ``https://github.com/WeblateOrg/weblate.git``), mais pour les "
+"dépôts privés ou pour les URLs de push, le paramètrage est plus complexe et "
+"nécessite une authentification."
 
 #: ../../vcs.rst:25
 msgid "Accessing repositories from Hosted Weblate"
@@ -56973,6 +56905,10 @@ msgid ""
 "mail ``hosted@weblate.org``, and a name or profile description :guilabel:"
 "`Weblate push user`)."
 msgstr ""
+"Pour Hosted Weblate, il existe un utilisateur de push dédié enregistré sur "
+"GitHub, Bitbucket, Codeberg, et GitLab (avec le nom de l'utilisateur "
+":guilabel:`weblate`, l'adresse courriel ``hosted@weblate.org``, et un nom ou "
+"une description du profil :guilabel:`Utilisateur de push Weblate`)."
 
 #: ../../vcs.rst:33
 msgid ""
