@@ -2055,9 +2055,10 @@ class GhostTranslation:
 
     is_ghost = True
 
-    def __init__(self, component, language) -> None:
-        self.component = component
+    def __init__(self, project, language, component) -> None:
+        self.project = project
         self.language = language
+        self.component = component
         self.stats = GhostStats(component.source_translation.stats)
         self.pk = self.stats.pk
         self.is_source = False

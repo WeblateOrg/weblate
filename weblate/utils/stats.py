@@ -40,7 +40,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.trans.models import Category, Component, Project
+    from weblate.trans.models import Category, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -1485,14 +1485,23 @@ class GhostStats(BaseStats):
 
 class GhostProjectLanguageStats(GhostStats):
     language: Language
-    component: Component
-    is_shared: Project | None
+    project: Project
     is_source: bool = False
 
-    def __init__(
-        self, component: Component, language: Language, is_shared: Project | None = None
-    ) -> None:
-        super().__init__(component.stats)
+    def __init__(self, project: Project, language: Language) -> None:
+        project_language = ProjectLanguage(project, language)
+        super().__init__(project_language.stats)
+        self.project = project
         self.language = language
-        self.component = component
-        self.is_shared = is_shared
+
+
+class GhostCategoryLanguageStats(GhostStats):
+    category: Category
+    language: Language
+    is_source: bool = False
+
+    def __init__(self, category: Category, language: Language) -> None:
+        category_language = CategoryLanguage(category, language)
+        super().__init__(category_language.stats)
+        self.category = category
+        self.language = language
