@@ -569,9 +569,11 @@
             <tr>
               <td colspan="2">
                 <pre dir="ltr">
+                  <code>
 curl \
     -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
+                  </code>
 </pre>
               </td>
             </tr>
@@ -581,10 +583,12 @@ curl \
             <tr>
               <td colspan="2">
                 <pre dir="ltr">
+                  <code>
 wlc \
     --key <span class="auth-token">{{ user.auth_token.key }}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
+                  </code>
 </pre>
               </td>
             </tr>
@@ -602,8 +606,8 @@ wlc \
               <p>
                 {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
-              <pre dir="ltr">
-git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+              <code dir="ltr">
+git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</code>
             </div>
           </div>
         {% endif %}
