@@ -1003,7 +1003,7 @@ IGNORE_WORDS = {
 }
 
 """
-Set of non word characters, generated using ./scripts/generate-non-word-chars
+Set of non word characters, generated using ./scripts/generate-non-word-chars.py
 """
 NON_WORD_CHARS = (
     "\x00",

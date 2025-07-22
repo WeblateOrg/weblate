@@ -440,6 +440,46 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "Users")
 
+    def test_get_user(self) -> None:
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["name"], "Users")
+
+    def test_get_user_admin(self) -> None:
+        group = Group.objects.create(name="Test Group")
+
+        # No access to the group
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="get",
+            code=404,
+        )
+
+        # User access the group
+        self.user.groups.add(group)
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["name"], "Test Group")
+
+        # Admin access to the group
+        group.admins.add(self.user)
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["name"], "Test Group")
+
     def test_create(self) -> None:
         self.do_request(
             "api:group-list", method="post", code=403, request={"name": "Group"}

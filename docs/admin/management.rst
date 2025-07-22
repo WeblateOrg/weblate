@@ -153,12 +153,48 @@ Example:
 
    :ref:`auto-translation`
 
+benchmark
+---------
+
+.. weblate-admin:: benchmark
+
+Imports given content into Weblate, useful for benchmarking.
+
+.. code-block:: sh
+   :caption: Example of performance profiling
+
+   # Run benchmark with a profiling
+   python -m cProfile -o benchmark.prof ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
+
+   # Convert to SVG for visualization
+   uvx gprof2dot -f pstats benchmark.prof | dot -Tsvg -o benchmark.svg
+
+   # Display SVG
+   firefox ./benchmark.svg
+
+.. code-block:: sh
+   :caption: Example of memory profiling
+
+   # Run benchmark under memray
+   memray run ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
+
+   # Render the profile
+   memray flamegraph ./memray-manage.py.2554179.bin
+
+   # Display it
+   fixefox memray-flamegraph-manage.py.2554179.html
+
+
 celery_queues
 -------------
 
 .. weblate-admin:: celery_queues
 
 Displays length of Celery task queues.
+
+.. seealso::
+
+   :ref:`background-tasks-internals`
 
 checkgit
 --------
@@ -218,6 +254,17 @@ manually, as the cleanups happen automatically in the background.
 .. seealso::
 
    :ref:`production-cron`
+
+
+cleanup_memory
+--------------
+
+.. weblate-admin:: cleanup_memory
+
+.. versionadded:: 5.13
+
+Removes all obsolete entries with pending status from the translation memory.
+
 
 cleanup_ssh_keys
 ----------------

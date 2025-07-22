@@ -5,8 +5,11 @@ Weblate 5.13
 
 .. rubric:: New features
 
+* Enhanced :ref:`translation-memory` management with configurable status control, see :ref:`memory-status`.
+* Added :wladmin:`cleanup_memory` management command to remove obsolete translation memory entries.
 * :doc:`/formats/catkeys`.
 * Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
+* Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
 
 .. rubric:: Improvements
 
@@ -16,6 +19,7 @@ Weblate 5.13
 * Background commits are now identified by an internal user.
 * Reorganized navigation menu.
 * When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
+* Avatars for API and internal accounts.
 
 .. rubric:: Bug fixes
 

@@ -567,15 +567,16 @@ class Unit(models.Model, LoggerMixin):
             using=using,
             update_fields=update_fields,
         )
-        if only_save:
-            return
 
         # Set source_unit for source units, this needs to be done after
         # having a primary key
-        if self.is_source and not self.source_unit:
+        if self.is_source and not self.source_unit_id:
             self.source_unit = self
             # Avoid using save() for recursion
             Unit.objects.filter(pk=self.pk).update(source_unit=self)
+
+        if only_save:
+            return
 
         # Update checks if content or fuzzy flag has changed
         if run_checks:
@@ -2076,7 +2077,10 @@ class Unit(models.Model, LoggerMixin):
             not user
             or user.is_bot
             or not user.is_active
-            or self.target == self.old_unit["target"]
+            or (
+                self.target == self.old_unit["target"]
+                and self.state == self.old_unit["state"]
+            )
         ):
             return
 
@@ -2084,7 +2088,7 @@ class Unit(models.Model, LoggerMixin):
         component = translation.component
         if (
             (not translation.is_source or component.intermediate)
-            and self.state >= STATE_TRANSLATED
+            and (self.state >= STATE_TRANSLATED or self.state != self.old_unit["state"])
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):

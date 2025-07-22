@@ -7,33 +7,33 @@
 set -e -x
 
 if [ "${1:-latest}" = minimal ]; then
-	# Install older GI
-	sudo dpkg --purge libgirepository-2.0-dev
-	sudo apt-get install -y libgirepository1.0-dev
-	# Adjust deps to force minimal version
-	sed -i '/^ *"/ s/>=/==/' pyproject.toml
-	uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --dev
+    # Install older GI
+    sudo dpkg --purge libgirepository-2.0-dev
+    sudo apt-get install -y libgirepository1.0-dev
+    # Adjust deps to force minimal version
+    sed -i '/^ *"/ s/>=/==/' pyproject.toml
+    uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --dev
 elif [ "${1:-latest}" = edge ]; then
-	# Install from git / pre-release
-	mkdir -p build/packages
-	# Fetch current snapshots
-	curl -LsSf https://github.com/translate/translate/archive/master.zip >build/packages/translate-toolkit.zip
-	curl -LsSf https://github.com/WeblateOrg/language-data/archive/main.zip >build/packages/weblate-language-data.zip
-	curl -LsSf https://github.com/WeblateOrg/translation-finder/archive/main.zip >build/packages/transaltion-finder.zip
-	# TODO: lxml can use wheels once xmlsec has one
-	# see https://github.com/xmlsec/python-xmlsec/issues/327
-	# Add downloaded zip, cannot add URL as uv complains about missing checksum
-	uv add --no-binary-package lxml --no-binary-package xmlsec build/packages/*
-	# Allow pre-repeases
-	uv add --no-binary-package lxml --no-binary-package xmlsec --prerelease allow Django
-	uv sync --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
+    # Install from git / pre-release
+    mkdir -p build/packages
+    # Fetch current snapshots
+    curl -LsSf https://github.com/translate/translate/archive/master.zip > build/packages/translate-toolkit.zip
+    curl -LsSf https://github.com/WeblateOrg/language-data/archive/main.zip > build/packages/weblate-language-data.zip
+    curl -LsSf https://github.com/WeblateOrg/translation-finder/archive/main.zip > build/packages/transaltion-finder.zip
+    # TODO: lxml can use wheels once xmlsec has one
+    # see https://github.com/xmlsec/python-xmlsec/issues/327
+    # Add downloaded zip, cannot add URL as uv complains about missing checksum
+    uv add --no-binary-package lxml --no-binary-package xmlsec build/packages/*
+    # Allow pre-repeases
+    uv add --no-binary-package lxml --no-binary-package xmlsec --prerelease allow Django
+    uv sync --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
 else
-	# TODO: lxml can use wheels once xmlsec has one
-	# see https://github.com/xmlsec/python-xmlsec/issues/327
-	uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
+    # TODO: lxml can use wheels once xmlsec has one
+    # see https://github.com/xmlsec/python-xmlsec/issues/327
+    uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
 fi
 
 # Verify that deps are consistent
 if [ "${1:-latest}" != edge ]; then
-	uv pip check
+    uv pip check
 fi

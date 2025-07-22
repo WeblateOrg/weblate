@@ -36,7 +36,6 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
-from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
@@ -1300,7 +1299,11 @@ class Component(
                     create["state"] = STATE_READONLY
 
                 # Create source unit
-                source = source_units.create(id_hash=id_hash, **create)
+                source = Unit(
+                    translation=self.source_translation, id_hash=id_hash, **create
+                )
+                source.save(force_insert=True, only_save=True)
+
                 # Avoid fetching empty list of checks from the database
                 source.all_checks = []
                 source.source_updated = True
@@ -4007,23 +4010,6 @@ class Component(
     def get_all_available_languages(self) -> models.QuerySet[Language]:
         return Language.objects.exclude(
             Q(translation__component=self) | Q(component=self)
-        )
-
-    def get_available_languages(self) -> models.QuerySet[Language]:
-        codes = BASIC_LANGUAGES
-        if settings.BASIC_LANGUAGES is not None:
-            codes = settings.BASIC_LANGUAGES
-        return (
-            self.get_all_available_languages()
-            .filter(
-                # Include basic languages
-                Q(code__in=codes)
-                # Include source languages in a project
-                | Q(component__project=self.project)
-                # Include translations in a project
-                | Q(translation__component__project=self.project)
-            )
-            .distinct()
         )
 
 

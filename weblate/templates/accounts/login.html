@@ -29,16 +29,18 @@
         </h4>
         <div class="panel panel-default">
           <div class="panel-body">
-            <form method="post" action="{% url 'login' %}">
-              {% csrf_token %}
-              {{ form|crispy }}
+            {% if login_email %}
+              <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
 
-              <input type="hidden" name="next" value="{{ next }}" />
+                <input type="hidden" name="next" value="{{ next }}" />
 
-              <input type="submit"
-                     value="{% translate "Sign in" %}"
-                     class="btn btn-primary btn-full" />
-            </form>
+                <input type="submit"
+                       value="{% translate "Sign in" %}"
+                       class="btn btn-primary btn-full" />
+              </form>
+            {% endif %}
 
             {% if login_backends %}
 

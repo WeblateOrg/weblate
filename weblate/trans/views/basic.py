@@ -35,7 +35,6 @@ from weblate.trans.forms import (
     ComponentDeleteForm,
     ComponentRenameForm,
     DownloadForm,
-    NewProjectLanguageForm,
     ProjectDeleteForm,
     ProjectFilterForm,
     ProjectLanguageDeleteForm,
@@ -45,6 +44,7 @@ from weblate.trans.forms import (
     SearchForm,
     TranslationDeleteForm,
     get_new_component_language_form,
+    get_new_project_language_form,
     get_new_unit_form,
     get_upload_form,
 )
@@ -698,7 +698,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
 
 
 @never_cache
-def data_project(request: AuthenticatedHttpRequest, project):
+def data_project(request: AuthenticatedHttpRequest, project) -> HttpResponse:
     obj = parse_path(request, [project], (Project,))
     return render(
         request,
@@ -715,7 +715,7 @@ def data_project(request: AuthenticatedHttpRequest, project):
 @login_required
 @transaction.atomic
 @session_ratelimit_post("language", logout_user=False)
-def new_language(request: AuthenticatedHttpRequest, path):
+def new_language(request: AuthenticatedHttpRequest, path) -> HttpResponse:
     obj = parse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
         return new_component_language(request, obj)
@@ -725,7 +725,9 @@ def new_language(request: AuthenticatedHttpRequest, path):
     raise TypeError(msg)
 
 
-def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
+def new_component_language(
+    request: AuthenticatedHttpRequest, obj: Component
+) -> HttpResponse:
     user = request.user
 
     form_class = get_new_component_language_form(request, obj)
@@ -760,16 +762,24 @@ def new_component_language(request: AuthenticatedHttpRequest, obj: Component):
     )
 
 
-def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
+def new_project_language(
+    request: AuthenticatedHttpRequest, obj: Project
+) -> HttpResponse:
     user = request.user
     eligible_components = obj.get_child_components_access(
         request.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
     )
     if not eligible_components.exists():
-        return None
+        messages.error(
+            request,
+            gettext("Language addition is not supported by any of the components."),
+        )
+        return redirect(obj)
+
+    form_class = get_new_project_language_form(request, obj)
 
     if request.method == "POST":
-        form = NewProjectLanguageForm(user, obj, request.POST)
+        form = form_class(user, obj, request.POST)
         if form.is_valid():
             languages = Language.objects.filter(code__in=form.cleaned_data["lang"])
             language_map = {lang.code: lang for lang in languages}
@@ -796,8 +806,8 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
                     messages.success(
                         request,
                         ngettext(
-                            "Success: Language %(language)s added to %(count)d component.",
-                            "Success: Language %(language)s added to %(count)d components.",
+                            "Language %(language)s added to %(count)d component.",
+                            "Language %(language)s added to %(count)d components.",
                             counter["added"],
                         )
                         % {
@@ -810,8 +820,8 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
                     messages.success(
                         request,
                         ngettext(
-                            "Success: Language %(language)s requested for %(count)d component.",
-                            "Success: Language %(language)s requested for %(count)d components.",
+                            "Language %(language)s requested for %(count)d component.",
+                            "Language %(language)s requested for %(count)d components.",
                             counter["requested"],
                         )
                         % {
@@ -824,8 +834,8 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
                     messages.warning(
                         request,
                         ngettext(
-                            "Warning: Language %(language)s could not be added to %(count)d component. Please check the components' configuration.",
-                            "Warning: Language %(language)s could not be added to %(count)d components. Please check the components' configuration.",
+                            "Language %(language)s could not be added to %(count)d component. Please check the components' configuration.",
+                            "Language %(language)s could not be added to %(count)d components. Please check the components' configuration.",
                             counter["errors"],
                         )
                         % {
@@ -837,7 +847,7 @@ def new_project_language(request: AuthenticatedHttpRequest, obj: Project):
             return redirect(obj)
         messages.error(request, gettext("Please fix errors in the form."))
     else:
-        form = NewProjectLanguageForm(user, obj)
+        form = form_class(user, obj)
 
     return render(
         request,
@@ -937,13 +947,13 @@ def add_languages_to_component(
 
 
 @never_cache
-def healthz(request: AuthenticatedHttpRequest):
+def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Make simple health check endpoint."""
     return HttpResponse("ok")
 
 
 @never_cache
-def show_component_list(request: AuthenticatedHttpRequest, name):
+def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse:
     obj = get_object_or_404(ComponentList, slug__iexact=name)
     components = prefetch_tasks(
         get_paginator(

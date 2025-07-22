@@ -15,9 +15,6 @@ permissions:
 
 jobs:
   weblate_automerge:
-    permissions:
-      pull-requests: write
-      contents: write
     runs-on: ubuntu-24.04
     name: Weblate automerge
     if: github.actor == 'weblate'

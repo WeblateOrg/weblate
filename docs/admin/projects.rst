@@ -191,6 +191,19 @@ The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
     This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
+.. _project-autoclean_tm:
+
+Autoclean translation memory
++++++++++++++++++++++++++++++
+
+.. versionadded:: 5.13
+
+Whether to automatically remove outdated and obsolete entries from translation memory.
+
+.. note::
+
+   This does not affect manually uploaded memory entries.
+
 .. _project-access_control:
 
 Access control
@@ -232,6 +245,26 @@ Enable review workflow for source strings, see :ref:`source-reviews`.
 
    :ref:`report-source`,
    :ref:`user-comments`
+
+.. _project-commit_policy:
+
+Commit Policy
++++++++++++++
+
+.. versionadded:: 5.13
+
+The commit policy determines which translations are included when committing changes
+to the version control system. This setting is available at the project level and
+supports the following options:
+
+* **Commit all translations regardless of quality**: All translations will be committed,
+  including those marked as needing editing or not reviewed.
+* **Skip translations marked as needing editing**: Only translations that don't have the
+  "needs editing" flag will be committed.
+* **Only include approved translations**: Only translations that have been approved by a
+  reviewer will be committed. This option requires :ref:`project-translation_review`
+  to be enabled.
+
 
 .. _project-enable_hooks:
 

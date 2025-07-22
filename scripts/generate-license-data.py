@@ -19,7 +19,7 @@ HEADER = '''# Copyright © Michal Čihař <michal@weblate.org>
 """
 License data definitions.
 
-This is an automatically generated file, see scripts/generate-license-data
+This is an automatically generated file, see scripts/generate-license-data.py
 """
 
 '''

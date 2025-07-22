@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 17:51+0000\n"
-"PO-Revision-Date: 2025-06-12 11:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-16 07:02+0000\n"
+"Last-Translator: searinminecraft <kitakita@disroot.org>\n"
 "Language-Team: Filipino <https://hosted.weblate.org/projects/weblate/"
 "application/fil/>\n"
 "Language: fil\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 "
 "|| n % 10 == 6 || n % 10 == 9);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:86
 msgctxt "No known user"
@@ -523,26 +523,24 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Gumawa ng sistema ng user para subaybayan ang pagmamay-ari ng mga pagsasalin "
+"na in-upload ng ibang user."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:270
 #, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr ""
+msgstr "Na-block ang access sa proyektong {project}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:272
-#, fuzzy
-#| msgid "Current password"
 msgid "User was enabled by administrator."
-msgstr "Kasalukuyang password"
+msgstr "Na-enable ng tagapangasiwa ang user."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:274
-#, fuzzy
-#| msgid "Current password"
 msgid "User was disabled by administrator."
-msgstr "Kasalukuyang password"
+msgstr "Na-disable ng tagapangasiwa ang user."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:276
@@ -553,149 +551,155 @@ msgstr ""
 #: weblate/accounts/models.py:278
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr ""
+msgstr "Dinagdag ni/ng {username} ang user sa koponan na {team}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:280
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr ""
+msgstr "Tinanggal ni/ng {username} ang user sa koponan na {team}."
 
 #: weblate/accounts/models.py:283
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Na-generate ang mga recovery code ng two-factor authentication"
 
 #: weblate/accounts/models.py:287
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Tinignan ang mga recovery code ng two factor authentication"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:290
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Dinagdag ang two-factor authentication: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:292
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Tinanggal ang two-factor authentication: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:294
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Two-factor authentication sign in gamit ang {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:301
 msgid "Configured password to sign in."
-msgstr ""
+msgstr "Na-configure ang password para mag-sign in."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:303
 msgid "Signed in using password."
-msgstr ""
+msgstr "Nag-sign in gamit ang password."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:305
 msgid "Signed in using password from a new device."
-msgstr ""
+msgstr "Nag-sign in gamit ng password mula sa bagong device."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:307
 msgid "Could not sign in using password."
-msgstr ""
+msgstr "Hindi maka-sign in gamit ng password."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
 #, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr ""
+msgstr "Inimbita ni/ng {username} sa {project}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:315
-#, fuzzy
-#| msgid "New password confirmation"
 msgid "Password configured."
-msgstr "Kumpirmahin ang panibagong password"
+msgstr "Na-configure ang password."
 
 #: weblate/accounts/models.py:322
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Para ibalik ang access sa iyong account, paki-reset ang iyong password."
 
 #: weblate/accounts/models.py:326
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Mangyaring makipag-ugnayan sa mga tagapangasiwa ng proyekto kung sa tingin "
+"mo ay hindi ito nararapat."
 
 #: weblate/accounts/models.py:330 weblate/accounts/models.py:334
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"Kung ikaw ito, mangyaring gumamit ng password reset para makakuha muli ng "
+"access sa iyong account."
 
 #: weblate/accounts/models.py:476 weblate/templates/accounts/profile.html:494
 #: weblate/templates/accounts/user.html:296
 msgid "Account activity"
-msgstr ""
+msgstr "Aktibidad sa account"
 
 #: weblate/accounts/models.py:564
 msgid "Interface Language"
-msgstr ""
+msgstr "Wika ng Interface"
 
 #: weblate/accounts/models.py:570
 msgid "Translated languages"
-msgstr ""
+msgstr "Mga sinasabi na wika"
 
 #: weblate/accounts/models.py:573
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
+"Piliin ang mga wikang maaari mong isalin. Ang mga ito ay iaalok sa iyo sa "
+"dashboard para sa mas madaling pag-access sa iyong mga napiling pagsasalin."
 
 #: weblate/accounts/models.py:580
 msgid "Secondary languages"
-msgstr ""
+msgstr "Mga sekondaryong wika"
 
 #: weblate/accounts/models.py:582
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Pumili ng mga wikang maiintindihan mo, ang mga string sa mga wikang iyon ay "
+"ipapakita bilang karagdagan sa pinagmulang string."
 
 #: weblate/accounts/models.py:594
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: weblate/accounts/models.py:597
 msgctxt "Theme selection"
 msgid "Sync with system"
-msgstr ""
+msgstr "I-sync sa sistema"
 
 #: weblate/accounts/models.py:598
 msgctxt "Theme selection"
 msgid "Light"
-msgstr ""
+msgstr "Maliwanag"
 
 #: weblate/accounts/models.py:599
 msgctxt "Theme selection"
 msgid "Dark"
-msgstr ""
+msgstr "Madilim"
 
 #: weblate/accounts/models.py:603
 msgid "Hide completed translations on the dashboard"
-msgstr ""
+msgstr "Itago ang mga nakumpletong pagsasalin sa dashboard"
 
 #: weblate/accounts/models.py:607
 msgid "Show secondary translations in the Zen mode"
-msgstr ""
+msgstr "Ipakita ang mga sekondaryong pagsasalin sa Zen mode"
 
 #: weblate/accounts/models.py:611
 msgid "Hide source if a secondary translation exists"
-msgstr ""
+msgstr "Itago ang pinagmulan kung may umiiral na sekondaryong pagsasalin"
 
 #: weblate/accounts/models.py:618
 msgid "Editor link"
-msgstr ""
+msgstr "Link ng editor"
 
 #: weblate/accounts/models.py:620
 msgid ""
