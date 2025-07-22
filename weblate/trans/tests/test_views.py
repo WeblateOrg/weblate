@@ -382,54 +382,50 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
-    def test_none_eligible(self):
+    def test_no_eligible_components(self):
         self.project.component_set.update(new_lang="none")
+        response = self.client.get(self.url, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertContains(
+            response, "Language addition is not supported by any of the components."
+        )
+
+        response = self.client.get(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertContains(
+            response, "Language addition is not supported by any of the components."
+        )
 
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.get(
-            reverse("new-language", kwargs={"path": self.project.get_url_path()}),
-            follow=True,
+        response = self.client.get(self.url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response, "Language addition is not supported by any of the components."
         )
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertIn("form", response.context)
 
     def test_permission(self):
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save(update_fields=["access_control"])
-        response = self.client.get(
-            reverse("new-language", kwargs={"path": self.project.get_url_path()}),
-            follow=True,
-        )
+        response = self.client.get(self.url, follow=True)
         self.assertEqual(response.status_code, 403)
 
     def test_existing_language_excluded(self):
         self.user.is_superuser = True
         self.user.save()
 
-        response = self.client.post(
-            reverse(
-                "new-language", kwargs={"path": self.components["add"].get_url_path()}
-            ),
-            {"lang": "af"},
-            follow=True,
-        )
-        self.assertTrue(
-            self.components["add"].translation_set.filter(language_code="af").exists()
-        )
-        response = self.client.post(
-            reverse(
-                "new-language",
-                kwargs={"path": self.components["contact"].get_url_path()},
-            ),
-            {"lang": "af"},
-            follow=True,
-        )
-        self.assertTrue(
-            self.components["contact"]
-            .translation_set.filter(language_code="af")
-            .exists()
-        )
+        for component in self.components.values():
+            self.client.post(
+                reverse("new-language", kwargs={"path": component.get_url_path()}),
+                {"lang": "af"},
+                follow=True,
+            )
+            self.assertTrue(
+                component.translation_set.filter(language_code="af").exists()
+            )
+
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertIn("form", response.context)
@@ -532,13 +528,14 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.assertCountEqual(
             messages,
             [
-                "Language Afrikaans added to 2 components.",
+                "Language Afrikaans added to 4 components.",
             ],
         )
 
-        for new_lang, component in self.components.items():
-            lang_exists = component.translation_set.filter(language_code="af").exists()
-            self.assertEqual(lang_exists, new_lang in {"add", "contact"})
+        for component in self.components.values():
+            self.assertTrue(
+                component.translation_set.filter(language_code="af").exists()
+            )
 
 
 class BasicViewTest(ViewTestCase):

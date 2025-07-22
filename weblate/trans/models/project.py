@@ -48,7 +48,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import Group, User
     from weblate.machinery.types import SettingsDict
     from weblate.trans.backups import BackupListDict
-    from weblate.trans.models.component import Component
+    from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
 
@@ -804,3 +804,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if self.label_cleanups is not None:
             for translation in self.label_cleanups:
                 translation.stats.remove_stats(f"label:{name}")
+
+    def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
+        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        filter_ = Q(is_glossary=True)
+        if not user.has_perm("project.edit", self):
+            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+
+        def filter_callback(qs):
+            return qs.filter(filter_)
+
+        return self.get_child_components_access(user, filter_callback)
