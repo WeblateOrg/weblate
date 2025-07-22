@@ -95,6 +95,14 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     default = "spaces"
 
 
+@register_file_format_param
+class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
+    name = "json_use_compact_separators"
+    label = gettext_lazy("Avoid spaces after separators")
+    field_class = forms.BooleanField
+    default = False
+
+
 class BaseGettextFormatParam(BaseFileFormatParam):
     file_formats = (
         "po",

@@ -85,8 +85,9 @@ check
 
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
-pending_migration_test=$?
-if [ "$pending_migration_test" -eq 0 ]; then
+before_5_12=$?
+if [ "$before_5_12" -eq 0 ]; then
+	# pending migration test
 	./manage.py shell <<EOF
 from django.contrib.auth import get_user_model
 from weblate.trans.models import Unit, Change
@@ -102,6 +103,9 @@ Change.objects.create(translation=unit.translation, user=user, action=1, unit=un
 unit.pending = True
 unit.save()
 EOF
+	check
+	# Create addons with different scopes to test migration to file_format_params
+	./manage.py shell -c 'from weblate.addons.models import Addon; Addon.objects.bulk_create([Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}), Addon(project_id=1, name="weblate.gettext.customize", configuration={"width": -1}), Addon(component_id=1, name="weblate.json.customize", configuration={"use_compact_separators": True, "style": "spaces"})]);'
 	check
 fi
 
@@ -119,7 +123,8 @@ uv run --all-extras ./manage.py shell -c 'from weblate.trans.models import Vote;
 check
 
 # Check migrated pending unit
-if [ "$pending_migration_test" -eq 0 ]; then
+if [ "$before_5_12" -eq 0 ]; then
+	# pending migration test
 	uv run --all-extras ./manage.py shell <<EOF
 from weblate.trans.models import PendingUnitChange
 
@@ -140,6 +145,19 @@ if change.author != author:
 if change.source_unit_explanation != unit.source_unit.explanation:
     errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
 assert not errors, "\n".join(errors)
+EOF
+	check
+	# check that file customize addons have been migrated to file_format_params
+	./manage.py shell <<EOF
+from weblate.addons.models import Addon
+from weblate.trans.models import Component
+file_format_params = Component.objects.get(pk=1).file_format_params
+# check site wide params are migrated
+assert file_format_params['yaml_line_break'] == 'dos'
+assert file_format_params['po_line_wrap'] == -1
+assert file_format_params['json_use_compact_separators'] is True
+assert file_format_params['json_indent_style'] == 'tabs'
+fi
 EOF
 	check
 fi
