@@ -607,7 +607,7 @@ wlc \
                 {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
               <code dir="ltr">
-git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</code>
+              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</code>
             </div>
           </div>
         {% endif %}
