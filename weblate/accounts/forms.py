@@ -866,8 +866,9 @@ class NotificationForm(forms.Form):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.template_pack = "bootstrap5"
-        self.helper.label_class = "col-md-3"
-        self.helper.field_class = "col-md-9"
+        self.helper.label_class = "col-3"
+        self.helper.field_class = "col-9"
+        self.helper.form_class = "form-horizontal"
         self.helper.layout = Layout(
             "scope",
             "project",
