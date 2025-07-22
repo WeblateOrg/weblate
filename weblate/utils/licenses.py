@@ -18,7 +18,7 @@ def is_libre(name: str) -> bool:
     return name in LIBRE_IDS
 
 
-def get_license_url(name: str) -> str:
+def get_license_url(name: str) -> str | None:
     return LICENSE_URLS.get(name)
 
 
