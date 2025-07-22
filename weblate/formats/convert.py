@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -137,7 +137,10 @@ class ConvertFormat(TranslationFormat):
         return False
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):

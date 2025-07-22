@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -358,6 +358,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -375,7 +376,7 @@ class TranslationFormat:
         self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
-        self.store = self.load(storefile, template_store)
+        self.store = self.load(storefile, template_store, file_format_params or {})
 
         self.add_breadcrumb(
             "Loaded translation file {}".format(
@@ -406,7 +407,10 @@ class TranslationFormat:
         return [self.storefile.name]
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> InnerStore:
         raise NotImplementedError
 

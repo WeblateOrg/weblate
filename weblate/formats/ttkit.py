@@ -272,7 +272,10 @@ class TTKitFormat(TranslationFormat):
             store.setsourcelanguage(self.source_language)
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> TranslationStore:
         """Load file using defined loader."""
         if isinstance(storefile, TranslationStore):
@@ -1913,9 +1916,12 @@ class INIFormat(TTKitFormat):
         return "ini"
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> TranslationStore:
-        store = super().load(storefile, template_store)
+        store = super().load(storefile, template_store, file_format_params)
         # Adjust store to have translations
         for unit in store.units:
             unit.target = unit.source

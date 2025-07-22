@@ -2958,7 +2958,9 @@ class Component(
         for match in matches:
             try:
                 store = self.file_format_cls(
-                    os.path.join(dir_path, match), self.template_store
+                    os.path.join(dir_path, match),
+                    self.template_store,
+                    file_format_params=self.file_format_params,
                 )
                 store.check_valid()
             except Exception as error:
@@ -3555,6 +3557,7 @@ class Component(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
+            file_format_params=self.file_format_params,
         )
         if self.pk:
             store_post_load.send(
@@ -3584,6 +3587,7 @@ class Component(
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
                 is_template=True,
+                file_format_params=self.file_format_params,
             )
             if self.pk:
                 store_post_load.send(

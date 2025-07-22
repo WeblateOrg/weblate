@@ -342,6 +342,7 @@ class Translation(
                 else self.component.source_language.code,
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
+                file_format_params=self.component.file_format_params,
             )
             store.setup_serialization_params(self.component.file_format_params)
             store_post_load.send(sender=self.__class__, translation=self, store=store)
