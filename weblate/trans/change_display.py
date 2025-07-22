@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
@@ -195,7 +195,7 @@ class RenderAutoActions(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> StrOrPromise:
         if change.auto_status:
-            return AUTO_ACTIONS[change.action]
+            return AUTO_ACTIONS[cast("ActionEvents", change.action)]
         return ""
 
 
@@ -434,6 +434,10 @@ class ShowChangeContent(BaseChangeHistoryContext):
         """Return the fields to be displayed in the change history."""
         fields = []
         change = self.change
+        if change.unit is None:
+            msg = "Change does not contain unit, can not render content!"
+            raise ValueError(msg)
+        unit = change.unit
 
         # rejection reason field
         if "rejection_reason" in change.details:
@@ -450,9 +454,9 @@ class ShowChangeContent(BaseChangeHistoryContext):
         # source language field
         fields.append(
             self.make_field(
-                str(change.unit.translation.component.source_language),
+                str(unit.translation.component.source_language),
                 self.format_translation(
-                    format_unit_source(change.unit, value=self.change.get_source())
+                    format_unit_source(unit, value=self.change.get_source())
                 ),
             )
         )
@@ -462,7 +466,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
             self.make_distance_badge(change.get_distance()),
         ]
 
-        if change.unit.target == change.target:
+        if unit.target == change.target:
             translation_language_badges.append(gettext("Current translation"))
         else:
             translation_language_badges.append(gettext("Previous translation"))
@@ -474,11 +478,9 @@ class ShowChangeContent(BaseChangeHistoryContext):
 
         fields.append(
             self.make_field(
-                str(change.unit.translation.language),
+                str(unit.translation.language),
                 self.format_translation(
-                    format_unit_target(
-                        change.unit, value=change.target, diff=change.old
-                    )
+                    format_unit_target(unit, value=change.target, diff=change.old)
                 ),
                 label_badges=translation_language_badges,
                 extra_label_classes=["tags-list"],
@@ -493,6 +495,10 @@ class ShowChangeSource(BaseChangeHistoryContext):
     def get_change_details_fields(self) -> list[dict]:
         fields = []
         change = self.change
+        if change.unit is None:
+            msg = "Change does not contain unit, can not render content!"
+            raise ValueError(msg)
+        unit = change.unit
 
         # source language field
         source_lang_badges = [
@@ -503,14 +509,14 @@ class ShowChangeSource(BaseChangeHistoryContext):
 
         if change.target:
             source_lang_content = format_unit_source(
-                change.unit, value=change.target, diff=change.old
+                unit, value=change.target, diff=change.old
             )
         else:
-            source_lang_content = format_unit_source(change.unit)
+            source_lang_content = format_unit_source(unit)
 
         fields.append(
             self.make_field(
-                str(change.unit.translation.component.source_language),
+                str(unit.translation.component.source_language),
                 self.format_translation(source_lang_content),
                 label_badges=source_lang_badges,
             )
@@ -523,13 +529,15 @@ class ShowChangeDiff(BaseChangeHistoryContext):
 
     def get_change_details_fields(self) -> list[dict]:
         change = self.change
+        if change.unit is None:
+            msg = "Change does not contain unit, can not render content!"
+            raise ValueError(msg)
+        unit = change.unit
         return [
             self.make_field(
                 "",
                 self.format_translation(
-                    format_unit_source(
-                        change.unit, value=change.target, diff=change.old
-                    )
+                    format_unit_source(unit, value=change.target, diff=change.old)
                 ),
                 label_badges=[self.make_distance_badge(change.get_distance())],
             )
@@ -541,24 +549,28 @@ class ShowRemovedString(BaseChangeHistoryContext):
 
     def get_change_details_fields(self) -> list[dict]:
         change = self.change
+        component = change.component
+        translation = change.translation
+        if component is None or translation is None:
+            msg = "Change does not contain translation, can not render content!"
+            raise ValueError(msg)
+
         fields = [
             self.make_field(
-                str(change.component.source_translation.language),
+                str(component.source_translation.language),
                 self.format_translation(
                     format_language_string(
-                        change.details["source"], change.component.source_translation
+                        change.details["source"], component.source_translation
                     )
                 ),
             )
         ]
-        if "target" in change.details and not change.translation.is_source:
+        if "target" in change.details and not translation.is_source:
             fields.append(
                 self.make_field(
-                    str(change.translation.language),
+                    str(translation.language),
                     self.format_translation(
-                        format_language_string(
-                            change.details["target"], change.translation
-                        )
+                        format_language_string(change.details["target"], translation)
                     ),
                 )
             )
