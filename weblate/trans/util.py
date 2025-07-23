@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import locale
 import os
+import platform
 import re
 import sys
 from operator import itemgetter
@@ -52,8 +53,12 @@ CJK_PATTERN = re.compile(
     r"([\u1100-\u11ff\u2e80-\u2fdf\u2ff0-\u9fff\ua960-\ua97f\uac00-\ud7ff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef\U0001aff0-\U0001b16f\U0001f200-\U0001f2ff\U00020000-\U0003FFFF]+)"
 )
 
-# Initialize to sane Unicode locales for strxfrm
-if locale.strxfrm("a") == "a":
+if platform.system() == "Darwin" and platform.mac_ver()[0].split(".", 1)[0] == "15":
+    # Avoid triggering strxfrm on macOS 15 where it either crashes with OSError
+    # or causes Python segmentation fault.
+    USE_STRXFRM = False
+elif locale.strxfrm("a") == "a":
+    # Initialize to sane Unicode locales for strxfrm
     try:
         locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
     except locale.Error:
