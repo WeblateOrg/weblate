@@ -756,7 +756,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                                 int(entry.name.split(".")[0])
                             )
                         ),
-                        "size": entry.stat().st_size // 1024,
+                        "size": entry.stat().st_size,
                     }
                 )
         return sorted(result, key=itemgetter("timestamp"), reverse=True)
