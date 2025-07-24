@@ -1886,6 +1886,10 @@ class Component(
             self.delete_alert("PushFailure")
             return True
 
+    @property
+    def pushes_to_different_location(self) -> bool:
+        return self.branch != self.push_branch or self.repo.pushes_to_different_location
+
     @perform_on_link
     def do_push(
         self,
@@ -1919,7 +1923,7 @@ class Component(
             self.do_update(request)
 
             # Were all changes merged?
-            if self.repo_needs_merge():
+            if not self.pushes_to_different_location and self.repo_needs_merge():
                 return False
 
         # Send pre push signal
