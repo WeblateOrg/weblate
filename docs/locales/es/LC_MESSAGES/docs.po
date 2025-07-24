@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-21 01:03+0000\n"
+"PO-Revision-Date: 2025-07-24 13:15+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15086,18 +15086,24 @@ msgstr ""
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"La siguiente configuración ejecuta Weblate como uWSGI en el servidor web "
+"NGINX."
 
 #: ../../admin/install.rst:1495
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"Configuración para NGINX (también disponible como :file:`weblate/examples/"
+"weblate.nginx.conf`):"
 
 #: ../../admin/install.rst:1500
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Configuración para uWSGI (también disponible como :file:`weblate/examples/"
+"weblate.uwsgi.ini`):"
 
 #: ../../admin/install.rst:1507
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -15105,17 +15111,20 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1512
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Configuración de ejemplo para Apache"
 
 #: ../../admin/install.rst:1514 ../../admin/install.rst:1585
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "Se recomienda usar prefork MPM cuando se usa WSGI con Weblate."
 
 #: ../../admin/install.rst:1516
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"La siguiente configuración ejecuta Weblate como WSGI, necesita tener "
+"habilitado ``mod_wsgi`` (disponible como :file:`weblate/examples/"
+"apache.conf`):"
 
 #: ../../admin/install.rst:1524
 msgid ""
@@ -15123,6 +15132,9 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate requiere Python 3, así que asegúrese de estar ejecutando la variante "
+"Python 3 de modwsgi. Por lo general, está disponible como un paquete "
+"separado, por ejemplo ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1528
 msgid "Use matching Python version to install Weblate."
@@ -15135,19 +15147,19 @@ msgstr ""
 
 #: ../../admin/install.rst:1538
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Configuración de muestra para Apache y Gunicorn"
 
 #: ../../admin/install.rst:1540
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"La configuración siguiente ejecuta Weblate en Gunicorn y Apache 2.4 ("
+"disponible como :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1555
-#, fuzzy
-#| msgid "Sample configuration"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Configuración de muestra"
+msgstr "Configuración de muestra para iniciar Gunicorn"
 
 #: ../../admin/install.rst:1557
 msgid ""
@@ -15220,7 +15232,7 @@ msgstr "Enviar notificaciones con el resumen."
 
 #: ../../admin/install.rst:1613
 msgid "Offloading expensive operations from the WSGI process."
-msgstr ""
+msgstr "Descarga de costosas operaciones del proceso WSGI."
 
 #: ../../admin/install.rst:1614
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
@@ -15228,13 +15240,16 @@ msgstr "Confirmar los cambios pendientes (ver :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1616
 msgid "A typical setup using Redis as a backend looks like this:"
-msgstr ""
+msgstr "Una configuración típica que usa Redis como backend se ve así:"
 
 #: ../../admin/install.rst:1626
+#, fuzzy
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Redis broker configuration in Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1628
 msgid ""
@@ -15242,6 +15257,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"También debe iniciar Celery para procesar las tareas e iniciar las tareas "
+"programadas, esto se puede hacer directamente en la línea de comandos (que "
+"es principalmente útil al depurar o desarrollar):"
 
 #: ../../admin/install.rst:1639
 msgid ""
@@ -15256,11 +15274,11 @@ msgstr ""
 
 #: ../../admin/install.rst:1643
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "Ver también :ref:`file-permissions` y :ref:`server`."
 
 #: ../../admin/install.rst:1646
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr ""
+msgstr "Ejecución de tareas de Celery en el WSGI usando el modo automático"
 
 #: ../../admin/install.rst:1650
 msgid ""
@@ -15268,16 +15286,21 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Esto tendrá un impacto claro en el rendimiento de la interfaz web y romperá "
+"las funciones según el desencadenante habitual(por ejemplo, confirmando "
+"cambios pendientes, notificaciones resumidas o copias de seguridad)."
 
 #: ../../admin/install.rst:1654
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
+"Para el desarrollo, es posible que desee utilizar una configuración fija, "
+"que procesa todas las tareas en su lugar:"
 
 #: ../../admin/install.rst:1664
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Ejecutando Celery como servicio del sistema"
 
 #: ../../admin/install.rst:1666
 msgid ""
@@ -15286,44 +15309,59 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"Lo más probable es que desee ejecutar Celery como un demonio y eso está "
+"cubierto por :doc:`celery:userguide/daemonizing`. Para la configuración de "
+"Linux más común que usa systemd, puede usar los archivos de ejemplo que se "
+"incluyen en la carpeta :file:`examples` que se enumera a continuación."
 
 #: ../../admin/install.rst:1671
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+"Unidad Systemd que se colocará como :file:`/etc/systemd/system/celery-"
+"weblate.service`:"
 
 #: ../../admin/install.rst:1676
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+"Configuración del entorno que se colocará como :file:`/etc/default/celery-"
+"weblate`:"
 
 #: ../../admin/install.rst:1681
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Configuración adicional para rotar logs de Celery usando :command:`logrotate`"
+" para colocarlos como :file:`/etc/logrotate.d/celery`:"
 
 #: ../../admin/install.rst:1688
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Tareas periódicas usando Celery"
 
 #: ../../admin/install.rst:1690
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
+"Weblate viene con una configuración incorporada para tareas programadas. El "
+"programa de tareas se almacena en la base de datos y las tareas son "
+"ejecutadas por el demonio Celery."
 
 #: ../../admin/install.rst:1695
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example see :ref:"
 "`lazy-commit`."
 msgstr ""
+"Puede definir tareas adicionales en :file:`settings.py`, por ejemplo ver :ref"
+":`lazy-commit`."
 
 #: ../../admin/install.rst:1701
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Monitoreo del estado de Celery"
 
 #: ../../admin/install.rst:1703
 msgid ""
@@ -15332,6 +15370,10 @@ msgid ""
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
+"Puede encontrar la longitud actual de las colas de tareas de Celery en el "
+":ref:`management-interface` o puede usar :wladmin:`celery_queues` en la "
+"línea de comandos. En el caso de que la cola sea demasiado larga, también "
+"obtendrá un error de configuración en la interfaz de administración."
 
 #: ../../admin/install.rst:1710
 msgid ""

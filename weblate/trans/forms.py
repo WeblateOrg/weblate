@@ -54,6 +54,7 @@ from weblate.trans.models import (
     Announcement,
     Category,
     Change,
+    CommitPolicyChoices,
     Component,
     Label,
     Project,
@@ -2171,6 +2172,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "enforced_2fa",
             "translation_review",
             "source_review",
+            "commit_policy",
             "check_flags",
         )
         widgets = {
@@ -2225,6 +2227,35 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                         )
                     }
                 )
+
+        if (
+            data.get("commit_policy") != self.instance.commit_policy
+            and data.get("commit_policy") == CommitPolicyChoices.APPROVED_ONLY
+            and not data.get("translation_review", self.instance.translation_review)
+        ):
+            raise ValidationError(
+                {
+                    "commit_policy": gettext(
+                        "Approved-only commit policy requires translation reviews to be enabled. "
+                        "Please enable translation reviews first or choose a different commit policy."
+                    )
+                }
+            )
+
+        if (
+            data.get("translation_review") != self.instance.translation_review
+            and not data.get("translation_review")
+            and data.get("commit_policy", self.instance.commit_policy)
+            == CommitPolicyChoices.APPROVED_ONLY
+        ):
+            raise ValidationError(
+                {
+                    "translation_review": gettext(
+                        "Translation reviews are required for approved-only commit policy. "
+                        "Please choose a different commit policy before disabling translation reviews."
+                    )
+                }
+            )
 
     def save(self, commit: bool = True) -> None:
         super().save(commit=commit)
@@ -2289,6 +2320,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     "secondary_language",
                     "translation_review",
                     "source_review",
+                    "commit_policy",
                     ContextDiv(
                         template="snippets/project-workflow-settings.html",
                         context={

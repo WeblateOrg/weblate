@@ -451,9 +451,12 @@ class LanguageQuerySet(models.QuerySet):
             if accept_lang == "en":
                 continue
             try:
-                return self.get(code=accept_lang)
+                return self.get(code__iexact=accept_lang)
             except Language.DoesNotExist:
-                continue
+                try:
+                    return self.get(code__iexact=accept_lang.replace("-", "_"))
+                except Language.DoesNotExist:
+                    continue
         return None
 
     def search(self, query: str):
