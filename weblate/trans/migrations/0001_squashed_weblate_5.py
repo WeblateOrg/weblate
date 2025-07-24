@@ -869,7 +869,7 @@ class Migration(migrations.Migration):
                     models.JSONField(
                         blank=True,
                         default=list,
-                        help_text="List of checks which can not be ignored.",
+                        help_text="List of checks which can not be dismissed.",
                         verbose_name="Enforced checks",
                     ),
                 ),

@@ -589,7 +589,7 @@ class Component(
     )
     enforced_checks = models.JSONField(
         verbose_name=gettext_lazy("Enforced checks"),
-        help_text=gettext_lazy("List of checks which can not be ignored."),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
         default=list,
         blank=True,
     )

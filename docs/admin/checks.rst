@@ -368,7 +368,7 @@ This means that certain checks will be automatically enabled depending on where 
 Enforcing checks
 ----------------
 
-You can configure a list of checks which can not be ignored by setting
+You can configure a list of checks which can not be dismissed by setting
 :ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
 be dismissed in the user interface and any string failing this check is marked as
 :guilabel:`Needs editing` (see :ref:`states`).
