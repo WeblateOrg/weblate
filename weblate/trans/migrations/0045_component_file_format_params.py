@@ -136,7 +136,7 @@ def merge_file_format_params(component, configs) -> dict[str, bool | int | str]:
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0041_remove_unit_trans_unit_pending_remove_unit_pending"),
+        ("trans", "0044_merge_20250721_1211"),
     ]
 
     operations = [
