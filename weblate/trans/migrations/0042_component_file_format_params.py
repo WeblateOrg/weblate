@@ -11,92 +11,127 @@ from django.db import migrations, models
 
 ADDON_CONFG_TO_FILE_FORMAT_PARAMS = {
     "weblate.json.customize": {
-        "sort_keys": "json_sort_keys",
-        "use_compact_separators": "json_use_compact_separators",
-        "indent": "json_indent",
-        "style": "json_indent_style",
+        "file_formats": (
+            "json",
+            "json-nested",
+            "webextension",
+            "i18next",
+            "i18nextv4",
+            "arb",
+            "go-i18n-json",
+            "go-i18n-json-v2",
+            "formatjs",
+            "gotext",
+        ),
+        "format_params": {
+            "sort_keys": "json_sort_keys",
+            "use_compact_separators": "json_use_compact_separators",
+            "indent": "json_indent",
+            "style": "json_indent_style",
+        },
     },
     "weblate.gettext.msgmerge": {
-        "previous": "po_keep_previous",
-        "no_location": "po_no_location",
-        "fuzzy": "po_fuzzy_matching",
+        "file_formats": ("po",),
+        "format_params": {
+            "previous": "po_keep_previous",
+            "no_location": "po_no_location",
+            "fuzzy": "po_fuzzy_matching",
+        },
     },
     "weblate.gettext.customize": {
-        "width": "po_line_wrap",
+        "file_formats": (
+            "po",
+            "po-mono",
+        ),
+        "format_params": {
+            "width": "po_line_wrap",
+        },
     },
-    "weblate.xml.customize": {"closing_tags": "xml_closing_tags"},
     "weblate.yaml.customize": {
-        "indent": "yaml_indent",
-        "width": "yaml_line_wrap",
-        "line_break": "yaml_line_break",
+        "file_formats": (
+            "yaml",
+            "ruby-yaml",
+        ),
+        "format_params": {
+            "indent": "yaml_indent",
+            "width": "yaml_line_wrap",
+            "line_break": "yaml_line_break",
+        },
     },
 }
 
 
-def convert_addon_config_to_file_format_params(addon) -> dict[str, Any]:
+def convert_addon_config_to_file_format_params(addon) -> tuple[tuple, dict[str, Any]]:
     """Convert addon configuration to file format parameters."""
+    attrs = ADDON_CONFG_TO_FILE_FORMAT_PARAMS[addon.name]
     params = {}
-    for key, param_name in ADDON_CONFG_TO_FILE_FORMAT_PARAMS[addon.name].items():
-        if key in addon.configuration:
-            params[param_name] = addon.configuration[key]
-    return params
+    for addon_config, param_name in attrs["format_params"].items():
+        if addon_config in addon.configuration:
+            params[param_name] = addon.configuration[addon_config]
+    return attrs["file_formats"], params
 
 
 def migrate_addons_config(apps, schema_editor):
-    Addon = apps.get_model("addons", "Addon")
     Component = apps.get_model("trans", "Component")
     to_update = []
+
+    addon_configs = collect_addon_configurations(apps)
+
+    for component in Component.objects.all():
+        file_format_params = merge_file_format_params(component, addon_configs)
+        if file_format_params:
+            component.file_format_params = file_format_params
+            to_update.append(component)
+    if to_update:
+        Component.objects.bulk_update(to_update, ["file_format_params"])
+
+
+def collect_addon_configurations(apps) -> dict[str, list | dict]:
+    """Collect and organize addon configurations by scope."""
+    Addon = apps.get_model("addons", "Addon")
 
     addons = Addon.objects.filter(
         name__in=ADDON_CONFG_TO_FILE_FORMAT_PARAMS.keys()
     ).select_related("component", "project")
 
-    site_wide_params: list[dict] = []
-    project_wide_params: dict[int, list[dict]] = defaultdict(list)
-    component_wide_params: dict[int, list[dict]] = defaultdict(list)
+    configs = {
+        "site_wide": [],
+        "project_wide": defaultdict(list),
+        "component_wide": defaultdict(list),
+    }
 
     for addon in addons:
-        file_format_params = convert_addon_config_to_file_format_params(addon)
-        site_wide = not addon.component and not addon.project
-        project_wide = bool(addon.project)
-        component_wide = bool(addon.component)
-        if file_format_params:
-            if site_wide:
-                site_wide_params.append(file_format_params)
-            elif project_wide:
-                project_wide_params[addon.project_id].append(file_format_params)
-            elif component_wide:
-                component_wide_params[addon.component_id].append(file_format_params)
+        file_formats, params = convert_addon_config_to_file_format_params(addon)
+        if not params:
+            continue
 
-    for component in Component.objects.all():
-        file_format_params = {}
-        if site_wide_params:
-            file_format_params.update(
-                {k: v for d in site_wide_params for k, v in d.items()}
-            )
-        if component.project_id in project_wide_params:
-            file_format_params.update(
-                {
-                    k: v
-                    for d in project_wide_params[component.project_id]
-                    for k, v in d.items()
-                }
-            )
-        if component.id in component_wide_params:
-            file_format_params.update(
-                {
-                    k: v
-                    for d in component_wide_params[component.id]
-                    for k, v in d.items()
-                }
-            )
+        config_entry = (file_formats, params)
 
-        if file_format_params:
-            component.file_format_params = file_format_params
-            to_update.append(component)
+        if not addon.component and not addon.project:
+            configs["site_wide"].append(config_entry)
+        elif addon.project and not addon.component:
+            configs["project_wide"][addon.project_id].append(config_entry)
+        elif addon.component:
+            configs["component_wide"][addon.component_id].append(config_entry)
+    return configs
 
-    if to_update:
-        Component.objects.bulk_update(to_update, ["file_format_params"])
+
+def merge_file_format_params(component, configs) -> dict[str, bool | int | str]:
+    """Merge file format parameters for a component based on priority."""
+    file_format_params = {}
+    for file_formats, params in configs["site_wide"]:
+        if component.file_format in file_formats:
+            file_format_params.update(params)
+
+    for file_formats, params in configs["project_wide"].get(component.project_id, []):
+        if component.file_format in file_formats:
+            file_format_params.update(params)
+
+    for file_formats, params in configs["component_wide"].get(component.id, []):
+        if component.file_format in file_formats:
+            file_format_params.update(params)
+
+    return file_format_params
 
 
 class Migration(migrations.Migration):
@@ -113,4 +148,5 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.RunPython(migrate_addons_config, migrations.RunPython.noop),
+        # TOTO add migration to delete addons
     ]

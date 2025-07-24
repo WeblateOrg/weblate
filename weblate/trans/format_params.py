@@ -63,6 +63,14 @@ class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     file_formats = (
         "json",
         "json-nested",
+        "webextension",
+        "i18next",
+        "i18nextv4",
+        "arb",
+        "go-i18n-json",
+        "go-i18n-json-v2",
+        "formatjs",
+        "gotext",
     )
 
 
@@ -103,15 +111,12 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
     default = False
 
 
-class BaseGettextFormatParam(BaseFileFormatParam):
+@register_file_format_param
+class GettextPoLineWrap(BaseFileFormatParam):
     file_formats = (
         "po",
         "po-mono",
     )
-
-
-@register_file_format_param
-class GettextPoLineWrap(BaseGettextFormatParam):
     name = "po_line_wrap"
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
@@ -139,6 +144,13 @@ class GettextPoLineWrap(BaseGettextFormatParam):
         return kwargs
 
 
+class BaseGettextFormatParam(BaseFileFormatParam):
+    file_formats = (
+        "po",
+        "po-mono",
+    )
+
+
 @register_file_format_param
 class GettextKeepPreviousMsgids(BaseGettextFormatParam):
     name = "po_keep_previous"
@@ -163,20 +175,9 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     default = True
 
 
-@register_file_format_param
-class XMLClosingTags(BaseFileFormatParam):
-    name = "xml_closing_tags"
-    file_formats = ("xml",)
-    label = gettext_lazy("Include closing tag for blank XML tags")
-    field_class = forms.BooleanField
-    default = True
-
-
 class BaseYAMLFormatParam(BaseFileFormatParam):
     file_formats = (
         "yaml",
-        "ryml",
-        "yml",
         "ruby-yaml",
     )
 

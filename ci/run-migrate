@@ -105,7 +105,18 @@ unit.save()
 EOF
 	check
 	# Create addons with different scopes to test migration to file_format_params
-	./manage.py shell -c 'from weblate.addons.models import Addon; Addon.objects.bulk_create([Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}), Addon(project_id=1, name="weblate.gettext.customize", configuration={"width": -1}), Addon(component_id=1, name="weblate.json.customize", configuration={"use_compact_separators": True, "style": "spaces"})]);'
+	./manage.py shell <<EOF
+from weblate.addons.models import Addon
+Addon.objects.bulk_create([
+	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
+	Addon(project_id=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
+	Addon(component_id=1, name="weblate.gettext.msgmerge", configuration={"no_location": True})
+	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
+	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
+	Addon(component_id=1, name="weblate.json.customize", configuration={"style": "spaces"}),
+])
+EOF
+
 	check
 fi
 
@@ -147,17 +158,18 @@ if change.source_unit_explanation != unit.source_unit.explanation:
 assert not errors, "\n".join(errors)
 EOF
 	check
-	# check that file customize addons have been migrated to file_format_params
+	# check that relevant addon parameters have been migrated to file_format_params
 	./manage.py shell <<EOF
 from weblate.addons.models import Addon
 from weblate.trans.models import Component
 file_format_params = Component.objects.get(pk=1).file_format_params
 # check site wide params are migrated
-assert file_format_params['yaml_line_break'] == 'dos'
+assert 'yaml_line_break' not in file_format_params
+assert 'yaml_indent' not in file_format_params
+assert 'json_indent_style' not in file_format_params
 assert file_format_params['po_line_wrap'] == -1
-assert file_format_params['json_use_compact_separators'] is True
-assert file_format_params['json_indent_style'] == 'tabs'
-fi
+assert file_format_params['po_keep_previous'] is False
+assert file_format_params['po_no_location'] is True
 EOF
 	check
 fi
