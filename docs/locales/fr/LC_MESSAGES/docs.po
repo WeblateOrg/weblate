@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-22 03:25+0000\n"
+"PO-Revision-Date: 2025-07-24 13:15+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -1591,7 +1591,7 @@ msgstr ":guilabel:`Ajouter une terminologie au glossaire`"
 #: ../../admin/access.rst:638 ../../admin/access.rst:698
 #: ../../admin/access.rst:704 ../../admin/access.rst:727
 msgid ":guilabel:`Upload glossary entries`"
-msgstr ":guilabel:`Téléverser des entrées de glossaires`"
+msgstr ":guilabel:`Téléverser des entrées de glossaire`"
 
 #: ../../admin/access.rst:639 ../../admin/access.rst:676
 #: ../../admin/access.rst:705 ../../admin/access.rst:728
@@ -1979,17 +1979,17 @@ msgid "Add-ons"
 msgstr "Extensions"
 
 #: ../../admin/addons.rst:6
-#, fuzzy
 msgid ""
 "Add-ons provide ways to customize and automate the translation workflow. "
 "Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Add-ons` menu of each respective translation project or component. Add-ons "
 "can be also installed site-wide in :ref:`management-interface`."
 msgstr ""
-"Les greffons permettent de personnaliser et d’automatiser le flux de "
-"traduction. Les administrateurs peuvent ajouter et gérer des greffons à "
-"partir du menu :guilabel:`Gestion` ↓ `Greffons` de chaque composant de "
-"traduction."
+"Les greffons permettent de personnaliser et d’automatiser le flux du travail "
+"de traduction. Les administrateurs peuvent ajouter et gérer les greffons à "
+"partir du menu :guilabel:`Gestion` ↓ :guilabel:`Greffons` de chaque projet "
+"ou composant de traduction. Les greffons peuvent également être installés "
+"sur l'ensemble du site  dans :ref:`management-interface`"
 
 #: ../../admin/addons.rst:12
 msgid ""
@@ -2044,24 +2044,16 @@ msgstr ""
 "charge quotidienne entre les composants selon :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:48
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Recent change"
-#| msgid_plural "Recent changes"
 msgid "Event change"
-msgstr "Modification récente"
+msgstr "Modification d'événement"
 
 #: ../../admin/addons.rst:50
-#, fuzzy
-#| msgid "Triggered just after the string is saved."
 msgid "Triggered after a Change event is created."
-msgstr "Activé juste après que la chaîne de caractère soit enregistrée."
+msgstr "Activé après qu'un événement de modification ait été créé."
 
 #: ../../admin/addons.rst:55
-#, fuzzy
-#| msgid "daily, repository post-add"
 msgid "Repository post-add"
-msgstr "quotidien, après l’ajout du dépôt"
+msgstr "Dépôt après l’ajout"
 
 #: ../../admin/addons.rst:57
 msgid "Triggered just after the new translation is added and committed."
@@ -2069,10 +2061,8 @@ msgstr ""
 "Activé juste après que la nouvelle traduction ait été ajoutée et validée."
 
 #: ../../admin/addons.rst:62
-#, fuzzy
-#| msgid "repository post-commit"
 msgid "Repository post-commit"
-msgstr "dépôt post-commit"
+msgstr "Dépôt après le commit"
 
 #: ../../admin/addons.rst:64
 msgid "Triggered just after the changes are committed."
@@ -3449,15 +3439,6 @@ msgstr ""
 "équivalents traduits pourraient ne pas correspondre à la mise en page."
 
 #: ../../admin/addons.rst:672
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3468,43 +3449,38 @@ msgid ""
 "source string."
 msgstr ""
 "L’utilisation de parties variables rend possible la recherche de chaînes de "
-"caractères qui pourrait ne pas tenir dans l'interface utilisateur après "
-"traduction ; elle étend le texte en fonction de la taille de la chaîne "
-"source. Les parties variables sont répétées aussi longtemps que la longueur "
-"du texte multiplié par le coefficient. Par exemple, ``Hello world`` avec le "
-"suffixe variable ``_`` et un coefficient de 1 devient ``Hello "
-"world___________`` ; le suffixe est répété une fois pour chaque caractère "
-"dans la chaîne source."
+"caractères qui pourraient ne pas tenir dans l'interface utilisateur après la "
+"traduction - elle étend la source en se basant sur sa longueur. Les parties "
+"textuelles variables sont répétées autant de fois que la longueur de la "
+"source multipliée par le coefficient. Par exemple, la source ``Hello world`` "
+"avec le texte variable ``_`` et le coefficient 1 devient ``Hello "
+"world___________`` ; le texte est répété une fois pour chaque caractère de "
+"la source."
 
 #: ../../admin/addons.rst:679
 msgid "The strings will be generated using following pattern:"
-msgstr "Les chaînes seront générées d’après le motif suivant :"
+msgstr "Les chaînes seront générées en utilisant le motif suivant :"
 
 #: ../../admin/addons.rst:681
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :"
-#| "guilabel:`Source string` :guilabel:`Variable string suffix` :guilabel:"
-#| "`Fixed string suffix`"
 msgid ""
 ":guilabel:`Prepended static text` :guilabel:`Prepended variable text` :"
 "guilabel:`Source string` :guilabel:`Appended variable text` :guilabel:"
 "`Appended static text`"
 msgstr ""
-":guilabel:`Fixed string prefix` :guilabel:`Variable string prefix` :guilabel:"
-"`Source string` :guilabel:`Variable string suffix` :guilabel:`Fixed string "
-"suffix`"
+":guilabel:`Texte statique du préfixe` :guilabel:`Texte variable du préfixe` "
+":guilabel:`Chaîne source` :guilabel:`Texte variable du suffixe` :guilabel:`"
+"Texte statique du suffixe`"
 
 #: ../../admin/addons.rst:689
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
-"Vous pouvez utiliser des langues réelles pour les tests, mais il existe des "
-"pseudo-traductions dédiées disponibles dans Weblate — `en_XA` et `ar_XB`."
+"Vous pouvez utiliser pour les tests des langues existantes, mais il existe "
+"des langues pseudo-locales dédiées et disponibles dans Weblate — `en_XA` et "
+"`ar_XB`."
 
 #: ../../admin/addons.rst:694
-#, fuzzy
 msgid ""
 "You can use this add-on to start translation to a new locale of an existing "
 "language or similar language. Once you add the translation to the component, "
@@ -3512,12 +3488,12 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
-"Vous pouvez utiliser cette extension pour commencer une traduction vers une "
+"Vous pouvez utiliser ce greffon pour commencer une traduction vers une "
 "nouvelle locale d’une langue existante ou similaire. Une fois que vous avez "
-"ajouté la traduction au composant, suivez les instructions l’extension. "
-"*Exemple : * Si vous avez `fr` et vous voulez commencer une traduction en "
-"`fr_CA`, vous pouvez simplement définir `fr` comme une source, `fr_CA` comme "
-"une cible, et laisser vide le préfixe et le suffixe."
+"ajouté la traduction au composant, suivez les instructions du greffon. *"
+"Exemple :* si vous êtes en `fr` et que vous voulez commencer une traduction "
+"en `fr_CA`, vous pouvez simplement définir `fr` comme étant la source, "
+"`fr_CA` la cible, et laisser vide le préfixe et le suffixe."
 
 #: ../../admin/addons.rst:700
 msgid ""
@@ -3599,7 +3575,7 @@ msgstr ""
 #: ../../admin/addons.rst:750
 msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr ""
-"``65535`` -- Ne fait remonter les lignes qu’aux nouvelles lignes (comme "
+"``65535`` -- Ne replier les lignes que pour les nouvelles lignes (comme "
 "'xgettext --no-wrap')"
 
 #: ../../admin/addons.rst:752
@@ -3755,18 +3731,12 @@ msgstr ""
 "`component-new_base`) en utilisant :program:`msgmerge`."
 
 #: ../../admin/addons.rst:823
-#, fuzzy
-#| msgid ""
-#| "Triggered whenever new changes are pulled from the upstream repository. "
-#| "Most msgmerge command-line options can be set up through the add-on "
-#| "configuration."
 msgid ""
 "Most msgmerge command-line options can be set up through the add-on "
 "configuration."
 msgstr ""
-"Déclenché à chaque fois que de nouvelles modifications sont extraites du "
-"dépôt en amont. La plupart des options de la ligne de commande de msgmerge "
-"peuvent être définies dans la configuration du module complémentaire."
+"La plupart des options de la ligne de commande de msgmerge peuvent être "
+"définies dans la configuration du greffon."
 
 #: ../../admin/addons.rst:833
 msgid "Squash Git commits"
@@ -3901,7 +3871,7 @@ msgstr "Personnaliser la sortie JSON"
 
 #: ../../admin/addons.rst:880
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "Ajout de l'option :guilabel:`Eviter les espaces après les séparateurs`."
 
 #: ../../admin/addons.rst:882
 msgid "``weblate.json.customize``"
@@ -3921,7 +3891,7 @@ msgstr "``use_compact_separators``"
 
 #: ../../admin/addons.rst:886
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "Eviter les espaces après les séparateurs"
 
 #: ../../admin/addons.rst:888 ../../admin/addons.rst:1408
 msgid "``indent``"
@@ -3949,19 +3919,16 @@ msgid "``tabs`` -- Tabs"
 msgstr "``tabs`` -- Onglets"
 
 #: ../../admin/addons.rst:898
-#, fuzzy
-#| msgid ""
-#| "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation, sorting or "
 "compact formatting using minimal whitespace."
 msgstr ""
-"Permet de paramétrer le comportement de la sortie de JSON, par exemple "
-"l’indentation ou le tri."
+"Permet d'ajuster le comportement de la sortie JSON, par exemple l’"
+"indentation, le tri ou le format compact en utilisant un minimum d'espaces."
 
 #: ../../admin/addons.rst:904
 msgid "Format the Java properties file"
-msgstr "Formater le fichier de propriétés Java"
+msgstr "Formater le fichier des propriétés Java"
 
 #: ../../admin/addons.rst:906
 msgid "``weblate.properties.sort``"
@@ -4019,10 +3986,8 @@ msgid "Days to keep"
 msgstr "Nombre de jours à conserver"
 
 #: ../../admin/addons.rst:929 ../../admin/addons.rst:948
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`addon-event-install`, :ref:`addon-event-daily`"
 
 #: ../../admin/addons.rst:931
 msgid "Set a timeframe for removal of comments."
@@ -4101,10 +4066,8 @@ msgstr ""
 "supprimer les clés de traduction périmées."
 
 #: ../../admin/addons.rst:980
-#, fuzzy
-#| msgid "Webhook"
 msgid "Slack Webhooks"
-msgstr "Webhook"
+msgstr "Slack Webhooks"
 
 #: ../../admin/addons.rst:984
 msgid "``weblate.webhook.slack``"
@@ -4127,460 +4090,309 @@ msgid "Change events"
 msgstr "Évènements de modification"
 
 #: ../../admin/addons.rst:990 ../../admin/addons.rst:1165
-#, fuzzy
-#| msgid "Resource updated"
 msgid "``0`` -- Resource updated"
-msgstr "Ressources mises à jour"
+msgstr "``0`` -- Ressource mise à jour"
 
 #: ../../admin/addons.rst:992 ../../admin/addons.rst:1167
-#, fuzzy
-#| msgid "Translation completed"
 msgid "``1`` -- Translation completed"
-msgstr "Traduction terminée"
+msgstr "``1`` -- Traduction terminée"
 
 #: ../../admin/addons.rst:994 ../../admin/addons.rst:1169
-#, fuzzy
-#| msgid "Translation changed"
 msgid "``2`` -- Translation changed"
-msgstr "Traduction modifiée"
+msgstr "``2`` -- Traduction modifiée"
 
 #: ../../admin/addons.rst:996 ../../admin/addons.rst:1171
-#, fuzzy
-#| msgid "Comment added"
 msgid "``3`` -- Comment added"
-msgstr "Commentaire ajouté"
+msgstr "``3`` -- Commentaire ajouté"
 
 #: ../../admin/addons.rst:998 ../../admin/addons.rst:1173
-#, fuzzy
-#| msgid "Suggestion added"
 msgid "``4`` -- Suggestion added"
-msgstr "Suggestion ajoutée"
+msgstr "``4`` -- Suggestion ajoutée"
 
 #: ../../admin/addons.rst:1000 ../../admin/addons.rst:1175
-#, fuzzy
-#| msgid "Translation added"
 msgid "``5`` -- Translation added"
-msgstr "Traduction ajoutée"
+msgstr "``5`` -- Traduction ajoutée"
 
 #: ../../admin/addons.rst:1002 ../../admin/addons.rst:1177
-#, fuzzy
-#| msgid "Automatically translated"
 msgid "``6`` -- Automatically translated"
-msgstr "Traduit automatiquement"
+msgstr "``6`` -- Traduit automatiquement"
 
 #: ../../admin/addons.rst:1004 ../../admin/addons.rst:1179
-#, fuzzy
-#| msgid "Suggestion accepted"
 msgid "``7`` -- Suggestion accepted"
-msgstr "Suggestion acceptée"
+msgstr "``7`` -- Suggestion acceptée"
 
 #: ../../admin/addons.rst:1006 ../../admin/addons.rst:1181
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "``8`` -- Translation reverted"
-msgstr "Traduction restaurée"
+msgstr "``8`` -- Traduction annulée"
 
 #: ../../admin/addons.rst:1008 ../../admin/addons.rst:1183
-#, fuzzy
-#| msgid "Translation uploaded"
 msgid "``9`` -- Translation uploaded"
-msgstr "Traduction téléversée"
+msgstr "``9`` -- Traduction téléversée"
 
 #: ../../admin/addons.rst:1010 ../../admin/addons.rst:1185
-#, fuzzy
-#| msgid "Source string added"
 msgid "``13`` -- Source string added"
-msgstr "Chaîne source ajoutée"
+msgstr "``13`` -- Chaîne source ajoutée"
 
 #: ../../admin/addons.rst:1012 ../../admin/addons.rst:1187
-#, fuzzy
-#| msgid "Component locked"
 msgid "``14`` -- Component locked"
-msgstr "Le composant est verrouillé"
+msgstr "``14`` -- Composant verrouillé"
 
 #: ../../admin/addons.rst:1014 ../../admin/addons.rst:1189
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "``15`` -- Component unlocked"
-msgstr "Le composant est déverrouillé"
+msgstr "``15`` -- Composant déverrouillé"
 
 #: ../../admin/addons.rst:1016 ../../admin/addons.rst:1191
-#, fuzzy
-#| msgid "Changes committed"
 msgid "``17`` -- Changes committed"
-msgstr "Modifications envoyées"
+msgstr "``17`` -- Modifications validées"
 
 #: ../../admin/addons.rst:1018 ../../admin/addons.rst:1193
-#, fuzzy
-#| msgid "Changes pushed"
 msgid "``18`` -- Changes pushed"
-msgstr "Modifications poussées"
+msgstr "``18`` -- Modifications poussées"
 
 #: ../../admin/addons.rst:1020 ../../admin/addons.rst:1195
-#, fuzzy
-#| msgid "Repository reset"
 msgid "``19`` -- Repository reset"
-msgstr "Réinitialiser le dépôt"
+msgstr "``19`` -- Dépôt réinitialisé"
 
 #: ../../admin/addons.rst:1022 ../../admin/addons.rst:1197
-#, fuzzy
-#| msgid "Repository merged"
 msgid "``20`` -- Repository merged"
-msgstr "Dépôt fusionné"
+msgstr "``20`` -- Dépôt fusionné"
 
 #: ../../admin/addons.rst:1024 ../../admin/addons.rst:1199
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "``21`` -- Repository rebased"
-msgstr "Dépôt rebasé"
+msgstr "``21`` -- Dépôt rebasé"
 
 #: ../../admin/addons.rst:1026 ../../admin/addons.rst:1201
-#, fuzzy
-#| msgid "Repository merge failed"
 msgid "``22`` -- Repository merge failed"
-msgstr "Échec de la fusion de dépôt"
+msgstr "``22`` -- Échec de la fusion du dépôt"
 
 #: ../../admin/addons.rst:1028 ../../admin/addons.rst:1203
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "``23`` -- Repository rebase failed"
-msgstr "Échec du rebasement du dépôt"
+msgstr "``23`` -- Échec du rebasement du dépôt"
 
 #: ../../admin/addons.rst:1030 ../../admin/addons.rst:1205
-#, fuzzy
-#| msgid "Parsing failed"
 msgid "``24`` -- Parsing failed"
-msgstr "Échec de l’analyse"
+msgstr "``24`` -- Échec de l’analyse syntaxique"
 
 #: ../../admin/addons.rst:1032 ../../admin/addons.rst:1207
-#, fuzzy
-#| msgid "Translation removed"
 msgid "``25`` -- Translation removed"
-msgstr "Traduction supprimée"
+msgstr "``25`` -- Traduction supprimée"
 
 #: ../../admin/addons.rst:1034 ../../admin/addons.rst:1209
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "``26`` -- Suggestion removed"
-msgstr "Suggestion supprimée"
+msgstr "``26`` -- Suggestion supprimée"
 
 #: ../../admin/addons.rst:1036 ../../admin/addons.rst:1211
-#, fuzzy
-#| msgid "Translation replaced"
 msgid "``27`` -- Translation replaced"
-msgstr "Traduction remplacée"
+msgstr "``27`` -- Traduction remplacée"
 
 #: ../../admin/addons.rst:1038 ../../admin/addons.rst:1213
-#, fuzzy
-#| msgid "Repository push failed"
 msgid "``28`` -- Repository push failed"
-msgstr "Échec de la poussée du dépôt"
+msgstr "``28`` -- Échec de la poussée sur le dépôt"
 
 #: ../../admin/addons.rst:1040 ../../admin/addons.rst:1215
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "``29`` -- Suggestion removed during cleanup"
-msgstr "Suggestion supprimée lors du nettoyage"
+msgstr "``29`` -- Suggestion supprimée lors du nettoyage"
 
 #: ../../admin/addons.rst:1042 ../../admin/addons.rst:1217
-#, fuzzy
-#| msgid "Source string changed"
 msgid "``30`` -- Source string changed"
-msgstr "Chaîne source modifiée"
+msgstr "``30`` -- Chaîne source modifiée"
 
 #: ../../admin/addons.rst:1044 ../../admin/addons.rst:1219
-#, fuzzy
-#| msgid "String added"
 msgid "``31`` -- String added"
-msgstr "Chaîne ajoutée"
+msgstr "``31`` -- Chaîne ajoutée"
 
 #: ../../admin/addons.rst:1046 ../../admin/addons.rst:1221
-#, fuzzy
-#| msgid "Bulk status changed"
 msgid "``32`` -- Bulk status changed"
-msgstr "Modification en masse du statut modifié"
+msgstr "``32`` -- Modification en masse de l'état"
 
 #: ../../admin/addons.rst:1048 ../../admin/addons.rst:1223
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "``33`` -- Visibility changed"
-msgstr "Visibilité changée"
+msgstr "``33`` -- Visibilité modifiée"
 
 #: ../../admin/addons.rst:1050 ../../admin/addons.rst:1225
-#, fuzzy
-#| msgid "User added"
 msgid "``34`` -- User added"
-msgstr "Utilisateur ajouté"
+msgstr "``34`` -- Utilisateur ajouté"
 
 #: ../../admin/addons.rst:1052 ../../admin/addons.rst:1227
-#, fuzzy
-#| msgid "User removed"
 msgid "``35`` -- User removed"
-msgstr "Utilisateur supprimé"
+msgstr "``35`` -- Utilisateur supprimé"
 
 #: ../../admin/addons.rst:1054 ../../admin/addons.rst:1229
-#, fuzzy
-#| msgid "Translation approved"
 msgid "``36`` -- Translation approved"
-msgstr "Traduction approuvée"
+msgstr "``36`` -- Traduction approuvée"
 
 #: ../../admin/addons.rst:1056 ../../admin/addons.rst:1231
-#, fuzzy
-#| msgid "Marked for edit"
 msgid "``37`` -- Marked for edit"
-msgstr "Marqué comme À vérifier"
+msgstr "``37`` -- Marqué à éditer"
 
 #: ../../admin/addons.rst:1058 ../../admin/addons.rst:1233
-#, fuzzy
-#| msgid "Component removed"
 msgid "``38`` -- Component removed"
-msgstr "Composant supprimé"
+msgstr "``38`` -- Composant supprimé"
 
 #: ../../admin/addons.rst:1060 ../../admin/addons.rst:1235
-#, fuzzy
-#| msgid "Project removed"
 msgid "``39`` -- Project removed"
-msgstr "Projet supprimé"
+msgstr "``39`` -- Projet supprimé"
 
 #: ../../admin/addons.rst:1062 ../../admin/addons.rst:1237
-#, fuzzy
-#| msgid "Project renamed"
 msgid "``41`` -- Project renamed"
-msgstr "Projet renommé"
+msgstr "``41`` -- Projet renommé"
 
 #: ../../admin/addons.rst:1064 ../../admin/addons.rst:1239
-#, fuzzy
-#| msgid "Component renamed"
 msgid "``42`` -- Component renamed"
-msgstr "Composant renommé"
+msgstr "``42`` -- Composant renommé"
 
 #: ../../admin/addons.rst:1066 ../../admin/addons.rst:1241
-#, fuzzy
-#| msgid "Moved component"
 msgid "``43`` -- Moved component"
-msgstr "Composant déplacé"
+msgstr "``43`` -- Composant déplacé"
 
 #: ../../admin/addons.rst:1068 ../../admin/addons.rst:1243
-#, fuzzy
-#| msgid "Contributor joined"
 msgid "``45`` -- Contributor joined"
-msgstr "Un contributeur à rejoint"
+msgstr "``45`` -- Un contributeur est arrivé"
 
 #: ../../admin/addons.rst:1070 ../../admin/addons.rst:1245
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "``46`` -- Announcement posted"
-msgstr "Annonce publiée"
+msgstr "``46`` -- Annonce publiée"
 
 #: ../../admin/addons.rst:1072 ../../admin/addons.rst:1247
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "``47`` -- Alert triggered"
-msgstr "Alerte déclenchée"
+msgstr "``47`` -- Alerte déclenchée"
 
 #: ../../admin/addons.rst:1074 ../../admin/addons.rst:1249
-#, fuzzy
-#| msgid "Language added"
 msgid "``48`` -- Language added"
-msgstr "Langage ajouté"
+msgstr "``48`` -- Langue ajoutée"
 
 #: ../../admin/addons.rst:1076 ../../admin/addons.rst:1251
-#, fuzzy
-#| msgid "Language requested"
 msgid "``49`` -- Language requested"
-msgstr "Langue demandée"
+msgstr "``49`` -- Langue demandée"
 
 #: ../../admin/addons.rst:1078 ../../admin/addons.rst:1253
-#, fuzzy
-#| msgid "Project created"
 msgid "``50`` -- Project created"
-msgstr "Projet créé"
+msgstr "``50`` -- Projet créé"
 
 #: ../../admin/addons.rst:1080 ../../admin/addons.rst:1255
-#, fuzzy
-#| msgid "Component created"
 msgid "``51`` -- Component created"
-msgstr "Composant créé"
+msgstr "``51`` -- Composant créé"
 
 #: ../../admin/addons.rst:1082 ../../admin/addons.rst:1257
-#, fuzzy
-#| msgid "User invited"
 msgid "``52`` -- User invited"
-msgstr "Utilisateur invité"
+msgstr "``52`` -- Utilisateur invité"
 
 #: ../../admin/addons.rst:1084 ../../admin/addons.rst:1259
-#, fuzzy
-#| msgid "Repository notification received"
 msgid "``53`` -- Repository notification received"
-msgstr "Notification de dépôt reçue"
+msgstr "``53`` -- Notification de dépôt reçue"
 
 #: ../../admin/addons.rst:1086 ../../admin/addons.rst:1261
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "``54`` -- Translation replaced file by upload"
-msgstr "Traduction remplacée par téléversement"
+msgstr "``54`` -- Fichier de traduction remplacé par téléversement"
 
 #: ../../admin/addons.rst:1088 ../../admin/addons.rst:1263
-#, fuzzy
-#| msgid "License changed"
 msgid "``55`` -- License changed"
-msgstr "Licence modifiée"
+msgstr "``55`` -- Licence modifiée"
 
 #: ../../admin/addons.rst:1090 ../../admin/addons.rst:1265
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "``56`` -- Contributor license agreement changed"
-msgstr "L'accord de licence du contributeur a été modifié"
+msgstr "``56`` -- L'accord de licence du contributeur a été modifié"
 
 #: ../../admin/addons.rst:1092 ../../admin/addons.rst:1267
-#, fuzzy
-#| msgid "Screenshot added"
 msgid "``57`` -- Screenshot added"
-msgstr "Capture écran ajoutée"
+msgstr "``57`` -- Capture d'écran ajoutée"
 
 #: ../../admin/addons.rst:1094 ../../admin/addons.rst:1269
-#, fuzzy
-#| msgid "Screenshot uploaded"
 msgid "``58`` -- Screenshot uploaded"
-msgstr "Capture d’écran téléversée"
+msgstr "``58`` -- Capture d’écran téléversée"
 
 #: ../../admin/addons.rst:1096 ../../admin/addons.rst:1271
-#, fuzzy
-#| msgid "String updated in the repository"
 msgid "``59`` -- String updated in the repository"
-msgstr "Chaîne mise à jour dans le dépôt"
+msgstr "``59`` -- Chaîne mise à jour dans le dépôt"
 
 #: ../../admin/addons.rst:1098 ../../admin/addons.rst:1273
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "``60`` -- Add-on installed"
-msgstr "Extension installée"
+msgstr "``60`` -- Greffon installé"
 
 #: ../../admin/addons.rst:1100 ../../admin/addons.rst:1275
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "``61`` -- Add-on configuration changed"
-msgstr "Paramétrage modifié pour l’extension"
+msgstr "``61`` -- Paramétrage modifié du greffon"
 
 #: ../../admin/addons.rst:1102 ../../admin/addons.rst:1277
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "``62`` -- Add-on uninstalled"
-msgstr "Extension désinstallée"
+msgstr "``62`` -- Greffon désinstallé"
 
 #: ../../admin/addons.rst:1104 ../../admin/addons.rst:1279
-#, fuzzy
-#| msgid "String removed"
 msgid "``63`` -- String removed"
-msgstr "Chaîne supprimée"
+msgstr "``63`` -- Chaîne supprimée"
 
 #: ../../admin/addons.rst:1106 ../../admin/addons.rst:1281
-#, fuzzy
-#| msgid "Comment removed"
 msgid "``64`` -- Comment removed"
-msgstr "Commentaire supprimé"
+msgstr "``64`` -- Commentaire supprimé"
 
 #: ../../admin/addons.rst:1108 ../../admin/addons.rst:1283
-#, fuzzy
-#| msgctxt "Name of event in the history"
-#| msgid "Comment resolved"
 msgid "``65`` -- Comment resolved"
-msgstr "Commentaire résolu"
+msgstr "``65`` -- Commentaire résolu"
 
 #: ../../admin/addons.rst:1110 ../../admin/addons.rst:1285
-#, fuzzy
-#| msgid "Explanation updated"
 msgid "``66`` -- Explanation updated"
-msgstr "Explication mise à jour"
+msgstr "``66`` -- Explication mise à jour"
 
 #: ../../admin/addons.rst:1112 ../../admin/addons.rst:1287
-#, fuzzy
-#| msgid "Category removed"
 msgid "``67`` -- Category removed"
-msgstr "Catégorie supprimée"
+msgstr "``67`` -- Catégorie supprimée"
 
 #: ../../admin/addons.rst:1114 ../../admin/addons.rst:1289
-#, fuzzy
-#| msgid "Category renamed"
 msgid "``68`` -- Category renamed"
-msgstr "Catégorie renommée"
+msgstr "``68`` -- Catégorie renommée"
 
 #: ../../admin/addons.rst:1116 ../../admin/addons.rst:1291
-#, fuzzy
-#| msgid "Category moved"
 msgid "``69`` -- Category moved"
-msgstr "Catégorie déplacée"
+msgstr "``69`` -- Catégorie déplacée"
 
 #: ../../admin/addons.rst:1118 ../../admin/addons.rst:1293
-#, fuzzy
-#| msgid "Saving string failed"
 msgid "``70`` -- Saving string failed"
-msgstr "Échec de l’enregistrement de la chaîne"
+msgstr "``70`` -- Échec de l’enregistrement de la chaîne"
 
 #: ../../admin/addons.rst:1120 ../../admin/addons.rst:1295
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "``71`` -- String added in the repository"
-msgstr "Chaîne ajoutée au dépôt"
+msgstr "``71`` -- Chaîne ajoutée au dépôt"
 
 #: ../../admin/addons.rst:1122 ../../admin/addons.rst:1297
-#, fuzzy
-#| msgid "String updated in the upload"
 msgid "``72`` -- String updated in the upload"
-msgstr "Chaîne mise à jour dans le téléversement"
+msgstr "``72`` -- Chaîne mise à jour dans le téléversement"
 
 #: ../../admin/addons.rst:1124 ../../admin/addons.rst:1299
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "``73`` -- String added in the upload"
-msgstr "Chaîne ajoutée dans le téléversement"
+msgstr "``73`` -- Chaîne ajoutée dans le téléversement"
 
 #: ../../admin/addons.rst:1126 ../../admin/addons.rst:1301
-#, fuzzy
-#| msgid "Translation updated by source upload"
 msgid "``74`` -- Translation updated by source upload"
-msgstr "Traduction mise à jour par la source du téléversement"
+msgstr "``74`` -- Traduction mise à jour en téléversant la source"
 
 #: ../../admin/addons.rst:1128 ../../admin/addons.rst:1303
-#, fuzzy
-#| msgid "Component translation completed"
 msgid "``75`` -- Component translation completed"
-msgstr "Traduction du composant terminée"
+msgstr "``75`` -- Traduction du composant terminée"
 
 #: ../../admin/addons.rst:1130 ../../admin/addons.rst:1305
-#, fuzzy
-#| msgid "Applied enforced check"
 msgid "``76`` -- Applied enforced check"
-msgstr "La vérification étendue a été appliquée"
+msgstr "``76`` -- La vérification étendue a été appliquée"
 
 #: ../../admin/addons.rst:1132 ../../admin/addons.rst:1307
-#, fuzzy
-#| msgid "Propagated change"
 msgid "``77`` -- Propagated change"
-msgstr "Modification propagée"
+msgstr "``77`` -- Modification propagée"
 
 #: ../../admin/addons.rst:1134 ../../admin/addons.rst:1309
-#, fuzzy
-#| msgid "File upload mode"
 msgid "``78`` -- File uploaded"
-msgstr "Mode de téléversement de fichier"
+msgstr "``78`` -- Fichier téléversé"
 
 #: ../../admin/addons.rst:1136 ../../admin/addons.rst:1311
-#, fuzzy
-#| msgid "Last updated"
 msgid "``79`` -- Extra flags updated"
-msgstr "Date de dernière mise à jour"
+msgstr "``79`` -- Mise à jour des drapeaux supplémentaires"
 
 #: ../../admin/addons.rst:1138 ../../admin/addons.rst:1313
 msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:1140
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
-"Envoie une notification à un service externe en fonction des évènements "
+"Envoie une notification sur un canal Slack en fonction des événements "
 "sélectionnés."
 
 #: ../../admin/addons.rst:1144
@@ -4589,6 +4401,9 @@ msgid ""
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
+"Le contenu de la notification peut contenir des balises HTML. C'est un "
+"problème connu qui sera bientôt corrigé ; voir https://github.com/WeblateOrg/"
+"weblate/issues/15056."
 
 #: ../../admin/addons.rst:1148
 msgid ""
@@ -4596,6 +4411,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Pour obtenir une URL webhook, suivez les étapes défines dans la `"
+"Documentation des Slack Incoming Webhooks <https://docs.slack.dev/messaging/"
+"sending-messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4616,36 +4434,33 @@ msgid "Secret"
 msgstr "Secret"
 
 #: ../../admin/addons.rst:1161
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Chaîne de caractères encodée en base64 non valide"
+msgstr "Chaîne de caractères encodée base64"
 
 #: ../../admin/addons.rst:1315
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
 "Envoie une notification à un service externe en fonction des évènements "
-"sélectionnés."
+"sélectionnés, en suivant les spécifications des normes Webhooks."
 
 #: ../../admin/addons.rst:1318
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"Le contenu demandé est conforme avec le schéma du :ref:`schema-messaging`. "
+"Vous trouverez la description de OpenAPI dans ``/api/docs/``. Exemple de "
+"contenu d'une requête :"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Exemple de contenu d'une requête avec des catégories :"
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "En-têtes de requête"
+msgstr "Exemple d'entêtes de requêtes :"
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -4654,6 +4469,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"La ``webhook-signature`` est une liste de signatures HMAC séparées par une "
+"espace et générées en utilisant la chaîne ``secret``, le contenu de la "
+"requête, l'horodatage ``webhook-timestamp``, et l'identifiant ``webhook-id``"
+". Cela assure l'authenticité et l'integrité de la requête webhook."
 
 #: ../../admin/addons.rst:1374
 msgid ""
@@ -4661,6 +4480,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Pour vérifier une requête, vous pouvez utiliser la méthode ``Webhook.verify``"
+" de la bibliothèque ``standardwebhooks`` ou une implémentation de la "
+"\"Standard Webhooks Specification\"."
 
 #: ../../admin/addons.rst:1380
 msgid ""
@@ -4669,6 +4491,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Spécifications du standard Webhooks <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `Bibliothèque Python pour le standard Webhooks <https://pypi.org/"
+"project/standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1389
 msgid "Customize XML output"
@@ -4972,53 +4798,37 @@ msgid "It includes basic overview of your Weblate:"
 msgstr "Elle comprend un aperçu de base de votre Weblate :"
 
 #: ../../admin/admin.rst:14
-#, fuzzy
-#| msgid "Support status, see :doc:`support`"
 msgid "Support status, see :doc:`support`."
-msgstr "Statut de l’assistance, voir :doc:`support`"
+msgstr "Etat de l’assistance, voir :doc:`support`."
 
 #: ../../admin/admin.rst:15
-#, fuzzy
-#| msgid "Backups, see :doc:`backup`"
 msgid "Backups, see :doc:`backup`."
-msgstr "Sauvegardes, voir :doc:`backup`"
+msgstr "Sauvegardes, voir :doc:`backup`."
 
 #: ../../admin/admin.rst:16
-#, fuzzy
-#| msgid "Shared translation memory, see :doc:`memory`"
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr "Mémoire de traduction partagée, voir :doc:`memory`"
+msgstr "Mémoire de traduction partagée, voir :doc:`memory`."
 
 #: ../../admin/admin.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`manage-performance` to review Weblate health and length of Celery "
-#| "queues"
 msgid ""
 ":ref:`manage-performance` to review Weblate health and length of Celery "
 "queues."
 msgstr ""
-":ref:`manage-performance` pour examiner l’état de Weblate et la longueur des "
-"files d’attente Celery"
+":ref:`manage-performance` pour vérifier l’état de Weblate et la longueur des "
+"files d’attente Celery."
 
 #: ../../admin/admin.rst:18
-#, fuzzy
-#| msgid "SSH keys management, see :ref:`ssh-repos`"
 msgid "SSH keys management, see :ref:`ssh-repos`."
-msgstr "Gestion des clés SSH, voir :ref:`ssh-repos`"
+msgstr "Gestion des clés SSH, voir :ref:`ssh-repos`."
 
 #: ../../admin/admin.rst:19
-#, fuzzy
-#| msgid "Alerts overview for all components, see :ref:`alerts`"
 msgid "Alerts overview for all components, see :ref:`alerts`."
 msgstr ""
-"Vue d’ensemble des alertes pour tous les composants, voir :ref:`alerts`"
+"Vue d’ensemble des alertes pour tous les composants, voir :ref:`alerts`."
 
 #: ../../admin/admin.rst:20
-#, fuzzy
-#| msgid "Users and teams, see :ref:`custom-acl`"
 msgid "Users and teams, see :ref:`custom-acl`."
-msgstr "Utilisateurs et équipes, voir :ref:`custom-acl`"
+msgstr "Utilisateurs et équipes, voir :ref:`custom-acl`."
 
 #: ../../admin/admin.rst:21
 msgid ":ref:`manage-appearance`."
@@ -5046,12 +4856,6 @@ msgstr ""
 "performances."
 
 #: ../../admin/admin.rst:32
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Configuration errors` indicate issues present in your "
-#| "environment. It covers missing optional dependencies (see :ref:`python-"
-#| "deps`), configuration issues or delayed processing of background tasks  "
-#| "(see :ref:`celery`)."
 msgid ""
 ":guilabel:`Configuration errors` indicate issues present in your "
 "environment. It covers missing optional dependencies (see :ref:`python-"
@@ -5059,8 +4863,8 @@ msgid ""
 "ref:`celery`)."
 msgstr ""
 ":guilabel:`Erreurs de configuration` indique les problèmes présents dans "
-"votre environnement. Cela regroupe les dépendances facultatives absentes "
-"(voir :ref:`python-deps`), les problèmes de configuration ou de retard dans "
+"votre environnement. Cela regroupe les dépendances facultatives absentes ("
+"voir :ref:`python-deps`), les problèmes de configuration ou de retard dans "
 "l'exécution des tâches de fond (voir :ref:`celery`)."
 
 #: ../../admin/admin.rst:36
@@ -5369,7 +5173,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr "Backends d’authentification"
+msgstr "Serveurs d’authentification"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -5377,21 +5181,18 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate s'appuie sur Django pour l'authentification. Cela comprend "
+"l'authentification intégrée basée sur le mot de passe, l'authentification "
+"sociale, et les serveurs d'authentification tiers pour Django."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"La solution intégrée de Django est utilisée pour l’authentification, et "
-"inclue différents services sociaux pour le faire. Son utilisation signifie "
-"que vous pouvez importer la base de donnés d’utilisateurs d’autres projets "
-"basés sur Django (voir :ref:`pootle-migration`)."
+"Utiliser l'authentification intégrée de Django signifie que vous pouvez "
+"importer la base de données des utilisateurs d’autres projets basés sur "
+"Django (voir :ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -5691,11 +5492,6 @@ msgstr ""
 "L’URL de redirection est ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 
 #: ../../admin/auth.rst:316
-#, fuzzy
-#| msgid ""
-#| "The configuration above also works with Forgejo; for an example of "
-#| "production deployment with Forgejo, see `Codeberg Translate <https://"
-#| "translate.codeberg.org>`_"
 msgid ""
 "The configuration above also works with Forgejo; for an example of "
 "production deployment with Forgejo, see `Codeberg Translate <https://"
@@ -5703,7 +5499,7 @@ msgid ""
 msgstr ""
 "La configuration ci-dessus fonctionne également avec Forgejo ; pour un "
 "exemple de déploiement en production avec Forgejo, voir `Codeberg Translate "
-"<https://translate.codeberg.org>`_"
+"<https://translate.codeberg.org>`_."
 
 #: ../../admin/auth.rst:322
 msgid ":doc:`psa:backends/gitea`"
@@ -5750,13 +5546,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:339
-#, fuzzy
 msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
-"La *valeur secrète* est affichée une fois que vous générez un mot secret "
-"pour une application. Le *Secret ID* n'est pas utilisé dans Weblate."
+"La *valeur secrète* est affichée une fois que vous générez un secret pour "
+"une application. Le *Secret ID* n'est pas utilisé dans Weblate."
 
 #: ../../admin/auth.rst:378
 msgid ":doc:`psa:backends/azuread`"
@@ -6377,6 +6172,11 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
+"Restaurer une sauvegarde peut échouer si le serveur qui exécute la tâche "
+"possède un ensemble différent de :ref:`languages` ou une configuration "
+"différente pour :setting:`SIMPLIFY_LANGUAGES`. La restauration vous donnera "
+"le code des langues qui ne peuvent pas être traitées et vous pourrez alors "
+"ajouter la définition des langues manquantes manuellement."
 
 #: ../../admin/backup.rst:48
 msgid "Automated backup using BorgBackup"
@@ -9196,6 +8996,8 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Il n'est pas recommandé d'augmenter la fréquence lorsque Weblate contient "
+"des milliers de composants."
 
 #: ../../admin/config.rst:231
 msgid "BASIC_LANGUAGES"
@@ -9207,6 +9009,10 @@ msgid ""
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
+"Liste des langues à présenter aux utilisateurs pour commencer une nouvelle "
+"traduction. Si absente, une liste prédéfinie est utilisée (comprenant toutes "
+"les langues habituellement utilisées, mais sans les variantes spécifiques "
+"aux pays)."
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -9214,6 +9020,9 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Le but est d'empêcher les utilisateurs non privilégiés d'ajouter des langues "
+"non souhaitées. Les administrateurs de projets voient par contre, la liste "
+"complète des langues de Weblate."
 
 #: ../../admin/config.rst:244
 msgid ""
@@ -9236,6 +9045,8 @@ msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
+"Vous pouvez passer des arguments supplémentaires à :command:`borg create` "
+"quand les sauvegardes prédéfinies sont utilisées."
 
 #: ../../admin/config.rst:274
 #, fuzzy
@@ -9252,18 +9063,24 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Répertoire où Weblate range les fichiers de cache. Par défaut il s'agit du "
+"sous-répertoire :file:`cache` de :setting:`DATA_DIR`."
 
 #: ../../admin/config.rst:287
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Si :setting:`DATA_DIR` est sur un système de fichiers du réseau, modifiez "
+"ceci en choisissant un système de fichiers local ou temporaire."
 
 #: ../../admin/config.rst:290 ../../admin/config.rst:444
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"Le conteneur Docker utilise un volume séparé pour cela, voir :ref:`docker-"
+"volume`."
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
@@ -9275,7 +9092,7 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:295
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr "cache :program:`font-config` pour :ref:`fonts`."
 
 #: ../../admin/config.rst:296
 msgid ":file:`avatar`"
@@ -9294,6 +9111,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
+"Emplacement par défaut des fichiers statiques Django, spécifié par "
+":setting:`django:STATIC_ROOT`. Voir :ref:`static-files`."
 
 #: ../../admin/config.rst:300
 msgid ":file:`tesseract`"
@@ -9301,7 +9120,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:301
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "données entraînées par OCR pour :ref:`screenshots`."
 
 #: ../../admin/config.rst:311
 #, fuzzy
@@ -9319,10 +9138,13 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Personnaliser l'entête :http:header:`Content-Security-Policy` pour Weblate. "
+"Elle est générée automatiquement en se basant sur les intégrations actives "
+"avec les services tiers (Matomo, Google Analytics, Sentry, …)."
 
 #: ../../admin/config.rst:317
 msgid "All these default to empty list."
-msgstr ""
+msgstr "La valeur par défaut pour tous est la liste vide."
 
 #: ../../admin/config.rst:328
 #, fuzzy
@@ -9354,7 +9176,7 @@ msgstr ""
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr ""
+msgstr "Ajuster la liste des contrôles pour inclure ceux qui vous concernent."
 
 #: ../../admin/config.rst:345
 msgid ""
@@ -57100,6 +56922,12 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
+"Les versions récentes de OpenSSH (pa exemple celle utilisée dans le "
+"conteneur Weblate Docker) désactivent les signatures RSA qui utilisent "
+"l'algorithme de hachage SHA-1 par défaut. Cette modification a été faite car "
+"l'algorithme de hachage SHA-1 peut être craqué cryptographiquement, et il "
+"est possible de créer des collisions de préfixe de hachage choisis pour "
+"moins de 50K USD."
 
 #: ../../vcs.rst:135
 msgid ""
@@ -58774,10 +58602,8 @@ msgstr ""
 ":ref:`component-intermediate`  :ref:`component-template`, :ref:`bimono`"
 
 #: ../../workflows.rst:266
-#, fuzzy
-#| msgid "Starting translation in new language"
 msgid "String consolidation using secondary language"
-msgstr "Débuter la traduction dans une nouvelle langue"
+msgstr "Consolidation de chaîne en utilisant la langue secondaire"
 
 #: ../../workflows.rst:268
 msgid ""
@@ -58789,6 +58615,14 @@ msgid ""
 "(see :ref:`secondary-languages`) and can be optionally used as a source for "
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
+"Lorsque :ref:`component-intermediate` ne peut pas être utilisé pour "
+"consolider les chaînes, vous pouvez choisir l'une des traductions pour "
+"qu'elle serve de langue secondaire. La langue peut être configurée dans un "
+"projet (:ref:`project-secondary_language`) ou dans un composant (:ref"
+":`component-secondary_language`). Elle est ensuite affichée aux traducteurs "
+"lors de la traduction (voir :ref:`secondary-languages`) et peut être "
+"facultativement utilisée comme source pour la traduction automatique (voir "
+":ref:`mt-sources`)."
 
 #: ../../workflows.rst:276
 msgid ""
@@ -58796,9 +58630,9 @@ msgid ""
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
 msgstr ""
-"Cette configuration peut être utile pour les chaînes source avec des langues "
-"différentes quand elles sont consolidées dans une traduction unique utilisée "
-"ensuite comme ligne de base pour d'autres travaux."
+"Cette configuration peut être utile pour les chaînes source comprenant "
+"différentes langues quand elles sont consolidées dans une traduction unique "
+"servant ensuite de ligne de base pour d'autres travaux."
 
 #: ../../workflows.rst:282
 msgid "Source strings reviews"

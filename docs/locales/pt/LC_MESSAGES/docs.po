@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-09 04:03+0000\n"
-"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
+"PO-Revision-Date: 2025-07-24 13:32+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -4338,6 +4338,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Para obter uma URL de webhook, siga as instruções na `Documentação de "
+"Incoming Webhooks do Slack <https://docs.slack.dev/messaging/sending-"
+"messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4376,10 +4379,13 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"O conteúdo da requisição segue o esquema :ref:`schema-messaging`. A "
+"descrição OpenAPI também encontra-se em ``/api/docs/``. Exemplo de corpo de "
+"requisição:"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Exemplo de corpo de requisição com categorias:"
 
 #: ../../admin/addons.rst:1360
 #, fuzzy
@@ -4394,6 +4400,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"A ``webhook-signature`` é uma lista separada por espaços de assinaturas HMAC "
+"geradas usando a cadeia ``secret``, o payload da solicitação, o ``webhook-"
+"timestamp`` e o ``webhook-id``. Isto garante a autenticidade e a integridade "
+"da solicitação do webhook."
 
 #: ../../admin/addons.rst:1374
 msgid ""
@@ -4401,6 +4411,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Para verificar uma solicitação, pode usar o método ``Webhook.verify`` da "
+"biblioteca ``standardwebhooks`` ou uma implementação da Standard Webhooks "
+"Specification (em português, \"Especificação Padrão de Webhooks\")."
 
 #: ../../admin/addons.rst:1380
 msgid ""
@@ -4409,6 +4422,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Standard Webhooks Specification <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `biblioteca Python para webhooks padrões <https://pypi.org/"
+"project/standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1389
 msgid "Customize XML output"
@@ -4869,7 +4886,7 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
-"Gira objetos de banco de dados sob qualquer uma das secções. A mais "
+"Gira objetos de base de dados sob qualquer uma das secções. A mais "
 "interessante é provavelmente :guilabel:`Traduções do Weblate`, onde pode "
 "gerir projetos traduzíveis, consulte :ref:`project` e :ref:`component`."
 
@@ -5079,6 +5096,9 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"O Weblate utiliza Django para autenticação. Isto inclui autenticação "
+"integrada baseada em palavra-passe, autenticação social e backends de "
+"autenticação de terceiros para Django."
 
 #: ../../admin/auth.rst:24
 msgid ""
@@ -5574,6 +5594,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"As dependências para autenticação SAML não estão mais incluídas nos extras "
+"padrão ``all``. Precisa incluir ``saml`` ao instalar o pacote Weblate usando "
+"pip (``uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -6354,7 +6377,7 @@ msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
-"Restaure o banco de dados do despejo de SQL posto no diretório ``backup`` no "
+"Restaure a base de dados do despejo de SQL posto no diretório ``backup`` no "
 "diretório de dados do Weblate (veja :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:189
@@ -6434,25 +6457,25 @@ msgstr ""
 
 #: ../../admin/backup.rst:240 ../../admin/install.rst:142
 msgid "Database"
-msgstr "Banco de dados"
+msgstr "Base de dados"
 
 #: ../../admin/backup.rst:242
 msgid "The actual storage location depends on your database setup."
 msgstr ""
-"O local de armazenamento real depende da configuração do seu banco de dados."
+"O local de armazenamento real depende da configuração da sua base de dados."
 
 #: ../../admin/backup.rst:246
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
-"O banco de dados é o armazenamento mais importante. Configure backups "
-"regulares do seu banco de dados. Sem o banco de dados, todas as traduções "
-"são perdidas."
+"A base de dados é o armazenamento mais importante. Configure backups "
+"regulares da sua base de dados. Sem a base de dados, todas as traduções são "
+"perdidas."
 
 #: ../../admin/backup.rst:250
 msgid "Native database backup"
-msgstr "Backup nativo do banco de dados"
+msgstr "Backup nativo da base de dados"
 
 #: ../../admin/backup.rst:252
 msgid ""
@@ -6461,7 +6484,7 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"A abordagem recomendada é gravar um despejo do banco de dados a usar "
+"A abordagem recomendada é gravar um despejo da base de dados a usar "
 "ferramentas nativas, tais como :program:`pg_dump` ou :program:`mysqldump`. "
 "Esta abordagem normalmente tem um desempenho melhor do que o backup do "
 "Django e restaura tabelas completas com todos os seus dados."
@@ -6479,7 +6502,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:261
 msgid "Django database backup"
-msgstr "Backup do banco de dados do Django"
+msgstr "Backup da base de dados do Django"
 
 #: ../../admin/backup.rst:263
 msgid ""
@@ -6487,10 +6510,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
-"Alternativamente, pode fazer backup do seu banco de dados a utilizar o "
+"Alternativamente, pode fazer backup da sua base de dados a utilizar o "
 "comando :djadmin:`django:dumpdata` do Django. Dessa forma o backup é "
-"agnóstico de banco de dados e pode ser usado caso queira alterar o backend "
-"do banco de dados."
+"agnóstico de bases de dados e pode ser usado caso queira alterar o backend "
+"da base de dados."
 
 #: ../../admin/backup.rst:267
 msgid ""
@@ -6500,11 +6523,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
-"Antes de restaurar o banco de dados, precisa usar exatamente a mesma versão "
+"Antes de restaurar a base de dados, precisa usar exatamente a mesma versão "
 "do Weblate na qual o backup foi feito. Isto é necessário, pois a estrutura "
-"do banco de dados muda entre as versões e acabaria corrompendo os dados de "
+"da base de dados muda entre as versões e acabaria corrompendo os dados de "
 "alguma forma. Depois de instalar a mesma versão, execute todas as migrações "
-"do banco de dados usando :wladmin:`migrate`."
+"da base de dados usando :wladmin:`migrate`."
 
 #: ../../admin/backup.rst:273
 msgid ""
@@ -6513,8 +6536,8 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"Depois disso, algumas entradas já serão criadas no banco de dados e as terá "
-"no backup do banco de dados também. A abordagem recomendada é apagar essas "
+"Depois disso, algumas entradas já serão criadas na base de dados e também as "
+"terá no backup da base de dados. A abordagem recomendada é apagar essas "
 "entradas manualmente a usar o shell de gestão (veja :ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:284
@@ -6570,7 +6593,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:308
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr "Backup de banco de dados PostgreSQL como :file:`database.sql`."
+msgstr "Backup da base de dados PostgreSQL como :file:`database.sql`."
 
 #: ../../admin/backup.rst:309
 msgid "Environment dump as :file:`environment.yml`."
@@ -6581,15 +6604,15 @@ msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Os backups do banco de dados são salvos como texto simples por padrão, mas "
-"eles também podem ser comprimidos ou totalmente ignorados a usar :setting:"
-"`DATABASE_BACKUP`."
+"Os backups da base de dados são gravados como texto simples por padrão, mas "
+"eles também podem ser comprimidos ou totalmente ignorados a usar "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:314
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
-"Para restaurar o backup do banco de dados, carregue-o usando ferramentas de "
+"Para restaurar o backup da base de dados, carregue-o usando ferramentas de "
 "banco de dados, por exemplo:"
 
 #: ../../admin/backup.rst:321
@@ -8708,7 +8731,7 @@ msgid ""
 "ones in the database."
 msgstr ""
 "Isto não define novos idiomas para o Weblate — apenas filtra os existentes "
-"no banco de dados."
+"na base de dados."
 
 #: ../../admin/config.rst:255 ../../faq.rst:376
 msgid ":ref:`languages`"
@@ -8875,9 +8898,9 @@ msgid ""
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
 "Alterar esta configuração afeta apenas as traduções recém alteradas. As "
-"verificações existentes ainda serão armazenadas no banco de dados. Para "
-"aplicar as alterações também às traduções armazenadas, execute: :wladmin:"
-"`updatechecks`."
+"verificações existentes ainda serão armazenadas na base de dados. Para "
+"aplicar as alterações também às traduções armazenadas, execute: "
+":wladmin:`updatechecks`."
 
 #: ../../admin/config.rst:373 ../../admin/translating.rst:88
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -9227,7 +9250,7 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
-"O padrão é `en`. O objeto de idioma correspondente precisa existir no banco "
+"O padrão é `en`. O objeto de idioma correspondente precisa existir na base "
 "de dados."
 
 #: ../../admin/config.rst:622
@@ -10903,8 +10926,8 @@ msgid ""
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
 msgstr ""
-"Controla se o banco de dados de idiomas deve ser atualizado ao executar a "
-"migração do banco de dados e está ativado por padrão. Esta configuração não "
+"Controla se a base de dados de idiomas deve ser atualizada ao executar a "
+"migração de bases de dados e está ativado por padrão. Esta configuração não "
 "tem efeito na invocação de :wladmin:`setuplang`."
 
 #: ../../admin/config.rst:1965
@@ -11261,7 +11284,7 @@ msgid ""
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
 "O Weblate extrai as alterações do repositório VCS, analisa os ficheiros de "
-"tradução e atualiza o banco de dados, consulte :ref:`update-vcs`."
+"tradução e atualiza a base de dados, consulte :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
@@ -12176,12 +12199,16 @@ msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"Todos os componentes devem residir num único projeto (vincular componente "
+"não é suficiente)."
 
 #: ../../admin/continuous.rst:565 ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Ativar :ref:`component-allow_translation_propagation` para reusar "
+"automaticamente traduções para cadeias correspondentes."
 
 #: ../../admin/continuous.rst:566
 msgid ""
@@ -12197,6 +12224,8 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"As cadeias são propagadas enquanto traduzir, cadeias carregadas a partir do "
+"repositório não são propagadas."
 
 #: ../../admin/continuous.rst:573
 msgid ""
@@ -12668,7 +12697,7 @@ msgid ""
 "PostgreSQL database server for storing all the content, see :ref:`database-"
 "setup`."
 msgstr ""
-"Servidor de banco de dados PostgreSQL para armazenar todo o conteúdo, "
+"Servidor de base de dados PostgreSQL para armazenar todo o conteúdo, "
 "consulte: :ref:`database-setup`."
 
 #: ../../admin/install.rst:145
@@ -13146,6 +13175,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"Este é um problema conhecido do pacote xmlsec. Veja https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13156,6 +13187,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Os pacotes ``lxml`` e ``xmlsec`` precisam ser compilados com base numa "
+"``libxml2``. Deve compilá-los localmente para evitar este problema:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -13312,9 +13345,9 @@ msgid ""
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
-"Quanto mais memória, melhor - ela é usada para armazenamento em cache em "
-"todos os níveis (sistema de ficheiros, banco de dados e Weblate). Para "
-"centenas de componentes de tradução, recomenda-se pelo menos 4 GB de RAM."
+"Quanto mais memória, melhor - é usada para armazenamento em cache em todos "
+"os níveis (sistema de ficheiros, base de dados e Weblate). Para centenas de "
+"componentes de tradução, recomenda-se pelo menos 4 GB de RAM."
 
 #: ../../admin/install/steps/hw.rst:27
 msgid ""
@@ -13495,7 +13528,7 @@ msgstr ""
 
 #: ../../admin/install.rst:460
 msgid "Database connections"
-msgstr "Conexões de banco de dados"
+msgstr "Conexões de base de dados"
 
 #: ../../admin/install.rst:462
 msgid ""
@@ -13506,10 +13539,10 @@ msgid ""
 "database-connections` for more info."
 msgstr ""
 "Na configuração padrão, cada processo do Weblate mantém uma conexão "
-"persistente com o banco de dados. As conexões persistentes melhoram a "
+"persistente com a base de dados. As conexões persistentes melhoram a "
 "capacidade de resposta do Weblate, mas podem exigir mais recursos do "
-"servidor do banco de dados. Consulte :setting:`django:CONN_MAX_AGE` e :ref:"
-"`django:persistent-database-connections` para obter mais informações."
+"servidor da base de dados. Consulte :setting:`django:CONN_MAX_AGE` e "
+":ref:`django:persistent-database-connections` para obter mais informações."
 
 #: ../../admin/install.rst:468
 msgid "Weblate needs at least the following number of connections:"
@@ -13538,7 +13571,7 @@ msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account following situations:"
 msgstr ""
-"O limite atual para o número de conexões do banco de dados precisa ser maior "
+"O limite atual para o número de conexões da base de dados precisa ser maior "
 "para contemplar as seguintes situações:"
 
 #: ../../admin/install.rst:480
@@ -13566,8 +13599,8 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
-"PostgreSQL é geralmente a melhor escolha para sites baseados em Django. É o "
-"banco de dados de referência usado para implementar a camada de banco de "
+"PostgreSQL é geralmente a melhor escolha para sites baseados em Django. É a "
+"base de dados de referência usado para implementar a camada de bases de "
 "dados Django."
 
 #: ../../admin/install.rst:498
@@ -13585,14 +13618,14 @@ msgstr ":ref:`django:postgresql-notes`"
 
 #: ../../admin/install.rst:508 ../../admin/upgrade.rst:149
 msgid "Creating a database in PostgreSQL"
-msgstr "Criar um banco de dados no PostgreSQL"
+msgstr "Criar uma base de dados no PostgreSQL"
 
 #: ../../admin/install.rst:510
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr ""
-"Geralmente é uma boa ideia executar o Weblate num banco de dados separado e "
+"Geralmente é uma boa ideia executar o Weblate numa base de dados separado e "
 "separar a conta do utilizador:"
 
 #: ../../admin/install.rst:525
@@ -13626,16 +13659,16 @@ msgid ""
 "environment. Please set ``ALTER_ROLE`` to change the name of the role "
 "Weblate should alter during the database migration."
 msgstr ""
-"A migração do banco de dados executa `ALTER ROLE <https://www.postgresql.org/"
-"docs/16/sql-alterrole.html>`_ na função de banco de dados usada pelo "
-"Weblate. Na maioria dos casos, o nome da função corresponde ao nome de "
-"utilizador. Em configurações mais complexas, o nome da função é diferente do "
-"nome de utilizador e obterá um erro sobre a função não existente durante a "
-"migração do banco de dados (``psycopg2.errors.UndefinedObject: role "
+"A migração da base de dados executa `ALTER ROLE <https://www.postgresql.org/"
+"docs/16/sql-alterrole.html>`_ na função de base de dados usada pelo Weblate. "
+"Na maioria dos casos, o nome da função corresponde ao nome de utilizador. Em "
+"configurações mais complexas, o nome da função é diferente do nome de "
+"utilizador e obterá um erro sobre a função não existente durante a migração "
+"da base de dados (``psycopg2.errors.UndefinedObject: role "
 "\"weblate@hostname\" does not exist``). Isto é conhecido por acontecer com o "
 "Azure Database para PostgreSQL, mas não está limitado a este ambiente. "
 "Defina ``ALTER_ROLE`` para alterar o nome da função que o Weblate deve "
-"alterar durante a migração do banco de dados."
+"alterar durante a migração da base de dados."
 
 #: ../../admin/install.rst:577 ../../admin/install.rst:654
 #: ../../admin/install.rst:693
@@ -13665,8 +13698,8 @@ msgid ""
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
 "Alguns recursos do Weblate terão melhor desempenho com :ref:`postgresql`. "
-"Isso inclui a memória de pesquisa e tradução, que ambos utilizam recursos de "
-"texto completo no banco de dados e a implementação do PostgreSQL é superior."
+"Isto inclui a memória de pesquisa e tradução, que ambos utilizam recursos de "
+"texto completo na base de dados e a implementação do PostgreSQL é superior."
 
 #: ../../admin/install.rst:595
 msgid ""
@@ -13851,6 +13884,9 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Várias funcionalidades do Weblate dependem da transmissão correta de "
+"cabeçalhos HTTP. Ao usar proxy reverso, certifique-se de que as informações "
+"necessárias sejam transmitidas corretamente."
 
 #: ../../admin/install.rst:735
 #, fuzzy
@@ -13879,6 +13915,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
+"O Weblate analisa o endereço IP do ``REMOTE_ADDR``, que é definido pelo "
+"manipulador WSGI. Ele pode estar vazio (ao usar socket para WSGI) ou conter "
+"um endereço de proxy reverso, então o Weblate precisa de um cabeçalho HTTP "
+"adicional com um endereço IP do cliente."
 
 #: ../../admin/install.rst:743
 msgid ""
@@ -13888,6 +13928,11 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
+"Ativar :setting:`IP_BEHIND_REVERSE_PROXY` deve ser suficiente para as "
+"configurações mais comuns, mas talvez precise ajustar "
+":setting:`IP_PROXY_HEADER` e :setting:`IP_PROXY_OFFSET` também (use "
+":envvar:`WEBLATE_IP_PROXY_HEADER` e :envvar:`WEBLATE_IP_PROXY_OFFSET` no "
+"contentor do Docker)."
 
 #: ../../admin/install.rst:750
 msgid ""
@@ -13895,6 +13940,9 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Esta configuração não pode ser ativada por padrão, pois isso permitiria a "
+"falsificação de endereço IP em instalações que não têm um proxy reverso "
+"configurado corretamente."
 
 #: ../../admin/install.rst:754
 #, fuzzy
@@ -14055,8 +14103,8 @@ msgid ""
 "clearsessions` to remove stale session data from the database."
 msgstr ""
 "Configure como as suas sessões serão armazenadas. Caso mantenha o mecanismo "
-"de backend do banco de dados predefinido, deve agendar: :command:`weblate "
-"clearsessions` para remover dados de sessão obsoletos do banco de dados."
+"de backend da base de dados predefinido, deve agendar: :command:`weblate "
+"clearsessions` para remover dados de sessão obsoletos da base de dados."
 
 #: ../../admin/install.rst:861
 msgid ""
@@ -14174,9 +14222,9 @@ msgid ""
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
-"Depois que a sua configuração estiver pronta, pode executar :wladmin:"
-"`migrate` para criar a estrutura do banco de dados. Agora deve ser capaz de "
-"criar projetos de tradução usando a interface administrativa."
+"Depois que a sua configuração estiver pronta, pode executar "
+":wladmin:`migrate` para criar a estrutura da base de dados. Agora deve ser "
+"capaz de criar projetos de tradução usando a interface administrativa."
 
 #: ../../admin/install.rst:943
 msgid ""
@@ -14359,7 +14407,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1079
 msgid "Use a powerful database engine"
-msgstr "Usar um poderoso mecanismo de banco de dados"
+msgstr "Usar um poderoso mecanismo de bases de dados"
 
 #: ../../admin/install.rst:1081
 msgid ""
@@ -14374,7 +14422,7 @@ msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
-"Use um local adjacente para executar o servidor de banco de dados, caso "
+"Use um local adjacente para executar o servidor de bases de dados, caso "
 "contrário, o desempenho ou confiabilidade da rede podem arruinar a sua "
 "experiência com o Weblate."
 
@@ -14383,7 +14431,7 @@ msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
-"Verifique o desempenho do servidor de banco de dados ou ajuste a sua "
+"Verifique o desempenho do servidor de bases de dados ou ajuste a sua "
 "configuração, por exemplo, usando `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1090
@@ -14588,7 +14636,7 @@ msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "wladmin:`cleanuptrans`."
 msgstr ""
-"Tarefas de manutenção de texto completo e banco de dados (tarefas diárias e "
+"Tarefas de manutenção de texto completo e base de dados (tarefas diárias e "
 "semanais), consulte :wladmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:1254
@@ -14756,7 +14804,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1365
 msgid "Database server (see :ref:`database-setup`)"
-msgstr "Servidor de banco de dados (consulte :ref:`database-setup`)"
+msgstr "Servidor de bases de dados (consulte :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1366
 msgid "Cache server (see :ref:`production-cache`)"
@@ -14783,8 +14831,8 @@ msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
-"Existem algumas dependências entre os serviços, por exemplo, o cache e o "
-"banco de dados devem estar em execução ao iniciar os processos de Celery ou "
+"Existem algumas dependências entre os serviços, por exemplo, o cache e a "
+"base de dados devem estar em execução ao iniciar os processos de Celery ou "
 "uwsgi."
 
 #: ../../admin/install.rst:1376
@@ -15265,7 +15313,7 @@ msgid ""
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
 "O Weblate vem com configuração embutida para tarefas agendadas. O "
-"agendamento de tarefas é armazenado no banco de dados e as tarefas são "
+"agendamento de tarefas é armazenado na base de dados e as tarefas são "
 "executadas pelo daemon beat do Celery."
 
 #: ../../admin/install.rst:1695
@@ -15495,7 +15543,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1843
 msgid "Migrating database"
-msgstr "Migrando banco de dados"
+msgstr "Migrar bases de dados"
 
 #: ../../admin/install.rst:1845
 msgid ""
@@ -15505,11 +15553,11 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
-"Dependendo do back-end do seu banco de dados, pode ter várias opções para "
+"Dependendo do back-end da sua base de dados, pode ter várias opções para "
 "migrar o banco de dados. A abordagem mais direta é usar ferramentas nativas "
-"de banco de dados, pois são geralmente as mais eficazes (por exemplo, :"
-"command:`mysqldump` ou :command:`pg_dump`). Como alternativa, pode usar a "
-"replicação caso o seu banco de dados o suporte."
+"de bases de dados, pois são geralmente as mais eficazes (por exemplo, "
+":command:`mysqldump` ou :command:`pg_dump`). Como alternativa, pode usar a "
+"replicação caso a sua base de dados o suporte."
 
 #: ../../admin/install.rst:1853
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -15552,9 +15600,9 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Redis as "
 "a caching backend."
 msgstr ""
-"Com a implantação do Weblate dockerizada, pode ter a sua instância Weblate "
+"Com a implantação do Weblate dockerizada, pode fazer a sua instância Weblate "
 "pessoal em funcionamento em segundos. Todas as dependências do Weblate já "
-"estão incluídas. PostgreSQL é configurado como o banco de dados padrão e o "
+"estão incluídas. PostgreSQL é configurado como a base de dados padrão e o "
 "Redis como backend de cache."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
@@ -15945,7 +15993,7 @@ msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
-"O banco de dados do Weblate deve ser migrado automaticamente na primeira "
+"A base de dados do Weblate deve ser migrada automaticamente na primeira "
 "inicialização e não deve haver necessidade de ações manuais adicionais."
 
 #: ../../admin/install/docker.rst:256
@@ -15995,11 +16043,11 @@ msgstr "Pare o contentor do Weblate:"
 
 #: ../../admin/install/docker.rst:283
 msgid "Backup the database:"
-msgstr "Faça backup do banco de dados:"
+msgstr "Faça backup da base de dados:"
 
 #: ../../admin/install/docker.rst:289
 msgid "Stop the database container:"
-msgstr "Pare o contentor de banco de dados:"
+msgstr "Pare o contentor da base de dados:"
 
 #: ../../admin/install/docker.rst:295
 msgid "Remove the PostgreSQL volume:"
@@ -16020,16 +16068,16 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:309
 msgid "Start the database container:"
-msgstr "Inicie o contentor de banco de dados:"
+msgstr "Inicie o contentor da base de dados:"
 
 #: ../../admin/install/docker.rst:315
 msgid "Restore the database from the backup:"
-msgstr "Restaure o banco de dados a partir do backup:"
+msgstr "Restaure a base de dados a partir do backup:"
 
 #: ../../admin/install/docker.rst:323 ../../admin/install/docker.rst:333
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
-"Verifique se o nome do banco de dados corresponde a :envvar:`POSTGRES_DB`."
+"Verifique se o nome da base de dados corresponde a :envvar:`POSTGRES_DB`."
 
 #: ../../admin/install/docker.rst:325
 msgid ""
@@ -16239,7 +16287,7 @@ msgstr "Para obter um registo mais silencioso, use ``ERROR`` ou ``WARNING``."
 
 #: ../../admin/install/docker.rst:498
 msgid "Configures the logging of the database queries verbosity."
-msgstr "Configura o log da verbosidade das consultas ao banco de dados."
+msgstr "Configura o log da verbosidade das consultas à base de dados."
 
 #: ../../admin/install/docker.rst:504
 msgid ""
@@ -17148,14 +17196,14 @@ msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1479
 msgid "PostgreSQL database setup"
-msgstr "Configuração de banco de dados PostgreSQL"
+msgstr "Configuração da base de dados PostgreSQL"
 
 #: ../../admin/install/docker.rst:1481
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
-"O banco de dados é criado por :file:`docker-compose.yml`, então essas "
+"A base de dados é criada por :file:`docker-compose.yml`, então essas "
 "configurações afetam os contentores Weblate e PostgreSQL."
 
 #: ../../admin/install/docker.rst:1484
@@ -17176,7 +17224,7 @@ msgstr "Nome de utilizador do PostgreSQL."
 
 #: ../../admin/install/docker.rst:1500
 msgid "PostgreSQL database name."
-msgstr "Nome do banco de dados PostgreSQL."
+msgstr "Nome da base de dados PostgreSQL."
 
 #: ../../admin/install/docker.rst:1504
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
@@ -17202,8 +17250,8 @@ msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
-"Configura o nome da função PostgreSQL para alterar durante a migração de "
-"banco de dados, consulte :ref:`config-postgresql`."
+"Configura o nome da função PostgreSQL para alterar durante a migração da "
+"base de dados, consulte :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1519
 msgid "Defaults to :envvar:`POSTGRES_USER`."
@@ -17214,15 +17262,15 @@ msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
-"O tempo de vida de uma conexão de banco de dados, como um número inteiro de "
-"segundos. Use 0 para fechar as conexões do banco de dados no final de cada "
+"O tempo de vida de uma conexão à base de dados, como um número inteiro de "
+"segundos. Use 0 para fechar as conexões à base de dados no final de cada "
 "requisição."
 
 #: ../../admin/install/docker.rst:1530
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
-"O comportamento padrão é ter conexões de banco de dados persistentes "
+"O comportamento padrão é ter conexões à base de dados persistentes "
 "ilimitadas."
 
 #: ../../admin/install/docker.rst:1532
@@ -17231,8 +17279,8 @@ msgid ""
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
 "Ativar a persistência da conexão normalmente causará uma conexão mais aberta "
-"com o banco de dados. Por favor, ajuste a sua configuração do banco de dados "
-"antes de ativar."
+"à base de dados. Por favor, ajuste a sua configuração da base de dados antes "
+"de ativar."
 
 #: ../../admin/install/docker.rst:1544
 msgid ""
@@ -17245,8 +17293,8 @@ msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
-"Desativa os cursores do lado do servidor no banco de dados. Isso é "
-"necessário em algumas configurações do :command:`pgbouncer`."
+"Desativa os cursores do lado do servidor na base de dados. Isso é necessário "
+"em algumas configurações do :command:`pgbouncer`."
 
 #: ../../admin/install/docker.rst:1562
 msgid ""
@@ -17265,8 +17313,8 @@ msgid ""
 "connection manually."
 msgstr ""
 "Defina como false para desativar a configuração baseada no ambiente da "
-"conexão com o banco de dados. Use :ref:`docker-settings-override` para "
-"configurar manualmente a conexão com o banco de dados."
+"conexão com a base de dados. Use :ref:`docker-settings-override` para "
+"configurar manualmente a conexão com a base de dados."
 
 #: ../../admin/install/docker.rst:1574
 msgid "MySQL or MariaDB server"
@@ -17280,8 +17328,8 @@ msgid ""
 msgstr ""
 "O MySQL e o MariaDB não podem ser configurados por meio de variáveis de "
 "ambiente. Consulte :ref:`mysql` para obter informações sobre como usá-las "
-"com o Weblate. Use :envvar:`WEBLATE_DATABASES` para configurar a conexão do "
-"banco de dados manualmente."
+"com o Weblate. Use :envvar:`WEBLATE_DATABASES` para configurar a conexão à "
+"base de dados manualmente."
 
 #: ../../admin/install/docker.rst:1581
 msgid "Database backup settings"
@@ -17296,8 +17344,8 @@ msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
-"Configura o despejo diário do banco de dados a usar :setting:"
-"`DATABASE_BACKUP`. O padrão é ``plain``."
+"Configura o despejo diário da base de dados a usar :setting:`DATABASE_BACKUP`"
+". O padrão é ``plain``."
 
 #: ../../admin/install/docker.rst:1592
 msgid "Caching server setup"
@@ -17325,7 +17373,7 @@ msgstr "A porta do servidor Redis. O padrão é ``6379``."
 
 #: ../../admin/install/docker.rst:1609
 msgid "The Redis database number, defaults to ``1``."
-msgstr "O número do banco de dados Redis, o padrão é ``1``."
+msgstr "O número da base de dados Redis, o padrão é ``1``."
 
 #: ../../admin/install/docker.rst:1613
 msgid "The Redis server password, not used by default."
@@ -17702,7 +17750,7 @@ msgid ""
 "started prior others."
 msgstr ""
 "Agendador de tarefas do Celery, apenas uma instância deve estar em execução. "
-"Este contentor também é responsável pelas migrações da estrutura do banco de "
+"Este contentor também é responsável pelas migrações da estrutura da base de "
 "dados e deve ser iniciado antes dos demais."
 
 #: ../../admin/install/docker.rst:1973
@@ -18156,7 +18204,7 @@ msgid ""
 msgstr ""
 "Com o chart de Kubernetes Helm, pode pôr a sua instância pessoal do Weblate "
 "em funcionamento em segundos. Todas as dependências do Weblate já estão "
-"incluídas. PostgreSQL é configurado como o banco de dados padrão e "
+"incluídas. PostgreSQL é configurado como a base de dados padrão e "
 "declarações de volume persistentes são usadas."
 
 #: ../../admin/install/kubernetes.rst:14
@@ -18188,7 +18236,7 @@ msgid ""
 msgstr ""
 "Com o modelo OpenShift Weblate, pode pôr a sua instância pessoal do Weblate "
 "em funcionamento em segundos. Todas as dependências do Weblate já estão "
-"incluídas. PostgreSQL é configurado como o banco de dados padrão e "
+"incluídas. PostgreSQL é configurado como a base de dados padrão e "
 "declarações de volume persistentes são usadas."
 
 #: ../../admin/install/openshift.rst:9
@@ -18737,8 +18785,8 @@ msgid ""
 msgstr ""
 "Definições para cerca de 650 idiomas estão incluídas no Weblate e a lista é "
 "estendida a cada versão. Sempre que o Weblate é atualizado (mais "
-"especificamente sempre que :wladmin:`migrate` é executado, veja :ref:"
-"`generic-upgrade-instructions`) o banco de dados de idiomas é atualizado "
+"especificamente sempre que :wladmin:`migrate` é executado, veja :ref"
+":`generic-upgrade-instructions`) a base de dados de idiomas é atualizado "
 "para incluir todas as definições de idioma enviadas no Weblate."
 
 #: ../../admin/languages.rst:20
@@ -19145,7 +19193,7 @@ msgstr ""
 "100% têm prioridade sobre os serviços de tradução automática. Se for "
 "encontrada uma correspondência de 100% na memória de tradução, nenhuma "
 "tradução automática será executada. Se ocorrerem várias correspondências de "
-"100%, será usada a primeira retornada pelo banco de dados."
+"100%, a primeira retornada pela base de dados será usada."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -19643,7 +19691,7 @@ msgstr "``next_gen``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Usar modelo de nova geração"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
@@ -21406,7 +21454,7 @@ msgstr "importusers"
 #: ../../admin/management.rst:559
 msgid "Imports users from JSON dump of the Django auth_users database."
 msgstr ""
-"Importa utilizadores do despejo JSON do banco de dados auth_users do Django."
+"Importa utilizadores do despejo JSON da base de dados auth_users do Django."
 
 #: ../../admin/management.rst:564
 msgid ""
@@ -21653,8 +21701,8 @@ msgid ""
 "Migrates database to current Weblate schema. The command line options are "
 "described at Django :djadmin:`django:migrate`."
 msgstr ""
-"Migra o banco de dados para o esquema atual do Weblate. As opções de linha "
-"de comando são descritas em Django :djadmin:`django:migrate`."
+"Migra a base de dados para o esquema atual do Weblate. As opções de linha de "
+"comando são descritas em Django :djadmin:`django:migrate`."
 
 #: ../../admin/management.rst:773
 msgid ""
@@ -22116,7 +22164,7 @@ msgstr ""
 msgid ""
 "Export existing repositories by migrating your database after installation:"
 msgstr ""
-"Exporte repositórios existentes migrando seu banco de dados após a "
+"Exporte repositórios existentes migrando a sua base de dados após a "
 "instalação:"
 
 #: ../../admin/optionals.rst:30
@@ -22195,8 +22243,8 @@ msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
-"Execute a migração do banco de dados para instalar opcionalmente estruturas "
-"de banco de dados adicionais para o módulo:"
+"Execute a migração da base de dados para instalar opcionalmente estruturas "
+"de bases de dados adicionais para o módulo:"
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
@@ -25035,8 +25083,8 @@ msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
-"As operações de disco podem ser um gargalo se houver muitas cadeias a serem "
-"processadas – o disco é enviado pelo Weblate e pelo banco de dados."
+"As operações de disco podem ser um gargalo se houverem muitas cadeias a "
+"serem processadas – o disco é enviado pelo Weblate e pela base de dados."
 
 #: ../../admin/projects.rst:1240
 msgid ""
@@ -25596,9 +25644,9 @@ msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"Sempre faça backup completo do banco de dados antes de atualizar, para que "
-"possa reverter o banco de dados se a atualização falhar, consulte :doc:"
-"`backup`."
+"Sempre faça um backup completo da base de dados antes de atualizar, para que "
+"possa reverter a base de dados se a atualização falhar, consulte "
+":doc:`backup`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
@@ -25606,8 +25654,8 @@ msgid ""
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
 "Pare os processos WSGI e Celery para evitar que processos antigos continuem "
-"em execução durante a atualização. Caso contrário, mudanças incompatíveis no "
-"banco de dados podem ocorrer."
+"em execução durante a atualização. Caso contrário, mudanças incompatíveis na "
+"base de dados podem ocorrer."
 
 #: ../../admin/upgrade.rst:39
 msgid "Upgrade Weblate"
@@ -25651,7 +25699,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:78
 msgid "Upgrade the database:"
-msgstr "Atualizar o banco de dados:"
+msgstr "Atualizar a base de dados:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
@@ -25760,7 +25808,7 @@ msgid ""
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
-"Se executar o Weblate com um banco de dados diferente do PostgreSQL, "
+"Se executar o Weblate com uma base de dados diferente do PostgreSQL, "
 "considere a possibilidade de migrar para o PostgreSQL para obter melhor "
 "desempenho, executando as etapas a seguir. Lembre-se de interromper os "
 "servidores Web e Celery antes, caso contrário, poderá acabar com dados "
@@ -25771,7 +25819,7 @@ msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
 msgstr ""
-"Normalmente, é uma boa ideia executar o Weblate num banco de dados separado "
+"Normalmente, é uma boa ideia executar o Weblate numa base de dados separada "
 "e numa conta de utilizador separada:"
 
 #: ../../admin/upgrade.rst:167
@@ -25784,16 +25832,16 @@ msgid ""
 "You can use it to migrate your Weblate database."
 msgstr ""
 "O `pgloader`_ é uma ferramenta de migração genérica para migrar dados para o "
-"PostgreSQL. Pode usá-lo para migrar o seu banco de dados do Weblate."
+"PostgreSQL. Pode usá-lo para migrar a sua base de dados do Weblate."
 
 #: ../../admin/upgrade.rst:172
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
 msgstr ""
-"Ajuste o seu :file:`settings.py` para usar o PostgreSQL como banco de dados."
+"Ajuste o seu :file:`settings.py` para usar o PostgreSQL como base de dados."
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr "Migre o esquema no banco de dados PostgreSQL:"
+msgstr "Migre o esquema na base de dados PostgreSQL:"
 
 #: ../../admin/upgrade.rst:181
 msgid ""
@@ -29548,6 +29596,8 @@ msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
+":http:post:`/api/groups/` oferece suporte à criação de equipas com escopo de "
+"projeto por utilizadores sem permissão de superusuários."
 
 #: ../../changes.rst:80
 #, fuzzy
@@ -30017,7 +30067,7 @@ msgstr "O registo agora não permite domínios de e-mail descartáveis."
 msgid ""
 "The database migration updates indexes and this might take considerable time."
 msgstr ""
-"A migração do banco de dados atualiza os índices e isto pode levar um tempo "
+"A migração da base de dados atualiza os índices e isto pode levar um tempo "
 "considerável."
 
 #: ../../changes.rst:260
@@ -30936,7 +30986,7 @@ msgstr "Lançado em 16 de novembro de 2023."
 #: ../../changes.rst:591
 msgid "Update outdated plural definitions during the database migration."
 msgstr ""
-"Atualiza as definições plurais desatualizadas durante a migração do banco de "
+"Atualiza as definições plurais desatualizadas durante a migração da base de "
 "dados."
 
 #: ../../changes.rst:592
@@ -32115,8 +32165,8 @@ msgstr "Lançado em 22 de fevereiro de 2024."
 #: ../../changes.rst:1062
 msgid "Displaying debugging page in case of database connection issues."
 msgstr ""
-"Visualização da página de depuração em caso de problemas de conexão com o "
-"banco de dados."
+"Visualização da página de depuração em caso de problemas de conexão com a "
+"base de dados."
 
 #: ../../changes.rst:1063 ../../changes.rst:1079
 msgid "Gracefully handle migration with duplicate built-in teams."
@@ -32443,7 +32493,7 @@ msgstr "Adicionado hífen suave à barra de ferramentas de caracteres especiais.
 #: ../../changes.rst:1199
 msgid "Database backups compatibility with Alibaba Cloud Database PolarDB."
 msgstr ""
-"Compatibilidade de backups para banco de dados com PolarDB do Alibaba Cloud "
+"Compatibilidade de backups para bases de dados com PolarDB do Alibaba Cloud "
 "Database."
 
 #: ../../changes.rst:1200
@@ -32819,8 +32869,8 @@ msgid ""
 "Weblate now defaults to persistent database connections in :file:"
 "`settings_example.py` and Docker."
 msgstr ""
-"O Weblate agora tem como padrão conexões de banco de dados persistentes em :"
-"file:`settings_example.py` e Docker."
+"O Weblate agora tem como padrão conexões de bases de dados persistentes em "
+":file:`settings_example.py` e Docker."
 
 #: ../../changes.rst:1324
 #, fuzzy
@@ -34061,7 +34111,7 @@ msgstr "Lançado em 16 de novembro de 2012."
 
 #: ../../changes/v1.rst:132
 msgid "Compatibility with PostgreSQL database backend."
-msgstr "Compatibilidade com backend de banco de dados PostgreSQL."
+msgstr "Compatibilidade com backend de bases de dados PostgreSQL."
 
 #: ../../changes/v1.rst:133
 msgid "Removes languages removed in upstream git repository."
@@ -36840,7 +36890,7 @@ msgstr "Corrigidas algumas restrições de requisitos."
 
 #: ../../changes/v3.rst:243
 msgid "Updated language database."
-msgstr "Atualizado o banco de dados do idioma."
+msgstr "Atualizado a base de dados de idiomas."
 
 #: ../../changes/v3.rst:244 ../../changes/v3.rst:335 ../../changes/v3.rst:482
 #: ../../changes/v4.rst:123
@@ -38159,9 +38209,9 @@ msgid ""
 "switching to PostgreSQL, see :ref:`database-migration`."
 msgstr ""
 "A migração no MySQL tentará carregar todas as métricas na memória devido à "
-"limitação do driver do banco de dados Python. Talvez seja necessário podar "
-"as métricas antes da migração se quiser continuar usando o MySQL. Considere "
-"mudar para o PostgreSQL, consulte :ref:`database-migration`."
+"limitação do driver da base de dados Python. Talvez seja necessário podar as "
+"métricas antes da migração se quiser continuar usar o MySQL. Considere mudar "
+"para o PostgreSQL, consulte :ref:`database-migration`."
 
 #: ../../changes/v4.rst:107
 #, fuzzy
@@ -38329,7 +38379,7 @@ msgstr "Melhorado o desempenho para algumas traduções monolíngues."
 #: ../../changes/v4.rst:157
 msgid "Celery beat is now storing the tasks schedule in the database."
 msgstr ""
-"O beat do Celery agora armazena o cronograma de tarefas no banco de dados."
+"O beat do Celery agora armazena o cronograma de tarefas na base de dados."
 
 #: ../../changes/v4.rst:158
 #, fuzzy
@@ -38395,7 +38445,7 @@ msgid ""
 "``CELERY_BEAT_SCHEDULER`` and :setting:`django:INSTALLED_APPS` need to be "
 "changed for that."
 msgstr ""
-"O beat do Celery agora armazena a programação de tarefas no banco de dados. "
+"O beat do Celery agora armazena a programação de tarefas na base de dados. "
 "``CELERY_BEAT_SCHEDULER`` e :setting:`django:INSTALLED_APPS` precisam ser "
 "alterados para isso."
 
@@ -38665,7 +38715,7 @@ msgid ""
 "The database migration make take hours on larger instances due to recreating "
 "some of the indexes."
 msgstr ""
-"A migração do banco de dados pode levar horas em instâncias maiores devido à "
+"A migração da base de dados pode levar horas em instâncias maiores devido à "
 "recriação de alguns dos índices."
 
 #: ../../changes/v4.rst:246
@@ -39158,7 +39208,7 @@ msgid ""
 msgstr ""
 "Os serviços de tradução automática agora são configurados usando a interface "
 "do utilizador, as configurações do ficheiro de configuração serão importadas "
-"durante a migração do banco de dados."
+"durante a migração da base de dados."
 
 #: ../../changes/v4.rst:387
 msgid "Weblate 4.12.2"
@@ -41361,7 +41411,7 @@ msgid ""
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
-"A migração do banco de dados para 4.3 pode demorar, a depender da quantidade "
+"A migração da base de dados para 4.3 pode demorar, a depender da quantidade "
 "de cadeias que está a traduzir (espere cerca de uma hora de tempo de "
 "migração por 100.000 cadeias fonte)."
 
@@ -41631,8 +41681,8 @@ msgid ""
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
 msgstr ""
-"As chaves para formatos baseados em JSON não incluem mais um ponto inicial. "
-"As cadeias são ajustadas durante a migração do banco de dados, mas os "
+"As chaves para formatos baseados em JSON já não incluem um ponto inicial. As "
+"cadeias são ajustadas durante a migração da base de dados, mas os "
 "componentes externos podem precisar de ajustes no caso de depender de chaves "
 "nas exportações ou API."
 
@@ -43061,9 +43111,9 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
-"Caso o desempenho lento esteja vinculado ao banco de dados, também pode "
-"ativar o log de todas as consultas do banco de dados usando a seguinte "
-"configuração após ativar :setting:`DEBUG`:"
+"Caso o desempenho lento esteja vinculado à base de dados, também pode ativar "
+"o log de todas as consultas da base de dados usando a seguinte configuração "
+"após ativar :setting:`DEBUG`:"
 
 #: ../../contributing/documentation.rst:2
 msgid "Contribute to Weblate documentation"
@@ -44701,12 +44751,11 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
-"Precisará de um servidor de banco de dados (PostgreSQL) a ser usado para os "
-"testes. Por padrão, o Django cria um banco de dados separado para executar "
+"Precisará de um servidor de bases de dados (PostgreSQL) a ser usado para os "
+"testes. Por padrão, o Django cria uma base de dados separada para executar "
 "testes com o prefixo ``test_``, então no caso que as suas configurações "
-"estarem configuradas para usar ``weblate``, os testes usarão o banco de "
-"dados ``test_weblate``. Veja :ref:`database-setup` para instruções de "
-"configuração."
+"estarem configuradas para usar ``weblate``, os testes usarão a base de dados "
+"``test_weblate``. Veja :ref:`database-setup` para instruções de configuração."
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -46118,8 +46167,8 @@ msgid ""
 "exporter` is turned on) as an additional remote repository and fetch "
 "translation updates from it."
 msgstr ""
-"O Weblate armazena cadeias atualizadas num banco de dados e as envia para um "
-"repositório de controlo de versão local. Pode adicionar um repositório "
+"O Weblate armazena cadeias atualizadas numa base de dados e envia-as para um "
+"repositório de controle de versão local. Pode adicionar um repositório "
 "Weblate (quando :ref:`git-exporter` estiver ativado) como um repositório "
 "remoto adicional e buscar atualizações de tradução dele."
 
@@ -59460,8 +59509,8 @@ msgid ""
 "different extensions, please consult the database documentation below for "
 "more details."
 msgstr ""
-"As expressões regulares são avaliadas pelo backend do banco de dados e podem "
-"usar complementos diferentes. Consulte a documentação do banco de dados "
+"As expressões regulares são avaliadas pelo backend da base de dados e podem "
+"usar complementos diferentes. Consulte a documentação da base de dados "
 "abaixo para obter mais pormenores."
 
 #: ../../user/search.rst:193
@@ -59470,9 +59519,9 @@ msgid ""
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default "
 "database engine for Weblate)"
 msgstr ""
-"`Pormenores das expressões regulares do PostgreSQL <https://www.postgresql."
-"org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (este é o "
-"mecanismo de banco de dados padrão para Weblate)"
+"`Pormenores das expressões regulares do PostgreSQL <https://"
+"www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-"
+"DETAILS>`_ (este é o mecanismo de bases de dados padrão para Weblate)"
 
 #: ../../user/search.rst:194
 msgid ""
@@ -59626,6 +59675,10 @@ msgid ""
 "ago` can be used as values in the DATETIME fields. Only English phrases are "
 "supported here."
 msgstr ""
+"Em vez de usar valores DATETIME como MM-DD-YYYY, uma cadeia contendo um "
+"advérbio de tempo como :samp:`yesterday`, :samp:`last month` e :samp:`2 days "
+"ago` pode ser usada como valores nos campos DATETIME. Somente frases em "
+"inglês são suportadas aqui."
 
 #: ../../user/search.rst:262
 msgid "``changed:>=\"2 weeks ago\"``"

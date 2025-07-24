@@ -310,11 +310,11 @@ The following subdirectories usually exist:
 CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, CSP_FORM_SRC
 ---------------------------------------------------------------------------------------
 
-Customize :http:header:`Content-Security-Policy` header for Weblate. The header is
+Customize the :http:header:`Content-Security-Policy` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
 (Matomo, Google Analytics, Sentry, …).
 
-All these default to empty list.
+All these default to an empty list.
 
 **Example:**
 
