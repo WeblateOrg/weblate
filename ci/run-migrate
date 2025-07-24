@@ -87,8 +87,8 @@ check
 semver_compare "$1" "<" "5.12"
 before_5_12=$?
 if [ "$before_5_12" -eq 0 ]; then
-	# pending migration test
-	./manage.py shell <<EOF
+    # pending migration test
+    ./manage.py shell << EOF
 from django.contrib.auth import get_user_model
 from weblate.trans.models import Unit, Change
 from weblate.utils.state import STATE_TRANSLATED
@@ -103,9 +103,9 @@ Change.objects.create(translation=unit.translation, user=user, action=1, unit=un
 unit.pending = True
 unit.save()
 EOF
-	check
-	# Create addons with different scopes to test migration to file_format_params
-	./manage.py shell <<EOF
+    check
+    # Create addons with different scopes to test migration to file_format_params
+    ./manage.py shell << EOF
 from weblate.addons.models import Addon
 Addon.objects.bulk_create([
 	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
@@ -117,7 +117,7 @@ Addon.objects.bulk_create([
 ])
 EOF
 
-	check
+    check
 fi
 
 git reset --hard
@@ -135,8 +135,8 @@ check
 
 # Check migrated pending unit
 if [ "$before_5_12" -eq 0 ]; then
-	# pending migration test
-	uv run --all-extras ./manage.py shell <<EOF
+    # pending migration test
+    uv run --all-extras ./manage.py shell << EOF
 from weblate.trans.models import PendingUnitChange
 
 change = PendingUnitChange.objects.get()
@@ -157,9 +157,9 @@ if change.source_unit_explanation != unit.source_unit.explanation:
     errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
 assert not errors, "\n".join(errors)
 EOF
-	check
-	# check that relevant addon parameters have been migrated to file_format_params
-	./manage.py shell <<EOF
+    check
+    # check that relevant addon parameters have been migrated to file_format_params
+    ./manage.py shell << EOF
 from weblate.addons.models import Addon
 from weblate.trans.models import Component
 file_format_params = Component.objects.get(pk=1).file_format_params
@@ -171,5 +171,5 @@ assert file_format_params['po_line_wrap'] == -1
 assert file_format_params['po_keep_previous'] is False
 assert file_format_params['po_no_location'] is True
 EOF
-	check
+    check
 fi
