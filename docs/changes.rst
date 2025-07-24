@@ -20,7 +20,7 @@ Weblate 5.13
 * Reorganized navigation menu.
 * When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
 * Avatars for API and internal accounts.
-* Creating pull requests to remote repositories is no longer blocked by merge conflicts.
+* Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
 
 .. rubric:: Bug fixes
 
