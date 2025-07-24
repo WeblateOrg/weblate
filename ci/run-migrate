@@ -107,16 +107,18 @@ EOF
     # Create addons with different scopes to test migration to file_format_params
     ./manage.py shell << EOF
 from weblate.addons.models import Addon
+from weblate.trans.models import Component, Project
+component = Component.objects.get(pk=1)
+project = Project.objects.get(pk=1)
 Addon.objects.bulk_create([
 	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
-	Addon(project_id=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
-	Addon(component_id=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
+	Addon(project=project, name="weblate.gettext.msgmerge", configuration={"width": -1}),
+	Addon(component=component, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
 	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
-	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
-	Addon(component_id=1, name="weblate.json.customize", configuration={"style": "spaces"}),
+	Addon(project=project, name="weblate.yaml.customize", configuration={"indent": 2}),
+	Addon(component=component, name="weblate.json.customize", configuration={"style": "spaces"}),
 ])
 EOF
-
     check
 fi
 
