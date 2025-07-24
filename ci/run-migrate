@@ -85,9 +85,8 @@ check
 
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
-before_5_12=$?
-if [ "$before_5_12" -eq 0 ]; then
-    # pending migration test
+pending_migration_test=$?
+if [ "$pending_migration_test" -eq 0 ]; then
     ./manage.py shell << EOF
 from django.contrib.auth import get_user_model
 from weblate.trans.models import Unit, Change
@@ -104,19 +103,22 @@ unit.pending = True
 unit.save()
 EOF
     check
-    # Create addons with different scopes to test migration to file_format_params
+fi
+
+# Create addons with different scopes
+semver_compare "$1" ">" "5.5"
+addon_scopes=$?
+if [ "$addon_scopes" -eq 0 ]; then
     ./manage.py shell << EOF
 from weblate.addons.models import Addon
 from weblate.trans.models import Component, Project
-component = Component.objects.get(pk=1)
-project = Project.objects.get(pk=1)
 Addon.objects.bulk_create([
 	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
-	Addon(project=project, name="weblate.gettext.msgmerge", configuration={"width": -1}),
-	Addon(component=component, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
+	Addon(project_=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
+	Addon(component=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
 	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
-	Addon(project=project, name="weblate.yaml.customize", configuration={"indent": 2}),
-	Addon(component=component, name="weblate.json.customize", configuration={"style": "spaces"}),
+	Addon(project_=1, name="weblate.yaml.customize", configuration={"indent": 2}),
+	Addon(component=1, name="weblate.json.customize", configuration={"style": "spaces"}),
 ])
 EOF
     check
@@ -136,8 +138,7 @@ uv run --all-extras ./manage.py shell -c 'from weblate.trans.models import Vote;
 check
 
 # Check migrated pending unit
-if [ "$before_5_12" -eq 0 ]; then
-    # pending migration test
+if [ "$pending_migration_test" -eq 0 ]; then
     uv run --all-extras ./manage.py shell << EOF
 from weblate.trans.models import PendingUnitChange
 
@@ -160,6 +161,9 @@ if change.source_unit_explanation != unit.source_unit.explanation:
 assert not errors, "\n".join(errors)
 EOF
     check
+fi
+
+if [ "$addon_scopes" -eq 0 ]; then
     # check that relevant addon parameters have been migrated to file_format_params
     ./manage.py shell << EOF
 from weblate.addons.models import Addon
