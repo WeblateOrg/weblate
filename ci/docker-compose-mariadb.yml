@@ -4,12 +4,12 @@
 
 services:
   cache:
-    image: redis:8.0.3-alpine@sha256:73734b014e53b3067916918b70718ca188c16895511a272a020c9a71084eecda
+    image: redis:8.0.3-alpine@sha256:25c0ae32c6c2301798579f5944af53729766a18eff5660bbef196fc2e6214a9c
     ports:
     - 60001:6379
     restart: always
   database:
-    image: mariadb:11.8.2@sha256:1e4ec03d1b73af8e7a63137b8ef4820ac7d54c654a1e99eb76235f210f7f0a06
+    image: mariadb:11.8.2@sha256:2bcbaec92bd9d4f6591bc8103d3a8e6d0512ee2235506e47a2e129d190444405
     environment:
       MYSQL_ROOT_PASSWORD: weblate
     ports:

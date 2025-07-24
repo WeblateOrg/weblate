@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 if [ ! -d ../graphics/ ]; then
-	echo "Graphics repository missing!"
+    echo "Graphics repository missing!"
 fi
 
 # Widgets
@@ -20,10 +20,10 @@ cp ../graphics/logo/weblate.ico weblate/static/favicon.ico
 
 # Scaled logos
 for size in 24 32 80 128 150 180 192 512; do
-	cp ../graphics/logo/weblate-background-$size.png weblate/static/weblate-$size.png
+    cp ../graphics/logo/weblate-background-$size.png weblate/static/weblate-$size.png
 done
 for size in 16 32 128 1024; do
-	cp ../graphics/logo/weblate-logo-$size.png weblate/static/logo-$size.png
+    cp ../graphics/logo/weblate-logo-$size.png weblate/static/logo-$size.png
 done
 
 # Email logo

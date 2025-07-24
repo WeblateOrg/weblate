@@ -690,7 +690,7 @@ class JSONNestedFormatTest(JSONFormatTest):
     SUPPORTS_NOTES = False
 
 
-class WebExtesionJSONFormatTest(JSONFormatTest):
+class WebExtensionJSONFormatTest(JSONFormatTest):
     format_class = WebExtensionJSONFormat
     FILE = TEST_WEBEXT_JSON
     COUNT = 4
@@ -1251,7 +1251,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             units, translation_data, 1, "Erreur lors de la désactivation du compte."
         )
         expected_translation = (
-            "L'utilisateur que vous êtes sur le point de "
+            "L'utilisateur que vous êtes sur le point de "  # codespell:ignore
             "supprimer est le dernier auteur de "
             "{0}{1,choice,1#1 page|1<{1} pages}{2}."
         )

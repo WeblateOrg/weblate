@@ -1,7 +1,3 @@
-# Copyright © Michal Čihař <michal@weblate.org>
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 """Machine translation example."""
 
 import dictionary  # type: ignore[import-not-found]

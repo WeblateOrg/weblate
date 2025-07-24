@@ -43,7 +43,7 @@ jobs:
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
+    - uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc # v6.4.3
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -79,7 +79,7 @@ jobs:
       if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.28.2
+        CYCLONEDX_CLI_VERSION: v0.29.0
       run: |
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64

@@ -45,12 +45,21 @@ from weblate.utils.validators import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.auth.models import User
-    from weblate.machinery.base import SettingsDict
+    from weblate.auth.models import Group, User
+    from weblate.machinery.types import SettingsDict
     from weblate.trans.backups import BackupListDict
     from weblate.trans.models.component import Component
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
+
+
+class CommitPolicyChoices(models.IntegerChoices):
+    ALL = 0, gettext_lazy("Commit all translations regardless of quality")
+    WITHOUT_NEEDS_EDITING = (
+        20,
+        gettext_lazy("Skip translations marked as needing editing"),
+    )
+    APPROVED_ONLY = 30, gettext_lazy("Only include approved translations")
 
 
 class ProjectLanguageFactory(UserDict):
@@ -209,6 +218,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             "Contributes to the pool of shared translations between projects."
         ),
     )
+    autoclean_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Autoclean translation memory"),
+        default=settings.DEFAULT_AUTOCLEAN_TM,
+        help_text=gettext_lazy(
+            "Automatically removes outdated and obsolete entries from translation memory."
+        ),
+    )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
         db_index=True,
@@ -236,6 +252,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=False,
         help_text=gettext_lazy(
             "Requires dedicated reviewers to approve source strings."
+        ),
+    )
+    commit_policy = models.IntegerField(
+        verbose_name=gettext_lazy("Translation quality filter"),
+        default=CommitPolicyChoices.ALL,
+        choices=CommitPolicyChoices,
+        help_text=gettext_lazy(
+            "Select which translations should be included when committing changes. "
+            "More restrictive options will skip translations with potential quality issues."
         ),
     )
     enable_hooks = models.BooleanField(
@@ -324,7 +349,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 for component in old.component_set.iterator():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
-                    component.linked_childs.update(
+                    component.linked_children.update(
                         repo=new_component.get_repo_link_url()
                     )
             update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
@@ -380,6 +405,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 group = "Review"
             else:
                 group = "Administration"
+        group_objs: Iterable[Group]
         try:
             group_objs = [self.defined_groups.get(name=group)]
         except ObjectDoesNotExist:
@@ -693,7 +719,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return get_glossary_automaton(self)
 
-    def get_machinery_settings(self) -> dict[str, SettingsDict | Project]:
+    def get_machinery_settings(self) -> dict[str, SettingsDict]:
         settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
@@ -714,7 +740,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
         backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
-        result = []
+        result: list[BackupListDict] = []
         if not os.path.exists(backup_dir):
             return result
         with os.scandir(backup_dir) as iterator:
@@ -730,7 +756,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                                 int(entry.name.split(".")[0])
                             )
                         ),
-                        "size": entry.stat().st_size // 1024,
+                        "size": entry.stat().st_size,
                     }
                 )
         return sorted(result, key=itemgetter("timestamp"), reverse=True)
@@ -775,5 +801,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         prefetch_stats(self.label_cleanups)
 
     def cleanup_label_stats(self, name: str) -> None:
-        for translation in self.label_cleanups:
-            translation.stats.remove_stats(f"label:{name}")
+        if self.label_cleanups is not None:
+            for translation in self.label_cleanups:
+                translation.stats.remove_stats(f"label:{name}")

@@ -625,10 +625,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
-            return Group.objects.order_by("id")
-        return self.request.user.groups.order_by(
-            "id"
-        ) | self.request.user.administered_group_set.order_by("id")
+            queryset = Group.objects.all()
+        else:
+            queryset = Group.objects.filter(
+                Q(user=self.request.user) | Q(admins=self.request.user)
+            ).distinct()
+        return queryset.order_by("id")
 
     def perm_check(
         self,
@@ -1420,18 +1422,22 @@ class ComponentViewSet(
 
             if "language_code" not in request.data:
                 msg = "Missing 'language_code' parameter"
-                raise ValidationError({"languge_code": msg})
+                raise ValidationError({"language_code": msg})
 
             language_code = request.data["language_code"]
 
-            try:
-                language = Language.objects.get(code=language_code)
-            except Language.DoesNotExist as error:
-                msg = f"No language code {language_code!r} found!"
-                raise ValidationError({"language_code": msg}) from error
-
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+
+            base_languages = obj.get_all_available_languages()
+            if not request.user.has_perm("translation.add_more", obj):
+                base_languages = base_languages.filter_for_add(obj.project)
+
+            try:
+                language = base_languages.get(code=language_code)
+            except Language.DoesNotExist as error:
+                message = f"Could not add {language_code!r}!"
+                raise ValidationError({"language_code": message}) from error
 
             translation = obj.add_new_language(language, request)
             if translation is None:

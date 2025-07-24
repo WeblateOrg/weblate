@@ -200,7 +200,7 @@ Python Social Auth
 Django REST Framework
     https://www.django-rest-framework.org/
 
-.. Table is generated using scripts/show-extras
+.. Table is generated using scripts/show-extras.py
 
 .. list-table:: Optional dependencies
      :header-rows: 1
@@ -1719,6 +1719,7 @@ configuration error in the admin interface.
    :doc:`celery:userguide/workers`,
    :doc:`celery:userguide/daemonizing`,
    :doc:`celery:userguide/monitoring`,
+   :ref:`background-tasks-internals`
    :wladmin:`celery_queues`
 
 .. _minimal-celery:

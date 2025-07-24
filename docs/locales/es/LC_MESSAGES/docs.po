@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-10 12:54+0000\n"
+"PO-Revision-Date: 2025-07-23 09:11+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14451,7 +14451,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1057
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "Establecer correctamente SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:1059
 msgid ""
@@ -14459,6 +14459,10 @@ msgid ""
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"Si su sitio se sirve a través de SSL, debe considerar establecer un valor "
+"para :setting:`django:SECURE_HSTS_SECONDS` en el :file:`settings.py` para "
+"habilitar la Seguridad Estricta de Transporte HTTP. De forma predeterminada, "
+"está configurado en 0 como se muestra a continuación."
 
 #: ../../admin/install.rst:1067
 msgid ""
@@ -14466,6 +14470,10 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"Si se establece en un valor entero distinto de cero, la "
+":class:`django:django.middleware.security.SecurityMiddleware` fija el "
+"encabezado :ref:`django:http-strict-transport-security` en todas las "
+"respuestas que aún no lo tienen."
 
 #: ../../admin/install.rst:1072
 msgid ""
@@ -14569,6 +14577,10 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate necesita enviar correos electrónicos en algunas ocasiones, y estos "
+"correos electrónicos han de tener correcta una dirección de remitente, "
+"configure :setting:`SERVER_EMAIL` y :setting:`DEFAULT_FROM_EMAIL` para que "
+"coincidan con su entorno, por ejemplo:"
 
 #: ../../admin/install.rst:1184
 msgid ""
@@ -14604,6 +14616,9 @@ msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django requiere :setting:`ALLOWED_HOSTS` para mantener una lista de nombres "
+"de dominio que su sitio puede servir, dejarla vacía bloqueará cualquier "
+"solicitud."
 
 #: ../../admin/install.rst:1207
 msgid ""
@@ -14654,10 +14669,13 @@ msgid ""
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Para un rendimiento óptimo, es una buena idea ejecutar algunas tareas de "
+"mantenimiento en segundo plano. Esto se hace automáticamente mediante "
+":ref:`celery` y cubre las siguientes tareas:"
 
 #: ../../admin/install.rst:1244
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Comprobación del estado de la configuración (cada hora)."
 
 #: ../../admin/install.rst:1245
 msgid ""
@@ -14700,12 +14718,18 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"Las configuraciones regionales del sistema deben configurarse para que sean "
+"compatibles con UTF - 8. En la mayoría de las distribuciones de Linux, esta "
+"es la configuración predeterminada. En caso de que no sea el caso en su "
+"sistema, cambie las configuraciones regionales a la variante UTF-8."
 
 #: ../../admin/install.rst:1260
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
+"Por ejemplo, editando :file:`/etc/default/locale` y configurando allí ``LANG="
+"\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1263
 msgid ""
@@ -14713,6 +14737,10 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
+"En algunos casos, los servicios individuales tienen una configuración "
+"separada para las configuraciones regionales. Esto varía entre la "
+"distribución y los servidores web, así que consulte la documentación de los "
+"paquetes de su servidor web para eso."
 
 #: ../../admin/install.rst:1267
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
@@ -14758,6 +14786,8 @@ msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Una vez hecho esto, las herramientas del sistema confiarán en el certificado "
+"y esto incluye Git."
 
 #: ../../admin/install.rst:1307
 msgid ""
@@ -14765,6 +14795,10 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Para el código Python, deberá configurar las solicitudes para usar el "
+"paquete system CA en lugar del que se envía con él. Esto se puede lograr "
+"colocando el siguiente fragmento de código en :file:`settings.py` (la ruta "
+"es específica de Debian):"
 
 #: ../../admin/install.rst:1321
 msgid "Compressing client assets"
@@ -14779,6 +14813,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"Weblate viene con un montón de archivos JavaScript y CSS. Por razones de "
+"rendimiento, es bueno comprimirlos antes de enviarlos a un cliente. En la "
+"configuración predeterminada, esto se hace sobre la marcha a un costo de "
+"poca sobrecarga. En instalaciones grandes, se recomienda habilitar el modo "
+"de compresión sin conexión. Esto debe hacerse en la configuración y la "
+"compresión debe activarse en cada actualización de Weblate."
 
 #: ../../admin/install.rst:1330
 msgid ""
@@ -14787,10 +14827,16 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
+"El interruptor de configuración es simple al habilitar "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` y configurando "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (este "
+"último ya está incluido en la configuración de ejemplo):"
 
 #: ../../admin/install.rst:1339
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"En cada implementación, debe comprimir los archivos para que coincidan con "
+"la versión actual:"
 
 #: ../../admin/install.rst:1347
 msgid "The official Docker image has this feature already enabled."
@@ -14885,7 +14931,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1396
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "Para fines de prueba, puede usar el servidor web incorporado en Django:"
 
 #: ../../admin/install.rst:1404
 msgid ""
@@ -14893,6 +14939,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"NO USE ESTE SERVIDOR EN UNA CONFIGURACIÓN DE PRODUCCIÓN. No ha pasado por "
+"auditorías de seguridad ni pruebas de rendimiento. Ver también la "
+"documentación de Django en :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1410
 msgid ""
@@ -14901,12 +14950,17 @@ msgid ""
 "see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"El servidor incorporado de Django sirve archivos estáticos solo con "
+":setting:`DEBUG` habilitado ya que está destinado solo para desarrollo. Para "
+"uso en producción, consulte configuraciones de WSGI en :ref:`uwsgi`, "
+":ref:`apache`, :ref:`apache-gunicorn`, y :ref:`static-files`."
 
 #: ../../admin/install.rst:1418
 msgid "Serving static files"
 msgstr "Sirviendo archivos estáticos"
 
 #: ../../admin/install.rst:1420
+#, fuzzy
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -14914,12 +14968,19 @@ msgid ""
 "setting (this defaults to a ``static`` directory inside :setting:"
 "`CACHE_DIR`)."
 msgstr ""
+"Django necesita recopilar sus archivos estáticos en un solo directorio. Para "
+"ello, ejecute :samp:`weblate collectstatic --noinput`. Esto copiará los "
+"archivos estáticos en un directorio especificado por la configuración "
+":setting:`django:STATIC_ROOT` (esto por defecto es un directorio ``static``"
+"interno :setting:`CACHE_DIR`)."
 
 #: ../../admin/install.rst:1425
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
+"Se recomienda servir archivos estáticos directamente desde su servidor web, "
+"debe usarlo para las siguientes rutas:"
 
 #: ../../admin/install.rst:1428
 msgid ":file:`/static/`"
@@ -14947,17 +15008,23 @@ msgstr ":file:`/favicon.ico`"
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
+"Debería reescribirse para reescribir una regla para servir :file:`/static/"
+"favicon.ico`."
 
 #: ../../admin/install.rst:1438
+#, fuzzy
 msgid ""
 ":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
 "compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/static-"
 "files/deployment`"
 msgstr ""
+":ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, :ref:`production-"
+"compress`, :doc:`django:howto/deployment/index`, :doc:`django:howto/"
+"static-files/deployment`"
 
 #: ../../admin/install.rst:1448
 msgid "Content security policy"
-msgstr ""
+msgstr "Política de seguridad de contenido"
 
 #: ../../admin/install.rst:1450
 msgid ""
@@ -14967,6 +15034,12 @@ msgid ""
 "Protection`. These are by default set up to work with Weblate and its "
 "configuration, but this might need customization for your environment."
 msgstr ""
+"La configuración predeterminada de Weblate habilita "
+"``weblate.middleware.SecurityMiddleware`` que establece encabezados HTTP "
+"relacionados con la seguridad como :http:header:`Content-Security-Policy` o "
+":http:header:`X-XSS-Protection`. Estos están configurados de forma "
+"predeterminada para funcionar con Weblate y su configuración, pero es "
+"posible que deba personalizarlos para su entorno."
 
 #: ../../admin/install.rst:1457
 msgid ""
@@ -14988,6 +15061,9 @@ msgid ""
 "webserver (also available as :file:`weblate/examples/weblate.nginx.gunicorn."
 "conf`):"
 msgstr ""
+"La siguiente configuración ejecuta Weblate usando Gunicorn en el servidor "
+"web NGINX (también disponible como :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1478 ../../admin/install.rst:1548
 msgid ":ref:`running-gunicorn`, :doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -15010,18 +15086,24 @@ msgstr ""
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"La siguiente configuración ejecuta Weblate como uWSGI en el servidor web "
+"NGINX."
 
 #: ../../admin/install.rst:1495
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"Configuración para NGINX (también disponible como :file:`weblate/examples/"
+"weblate.nginx.conf`):"
 
 #: ../../admin/install.rst:1500
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Configuración para uWSGI (también disponible como :file:`weblate/examples/"
+"weblate.uwsgi.ini`):"
 
 #: ../../admin/install.rst:1507
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -15029,17 +15111,20 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1512
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Configuración de ejemplo para Apache"
 
 #: ../../admin/install.rst:1514 ../../admin/install.rst:1585
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "Se recomienda usar prefork MPM cuando se usa WSGI con Weblate."
 
 #: ../../admin/install.rst:1516
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"La siguiente configuración ejecuta Weblate como WSGI, necesita tener "
+"habilitado ``mod_wsgi`` (disponible como :file:`weblate/examples/"
+"apache.conf`):"
 
 #: ../../admin/install.rst:1524
 msgid ""
@@ -15047,6 +15132,9 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate requiere Python 3, así que asegúrese de estar ejecutando la variante "
+"Python 3 de modwsgi. Por lo general, está disponible como un paquete "
+"separado, por ejemplo ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1528
 msgid "Use matching Python version to install Weblate."
@@ -15059,19 +15147,19 @@ msgstr ""
 
 #: ../../admin/install.rst:1538
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Configuración de muestra para Apache y Gunicorn"
 
 #: ../../admin/install.rst:1540
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"La configuración siguiente ejecuta Weblate en Gunicorn y Apache 2.4 ("
+"disponible como :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1555
-#, fuzzy
-#| msgid "Sample configuration"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Configuración de muestra"
+msgstr "Configuración de muestra para iniciar Gunicorn"
 
 #: ../../admin/install.rst:1557
 msgid ""
@@ -42780,13 +42868,13 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/release.rst:51
-msgid "Increase version in the repository by :command:`./scripts/set-version`."
+msgid "Increase version in the repository by :command:`./scripts/set-version.py`."
 msgstr ""
 
 #: ../../contributing/release.rst:52
 msgid ""
 "Check that readthedocs.org did build all translations of the documentation "
-"using :command:`./scripts/rtd-projects`."
+"using :command:`./scripts/rtd-projects.py`."
 msgstr ""
 
 #: ../../contributing/release.rst:54

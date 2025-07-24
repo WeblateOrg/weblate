@@ -2,31 +2,16 @@
 
 {% load crispy_forms_tags humanize i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements component=object.component language=object.language %}
-
-  {% include "snippets/component/state.html" with object=object.component %}
-
-  {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
-
+{% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
   {% perm 'unit.add' object as user_can_add_unit %}
-
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
   {% url 'browse' path=object.get_url_path as browse_url %}
+
 
   <ul class="nav nav-pills">
     <li class="active">
@@ -128,8 +113,33 @@
       </ul>
     </li>
     {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
   </ul>
+{% endblock nav_pills %}
 
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements component=object.component language=object.language %}
+
+  {% include "snippets/component/state.html" with object=object.component %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
+  {% perm 'unit.add' object as user_can_add_unit %}
+
+  {% get_translate_url object as translate_url %}
+  {% url 'translate' path=object.get_url_path as edit_url %}
+  {% url 'zen' path=object.get_url_path as zen_url %}
+  {% url 'browse' path=object.get_url_path as browse_url %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="translation">

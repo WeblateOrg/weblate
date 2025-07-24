@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import os.path
 from ssl import CertificateError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 from urllib.parse import urlencode
 
 from django.conf import settings
@@ -36,9 +36,9 @@ def avatar_for_email(email, size=80) -> str:
     return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
 
 
-def get_fallback_avatar_url(size: int):
+def get_fallback_avatar_url(size: int, name: Literal["weblate", "api"] = "weblate"):
     """Return URL of fallback avatar."""
-    return os.path.join(settings.STATIC_URL, f"weblate-{size}.png")
+    return os.path.join(settings.STATIC_URL, f"{name}-{size}.png")
 
 
 def get_fallback_avatar(size: int):

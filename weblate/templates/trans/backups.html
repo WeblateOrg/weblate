@@ -12,25 +12,30 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  <table class="table">
-    <tbody>
-      {% for backup in backups %}
-        <tr>
-          <td>
-            <a href="{% url "backups-download" project=object.slug backup=backup.name %}">{{ backup.name }}</a>
-          </td>
-          <td>{{ backup.size|intcomma }} kB</td>
-          <td>{{ backup.timestamp|naturaltime }}</td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="2">
-            <em>{% translate "There are currently no backups." %}</em>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{% translate "Existing backups" %}</h4>
+    </div>
+    <table class="table">
+      <tbody>
+        {% for backup in backups %}
+          <tr>
+            <td>
+              <a href="{% url "backups-download" project=object.slug backup=backup.name %}">{{ backup.name }}</a>
+            </td>
+            <td>{{ backup.size|filesizeformat }}</td>
+            <td>{{ backup.timestamp|naturaltime }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="2">
+              <em>{% translate "There are currently no backups." %}</em>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <form method="post">
     <div class="panel panel-default">

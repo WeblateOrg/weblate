@@ -10,7 +10,7 @@ from glob import glob
 from translate.storage.pypo import pofile
 
 if len(sys.argv) < 3 or len(sys.argv) % 2 != 1:
-    print("Usage: ./scripts/locales-fixup match replacement [match replacement]...")
+    print("Usage: ./scripts/locales-fixup.py match replacement [match replacement]...")
     sys.exit(1)
 
 match = sys.argv[1]

@@ -8,7 +8,7 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.checks.utils import highlight_string
 
 
-class HightlightTestCase(SimpleTestCase):
+class HighlightTestCase(SimpleTestCase):
     def test_simple(self) -> None:
         unit = MockUnit(
             source="simple {format} string",
@@ -45,20 +45,20 @@ class HightlightTestCase(SimpleTestCase):
             flags="rst-text",
         )
         self.assertEqual(
-            highlight_string(unit.source, unit, hightlight_syntax=True),
+            highlight_string(unit.source, unit, highlight_syntax=True),
             [(12, 13, "`"), (18, 46, "<https://www.sphinx-doc.org>"), (46, 48, "`_")],
         )
         self.assertEqual(
             highlight_string(
-                "Hello `world <https://weblate.org>`_", unit, hightlight_syntax=True
+                "Hello `world <https://weblate.org>`_", unit, highlight_syntax=True
             ),
             [(6, 7, "`"), (13, 34, "<https://weblate.org>"), (34, 36, "`_")],
         )
         self.assertEqual(
-            highlight_string("Hello **world**", unit, hightlight_syntax=True),
+            highlight_string("Hello **world**", unit, highlight_syntax=True),
             [(6, 8, "**"), (13, 15, "**")],
         )
         self.assertEqual(
-            highlight_string("Hello *world*", unit, hightlight_syntax=True),
+            highlight_string("Hello *world*", unit, highlight_syntax=True),
             [(6, 7, "*"), (12, 13, "*")],
         )

@@ -42,7 +42,7 @@ jobs:
 
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6.3.1
+    - uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc # v6.4.3
       with:
         enable-cache: true
         cache-dependency-glob: ''
@@ -53,7 +53,9 @@ jobs:
         python-version: '3.13'
 
     - name: Run mypy
-      run: uv run --all-extras --group types mypy --show-column-numbers weblate > mypy.log
+      env:
+        CI_DATABASE: postgresql
+      run: uv run --all-extras --group types mypy --show-column-numbers weblate scripts/*.py > mypy.log
       # Temporary hack until we have this fully working
       continue-on-error: true
     - name: Report mypy

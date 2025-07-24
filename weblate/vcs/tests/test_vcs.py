@@ -1983,7 +1983,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         if pages > 0:  # Add paginated irrelevant responses
             while pages > 0:
                 fork_stub = copy.deepcopy(self._bb_fork_stub)
-                fork_stub["slug"] = "not_the_slug_youre_looking_for"
+                fork_stub["slug"] = "not_the_slug_you_are_looking_for"
                 page_body = {"values": [{"origin": fork_stub}], "isLastPage": False}
 
                 params = f"limit=1000&start={pages}"
@@ -2003,7 +2003,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             status=status,
         )
 
-    def mock_reviewer_reponse(self, status, branch: str = "") -> None:
+    def mock_reviewer_response(self, status, branch: str = "") -> None:
         path = "rest/default-reviewers/1.0/projects/bb_pk/repos/bb_repo/reviewers"
         body: dict[str, Any] | list = []
         if status == 200:
@@ -2114,7 +2114,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         mock_push_to_fork.return_value = ""
 
         self.mock_repo_response(200)  # get target repo info
-        self.mock_reviewer_reponse(400)  # get default reviewers
+        self.mock_reviewer_response(400)  # get default reviewers
         self.repo.bb_fork = {"id": "222"}
         credentials = {
             "url": f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
@@ -2139,7 +2139,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
 
         self.mock_fork_response(201)  # fork created
         self.mock_repo_response(200)  # get target repo info
-        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_reviewer_response(200, branch)  # get default reviewers
         self.mock_pr_response(201)  # create pr ok
         super().test_push(branch)
         mock_push_to_fork.stop()
@@ -2158,13 +2158,13 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
 
         self.mock_fork_response(201)  # fork created
         self.mock_repo_response(200)  # get target repo info
-        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_reviewer_response(200, branch)  # get default reviewers
         self.mock_pr_response(409)  # create pr error, PR already exists
         super().test_push(branch)
         mock_push_to_fork.stop()
 
     @responses.activate
-    def test_push_pr_error_reponse(self, branch: str = "") -> None:
+    def test_push_pr_error_response(self, branch: str = "") -> None:
         self.repo.component.repo = f"{self._bbhost}/bb_pk/bb_repo.git"
 
         # Patch push_to_fork() function because we don't want to actually
@@ -2177,7 +2177,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
 
         self.mock_fork_response(201)  # fork created
         self.mock_repo_response(200)  # get target repo info
-        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_reviewer_response(200, branch)  # get default reviewers
         self.mock_pr_response(401)  # create pr error
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
@@ -2198,7 +2198,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         self.mock_fork_response(status=409)  # fork already exists
         self.mock_repo_forks_response(status=200, pages=3)  # simulate pagination
         self.mock_repo_response(200)  # get target repo info
-        self.mock_reviewer_reponse(200, branch)  # get default reviewers
+        self.mock_reviewer_response(200, branch)  # get default reviewers
         self.mock_pr_response(201)  # create pr ok
         super().test_push(branch)
         mock_push_to_fork.stop()

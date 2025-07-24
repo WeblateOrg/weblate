@@ -13,6 +13,7 @@ from django.core.cache import cache
 from filelock import FileLock, Timeout
 
 from weblate.utils.cache import is_redis_cache
+from weblate.utils.errors import add_breadcrumb
 
 if TYPE_CHECKING:
     from types import TracebackType
@@ -106,9 +107,7 @@ class WeblateLock:
         # Make the lock reentrant
         if self._redis_lock.owned():
             # Extend lock if already owned (nested with statements)
-            lock_result = self._redis_lock.extend(
-                additional_time=self._redis_expiry_timeout
-            )
+            lock_result = self._redis_lock.reacquire()
         else:
             lock_result = self._redis_lock.acquire()
 
@@ -124,8 +123,15 @@ class WeblateLock:
                 self.get_error_message(), lock=self
             ) from error
 
+    def add_breadcrumb(self, operation: str) -> None:
+        add_breadcrumb(
+            category="lock", message=f"{operation} {self._name} ({self._local.depth})"
+        )
+
     def __enter__(self) -> None:
+        self.add_breadcrumb("enter")
         if not self.is_locked:
+            self.add_breadcrumb("acquire")
             with sentry_sdk.start_span(op="lock.wait", name=self._name):
                 if self._using_redis:
                     self._enter_redis()
@@ -143,10 +149,12 @@ class WeblateLock:
             msg = f"Lock on {self._name} was not held on release"
             raise WeblateLockNotLockedError(msg, lock=self)
 
+        self.add_breadcrumb("exit")
         self._local.depth -= 1
 
         # Release underlying lock
         if self._local.depth == 0:
+            self.add_breadcrumb("release")
             if self._using_redis:
                 self._redis_lock.release()
             else:

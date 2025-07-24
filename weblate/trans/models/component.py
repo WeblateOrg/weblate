@@ -10,7 +10,7 @@ import time
 from collections import defaultdict
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict, cast
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -1232,7 +1232,7 @@ class Component(
     @cached_property
     def source_translation(self):
         # This is basically copy of get_or_create, but avoids additional
-        # SQL query to get source_langauge in case the source translation
+        # SQL query to get source_language in case the source translation
         # already exists. The source_language is only fetched in the slow
         # path when creating the translation.
         language = self.source_language
@@ -1305,7 +1305,11 @@ class Component(
                     create["state"] = STATE_READONLY
 
                 # Create source unit
-                source = source_units.create(id_hash=id_hash, **create)
+                source = Unit(
+                    translation=self.source_translation, id_hash=id_hash, **create
+                )
+                source.save(force_insert=True, only_save=True)
+
                 # Avoid fetching empty list of checks from the database
                 source.all_checks = []
                 source.source_updated = True
@@ -1737,7 +1741,7 @@ class Component(
         changed = self.repository.get_changed_files()
         if self.uses_changed_files(changed):
             return True
-        for component in self.linked_childs:
+        for component in self.linked_children:
             if component.uses_changed_files(changed):
                 return True
         return False
@@ -1926,7 +1930,7 @@ class Component(
 
         # Send pre push signal
         vcs_pre_push.send(sender=self.__class__, component=self)
-        for component in self.linked_childs:
+        for component in self.linked_children:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
@@ -1940,7 +1944,7 @@ class Component(
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
-        for component in self.linked_childs:
+        for component in self.linked_children:
             vcs_post_push.send(sender=component.__class__, component=component)
 
         return True
@@ -2035,7 +2039,7 @@ class Component(
         return "weblate://{}".format("/".join(self.get_url_path()))
 
     @cached_property
-    def linked_childs(self) -> ComponentQuerySet:
+    def linked_children(self) -> ComponentQuerySet:
         """Return list of components which links repository to us."""
         if self.is_repo_link:
             return self.component_set.none()
@@ -2044,14 +2048,14 @@ class Component(
             child.linked_component = self
         return children
 
-    def get_linked_childs_for_template(self):
+    def get_linked_children_for_template(self):
         return [
             {
                 "project_name": linked.project.name,
                 "name": linked.name,
                 "url": get_site_url(linked.get_absolute_url()),
             }
-            for linked in self.linked_childs
+            for linked in self.linked_children
         ]
 
     @perform_on_link
@@ -2061,7 +2065,7 @@ class Component(
         """Check whether there is any translation to be committed."""
         from weblate.auth.models import User
 
-        def reuse_self(translation):
+        def reuse_self(translation: Translation) -> Translation:
             if translation.component_id == self.id:
                 translation.component = self
             if translation.component.linked_component_id == self.id:
@@ -2253,7 +2257,7 @@ class Component(
         user = request.user if request else self.acting_user
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
-        for component in self.linked_childs:
+        for component in self.linked_children:
             vcs_pre_update.send(sender=component.__class__, component=component)
 
         # Apply logic for merge or rebase
@@ -2347,7 +2351,7 @@ class Component(
             previous_head=previous_head,
             skip_push=skip_push,
         )
-        for component in self.linked_childs:
+        for component in self.linked_children:
             vcs_post_update.send(
                 sender=component.__class__,
                 component=component,
@@ -2355,7 +2359,7 @@ class Component(
                 skip_push=skip_push,
             )
 
-    def get_mask_matches(self):
+    def get_mask_matches(self) -> list[str]:
         """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
@@ -2434,7 +2438,7 @@ class Component(
                 self.do_lock(user=None, lock=False, auto=True)
 
         if ALERTS[alert].link_wide:
-            for component in self.linked_childs:
+            for component in self.linked_children:
                 component.delete_alert(alert)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
@@ -2457,7 +2461,7 @@ class Component(
             obj.save()
 
         if ALERTS[alert].link_wide:
-            for component in self.linked_childs:
+            for component in self.linked_children:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self, delete: bool = True) -> None:
@@ -2615,7 +2619,7 @@ class Component(
         if self.translations_count != -1:
             self.translations_progress = 0
             self.translations_count = len(matches) + sum(
-                c.translation_set.count() for c in self.linked_childs
+                c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
             if not self._sources_prefetched and path != source_file:
@@ -2699,12 +2703,12 @@ class Component(
             self.delete_alert("NoMaskMatches")
 
         # Process linked repos
-        for pos, component in enumerate(self.linked_childs):
+        for pos, component in enumerate(self.linked_children):
             self.log_info(
                 "updating linked project %s [%d/%d]",
                 component,
                 pos + 1,
-                len(self.linked_childs),
+                len(self.linked_children),
             )
             component.translations_count = -1
             try:
@@ -2768,7 +2772,7 @@ class Component(
         self.batch_checks = False
         self.batched_checks = set()
 
-    def _invalidate_triger(self) -> None:
+    def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
         self.log_info("updating stats caches")
         self.stats.update_language_stats()
@@ -2779,7 +2783,7 @@ class Component(
             return
 
         self._invalidate_scheduled = True
-        transaction.on_commit(self._invalidate_triger)
+        transaction.on_commit(self._invalidate_trigger)
 
     @cached_property
     def glossary_sources_key(self) -> str:
@@ -2915,14 +2919,14 @@ class Component(
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
 
-    def clean_lang_codes(self, matches) -> None:
+    def clean_lang_codes(self, matches: list[str]) -> None:
         """Validate that there are no double language codes."""
         if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
                 {"filemask": gettext("The file mask did not match any files.")}
             )
-        langs = {}
-        existing_langs = set()
+        langs: dict[str, str] = {}
+        existing_langs: set[str] = set()
 
         for match in matches:
             code = self.get_lang_code(match, validate=True)
@@ -2951,9 +2955,9 @@ class Component(
             )
             raise ValidationError({"filemask": message})
 
-    def clean_files(self, matches) -> None:
+    def clean_files(self, matches: list[str]) -> None:
         """Validate that translation files can be parsed."""
-        errors: list[str, Exception] = []
+        errors: list[tuple[str, Exception]] = []
         dir_path = self.full_path
         for match in matches:
             try:
@@ -2989,7 +2993,9 @@ class Component(
                 )
             raise ValidationError({"filemask": msg})
 
-    def is_valid_base_for_new(self, errors: list | None = None, fast: bool = False):
+    def is_valid_base_for_new(
+        self, errors: list[Exception] | None = None, fast: bool = False
+    ) -> bool:
         filename = self.get_new_base_filename()
         template = self.has_template()
         return self.file_format_cls.is_valid_base_for_new(
@@ -3002,7 +3008,7 @@ class Component(
         if (not self.new_base and self.new_lang != "add") or not self.file_format:
             return
         # File is valid or no file is needed
-        errors = []
+        errors: list[Exception] = []
         if self.is_valid_base_for_new(errors):
             return
         # File is needed, but not present
@@ -3382,7 +3388,7 @@ class Component(
         if self.variant_regex:
             variant_re = re.compile(self.variant_regex)
             units = process_units.filter(context__regex=self.variant_regex)
-            variant_updates = {}
+            variant_updates: dict[str, tuple[Variant, list[int]]] = {}
             for unit in units.iterator():
                 if variant_re.findall(unit.context):
                     key = variant_re.sub("", unit.context)
@@ -3692,7 +3698,7 @@ class Component(
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
             if show_messages:
-                messages.error(request, self.new_lang_error_message)
+                messages.error(request, cast("str", self.new_lang_error_message))
             return None
 
         file_format = self.file_format_cls
@@ -3797,7 +3803,7 @@ class Component(
 
         return translation
 
-    def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
+    def do_lock(self, user: User | None, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
         if self.locked == lock:
             return
@@ -3809,7 +3815,7 @@ class Component(
         change.save()
 
     def get_lock_change(
-        self, *, user: User, lock: bool = True, auto: bool = False
+        self, *, user: User | None, lock: bool = True, auto: bool = False
     ) -> Change:
         from weblate.trans.tasks import perform_commit
 
@@ -3833,7 +3839,7 @@ class Component(
     def license_url(self) -> str:
         return get_license_url(self.license)
 
-    def get_license_display(self) -> str:
+    def get_license_display(self) -> str:  # type: ignore[no-redef]
         # Override Django implementation as that rebuilds the dict every time
         return get_license_name(self.license)
 
@@ -4010,6 +4016,11 @@ class Component(
     @cached_property
     def api_slug(self):
         return "%252F".join(self.get_url_path()[1:])
+
+    def get_all_available_languages(self) -> models.QuerySet[Language]:
+        return Language.objects.exclude(
+            Q(translation__component=self) | Q(component=self)
+        )
 
 
 @receiver(m2m_changed, sender=Component.links.through)

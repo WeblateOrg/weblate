@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-06-29 19:24+0000\n"
+"PO-Revision-Date: 2025-07-13 20:02+0000\n"
 "Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
@@ -1429,10 +1429,8 @@ msgid "Post announcements"
 msgstr "Közlemény közzététele"
 
 #: ../../admin/access.rst:582
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Manage translation memory`"
 msgid ":guilabel:`Administration`, :guilabel:`Translation coordinator`"
-msgstr ":guilabel:`Adminisztráció`, :guilabel:`Fordítási memória kezelése`"
+msgstr ":guilabel:`Adminisztráció`, :guilabel:`Fordítási koordinátor`"
 
 #: ../../admin/access.rst:584
 msgid "Site wide privileges"
@@ -1510,10 +1508,8 @@ msgid "List of built-in roles"
 msgstr "Beépített szerepkörök listája"
 
 #: ../../admin/access.rst:626 ../../admin/access.rst:720
-#, fuzzy
-#| msgid ":guilabel:`Post comment`"
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Megjegyzés írása`"
+msgstr ":guilabel:`Közlemény közzététele`"
 
 #: ../../admin/access.rst:627 ../../admin/access.rst:795
 msgid ":guilabel:`View billing info`"
@@ -1764,10 +1760,8 @@ msgid "`Power user`"
 msgstr "`Haladó felhasználó`"
 
 #: ../../admin/access.rst:719
-#, fuzzy
-#| msgid "Translation comment"
 msgid "`Translation coordinator`"
-msgstr "Fordítási megjegyzés"
+msgstr "`Fordítási koordinátor`"
 
 #: ../../admin/access.rst:747
 msgid "`Review strings`"
@@ -4343,17 +4337,14 @@ msgid "Sends notification to a Slack channel based on selected events."
 msgstr "Értesítést küld egy Slack csatornára a kiválasztott események alapján."
 
 #: ../../admin/addons.rst:1144
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
-"Jelenleg a Google Analytics 4 integráció nem érhető el a Weblate-ben. "
-"Bővebben lásd: https://github.com/WeblateOrg/weblate/issues/14015"
+"Az értesítések tartalma esetenként HTML címkéket is megjeleníthet. Ez egy "
+"ismert hiba, amelyet hamarosan javítanak; lásd: https://github.com/"
+"WeblateOrg/weblate/issues/15056."
 
 #: ../../admin/addons.rst:1148
 msgid ""
@@ -4361,6 +4352,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"A webhook URL beszerzéséhez kövesse a `Slack bejövő webhookok "
+"dokumentációját <https://docs.slack.dev/messaging/sending-messages-using-"
+"incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1153
 msgid "Webhook"
@@ -4397,16 +4391,16 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"A kérés adatszerkezete megfelel a :ref:`schema-messaging` sémának. Az "
+"OpenAPI-leírás elérhető a ``/api/docs/`` címen. Példa kérés törzsre:"
 
 #: ../../admin/addons.rst:1339
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Példa kérés törzs kategóriákkal:"
 
 #: ../../admin/addons.rst:1360
-#, fuzzy
-#| msgid "Request Headers"
 msgid "Sample request headers:"
-msgstr "Kérésfejlécek"
+msgstr "Példa kérés fejlécekre:"
 
 #: ../../admin/addons.rst:1370
 msgid ""
@@ -4415,6 +4409,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"A ``webhook-signature`` egy szóközzel elválasztott HMAC-aláírások listája, "
+"amelyeket a ``secret`` karakterlánc, a kérés törzse, a ``webhook-timestamp`` "
+"és a ``webhook-id`` felhasználásával hoztak létre. Ez biztosítja a webhook "
+"kérés hitelességét és épségét."
 
 #: ../../admin/addons.rst:1374
 msgid ""
@@ -4422,6 +4420,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"A kérés érvényesítéséhez használható a ``Webhook.verify`` metódus a "
+"``standardwebhooks`` könyvtárból vagy a \"Standard Webhooks Specification\" "
+"egy implementációja."
 
 #: ../../admin/addons.rst:1380
 msgid ""
@@ -4430,6 +4431,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Standard Webhooks Specification <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `Python könyvtár Standard Webhooks-hoz <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1389
 msgid "Customize XML output"
@@ -5602,6 +5607,10 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"A SAML-alapú hitelesítéshez szükséges függőségek már nem részei az "
+"alapértelmezett ``all`` kiegészítőnek. A Weblate csomag telepítésekor külön "
+"fel kell venni a ``saml`` kiegészítőt is a pip használatakor (``uv pip "
+"install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -12255,16 +12264,16 @@ msgstr ""
 "összetevőben a fordítást végző felhasználó nevéhez lesznek rögzítve."
 
 #: ../../admin/continuous.rst:562
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "Fordítási hozzájárulások"
+msgstr "Terjesztési előfeltételek:"
 
 #: ../../admin/continuous.rst:564
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"Minden összetevőnek egyazon projekten belül kell lennie (az összetevők "
+"összekapcsolása önmagában nem elegendő)."
 
 #: ../../admin/continuous.rst:565 ../../devel/mobile.rst:12
 msgid ""
@@ -12288,19 +12297,18 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"A szövegek csak fordítás közben kerülnek terjesztésre, a tárolóból betöltött "
+"szövegek nem terjednek tovább."
 
 #: ../../admin/continuous.rst:573
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "This feature currently has limitations, and we want to make it more "
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
-"Jelenleg a Google Analytics 4 integráció nem érhető el a Weblate-ben. "
-"Bővebben lásd: https://github.com/WeblateOrg/weblate/issues/14015"
+"Ez a funkció jelenleg korlátozásokkal működik, és célunk annak általánosabbá "
+"tétele. Ossza meg véleményét a https://github.com/WeblateOrg/weblate/issues/"
+"3166 oldalon."
 
 #: ../../admin/continuous.rst:578
 msgid "Consistency check"
@@ -12939,8 +12947,6 @@ msgid "Optional dependency specifier"
 msgstr "Opcionális függőség-megjelölések"
 
 #: ../../admin/install.rst:209
-#, fuzzy
-#| msgid "Python Packages"
 msgid "Python packages"
 msgstr "Python csomagok"
 
@@ -13153,15 +13159,12 @@ msgid "``zxcvbn``"
 msgstr "``zxcvbn``"
 
 #: ../../admin/install.rst:0
-#, fuzzy
-#| msgid ""
-#| "`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-"
-#| "password>`_"
 msgid ""
 "`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
 "password-validator>`_"
 msgstr ""
-"`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_"
+"`django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-"
+"password-validator>`_"
 
 #: ../../admin/install.rst:280
 msgid ":ref:`password-authentication`"
@@ -13253,6 +13256,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"Ez az xmlsec csomag ismert hibája, részletekért lásd: https://github.com/"
+"xmlsec/python-xmlsec/issues/314."
 
 #: ../../admin/install.rst:333
 msgid "``lxml & xmlsec libxml2 library version mismatch``"
@@ -13263,6 +13268,8 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"Az ``lxml`` és ``xmlsec`` csomagokat ugyanahhoz a ``libxml2`` verzióhoz kell "
+"fordítani. A probléma elkerülése érdekében érdemes őket helyben lefordítani:"
 
 #: ../../admin/install.rst:341
 msgid "Other system requirements"
@@ -19787,7 +19794,7 @@ msgstr "``next_gen``"
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Használja az új generációs modellt"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."
@@ -26502,22 +26509,16 @@ msgid "Number of languages user can translate"
 msgstr "Felhasználó által fordítható nyelvek száma"
 
 #: ../../api.rst:420
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "List translations with contributions from a user."
-msgstr "Közreműködéssel rendelkező fordítások"
+msgstr "Fordítások listázása adott felhasználó közreműködéseivel."
 
 #: ../../api.rst:424
-#, fuzzy
-#| msgid ""
-#| "array of translation objects; see :http:get:`/api/translations/(string:"
-#| "project)/(string:component)/(string:language)/`"
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"fordítási objektumok tömbje; lásd: :http:get:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/`"
+"hivatkozás a fordításokra; lásd :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
@@ -29297,16 +29298,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS a Wikipédián <https://hu.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.11.2"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 5.11.2"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on June 24th 2024.*"
 msgid "*Released on June 20th 2025.*"
-msgstr "*Kiadva: 2024. június 24.*"
+msgstr "*Kiadva: 2025. június 20.*"
 
 #: ../../changes.rst:7 ../../changes.rst:59 ../../changes.rst:213
 #: ../../changes.rst:379 ../../changes.rst:490 ../../changes.rst:632
@@ -29332,10 +29329,9 @@ msgid "Improvements"
 msgstr "Fejlesztések"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":ref:`mt-deepl` now supports specifying translation context."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr "A :ref:`mt-deepl` lehetővé teszi a fordítási kontextus megadását."
+msgstr ""
+"A :ref:`mt-deepl` integráció már támogatja az új generációs LLM modellt."
 
 #: ../../changes.rst:13 ../../changes.rst:35 ../../changes.rst:88
 #: ../../changes.rst:122 ../../changes.rst:141 ../../changes.rst:165
@@ -29357,16 +29353,14 @@ msgid "Bug fixes"
 msgstr "Hibajavítások"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr ":ref:`projectbackup` importálása."
+msgstr ""
+"A :ref:`projectbackup` visszaállítása mostantól a szavazatokat is "
+"tartalmazza."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved error handling in :ref:`invite-user`."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Javult a hiba kezelés az :ref:`invite-user` funkcióban."
+msgstr "Javított hibakezelés az :ref:`mt-apertium-apy` esetén."
 
 #: ../../changes.rst:18 ../../changes.rst:97 ../../changes.rst:247
 #: ../../changes.rst:330 ../../changes.rst:420 ../../changes.rst:521
@@ -29442,34 +29436,24 @@ msgid "Contributors"
 msgstr "Közreműködők"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/141?closed=1>`__."
+"milestone/148?closed=1>`__."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:32 ../../changes.rst:51
-#, fuzzy
-#| msgid "*Released on June 16th 2023.*"
 msgid "*Released on June 16th 2025.*"
-msgstr "*Kiadva: 2023. június 16.*"
+msgstr "*Kiadva: 2025. június 16.*"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid ":ref:`sbom` is now being provided for Weblate."
 msgid ":ref:`sbom` is now includes serial number."
-msgstr "A Weblate mostantól biztosítja a :ref:`sbom` fájlt is."
+msgstr "A :ref:`sbom` mostantól sorozatszámot is tartalmaz."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -29534,38 +29518,36 @@ msgid "Documentation contributions"
 msgstr "Dokumentációs hozzájárulások"
 
 #: ../../changes.rst:46
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/141?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
 "`Az összes változás részletesen <https://github.com/WeblateOrg/weblate/"
-"milestone/141?closed=1>`__."
+"milestone/147?closed=1>`__."
 
 #: ../../changes.rst:49
 msgid "Weblate 5.12"
 msgstr "Weblate 5.12"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "Gyakran ismételt biztonsági kérdések"
+msgstr "Biztonság"
 
 #: ../../changes.rst:55
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Személyes IP-cím kiszivárgása e-mailen keresztül (:cve:`2025-49134` / :ghsa"
+":`4qqf-9m5c-w2c5`)."
 
 #: ../../changes.rst:56
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Hiányzó lekérdezési korlát a második hitelesítési faktor ellenőrzésénél "
+"(:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:60
 msgid ""
@@ -29597,31 +29579,23 @@ msgstr ":doc:`/security/index` dokumentáció."
 #: ../../changes.rst:65
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Támogatás a :doc:`/formats/compose-multiplatform-resources` formátumhoz."
 
 #: ../../changes.rst:66
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Added :guilabel:`Translation Coordinator` role."
-msgstr "Fordítási megjegyzés"
+msgstr "Új szerepkör: :guilabel:`Fordítási koordinátor`."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
-msgstr ""
-"A :ref:`addon-weblate.webhook.webhook` mostantól elérhető kiegészítőként."
+msgstr "A :ref:`addon-weblate.webhook.slack` mostantól kiegészítőként elérhető."
 
 #: ../../changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
-#| "all target translation units for the given source translation unit."
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"Hozzáadva: :http:get:`/api/units/(int:id)/translations/` a megadott forrás "
-"fordítási egységhez tartozó összes célnyelvi fordítási egység lekérdezésére."
+"Új végpont: :http:get:`/api/users/(str:username)/contributions/` – "
+"felhasználó közreműködéseinek lekérdezése."
 
 #: ../../changes.rst:72
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -29678,39 +29652,34 @@ msgstr ""
 "A :http:get:`/api/users/` mostantól tartalmazza a ``languages`` mezőt is."
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgid ":ref:`addon-weblate.webhook.webhook` documentation improved."
 msgstr ""
-"A :ref:`addon-weblate.webhook.webhook` kiegészítő mostantól Docker-"
-"környezetben is elérhető."
+"Fejlesztett dokumentáció a :ref:`addon-weblate.webhook.webhook` "
+"kiegészítőhöz."
 
 #: ../../changes.rst:82
-#, fuzzy
-#| msgid "Improved support for Qt TS files."
 msgid "Improved support for extended metadata in :ref:`tbx`."
-msgstr "Továbbfejlesztett támogatás a Qt TS fájlokhoz."
+msgstr "Továbbfejlesztett metaadat-támogatás a :ref:`tbx` esetén."
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` now includes a category field when "
 "available."
 msgstr ""
-"A :ref:`addon-weblate.webhook.webhook` mostantól elérhető kiegészítőként."
+"A :ref:`addon-weblate.webhook.webhook` mostantól kategóriamezőt is "
+"tartalmaz, ha elérhető."
 
 #: ../../changes.rst:84
 msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"A feltöltött betűtípusok frissíthetők, a módosítások nyomon követhetők, lásd:"
+" :ref:`fonts`."
 
 #: ../../changes.rst:85
-#, fuzzy
-#| msgid "Weblate is now available in Tamil."
 msgid "Weblate is now available in Bashkir language."
-msgstr "A Weblate mostantól elérhető tamil (தமிழ்) nyelven."
+msgstr "A Weblate mostantól elérhető baskír nyelven is."
 
 #: ../../changes.rst:89
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -29741,12 +29710,9 @@ msgid "Creating new translations in :doc:`/formats/appstore`."
 msgstr "Új fordítások létrehozása az :doc:`/formats/appstore` formátumban."
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`search-replace` correctly handles plurals."
 msgstr ""
-"Az :ref:`check-icu-message-format` mostantól zökkenőmentesen kezeli a többes "
-"számú szövegeket."
+"A :ref:`search-replace` funkció helyesen kezeli a többes számú alakokat."
 
 #: ../../changes.rst:98
 msgid "The projects and categories default tab now shows translated languages."
@@ -29759,11 +29725,14 @@ msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"Ha a Webhook kiegészítő beállításaiban nincs megadva ``secret``, a Webhook "
+"kérés nem lesz aláírva, lásd: :ref:`addon-weblate.webhook.webhook`."
 
 #: ../../changes.rst:100
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"A :ref:`saml-auth` támogatás már nem része az alapértelmezett függőségeknek."
 
 #: ../../changes.rst:110
 msgid ""
@@ -30047,16 +30016,12 @@ msgstr ""
 "mostantól kezelve vannak."
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid ""
-#| "**Security:** Cloning a component could leak component configuration into "
-#| "the URL (CVE-2025-32021)."
 msgid ""
 "**Security:** Cloning a component could leak component configuration into "
 "the URL (:cve:`2025-32021`)."
 msgstr ""
-"**Biztonság:** Egy összetevő klónozása során a konfiguráció kiszivároghatott "
-"az URL-be (CVE-2025-32021)."
+"**Biztonság:** Összetevő klónozásakor kiszivároghatott a konfiguráció az URL-"
+"ben (:cve:`2025-32021`)."
 
 #: ../../changes.rst:241
 msgid "Fixed captcha verification when some time zone was configured."
@@ -31420,16 +31385,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr "Forrásszövegek eltávolítása a :ref:`szójegyzékből <glossary>`."
 
 #: ../../changes.rst:799
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring (:cve:"
 "`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
 "A :ref:`projectbackup` ZIP fájl érvényesítése visszaállításkor "
-"(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
+"(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 
 #: ../../changes.rst:805
 msgid ""
@@ -34896,14 +34857,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*Kiadva: 2017. január 20.*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
-"A jelszó-visszaállítási űrlapon nem derül ki, hogy egy fiók létezik-e "
-"(CVE-2017-5537)."
+"Ne szivárogtasson ki fióklétet a jelszó-visszaállító űrlapon "
+"(:cve:`2017-5537`)."
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -35819,10 +35777,9 @@ msgstr ""
 "csökkentése."
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "A bleach csomag verziója frissítve a CVE-2020-6802 sebezhetőség miatt."
+msgstr ""
+"A bleach csomag frissítve a következő hiba javítására: :cve:`2020-6802`."
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -38854,18 +38811,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial - :cve:"
 "`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Git és Mercurial parancsargumentumok hiányzó szűrésének javítása – "
-"CVE-2022-23915, részletekért lásd: `GHSA-3872-f48p-pxqj <https://github.com/"
-"WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_."
+"Hiányzó argumentum-szűrés Git és Mercurial esetén javítva – :cve:`2022-23915`"
+", részletek: :ghsa:`3872-f48p-pxqj`."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -38900,18 +38851,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Kiadva: 2022. február 25.*"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Tárolt XSS sebezhetőség javítása – CVE-2022-24710, részletek: "
-"`GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/"
-"advisories/GHSA-6jp6-9rf9-gc66>`_."
+"Tárolt XSS sebezhetőség javítva – :cve:`2022-24710`, részletek: "
+":ghsa:`6jp6-9rf9-gc66`."
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
@@ -43281,10 +43226,8 @@ msgstr ""
 "próbálkozzon a :ref:`discussions` felülettel."
 
 #: ../../contributing/issues.rst:20
-#, fuzzy
-#| msgid "Using AI to created issues"
 msgid "Using AI to create issues"
-msgstr "Mesterséges intelligencia használata hibák jelentésére"
+msgstr "AI használata hibajegyek létrehozására"
 
 #: ../../contributing/issues.rst:22
 msgid ""
@@ -43589,16 +43532,16 @@ msgstr ""
 "hogy a migrációs tesztelés is lefusson."
 
 #: ../../contributing/release.rst:51
-msgid "Increase version in the repository by :command:`./scripts/set-version`."
-msgstr "Verziószám növelése a tárolóban: :command:`./scripts/set-version`."
+msgid "Increase version in the repository by :command:`./scripts/set-version.py`."
+msgstr "Verziószám növelése a tárolóban: :command:`./scripts/set-version.py`."
 
 #: ../../contributing/release.rst:52
 msgid ""
 "Check that readthedocs.org did build all translations of the documentation "
-"using :command:`./scripts/rtd-projects`."
+"using :command:`./scripts/rtd-projects.py`."
 msgstr ""
 "Ellenőrizze, hogy a readthedocs.org lefordította-e az összes dokumentációs "
-"nyelvet: :command:`./scripts/rtd-projects`."
+"nyelvet: :command:`./scripts/rtd-projects.py`."
 
 #: ../../contributing/release.rst:54
 msgid ""
@@ -43936,12 +43879,15 @@ msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
+"A Weblate a `GitHub Actions`_ szolgáltatást használja a tesztek futtatására, "
+"a dokumentáció összeállítására, a kódellenőrzésre és egyéb feladatokra a "
+"kódminőség biztosítása érdekében."
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
-msgstr ""
+msgstr "A `Codecov`_ összegyűjti a tesztekből származó kódfedettségi adatokat."
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
@@ -48468,23 +48414,17 @@ msgid "Supporting other formats"
 msgstr "További formátumok támogatása"
 
 #: ../../formats.rst:495
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) receive any testing. In "
-#| "most cases some thin layer is needed in Weblate to hide differences in "
-#| "behavior of different `translate-toolkit`_ storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) received any testing. In most "
 "cases, an additional thin layer is needed in Weblate to hide differences in "
 "behavior of different storages."
 msgstr ""
-"A legtöbb, a `translate-toolkit`_ által támogatott és kiírható formátum, "
-"viszonylag könnyen használható a Weblate-ben is – bár ezek közül nem "
-"mindegyiket tesztelték még. A legtöbb esetben a Weblate egy vékony "
-"illesztőréteget használ, hogy elrejtse a `translate-toolkit`_ adattárolóinak "
-"viselkedésbeli különbségeit."
+"A `translate-toolkit`_ által támogatott legtöbb formátum, amely támogatja az "
+"adatstruktúrák fájlba történő mentését, elviekben könnyen integrálható, "
+"azonban ezek (még) nem estek át tesztelésen. A Weblate-ben a különböző "
+"tárolók viselkedésbeli eltéréseinek elfedéséhez általában egy vékony "
+"absztrakciós réteg szükséges."
 
 #: ../../formats.rst:500
 msgid ""
@@ -48509,6 +48449,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"Nagyon hasonló formátumok: :doc:`/formats/compose-multiplatform-resources` "
+"és :doc:`/formats/moko-resources`."
 
 #: ../../formats/android.rst:17
 msgid ""
@@ -48588,22 +48530,15 @@ msgstr ""
 "fordíthatóként. Ez különösen hasznos lehet hivatkozott sztringek esetén:"
 
 #: ../../formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`/formats/compose-multiplatform-"
 "resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android szövegforrások dokumentációja <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_ :doc:`tt:formats/android`"
+"`Android szöveges erőforrások dokumentációja <https://developer.android.com/"
+"guide/topics/resources/string-resource>`_, :doc:`/formats/compose-"
+"multiplatform-resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/"
+"android`"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -48837,32 +48772,24 @@ msgid "`ARB file`"
 msgstr "`ARB-fájl`"
 
 #: ../../formats/compose-multiplatform-resources.rst:2
-#, fuzzy
-#| msgid "How to translate multi-platform projects?"
 msgid "Compose Multiplatform resources"
-msgstr "Hogyan fordíthatók többplatformos projektek?"
+msgstr "Compose Multiplatform alkalmazáserőforrások"
 
 #: ../../formats/compose-multiplatform-resources.rst:9
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ""
+"A :doc:`/formats/android` formátum egy alternatívája, amely elsősorban a "
+"speciális karakterek kezelésében különbözik."
 
 #: ../../formats/compose-multiplatform-resources.rst:14
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`tt:"
-#| "formats/android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_, :doc:`/"
 "formats/android`, :doc:`tt:formats/android`"
 msgstr ""
-"`Android szövegforrások dokumentációja <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ `JetBrains Compose Multiplatform Kotlin "
-"Resources <https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-"
-"multiplatform-resources.html>`_ :doc:`tt:formats/android`"
+"`JetBrains Compose Multiplatform alkalmazáserőforrások <https://"
+"www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-"
+"resources.html>`_, :doc:`/formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/compose-multiplatform-resources.rst:24
 #: ../../formats/moko-resources.rst:24
@@ -48876,7 +48803,7 @@ msgstr "``commonMain/composeResources/values/strings.xml``"
 
 #: ../../formats/compose-multiplatform-resources.rst:30
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Compose Multiplatform alkalmazáserőforrások`"
 
 #: ../../formats/csv.rst:4
 msgid "CSV files"
@@ -49967,12 +49894,17 @@ msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+"Ez a :doc:`/formats/android` formátum egy változata, amely a többes számú "
+"címke (``plural`` a ``plurals`` helyett), valamint a speciális karakterek "
+"kezelésének módjában tér el."
 
 #: ../../formats/moko-resources.rst:14
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_, :"
 "doc:`/formats/android`, :doc:`tt:formats/android`"
 msgstr ""
+"`Mobile Kotlin alkalmazáserőforrások <https://github.com/icerockdev/moko-"
+"resources>`_, :doc:`/formats/android`, :doc:`tt:formats/android`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -50279,10 +50211,8 @@ msgstr ""
 "from=\"translator\">`` címkében."
 
 #: ../../formats/tbx.rst:12
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative status"
-msgstr "Adminisztráció"
+msgstr "Adminisztratív állapot"
 
 #: ../../formats/tbx.rst:13
 msgid ""
@@ -50290,30 +50220,33 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
+"Azok a kifejezések, amelyek ``<termNote type=\"administrativeStatus\">`` "
+"mezője ``forbidden`` vagy ``obsolete``, ``forbidden`` megjelölést kapnak "
+"(:ref:`glossary-forbidden`)."
 
 #: ../../formats/tbx.rst:15
-#, fuzzy
-#| msgid "Translation added"
 msgid "Translation needed"
-msgstr "Fordítás hozzáadva"
+msgstr "Fordítást igényel"
 
 #: ../../formats/tbx.rst:16
 msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`)."
 msgstr ""
+"Azok a kifejezések, amelyek ``<termNote type=\"translationNote\">`` mezője "
+"``no``, csak olvashatóként jelennek meg (:ref:`glossary-untranslatable`)."
 
 #: ../../formats/tbx.rst:17
-#, fuzzy
-#| msgid "Other notes"
 msgid "Usage notes"
-msgstr "Egyéb megjegyzések"
+msgstr "Használati megjegyzések"
 
 #: ../../formats/tbx.rst:18
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
 msgstr ""
+"A ``<descrip type=\"Usage note\">`` címkékből származó megjegyzések "
+"megjelennek a szójegyzékben."
 
 #: ../../formats/tbx.rst:23
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -51289,16 +51222,14 @@ msgid "Docker container security"
 msgstr "Docker-konténerek biztonsága"
 
 #: ../../security/dependencies.rst:28
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release improvements "
-#| "quickly."
 msgid ""
 "The Docker containers are scanned for security vulnerabilities in our CI. "
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
-"Ez lehetővé teszi a sérülékenységek korai felismerését és a gyors frissítést."
+"A Docker-konténereket a CI-folyamat során biztonsági sebezhetőségek "
+"szempontjából átvizsgáljuk. Ez lehetővé teszi a hibák korai felismerését és "
+"a gyors javítások kiadását."
 
 #: ../../security/dependencies.rst:31
 msgid ""
@@ -51315,6 +51246,8 @@ msgid ""
 ":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
 "<https://anchore.com/>`_"
 msgstr ""
+":ref:`ci-tests`, `Renovate <https://www.mend.io/renovate/>`_, `Anchore "
+"<https://anchore.com/>`_"
 
 #: ../../security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -51401,8 +51334,6 @@ msgstr ""
 "kötetek, SSL/TLS konfiguráció, valamint opcionálisan SIEM naplózó rendszer."
 
 #: ../../security/disaster-recovery-plan.rst:28
-#, fuzzy
-#| msgid "Backup colicy"
 msgid "Backup policy"
 msgstr "Mentési irányelv"
 
@@ -51857,33 +51788,28 @@ msgid ":doc:`privacy-compliance`"
 msgstr ":doc:`privacy-compliance`"
 
 #: ../../security/index.rst:41
-#, fuzzy
-#| msgid "Short overview of the terms of service and privacy policy"
 msgid "Terms of service and privacy policy"
-msgstr ""
-"Rövid összefoglaló a használati feltételekről és az adatvédelmi irányelvekről"
+msgstr "Használati feltételek és adatvédelmi irányelv"
 
 #: ../../security/index.rst:45
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate."
 msgstr ""
+"Ezen dokumentumok a Weblate s.r.o. által üzemeltetett Weblate-"
+"szolgáltatásokra vonatkoznak, mint például a Hosted Weblate."
 
 #: ../../security/index.rst:47
-#, fuzzy
-#| msgid "General Terms and Conditions"
 msgid "`General terms and conditions`_"
-msgstr "Általános szerződési feltételek"
+msgstr "`Általános szerződési feltételek`_"
 
 #: ../../security/index.rst:48
-#, fuzzy
-#| msgid "Privacy policy"
 msgid "`Privacy policy`_"
-msgstr "Adatvédelmi irányelvek"
+msgstr "`Adatvédelmi irányelvek`_"
 
 #: ../../security/index.rst:49
 msgid "The data processing agreement can be obtained in the `Customer area`_."
-msgstr ""
+msgstr "Az adatkezelési megállapodás elérhető az `Ügyfélfelületen`_ keresztül."
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -52410,10 +52336,8 @@ msgid "nFADP (Switzerland)"
 msgstr "nFADP (Svájc)"
 
 #: ../../security/privacy-compliance.rst:89
-#, fuzzy
-#| msgid "Purpose limitation, disclosure transparency"
 msgid "Purpose limitation, consent, transparency"
-msgstr "Célhoz kötöttség, átlátható adatközlés"
+msgstr "Célhoz kötöttség, hozzájárulás, átláthatóság"
 
 #: ../../security/privacy-compliance.rst:91
 msgid "PIPEDA (Canada)"
@@ -52436,10 +52360,8 @@ msgid "PIPL (China)"
 msgstr "PIPL (Kína)"
 
 #: ../../security/privacy-compliance.rst:95
-#, fuzzy
-#| msgid "Purpose limitation, data minimization, localization"
 msgid "Purpose limitation, data minimization, locality"
-msgstr "Célhoz kötöttség, adatminimalizálás, helyi adatkezelés"
+msgstr "Célhoz kötöttség, adatminimalizálás, adatlokalizáció"
 
 #: ../../security/privacy-compliance.rst:99
 msgid "Recommendations for compliance"
@@ -52479,16 +52401,12 @@ msgstr ""
 "a hozzáférési vagy törlési kérelmek teljesítésére."
 
 #: ../../security/privacy-compliance.rst:105
-#, fuzzy
-#| msgid ""
-#| "**Localization:** Ensure infrastructure is physically located within the "
-#| "target jurisdiction as required."
 msgid ""
 "**Locality:** Ensure infrastructure is physically located within the target "
 "jurisdiction as required."
 msgstr ""
-"**Lokalizáció:** Gondoskodjon róla, hogy az infrastruktúra fizikailag a cél "
-"joghatóság területén helyezkedjen el, ha ez előírás."
+"**Adatlokalizáció**: Biztosítani kell, hogy az infrastruktúra fizikailag a "
+"célzott joghatóság területén helyezkedjen el, amennyiben ezt előírják."
 
 #: ../../security/threat-model.rst:2
 msgid "Weblate threat model"
@@ -52511,8 +52429,6 @@ msgstr ""
 "projektmenedzser, adminisztrátor)."
 
 #: ../../security/threat-model.rst:8
-#, fuzzy
-#| msgid "System description an scope"
 msgid "System description and scope"
 msgstr "A rendszer leírása és hatóköre"
 

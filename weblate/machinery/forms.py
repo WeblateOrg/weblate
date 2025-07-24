@@ -153,7 +153,10 @@ class MicrosoftMachineryForm(KeyMachineryForm):
             ("api.cognitive.microsofttranslator.com", "Global (non-regional)"),
             ("api-apc.cognitive.microsofttranslator.com", "Asia Pacific"),
             ("api-eur.cognitive.microsofttranslator.com", "Europe"),
-            ("api-nam.cognitive.microsofttranslator.com", "North America"),
+            (
+                "api-nam.cognitive.microsofttranslator.com",  # codespell:ignore
+                "North America",
+            ),
             ("api.translator.azure.cn", "China"),
             ("api.cognitive.microsofttranslator.us", "Azure US Government cloud"),
         ),

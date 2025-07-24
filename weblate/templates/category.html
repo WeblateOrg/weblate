@@ -2,22 +2,7 @@
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements project=object.project %}
-
-  {% include "snippets/project/state.html" with object=object.project %}
-
-  {% include "snippets/watch-dropdown.html" with project=object.project %}
-
+{% block nav_pills %}
   {% perm 'project.edit' object as user_can_edit_project %}
   {% perm 'reports.view' object as user_can_view_reports %}
 
@@ -120,7 +105,26 @@
       </ul>
     </li>
     {% include "snippets/share-menu.html" with object=object.project %}
+    {% include "snippets/watch-dropdown.html" with project=object.project %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements project=object.project %}
+
+  {% include "snippets/project/state.html" with object=object.project %}
+
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">

@@ -20,7 +20,10 @@ from .base import (
 from .forms import DeepLMachineryForm
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from weblate.auth.models import User
+    from weblate.lang.models import Language
     from weblate.trans.models import Unit
 
 
@@ -40,20 +43,31 @@ class DeepLTranslation(
         "pt@formal": "pt-pt@formal",
         "pt@informal": "pt-pt@informal",
     }
-    hightlight_syntax = True
+    highlight_syntax = True
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
 
     @property
     def api_base_url(self):
         url = super().api_base_url
-        if self.settings["key"].endswith(":fx") and url == "https://api.deepl.com/v2":
+        if self.settings["key"].endswith(":fx") and url.startswith(
+            "https://api.deepl.com/v2"
+        ):
             return "https://api-free.deepl.com/v2"
         return url
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").upper()
+
+    def get_language_possibilities(self, language: Language) -> Iterator[str]:
+        for value in super().get_language_possibilities(language):
+            yield value
+            # Add variant without suffix, this is needed for source languages
+            # as DeepL does not differentiate most language variants on the source
+            # string side.
+            if "-" in value:
+                yield value.split("-", 1)[0]
 
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
@@ -230,6 +244,6 @@ class DeepLTranslation(
 
     def get_glossary_count_limit(self) -> int:
         # Free tier has lower limit on glossaries
-        if self.api_base_url == "https://api-free.deepl.com/v2":
+        if self.api_base_url.startswith("https://api-free.deepl.com/v2"):
             return 1
         return super().get_glossary_count_limit()
