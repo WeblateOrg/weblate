@@ -20,7 +20,7 @@ Weblate 5.13
 * Reorganized navigation menu.
 * When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
 * Avatars for API and internal accounts.
-* Adding new TOTP authentication will now remove previous ones by default.
+* Adding a new TOTP device removes the existing one by default; checkbox for not removing previous ones available.
 
 .. rubric:: Bug fixes
 
