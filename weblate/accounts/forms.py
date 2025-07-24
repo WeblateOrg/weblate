@@ -1105,14 +1105,14 @@ class TOTPDeviceForm(forms.Form):
     remove_previous = forms.BooleanField(
         required=False,
         initial=True,
-        label=gettext_lazy("Discard previously configured authentication app"),
+        label=gettext_lazy("Discard previously configured authentication apps"),
         help_text=format_html(
             "{}<br>{}",
             gettext_lazy(
                 "All previously configured authentication apps will be discarded upon verification of the new app."
             ),
             gettext(
-                "Other two-factor methods (such as WebAuthn security keys) won't be affected."
+                "Other two-factor methods (such as WebAuthn and security keys) won't be affected."
             ),
         ),
     )
