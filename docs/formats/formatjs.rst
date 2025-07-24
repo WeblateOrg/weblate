@@ -17,7 +17,6 @@ Example file:
 .. code-block:: json
 
    {
-      {
      "hak27d": {
        "defaultMessage": "Control Panel",
        "description": "title of control panel section"
