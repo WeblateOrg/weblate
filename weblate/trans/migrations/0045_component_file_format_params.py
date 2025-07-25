@@ -61,18 +61,9 @@ ADDON_CONFG_TO_FILE_FORMAT_PARAMS = {
 }
 
 
-def convert_addon_config_to_file_format_params(addon) -> tuple[tuple, dict[str, Any]]:
-    """Convert addon configuration to file format parameters."""
-    attrs = ADDON_CONFG_TO_FILE_FORMAT_PARAMS[addon.name]
-    params = {}
-    for addon_config, param_name in attrs["format_params"].items():
-        if addon_config in addon.configuration:
-            params[param_name] = addon.configuration[addon_config]
-    return attrs["file_formats"], params
-
-
 def migrate_addons_config(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
+    Addon = apps.get_model("addons", "Addon")
     to_update = []
 
     addon_configs = collect_addon_configurations(apps)
@@ -84,6 +75,27 @@ def migrate_addons_config(apps, schema_editor):
             to_update.append(component)
     if to_update:
         Component.objects.bulk_update(to_update, ["file_format_params"])
+
+    # delete stale addons
+    to_delete = [
+        "weblate.json.customize",
+        "weblate.gettext.customize",
+        "weblate.yaml.customize",
+    ]
+    Addon.objects.filter(name__in=to_delete).delete()
+
+    # remove configurations from msgmerge addon
+    Addon.objects.filter(name="weblate.gettext.msgmerge").update(configuration={})
+
+
+def convert_addon_config_to_file_format_params(addon) -> tuple[tuple, dict[str, Any]]:
+    """Convert addon configuration to file format parameters."""
+    attrs = ADDON_CONFG_TO_FILE_FORMAT_PARAMS[addon.name]
+    params = {}
+    for addon_config, param_name in attrs["format_params"].items():
+        if addon_config in addon.configuration:
+            params[param_name] = addon.configuration[addon_config]
+    return attrs["file_formats"], params
 
 
 def collect_addon_configurations(apps) -> dict[str, list | dict]:
@@ -148,5 +160,4 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.RunPython(migrate_addons_config, migrations.RunPython.noop),
-        # TOTO add migration to delete addons
     ]

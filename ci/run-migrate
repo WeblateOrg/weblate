@@ -118,10 +118,10 @@ from weblate.trans.models import Component, Project
 Addon.objects.bulk_create([
 	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
 	Addon(project_id=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
-	Addon(component=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
+	Addon(component_id=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
 	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
 	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
-	Addon(component=1, name="weblate.json.customize", configuration={"style": "spaces"}),
+	Addon(component_id=1, name="weblate.json.customize", configuration={"style": "spaces"}),
 ])
 EOF
     check
@@ -179,6 +179,9 @@ assert 'json_indent_style' not in file_format_params
 assert file_format_params['po_line_wrap'] == -1
 assert file_format_params['po_keep_previous'] is False
 assert file_format_params['po_no_location'] is True
+assert not Addon.objects.filter(name="weblate.json.customize").exists()
+assert not Addon.objects.filter(name="weblate.gettext.customize").exists()
+assert Addon.objects.filter(name="weblate.gettext.msgmerge").exists()
 EOF
     check
 fi

@@ -5,21 +5,20 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
 
-from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
-from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
-from weblate.formats.base import TranslationFormat, UpdateError
+from weblate.addons.forms import GenerateMoForm, MsgmergeForm
+from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
-    from weblate.formats.ttkit import BasePoFormat
     from weblate.trans.models import Component, Translation
 
 
@@ -244,20 +243,6 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             return False
         return super().can_install(component, user)
 
-    def get_msgmerge_args(self, component: Component):
-        args = []
-        if not self.instance.configuration.get("fuzzy", True):
-            args.append("--no-fuzzy-matching")
-        if self.instance.configuration.get("previous", True):
-            args.append("--previous")
-        if self.instance.configuration.get("no_location", False):
-            args.append("--no-location")
-
-        # Apply gettext customize add-on configuration
-        if customize_addon := component.get_addon(GettextCustomizeAddon.name):
-            args.extend(customize_addon.addon.get_msgmerge_args(component))
-        return args
-
     def update_translations(self, component: Component, previous_head: str) -> None:
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
@@ -322,27 +307,6 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             component.create_translations()
             return True
         return False
-
-
-class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
-    name = "weblate.gettext.customize"
-    verbose = gettext_lazy("Customize gettext output")
-    description = gettext_lazy(
-        "Allows customization of gettext output behavior, for example line wrapping."
-    )
-    settings_form = GettextCustomizeForm
-
-    def store_post_load(
-        self, translation: Translation, store: TranslationFormat
-    ) -> None:
-        cast("BasePoFormat", store).store.wrapper.width = int(
-            self.instance.configuration.get("width", 77)
-        )
-
-    def get_msgmerge_args(self, component: Component):
-        if int(self.instance.configuration.get("width", 77)) != 77:
-            return ["--no-wrap"]
-        return []
 
 
 class GettextAuthorComments(GettextBaseAddon):

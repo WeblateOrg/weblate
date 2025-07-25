@@ -75,10 +75,10 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
 
     def test_file_params_update(self):
         self.client_create_component(True)
-        component = self.get_new_component()
-        self.assertFalse(component.file_format_params["po_line_wrap"])
+        self.component = self.get_new_component()
+        self.assertFalse(self.component.file_format_params["po_line_wrap"])
         self.update_component_file_params(po_line_wrap=65535)
-        self.assertEqual(component.file_format_params["po_line_wrap"], "65535")
+        self.assertEqual(self.component.file_format_params["po_line_wrap"], "65535")
 
 
 class JsonParamsTest(BaseFileFormatsTest):
