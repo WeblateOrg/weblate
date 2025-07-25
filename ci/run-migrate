@@ -105,19 +105,22 @@ EOF
     check
 fi
 
-# Create addons with different scopes
 semver_compare "$1" ">" "5.5"
 addon_scopes=$?
-if [ "$addon_scopes" -eq 0 ]; then
+# Create addons with different scopes
+semver_compare "$1" "<" "5.12"
+file_format_params=$?
+
+if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
     ./manage.py shell << EOF
 from weblate.addons.models import Addon
 from weblate.trans.models import Component, Project
 Addon.objects.bulk_create([
 	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
-	Addon(project_=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
+	Addon(project_id=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
 	Addon(component=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
 	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
-	Addon(project_=1, name="weblate.yaml.customize", configuration={"indent": 2}),
+	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
 	Addon(component=1, name="weblate.json.customize", configuration={"style": "spaces"}),
 ])
 EOF
@@ -163,7 +166,7 @@ EOF
     check
 fi
 
-if [ "$addon_scopes" -eq 0 ]; then
+if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
     # check that relevant addon parameters have been migrated to file_format_params
     ./manage.py shell << EOF
 from weblate.addons.models import Addon

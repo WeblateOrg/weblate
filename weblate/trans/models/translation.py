@@ -1268,7 +1268,7 @@ class Translation(
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
-                args = self.store.get_update_args(component)
+                args = self.component.file_format_cls.get_msmerge_args(component)
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language

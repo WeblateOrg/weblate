@@ -510,9 +510,6 @@ class TTKitFormat(TranslationFormat):
         self.store.removeunit(ttkit_unit)
         return None
 
-    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
-        """Load file format parameters into the store."""
-
 
 class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties-based units."""
@@ -1633,6 +1630,7 @@ class CSVFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -1641,6 +1639,7 @@ class CSVFormat(TTKitFormat):
             source_language=source_language,
             is_template=is_template,
             existing_units=existing_units,
+            file_format_params=file_format_params,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -2168,6 +2167,7 @@ class TBXFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2176,6 +2176,7 @@ class TBXFormat(TTKitFormat):
             is_template=is_template,
             source_language=source_language,
             existing_units=existing_units,
+            file_format_params=file_format_params,
         )
         # Add language header if not present
         self.store.addheader()

@@ -880,12 +880,15 @@ class TranslationFormat:
     def validate_context(context: str) -> None:  # noqa: ARG004
         return
 
+    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
+        """Load file format parameters into the store."""
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
-    def load(cls, storefile, template_store):  # noqa: ARG003
+    def load(cls, storefile, template_store, file_format_params):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
     def save(self) -> None:
@@ -914,7 +917,7 @@ class BilingualUpdateMixin:
                 os.unlink(temp.name)
 
     @classmethod
-    def get_update_args(cls, component) -> list[str]:
+    def get_msmerge_args(cls, component) -> list[str]:
         """
         Return list of arguments for update command.
 
