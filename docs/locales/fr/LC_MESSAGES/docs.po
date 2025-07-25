@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-23 09:12+0000\n"
+"PO-Revision-Date: 2025-07-24 13:15+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -6172,6 +6172,11 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
+"Restaurer une sauvegarde peut échouer si le serveur qui exécute la tâche "
+"possède un ensemble différent de :ref:`languages` ou une configuration "
+"différente pour :setting:`SIMPLIFY_LANGUAGES`. La restauration vous donnera "
+"le code des langues qui ne peuvent pas être traitées et vous pourrez alors "
+"ajouter la définition des langues manquantes manuellement."
 
 #: ../../admin/backup.rst:48
 msgid "Automated backup using BorgBackup"
@@ -8991,6 +8996,8 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Il n'est pas recommandé d'augmenter la fréquence lorsque Weblate contient "
+"des milliers de composants."
 
 #: ../../admin/config.rst:231
 msgid "BASIC_LANGUAGES"
@@ -9002,6 +9009,10 @@ msgid ""
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
+"Liste des langues à présenter aux utilisateurs pour commencer une nouvelle "
+"traduction. Si absente, une liste prédéfinie est utilisée (comprenant toutes "
+"les langues habituellement utilisées, mais sans les variantes spécifiques "
+"aux pays)."
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -9009,6 +9020,9 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Le but est d'empêcher les utilisateurs non privilégiés d'ajouter des langues "
+"non souhaitées. Les administrateurs de projets voient par contre, la liste "
+"complète des langues de Weblate."
 
 #: ../../admin/config.rst:244
 msgid ""
@@ -9031,6 +9045,8 @@ msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
+"Vous pouvez passer des arguments supplémentaires à :command:`borg create` "
+"quand les sauvegardes prédéfinies sont utilisées."
 
 #: ../../admin/config.rst:274
 #, fuzzy
@@ -9047,18 +9063,24 @@ msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Répertoire où Weblate range les fichiers de cache. Par défaut il s'agit du "
+"sous-répertoire :file:`cache` de :setting:`DATA_DIR`."
 
 #: ../../admin/config.rst:287
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Si :setting:`DATA_DIR` est sur un système de fichiers du réseau, modifiez "
+"ceci en choisissant un système de fichiers local ou temporaire."
 
 #: ../../admin/config.rst:290 ../../admin/config.rst:444
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"Le conteneur Docker utilise un volume séparé pour cela, voir :ref:`docker-"
+"volume`."
 
 #: ../../admin/config.rst:292 ../../admin/config.rst:427
 msgid "The following subdirectories usually exist:"
@@ -9070,7 +9092,7 @@ msgstr ":file:`fonts`"
 
 #: ../../admin/config.rst:295
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr "cache :program:`font-config` pour :ref:`fonts`."
 
 #: ../../admin/config.rst:296
 msgid ":file:`avatar`"
@@ -9089,6 +9111,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
+"Emplacement par défaut des fichiers statiques Django, spécifié par "
+":setting:`django:STATIC_ROOT`. Voir :ref:`static-files`."
 
 #: ../../admin/config.rst:300
 msgid ":file:`tesseract`"
@@ -9096,7 +9120,7 @@ msgstr ":file:`tesseract`"
 
 #: ../../admin/config.rst:301
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "données entraînées par OCR pour :ref:`screenshots`."
 
 #: ../../admin/config.rst:311
 #, fuzzy
@@ -9114,10 +9138,13 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Personnaliser l'entête :http:header:`Content-Security-Policy` pour Weblate. "
+"Elle est générée automatiquement en se basant sur les intégrations actives "
+"avec les services tiers (Matomo, Google Analytics, Sentry, …)."
 
 #: ../../admin/config.rst:317
 msgid "All these default to empty list."
-msgstr ""
+msgstr "La valeur par défaut pour tous est la liste vide."
 
 #: ../../admin/config.rst:328
 #, fuzzy
@@ -9149,7 +9176,7 @@ msgstr ""
 
 #: ../../admin/config.rst:343
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr ""
+msgstr "Ajuster la liste des contrôles pour inclure ceux qui vous concernent."
 
 #: ../../admin/config.rst:345
 msgid ""

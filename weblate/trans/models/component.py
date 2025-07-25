@@ -595,7 +595,7 @@ class Component(
     )
     enforced_checks = models.JSONField(
         verbose_name=gettext_lazy("Enforced checks"),
-        help_text=gettext_lazy("List of checks which can not be ignored."),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
         default=list,
         blank=True,
     )
@@ -1892,6 +1892,10 @@ class Component(
             self.delete_alert("PushFailure")
             return True
 
+    @property
+    def pushes_to_different_location(self) -> bool:
+        return self.branch != self.push_branch or self.repo.pushes_to_different_location
+
     @perform_on_link
     def do_push(
         self,
@@ -1925,7 +1929,7 @@ class Component(
             self.do_update(request)
 
             # Were all changes merged?
-            if self.repo_needs_merge():
+            if not self.pushes_to_different_location and self.repo_needs_merge():
                 return False
 
         # Send pre push signal

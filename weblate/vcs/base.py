@@ -11,7 +11,7 @@ import logging
 import os
 import os.path
 import subprocess
-from typing import TYPE_CHECKING, Self, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
 
 from dateutil import parser
 from django.core.cache import cache
@@ -73,6 +73,7 @@ class Repository:
     default_branch: str = ""
     needs_push_url: bool = True
     supports_push: bool = True
+    pushes_to_different_location: ClassVar[bool] = False
     push_label: StrOrPromise = gettext_lazy(
         "This will push changes to the upstream repository."
     )
