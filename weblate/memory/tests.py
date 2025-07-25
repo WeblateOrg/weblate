@@ -345,14 +345,11 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         unit,
         source: str,
         user=None,
-        component=None,
         text: str | None = None,
         origin: str = "Project",
     ) -> dict:
         results = mt.search(unit, source, user)
-        if component is None:
-            component = self.component
-        origin = f"{origin}: {component.full_slug}"
+        origin = f"{origin}: {self.component.full_slug}"
         results = [r for r in results if origin in r["origin"]]
         if text:
             results = [r for r in results if text in r["text"]]
