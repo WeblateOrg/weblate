@@ -175,6 +175,7 @@
         <tr id="{{ row_id }}">
           <td class="actions" rowspan="2">
             {% if object.is_ghost %}
+              {# {% perm 'translation.add' object.component as user_can_add_translation %} #}
               {% if user_can_add_translation %}
                 <form action="{% url 'new-language' path=object.project.get_url_path %}"
                       method="post">

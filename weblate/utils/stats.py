@@ -1503,5 +1503,6 @@ class GhostCategoryLanguageStats(GhostStats):
     def __init__(self, category: Category, language: Language) -> None:
         category_language = CategoryLanguage(category, language)
         super().__init__(category_language.stats)
+        self.project = category.project
         self.category = category
         self.language = language

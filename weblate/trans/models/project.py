@@ -812,6 +812,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             filter_ |= Q(new_lang="none") | Q(new_lang="url")
 
         def filter_callback(qs):
-            return qs.filter(filter_)
+            return qs.exclude(filter_)
 
         return self.get_child_components_access(user, filter_callback)

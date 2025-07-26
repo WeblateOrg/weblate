@@ -3,12 +3,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -56,7 +55,6 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.component import (
-    ComponentQuerySet,
     prefetch_tasks,
     translation_prefetch_tasks,
 )
@@ -124,31 +122,14 @@ def list_projects(request: AuthenticatedHttpRequest):
 def add_ghost_translations(
     obj: Project | Category,
     user: User,
-    components: ComponentQuerySet,
     translations: list,
     generator: Callable,
     **kwargs,
 ) -> None:
     """Add ghost translations for user languages to the list."""
-    components_count = components.count()
-
-    languages = (
-        components.values("translation__language")
-        .annotate(count=Count("translation__id"))
-        .values_list("translation__language", "count")
-    )
-
-    language_counter: dict[int, int] = defaultdict(int)
-    for language_id, count in languages:
-        language_counter[language_id] += count
-
-    languages_in_all_components = {
-        language_id
-        for language_id, count in language_counter.items()
-        if count >= components_count
-    }
+    language_ids = {translation.language.id for translation in translations}
     for language in user.profile.all_languages:
-        if language.id in languages_in_all_components:
+        if language.id in language_ids:
             continue
         translations.append(generator(obj, language, **kwargs))
 
@@ -406,7 +387,6 @@ def show_project(request: AuthenticatedHttpRequest, obj):
         add_ghost_translations(
             obj,
             user,
-            can_add_language_components,
             language_stats,
             GhostProjectLanguageStats,
         )
@@ -484,7 +464,6 @@ def show_category(request: AuthenticatedHttpRequest, obj):
         add_ghost_translations(
             obj,
             user,
-            can_add_language_components,
             language_stats,
             GhostCategoryLanguageStats,
         )
@@ -539,6 +518,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.all()),
+            "user_can_add_translation": user_can_add_translation,
         },
     )
 
@@ -558,7 +538,6 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
         add_ghost_translations(
             obj.project,
             user,
-            can_add_language_components,
             translations,
             GhostTranslation,
             component=obj,
@@ -610,6 +589,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
+            "user_can_add_translation": user_can_add_translation,
         },
     )
 
