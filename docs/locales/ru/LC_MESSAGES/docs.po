@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-26 03:48+0000\n"
+"PO-Revision-Date: 2025-07-27 10:04+0000\n"
 "Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -2218,7 +2218,7 @@ msgstr "``check:inconsistent`` -- Неудачная проверка: Прот�
 
 #: ../../admin/addons.rst:157
 msgid "``check:translated`` -- Failing check: Has been translated"
-msgstr "Дадаć жак інšи пиераклад"
+msgstr "``check:translated`` -- Проверка не пройдена: было переведено"
 
 #: ../../admin/addons.rst:159
 msgid "``auto_source``"
@@ -20117,7 +20117,7 @@ msgstr "100"
 
 #: ../../admin/machine.rst:243
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "Викаристоŭваć сервиси маšиннаhа пиеракладу"
+msgstr "Служба машинного перевода с использованием библиотеки Cyrtranslit."
 
 #: ../../admin/machine.rst:245
 msgid ""
@@ -20338,7 +20338,7 @@ msgstr "``google-translate``"
 
 #: ../../admin/machine.rst:365 ../../admin/machine.rst:399
 msgid "Machine translation service provided by the Google Cloud services."
-msgstr "Викаристоŭваć сервиси маšиннаhа пиеракладу"
+msgstr "Служба машинного перевода, предоставляемая сервисами Google Cloud."
 
 #: ../../admin/machine.rst:367
 msgid ""
@@ -21684,7 +21684,7 @@ msgstr "import_memory"
 
 #: ../../admin/management.rst:351
 msgid "Imports a file into the Weblate translation memory."
-msgstr "Викаристоŭваć аhуĺнужу памиаć пиеракладаŭ"
+msgstr "Импортирует файл в память переводов Weblate."
 
 #: ../../admin/management.rst:353
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
@@ -25780,31 +25780,24 @@ msgstr ""
 
 #: ../../admin/support.rst:24
 msgid "Info sent to the Weblate"
-msgstr "Увайски длиа викаристанниа Веблате."
+msgstr "Информация, отправляемая в Weblate"
 
 #: ../../admin/support.rst:26
 msgid "Your Weblate instance URL"
-msgstr "Маhčимажа канфіhуракижа"
+msgstr "URL вашего экземпляра Weblate"
 
 #: ../../admin/support.rst:27
 msgid "Its site title"
-msgstr "Падрабиазнаскі репазіторижа"
+msgstr "Название сайта"
 
 #: ../../admin/support.rst:28
-#, fuzzy
-#| msgid "The Weblate version you are running"
 msgid "The version you are running"
-msgstr "Ваша версия Weblate"
+msgstr "Версия, которую вы используете"
 
 #: ../../admin/support.rst:29
-#, fuzzy
-#| msgid ""
-#| "Tallies of some objects in your Weblate database (projects, components, "
-#| "languages, source strings and users)"
 msgid "Tallies of projects, components, languages, source strings, and users"
 msgstr ""
-"Колличество некоторых объектов в вашей базе данных Wablate (проектов, "
-"компонентов, языков, исходных строк и пользователей)"
+"Количество проектов, компонентов, языков, исходных строк и пользователей"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
@@ -42816,7 +42809,7 @@ msgstr "Пражект / Кампаниент"
 
 #: ../../contributing/addons.rst:25
 msgid "ORM object for a translation."
-msgstr "Дадаć жак інšи пиераклад"
+msgstr "ORM-объект для перевода."
 
 #: ../../contributing/addons.rst:29
 msgid "ORM object for a project."
@@ -62115,12 +62108,6 @@ msgid "Needs editing"
 msgstr "На правку"
 
 #: ../../workflows.rst:67
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change, fuzzy matching or translator action. The translation is stored in "
-#| "the file, depending on the file format it might be marked as needing edit "
-#| "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
@@ -62182,19 +62169,15 @@ msgid "The states are represented in the translation files when possible."
 msgstr "Состояния по возможности представлены в файлах перевода."
 
 #: ../../workflows.rst:90
-#, fuzzy
-#| msgid ""
-#| "If the file format you use does not support storing states, you might "
-#| "want to use :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
-#| "strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing editing."
 msgstr ""
 "В случае, если используемый вами формат файла не поддерживает хранение "
-"состояний, вы можете использовать надстройку :ref:`addon-weblate.flags."
-"same_edit`, чтобы пометить неизменённые строки флагом «На правку»."
+"состояний, вы можете использовать надстройку :ref:`addon-"
+"weblate.flags.same_edit`, чтобы пометить неизменённые строки флагом «На "
+"правку»."
 
 #: ../../workflows.rst:96
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
@@ -62251,12 +62234,10 @@ msgid "on"
 msgstr "вкл"
 
 #: ../../workflows.rst:114 ../../workflows.rst:179
-#, fuzzy
-#| msgid "It is useful for users to be able to suggest when they are not sure."
 msgid "Useful for users to be able to suggest when they are not sure."
 msgstr ""
-"Полезны для пользователей в качестве способа предложения изменений, когда "
-"они в них не уверены."
+"Полезно для пользователей в качестве способа внесения своих предложения, "
+"когда они в чём-то не уверены."
 
 #: ../../workflows.rst:119 ../../workflows.rst:184
 msgid "0"
@@ -62288,17 +62269,12 @@ msgid "Peer review"
 msgstr "Коллегиальное рецензирование"
 
 #: ../../workflows.rst:134
-#, fuzzy
-#| msgid ""
-#| "With this workflow, anybody can add a suggestion, which needs approval "
-#| "from additional member(s) before it is accepted as a translation."
 msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional members before it is accepted as a translation."
 msgstr ""
-"При такой схеме работы каждый может добавить предложение, которое перед "
-"принятием в качестве перевода должно быть одобрено дополнительным "
-"участниками."
+"При такой схеме работы любой желающий может добавить предложение, которое "
+"перед принятием в качестве перевода должно быть одобрено другими участниками."
 
 #: ../../workflows.rst:137
 msgid "*Any user* can add suggestions."
@@ -62316,8 +62292,6 @@ msgstr ""
 "количество голосов."
 
 #: ../../workflows.rst:150
-#, fuzzy
-#| msgid "You can set a higher value to require more peer reviews."
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
 "Вы можете установить более высокое значение, чтобы потребовать большее "
@@ -62486,13 +62460,6 @@ msgstr ""
 "исходной строке, она помечается флагом :guilabel:`На правку`."
 
 #: ../../workflows.rst:292
-#, fuzzy
-#| msgid ""
-#| "The bilingual formats do not allow direct editing of the source strings "
-#| "(these are typically extracted directly from the source code). In this "
-#| "case :guilabel:`Source needs review` label is attached to strings "
-#| "reported by translators. You should review such strings and either edit "
-#| "them in the source or remove the label."
 msgid ""
 "Bilingual formats do not allow direct editing of source strings (these are "
 "typically extracted directly from the source code). In this case, a :"
@@ -62500,11 +62467,11 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source code, or remove the label."
 msgstr ""
-"…двуязычные форматы не позволяют напрямую редактировать исходные строки "
-"(они, как правило, извлекаются непосредственно из исходного кода). В этом "
-"случае к строкам, передаваемым переводчиками, прикрепляется метка :guilabel:"
-"`«Исходная строка требует рецензирования»`. Вы должны просмотреть такие "
-"строки и либо отредактировать их в исходном коде, либо удалить эту метку."
+"Двуязычные форматы не позволяют напрямую редактировать исходные строки (они, "
+"как правило, извлекаются непосредственно из исходного кода). В этом случае к "
+"строкам, передаваемым переводчиками, прикрепляется метка :guilabel:`«"
+"Исходная строка требует рецензирования»`. Вы должны просмотреть такие строки "
+"и либо отредактировать их в исходном коде, либо удалить эту метку."
 
 #: ../../workflows.rst:300
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
