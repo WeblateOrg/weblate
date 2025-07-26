@@ -168,7 +168,7 @@ fi
 
 if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
     # check that relevant addon parameters have been migrated to file_format_params
-    ./manage.py shell << EOF
+    uv run --all-extras ./manage.py shell << EOF
 from weblate.addons.models import Addon
 from weblate.trans.models import Component
 file_format_params = Component.objects.get(pk=1).file_format_params

@@ -9,13 +9,7 @@ import sys
 def main(argv=None, developer_mode: bool = False) -> None:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
-    import traceback
-
     from weblate.utils.management import WeblateManagementUtility
-
-    sys.stdout.write("##########")
-    traceback.print_stack(file=sys.stdout)
-    sys.stdout.write("##########")
 
     if argv is None:
         argv = sys.argv
