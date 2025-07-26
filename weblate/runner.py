@@ -14,7 +14,7 @@ def main(argv=None, developer_mode: bool = False) -> None:
     from weblate.utils.management import WeblateManagementUtility
 
     sys.stdout.write("##########")
-    traceback.print_exc(file=sys.stdout)
+    traceback.print_stack(file=sys.stdout)
     sys.stdout.write("##########")
 
     if argv is None:
