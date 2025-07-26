@@ -342,7 +342,9 @@ class Translation(
                 else self.component.source_language.code,
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
+                file_format_params=self.component.file_format_params,
             )
+            store.setup_serialization_params(self.component.file_format_params)
             store_post_load.send(sender=self.__class__, translation=self, store=store)
             return store
 
@@ -1246,8 +1248,6 @@ class Translation(
         self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
     ) -> UploadResult:
         """Replace source translations with uploaded one."""
-        from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
-
         component = self.component
         filenames = []
         with component.repository.lock:
@@ -1268,13 +1268,7 @@ class Translation(
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
-                if addon := component.get_addon(MsgmergeAddon.name):
-                    args = addon.addon.get_msgmerge_args(component)
-                else:
-                    args = ["--previous"]
-                    if addon := component.get_addon(GettextCustomizeAddon.name):
-                        args.extend(addon.addon.get_msgmerge_args(component))
-
+                args = self.component.file_format_cls.get_msmerge_args(component)
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language

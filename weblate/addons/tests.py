@@ -59,13 +59,11 @@ from .generate import (
 from .gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
-    GettextCustomizeAddon,
     MsgmergeAddon,
     UpdateConfigureAddon,
     UpdateLinguasAddon,
 )
 from .git import GitSquashAddon
-from .json import JSONCustomizeAddon
 from .models import ADDONS, Addon
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
@@ -73,7 +71,6 @@ from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
 from .webhooks import JSONWebhookBaseAddon, SlackWebhookAddon, WebhookAddon
 from .xml import XMLCustomizeAddon
-from .yaml import YAMLCustomizeAddon
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -225,19 +222,6 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
 
-    def test_store(self) -> None:
-        GettextCustomizeAddon.create(
-            component=self.component, configuration={"width": -1}
-        )
-        rev = self.component.repository.last_revision
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn(
-            "Last-Translator: Weblate Test <weblate@example.org>\\nLanguage", commit
-        )
-
     def test_crash(self) -> None:
         self.assertEqual([], self.component.addons_cache["__names__"])
 
@@ -352,12 +336,6 @@ class GettextAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
         self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
-
-    def test_msgmerge_nowrap(self) -> None:
-        GettextCustomizeAddon.create(
-            component=self.component, configuration={"width": -1}
-        )
-        self.test_msgmerge(False)
 
     def test_generate(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -650,87 +628,6 @@ class JsonAddonTest(ViewTestCase):
             ).exists()
         )
 
-    def asset_customize(self, expected: str, *, is_compact: bool = False) -> str:
-        rev = self.component.repository.last_revision
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn(f'{expected}"try"', commit)
-        if is_compact:
-            self.assertIn('":"', commit)
-        else:
-            self.assertIn(': "', commit)
-        return commit
-
-    def test_customize(self) -> None:
-        JSONCustomizeAddon.create(
-            component=self.component,
-            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
-        )
-        commit = self.asset_customize("        ")
-        self.assertIn(
-            '''"orangutan": "",
-+        "thanks": "",
-+        "try": ""''',
-            commit,
-        )
-
-    def test_customize_no_sort(self) -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        JSONCustomizeAddon.create(
-            component=self.component,
-            configuration={"indent": 8, "sort_keys": 0, "style": "spaces"},
-        )
-        commit = self.asset_customize("        ")
-        self.assertIn(
-            '''"orangutan": "",
-+        "try": "",
-+        "thanks": ""''',
-            commit,
-        )
-
-    def test_customize_sitewide(self) -> None:
-        JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
-        )
-        # This is not needed in real life as installation will happen
-        # in a different request so local caching does not apply
-        self.component.drop_addons_cache()
-
-        self.asset_customize("        ")
-
-    def test_customize_tabs(self) -> None:
-        JSONCustomizeAddon.create(
-            component=self.component,
-            configuration={"indent": 8, "sort_keys": 1, "style": "tabs"},
-        )
-        self.asset_customize("\t\t\t\t\t\t\t\t")
-
-    def test_customize_compact_mode_on(self) -> None:
-        JSONCustomizeAddon.create(
-            component=self.component,
-            configuration={
-                "indent": 4,
-                "sort_keys": 1,
-                "style": "spaces",
-                "use_compact_separators": 1,
-            },
-        )
-        self.asset_customize("    ", is_compact=True)
-
-    def test_customize_compact_mode_off(self) -> None:
-        JSONCustomizeAddon.create(
-            component=self.component,
-            configuration={
-                "indent": 4,
-                "sort_keys": 1,
-                "style": "spaces",
-                "use_compact_separators": 0,
-            },
-        )
-        self.asset_customize("    ", is_compact=False)
-
 
 class XMLAddonTest(ViewTestCase):
     def create_component(self):
@@ -761,28 +658,6 @@ class XMLAddonTest(ViewTestCase):
 
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("<target></target>", commit)
-
-
-class YAMLAddonTest(ViewTestCase):
-    def create_component(self):
-        return self.create_yaml()
-
-    def test_customize(self) -> None:
-        if not YAMLCustomizeAddon.can_install(self.component, None):
-            self.skipTest("json dump configuration not supported")
-        YAMLCustomizeAddon.create(
-            component=self.component,
-            configuration={"indent": 8, "wrap": 1000, "line_break": "dos"},
-        )
-        rev = self.component.repository.last_revision
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("        try:", commit)
-        self.assertIn("cs.yml", commit)
-        with open(self.get_translation().get_filename(), "rb") as handle:
-            self.assertIn(b"\r\n", handle.read())
 
 
 class ViewTests(ViewTestCase):
@@ -1031,9 +906,9 @@ class CommandTest(ViewTestCase):
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":77}',
+            '{"fuzzy":true}',
             stdout=output,
             stderr=output,
         )
@@ -1042,36 +917,36 @@ class CommandTest(ViewTestCase):
         addon_count = Addon.objects.filter_sitewide()
         self.assertEqual(addon_count.count(), 0)
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": 77})
+        self.assertEqual(addon.configuration, {"fuzzy": True})
         output = StringIO()
         call_command(
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":-1}',
+            '{"fuzzy":false}',
             stdout=output,
             stderr=output,
         )
         self.assertIn("Already installed on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": 77})
+        self.assertEqual(addon.configuration, {"fuzzy": True})
         output = StringIO()
         call_command(
             "install_addon",
             "--all",
             "--update",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":-1}',
+            '{"fuzzy":false}',
             stdout=output,
             stderr=output,
         )
         self.assertIn("Successfully updated on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": -1})
+        self.assertEqual(addon.configuration, {"fuzzy": False})
 
     def test_install_addon_wrong(self) -> None:
         output = StringIO()
@@ -1089,7 +964,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.gettext.mo",
                 "--configuration",
                 "{",
             )
@@ -1098,7 +973,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.cdn.cdnjs",
                 "--configuration",
                 "{}",
                 stdout=output,
@@ -1108,7 +983,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.cdn.cdnjs",
                 "--configuration",
                 '{"width":-65535}',
                 stderr=output,
@@ -1626,10 +1501,8 @@ class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
 
-    def test_json(self) -> None:
-        JSONCustomizeAddon.create(
-            configuration={"indent": 8, "sort_keys": 1, "style": "spaces"},
-        )
+    def test_gettext(self) -> None:
+        MsgmergeAddon.create()
         # This is not needed in real life as installation will happen
         # in a different request so local caching does not apply
         self.component.drop_addons_cache()

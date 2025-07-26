@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -206,7 +206,10 @@ class AppStoreFormat(TranslationFormat):
     store: AppStoreParser
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> AppStoreParser:
         return AppStoreParser(storefile)
 

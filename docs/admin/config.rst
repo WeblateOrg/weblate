@@ -2108,7 +2108,6 @@ example:
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.consistency.LanguageConsistencyAddon",
@@ -2118,7 +2117,6 @@ example:
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
-        "weblate.addons.json.JSONCustomizeAddon",
         "weblate.addons.xml.XMLCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
@@ -2126,7 +2124,6 @@ example:
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.autotranslate.AutoTranslateAddon",
-        "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         # Add-on you want to include
         "weblate.addons.example.ExampleAddon",
