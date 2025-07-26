@@ -906,9 +906,9 @@ class CommandTest(ViewTestCase):
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":77}',
+            '{"fuzzy":true}',
             stdout=output,
             stderr=output,
         )
@@ -917,36 +917,36 @@ class CommandTest(ViewTestCase):
         addon_count = Addon.objects.filter_sitewide()
         self.assertEqual(addon_count.count(), 0)
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": 77})
+        self.assertEqual(addon.configuration, {"fuzzy": True})
         output = StringIO()
         call_command(
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":-1}',
+            '{"fuzzy":false}',
             stdout=output,
             stderr=output,
         )
         self.assertIn("Already installed on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": 77})
+        self.assertEqual(addon.configuration, {"fuzzy": True})
         output = StringIO()
         call_command(
             "install_addon",
             "--all",
             "--update",
             "--addon",
-            "weblate.gettext.customize",
+            "weblate.gettext.mo",
             "--configuration",
-            '{"width":-1}',
+            '{"fuzzy":false}',
             stdout=output,
             stderr=output,
         )
         self.assertIn("Successfully updated on Test/Test", output.getvalue())
         addon = Addon.objects.get(component=self.component)
-        self.assertEqual(addon.configuration, {"width": -1})
+        self.assertEqual(addon.configuration, {"fuzzy": False})
 
     def test_install_addon_wrong(self) -> None:
         output = StringIO()
@@ -964,7 +964,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.gettext.mo",
                 "--configuration",
                 "{",
             )
@@ -973,7 +973,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.gettext.mo",
                 "--configuration",
                 "{}",
                 stdout=output,
@@ -983,7 +983,7 @@ class CommandTest(ViewTestCase):
                 "install_addon",
                 "--all",
                 "--addon",
-                "weblate.gettext.customize",
+                "weblate.gettext.mo",
                 "--configuration",
                 '{"width":-65535}',
                 stderr=output,
