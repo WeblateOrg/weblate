@@ -374,49 +374,49 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">{% translate "Get help" %}</li>
-                  <li>
+                  <li class="dropdown-header supportmenu-header-help">{% translate "Get help" %}</li>
+                  <li class="supportmenu-contact">
                     <a href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
                   </li>
-                  <li>
+                  <li class="supportmenu-community">
                     <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
                   </li>
                   {% if support_status.has_support %}
-                    <li>
+                    <li class="supportmenu-support">
                       <a href="https://care.weblate.org/">{% translate "Professional support" %}</a>
                     </li>
                   {% else %}
-                    <li>
+                    <li class="supportmenu-support">
                       <a href="https://weblate.org/support/">{% translate "Get professional support" %}</a>
                     </li>
                     {% if get_help_url %}
-                      <li>
+                    <li class="supportmenu-gethelp">
                         <a href="{{ get_help_url }}">{% translate "Get help" %}</a>
                       </li>
                     {% endif %}
                   {% endif %}
 
-                  <li class="dropdown-header">{% translate "Documentation" %}</li>
-                  <li>
+                  <li class="dropdown-header supportmenu-header-documentation">{% translate "Documentation" %}</li>
+                  <li class="supportmenu-documentation">
                     <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
                   </li>
-                  <li>
+                  <li class="supportmenu-shortcuts">
                     <a id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
                   </li>
 
-                  <li class="dropdown-header">{% translate "Weblate project" %}</li>
-                  <li>
+                  <li class="dropdown-header supportmenu-header-weblate-project">{% translate "Weblate project" %}</li>
+                  <li class="supportmenu-contribute">
                     <a href="https://weblate.org/contribute/">{% translate "Contribute" %}</a>
                   </li>
                   {% if not support_status.has_support or support_status.is_hosted_weblate %}
-                    <li>
+                    <li class="supportmenu-donate">
                       <a href="{% url 'donate' %}">{% translate "Become a supporter" %}</a>
                     </li>
                   {% endif %}
-                  <li>
+                  <li class="supportmenu-about">
                     <a href="{% url 'about' %}">{% translate "About" %}</a>
                   </li>
-                  <li>
+                  <li class="supportmenu-weblate-sitelink">
                     <a href="https://weblate.org/">{% translate "Website" %}</a>
                   </li>
                 </ul>
