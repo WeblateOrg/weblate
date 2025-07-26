@@ -1462,6 +1462,44 @@
       "version": "2024.1"
     },
     {
+      "bom-ref": "crispy-bootstrap5==2025.6",
+      "description": "Bootstrap5 template pack for django-crispy-forms",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Issues",
+          "type": "issue-tracker",
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/issues"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: CI",
+          "type": "other",
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/actions"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Changelog",
+          "type": "release-notes",
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/releases"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "MIT"
+          }
+        }
+      ],
+      "name": "crispy-bootstrap5",
+      "purl": "pkg:pypi/crispy-bootstrap5@2025.6",
+      "type": "library",
+      "version": "2025.6"
+    },
+    {
       "bom-ref": "cron-descriptor==1.4.5",
       "description": "A Python library that converts cron expressions into human readable strings.",
       "externalReferences": [
@@ -6941,6 +6979,13 @@
       "ref": "crispy-bootstrap3==2024.1"
     },
     {
+      "dependsOn": [
+        "Django==5.2.4",
+        "django-crispy-forms==2.4"
+      ],
+      "ref": "crispy-bootstrap5==2025.6"
+    },
+    {
       "ref": "cron-descriptor==1.4.5"
     },
     {
@@ -7866,6 +7911,7 @@
         "certifi==2025.7.14",
         "charset-normalizer==3.4.2",
         "crispy-bootstrap3==2024.1",
+        "crispy-bootstrap5==2025.6",
         "cryptography==45.0.5",
         "cssselect==1.3.0",
         "cyrtranslit==1.1.1",
@@ -8120,5 +8166,5 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:fc053e10-5030-5715-9ecb-2e4740eab4c0"
+  "serialNumber": "urn:uuid:54029f19-f288-5759-837b-f89a117df9f6"
 }
