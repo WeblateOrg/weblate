@@ -116,8 +116,8 @@ if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
 from weblate.addons.models import Addon
 from weblate.trans.models import Component, Project
 Addon.objects.bulk_create([
-	Addon(name="weblate.gettext.customize", configuration={"previous": False}),
-	Addon(project_id=1, name="weblate.gettext.msgmerge", configuration={"width": -1}),
+	Addon(name="weblate.gettext.msgmerge", configuration={"previous": False}),
+	Addon(project_id=1, name="weblate.gettext.customize", configuration={"width": -1}),
 	Addon(component_id=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
 	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
 	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
