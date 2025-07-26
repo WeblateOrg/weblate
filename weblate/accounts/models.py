@@ -56,6 +56,7 @@ from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import (
     CategoryLanguageStats,
+    GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
@@ -963,6 +964,7 @@ class Profile(models.Model):
             | ProjectLanguageStats
             | CategoryLanguageStats
             | GhostProjectLanguageStats
+            | GhostCategoryLanguageStats
             | GhostTranslation
         ],
         str,
@@ -976,6 +978,7 @@ class Profile(models.Model):
             | ProjectLanguageStats
             | CategoryLanguageStats
             | GhostProjectLanguageStats
+            | GhostCategoryLanguageStats
             | GhostTranslation,
         ) -> str:
             from weblate.trans.models import Unit
@@ -995,6 +998,7 @@ class Profile(models.Model):
                     ProjectLanguageStats,
                     CategoryLanguageStats,
                     GhostProjectLanguageStats,
+                    GhostCategoryLanguageStats,
                     GhostTranslation,
                 ),
             ):
