@@ -2,38 +2,38 @@
 
 <footer>
   <ul>
-    <li>
+    <li class="footer-powered-by">
       {% blocktranslate %}Powered by {{ weblate_version_link }}{% endblocktranslate %}
     </li>
-    <li>
+    <li class="footer-about">
       <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
     </li>
     {% if has_legal %}
-      <li>
+    <li class="footer-legal">
         <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
       </li>
     {% elif legal_url %}
-      <li>
+    <li class="footer-legal">
         <a href="{{ legal_url }}">{% translate "Legal" %}</a>
       </li>
     {% endif %}
     {% if privacy_url %}
-      <li>
+    <li class="footer-privacy">
         <a href="{{ privacy_url }}">{% translate "Privacy policy" %}</a>
       </li>
     {% endif %}
     {% if status_url %}
-      <li>
+    <li class="footer-status">
         <a href="{{ status_url }}">{% translate "Service status" %}</a>
       </li>
     {% endif %}
-    <li>
+    <li class="footer-contact">
       <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
     </li>
-    <li>
+    <li class="footer-donate">
       <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
     </li>
-    <li>
+    <li class="footer-donate">
       <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
     </li>
   </ul>
