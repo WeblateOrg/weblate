@@ -1192,10 +1192,12 @@ th.number {
   background: none;
 }
 
-.nav-pills > li > a > button.close {
+.nav-pills > li > a > button.btn-close {
+  height: 14px;
+  width: 14px;
   margin: 0 10px;
 }
-.nav-pills > li.active > a > button.close {
+.nav-pills > li.active > a > button.btn-close {
   color: #eee;
 }
 
@@ -2431,6 +2433,16 @@ tbody.warning {
 .card .list-group-item:first-child {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
+}
+
+.tab-pane .table > thead:first-child > tr:first-child > th,
+.card .table > thead:first-child > tr:first-child > th,
+.card .table > tbody:first-child > tr:first-child > td {
+  border-top: 0;
+}
+
+.card .table {
+  margin-bottom: 0;
 }
 
 /* Zammad form integration */

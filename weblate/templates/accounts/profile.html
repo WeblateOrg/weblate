@@ -131,13 +131,13 @@
                   <a class="nav-link{% if form.is_active %} active{% endif %}"
                      data-bs-toggle="tab"
                      data-bs-target="#{{ form.prefix }}"
+                     role="tab"
                      href="#">
                     {{ form.get_name }}
                     {% if form.removable %}
                       <button type="button"
-                              class="close"
+                              class="btn-close"
                               title="{% translate "Remove this notification setting" %}">
-                        <span aria-hidden="true">×</span>
                       </button>
                     {% endif %}
                   </a>
@@ -149,7 +149,9 @@
 
               {% for form in notification_forms %}
                 <div class="tab-pane {% if form.is_active %}active{% endif %}"
-                     id="{{ form.prefix }}">
+                     id="{{ form.prefix }}"
+                     role="tabpanel"
+                     tabindex="0">
                   <div class="form-horizontal">{% crispy form %}</div>
                 </div>
               {% endfor %}
@@ -416,7 +418,7 @@
               <h4 class="card-title">{% documentation_icon5 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
             </div>
             <div class="card-body">
-              <p class="border">
+              <p>
                 <img class="avatar w128"
                      alt="{% translate "User avatar" %}"
                      src="{% url 'user_avatar' user=request.user.username size=128 %}" />

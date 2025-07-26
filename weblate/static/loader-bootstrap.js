@@ -1298,17 +1298,18 @@ $(function () {
 
   /* Notifications removal */
   document
-    .querySelectorAll(".nav-pills > li > a > button.close")
+    .querySelectorAll(".nav-pills > li > a > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
         const link = button.parentElement;
         document
-          .querySelectorAll(`${link.getAttribute("href")} select`)
+          .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
           .forEach((select) => select.remove());
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
-        link.parentElement.remove();
         /* Activate watched tab */
-        $("a[href='#notifications__1']").tab("show");
+        const watched = document.querySelector('a[data-bs-target="#notifications__1"');
+        bootstrap.Tab.getOrCreateInstance(watched).show();
+        link.parentElement.remove();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
