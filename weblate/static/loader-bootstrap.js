@@ -1307,7 +1307,9 @@ $(function () {
           .forEach((select) => select.remove());
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
-        const watched = document.querySelector('a[data-bs-target="#notifications__1"');
+        const watched = document.querySelector(
+          'a[data-bs-target="#notifications__1"',
+        );
         bootstrap.Tab.getOrCreateInstance(watched).show();
         link.parentElement.remove();
         addAlert(
