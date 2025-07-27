@@ -920,9 +920,9 @@ class AutoForm(forms.Form):
         label=gettext_lazy("Automatic translation mode"),
         initial="suggest",
     )
-    filter_type = FilterField(
+    q = QueryField(
         required=True,
-        initial="todo",
+        initial="state:<translated",
         help_text=gettext_lazy(
             "Please note that translating all strings will "
             "discard all existing translations."
@@ -1023,18 +1023,8 @@ class AutoForm(forms.Form):
         if "weblate" in engine_ids:
             self.fields["engines"].initial = "weblate"
 
-        use_types = {
-            "all",
-            "nottranslated",
-            "todo",
-            "fuzzy",
-            "check:inconsistent",
-            "check:translated",
-        }
-
-        self.fields["filter_type"].choices = [
-            x for x in self.fields["filter_type"].choices if x[0] in use_types
-        ]
+        if "q" not in self.initial:
+            self.initial["q"] = "state:<translated"
 
         choices = [
             ("suggest", gettext("Add as suggestion")),
@@ -1048,7 +1038,7 @@ class AutoForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("mode"),
-            Field("filter_type"),
+            SearchField("q"),
             InlineRadios("auto_source"),
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),

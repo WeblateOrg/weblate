@@ -90,17 +90,17 @@ class Command(WeblateTranslationCommand):
             raise CommandError(msg)
 
         if options["inconsistent"]:
-            filter_type = "check:inconsistent"
+            q = "check:inconsistent"
         elif options["overwrite"]:
-            filter_type = "all"
+            q = ""
         else:
-            filter_type = "todo"
+            q = "state:<translated"
 
         auto = AutoTranslate(
             user=user,
             translation=translation,
             mode=options["mode"],
-            filter_type=filter_type,
+            q=q,
         )
 
         message = auto.perform(
