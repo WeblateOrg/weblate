@@ -917,7 +917,7 @@ class BilingualUpdateMixin:
                 os.unlink(temp.name)
 
     @classmethod
-    def get_msmerge_args(cls, component) -> list[str]:
+    def get_msgmerge_args(cls, component) -> list[str]:
         """
         Return list of arguments for update command.
 

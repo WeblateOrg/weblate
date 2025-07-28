@@ -59,6 +59,15 @@ def register_file_format_param(
     return param_class
 
 
+def get_params_for_file_format(file_format: str) -> list[str]:
+    """Get all registered file format parameters for a given file format."""
+    return [
+        param.get_identifier()
+        for param in FILE_FORMATS_PARAMS
+        if file_format in param.file_formats
+    ]
+
+
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     file_formats = (
         "json",

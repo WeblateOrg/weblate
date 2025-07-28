@@ -15,6 +15,11 @@ from weblate.utils.views import get_form_data
 
 
 class BaseFileFormatsTest(ViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+
     def update_component_file_params(self, **file_param_kwargs):
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
@@ -28,8 +33,6 @@ class BaseFileFormatsTest(ViewTestCase):
 
 class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
     def client_create_component(self, result, **kwargs):
-        self.user.is_superuser = True
-        self.user.save()
         params = {
             "name": "New Component With File Params",
             "slug": "new-component-with-file-params",
@@ -80,13 +83,63 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(po_line_wrap=65535)
         self.assertEqual(self.component.file_format_params["po_line_wrap"], "65535")
 
+    def test_create_component_from_existing(self):
+        self.update_component_file_params(
+            po_line_wrap=-1, po_keep_previous=False, po_fuzzy_matching=False
+        )
+
+        response = self.client.post(
+            reverse("create-component"),
+            {
+                "origin": "existing",
+                "name": "Create Component From Existing",
+                "slug": "create-component-from-existing",
+                "component": self.component.pk,
+                "is_glossary": self.component.is_glossary,
+            },
+            follow=True,
+        )
+
+        create_url = (
+            reverse("create-component-vcs")
+            + f"?source_component={self.component.pk}#existing"
+        )
+        data = response.context["form"].initial
+        data.pop("category", None)
+        data["project"] = self.component.project_id
+        data["source_language"] = self.component.source_language_id
+        data["discovery"] = next(
+            i
+            for i, k in response.context["form"].fields["discovery"].choices
+            if self.component.filemask in k
+        )
+        response = self.client.post(
+            create_url,
+            data,
+            follow=True,
+        )
+
+        data = response.context["form"].initial
+        data.pop("category", None)
+        data["project"] = self.component.project_id
+        data["source_language"] = self.component.source_language_id
+        data["language_regex"] = "^[^.]+$"
+        data["new_lang"] = "add"
+        data.update(
+            {
+                f"file_format_params_{k}": v
+                for k, v in data["file_format_params"].items()
+            }
+        )
+        self.client.post(create_url, data, follow=True)
+
+        new_component = Component.objects.get(slug="create-component-from-existing")
+        self.assertEqual(new_component.file_format_params["po_line_wrap"], "-1")
+        self.assertEqual(new_component.file_format_params["po_keep_previous"], False)
+        self.assertEqual(new_component.file_format_params["po_fuzzy_matching"], False)
+
 
 class JsonParamsTest(BaseFileFormatsTest):
-    def setUp(self):
-        super().setUp()
-        self.user.is_superuser = True
-        self.user.save()
-
     def create_component(self) -> Component:
         return self.create_json_mono(suffix="mono-sync")
 
@@ -160,11 +213,6 @@ class JsonParamsTest(BaseFileFormatsTest):
 
 
 class YAMLParamsTest(BaseFileFormatsTest):
-    def setUp(self):
-        super().setUp()
-        self.user.is_superuser = True
-        self.user.save()
-
     def create_component(self) -> Component:
         return self.create_yaml()
 

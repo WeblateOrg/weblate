@@ -56,7 +56,7 @@ from weblate.trans.defines import (
     REPO_LENGTH,
 )
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.format_params import FILE_FORMATS_PARAMS
+from weblate.trans.format_params import FILE_FORMATS_PARAMS, get_params_for_file_format
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -1871,6 +1871,20 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         field_classes = {
             "file_format_params": FormParamsField,
         }
+
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        if (
+            source_component := request.GET.get("source_component")
+            and "file_format" in kwargs["initial"]
+        ):
+            source_component = Component.objects.get(pk=int(source_component))
+            if source_component.file_format_params:
+                kwargs["initial"]["file_format_params"] = {
+                    k: v
+                    for k, v in source_component.file_format_params.items()
+                    if k in get_params_for_file_format(kwargs["initial"]["file_format"])
+                }
+        super().__init__(request, *args, **kwargs)
 
     def clean(self):
         super().clean()

@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
-from weblate.addons.forms import GenerateMoForm, MsgmergeForm
+from weblate.addons.forms import GenerateMoForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
@@ -234,7 +234,6 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         'POT file (as configured by "Template for new translations") using msgmerge.'
     )
     alert = "MsgmergeAddonError"
-    settings_form = MsgmergeForm
     compat = {"file_format": {"po"}}
 
     @classmethod
@@ -272,7 +271,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             self.trigger_alerts(component)
             component.log_info("%s addon skipped, new base was not found", self.name)
             return
-        args = component.file_format_cls.get_msmerge_args(component)
+        args = component.file_format_cls.get_msgmerge_args(component)
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if (
