@@ -288,8 +288,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             1,
             Memory.objects.filter(project=self.project, status=expected_status).count(),
         )
-
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello, world!\n"
+        )
         if translation_review:
             # quality is less than 100% because of penalty
             self.assertLess(suggestion["quality"], 100)
@@ -306,7 +307,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     project=self.project, status=Memory.STATUS_ACTIVE
                 ).count(),
             )
-            suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+            suggestion = self.search_suggestion(
+                machine_translation, unit, "Hello, world!\n"
+            )
             self.assertEqual(suggestion["quality"], 100)
 
             # mark the translation as needing editing
@@ -319,7 +322,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                     project=self.project, status=Memory.STATUS_PENDING
                 ).count(),
             )
-            suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+            suggestion = self.search_suggestion(
+                machine_translation, unit, "Hello, world!\n"
+            )
             self.assertLess(suggestion["quality"], 100)
 
     def approve_translation(self, unit, target: str, review: str = "30"):
@@ -333,6 +338,22 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             "review": review,
         }
         self.client.post(unit.translation.get_translate_url(), params, follow=True)
+
+    def search_suggestion(
+        self,
+        mt,
+        unit,
+        source: str,
+        user=None,
+        text: str | None = None,
+        origin: str = "Project",
+    ) -> dict:
+        results = mt.search(unit, source, user)
+        origin = f"{origin}: {self.component.full_slug}"
+        results = [r for r in results if origin in r["origin"]]
+        if text:
+            results = [r for r in results if text in r["text"]]
+        return results[0]
 
     def test_pending_memory_autoclean(self, autoclean_active: bool = False) -> None:
         import_memory(self.project.id)
@@ -357,7 +378,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         )
 
         # check that suggestion quality is less than 100% because of penalty
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello, world!\n"
+        )
         self.assertLess(suggestion["quality"], 100)
 
         # another user submits a translation
@@ -380,7 +403,9 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                 project=self.project, context=unit.context, status=Memory.STATUS_ACTIVE
             ).count(),
         )
-        suggestion = machine_translation.search(unit, "Hello, world!\n", None)[0]
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello, world!\n", text="Hello 1"
+        )
         self.assertEqual(suggestion["quality"], 100)
 
         if not autoclean_active:
