@@ -607,6 +607,14 @@ $(function () {
       );
       if (activeTab.length > 0) {
         activeTab.tab("show");
+      } else {
+        // For Bootstrap 5
+        activeTab = $(
+          `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
+        );
+        if (activeTab.length > 0 ) {
+          bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        }
       }
     }
     activeTab = $(`.nav [data-toggle=tab][href="${location.hash}"]`);
@@ -618,6 +626,12 @@ $(function () {
       if (anchor !== null) {
         anchor.scrollIntoView();
       }
+      // For Bootstrap 5
+      activeTab = $(`.nav [data-bs-toggle=tab][data-bs-target="${location.hash}"]`);
+        if (activeTab.length > 0 ) {
+          bootstrap.Tab.getOrCreateInstance(activeTab).show();
+          window.scrollTo(0, 0);
+        }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -635,6 +649,12 @@ $(function () {
   /* Add a hash to the URL when the user clicks on a tab */
   $('a[data-toggle="tab"]').on("shown.bs.tab", function (_e) {
     history.pushState(null, null, $(this).attr("href"));
+    /* Remove focus on rows */
+    $(".selectable-row").removeClass("active");
+  });
+  /* Same for Bootstrap 5 tabs */
+  $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function (_e) {
+    history.pushState(null, null, $(this).attr("data-bs-target"));
     /* Remove focus on rows */
     $(".selectable-row").removeClass("active");
   });
