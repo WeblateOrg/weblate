@@ -1,6 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -20,6 +21,8 @@ from weblate.trans.models import (
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
+from .results import Allowed, Denied, PermissionResult
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -28,24 +31,6 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
-
-
-class PermissionResult:
-    def __init__(self, reason: str = "") -> None:
-        self.reason = reason
-
-    def __bool__(self) -> bool:
-        raise NotImplementedError
-
-
-class Allowed(PermissionResult):
-    def __bool__(self) -> bool:
-        return True
-
-
-class Denied(PermissionResult):
-    def __bool__(self) -> bool:
-        return False
 
 
 def register_perm(*perms):
@@ -413,12 +398,25 @@ def check_suggestion_add(user: User, permission: str, obj: Model):
 
 
 @register_perm("upload.perform")
-def check_contribute(user: User, permission, translation):
+def check_upload(user: User, permission: str, translation: Translation):
+    """
+    Check whether user can perform any upload operation.
+
+    The actual check for the method is implemented in
+    weblate.trans.util.check_upload_method_permissions.
+    """
+    # Source upload
+    if translation.is_source and not user.has_perm("source.edit", translation):
+        return Denied(gettext("Insufficient privileges for editing source strings."))
     # Bilingual source translations
-    if translation.is_source and not translation.is_template:
-        return hasattr(
-            translation.component.file_format_cls, "update_bilingual"
-        ) and user.has_perm("source.edit", translation)
+    if (
+        translation.is_source
+        and not translation.is_template
+        and not hasattr(translation.component.file_format_cls, "update_bilingual")
+    ):
+        return Denied(
+            gettext("The file format does not support updating source strings.")
+        )
     if translation.component.is_glossary:
         permission = "glossary.upload"
     return check_can_edit(user, permission, translation) and (
@@ -429,7 +427,7 @@ def check_contribute(user: User, permission, translation):
         # Add upload
         or check_suggestion_add(user, "unit.add", translation)
         # Source upload
-        or (translation.is_source and user.has_perm("source.edit", translation))
+        or translation.is_source
     )
 
 
