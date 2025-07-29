@@ -1731,7 +1731,13 @@ class Component(
         return any(self.filemask_re.match(path) for path in changed)
 
     def needs_commit_upstream(self) -> bool:
-        """Detect whether commit is needed for upstream changes."""
+        """
+        Detect whether commit is needed because of upstream changes.
+
+        Inspect changed files in the upstream repository to see if any of them
+        would trigger parsing of translation files. In case there is none, the
+        repository can be merged without committing pending changes.
+        """
         changed = self.repository.get_changed_files()
         if self.uses_changed_files(changed):
             return True
