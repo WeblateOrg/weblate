@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-27 10:04+0000\n"
+"PO-Revision-Date: 2025-07-29 14:39+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15622,6 +15622,11 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Redis as "
 "a caching backend."
 msgstr ""
+"Con la implementación de Weblate para docker, puede poner en funcionamiento "
+"su instancia personal de Weblate en cuestión de segundos. Todas las "
+"dependencias de Weblate ya están incluidas. PostgreSQL está configurado como "
+"la base de datos predeterminada y Redis como backend de almacenamiento en "
+"caché."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -15649,6 +15654,10 @@ msgid ""
 "ref:`docker-https-portal`. For larger setups, please see :ref:`docker-"
 "scaling`."
 msgstr ""
+"Esto crea un servidor de implementación de Weblate a través de HTTP, por lo "
+"que debe colocarlo detrás del proxy de terminación HTTPS. También puede "
+"implementar con un proxy HTTPS, ver :ref:`docker-https-portal`. Para "
+"configuraciones mayores, ver :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:26
 msgid "Clone the weblate-docker repo:"
@@ -15659,18 +15668,27 @@ msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Crear un archivo :file:`docker-compose.override.yml` con tus "
+"configuraciones. Ver :ref:`docker-environment` para la lista completa de "
+"variables de entorno."
 
 #: ../../admin/install/docker.rst:41
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Sí :envvar:`WEBLATE_ADMIN_PASSWORD` no está configurado, el usuario "
+"administrador se crea con una contraseña aleatoria que se muestra en el "
+"primer inicio."
 
 #: ../../admin/install/docker.rst:44
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"El ejemplo proporcionado hace que Weblate escuche en el puerto 80, edite la "
+"asignación de puertos en el: archivo :file:`docker-compose.override.yml` "
+"para cambiarlo."
 
 #: ../../admin/install/docker.rst:47
 msgid "Start Weblate containers:"
@@ -15681,6 +15699,8 @@ msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Disfrute de su implementación de Weblate, es accesible en el puerto 80 del "
+"contenedor ``weblate``."
 
 #: ../../admin/install/docker.rst:55
 msgid ":ref:`invoke-manage`"
@@ -15688,7 +15708,7 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:58
 msgid "Choosing Docker image registry"
-msgstr ""
+msgstr "Elección del registro de imágenes de Docker"
 
 #: ../../admin/install/docker.rst:60
 msgid "Weblate containers are published to following registries:"
