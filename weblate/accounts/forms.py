@@ -1111,6 +1111,21 @@ class TOTPDeviceForm(forms.Form):
         }
     )
 
+    remove_previous = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=gettext_lazy("Discard previously configured authentication apps"),
+        help_text=format_html(
+            "{}<br>{}",
+            gettext_lazy(
+                "All previously configured authentication apps will be discarded upon verification of the new app."
+            ),
+            gettext(
+                "Other two-factor methods (such as WebAuthn and security keys) won't be affected."
+            ),
+        ),
+    )
+
     error_messages = {
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
@@ -1125,6 +1140,8 @@ class TOTPDeviceForm(forms.Form):
         self.digits = 6
         self.user = user
         self.metadata = metadata or {}
+        if not self.user.totpdevice_set.exists():
+            self.fields["remove_previous"].widget = forms.HiddenInput()
 
     @property
     def bin_key(self):

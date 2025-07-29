@@ -21,6 +21,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
+from weblate.auth.results import PermissionResult
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
@@ -1105,8 +1106,6 @@ class Unit(models.Model, LoggerMixin):
         self, user: User | None, change_action=None, author=None, request=None
     ) -> bool:
         """Propagate current translation to all others."""
-        from weblate.auth.permissions import PermissionResult
-
         warnings: list[str] = []
 
         with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):

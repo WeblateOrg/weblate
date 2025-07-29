@@ -310,11 +310,11 @@ The following subdirectories usually exist:
 CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, CSP_FORM_SRC
 ---------------------------------------------------------------------------------------
 
-Customize :http:header:`Content-Security-Policy` header for Weblate. The header is
+Customize the :http:header:`Content-Security-Policy` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
 (Matomo, Google Analytics, Sentry, …).
 
-All these default to empty list.
+All these default to an empty list.
 
 **Example:**
 
@@ -846,8 +846,13 @@ List for credentials for GitHub servers.
 
 .. note::
 
-   When creating a fine-grained personal access token, grant read and write
-   access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+   It is possible to use both fine-grained personal access tokens and classic
+   personal access tokens. The fine-grained tokens are limited to a single
+   organization, so it won't work if you want Weblate to fork a repository
+   outside the organization (typically to the user namespace).
+
+   To clone, push and create pull requests, the read and write access to
+   :guilabel:`Contents` and :guilabel:`Pull requests` is required.
 
    :guilabel:`Administration` might also be necessary for forking a repository
    if you intend to use forking and the original repository is not public.

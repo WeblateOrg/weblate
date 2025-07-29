@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import locale
 import os
+import platform
 import re
 import sys
 from operator import itemgetter
@@ -23,6 +24,7 @@ from lxml import etree
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
+from weblate.auth.results import Denied
 from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
@@ -32,7 +34,7 @@ if TYPE_CHECKING:
     from django.shortcuts import SupportsGetAbsoluteUrl
 
     from weblate.auth.models import User
-    from weblate.auth.permissions import PermissionResult
+    from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation, Unit
 
@@ -52,8 +54,12 @@ CJK_PATTERN = re.compile(
     r"([\u1100-\u11ff\u2e80-\u2fdf\u2ff0-\u9fff\ua960-\ua97f\uac00-\ud7ff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef\U0001aff0-\U0001b16f\U0001f200-\U0001f2ff\U00020000-\U0003FFFF]+)"
 )
 
-# Initialize to sane Unicode locales for strxfrm
-if locale.strxfrm("a") == "a":
+if platform.system() == "Darwin" and platform.mac_ver()[0].split(".", 1)[0] == "15":
+    # Avoid triggering strxfrm on macOS 15 where it either crashes with OSError
+    # or causes Python segmentation fault.
+    USE_STRXFRM = False
+elif locale.strxfrm("a") == "a":
+    # Initialize to sane Unicode locales for strxfrm
     try:
         locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
     except locale.Error:
@@ -358,11 +364,11 @@ def check_upload_method_permissions(
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
     if method == "source":
-        return (
-            translation.is_source
-            and user.has_perm("upload.perform", translation)
-            and hasattr(translation.component.file_format_cls, "update_bilingual")
-        )
+        if not translation.is_source:
+            return Denied(
+                gettext("Source upload is only supported on the source language.")
+            )
+        return user.has_perm("upload.perform", translation)
     if method == "add":
         return user.has_perm("unit.add", translation)
     if method in {"translate", "fuzzy"}:

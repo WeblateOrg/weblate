@@ -512,8 +512,8 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
         "social_core.backends.open_id_connect.OpenIdConnectAuth",
     )
     SOCIAL_AUTH_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_KEY", required=True)
-    SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_TITLE")
-    SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_IMAGE")
+    SOCIAL_AUTH_OIDC_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_TITLE")
+    SOCIAL_AUTH_OIDC_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_IMAGE")
     SOCIAL_AUTH_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )

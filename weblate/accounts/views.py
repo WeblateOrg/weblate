@@ -1757,13 +1757,22 @@ class TOTPView(FormView):
         return kwargs
 
     def form_valid(self, form: TOTPDeviceForm):
+        user = self.request.user
         device = form.save()
         AuditLog.objects.create(
-            self.request.user,
+            user,
             self.request,
             "twofactor-add",
             device=get_key_name(device),
         )
+        if form.cleaned_data["remove_previous"]:
+            for old in user.totpdevice_set.exclude(pk=device.pk):
+                key_name = get_key_name(old)
+                old.delete()
+                AuditLog.objects.create(
+                    user, self.request, "twofactor-remove", device=key_name
+                )
+
         return redirect_profile("#account")
 
 

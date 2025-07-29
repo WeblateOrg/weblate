@@ -616,6 +616,7 @@ class GitWithGerritRepository(GitRepository):
     name = "Gerrit"
     req_version = "1.27.0"
     push_label = gettext_lazy("This will push changes to Gerrit for a review.")
+    pushes_to_different_location = True
 
     _version = None
 
@@ -836,6 +837,7 @@ class GitForcePushRepository(GitRepository):
 
 class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
+    pushes_to_different_location = True
     identifier: str
     API_TEMPLATE: str
     REQUIRED_CONFIG = {"username", "token"}

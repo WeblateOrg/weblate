@@ -89,6 +89,7 @@ from weblate.api.serializers import (
     get_reverse_kwargs,
 )
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
+from weblate.auth.results import PermissionResult
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
@@ -1730,7 +1731,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 raise ValidationError({"format": str(error)}) from error
 
         if not (can_upload := user.has_perm("upload.perform", obj)):
-            self.permission_denied(request, can_upload.reason)
+            self.permission_denied(
+                request,
+                can_upload.reason
+                if isinstance(can_upload, PermissionResult)
+                else "Insufficient privileges for uploading.",
+            )
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

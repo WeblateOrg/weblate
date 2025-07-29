@@ -53,6 +53,8 @@ if TYPE_CHECKING:
 
     from django.db.models import Model
 
+    from weblate.billing.models import Billing
+
 PROJECTBACKUP_PREFIX = "projectbackups"
 
 
@@ -68,9 +70,7 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(
-        self, filename: str | None = None, *, fileio: BinaryIO | None = None
-    ) -> None:
+    def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
         self.fileio = fileio
@@ -92,15 +92,15 @@ class ProjectBackup:
         return "/".join(parts[1:])
 
     @property
-    def supports_restore(self):
+    def supports_restore(self) -> bool:
         return connection.features.can_return_rows_from_bulk_insert
 
     def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
 
     def backup_property(
-        self, obj, field: str, extras: dict[str, Callable] | None = None
-    ):
+        self, obj: Model, field: str, extras: dict[str, Callable] | None = None
+    ) -> str | int | dict | None:
         if extras and field in extras:
             return extras[field](obj)
         value = getattr(obj, field)
@@ -124,8 +124,11 @@ class ProjectBackup:
         return value
 
     def backup_object(
-        self, obj, properties: list[str], extras: dict[str, Callable] | None = None
-    ):
+        self,
+        obj: Model,
+        properties: list[str],
+        extras: dict[str, Callable] | None = None,
+    ) -> dict[str, str | int | dict | None]:
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
@@ -173,7 +176,7 @@ class ProjectBackup:
             for category in categories
         ]
 
-    def backup_data(self, project) -> None:
+    def backup_data(self, project: Project) -> None:
         self.project = project
         self.data = {
             "metadata": {
@@ -196,7 +199,7 @@ class ProjectBackup:
         # Make sure generated backup data is correct
         self.validate_data()
 
-    def backup_dir(self, backupzip, directory: str, target: str) -> None:
+    def backup_dir(self, backupzip: ZipFile, directory: str, target: str) -> None:
         """Backup single directory to specified target in zip."""
         for folder, _subfolders, filenames in os.walk(directory):
             for filename in filenames:
@@ -208,11 +211,11 @@ class ProjectBackup:
                     path, os.path.join(target, os.path.relpath(path, directory))
                 )
 
-    def backup_json(self, backupzip, data, target: str) -> None:
+    def backup_json(self, backupzip: ZipFile, data: dict | list, target: str) -> None:
         with backupzip.open(target, "w") as handle:
             handle.write(json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"))
 
-    def generate_filename(self, project) -> None:
+    def generate_filename(self, project: Project) -> None:
         backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{project.pk}")
         backup_info = os.path.join(backup_dir, "README.txt")
         timestamp = int(self.timestamp.timestamp())
@@ -232,8 +235,8 @@ class ProjectBackup:
             timestamp += 1
         self.filename = os.path.join(backup_dir, f"{timestamp}.zip")
 
-    def backup_component(self, backupzip, component) -> None:
-        data = {
+    def backup_component(self, backupzip: ZipFile, component: Component) -> None:
+        data: dict = {
             "component": self.backup_object(
                 component, self.component_schema["properties"]["component"]["required"]
             ),
@@ -375,7 +378,7 @@ class ProjectBackup:
         )
 
     @transaction.atomic
-    def backup_project(self, project) -> None:
+    def backup_project(self, project: Project) -> None:
         """Backup whole project."""
         # Generate data
         self.backup_data(project)
@@ -408,20 +411,20 @@ class ProjectBackup:
 
         os.rename(part_name, self.filename)
 
-    def list_components(self, zipfile):
+    def list_components(self, zipfile: ZipFile) -> list[str]:
         return [
             name
             for name in zipfile.namelist()
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
 
-    def load_data(self, zipfile) -> None:
+    def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
             self.data = json.load(handle)
         self.validate_data()
         self.timestamp = datetime.fromisoformat(self.data["metadata"]["timestamp"])
 
-    def load_memory(self, zipfile):
+    def load_memory(self, zipfile: ZipFile) -> dict:
         with zipfile.open("weblate-memory.json") as handle:
             data = json.load(handle)
         validate_schema(data, "weblate-memory.schema.json")
@@ -429,7 +432,7 @@ class ProjectBackup:
 
     def load_component(
         self,
-        zipfile,
+        zipfile: ZipFile,
         filename: str,
         *,
         skip_linked: bool = False,
@@ -458,7 +461,7 @@ class ProjectBackup:
                 self.restore_component(zipfile, data)
             return True
 
-    def load_components(self, zipfile, *, do_restore: bool = False) -> None:
+    def load_components(self, zipfile: ZipFile, *, do_restore: bool = False) -> None:
         pending: list[str] = []
         for component in self.list_components(zipfile):
             processed = self.load_component(
@@ -486,7 +489,12 @@ class ProjectBackup:
             for name in zipfile.namelist():
                 validate_filename(name)
 
-    def restore_unit(self, item, translation_lookup, source_unit_lookup=None):
+    def restore_unit(
+        self,
+        item: dict,
+        translation_lookup: dict[int, Translation],
+        source_unit_lookup: dict[int, Unit] | None = None,
+    ) -> Unit:
         kwargs = item.copy()
         for skip in ("labels", "comments", "suggestions", "checks", "pending"):
             kwargs.pop(skip, None)
@@ -574,7 +582,7 @@ class ProjectBackup:
         units: list[Unit],
     ) -> None:
         if "pending_unit_changes" in data:
-            all_units = defaultdict(dict)
+            all_units: dict[int, dict[int, Unit]] = defaultdict(dict)
             for unit in chain(source_units, units):
                 all_units[unit.translation.id][unit.checksum] = unit
 
@@ -612,7 +620,9 @@ class ProjectBackup:
         if pending_unit_changes:
             PendingUnitChange.objects.bulk_create(pending_unit_changes)
 
-    def restore_component(self, zipfile, data) -> None:  # noqa: C901
+    def restore_component(self, zipfile: ZipFile, data: dict) -> None:  # noqa: C901
+        if self.project is None:
+            raise TypeError
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
@@ -822,10 +832,16 @@ class ProjectBackup:
             self.restore_categories(category["categories"], obj)
 
     @transaction.atomic
-    def restore(self, project_name: str, project_slug: str, user: User, billing=None):
-        if not isinstance(self.filename, str):
+    def restore(
+        self,
+        project_name: str,
+        project_slug: str,
+        user: User,
+        billing: Billing | None = None,
+    ) -> Project:
+        if not self.filename:
             msg = "Need a filename string."
-            raise TypeError(msg)
+            raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
 
@@ -891,7 +907,7 @@ class ProjectBackup:
 
         return self.project
 
-    def store_for_import(self):
+    def store_for_import(self) -> str:
         backup_dir = data_dir(PROJECTBACKUP_PREFIX, "import")
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
