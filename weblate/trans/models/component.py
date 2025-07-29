@@ -2581,6 +2581,7 @@ class Component(
             changed_template=changed_template,
             from_link=from_link,
             change=change,
+            user_id=request.user.id if request is not None else None,
         )
         return False
 
