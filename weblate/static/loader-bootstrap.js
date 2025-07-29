@@ -612,7 +612,7 @@ $(function () {
         activeTab = $(
           `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
         );
-        if (activeTab.length > 0 ) {
+        if (activeTab.length > 0) {
           bootstrap.Tab.getOrCreateInstance(activeTab).show();
         }
       }
@@ -627,11 +627,13 @@ $(function () {
         anchor.scrollIntoView();
       }
       // For Bootstrap 5
-      activeTab = $(`.nav [data-bs-toggle=tab][data-bs-target="${location.hash}"]`);
-        if (activeTab.length > 0 ) {
-          bootstrap.Tab.getOrCreateInstance(activeTab).show();
-          window.scrollTo(0, 0);
-        }
+      activeTab = $(
+        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash}"]`,
+      );
+      if (activeTab.length > 0) {
+        bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        window.scrollTo(0, 0);
+      }
     }
   } else if (
     $(".translation-tabs").length > 0 &&
