@@ -764,6 +764,13 @@ list_versions
 
 Lists all Weblate dependencies and their versions.
 
+list_file_format_params
+-----------------------
+
+.. weblate-admin:: list_file_format_params
+
+Lists File format parameters.
+
 loadpo
 ------
 

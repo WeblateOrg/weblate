@@ -1875,8 +1875,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         if (
             source_component := request.GET.get("source_component")
-            and "file_format" in kwargs["initial"]
-        ):
+        ) and "file_format" in kwargs["initial"]:
             source_component = Component.objects.get(pk=int(source_component))
             if source_component.file_format_params:
                 kwargs["initial"]["file_format_params"] = {
