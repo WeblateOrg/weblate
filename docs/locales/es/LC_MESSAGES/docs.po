@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-06-19 19:52+0200\n"
-"PO-Revision-Date: 2025-07-24 13:15+0000\n"
+"PO-Revision-Date: 2025-07-27 10:04+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15447,6 +15447,12 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate, como cualquier otro software, puede fallar. Para recopilar estados "
+"de falla útiles, recomendamos utilizar servicios de terceros para recopilar "
+"dicha información. Esto es especialmente útil en caso de fallas en las "
+"tareas de Celery, que de lo contrario solo informarían errores a los "
+"registros y no se le notificará sobre ellos. Weblate tiene soporte para los "
+"siguientes servicios:"
 
 #: ../../admin/install.rst:1770
 msgid "Sentry"
@@ -15457,6 +15463,8 @@ msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate tiene soporte incorporado para `Sentry <https://sentry.io/>`_. Para "
+"usarlo, basta con configurar :setting:`SENTRY_DSN` en el :file:`settings.py`:"
 
 #: ../../admin/install.rst:1779
 msgid ""
@@ -15465,46 +15473,61 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` and :setting:"
 "`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry también se puede usar para monitorear el rendimiento de Weblate al "
+"recopilar rastros y perfiles para un porcentaje definido de operaciones. "
+"Esto se puede configurar usando :setting:`SENTRY_TRACES_SAMPLE_RATE` y "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install.rst:1785
+#, fuzzy
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
 "performance-monitoring/>`_, `Sentry Profiling <https://docs.sentry.io/"
 "product/explore/profiling/>`_"
 msgstr ""
+"`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
+"performance-monitoring/>`_, `Sentry Profiling <https://docs.sentry.io/"
+"product/explore/profiling/>`_"
 
 #: ../../admin/install.rst:1791
 msgid "Rollbar"
 msgstr "Revertir"
 
 #: ../../admin/install.rst:1793
+#, fuzzy
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate tiene soporte incorporado para`Rollbar <https://rollbar.com/>`_. "
+"Para usarlo, basta con seguir las instrucciones para `Rollbar notifier for "
+"Python <https://docs.rollbar.com/docs/python/>`_."
 
 #: ../../admin/install.rst:1796
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "En resumen, necesitas ajustar :file:`settings.py`:"
 
 #: ../../admin/install.rst:1814
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Todo lo demás se integra automáticamente, ahora recopilará errores del lado "
+"del servidor y del cliente."
 
 #: ../../admin/install.rst:1819
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"El registro de errores también incluye excepciones que se manejaron "
+"correctamente, pero que podrían indicar un problema , como un análisis "
+"fallido de un archivo cargado."
 
 #: ../../admin/install.rst:1825
-#, fuzzy
-#| msgid "Terminology"
 msgid "Graylog log management"
-msgstr "Terminología"
+msgstr "Gestión de registros de Graylog"
 
 #: ../../admin/install.rst:1829
 msgid ""
@@ -15512,16 +15535,22 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Weblate se puede configurar para iniciar sesión utilizando el protocolo GELF "
+"TCP. Esto fue desarrollado para la integración de Graylog, pero se puede "
+"usar con cualquier plataforma de registro compatible."
 
 #: ../../admin/install.rst:1832
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
+"La placa repetitiva de configuración está incluida en :ref:`sample-"
+"configuration`, para Docker, esto se puede configurar usando "
+":envvar:`WEBLATE_LOG_GELF_HOST`."
 
 #: ../../admin/install.rst:1836
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Migrar Weblate a otro servidor"
 
 #: ../../admin/install.rst:1838
 msgid ""
@@ -15529,6 +15558,9 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
+"Migrar Weblate a otro servidor debería ser bastante fácil, sin embargo, "
+"almacena datos en pocas ubicaciones que debe migrar con cuidado. El mejor "
+"enfoque es detener Weblate para la migración."
 
 #: ../../admin/install.rst:1843
 msgid "Migrating database"
@@ -15542,10 +15574,16 @@ msgid ""
 "`mysqldump` or :command:`pg_dump`). Alternatively you can use replication in "
 "case your database supports it."
 msgstr ""
+"Según el backend de la base de datos, es posible que tenga varias opciones "
+"para migrar la base de datos. El enfoque más sencillo es utilizar "
+"herramientas nativas de la base de datos, ya que suelen ser las más "
+"efectivas (por ejemplo :command:`mysqldump` o :command:`pg_dump`). "
+"Alternativamente, puede usar la replicación en caso de que su base de datos "
+"lo admita."
 
 #: ../../admin/install.rst:1853
 msgid "Migrating between databases described in :ref:`database-migration`."
-msgstr ""
+msgstr "Migración entre bases de datos descrita en :ref:`database-migration`."
 
 #: ../../admin/install.rst:1856
 msgid "Migrating VCS repositories"
@@ -15557,6 +15595,9 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
+"Los repositorios de VCS almacenados en :setting:`DATA_DIR` necesita migrarse "
+"también. Simplemente puede copiarlos o usar :command:`rsync` para hacer la "
+"migración de manera más efectiva."
 
 #: ../../admin/install.rst:1863
 msgid "Other notes"

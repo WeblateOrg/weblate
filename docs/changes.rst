@@ -21,6 +21,7 @@ Weblate 5.13
 * When editing a language definition, a warning about automated updates is shown; see :ref:`included-languages`.
 * Avatars for API and internal accounts.
 * Adding a new TOTP device removes the existing one by default; checkbox for not removing previous ones available.
+* Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
 
 .. rubric:: Bug fixes
 
