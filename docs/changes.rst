@@ -27,6 +27,7 @@ Weblate 5.13
 * :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
 * :ref:`mt-deepl` integration now correctly handle all supported source languages.
 * Possible crash on macOS 15 in :samp:`strxfrm`.
+* Internal server error on permission denied while uploading files.
 
 .. rubric:: Compatibility
 
