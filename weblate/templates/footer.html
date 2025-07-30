@@ -33,9 +33,11 @@
     <li>
       <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
     </li>
-    <li>
-      <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
-    </li>
+    {% if not support_status.has_support or support_status.is_hosted_weblate %}
+      <li>
+        <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
+      </li>
+    {% endif %}
   </ul>
 </footer>
 
