@@ -6,25 +6,30 @@
       {% blocktranslate %}Powered by {{ weblate_version_link }}{% endblocktranslate %}
     </li>
     <li>
-      <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
+      <a href="{% url 'about' %}" id="footer-about-link">{% translate "About" context "About this server" %}</a>
     </li>
     {% if has_legal %}
       <li>
-        <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
+        <a href="{% url 'legal:terms' %}">{% translate "Terms" context "General terms and conditions" %}</a>
       </li>
-    {% elif legal_url %}
       <li>
-        <a href="{{ legal_url }}">{% translate "Legal" %}</a>
+        <a href="{% url 'legal:privacy' %}">{% translate "Privacy" context "Privacy policy" %}</a>
       </li>
-    {% endif %}
-    {% if privacy_url %}
-      <li>
-        <a href="{{ privacy_url }}">{% translate "Privacy policy" %}</a>
-      </li>
+    {% else %}
+      {% if legal_url %}
+        <li>
+          <a href="{{ legal_url }}">{% translate "Legal" context "Link to legal documents" %}</a>
+        </li>
+      {% endif %}
+      {% if privacy_url %}
+        <li>
+          <a href="{{ privacy_url }}">{% translate "Privacy" context "Privacy policy" %}</a>
+        </li>
+      {% endif %}
     {% endif %}
     {% if status_url %}
       <li>
-        <a href="{{ status_url }}">{% translate "Service status" %}</a>
+        <a href="{{ status_url }}">{% translate "Status" context "Service status" %}</a>
       </li>
     {% endif %}
     <li>
@@ -33,9 +38,9 @@
     <li>
       <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
     </li>
-    {% if not support_status.has_support or support_status.is_hosted_weblate %}
+    {% if not support_status.has_support %}
       <li>
-        <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
+        <a href="{% url 'donate' %}">{% translate "Become a supporter" context "Support Weblate financially" %}</a>
       </li>
     {% endif %}
   </ul>

@@ -406,18 +406,18 @@
 
                   <li class="dropdown-header">{% translate "Weblate project" %}</li>
                   <li>
-                    <a href="https://weblate.org/contribute/">{% translate "Contribute" %}</a>
+                    <a href="https://weblate.org/contribute/">{% translate "Contribute" context "Contribute to Weblate" %}</a>
                   </li>
                   {% if not support_status.has_support or support_status.is_hosted_weblate %}
                     <li>
-                      <a href="{% url 'donate' %}">{% translate "Become a supporter" %}</a>
+                      <a href="{% url 'donate' %}">{% translate "Become a supporter" context "Support Weblate financially" %}</a>
                     </li>
                   {% endif %}
                   <li>
-                    <a href="{% url 'about' %}">{% translate "About" %}</a>
+                    <a href="{% url 'about' %}">{% translate "About" context "About this server" %}</a>
                   </li>
                   <li>
-                    <a href="https://weblate.org/">{% translate "Website" %}</a>
+                    <a href="https://weblate.org/">{% translate "Website" context "Weblate website" %}</a>
                   </li>
                 </ul>
               </li>

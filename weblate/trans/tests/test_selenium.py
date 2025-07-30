@@ -377,7 +377,7 @@ class SeleniumTests(
     @override_settings(WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>")
     def test_gpg(self) -> None:
         with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "About Weblate"))
+            self.click(self.driver.find_element(By.ID, "footer-about-link"))
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Keys"))
         self.screenshot("about-gpg.png")
@@ -1080,7 +1080,7 @@ class SeleniumTests(
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
-        self.upload_file(element, FONT)
+        self.upload_file(element, FONT.as_posix())
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
