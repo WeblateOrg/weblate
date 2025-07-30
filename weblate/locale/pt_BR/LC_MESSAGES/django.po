@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 15:43+0000\n"
 "PO-Revision-Date: 2025-07-30 03:55+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Juno Takano <weblate@jutty.dev>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -391,22 +391,24 @@ msgid "Verify the code from the app"
 msgstr "Verifique o código do aplicativo"
 
 #: weblate/accounts/forms.py:1108
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Dê um nome ao seu aplicativo de autenticação"
+msgstr "Descartar aplicativos de autenticação configurados anteriormente"
 
 #: weblate/accounts/forms.py:1112
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Todos os aplicativos de autenticação configurados anteriormente serão "
+"descartados após a verificação do novo aplicativo."
 
 #: weblate/accounts/forms.py:1115
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Outros fatores de autenticação em duas etapas (como WebAuthn e chaves de "
+"segurança) não serão afetados."
 
 #: weblate/accounts/forms.py:1121
 msgid "The entered token is not valid."
@@ -3176,10 +3178,8 @@ msgid "This component is currently locked."
 msgstr "Este componente está atualmente bloqueado."
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "O formato do arquivo não suporta esta ação."
+msgstr "O formato do arquivo não suporta atualização de textos fonte."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4950,7 +4950,7 @@ msgstr "Arquivo @draggable/i18n lang"
 
 #: weblate/formats/ttkit.py:2158
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "catkeys do Haiku"
 
 #: weblate/formats/ttkit.py:2177
 msgid "Stringsdict file"
@@ -5876,10 +5876,8 @@ msgid "Missing source or target language in file!"
 msgstr "Idioma fonte ou de destino ausente no arquivo!"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
-msgstr "pendente"
+msgstr "Pendente"
 
 #: weblate/memory/models.py:490
 msgctxt "Translation memory category"
@@ -8389,10 +8387,8 @@ msgstr "Baixar arquivos de tradução originais como arquivo ZIP"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "Versões"
+msgstr "Operações"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9610,6 +9606,9 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"Por favor, considere enviar sua edição para o <a href=\"%(url)s\">repository "
+"de dados de idiomas do Weblate</a> para que ela possa ser incluída em "
+"versões futuras do Weblate."
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9618,6 +9617,10 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"As definições de idioma são automaticamente atualizadas pelo Weblate após "
+"uma migração do banco de dados. Edições impróprias provavelmente serão "
+"revertidas.<a href=\"%(url)s\">Consulte a documentação sobre como lidar "
+"apropriadamente com isso.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -12628,10 +12631,8 @@ msgid "Update the repository"
 msgstr "Atualizar repositório"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "Importando backup"
+msgstr "Backups existentes"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -14141,14 +14142,12 @@ msgid "New revision: {}"
 msgstr "Nova revisão: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s caractere editado"
-msgstr[1] "%(count)s caracteres editados"
+msgstr[0] "%(count)d caractere editado"
+msgstr[1] "%(count)d caracteres editados"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14638,12 +14637,18 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"A política de commit \"apenas aprovados\" requer que as revisões de tradução "
+"sejam habilitadas. Por favor, primeiro ative as revisões de tradução ou "
+"escolha uma política de commit diferente."
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"Revisões de tradução são requeridas para a política de commit "
+"\"apenas aprovados\". Por favor, escolha outra política de commit antes de "
+"desativar as revisões de tradução."
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -15427,10 +15432,8 @@ msgid "Enforced checks"
 msgstr "Verificações forçadas"
 
 #: weblate/trans/models/component.py:594
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Lista de verificações que não podem ser ignoradas."
+msgstr "Lista de verificações que não podem ser descartadas."
 
 #: weblate/trans/models/component.py:612
 msgid ""
@@ -15955,19 +15958,15 @@ msgstr "Descrição da etiqueta"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "Fazer commit de todas as traduções independente da qualidade"
 
 #: weblate/trans/models/project.py:60
-#, fuzzy
-#| msgid "Strings marked as needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "Textos marcados como necessita edição"
+msgstr "Pular traduções marcadas como necessitando de edição"
 
 #: weblate/trans/models/project.py:62
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "Adicionar como tradução aprovada"
+msgstr "Incluir apenas traduções aprovadas"
 
 #: weblate/trans/models/project.py:168
 msgid "Public"
@@ -16019,15 +16018,15 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Contribua com o conjunto de traduções compartilhadas entre projetos."
 
 #: weblate/trans/models/project.py:222
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "Usar memória de tradução"
+msgstr "Limpar memória de tradução automaticamente"
 
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
 msgstr ""
+"Remove automaticamente entradas desatualizadas e obsoletas da memória de "
+"tradução."
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -16059,16 +16058,17 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Requer revisores dedicados para aprovar traduções de textos fontes."
 
 #: weblate/trans/models/project.py:258
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "Arquivo de tradução"
+msgstr "Filtro de qualidade de tradução"
 
 #: weblate/trans/models/project.py:262
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
 msgstr ""
+"Selecione quais traduções devem ser incluídas ao fazer commit das "
+"alterações. Opções mais restritivas irão ignorar traduções com possíveis "
+"problemas de qualidade."
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -16586,13 +16586,8 @@ msgstr ""
 "tradução ou inicie a tradução de seu próprio projeto."
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr ""
-"Você pode editar posteriormente, assim como qualquer outro texto no idioma "
-"fonte."
+msgstr "O envio de fontes só é suportado no idioma fonte."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -16667,23 +16662,22 @@ msgstr "Envolva-se com o {0}!"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Adição de idioma não é suportada por nenhum dos componentes."
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "Novo idioma adicionado a %(component)s"
-msgstr[1] "Novo idioma adicionado a %(component)s"
+msgstr[0] "Idioma %(language)s adicionado a %(count)d componente."
+msgstr[1] "Idioma %(language)s adicionado a %(count)d componentes."
 
 #: weblate/trans/views/basic.py:823
 #, fuzzy, python-format
 #| msgid "New language request in %(component)s"
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Novo pedido de idioma em %(component)s"
-msgstr[1] "Novo pedido de idioma em %(component)s"
+msgstr[0] "Novo pedido de idioma em %(component)s."
+msgstr[1] "Novo pedido de idioma em %(component)s."
 
 #: weblate/trans/views/basic.py:837
 #, python-format
@@ -16694,7 +16688,11 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] ""
+"Não foi possível adicionar o idioma %(language)s a %(count)d componente. Por "
+"favor, verifique a configuração do componente."
 msgstr[1] ""
+"Não foi possível adicionar o idioma %(language)s a %(count)d componentes. "
+"Por favor, verifique a configuração dos componentes."
 
 #: weblate/trans/views/basic.py:913
 msgid ""
