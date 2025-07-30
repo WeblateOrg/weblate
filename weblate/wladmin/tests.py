@@ -4,6 +4,7 @@
 
 import json
 import os
+from datetime import timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from unittest import TestCase
@@ -317,9 +318,49 @@ class AdminTest(ViewTestCase):
 
             self.assertFalse(status.discoverable)
 
+            # Toggle discovery
             self.client.post(reverse("manage-discovery"))
             status = SupportStatus.objects.get()
             self.assertTrue(status.discoverable)
+
+            # Use different payload for second registration
+            responses.delete(responses.POST, settings.SUPPORT_API_URL)
+            responses.add(
+                responses.POST,
+                settings.SUPPORT_API_URL,
+                body=json.dumps(
+                    {
+                        "name": "hosted",
+                        "backup_repository": tempdir,
+                        "expiry": timezone.now() - timedelta(days=1),
+                        "in_limits": True,
+                        "has_subscription": True,
+                        "limits": {},
+                    },
+                    cls=DjangoJSONEncoder,
+                ),
+            )
+            # Changing secret
+            self.client.post(reverse("manage-activate"), {"secret": "654321"})
+            old_status = SupportStatus.objects.get(pk=status.pk)
+            self.assertFalse(old_status.enabled)
+            new_status = SupportStatus.objects.filter(enabled=True).get()
+            self.assertEqual(new_status.name, "hosted")
+            self.assertEqual(SupportStatus.objects.get_current(), new_status)
+
+            # Refresh
+            self.client.post(reverse("manage-activate"), {"refresh": "1"})
+            new_status = SupportStatus.objects.get_current()
+            self.assertEqual(new_status.name, "hosted")
+            self.assertTrue(new_status.enabled)
+
+            # Unlink
+            self.client.post(reverse("manage-activate"), {"unlink": "1"})
+            self.assertFalse(SupportStatus.objects.filter(enabled=True).exists())
+            new_status = SupportStatus.objects.get_current()
+            self.assertEqual(new_status.pk, None)
+            self.assertEqual(new_status.name, "community")
+            self.assertFalse(new_status.enabled)
 
     def test_group_management(self) -> None:
         # Add form
