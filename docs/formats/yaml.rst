@@ -34,3 +34,8 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `YAML file`                      |
 +--------------------------------+----------------------------------+
+
+File format parameters
+++++++++++++++++++++++
+
+:ref:`file_format_params` with the pattern `yaml_*` can be used to configure the behavior of the YAML format.

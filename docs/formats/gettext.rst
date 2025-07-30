@@ -20,7 +20,6 @@ headers or linking to corresponding source files.
     :doc:`tt:formats/po`,
     :ref:`addon-weblate.gettext.authors`,
     :ref:`addon-weblate.gettext.configure`,
-    :ref:`addon-weblate.gettext.customize`,
     :ref:`addon-weblate.gettext.linguas`,
     :ref:`addon-weblate.gettext.mo`,
     :ref:`addon-weblate.gettext.msgmerge`
@@ -56,7 +55,7 @@ The line wrapping mostly matches GNU gettext behavior. Both the wrapping
 algorithm in the GNU gettext and the Unicode data the wrapping is based on
 evolve which might cause differences in some corner cases.
 
-The wrapping width can be configured using :ref:`addon-weblate.gettext.customize`.
+The wrapping width can be configured using the ``po_line_wrap`` parameter, see :ref:`file_format_params`.
 
 Generating matching MO files
 ++++++++++++++++++++++++++++
@@ -160,3 +159,9 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `Gettext PO file (monolingual)`  |
 +--------------------------------+----------------------------------+
+
+
+File format parameters
+++++++++++++++++++++++
+
+:ref:`file_format_params` with the pattern `po_*` can be used to configure the behavior of the gettext format.

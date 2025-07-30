@@ -17,6 +17,7 @@ class BaseFileFormatParam:
     default: str | int | bool
     field_kwargs: dict = {}
     choices: list[tuple[str | int, StrOrPromise]] | None = None
+    help_text: StrOrPromise | None = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -45,6 +46,8 @@ class BaseFileFormatParam:
         kwargs.update({"required": False, "initial": self.default})
         if self.choices is not None:
             kwargs["choices"] = self.choices
+        if self.help_text:
+            kwargs["help_text"] = self.help_text
         return kwargs
 
 
@@ -143,21 +146,14 @@ class GettextPoLineWrap(BaseFileFormatParam):
         (-1, gettext_lazy("No line wrapping")),
     ]
     default = 77
-
-    def get_field_kwargs(self):
-        kwargs = super().get_field_kwargs()
-        kwargs["help_text"] = gettext_lazy(
-            "By default gettext wraps lines at 77 characters and at newlines. "
-            "With the --no-wrap parameter, wrapping is only done at newlines."
-        )
-        return kwargs
+    help_text = gettext_lazy(
+        "By default gettext wraps lines at 77 characters and at newlines."
+        "With the --no-wrap parameter, wrapping is only done at newlines."
+    )
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
-    file_formats = (
-        "po",
-        "po-mono",
-    )
+    file_formats = ("po",)
 
 
 @register_file_format_param

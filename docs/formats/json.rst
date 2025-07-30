@@ -79,3 +79,9 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
 +--------------------------------+----------------------------------+
+
+
+File format parameters
+++++++++++++++++++++++
+
+:ref:`file_format_params` with the pattern `json_*` can be used to configure the behavior of the JSON format.

@@ -751,6 +751,10 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 Customize gettext output
 ------------------------
 
+.. deprecated:: 5.13
+
+   :guilabel: Replaced by :ref:`file_format_params`
+
 :Add-on ID: ``weblate.gettext.customize``
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
                 | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
@@ -819,20 +823,18 @@ The location of the generated MO file can be customized and the field for it use
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
+.. versionchanged:: 5.13
+
+   :guilabel: Settings configuration has been moved to :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.gettext.msgmerge``
-:Configuration: +-----------------+--------------------------------------------+--+
-                | ``previous``    | Keep previous msgids of translated strings |  |
-                +-----------------+--------------------------------------------+--+
-                | ``no_location`` | Remove locations of translated strings     |  |
-                +-----------------+--------------------------------------------+--+
-                | ``fuzzy``       | Use fuzzy matching                         |  |
-                +-----------------+--------------------------------------------+--+
+:Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
-Most msgmerge command-line options can be set up through the add-on
+Most msgmerge command-line options can be set up through file format parameters
 configuration.
 
 .. seealso::
@@ -890,6 +892,10 @@ Customize JSON output
 .. versionchanged:: 5.12
 
    :guilabel:`Avoid spaces after separators` option added.
+
+.. deprecated:: 5.13
+
+   :guilabel: Replaced by :ref:`file_format_params`
 
 :Add-on ID: ``weblate.json.customize``
 :Configuration: +----------------------------+-------------------------------+----------------------+
@@ -1414,6 +1420,10 @@ Allows adjusting XML output behavior, for example closing tags.
 
 Customize YAML output
 ---------------------
+
+.. deprecated:: 5.13
+
+  :guilabel: Replaced by :ref:`file_format_params`
 
 :Add-on ID: ``weblate.yaml.customize``
 :Configuration: +----------------+---------------------+------------------------------------+
