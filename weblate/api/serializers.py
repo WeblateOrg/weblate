@@ -26,6 +26,7 @@ from rest_framework import serializers
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Permission, Role, User
+from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -1028,15 +1029,10 @@ class UploadRequestSerializer(ReadOnlySerializer):
         ):
             raise serializers.ValidationError({"conflicts": denied.reason})
 
-        if data["method"] == "source" and not obj.is_source:
-            raise serializers.ValidationError(
-                {"method": "Source upload is supported only on source language."}
-            )
-
-        if not check_upload_method_permissions(user, obj, data["method"]):
+        if not (denied := check_upload_method_permissions(user, obj, data["method"])):
             hint = "Check your permissions or use different translation object."
-            if data["method"] == "add" and not obj.is_source:
-                hint = "Try adding to the source instead of the translation."
+            if isinstance(denied, PermissionResult):
+                hint = denied.reason
             raise serializers.ValidationError(
                 {"method": f"This method is not available here. {hint}"}
             )

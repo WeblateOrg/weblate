@@ -21,7 +21,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator
-from django.db import IntegrityError, models, transaction
+from django.db import IntegrityError, connection, models, transaction
 from django.db.models import Count, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
@@ -58,6 +58,7 @@ from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_aler
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
+from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
@@ -73,6 +74,7 @@ from weblate.trans.util import (
     PRIORITY_CHOICES,
     cleanup_path,
     cleanup_repo_url,
+    count_words,
     is_repo_link,
     path_separator,
 )
@@ -129,7 +131,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
-    from weblate.trans.models import Unit
+    from weblate.trans.models.unit import UnitAttributesDict
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -1280,6 +1282,81 @@ class Component(
         self._sources = {}
         self._sources_prefetched = False
 
+    def _process_new_source(self, source: Unit, *, save: bool = True) -> Change:
+        # Avoid fetching empty list of checks from the database
+        source.all_checks = []
+        source.source_updated = True
+        change = source.generate_change(
+            self.acting_user,
+            self.acting_user,
+            ActionEvents.NEW_SOURCE,
+            check_new=False,
+            save=save,
+        )
+        self.updated_sources[source.id] = source
+        return change
+
+    def bulk_create_sources(self, attributes_list: list[UnitAttributesDict]) -> None:
+        """Ensure that all sources are stored in the database."""
+        # Can not bulk create with getting primary key, resort to one by one creation
+        if not connection.features.can_return_rows_from_bulk_insert:
+            return
+
+        # Make sure we load all the sources
+        if not self._sources_prefetched:
+            self.preload_sources()
+
+        # Filter out missing ones
+        missing = [
+            attributes
+            for attributes in attributes_list
+            if attributes["id_hash"] not in self._sources
+        ]
+
+        if not missing:
+            return
+
+        # Bulk create
+        # Needs to be in sync with Unit.update_source_unit
+        units = [
+            Unit(
+                translation=self.source_translation,
+                id_hash=attributes["id_hash"],
+                source=attributes["source"],
+                target=attributes["source"],
+                context=attributes["context"],
+                position=attributes["pos"],
+                note=attributes["note"],
+                location=attributes["location"],
+                explanation=attributes["explanation"],
+                flags=attributes["flags"].format(),
+                num_words=count_words(attributes["source"], self.source_language),
+                state=STATE_TRANSLATED
+                if self.template and self.edit_template
+                else STATE_READONLY,
+            )
+            for attributes in missing
+        ]
+        Unit.objects.bulk_create(units)
+
+        changes: list[Change] = []
+
+        for unit in units:
+            # Fill in source_unit
+            unit.source_unit = unit
+
+            # Track in local cache
+            self._sources[unit.id_hash] = unit
+
+            # Postprocess and create change
+            changes.append(self._process_new_source(unit, save=False))
+
+        # Update source unit in the database
+        Unit.objects.bulk_update(units, fields=["source_unit"])
+
+        # Store changes in the database
+        Change.objects.bulk_create(changes)
+
     def get_source(self, id_hash, create=None):
         """Get source info with caching."""
         from weblate.trans.models import Unit
@@ -1309,17 +1386,7 @@ class Component(
                     translation=self.source_translation, id_hash=id_hash, **create
                 )
                 source.save(force_insert=True, only_save=True)
-
-                # Avoid fetching empty list of checks from the database
-                source.all_checks = []
-                source.source_updated = True
-                source.generate_change(
-                    self.acting_user,
-                    self.acting_user,
-                    ActionEvents.NEW_SOURCE,
-                    check_new=False,
-                )
-                self.updated_sources[source.id] = source
+                self._process_new_source(source)
             else:
                 # We are not supposed to create new one
                 msg = "Could not find source unit"
@@ -1737,7 +1804,13 @@ class Component(
         return any(self.filemask_re.match(path) for path in changed)
 
     def needs_commit_upstream(self) -> bool:
-        """Detect whether commit is needed for upstream changes."""
+        """
+        Detect whether commit is needed because of upstream changes.
+
+        Inspect changed files in the upstream repository to see if any of them
+        would trigger parsing of translation files. In case there is none, the
+        repository can be merged without committing pending changes.
+        """
         changed = self.repository.get_changed_files()
         if self.uses_changed_files(changed):
             return True
@@ -2514,6 +2587,7 @@ class Component(
             changed_template=changed_template,
             from_link=from_link,
             change=change,
+            user_id=request.user.id if request is not None else None,
         )
         return False
 

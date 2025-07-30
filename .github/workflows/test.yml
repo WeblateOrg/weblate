@@ -109,6 +109,10 @@ jobs:
       run: uv run coverage run ./manage.py check
     - name: Demo import
       run: uv run coverage run ./manage.py import_demo
+    - name: Keep coverage
+      run: |
+        mkdir -p build/coverage
+        mv .coverage.* build/coverage
     - name: Test with Django
       run: |
         source .venv/bin/activate
@@ -120,6 +124,7 @@ jobs:
       run: uv run coverage run weblate/wsgi.py
     - name: Coverage
       run: |
+        mv build/coverage/.coverage.* .
         uv run coverage combine
         uv run coverage xml
     - uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3

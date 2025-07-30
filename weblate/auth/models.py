@@ -68,7 +68,7 @@ if TYPE_CHECKING:
     from social_django.strategy import DjangoStrategy
 
     from weblate.accounts.models import Subscription
-    from weblate.auth.permissions import PermissionResult
+    from weblate.auth.results import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], set[int] | None]]

@@ -24,6 +24,7 @@ from lxml import etree
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
+from weblate.auth.results import Denied
 from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
@@ -33,7 +34,7 @@ if TYPE_CHECKING:
     from django.shortcuts import SupportsGetAbsoluteUrl
 
     from weblate.auth.models import User
-    from weblate.auth.permissions import PermissionResult
+    from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation, Unit
 
@@ -363,11 +364,11 @@ def check_upload_method_permissions(
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
     if method == "source":
-        return (
-            translation.is_source
-            and user.has_perm("upload.perform", translation)
-            and hasattr(translation.component.file_format_cls, "update_bilingual")
-        )
+        if not translation.is_source:
+            return Denied(
+                gettext("Source upload is only supported on the source language.")
+            )
+        return user.has_perm("upload.perform", translation)
     if method == "add":
         return user.has_perm("unit.add", translation)
     if method in {"translate", "fuzzy"}:
