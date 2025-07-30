@@ -1166,6 +1166,7 @@ class BasePoFormat(TTKitFormat):
 
 
 class PoFormat(BasePoFormat, BilingualUpdateMixin):
+    # Translators: File format name
     name = gettext_lazy("gettext PO file")
     format_id = "po"
     monolingual = False
@@ -1236,6 +1237,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
 
 
 class PoMonoFormat(BasePoFormat):
+    # Translators: File format name
     name = gettext_lazy("gettext PO file (monolingual)")
     format_id = "po-mono"
     monolingual = True
@@ -1260,6 +1262,7 @@ class PoMonoFormat(BasePoFormat):
 
 
 class TSFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("Qt Linguist translation file")
     format_id = "ts"
     loader = tsfile
@@ -1274,6 +1277,7 @@ class TSFormat(TTKitFormat):
 
 
 class XliffFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
@@ -1304,6 +1308,7 @@ class XliffFormat(TTKitFormat):
 
 
 class RichXliffFormat(XliffFormat):
+    # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
@@ -1311,6 +1316,7 @@ class RichXliffFormat(XliffFormat):
 
 
 class PoXliffFormat(XliffFormat):
+    # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
     autoload: tuple[str, ...] = ("*.poxliff",)
@@ -1342,6 +1348,7 @@ class PropertiesBaseFormat(TTKitFormat):
 
 
 class StringsFormat(PropertiesBaseFormat):
+    # Translators: File format name
     name = gettext_lazy("iOS strings (UTF-16)")
     format_id = "strings"
     loader = ("properties", "stringsfile")
@@ -1351,6 +1358,7 @@ class StringsFormat(PropertiesBaseFormat):
 
 
 class StringsUtf8Format(StringsFormat):
+    # Translators: File format name
     name = gettext_lazy("iOS strings (UTF-8)")
     format_id = "strings-utf8"
     loader = ("properties", "stringsutf8file")
@@ -1358,6 +1366,7 @@ class StringsUtf8Format(StringsFormat):
 
 
 class PropertiesUtf8Format(PropertiesBaseFormat):
+    # Translators: File format name
     name = gettext_lazy("Java Properties (UTF-8)")
     format_id = "properties-utf8"
     loader = ("properties", "javautf8file")
@@ -1367,6 +1376,7 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
 
 
 class PropertiesUtf16Format(PropertiesBaseFormat):
+    # Translators: File format name
     name = gettext_lazy("Java Properties (UTF-16)")
     format_id = "properties-utf16"
     loader = ("properties", "javafile")
@@ -1377,6 +1387,7 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
 
 
 class PropertiesFormat(PropertiesBaseFormat):
+    # Translators: File format name
     name = gettext_lazy("Java Properties (ISO 8859-1)")
     format_id = "properties"
     loader = ("properties", "javafile")
@@ -1389,6 +1400,7 @@ class PropertiesFormat(PropertiesBaseFormat):
 
 
 class JoomlaFormat(PropertiesBaseFormat):
+    # Translators: File format name
     name = gettext_lazy("Joomla language file")
     format_id = "joomla"
     loader = ("properties", "joomlafile")
@@ -1398,6 +1410,7 @@ class JoomlaFormat(PropertiesBaseFormat):
 
 
 class GWTFormat(StringsFormat):
+    # Translators: File format name
     name = gettext_lazy("GWT properties (UTF-8)")
     format_id = "gwt"
     loader = ("properties", "gwtfile")
@@ -1408,12 +1421,14 @@ class GWTFormat(StringsFormat):
 
 
 class GWTISOFormat(GWTFormat):
+    # Translators: File format name
     name = gettext_lazy("GWT properties (ISO-8859-1)")
     format_id = "gwt-iso"
     force_encoding = "iso-8859-1"
 
 
 class PhpFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("PHP strings")
     format_id = "php"
     loader = ("php", "phpfile")
@@ -1433,6 +1448,7 @@ class PhpFormat(TTKitFormat):
 
 
 class LaravelPhpFormat(PhpFormat):
+    # Translators: File format name
     name = gettext_lazy("Laravel PHP strings")
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
@@ -1440,6 +1456,7 @@ class LaravelPhpFormat(PhpFormat):
 
 
 class RESXFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy(".NET resource file")
     format_id = "resx"
     loader = RESXFile
@@ -1452,6 +1469,7 @@ class RESXFormat(TTKitFormat):
 
 
 class AndroidFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("Android String Resource")
     format_id = "aresource"
     loader = ("aresource", "AndroidResourceFile")
@@ -1474,12 +1492,14 @@ class AndroidFormat(TTKitFormat):
 
 
 class MOKOFormat(AndroidFormat):
+    # Translators: File format name
     name = gettext_lazy("Mobile Kotlin Resource")
     format_id = "moko-resource"
     loader = ("aresource", "MOKOResourceFile")
 
 
 class CMPFormat(AndroidFormat):
+    # Translators: File format name
     name = gettext_lazy("Compose Multiplatform Resource")
     format_id = "cmp-resource"
     loader = ("aresource", "CMPResourceFile")
@@ -1499,6 +1519,7 @@ class DictStoreFormat(TTKitFormat):
 
 
 class JSONFormat(DictStoreFormat):
+    # Translators: File format name
     name = gettext_lazy("JSON file")
     format_id = "json"
     loader = JsonFile
@@ -1519,6 +1540,7 @@ class JSONFormat(DictStoreFormat):
 
 
 class JSONNestedFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("JSON nested structure file")
     format_id = "json-nested"
     loader = ("jsonl10n", "JsonNestedFile")
@@ -1526,6 +1548,7 @@ class JSONNestedFormat(JSONFormat):
 
 
 class WebExtensionJSONFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("WebExtension JSON file")
     format_id = "webextension"
     loader = ("jsonl10n", "WebExtensionJsonFile")
@@ -1536,6 +1559,7 @@ class WebExtensionJSONFormat(JSONFormat):
 
 
 class I18NextFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("i18next JSON file v3")
     format_id = "i18next"
     loader = ("jsonl10n", "I18NextFile")
@@ -1546,12 +1570,14 @@ class I18NextFormat(JSONFormat):
 
 
 class I18NextV4Format(I18NextFormat):
+    # Translators: File format name
     name = gettext_lazy("i18next JSON file v4")
     format_id = "i18nextv4"
     loader = ("jsonl10n", "I18NextV4File")
 
 
 class GoI18JSONFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("go-i18n v1 JSON file")
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
@@ -1561,6 +1587,7 @@ class GoI18JSONFormat(JSONFormat):
 
 
 class GoI18V2JSONFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("go-i18n v2 JSON file")
     format_id = "go-i18n-json-v2"
     loader = ("jsonl10n", "GoI18NV2JsonFile")
@@ -1569,6 +1596,7 @@ class GoI18V2JSONFormat(JSONFormat):
 
 
 class ARBFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("ARB file")
     format_id = "arb"
     loader = ("jsonl10n", "ARBJsonFile")
@@ -1578,6 +1606,7 @@ class ARBFormat(JSONFormat):
 
 
 class GoTextFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("gotext JSON file")
     format_id = "gotext"
     loader = ("jsonl10n", "GoTextJsonFile")
@@ -1587,6 +1616,7 @@ class GoTextFormat(JSONFormat):
 
 
 class FormatJSFormat(JSONFormat):
+    # Translators: File format name
     name = gettext_lazy("Format.JS JSON file")
     format_id = "formatjs"
     loader = ("jsonl10n", "FormatJSJsonFile")
@@ -1595,6 +1625,7 @@ class FormatJSFormat(JSONFormat):
 
 
 class CSVFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("CSV file")
     format_id = "csv"
     loader = ("csvl10n", "csvfile")
@@ -1695,6 +1726,7 @@ class CSVFormat(TTKitFormat):
 
 
 class CSVUtf8Format(CSVFormat):
+    # Translators: File format name
     name = gettext_lazy("CSV file (UTF-8)")
     format_id = "csv-utf-8"
     autoload: tuple[str, ...] = ()
@@ -1702,6 +1734,7 @@ class CSVUtf8Format(CSVFormat):
 
 
 class CSVSimpleFormat(CSVFormat):
+    # Translators: File format name
     name = gettext_lazy("Simple CSV file")
     format_id = "csv-simple"
     autoload: tuple[str, ...] = ("*.txt",)
@@ -1720,6 +1753,7 @@ class CSVSimpleFormat(CSVFormat):
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
+    # Translators: File format name
     name = gettext_lazy("Simple CSV file (ISO-8859-1)")
     format_id = "csv-simple-iso"
     force_encoding = "iso-8859-1"
@@ -1727,6 +1761,7 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
 
 
 class CSVUtf8SimpleFormat(CSVSimpleFormat):
+    # Translators: File format name
     name = gettext_lazy("Simple CSV file (UTF-8)")
     format_id = "csv-simple-utf-8"
     force_encoding = "utf-8"
@@ -1734,6 +1769,7 @@ class CSVUtf8SimpleFormat(CSVSimpleFormat):
 
 
 class YAMLFormat(DictStoreFormat):
+    # Translators: File format name
     name = gettext_lazy("YAML file")
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
@@ -1753,6 +1789,7 @@ class YAMLFormat(DictStoreFormat):
 
 
 class RubyYAMLFormat(YAMLFormat):
+    # Translators: File format name
     name = gettext_lazy("Ruby YAML file")
     format_id = "ruby-yaml"
     loader = ("yaml", "RubyYAMLFile")
@@ -1761,6 +1798,7 @@ class RubyYAMLFormat(YAMLFormat):
 
 
 class DTDFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("DTD file")
     format_id = "dtd"
     loader = ("dtd", "dtdfile")
@@ -1805,6 +1843,7 @@ class SubtitleUnit(MonolingualIDUnit):
 
 
 class SubRipFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("SubRip subtitle file")
     format_id = "srt"
     loader = ("subtitles", "SubRipFile")
@@ -1820,6 +1859,7 @@ class SubRipFormat(TTKitFormat):
 
 
 class MicroDVDFormat(SubRipFormat):
+    # Translators: File format name
     name = gettext_lazy("MicroDVD subtitle file")
     format_id = "sub"
     loader = ("subtitles", "MicroDVDFile")
@@ -1827,6 +1867,7 @@ class MicroDVDFormat(SubRipFormat):
 
 
 class AdvSubStationAlphaFormat(SubRipFormat):
+    # Translators: File format name
     name = gettext_lazy("Advanced SubStation Alpha subtitle file")
     format_id = "ass"
     loader = ("subtitles", "AdvSubStationAlphaFile")
@@ -1834,6 +1875,7 @@ class AdvSubStationAlphaFormat(SubRipFormat):
 
 
 class SubStationAlphaFormat(SubRipFormat):
+    # Translators: File format name
     name = gettext_lazy("SubStation Alpha subtitle file")
     format_id = "ssa"
     loader = ("subtitles", "SubStationAlphaFile")
@@ -1841,6 +1883,7 @@ class SubStationAlphaFormat(SubRipFormat):
 
 
 class FlatXMLFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("Flat XML file")
     format_id = "flatxml"
     loader = ("flatxml", "FlatXMLFile")
@@ -1850,6 +1893,7 @@ class FlatXMLFormat(TTKitFormat):
 
 
 class ResourceDictionaryFormat(FlatXMLFormat):
+    # Translators: File format name
     name = gettext_lazy("ResourceDictionary file")
     format_id = "resourcedictionary"
     loader = ("resourcedictionary", "ResourceDictionaryFile")
@@ -1863,6 +1907,7 @@ class ResourceDictionaryFormat(FlatXMLFormat):
 
 
 class INIFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("INI file")
     format_id = "ini"
     loader = ("ini", "inifile")
@@ -1904,6 +1949,7 @@ class INIFormat(TTKitFormat):
 
 
 class InnoSetupINIFormat(INIFormat):
+    # Translators: File format name
     name = gettext_lazy("Inno Setup INI file")
     format_id = "islu"
     loader = ("ini", "inifile")
@@ -2112,6 +2158,7 @@ class TBXUnit(TTKitUnit):
 
 
 class TBXFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
     loader = tbxfile
@@ -2146,6 +2193,7 @@ class TBXFormat(TTKitFormat):
 
 
 class PropertiesMi18nFormat(PropertiesUtf8Format):
+    # Translators: File format name
     name = gettext_lazy("@draggable/i18n lang file")
     format_id = "mi18n-lang"
     new_translation = "\n"
@@ -2155,6 +2203,7 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
 
 
 class CatkeysFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("Haiku catkeys")
     format_id = "catkeys"
     loader = CatkeysFile
@@ -2174,6 +2223,7 @@ class CatkeysFormat(TTKitFormat):
 
 
 class StringsdictFormat(DictStoreFormat):
+    # Translators: File format name
     name = gettext_lazy("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")
@@ -2245,6 +2295,7 @@ class FluentUnit(MonolingualSimpleUnit):
 
 
 class FluentFormat(TTKitFormat):
+    # Translators: File format name
     name = gettext_lazy("Fluent file")
     format_id = "fluent"
     loader = ("fluent", "FluentFile")

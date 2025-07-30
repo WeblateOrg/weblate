@@ -511,7 +511,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
             messages,
             [
                 "Language Punjabi requested for 1 component.",
-                "Language Punjabi could not be added to 1 component. Please check the components' configuration.",
+                "Language Punjabi could not be added to 1 component. Please check the component's configuration.",
             ],
         )
 
