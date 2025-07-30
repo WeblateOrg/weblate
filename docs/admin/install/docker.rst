@@ -2219,9 +2219,10 @@ Customizing code
 You can place additional Python code into :file:`/app/data/python/customize`
 (see :ref:`docker-volume`). It is already installed as a Django application
 inside Weblate (this is used for customizing templates and static files as
-described above). This can be used to place any code (for example
-:ref:`own-checks`) or to add custom maintenance tasks to the Celery task
-scheduler.
+described above).
+
+This can be used to place any code (for example :ref:`own-checks`) or to add
+custom maintenance tasks to the Celery task scheduler.
 
 .. literalinclude:: ../../../weblate/examples/custom_tasks.py
    :language: python
