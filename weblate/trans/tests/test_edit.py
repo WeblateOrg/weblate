@@ -317,7 +317,7 @@ class EditValidationTest(ViewTestCase):
             {"merge": "invalid"},
             follow=True,
         )
-        self.assertContains(response, "Invalid merge request!")
+        self.assertContains(response, "Enter a whole number.")
 
     def test_merge_lang(self) -> None:
         """Merging across languages."""
@@ -329,7 +329,7 @@ class EditValidationTest(ViewTestCase):
             {"merge": other.pk},
             follow=True,
         )
-        self.assertContains(response, "Invalid merge request!")
+        self.assertContains(response, "Could not find the merged string.")
 
     def test_revert(self) -> None:
         unit = self.get_unit()
@@ -339,14 +339,14 @@ class EditValidationTest(ViewTestCase):
             {"checksum": unit.checksum, "revert": "invalid"},
             follow=True,
         )
-        self.assertContains(response, "Invalid revert request!")
+        self.assertContains(response, "Enter a whole number.")
         # Try the merge
         response = self.client.get(
             unit.translation.get_translate_url(),
             {"checksum": unit.checksum, "revert": -1},
             follow=True,
         )
-        self.assertContains(response, "Invalid revert request!")
+        self.assertContains(response, "Could not find the reverted change.")
 
 
 class EditResourceTest(EditTest):
@@ -874,7 +874,7 @@ class EditComplexTest(ViewTestCase):
         response = self.client.post(
             self.translate_url + "?checksum=" + unit.checksum, {"merge": unit2.id}
         )
-        self.assertContains(response, "Invalid merge request!")
+        self.assertContains(response, "Could not find the merged string.")
 
     def test_merge_inconsistent(self) -> None:
         # Translate unit to have something to start with
@@ -948,7 +948,7 @@ class EditComplexTest(ViewTestCase):
         response = self.client.get(
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
-        self.assertContains(response, "Invalid revert request!")
+        self.assertContains(response, "Could not find the reverted change.")
         self.assert_backend(2)
 
     def test_revert_plural(self) -> None:

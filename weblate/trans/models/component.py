@@ -682,6 +682,7 @@ class Component(
         default=settings.DEFAULT_DELETE_MESSAGE,
     )
     merge_message = models.TextField(
+        # Translators: The commit message, for when merging the translation
         verbose_name=gettext_lazy("Commit message when merging translation"),
         help_text=gettext_lazy(
             "You can use template language for various info, "
@@ -3127,6 +3128,7 @@ class Component(
         if self.intermediate and self.intermediate == self.template:
             raise ValidationError(
                 {
+                    # Translators: it refers to the intermediate field in the form
                     "intermediate": gettext(
                         "An intermediate language file has to be different from "
                         "monolingual base language file. You can probably keep it "

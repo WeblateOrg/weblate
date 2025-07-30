@@ -122,10 +122,15 @@ class ConfigurationError(models.Model):
 
 
 SUPPORT_NAMES = {
+    # Translators: The Weblate server has no paid support by the Weblate team
     "community": gettext_lazy("Community support"),
+    # Translators: The Weblate server is hosted by the Weblate team
     "hosted": gettext_lazy("Hosted service"),
+    # Translators: The Weblate server has paid support from the Weblate team
     "basic": gettext_lazy("Basic self-hosted support"),
+    # Translators: The Weblate server has extended support from the Weblate team
     "extended": gettext_lazy("Extended self-hosted support"),
+    # Translators: The Weblate server has premium support from the Weblate team
     "premium": gettext_lazy("Premium self-hosted support"),
 }
 
@@ -329,10 +334,15 @@ class BackupLog(models.Model):
     event = models.CharField(
         max_length=100,
         choices=(
+            # Translators: Backup repository operation
             ("backup", gettext_lazy("Backup performed")),
+            # Translators: Backup repository operation
             ("error", gettext_lazy("Backup failed")),
+            # Translators: Backup repository operation
             ("prune", gettext_lazy("Deleted the oldest backups")),
+            # Translators: Backup repository operation
             ("cleanup", gettext_lazy("Cleaned up backup storage")),
+            # Translators: Backup repository operation
             ("init", gettext_lazy("Repository initialization")),
         ),
         db_index=True,

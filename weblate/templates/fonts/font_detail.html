@@ -42,7 +42,7 @@
         <td>{{ object.get_user_display }}</td>
       </tr>
       <tr>
-        <th>{% translate "Used in groups" %}</th>
+        <th>{% translate "Font groups" %}</th>
         <td>
           {% for group in object.get_usage %}<a href="{{ group.get_absolute_url }}">{{ group }}</a>{% endfor %}
         </td>

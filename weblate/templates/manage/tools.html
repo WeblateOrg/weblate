@@ -61,7 +61,10 @@
       {% csrf_token %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Test Sentry integration" %}</h4>
+          <h4 class="panel-title">
+            {# Translators: Integration with Sentry <https://sentry.io> service #}
+            {% translate "Test Sentry integration" %}
+          </h4>
         </div>
         <div class="panel-body">
           <input type="hidden" name="sentry" value="1" />

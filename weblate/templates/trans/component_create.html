@@ -6,31 +6,37 @@
   <ul class="nav nav-pills">
     {% if projects %}
       <li role="presentation" class="active">
+        {# Translators: Create a component from version control #}
         <a href="#vcs" data-toggle="tab">{% translate "From version control" %}</a>
       </li>
     {% endif %}
     {% if form.fields.component.queryset %}
       <li role="presentation">
-        <a href="#existing" data-toggle="tab">{% translate "From existing component" %}</a>
+        {# Translators: Create a component from existing component #}
+        <a href="#existing" data-toggle="tab">{% translate "From an existing component" %}</a>
       </li>
     {% endif %}
     {% if branch_form.fields.component.queryset %}
       <li role="presentation">
+        {# Translators: Create a component as additional branch #}
         <a href="#branch" data-toggle="tab">{% translate "Additional branch" %}</a>
       </li>
     {% endif %}
     {% if zip_form %}
       <li role="presentation">
+        {# Translators: Create a component using ZIP upload #}
         <a href="#zip" data-toggle="tab">{% translate "Upload translations files" %}</a>
       </li>
     {% endif %}
     {% if doc_form %}
       <li role="presentation">
+        {# Translators: Create a component using document upload #}
         <a href="#doc" data-toggle="tab">{% translate "Translate document" %}</a>
       </li>
     {% endif %}
     {% if scratch_form %}
       <li role="presentation">
+        {# Translators: Create a component from scratch #}
         <a href="#scratch" data-toggle="tab">{% translate "Start from scratch" %}</a>
       </li>
     {% endif %}
