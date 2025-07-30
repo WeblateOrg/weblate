@@ -834,7 +834,7 @@ def new_project_language(
                     messages.warning(
                         request,
                         ngettext(
-                            "Language %(language)s could not be added to %(count)d component. Please check the components' configuration.",
+                            "Language %(language)s could not be added to %(count)d component. Please check the component's configuration.",
                             "Language %(language)s could not be added to %(count)d components. Please check the components' configuration.",
                             counter["errors"],
                         )

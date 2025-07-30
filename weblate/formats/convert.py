@@ -277,6 +277,7 @@ class ConvertFormat(TranslationFormat):
 
 
 class HTMLFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("HTML file")
     autoload = ("*.htm", "*.html")
     format_id = "html"
@@ -311,6 +312,7 @@ class HTMLFormat(ConvertFormat):
 
 
 class MarkdownFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("Markdown file")
     autoload = ("*.md", "*.markdown")
     format_id = "markdown"
@@ -350,6 +352,7 @@ class MarkdownFormat(ConvertFormat):
 
 
 class OpenDocumentFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("OpenDocument file")
     autoload = (
         "*.sxw",
@@ -414,6 +417,7 @@ class OpenDocumentFormat(ConvertFormat):
 
 
 class IDMLFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("IDML file")
     autoload = ("*.idml", "*.idms")
     format_id = "idml"
@@ -472,6 +476,7 @@ class IDMLFormat(ConvertFormat):
 
 
 class WindowsRCFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("RC file")
     format_id = "rc"
     autoload = ("*.rc",)
@@ -539,6 +544,7 @@ class WindowsRCFormat(ConvertFormat):
 
 
 class PlainTextFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("Plain text file")
     format_id = "txt"
     autoload = ("*.txt",)
@@ -576,6 +582,7 @@ class PlainTextFormat(ConvertFormat):
 
 
 class DokuWikiFormat(PlainTextFormat):
+    # Translators: File format name
     name = gettext_lazy("DokuWiki text file")
     format_id = "dokuwiki"
     autoload = ("*.dw",)
@@ -583,6 +590,7 @@ class DokuWikiFormat(PlainTextFormat):
 
 
 class MediaWikiFormat(PlainTextFormat):
+    # Translators: File format name
     name = gettext_lazy("MediaWiki text file")
     format_id = "mediawiki"
     autoload = ("*.mw",)

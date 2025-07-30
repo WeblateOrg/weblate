@@ -1,4 +1,6 @@
-{% load i18n translations %}
+{% load i18n %}
+
 {% autoescape off %}
-{% blocktranslate %}Account removal on {{ site_title }}{% endblocktranslate %}
+  {# Translators: e-mail subject #}
+  {% blocktranslate %}Account removal on {{ site_title }}{% endblocktranslate %}
 {% endautoescape %}

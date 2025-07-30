@@ -194,6 +194,7 @@ class TextUnit(TranslationUnit):
 
 
 class AppStoreFormat(TranslationFormat):
+    # Translators: File format name
     name = gettext_lazy("App store metadata files")
     format_id = "appstore"
     can_add_unit = False

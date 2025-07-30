@@ -691,7 +691,7 @@ class Profile(models.Model):
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_WATCHED, gettext_lazy("Watched translations")),
-        (DASHBOARD_COMPONENT_LISTS, gettext_lazy("Component lists")),
+        (DASHBOARD_COMPONENT_LISTS, gettext_lazy("All component lists")),
         (DASHBOARD_COMPONENT_LIST, gettext_lazy("Component list")),
         (DASHBOARD_SUGGESTIONS, gettext_lazy("Suggested translations")),
         (DASHBOARD_MANAGED, gettext_lazy("Managed projects")),

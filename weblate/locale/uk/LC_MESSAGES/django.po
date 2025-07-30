@@ -12,13 +12,14 @@
 # Максим Горпиніч <mgorpinic2005@gmail.com>, 2024.
 # Максим Горпиніч <maksimgorpinic2005a@gmail.com>, 2025.
 # Максим Горпиніч <maksimgorpinic4@gmail.com>, 2025.
+# Максим Горпиніч <gorpinicmaksim5@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 15:43+0000\n"
-"PO-Revision-Date: 2025-06-20 06:38+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2025-07-30 01:18+0000\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim5@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -385,22 +386,24 @@ msgid "Verify the code from the app"
 msgstr "Перевірити код з програми"
 
 #: weblate/accounts/forms.py:1108
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Назва вашої програми для розпізнавання"
+msgstr "Відхилити раніше налаштовані програми автентифікації"
 
 #: weblate/accounts/forms.py:1112
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Усі раніше налаштовані програми автентифікації будуть відхилені після "
+"перевірки нової програми."
 
 #: weblate/accounts/forms.py:1115
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Інші двофакторні методи (такі як WebAuthn та ключі безпеки) залишаться в "
+"силі."
 
 #: weblate/accounts/forms.py:1121
 msgid "The entered token is not valid."
@@ -3173,10 +3176,8 @@ msgid "This component is currently locked."
 msgstr "Цей компонент зараз заблоковано."
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "Формат файлу не підтримує це."
+msgstr "Формат файлу не підтримує оновлення вихідних рядків."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4949,7 +4950,7 @@ msgstr "@draggable/мовний файл mi18n"
 
 #: weblate/formats/ttkit.py:2158
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Ключі від котів хайку"
 
 #: weblate/formats/ttkit.py:2177
 msgid "Stringsdict file"
@@ -5873,10 +5874,8 @@ msgid "Missing source or target language in file!"
 msgstr "У файлі відсутня вихідна або цільова мова!"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
-msgstr "у черзі"
+msgstr "Очікує на розгляд"
 
 #: weblate/memory/models.py:490
 msgctxt "Translation memory category"
@@ -8408,10 +8407,8 @@ msgstr "Завантажити первинні файли перекладу я
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Registration"
 msgid "Operations"
-msgstr "Реєстрація"
+msgstr "Операції"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9546,10 +9543,8 @@ msgid "or"
 msgstr "або"
 
 #: weblate/templates/keyboard-shortcuts.html:58
-#, fuzzy
-#| msgid "Navigate to the first translation in the current search."
 msgid "Navigate to the previous translation in the current search."
-msgstr "Перейти до першого перекладу у поточному пошуку."
+msgstr "Перейти до попереднього перекладу в поточному пошуку."
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
@@ -9654,6 +9649,9 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"Будь ласка, розгляньте можливість надсилання вашої редакції до <a href="
+"\"%(url)s\">Репозиторій мовних даних Weblate</a> щоб його можна було "
+"включити до майбутніх випусків Weblate."
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9662,6 +9660,9 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"Визначення мов автоматично оновлюються Weblate під час міграції бази даних. "
+"Неправильні редагування, ймовірно, будуть скасовані.<a href=\"%(url)s\""
+">Зверніться до документації щодо правильного поводження з цим.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -12014,10 +12015,8 @@ msgstr ""
 "ідентифікатор, перемістити або видалити його."
 
 #: weblate/templates/snippets/share-menu.html:6
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Внести"
+msgstr "Громада"
 
 #: weblate/templates/snippets/share-menu.html:11
 #: weblate/templates/snippets/share-menu.html:16
@@ -12687,10 +12686,8 @@ msgid "Update the repository"
 msgstr "Оновити репозиторій"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "Імпортування резервної копії"
+msgstr "Існуючі резервні копії"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -14216,16 +14213,14 @@ msgid "New revision: {}"
 msgstr "Нова редакція: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "Змінено %(count)s символ"
-msgstr[1] "Змінено %(count)s символи"
-msgstr[2] "Змінено %(count)s символів"
-msgstr[3] "Змінено %(count)s символ"
+msgstr[0] "Змінено %(count)d символ"
+msgstr[1] "Змінено %(count)d символи"
+msgstr[2] "Змінено %(count)d символів"
+msgstr[3] "Змінено %(count)d символ"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14715,12 +14710,17 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"Політика «лише затверджені коміти» вимагає ввімкнення перевірки перекладів. "
+"Спочатку ввімкніть перевірки перекладів або виберіть іншу політику."
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"Рецензування перекладів обов'язкове для політики комітів лише для "
+"затверджених. Будь ласка, виберіть іншу політику комітів, перш ніж вимикати "
+"рецензування перекладів."
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -15499,10 +15499,8 @@ msgid "Enforced checks"
 msgstr "Примусові перевірки"
 
 #: weblate/trans/models/component.py:594
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Список перевірок, які не можуть бути знехтувані."
+msgstr "Перелік чеків, які не можна відхилити."
 
 #: weblate/trans/models/component.py:612
 msgid ""
@@ -16032,19 +16030,15 @@ msgstr "Опис мітки"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "Затверджувати всі переклади незалежно від якості"
 
 #: weblate/trans/models/project.py:60
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "Додати як переклад, що потребує редагування"
+msgstr "Пропустити переклади, позначені як такі, що потребують редагування"
 
 #: weblate/trans/models/project.py:62
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "Додати як схвалений переклад"
+msgstr "Включати лише затверджені переклади"
 
 #: weblate/trans/models/project.py:168
 msgid "Public"
@@ -16097,15 +16091,14 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Здійснює внесок у спільний переклад між проєктами."
 
 #: weblate/trans/models/project.py:222
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Autoclean translation memory"
-msgstr "Вилучити памʼять перекладів"
+msgstr "Автоматичне очищення пам'яті перекладів"
 
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
 msgstr ""
+"Автоматично видаляє застарілі та неактуальні записи з пам'яті перекладів."
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -16137,16 +16130,16 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Вимагає окремих рецензентів для затвердження початкових рядків."
 
 #: weblate/trans/models/project.py:258
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "Файл перекладу"
+msgstr "Фільтр якості перекладу"
 
 #: weblate/trans/models/project.py:262
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
 msgstr ""
+"Виберіть, які переклади слід включити під час внесення змін. Більш "
+"обмежувальні параметри пропустять переклади з потенційними проблемами якості."
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -16703,13 +16696,8 @@ msgstr ""
 "або розпочинайте перекладати свій власний проєкт."
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr ""
-"Ви можете виконати редагування пізніше, як і будь-якого іншого початкового "
-"рядка."
+msgstr "Завантаження вихідного коду підтримується лише мовою оригіналу."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -16784,27 +16772,25 @@ msgstr "Приєднуйтеся до {0}!"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Додавання мов не підтримується жодним із компонентів."
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "Нова мова додана до %(component)s"
-msgstr[1] "Нова мова додана до %(component)s"
-msgstr[2] "Нова мова додана до %(component)s"
-msgstr[3] "Нова мова додана до %(component)s"
+msgstr[0] "Мова %(language)s додана до %(count)d компонента."
+msgstr[1] "Мова %(language)s додана до %(count)d компоненти."
+msgstr[2] "Мова %(language)s додана до %(count)d компонентів."
+msgstr[3] "Мова %(language)s додана до %(count)d компонента."
 
 #: weblate/trans/views/basic.py:823
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Запит на нову мову у %(component)s"
-msgstr[1] "Запит на нову мову у %(component)s"
-msgstr[2] "Запит на нову мову у %(component)s"
-msgstr[3] "Запит на нову мову у %(component)s"
+msgstr[0] "Мова %(language)s запитується для %(count)d компонента."
+msgstr[1] "Запитано %(language)s мов для %(count)d компоненти."
+msgstr[2] "Запитано %(language)s мов для %(count)d компонентів."
+msgstr[3] "Запитано %(language)s мов для %(count)d компонента."
 
 #: weblate/trans/views/basic.py:837
 #, python-format
@@ -16815,9 +16801,17 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] ""
+"Мову %(language)s не вдалося додати до компонента %(count)d. Будь ласка, "
+"перевірте конфігурацію компонентів."
 msgstr[1] ""
+"Мову %(language)s не вдалося додати до %(count)d компоненти. Будь ласка, "
+"перевірте конфігурацію компонентів."
 msgstr[2] ""
+"Мову %(language)s не вдалося додати до %(count)d компонентів. Будь ласка, "
+"перевірте конфігурацію компонентів."
 msgstr[3] ""
+"Мову %(language)s не вдалося додати до %(count)d компонента. Будь ласка, "
+"перевірте конфігурацію компонентів."
 
 #: weblate/trans/views/basic.py:913
 msgid ""

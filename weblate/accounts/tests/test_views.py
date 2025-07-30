@@ -224,7 +224,7 @@ class ViewTest(RepoTestCase):
         response = self.client.get(
             reverse("user_contributions", kwargs={"user": user.username})
         )
-        self.assertContains(response, "Translations with contribution")
+        self.assertContains(response, "Translates")
 
     def test_login(self) -> None:
         user = self.get_user()

@@ -1133,6 +1133,7 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         result = all_langs.filter(component__project=self.project)
         if self.project.has_shared_components:
             result |= all_langs.filter(component__links=self.project)
+        result = result.distinct()
         for item in result:
             item.is_shared = (
                 None

@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 17:44+0200\n"
-"PO-Revision-Date: 2025-07-27 10:04+0000\n"
-"Last-Translator: Clément Lyonnet <clementlyonnet@hotmail.fr>\n"
+"PO-Revision-Date: 2025-07-30 11:54+0000\n"
+"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -52,8 +52,8 @@ msgstr ""
 "Weblate est doté d’un système de privilèges précis permettant d’attribuer à "
 "l’utilisateur des droits d’accès à l’ensemble de l’instance avec des rôles "
 "prédéfinis, ou en assignant un ou plusieurs groupes de droits aux "
-"utilisateurs sur la totalité ou sur des projets individuels, des composants, "
-"des glossaires et autres."
+"utilisateurs sur la totalité, ou sur des projets individuels, des "
+"composants, des glossaires ou autres."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -1254,7 +1254,7 @@ msgstr "Ajouter une capture d’écran"
 #: ../../admin/access.rst:528
 #, fuzzy
 msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
-msgstr ":guilabel:`Administration`, :guilabel:` Gérer les captures d’écran`"
+msgstr ":guilabel:`Administration`, :guilabel:` Gérer les captures d’écran`"
 
 #: ../../admin/access.rst:526
 msgid "Edit screenshot"
@@ -1309,12 +1309,11 @@ msgid "Edit source strings"
 msgstr "Modifier les chaînes sources"
 
 #: ../../admin/access.rst:544
-#, fuzzy
 msgid ""
 ":guilabel:`Administration`, :guilabel:`Edit source`, :guilabel:`Power user`"
 msgstr ""
-":guilabel:`Administration`, :guilabel:` Modifier la source`, :guilabel:"
-"`Utilisateur expérimenté`"
+":guilabel:`Administration`, :guilabel:`Modifier la source`, :guilabel:`"
+"Utilisateur expérimenté`"
 
 #: ../../admin/access.rst:546 ../../user/translating.rst:46
 #: ../../workflows.rst:83
@@ -3052,6 +3051,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Veillez à ce que le nouveau composant contienne l'ensemble des langues "
+"traduisibles avec :ref:`addon-weblate.consistency.languages`."
 
 #: ../../admin/addons.rst:447
 msgid ""
@@ -3060,6 +3061,10 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"Pour être découvert, un nouveau composant doit contenir un fichier "
+"correspondant à ``base_file_template`` **et** au moins un fichier dont le "
+"nom correspond à ``match`` -- i.e., le composant doit contenir un fichier "
+"langue de base et au moins une traduction existante. Sinon, il sera ignoré."
 
 #: ../../admin/addons.rst:454
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -5588,6 +5593,8 @@ msgid ""
 "*Directory (tenant) ID* is needed for tenant scoped authentication, what is "
 "usually desired."
 msgstr ""
+"*ID du dossier (entité)* est nécessaire pour l'authentification de l'entité "
+"concernée, ce qui est habituellement souhaité."
 
 #: ../../admin/auth.rst:339
 msgid ""
@@ -5687,43 +5694,35 @@ msgid "Password authentication"
 msgstr "S’authentifier par mot de passe"
 
 #: ../../admin/auth.rst:457
-#, fuzzy
-#| msgid ""
-#| "The default :file:`settings.py` comes with a reasonable set of :setting:"
-#| "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS` that ensures that weak passwords are not "
 "allowed. You can customize this setting to match your password policy."
 msgstr ""
-"Le fichier par défaut :file:`settings.py` vient avec un ensemble raisonnable "
-"de :setting:`django:AUTH_PASSWORD_VALIDATORS` :"
+"Le fichier par défaut :file:`settings.py` est fourni avec un ensemble "
+"raisonnable de :setting:`django:AUTH_PASSWORD_VALIDATORS` qui assure que les "
+"mauvais mots de passe ne sont pas autorisés. Vous pouvez adapter ces valeurs "
+"pour qu'elles soient conformes à votre politique des mots de passe."
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"De plus vous pouvez aussi installer `django-zxcvbn-password <https://pypi."
-"org/project/django-zxcvbn-password/>`_ qui donne une estimation plutôt "
-"réaliste de la complexité d’un mot de passe et permet de les rejeter en "
-"dessous d’un certain seuil."
+"De plus vous pouvez aussi installer `django-zxcvbn-password-validator "
+"<https://github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ qui "
+"donne une estimation plutôt réaliste de la complexité d’un mot de passe et "
+"permet de les rejeter en dessous d’un certain seuil."
 
 #: ../../admin/auth.rst:468
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
 msgid ""
 ":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, :"
 "doc:`/security/passwords`"
-msgstr ":envvar:`WEBLATE_MIN_PASSWORD_SCORE`"
+msgstr ""
+":setting:`PASSWORD_MINIMAL_STRENGTH`, :envvar:`WEBLATE_MIN_PASSWORD_SCORE`, "
+":doc:`/security/passwords`"
 
 #: ../../admin/auth.rst:476
 msgid "SAML authentication"
@@ -5930,14 +5929,11 @@ msgid "CAS authentication"
 msgstr "S’authentifier avec CAS"
 
 #: ../../admin/auth.rst:696
-#, fuzzy
-#| msgid ""
-#| "CAS authentication can be achieved using a package such as `django-cas-"
-#| "ng`."
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
-"On peut s’authentifier avec CAS en utilisant un paquet comme `django-cas-ng`."
+"On peut s’authentifier avec CAS en utilisant un paquet tel que `Django CAS "
+"NG`_."
 
 #: ../../admin/auth.rst:698
 msgid ""
@@ -5956,10 +5952,8 @@ msgstr ""
 "et les attributs."
 
 #: ../../admin/auth.rst:704
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "Pour installer `django-cas-ng` :"
+msgstr "Pour installer `Django CAS NG`_ :"
 
 #: ../../admin/auth.rst:710
 msgid ""
@@ -6164,19 +6158,14 @@ msgstr ""
 "instance de Weblate."
 
 #: ../../admin/backup.rst:21
-#, fuzzy
-#| msgid ""
-#| "You can perform a project backup in :guilabel:`Manage` ↓ :guilabel:"
-#| "`Backups`. The backup can be restored when creating a project (see :ref:"
-#| "`adding-projects`)."
 msgid ""
 "You can perform a project backup in :guilabel:`Operations` ↓ :guilabel:"
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
-"Vous pouvez effectuer une sauvegarde du projet :guilabel:`Gérer` ↓ :guilabel:"
-"`Sauvegardes`. La sauvegarde peut être restaurée à la création d'un projet "
-"(Voir :ref:`adding-projects`)."
+"Vous pouvez effectuer une sauvegarde du projet :guilabel:`Opérations` ↓ "
+":guilabel:`Sauvegardes`. La sauvegarde peut être restaurée à la création "
+"d'un projet (Voir :ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
@@ -6207,15 +6196,12 @@ msgstr ""
 "(par défaut, 3 sauvegardes au maximum sont conservées pendant 30 jours)."
 
 #: ../../admin/backup.rst:35
-#, fuzzy
-#| msgid ""
-#| "Use the generated file to import project when :ref:`adding-projects`."
 msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
 "Utiliser le fichier généré pour importer le projet quand :ref:`adding-"
-"projects`."
+"projects` ou dans :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -9678,10 +9664,8 @@ msgstr ""
 "`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:650
-#, fuzzy
-#| msgid "DEFAULT_AUTO_WATCH"
 msgid "DEFAULT_AUTOCLEAN_TM"
-msgstr "DEFAULT_AUTO_WATCH"
+msgstr "DEFAULT_AUTOCLEAN_TM"
 
 #: ../../admin/config.rst:654
 #, fuzzy
@@ -9815,10 +9799,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:749
-#, fuzzy
-#| msgid ":ref:`production-cron`"
 msgid ":ref:`promotion`"
-msgstr ":ref:`production-cron`"
+msgstr ":ref:`promotion`"
 
 #: ../../admin/config.rst:754
 msgid "EXTRA_HTML_HEAD"
@@ -10963,7 +10945,7 @@ msgstr "Configure l'environment pour Sentry. Valeur par défaut ``devel``."
 
 #: ../../admin/config.rst:1774
 msgid "SENTRY_MONITOR_BEAT_TASKS"
-msgstr ""
+msgstr "SENTRY_MONITOR_BEAT_TASKS"
 
 #: ../../admin/config.rst:1778
 #, fuzzy
@@ -17169,7 +17151,7 @@ msgstr "Serveur web."
 
 #: ../../admin/install/docker.rst:1998 ../../admin/management.rst:197
 msgid ":ref:`background-tasks-internals`"
-msgstr ""
+msgstr ":ref:`background-tasks-internals`"
 
 #: ../../admin/install/docker.rst:2004
 msgid ""
@@ -19894,7 +19876,7 @@ msgstr ":ref:`auto-translation`"
 
 #: ../../admin/management.rst:157
 msgid "benchmark"
-msgstr ""
+msgstr "benchmark"
 
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
@@ -19993,10 +19975,8 @@ msgid ":ref:`production-cron`"
 msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:260
-#, fuzzy
-#| msgid "dump_memory"
 msgid "cleanup_memory"
-msgstr "dump_memory"
+msgstr "cleanup_memory"
 
 #: ../../admin/management.rst:266
 #, fuzzy
@@ -20993,10 +20973,8 @@ msgstr ""
 "utilisant :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/memory.rst:91
-#, fuzzy
-#| msgid ":ref:`project-set_language_team`"
 msgid ":ref:`project-autoclean_tm`"
-msgstr ":ref:`project-set_language_team`"
+msgstr ":ref:`project-autoclean_tm`"
 
 #: ../../admin/memory.rst:94
 #, fuzzy
@@ -21089,10 +21067,8 @@ msgid "Imports TMX or JSON files into the translation memory"
 msgstr "Importe les fichiers TMX ou JSON dans le mémoire de traduction"
 
 #: ../../admin/memory.rst:149
-#, fuzzy
-#| msgid ":wladmin:`dump_memory`"
 msgid ":wladmin:`cleanup_memory`"
-msgstr ":wladmin:`dump_memory`"
+msgstr ":wladmin:`cleanup_memory`"
 
 #: ../../admin/memory.rst:150
 #, fuzzy
@@ -42269,20 +42245,16 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/internals.rst:128
-#, fuzzy
-#| msgid "``celery-beat``"
 msgid "``celery``"
-msgstr "``celery-beat``"
+msgstr "``celery``"
 
 #: ../../contributing/internals.rst:129
 msgid "The default queue where background tasks are processed."
 msgstr ""
 
 #: ../../contributing/internals.rst:130
-#, fuzzy
-#| msgid "``celery-notify``"
 msgid "``notify``"
-msgstr "``celery-notify``"
+msgstr "``notify``"
 
 #: ../../contributing/internals.rst:131
 msgid ""
@@ -42299,10 +42271,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/internals.rst:134
-#, fuzzy
-#| msgid "``celery-backup``"
 msgid "``backup``"
-msgstr "``celery-backup``"
+msgstr "``backup``"
 
 #: ../../contributing/internals.rst:135
 msgid ""
@@ -42311,10 +42281,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/internals.rst:136
-#, fuzzy
-#| msgid "``translated``"
 msgid "``translate``"
-msgstr "``translated``"
+msgstr "``translate``"
 
 #: ../../contributing/internals.rst:137
 msgid ""
@@ -44746,10 +44714,8 @@ msgstr ""
 "aux utilisateurs comment traduire en utilisant Weblate :"
 
 #: ../../devel/share.rst:21
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid ":setting:`ENABLE_SHARING`"
-msgstr "Configure :setting:`LICENSE_FILTER`."
+msgstr ":setting:`ENABLE_SHARING`"
 
 #: ../../devel/sphinx.rst:2
 msgid "Translating documentation using Sphinx"
@@ -47086,10 +47052,8 @@ msgid "File format used for Haiku operating system translations."
 msgstr "Fichier de base introuvable pour les nouvelles traductions."
 
 #: ../../formats/catkeys.rst:12
-#, fuzzy
-#| msgid ":doc:`tt:formats/csv`"
 msgid ":doc:`tt:formats/catkeys`"
-msgstr ":doc:`tt:formats/csv`"
+msgstr ":doc:`tt:formats/catkeys`"
 
 #: ../../formats/catkeys.rst:14 ../../formats/csv.rst:55
 #: ../../formats/fluent.rst:20 ../../formats/formatjs.rst:15
@@ -47104,16 +47068,12 @@ msgid "Example file:"
 msgstr "Fichier d'exemples :"
 
 #: ../../formats/catkeys.rst:28
-#, fuzzy
-#| msgid "``locale/*.csv``"
 msgid "``locale/*.catkeys``"
-msgstr "``locale/*.csv``"
+msgstr "``locale/*.catkeys``"
 
 #: ../../formats/catkeys.rst:30
-#, fuzzy
-#| msgid "``locale/en.csv``"
 msgid "``locale/en.catkeys``"
-msgstr "``locale/en.csv``"
+msgstr "``locale/en.catkeys``"
 
 #: ../../formats/catkeys.rst:34
 #, fuzzy
@@ -55957,10 +55917,8 @@ msgid "Search in screenshots."
 msgstr "Recherche dans les captures d'écran."
 
 #: ../../user/search.rst:115
-#, fuzzy
-#| msgid "``position:NUMBER``"
 msgid "``labels_count:NUMBER``"
-msgstr "``position:NUMBER``"
+msgstr "``labels_count:NUMBER``"
 
 #: ../../user/search.rst:116
 #, fuzzy

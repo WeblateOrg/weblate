@@ -1,10 +1,15 @@
 {% load i18n %}
+
 {% if final_removal %}
-{% translate "Your translation project was removed" %}
+  {# Translators: e-mail subject #}
+  {% translate "Your translation project was removed" %}
 {% elif billing.removal %}
-{% translate "Your translation project is scheduled for removal" %}
+  {# Translators: e-mail subject #}
+  {% translate "Your translation project is scheduled for removal" %}
 {% elif billing.is_trial %}
-{% translate "Your trial period is about to expire" %}
+  {# Translators: e-mail subject #}
+  {% translate "Your trial period is about to expire" %}
 {% else %}
-{% translate "Your billing plan has expired" %}
+  {# Translators: e-mail subject #}
+  {% translate "Your billing plan has expired" %}
 {% endif %}

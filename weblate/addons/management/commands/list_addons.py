@@ -49,7 +49,11 @@ class Command(BaseCommand):
             result.append("Available choices:")
             for value, description in choices:
                 result.extend(
-                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                    (
+                        "",
+                        f"``{value}``".replace("\\", "\\\\"),
+                        f"  {description}".replace("\\", "\\\\"),
+                    )
                 )
         return result
 

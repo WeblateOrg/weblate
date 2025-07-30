@@ -23,8 +23,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 15:43+0000\n"
-"PO-Revision-Date: 2025-07-12 19:01+0000\n"
-"Last-Translator: Poesty Li <poesty7450@gmail.com>\n"
+"PO-Revision-Date: 2025-07-30 13:57+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -368,22 +369,20 @@ msgid "Verify the code from the app"
 msgstr "验证应用程序中的代码"
 
 #: weblate/accounts/forms.py:1108
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "命名您的身份验证应用程序"
+msgstr "解除先前配置的身份认证应用"
 
 #: weblate/accounts/forms.py:1112
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
-msgstr ""
+msgstr "验证新应用后所有之前配置的身份认证应用都将被解除权限。"
 
 #: weblate/accounts/forms.py:1115
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
-msgstr ""
+msgstr "其他双因素认证方法（比如 WebAuthn 和安全密钥）不受影响。"
 
 #: weblate/accounts/forms.py:1121
 msgid "The entered token is not valid."
@@ -3016,10 +3015,8 @@ msgid "This component is currently locked."
 msgstr "此部件当前被锁定。"
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "文件格式不支持这个。"
+msgstr "该文件格式不支持更新源字符串。"
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4728,7 +4725,7 @@ msgstr "@draggable/i18n lang 文件"
 
 #: weblate/formats/ttkit.py:2158
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Haiku catkeys"
 
 #: weblate/formats/ttkit.py:2177
 msgid "Stringsdict file"
@@ -5619,8 +5616,6 @@ msgid "Missing source or target language in file!"
 msgstr "文件中缺少源语言或目标语言！"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
 msgstr "待处理"
 
@@ -8015,10 +8010,8 @@ msgstr "下载原始翻译文件 (.zip)"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "版本"
+msgstr "操作"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9054,10 +9047,8 @@ msgid "or"
 msgstr "或"
 
 #: weblate/templates/keyboard-shortcuts.html:58
-#, fuzzy
-#| msgid "Navigate to the first translation in the current search."
 msgid "Navigate to the previous translation in the current search."
-msgstr "转到当前搜索的第一个翻译。"
+msgstr "导航到当前搜索中的前一处翻译。"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
@@ -9157,6 +9148,8 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"请考虑提交你的编辑到 <a href=\"%(url)s\">Weblate 语言数据仓库</a> "
+"以便它能被包含在未来的 Weblate 发行版中。"
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9165,6 +9158,8 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"数据库迁移时语言定义由 Weblate 自动更新。错误的编辑可能会被撤销。<a href="
+"\"%(url)s\">请查阅正确处理的文档.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -11363,10 +11358,8 @@ msgstr ""
 "使用 <a href=\"%(url)s\">整理部件</a> 更改其 URL 标识串，移动或删除它。"
 
 #: weblate/templates/snippets/share-menu.html:6
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "提交"
+msgstr "社区"
 
 #: weblate/templates/snippets/share-menu.html:11
 #: weblate/templates/snippets/share-menu.html:16
@@ -11978,10 +11971,8 @@ msgid "Update the repository"
 msgstr "更新仓库"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "正在导入备份"
+msgstr "现有备份"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -13410,13 +13401,11 @@ msgid "New revision: {}"
 msgstr "新版本：{}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "编辑了 %(count)s 个字符"
+msgstr[0] "编辑了 %(count)d 个字符"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -13890,13 +13879,15 @@ msgstr "您必须为这些部件指定允许它们被公开访问的许可证：
 msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
-msgstr ""
+msgstr "仅包含已批准译文的提交政策需要启用译文审校，请先开启译文审校或选择不同的提交"
+"政策。"
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
-msgstr ""
+msgstr "译文审校对仅包含已批准译文政策而言是必需的。停用译文审校前请选择不同的提交政"
+"策。"
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -14637,8 +14628,6 @@ msgid "Enforced checks"
 msgstr "强制检查"
 
 #: weblate/trans/models/component.py:594
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
 msgstr "不能忽略的检查列表。"
 
@@ -15115,19 +15104,15 @@ msgstr "标签说明"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "不论质量如何提交所有译文"
 
 #: weblate/trans/models/project.py:60
-#, fuzzy
-#| msgid "Strings marked as needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "已标记需编辑的字符串"
+msgstr "跳过标记为需编辑的译文"
 
 #: weblate/trans/models/project.py:62
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "添加为已核准的译文"
+msgstr "只包括已核准的译文"
 
 #: weblate/trans/models/project.py:168
 msgid "Public"
@@ -15178,15 +15163,13 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "贡献到翻译池中以在不同项目之间共享翻译。"
 
 #: weblate/trans/models/project.py:222
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "使用翻译记忆库"
+msgstr "自动清理翻译记忆库"
 
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
-msgstr ""
+msgstr "从翻译记忆库中自动删除过时和废弃的条目。"
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -15216,16 +15199,14 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "需要专门的审校员来核准源字符串。"
 
 #: weblate/trans/models/project.py:258
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "翻译文件"
+msgstr "翻译质量筛选器"
 
 #: weblate/trans/models/project.py:262
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
-msgstr ""
+msgstr "选择提交更改时应包含哪些译文。限制性最强的选项会跳过有潜在质量问题的译文。"
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -15717,11 +15698,8 @@ msgstr ""
 "者开始翻译您自己的项目吧。"
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr "您可以稍后对此进行编辑，就像源语言中的其他字符串一样。"
+msgstr "仅源语言支持原文上传。"
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -15790,21 +15768,19 @@ msgstr "参与到 {0} 的翻译工作中来！"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "这些部件中没有哪个支持添加语言。"
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "新语言被添加到 %(component)s"
+msgstr[0] "添加了 %(language)s 语言到 %(count)d 部件。"
 
 #: weblate/trans/views/basic.py:823
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "%(component)s 中有新的语言申请"
+msgstr[0] "请求了 %(count)d 部件的 %(language)s 语言。"
 
 #: weblate/trans/views/basic.py:837
 #, python-format
@@ -15814,7 +15790,7 @@ msgid ""
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] ""
+msgstr[0] "无法添加 %(language)s 语言到 %(count)d 个部件。请检查部件的配置。"
 
 #: weblate/trans/views/basic.py:913
 msgid ""

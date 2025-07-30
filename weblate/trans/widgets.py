@@ -273,6 +273,7 @@ class NormalWidget(BitmapWidget):
     name = "287x66"
     order = 110
     offset = 10
+    # Translators: status widget name
     verbose = gettext_lazy("Big status badge")
 
     def get_columns(self):
@@ -309,6 +310,7 @@ class SmallWidget(BitmapWidget):
     font_size = 7
     line_spacing = 0.8
     offset = -1
+    # Translators: status widget name
     verbose = gettext_lazy("Small status badge")
 
     def get_columns(self):
@@ -416,6 +418,7 @@ class BaseSVGBadgeWidget(SVGWidget):
 class SVGBadgeWidget(BaseSVGBadgeWidget):
     name = "svg"
     order = 80
+    # Translators: status widget name
     verbose = gettext_lazy("SVG status badge")
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
@@ -433,6 +436,7 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
 @register_widget
 class PNGBadgeWidget(PNGWidget, SVGBadgeWidget):
     name = "status"
+    # Translators: status widget name
     verbose = gettext_lazy("PNG status badge")
 
 
@@ -530,6 +534,7 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
 class LanguageBadgeWidget(BaseSVGBadgeWidget):
     name = "language"
     order = 83
+    # Translators: status widget name
     verbose = gettext_lazy("Language count badge")
     extra_parameters = [
         {

@@ -450,7 +450,7 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
     """Handle unit merging."""
     mergeform = MergeForm(unit, request.POST)
     if not mergeform.is_valid():
-        messages.error(request, gettext("Invalid merge request!"))
+        show_form_errors(request, mergeform)
         return None
 
     merged = mergeform.cleaned_data["merge_unit"]
@@ -470,7 +470,7 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
 def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     revertform = RevertForm(unit, request.GET)
     if not revertform.is_valid():
-        messages.error(request, gettext("Invalid revert request!"))
+        show_form_errors(request, revertform)
         return None
 
     change = revertform.cleaned_data["revert_change"]
