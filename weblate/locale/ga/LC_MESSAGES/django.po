@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 15:43+0000\n"
-"PO-Revision-Date: 2025-07-30 03:56+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-30 17:30+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -385,22 +385,24 @@ msgid "Verify the code from the app"
 msgstr "Fíoraigh an cód ón aip"
 
 #: weblate/accounts/forms.py:1108
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Ainmnigh d'aip fíordheimhnithe"
+msgstr "Scrios aipeanna fíordheimhnithe a cumraíodh roimhe seo"
 
 #: weblate/accounts/forms.py:1112
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Scriosfar gach aip fíordheimhnithe a cumraíodh roimhe seo nuair a fhíorófar "
+"an aip nua."
 
 #: weblate/accounts/forms.py:1115
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Ní bheidh tionchar ar mhodhanna dhá fhachtóir eile (amhail WebAuthn agus "
+"eochracha slándála)."
 
 #: weblate/accounts/forms.py:1121
 msgid "The entered token is not valid."
@@ -3201,10 +3203,8 @@ msgid "This component is currently locked."
 msgstr "Tá an chomhpháirt seo faoi ghlas faoi láthair."
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "Ní thacaíonn formáid an chomhaid leis seo."
+msgstr "Ní thacaíonn an fhormáid comhaid le teaghráin foinse a nuashonrú."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4997,7 +4997,7 @@ msgstr "@draggable/i18n comhad lang"
 
 #: weblate/formats/ttkit.py:2158
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Eochracha cait Haiku"
 
 #: weblate/formats/ttkit.py:2177
 msgid "Stringsdict file"
@@ -5924,10 +5924,8 @@ msgid "Missing source or target language in file!"
 msgstr "Foinse nó sprioctheanga in easnamh sa chomhad!"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
-msgstr "ar feitheamh"
+msgstr "Ar feitheamh"
 
 #: weblate/memory/models.py:490
 msgctxt "Translation memory category"
@@ -8494,10 +8492,8 @@ msgstr "Íoslódáil comhaid bunaidh aistriúcháin mar chomhad zip"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Registration"
 msgid "Operations"
-msgstr "Clárú"
+msgstr "Oibríochtaí"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9780,6 +9776,9 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"Smaoinigh, le do thoil, ar d’eagarthóireacht a chur isteach chuig <a href="
+"\"%(url)s\">stór sonraí teanga Weblate</a> ionas gur féidir í a chur san "
+"áireamh in eisiúintí Weblate amach anseo."
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9788,6 +9787,10 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"Nuashonraítear na sainmhínithe teanga go huathoibríoch ag Weblate nuair a "
+"dhéantar aistriú chuig bunachar sonraí. Is dócha go ndéanfar "
+"eagarthóireachtaí míchuí a aisiompú.<a href=\"%(url)s\">Féach ar an "
+"doiciméadacht maidir le láimhseáil cheart a dhéanamh air seo.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -12866,10 +12869,8 @@ msgid "Update the repository"
 msgstr "Nuashonraigh an stór"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "Cúltaca á iompórtáil"
+msgstr "Cúltacaí atá ann cheana féin"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -14427,17 +14428,15 @@ msgid "New revision: {}"
 msgstr "Leasú nua: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s carachtar curtha in eagar"
-msgstr[1] "%(count)s carachtair curtha in eagar"
-msgstr[2] "%(count)s carachtair curtha in eagar"
-msgstr[3] "%(count)s carachtair curtha in eagar"
-msgstr[4] "%(count)s carachtair curtha in eagar"
+msgstr[0] "%(count)d carachtar curtha in eagar"
+msgstr[1] "%(count)d carachtair curtha in eagar"
+msgstr[2] "%(count)d carachtair curtha in eagar"
+msgstr[3] "%(count)d carachtair curtha in eagar"
+msgstr[4] "%(count)d carachtair curtha in eagar"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14933,12 +14932,18 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"Éilíonn polasaí tiomantais ceadaithe amháin go gcuirfí athbhreithnithe "
+"aistriúcháin ar siúl. Cumasaigh athbhreithnithe aistriúcháin ar dtús nó "
+"roghnaigh polasaí tiomantais difriúil."
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"Tá athbhreithnithe aistriúcháin ag teastáil le haghaidh polasaí tiomantais "
+"ceadaithe amháin. Roghnaigh polasaí tiomantais difriúil sula ndíchumasaíonn "
+"tú athbhreithnithe aistriúcháin."
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -15734,10 +15739,8 @@ msgid "Enforced checks"
 msgstr "Seiceálacha forfheidhmithe"
 
 #: weblate/trans/models/component.py:594
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Liosta seiceálacha nach féidir neamhaird a dhéanamh orthu."
+msgstr "Liosta seiceálacha nach féidir a dhíbhe."
 
 #: weblate/trans/models/component.py:612
 msgid ""
@@ -16272,19 +16275,15 @@ msgstr "Cur síos ar an lipéad"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "Cuir gach aistriúchán i bhfeidhm beag beann ar cháilíocht"
 
 #: weblate/trans/models/project.py:60
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "Cuir leis mar aistriúchán a dteastaíonn eagarthóireacht leis"
+msgstr "Seachain aistriúcháin atá marcáilte mar a bhfuil gá iad a chur in eagar"
 
 #: weblate/trans/models/project.py:62
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "Cuir leis mar aistriúchán ceadaithe"
+msgstr "Áirigh aistriúcháin cheadaithe amháin"
 
 #: weblate/trans/models/project.py:168
 msgid "Public"
@@ -16337,15 +16336,15 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Cuireann sé le linn na n-aistriúchán roinnte idir tionscadail."
 
 #: weblate/trans/models/project.py:222
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Autoclean translation memory"
-msgstr "Scrios cuimhne na n-aistriúchán"
+msgstr "Cuimhne aistriúcháin uathghlanadh"
 
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
 msgstr ""
+"Baintear iontrálacha atá as dáta agus atá imithe i léig go huathoibríoch as "
+"cuimhne aistriúcháin."
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -16379,16 +16378,17 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Éilíonn léirmheastóirí tiomnaithe teaghráin foinse a cheadú."
 
 #: weblate/trans/models/project.py:258
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "Comhad aistriúcháin"
+msgstr "Scagaire cáilíochta aistriúcháin"
 
 #: weblate/trans/models/project.py:262
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
 msgstr ""
+"Roghnaigh cé na haistriúcháin ba chóir a chur san áireamh agus athruithe á "
+"ndéanamh. Le roghanna níos sriantaí, seachnófar aistriúcháin a bhféadfadh "
+"fadhbanna cáilíochta a bheith ag baint leo."
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -16968,13 +16968,8 @@ msgstr ""
 "nó cuir tús le do thionscadal féin a aistriú."
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr ""
-"Is féidir leat é seo a chur in eagar níos déanaí, mar atá le haon teaghrán "
-"eile sa teanga foinse."
+msgstr "Ní thacaítear le huaslódáil foinse ach amháin sa teanga foinse."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17049,29 +17044,27 @@ msgstr "Glac páirt i {0}!"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Ní thacaíonn aon cheann de na comhpháirteanna le cur leis teanga."
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "Teanga nua curtha le %(component)s"
-msgstr[1] "Teanga nua curtha le %(component)s"
-msgstr[2] "Teanga nua curtha le %(component)s"
-msgstr[3] "Teanga nua curtha le %(component)s"
-msgstr[4] "Teanga nua curtha le %(component)s"
+msgstr[0] "Cuireadh %(language)s leis an %(count)d comhpháirt."
+msgstr[1] "Cuireadh %(language)s le %(count)d comhpháirteanna."
+msgstr[2] "Cuireadh %(language)s le %(count)d comhpháirteanna."
+msgstr[3] "Cuireadh %(language)s le %(count)d comhpháirteanna."
+msgstr[4] "Cuireadh %(language)s le %(count)d comhpháirteanna."
 
 #: weblate/trans/views/basic.py:823
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Iarratas teanga nua i %(component)s"
-msgstr[1] "Iarratas teanga nua i %(component)s"
-msgstr[2] "Iarratas teanga nua i %(component)s"
-msgstr[3] "Iarratas teanga nua i %(component)s"
-msgstr[4] "Iarratas teanga nua i %(component)s"
+msgstr[0] "Iarradh %(language)s teanga do %(count)d comhpháirt."
+msgstr[1] "Iarradh %(language)s teanga do %(count)d comhpháirteanna."
+msgstr[2] "Iarradh %(language)s teanga do %(count)d comhpháirteanna."
+msgstr[3] "Iarradh %(language)s teanga do %(count)d comhpháirteanna."
+msgstr[4] "Iarradh %(language)s teanga do %(count)d comhpháirteanna."
 
 #: weblate/trans/views/basic.py:837
 #, python-format
@@ -17082,10 +17075,20 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] ""
+"Níorbh fhéidir teanga %(language)s a chur le comhpháirt %(count)d. Seiceáil "
+"cumraíocht na gcomhpháirteanna le do thoil."
 msgstr[1] ""
+"Níorbh fhéidir teanga %(language)s a chur le %(count)d comhpháirteanna. "
+"Seiceáil cumraíocht na gcomhpháirteanna le do thoil."
 msgstr[2] ""
+"Níorbh fhéidir teanga %(language)s a chur le %(count)d comhpháirteanna. "
+"Seiceáil cumraíocht na gcomhpháirteanna le do thoil."
 msgstr[3] ""
+"Níorbh fhéidir teanga %(language)s a chur le %(count)d comhpháirteanna. "
+"Seiceáil cumraíocht na gcomhpháirteanna le do thoil."
 msgstr[4] ""
+"Níorbh fhéidir teanga %(language)s a chur le %(count)d comhpháirteanna. "
+"Seiceáil cumraíocht na gcomhpháirteanna le do thoil."
 
 #: weblate/trans/views/basic.py:913
 msgid ""
