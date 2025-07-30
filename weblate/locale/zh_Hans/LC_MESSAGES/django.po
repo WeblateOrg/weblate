@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-29 15:43+0000\n"
-"PO-Revision-Date: 2025-07-30 11:52+0000\n"
+"PO-Revision-Date: 2025-07-30 13:57+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -376,13 +376,13 @@ msgstr "解除先前配置的身份认证应用"
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
-msgstr ""
+msgstr "验证新应用后所有之前配置的身份认证应用都将被解除权限。"
 
 #: weblate/accounts/forms.py:1115
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
-msgstr ""
+msgstr "其他双因素认证方法（比如 WebAuthn 和安全密钥）不受影响。"
 
 #: weblate/accounts/forms.py:1121
 msgid "The entered token is not valid."
@@ -4725,7 +4725,7 @@ msgstr "@draggable/i18n lang 文件"
 
 #: weblate/formats/ttkit.py:2158
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Haiku catkeys"
 
 #: weblate/formats/ttkit.py:2177
 msgid "Stringsdict file"
@@ -9148,6 +9148,8 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"请考虑提交你的编辑到 <a href=\"%(url)s\">Weblate 语言数据仓库</a> "
+"以便它能被包含在未来的 Weblate 发行版中。"
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9156,6 +9158,8 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"数据库迁移时语言定义由 Weblate 自动更新。错误的编辑可能会被撤销。<a href="
+"\"%(url)s\">请查阅正确处理的文档.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -13875,13 +13879,15 @@ msgstr "您必须为这些部件指定允许它们被公开访问的许可证：
 msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
-msgstr ""
+msgstr "仅包含已批准译文的提交政策需要启用译文审校，请先开启译文审校或选择不同的提交"
+"政策。"
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
-msgstr ""
+msgstr "译文审校对仅包含已批准译文政策而言是必需的。停用译文审校前请选择不同的提交政"
+"策。"
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -15098,7 +15104,7 @@ msgstr "标签说明"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "不论质量如何提交所有译文"
 
 #: weblate/trans/models/project.py:60
 msgid "Skip translations marked as needing editing"
@@ -15163,7 +15169,7 @@ msgstr "自动清理翻译记忆库"
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
-msgstr ""
+msgstr "从翻译记忆库中自动删除过时和废弃的条目。"
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -15200,7 +15206,7 @@ msgstr "翻译质量筛选器"
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
-msgstr ""
+msgstr "选择提交更改时应包含哪些译文。限制性最强的选项会跳过有潜在质量问题的译文。"
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -15762,7 +15768,7 @@ msgstr "参与到 {0} 的翻译工作中来！"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "这些部件中没有哪个支持添加语言。"
 
 #: weblate/trans/views/basic.py:809
 #, python-format
@@ -15784,7 +15790,7 @@ msgid ""
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] ""
+msgstr[0] "无法添加 %(language)s 语言到 %(count)d 个部件。请检查部件的配置。"
 
 #: weblate/trans/views/basic.py:913
 msgid ""
