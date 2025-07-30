@@ -143,7 +143,12 @@ class BaseOpenAITranslation(BatchMachineTranslation):
 
         # Separate rephrasing and new translations
         for text, unit in sources:
-            if unit is not None and unit.translated and not unit.readonly:
+            if (
+                unit is not None
+                and unit.translated
+                and not unit.readonly
+                and all(unit.get_target_plurals())
+            ):
                 rephrase.append((text, unit))
             else:
                 texts.append(text)
