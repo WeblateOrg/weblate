@@ -136,11 +136,14 @@ SUPPORT_NAMES = {
 
 
 class SupportStatusManager(models.Manager):
-    def get_current(self):
+    def get_current(self, *, for_update: bool = False) -> SupportStatus:
+        base = self.filter(enabled=True)
+        if for_update:
+            base = base.select_for_update()
         try:
-            return self.latest("expiry")
+            return base.latest("expiry")
         except SupportStatus.DoesNotExist:
-            return SupportStatus(name="community")
+            return SupportStatus(name="community", enabled=False)
 
 
 class SupportStatus(models.Model):
@@ -152,6 +155,7 @@ class SupportStatus(models.Model):
     limits = models.JSONField(default=dict)
     has_subscription = models.BooleanField(default=False)
     backup_repository = models.CharField(max_length=500, default="", blank=True)
+    enabled = models.BooleanField(default=True, db_index=True, blank=True)
 
     objects = SupportStatusManager()
 
