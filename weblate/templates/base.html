@@ -374,13 +374,20 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
+                  <li class="dropdown-header">{% translate "Get help" %}</li>
+                  <li>
+                    <a href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
+                  </li>
                   {% if support_status.has_support %}
                     <li>
-                      <a href="https://care.weblate.org/">{% translate "Weblate support" %}</a>
+                      <a href="https://care.weblate.org/">{% translate "Professional support" %}</a>
                     </li>
                   {% else %}
                     <li>
-                      <a href="https://weblate.org/support/">{% translate "Get support" %}</a>
+                      <a href="https://weblate.org/support/">{% translate "Get professional support" %}</a>
                     </li>
                     {% if get_help_url %}
                       <li>
@@ -388,32 +395,29 @@
                       </li>
                     {% endif %}
                   {% endif %}
-                  <li>
-                    <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Weblate community" %}</a>
-                  </li>
 
+                  <li class="dropdown-header">{% translate "Documentation" %}</li>
                   <li>
-                    <a href="{% url 'contact' %}">{% translate "Contact site administrators" %}</a>
-                  </li>
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="https://weblate.org/contribute/">{% translate "Contribute to Weblate" %}</a>
-                  </li>
-                  <li>
-                    <a href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
-                  </li>
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
-                  </li>
-                  <li>
-                    <a href="https://weblate.org/">{% translate "Weblate website" %}</a>
-                  </li>
-                  <li>
-                    <a href="{% documentation 'index' %}">{% translate "Weblate documentation" %}</a>
+                    <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
                   </li>
                   <li>
                     <a id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
+                  </li>
+
+                  <li class="dropdown-header">{% translate "Weblate project" %}</li>
+                  <li>
+                    <a href="https://weblate.org/contribute/">{% translate "Contribute" %}</a>
+                  </li>
+                  {% if not support_status.has_support or support_status.is_hosted_weblate %}
+                    <li>
+                      <a href="{% url 'donate' %}">{% translate "Become a supporter" %}</a>
+                    </li>
+                  {% endif %}
+                  <li>
+                    <a href="{% url 'about' %}">{% translate "About" %}</a>
+                  </li>
+                  <li>
+                    <a href="https://weblate.org/">{% translate "Website" %}</a>
                   </li>
                 </ul>
               </li>
