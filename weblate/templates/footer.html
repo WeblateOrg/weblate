@@ -9,21 +9,21 @@
       <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
     </li>
     {% if has_legal %}
-    <li class="footer-legal">
+      <li class="footer-legal">
         <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
       </li>
     {% elif legal_url %}
-    <li class="footer-legal">
+      <li class="footer-legal">
         <a href="{{ legal_url }}">{% translate "Legal" %}</a>
       </li>
     {% endif %}
     {% if privacy_url %}
-    <li class="footer-privacy">
+      <li class="footer-privacy">
         <a href="{{ privacy_url }}">{% translate "Privacy policy" %}</a>
       </li>
     {% endif %}
     {% if status_url %}
-    <li class="footer-status">
+      <li class="footer-status">
         <a href="{{ status_url }}">{% translate "Service status" %}</a>
       </li>
     {% endif %}
