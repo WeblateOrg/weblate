@@ -1,11 +1,11 @@
 {% load humanize i18n %}
 
 {% autoescape off %}
-{% if changes|length == 1 %}
-{# Translators: e-mail subject #}
-{% blocktranslate count cnt=total_count with count=total_count|intcomma component=changes.0.component %}{{ count }} pending suggestion in {{ component }}{% plural %}{{ count }} pending suggestions in {{ component }}{% endblocktranslate %}
-{% else %}
-{# Translators: e-mail subject #}
-{% blocktranslate count cnt=total_count with count=total_count|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktranslate %}
-{% endif %}
+  {% if changes|length == 1 %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate count cnt=total_count with count=total_count|intcomma component=changes.0.component %}{{ count }} pending suggestion in {{ component }}{% plural %}{{ count }} pending suggestions in {{ component }}{% endblocktranslate %}
+  {% else %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate count cnt=total_count with count=total_count|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktranslate %}
+  {% endif %}
 {% endautoescape %}

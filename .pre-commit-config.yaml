@@ -27,6 +27,8 @@ repos:
   hooks:
   - id: djade
     args: [--target-version, '5.1']
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: https://github.com/adrienverge/yamllint
   rev: v1.37.1
   hooks:
@@ -96,7 +98,11 @@ repos:
   rev: v1.36.4
   hooks:
   - id: djlint-reformat-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
   - id: djlint-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.10.0
   hooks:

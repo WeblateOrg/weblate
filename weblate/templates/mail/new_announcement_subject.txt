@@ -1,10 +1,11 @@
 {% load i18n %}
+
 {% autoescape off %}
-{% if project %}
-{# Translators: e-mail subject #}
-{% blocktranslate %}New announcement on {{ project }}{% endblocktranslate %}
-{% else %}
-{# Translators: e-mail subject #}
-{% blocktranslate %}New announcement at {{ site_title }}{% endblocktranslate %}
-{% endif %}
+  {% if project %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate %}New announcement on {{ project }}{% endblocktranslate %}
+  {% else %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate %}New announcement at {{ site_title }}{% endblocktranslate %}
+  {% endif %}
 {% endautoescape %}

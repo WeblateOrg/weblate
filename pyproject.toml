@@ -345,14 +345,16 @@ strict_settings = false
 
 [tool.djlint]
 blank_line_after_tag = "load,extends,endblock"
-# - reconsider T032 and H014 once formatter is in use
+# This is actually tmx formatting:
+custom_html = "tmx,header,body,tuv,tu,seg"
+# - reconsider H014 once formatter is in use
 # T003 - Endblock should have name.
 # T002 - Double quotes should be used in tags. (makes using tags in attributes hard)
 # H013 - Img tag should have an alt attribute.
 # H006 - Img tag should have height and width attributes.
 # H021 - Inline styles should be avoided.
 # H031 - Consider adding meta keywords.
-ignore = "T003,H014,T032,T002,H013,H006,H021,H031"
+ignore = "T003,H014,T002,H013,H006,H021,H031"
 indent = 2
 max_attribute_length = 80
 max_blank_lines = 2
