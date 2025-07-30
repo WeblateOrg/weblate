@@ -134,7 +134,7 @@
 
               {% if unit.source_unit.explanation %}
                 {% if not unit.translation.component.is_glossary or not unit.is_source %}
-                  <!-- source string context  -->
+                  <!-- source string explanation  -->
                   <div class="form-group help-block">
                     <label>{% translate "Explanation" %}</label>
                     <div class="list-group">
@@ -144,6 +144,16 @@
                     </div>
                   </div>
                 {% endif %}
+              {% elif unit.note %}
+                <!-- source string note  -->
+                <div class="form-group help-block">
+                  <label>{% translate "Source string description" %}</label>
+                  <div class="list-group">
+                    <div class="list-group-item">
+                      <div class="list-group-item-text">{{ unit.note|urlize_ugc }}</div>
+                    </div>
+                  </div>
+                </div>
               {% endif %}
 
               {% if not unit.is_source %}
