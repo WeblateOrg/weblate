@@ -1,10 +1,11 @@
 {% load i18n %}
+
 {% autoescape off %}
-{% if was_added %}
-{# Translators: e-mail subject #}
-{% blocktranslate %}New language added to {{ component }}{% endblocktranslate %}
-{% else %}
-{# Translators: e-mail subject #}
-{% blocktranslate %}New language request in {{ component }}{% endblocktranslate %}
-{% endif %}
+  {% if was_added %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate %}New language added to {{ component }}{% endblocktranslate %}
+  {% else %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate %}New language request in {{ component }}{% endblocktranslate %}
+  {% endif %}
 {% endautoescape %}

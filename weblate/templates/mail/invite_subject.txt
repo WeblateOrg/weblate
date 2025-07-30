@@ -1,10 +1,11 @@
 {% load i18n translations %}
+
 {% autoescape off %}
-{% if invitation.group.defining_project %}
-{# Translators: e-mail subject #}
-  {% blocktranslate with invitation_author=invitation.author.username project_name=invitation.group.defining_project %}{{ invitation_author }} has invited you to join the {{ project_name }} project{% endblocktranslate %}
-{% else %}
-{# Translators: e-mail subject #}
-  {% blocktranslate with invitation_author=invitation.author.username project_name=invitation.group.defining_project %}{{ invitation_author }} has invited you to join{% endblocktranslate %}
-{% endif %}
+  {% if invitation.group.defining_project %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate with invitation_author=invitation.author.username project_name=invitation.group.defining_project %}{{ invitation_author }} has invited you to join the {{ project_name }} project{% endblocktranslate %}
+  {% else %}
+    {# Translators: e-mail subject #}
+    {% blocktranslate with invitation_author=invitation.author.username project_name=invitation.group.defining_project %}{{ invitation_author }} has invited you to join{% endblocktranslate %}
+  {% endif %}
 {% endautoescape %}
