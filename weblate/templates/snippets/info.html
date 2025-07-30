@@ -494,6 +494,32 @@
               </a>
             </div>
           </div>
+          {% if project and not language %}
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.components|number_format }}</div>
+                <div class="metric-text">{% translate "Components" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                <div class="metric-text">{% translate "Languages" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.translations|number_format }}</div>
+                <div class="metric-text">{% translate "Translations" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.screenshots|number_format }}</div>
+                <div class="metric-text">{% translate "Screenshots" %}</div>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
