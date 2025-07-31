@@ -11,6 +11,7 @@ from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
+from weblate.utils.rst import format_table
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -32,7 +33,7 @@ class Command(BaseCommand):
     help = "List installed add-ons"
 
     @staticmethod
-    def get_help_text(field, name: str):
+    def get_help_text(field, name: str) -> str:
         result = []
         if field.help_text:
             result.append(str(field.help_text))
@@ -55,7 +56,7 @@ class Command(BaseCommand):
                         f"  {description}".replace("\\", "\\\\"),
                     )
                 )
-        return result
+        return "\n".join(result)
 
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
@@ -76,49 +77,25 @@ class Command(BaseCommand):
             self.stdout.write("-" * len(obj.verbose))
             self.stdout.write("\n")
             self.stdout.write(f":Add-on ID: ``{obj.name}``")
+            prefix = ":Configuration: "
             if obj.settings_form:
                 form = obj(fake_addon).get_settings_form(None)
-                table = [
-                    (
+                table: list[list[str | list[list[str]]]] = [
+                    [
                         f"``{name}``",
                         str(field.label),
                         self.get_help_text(field, name),
-                    )
+                    ]
                     for name, field in form.fields.items()
                     if (addon_name, name) not in SKIP_FIELDS
                 ]
-                prefix = ":Configuration: "
-                name_width = max(len(name) for name, _label, _help_text in table)
-                label_width = max(len(label) for _name, label, _help_text in table)
-                help_text_width = max(
-                    max(len(line) for line in help_text) if help_text else 0
-                    for _name, _label, help_text in table
-                )
-                name_row = "-" * (name_width + 2)
-                label_row = "-" * (label_width + 2)
-                help_text_row = "-" * (help_text_width + 2)
-                for name, label, help_text in table:
+
+                for table_row in format_table(table, [""] * 3):
+                    self.stdout.write(f"{prefix}{table_row}")
                     if not prefix.isspace():
-                        self.stdout.write(
-                            f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
-                        )
-                        prefix = "                "
-                    if not help_text:
-                        line = ""
-                        self.stdout.write(
-                            f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {line:<{help_text_width}s} |"
-                        )
-                    for pos, line in enumerate(help_text):
-                        if pos > 0:
-                            name = label = ""
-                        self.stdout.write(
-                            f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {line:<{help_text_width}s} |"
-                        )
-                    self.stdout.write(
-                        f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
-                    )
+                        prefix = " " * len(prefix)
             else:
-                self.stdout.write(":Configuration: `This add-on has no configuration.`")
+                self.stdout.write(f"{prefix}`This add-on has no configuration.`")
             events = ", ".join(
                 f":ref:`{event_link(event)}`" for event in sorted_events(obj.events)
             )
