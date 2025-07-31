@@ -6,6 +6,8 @@
 
 from django.db import migrations
 
+from weblate.trans.filter import FILTERS
+
 
 def update_autotranslate_filter_type(apps, schema_editor):
     """
@@ -15,22 +17,7 @@ def update_autotranslate_filter_type(apps, schema_editor):
     """
     Addon = apps.get_model("addons", "Addon")
 
-    # simple filter types are mapped according to the following dictionary
-    # and other filter types are mapped as is.
-    filter_mapping = {
-        "fuzzy": "state:needs-editing",
-        "approved": "state:approved",
-        "approved_suggestions": "state:approved has:suggestion",
-        "unapproved": "state:translated",
-        "todo": "state:<translated",
-        "nottranslated": "state:empty",
-        "translated": "state:>=translated",
-        "suggestions": "has:suggestion",
-        "nosuggestions": "-has:suggestion state:<translated",
-        "comments": "has:comment",
-        "allchecks": "has:check",
-        "all": "",
-    }
+    filter_mapping = {x[0]: x[2] for x in FILTERS.full_list}
 
     addons = Addon.objects.filter(
         name="weblate.autotranslate.autotranslate", configuration__has_key="filter_type"
@@ -38,13 +25,10 @@ def update_autotranslate_filter_type(apps, schema_editor):
 
     for addon in addons:
         config = addon.configuration
-        old_filter = config.pop("filter_type")
-        config["q"] = filter_mapping.get(old_filter, old_filter)
+        # preserve filter_type in the configuration for reverse migration
+        old_filter = config.get("filter_type")
+        config["q"] = filter_mapping[old_filter]
         addon.save(update_fields=["configuration"])
-
-
-def reverse_update(apps, schema_editor):
-    """Reverting this migration is not possible as search queries support more versatile filters than filter types."""
 
 
 class Migration(migrations.Migration):
@@ -55,6 +39,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(
             update_autotranslate_filter_type,
-            reverse_update,
+            migrations.RunPython.noop,
         ),
     ]
