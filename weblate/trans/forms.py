@@ -957,7 +957,8 @@ class AutoForm(forms.Form):
         self, obj: Component | Project | None, user=None, *args, **kwargs
     ) -> None:
         """Generate choices for other components in the same project."""
-        super().__init__(*args, **kwargs)
+        auto_id = kwargs.pop("auto_id", "id_auto_%s")
+        super().__init__(*args, auto_id=auto_id, **kwargs)
         self.obj = obj
         self.project: Project | None = None
         machinery_settings = {}
