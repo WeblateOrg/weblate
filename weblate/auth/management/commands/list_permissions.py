@@ -34,12 +34,26 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """List permissions."""
-        self.stdout.write("Managing per-project access control\n\n")
+        self.stdout.write("""
+Managing per-project access control
+-----------------------------------
+
+..
+   Partly generated using ./manage.py list_permissions
+
+""")
 
         for name in ACL_GROUPS:
             self.stdout.write(f"`{name}`\n\n\n")
 
-        self.stdout.write("\nList of privileges\n\n")
+        self.stdout.write("""
+List of privileges
+++++++++++++++++++
+
+..
+   Generated using ./manage.py list_permissions
+
+""")
 
         last = ""
 
@@ -96,7 +110,14 @@ class Command(BaseCommand):
                 self.stdout.write(row.format(scope if number == 0 else "", name, role))
             self.stdout.write(sep)
 
-        self.stdout.write("\nList of built-in roles\n\n")
+        self.stdout.write("""
+List of built-in roles
+++++++++++++++++++++++
+
+..
+   Generated using ./manage.py list_permissions
+
+""")
 
         self.stdout.write(".. list-table::\n\n")
 
@@ -110,7 +131,11 @@ class Command(BaseCommand):
                 )
             )
 
-        self.stdout.write("\nList of teams\n\n")
+        self.stdout.write("""
+List of teams
++++++++++++++
+
+""")
 
         for name, roles, _selection in GROUPS:
             self.stdout.write(f"`{name}`\n\n\n")
