@@ -20,9 +20,12 @@ from docutils import utils
 from docutils.core import Publisher
 from docutils.nodes import (
     Element,
+    emphasis,
     footnote_reference,
+    literal,
     problematic,
     reference,
+    strong,
     system_message,
 )
 from docutils.parsers.rst import languages
@@ -453,25 +456,31 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
             result.append((name, node.rawsource))
             if refuri:
                 alltags.append(f"<{refuri}>")
+        elif isinstance(node, literal):
+            result.append(("``...``", node.rawsource))
+        elif isinstance(node, emphasis):
+            result.append(("*...*", node.rawsource))
+        elif isinstance(node, strong):
+            result.append(("**...**", node.rawsource))
 
     return dict(result), Counter(item[0] for item in result), alltags
 
 
 class RSTReferencesCheck(RSTBaseCheck):
     check_id = "rst-references"
-    name = gettext_lazy("Inconsistent reStructuredText references")
+    name = gettext_lazy("Inconsistent reStructuredText")
     description = gettext_lazy(
-        "Inconsistent reStructuredText term references in the translated message."
+        "Inconsistent reStructuredText markup in the translated message."
     )
 
     def get_missing_text(self, values: Iterable[str]) -> StrOrPromise:
         return self.get_values_text(
-            gettext("The following reStructuredText references are missing: {}"), values
+            gettext("The following reStructuredText markup is missing: {}"), values
         )
 
     def get_extra_text(self, values: Iterable[str]) -> StrOrPromise:
         return self.get_values_text(
-            gettext("The following reStructuredText references are extra: {}"), values
+            gettext("The following reStructuredText markup is extra: {}"), values
         )
 
     def check_single(
