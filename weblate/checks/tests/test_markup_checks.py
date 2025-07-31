@@ -421,11 +421,11 @@ class RSTReferencesCheckTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            The following reStructuredText references are missing:
+            The following reStructuredText markup is missing:
             <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>,
             <span class="hlcheck" data-value="`baz`_">`baz`_</span>
             <br />
-            The following reStructuredText references are extra:
+            The following reStructuredText markup is extra:
             <span class="hlcheck" data-value=":ref:`bar &lt;baz&gt;`">:ref:`bar &lt;baz&gt;`</span>
             """,
         )
@@ -602,6 +602,68 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 "Context `c`_",
                 "Kontext `c`_",
+                "rst-text",
+            ),
+        )
+
+    def test_broken_literals(self) -> None:
+        self.do_test(
+            False,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``foo / bar`` 和 ``foo / baz``。",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``fee / ber`` 和 ``fee / bez``。",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``foo / bar``和``foo / baz``。",
+                "rst-text",
+            ),
+        )
+
+    def test_broken_emphasis(self) -> None:
+        self.do_test(
+            False,
+            (
+                "statuses: *active* and *pending*",
+                "状态：*活跃* 和 *待定*",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "statuses: **active** and **pending**",
+                "状态：*活跃*和*待定*",
+                "rst-text",
+            ),
+        )
+
+    def test_broken_strong(self) -> None:
+        self.do_test(
+            False,
+            (
+                "statuses: **active** and **pending**",
+                "状态：**活跃** 和 **待定**",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "statuses: **active** and **pending**",
+                "状态：**活跃**和**待定**",
                 "rst-text",
             ),
         )
