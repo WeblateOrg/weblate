@@ -49,6 +49,7 @@ locales/%/LC_MESSAGES/docs.po: locales/docs.pot
 
 locales/docs.pot: gettext
 	@cp _build/gettext/docs.pot $@
+	@./scripts/filter-docs-po.py $@
 
 
 # Catch-all target: route all unknown targets to Sphinx using the new
