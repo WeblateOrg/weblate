@@ -280,7 +280,7 @@ class XMLClosingTags(BaseFileFormatParam):
     default = True
 
     @classproperty
-    def file_formats(cls):  # noqa: N805
+    def file_formats(self):
         from weblate.formats.models import FILE_FORMATS
 
         result = []

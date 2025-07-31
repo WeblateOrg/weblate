@@ -12,7 +12,7 @@ class AddonEvent(IntegerChoices):
     EVENT_POST_COMMIT = 4, "Repository post-commit"
     EVENT_POST_ADD = 5, "Repository post-add"
     EVENT_UNIT_PRE_CREATE = 6, "Unit pre-create"
-    # Used to be EVENT_STORE_POST_LOAD = 7, "Storage post-load"
+    EVENT_STORE_POST_LOAD = 7, "Storage post-load"
     EVENT_UNIT_POST_SAVE = 8, "Unit post-save"
     EVENT_PRE_UPDATE = 9, "Repository pre-update"
     EVENT_PRE_PUSH = 10, "Repository pre-push"
