@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-29 17:44+0200\n"
+"POT-Creation-Date: 2025-07-30 19:31+0200\n"
 "PO-Revision-Date: 2025-07-30 11:52+0000\n"
 "Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -1022,7 +1022,7 @@ msgstr "تعليق تم حله"
 msgid ":guilabel:`Administration`, :guilabel:`Review strings`"
 msgstr "تعديل السلسلة عند فرض الاقتراحات"
 
-#: ../../admin/access.rst:498 ../../admin/addons.rst:165
+#: ../../admin/access.rst:498 ../../admin/addons.rst:176
 msgid "Component"
 msgstr "مكون"
 
@@ -1158,7 +1158,7 @@ msgstr "تعديل لقطة الشاشة"
 msgid "Delete screenshot"
 msgstr "حذف لقطة الشاشة"
 
-#: ../../admin/access.rst:530 ../../admin/addons.rst:655
+#: ../../admin/access.rst:530 ../../admin/addons.rst:670
 msgid "Source strings"
 msgstr "السلاسل المصدرية"
 
@@ -2251,12 +2251,12 @@ msgstr "``mode``"
 msgid "Automatic translation mode"
 msgstr "الترجمة الآلية"
 
-#: ../../admin/addons.rst:135 ../../admin/addons.rst:145
-#: ../../admin/addons.rst:159 ../../admin/addons.rst:466
-#: ../../admin/addons.rst:758 ../../admin/addons.rst:849
-#: ../../admin/addons.rst:902 ../../admin/addons.rst:1000
-#: ../../admin/addons.rst:1175 ../../admin/addons.rst:1422
-#: ../../admin/addons.rst:1434 ../../admin/machine.rst:73
+#: ../../admin/addons.rst:135 ../../admin/addons.rst:148
+#: ../../admin/addons.rst:168 ../../admin/addons.rst:477
+#: ../../admin/addons.rst:773 ../../admin/addons.rst:867
+#: ../../admin/addons.rst:924 ../../admin/addons.rst:1024
+#: ../../admin/addons.rst:1282 ../../admin/addons.rst:1612
+#: ../../admin/addons.rst:1629 ../../admin/machine.rst:73
 #: ../../admin/machine.rst:103 ../../admin/machine.rst:134
 #: ../../admin/machine.rst:170 ../../admin/machine.rst:203
 #: ../../admin/machine.rst:234 ../../admin/machine.rst:259
@@ -2275,31 +2275,44 @@ msgstr "الخيارات المتاحة:"
 
 #: ../../admin/addons.rst:137
 #, fuzzy
-#| msgid "Add as suggestion"
-msgid "``suggest`` -- Add as suggestion"
+#| msgid "``suggestion:TEXT``"
+msgid "``suggest``"
+msgstr "``suggestion:TEXT``"
+
+#: ../../admin/addons.rst:138
+msgid "Add as suggestion"
 msgstr "إضافة كاقتراح"
 
-#: ../../admin/addons.rst:139
-#, fuzzy
-#| msgid "Add as other translation"
-msgid "``translate`` -- Add as translation"
-msgstr "إضافة كترجمة بديلة"
+#: ../../admin/addons.rst:140 ../../contributing/internals.rst:136
+msgid "``translate``"
+msgstr "``translate``"
 
 #: ../../admin/addons.rst:141
 #, fuzzy
+#| msgid "Add as other translation"
+msgid "Add as translation"
+msgstr "إضافة كترجمة بديلة"
+
+#: ../../admin/addons.rst:143 ../../admin/addons.rst:159
+#: ../../admin/addons.rst:820 ../../admin/addons.rst:846
+msgid "``fuzzy``"
+msgstr "``fuzzy``"
+
+#: ../../admin/addons.rst:144
+#, fuzzy
 #| msgid "Add as needing edit"
-msgid "``fuzzy`` -- Add as \"Needing edit\""
+msgid "Add as \"Needing edit\""
 msgstr "إضافة على أنها تحتاج إلى التعديل"
 
-#: ../../admin/addons.rst:143
+#: ../../admin/addons.rst:146
 msgid "``filter_type``"
 msgstr "``filter_type``"
 
-#: ../../admin/addons.rst:143
+#: ../../admin/addons.rst:146
 msgid "Search filter"
 msgstr "تصفية البحث"
 
-#: ../../admin/addons.rst:143
+#: ../../admin/addons.rst:146
 #, fuzzy
 #| msgid ""
 #| "Weblate could not parse the translation files while updating the "
@@ -2309,85 +2322,117 @@ msgid ""
 "translations."
 msgstr "تعذر على Weblate تحليل ملفات الترجمة أثناء تحديث الترجمات."
 
-#: ../../admin/addons.rst:147
+#: ../../admin/addons.rst:150 ../../admin/addons.rst:869
 #, fuzzy
-#| msgid "All strings"
-msgid "``all`` -- All strings"
-msgstr "كل السلاسل"
-
-#: ../../admin/addons.rst:149
-#, fuzzy
-#| msgid "Not translated strings"
-msgid "``nottranslated`` -- Untranslated strings"
-msgstr "سلاسل غير مترجَمة"
+#| msgid "``alibaba``"
+msgid "``all``"
+msgstr "``alibaba``"
 
 #: ../../admin/addons.rst:151
-#, fuzzy
-#| msgid "Translated strings"
-msgid "``todo`` -- Unfinished strings"
-msgstr "السلاسل المُترجمة"
+msgid "All strings"
+msgstr "كل السلاسل"
 
 #: ../../admin/addons.rst:153
 #, fuzzy
-#| msgid "Strings marked for edit"
-msgid "``fuzzy`` -- Strings marked for edit"
-msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
+#| msgid "``untranslated``"
+msgid "``nottranslated``"
+msgstr "``untranslated``"
 
-#: ../../admin/addons.rst:155
-msgid "``check:inconsistent`` -- Failing check: Inconsistent"
-msgstr ""
+#: ../../admin/addons.rst:154
+msgid "Untranslated strings"
+msgstr "السلاسل غير المترجمة"
+
+#: ../../admin/addons.rst:156
+#, fuzzy
+#| msgid "``token``"
+msgid "``todo``"
+msgstr "``token``"
 
 #: ../../admin/addons.rst:157
+msgid "Unfinished strings"
+msgstr "السلاسل غير المكتملة"
+
+#: ../../admin/addons.rst:160
+msgid "Strings marked for edit"
+msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
+
+#: ../../admin/addons.rst:162
+#, fuzzy
+#| msgid "``inconsistent``"
+msgid "``check:inconsistent``"
+msgstr "``inconsistent``"
+
+#: ../../admin/addons.rst:163
+#, fuzzy
+#| msgid "Failing checks"
+msgid "Failing check: Inconsistent"
+msgstr "الفحوص الفاشلة"
+
+#: ../../admin/addons.rst:165
+#, fuzzy
+#| msgid "``translated``"
+msgid "``check:translated``"
+msgstr "``translated``"
+
+#: ../../admin/addons.rst:166
 #, fuzzy
 #| msgid "Add as other translation"
-msgid "``check:translated`` -- Failing check: Has been translated"
+msgid "Failing check: Has been translated"
 msgstr "إضافة كترجمة بديلة"
 
-#: ../../admin/addons.rst:159
+#: ../../admin/addons.rst:168
 msgid "``auto_source``"
 msgstr "``auto_source``"
 
-#: ../../admin/addons.rst:159
+#: ../../admin/addons.rst:168
 #, fuzzy
 #| msgid "Perform automatic translation"
 msgid "Source of automated translations"
 msgstr "القيام بترجمة آلية"
 
-#: ../../admin/addons.rst:161
+#: ../../admin/addons.rst:170
 #, fuzzy
-#| msgid "Other translation components"
-msgid "``others`` -- Other translation components"
+#| msgid "``-require_other``"
+msgid "``others``"
+msgstr "``-require_other``"
+
+#: ../../admin/addons.rst:171
+msgid "Other translation components"
 msgstr "عنصر الترجمة الأخرى"
 
-#: ../../admin/addons.rst:163
+#: ../../admin/addons.rst:173
 #, fuzzy
-#| msgid "Machine translation"
-msgid "``mt`` -- Machine translation"
+#| msgid "``modernmt``"
+msgid "``mt``"
+msgstr "``modernmt``"
+
+#: ../../admin/addons.rst:174 ../../devel/community.rst:27
+msgid "Machine translation"
 msgstr "الترجمة الألية"
 
-#: ../../admin/addons.rst:165
+#: ../../admin/addons.rst:176
 msgid "``component``"
 msgstr "``component``"
 
-#: ../../admin/addons.rst:165
+#: ../../admin/addons.rst:176
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
 
-#: ../../admin/addons.rst:167
+#: ../../admin/addons.rst:178
 msgid "``engines``"
 msgstr "``engines``"
 
-#: ../../admin/addons.rst:167 ../../api.rst:2080
+#: ../../admin/addons.rst:178 ../../api.rst:2080
 msgid "Machine translation engines"
 msgstr "محركات الترجمة الآلية"
 
-#: ../../admin/addons.rst:169 ../../admin/addons.rst:190
+#: ../../admin/addons.rst:180 ../../admin/addons.rst:201
 msgid "``threshold``"
 msgstr "``threshold``"
 
-#: ../../admin/addons.rst:169 ../../api.rst:2081
+#: ../../admin/addons.rst:180 ../../api.rst:2081
 msgid "Score threshold"
 msgstr "عتبة التنقيط"
 
@@ -2395,8 +2440,8 @@ msgstr "عتبة التنقيط"
 msgid "Triggers"
 msgstr ""
 
-#: ../../admin/addons.rst:171 ../../admin/addons.rst:587
-#: ../../admin/addons.rst:638 ../../admin/addons.rst:671
+#: ../../admin/addons.rst:182 ../../admin/addons.rst:602
+#: ../../admin/addons.rst:653 ../../admin/addons.rst:686
 #, fuzzy
 #| msgid "Component name"
 msgid ""
@@ -2404,13 +2449,13 @@ msgid ""
 "event-daily`"
 msgstr "اسم المكون"
 
-#: ../../admin/addons.rst:173
+#: ../../admin/addons.rst:184
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr "ترجمة السلاسل آليا باستخدام ترجمة الآلة أو المكونات الأخرى."
 
-#: ../../admin/addons.rst:177
+#: ../../admin/addons.rst:188
 #, fuzzy
 #| msgid "Component name"
 msgid ""
@@ -2418,59 +2463,59 @@ msgid ""
 "translation-services-priority`"
 msgstr "اسم المكون"
 
-#: ../../admin/addons.rst:184
+#: ../../admin/addons.rst:195
 #, fuzzy
 #| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
 msgstr "صيغة الجافاسكريبت"
 
-#: ../../admin/addons.rst:188
+#: ../../admin/addons.rst:199
 msgid "``weblate.cdn.cdnjs``"
 msgstr "``weblate.cdn.cdnjs``"
 
-#: ../../admin/addons.rst:190 ../../devel/html.rst:49
+#: ../../admin/addons.rst:201 ../../devel/html.rst:49
 msgid "Translation threshold"
 msgstr "عتبة الترجمة"
 
-#: ../../admin/addons.rst:190
+#: ../../admin/addons.rst:201
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
 
-#: ../../admin/addons.rst:192
+#: ../../admin/addons.rst:203
 msgid "``css_selector``"
 msgstr "``css_selector``"
 
-#: ../../admin/addons.rst:192 ../../devel/html.rst:51
+#: ../../admin/addons.rst:203 ../../devel/html.rst:51
 msgid "CSS selector"
 msgstr "محدد CSS"
 
-#: ../../admin/addons.rst:192
+#: ../../admin/addons.rst:203
 msgid "CSS selector to detect localizable elements."
 msgstr "محدد CSS للكشف عن العناصر القابلة للترجمة."
 
-#: ../../admin/addons.rst:194
+#: ../../admin/addons.rst:205
 msgid "``cookie_name``"
 msgstr "``cookie_name``"
 
-#: ../../admin/addons.rst:194 ../../devel/html.rst:54
+#: ../../admin/addons.rst:205 ../../devel/html.rst:54
 msgid "Language cookie name"
 msgstr "اسم ملف تعريف ارتباط اللغة"
 
-#: ../../admin/addons.rst:194
+#: ../../admin/addons.rst:205
 msgid "Name of cookie which stores language preference."
 msgstr "اسم ملف تعريف الارتباط الذي يخزن تفضيلات اللغة."
 
-#: ../../admin/addons.rst:196
+#: ../../admin/addons.rst:207
 msgid "``files``"
 msgstr "``files``"
 
-#: ../../admin/addons.rst:196 ../../devel/html.rst:57
+#: ../../admin/addons.rst:207 ../../devel/html.rst:57
 msgid "Extract strings from HTML files"
 msgstr "استخرج السلاسل من ملفات HTML"
 
-#: ../../admin/addons.rst:196
+#: ../../admin/addons.rst:207
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -2478,13 +2523,13 @@ msgstr ""
 "قائمة بأسماء الملفات في المستودع الحالي أو عناوين URL البعيدة لتحليل السلاسل "
 "القابلة للترجمة."
 
-#: ../../admin/addons.rst:198
+#: ../../admin/addons.rst:209
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-update`"
 msgstr ""
 
-#: ../../admin/addons.rst:200
+#: ../../admin/addons.rst:211
 #, fuzzy
 #| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
@@ -2492,19 +2537,19 @@ msgid ""
 "or HTML localization."
 msgstr "إضافة تعريب CDN لتعريب JavaScript أو HTML."
 
-#: ../../admin/addons.rst:203
+#: ../../admin/addons.rst:214
 msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
 msgstr ""
 
-#: ../../admin/addons.rst:206
+#: ../../admin/addons.rst:217
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
 
-#: ../../admin/addons.rst:211
+#: ../../admin/addons.rst:222
 msgid ""
 "This add-on requires additional configuration on the Weblate server. :"
 "setting:`LOCALIZE_CDN_PATH` configures where generated files will be written "
@@ -2513,74 +2558,74 @@ msgid ""
 "set up externally (typically using a CDN service)."
 msgstr ""
 
-#: ../../admin/addons.rst:217
+#: ../../admin/addons.rst:228
 msgid ""
 "This add-on is configured on :guilabel:`Hosted Weblate` and serves the files "
 "via ``https://weblate-cdn.com/``."
 msgstr ""
 
-#: ../../admin/addons.rst:222
+#: ../../admin/addons.rst:233
 msgid ""
 ":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
 "`cdn-addon-html`"
 msgstr ""
 
-#: ../../admin/addons.rst:230
+#: ../../admin/addons.rst:241
 msgid "Remove blank strings"
 msgstr "أزل السلاسل الفارغة"
 
-#: ../../admin/addons.rst:234
+#: ../../admin/addons.rst:245
 msgid "``weblate.cleanup.blank``"
 msgstr "``weblate.cleanup.blank``"
 
-#: ../../admin/addons.rst:235 ../../admin/addons.rst:254
-#: ../../admin/addons.rst:275 ../../admin/addons.rst:528
-#: ../../admin/addons.rst:550 ../../admin/addons.rst:567
-#: ../../admin/addons.rst:586 ../../admin/addons.rst:637
-#: ../../admin/addons.rst:722 ../../admin/addons.rst:743
-#: ../../admin/addons.rst:788 ../../admin/addons.rst:974
+#: ../../admin/addons.rst:246 ../../admin/addons.rst:265
+#: ../../admin/addons.rst:286 ../../admin/addons.rst:543
+#: ../../admin/addons.rst:565 ../../admin/addons.rst:582
+#: ../../admin/addons.rst:601 ../../admin/addons.rst:652
+#: ../../admin/addons.rst:737 ../../admin/addons.rst:758
+#: ../../admin/addons.rst:806 ../../admin/addons.rst:998
 #, fuzzy
 #| msgid "Bad configuration"
 msgid "`This add-on has no configuration.`"
 msgstr "خطأ في الإعداد"
 
-#: ../../admin/addons.rst:236
+#: ../../admin/addons.rst:247
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:"
 "`addon-event-repository-post-update`"
 msgstr ""
 
-#: ../../admin/addons.rst:238
+#: ../../admin/addons.rst:249
 msgid "Removes strings without a translation from translation files."
 msgstr "يزيل السلاسل بدون ترجمة من ملفات الترجمة."
 
-#: ../../admin/addons.rst:240
+#: ../../admin/addons.rst:251
 msgid ""
 "Use this to not have any empty strings in translation files (for example if "
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
 
-#: ../../admin/addons.rst:246 ../../admin/addons.rst:267
-#: ../../admin/addons.rst:840 ../../admin/addons.rst:987
+#: ../../admin/addons.rst:257 ../../admin/addons.rst:278
+#: ../../admin/addons.rst:858 ../../admin/addons.rst:1011
 msgid ":ref:`faq-cleanup`"
 msgstr ":ref:`faq-cleanup`"
 
-#: ../../admin/addons.rst:251
+#: ../../admin/addons.rst:262
 msgid "Cleanup translation files"
 msgstr "تنظيف ملفات الترجمة"
 
-#: ../../admin/addons.rst:253
+#: ../../admin/addons.rst:264
 msgid "``weblate.cleanup.generic``"
 msgstr "``weblate.cleanup.generic``"
 
-#: ../../admin/addons.rst:255
+#: ../../admin/addons.rst:266
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:"
 "`addon-event-repository-pre-commit`"
 msgstr ""
 
-#: ../../admin/addons.rst:257
+#: ../../admin/addons.rst:268
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -2590,74 +2635,74 @@ msgstr ""
 "(بالنسبة لمعظم تنسيقات الملفات) إزالة مفاتيح الترجمة القديمة التي لم تعد "
 "موجودة في الملف الأساسي."
 
-#: ../../admin/addons.rst:261
+#: ../../admin/addons.rst:272
 msgid ""
 "For formats containing additional content besides translation strings (such "
 "as :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the "
 "translation file in sync with the base file."
 msgstr ""
 
-#: ../../admin/addons.rst:272
+#: ../../admin/addons.rst:283
 #, fuzzy
 #| msgctxt "Access-control role"
 #| msgid "Manage languages"
 msgid "Add missing languages"
 msgstr "إدارة اللغات"
 
-#: ../../admin/addons.rst:274
+#: ../../admin/addons.rst:285
 msgid "``weblate.consistency.languages``"
 msgstr "``weblate.consistency.languages``"
 
-#: ../../admin/addons.rst:276 ../../admin/addons.rst:744
-#: ../../admin/addons.rst:789
+#: ../../admin/addons.rst:287 ../../admin/addons.rst:759
+#: ../../admin/addons.rst:807
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-"
 "repository-post-add`"
 msgstr ""
 
-#: ../../admin/addons.rst:278
+#: ../../admin/addons.rst:289
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
 
-#: ../../admin/addons.rst:281
+#: ../../admin/addons.rst:292
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
 
-#: ../../admin/addons.rst:284
+#: ../../admin/addons.rst:295
 msgid "Unlike most others, this add-on affects the whole project."
 msgstr ""
 
-#: ../../admin/addons.rst:288
+#: ../../admin/addons.rst:299
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
 
-#: ../../admin/addons.rst:294
+#: ../../admin/addons.rst:305
 msgid "Component discovery"
 msgstr "مستكشف المكونات"
 
-#: ../../admin/addons.rst:296
+#: ../../admin/addons.rst:307
 msgid "``weblate.discovery.discovery``"
 msgstr "``weblate.discovery.discovery``"
 
-#: ../../admin/addons.rst:298
+#: ../../admin/addons.rst:309
 msgid "``match``"
 msgstr "``match``"
 
-#: ../../admin/addons.rst:298 ../../devel/sphinx.rst:45
+#: ../../admin/addons.rst:309 ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
 msgstr "تعبير نمطي لمطابقة الملفات المترجمة ضد"
 
-#: ../../admin/addons.rst:300
+#: ../../admin/addons.rst:311
 msgid "``file_format``"
 msgstr "``file_format``"
 
-#: ../../admin/addons.rst:300 ../../admin/projects.rst:617
+#: ../../admin/addons.rst:311 ../../admin/projects.rst:617
 #: ../../devel/gettext.rst:230 ../../formats/android.rst:82
 #: ../../formats/apple.rst:35 ../../formats/appstore.rst:35
 #: ../../formats/arb.rst:38 ../../formats/catkeys.rst:34
@@ -2685,65 +2730,65 @@ msgstr "``file_format``"
 msgid "File format"
 msgstr "نُسق الملف"
 
-#: ../../admin/addons.rst:302
+#: ../../admin/addons.rst:313
 msgid "``name_template``"
 msgstr "``name_template``"
 
-#: ../../admin/addons.rst:302 ../../devel/sphinx.rst:47
+#: ../../admin/addons.rst:313 ../../devel/sphinx.rst:47
 msgid "Customize the component name"
 msgstr "خصّص اسم المكوّن"
 
-#: ../../admin/addons.rst:304
+#: ../../admin/addons.rst:315
 msgid "``base_file_template``"
 msgstr "``base_file_template``"
 
-#: ../../admin/addons.rst:304
+#: ../../admin/addons.rst:315
 msgid "Define the monolingual base filename"
 msgstr "تحديد الاسم القاعدي للملف الأحادي اللغة"
 
-#: ../../admin/addons.rst:304
+#: ../../admin/addons.rst:315
 msgid "Leave empty for bilingual translation files."
 msgstr "ابقه فارغًا لملفات الترجمة الثنائية اللغة."
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:317
 msgid "``new_base_template``"
 msgstr "``new_base_template``"
 
-#: ../../admin/addons.rst:306 ../../devel/sphinx.rst:49
+#: ../../admin/addons.rst:317 ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
 msgstr "تحديد الملف القاعدي للترجمات الجديدة"
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:317
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
 "اسم الملف المستخدَم لإنشاء ترجمات جديدة. مثلا لـ gettext استخدم ملف .pot."
 
-#: ../../admin/addons.rst:308
+#: ../../admin/addons.rst:319
 msgid "``intermediate_template``"
 msgstr "``intermediate_template``"
 
-#: ../../admin/addons.rst:308 ../../admin/projects.rst:569
+#: ../../admin/addons.rst:319 ../../admin/projects.rst:569
 msgid "Intermediate language file"
 msgstr "ملف اللغة المتوسطة"
 
-#: ../../admin/addons.rst:308
+#: ../../admin/addons.rst:319
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
 
-#: ../../admin/addons.rst:310
+#: ../../admin/addons.rst:321
 msgid "``language_regex``"
 msgstr "``language_regex``"
 
-#: ../../admin/addons.rst:310 ../../admin/projects.rst:949
+#: ../../admin/addons.rst:321 ../../admin/projects.rst:949
 msgid "Language filter"
 msgstr "تصفية اللغة"
 
-#: ../../admin/addons.rst:310
+#: ../../admin/addons.rst:321
 #, fuzzy
 #| msgid ""
 #| "Regular expression to filter translation against when scanning for "
@@ -2753,38 +2798,38 @@ msgid ""
 "file mask."
 msgstr "تعبير عادي لتصفية الترجمة عند البحث عن قناع الملف."
 
-#: ../../admin/addons.rst:312
+#: ../../admin/addons.rst:323
 msgid "``copy_addons``"
 msgstr "``copy_addons``"
 
-#: ../../admin/addons.rst:312
+#: ../../admin/addons.rst:323
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "استنساخ الإضافات من المكون الرئيسي إلى العناصر التي تم إنشاؤها حديثًا"
 
-#: ../../admin/addons.rst:314
+#: ../../admin/addons.rst:325
 msgid "``remove``"
 msgstr "``remove``"
 
-#: ../../admin/addons.rst:314
+#: ../../admin/addons.rst:325
 #, fuzzy
 #| msgid "Remove components for inexistant files"
 msgid "Remove components for inexistent files"
 msgstr "إزالة المكونات للملفات غير الموجودة"
 
-#: ../../admin/addons.rst:316
+#: ../../admin/addons.rst:327
 msgid "``confirm``"
 msgstr "``confirm``"
 
-#: ../../admin/addons.rst:316
+#: ../../admin/addons.rst:327
 msgid "I confirm the above matches look correct"
 msgstr "أؤكد أن التطابقات أعلاه تبدو صحيحة"
 
-#: ../../admin/addons.rst:318 ../../admin/addons.rst:830
-#: ../../admin/addons.rst:975
+#: ../../admin/addons.rst:329 ../../admin/addons.rst:848
+#: ../../admin/addons.rst:999
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-update`"
 msgstr ""
 
-#: ../../admin/addons.rst:320
+#: ../../admin/addons.rst:331
 #, fuzzy
 #| msgid ""
 #| "This addon automatically adds or removes components to the project based "
@@ -2796,238 +2841,238 @@ msgstr ""
 "يضيف هذا الملحق تلقائيا أو يزيل عناصر إلى مشروع ما استنادا إلى تغييرات "
 "الملفات في نظام تحكم الإصدارات."
 
-#: ../../admin/addons.rst:323
+#: ../../admin/addons.rst:334
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
 
-#: ../../admin/addons.rst:328
+#: ../../admin/addons.rst:339
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language. All named groups in the regular "
 "expression can be used as variables in the template fields."
 msgstr ""
 
-#: ../../admin/addons.rst:332
+#: ../../admin/addons.rst:343
 msgid "You can use Django template markup in all filename fields, for example:"
 msgstr ""
 "يمكنك استخدام ترميز قوالب Django في جميع حقول أسماء الملفات، على سبيل المثال:"
 
-#: ../../admin/addons.rst:334
+#: ../../admin/addons.rst:345
 msgid "``{{ component }}``"
 msgstr "``{{ component }}``"
 
-#: ../../admin/addons.rst:335
+#: ../../admin/addons.rst:346
 msgid "Component filename match"
 msgstr "اسم ملف العنصر المطابِق"
 
-#: ../../admin/addons.rst:336
+#: ../../admin/addons.rst:347
 msgid "``{{ component|title }}``"
 msgstr "``{{ component|title }}``"
 
-#: ../../admin/addons.rst:337
+#: ../../admin/addons.rst:348
 msgid "Component filename with upper case first letter"
 msgstr "أسماء ملفات المكونات تبدأ بحرف كبير"
 
-#: ../../admin/addons.rst:338
+#: ../../admin/addons.rst:349
 msgid "``{{ path }}: {{ component }}``"
 msgstr "``{{ path }}: {{ component }}``"
 
-#: ../../admin/addons.rst:339
+#: ../../admin/addons.rst:350
 #, fuzzy
 #| msgid "Component regular expression"
 msgid "Custom match group from the regular expression"
 msgstr "العبارة العادية للمُكوِّن"
 
-#: ../../admin/addons.rst:341
+#: ../../admin/addons.rst:352
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
 
-#: ../../admin/addons.rst:347
+#: ../../admin/addons.rst:358
 #, fuzzy
 #| msgid "Component discovery"
 msgid "Component discovery examples"
 msgstr "مستكشف المكونات"
 
-#: ../../admin/addons.rst:350
+#: ../../admin/addons.rst:361
 #, fuzzy
 #| msgid "Delete glossary entry"
 msgid "One folder per language"
 msgstr "حذف مفردة"
 
-#: ../../admin/addons.rst:352
+#: ../../admin/addons.rst:363
 msgid "One folder per language containing translation files for components."
 msgstr "مجلد واحد لكل لغة يحتوي على ملفات ترجمة المكونات."
 
-#: ../../admin/addons.rst:354 ../../admin/addons.rst:367
-#: ../../admin/addons.rst:380 ../../admin/addons.rst:393
-#: ../../admin/addons.rst:407 ../../admin/addons.rst:420
+#: ../../admin/addons.rst:365 ../../admin/addons.rst:378
+#: ../../admin/addons.rst:391 ../../admin/addons.rst:404
+#: ../../admin/addons.rst:418 ../../admin/addons.rst:431
 msgid "Regular expression:"
 msgstr "تعبير عادي:"
 
-#: ../../admin/addons.rst:355
+#: ../../admin/addons.rst:366
 msgid "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 msgstr "``(?P<language>[^/.]*)/(?P<component>[^/]*)\\.po``"
 
-#: ../../admin/addons.rst:356 ../../admin/addons.rst:369
-#: ../../admin/addons.rst:382 ../../admin/addons.rst:395
-#: ../../admin/addons.rst:409 ../../admin/addons.rst:424
+#: ../../admin/addons.rst:367 ../../admin/addons.rst:380
+#: ../../admin/addons.rst:393 ../../admin/addons.rst:406
+#: ../../admin/addons.rst:420 ../../admin/addons.rst:435
 msgid "Matching files:"
 msgstr "الملفات المطابقة:"
 
-#: ../../admin/addons.rst:357
+#: ../../admin/addons.rst:368
 msgid ":file:`cs/application.po`"
 msgstr ":file:`cs/application.po`"
 
-#: ../../admin/addons.rst:358
+#: ../../admin/addons.rst:369
 msgid ":file:`cs/website.po`"
 msgstr ":file:`cs/website.po`"
 
-#: ../../admin/addons.rst:359
+#: ../../admin/addons.rst:370
 msgid ":file:`de/application.po`"
 msgstr ":file:`de/application.po`"
 
-#: ../../admin/addons.rst:360
+#: ../../admin/addons.rst:371
 msgid ":file:`de/website.po`"
 msgstr ":file:`de/website.po`"
 
-#: ../../admin/addons.rst:363
+#: ../../admin/addons.rst:374
 msgid "Gettext locales layout"
 msgstr ""
 
-#: ../../admin/addons.rst:365
+#: ../../admin/addons.rst:376
 msgid "Usual structure for storing gettext PO files."
 msgstr ""
 
-#: ../../admin/addons.rst:368
+#: ../../admin/addons.rst:379
 msgid "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr "``locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
-#: ../../admin/addons.rst:370
+#: ../../admin/addons.rst:381
 msgid ":file:`locale/cs/LC_MESSAGES/application.po`"
 msgstr ""
 
-#: ../../admin/addons.rst:371
+#: ../../admin/addons.rst:382
 msgid ":file:`locale/cs/LC_MESSAGES/website.po`"
 msgstr ""
 
-#: ../../admin/addons.rst:372
+#: ../../admin/addons.rst:383
 msgid ":file:`locale/de/LC_MESSAGES/application.po`"
 msgstr ""
 
-#: ../../admin/addons.rst:373
+#: ../../admin/addons.rst:384
 msgid ":file:`locale/de/LC_MESSAGES/website.po`"
 msgstr ""
 
-#: ../../admin/addons.rst:376
+#: ../../admin/addons.rst:387
 #, fuzzy
 #| msgid "Component filename match"
 msgid "Complex filenames"
 msgstr "اسم ملف العنصر المطابِق"
 
-#: ../../admin/addons.rst:378
+#: ../../admin/addons.rst:389
 #, fuzzy
 #| msgid "Using language in both path and filename."
 msgid "Using both component and language name within filename."
 msgstr "استخدام اللغة في كلا من المسار واسم الملف."
 
-#: ../../admin/addons.rst:381
+#: ../../admin/addons.rst:392
 msgid "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 msgstr "``src/locale/(?P<component>[^/]*)\\.(?P<language>[^/.]*)\\.po``"
 
-#: ../../admin/addons.rst:383
+#: ../../admin/addons.rst:394
 msgid ":file:`src/locale/application.cs.po`"
 msgstr ":file:`src/locale/application.cs.po`"
 
-#: ../../admin/addons.rst:384
+#: ../../admin/addons.rst:395
 msgid ":file:`src/locale/website.cs.po`"
 msgstr ":file:`src/locale/website.cs.po`"
 
-#: ../../admin/addons.rst:385
+#: ../../admin/addons.rst:396
 msgid ":file:`src/locale/application.de.po`"
 msgstr ":file:`src/locale/application.de.po`"
 
-#: ../../admin/addons.rst:386
+#: ../../admin/addons.rst:397
 msgid ":file:`src/locale/website.de.po`"
 msgstr ":file:`src/locale/website.de.po`"
 
-#: ../../admin/addons.rst:389
+#: ../../admin/addons.rst:400
 #, fuzzy
 #| msgid "Language codes"
 msgid "Repeated language code"
 msgstr "رموز اللغة"
 
-#: ../../admin/addons.rst:391
+#: ../../admin/addons.rst:402
 msgid "Using language in both path and filename."
 msgstr "استخدام اللغة في كلا من المسار واسم الملف."
 
-#: ../../admin/addons.rst:394
+#: ../../admin/addons.rst:405
 msgid "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 msgstr ""
 "``locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\\.po``"
 
-#: ../../admin/addons.rst:396
+#: ../../admin/addons.rst:407
 msgid ":file:`locale/cs/application/cs.po`"
 msgstr ":file:`locale/cs/application/cs.po`"
 
-#: ../../admin/addons.rst:397
+#: ../../admin/addons.rst:408
 msgid ":file:`locale/cs/website/cs.po`"
 msgstr ":file:`locale/cs/website/cs.po`"
 
-#: ../../admin/addons.rst:398
+#: ../../admin/addons.rst:409
 msgid ":file:`locale/de/application/de.po`"
 msgstr ":file:`locale/de/application/de.po`"
 
-#: ../../admin/addons.rst:399
+#: ../../admin/addons.rst:410
 msgid ":file:`locale/de/website/de.po`"
 msgstr ":file:`locale/de/website/de.po`"
 
-#: ../../admin/addons.rst:403
+#: ../../admin/addons.rst:414
 #, fuzzy
 #| msgid "Approved strings"
 msgid "Split Android strings"
 msgstr "السلاسل المعتمدة"
 
-#: ../../admin/addons.rst:405
+#: ../../admin/addons.rst:416
 msgid "Android resource strings, split into several files."
 msgstr ""
 
-#: ../../admin/addons.rst:408
+#: ../../admin/addons.rst:419
 msgid "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 msgstr "``res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\\.xml``"
 
-#: ../../admin/addons.rst:410
+#: ../../admin/addons.rst:421
 msgid ":file:`res/values-cs/strings-about.xml`"
 msgstr ":file:`res/values-cs/strings-about.xml`"
 
-#: ../../admin/addons.rst:411
+#: ../../admin/addons.rst:422
 msgid ":file:`res/values-cs/strings-help.xml`"
 msgstr ":file:`res/values-cs/strings-help.xml`"
 
-#: ../../admin/addons.rst:412
+#: ../../admin/addons.rst:423
 msgid ":file:`res/values-de/strings-about.xml`"
 msgstr ":file:`res/values-de/strings-about.xml`"
 
-#: ../../admin/addons.rst:413
+#: ../../admin/addons.rst:424
 msgid ":file:`res/values-de/strings-help.xml`"
 msgstr ":file:`res/values-de/strings-help.xml`"
 
-#: ../../admin/addons.rst:416
+#: ../../admin/addons.rst:427
 #, fuzzy
 #| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
 msgstr "فواصل الأسطر غير متطابقة"
 
-#: ../../admin/addons.rst:418
+#: ../../admin/addons.rst:429
 msgid "Multi-module Maven project with Java properties translations."
 msgstr ""
 
-#: ../../admin/addons.rst:421
+#: ../../admin/addons.rst:432
 msgid ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
@@ -3035,37 +3080,37 @@ msgstr ""
 "``(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/"
 "ApplicationResources_(?P<language>[^/.]*)\\.properties``"
 
-#: ../../admin/addons.rst:422
+#: ../../admin/addons.rst:433
 msgid "Component name:"
 msgstr "اسم المكون:"
 
-#: ../../admin/addons.rst:423
+#: ../../admin/addons.rst:434
 msgid "``{{ originalHierarchy }}: {{ component }}``"
 msgstr "``{{ originalHierarchy }}: {{ component }}``"
 
-#: ../../admin/addons.rst:425
+#: ../../admin/addons.rst:436
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResources_fr."
 "properties`"
 msgstr ""
 
-#: ../../admin/addons.rst:426
+#: ../../admin/addons.rst:437
 msgid ""
 ":file:`parent/module1/submodule/src/main/resources/ApplicationResource_es."
 "properties`"
 msgstr ""
 
-#: ../../admin/addons.rst:427
+#: ../../admin/addons.rst:438
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_de.properties`"
 msgstr ""
 
-#: ../../admin/addons.rst:428
+#: ../../admin/addons.rst:439
 msgid ""
 ":file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`"
 msgstr ""
 
-#: ../../admin/addons.rst:433
+#: ../../admin/addons.rst:444
 msgid ""
 "Component discovery add-on uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
@@ -3076,13 +3121,13 @@ msgid ""
 "resources too."
 msgstr ""
 
-#: ../../admin/addons.rst:442
+#: ../../admin/addons.rst:453
 msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
 
-#: ../../admin/addons.rst:447
+#: ../../admin/addons.rst:458
 msgid ""
 "To be discovered, a new component must contain a file that matches "
 "``base_file_template`` **and** at least one file with a name that matches "
@@ -3090,177 +3135,193 @@ msgid ""
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:465
 msgid ":ref:`markup`, :wladmin:`import_project`"
 msgstr ""
 
-#: ../../admin/addons.rst:460 ../../user/translating.rst:423
+#: ../../admin/addons.rst:471 ../../user/translating.rst:423
 msgid "Bulk edit"
 msgstr "تعديل بالجملة"
 
-#: ../../admin/addons.rst:462
+#: ../../admin/addons.rst:473
 msgid "``weblate.flags.bulk``"
 msgstr "``weblate.flags.bulk``"
 
-#: ../../admin/addons.rst:464
+#: ../../admin/addons.rst:475
 msgid "``q``"
 msgstr "``q``"
 
-#: ../../admin/addons.rst:464
+#: ../../admin/addons.rst:475
 msgid "Query"
 msgstr "الاستعلام"
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:477
 msgid "``state``"
 msgstr "``state``"
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:477
 msgid "State to set"
 msgstr "ضبط الحالة"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:479 ../../admin/addons.rst:781
+msgid "``-1``"
+msgstr ""
+
+#: ../../admin/addons.rst:480
 #, fuzzy
 #| msgid "Download changes"
-msgid "``-1`` -- Do not change"
+msgid "Do not change"
 msgstr "تنزيل التغييرات"
 
-#: ../../admin/addons.rst:470
+#: ../../admin/addons.rst:482
 #, fuzzy
-#| msgid "Needs editing"
-msgid "``10`` -- Needs editing"
+#| msgid "``100``"
+msgid "``10``"
+msgstr "``100``"
+
+#: ../../admin/addons.rst:483 ../../workflows.rst:66
+msgid "Needs editing"
 msgstr "تحتاج إلى تعديل"
 
-#: ../../admin/addons.rst:472
+#: ../../admin/addons.rst:485 ../../admin/addons.rst:1074
+#: ../../admin/addons.rst:1332
 #, fuzzy
-#| msgid "Translated"
-msgid "``20`` -- Translated"
+#| msgid "``200``"
+msgid "``20``"
+msgstr "``200``"
+
+#: ../../admin/addons.rst:486
+msgid "Translated"
 msgstr "تم ترجمتها"
 
-#: ../../admin/addons.rst:474
-#, fuzzy
-#| msgid "Approved"
-msgid "``30`` -- Approved"
+#: ../../admin/addons.rst:488 ../../admin/addons.rst:1104
+#: ../../admin/addons.rst:1362
+msgid "``30``"
+msgstr ""
+
+#: ../../admin/addons.rst:489 ../../workflows.rst:73
+msgid "Approved"
 msgstr "مصدق عليه"
 
-#: ../../admin/addons.rst:476
+#: ../../admin/addons.rst:491
 msgid "``add_flags``"
 msgstr "``add_flags``"
 
-#: ../../admin/addons.rst:476 ../../admin/addons.rst:503
-#: ../../admin/addons.rst:512
+#: ../../admin/addons.rst:491 ../../admin/addons.rst:518
+#: ../../admin/addons.rst:527
 #, fuzzy
 #| msgid "Translation flags"
 msgid "Translation flags to add"
 msgstr "أعلام الترجمة"
 
-#: ../../admin/addons.rst:478
+#: ../../admin/addons.rst:493
 msgid "``remove_flags``"
 msgstr "``remove_flags``"
 
-#: ../../admin/addons.rst:478
+#: ../../admin/addons.rst:493
 msgid "Translation flags to remove"
 msgstr "علامات الترجمة المراد إزالتها"
 
-#: ../../admin/addons.rst:480
+#: ../../admin/addons.rst:495
 msgid "``add_labels``"
 msgstr "``add_labels``"
 
-#: ../../admin/addons.rst:480 ../../admin/addons.rst:495
+#: ../../admin/addons.rst:495 ../../admin/addons.rst:510
 #, fuzzy
 #| msgid "User to add"
 msgid "Labels to add"
 msgstr "المستخدِم الذي تريد إضافته"
 
-#: ../../admin/addons.rst:482
+#: ../../admin/addons.rst:497
 msgid "``remove_labels``"
 msgstr "``remove_labels``"
 
-#: ../../admin/addons.rst:482
+#: ../../admin/addons.rst:497
 #, fuzzy
 #| msgid "Suggestion removed"
 msgid "Labels to remove"
 msgstr "تمت إزالة الإقتراح"
 
-#: ../../admin/addons.rst:484
+#: ../../admin/addons.rst:499
 #, fuzzy
 #| msgid "Allow translation propagation"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
 msgstr "السماح بانتشار الترجمة"
 
-#: ../../admin/addons.rst:486
+#: ../../admin/addons.rst:501
 #, fuzzy
 #| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "تحرير الأعلام أو التسميات أو حالة السلاسل."
 
-#: ../../admin/addons.rst:488 ../../admin/config.rst:1849
+#: ../../admin/addons.rst:503 ../../admin/config.rst:1849
 msgid "**Examples:**"
 msgstr ""
 
-#: ../../admin/addons.rst:490
+#: ../../admin/addons.rst:505
 msgid "Label new strings automatically"
 msgstr ""
 
-#: ../../admin/addons.rst:493 ../../admin/addons.rst:501
-#: ../../admin/addons.rst:510
+#: ../../admin/addons.rst:508 ../../admin/addons.rst:516
+#: ../../admin/addons.rst:525
 #, fuzzy
 #| msgid "Search filter"
 msgid "Search query"
 msgstr "تصفية البحث"
 
-#: ../../admin/addons.rst:494
+#: ../../admin/addons.rst:509
 msgid "``NOT has:label``"
 msgstr "``NOT has:label``"
 
-#: ../../admin/addons.rst:496
+#: ../../admin/addons.rst:511
 #, fuzzy
 #| msgid "Percent"
 msgid "*recent*"
 msgstr "في المئة"
 
-#: ../../admin/addons.rst:498
+#: ../../admin/addons.rst:513
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
 
-#: ../../admin/addons.rst:502
+#: ../../admin/addons.rst:517
 msgid "``language:en AND key:changelogs/``"
 msgstr "``language:en AND key:changelogs/``"
 
-#: ../../admin/addons.rst:504 ../../admin/addons.rst:513
+#: ../../admin/addons.rst:519 ../../admin/addons.rst:528
 #: ../../admin/checks.rst:87
 msgid "``read-only``"
 msgstr "``read-only``"
 
-#: ../../admin/addons.rst:507
+#: ../../admin/addons.rst:522
 #, fuzzy
 #| msgid "Mark as spam"
 msgid "Marking certain strings read-only"
 msgstr "وضع علامة كرسالة غير مرغوب فيها"
 
-#: ../../admin/addons.rst:511
+#: ../../admin/addons.rst:526
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr ""
 
-#: ../../admin/addons.rst:517
+#: ../../admin/addons.rst:532
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 msgstr "اسم المكون"
 
-#: ../../admin/addons.rst:525
+#: ../../admin/addons.rst:540
 msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "علّم الترجمات غير المُعدّلة أنها \"تحتاج إلى تعديل\""
 
-#: ../../admin/addons.rst:527
+#: ../../admin/addons.rst:542
 msgid "``weblate.flags.same_edit``"
 msgstr "``weblate.flags.same_edit``"
 
-#: ../../admin/addons.rst:529 ../../admin/addons.rst:551
-#: ../../admin/addons.rst:568
+#: ../../admin/addons.rst:544 ../../admin/addons.rst:566
+#: ../../admin/addons.rst:583
 msgid ":ref:`addon-event-unit-pre-create`"
 msgstr ":ref:`addon-event-unit-pre-create`"
 
-#: ../../admin/addons.rst:531
+#: ../../admin/addons.rst:546
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -3271,26 +3332,26 @@ msgstr ""
 "مفيد بشكل خاص لتنسيقات الملفات التي تتضمن جميع السلاسل المترجمة منها وغير "
 "المترجمة."
 
-#: ../../admin/addons.rst:537
+#: ../../admin/addons.rst:552
 msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
 
-#: ../../admin/addons.rst:542 ../../admin/addons.rst:559
-#: ../../admin/addons.rst:576
+#: ../../admin/addons.rst:557 ../../admin/addons.rst:574
+#: ../../admin/addons.rst:591
 msgid ":ref:`states`"
 msgstr ":ref:`states`"
 
-#: ../../admin/addons.rst:547
+#: ../../admin/addons.rst:562
 msgid "Flag new source strings as \"Needs editing\""
 msgstr "ضع علامة \"تحتاج إلى التعديل\" على السلاسل الجديدة"
 
-#: ../../admin/addons.rst:549
+#: ../../admin/addons.rst:564
 msgid "``weblate.flags.source_edit``"
 msgstr "``weblate.flags.source_edit``"
 
-#: ../../admin/addons.rst:553
+#: ../../admin/addons.rst:568
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
@@ -3300,15 +3361,15 @@ msgstr ""
 "أنها بحاجة إلى التعديل في Weblate. يمكنك بهذه الطريقة تصفية السلاسل المصدرية "
 "التي كتبها المطورون وتحريرها بسهولة."
 
-#: ../../admin/addons.rst:564
+#: ../../admin/addons.rst:579
 msgid "Flag new translations as \"Needs editing\""
 msgstr "ضع علامة \"تستوجب التعديل\" على الترجمات الجديدة"
 
-#: ../../admin/addons.rst:566
+#: ../../admin/addons.rst:581
 msgid "``weblate.flags.target_edit``"
 msgstr "``weblate.flags.target_edit``"
 
-#: ../../admin/addons.rst:570
+#: ../../admin/addons.rst:585
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
@@ -3318,53 +3379,53 @@ msgstr ""
 "بأنها بحاجة إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية السلاسل المصدرية "
 "التي أنشأها المطورون وتحريرها بسهولة."
 
-#: ../../admin/addons.rst:581
+#: ../../admin/addons.rst:596
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Fill read-only strings with source"
 msgstr "مصدر الترجمة الآلية"
 
-#: ../../admin/addons.rst:585
+#: ../../admin/addons.rst:600
 msgid "``weblate.generate.fill_read_only``"
 msgstr "``weblate.generate.fill_read_only``"
 
-#: ../../admin/addons.rst:589
+#: ../../admin/addons.rst:604
 #, fuzzy
 #| msgid ""
 #| "This translation is being used as source strings within this component."
 msgid "Fills in translation of read-only strings with source string."
 msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
 
-#: ../../admin/addons.rst:594
+#: ../../admin/addons.rst:609
 msgid "Statistics generator"
 msgstr "مُولّد الإحصائيات"
 
-#: ../../admin/addons.rst:596
+#: ../../admin/addons.rst:611
 msgid "``weblate.generate.generate``"
 msgstr "``weblate.generate.generate``"
 
-#: ../../admin/addons.rst:598
+#: ../../admin/addons.rst:613
 msgid "``filename``"
 msgstr "``filename``"
 
-#: ../../admin/addons.rst:598 ../../admin/addons.rst:611
+#: ../../admin/addons.rst:613 ../../admin/addons.rst:626
 msgid "Name of generated file"
 msgstr "اسم الملف المولّد"
 
-#: ../../admin/addons.rst:600
+#: ../../admin/addons.rst:615
 msgid "``template``"
 msgstr "``template``"
 
-#: ../../admin/addons.rst:600
+#: ../../admin/addons.rst:615
 msgid "Content of generated file"
 msgstr "محتوى الملف المولّد"
 
-#: ../../admin/addons.rst:602 ../../admin/addons.rst:723
-#: ../../admin/addons.rst:804 ../../admin/addons.rst:922
+#: ../../admin/addons.rst:617 ../../admin/addons.rst:738
+#: ../../admin/addons.rst:822 ../../admin/addons.rst:946
 msgid ":ref:`addon-event-repository-pre-commit`"
 msgstr ":ref:`addon-event-repository-pre-commit`"
 
-#: ../../admin/addons.rst:604
+#: ../../admin/addons.rst:619
 #, fuzzy
 #| msgid ""
 #| "This addon generates a file containing detailed information about the "
@@ -3372,143 +3433,143 @@ msgstr ":ref:`addon-event-repository-pre-commit`"
 msgid "Generates a file containing detailed info about the translation status."
 msgstr "هذه الإضافة تولد ملفًّا يحوي معلومات مفصّلة عن الترجمة."
 
-#: ../../admin/addons.rst:606
+#: ../../admin/addons.rst:621
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
 
-#: ../../admin/addons.rst:609
+#: ../../admin/addons.rst:624
 msgid "For example generating a summary file for each translation:"
 msgstr "على سبيل المثال، إنشاء ملف ملخص لكل ترجمة:"
 
-#: ../../admin/addons.rst:612
+#: ../../admin/addons.rst:627
 msgid "``locale/{{ language_code }}.json``"
 msgstr "``locale/{{ language_code }}.json``"
 
-#: ../../admin/addons.rst:613
+#: ../../admin/addons.rst:628
 msgid "Content"
 msgstr ""
 
-#: ../../admin/addons.rst:627
+#: ../../admin/addons.rst:642
 msgid ":ref:`markup`"
 msgstr ":ref:`markup`"
 
-#: ../../admin/addons.rst:632
+#: ../../admin/addons.rst:647
 #, fuzzy
 #| msgid "Automatic translation source"
 msgid "Prefill translation with source"
 msgstr "مصدر الترجمة الآلية"
 
-#: ../../admin/addons.rst:636
+#: ../../admin/addons.rst:651
 msgid "``weblate.generate.prefill``"
 msgstr "``weblate.generate.prefill``"
 
-#: ../../admin/addons.rst:640
+#: ../../admin/addons.rst:655
 #, fuzzy
 #| msgid ""
 #| "This translation is being used as source strings within this component."
 msgid "Fills in translation strings with source string."
 msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
 
-#: ../../admin/addons.rst:642
+#: ../../admin/addons.rst:657
 msgid ""
 "All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
 "strings in the translation files."
 msgstr ""
 
-#: ../../admin/addons.rst:649
+#: ../../admin/addons.rst:664
 msgid "Pseudolocale generation"
 msgstr ""
 
-#: ../../admin/addons.rst:653
+#: ../../admin/addons.rst:668
 msgid "``weblate.generate.pseudolocale``"
 msgstr "``weblate.generate.pseudolocale``"
 
-#: ../../admin/addons.rst:655
+#: ../../admin/addons.rst:670
 msgid "``source``"
 msgstr "``source``"
 
-#: ../../admin/addons.rst:657
+#: ../../admin/addons.rst:672
 msgid "``target``"
 msgstr "``target``"
 
-#: ../../admin/addons.rst:657
+#: ../../admin/addons.rst:672
 #, fuzzy
 #| msgid "Create translation"
 msgid "Target translation"
 msgstr "إنشاء ترجمة"
 
-#: ../../admin/addons.rst:657
+#: ../../admin/addons.rst:672
 msgid "All strings in this translation will be overwritten"
 msgstr "سيتم الكتابة فوق جميع السلاسل في هذه الترجمة"
 
-#: ../../admin/addons.rst:659
+#: ../../admin/addons.rst:674
 msgid "``prefix``"
 msgstr "``prefix``"
 
-#: ../../admin/addons.rst:659
+#: ../../admin/addons.rst:674
 msgid "Prepended static text"
 msgstr ""
 
-#: ../../admin/addons.rst:661
+#: ../../admin/addons.rst:676
 msgid "``var_prefix``"
 msgstr "``var_prefix``"
 
-#: ../../admin/addons.rst:661
+#: ../../admin/addons.rst:676
 msgid "Prepended variable text"
 msgstr ""
 
-#: ../../admin/addons.rst:663
+#: ../../admin/addons.rst:678
 msgid "``suffix``"
 msgstr "``suffix``"
 
-#: ../../admin/addons.rst:663
+#: ../../admin/addons.rst:678
 msgid "Appended static text"
 msgstr ""
 
-#: ../../admin/addons.rst:665
+#: ../../admin/addons.rst:680
 msgid "``var_suffix``"
 msgstr "``var_suffix``"
 
-#: ../../admin/addons.rst:665
+#: ../../admin/addons.rst:680
 #, fuzzy
 #| msgid "Undefined variable: \"%s\""
 msgid "Appended variable text"
 msgstr "متغير غير معرّف: \"%s\""
 
-#: ../../admin/addons.rst:667
+#: ../../admin/addons.rst:682
 msgid "``var_multiplier``"
 msgstr "``var_multiplier``"
 
-#: ../../admin/addons.rst:667
+#: ../../admin/addons.rst:682
 msgid "Variable text multiplier"
 msgstr ""
 
-#: ../../admin/addons.rst:667
+#: ../../admin/addons.rst:682
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
 
-#: ../../admin/addons.rst:669
+#: ../../admin/addons.rst:684
 msgid "``include_readonly``"
 msgstr "``include_readonly``"
 
-#: ../../admin/addons.rst:669
+#: ../../admin/addons.rst:684
 #, fuzzy
 #| msgid "Read only strings"
 msgid "Include read-only strings"
 msgstr "السلاسل تقرأ فقط"
 
-#: ../../admin/addons.rst:673
+#: ../../admin/addons.rst:688
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
 
-#: ../../admin/addons.rst:676
+#: ../../admin/addons.rst:691
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
@@ -3516,13 +3577,13 @@ msgid ""
 "pseudolocale language."
 msgstr ""
 
-#: ../../admin/addons.rst:681
+#: ../../admin/addons.rst:696
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
 
-#: ../../admin/addons.rst:684
+#: ../../admin/addons.rst:699
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3533,11 +3594,11 @@ msgid ""
 "source string."
 msgstr ""
 
-#: ../../admin/addons.rst:691
+#: ../../admin/addons.rst:706
 msgid "The strings will be generated using following pattern:"
 msgstr "سيتم إنشاء السلاسل باستخدام النمط التالي:"
 
-#: ../../admin/addons.rst:693
+#: ../../admin/addons.rst:708
 #, fuzzy
 #| msgid "Start new translation into more languages"
 msgid ""
@@ -3546,13 +3607,13 @@ msgid ""
 "`Appended static text`"
 msgstr "إبدأ ترجمةً جديدةً إلى عِدّة لغاتٍ أخرى"
 
-#: ../../admin/addons.rst:701
+#: ../../admin/addons.rst:716
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
 
-#: ../../admin/addons.rst:706
+#: ../../admin/addons.rst:721
 msgid ""
 "You can use this add-on to start translation to a new locale of an existing "
 "language or similar language. Once you add the translation to the component, "
@@ -3561,21 +3622,21 @@ msgid ""
 "the prefix and suffix blank."
 msgstr ""
 
-#: ../../admin/addons.rst:712
+#: ../../admin/addons.rst:727
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
 
-#: ../../admin/addons.rst:719
+#: ../../admin/addons.rst:734
 msgid "Contributors in comment"
 msgstr "المساهمون في التعليق"
 
-#: ../../admin/addons.rst:721
+#: ../../admin/addons.rst:736
 msgid "``weblate.gettext.authors``"
 msgstr "``weblate.gettext.authors``"
 
-#: ../../admin/addons.rst:725
+#: ../../admin/addons.rst:740
 #, fuzzy
 #| msgid ""
 #| "Update comment in the PO file header to include contributor name and "
@@ -3585,43 +3646,43 @@ msgid ""
 "and years of contributions."
 msgstr "حدّث التعليق في ترويسة ملف PO لتتضمّن اسم المساهم وسنوات المساهمات."
 
-#: ../../admin/addons.rst:728
+#: ../../admin/addons.rst:743
 msgid "The PO file header will look like this:"
 msgstr ""
 
-#: ../../admin/addons.rst:740
+#: ../../admin/addons.rst:755
 #, fuzzy
 #| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "حدّث المتغيّر ALL_LINGUAS في ملف التضبيط"
 
-#: ../../admin/addons.rst:742
+#: ../../admin/addons.rst:757
 msgid "``weblate.gettext.configure``"
 msgstr "``weblate.gettext.configure``"
 
-#: ../../admin/addons.rst:746
+#: ../../admin/addons.rst:761
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
 
-#: ../../admin/addons.rst:752
+#: ../../admin/addons.rst:767
 msgid "Customize gettext output"
 msgstr "خصّص خرج gettext"
 
-#: ../../admin/addons.rst:754
+#: ../../admin/addons.rst:769
 msgid "``weblate.gettext.customize``"
 msgstr "``weblate.gettext.customize``"
 
-#: ../../admin/addons.rst:756 ../../admin/addons.rst:1422
+#: ../../admin/addons.rst:771 ../../admin/addons.rst:1612
 msgid "``width``"
 msgstr "``width``"
 
-#: ../../admin/addons.rst:756 ../../admin/addons.rst:1422
+#: ../../admin/addons.rst:771 ../../admin/addons.rst:1612
 msgid "Long lines wrapping"
 msgstr "لف الأسطر الطويلة"
 
-#: ../../admin/addons.rst:756
+#: ../../admin/addons.rst:771
 #, fuzzy
 #| msgid ""
 #| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
@@ -3633,54 +3694,57 @@ msgstr ""
 "بشكل افتراضي، يلتف نص gettext عند الحرف 77 ونهابات الأسطر. باستخدام التعليمة "
 "--no-wrap ، يتم لفها عند نهايات الأسطر فقط."
 
-#: ../../admin/addons.rst:760
+#: ../../admin/addons.rst:775 ../../admin/addons.rst:1239
+#: ../../admin/addons.rst:1497
+msgid "``77``"
+msgstr ""
+
+#: ../../admin/addons.rst:776
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
-msgid ""
-"``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)"
+msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr "العودة إلى السطر عندما تتعدى الأسطر حد الـ 77 حرفًا"
 
-#: ../../admin/addons.rst:762
+#: ../../admin/addons.rst:778 ../../admin/addons.rst:1626
+msgid "``65535``"
+msgstr ""
+
+#: ../../admin/addons.rst:779
 #, fuzzy
 #| msgid "Only wrap lines at newlines"
-msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
+msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr "قم بلف السطور فقط في سطور جديدة"
 
-#: ../../admin/addons.rst:764
-#, fuzzy
-#| msgid "No line wrapping"
-msgid "``-1`` -- No line wrapping"
+#: ../../admin/addons.rst:782 ../../admin/addons.rst:792
+#: ../../admin/addons.rst:1627
+msgid "No line wrapping"
 msgstr "لا تلُف الأسطر"
 
-#: ../../admin/addons.rst:766 ../../admin/addons.rst:908
-#: ../../admin/addons.rst:1409 ../../admin/addons.rst:1442
+#: ../../admin/addons.rst:784 ../../admin/addons.rst:932
+#: ../../admin/addons.rst:1599 ../../admin/addons.rst:1640
 msgid ":ref:`addon-event-storage-post-load`"
 msgstr ":ref:`addon-event-storage-post-load`"
 
-#: ../../admin/addons.rst:768
+#: ../../admin/addons.rst:786
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "يتيح تخصيص سلوك خرج gettext، مثل لف الأسطر."
 
-#: ../../admin/addons.rst:770
+#: ../../admin/addons.rst:788
 msgid "It offers the following options:"
 msgstr ""
 
-#: ../../admin/addons.rst:772
+#: ../../admin/addons.rst:790
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "العودة إلى السطر عندما تتعدى الأسطر حد الـ 77 حرفًا"
 
-#: ../../admin/addons.rst:773
+#: ../../admin/addons.rst:791
 msgid "Only wrap lines at newlines"
 msgstr "قم بلف السطور فقط في سطور جديدة"
 
-#: ../../admin/addons.rst:774
-msgid "No line wrapping"
-msgstr "لا تلُف الأسطر"
-
-#: ../../admin/addons.rst:778
+#: ../../admin/addons.rst:796
 #, fuzzy
 #| msgid ""
 #| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
@@ -3692,109 +3756,105 @@ msgstr ""
 "بشكل افتراضي، يلتف نص gettext عند الحرف 77 ونهابات الأسطر. باستخدام التعليمة "
 "--no-wrap ، يتم لفها عند نهايات الأسطر فقط."
 
-#: ../../admin/addons.rst:785
+#: ../../admin/addons.rst:803
 msgid "Update LINGUAS file"
 msgstr "تحديث ملف LINGUAS"
 
-#: ../../admin/addons.rst:787
+#: ../../admin/addons.rst:805
 msgid "``weblate.gettext.linguas``"
 msgstr "``weblate.gettext.linguas``"
 
-#: ../../admin/addons.rst:791
+#: ../../admin/addons.rst:809
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "يحدّث ملف LINGUAS إذا أُضيفت ترجمة جديدة."
 
-#: ../../admin/addons.rst:796
+#: ../../admin/addons.rst:814
 msgid "Generate MO files"
 msgstr "توليد ملفات MO"
 
-#: ../../admin/addons.rst:798
+#: ../../admin/addons.rst:816
 msgid "``weblate.gettext.mo``"
 msgstr "``weblate.gettext.mo``"
 
-#: ../../admin/addons.rst:800
+#: ../../admin/addons.rst:818
 msgid "``path``"
 msgstr "``path``"
 
-#: ../../admin/addons.rst:800
+#: ../../admin/addons.rst:818
 msgid "Path of generated MO file"
 msgstr "مسار ملف MO المُولد"
 
-#: ../../admin/addons.rst:800
+#: ../../admin/addons.rst:818
 msgid "If not specified, the location of the PO file will be used."
 msgstr "إذا لم يتم تحديده ، سيتم استخدام موقع ملف PO."
 
-#: ../../admin/addons.rst:802 ../../admin/addons.rst:828
-msgid "``fuzzy``"
-msgstr "``fuzzy``"
-
-#: ../../admin/addons.rst:802
+#: ../../admin/addons.rst:820
 #, fuzzy
 #| msgid "Import as string needing edit"
 msgid "Include strings needing editing"
 msgstr "إستيراد كسلسلة تحتاج التحقق"
 
-#: ../../admin/addons.rst:802
+#: ../../admin/addons.rst:820
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
 
-#: ../../admin/addons.rst:806
+#: ../../admin/addons.rst:824
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "يقوم تلقائيًا بإنشاء ملف MO لكل ملف PO تم تغييره."
 
-#: ../../admin/addons.rst:808
+#: ../../admin/addons.rst:826
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
 
-#: ../../admin/addons.rst:812
+#: ../../admin/addons.rst:830
 msgid ""
 "If a translation is removed, its PO file will be deleted from the "
 "repository, but the MO file generated by this add-on will not. The MO file "
 "must be removed from the upstream manually."
 msgstr ""
 
-#: ../../admin/addons.rst:820
+#: ../../admin/addons.rst:838
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "حدّث ملفات PO لتطابق ملف POT (باستعمال msgmerge)"
 
-#: ../../admin/addons.rst:822
+#: ../../admin/addons.rst:840
 msgid "``weblate.gettext.msgmerge``"
 msgstr "``weblate.gettext.msgmerge``"
 
-#: ../../admin/addons.rst:824
+#: ../../admin/addons.rst:842
 msgid "``previous``"
 msgstr "``previous``"
 
-#: ../../admin/addons.rst:824
+#: ../../admin/addons.rst:842
 msgid "Keep previous msgids of translated strings"
 msgstr "إبقاء عناوين msgid للسلاسل المُترجمة"
 
-#: ../../admin/addons.rst:826
+#: ../../admin/addons.rst:844
 msgid "``no_location``"
 msgstr "``no_location``"
 
-#: ../../admin/addons.rst:826
+#: ../../admin/addons.rst:844
 #, fuzzy
 #| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
 msgstr "عدد السلاسل المترجَمة"
 
-#: ../../admin/addons.rst:828
+#: ../../admin/addons.rst:846
 msgid "Use fuzzy matching"
 msgstr "استخدم المطابقة التقريبية"
 
-#: ../../admin/addons.rst:832
+#: ../../admin/addons.rst:850
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
 
-#: ../../admin/addons.rst:835
+#: ../../admin/addons.rst:853
 #, fuzzy
 #| msgid ""
 #| "Update all PO files to match the POT file using msgmerge. This is "
@@ -3806,52 +3866,65 @@ msgstr ""
 "حدِّث كل ملفات PO لكي تطابق ملف POT باستعمال msgmerge. ينفَّذ هذا إذا سُحبت "
 "تغييرات جديدة من مستودع المنبع."
 
-#: ../../admin/addons.rst:845
+#: ../../admin/addons.rst:863
 msgid "Squash Git commits"
 msgstr "جمع إيداعات Git"
 
-#: ../../admin/addons.rst:847
+#: ../../admin/addons.rst:865
 msgid "``weblate.git.squash``"
 msgstr "``weblate.git.squash``"
 
-#: ../../admin/addons.rst:849
+#: ../../admin/addons.rst:867
 msgid "``squash``"
 msgstr "``squash``"
 
-#: ../../admin/addons.rst:849
+#: ../../admin/addons.rst:867
 msgid "Commit squashing"
 msgstr "جمع الإيداعات"
 
-#: ../../admin/addons.rst:851
-#, fuzzy
-#| msgid "All commits into one"
-msgid "``all`` -- All commits into one"
+#: ../../admin/addons.rst:870 ../../admin/addons.rst:892
+msgid "All commits into one"
 msgstr "كل الإيداعات في واحد"
 
-#: ../../admin/addons.rst:853
+#: ../../admin/addons.rst:872
 #, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
-msgid "``language`` -- Per language"
-msgstr "إدارة اللغات"
+#| msgid "``language:TEXT``"
+msgid "``language``"
+msgstr "``language:TEXT``"
 
-#: ../../admin/addons.rst:855
-msgid "``file`` -- Per file"
-msgstr ""
+#: ../../admin/addons.rst:873 ../../admin/addons.rst:893
+msgid "Per language"
+msgstr "حسب اللغات"
 
-#: ../../admin/addons.rst:857
-msgid "``author`` -- Per author"
-msgstr ""
+#: ../../admin/addons.rst:875
+#, fuzzy
+#| msgid "``files``"
+msgid "``file``"
+msgstr "``files``"
 
-#: ../../admin/addons.rst:859
+#: ../../admin/addons.rst:876 ../../admin/addons.rst:894
+msgid "Per file"
+msgstr "حسب الملف"
+
+#: ../../admin/addons.rst:878
+#, fuzzy
+#| msgid "``auth``"
+msgid "``author``"
+msgstr "``auth``"
+
+#: ../../admin/addons.rst:879 ../../admin/addons.rst:895
+msgid "Per author"
+msgstr "حسب المؤلف"
+
+#: ../../admin/addons.rst:881
 msgid "``append_trailers``"
 msgstr "``append_trailers``"
 
-#: ../../admin/addons.rst:859
+#: ../../admin/addons.rst:881
 msgid "Append trailers to squashed commit message"
 msgstr "إلحاق مقاطع دعائية برسالة تنفيذ ممرودة"
 
-#: ../../admin/addons.rst:859
+#: ../../admin/addons.rst:881
 #, fuzzy
 #| msgid ""
 #| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
@@ -3865,17 +3938,17 @@ msgstr ""
 "خطوط المقطع الدعائي هي أسطر تشبه رؤوس البريد الإلكتروني RFC 822 ، في نهاية "
 "الجزء الحر من رسالة الالتزام ، مثل \"شارك في التأليف: ...\"."
 
-#: ../../admin/addons.rst:861
+#: ../../admin/addons.rst:883
 msgid "``commit_message``"
 msgstr "``commit_message``"
 
-#: ../../admin/addons.rst:861
+#: ../../admin/addons.rst:883
 #, fuzzy
 #| msgid "Commit messages"
 msgid "Commit message"
 msgstr "تقديم الرسائل"
 
-#: ../../admin/addons.rst:861
+#: ../../admin/addons.rst:883
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
@@ -3883,49 +3956,33 @@ msgstr ""
 "سيتم استخدام رسالة الالتزام هذه بدلاً من رسائل الالتزام المجمعة من عمليات "
 "الإيداع المحطمة."
 
-#: ../../admin/addons.rst:863
+#: ../../admin/addons.rst:885
 msgid ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 msgstr ""
 
-#: ../../admin/addons.rst:865
+#: ../../admin/addons.rst:887
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
 
-#: ../../admin/addons.rst:867
+#: ../../admin/addons.rst:889
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
 
-#: ../../admin/addons.rst:870
-msgid "All commits into one"
-msgstr "كل الإيداعات في واحد"
-
-#: ../../admin/addons.rst:871
-msgid "Per language"
-msgstr "حسب اللغات"
-
-#: ../../admin/addons.rst:872
-msgid "Per file"
-msgstr "حسب الملف"
-
-#: ../../admin/addons.rst:873
-msgid "Per author"
-msgstr "حسب المؤلف"
-
-#: ../../admin/addons.rst:875
+#: ../../admin/addons.rst:897
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 
-#: ../../admin/addons.rst:878
+#: ../../admin/addons.rst:900
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
 
-#: ../../admin/addons.rst:880
+#: ../../admin/addons.rst:902
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
@@ -3933,62 +3990,74 @@ msgid ""
 "every translator."
 msgstr ""
 
-#: ../../admin/addons.rst:888
+#: ../../admin/addons.rst:910
 msgid "Customize JSON output"
 msgstr "تخصيص خرج JSON"
 
-#: ../../admin/addons.rst:892
+#: ../../admin/addons.rst:914
 msgid ":guilabel:`Avoid spaces after separators` option added."
 msgstr ""
 
-#: ../../admin/addons.rst:894
+#: ../../admin/addons.rst:916
 msgid "``weblate.json.customize``"
 msgstr "``weblate.json.customize``"
 
-#: ../../admin/addons.rst:896
+#: ../../admin/addons.rst:918
 msgid "``sort_keys``"
 msgstr "``sort_keys``"
 
-#: ../../admin/addons.rst:896
+#: ../../admin/addons.rst:918
 msgid "Sort JSON keys"
 msgstr "رتّب مفاتيح JSON"
 
-#: ../../admin/addons.rst:898
+#: ../../admin/addons.rst:920
 msgid "``use_compact_separators``"
 msgstr "``use_compact_separators``"
 
-#: ../../admin/addons.rst:898
+#: ../../admin/addons.rst:920
 msgid "Avoid spaces after separators"
 msgstr ""
 
-#: ../../admin/addons.rst:900 ../../admin/addons.rst:1420
+#: ../../admin/addons.rst:922 ../../admin/addons.rst:1610
 msgid "``indent``"
 msgstr "``indent``"
 
-#: ../../admin/addons.rst:900
+#: ../../admin/addons.rst:922
 msgid "JSON indentation"
 msgstr "إزاحة JSON"
 
-#: ../../admin/addons.rst:902 ../../admin/machine.rst:182
+#: ../../admin/addons.rst:924 ../../admin/machine.rst:182
 #: ../../admin/machine.rst:706
 msgid "``style``"
 msgstr "``style``"
 
-#: ../../admin/addons.rst:902
+#: ../../admin/addons.rst:924
 #, fuzzy
 #| msgid "JSON indentation"
 msgid "JSON indentation style"
 msgstr "إزاحة JSON"
 
-#: ../../admin/addons.rst:904
-msgid "``spaces`` -- Spaces"
-msgstr ""
+#: ../../admin/addons.rst:926
+#, fuzzy
+#| msgid "``workspace``"
+msgid "``spaces``"
+msgstr "``workspace``"
 
-#: ../../admin/addons.rst:906
-msgid "``tabs`` -- Tabs"
-msgstr ""
+#: ../../admin/addons.rst:927
+msgid "Spaces"
+msgstr "مسافات"
 
-#: ../../admin/addons.rst:910
+#: ../../admin/addons.rst:929
+#, fuzzy
+#| msgid "``target``"
+msgid "``tabs``"
+msgstr "``target``"
+
+#: ../../admin/addons.rst:930
+msgid "Tabs"
+msgstr "علامات جدولة"
+
+#: ../../admin/addons.rst:934
 #, fuzzy
 #| msgid ""
 #| "Allows to customize JSON output behavior, for example indentation or "
@@ -3998,134 +4067,134 @@ msgid ""
 "compact formatting using minimal whitespace."
 msgstr "يسمح بتخصيص سلوك خرج JSON، كالإزاحة والترتيب."
 
-#: ../../admin/addons.rst:916
+#: ../../admin/addons.rst:940
 #, fuzzy
 #| msgid "Formats the Java properties file"
 msgid "Format the Java properties file"
 msgstr "ينسّق ملف خصائص الجافا"
 
-#: ../../admin/addons.rst:918
+#: ../../admin/addons.rst:942
 msgid "``weblate.properties.sort``"
 msgstr "``weblate.properties.sort``"
 
-#: ../../admin/addons.rst:920
+#: ../../admin/addons.rst:944
 msgid "``case_sensitive``"
 msgstr "``case_sensitive``"
 
-#: ../../admin/addons.rst:920
+#: ../../admin/addons.rst:944
 msgid "Enable case-sensitive key sorting"
 msgstr ""
 
-#: ../../admin/addons.rst:924
+#: ../../admin/addons.rst:948
 msgid "Formats and sorts the Java properties file."
 msgstr "تنسيق وفرز ملف خصائص Java."
 
-#: ../../admin/addons.rst:926
+#: ../../admin/addons.rst:950
 msgid "Consolidates newlines to Unix ones."
 msgstr ""
 
-#: ../../admin/addons.rst:927
+#: ../../admin/addons.rst:951
 msgid ""
 "Uppercase formatting of Unicode escape sequences (in case they are present)."
 msgstr ""
 
-#: ../../admin/addons.rst:928
+#: ../../admin/addons.rst:952
 #, fuzzy
 #| msgid "Strings with comments"
 msgid "Strips blank lines and comments."
 msgstr "سلاسل تحتوي على تعليقات"
 
-#: ../../admin/addons.rst:929
+#: ../../admin/addons.rst:953
 #, fuzzy
 #| msgid "Source string comment"
 msgid "Sorts the strings by the keys."
 msgstr "تعليق على السلسلة المصدرية"
 
-#: ../../admin/addons.rst:930
+#: ../../admin/addons.rst:954
 #, fuzzy
 #| msgid "Found duplicated string"
 msgid "Drops duplicate strings."
 msgstr "عُثِر علي سلسلة مكررة"
 
-#: ../../admin/addons.rst:935
+#: ../../admin/addons.rst:959
 msgid "Stale comment removal"
 msgstr "إزالة التعليق القديم"
 
-#: ../../admin/addons.rst:937
+#: ../../admin/addons.rst:961
 msgid "``weblate.removal.comments``"
 msgstr "``weblate.removal.comments``"
 
-#: ../../admin/addons.rst:939 ../../admin/addons.rst:956
+#: ../../admin/addons.rst:963 ../../admin/addons.rst:980
 msgid "``age``"
 msgstr "``age``"
 
-#: ../../admin/addons.rst:939 ../../admin/addons.rst:956
+#: ../../admin/addons.rst:963 ../../admin/addons.rst:980
 msgid "Days to keep"
 msgstr "الأيام ليبقى"
 
-#: ../../admin/addons.rst:941 ../../admin/addons.rst:960
+#: ../../admin/addons.rst:965 ../../admin/addons.rst:984
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
 msgstr "اسم المكون"
 
-#: ../../admin/addons.rst:943
+#: ../../admin/addons.rst:967
 #, fuzzy
 #| msgid "Set timeframe for removal of comments."
 msgid "Set a timeframe for removal of comments."
 msgstr "تحديد الإطار الزمني لإزالة التعليقات."
 
-#: ../../admin/addons.rst:945
+#: ../../admin/addons.rst:969
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
 
-#: ../../admin/addons.rst:952
+#: ../../admin/addons.rst:976
 msgid "Stale suggestion removal"
 msgstr "إزالة الاقتراح القديم"
 
-#: ../../admin/addons.rst:954
+#: ../../admin/addons.rst:978
 msgid "``weblate.removal.suggestions``"
 msgstr "``weblate.removal.suggestions``"
 
-#: ../../admin/addons.rst:958
+#: ../../admin/addons.rst:982
 msgid "``votes``"
 msgstr "``votes``"
 
-#: ../../admin/addons.rst:958
+#: ../../admin/addons.rst:982
 msgid "Voting threshold"
 msgstr "عتبة التصويت"
 
-#: ../../admin/addons.rst:958
+#: ../../admin/addons.rst:982
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "عتبة الإزالة. هذا الحقل ليس له تأثير مع إيقاف التصويت."
 
-#: ../../admin/addons.rst:962
+#: ../../admin/addons.rst:986
 #, fuzzy
 #| msgid "Set timeframe for removal of suggestions."
 msgid "Set a timeframe for removal of suggestions."
 msgstr "تحديد الإطار الزمني لإزالة الاقتراحات."
 
-#: ../../admin/addons.rst:964
+#: ../../admin/addons.rst:988
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
 
-#: ../../admin/addons.rst:971
+#: ../../admin/addons.rst:995
 #, fuzzy
 #| msgid "Update LINGUAS file"
 msgid "Update RESX files"
 msgstr "حدّث ملف LINGUAS"
 
-#: ../../admin/addons.rst:973
+#: ../../admin/addons.rst:997
 msgid "``weblate.resx.update``"
 msgstr "``weblate.resx.update``"
 
-#: ../../admin/addons.rst:977
+#: ../../admin/addons.rst:1001
 #, fuzzy
 #| msgid ""
 #| "Update all translation files to match the monolingual base file. For most "
@@ -4140,551 +4209,833 @@ msgstr ""
 "تنسيقات الملفات ، يعني ذلك أزالة مفاتيح الترجمة القديمة التي لم تعد موجودة "
 "في الملف الأساسي."
 
-#: ../../admin/addons.rst:982
+#: ../../admin/addons.rst:1006
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
 
-#: ../../admin/addons.rst:992
+#: ../../admin/addons.rst:1016
 msgid "Slack Webhooks"
 msgstr ""
 
-#: ../../admin/addons.rst:996
+#: ../../admin/addons.rst:1020
 msgid "``weblate.webhook.slack``"
 msgstr "``weblate.webhook.slack``"
 
-#: ../../admin/addons.rst:998 ../../admin/addons.rst:1171
+#: ../../admin/addons.rst:1022 ../../admin/addons.rst:1278
 msgid "``webhook_url``"
 msgstr "``webhook_url``"
 
-#: ../../admin/addons.rst:998 ../../admin/addons.rst:1171
+#: ../../admin/addons.rst:1022 ../../admin/addons.rst:1278
 #, fuzzy
 #| msgid "Website URL"
 msgid "Webhook URL"
 msgstr "رابط الموقع"
 
-#: ../../admin/addons.rst:1000 ../../admin/addons.rst:1175
+#: ../../admin/addons.rst:1024 ../../admin/addons.rst:1282
 msgid "``events``"
 msgstr "``events``"
 
-#: ../../admin/addons.rst:1000 ../../admin/addons.rst:1175
+#: ../../admin/addons.rst:1024 ../../admin/addons.rst:1282
 #, fuzzy
 #| msgid "Changed license"
 msgid "Change events"
 msgstr "غُيّر الترخيص"
 
-#: ../../admin/addons.rst:1002 ../../admin/addons.rst:1177
+#: ../../admin/addons.rst:1026 ../../admin/addons.rst:1284
+#: ../../admin/config.rst:488
+msgid "``0``"
+msgstr "``0``"
+
+#: ../../admin/addons.rst:1027 ../../admin/addons.rst:1285
 #, fuzzy
 #| msgid "Resource update"
-msgid "``0`` -- Resource updated"
+msgid "Resource updated"
 msgstr "تحديث الموارد"
 
-#: ../../admin/addons.rst:1004 ../../admin/addons.rst:1179
-#, fuzzy
-#| msgid "Translation completed"
-msgid "``1`` -- Translation completed"
+#: ../../admin/addons.rst:1029 ../../admin/addons.rst:1287
+#: ../../admin/config.rst:490
+msgid "``1``"
+msgstr "``1``"
+
+#: ../../admin/addons.rst:1030 ../../admin/addons.rst:1288
+msgid "Translation completed"
 msgstr "أنجز الترجمة"
 
-#: ../../admin/addons.rst:1006 ../../admin/addons.rst:1181
-#, fuzzy
-#| msgid "Translation changed"
-msgid "``2`` -- Translation changed"
+#: ../../admin/addons.rst:1032 ../../admin/addons.rst:1290
+msgid "``2``"
+msgstr ""
+
+#: ../../admin/addons.rst:1033 ../../admin/addons.rst:1291
+msgid "Translation changed"
 msgstr "عدَّل الترجمة"
 
-#: ../../admin/addons.rst:1008 ../../admin/addons.rst:1183
-#, fuzzy
-#| msgid "Comment added"
-msgid "``3`` -- Comment added"
+#: ../../admin/addons.rst:1035 ../../admin/addons.rst:1293
+msgid "``3``"
+msgstr ""
+
+#: ../../admin/addons.rst:1036 ../../admin/addons.rst:1294
+msgid "Comment added"
 msgstr "أضاف تعليقًا"
 
-#: ../../admin/addons.rst:1010 ../../admin/addons.rst:1185
-#, fuzzy
-#| msgid "Suggestion added"
-msgid "``4`` -- Suggestion added"
+#: ../../admin/addons.rst:1038 ../../admin/addons.rst:1296
+msgid "``4``"
+msgstr ""
+
+#: ../../admin/addons.rst:1039 ../../admin/addons.rst:1297
+msgid "Suggestion added"
 msgstr "أضاف اقتراحًا"
 
-#: ../../admin/addons.rst:1012 ../../admin/addons.rst:1187
+#: ../../admin/addons.rst:1041 ../../admin/addons.rst:1299
+msgid "``5``"
+msgstr ""
+
+#: ../../admin/addons.rst:1042 ../../admin/addons.rst:1300
 #, fuzzy
 #| msgid "Translations made"
-msgid "``5`` -- Translation added"
+msgid "Translation added"
 msgstr "الترجمات المُقدمة"
 
-#: ../../admin/addons.rst:1014 ../../admin/addons.rst:1189
+#: ../../admin/addons.rst:1044 ../../admin/addons.rst:1302
+msgid "``6``"
+msgstr ""
+
+#: ../../admin/addons.rst:1045 ../../admin/addons.rst:1303
+#: ../../user/translating.rst:104
 #, fuzzy
 #| msgid "Automatic translation"
-msgid "``6`` -- Automatically translated"
+msgid "Automatically translated"
 msgstr "ترجمة تلقائية"
 
-#: ../../admin/addons.rst:1016 ../../admin/addons.rst:1191
-#, fuzzy
-#| msgid "Suggestion accepted"
-msgid "``7`` -- Suggestion accepted"
+#: ../../admin/addons.rst:1047 ../../admin/addons.rst:1305
+msgid "``7``"
+msgstr ""
+
+#: ../../admin/addons.rst:1048 ../../admin/addons.rst:1306
+msgid "Suggestion accepted"
 msgstr "قبِل اقتراحًا"
 
-#: ../../admin/addons.rst:1018 ../../admin/addons.rst:1193
-#, fuzzy
-#| msgid "Translation reverted"
-msgid "``8`` -- Translation reverted"
+#: ../../admin/addons.rst:1050 ../../admin/addons.rst:1308
+msgid "``8``"
+msgstr ""
+
+#: ../../admin/addons.rst:1051 ../../admin/addons.rst:1309
+msgid "Translation reverted"
 msgstr "ألغى ترجمة"
 
-#: ../../admin/addons.rst:1020 ../../admin/addons.rst:1195
-#, fuzzy
-#| msgid "Translation uploaded"
-msgid "``9`` -- Translation uploaded"
+#: ../../admin/addons.rst:1053 ../../admin/addons.rst:1311
+msgid "``9``"
+msgstr ""
+
+#: ../../admin/addons.rst:1054 ../../admin/addons.rst:1312
+msgid "Translation uploaded"
 msgstr "رَفع ترجمة"
 
-#: ../../admin/addons.rst:1022 ../../admin/addons.rst:1197
+#: ../../admin/addons.rst:1056 ../../admin/addons.rst:1314
+msgid "``13``"
+msgstr ""
+
+#: ../../admin/addons.rst:1057 ../../admin/addons.rst:1315
 #, fuzzy
 #| msgid "Source string age"
-msgid "``13`` -- Source string added"
+msgid "Source string added"
 msgstr "عمر السلسلة المصدرية"
 
-#: ../../admin/addons.rst:1024 ../../admin/addons.rst:1199
-#, fuzzy
-#| msgid "Component locked"
-msgid "``14`` -- Component locked"
+#: ../../admin/addons.rst:1059 ../../admin/addons.rst:1317
+msgid "``14``"
+msgstr ""
+
+#: ../../admin/addons.rst:1060 ../../admin/addons.rst:1318
+msgid "Component locked"
 msgstr "العنصر مغلق"
 
-#: ../../admin/addons.rst:1026 ../../admin/addons.rst:1201
-#, fuzzy
-#| msgid "Component unlocked"
-msgid "``15`` -- Component unlocked"
+#: ../../admin/addons.rst:1062 ../../admin/addons.rst:1320
+msgid "``15``"
+msgstr ""
+
+#: ../../admin/addons.rst:1063 ../../admin/addons.rst:1321
+msgid "Component unlocked"
 msgstr "فُتح قفل المكون"
 
-#: ../../admin/addons.rst:1028 ../../admin/addons.rst:1203
+#: ../../admin/addons.rst:1065 ../../admin/addons.rst:1323
+msgid "``17``"
+msgstr ""
+
+#: ../../admin/addons.rst:1066 ../../admin/addons.rst:1324
 #, fuzzy
 #| msgid "Change word"
-msgid "``17`` -- Changes committed"
+msgid "Changes committed"
 msgstr "تغيير الكلمة"
 
-#: ../../admin/addons.rst:1030 ../../admin/addons.rst:1205
+#: ../../admin/addons.rst:1068 ../../admin/addons.rst:1326
+msgid "``18``"
+msgstr ""
+
+#: ../../admin/addons.rst:1069 ../../admin/addons.rst:1327
 #, fuzzy
 #| msgid "Change password"
-msgid "``18`` -- Changes pushed"
+msgid "Changes pushed"
 msgstr "تغيير كلمة السر"
 
-#: ../../admin/addons.rst:1032 ../../admin/addons.rst:1207
+#: ../../admin/addons.rst:1071 ../../admin/addons.rst:1329
+msgid "``19``"
+msgstr ""
+
+#: ../../admin/addons.rst:1072 ../../admin/addons.rst:1330
 #, fuzzy
 #| msgid "Repository browser"
-msgid "``19`` -- Repository reset"
+msgid "Repository reset"
 msgstr "متصفح المستودع"
 
-#: ../../admin/addons.rst:1034 ../../admin/addons.rst:1209
+#: ../../admin/addons.rst:1075 ../../admin/addons.rst:1333
 #, fuzzy
 #| msgid "Repository changes"
-msgid "``20`` -- Repository merged"
+msgid "Repository merged"
 msgstr "تغييرات المستودع"
 
-#: ../../admin/addons.rst:1036 ../../admin/addons.rst:1211
+#: ../../admin/addons.rst:1077 ../../admin/addons.rst:1335
+msgid "``21``"
+msgstr ""
+
+#: ../../admin/addons.rst:1078 ../../admin/addons.rst:1336
 #, fuzzy
 #| msgid "Repository details"
-msgid "``21`` -- Repository rebased"
+msgid "Repository rebased"
 msgstr "معلومات المستودع"
 
-#: ../../admin/addons.rst:1038 ../../admin/addons.rst:1213
+#: ../../admin/addons.rst:1080 ../../admin/addons.rst:1338
+msgid "``22``"
+msgstr ""
+
+#: ../../admin/addons.rst:1081 ../../admin/addons.rst:1339
 #, fuzzy
 #| msgid "Repository operation"
-msgid "``22`` -- Repository merge failed"
+msgid "Repository merge failed"
 msgstr "إجراء في المستودع"
 
-#: ../../admin/addons.rst:1040 ../../admin/addons.rst:1215
+#: ../../admin/addons.rst:1083 ../../admin/addons.rst:1341
+msgid "``23``"
+msgstr ""
+
+#: ../../admin/addons.rst:1084 ../../admin/addons.rst:1342
 #, fuzzy
 #| msgid "Repository operation"
-msgid "``23`` -- Repository rebase failed"
+msgid "Repository rebase failed"
 msgstr "إجراء في المستودع"
 
-#: ../../admin/addons.rst:1042 ../../admin/addons.rst:1217
+#: ../../admin/addons.rst:1086 ../../admin/addons.rst:1344
+msgid "``24``"
+msgstr ""
+
+#: ../../admin/addons.rst:1087 ../../admin/addons.rst:1345
 #, fuzzy
 #| msgid "Failing file"
-msgid "``24`` -- Parsing failed"
+msgid "Parsing failed"
 msgstr "ملف فاشل"
 
-#: ../../admin/addons.rst:1044 ../../admin/addons.rst:1219
+#: ../../admin/addons.rst:1089 ../../admin/addons.rst:1347
+msgid "``25``"
+msgstr ""
+
+#: ../../admin/addons.rst:1090 ../../admin/addons.rst:1348
 #, fuzzy
 #| msgid "Translation to remove"
-msgid "``25`` -- Translation removed"
+msgid "Translation removed"
 msgstr "الترجمة المطلوب إزالتها"
 
-#: ../../admin/addons.rst:1046 ../../admin/addons.rst:1221
-#, fuzzy
-#| msgid "Suggestion removed"
-msgid "``26`` -- Suggestion removed"
+#: ../../admin/addons.rst:1092 ../../admin/addons.rst:1350
+msgid "``26``"
+msgstr ""
+
+#: ../../admin/addons.rst:1093 ../../admin/addons.rst:1351
+msgid "Suggestion removed"
 msgstr "أُزيل الاقتراح"
 
-#: ../../admin/addons.rst:1048 ../../admin/addons.rst:1223
+#: ../../admin/addons.rst:1095 ../../admin/addons.rst:1353
+msgid "``27``"
+msgstr ""
+
+#: ../../admin/addons.rst:1096 ../../admin/addons.rst:1354
 #, fuzzy
 #| msgid "Translation uploaded"
-msgid "``27`` -- Translation replaced"
+msgid "Translation replaced"
 msgstr "رَفع ترجمة"
 
-#: ../../admin/addons.rst:1050 ../../admin/addons.rst:1225
+#: ../../admin/addons.rst:1098 ../../admin/addons.rst:1356
+msgid "``28``"
+msgstr ""
+
+#: ../../admin/addons.rst:1099 ../../admin/addons.rst:1357
 #, fuzzy
 #| msgid "Repository failure"
-msgid "``28`` -- Repository push failed"
+msgid "Repository push failed"
 msgstr "خطأ فادح في المستودع"
 
-#: ../../admin/addons.rst:1052 ../../admin/addons.rst:1227
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
-msgid "``29`` -- Suggestion removed during cleanup"
+#: ../../admin/addons.rst:1101 ../../admin/addons.rst:1359
+msgid "``29``"
+msgstr ""
+
+#: ../../admin/addons.rst:1102 ../../admin/addons.rst:1360
+msgid "Suggestion removed during cleanup"
 msgstr "حُذف الاقتراح أثناء التنظيف"
 
-#: ../../admin/addons.rst:1054 ../../admin/addons.rst:1229
-#, fuzzy
-#| msgid "Source string changed"
-msgid "``30`` -- Source string changed"
+#: ../../admin/addons.rst:1105 ../../admin/addons.rst:1363
+msgid "Source string changed"
 msgstr "الترجمة الأصل قد تم تغيرها"
 
-#: ../../admin/addons.rst:1056 ../../admin/addons.rst:1231
+#: ../../admin/addons.rst:1107 ../../admin/addons.rst:1365
+msgid "``31``"
+msgstr ""
+
+#: ../../admin/addons.rst:1108 ../../admin/addons.rst:1366
 #, fuzzy
 #| msgid "String age"
-msgid "``31`` -- String added"
+msgid "String added"
 msgstr "عمر السلسلة"
 
-#: ../../admin/addons.rst:1058 ../../admin/addons.rst:1233
+#: ../../admin/addons.rst:1110 ../../admin/addons.rst:1368
+msgid "``32``"
+msgstr ""
+
+#: ../../admin/addons.rst:1111 ../../admin/addons.rst:1369
 #, fuzzy
 #| msgid "Bulk status change"
-msgid "``32`` -- Bulk status changed"
+msgid "Bulk status changed"
 msgstr "تغيير الحالة بالجُملة"
 
-#: ../../admin/addons.rst:1060 ../../admin/addons.rst:1235
+#: ../../admin/addons.rst:1113 ../../admin/addons.rst:1371
+msgid "``33``"
+msgstr ""
+
+#: ../../admin/addons.rst:1114 ../../admin/addons.rst:1372
 #, fuzzy
 #| msgid "Last change"
-msgid "``33`` -- Visibility changed"
+msgid "Visibility changed"
 msgstr "آخر تغيير"
 
-#: ../../admin/addons.rst:1062 ../../admin/addons.rst:1237
+#: ../../admin/addons.rst:1116 ../../admin/addons.rst:1374
+msgid "``34``"
+msgstr ""
+
+#: ../../admin/addons.rst:1117 ../../admin/addons.rst:1375
 #, fuzzy
 #| msgid "User to add"
-msgid "``34`` -- User added"
+msgid "User added"
 msgstr "المستخدِم الذي تريد إضافته"
 
-#: ../../admin/addons.rst:1064 ../../admin/addons.rst:1239
+#: ../../admin/addons.rst:1119 ../../admin/addons.rst:1377
+msgid "``35``"
+msgstr ""
+
+#: ../../admin/addons.rst:1120 ../../admin/addons.rst:1378
 #, fuzzy
 #| msgid "User profile"
-msgid "``35`` -- User removed"
+msgid "User removed"
 msgstr "ملف المستخدم الشخصي"
 
-#: ../../admin/addons.rst:1066 ../../admin/addons.rst:1241
-#, fuzzy
-#| msgid "Translation approved"
-msgid "``36`` -- Translation approved"
+#: ../../admin/addons.rst:1122 ../../admin/addons.rst:1380
+msgid "``36``"
+msgstr ""
+
+#: ../../admin/addons.rst:1123 ../../admin/addons.rst:1381
+msgid "Translation approved"
 msgstr "الترجمة معتمَدة"
 
-#: ../../admin/addons.rst:1068 ../../admin/addons.rst:1243
-#, fuzzy
-#| msgid "Marked for edit"
-msgid "``37`` -- Marked for edit"
+#: ../../admin/addons.rst:1125 ../../admin/addons.rst:1383
+msgid "``37``"
+msgstr ""
+
+#: ../../admin/addons.rst:1126 ../../admin/addons.rst:1384
+msgid "Marked for edit"
 msgstr "تم وضع علامة إعادة التحرير"
 
-#: ../../admin/addons.rst:1070 ../../admin/addons.rst:1245
+#: ../../admin/addons.rst:1128 ../../admin/addons.rst:1386
+msgid "``38``"
+msgstr ""
+
+#: ../../admin/addons.rst:1129 ../../admin/addons.rst:1387
 #, fuzzy
 #| msgid "Component to remove"
-msgid "``38`` -- Component removed"
+msgid "Component removed"
 msgstr "مكون للإزالة"
 
-#: ../../admin/addons.rst:1072 ../../admin/addons.rst:1247
+#: ../../admin/addons.rst:1131 ../../admin/addons.rst:1389
+msgid "``39``"
+msgstr ""
+
+#: ../../admin/addons.rst:1132 ../../admin/addons.rst:1390
 #, fuzzy
 #| msgid "Project to remove"
-msgid "``39`` -- Project removed"
+msgid "Project removed"
 msgstr "مشروع للإزالة"
 
-#: ../../admin/addons.rst:1074 ../../admin/addons.rst:1249
+#: ../../admin/addons.rst:1134 ../../admin/addons.rst:1392
+msgid "``41``"
+msgstr ""
+
+#: ../../admin/addons.rst:1135 ../../admin/addons.rst:1393
 #, fuzzy
 #| msgid "Project name"
-msgid "``41`` -- Project renamed"
+msgid "Project renamed"
 msgstr "اسم المشروع"
 
-#: ../../admin/addons.rst:1076 ../../admin/addons.rst:1251
+#: ../../admin/addons.rst:1137 ../../admin/addons.rst:1395
+msgid "``42``"
+msgstr ""
+
+#: ../../admin/addons.rst:1138 ../../admin/addons.rst:1396
 #, fuzzy
 #| msgid "Component name"
-msgid "``42`` -- Component renamed"
+msgid "Component renamed"
 msgstr "اسم المكون"
 
-#: ../../admin/addons.rst:1078 ../../admin/addons.rst:1253
-#, fuzzy
-#| msgid "Moved component"
-msgid "``43`` -- Moved component"
+#: ../../admin/addons.rst:1140 ../../admin/addons.rst:1398
+msgid "``43``"
+msgstr ""
+
+#: ../../admin/addons.rst:1141 ../../admin/addons.rst:1399
+msgid "Moved component"
 msgstr "تم نقل العنصر"
 
-#: ../../admin/addons.rst:1080 ../../admin/addons.rst:1255
+#: ../../admin/addons.rst:1143 ../../admin/addons.rst:1401
+msgid "``45``"
+msgstr ""
+
+#: ../../admin/addons.rst:1144 ../../admin/addons.rst:1402
 #, fuzzy
 #| msgid "Contributor stats"
-msgid "``45`` -- Contributor joined"
+msgid "Contributor joined"
 msgstr "حالة المُساهم"
 
-#: ../../admin/addons.rst:1082 ../../admin/addons.rst:1257
+#: ../../admin/addons.rst:1146 ../../admin/addons.rst:1404
+msgid "``46``"
+msgstr ""
+
+#: ../../admin/addons.rst:1147 ../../admin/addons.rst:1405
 #, fuzzy
 #| msgid "Announcements"
-msgid "``46`` -- Announcement posted"
+msgid "Announcement posted"
 msgstr "تصريحات"
 
-#: ../../admin/addons.rst:1084 ../../admin/addons.rst:1259
-#, fuzzy
-#| msgid "All strings"
-msgid "``47`` -- Alert triggered"
-msgstr "كل السلاسل"
+#: ../../admin/addons.rst:1149 ../../admin/addons.rst:1407
+msgid "``47``"
+msgstr ""
 
-#: ../../admin/addons.rst:1086 ../../admin/addons.rst:1261
+#: ../../admin/addons.rst:1150 ../../admin/addons.rst:1408
+msgid "Alert triggered"
+msgstr ""
+
+#: ../../admin/addons.rst:1152 ../../admin/addons.rst:1410
+msgid "``48``"
+msgstr ""
+
+#: ../../admin/addons.rst:1153 ../../admin/addons.rst:1411
 #, fuzzy
 #| msgid "Language code"
-msgid "``48`` -- Language added"
+msgid "Language added"
 msgstr "كود اللغة"
 
-#: ../../admin/addons.rst:1088 ../../admin/addons.rst:1263
+#: ../../admin/addons.rst:1155 ../../admin/addons.rst:1413
+msgid "``49``"
+msgstr ""
+
+#: ../../admin/addons.rst:1156 ../../admin/addons.rst:1414
 #, fuzzy
 #| msgid "Language codes"
-msgid "``49`` -- Language requested"
+msgid "Language requested"
 msgstr "رموز اللغات"
 
-#: ../../admin/addons.rst:1090 ../../admin/addons.rst:1265
+#: ../../admin/addons.rst:1158 ../../admin/addons.rst:1416
+msgid "``50``"
+msgstr ""
+
+#: ../../admin/addons.rst:1159 ../../admin/addons.rst:1417
 #, fuzzy
 #| msgid "Project name"
-msgid "``50`` -- Project created"
+msgid "Project created"
 msgstr "اسم المشروع"
 
-#: ../../admin/addons.rst:1092 ../../admin/addons.rst:1267
+#: ../../admin/addons.rst:1161 ../../admin/addons.rst:1419
+msgid "``51``"
+msgstr ""
+
+#: ../../admin/addons.rst:1162 ../../admin/addons.rst:1420
 #, fuzzy
 #| msgid "Component locked"
-msgid "``51`` -- Component created"
+msgid "Component created"
 msgstr "العنصر مغلق"
 
-#: ../../admin/addons.rst:1094 ../../admin/addons.rst:1269
+#: ../../admin/addons.rst:1164 ../../admin/addons.rst:1422
+msgid "``52``"
+msgstr ""
+
+#: ../../admin/addons.rst:1165 ../../admin/addons.rst:1423
 #, fuzzy
 #| msgid "Current user identities"
-msgid "``52`` -- User invited"
+msgid "User invited"
 msgstr "معرفات المستخدم الحالية"
 
-#: ../../admin/addons.rst:1096 ../../admin/addons.rst:1271
+#: ../../admin/addons.rst:1167 ../../admin/addons.rst:1425
+msgid "``53``"
+msgstr ""
+
+#: ../../admin/addons.rst:1168 ../../admin/addons.rst:1426
 #, fuzzy
 #| msgid "Received repository notification"
-msgid "``53`` -- Repository notification received"
+msgid "Repository notification received"
 msgstr "استلام إشعار المستودع"
 
-#: ../../admin/addons.rst:1098 ../../admin/addons.rst:1273
+#: ../../admin/addons.rst:1170 ../../admin/addons.rst:1428
+msgid "``54``"
+msgstr ""
+
+#: ../../admin/addons.rst:1171 ../../admin/addons.rst:1429
 #, fuzzy
 #| msgid "Translation uploaded"
-msgid "``54`` -- Translation replaced file by upload"
+msgid "Translation replaced file by upload"
 msgstr "رَفع ترجمة"
 
-#: ../../admin/addons.rst:1100 ../../admin/addons.rst:1275
+#: ../../admin/addons.rst:1173 ../../admin/addons.rst:1431
+msgid "``55``"
+msgstr ""
+
+#: ../../admin/addons.rst:1174 ../../admin/addons.rst:1432
 #, fuzzy
 #| msgid "Last change"
-msgid "``55`` -- License changed"
+msgid "License changed"
 msgstr "آخر تغيير"
 
-#: ../../admin/addons.rst:1102 ../../admin/addons.rst:1277
+#: ../../admin/addons.rst:1176 ../../admin/addons.rst:1434
+msgid "``56``"
+msgstr ""
+
+#: ../../admin/addons.rst:1177 ../../admin/addons.rst:1435
 #, fuzzy
 #| msgid "Contributor agreement"
-msgid "``56`` -- Contributor license agreement changed"
+msgid "Contributor license agreement changed"
 msgstr "عقد المُساهِم"
 
-#: ../../admin/addons.rst:1104 ../../admin/addons.rst:1279
+#: ../../admin/addons.rst:1179 ../../admin/addons.rst:1437
+msgid "``57``"
+msgstr ""
+
+#: ../../admin/addons.rst:1180 ../../admin/addons.rst:1438
 #, fuzzy
 #| msgid "Screenshot name"
-msgid "``57`` -- Screenshot added"
+msgid "Screenshot added"
 msgstr "اسم لقطة الشاشة"
 
-#: ../../admin/addons.rst:1106 ../../admin/addons.rst:1281
+#: ../../admin/addons.rst:1182 ../../admin/addons.rst:1440
+msgid "``58``"
+msgstr ""
+
+#: ../../admin/addons.rst:1183 ../../admin/addons.rst:1441
 #, fuzzy
 #| msgid "Screenshots uploaded"
-msgid "``58`` -- Screenshot uploaded"
+msgid "Screenshot uploaded"
 msgstr "لقطات الشاشة التي تم إرسالها"
 
-#: ../../admin/addons.rst:1108 ../../admin/addons.rst:1283
-#, fuzzy
-#| msgid "String updated in the repository"
-msgid "``59`` -- String updated in the repository"
+#: ../../admin/addons.rst:1185 ../../admin/addons.rst:1443
+msgid "``59``"
+msgstr ""
+
+#: ../../admin/addons.rst:1186 ../../admin/addons.rst:1444
+msgid "String updated in the repository"
 msgstr "تم تحديث السلسلة في المستودع"
 
-#: ../../admin/addons.rst:1110 ../../admin/addons.rst:1285
+#: ../../admin/addons.rst:1188 ../../admin/addons.rst:1446
+msgid "``60``"
+msgstr ""
+
+#: ../../admin/addons.rst:1189 ../../admin/addons.rst:1447
 #, fuzzy
 #| msgid "Uninstall"
-msgid "``60`` -- Add-on installed"
+msgid "Add-on installed"
 msgstr "أزل"
 
-#: ../../admin/addons.rst:1112 ../../admin/addons.rst:1287
+#: ../../admin/addons.rst:1191 ../../admin/addons.rst:1449
+msgid "``61``"
+msgstr ""
+
+#: ../../admin/addons.rst:1192 ../../admin/addons.rst:1450
 #, fuzzy
 #| msgid "Bad configuration"
-msgid "``61`` -- Add-on configuration changed"
+msgid "Add-on configuration changed"
 msgstr "خطأ في الإعداد"
 
-#: ../../admin/addons.rst:1114 ../../admin/addons.rst:1289
-#, fuzzy
-#| msgid "Uninstall"
-msgid "``62`` -- Add-on uninstalled"
-msgstr "أزل"
+#: ../../admin/addons.rst:1194 ../../admin/addons.rst:1452
+msgid "``62``"
+msgstr ""
 
-#: ../../admin/addons.rst:1116 ../../admin/addons.rst:1291
+#: ../../admin/addons.rst:1195 ../../admin/addons.rst:1453
+msgid "Add-on uninstalled"
+msgstr ""
+
+#: ../../admin/addons.rst:1197 ../../admin/addons.rst:1455
+msgid "``63``"
+msgstr ""
+
+#: ../../admin/addons.rst:1198 ../../admin/addons.rst:1456
 #, fuzzy
 #| msgid "Suggestion removed"
-msgid "``63`` -- String removed"
+msgid "String removed"
 msgstr "أُزيل الاقتراح"
 
-#: ../../admin/addons.rst:1118 ../../admin/addons.rst:1293
+#: ../../admin/addons.rst:1200 ../../admin/addons.rst:1458
+msgid "``64``"
+msgstr ""
+
+#: ../../admin/addons.rst:1201 ../../admin/addons.rst:1459
 #, fuzzy
 #| msgid "Component to remove"
-msgid "``64`` -- Comment removed"
+msgid "Comment removed"
 msgstr "مكون للإزالة"
 
-#: ../../admin/addons.rst:1120 ../../admin/addons.rst:1295
+#: ../../admin/addons.rst:1203 ../../admin/addons.rst:1461
+msgid "``65``"
+msgstr ""
+
+#: ../../admin/addons.rst:1204 ../../admin/addons.rst:1462
 #, fuzzy
 #| msgid "Translation comment has been deleted."
-msgid "``65`` -- Comment resolved"
+msgid "Comment resolved"
 msgstr "تمت إزالة تعليق عن الترجمة."
 
-#: ../../admin/addons.rst:1122 ../../admin/addons.rst:1297
+#: ../../admin/addons.rst:1206 ../../admin/addons.rst:1464
+msgid "``66``"
+msgstr ""
+
+#: ../../admin/addons.rst:1207 ../../admin/addons.rst:1465
 #, fuzzy
 #| msgid "Translation"
-msgid "``66`` -- Explanation updated"
+msgid "Explanation updated"
 msgstr "الترجمة"
 
-#: ../../admin/addons.rst:1124 ../../admin/addons.rst:1299
+#: ../../admin/addons.rst:1209 ../../admin/addons.rst:1467
+msgid "``67``"
+msgstr ""
+
+#: ../../admin/addons.rst:1210 ../../admin/addons.rst:1468
 #, fuzzy
 #| msgid "Category"
-msgid "``67`` -- Category removed"
+msgid "Category removed"
 msgstr "الفئة"
 
-#: ../../admin/addons.rst:1126 ../../admin/addons.rst:1301
+#: ../../admin/addons.rst:1212 ../../admin/addons.rst:1470
+msgid "``68``"
+msgstr ""
+
+#: ../../admin/addons.rst:1213 ../../admin/addons.rst:1471
 #, fuzzy
 #| msgid "Category"
-msgid "``68`` -- Category renamed"
+msgid "Category renamed"
 msgstr "الفئة"
 
-#: ../../admin/addons.rst:1128 ../../admin/addons.rst:1303
+#: ../../admin/addons.rst:1215 ../../admin/addons.rst:1473
+msgid "``69``"
+msgstr ""
+
+#: ../../admin/addons.rst:1216 ../../admin/addons.rst:1474
 #, fuzzy
 #| msgid "Category"
-msgid "``69`` -- Category moved"
+msgid "Category moved"
 msgstr "الفئة"
 
-#: ../../admin/addons.rst:1130 ../../admin/addons.rst:1305
+#: ../../admin/addons.rst:1218 ../../admin/addons.rst:1476
+msgid "``70``"
+msgstr ""
+
+#: ../../admin/addons.rst:1219 ../../admin/addons.rst:1477
 #, fuzzy
 #| msgid "Failing file"
-msgid "``70`` -- Saving string failed"
+msgid "Saving string failed"
 msgstr "ملف فاشل"
 
-#: ../../admin/addons.rst:1132 ../../admin/addons.rst:1307
+#: ../../admin/addons.rst:1221 ../../admin/addons.rst:1479
+msgid "``71``"
+msgstr ""
+
+#: ../../admin/addons.rst:1222 ../../admin/addons.rst:1480
 #, fuzzy
 #| msgid "String updated in the repository"
-msgid "``71`` -- String added in the repository"
+msgid "String added in the repository"
 msgstr "تم تحديث السلسلة في المستودع"
 
-#: ../../admin/addons.rst:1134 ../../admin/addons.rst:1309
+#: ../../admin/addons.rst:1224 ../../admin/addons.rst:1482
+msgid "``72``"
+msgstr ""
+
+#: ../../admin/addons.rst:1225 ../../admin/addons.rst:1483
 #, fuzzy
 #| msgid "String updated in the repository"
-msgid "``72`` -- String updated in the upload"
+msgid "String updated in the upload"
 msgstr "تم تحديث السلسلة في المستودع"
 
-#: ../../admin/addons.rst:1136 ../../admin/addons.rst:1311
+#: ../../admin/addons.rst:1227 ../../admin/addons.rst:1485
+msgid "``73``"
+msgstr ""
+
+#: ../../admin/addons.rst:1228 ../../admin/addons.rst:1486
 #, fuzzy
 #| msgid "String updated in the repository"
-msgid "``73`` -- String added in the upload"
+msgid "String added in the upload"
 msgstr "تم تحديث السلسلة في المستودع"
 
-#: ../../admin/addons.rst:1138 ../../admin/addons.rst:1313
+#: ../../admin/addons.rst:1230 ../../admin/addons.rst:1488
+msgid "``74``"
+msgstr ""
+
+#: ../../admin/addons.rst:1231 ../../admin/addons.rst:1489
 #, fuzzy
 #| msgid "Translation uploaded"
-msgid "``74`` -- Translation updated by source upload"
+msgid "Translation updated by source upload"
 msgstr "رَفع ترجمة"
 
-#: ../../admin/addons.rst:1140 ../../admin/addons.rst:1315
+#: ../../admin/addons.rst:1233 ../../admin/addons.rst:1491
+msgid "``75``"
+msgstr ""
+
+#: ../../admin/addons.rst:1234 ../../admin/addons.rst:1492
 #, fuzzy
 #| msgid "Translation completed"
-msgid "``75`` -- Component translation completed"
+msgid "Component translation completed"
 msgstr "أنجز الترجمة"
 
-#: ../../admin/addons.rst:1142 ../../admin/addons.rst:1317
+#: ../../admin/addons.rst:1236 ../../admin/addons.rst:1494
+msgid "``76``"
+msgstr ""
+
+#: ../../admin/addons.rst:1237 ../../admin/addons.rst:1495
 #, fuzzy
 #| msgid "Unused enforced checks."
-msgid "``76`` -- Applied enforced check"
+msgid "Applied enforced check"
 msgstr "الشيكات القسرية غير المستخدمة."
 
-#: ../../admin/addons.rst:1144 ../../admin/addons.rst:1319
+#: ../../admin/addons.rst:1240 ../../admin/addons.rst:1498
 #, fuzzy
 #| msgid "Translated"
-msgid "``77`` -- Propagated change"
+msgid "Propagated change"
 msgstr "تم ترجمتها"
 
-#: ../../admin/addons.rst:1146 ../../admin/addons.rst:1321
+#: ../../admin/addons.rst:1242 ../../admin/addons.rst:1500
+msgid "``78``"
+msgstr ""
+
+#: ../../admin/addons.rst:1243 ../../admin/addons.rst:1501
 #, fuzzy
 #| msgid "File upload has failed: %s"
-msgid "``78`` -- File uploaded"
+msgid "File uploaded"
 msgstr "فشلت عملية رفع الملف : %s"
 
-#: ../../admin/addons.rst:1148 ../../admin/addons.rst:1323
+#: ../../admin/addons.rst:1245 ../../admin/addons.rst:1503
+msgid "``79``"
+msgstr ""
+
+#: ../../admin/addons.rst:1246 ../../admin/addons.rst:1504
 #, fuzzy
 #| msgid "Last updated"
-msgid "``79`` -- Extra flags updated"
+msgid "Extra flags updated"
 msgstr "آخر تحديث"
 
-#: ../../admin/addons.rst:1150 ../../admin/addons.rst:1325
+#: ../../admin/addons.rst:1248 ../../admin/addons.rst:1506
+#: ../../admin/addons.rst:1614
+msgid "``80``"
+msgstr ""
+
+#: ../../admin/addons.rst:1249 ../../admin/addons.rst:1507
+#, fuzzy
+#| msgid "File upload has failed: %s"
+msgid "Font uploaded"
+msgstr "فشلت عملية رفع الملف : %s"
+
+#: ../../admin/addons.rst:1251 ../../admin/addons.rst:1509
+msgid "``81``"
+msgstr ""
+
+#: ../../admin/addons.rst:1252 ../../admin/addons.rst:1510
+#, fuzzy
+#| msgid "Download changes"
+msgid "Font changed"
+msgstr "تنزيل التغييرات"
+
+#: ../../admin/addons.rst:1254 ../../admin/addons.rst:1512
+msgid "``82``"
+msgstr ""
+
+#: ../../admin/addons.rst:1255 ../../admin/addons.rst:1513
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Font removed"
+msgstr "مكون للإزالة"
+
+#: ../../admin/addons.rst:1257 ../../admin/addons.rst:1515
 msgid ":ref:`addon-event-event-change`"
 msgstr ":ref:`addon-event-event-change`"
 
-#: ../../admin/addons.rst:1152
+#: ../../admin/addons.rst:1259
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
 
-#: ../../admin/addons.rst:1156
+#: ../../admin/addons.rst:1263
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
 
-#: ../../admin/addons.rst:1160
+#: ../../admin/addons.rst:1267
 msgid ""
 "To obtain a webhook URL, follow the steps outlined in the `Slack Incoming "
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
 
-#: ../../admin/addons.rst:1165
+#: ../../admin/addons.rst:1272
 msgid "Webhook"
 msgstr ""
 
-#: ../../admin/addons.rst:1169
+#: ../../admin/addons.rst:1276
 msgid "``weblate.webhook.webhook``"
 msgstr "``weblate.webhook.webhook``"
 
-#: ../../admin/addons.rst:1173 ../../admin/machine.rst:83
+#: ../../admin/addons.rst:1280 ../../admin/machine.rst:83
 #: ../../admin/machine.rst:144 ../../admin/machine.rst:213
 #: ../../admin/machine.rst:673 ../../admin/machine.rst:991
 msgid "``secret``"
 msgstr "``secret``"
 
-#: ../../admin/addons.rst:1173
+#: ../../admin/addons.rst:1280
 msgid "Secret"
 msgstr ""
 
-#: ../../admin/addons.rst:1173
+#: ../../admin/addons.rst:1280
 #, fuzzy
 #| msgid "Invalid search string!"
 msgid "A Base64 encoded string"
 msgstr "سلسلة البحث غير صالحة !"
 
-#: ../../admin/addons.rst:1327
+#: ../../admin/addons.rst:1517
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
 
-#: ../../admin/addons.rst:1330
+#: ../../admin/addons.rst:1520
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
 
-#: ../../admin/addons.rst:1351
+#: ../../admin/addons.rst:1541
 msgid "Sample request body with categories:"
 msgstr ""
 
-#: ../../admin/addons.rst:1372
+#: ../../admin/addons.rst:1562
 msgid "Sample request headers:"
 msgstr ""
 
-#: ../../admin/addons.rst:1382
+#: ../../admin/addons.rst:1572
 msgid ""
 "The ``webhook-signature`` is a space separated list of HMAC signatures "
 "generated using the ``secret`` string, the request payload, the ``webhook-"
@@ -4692,14 +5043,14 @@ msgid ""
 "integrity of the webhook request."
 msgstr ""
 
-#: ../../admin/addons.rst:1386
+#: ../../admin/addons.rst:1576
 msgid ""
 "To verify a request, you can use the ``Webhook.verify`` method from the "
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
 
-#: ../../admin/addons.rst:1392
+#: ../../admin/addons.rst:1582
 msgid ""
 "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
@@ -4707,25 +5058,25 @@ msgid ""
 "standardwebhooks/>`_"
 msgstr ""
 
-#: ../../admin/addons.rst:1401
+#: ../../admin/addons.rst:1591
 #, fuzzy
 #| msgid "Customize JSON output"
 msgid "Customize XML output"
 msgstr "خصّص خرج JSON"
 
-#: ../../admin/addons.rst:1405
+#: ../../admin/addons.rst:1595
 msgid "``weblate.xml.customize``"
 msgstr "``weblate.xml.customize``"
 
-#: ../../admin/addons.rst:1407
+#: ../../admin/addons.rst:1597
 msgid "``closing_tags``"
 msgstr "``closing_tags``"
 
-#: ../../admin/addons.rst:1407
+#: ../../admin/addons.rst:1597
 msgid "Include closing tag for blank XML tags"
 msgstr "ضمّن وسوم إغلاق لوسوم XML الفارغة"
 
-#: ../../admin/addons.rst:1411
+#: ../../admin/addons.rst:1601
 #, fuzzy
 #| msgid ""
 #| "Allows to customize JSON output behavior, for example indentation or "
@@ -4733,75 +5084,95 @@ msgstr "ضمّن وسوم إغلاق لوسوم XML الفارغة"
 msgid "Allows adjusting XML output behavior, for example closing tags."
 msgstr "يسمح بتخصيص سلوك خرج JSON، كالإزاحة والترتيب."
 
-#: ../../admin/addons.rst:1416
+#: ../../admin/addons.rst:1606
 #, fuzzy
 #| msgid "Customize JSON output"
 msgid "Customize YAML output"
 msgstr "خصّص خرج JSON"
 
-#: ../../admin/addons.rst:1418
+#: ../../admin/addons.rst:1608
 msgid "``weblate.yaml.customize``"
 msgstr "``weblate.yaml.customize``"
 
-#: ../../admin/addons.rst:1420
+#: ../../admin/addons.rst:1610
 #, fuzzy
 #| msgid "JSON indentation"
 msgid "YAML indentation"
 msgstr "إزاحة JSON"
 
-#: ../../admin/addons.rst:1424
-#, fuzzy
-#| msgid "Wrap lines at 80 chars"
-msgid "``80`` -- Wrap lines at 80 chars"
+#: ../../admin/addons.rst:1615
+msgid "Wrap lines at 80 chars"
 msgstr "العودة إلى السطر عندما يتجاوز عدد الحروف حد الـ 80 حرفًا"
 
-#: ../../admin/addons.rst:1426
-#, fuzzy
-#| msgid "Wrap lines at 100 chars"
-msgid "``100`` -- Wrap lines at 100 chars"
+#: ../../admin/addons.rst:1617 ../../admin/config.rst:492
+msgid "``100``"
+msgstr "``100``"
+
+#: ../../admin/addons.rst:1618
+msgid "Wrap lines at 100 chars"
 msgstr "لف السطر عندما يتجاوز عدد الحروف حد الـ 100 حرف"
 
-#: ../../admin/addons.rst:1428
-#, fuzzy
-#| msgid "Wrap lines at 120 chars"
-msgid "``120`` -- Wrap lines at 120 chars"
+#: ../../admin/addons.rst:1620
+msgid "``120``"
+msgstr ""
+
+#: ../../admin/addons.rst:1621
+msgid "Wrap lines at 120 chars"
 msgstr "العودة إلى السطر عندما يتجاوز عدد الحروف 120 حرف"
 
-#: ../../admin/addons.rst:1430
-#, fuzzy
-#| msgid "Wrap lines at 180 chars"
-msgid "``180`` -- Wrap lines at 180 chars"
+#: ../../admin/addons.rst:1623
+msgid "``180``"
+msgstr ""
+
+#: ../../admin/addons.rst:1624
+msgid "Wrap lines at 180 chars"
 msgstr "العودة إلى السطر عندما تتعدى الأسطر حد ال180 حرفًا"
 
-#: ../../admin/addons.rst:1432
-#, fuzzy
-#| msgid "No line wrapping"
-msgid "``65535`` -- No line wrapping"
-msgstr "لا تلُف الأسطر"
-
-#: ../../admin/addons.rst:1434
+#: ../../admin/addons.rst:1629
 msgid "``line_break``"
 msgstr "``line_break``"
 
-#: ../../admin/addons.rst:1434
+#: ../../admin/addons.rst:1629
 msgid "Line breaks"
 msgstr "كاسرات الأسطر"
 
-#: ../../admin/addons.rst:1436
+#: ../../admin/addons.rst:1631
+#, fuzzy
+#| msgid "``docs``"
+msgid "``dos``"
+msgstr "``docs``"
+
+#: ../../admin/addons.rst:1632
 #, fuzzy
 #| msgid "DOS (\\r\\n)"
-msgid "``dos`` -- DOS (\\\\r\\\\n)"
+msgid "DOS (\\\\r\\\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: ../../admin/addons.rst:1438
-msgid "``unix`` -- UNIX (\\\\n)"
-msgstr ""
+#: ../../admin/addons.rst:1634
+#, fuzzy
+#| msgid "``suffix``"
+msgid "``unix``"
+msgstr "``suffix``"
 
-#: ../../admin/addons.rst:1440
-msgid "``mac`` -- MAC (\\\\r)"
-msgstr ""
+#: ../../admin/addons.rst:1635
+#, fuzzy
+#| msgid "UNIX (\\n)"
+msgid "UNIX (\\\\n)"
+msgstr "UNIX (\\n)"
 
-#: ../../admin/addons.rst:1444
+#: ../../admin/addons.rst:1637
+#, fuzzy
+#| msgid "``match``"
+msgid "``mac``"
+msgstr "``match``"
+
+#: ../../admin/addons.rst:1638
+#, fuzzy
+#| msgid "MAC (\\r)"
+msgid "MAC (\\\\r)"
+msgstr "MAC (\\r)"
+
+#: ../../admin/addons.rst:1642
 #, fuzzy
 #| msgid ""
 #| "Allows to customize JSON output behavior, for example indentation or "
@@ -4810,184 +5181,184 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "يسمح بتخصيص سلوك خرج JSON، كالإزاحة والترتيب."
 
-#: ../../admin/addons.rst:1448
+#: ../../admin/addons.rst:1646
 #, fuzzy
 #| msgid "Checks listing"
 msgid "Customizing list of add-ons"
 msgstr "قائمة الفحوص"
 
-#: ../../admin/addons.rst:1450
+#: ../../admin/addons.rst:1648
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
 
-#: ../../admin/addons.rst:1457
+#: ../../admin/addons.rst:1655
 #, fuzzy
 #| msgid "Configure addon"
 msgid "Writing add-on"
 msgstr "ضبط الإضافات"
 
-#: ../../admin/addons.rst:1459
+#: ../../admin/addons.rst:1657
 msgid ""
 "You can write your own add-ons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the add-on metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
 
-#: ../../admin/addons.rst:1465
+#: ../../admin/addons.rst:1663
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:1470
+#: ../../admin/addons.rst:1668
 #, fuzzy
 #| msgid "Execute script before commit"
 msgid "Executing scripts from add-on"
 msgstr "تنفيذ البرنامج النصي قبل الإيداع"
 
-#: ../../admin/addons.rst:1472
+#: ../../admin/addons.rst:1670
 msgid ""
 "Add-ons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
 
-#: ../../admin/addons.rst:1479
+#: ../../admin/addons.rst:1677
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
 
-#: ../../admin/addons.rst:1481
+#: ../../admin/addons.rst:1679
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
 
-#: ../../admin/addons.rst:1484
+#: ../../admin/addons.rst:1682
 msgid "Additionally, the following environment variables are available:"
 msgstr ""
 
-#: ../../admin/addons.rst:1488
+#: ../../admin/addons.rst:1686
 msgid "Version control system used."
 msgstr ""
 
-#: ../../admin/addons.rst:1492
+#: ../../admin/addons.rst:1690
 msgid "Upstream repository URL."
 msgstr ""
 
-#: ../../admin/addons.rst:1496
+#: ../../admin/addons.rst:1694
 msgid "Absolute path to VCS repository."
 msgstr ""
 
-#: ../../admin/addons.rst:1500
+#: ../../admin/addons.rst:1698
 msgid "Repository branch configured in the current component."
 msgstr ""
 
-#: ../../admin/addons.rst:1504
+#: ../../admin/addons.rst:1702
 msgid "File mask for current component."
 msgstr ""
 
-#: ../../admin/addons.rst:1508
+#: ../../admin/addons.rst:1706
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr ""
 
-#: ../../admin/addons.rst:1512
+#: ../../admin/addons.rst:1710
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
 
-#: ../../admin/addons.rst:1517
+#: ../../admin/addons.rst:1715
 #, fuzzy
 #| msgid "All components in current project"
 msgid "File format used in current component."
 msgstr "كافة العناصر في المشروع الحالي"
 
-#: ../../admin/addons.rst:1521
+#: ../../admin/addons.rst:1719
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
 
-#: ../../admin/addons.rst:1526
+#: ../../admin/addons.rst:1724
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
 
-#: ../../admin/addons.rst:1530
+#: ../../admin/addons.rst:1728
 msgid "Component slug used to construct URL."
 msgstr ""
 
-#: ../../admin/addons.rst:1534
+#: ../../admin/addons.rst:1732
 msgid "Project slug used to construct URL."
 msgstr ""
 
-#: ../../admin/addons.rst:1538
+#: ../../admin/addons.rst:1736
 msgid "Component name."
 msgstr ""
 
-#: ../../admin/addons.rst:1542
+#: ../../admin/addons.rst:1740
 msgid "Project name."
 msgstr ""
 
-#: ../../admin/addons.rst:1546
+#: ../../admin/addons.rst:1744
 msgid "Component URL."
 msgstr ""
 
-#: ../../admin/addons.rst:1550
+#: ../../admin/addons.rst:1748
 msgid "Project engage URL."
 msgstr ""
 
-#: ../../admin/addons.rst:1554 ../../faq.rst:278
+#: ../../admin/addons.rst:1752 ../../faq.rst:278
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:1557
+#: ../../admin/addons.rst:1755
 #, fuzzy
 #| msgid "Could not update the repository."
 msgid "Post-update repository processing"
 msgstr "لا يمكن تحديث المستودع."
 
-#: ../../admin/addons.rst:1559
+#: ../../admin/addons.rst:1757
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
 
-#: ../../admin/addons.rst:1563
+#: ../../admin/addons.rst:1761
 msgid "For example with Gulp you can do it using following code:"
 msgstr ""
 
-#: ../../admin/addons.rst:1573
+#: ../../admin/addons.rst:1771
 #, fuzzy
 #| msgid "Promoting specific translations"
 msgid "Pre-commit processing of translations"
 msgstr "الإشهار لترجمات محددة"
 
-#: ../../admin/addons.rst:1575
+#: ../../admin/addons.rst:1773
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
 
-#: ../../admin/addons.rst:1578
+#: ../../admin/addons.rst:1776
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
 
-#: ../../admin/addons.rst:1582
+#: ../../admin/addons.rst:1780
 #, fuzzy
 #| msgid "Account activity"
 msgid "Add-on activity logging"
 msgstr "نشاط الحساب"
 
-#: ../../admin/addons.rst:1584
+#: ../../admin/addons.rst:1782
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
 
-#: ../../admin/addons.rst:1587
+#: ../../admin/addons.rst:1785
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
@@ -8965,18 +9336,6 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 #: ../../admin/config.rst:486
 msgid "The default access-control setting for new projects:"
 msgstr ""
-
-#: ../../admin/config.rst:488
-msgid "``0``"
-msgstr "``0``"
-
-#: ../../admin/config.rst:490
-msgid "``1``"
-msgstr "``1``"
-
-#: ../../admin/config.rst:492
-msgid "``100``"
-msgstr "``100``"
 
 #: ../../admin/config.rst:494
 msgid "``200``"
@@ -16517,54 +16876,59 @@ msgid ""
 "You can place additional Python code into :file:`/app/data/python/customize` "
 "(see :ref:`docker-volume`). It is already installed as a Django application "
 "inside Weblate (this is used for customizing templates and static files as "
-"described above). This can be used to place any code (for example :ref:`own-"
-"checks`) or to add custom maintenance tasks to the Celery task scheduler."
+"described above)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2226
+#: ../../admin/install/docker.rst:2224
+msgid ""
+"This can be used to place any code (for example :ref:`own-checks`) or to add "
+"custom maintenance tasks to the Celery task scheduler."
+msgstr ""
+
+#: ../../admin/install/docker.rst:2227
 msgid ""
 "An example of custom scheduled tasks in :file:`/app/data/python/customize/"
 "tasks.py`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2231
+#: ../../admin/install/docker.rst:2232
 #, fuzzy
 #| msgid "Configure addon"
 msgid "Configuring PostgreSQL server"
 msgstr "ضبط الإضافات"
 
-#: ../../admin/install/docker.rst:2233
+#: ../../admin/install/docker.rst:2234
 msgid ""
 "The PostgreSQL container uses default PostgreSQL configuration and it won't "
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2237
+#: ../../admin/install/docker.rst:2238
 msgid ""
 "The configuration can be adjusted as described in `Database Configuration` "
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2242
+#: ../../admin/install/docker.rst:2243
 #, fuzzy
 #| msgid "Notification settings"
 msgid "Container internals"
 msgstr "إعدادات الإشعارات"
 
-#: ../../admin/install/docker.rst:2244
+#: ../../admin/install/docker.rst:2245
 msgid ""
 "The container is using :program:`supervisor` to start individual services. "
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:2247
+#: ../../admin/install/docker.rst:2248
 msgid "To check the services status use:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:2253
+#: ../../admin/install/docker.rst:2254
 msgid ""
 "There are individual services for each Celery queue (see :ref:`celery` for "
 "details). You can stop processing some tasks by stopping the appropriate "
@@ -40033,10 +40397,6 @@ msgid ""
 "worker makes this easier."
 msgstr ""
 
-#: ../../contributing/internals.rst:136
-msgid "``translate``"
-msgstr "``translate``"
-
 #: ../../contributing/internals.rst:137
 msgid ""
 "Automatic translation tasks are known to take long because they hit external "
@@ -41179,10 +41539,6 @@ msgid ""
 "additional terminology documents to guarantee a good knowledge and output in "
 "the field."
 msgstr ""
-
-#: ../../devel/community.rst:27
-msgid "Machine translation"
-msgstr "الترجمة الألية"
 
 #: ../../devel/community.rst:28
 msgid ""
@@ -53567,12 +53923,6 @@ msgstr ""
 msgid "Following labels are used by Weblate:"
 msgstr "الفحوص الفاشلة الموجودة"
 
-#: ../../user/translating.rst:104
-#, fuzzy
-#| msgid "Automatic translation"
-msgid "Automatically translated"
-msgstr "ترجمة تلقائية"
-
 #: ../../user/translating.rst:105
 #, fuzzy
 #| msgid "Allow translation propagation"
@@ -55565,10 +55915,6 @@ msgid ""
 "the file format."
 msgstr ""
 
-#: ../../workflows.rst:66
-msgid "Needs editing"
-msgstr "تحتاج إلى تعديل"
-
 #: ../../workflows.rst:67
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
@@ -55586,10 +55932,6 @@ msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
 msgstr ""
-
-#: ../../workflows.rst:73
-msgid "Approved"
-msgstr "مصدق عليه"
 
 #: ../../workflows.rst:74
 msgid ""
@@ -55867,6 +56209,498 @@ msgstr ""
 #: ../../workflows.rst:303
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Add as suggestion"
+#~ msgid "``suggest`` -- Add as suggestion"
+#~ msgstr "إضافة كاقتراح"
+
+#, fuzzy
+#~| msgid "Add as other translation"
+#~ msgid "``translate`` -- Add as translation"
+#~ msgstr "إضافة كترجمة بديلة"
+
+#, fuzzy
+#~| msgid "Add as needing edit"
+#~ msgid "``fuzzy`` -- Add as \"Needing edit\""
+#~ msgstr "إضافة على أنها تحتاج إلى التعديل"
+
+#, fuzzy
+#~| msgid "All strings"
+#~ msgid "``all`` -- All strings"
+#~ msgstr "كل السلاسل"
+
+#, fuzzy
+#~| msgid "Not translated strings"
+#~ msgid "``nottranslated`` -- Untranslated strings"
+#~ msgstr "سلاسل غير مترجَمة"
+
+#, fuzzy
+#~| msgid "Translated strings"
+#~ msgid "``todo`` -- Unfinished strings"
+#~ msgstr "السلاسل المُترجمة"
+
+#, fuzzy
+#~| msgid "Strings marked for edit"
+#~ msgid "``fuzzy`` -- Strings marked for edit"
+#~ msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
+
+#, fuzzy
+#~| msgid "Other translation components"
+#~ msgid "``others`` -- Other translation components"
+#~ msgstr "عنصر الترجمة الأخرى"
+
+#, fuzzy
+#~| msgid "Machine translation"
+#~ msgid "``mt`` -- Machine translation"
+#~ msgstr "الترجمة الألية"
+
+#, fuzzy
+#~| msgid "Download changes"
+#~ msgid "``-1`` -- Do not change"
+#~ msgstr "تنزيل التغييرات"
+
+#, fuzzy
+#~| msgid "Needs editing"
+#~ msgid "``10`` -- Needs editing"
+#~ msgstr "تحتاج إلى تعديل"
+
+#, fuzzy
+#~| msgid "Translated"
+#~ msgid "``20`` -- Translated"
+#~ msgstr "تم ترجمتها"
+
+#, fuzzy
+#~| msgid "Approved"
+#~ msgid "``30`` -- Approved"
+#~ msgstr "مصدق عليه"
+
+#, fuzzy
+#~| msgid "Wrap lines at 77 chars and at newlines"
+#~ msgid ""
+#~ "``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)"
+#~ msgstr "العودة إلى السطر عندما تتعدى الأسطر حد الـ 77 حرفًا"
+
+#, fuzzy
+#~| msgid "Only wrap lines at newlines"
+#~ msgid "``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')"
+#~ msgstr "قم بلف السطور فقط في سطور جديدة"
+
+#, fuzzy
+#~| msgid "No line wrapping"
+#~ msgid "``-1`` -- No line wrapping"
+#~ msgstr "لا تلُف الأسطر"
+
+#, fuzzy
+#~| msgid "All commits into one"
+#~ msgid "``all`` -- All commits into one"
+#~ msgstr "كل الإيداعات في واحد"
+
+#, fuzzy
+#~| msgctxt "Access-control role"
+#~| msgid "Manage languages"
+#~ msgid "``language`` -- Per language"
+#~ msgstr "إدارة اللغات"
+
+#, fuzzy
+#~| msgid "Resource update"
+#~ msgid "``0`` -- Resource updated"
+#~ msgstr "تحديث الموارد"
+
+#, fuzzy
+#~| msgid "Translation completed"
+#~ msgid "``1`` -- Translation completed"
+#~ msgstr "أنجز الترجمة"
+
+#, fuzzy
+#~| msgid "Translation changed"
+#~ msgid "``2`` -- Translation changed"
+#~ msgstr "عدَّل الترجمة"
+
+#, fuzzy
+#~| msgid "Comment added"
+#~ msgid "``3`` -- Comment added"
+#~ msgstr "أضاف تعليقًا"
+
+#, fuzzy
+#~| msgid "Suggestion added"
+#~ msgid "``4`` -- Suggestion added"
+#~ msgstr "أضاف اقتراحًا"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "``5`` -- Translation added"
+#~ msgstr "الترجمات المُقدمة"
+
+#, fuzzy
+#~| msgid "Automatic translation"
+#~ msgid "``6`` -- Automatically translated"
+#~ msgstr "ترجمة تلقائية"
+
+#, fuzzy
+#~| msgid "Suggestion accepted"
+#~ msgid "``7`` -- Suggestion accepted"
+#~ msgstr "قبِل اقتراحًا"
+
+#, fuzzy
+#~| msgid "Translation reverted"
+#~ msgid "``8`` -- Translation reverted"
+#~ msgstr "ألغى ترجمة"
+
+#, fuzzy
+#~| msgid "Translation uploaded"
+#~ msgid "``9`` -- Translation uploaded"
+#~ msgstr "رَفع ترجمة"
+
+#, fuzzy
+#~| msgid "Source string age"
+#~ msgid "``13`` -- Source string added"
+#~ msgstr "عمر السلسلة المصدرية"
+
+#, fuzzy
+#~| msgid "Component locked"
+#~ msgid "``14`` -- Component locked"
+#~ msgstr "العنصر مغلق"
+
+#, fuzzy
+#~| msgid "Component unlocked"
+#~ msgid "``15`` -- Component unlocked"
+#~ msgstr "فُتح قفل المكون"
+
+#, fuzzy
+#~| msgid "Change word"
+#~ msgid "``17`` -- Changes committed"
+#~ msgstr "تغيير الكلمة"
+
+#, fuzzy
+#~| msgid "Change password"
+#~ msgid "``18`` -- Changes pushed"
+#~ msgstr "تغيير كلمة السر"
+
+#, fuzzy
+#~| msgid "Repository browser"
+#~ msgid "``19`` -- Repository reset"
+#~ msgstr "متصفح المستودع"
+
+#, fuzzy
+#~| msgid "Repository changes"
+#~ msgid "``20`` -- Repository merged"
+#~ msgstr "تغييرات المستودع"
+
+#, fuzzy
+#~| msgid "Repository details"
+#~ msgid "``21`` -- Repository rebased"
+#~ msgstr "معلومات المستودع"
+
+#, fuzzy
+#~| msgid "Repository operation"
+#~ msgid "``22`` -- Repository merge failed"
+#~ msgstr "إجراء في المستودع"
+
+#, fuzzy
+#~| msgid "Repository operation"
+#~ msgid "``23`` -- Repository rebase failed"
+#~ msgstr "إجراء في المستودع"
+
+#, fuzzy
+#~| msgid "Failing file"
+#~ msgid "``24`` -- Parsing failed"
+#~ msgstr "ملف فاشل"
+
+#, fuzzy
+#~| msgid "Translation to remove"
+#~ msgid "``25`` -- Translation removed"
+#~ msgstr "الترجمة المطلوب إزالتها"
+
+#, fuzzy
+#~| msgid "Suggestion removed"
+#~ msgid "``26`` -- Suggestion removed"
+#~ msgstr "أُزيل الاقتراح"
+
+#, fuzzy
+#~| msgid "Translation uploaded"
+#~ msgid "``27`` -- Translation replaced"
+#~ msgstr "رَفع ترجمة"
+
+#, fuzzy
+#~| msgid "Repository failure"
+#~ msgid "``28`` -- Repository push failed"
+#~ msgstr "خطأ فادح في المستودع"
+
+#, fuzzy
+#~| msgid "Suggestion removed during cleanup"
+#~ msgid "``29`` -- Suggestion removed during cleanup"
+#~ msgstr "حُذف الاقتراح أثناء التنظيف"
+
+#, fuzzy
+#~| msgid "Source string changed"
+#~ msgid "``30`` -- Source string changed"
+#~ msgstr "الترجمة الأصل قد تم تغيرها"
+
+#, fuzzy
+#~| msgid "String age"
+#~ msgid "``31`` -- String added"
+#~ msgstr "عمر السلسلة"
+
+#, fuzzy
+#~| msgid "Bulk status change"
+#~ msgid "``32`` -- Bulk status changed"
+#~ msgstr "تغيير الحالة بالجُملة"
+
+#, fuzzy
+#~| msgid "Last change"
+#~ msgid "``33`` -- Visibility changed"
+#~ msgstr "آخر تغيير"
+
+#, fuzzy
+#~| msgid "User to add"
+#~ msgid "``34`` -- User added"
+#~ msgstr "المستخدِم الذي تريد إضافته"
+
+#, fuzzy
+#~| msgid "User profile"
+#~ msgid "``35`` -- User removed"
+#~ msgstr "ملف المستخدم الشخصي"
+
+#, fuzzy
+#~| msgid "Translation approved"
+#~ msgid "``36`` -- Translation approved"
+#~ msgstr "الترجمة معتمَدة"
+
+#, fuzzy
+#~| msgid "Marked for edit"
+#~ msgid "``37`` -- Marked for edit"
+#~ msgstr "تم وضع علامة إعادة التحرير"
+
+#, fuzzy
+#~| msgid "Component to remove"
+#~ msgid "``38`` -- Component removed"
+#~ msgstr "مكون للإزالة"
+
+#, fuzzy
+#~| msgid "Project to remove"
+#~ msgid "``39`` -- Project removed"
+#~ msgstr "مشروع للإزالة"
+
+#, fuzzy
+#~| msgid "Project name"
+#~ msgid "``41`` -- Project renamed"
+#~ msgstr "اسم المشروع"
+
+#, fuzzy
+#~| msgid "Component name"
+#~ msgid "``42`` -- Component renamed"
+#~ msgstr "اسم المكون"
+
+#, fuzzy
+#~| msgid "Moved component"
+#~ msgid "``43`` -- Moved component"
+#~ msgstr "تم نقل العنصر"
+
+#, fuzzy
+#~| msgid "Contributor stats"
+#~ msgid "``45`` -- Contributor joined"
+#~ msgstr "حالة المُساهم"
+
+#, fuzzy
+#~| msgid "Announcements"
+#~ msgid "``46`` -- Announcement posted"
+#~ msgstr "تصريحات"
+
+#, fuzzy
+#~| msgid "All strings"
+#~ msgid "``47`` -- Alert triggered"
+#~ msgstr "كل السلاسل"
+
+#, fuzzy
+#~| msgid "Language code"
+#~ msgid "``48`` -- Language added"
+#~ msgstr "كود اللغة"
+
+#, fuzzy
+#~| msgid "Language codes"
+#~ msgid "``49`` -- Language requested"
+#~ msgstr "رموز اللغات"
+
+#, fuzzy
+#~| msgid "Project name"
+#~ msgid "``50`` -- Project created"
+#~ msgstr "اسم المشروع"
+
+#, fuzzy
+#~| msgid "Component locked"
+#~ msgid "``51`` -- Component created"
+#~ msgstr "العنصر مغلق"
+
+#, fuzzy
+#~| msgid "Current user identities"
+#~ msgid "``52`` -- User invited"
+#~ msgstr "معرفات المستخدم الحالية"
+
+#, fuzzy
+#~| msgid "Received repository notification"
+#~ msgid "``53`` -- Repository notification received"
+#~ msgstr "استلام إشعار المستودع"
+
+#, fuzzy
+#~| msgid "Translation uploaded"
+#~ msgid "``54`` -- Translation replaced file by upload"
+#~ msgstr "رَفع ترجمة"
+
+#, fuzzy
+#~| msgid "Last change"
+#~ msgid "``55`` -- License changed"
+#~ msgstr "آخر تغيير"
+
+#, fuzzy
+#~| msgid "Contributor agreement"
+#~ msgid "``56`` -- Contributor license agreement changed"
+#~ msgstr "عقد المُساهِم"
+
+#, fuzzy
+#~| msgid "Screenshot name"
+#~ msgid "``57`` -- Screenshot added"
+#~ msgstr "اسم لقطة الشاشة"
+
+#, fuzzy
+#~| msgid "Screenshots uploaded"
+#~ msgid "``58`` -- Screenshot uploaded"
+#~ msgstr "لقطات الشاشة التي تم إرسالها"
+
+#, fuzzy
+#~| msgid "String updated in the repository"
+#~ msgid "``59`` -- String updated in the repository"
+#~ msgstr "تم تحديث السلسلة في المستودع"
+
+#, fuzzy
+#~| msgid "Uninstall"
+#~ msgid "``60`` -- Add-on installed"
+#~ msgstr "أزل"
+
+#, fuzzy
+#~| msgid "Bad configuration"
+#~ msgid "``61`` -- Add-on configuration changed"
+#~ msgstr "خطأ في الإعداد"
+
+#, fuzzy
+#~| msgid "Uninstall"
+#~ msgid "``62`` -- Add-on uninstalled"
+#~ msgstr "أزل"
+
+#, fuzzy
+#~| msgid "Suggestion removed"
+#~ msgid "``63`` -- String removed"
+#~ msgstr "أُزيل الاقتراح"
+
+#, fuzzy
+#~| msgid "Component to remove"
+#~ msgid "``64`` -- Comment removed"
+#~ msgstr "مكون للإزالة"
+
+#, fuzzy
+#~| msgid "Translation comment has been deleted."
+#~ msgid "``65`` -- Comment resolved"
+#~ msgstr "تمت إزالة تعليق عن الترجمة."
+
+#, fuzzy
+#~| msgid "Translation"
+#~ msgid "``66`` -- Explanation updated"
+#~ msgstr "الترجمة"
+
+#, fuzzy
+#~| msgid "Category"
+#~ msgid "``67`` -- Category removed"
+#~ msgstr "الفئة"
+
+#, fuzzy
+#~| msgid "Category"
+#~ msgid "``68`` -- Category renamed"
+#~ msgstr "الفئة"
+
+#, fuzzy
+#~| msgid "Category"
+#~ msgid "``69`` -- Category moved"
+#~ msgstr "الفئة"
+
+#, fuzzy
+#~| msgid "Failing file"
+#~ msgid "``70`` -- Saving string failed"
+#~ msgstr "ملف فاشل"
+
+#, fuzzy
+#~| msgid "String updated in the repository"
+#~ msgid "``71`` -- String added in the repository"
+#~ msgstr "تم تحديث السلسلة في المستودع"
+
+#, fuzzy
+#~| msgid "String updated in the repository"
+#~ msgid "``72`` -- String updated in the upload"
+#~ msgstr "تم تحديث السلسلة في المستودع"
+
+#, fuzzy
+#~| msgid "String updated in the repository"
+#~ msgid "``73`` -- String added in the upload"
+#~ msgstr "تم تحديث السلسلة في المستودع"
+
+#, fuzzy
+#~| msgid "Translation uploaded"
+#~ msgid "``74`` -- Translation updated by source upload"
+#~ msgstr "رَفع ترجمة"
+
+#, fuzzy
+#~| msgid "Translation completed"
+#~ msgid "``75`` -- Component translation completed"
+#~ msgstr "أنجز الترجمة"
+
+#, fuzzy
+#~| msgid "Unused enforced checks."
+#~ msgid "``76`` -- Applied enforced check"
+#~ msgstr "الشيكات القسرية غير المستخدمة."
+
+#, fuzzy
+#~| msgid "Translated"
+#~ msgid "``77`` -- Propagated change"
+#~ msgstr "تم ترجمتها"
+
+#, fuzzy
+#~| msgid "File upload has failed: %s"
+#~ msgid "``78`` -- File uploaded"
+#~ msgstr "فشلت عملية رفع الملف : %s"
+
+#, fuzzy
+#~| msgid "Last updated"
+#~ msgid "``79`` -- Extra flags updated"
+#~ msgstr "آخر تحديث"
+
+#, fuzzy
+#~| msgid "Wrap lines at 80 chars"
+#~ msgid "``80`` -- Wrap lines at 80 chars"
+#~ msgstr "العودة إلى السطر عندما يتجاوز عدد الحروف حد الـ 80 حرفًا"
+
+#, fuzzy
+#~| msgid "Wrap lines at 100 chars"
+#~ msgid "``100`` -- Wrap lines at 100 chars"
+#~ msgstr "لف السطر عندما يتجاوز عدد الحروف حد الـ 100 حرف"
+
+#, fuzzy
+#~| msgid "Wrap lines at 120 chars"
+#~ msgid "``120`` -- Wrap lines at 120 chars"
+#~ msgstr "العودة إلى السطر عندما يتجاوز عدد الحروف 120 حرف"
+
+#, fuzzy
+#~| msgid "Wrap lines at 180 chars"
+#~ msgid "``180`` -- Wrap lines at 180 chars"
+#~ msgstr "العودة إلى السطر عندما تتعدى الأسطر حد ال180 حرفًا"
+
+#, fuzzy
+#~| msgid "No line wrapping"
+#~ msgid "``65535`` -- No line wrapping"
+#~ msgstr "لا تلُف الأسطر"
+
+#, fuzzy
+#~| msgid "DOS (\\r\\n)"
+#~ msgid "``dos`` -- DOS (\\\\r\\\\n)"
+#~ msgstr "DOS (\\r\\n)"
 
 #~ msgid "``shared/src/commonMain/resources/MR/*/plurals.xml``"
 #~ msgstr "``shared/src/commonMain/resources/MR/*/plurals.xml``"
