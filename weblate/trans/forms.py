@@ -1819,8 +1819,8 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+
         if "file_format_params" in data:
-            # TODO: could be factored out to a mixin
             selected_format = data["file_format"]
             for param_format in FILE_FORMATS_PARAMS:
                 if selected_format not in param_format.file_formats:
@@ -1881,7 +1881,13 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
                 kwargs["initial"]["file_format_params"] = {
                     k: v
                     for k, v in source_component.file_format_params.items()
-                    if k in get_params_for_file_format(kwargs["initial"]["file_format"])
+                    if k
+                    in [
+                        param.get_identifier()
+                        for param in get_params_for_file_format(
+                            kwargs["initial"]["file_format"]
+                        )
+                    ]
                 }
         super().__init__(request, *args, **kwargs)
 

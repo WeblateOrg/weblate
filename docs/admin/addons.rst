@@ -1598,6 +1598,10 @@ Customize XML output
 
 .. versionadded:: 4.15
 
+.. deprecated:: 5.13
+
+  :guilabel: Replaced by :ref:`file_format_params`
+
 :Add-on ID: ``weblate.xml.customize``
 :Configuration: +------------------+----------------------------------------+--+
                 | ``closing_tags`` | Include closing tag for blank XML tags |  |

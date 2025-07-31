@@ -126,7 +126,11 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     default = "spaces"
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        indent = int(file_format_params.get("json_indent", 4))
+        indent = int(
+            file_format_params.get(
+                JSONOutputIndentation.name, JSONOutputIndentation.default
+            )
+        )
         if file_format_params.get(self.name, self.default) == "tabs":
             indent = "\t" * indent
         store.store.dump_args["indent"] = indent

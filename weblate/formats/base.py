@@ -376,7 +376,8 @@ class TranslationFormat:
         self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
-        self.store = self.load(storefile, template_store, file_format_params or {})
+        file_format_params = file_format_params or {}
+        self.store = self.load(storefile, template_store, file_format_params)
 
         self.add_breadcrumb(
             "Loaded translation file {}".format(
@@ -385,6 +386,14 @@ class TranslationFormat:
             template_store=str(template_store),
             is_template=is_template,
         )
+
+        self.post_store_load_setup(file_format_params)
+
+    def post_store_load_setup(self, file_format_params: dict[str, Any]) -> None:
+        from weblate.trans.format_params import get_params_for_file_format
+
+        for format_param_class in get_params_for_file_format(self.format_id):
+            format_param_class().setup_store(self, **file_format_params)
 
     def _invalidate_units(self) -> None:
         for key in ("all_units", "template_units", "_unit_index", "_template_index"):
@@ -879,9 +888,6 @@ class TranslationFormat:
     @staticmethod
     def validate_context(context: str) -> None:  # noqa: ARG004
         return
-
-    def setup_serialization_params(self, file_format_params: dict[str, Any]) -> None:
-        """Load file format parameters into the store."""
 
 
 class EmptyFormat(TranslationFormat):
