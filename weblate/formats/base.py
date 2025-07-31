@@ -390,7 +390,7 @@ class TranslationFormat:
         self.post_store_load_setup(file_format_params)
 
     def post_store_load_setup(self, file_format_params: dict[str, Any]) -> None:
-        from weblate.trans.format_params import get_params_for_file_format
+        from weblate.trans.file_format_params import get_params_for_file_format
 
         for format_param_class in get_params_for_file_format(self.format_id):
             format_param_class().setup_store(self, **file_format_params)
@@ -933,11 +933,10 @@ class BilingualUpdateMixin:
 
         params = component.file_format_params
         args: list[str] = []
-        # NOTE: is it the correct place to set this ?
         if component.get_addon(MsgmergeAddon.name):
-            if not params.get("popo_keep_previous_fuzzy_matching", True):
+            if not params.get("po_fuzzy_matching", True):
                 args.append("--no-fuzzy-matching")
-            if params.get("", True):
+            if params.get("po_keep_previous", True):
                 args.append("--previous")
             if params.get("po_no_location", False):
                 args.append("--no-location")

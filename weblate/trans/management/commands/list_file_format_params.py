@@ -6,7 +6,7 @@ import operator
 from collections.abc import Iterable
 from itertools import zip_longest
 
-from weblate.trans.format_params import FILE_FORMATS_PARAMS
+from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.utils.management.base import BaseCommand
 
 

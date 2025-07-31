@@ -8,7 +8,9 @@
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.addons.gettext import MsgmergeAddon
 from weblate.lang.models import get_default_lang
+from weblate.trans.file_format_params import get_params_for_file_format
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
@@ -21,6 +23,11 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.save()
 
     def update_component_file_params(self, **file_param_kwargs):
+        default_params = {
+            param.name: param.default
+            for param in get_params_for_file_format(self.component.file_format)
+        }
+        file_param_kwargs = default_params | file_param_kwargs
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
@@ -253,3 +260,53 @@ class XMLParamsTest(BaseFileFormatsTest):
 
     def test_closing_tags_off(self) -> None:
         self.test_closing_tags(closing_tags_active=False)
+
+
+class GettextParamsTest(BaseFileFormatsTest):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_msgmerge(self, wrapped=True) -> None:
+        self.assertTrue(MsgmergeAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = MsgmergeAddon.create(component=self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, "", False)
+        self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, rev, False)
+        self.assertEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("po/cs.po", commit)
+        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
+
+    def test_msgmerge_nowrap(self) -> None:
+        self.update_component_file_params(po_line_wrap=-1)
+        self.test_msgmerge(False)
+
+    def test_store(self) -> None:
+        self.update_component_file_params(
+            po_line_wrap=-1, po_fuzzy_matching=False, po_keep_previous=False
+        )
+        rev = self.component.repository.last_revision
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn(
+            "Last-Translator: Weblate Test <weblate@example.org>\\nLanguage", commit
+        )
+
+    def test_msgmerge_no_location(self) -> None:
+        self.update_component_file_params(po_no_location=True)
+        rev = self.component.repository.last_revision
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("#: main.c:", commit)
+        addon = MsgmergeAddon.create(component=self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, rev, False)
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertNotIn("#: main.c:", commit)

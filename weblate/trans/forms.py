@@ -55,8 +55,11 @@ from weblate.trans.defines import (
     FILENAME_LENGTH,
     REPO_LENGTH,
 )
+from weblate.trans.file_format_params import (
+    FILE_FORMATS_PARAMS,
+    get_params_for_file_format,
+)
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.format_params import FILE_FORMATS_PARAMS, get_params_for_file_format
 from weblate.trans.models import (
     Announcement,
     Category,

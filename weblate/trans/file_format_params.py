@@ -180,8 +180,8 @@ class GettextPoLineWrap(BaseFileFormatParam):
     )
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        cast("BasePoFormat", store).store.wrapper.width = file_format_params.get(
-            self.name, self.default
+        cast("BasePoFormat", store).store.wrapper.width = int(
+            file_format_params.get(self.name, self.default)
         )
 
 

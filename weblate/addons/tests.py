@@ -70,7 +70,6 @@ from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
 from .webhooks import JSONWebhookBaseAddon, SlackWebhookAddon, WebhookAddon
-from .xml import XMLCustomizeAddon
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -322,20 +321,6 @@ class GettextAddonTest(ViewTestCase):
         addon = UpdateConfigureAddon.create(component=translation.component)
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
-
-    def test_msgmerge(self, wrapped=True) -> None:
-        self.assertTrue(MsgmergeAddon.can_install(self.component, None))
-        rev = self.component.repository.last_revision
-        addon = MsgmergeAddon.create(component=self.component)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
-        self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, rev, False)
-        self.assertEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("po/cs.po", commit)
-        self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
 
     def test_generate(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -627,37 +612,6 @@ class JsonAddonTest(ViewTestCase):
                 state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
             ).exists()
         )
-
-
-class XMLAddonTest(ViewTestCase):
-    def create_component(self):
-        return self.create_xliff("complex")
-
-    def test_customize_self_closing_tags(self) -> None:
-        XMLCustomizeAddon.create(
-            component=self.component, configuration={"closing_tags": False}
-        )
-
-        rev = self.component.repository.last_revision
-        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("<target/>", commit)
-
-    def test_customize_closing_tags(self) -> None:
-        XMLCustomizeAddon.create(
-            component=self.component, configuration={"closing_tags": True}
-        )
-
-        rev = self.component.repository.last_revision
-        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("<target></target>", commit)
 
 
 class ViewTests(ViewTestCase):

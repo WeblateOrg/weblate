@@ -130,9 +130,6 @@ def collect_addon_configurations(apps) -> dict[str, list | dict]:
 
     for addon in addons:
         file_formats, params = convert_addon_config_to_file_format_params(addon)
-        if not params:
-            continue
-
         config_entry = (file_formats, params)
 
         if not addon.component and not addon.project:
