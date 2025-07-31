@@ -28,10 +28,12 @@ class ChangesFeed(Feed):
         return request.user
 
     def title(self):
-        return gettext("Recent changes in %s") % settings.SITE_TITLE
+        # Translators: %s is site title here
+        return gettext("Recent changes on %s") % settings.SITE_TITLE
 
     def description(self):
-        return gettext("All recent changes made using Weblate in %s.") % (
+        # Translators: %s is site title here
+        return gettext("All recent changes made using Weblate on %s.") % (
             settings.SITE_TITLE
         )
 
@@ -65,9 +67,11 @@ class TranslationChangesFeed(ChangesFeed):
         )
 
     def title(self, obj):
+        # Translators: %s is translation name
         return gettext("Recent changes in %s") % obj
 
     def description(self, obj):
+        # Translators: %s is translation name
         return gettext("All recent changes made using Weblate in %s.") % obj
 
     def link(self, obj):

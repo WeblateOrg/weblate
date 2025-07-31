@@ -413,6 +413,22 @@ class OldUnit(TypedDict):
     explanation: str
 
 
+class UnitAttributesDict(TypedDict):
+    location: str
+    explanation: str
+    source_explanation: str
+    flags: Flags
+    source: str
+    target: str
+    context: str
+    note: str
+    previous_source: str
+    unit: TranslationUnit
+    created: bool
+    pos: int
+    id_hash: int
+
+
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey(
         "trans.Translation", on_delete=models.deletion.CASCADE, db_index=False
@@ -519,6 +535,8 @@ class Unit(models.Model, LoggerMixin):
         self.import_data: dict[str, Any] = {}
         # Store original attributes for change tracking
         self.old_unit: OldUnit
+        # Unit attributes used when parsing
+        self.unit_attributes: UnitAttributesDict | None = None
         # Avoid loading self-referencing source unit from the database
         # Skip this when deferred fields are present to avoid database access
         if (
@@ -805,12 +823,65 @@ class Unit(models.Model, LoggerMixin):
             )
         self.source_unit = source_unit
 
-    def update_from_unit(  # noqa: C901
+    def store_unit_attributes(
         self,
         *,
         unit: TranslationUnit,
         pos: int,
         created: bool,
+        id_hash: int,
+    ) -> UnitAttributesDict:
+        """Get unit attributes."""
+        if self.unit_attributes is None:
+            translation = self.translation
+            component = translation.component
+            try:
+                location = unit.locations
+                if self.translation.component.file_format_cls.supports_explanation:
+                    explanation = unit.explanation
+                    source_explanation = unit.source_explanation
+                else:
+                    explanation = self.explanation
+                    source_explanation = "" if created else self.source_unit.explanation
+                flags = Flags(unit.flags)
+                source = unit.source
+                self.check_valid(split_plural(source))
+                if not translation.is_template and translation.is_source:
+                    # Load target from source string for bilingual source translations
+                    target = source
+                else:
+                    target = unit.target
+                    self.check_valid(split_plural(target))
+                context = unit.context
+                self.check_valid([context])
+                note = unit.notes
+                previous_source = unit.previous_source
+            except DjangoDatabaseError:
+                raise
+            except Exception as error:
+                report_error("Unit update error", project=component.project)
+                translation.component.handle_parse_error(error, translation)
+
+            self.unit_attributes = {
+                "location": location,
+                "explanation": explanation,
+                "source_explanation": source_explanation,
+                "flags": flags,
+                "source": source,
+                "target": target,
+                "context": context,
+                "note": note,
+                "previous_source": previous_source,
+                "unit": unit,
+                "created": created,
+                "pos": pos,
+                "id_hash": id_hash,
+            }
+        return self.unit_attributes
+
+    def update_from_unit(  # noqa: C901,PLR0914
+        self,
+        *,
         user: User | None = None,
         author: User | None = None,
     ) -> None:
@@ -820,35 +891,29 @@ class Unit(models.Model, LoggerMixin):
         self.is_batch_update = True
         self.trigger_update_variants = False
         self.source_updated = True
-        # Get unit attributes
-        try:
-            location = unit.locations
-            if self.translation.component.file_format_cls.supports_explanation:
-                explanation = unit.explanation
-                source_explanation = unit.source_explanation
-            else:
-                explanation = self.explanation
-                source_explanation = "" if created else self.source_unit.explanation
-            flags = Flags(unit.flags)
-            source = unit.source
-            self.check_valid(split_plural(source))
-            if not translation.is_template and translation.is_source:
-                # Load target from source string for bilingual source translations
-                target = source
-            else:
-                target = unit.target
-                self.check_valid(split_plural(target))
-            context = unit.context
-            self.check_valid([context])
-            note = unit.notes
-            source_change = previous_source = unit.previous_source
-        except DjangoDatabaseError:
-            raise
-        except Exception as error:
-            report_error("Unit update error", project=component.project)
-            translation.component.handle_parse_error(error, translation)
 
         pending = False
+
+        # Get unit attributes
+        if self.unit_attributes is None:
+            msg = "store_unit_attributes has to be called first"
+            raise ValueError(msg)
+        unit_attributes = self.unit_attributes
+        location = unit_attributes["location"]
+        explanation = unit_attributes["explanation"]
+        source_explanation = unit_attributes["source_explanation"]
+        flags = unit_attributes["flags"]
+        source = unit_attributes["source"]
+        target = unit_attributes["target"]
+        context = unit_attributes["context"]
+        note = unit_attributes["note"]
+        source_change = previous_source = unit_attributes["previous_source"]
+        unit = unit_attributes["unit"]
+        created = unit_attributes["created"]
+        pos = unit_attributes["pos"]
+
+        # Should not be needed again
+        self.unit_attributes = None
 
         # Ensure we track source string for bilingual, this can not use
         # Unit.is_source as that depends on source_unit attribute, which

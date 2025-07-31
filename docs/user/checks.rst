@@ -998,19 +998,19 @@ This check applies to all components in a project that have
 
 .. _check-rst-references:
 
-Inconsistent reStructuredText references
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Inconsistent reStructuredText
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 5.10
 
-:Summary: Inconsistent reStructuredText term references in the translated message.
+:Summary: Inconsistent reStructuredText markup in the translated message.
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.RSTReferencesCheck``
 :Check identifier: ``rst-references``
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-references``
 
-reStructuredText term references do not match source, the typical causes for these errors are:
+reStructuredText term references or other markup do not match source, the typical causes for these errors are:
 
 * Mismatched or missing backticks.
 * Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.

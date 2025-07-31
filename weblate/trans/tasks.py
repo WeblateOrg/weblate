@@ -101,7 +101,12 @@ def perform_load(
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
+    user_id: int | None = None,
 ) -> None:
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
     component = Component.objects.get(pk=pk)
     component.create_translations_immediate(
         force=force,
@@ -110,6 +115,7 @@ def perform_load(
         changed_template=changed_template,
         from_link=from_link,
         change=change,
+        request=request,
     )
 
 

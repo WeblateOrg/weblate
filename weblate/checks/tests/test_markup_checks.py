@@ -421,15 +421,12 @@ class RSTReferencesCheckTest(CheckTestCase):
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
-            The following format strings are missing:
-            <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>
+            The following reStructuredText markup is missing:
+            <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>,
+            <span class="hlcheck" data-value="`baz`_">`baz`_</span>
             <br />
-            The following format strings are extra:
+            The following reStructuredText markup is extra:
             <span class="hlcheck" data-value=":ref:`bar &lt;baz&gt;`">:ref:`bar &lt;baz&gt;`</span>
-            <br>
-            The following errors were found:
-            <br>
-            Inconsistent external links in the translated message.
             """,
         )
 
@@ -520,6 +517,16 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_ref_widechar(self) -> None:
+        self.do_test(
+            True,
+            (
+                ":file:`/app/data/python/customize` (see :ref:`docker-volume`)",
+                ":file:`/app/data/python/customize`（见：:ref:`docker-volume`）",
+                "rst-text",
+            ),
+        )
+
     def test_translatable(self) -> None:
         self.do_test(
             True,
@@ -599,7 +606,85 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_broken_literals(self) -> None:
+        self.do_test(
+            False,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``foo / bar`` 和 ``foo / baz``。",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``fee / ber`` 和 ``fee / bez``。",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "including both components in it: ``foo/bar`` and ``foo/baz``.",
+                "包括它的兩個元件：``foo / bar``和``foo / baz``。",
+                "rst-text",
+            ),
+        )
+
+    def test_broken_emphasis(self) -> None:
+        self.do_test(
+            False,
+            (
+                "statuses: *active* and *pending*",
+                "状态：*活跃* 和 *待定*",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "statuses: **active** and **pending**",
+                "状态：*活跃*和*待定*",
+                "rst-text",
+            ),
+        )
+
+    def test_broken_strong(self) -> None:
+        self.do_test(
+            False,
+            (
+                "statuses: **active** and **pending**",
+                "状态：**活跃** 和 **待定**",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "statuses: **active** and **pending**",
+                "状态：**活跃**和**待定**",
+                "rst-text",
+            ),
+        )
+
     def test_broken_links(self) -> None:
+        self.do_test(
+            False,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks în manualul Gitea <https://docs.gitea.io/en-us/webhooks/>`_",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_",
+                "`Webhooks în manualul Gitea <https://docs.gitea.io/de-de/webhooks/>`_",
+                "rst-text",
+            ),
+        )
         self.do_test(
             True,
             (

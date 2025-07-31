@@ -17,3 +17,8 @@ docs/changes.rst merge=union
 # $ git config diff.msgcat.cachetextconv true
 *.pot diff=msgcat
 *.po diff=msgcat
+
+# Make sure this uses a UNIX end of lines, otherwise the Docker
+# container fails to start on Windows with:
+#   exec /app/bin/start-dev: no such file or directory
+dev-docker/weblate-dev/start-dev text eol=lf

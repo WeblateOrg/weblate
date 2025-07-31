@@ -80,6 +80,7 @@
                   {% if "forbidden" in item.all_flags %}
                     {% translate "Forbidden glossary term" %}
                   {% else %}
+                    {# Translators: Can be also translated as "A term from the glossary" #}
                     {% translate "Glossary term" %}
                   {% endif %}
                 {% else %}
@@ -134,7 +135,7 @@
 
               {% if unit.source_unit.explanation %}
                 {% if not unit.translation.component.is_glossary or not unit.is_source %}
-                  <!-- source string context  -->
+                  <!-- source string explanation  -->
                   <div class="form-group help-block">
                     <label>{% translate "Explanation" %}</label>
                     <div class="list-group">
@@ -144,6 +145,16 @@
                     </div>
                   </div>
                 {% endif %}
+              {% elif unit.note %}
+                <!-- source string note  -->
+                <div class="form-group help-block">
+                  <label>{% translate "Source string description" %}</label>
+                  <div class="list-group">
+                    <div class="list-group-item">
+                      <div class="list-group-item-text">{{ unit.note|urlize_ugc }}</div>
+                    </div>
+                  </div>
+                </div>
               {% endif %}
 
               {% if not unit.is_source %}
@@ -833,14 +844,17 @@
               </div>
             {% endif %}
             <div class="list-group-item">
+              {# Translators: Label for timestamp when the string was first imported into Weblate. #}
               <h5>{% translate "String age" %}</h5>
               {{ unit.timestamp|naturaltime }}
             </div>
             <div class="list-group-item">
+              {# Translators: Label for timestamp when the string was last updated in Weblate. #}
               <h5>{% translate "Last updated" %}</h5>
               {{ unit.last_updated|naturaltime }}
             </div>
             <div class="list-group-item">
+              {# Translators: Label for timestamp when the source string was first imported into Weblate. #}
               <h5>{% translate "Source string age" %}</h5>
               {{ unit.source_unit.timestamp|naturaltime }}
             </div>

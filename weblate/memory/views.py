@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NotRequired, TypedDict
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -16,7 +16,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.views.generic.base import TemplateView
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
@@ -33,7 +32,13 @@ if TYPE_CHECKING:
 CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 
-def get_objects(request: AuthenticatedHttpRequest, kwargs):
+class ObjectsDict(TypedDict):
+    project: NotRequired[Project]
+    from_file: NotRequired[bool]
+    user: NotRequired[User]
+
+
+def get_objects(request: AuthenticatedHttpRequest, kwargs) -> ObjectsDict:
     if "project" in kwargs:
         return {"project": parse_path(request, [kwargs["project"]], (Project,))}
     if "manage" in kwargs:
@@ -41,7 +46,7 @@ def get_objects(request: AuthenticatedHttpRequest, kwargs):
     return {"user": request.user}
 
 
-def check_perm(user: User, permission, objects):
+def check_perm(user: User, permission: str, objects: ObjectsDict):
     if "project" in objects:
         return user.has_perm(permission, objects["project"])
     if "user" in objects:
@@ -59,7 +64,7 @@ class MemoryFormView(ErrorFormView):
             return reverse("manage-memory")
         return reverse("memory", kwargs=self.kwargs)
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
@@ -150,8 +155,9 @@ class UploadView(MemoryFormView):
 class MemoryView(TemplateView):
     template_name = "memory/index.html"
     request: AuthenticatedHttpRequest
+    objects: ObjectsDict
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
 
@@ -258,7 +264,7 @@ class MemoryView(TemplateView):
 
 
 class DownloadView(MemoryView):
-    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
         if "origin" in request.GET:

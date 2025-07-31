@@ -22,6 +22,7 @@ Weblate 5.13
 * Avatars for API and internal accounts.
 * Adding a new TOTP device removes the existing one by default; checkbox for not removing previous ones available.
 * Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
+* :ref:`check-rst-references` correctly handles Unicode punctuation and detects more issues.
 
 .. rubric:: Bug fixes
 

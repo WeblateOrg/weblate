@@ -4,9 +4,13 @@
 
 """Test for translation models."""
 
+from __future__ import annotations
+
 import os
+from typing import cast
 
 from django.core.exceptions import ValidationError
+from django.db.models import F
 from django.test.utils import override_settings
 
 from weblate.checks.models import Check
@@ -25,12 +29,12 @@ class ComponentTest(RepoTestCase):
 
     def verify_component(
         self,
-        component,
-        translations,
-        lang=None,
-        units=0,
-        unit="Hello, world!\n",
-        source_units=None,
+        component: Component,
+        translations: int,
+        lang: str | None = None,
+        units: int = 0,
+        unit: str = "Hello, world!\n",
+        source_units: int | None = None,
     ) -> None:
         if source_units is None:
             source_units = units
@@ -53,16 +57,29 @@ class ComponentTest(RepoTestCase):
                         "\n".join(translation.unit_set.values_list("source", flat=True))
                     ),
                 )
+            # Verify that units have valid link to source (non-self)
+            if lang != component.source_language.code:
+                self.assertFalse(
+                    translation.unit_set.filter(source_unit_id=F("id")).exists()
+                )
 
-        if component.has_template() and component.edit_template:
-            translation = component.translation_set.get(filename=component.template)
-            # Count units in it
-            self.assertEqual(translation.unit_set.count(), units)
-            # Count translated units in it
-            self.assertEqual(
-                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
-                source_units,
-            )
+        if component.has_template():
+            self.assertEqual(component.source_translation.filename, component.template)
+        # Count units in the source languaage
+        self.assertEqual(component.source_translation.unit_set.count(), units)
+        # Count translated units in the source language
+        self.assertEqual(
+            component.source_translation.unit_set.filter(
+                state__gte=STATE_TRANSLATED
+            ).count(),
+            source_units,
+        )
+        # Verify that source units have valid link to source
+        self.assertFalse(
+            component.source_translation.unit_set.exclude(
+                source_unit_id=F("id")
+            ).exists()
+        )
 
     def test_create(self) -> None:
         component = self.create_component()
@@ -397,18 +414,18 @@ class ComponentTest(RepoTestCase):
         component.full_clean()
 
         component.check_flags = "nonsense"
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             'Invalid translation flag: "nonsense"',
-            component.full_clean,
-        )
+        ):
+            component.full_clean()
 
         component.check_flags = "rst-text,ignore-nonsense"
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             'Invalid translation flag: "ignore-nonsense"',
-            component.full_clean,
-        )
+        ):
+            component.full_clean()
 
     def test_lang_code_template(self) -> None:
         component = Component(project=Project())
@@ -550,7 +567,8 @@ class ComponentChangeTest(RepoTestCase):
 
     def test_rename(self) -> None:
         link_component = self.create_link()
-        component = link_component.linked_component
+        self.assertIsNotNone(link_component.linked_component)
+        component = cast("Component", link_component.linked_component)
         self.assertTrue(Component.objects.filter(repo="weblate://test/test").exists())
 
         old_path = component.full_path
@@ -578,14 +596,14 @@ class ComponentChangeTest(RepoTestCase):
     def test_unlink_clean(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
-        component.repo = component.linked_component.repo
+        component.repo = cast("Component", component.linked_component).repo
         component.clean()
         component.save()
 
     def test_unlink(self) -> None:
         """Test changing linked component to real repo based one."""
         component = self.create_link()
-        component.repo = component.linked_component.repo
+        component.repo = cast("Component", component.linked_component).repo
         component.save()
 
     def test_repo_link_generation_bitbucket(self) -> None:
@@ -734,50 +752,44 @@ class ComponentValidationTest(RepoTestCase):
     def test_filemask(self) -> None:
         """Invalid mask."""
         self.component.filemask = "foo/x.po"
-        self.assertRaisesMessage(
-            ValidationError,
-            "File mask does not contain * as a language placeholder!",
-            self.component.full_clean,
-        )
+        with self.assertRaisesMessage(
+            ValidationError, "File mask does not contain * as a language placeholder!"
+        ):
+            self.component.full_clean()
 
     def test_screenshot_filemask(self) -> None:
         """Invalid screenshot filemask."""
         self.component.screenshot_filemask = "foo/x.png"
-        self.assertRaisesMessage(
-            ValidationError,
-            "File mask does not contain * as a language placeholder!",
-            self.component.full_clean,
-        )
+        with self.assertRaisesMessage(
+            ValidationError, "File mask does not contain * as a language placeholder!"
+        ):
+            self.component.full_clean()
 
     def test_no_matches(self) -> None:
         """Not matching mask."""
         self.component.filemask = "foo/*.po"
-        self.assertRaisesMessage(
-            ValidationError,
-            "The file mask did not match any files.",
-            self.component.full_clean,
-        )
+        with self.assertRaisesMessage(
+            ValidationError, "The file mask did not match any files."
+        ):
+            self.component.full_clean()
 
     def test_fileformat(self) -> None:
         """Unknown file format."""
         self.component.file_format = "i18next"
         self.component.filemask = "invalid/*.invalid"
-        self.assertRaisesMessage(
-            ValidationError,
-            "Could not parse 2 matched files.",
-            self.component.full_clean,
-        )
+        with self.assertRaisesMessage(
+            ValidationError, "Could not parse 2 matched files."
+        ):
+            self.component.full_clean()
 
     def test_repoweb(self) -> None:
         """Invalid repoweb format."""
         self.component.repoweb = "http://{{foo}}/{{bar}}/%72"
-        self.assertRaisesMessage(
-            ValidationError, 'Undefined variable: "foo"', self.component.full_clean
-        )
+        with self.assertRaisesMessage(ValidationError, 'Undefined variable: "foo"'):
+            self.component.full_clean()
         self.component.repoweb = "http://{{ component_name }}/{{ filename }}/%72"
-        self.assertRaisesMessage(
-            ValidationError, "Enter a valid URL", self.component.full_clean
-        )
+        with self.assertRaisesMessage(ValidationError, "Enter a valid URL"):
+            self.component.full_clean()
         self.component.repoweb = (
             "http://example.com/{{ component_name }}/{{ filename }}/%72"
         )
@@ -788,31 +800,31 @@ class ComponentValidationTest(RepoTestCase):
         """Incomplete link."""
         self.component.repo = "weblate://foo"
         self.component.push = ""
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             "Invalid link to a Weblate project, use weblate://project/component.",
-            self.component.full_clean,
-        )
+        ):
+            self.component.full_clean()
 
     def test_link_nonexisting(self) -> None:
         """Link to non existing project."""
         self.component.repo = "weblate://foo/bar"
         self.component.push = ""
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             "Invalid link to a Weblate project, use weblate://project/component.",
-            self.component.full_clean,
-        )
+        ):
+            self.component.full_clean()
 
     def test_link_self(self) -> None:
         """Link pointing to self."""
         self.component.repo = "weblate://test/test"
         self.component.push = ""
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             "Invalid link to a Weblate project, cannot link it to itself!",
-            self.component.full_clean,
-        )
+        ):
+            self.component.full_clean()
 
     def test_validation_mono(self) -> None:
         self.component.project.delete()
@@ -865,21 +877,22 @@ class ComponentValidationTest(RepoTestCase):
             component.get_lang_code("Solution/Project/Resources.xx.resx"), "xx"
         )
         self.assertEqual(component.get_language_alias("xx"), "cs")
-        self.assertRaisesMessage(
+        with self.assertRaisesMessage(
             ValidationError,
             "The language code for "
             '"Solution/Project/Resources.resx"'
             " is empty, please check the file mask.",
-            component.clean_lang_codes,
-            [
-                "Solution/Project/Resources.resx",
-                "Solution/Project/Resources.de.resx",
-                "Solution/Project/Resources.es.resx",
-                "Solution/Project/Resources.es-mx.resx",
-                "Solution/Project/Resources.fr.resx",
-                "Solution/Project/Resources.fr-fr.resx",
-            ],
-        )
+        ):
+            component.clean_lang_codes(
+                [
+                    "Solution/Project/Resources.resx",
+                    "Solution/Project/Resources.de.resx",
+                    "Solution/Project/Resources.es.resx",
+                    "Solution/Project/Resources.es-mx.resx",
+                    "Solution/Project/Resources.fr.resx",
+                    "Solution/Project/Resources.fr-fr.resx",
+                ]
+            )
 
     def test_lang_code_double(self) -> None:
         component = Component(project=Project())

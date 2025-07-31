@@ -888,7 +888,7 @@ class MergeForm(UnitForm):
         else:
             # Compare in Python to ensure case sensitiveness on MySQL
             if not translation.is_source and unit.source != merge_unit.source:
-                raise ValidationError(gettext("Could not find merged string."))
+                raise ValidationError(gettext("Could not find the merged string."))
         return self.cleaned_data
 
 

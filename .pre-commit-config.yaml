@@ -27,12 +27,14 @@ repos:
   hooks:
   - id: djade
     args: [--target-version, '5.1']
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: https://github.com/adrienverge/yamllint
   rev: v1.37.1
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.12.5
+  rev: v0.12.7
   hooks:
   - id: ruff-check
     args:
@@ -82,12 +84,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.1.2
+  rev: v2.1.3
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.1.2'
+    - '@biomejs/biome@2.1.3'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -96,7 +98,11 @@ repos:
   rev: v1.36.4
   hooks:
   - id: djlint-reformat-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
   - id: djlint-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: https://github.com/pre-commit/pygrep-hooks
   rev: v1.10.0
   hooks:
@@ -110,7 +116,7 @@ repos:
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
-    exclude: docs/devel/reporting-example.rst
+    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst
   - id: rst-http
     name: http link in rst text
     description: Detect mistake of using http links

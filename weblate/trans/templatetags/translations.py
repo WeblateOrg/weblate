@@ -1428,6 +1428,8 @@ def percent_format(number: float) -> str:
     else:
         percent = int(number)
     return mark_safe(  # noqa: S308
+        # Translators: Formatting of the translation percent, insert non-breakable space if
+        # your language expects it before the percent sign.
         pgettext("Translated percents", "%(percent)s%%")
         % {"percent": intcomma(percent)}
     )
