@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-30 19:31+0200\n"
-"PO-Revision-Date: 2025-07-31 11:52+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-07-31 17:27+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -15164,12 +15164,17 @@ msgstr ""
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"En el contenedor Docker, esto está disponible como "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:1217
+#, fuzzy
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:1224
 msgid "Django secret key"
@@ -15181,12 +15186,17 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+"Django usa la configuración :setting:`SECRET_KEY` para firmar cookies, y "
+"realmente debería generar su propio valor en lugar de usar el de la "
+"configuración de ejemplo."
 
 #: ../../admin/install.rst:1229
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
+"Puede generar una nueva clave usando :program:`weblate-generate-secret-key` "
+"enviado con Weblate."
 
 #: ../../admin/install.rst:1234
 msgid ":setting:`SECRET_KEY`"
@@ -15277,17 +15287,19 @@ msgstr ""
 
 #: ../../admin/install.rst:1267
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Apache en Ubuntu usa :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1274
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"Apache en CentOS usa :file:`/etc/sysconfig/httpd` (o :file:`/opt/rh/httpd24/"
+"root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1284
 msgid "Using custom certificate authority"
-msgstr ""
+msgstr "Uso de la autoridad de certificación personalizada"
 
 #: ../../admin/install.rst:1286
 msgid ""
@@ -15295,6 +15307,10 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"Weblate verifica los certificados SSL durante las solicitudes HTTP. En caso "
+"de que esté utilizando una autoridad de certificación personalizada que no "
+"sea de confianza en los paquetes predeterminados, deberá agregar su "
+"certificado como de confianza."
 
 #: ../../admin/install.rst:1290
 msgid ""
@@ -15313,6 +15329,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"El contenedor Weblate no lo incluye en la ruta de búsqueda, debe especificar "
+"la ruta completa para ejecutarlo. Por ejemplo:"
 
 #: ../../admin/install.rst:1304
 msgid ""
@@ -15376,8 +15394,9 @@ msgid "The official Docker image has this feature already enabled."
 msgstr "La imagen oficial para Docker ya tiene activada esta funcionalidad."
 
 #: ../../admin/install.rst:1351
+#, fuzzy
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
-msgstr ""
+msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1357
 msgid "Running server"
@@ -15412,6 +15431,8 @@ msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
+"Servidor web frontend para archivos estáticos y terminación SSL (ver :ref"
+":`static-files`)"
 
 #: ../../admin/install.rst:1368
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
