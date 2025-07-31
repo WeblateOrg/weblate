@@ -185,9 +185,9 @@ Automatically translates strings using machine translation or other components.
 
 .. seealso::
 
-   :ref:`auto-translation`,
-   :ref:`translation-consistency`,
-   :ref:`mt-translation-services-priority`
+   * :ref:`auto-translation`
+   * :ref:`translation-consistency`
+   * :ref:`mt-translation-services-priority`
 
 .. _addon-weblate.cdn.cdnjs:
 
@@ -230,10 +230,10 @@ HTML pages to localize them. See :ref:`weblate-cdn` for more details.
 
 .. seealso::
 
-    :ref:`cdn-addon-config`,
-    :ref:`weblate-cdn`,
-    :ref:`cdn-addon-extract`,
-    :ref:`cdn-addon-html`
+    * :ref:`cdn-addon-config`
+    * :ref:`weblate-cdn`
+    * :ref:`cdn-addon-extract`
+    * :ref:`cdn-addon-html`
 
 .. _addon-weblate.cleanup.blank:
 
@@ -462,8 +462,8 @@ Matching files:
 
 .. seealso::
 
-   :ref:`markup`,
-   :wladmin:`import_project`
+   * :ref:`markup`
+   * :wladmin:`import_project`
 
 .. _addon-weblate.flags.bulk:
 
@@ -529,9 +529,9 @@ Bulk edit flags, labels, or states of strings.
 
 .. seealso::
 
-   :ref:`bulk-edit`,
-   :ref:`custom-checks`,
-   :ref:`labels`
+   * :ref:`bulk-edit`
+   * :ref:`custom-checks`
+   * :ref:`labels`
 
 
 .. _addon-weblate.flags.same_edit:
@@ -1579,9 +1579,9 @@ or an implementation of the "Standard Webhooks Specification".
 
 .. seealso::
 
-   `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_,
-   :ref:`schema-messaging`,
-   `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
+   * `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_
+   * :ref:`schema-messaging`
+   * `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
 
 
 

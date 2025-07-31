@@ -53,12 +53,12 @@ used in generated filenames. Additionally, any mappings defined in
 
 .. seealso::
 
-   :ref:`component-new_lang`,
-   :ref:`component-new_base`,
-   :ref:`component-language_code_style`,
-   :ref:`language-code`,
-   :ref:`project-language_aliases`,
-   :ref:`language-parsing-codes`
+   * :ref:`component-new_lang`
+   * :ref:`component-new_base`
+   * :ref:`component-language_code_style`
+   * :ref:`language-code`
+   * :ref:`project-language_aliases`
+   * :ref:`language-parsing-codes`
 
 .. note::
 
@@ -155,8 +155,8 @@ The additional variant for a string can also be added using the :guilabel:`Tools
 
 .. seealso::
 
-   :ref:`custom-checks`,
-   :ref:`glossary-variants`
+   * :ref:`custom-checks`
+   * :ref:`glossary-variants`
 
 Variants while translating
 ++++++++++++++++++++++++++

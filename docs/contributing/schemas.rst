@@ -11,9 +11,9 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. seealso::
 
-    :ref:`translation-memory`,
-    :wladmin:`dump_memory`,
-    :wladmin:`import_memory`
+   * :ref:`translation-memory`
+   * :wladmin:`dump_memory`
+   * :wladmin:`import_memory`
 
 
 .. only:: not gettext
@@ -24,8 +24,8 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. seealso::
 
-    :ref:`user-profile`,
-    :wladmin:`dumpuserdata`
+   * :ref:`user-profile`
+   * :wladmin:`dumpuserdata`
 
 
 
@@ -37,5 +37,5 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. seealso::
 
-    :ref:`fedora-messaging`,
-    :ref:`addon-weblate.webhook.webhook`
+   * :ref:`fedora-messaging`
+   * :ref:`addon-weblate.webhook.webhook`

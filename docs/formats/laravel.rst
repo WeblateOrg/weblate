@@ -12,8 +12,8 @@ The Laravel PHP localization files are supported as well with plurals:
 
 .. seealso::
 
-    :doc:`tt:formats/php`,
-    `Localization in Laravel`_
+    * :doc:`tt:formats/php`
+    * `Localization in Laravel`_
 
 .. _Localization in Laravel: https://laravel.com/docs/7.x/localization
 

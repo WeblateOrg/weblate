@@ -171,7 +171,8 @@ via SSH using the Weblate SSH key:
 
 .. seealso::
 
-   :ref:`weblate-ssh-key`, :doc:`borg:usage/general`
+   * :ref:`weblate-ssh-key`
+   * :doc:`borg:usage/general`
 
 .. _restore-borg:
 
@@ -213,8 +214,8 @@ The Borg session might look like this:
 
 .. seealso::
 
-   :doc:`borg:usage/list`,
-   :doc:`borg:usage/extract`
+   * :doc:`borg:usage/list`
+   * :doc:`borg:usage/extract`
 
 
 .. _BorgBackup: https://www.borgbackup.org/
@@ -390,5 +391,5 @@ by following the backing up and restoration instructions above.
 
 .. seealso::
 
-   `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_,
-   :ref:`database-migration`
+   * `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_
+   * :ref:`database-migration`

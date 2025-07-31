@@ -6,7 +6,9 @@ DTD files
 .. index::
     pair: DTD; file format
 
-.. seealso:: :doc:`tt:formats/dtd`
+.. seealso::
+
+   :doc:`tt:formats/dtd`
 
 Example DTD file:
 

@@ -23,13 +23,13 @@ all others encode characters directly either in UTF-8 or UTF-16.
 
 .. seealso::
 
-    `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
-    :doc:`tt:formats/properties`,
-    :ref:`mi18n-lang`,
-    :ref:`gwt`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`
+   * `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_
+   * :doc:`tt:formats/properties`
+   * :ref:`mi18n-lang`
+   * :ref:`gwt`
+   * :ref:`updating-target-files`
+   * :ref:`addon-weblate.properties.sort`
+   * :ref:`addon-weblate.cleanup.generic`
 
 Weblate configuration
 +++++++++++++++++++++

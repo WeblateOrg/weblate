@@ -12,9 +12,9 @@ Joomla translations are usually used as monolingual translations.
 
 .. seealso::
 
-    :doc:`tt:formats/properties`,
-    :ref:`ini`,
-    :ref:`islu`
+   * :doc:`tt:formats/properties`
+   * :ref:`ini`
+   * :ref:`islu`
 
 Example file:
 

@@ -16,8 +16,8 @@ containing all the translations without integration.
 
 .. seealso::
 
-   :ref:`adding-projects`,
-   :ref:`faq-submodule`
+   * :ref:`adding-projects`
+   * :ref:`faq-submodule`
 
 Fetching updated translations from Weblate
 ++++++++++++++++++++++++++++++++++++++++++
@@ -39,9 +39,9 @@ so that they match the latest version from the upstream in your remote VCS repos
 
 .. seealso::
 
-    :ref:`continuous-translation`,
-    :ref:`push-changes`,
-    :ref:`vcs-repos`
+   * :ref:`continuous-translation`
+   * :ref:`push-changes`
+   * :ref:`vcs-repos`
 
 Fetching remote changes into Weblate
 ++++++++++++++++++++++++++++++++++++
@@ -59,8 +59,8 @@ the translations so that they match your codebase.
 
 .. seealso::
 
-    :ref:`continuous-translation`,
-    :ref:`vcs-repos`
+   * :ref:`continuous-translation`
+   * :ref:`vcs-repos`
 
 .. _adding-new-strings:
 
@@ -111,11 +111,11 @@ the :ref:`addon-weblate.gettext.msgmerge` add-on.
 
 .. seealso::
 
-   :ref:`processing`,
-   :ref:`addon-weblate.cleanup.generic`,
-   :ref:`addon-weblate.cleanup.blank`,
-   :ref:`addon-weblate.resx.update`,
-   :ref:`addon-weblate.gettext.msgmerge`
+   * :ref:`processing`
+   * :ref:`addon-weblate.cleanup.generic`
+   * :ref:`addon-weblate.cleanup.blank`
+   * :ref:`addon-weblate.resx.update`
+   * :ref:`addon-weblate.gettext.msgmerge`
 
 
 .. _translations-update:
@@ -150,9 +150,9 @@ existing translations, see :ref:`updating-target-files`.
 
 .. seealso::
 
-   :ref:`updating-target-files`,
-   :doc:`/devel/gettext`,
-   :doc:`/devel/sphinx`
+   * :ref:`updating-target-files`
+   * :doc:`/devel/gettext`
+   * :doc:`/devel/sphinx`
 
 .. _manage-vcs:
 
@@ -173,5 +173,5 @@ controlling this repository.
 
 .. seealso::
 
-   :doc:`/admin/continuous`,
-   :doc:`/vcs`
+   * :doc:`/admin/continuous`
+   * :doc:`/vcs`
