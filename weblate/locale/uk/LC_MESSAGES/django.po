@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-07-31 17:27+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim5@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -3610,7 +3610,7 @@ msgstr "XML-текст"
 msgid "DOS line endings"
 msgstr "Кінець рядка як у DOS"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4365,90 +4365,98 @@ msgstr "Один або кілька XML-теґів мають неочікув�
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "У одному або кількох XML-теґах відсутній вміст у перекладі: %s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "Розмітка BBCode"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 msgid "BBCode in translation does not match source."
 msgstr "BB-код у перекладі не збігається з BB-кодом у джерелі."
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "Синтаксис XML"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 msgid "The translation is not valid XML."
 msgstr "Цей переклад не є правильним XML."
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "Розмітка XML"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 msgid "XML tags in translation do not match source."
 msgstr "Теґи XML у перекладі не збігаються з тегами XML у джерелі."
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "Markdown посилання"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 msgid "Markdown link references do not match source."
 msgstr "Посилання Markdown не збігаються з джерелом."
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "Посилання Markdown"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 msgid "Markdown links do not match source."
 msgstr "Посилання Markdown не відповідають джерелу."
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "Синтаксис Markdown"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 msgid "Markdown syntax does not match source."
 msgstr "Синтаксис Markdown не відповідає джерелу."
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 msgid "The translation does not contain an URL."
 msgstr "Цей переклад не містить URL."
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Небезпечний HTML-код"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 msgid "The translation uses unsafe HTML markup."
 msgstr "Переклад використовує небезпечну HTML-розмітку."
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "Inconsistent reStructuredText references"
+msgid "Inconsistent reStructuredText"
 msgstr "Неузгоджені посилання на reStructuredText"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
+#: weblate/checks/markup.py:473
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr ""
 "Неузгоджені посилання на термін reStructuredText у перекладеному "
 "повідомленні."
 
-#: weblate/checks/markup.py:436
-msgid "Inconsistent inline links in the translated message."
-msgstr "Непослідовні вбудовані посилання в перекладеному повідомленні."
+#: weblate/checks/markup.py:478
+#, fuzzy
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "Пропущено такі рядки форматування: {}"
 
-#: weblate/checks/markup.py:442
-msgid "Inconsistent external links in the translated message."
-msgstr "Непослідовні зовнішні посилання в перекладеному повідомленні."
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "Ці рядки форматування є зайвими: {}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
 msgstr "Синтаксична помилка reStructuredText"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 msgid "reStructuredText syntax error in the translation."
 msgstr "Синтаксична помилка reStructuredText у перекладі."
 
@@ -17958,6 +17966,12 @@ msgstr "Процес резервного копіювання запустив�
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
+
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "Непослідовні вбудовані посилання в перекладеному повідомленні."
+
+#~ msgid "Inconsistent external links in the translated message."
+#~ msgstr "Непослідовні зовнішні посилання в перекладеному повідомленні."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Участь у перекладах"

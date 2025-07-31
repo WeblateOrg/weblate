@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-07-15 05:01+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -3588,7 +3588,7 @@ msgstr "Teks XML"
 msgid "DOS line endings"
 msgstr "Akhiran baris DOS"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4348,89 +4348,97 @@ msgstr ""
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Satu atau beberapa tag XML tidak memiliki konten dalam terjemahan: %s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "Markup BBCode"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 msgid "BBCode in translation does not match source."
 msgstr "BBCode dalam terjemahan tidak cocok dengan sumber."
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "Sintaksis XML"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 msgid "The translation is not valid XML."
 msgstr "Terjemahan bukan XML yang valid."
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "Markup XML"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 msgid "XML tags in translation do not match source."
 msgstr "Tag XML dalam terjemahan tidak cocok dengan sumber."
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "Referensi Markdown"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 msgid "Markdown link references do not match source."
 msgstr "Referensi tautan Markdown tidak cocok dengan sumber."
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "Tautan markdown"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 msgid "Markdown links do not match source."
 msgstr "Tautan Markdown tidak cocok dengan sumber."
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "Sintaksis Markdown"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 msgid "Markdown syntax does not match source."
 msgstr "Sintaks Markdown tidak cocok dengan sumber."
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 msgid "The translation does not contain an URL."
 msgstr "Terjemahan tidak mengandung URL."
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML Tidak Aman"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 msgid "The translation uses unsafe HTML markup."
 msgstr "Terjemahan menggunakan markup HTML yang tidak aman."
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "Inconsistent reStructuredText references"
+msgid "Inconsistent reStructuredText"
 msgstr "Referensi reStructuredText tidak konsisten"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
+#: weblate/checks/markup.py:473
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr ""
 "Referensi reStructuredText tidak konsisten dalam pesan yang diterjemahkan."
 
-#: weblate/checks/markup.py:436
-msgid "Inconsistent inline links in the translated message."
-msgstr "Tautan dalam baris tidak konsisten dalam pesan yang diterjemahkan."
+#: weblate/checks/markup.py:478
+#, fuzzy
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "String format berikut tidak ada: {}"
 
-#: weblate/checks/markup.py:442
-msgid "Inconsistent external links in the translated message."
-msgstr "Tautan eksternal tidak konsisten dalam pesan yang diterjemahkan."
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "String format berikut adalah tambahan: {}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
 msgstr "Kesalahan sintaks reStructuredText"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 msgid "reStructuredText syntax error in the translation."
 msgstr "Kesalahan sintaks reStructuredText dalam terjemahan."
 
@@ -17715,6 +17723,12 @@ msgstr "Proses rekam cadang telah dipicu"
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "Tidak dapat mengabaikan kesalahan konfigurasi!"
+
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "Tautan dalam baris tidak konsisten dalam pesan yang diterjemahkan."
+
+#~ msgid "Inconsistent external links in the translated message."
+#~ msgstr "Tautan eksternal tidak konsisten dalam pesan yang diterjemahkan."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Terjemahan dengan kontribusi"
