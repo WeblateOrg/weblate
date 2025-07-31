@@ -18,7 +18,15 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from docutils import utils
 from docutils.core import Publisher
-from docutils.nodes import Element, system_message
+from docutils.nodes import (
+    Element,
+    footnote_reference,
+    problematic,
+    reference,
+    system_message,
+)
+from docutils.parsers.rst import languages
+from docutils.parsers.rst.states import Inliner, Struct
 
 from weblate.checks.base import MissingExtraDict, TargetCheck
 from weblate.utils.html import (
@@ -32,6 +40,8 @@ from weblate.utils.html import (
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django_stubs_ext import StrOrPromise
     from lxml.etree import _Element
 
@@ -68,29 +78,24 @@ XML_ENTITY_MATCH = re.compile(
     re.VERBOSE,
 )
 
-RST_REF_MATCH = re.compile(
-    r"(?:(?<=\W)|^)((:[a-z:]+:)(?:`((?=[^< ])[^<]*?[^ ])`|`[^< ][^<]*?<([^<]+?)>`))(?!`)(?=\W|$)"
-)
-RST_FOOTNOTE_MATCH = re.compile(r"(?:(?<=\W)|^)(\[#[^]]+\]_)(?=\W|$)")
-RST_INLINE_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <] <[^`> ]*>`_)(?=\W|$)")
-RST_LINK_MATCH = re.compile(r"(?:(?<=\W)|^)(`[^`<]*[^` <]`_)(?=\W|$)")
-
+# Extracted from Sphinx sphinx/util/docutils.py
+RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
 # These should be present in translation if present in source, but might be translated
 RST_TRANSLATABLE = {
-    ":guilabel:",
-    ":file:",
-    ":code:",
-    ":math:",
-    ":eq:",
-    ":abbr:",
-    ":dfn:",
-    ":menuselection:",
-    ":sub:",
-    ":sup:",
-    ":kbd:",
-    ":index:",
-    ":samp:",
+    "guilabel",
+    "file",
+    "code",
+    "math",
+    "eq",
+    "abbr",
+    "dfn",
+    "menuselection",
+    "sub",
+    "sup",
+    "kbd",
+    "index",
+    "samp",
 }
 
 RST_ROLE_RE = [
@@ -398,6 +403,60 @@ class RSTBaseCheck(TargetCheck):
         self.enable_string = "rst-text"
 
 
+@lru_cache(maxsize=512)
+def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str]]:
+    memo = Struct()
+    publisher = get_rst_publisher()
+    document = utils.new_document(None, publisher.settings)
+    document.reporter.stream = None
+    memo.reporter = document.reporter
+    memo.document = document
+    memo.language = languages.get_language(
+        document.settings.language_code, document.reporter
+    )
+    inliner = Inliner()
+    inliner.init_customizations(document.settings)
+    nodes, system_messages = inliner.parse(text, 0, memo, document)
+
+    message_ids = {
+        message["ids"][0]: Element.astext(message)
+        for message in system_messages
+        if message["ids"]
+    }
+    result: list[tuple[str, str]] = []
+    alltags: list[str] = []
+
+    for node in nodes:
+        if isinstance(node, problematic) and "refid" in node.attributes:
+            for rst_role_re in RST_ROLE_RE:
+                if match := rst_role_re.match(message_ids[node["refid"]]):
+                    alltags.append(node.rawsource)
+                    role = match.group(1)
+                    if role in RST_TRANSLATABLE:
+                        name = f":{role}:"
+                    elif matched := RST_EXPLICIT_TITLE_RE.match(node.rawsource):
+                        # Exclude title for checking translatable roles
+                        name = f":{role}:`{matched.group(2)}`"
+                    else:
+                        name = node.rawsource
+
+                    result.append((name, node.rawsource))
+                    break
+        elif isinstance(node, footnote_reference):
+            result.append((node.rawsource, node.rawsource))
+            alltags.append(node.rawsource)
+        elif isinstance(node, reference):
+            # Ignore the content as it might be localized, just differentiate
+            # references with a link and without
+            refuri = node.get("refuri")
+            name = "`... <...>`_" if refuri else "`...`_"
+            result.append((name, node.rawsource))
+            if refuri:
+                alltags.append(f"<{refuri}>")
+
+    return dict(result), Counter(item[0] for item in result), alltags
+
+
 class RSTReferencesCheck(RSTBaseCheck):
     check_id = "rst-references"
     name = gettext_lazy("Inconsistent reStructuredText references")
@@ -405,43 +464,26 @@ class RSTReferencesCheck(RSTBaseCheck):
         "Inconsistent reStructuredText term references in the translated message."
     )
 
-    def extract_references(self, text: str) -> tuple[dict[str, str], Counter]:
-        result: list[tuple[str, str]] = [
-            (
-                role if role in RST_TRANSLATABLE else f"{role}{target or named_target}",
-                text,
-            )
-            for text, role, target, named_target in RST_REF_MATCH.findall(text)
-        ]
-        result.extend(
-            (footnote, footnote) for footnote in RST_FOOTNOTE_MATCH.findall(text)
+    def get_missing_text(self, values: Iterable[str]) -> StrOrPromise:
+        return self.get_values_text(
+            gettext("The following reStructuredText references are missing: {}"), values
         )
-        return dict(result), Counter(item[0] for item in result)
+
+    def get_extra_text(self, values: Iterable[str]) -> StrOrPromise:
+        return self.get_values_text(
+            gettext("The following reStructuredText references are extra: {}"), values
+        )
 
     def check_single(
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
-        src_references, src_set = self.extract_references(source)
-        tgt_references, tgt_set = self.extract_references(target)
-
-        errors: list[str] = []
+        src_references, src_set, _alltags = extract_rst_references(source)
+        tgt_references, tgt_set, _alltags = extract_rst_references(target)
 
         missing = src_set - tgt_set
         extra = tgt_set - src_set
 
-        src_links = len(RST_INLINE_LINK_MATCH.findall(source))
-        tgt_links = len(RST_INLINE_LINK_MATCH.findall(target))
-        if src_links != tgt_links:
-            errors.append(
-                gettext("Inconsistent inline links in the translated message.")
-            )
-        src_links = len(RST_LINK_MATCH.findall(source))
-        tgt_links = len(RST_LINK_MATCH.findall(target))
-        if src_links != tgt_links:
-            errors.append(
-                gettext("Inconsistent external links in the translated message.")
-            )
-        if missing or extra or errors:
+        if missing or extra:
             return {
                 "missing": list(
                     chain.from_iterable(
@@ -455,7 +497,7 @@ class RSTReferencesCheck(RSTBaseCheck):
                         for item, count in extra.items()
                     )
                 ),
-                "errors": errors,
+                "errors": [],
             }
         return False
 
@@ -485,9 +527,11 @@ class RSTReferencesCheck(RSTBaseCheck):
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
-        for match in chain(
-            RST_REF_MATCH.finditer(source), RST_FOOTNOTE_MATCH.finditer(source)
-        ):
+        _references, _counter, alltags = extract_rst_references(source)
+        if not alltags:
+            return
+        match_exp = "|".join(re.escape(tag) for tag in alltags)
+        for match in re.finditer(match_exp, source):
             yield match.start(0), match.end(0), match.group(0)
 
 
