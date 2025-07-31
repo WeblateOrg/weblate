@@ -43,7 +43,7 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
-from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
+from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
@@ -333,7 +333,7 @@ class Translation(
                     NamedBytesIO(fileobj.name, fileobj.read())
                 )
                 fileobj.seek(0)
-            store = self.component.file_format_cls(
+            return self.component.file_format_cls(
                 fileobj,
                 template,
                 language_code=self.language_code,
@@ -344,8 +344,6 @@ class Translation(
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
             )
-            store_post_load.send(sender=self.__class__, translation=self, store=store)
-            return store
 
     @cached_property
     def store(self):
@@ -1421,10 +1419,7 @@ class Translation(
                 None,
                 is_template=True,
             )
-            if isinstance(template_store, component.file_format_cls):
-                store_post_load.send(
-                    sender=self.__class__, translation=self, store=template_store
-                )
+
         else:
             template_store = component.template_store
         store = try_load(
@@ -1433,8 +1428,6 @@ class Translation(
             component.file_format_cls,
             template_store,
         )
-        if isinstance(store, component.file_format_cls):
-            store_post_load.send(sender=self.__class__, translation=self, store=store)
 
         # Check valid plural forms
         if hasattr(store.store, "parseheader"):

@@ -62,7 +62,6 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
-    store_post_load,
     translation_post_add,
     vcs_post_commit,
     vcs_post_push,
@@ -3639,19 +3638,12 @@ class Component(
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        store = self.file_format_cls(
+        return self.file_format_cls(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
         )
-        if self.pk:
-            store_post_load.send(
-                sender=self.__class__,
-                translation=self.source_translation,
-                store=store,
-            )
-        return store
 
     @cached_property
     def intermediate_store(self):
@@ -3668,20 +3660,13 @@ class Component(
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
         with self.start_sentry_span("load_template_store"):
-            store = self.file_format_cls(
+            return self.file_format_cls(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
             )
-            if self.pk:
-                store_post_load.send(
-                    sender=self.__class__,
-                    translation=self.source_translation,
-                    store=store,
-                )
-            return store
 
     @cached_property
     def template_store(self):
@@ -3844,16 +3829,7 @@ class Component(
                 if show_messages:
                     messages.error(request, gettext("Translation file already exists!"))
             else:
-                file_format.add_language(
-                    fullname,
-                    language,
-                    base_filename,
-                    callback=lambda store: store_post_load.send(
-                        sender=translation.__class__,
-                        translation=translation,
-                        store=store,
-                    ),
-                )
+                file_format.add_language(fullname, language, base_filename)
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation
