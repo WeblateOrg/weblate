@@ -231,3 +231,25 @@ class YAMLParamsTest(BaseFileFormatsTest):
         self.assertIn("cs.yml", commit)
         with open(self.get_translation().get_filename(), "rb") as handle:
             self.assertIn(b"\r\n", handle.read())
+
+
+class XMLParamsTest(BaseFileFormatsTest):
+    def create_component(self) -> Component:
+        return self.create_xliff("complex")
+
+    def test_closing_tags(self, closing_tags_active: bool = True) -> None:
+        self.update_component_file_params(xml_closing_tags=closing_tags_active)
+        rev = self.component.repository.last_revision
+        self.edit_unit("Thank you for using Weblate", "Děkujeme, že používáte Weblate")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        if closing_tags_active:
+            self.assertIn("<target></target>", commit)
+            self.assertNotIn("<target/>", commit)
+        else:
+            self.assertIn("<target/>", commit)
+
+    def test_closing_tags_off(self) -> None:
+        self.test_closing_tags(closing_tags_active=False)

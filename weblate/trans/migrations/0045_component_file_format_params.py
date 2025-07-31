@@ -58,6 +58,22 @@ ADDON_CONFG_TO_FILE_FORMAT_PARAMS = {
             "line_break": "yaml_line_break",
         },
     },
+    "weblate.xml.customize": {
+        "file_formats": (
+            "ts",
+            "plainxliff",
+            "xliff",
+            "poxliff",
+            "resx",
+            "aresource",
+            "moko-resource",
+            "cmp-resource",
+            "tbx",
+        ),
+        "format_params": {
+            "closing_tags": "xml_closing_tags",
+        },
+    },
 }
 
 

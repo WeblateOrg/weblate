@@ -168,16 +168,6 @@ class GitSquashForm(BaseAddonForm):
         )
 
 
-class XMLCustomizeForm(BaseAddonForm):
-    """Class defining user Form to configure XML Formatting AddOn."""
-
-    closing_tags = forms.BooleanField(
-        label=gettext_lazy("Include closing tag for blank XML tags"),
-        required=False,
-        initial=True,
-    )
-
-
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
         label=gettext_lazy("Days to keep"), min_value=0, initial=30, required=True
