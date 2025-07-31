@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load compress crispy_forms_tags i18n icons permissions static translations %}
 
@@ -6,7 +6,7 @@
 
   {% announcements %}
 
-  <div class="btn-group pull-right flip btn-group-settings" role="group">
+  <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
        title="{% translate "Configure dashboard" %}">{% icon "settings.svg" %}</a>
@@ -15,48 +15,48 @@
   {% perm 'reports.view' None as user_can_view_reports %}
 
   <ul class="nav nav-pills">
-    <li {% active_link "your-subscriptions" %}>
-      <a href="#your-subscriptions" data-toggle="tab">{% translate "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a>
+    <li class="nav-item" {% active_link "your-subscriptions" %}>
+      <a class="nav-link active" data-bs-target="#your-subscriptions" data-bs-toggle="tab" href="#">{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
     </li>
     {% if all_componentlists %}
-      <li {% active_link "componentlists" %}>
-        <a href="#componentlists" data-toggle="tab">{% translate "All component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a>
+      <li class="nav-item" {% active_link "componentlists" %}>
+        <a class="nav-link" data-bs-target="#componentlists" data-bs-toggle="tab" href="#">{% translate "All component lists" %} <span class="badge text-bg-secondary">{{ all_componentlists|length }}</span></a>
       </li>
     {% endif %}
-    <li {% active_link "suggestions" %}>
-      <a href="#suggestions" data-toggle="tab">{% translate "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a>
+    <li class="nav-item" {% active_link "suggestions" %}>
+      <a class="nav-link" data-bs-target="#suggestions" data-bs-toggle="tab" href="#">{% translate "Suggested translations" %} <span class="badge text-bg-secondary">{{ suggestions|length }}</span></a>
     </li>
     {% if owned_projects %}
-      <li {% active_link "managed" %}>
-        <a href="#managed" data-toggle="tab">{% translate "Managed projects" %} <span class="badge">{{ all_owned_projects|length }}</span></a>
+      <li class="nav-item" {% active_link "managed" %}>
+        <a class="nav-link" data-bs-target="#managed" data-bs-toggle="tab" href="#">{% translate "Managed projects" %} <span class="badge text-bg-secondary">{{ all_owned_projects|length }}</span></a>
       </li>
     {% endif %}
     {% for componentlist in componentlists %}
-      <li {% active_link componentlist.tab_slug %}>
-        <a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a>
+      <li class="nav-item" {% active_link componentlist.tab_slug %}>
+        <a class="nav-link" data-bs-target="#{{ componentlist.tab_slug }}" data-bs-toggle="tab">{{ componentlist.name }} <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span></a>
       </li>
     {% endfor %}
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Insights" %} <span class="caret"></span>
+    <li class="nav-item" class="dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Insights" %}
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a href="{% url 'changes' %}">{% translate "History" %}</a>
+          <a class="dropdown-item" href="{% url 'changes' %}">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
+          <a class="dropdown-item" href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
         </li>
         <li>
-          <a href="{% url 'stats' %}">{% translate "Statistics" %}</a>
+          <a class="dropdown-item" href="{% url 'stats' %}">{% translate "Statistics" %}</a>
         </li>
         <li>
-          <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
+          <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab">{% translate "Translation reports" %}</a>
         </li>
       </ul>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
   </ul>
 

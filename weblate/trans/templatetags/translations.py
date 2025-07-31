@@ -905,13 +905,15 @@ def translation_progress_render(
     if approved_percent > 0.1:
         approved_tag = format_html(
             """
-            <div class="progress-bar"
-                role="progressbar"
-                aria-valuenow="{approved}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {approved}%"
-                title="{title}"></div>
+            <div class="progress"
+                 role="progressbar"
+                 aria-valuenow="{approved}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {approved}%"
+                 title="{title}">
+                    <div class="progress-bar"></div>
+            </div>
             """,
             approved=f"{approved_percent:.1f}",
             title=gettext("Approved"),
@@ -919,20 +921,22 @@ def translation_progress_render(
     if good_percent > 0.1:
         good_tag = format_html(
             """
-            <div class="progress-bar progress-bar-success"
-                role="progressbar"
-                aria-valuenow="{good}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {good}%"
-                title="{title}"></div>
+            <div class="progress progress-bar-success"
+                 role="progressbar"
+                 aria-valuenow="{good}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {good}%"
+                 title="{title}">
+                    <div class="progress-bar bg-success"></div>
+            </div>
             """,
             good=f"{good_percent:.1f}",
             title=gettext("Translated without any problems"),
         )
 
     return format_html(
-        """<div class="progress" title="{}">{}{}</div>""",
+        """<div class="progress-stacked" title="{}">{}{}</div>""",
         gettext("Needs attention"),
         approved_tag,
         good_tag,

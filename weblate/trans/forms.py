@@ -782,6 +782,7 @@ class SearchForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
