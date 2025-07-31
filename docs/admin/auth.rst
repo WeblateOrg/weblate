@@ -49,7 +49,9 @@ in :doc:`psa:configuration/django`.
 
         SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 
-    .. seealso:: :doc:`psa:pipeline`
+    .. seealso::
+
+       :doc:`psa:pipeline`
 
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
@@ -465,9 +467,9 @@ passwords below a certain threshold.
 
 .. seealso::
 
-   :setting:`PASSWORD_MINIMAL_STRENGTH`,
-   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`,
-   :doc:`/security/passwords`
+   * :setting:`PASSWORD_MINIMAL_STRENGTH`
+   * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   * :doc:`/security/passwords`
 
 
 .. _saml-auth:
@@ -557,8 +559,8 @@ configure your IDP to provide them:
 
 .. seealso::
 
-   :ref:`Configuring SAML in Docker <docker-saml>`,
-   :doc:`psa:backends/saml`
+   * :ref:`Configuring SAML in Docker <docker-saml>`
+   * :doc:`psa:backends/saml`
 
 .. _ldap-auth:
 
@@ -684,7 +686,8 @@ Active Directory integration
 
 .. seealso::
 
-    :doc:`ldap:index`, :doc:`ldap:authentication`
+   * :doc:`ldap:index`
+   * :doc:`ldap:authentication`
 
 
 .. _cas-auth:
@@ -757,8 +760,8 @@ installed.
 
 .. seealso::
 
-    :ref:`ldap-auth`,
-    :ref:`cas-auth`
+   * :ref:`ldap-auth`
+   * :ref:`cas-auth`
 
 Typically the installation will consist of adding an authentication backend to
 :setting:`django:AUTHENTICATION_BACKENDS` and installing an authentication app (if

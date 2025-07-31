@@ -23,11 +23,11 @@ with (what is most often the) English strings.
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+   * :doc:`tt:formats/json`
+   * `go-i18n <https://github.com/nicksnyder/go-i18n>`_
+   * :ref:`updating-target-files`
+   * :ref:`addon-weblate.json.customize`
+   * :ref:`addon-weblate.cleanup.generic`
 
 Example files
 +++++++++++++

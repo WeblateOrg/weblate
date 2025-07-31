@@ -13,7 +13,10 @@ Weblate currently supports several variants of YAML translations:
 * Files with nested keys.
 * :ref:`ryaml`
 
-.. seealso:: :doc:`tt:formats/yaml`, :ref:`ryaml`
+.. seealso::
+
+   * :doc:`tt:formats/yaml`
+   * :ref:`ryaml`
 
 Example of a YAML file:
 

@@ -83,9 +83,9 @@ only. These tokens can be identified by the ``wlp_`` prefix.
 
 .. seealso::
 
-   :doc:`/user/profile`,
-   :ref:`project-api`,
-   :ref:`acl`
+   * :doc:`/user/profile`
+   * :ref:`project-api`
+   * :ref:`acl`
 
 Authentication examples
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,10 +221,10 @@ The status of rate limiting is reported in following headers:
 
 .. seealso::
 
-   :ref:`rate-limit`,
-   :ref:`user-rate`,
-   :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-   :envvar:`WEBLATE_API_RATELIMIT_USER`
+   * :ref:`rate-limit`
+   * :ref:`user-rate`
+   * :envvar:`WEBLATE_API_RATELIMIT_ANON`
+   * :envvar:`WEBLATE_API_RATELIMIT_USER`
 
 .. _api-errors:
 
@@ -2060,8 +2060,8 @@ Translations
 
     .. seealso::
 
-       :ref:`component-manage_units`,
-       :ref:`adding-new-strings`
+       * :ref:`component-manage_units`
+       * :ref:`adding-new-strings`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
 
@@ -2689,11 +2689,11 @@ Statistics
 
    .. seealso::
 
-      :http:get:`/api/languages/(string:language)/statistics/`,
-      :http:get:`/api/projects/(string:project)/statistics/`,
-      :http:get:`/api/categories/(int:id)/statistics/`,
-      :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
-      :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
+      * :http:get:`/api/languages/(string:language)/statistics/`
+      * :http:get:`/api/projects/(string:project)/statistics/`
+      * :http:get:`/api/categories/(int:id)/statistics/`
+      * :http:get:`/api/components/(string:project)/(string:component)/statistics/`
+      * :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
 Metrics
 +++++++

@@ -49,8 +49,8 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
 .. seealso::
 
-   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`,
-   :setting:`WEBLATE_EXPORTERS`
+   * :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+   * :setting:`WEBLATE_EXPORTERS`
 
 .. _download-multi:
 
@@ -87,8 +87,8 @@ features might not be translated properly.
 
 .. seealso::
 
-   :ref:`formats`,
-   :doc:`/user/files`
+   * :ref:`formats`
+   * :doc:`/user/files`
 
 .. _upload-method:
 

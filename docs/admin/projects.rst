@@ -97,9 +97,9 @@ As a last step, you review the translation component info and fill in optional d
 
 .. seealso::
 
-      :ref:`admin-interface`,
-      :ref:`project`,
-      :ref:`component`
+   * :ref:`admin-interface`
+   * :ref:`project`
+   * :ref:`component`
 
 .. _project:
 
@@ -147,9 +147,9 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 
 .. seealso::
 
-   :setting:`PROJECT_WEB_RESTRICT_HOST`,
-   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
-   :setting:`PROJECT_WEB_RESTRICT_RE`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
 
@@ -243,8 +243,8 @@ Enable review workflow for source strings, see :ref:`source-reviews`.
 
 .. seealso::
 
-   :ref:`report-source`,
-   :ref:`user-comments`
+   * :ref:`report-source`
+   * :ref:`user-comments`
 
 .. _project-commit_policy:
 
@@ -275,10 +275,10 @@ Whether unauthenticated :ref:`hooks` are to be used for this repository.
 
 .. seealso::
 
-   :ref:`component-intermediate`,
-   :ref:`source-quality-gateway`,
-   :ref:`bimono`,
-   :ref:`languages`
+   * :ref:`component-intermediate`
+   * :ref:`source-quality-gateway`
+   * :ref:`bimono`
+   * :ref:`languages`
 
 .. _project-language_aliases:
 
@@ -304,9 +304,9 @@ Using non standard code: ``ia_FOO:ia``
 
 .. seealso::
 
-    :ref:`adding-translation`,
-    :ref:`language-code`,
-    :ref:`language-parsing-codes`
+   * :ref:`adding-translation`
+   * :ref:`language-code`
+   * :ref:`language-parsing-codes`
 
 .. _project-secondary_language:
 
@@ -321,8 +321,8 @@ Optionally, it can be also used as a source for the machine translation.
 
 .. seealso::
 
-   :ref:`secondary-languages`,
-   :ref:`mt-sources`
+   * :ref:`secondary-languages`
+   * :ref:`mt-sources`
 
 .. _project-check_flags:
 
@@ -502,8 +502,8 @@ to be escaped as ``[[]`` or ``[]]``.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`faq-duplicate-files`
+   * :ref:`bimono`
+   * :ref:`faq-duplicate-files`
 
 .. _component-screenshot_filemask:
 
@@ -546,8 +546,8 @@ Base file containing string definitions for :ref:`monolingual`.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`faq-duplicate-files`
+   * :ref:`bimono`
+   * :ref:`faq-duplicate-files`
 
 .. _component-edit_template:
 
@@ -558,10 +558,10 @@ Whether to allow editing strings in the :ref:`component-template`.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`monolingual`,
-   :ref:`faq-duplicate-files`,
-   :ref:`component-manage_units`
+   * :ref:`bimono`
+   * :ref:`monolingual`
+   * :ref:`faq-duplicate-files`
+   * :ref:`component-manage_units`
 
 .. _component-intermediate:
 
@@ -579,9 +579,9 @@ provides :ref:`source-quality-gateway`.
 
 .. seealso::
 
-   :ref:`source-quality-gateway`,
-   :ref:`bimono`,
-   :ref:`faq-duplicate-files`
+   * :ref:`source-quality-gateway`
+   * :ref:`bimono`
+   * :ref:`faq-duplicate-files`
 
 .. _component-new_base:
 
@@ -606,10 +606,10 @@ Base file used to generate new translations.
 
 .. seealso::
 
-   :ref:`adding-translation`,
-   :ref:`component-new_lang`,
-   :ref:`bimono`,
-   :ref:`faq-duplicate-files`
+   * :ref:`adding-translation`
+   * :ref:`component-new_lang`
+   * :ref:`bimono`
+   * :ref:`faq-duplicate-files`
 
 .. _component-file_format:
 
@@ -746,8 +746,8 @@ Disable adding new translations
 
 .. seealso::
 
-   :ref:`adding-translation`,
-   :ref:`component-new_base`
+   * :ref:`adding-translation`
+   * :ref:`component-new_base`
 
 .. _component-manage_units:
 
@@ -777,9 +777,9 @@ the translation files once they are translated.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`adding-new-strings`,
-   :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
+   * :ref:`bimono`
+   * :ref:`adding-new-strings`
+   * :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
 
 .. _component-language_code_style:
 
@@ -832,10 +832,10 @@ Linux style, lower cased
 
 .. seealso::
 
-    :ref:`adding-translation`,
-    :ref:`language-code`,
-    :ref:`language-parsing-codes`,
-    :ref:`project-language_aliases`
+   * :ref:`adding-translation`
+   * :ref:`language-code`
+   * :ref:`language-parsing-codes`
+   * :ref:`project-language_aliases`
 
 .. _component-merge_style:
 
@@ -1015,7 +1015,8 @@ Regular expression used to determine the variants of a string, see
 
 .. seealso::
 
-   :ref:`faq-vcs`, :ref:`alerts`
+   * :ref:`faq-vcs`
+   * :ref:`alerts`
 
 .. _component-secondary_language:
 
@@ -1034,8 +1035,8 @@ Optionally, it can be also used as a source for the machine translation.
 
 .. seealso::
 
-   :ref:`secondary-languages`,
-   :ref:`mt-sources`
+   * :ref:`secondary-languages`
+   * :ref:`mt-sources`
 
 .. _component-priority:
 
@@ -1300,5 +1301,5 @@ components and then run :wladmin:`import_project` or
 
 .. seealso::
 
-   :ref:`manage`,
-   :ref:`addon-weblate.discovery.discovery`
+   * :ref:`manage`
+   * :ref:`addon-weblate.discovery.discovery`

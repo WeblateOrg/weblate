@@ -62,7 +62,8 @@ installations, as it can have severe implications:
 
 .. seealso::
 
-   :ref:`project-contribute_shared_tm`, :ref:`project-use_shared_tm`
+   * :ref:`project-contribute_shared_tm`
+   * :ref:`project-use_shared_tm`
 
 .. _memory-status:
 
