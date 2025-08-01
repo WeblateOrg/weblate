@@ -30,6 +30,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_machinery
+""")
         for _unused, obj in sorted(MACHINERY.items()):
             self.stdout.write(f".. _mt-{obj.get_identifier()}:")
             self.stdout.write("\n")

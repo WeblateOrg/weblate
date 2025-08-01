@@ -37,6 +37,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """List installed checks."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_checks
+""")
         ignores: list[str] = []
         enables: list[str] = []
         lines: list[str] = []
