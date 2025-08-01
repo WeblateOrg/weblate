@@ -2059,7 +2059,7 @@ class GhostTranslation:
         self.project = project
         self.language = language
         self.component = component
-        self.stats = GhostStats(component.source_translation.stats)
+        self.stats = GhostStats(component.stats)
         self.pk = self.stats.pk
         self.is_source = False
 
@@ -2068,3 +2068,6 @@ class GhostTranslation:
 
     def get_absolute_url(self) -> str:
         return ""
+
+    def base_obj(self):
+        return self.component

@@ -1461,11 +1461,12 @@ class GhostStats(BaseStats):
     def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
-            for key in "all", "all_words", "all_chars":
-                stats[key] = getattr(self.base, key)
-            stats["todo"] = stats["all"]
-            stats["todo_words"] = stats["all_words"]
-            stats["todo_chars"] = stats["all_chars"]
+            for skey, dkey, tkey in (
+                ("source_strings", "all", "todo"),
+                ("source_words", "all_words", "todo_words"),
+                ("source_chars", "all_chars", "todo_chars"),
+            ):
+                stats[tkey] = stats[dkey] = getattr(self.base, skey)
         for key, value in stats.items():
             self.store(key, value)
 
@@ -1489,10 +1490,12 @@ class GhostProjectLanguageStats(GhostStats):
     is_source: bool = False
 
     def __init__(self, project: Project, language: Language) -> None:
-        project_language = ProjectLanguage(project, language)
-        super().__init__(project_language.stats)
+        super().__init__(project.stats)
         self.project = project
         self.language = language
+
+    def base_obj(self):
+        return self.project
 
 
 class GhostCategoryLanguageStats(GhostStats):
@@ -1501,8 +1504,10 @@ class GhostCategoryLanguageStats(GhostStats):
     is_source: bool = False
 
     def __init__(self, category: Category, language: Language) -> None:
-        category_language = CategoryLanguage(category, language)
-        super().__init__(category_language.stats)
+        super().__init__(category.stats)
         self.project = category.project
         self.category = category
         self.language = language
+
+    def base_obj(self):
+        return self.category
