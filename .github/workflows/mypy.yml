@@ -52,15 +52,22 @@ jobs:
       with:
         python-version: '3.13'
 
+    - name: Install deps
+      env:
+        CI_DATABASE: postgresql
+      run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
     - name: Run mypy
       env:
         CI_DATABASE: postgresql
-      run: uv run --all-extras --group types mypy --show-column-numbers weblate scripts/*.py | ./scripts/filter-mypy.sh | tee mypy.log
+      run: uv run mypy --show-column-numbers weblate scripts/*.py | ./scripts/filter-mypy.sh | tee mypy.log
       # Temporary hack until we have this fully working
       continue-on-error: true
     - name: Report mypy
-      if: always()
       run: |
+        if [ ! -s mypy.log ] ; then
+          echo "mypy log not found!"
+          exit 1
+        fi
         echo "::add-matcher::.github/matchers/mypy.json"
         if [ -f changed-files.txt ] ; then
           if grep --silent --fixed-strings --file=changed-files.txt mypy.log ; then
@@ -70,3 +77,4 @@ jobs:
           cat mypy.log
         fi
         echo "::remove-matcher owner=mypy::"
+        tail -n1 mypy.log >> "$GITHUB_STEP_SUMMARY"
