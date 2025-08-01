@@ -29,10 +29,12 @@ def format_table(
     """
     Format reStructuredText table.
 
-    * The table is list of lists
+    * The table is list of lists.
     * Row spans can be achieved by nested list:
       [["cell", [["span row 1 cell 1", "span row 1 cell 2"], ["span row 2 cell 1", "span row 2 cell 2"]]]]
-    * The cells can contain newlines
+    * The cells can contain newlines.
+    * The header always has to be present as it determines number of columns in the table, it won't
+      be rendered if it consists purely of blank strings.
     """
     widths: list[int] = [len(item) for item in header]
     output: list[str] = []
