@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-07-30 03:55+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
@@ -3757,7 +3757,7 @@ msgstr "Κείμενο XML"
 msgid "DOS line endings"
 msgstr "Καταλήξεις γραμμών DOS"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4516,112 +4516,114 @@ msgid "One or more XML tags missing content in the translation: %s"
 msgstr ""
 "Από μία ή περισσότερες ετικέτες XML λείπει περιεχόμενο στη μετάφραση: %s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "Σήμανση BBCode"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 #, fuzzy
 #| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
 msgstr "Ο κώδικας BB στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "Σύνταξη XML"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 #, fuzzy
 #| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
 msgstr "Η μετάφραση δεν είναι έγκυρο XML"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "Σήμανση XML"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 #, fuzzy
 #| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
 msgstr "Οι ετικέτες XML στη μετάφραση δεν ταιριάζουν με την προέλευση"
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "Αναφορές Markdown"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 #, fuzzy
 #| msgid "Markdown link references do not match source"
 msgid "Markdown link references do not match source."
 msgstr "Οι αναφορές συνδέσμων Markdown δεν ταιριάζουν με την προέλευση"
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "Σύνδεσμοι Markdown"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 #, fuzzy
 #| msgid "Markdown links do not match source"
 msgid "Markdown links do not match source."
 msgstr "Οι σύνδεσμοι Markdown δεν ταιριάζουν με την προέλευση"
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "Σύνταξη Markdown"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 #, fuzzy
 #| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
 msgstr "Η σύνταξη Markdown δεν ταιριάζει με την προέλευση"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
 msgstr "Η μετάφραση δεν περιέχει μία διεύθυνση URL"
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "Μη ασφαλής HTML"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 #, fuzzy
 #| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
 msgstr "Η μετάφραση χρησιμοποιεί μη ασφαλή σήμανση HTML"
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
-msgstr ""
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "reStructuredText"
+msgid "Inconsistent reStructuredText"
+msgstr "reStructuredText"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
-msgstr ""
-
-#: weblate/checks/markup.py:436
+#: weblate/checks/markup.py:473
 #, fuzzy
 #| msgid "%(count)s string is not being translated here."
 #| msgid_plural "%(count)s strings are not being translated here."
-msgid "Inconsistent inline links in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "%(count)s κείμενο δεν μεταφράζεται εδώ."
 
-#: weblate/checks/markup.py:442
+#: weblate/checks/markup.py:478
 #, fuzzy
-#| msgid "%(count)s string is not being translated here."
-#| msgid_plural "%(count)s strings are not being translated here."
-msgid "Inconsistent external links in the translated message."
-msgstr "%(count)s κείμενο δεν μεταφράζεται εδώ."
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "Λείπουν οι ακόλουθες συμβολοσειρές μορφοποίησης: {}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "Οι ακόλουθες συμβολοσειρές μορφοποίησης είναι πρόσθετες: {}"
+
+#: weblate/checks/markup.py:628
 #, fuzzy
 #| msgid "reStructuredText"
 msgid "reStructuredText syntax error"
 msgstr "reStructuredText"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 #, fuzzy
 #| msgid "Fluent syntax error in translation"
 msgid "reStructuredText syntax error in the translation."
@@ -18250,6 +18252,12 @@ msgstr "Ενεργοποιήθηκε η διαδικασία δημιουργί�
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "Δεν ήταν δυνατή η απόρριψη του σφάλματος ρύθμισης παραμέτρων!"
+
+#, fuzzy
+#~| msgid "%(count)s string is not being translated here."
+#~| msgid_plural "%(count)s strings are not being translated here."
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "%(count)s κείμενο δεν μεταφράζεται εδώ."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Μεταφράσεις με συνεισφορά"

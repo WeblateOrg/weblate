@@ -17,8 +17,8 @@ or only to a certain group of translators.
 
 .. seealso::
 
-   :ref:`access-control`,
-   :ref:`workflows`
+   * :ref:`access-control`
+   * :ref:`workflows`
 
 Translation projects
 --------------------
@@ -77,9 +77,9 @@ users by using ``@username``.
 
 .. seealso::
 
-   :ref:`report-source`,
-   :ref:`source-reviews`,
-   :ref:`project-source_review`
+   * :ref:`report-source`
+   * :ref:`source-reviews`
+   * :ref:`project-source_review`
 
 Variants
 --------
@@ -90,8 +90,8 @@ depending on the size of a screen or window.
 
 .. seealso::
 
-   :ref:`variants`,
-   :ref:`glossary-variants`
+   * :ref:`variants`
+   * :ref:`glossary-variants`
 
 Labels
 ------

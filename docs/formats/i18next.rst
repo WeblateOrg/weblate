@@ -40,11 +40,11 @@ Use for legacy projects which are using numeric suffixes for plurals.
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`
+   * :doc:`tt:formats/json`
+   * `i18next JSON Format <https://www.i18next.com/misc/json-format>`_
+   * :ref:`updating-target-files`
+   * :ref:`addon-weblate.json.customize`
+   * :ref:`addon-weblate.cleanup.generic`
 
 Example file:
 

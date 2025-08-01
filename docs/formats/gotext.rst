@@ -13,11 +13,11 @@ with (what is most often the) English strings.
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    `I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-managing-translations>`_,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+   * :doc:`tt:formats/json`
+   * `I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-managing-translations>`_
+   * :ref:`updating-target-files`
+   * :ref:`addon-weblate.json.customize`
+   * :ref:`addon-weblate.cleanup.generic`
 
 Weblate configuration
 +++++++++++++++++++++

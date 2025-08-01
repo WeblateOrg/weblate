@@ -22,10 +22,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-07-31 04:26+0000\n"
-"Last-Translator: 大王叫我来巡山 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 <hamburger2048@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3429,7 +3429,7 @@ msgstr "XML 文本"
 msgid "DOS line endings"
 msgstr "DOS 行尾"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4148,88 +4148,96 @@ msgstr "下列译文中的一个或多个 XML 标签有意想不到的内容：%
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "译文中存在一个或多个缺少内容的 XML 标签：%s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "BBCode 标记"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 msgid "BBCode in translation does not match source."
 msgstr "译文中的 BBCode 和原文不匹配。"
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "XML 语法"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 msgid "The translation is not valid XML."
 msgstr "该译文不是有效的 XML。"
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "XML 标记"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 msgid "XML tags in translation do not match source."
 msgstr "译文中的 XML 标签和原文不匹配。"
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "Markdown 引用"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 msgid "Markdown link references do not match source."
 msgstr "Markdown 链接引用和原文不一致。"
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "Markdown 链接"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 msgid "Markdown links do not match source."
 msgstr "Markdown 链接和原文不一致。"
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "Markdown 语法"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 msgid "Markdown syntax does not match source."
 msgstr "Markdown 语法与原文不匹配。"
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 msgid "The translation does not contain an URL."
 msgstr "译文不包含 URL。"
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "不安全的 HTML"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 msgid "The translation uses unsafe HTML markup."
 msgstr "该译文使用了不安全的 HTML 标记。"
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "Inconsistent reStructuredText references"
+msgid "Inconsistent reStructuredText"
 msgstr "reStructuredText 引用不一致"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
+#: weblate/checks/markup.py:473
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "已翻译的消息中的 reStructuredText 术语引用不一致。"
 
-#: weblate/checks/markup.py:436
-msgid "Inconsistent inline links in the translated message."
-msgstr "已翻译消息中的内嵌链接不一致。"
+#: weblate/checks/markup.py:478
+#, fuzzy
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "下列格式字符串缺失：{}"
 
-#: weblate/checks/markup.py:442
-msgid "Inconsistent external links in the translated message."
-msgstr "已翻译消息中的外部链接不一致。"
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "以下格式字符串是多出来的：{}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
 msgstr "reStructuredText 语法错误"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 msgid "reStructuredText syntax error in the translation."
 msgstr "译文中的 reStructuredText 语法错误。"
 
@@ -16883,6 +16891,12 @@ msgstr "已触发备份进程"
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
+
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "已翻译消息中的内嵌链接不一致。"
+
+#~ msgid "Inconsistent external links in the translated message."
+#~ msgstr "已翻译消息中的外部链接不一致。"
 
 #~ msgid "Translations with contribution"
 #~ msgstr "有贡献的翻译"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-06-22 06:46+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -3617,7 +3617,7 @@ msgstr "Tekst XML"
 msgid "DOS line endings"
 msgstr "Funde rreshtash DOS"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4371,89 +4371,97 @@ msgstr "Një ose më tepër etiketa XML kanë lëndë të papritur te përkthimi
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Një ose më tepër etiketa XML të cilave u mungon lëndë te përkthimi:%s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "Markup BBCode"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 msgid "BBCode in translation does not match source."
 msgstr "BBCode te përkthimi s’përputhet me burimin."
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "Sintaksë XML"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 msgid "The translation is not valid XML."
 msgstr "Përkthimi s’është XML e vlefshme."
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "Markup XML"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 msgid "XML tags in translation do not match source."
 msgstr "Etiketa XML te përkthimi s’përputhen me burimin."
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "Referenca Markdown"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 msgid "Markdown link references do not match source."
 msgstr "Referenca lidhjesh Markdown s’përputhen me burimin."
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "Lidhje Markdown"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 msgid "Markdown links do not match source."
 msgstr "Lidhje Markdown s’përputhen me burimin."
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "Sintaksë Markdown"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 msgid "Markdown syntax does not match source."
 msgstr "Sintaksë Markdown s’përputhet me burimin."
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 msgid "The translation does not contain an URL."
 msgstr "Përkthimi s’përmban URL."
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "HTML jo e parrezik"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 msgid "The translation uses unsafe HTML markup."
 msgstr "Përkthimi përdor elementë HTML jo të parrezik."
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "Inconsistent reStructuredText references"
+msgid "Inconsistent reStructuredText"
 msgstr "Referenca reStructuredText që s’përputhen"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
+#: weblate/checks/markup.py:473
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr ""
 "Referenca reStructuredText termi që s’përputhen, te mesazhi i përkthyer."
 
-#: weblate/checks/markup.py:436
-msgid "Inconsistent inline links in the translated message."
-msgstr "Lidhje të brendshme që s’përputhen, te mesazhi i përkthyer."
+#: weblate/checks/markup.py:478
+#, fuzzy
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "Mungojnë vargje formati vijuese: {}"
 
-#: weblate/checks/markup.py:442
-msgid "Inconsistent external links in the translated message."
-msgstr "Lidhje të jashtme që s’përputhen, te mesazhi i përkthyer."
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "Vargjet vijuese formatesh janë shtesë: {}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
 msgstr "Gabim sintakse reStructuredText"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 msgid "reStructuredText syntax error in the translation."
 msgstr "Gabim sintakse reStructuresText në përkthim."
 
@@ -17892,6 +17900,12 @@ msgstr "U shkaktua proces kopjeruajtjeje"
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "S’u hodh dot tej gabimi i formësimit!"
+
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "Lidhje të brendshme që s’përputhen, te mesazhi i përkthyer."
+
+#~ msgid "Inconsistent external links in the translated message."
+#~ msgstr "Lidhje të jashtme që s’përputhen, te mesazhi i përkthyer."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Përkthime me kontribut"

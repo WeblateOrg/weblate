@@ -25,10 +25,10 @@ INI translations are usually used as monolingual translations.
 
 .. seealso::
 
-    :doc:`tt:formats/ini`,
-    :ref:`javaprop`,
-    :ref:`joomla`,
-    :ref:`islu`
+   * :doc:`tt:formats/ini`
+   * :ref:`javaprop`
+   * :ref:`joomla`
+   * :ref:`islu`
 
 Example file:
 

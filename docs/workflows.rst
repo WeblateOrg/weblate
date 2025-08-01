@@ -93,8 +93,8 @@ The states are represented in the translation files when possible.
 
 .. seealso::
 
-   :ref:`fmt_capabs`,
-   :ref:`workflows`
+   * :ref:`fmt_capabs`
+   * :ref:`workflows`
 
 
 Direct translation
@@ -259,9 +259,9 @@ based on what is now a polished source language stored in the
 
 .. seealso::
 
-   :ref:`component-intermediate`,
-   :ref:`component-template`,
-   :ref:`bimono`
+   * :ref:`component-intermediate`
+   * :ref:`component-template`
+   * :ref:`bimono`
 
 .. _secondary-language-workflow:
 
@@ -300,7 +300,7 @@ code, or remove the label.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`reviews`,
-   :ref:`labels`,
-   :ref:`user-comments`
+   * :ref:`bimono`
+   * :ref:`reviews`
+   * :ref:`labels`
+   * :ref:`user-comments`

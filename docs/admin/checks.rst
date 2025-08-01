@@ -378,10 +378,10 @@ be dismissed in the user interface and any string failing this check is marked a
    Turning on check enforcing doesn't enable it automatically. The check can be
    turned on by adding the corresponding flag to string or component flags.
 
-   .. seealso::
+.. seealso::
 
-      :ref:`additional`,
-      :ref:`component-check_flags`
+   * :ref:`additional`
+   * :ref:`component-check_flags`
 
 .. _fonts:
 

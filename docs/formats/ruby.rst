@@ -8,7 +8,10 @@ Ruby YAML files
 
 Ruby i18n YAML files with language as root node.
 
-.. seealso:: :doc:`tt:formats/yaml`, :ref:`yaml`
+.. seealso::
+
+   * :doc:`tt:formats/yaml`
+   * :ref:`yaml`
 
 Example Ruby i18n YAML file:
 
