@@ -47,19 +47,28 @@ class Command(BaseCommand):
         }:
             if result:
                 result.append("")
-            result.append("Available choices:")
+
+            result.extend(
+                (
+                    ".. list-table:: Available choices:",
+                    "   :width: 100%",
+                    "",
+                )
+            )
             for value, description in choices:
                 result.extend(
                     (
-                        "",
-                        f"``{value}``".replace("\\", "\\\\"),
-                        f"  {description}".replace("\\", "\\\\"),
+                        f"   * - ``{value}``".replace("\\", "\\\\"),
+                        f"     - {description}".replace("\\", "\\\\"),
                     )
                 )
         return "\n".join(result)
 
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_addons
+""")
         self.stdout.write(".. _addon-event-install:\n\n")
         self.stdout.write("Add-on installation\n")
         self.stdout.write("-------------------\n\n")
