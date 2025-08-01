@@ -50,7 +50,7 @@ from weblate.trans.defines import (
     FILENAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -429,23 +429,6 @@ class PluralField(forms.CharField):
         if not value or (self.required and not any(value)):
             raise ValidationError(self.error_messages["required"], code="required")
         return value
-
-
-class FilterField(forms.ChoiceField):
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["label"] = gettext_lazy("Search filter")
-        if "required" not in kwargs:
-            kwargs["required"] = False
-        kwargs["choices"] = get_filter_choice()
-        kwargs["error_messages"] = {
-            "invalid_choice": gettext_lazy("Please choose a valid filter type.")
-        }
-        super().__init__(*args, **kwargs)
-
-    def to_python(self, value):
-        if value == "untranslated":
-            return "todo"
-        return super().to_python(value)
 
 
 class ChecksumForm(forms.Form):
