@@ -26,6 +26,8 @@ if TYPE_CHECKING:
 
 
 class CheckWrapper:
+    check_obj: Check | None
+
     def __init__(
         self,
         name: str,
@@ -216,12 +218,13 @@ class CheckList(PathViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["check"] = self.check_obj
         context["path_object"] = self.path_object
-        if self.check_obj is None and self.path_object is None:
-            context["title"] = gettext("Failing checks")
-        elif self.check_obj is not None and self.path_object is None:
+        if self.check_obj is None:
+            if self.path_object is None:
+                context["title"] = gettext("Failing checks")
+            else:
+                context["title"] = f"{gettext('Failing checks')} / {self.path_object}"
+        elif self.path_object is None:
             context["title"] = self.check_obj.name
-        elif self.check_obj is None and self.path_object is not None:
-            context["title"] = f"{gettext('Failing checks')} / {self.path_object}"
         else:
             context["title"] = f"{self.check_obj.name} / {self.path_object}"
         if self.check_obj is None:

@@ -18,7 +18,6 @@ from weblate.utils import messages
 from weblate.utils.views import PathViewMixin, get_paginator
 
 if TYPE_CHECKING:
-    from weblate.addons.base import BaseAddon
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -118,7 +117,11 @@ class AddonList(PathViewMixin, ListView):
             obj_project = obj
 
         name = request.POST.get("name")
-        addon: type[BaseAddon] = ADDONS.get(name)
+        if not name:
+            return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
+        addon = ADDONS.get(name)
+        if addon is None:
+            return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon.name for x in self.get_queryset()}
         if (
             not name

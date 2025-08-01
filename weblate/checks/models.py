@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class ChecksLoader(ClassLoader):
+class ChecksLoader(ClassLoader[BaseCheck]):
     def __init__(self) -> None:
         super().__init__("CHECK_LIST", base_class=BaseCheck)
 

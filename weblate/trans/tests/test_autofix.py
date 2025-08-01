@@ -6,6 +6,7 @@
 
 from django.test import TestCase
 
+from weblate.checks.flags import Flags
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
@@ -139,10 +140,10 @@ class AutoFixTest(TestCase):
         # No flags
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string, but forced
-        unit.flags = "java-format"
+        unit.flags = Flags("java-format")
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         # No format string
-        unit.flags = "auto-java-messageformat"
+        unit.flags = Flags("auto-java-messageformat")
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
         unit.source = "test {0}"
         unit.sources = [unit.source]
