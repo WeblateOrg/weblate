@@ -72,11 +72,11 @@ List of privileges
             rows.append(
                 [
                     name,
-                    ", ".join(
-                        f":guilabel:`{name}`"
+                    [
+                        [f":guilabel:`{name}`"]
                         for name, permissions in ROLES
                         if key in permissions
-                    ),
+                    ],
                 ]
             )
         table.append([GROUP_NAMES[last], rows])
@@ -84,11 +84,11 @@ List of privileges
         rows = [
             [
                 name,
-                ", ".join(
-                    f":guilabel:`{name}`"
+                [
+                    [f":guilabel:`{name}`"]
                     for name, permissions in ROLES
                     if key in permissions
-                ),
+                ],
             ]
             for key, name in GLOBAL_PERMISSIONS
         ]
@@ -97,6 +97,10 @@ List of privileges
         self.stdout.writelines(
             format_table(table, ["Scope", "Permission", "Built-in roles"])
         )
+        self.stdout.write("""
+.. note::
+
+""")
 
         self.stdout.write("""
 List of built-in roles
