@@ -13,6 +13,7 @@ from itertools import chain
 from secrets import token_hex
 from typing import TYPE_CHECKING, ClassVar, Literal
 
+import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
@@ -2441,6 +2442,14 @@ class ProjectImportForm(BillingMixin, forms.Form):
         backup = ProjectBackup(fileio=zipfile)
         try:
             backup.validate()
+        except jsonschema.exceptions.ValidationError as error:
+            version = backup.data.get("metadata", {}).get("version", "unknown")
+            raise ValidationError(
+                gettext(
+                    "Could not load project backup: The backup is from an incompatible version (%(version)s). Please upgrade your Weblate instance."
+                )
+                % {"version": version}
+            ) from error
         except Exception as error:
             raise ValidationError(
                 gettext("Could not load project backup: %s") % error
