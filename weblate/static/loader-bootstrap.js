@@ -35,10 +35,14 @@ function addAlert(message, kind = "danger", delay = 3000, bootstrap5 = false) {
   const alerts = $("#popup-alerts");
   let e;
   if (bootstrap5) {
-    e = $('<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
+    e = $(
+      '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
+    );
   } else {
-    e = $('<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
-  };
+    e = $(
+      '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
+    );
+  }
   e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
