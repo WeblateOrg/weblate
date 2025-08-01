@@ -445,8 +445,8 @@ defined in the XLIFF standard, see :ref:`xliff-flags`.
 
 .. seealso::
 
-   :ref:`custom-checks`,
-   `PO files documentation`_
+   * :ref:`custom-checks`
+   * `PO files documentation`_
 
 .. _PO files documentation: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
 

@@ -36,7 +36,9 @@ the following files:
    results. This is especially true for CSV files with newlines in the
    values. As a workaround it is recommended to omit quoting characters.
 
-.. seealso:: :doc:`tt:formats/csv`
+.. seealso::
+
+   :doc:`tt:formats/csv`
 
 .. _translate-toolkit: https://toolkit.translatehouse.org/
 

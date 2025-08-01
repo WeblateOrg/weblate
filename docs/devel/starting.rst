@@ -82,5 +82,5 @@ The more detailed workflow for some formats is described in following chapters:
 
 .. seealso::
 
-   :doc:`integration`,
-   :ref:`continuous-translation`
+   * :doc:`integration`
+   * :ref:`continuous-translation`

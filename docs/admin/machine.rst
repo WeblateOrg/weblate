@@ -118,8 +118,8 @@ The recommended way to use Apertium is to run your own Apertium-APy server.
 
 .. seealso::
 
-   `Apertium website <https://www.apertium.org/>`_,
-   `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_
+   * `Apertium website <https://www.apertium.org/>`_
+   * `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_
 
 
 
@@ -154,8 +154,8 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
 .. seealso::
 
-    `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_,
-    `AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-policy/latest/reference/TranslateFullAccess.html>`_
+   * `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
+   * `AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-policy/latest/reference/TranslateFullAccess.html>`_
 
 .. _mt-azure-openai:
 
@@ -312,9 +312,9 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
 .. seealso::
 
-    `DeepL translator <https://www.deepl.com/translator>`_,
-    `DeepL pricing <https://www.deepl.com/pro>`_,
-    `DeepL API documentation <https://developers.deepl.com/docs>`_
+   * `DeepL translator <https://www.deepl.com/translator>`_
+   * `DeepL pricing <https://www.deepl.com/pro>`_
+   * `DeepL API documentation <https://developers.deepl.com/docs>`_
 
 .. _mt-glosbe:
 
@@ -426,10 +426,10 @@ Optionally, you can configure the service to use :ref:`glossary` by setting up a
 
 .. seealso::
 
-    `Google translate documentation <https://cloud.google.com/translate/docs>`_,
-    `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_,
-    `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_,
-    `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+   * `Google translate documentation <https://cloud.google.com/translate/docs>`_
+   * `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_
+   * `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
+   * `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
 
 .. _mt-ibm:
 
@@ -463,8 +463,8 @@ The service offers multiple domain-specific models.
 
 .. seealso::
 
-    `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_,
-    `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
+   * `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_
+   * `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
 
 .. _mt-libretranslate:
 
@@ -498,8 +498,8 @@ and there are several mirrors available to use the API for free.
 
 .. seealso::
 
-    `LibreTranslate website <https://libretranslate.com/>`_,
-    `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_
+   * `LibreTranslate website <https://libretranslate.com/>`_
+   * `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_
 
 .. _mt-microsoft-translator:
 
@@ -579,11 +579,11 @@ You can also specify a custom category to use `custom translator <https://learn.
 
 .. seealso::
 
-   `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/products/ai-services/ai-translator>`_,
-   `Microsoft Azure Portal <https://portal.azure.com/>`_,
-   `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#base-urls>`_,
-   `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-a-multi-service-resource>`_
-   `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-an-access-token>`_
+   * `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/products/ai-services/ai-translator>`_
+   * `Microsoft Azure Portal <https://portal.azure.com/>`_
+   * `Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#base-urls>`_
+   * `"Authenticating with a Multi-service resource" <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-a-multi-service-resource>`_
+   * `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference#authenticating-with-an-access-token>`_
 
 
 .. _mt-modernmt:
@@ -754,8 +754,8 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
 .. seealso::
 
-   `OpenAI models <https://platform.openai.com/docs/models>`_,
-   `OpenAI API keys <https://platform.openai.com/api-keys>`_
+   * `OpenAI models <https://platform.openai.com/docs/models>`_
+   * `OpenAI API keys <https://platform.openai.com/api-keys>`_
 
 .. _OpenAI: https://openai.com/
 
@@ -873,10 +873,10 @@ amaGama server, which is an enhanced version of tmserver.
 
 .. seealso::
 
-    :doc:`tt:commands/tmserver`,
-    :ref:`amagama:installation`,
-    :doc:`virtaal:amagama`,
-    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
+   * :doc:`tt:commands/tmserver`
+   * :ref:`amagama:installation`
+   * :doc:`virtaal:amagama`
+   * `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 
 .. _mt-weblate:
@@ -937,8 +937,8 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 
 .. seealso::
 
-    `Yandex Translate API <https://yandex.com/dev/translate/>`_,
-    `Powered by Yandex.Translate <https://translate.yandex.com/>`_
+   * `Yandex Translate API <https://yandex.com/dev/translate/>`_
+   * `Powered by Yandex.Translate <https://translate.yandex.com/>`_
 
 .. _mt-yandex-v2:
 
@@ -967,8 +967,8 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 
 .. seealso::
 
-    `Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/authentication>`_,
-    `Powered by Yandex.Cloud <https://cloud.yandex.com/en/services/translate>`_
+   * `Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/authentication>`_
+   * `Powered by Yandex.Cloud <https://cloud.yandex.com/en/services/translate>`_
 
 .. _mt-youdao-zhiyun:
 

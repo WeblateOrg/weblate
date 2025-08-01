@@ -233,7 +233,8 @@ content types and consumes just the `push` event).
 
 .. seealso::
 
-   :http:post:`/hooks/github/`, :ref:`hosted-push`
+   * :http:post:`/hooks/github/`
+   * :ref:`hosted-push`
 
 .. _bitbucket-setup:
 
@@ -249,7 +250,8 @@ on your Weblate installation (for example
 
 .. seealso::
 
-   :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
+   * :http:post:`/hooks/bitbucket/`
+   * :ref:`hosted-push`
 
 .. _gitlab-setup:
 
@@ -262,7 +264,8 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 
 .. seealso::
 
-   :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
+   * :http:post:`/hooks/gitlab/`
+   * :ref:`hosted-push`
 
 .. _pagure-setup:
 
@@ -278,7 +281,8 @@ example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
 
 .. seealso::
 
-   :http:post:`/hooks/pagure/`, :ref:`hosted-push`
+   * :http:post:`/hooks/pagure/`
+   * :ref:`hosted-push`
 
 .. _azure-setup:
 
@@ -294,8 +298,9 @@ settings`.
 
 .. seealso::
 
-   `Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_,
-   :http:post:`/hooks/azure/`, :ref:`hosted-push`
+   * `Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_
+   * :http:post:`/hooks/azure/`
+   * :ref:`hosted-push`
 
 .. _gitea-setup:
 
@@ -309,8 +314,9 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
 .. seealso::
 
-   `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_,
-   :http:post:`/hooks/gitea/`, :ref:`hosted-push`
+   * `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_
+   * :http:post:`/hooks/gitea/`
+   * :ref:`hosted-push`
 
 .. _gitee-setup:
 
@@ -324,8 +330,9 @@ This can be done in :guilabel:`WebHooks` under repository :guilabel:`Management`
 
 .. seealso::
 
-   `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_,
-   :http:post:`/hooks/gitee/`, :ref:`hosted-push`
+   * `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_
+   * :http:post:`/hooks/gitee/`
+   * :ref:`hosted-push`
 
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++

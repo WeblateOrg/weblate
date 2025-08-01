@@ -33,8 +33,8 @@ on our CI as :abbr:`SARIF (Static Analysis Results Interchange Format)`.
 
 .. seealso::
 
-   :ref:`ci-tests`,
-   `Renovate <https://www.mend.io/renovate/>`_,
-   `Anchore <https://anchore.com/>`_
+   * :ref:`ci-tests`
+   * `Renovate <https://www.mend.io/renovate/>`_
+   * `Anchore <https://anchore.com/>`_
 
 .. _Trivy: https://github.com/aquasecurity/trivy

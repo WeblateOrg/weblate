@@ -69,11 +69,11 @@ In case you need to pass it a file, you can temporary add a volume:
 
 .. seealso::
 
-    :doc:`install/docker`,
-    :doc:`install/venv-debian`,
-    :doc:`install/venv-suse`,
-    :doc:`install/venv-redhat`,
-    :doc:`install/source`
+   * :doc:`install/docker`
+   * :doc:`install/venv-debian`
+   * :doc:`install/venv-suse`
+   * :doc:`install/venv-redhat`
+   * :doc:`install/source`
 
 
 add_suggestions
@@ -240,8 +240,8 @@ You can either define which project or component to update (for example
 
 .. seealso::
 
-    :ref:`production-cron`,
-    :setting:`COMMIT_PENDING_HOURS`
+   * :ref:`production-cron`
+   * :setting:`COMMIT_PENDING_HOURS`
 
 cleanuptrans
 ------------
@@ -322,8 +322,8 @@ Export a JSON file containing Weblate Translation Memory content.
 
 .. seealso::
 
-    :ref:`translation-memory`,
-    :ref:`schema-memory`
+   * :ref:`translation-memory`
+   * :ref:`schema-memory`
 
 dumpuserdata
 ------------
@@ -425,8 +425,8 @@ for formats other than JSON and TMX.
 
 .. seealso::
 
-    :ref:`translation-memory`,
-    :ref:`schema-memory`
+   * :ref:`translation-memory`
+   * :ref:`schema-memory`
 
 import_project
 --------------
@@ -830,8 +830,8 @@ described at Django :djadmin:`django:migrate`.
 
 .. seealso::
 
-   :djadmin:`django:migrate`,
-   :ref:`tables-setup`
+   * :djadmin:`django:migrate`
+   * :ref:`tables-setup`
 
 move_language
 -------------

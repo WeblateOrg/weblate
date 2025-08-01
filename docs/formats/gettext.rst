@@ -14,15 +14,16 @@ headers or linking to corresponding source files.
 
 .. seealso::
 
-    :doc:`../devel/gettext`,
-    :doc:`../devel/sphinx`,
-    `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
-    :doc:`tt:formats/po`,
-    :ref:`addon-weblate.gettext.authors`,
-    :ref:`addon-weblate.gettext.configure`,
-    :ref:`addon-weblate.gettext.linguas`,
-    :ref:`addon-weblate.gettext.mo`,
-    :ref:`addon-weblate.gettext.msgmerge`
+    * :doc:`../devel/gettext`
+    * :doc:`../devel/sphinx`
+    * `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_
+    * :doc:`tt:formats/po`
+    * :ref:`addon-weblate.gettext.authors`
+    * :ref:`addon-weblate.gettext.configure`
+    * :ref:`addon-weblate.gettext.customize`
+    * :ref:`addon-weblate.gettext.linguas`
+    * :ref:`addon-weblate.gettext.mo`
+    * :ref:`addon-weblate.gettext.msgmerge`
 
 Showing source string change
 ++++++++++++++++++++++++++++

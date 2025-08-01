@@ -13,9 +13,9 @@ File format used when translating extensions for Mozilla Firefox or Google Chrom
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    `Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/api/i18n>`_,
-    `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_
+    * :doc:`tt:formats/json`
+    * `Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/api/i18n>`_
+    * `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_
 
 Example file:
 

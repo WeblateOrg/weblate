@@ -9,8 +9,8 @@ File format used when translating Format.JS and React-Intl applications.
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    `Format.JS Message Extraction <https://formatjs.github.io/docs/getting-started/message-extraction>`_
+   * :doc:`tt:formats/json`
+   * `Format.JS Message Extraction <https://formatjs.github.io/docs/getting-started/message-extraction>`_
 
 Example file:
 

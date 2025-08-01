@@ -380,8 +380,8 @@ be dismissed in the user interface and any string failing this check is marked a
 
    .. seealso::
 
-      :ref:`additional`,
-      :ref:`component-check_flags`
+      * :ref:`additional`
+      * :ref:`component-check_flags`
 
 .. _fonts:
 

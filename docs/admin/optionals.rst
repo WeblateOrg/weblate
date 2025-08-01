@@ -196,9 +196,9 @@ Weblate currently supports:
 
 .. seealso::
 
-   :ref:`production-cache-avatar`,
-   :setting:`AVATAR_URL_PREFIX`,
-   :setting:`ENABLE_AVATARS`
+   * :ref:`production-cache-avatar`
+   * :setting:`AVATAR_URL_PREFIX`
+   * :setting:`ENABLE_AVATARS`
 
 .. _spam-protection:
 
@@ -224,9 +224,9 @@ Following content is sent to Akismet for checking:
 
 .. seealso::
 
-    :ref:`reverse-proxy`,
-    :setting:`AKISMET_API_KEY`,
-    :envvar:`WEBLATE_AKISMET_API_KEY`
+    * :ref:`reverse-proxy`
+    * :setting:`AKISMET_API_KEY`
+    * :envvar:`WEBLATE_AKISMET_API_KEY`
 
 
 .. _gpg-sign:
@@ -314,9 +314,9 @@ The API has separate rate limiting settings, see :ref:`api-rate`.
 
 .. seealso::
 
-   :ref:`user-rate`,
-   :ref:`reverse-proxy`,
-   :ref:`api-rate`
+   * :ref:`user-rate`
+   * :ref:`reverse-proxy`
+   * :ref:`api-rate`
 
 .. _fedora-messaging:
 

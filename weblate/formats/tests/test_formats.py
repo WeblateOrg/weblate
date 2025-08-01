@@ -21,6 +21,7 @@ from translate.storage.po import pofile
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import TranslationFormat, UpdateError
+from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
     CatkeysFormat,
@@ -161,6 +162,11 @@ class AutoLoadTest(TestCase):
         store = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
+
+    def test_get_class(self) -> None:
+        """Test that each format can properly load its store class."""
+        for format_class in FILE_FORMATS.values():
+            format_class.get_class()
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):

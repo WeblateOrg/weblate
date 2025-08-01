@@ -20,8 +20,8 @@ updates.
 
 .. seealso::
 
-    :doc:`../admin/upgrade`,
-    :ref:`security-updates`
+   * :doc:`../admin/upgrade`
+   * :ref:`security-updates`
 
 Release planning
 ----------------

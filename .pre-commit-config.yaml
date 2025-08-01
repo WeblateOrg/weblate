@@ -129,6 +129,17 @@ repos:
     files: docs/changes\.rst
     entry: ^ *\* .*[^.]\n$
     language: pygrep
+  - id: rst-seealso-inline
+    name: seealso should use block
+    types: [rst]
+    entry: '^\.\. seealso:: .*$'
+    language: pygrep
+  - id: rst-seealso-list
+    name: seealso shoud use list for multiple lins
+    types: [rst]
+    args: [--multiline]
+    entry: ^\.\. seealso::\n\n(   *[:`*][^\n]*\n)*   *[:`*][^\n]*,
+    language: pygrep
   - id: py-join-comma
     name: Localized comma in join
     types: [python]

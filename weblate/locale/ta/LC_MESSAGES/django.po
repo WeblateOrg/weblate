@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-07-30 17:31+0000\n"
+"POT-Creation-Date: 2025-07-31 17:32+0000\n"
 "PO-Revision-Date: 2025-07-30 03:56+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
@@ -3547,7 +3547,7 @@ msgstr "எக்ச்எம்எல் உரை"
 msgid "DOS line endings"
 msgstr "டோச் வரி முடிவுகள்"
 
-#: weblate/checks/flags.py:58 weblate/checks/markup.py:358
+#: weblate/checks/flags.py:58 weblate/checks/markup.py:366
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
 #: weblate/templates/data.html:114 weblate/templates/data.html:155
 msgid "URL"
@@ -4306,88 +4306,96 @@ msgstr ""
 "ஒன்று அல்லது அதற்கு மேற்பட்ட எக்ச்எம்எல் குறிச்சொற்கள் மொழிபெயர்ப்பில் உள்ளடக்கத்தைக் காணவில்லை: "
 "%s"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:119
 msgid "BBCode markup"
 msgstr "பிபிகோட் மார்க்அப்"
 
-#: weblate/checks/markup.py:112
+#: weblate/checks/markup.py:120
 msgid "BBCode in translation does not match source."
 msgstr "மொழிபெயர்ப்பில் பிபிகோட் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/markup.py:195
+#: weblate/checks/markup.py:203
 msgid "XML syntax"
 msgstr "எக்ச்எம்எல் தொடரியல்"
 
-#: weblate/checks/markup.py:196
+#: weblate/checks/markup.py:204
 msgid "The translation is not valid XML."
 msgstr "மொழிபெயர்ப்பு செல்லுபடியாகும் எக்ச்எம்எல் அல்ல."
 
-#: weblate/checks/markup.py:220
+#: weblate/checks/markup.py:228
 msgid "XML markup"
 msgstr "எக்ச்எம்எல் மார்க்அப்"
 
-#: weblate/checks/markup.py:221
+#: weblate/checks/markup.py:229
 msgid "XML tags in translation do not match source."
 msgstr "மொழிபெயர்ப்பில் உள்ள எக்ச்எம்எல் குறிச்சொற்கள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/markup.py:279
+#: weblate/checks/markup.py:287
 msgid "Markdown references"
 msgstr "மார்க் பேரூர் குறிப்புகள்"
 
-#: weblate/checks/markup.py:280
+#: weblate/checks/markup.py:288
 msgid "Markdown link references do not match source."
 msgstr "மார்க் பேரூர் இணைப்பு குறிப்புகள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/markup.py:296
+#: weblate/checks/markup.py:304
 msgid "Markdown links"
 msgstr "மார்க் பேரூர் இணைப்புகள்"
 
-#: weblate/checks/markup.py:297
+#: weblate/checks/markup.py:305
 msgid "Markdown links do not match source."
 msgstr "மார்க் பேரூர் இணைப்புகள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/markup.py:325
+#: weblate/checks/markup.py:333
 msgid "Markdown syntax"
 msgstr "மார்க் பேரூர் தொடரியல்"
 
-#: weblate/checks/markup.py:326
+#: weblate/checks/markup.py:334
 msgid "Markdown syntax does not match source."
 msgstr "குறைகுறி தொடரியல் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/markup.py:359
+#: weblate/checks/markup.py:367
 msgid "The translation does not contain an URL."
 msgstr "மொழிபெயர்ப்பில் முகவரி இல்லை."
 
-#: weblate/checks/markup.py:378 weblate/trans/autofixes/html.py:16
+#: weblate/checks/markup.py:386 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "பாதுகாப்பற்ற html"
 
-#: weblate/checks/markup.py:379
+#: weblate/checks/markup.py:387
 msgid "The translation uses unsafe HTML markup."
 msgstr "மொழிபெயர்ப்பு பாதுகாப்பற்ற உஉகுமொ குறைகுறியைப் பயன்படுத்துகிறது."
 
-#: weblate/checks/markup.py:403
-msgid "Inconsistent reStructuredText references"
+#: weblate/checks/markup.py:471
+#, fuzzy
+#| msgid "Inconsistent reStructuredText references"
+msgid "Inconsistent reStructuredText"
 msgstr "சீரற்ற மறுசீரமைப்பு குறிப்புகள்"
 
-#: weblate/checks/markup.py:405
-msgid ""
-"Inconsistent reStructuredText term references in the translated message."
+#: weblate/checks/markup.py:473
+#, fuzzy
+#| msgid ""
+#| "Inconsistent reStructuredText term references in the translated message."
+msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "மொழிபெயர்க்கப்பட்ட செய்தியில் சீரற்ற மறுசீரமைப்பு டெக்ச்ட் கால குறிப்புகள்."
 
-#: weblate/checks/markup.py:436
-msgid "Inconsistent inline links in the translated message."
-msgstr "மொழிபெயர்க்கப்பட்ட செய்தியில் சீரற்ற இன்லைன் இணைப்புகள்."
+#: weblate/checks/markup.py:478
+#, fuzzy
+#| msgid "The following format strings are missing: {}"
+msgid "The following reStructuredText markup is missing: {}"
+msgstr "பின்வரும் வடிவமைப்பு சரங்கள் காணவில்லை: {}"
 
-#: weblate/checks/markup.py:442
-msgid "Inconsistent external links in the translated message."
-msgstr "மொழிபெயர்க்கப்பட்ட செய்தியில் சீரற்ற வெளிப்புற இணைப்புகள்."
+#: weblate/checks/markup.py:483
+#, fuzzy
+#| msgid "The following format strings are extra: {}"
+msgid "The following reStructuredText markup is extra: {}"
+msgstr "பின்வரும் வடிவமைப்பு சரங்கள் கூடுதல்: {}"
 
-#: weblate/checks/markup.py:575
+#: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
 msgstr "மறுசீரமைப்பு டெக்ச்ட் தொடரியல் பிழை"
 
-#: weblate/checks/markup.py:576
+#: weblate/checks/markup.py:629
 msgid "reStructuredText syntax error in the translation."
 msgstr "மொழிபெயர்ப்பில் மறுகட்டமைக்கப்பட்ட உரை தொடரியல் பிழை."
 
@@ -17634,6 +17642,12 @@ msgstr "காப்பு செயல்முறை தூண்டப்ப�
 #: weblate/wladmin/views.py:356
 msgid "Could not dismiss the configuration error!"
 msgstr "உள்ளமைவு பிழையை நிராகரிக்க முடியவில்லை!"
+
+#~ msgid "Inconsistent inline links in the translated message."
+#~ msgstr "மொழிபெயர்க்கப்பட்ட செய்தியில் சீரற்ற இன்லைன் இணைப்புகள்."
+
+#~ msgid "Inconsistent external links in the translated message."
+#~ msgstr "மொழிபெயர்க்கப்பட்ட செய்தியில் சீரற்ற வெளிப்புற இணைப்புகள்."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "பங்களிப்புடன் மொழிபெயர்ப்புகள்"
