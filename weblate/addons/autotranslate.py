@@ -35,8 +35,14 @@ class AutoTranslateAddon(BaseAddon):
     icon = "language.svg"
 
     def component_update(self, component: Component) -> None:
+        conf = self.instance.configuration
         auto_translate_component.delay_on_commit(
-            component.pk, **self.instance.configuration
+            component.pk,
+            mode=conf["mode"],
+            q=conf["q"],
+            auto_source=conf["auto_source"],
+            engines=conf["engines"],
+            threshold=conf["threshold"],
         )
 
     def daily(self, component: Component) -> None:
