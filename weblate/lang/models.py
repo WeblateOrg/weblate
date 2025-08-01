@@ -1168,6 +1168,9 @@ class PluralMapper:
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
 
+    def __str__(self):
+        return "<PluralMapper '{}' -> '{}'>".format(self.source_plural, self.target_plural)
+
     @cached_property
     def target_map(self) -> tuple[tuple[int | None, int | None], ...]:
         exact_source_map: dict[int, int] = {}
