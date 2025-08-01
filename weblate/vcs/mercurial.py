@@ -418,3 +418,8 @@ class HgRepository(Repository):
                 ("rhg", "fallback-executable", "hg"),
                 ("rhg", "on-unsupported", "fallback"),
             )
+
+    def show(self, revision: str) -> str:
+        return self.execute(
+            ["diff", "--change", revision], needs_lock=False, merge_err=False
+        )

@@ -1090,6 +1090,8 @@ class Component(
 
             if addon.has_settings():
                 form = addon.get_add_form(None, component=component, data=configuration)
+                if form is None:
+                    raise TypeError
                 if not form.is_valid():
                     component.log_warning(
                         "could not enable addon %s, invalid settings", name

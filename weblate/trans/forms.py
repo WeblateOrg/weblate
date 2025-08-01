@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal, cast
 
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -2044,7 +2044,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context = value.data.copy()
+        context = cast("dict[str, str]", value.data.copy())
         try:
             format_cls = FILE_FORMATS[value["file_format"]]
             context["file_format_name"] = format_cls.name

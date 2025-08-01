@@ -5,11 +5,18 @@
 from __future__ import annotations
 
 from importlib import import_module
+from typing import TYPE_CHECKING, Generic, Protocol, TypeVar
 from weakref import WeakValueDictionary
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.functional import cached_property
+
+if TYPE_CHECKING:
+    from _collections_abc import dict_items, dict_keys, dict_values
+    from collections.abc import Callable, Iterator
+
+    from django_stubs_ext import StrOrPromise
 
 
 def load_class(name, setting):
@@ -31,7 +38,15 @@ def load_class(name, setting):
         raise ImproperlyConfigured(msg) from error
 
 
-class ClassLoader:
+class ClassLoaderProtocol(Protocol):
+    @property
+    def name(self) -> StrOrPromise: ...
+
+
+T = TypeVar("T", bound=ClassLoaderProtocol)
+
+
+class ClassLoader(Generic[T]):
     """Dict like object to lazy load list of classes."""
 
     instances: WeakValueDictionary[str, ClassLoader] = WeakValueDictionary()
@@ -40,7 +55,7 @@ class ClassLoader:
         self,
         name: str,
         *,
-        base_class: type,
+        base_class: type[T],
         construct: bool = True,
         collect_errors: bool = False,
     ) -> None:
@@ -63,7 +78,7 @@ class ClassLoader:
             raise ImproperlyConfigured(msg)
         return result
 
-    def load_data(self):
+    def load_data(self) -> dict[str, T]:
         result = {}
         value = self.get_settings()
         for path in value:
@@ -87,48 +102,53 @@ class ClassLoader:
         return result
 
     @cached_property
-    def data(self):
+    def data(self) -> dict[str, T]:
         return self.load_data()
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> T:
         return self.data.__getitem__(key)
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key: str, value: T) -> None:
         self.data.__setitem__(key, value)
 
-    def get(self, key):
+    def get(self, key: str) -> T | None:
         return self.data.get(key)
 
-    def items(self):
+    def items(self) -> dict_items[str, T]:  # pylint: disable=invalid-sequence-index
         return self.data.items()
 
-    def keys(self):
+    def keys(self) -> dict_keys[str, T]:  # pylint: disable=invalid-sequence-index
         return self.data.keys()
 
-    def values(self):
+    def values(self) -> dict_values[str, T]:  # pylint: disable=invalid-sequence-index
         return self.data.values()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         return self.data.__iter__()
 
     def __len__(self) -> int:
         return self.data.__len__()
 
-    def __contains__(self, item) -> bool:
+    def __contains__(self, item: T) -> bool:
         return self.data.__contains__(item)
 
-    def exists(self):
+    def exists(self) -> bool:
         return bool(self.data)
 
-    def get_choices(self, empty=False, exclude=(), cond=None):
+    def get_choices(
+        self,
+        empty: bool = False,
+        exclude: tuple[str, ...] | set[str] = (),
+        cond: Callable[[T], bool] | None = None,
+    ):
         if cond is None:
 
-            def cond(x) -> bool:
+            def cond(x: T) -> bool:
                 return True
 
         result = [
             (x, self[x].name)
-            for x in sorted(self)
+            for x in sorted(self.keys())
             if x not in exclude and cond(self[x])
         ]
         if empty:

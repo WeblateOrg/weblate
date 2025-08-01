@@ -11,6 +11,8 @@ from weblate.checks.models import CHECKS
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
     from weblate.checks.base import BaseCheck
 
 
@@ -24,7 +26,7 @@ def sorter(check: BaseCheck):
     return (check.source, pos, check.name.lower())
 
 
-def escape(text: str):
+def escape(text: StrOrPromise):
     return text.replace("\\", "\\\\")
 
 

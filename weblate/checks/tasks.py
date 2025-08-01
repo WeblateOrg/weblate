@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from weblate.checks.base import BatchCheckMixin
 from weblate.checks.models import CHECKS
 from weblate.trans.models import Component
 from weblate.utils.celery import app
@@ -23,5 +24,8 @@ def batch_update_checks(
     with component.lock:
         for check in checks:
             check_obj = CHECKS[check]
+            if not isinstance(check_obj, BatchCheckMixin):
+                # Should not happen
+                raise TypeError
             component.log_info("batch updating check %s", check)
             check_obj.perform_batch(component)

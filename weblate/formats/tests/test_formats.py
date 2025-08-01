@@ -204,7 +204,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     @property
     @abstractmethod
-    def format_class(self) -> TranslationFormat:
+    def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
 
     def parse_file(self, filename: str, template: str | None = None):
