@@ -34,7 +34,6 @@ if TYPE_CHECKING:
     from weblate.addons.forms import BaseAddonForm
     from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.formats.base import TranslationFormat
     from weblate.trans.models import Change, Project, Translation, Unit
 
 
@@ -278,19 +277,6 @@ class BaseAddon:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(
-        self, translation: Translation, store: TranslationFormat
-    ) -> None:
-        """
-        Event handler after a file is parsed.
-
-        It receives an instance of a file format class as a argument.
-
-        This is useful to modify file format class parameters, for example
-        adjust how the file will be saved.
-        """
-        # To be implemented in a subclass
-
     def daily(self, component: Component) -> None:
         """Event handler daily."""
         # To be implemented in a subclass
@@ -468,15 +454,6 @@ class UpdateBaseAddon(BaseAddon):
             with suppress(FileParseError):
                 self.update_translations(component, previous_head)
             self.commit_and_push(component, skip_push=skip_push)
-
-
-class StoreBaseAddon(BaseAddon):
-    """Base class for add-ons tweaking store."""
-
-    events: set[AddonEvent] = {
-        AddonEvent.EVENT_STORE_POST_LOAD,
-    }
-    icon = "wrench.svg"
 
 
 class ChangeBaseAddon(BaseAddon):
