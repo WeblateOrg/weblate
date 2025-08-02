@@ -312,7 +312,7 @@ class GitRepository(Repository):
             status = self.execute(cmd, merge_err=False)
         return bool(status)
 
-    def show(self, revision):
+    def show(self, revision: str) -> str:
         """
         Get the content of the revision.
 

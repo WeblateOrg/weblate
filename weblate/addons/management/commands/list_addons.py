@@ -47,19 +47,28 @@ class Command(BaseCommand):
         }:
             if result:
                 result.append("")
-            result.append("Available choices:")
+
+            result.extend(
+                (
+                    ".. list-table:: Available choices:",
+                    "   :width: 100%",
+                    "",
+                )
+            )
             for value, description in choices:
                 result.extend(
                     (
-                        "",
-                        f"``{value}``".replace("\\", "\\\\"),
-                        f"  {description}".replace("\\", "\\\\"),
+                        f"   * - ``{value}``".replace("\\", "\\\\"),
+                        f"     - {description}".replace("\\", "\\\\"),
                     )
                 )
         return "\n".join(result)
 
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_addons
+""")
         self.stdout.write(".. _addon-event-install:\n\n")
         self.stdout.write("Add-on installation\n")
         self.stdout.write("-------------------\n\n")
@@ -73,7 +82,7 @@ class Command(BaseCommand):
         for addon_name, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")
-            self.stdout.write(obj.verbose)
+            self.stdout.write(str(obj.verbose))
             self.stdout.write("-" * len(obj.verbose))
             self.stdout.write("\n")
             self.stdout.write(f":Add-on ID: ``{obj.name}``")
@@ -103,5 +112,5 @@ class Command(BaseCommand):
                 events = f":ref:`addon-event-install`, {events}"
             self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
-            self.stdout.write("\n".join(wrap(obj.description, 79)))
+            self.stdout.write("\n".join(wrap(str(obj.description), 79)))
             self.stdout.write("\n")

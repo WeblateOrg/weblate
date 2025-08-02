@@ -56,7 +56,7 @@ test = [
   "selenium==4.34.2"
 ]
 types = [
-  "boto3-stubs==1.40.0",
+  "boto3-stubs==1.40.1",
   "celery-types==0.23.0",
   "django-stubs-ext==5.2.2",
   "django-stubs[compatible-mypy]==5.2.2",
@@ -395,27 +395,22 @@ module = [
   "django_otp_webauthn.*",
   "django_redis.*",
   "djangosaml2idp.*",
-  "gi.*",
   "google.oauth2.*",
+  "icu.*",
   "ldap.*",
   "mistletoe.*",
   "pygments.*",
   "pyicumessageformat.*",
   "qrcode.*",
-  "redis_lock.*",
   "rest_framework_csv.*",
   "rollbar.*",
   "ruamel.*",
   "saml2.*",
   "simple_sso.*",
-  "social_core.*",
   "social_django.*",
   "tesserocr.*",
-  "translate.*",
-  "translation_finder.*",
+  "tinyunicodeblock.*",
   "user_agents.*",
-  "weblate_language_data.*",
-  "weblate_schemas.*",
   "wlhosted.*",
   "wllegal.*"
 ]
@@ -623,9 +618,11 @@ ODF = "ODF"
 # Often misspelled Weblate variants
 webalte = "Weblate"  # codespell:ignore
 webplate = "Weblate"
+welbate = "Weblate"
 
 [tool.typos.files]
 extend-exclude = [
+  "**.map",
   "**.po",
   "**.pot",
   "docs/changes/contributors",
@@ -634,6 +631,7 @@ extend-exclude = [
   "scripts/spdx-license-list",
   "weblate/**/migrations",
   "weblate/static/js/vendor",
+  "weblate/static/vendor",
   "weblate/trans/fixtures/simple-project.json",
   "weblate/trans/specialchars.py",
   "weblate/trans/tests/data",

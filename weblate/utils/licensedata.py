@@ -3844,6 +3844,12 @@ LICENSES = (
         False,
     ),
     (
+        "WordNet",
+        "WordNet License",
+        "https://spdx.org/licenses/WordNet.html",
+        True,
+    ),
+    (
         "Wsuipa",
         "Wsuipa License",
         "https://spdx.org/licenses/Wsuipa.html",

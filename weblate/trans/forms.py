@@ -11,8 +11,9 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, Any, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
 
+import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
@@ -2156,7 +2157,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context = value.data.copy()
+        context = cast("dict[str, str]", value.data.copy())
         try:
             format_cls = FILE_FORMATS[value["file_format"]]
             context["file_format_name"] = format_cls.name
@@ -2553,6 +2554,14 @@ class ProjectImportForm(BillingMixin, forms.Form):
         backup = ProjectBackup(fileio=zipfile)
         try:
             backup.validate()
+        except jsonschema.exceptions.ValidationError as error:
+            version = backup.data.get("metadata", {}).get("version", "unknown")
+            raise ValidationError(
+                gettext(
+                    "Could not load project backup: The backup is from an incompatible version (%(version)s). Please upgrade your Weblate instance."
+                )
+                % {"version": version}
+            ) from error
         except Exception as error:
             raise ValidationError(
                 gettext("Could not load project backup: %s") % error

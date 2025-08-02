@@ -688,6 +688,22 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "Invalid add-on name:")
 
+    def test_add_blank(self) -> None:
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": ""},
+            follow=True,
+        )
+        self.assertContains(response, "Invalid add-on name:")
+
+    def test_add_incompatible(self) -> None:
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": "weblate.resx.update"},
+            follow=True,
+        )
+        self.assertContains(response, "Add-on cannot be installed:")
+
     def test_add_config(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
