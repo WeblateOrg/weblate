@@ -108,9 +108,11 @@
             <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
-        </li>
+        {% if can_add_new_translation %}
+          <li>
+            <a href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+          </li>
+        {% endif %}
         {% if user_can_edit_project %}
           <li>
             <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
@@ -217,7 +219,7 @@
 
     <div class="tab-pane active" id="languages">
 
-      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats %}
+      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats add_link="translation" %}
 
     </div>
 

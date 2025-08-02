@@ -40,7 +40,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.trans.models import Category, Component, Project
+    from weblate.trans.models import Category, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -1461,11 +1461,12 @@ class GhostStats(BaseStats):
     def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
-            for key in "all", "all_words", "all_chars":
-                stats[key] = getattr(self.base, key)
-            stats["todo"] = stats["all"]
-            stats["todo_words"] = stats["all_words"]
-            stats["todo_chars"] = stats["all_chars"]
+            for skey, dkey, tkey in (
+                ("source_strings", "all", "todo"),
+                ("source_words", "all_words", "todo_words"),
+                ("source_chars", "all_chars", "todo_chars"),
+            ):
+                stats[tkey] = stats[dkey] = getattr(self.base, skey)
         for key, value in stats.items():
             self.store(key, value)
 
@@ -1485,14 +1486,28 @@ class GhostStats(BaseStats):
 
 class GhostProjectLanguageStats(GhostStats):
     language: Language
-    component: Component
-    is_shared: Project | None
+    project: Project
     is_source: bool = False
 
-    def __init__(
-        self, component: Component, language: Language, is_shared: Project | None = None
-    ) -> None:
-        super().__init__(component.stats)
+    def __init__(self, project: Project, language: Language) -> None:
+        super().__init__(project.stats)
+        self.project = project
         self.language = language
-        self.component = component
-        self.is_shared = is_shared
+
+    def base_obj(self):
+        return self.project
+
+
+class GhostCategoryLanguageStats(GhostStats):
+    category: Category
+    language: Language
+    is_source: bool = False
+
+    def __init__(self, category: Category, language: Language) -> None:
+        super().__init__(category.stats)
+        self.project = category.project
+        self.category = category
+        self.language = language
+
+    def base_obj(self):
+        return self.category

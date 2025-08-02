@@ -56,6 +56,7 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
+    GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     GhostStats,
     ProjectLanguage,
@@ -1231,7 +1232,8 @@ def get_alerts(
     | Component
     | ProjectLanguage
     | Project
-    | GhostProjectLanguageStats,
+    | GhostProjectLanguageStats
+    | GhostCategoryLanguageStats,
     translation: Translation | GhostTranslation | None,
     component: Component | None,
     project: Project | None,
@@ -1295,7 +1297,8 @@ def indicate_alerts(
     | Component
     | ProjectLanguage
     | Project
-    | GhostProjectLanguageStats,
+    | GhostProjectLanguageStats
+    | GhostCategoryLanguageStats,
 ) -> str:
     translation: Translation | GhostTranslation | None = None
     component: Component | None = None
@@ -1315,8 +1318,9 @@ def indicate_alerts(
         project = obj.project
         project_language = obj
     elif isinstance(obj, GhostProjectLanguageStats):
-        component = obj.component
-        project = component.project
+        project = obj.project
+    elif isinstance(obj, GhostCategoryLanguageStats):
+        project = obj.category.project
 
     icons = format_html_join(
         "\n",
