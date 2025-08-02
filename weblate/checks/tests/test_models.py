@@ -90,7 +90,7 @@ class BatchUpdateTest(ViewTestCase):
             user_id=None,
             translation_id=translation.pk,
             mode="translate",
-            filter_type="todo",
+            q="state:<translated",
             auto_source="others",
             component=self.component.pk,
             engines=[],

@@ -3557,7 +3557,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             request={
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "others",
                 "threshold": "100",
             },
@@ -3572,7 +3572,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             request={
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "mt",
                 "threshold": "90",
                 "engines": ["weblate"],

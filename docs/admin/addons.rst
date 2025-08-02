@@ -145,23 +145,8 @@ Automatic translation
                 |                 |                                  |    * - ``fuzzy``                                                                                     |
                 |                 |                                  |      - Add as "Needing edit"                                                                         |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``filter_type`` | Search filter                    | Please note that translating all strings will discard all existing translations.                     |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | .. list-table:: Available choices:                                                                   |
-                |                 |                                  |    :width: 100%                                                                                      |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  |    * - ``all``                                                                                       |
-                |                 |                                  |      - All strings                                                                                   |
-                |                 |                                  |    * - ``nottranslated``                                                                             |
-                |                 |                                  |      - Untranslated strings                                                                          |
-                |                 |                                  |    * - ``todo``                                                                                      |
-                |                 |                                  |      - Unfinished strings                                                                            |
-                |                 |                                  |    * - ``fuzzy``                                                                                     |
-                |                 |                                  |      - Strings marked for edit                                                                       |
-                |                 |                                  |    * - ``check:inconsistent``                                                                        |
-                |                 |                                  |      - Failing check: Inconsistent                                                                   |
-                |                 |                                  |    * - ``check:translated``                                                                          |
-                |                 |                                  |      - Failing check: Has been translated                                                            |
+                | ``q``           | Search query                     | See :ref:`search-strings` for how to define a filter using a search query.                           |
+                |                 |                                  | Please note that translating all strings will discard all existing translations.                     |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                   |
                 |                 |                                  |    :width: 100%                                                                                      |

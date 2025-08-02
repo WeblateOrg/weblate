@@ -53,8 +53,8 @@ class AutoTranslationTest(ViewTestCase):
         url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "others"
         kwargs["threshold"] = "100"
-        if "filter_type" not in kwargs:
-            kwargs["filter_type"] = "todo"
+        if "q" not in kwargs:
+            kwargs["q"] = "state:<translated"
         if "mode" not in kwargs:
             kwargs["mode"] = "translate"
         response = self.client.post(url, kwargs, follow=True)
@@ -93,7 +93,7 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(0, 1, mode="approved")
 
     def test_inconsistent(self) -> None:
-        self.perform_auto(0, filter_type="check:inconsistent")
+        self.perform_auto(0, q="check:inconsistent")
 
     def test_overwrite(self) -> None:
         self.perform_auto(overwrite="1")
@@ -203,8 +203,8 @@ class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
         path_params = {"path": [*self.component3.get_url_path(), "cs"]}
         url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "mt"
-        if "filter_type" not in kwargs:
-            kwargs["filter_type"] = "todo"
+        if "q" not in kwargs:
+            kwargs["q"] = "state:<translated"
         if "mode" not in kwargs:
             kwargs["mode"] = "translate"
         response = self.client.post(url, kwargs, follow=True)
@@ -234,9 +234,7 @@ class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
         )
 
     def test_inconsistent(self) -> None:
-        self.perform_auto(
-            0, filter_type="check:inconsistent", engines=["weblate"], threshold=80
-        )
+        self.perform_auto(0, q="check:inconsistent", engines=["weblate"], threshold=80)
 
     def test_overwrite(self) -> None:
         self.perform_auto(overwrite="1", engines=["weblate"], threshold=80)

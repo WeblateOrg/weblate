@@ -789,7 +789,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             user=request.user,
             translation=translation,
             mode=autoform.cleaned_data["mode"],
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data.get("q"),
         )
         message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
@@ -803,7 +803,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             user_id=request.user.id,
             translation_id=translation.id,
             mode=autoform.cleaned_data["mode"],
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data.get("q"),
             auto_source=autoform.cleaned_data["auto_source"],
             component=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],

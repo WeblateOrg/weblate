@@ -890,7 +890,7 @@ class SeleniumTests(
         self.screenshot("file-download.png")
         self.click("Operations")
         self.click("Automatic translation")
-        self.click(htmlid="id_auto_source_1")
+        self.click(htmlid="id_auto_auto_source_1")
         self.click("Operations")
         self.screenshot("automatic-translation.png")
         self.click("Search")

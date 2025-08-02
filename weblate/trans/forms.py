@@ -50,7 +50,7 @@ from weblate.trans.defines import (
     FILENAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.filter import FILTERS, get_filter_choice
+from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -429,23 +429,6 @@ class PluralField(forms.CharField):
         if not value or (self.required and not any(value)):
             raise ValidationError(self.error_messages["required"], code="required")
         return value
-
-
-class FilterField(forms.ChoiceField):
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["label"] = gettext_lazy("Search filter")
-        if "required" not in kwargs:
-            kwargs["required"] = False
-        kwargs["choices"] = get_filter_choice()
-        kwargs["error_messages"] = {
-            "invalid_choice": gettext_lazy("Please choose a valid filter type.")
-        }
-        super().__init__(*args, **kwargs)
-
-    def to_python(self, value):
-        if value == "untranslated":
-            return "todo"
-        return super().to_python(value)
 
 
 class ChecksumForm(forms.Form):
@@ -920,9 +903,9 @@ class AutoForm(forms.Form):
         label=gettext_lazy("Automatic translation mode"),
         initial="suggest",
     )
-    filter_type = FilterField(
+    q = QueryField(
         required=True,
-        initial="todo",
+        initial="state:<translated",
         help_text=gettext_lazy(
             "Please note that translating all strings will "
             "discard all existing translations."
@@ -957,7 +940,8 @@ class AutoForm(forms.Form):
         self, obj: Component | Project | None, user=None, *args, **kwargs
     ) -> None:
         """Generate choices for other components in the same project."""
-        super().__init__(*args, **kwargs)
+        auto_id = kwargs.pop("auto_id", "id_auto_%s")
+        super().__init__(*args, auto_id=auto_id, **kwargs)
         self.obj = obj
         self.project: Project | None = None
         machinery_settings = {}
@@ -1023,18 +1007,8 @@ class AutoForm(forms.Form):
         if "weblate" in engine_ids:
             self.fields["engines"].initial = "weblate"
 
-        use_types = {
-            "all",
-            "nottranslated",
-            "todo",
-            "fuzzy",
-            "check:inconsistent",
-            "check:translated",
-        }
-
-        self.fields["filter_type"].choices = [
-            x for x in self.fields["filter_type"].choices if x[0] in use_types
-        ]
+        if "q" not in self.initial:
+            self.initial["q"] = "state:<translated"
 
         choices = [
             ("suggest", gettext("Add as suggestion")),
@@ -1048,7 +1022,7 @@ class AutoForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("mode"),
-            Field("filter_type"),
+            SearchField("q"),
             InlineRadios("auto_source"),
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),

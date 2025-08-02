@@ -493,7 +493,7 @@ class AutoAddonTest(RepoTestCase):
             # Correct
             "weblate.autotranslate.autotranslate": {
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "mt",
                 "component": "",
                 "engines": ["weblate-translation-memory"],
