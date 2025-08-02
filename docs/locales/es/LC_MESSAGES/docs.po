@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-08-02 19:04+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -13127,6 +13127,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Para ejecutar el servidor web de producción, use el contenedor WSGI "
+"instalado con Weblate (en el caso de env virtual, se instala como :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). No olvide "
+"establecer también la ruta de búsqueda de Python en su virtualenv (por "
+"ejemplo, usando ``virtualenv = /home/user/weblate-env`` en uWSGI)."
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -13209,35 +13214,47 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate tiene una dependencia opcional 'wsgi`(ver :ref:`python-deps`) que "
+"instalará todo lo que necesita para ejecutar Gunicorn. Al instalar Weblate, "
+"puede especificarlo como:"
 
 #: ../../admin/install.rst:1565
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Una vez que haya instalado Gunicorn, puede ejecutarlo. Esto generalmente se "
+"hace a nivel del sistema. Los siguientes ejemplos muestran cómo comenzar a "
+"través de systemd:"
 
 #: ../../admin/install.rst:1568
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1572
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1583
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Ejecución de Weblate en path"
 
 #: ../../admin/install.rst:1587
+#, fuzzy
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Una configuración Apache de ejemplo para servir Weblate en``/weblate``. "
+"Usando de nuevo ``mod_wsgi``(también disponible como :file:`weblate/examples/"
+"apache-path.conf`):"
 
 #: ../../admin/install.rst:1593
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Además, tendrá que ajustar :file:`weblate/settings.py`:"
 
 #: ../../admin/install.rst:1602
 msgid "Background tasks using Celery"
