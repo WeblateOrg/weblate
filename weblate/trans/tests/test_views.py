@@ -599,6 +599,22 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "TestCL")
         self.assertContains(response, self.component.name)
 
+    def test_view_category(self):
+        category = self.create_category(self.project)
+        cat_component = self.create_po(
+            project=self.project, category=category, name="Category Component"
+        )
+        response = self.client.get(category.get_absolute_url())
+        self.assertContains(response, category.name)
+        self.assertContains(response, cat_component.name)
+        self.assertNotContains(response, "Spanish")
+
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(category.get_absolute_url())
+        self.assertContains(response, category.name)
+        self.assertContains(response, cat_component.name)
+        self.assertContains(response, "Spanish")
+
 
 class BasicMonolingualViewTest(BasicViewTest):
     def create_component(self):
