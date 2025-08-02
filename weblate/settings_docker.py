@@ -774,6 +774,7 @@ INSTALLED_APPS = [
     "social_django",
     "crispy_forms",
     "crispy_bootstrap3",
+    "crispy_bootstrap5",
     "compressor",
     "rest_framework",
     "rest_framework.authtoken",
@@ -1066,7 +1067,7 @@ SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
 # Render forms using bootstrap
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap3", "bootstrap5"]
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # List of quality checks
