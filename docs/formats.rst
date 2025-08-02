@@ -513,8 +513,7 @@ File format parameters
 ----------------------
 
 File format parameters provide a way to configure settings related to the file format.
-They are configured at component level
-They allow you to customize how file parsing and serialization are handled.
+They are configured at component level and allow you to customize how file parsing and serialization are handled.
 
 
 List of file format parameters

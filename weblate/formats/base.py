@@ -943,7 +943,7 @@ class BilingualUpdateMixin:
         else:
             args.append("--previous")
 
-        if params.get("po_line_wrap", 77) != 77:
+        if int(params.get("po_line_wrap", 77)) != 77:
             args.append("--no-wrap")
         return args
 

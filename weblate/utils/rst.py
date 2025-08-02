@@ -11,10 +11,8 @@ from typing import TYPE_CHECKING, cast
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-    from django_stubs_ext import StrOrPromise
 
-
-def get_cell_length(text: StrOrPromise) -> int:
+def get_cell_length(text: str) -> int:
     """Get cell length handling newlines."""
     return max(len(part) for part in text.split("\n"))
 

@@ -762,9 +762,7 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 Customize gettext output
 ------------------------
 
-.. deprecated:: 5.13
-
-   :guilabel: Replaced by :ref:`file_format_params`
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.gettext.customize``
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
@@ -908,9 +906,7 @@ Customize JSON output
 
    :guilabel:`Avoid spaces after separators` option added.
 
-.. deprecated:: 5.13
-
-   :guilabel: Replaced by :ref:`file_format_params`
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.json.customize``
 :Configuration: +----------------------------+-------------------------------+------------------------------------+
@@ -1441,9 +1437,7 @@ Customize XML output
 
 .. versionadded:: 4.15
 
-.. deprecated:: 5.13
-
-  :guilabel: Replaced by :ref:`file_format_params`
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.xml.customize``
 :Configuration: +------------------+----------------------------------------+--+
@@ -1458,9 +1452,7 @@ Allows adjusting XML output behavior, for example closing tags.
 Customize YAML output
 ---------------------
 
-.. deprecated:: 5.13
-
-  :guilabel: Replaced by :ref:`file_format_params`
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.yaml.customize``
 :Configuration: +----------------+---------------------+------------------------------------+

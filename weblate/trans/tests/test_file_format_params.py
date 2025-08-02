@@ -309,3 +309,40 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertNotIn("#: main.c:", commit)
+
+    def test_msgmerge_args(self) -> None:
+        from weblate.formats.base import BilingualUpdateMixin
+
+        # default parameters
+        self.assertEqual(
+            BilingualUpdateMixin.get_msgmerge_args(self.component), ["--previous"]
+        )
+
+        self.update_component_file_params(
+            po_fuzzy_matching=False,
+            po_keep_previous=False,
+            po_no_location=True,
+            po_line_wrap=77,
+        )
+
+        # if Msgmerge addon is not installed, only default parameters are returned
+        self.assertEqual(
+            BilingualUpdateMixin.get_msgmerge_args(self.component), ["--previous"]
+        )
+
+        MsgmergeAddon.create(component=self.component)
+
+        msgmerge_args = BilingualUpdateMixin.get_msgmerge_args(self.component)
+        self.assertNotIn("--previous", msgmerge_args)
+        self.assertIn("--no-fuzzy-matching", msgmerge_args)
+        self.assertIn("--no-location", msgmerge_args)
+
+        self.update_component_file_params(
+            po_fuzzy_matching=False,
+            po_keep_previous=False,
+            po_no_location=True,
+            po_line_wrap=-1,
+        )
+        self.assertIn(
+            "--no-wrap", BilingualUpdateMixin.get_msgmerge_args(self.component)
+        )

@@ -40,6 +40,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """List file format parameters."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_file_format_params\n
+""")
         header = [
             "Parameter name",
             "File formats",
@@ -51,13 +54,12 @@ class Command(BaseCommand):
                 [
                     param.name,
                     self.format_file_formats(param.file_formats),
-                    param.label,
+                    str(param.label),
                     self.get_help_text(param),
                 ]
                 for param in FILE_FORMATS_PARAMS
             ],
             key=operator.itemgetter(0),
         )
-
         for table_row in format_table(table, header):
             self.stdout.write(table_row)
