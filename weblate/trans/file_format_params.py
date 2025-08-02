@@ -77,6 +77,12 @@ def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatPara
     return [param for param in FILE_FORMATS_PARAMS if file_format in param.file_formats]
 
 
+def get_default_params_for_file_format(file_format: str) -> dict[str, str | int | bool]:
+    """Get default values for all registered file format parameters."""
+    params = get_params_for_file_format(file_format)
+    return {param.name: param.default for param in params}
+
+
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     file_formats = (
         "json",
@@ -130,6 +136,7 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
             file_format_params.get(
                 JSONOutputIndentation.name, JSONOutputIndentation.default
             )
+            or JSONOutputIndentation.default
         )
         if file_format_params.get(self.name, self.default) == "tabs":
             indent = "\t" * indent
@@ -181,7 +188,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
         cast("BasePoFormat", store).store.wrapper.width = int(
-            file_format_params.get(self.name, self.default)
+            file_format_params.get(self.name, self.default) or self.default
         )
 
 
@@ -230,7 +237,7 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
         store.store.dump_args["indent"] = int(
-            file_format_params.get(self.name, self.default)
+            file_format_params.get(self.name, self.default) or self.default
         )
 
 
@@ -250,7 +257,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
         store.store.dump_args["width"] = int(
-            file_format_params.get(self.name, self.default)
+            file_format_params.get(self.name, self.default) or self.default
         )
 
 

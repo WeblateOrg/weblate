@@ -7,16 +7,18 @@ from __future__ import annotations
 from itertools import zip_longest
 from typing import TYPE_CHECKING
 
+from django_stubs_ext import StrOrPromise
+
 if TYPE_CHECKING:
     from collections.abc import Generator
 
 
-def get_cell_length(text: str) -> int:
+def get_cell_length(text: StrOrPromise) -> int:
     """Get cell length handling newlines."""
     return max(len(part) for part in text.split("\n"))
 
 
-def get_row_lines(row_fmt: str, row: list[str]) -> Generator[str]:
+def get_row_lines(row_fmt: str, row: list[StrOrPromise]) -> Generator[str]:
     """Generate row lines for row data expanding newlines."""
     data = [item.split("\n") for item in row]
     for output in zip_longest(*data, fillvalue=""):
@@ -24,7 +26,7 @@ def get_row_lines(row_fmt: str, row: list[str]) -> Generator[str]:
 
 
 def format_table(
-    table: list[list[str | list[list[str]]]], header: list[str]
+    table: list[list[StrOrPromise | list[list[StrOrPromise]]]], header: list[str]
 ) -> list[str]:
     """
     Format reStructuredText table.
@@ -41,7 +43,7 @@ def format_table(
     # Figure out widths
     for row_no, row in enumerate(table):
         for column, item in enumerate(row):
-            if isinstance(item, str):
+            if isinstance(item, StrOrPromise):
                 if row_no == 0 and column == plain_cols:
                     plain_cols += 1
                 # Direct value
@@ -73,7 +75,7 @@ def format_table(
             if span_data:
                 msg = "Span has to be the last element"
                 raise ValueError(msg)
-            if isinstance(item, str):
+            if isinstance(item, StrOrPromise):
                 row_data.append(item)
             else:
                 span_data = item

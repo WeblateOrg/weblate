@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon
 from weblate.lang.models import get_default_lang
-from weblate.trans.file_format_params import get_params_for_file_format
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
@@ -23,11 +23,10 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.save()
 
     def update_component_file_params(self, **file_param_kwargs):
-        default_params = {
-            param.name: param.default
-            for param in get_params_for_file_format(self.component.file_format)
-        }
-        file_param_kwargs = default_params | file_param_kwargs
+        file_param_kwargs = (
+            get_default_params_for_file_format(self.component.file_format)
+            | file_param_kwargs
+        )
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
