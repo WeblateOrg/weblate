@@ -398,13 +398,20 @@
                   <span class="d-inline d-sm-none">{% translate "Help" %}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow">
+                  <li class="dropdown-header">{% translate "Get help" %}</li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
+                  </li>
                   {% if support_status.has_support %}
                     <li>
-                      <a class="dropdown-item" href="https://care.weblate.org/">{% translate "Weblate support" %}</a>
+                      <a class="dropdown-item" href="https://care.weblate.org/">{% translate "Professional support" %}</a>
                     </li>
                   {% else %}
                     <li>
-                      <a class="dropdown-item" href="https://weblate.org/support/">{% translate "Get support" %}</a>
+                      <a class="dropdown-item" href="https://weblate.org/support/">{% translate "Get professional support" %}</a>
                     </li>
                     {% if get_help_url %}
                       <li>
@@ -412,36 +419,30 @@
                       </li>
                     {% endif %}
                   {% endif %}
-                  <li>
-                    <a class="dropdown-item" href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Weblate community" %}</a>
-                  </li>
 
+                   <li class="dropdown-header">{% translate "Documentation" %}</li>
                   <li>
-                    <a class="dropdown-item" href="{% url 'contact' %}">{% translate "Contact site administrators" %}</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="https://weblate.org/contribute/">{% translate "Contribute to Weblate" %}</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'donate' %}">{% translate "Give to Weblate" %}</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="https://weblate.org/">{% translate "Weblate website" %}</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{% documentation 'index' %}">{% translate "Weblate documentation" %}</a>
+                    <a class="dropdown-item" href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
                   </li>
                   <li>
                     <a class="dropdown-item" id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
+                  </li>
+                  <li>
+                    <li class="dropdown-header">{% translate "Weblate project" %}</li>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="https://weblate.org/contribute/">{% translate "Contribute" %}</a>
+                  </li>
+                  {% if not support_status.has_support or support_status.is_hosted_weblate %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'donate' %}">{% translate "Become a supporter" %}</a>
+                    </li>
+                  {% endif %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'about' %}">{% translate "About" %}</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="https://weblate.org/">{% translate "Website" %}</a>
                   </li>
                 </ul>
               </li>
