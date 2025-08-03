@@ -548,6 +548,7 @@ class BasicViewTest(ViewTestCase):
         self.user.profile.languages.add(Language.objects.get(code="es"))
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "Spanish")
+        self.assertContains(response, '<input type="hidden" name="lang" value="es" />')
 
     def test_view_component(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -558,6 +559,7 @@ class BasicViewTest(ViewTestCase):
         self.user.profile.languages.add(Language.objects.get(code="es"))
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Spanish")
+        self.assertContains(response, '<input type="hidden" name="lang" value="es" />')
 
     def test_view_component_guide(self) -> None:
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
