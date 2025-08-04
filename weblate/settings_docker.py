@@ -1253,7 +1253,7 @@ REDIS_URL = "{}://{}{}:{}/{}".format(
     f"{REDIS_USER_PASSWORD}@" if REDIS_USER_PASSWORD else "",
     get_env_str("REDIS_HOST", "cache", required=True),
     get_env_int("REDIS_PORT", 6379),
-    get_env_int("REDIS_DB", 1)
+    get_env_int("REDIS_DB", 1),
 )
 
 # Configuration for caching
