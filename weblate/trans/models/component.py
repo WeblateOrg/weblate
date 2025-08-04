@@ -1090,6 +1090,8 @@ class Component(
 
             if addon.has_settings():
                 form = addon.get_add_form(None, component=component, data=configuration)
+                if form is None:
+                    raise TypeError
                 if not form.is_valid():
                     component.log_warning(
                         "could not enable addon %s, invalid settings", name
@@ -1962,7 +1964,10 @@ class Component(
 
     @property
     def pushes_to_different_location(self) -> bool:
-        return self.branch != self.push_branch or self.repo.pushes_to_different_location
+        return (
+            self.branch != self.push_branch
+            or self.repository.pushes_to_different_location
+        )
 
     @perform_on_link
     def do_push(

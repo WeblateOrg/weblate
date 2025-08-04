@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-07-31 17:27+0000\n"
+"PO-Revision-Date: 2025-08-03 23:03+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -13127,6 +13127,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Para ejecutar el servidor web de producción, use el contenedor WSGI "
+"instalado con Weblate (en el caso de env virtual, se instala como :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). No olvide "
+"establecer también la ruta de búsqueda de Python en su virtualenv (por "
+"ejemplo, usando ``virtualenv = /home/user/weblate-env`` en uWSGI)."
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -13209,35 +13214,47 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate tiene una dependencia opcional 'wsgi`(ver :ref:`python-deps`) que "
+"instalará todo lo que necesita para ejecutar Gunicorn. Al instalar Weblate, "
+"puede especificarlo como:"
 
 #: ../../admin/install.rst:1565
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Una vez que haya instalado Gunicorn, puede ejecutarlo. Esto generalmente se "
+"hace a nivel del sistema. Los siguientes ejemplos muestran cómo comenzar a "
+"través de systemd:"
 
 #: ../../admin/install.rst:1568
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1572
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1583
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Ejecución de Weblate en path"
 
 #: ../../admin/install.rst:1587
+#, fuzzy
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Una configuración Apache de ejemplo para servir Weblate en``/weblate``. "
+"Usando de nuevo ``mod_wsgi``(también disponible como :file:`weblate/examples/"
+"apache-path.conf`):"
 
 #: ../../admin/install.rst:1593
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Además, tendrá que ajustar :file:`weblate/settings.py`:"
 
 #: ../../admin/install.rst:1602
 msgid "Background tasks using Celery"
@@ -13447,7 +13464,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1741
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Esto tendrá un impacto notable en el rendimiento de Weblate."
 
 #: ../../admin/install.rst:1746
 msgid "Monitoring Weblate"
@@ -13459,12 +13476,17 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate proporciona la URL ``/healthz/`` que se utilizará en comprobaciones "
+"de estado simples, por ejemplo, utilizando Kubernetes. El contenedor Docker "
+"tiene una verificación de estado incorporada usando esta URL."
 
 #: ../../admin/install.rst:1751
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Para monitorear las métricas de Weblate, puede usar :http:get:`/api/metrics/`"
+" punto final de la API."
 
 #: ../../admin/install.rst:1755
 msgid ""
@@ -13476,7 +13498,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1762 ../../admin/install/docker.rst:1772
 msgid "Collecting error reports and monitoring performance"
-msgstr ""
+msgstr "Recopilación de informes de errores y supervisión del rendimiento"
 
 #: ../../admin/install.rst:1764
 msgid ""
@@ -13747,7 +13769,7 @@ msgstr "Elección del registro de imágenes de Docker"
 
 #: ../../admin/install/docker.rst:60
 msgid "Weblate containers are published to following registries:"
-msgstr ""
+msgstr "Los contenedores de Weblate se publican en los siguientes registros:"
 
 #: ../../admin/install/docker.rst:62
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
@@ -13766,6 +13788,8 @@ msgid ""
 "All examples currently fetch images from Docker Hub, please adjust the "
 "configuration accordingly to use a different registry."
 msgstr ""
+"Todos los ejemplos actualmente obtienen imágenes de Docker Hub, ajuste la "
+"configuración en consecuencia para usar un registro diferente."
 
 #: ../../admin/install/docker.rst:71
 msgid "Choosing Docker image tag"
@@ -13791,6 +13815,7 @@ msgstr "Caso de uso"
 #: ../../admin/install/docker.rst:78
 msgid "Weblate stable release, matches latest tagged release"
 msgstr ""
+"Lanzamiento estable de Weblate, coincide con el último lanzamiento etiquetado"
 
 #: ../../admin/install/docker.rst:78
 msgid "Rolling updates in a production environment"
@@ -17106,7 +17131,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:275
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Usar el modelo de próxima generación"
 
 #: ../../admin/machine.rst:275
 msgid "Prefer next-gen LLM over classic machine translation model."

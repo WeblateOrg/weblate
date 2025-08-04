@@ -82,7 +82,7 @@ class Command(BaseCommand):
         for addon_name, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")
-            self.stdout.write(obj.verbose)
+            self.stdout.write(str(obj.verbose))
             self.stdout.write("-" * len(obj.verbose))
             self.stdout.write("\n")
             self.stdout.write(f":Add-on ID: ``{obj.name}``")
@@ -112,5 +112,5 @@ class Command(BaseCommand):
                 events = f":ref:`addon-event-install`, {events}"
             self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
-            self.stdout.write("\n".join(wrap(obj.description, 79)))
+            self.stdout.write("\n".join(wrap(str(obj.description), 79)))
             self.stdout.write("\n")
