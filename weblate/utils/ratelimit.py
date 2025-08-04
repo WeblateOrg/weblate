@@ -159,3 +159,57 @@ def session_ratelimit_post(scope: str, logout_user: bool = True):
         return wraps(function)(_rate_wrap)
 
     return _session_ratelimit_post_controller
+
+
+class RateLimitCache:
+    """Cache wrapper for rate limiting with atomic check/decrement operations."""
+    
+    def __init__(self, base_key: str, attempts: int, window: int):
+        self.cache_key = f"notify:rate:{base_key}:{attempts}:{window}"
+        self.attempts = attempts
+        self.window = window
+        
+        # Initialize the bucket (atomically on redis) if it doesn't exist
+        if not is_redis_cache():
+            if cache.get(self.cache_key) is None:
+                cache.set(self.cache_key, self.attempts, self.window)
+        else:
+            cast("RedisCache", cache).set(self.cache_key, self.attempts, self.window, nx=True)
+    
+    def would_block(self) -> bool:
+        """Check if rate limit would be exceeded without decrementing counter."""
+        
+        current = cache.get(self.cache_key, 0)
+        return current <= 0 
+    
+    def decrement(self) -> None:
+        """Decrement rate limit counter for an email that will be sent."""
+        
+        with suppress(ValueError):
+            cache.decr(self.cache_key)
+
+
+def multi_level_rate_limit(encoded_email: str, rate_limits) -> tuple[bool, str]:
+    """
+    Multi-level rate limiting for email notifications.
+    
+    Returns:
+        tuple: (is_blocked, reason)
+    """
+
+    level_caches = [
+        RateLimitCache(encoded_email, attempts, window)
+        for attempts, window in rate_limits
+    ]
+    
+    # Check all without decrementing
+    for level_cache in level_caches:
+        if level_cache.would_block():
+            return True, f"rate limit exceeded ({level_cache.attempts}/{level_cache.window}s)"
+    
+    # If we get here, we can send - so decrement ALL counters
+    for level_cache in level_caches:
+        level_cache.decrement()
+    
+    return False, ""
+
