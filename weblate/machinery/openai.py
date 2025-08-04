@@ -17,7 +17,6 @@ from weblate.glossary.models import (
     get_glossary_terms,
     render_glossary_units_tsv,
 )
-from weblate.lang.models import PluralMapper
 from weblate.utils.errors import add_breadcrumb
 
 from .base import (
@@ -31,6 +30,7 @@ from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 if TYPE_CHECKING:
     from openai import OpenAI
 
+    from weblate.lang.models import PluralMapper
     from weblate.trans.models import Unit
 
 
@@ -223,7 +223,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 temperature=0,
                 frequency_penalty=0,
                 presence_penalty=0,
-                seed=42
+                seed=42,
             )
             result = response.choices[0].message.content
         except RateLimitError as error:
@@ -296,7 +296,12 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                     plural_context += SEPARATOR_PROMPT
 
         prompt = self._get_prompt(
-            source_language, target_language, texts, units, rephrase=rephrase, plural_mapping=plural_mapping
+            source_language,
+            target_language,
+            texts,
+            units,
+            rephrase=rephrase,
+            plural_mapping=plural_mapping,
         )
 
         content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
@@ -306,7 +311,9 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         if units and units[0]:
             prompt += KEY_PROMPT.format(key=units[0].context)
             if units[0].source_unit.explanation:
-                prompt += EXPLANATION_PROMPT.format(explanation=units[0].source_unit.explanation)
+                prompt += EXPLANATION_PROMPT.format(
+                    explanation=units[0].source_unit.explanation
+                )
 
         prompt += plural_context
         content = [ChatCompletionContentPartTextParam(text=content, type="text")]

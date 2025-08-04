@@ -1169,7 +1169,7 @@ class PluralMapper:
         self.same_plurals = source_plural.same_as(target_plural)
 
     def __str__(self):
-        return "<PluralMapper '{}' -> '{}'>".format(self.source_plural, self.target_plural)
+        return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property
     def target_map(self) -> tuple[tuple[int | None, int | None], ...]:
@@ -1237,7 +1237,11 @@ class PluralMapper:
                     # Fallback to last source string
                     s = source_strings[-1] if source_strings else ""
                 else:
-                    s = source_strings[source_index] if source_index < len(source_strings) else source_strings[-1]
+                    s = (
+                        source_strings[source_index]
+                        if source_index < len(source_strings)
+                        else source_strings[-1]
+                    )
 
                 s = "" if source_index is None else source_strings[source_index]
                 if s and number_to_interpolate is not None and format_check:
