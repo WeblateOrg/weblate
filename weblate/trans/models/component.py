@@ -2168,6 +2168,7 @@ class Component(
         skipped = set()
         source_updated_components = []
         translation_pks = defaultdict(list)
+        was_changed: bool = False
 
         if not translations:
             return True
@@ -2200,8 +2201,9 @@ class Component(
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation._commit_pending(reason, user)  # noqa: SLF001
-                if component.has_template():
+                    translation_changed = translation._commit_pending(reason, user)  # noqa: SLF001
+                was_changed |= translation_changed
+                if translation_changed and component.has_template():
                     translation_pks[component.pk].append(translation.pk)
                     if translation.is_source:
                         source_updated_components.append(component)
@@ -2213,16 +2215,17 @@ class Component(
                 ):
                     translation.store_hash()
 
-        self.store_local_revision()
+        if was_changed:
+            self.store_local_revision()
 
-        # Fire postponed post commit signals
-        for component in components.values():
-            component.send_post_commit_signal()
-            component.update_import_alerts(delete=False)
+            # Fire postponed post commit signals
+            for component in components.values():
+                component.send_post_commit_signal()
+                component.update_import_alerts(delete=False)
 
-        # Push if enabled
-        if not skip_push:
-            self.push_if_needed()
+            # Push if enabled
+            if not skip_push:
+                self.push_if_needed()
 
         return True
 

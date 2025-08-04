@@ -734,8 +734,15 @@ class Translation(
             changes_status = self.update_units(changes, store, author_name)
             all_changes_status.update(changes_status)
 
-            # Commit changes
-            self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
+            # Commit changes if there was anything written out
+            if any(changes_status.values()):
+                self.git_commit(
+                    user, author_name, timestamp, skip_push=True, signals=False
+                )
+
+        # Short-circuit when no changes were processed
+        if not any(all_changes_status.values()):
+            return False
 
         # A pending change can be deleted from the database:
         # 1. Always, if it has been applied successfully.
