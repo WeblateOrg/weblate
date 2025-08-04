@@ -32,11 +32,11 @@ app.autodiscover_tasks()
 
 
 @task_failure.connect
-def handle_task_failure(exception=None, **kwargs) -> None:
+def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
     from weblate.utils.errors import report_error
 
     report_error(
-        "Failure while executing task",
+        f"Failure while executing task {task_id}",
         skip_sentry=True,
         print_tb=True,
         level="error",
