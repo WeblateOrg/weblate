@@ -1241,8 +1241,10 @@ ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
 REDIS_USER = get_env_str("REDIS_USER")
 REDIS_USER_PASSWORD = (
-    f"{REDIS_USER}:{REDIS_PASSWORD}" if REDIS_USER and REDIS_PASSWORD
-    else f":{REDIS_PASSWORD}" if REDIS_PASSWORD
+    f"{REDIS_USER}:{REDIS_PASSWORD}"
+    if REDIS_USER and REDIS_PASSWORD
+    else f":{REDIS_PASSWORD}"
+    if REDIS_PASSWORD
     else REDIS_USER  # can be None
 )
 REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
