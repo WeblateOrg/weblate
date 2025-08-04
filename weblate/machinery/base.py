@@ -509,14 +509,27 @@ class BatchMachineTranslation:
             alternate_units = plural_mapper.get_other_units([unit], source_language)
 
         plural_mapper.map_units([unit], alternate_units)
+        # collect translations
+        if unit.is_plural:
+            # NOTE: using source plurals in order to translate something,
+            #       because in most cases the unit.plural_map yields an empty string
+            sources = [(unit.get_source_plurals()[0], unit)]
+            translations_mapper = plural_mapper
+        else:
+            sources = [(text, unit) for text in unit.plural_map]
+            translations_mapper = None  # note: don't need to map singulars
+
         translations = self._translate(
             mapped_source_language,
             target_language,
-            [(text, unit) for text in unit.plural_map],
+            sources,
             user,
             threshold=threshold,
+            plural_mapper=translations_mapper,
         )
-        return [translations[text] for text in unit.plural_map]
+
+        result = [translations[text] for text, _ in sources]
+        return result
 
     def download_multiple_translations(
         self,
@@ -525,6 +538,7 @@ class BatchMachineTranslation:
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
         threshold: int = 75,
+        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         """
         Download dictionary of a lists of possible translations from a service.
@@ -545,6 +559,7 @@ class BatchMachineTranslation:
         sources: list[tuple[str, Unit]],
         user=None,
         threshold: int = 75,
+        plural_mapper: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         output: DownloadMultipleTranslations = {}
         pending = defaultdict(list)
@@ -582,6 +597,7 @@ class BatchMachineTranslation:
                     ],
                     user,
                     threshold,
+                    plural_mapper,
                 )
             except Exception as exc:
                 if self.is_rate_limit_error(exc):
@@ -719,6 +735,7 @@ class MachineTranslation(BatchMachineTranslation):
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
         threshold: int = 75,
+        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         return {
             text: list(

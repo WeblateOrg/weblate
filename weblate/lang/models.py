@@ -1202,7 +1202,10 @@ class PluralMapper:
             elif i == last:
                 result.append((-1, None))
             else:
-                result.append((None, None))
+                # result.append((None, None))
+                # Instead of (None, None), use fallback to last source form
+                # This ensures all target plural forms get mapped to something useful
+                result.append((-1, None))
         return tuple(result)
 
     def map(self, unit: Unit, other_unit: Unit | None = None) -> list[str]:
@@ -1229,6 +1232,13 @@ class PluralMapper:
                 None,
             )
             for source_index, number_to_interpolate in self.target_map:
+                # Now source_index is never None due to target_map fix above
+                if source_index == -1:
+                    # Fallback to last source string
+                    s = source_strings[-1] if source_strings else ""
+                else:
+                    s = source_strings[source_index] if source_index < len(source_strings) else source_strings[-1]
+
                 s = "" if source_index is None else source_strings[source_index]
                 if s and number_to_interpolate is not None and format_check:
                     s = format_check.interpolate_number(s, number_to_interpolate)

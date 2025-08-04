@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import base64
 import re
 from collections import defaultdict
 from itertools import chain
@@ -16,6 +17,7 @@ from weblate.glossary.models import (
     get_glossary_terms,
     render_glossary_units_tsv,
 )
+from weblate.lang.models import PluralMapper
 from weblate.utils.errors import add_breadcrumb
 
 from .base import (
@@ -41,6 +43,8 @@ with precision and nuance.
 {style}
 You always reply with translated string only.
 You do not include transliteration.
+Use translation in the correct combination and appropriate context, taking into account gender, word, and number,
+pay attention to additional explanation and image context
 {separator}
 {placeables}
 {glossary}
@@ -63,6 +67,25 @@ Use the following glossary during the translation:
 PLACEABLES_PROMPT = """
 You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
 """
+KEY_PROMPT = """
+Key name: '{key}'
+"""
+PLURALS_PROMPT = """
+IMPORTANT PLURAL CONTEXT for {language}!
+This language has {number} plural forms:
+{plurals}
+Plural rule formula: {formula}
+You must provide exactly one translation for each form, in the same order as the input strings.
+"""
+EXPLANATION_PROMPT = """
+Important! Additional explanation: {explanation}
+"""
+
+
+def encode_image(image_path: str) -> str:
+    """Read and encode image using base64 encoder."""
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
 
 
 class BaseOpenAITranslation(BatchMachineTranslation):
@@ -91,6 +114,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units: list[Unit | None],
         *,
         rephrase: bool = False,
+        plural_mapping: PluralMapper | None = None,
     ) -> str:
         glossary = ""
 
@@ -136,6 +160,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
+        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         rephrase: list[tuple[str, Unit]] = []
         texts: list[str] = []
@@ -167,12 +192,46 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                     [text],
                     [unit],
                     rephrase=True,
+                    plural_mapping=plural_mapping,
                 )
 
         # Fetch translations in batch
         if texts:
             self._download(result, source_language, target_language, texts, units)
 
+        return result
+
+    def _query_openai(self, prompt: str, content: list) -> str:
+        from openai import RateLimitError
+        from openai.types.chat import (
+            ChatCompletionSystemMessageParam,
+            ChatCompletionUserMessageParam,
+        )
+
+        messages = [
+            ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(
+                role="user",
+                content=content,
+            ),
+        ]
+        result = ""
+        try:
+            response = self.client.chat.completions.create(
+                model=self.get_model(),
+                messages=messages,  # type: ignore[arg-type]
+                temperature=0,
+                frequency_penalty=0,
+                presence_penalty=0,
+                seed=42
+            )
+            result = response.choices[0].message.content
+        except RateLimitError as error:
+            if not isinstance(error.body, dict) or not (
+                message := error.body.get("message")
+            ):
+                message = error.message
+            raise MachineryRateLimitError(message) from error
         return result
 
     @overload
@@ -185,6 +244,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units: list[Unit],
         *,
         rephrase: Literal[True],
+        plural_mapping: PluralMapper | None,
     ): ...
     @overload
     def _download(
@@ -194,6 +254,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         target_language,
         texts: list[str],
         units: list[Unit | None],
+        plural_mapping: PluralMapper | None,
     ): ...
     def _download(
         self,
@@ -204,44 +265,55 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units,
         *,
         rephrase=False,
+        plural_mapping=None,
     ):
-        from openai import RateLimitError
-        from openai.types.chat import (
-            ChatCompletionSystemMessageParam,
-            ChatCompletionUserMessageParam,
-        )
+        from openai.types.chat import ChatCompletionContentPartTextParam
+
+        # Build plural form context for better translation
+        plural_context = ""
+        target_plural = None
+        if units and not rephrase and plural_mapping is not None:
+            target_plural = units[0].translation.plural
+            if target_plural.number > 1:
+                # Get plural form names/examples
+                plural_forms_info = []
+                for i in range(target_plural.number):
+                    examples = target_plural.examples.get(i, [])
+                    if examples:
+                        # Try to get meaningful names from examples
+                        example_str = ", ".join(examples)
+                        plural_forms_info.append(f"Form {i}: used for {example_str}")
+                    else:
+                        plural_forms_info.append(f"Form {i}: general case")
+
+                if plural_forms_info:
+                    plural_context += PLURALS_PROMPT.format(
+                        language=target_language,
+                        number=target_plural.number,
+                        plurals="\n".join(plural_forms_info),
+                        formula=target_plural.formula,
+                    )
+                    plural_context += SEPARATOR_PROMPT
 
         prompt = self._get_prompt(
-            source_language, target_language, texts, units, rephrase=rephrase
+            source_language, target_language, texts, units, rephrase=rephrase, plural_mapping=plural_mapping
         )
+
         content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
         add_breadcrumb("openai", "prompt", prompt=prompt)
         add_breadcrumb("openai", "chat", content=content)
 
-        messages = [
-            ChatCompletionSystemMessageParam(role="system", content=prompt),
-            ChatCompletionUserMessageParam(
-                role="user",
-                content=content,
-            ),
-        ]
+        if units and units[0]:
+            prompt += KEY_PROMPT.format(key=units[0].context)
+            if units[0].source_unit.explanation:
+                prompt += EXPLANATION_PROMPT.format(explanation=units[0].source_unit.explanation)
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.get_model(),
-                messages=messages,  # type: ignore[arg-type]
-                temperature=0,
-                frequency_penalty=0,
-                presence_penalty=0,
-            )
-        except RateLimitError as error:
-            if not isinstance(error.body, dict) or not (
-                message := error.body.get("message")
-            ):
-                message = error.message
-            raise MachineryRateLimitError(message) from error
+        prompt += plural_context
+        content = [ChatCompletionContentPartTextParam(text=content, type="text")]
 
-        translations_string = response.choices[0].message.content
+        # call to OpenAI API
+        translations_string = self._query_openai(prompt, content)
+
         add_breadcrumb("openai", "response", translations_string=translations_string)
         if translations_string is None:
             self.report_error(
