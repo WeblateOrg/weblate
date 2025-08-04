@@ -41,7 +41,7 @@
         {% for log in addon_activity_log %}
           <tr>
             <td>
-              {% if log.details.error_occurred %}
+              {% if log.details.error %}
                 <!-- This is a warning sign -->
                 <span class="text-danger">⚠</span>
               {% else %}
