@@ -451,7 +451,7 @@ class AuditLog(models.Model):
             logging.WARNING if self.activity in AUDIT_WARNING else logging.INFO,
             "audit[%s]: %s from %s",
             self.activity,
-            self.user.username if self.user else None,
+            self.user.username if self.user else "<no-user>",
             self.address,
         )
 
