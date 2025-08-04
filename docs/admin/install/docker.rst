@@ -1635,6 +1635,8 @@ instance when running Weblate in Docker.
 
 .. envvar:: REDIS_USER
 
+   .. versionadded:: 5.13
+
     The Redis database user, not used by default.
 
 .. envvar:: REDIS_PASSWORD
