@@ -277,6 +277,7 @@ Weblate 5.11
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 * :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
 * Errors from creating a duplicate glossary and failure to delete a glossary are now handled gracefully.
+* Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
 
 .. rubric:: Bug fixes
 
@@ -295,6 +296,7 @@ Weblate 5.11
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The database migration updates indexes and this might take considerable time.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

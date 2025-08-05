@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:bde36f43-490a-56ed-be7b-a66eafb1c574",
+  "serialNumber": "urn:uuid:b55d42e9-3673-56e6-a821-3ba181768fe4",
   "version": 1,
   "metadata": {
     "tools": [
@@ -2526,6 +2526,44 @@
         },
         {
           "url": "https://github.com/django-crispy-forms/crispy-bootstrap3",
+          "type": "website",
+          "comment": "from packaging metadata Project-URL: Homepage"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "crispy-bootstrap5==2025.6",
+      "name": "crispy-bootstrap5",
+      "version": "2025.6",
+      "description": "Bootstrap5 template pack for django-crispy-forms",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/crispy-bootstrap5@2025.6",
+      "externalReferences": [
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/issues",
+          "type": "issue-tracker",
+          "comment": "from packaging metadata Project-URL: Issues"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/actions",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: CI"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/releases",
+          "type": "release-notes",
+          "comment": "from packaging metadata Project-URL: Changelog"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5",
           "type": "website",
           "comment": "from packaging metadata Project-URL: Homepage"
         }
@@ -8146,6 +8184,13 @@
       ]
     },
     {
+      "ref": "crispy-bootstrap5==2025.6",
+      "dependsOn": [
+        "Django==5.2.4",
+        "django-crispy-forms==2.4"
+      ]
+    },
+    {
       "ref": "cron-descriptor==1.4.5"
     },
     {
@@ -9072,6 +9117,7 @@
         "certifi==2025.8.3",
         "charset-normalizer==3.4.2",
         "crispy-bootstrap3==2024.1",
+        "crispy-bootstrap5==2025.6",
         "cryptography==45.0.5",
         "cssselect==1.3.0",
         "cyrtranslit==1.1.1",
