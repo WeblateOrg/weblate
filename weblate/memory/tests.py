@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 from io import StringIO
+from typing import Any
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -327,7 +330,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             )
             self.assertLess(suggestion["quality"], 100)
 
-    def approve_translation(self, unit, target: str, review: str = "30"):
+    def approve_translation(self, unit, target: str, review: str = "30") -> None:
         # allow user to approve translations
         self.project.add_user(self.user, "Administration")
         params = {
@@ -513,13 +516,13 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                 [s for s in suggestions if "Hello with context" in s["text"]]
             )
 
-    def test_memory_context_with_review_no_autoclean(self):
+    def test_memory_context_with_review_no_autoclean(self) -> None:
         self.test_memory_context(False, True)
 
-    def test_memory_context_with_review_and_autoclean(self):
+    def test_memory_context_with_review_and_autoclean(self) -> None:
         self.test_memory_context(True, True)
 
-    def test_memory_context_no_review_with_autoclean(self):
+    def test_memory_context_no_review_with_autoclean(self) -> None:
         self.test_memory_context(True, False)
 
 
@@ -533,7 +536,7 @@ class MemoryViewTest(FixtureTestCase):
         **kwargs,
     ):
         with open(get_test_file(name), "rb") as handle:
-            data = {"file": handle}
+            data: dict[str, Any] = {"file": handle}
             if source_language:
                 data |= {"source_language": source_language}
             if target_language:

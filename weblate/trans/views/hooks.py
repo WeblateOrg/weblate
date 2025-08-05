@@ -78,7 +78,7 @@ class HandlerResponse(TypedDict):
     full_name: str
 
 
-HandlerType = Callable[[dict, AuthenticatedHttpRequest], HandlerResponse | None]
+HandlerType = Callable[[dict, AuthenticatedHttpRequest | None], HandlerResponse | None]
 
 HOOK_HANDLERS: dict[str, HandlerType] = {}
 
@@ -305,7 +305,7 @@ def bitbucket_extract_repo_url(data, repository: dict) -> str:
 
 @register_hook
 def bitbucket_hook_helper(
-    data, request: AuthenticatedHttpRequest
+    data, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     """Parse service hook from Bitbucket."""
     # Bitbucket ping event
@@ -361,7 +361,7 @@ def bitbucket_hook_helper(
 
 @register_hook
 def github_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     """Parse hooks from GitHub."""
     # Ignore non push events
@@ -400,7 +400,7 @@ def github_hook_helper(
 
 @register_hook
 def gitea_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     return {
         "service_long_name": "Gitea",
@@ -417,7 +417,7 @@ def gitea_hook_helper(
 
 @register_hook
 def gitee_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     return {
         "service_long_name": "Gitee",
@@ -436,7 +436,7 @@ def gitee_hook_helper(
 
 @register_hook
 def gitlab_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     """Parse hook from GitLab."""
     # Ignore non known events
@@ -466,7 +466,7 @@ def gitlab_hook_helper(
 
 @register_hook
 def pagure_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     """Parse hook from Pagure."""
     # Ignore non known events
@@ -496,7 +496,7 @@ def expand_quoted(name: str):
 
 @register_hook
 def azure_hook_helper(
-    data: dict, request: AuthenticatedHttpRequest
+    data: dict, request: AuthenticatedHttpRequest | None
 ) -> HandlerResponse | None:
     if data.get("eventType") != "git.push":
         return None

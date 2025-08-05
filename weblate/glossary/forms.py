@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -90,7 +90,7 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
             self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self) -> None:
-        self.translation = self.cleaned_data.get("translation")
+        self.translation = cast("Translation", self.cleaned_data.get("translation"))
         # Validate fields only if translation is valid
         if self.translation:
             super().clean()

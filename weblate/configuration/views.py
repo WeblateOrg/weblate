@@ -74,7 +74,7 @@ class CustomCSSView(TemplateView):
         request.weblate_custom_css = css
         return css
 
-    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         return HttpResponse(content_type="text/css", content=self.get_css(request))
 
     @classmethod
