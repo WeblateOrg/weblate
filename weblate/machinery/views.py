@@ -417,10 +417,14 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
                 translations = translation_service.translate(unit, request.user)
                 for transl_num, possible_translations in enumerate(translations):
                     for word_num, item in enumerate(possible_translations):
-                        # NOTE: based on a 
+                        # NOTE: based on a
                         plural_form = word_num if unit.is_plural else transl_num
                         format_results_helper(
-                            item, targets, plural_form, translation, source_translation,
+                            item,
+                            targets,
+                            plural_form,
+                            translation,
+                            source_translation,
                         )
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations

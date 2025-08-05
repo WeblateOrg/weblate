@@ -512,7 +512,7 @@ class BatchMachineTranslation:
         # collect translations
         if unit.is_plural:
             # NOTE: The unit.plural_map often doesn't provide translations for all units,
-            #       leading to an empty string. Therefore, we're using source plurals 
+            #       leading to an empty string. Therefore, we're using source plurals
             #       to ensure translations are available.
             sources = [(unit.get_source_plurals()[0], unit)]
             translations_mapper = plural_mapper
@@ -684,7 +684,7 @@ class BatchMachineTranslation:
 
             if is_plural:
                 # NOTE: The unit.plural_map often doesn't provide translations for all units,
-                #       leading to an empty string. Therefore, we're using source plurals 
+                #       leading to an empty string. Therefore, we're using source plurals
                 #       to ensure translations are available.
                 sources = [(unit.get_source_plurals()[0], unit)]
                 translations_mapper = plural_mapper
@@ -692,19 +692,25 @@ class BatchMachineTranslation:
                 sources = [(text, unit) for text in unit.plural_map]
                 translations_mapper = None
 
-            translations = self._translate(source, language, sources, user, threshold, translations_mapper)
+            translations = self._translate(
+                source, language, sources, user, threshold, translations_mapper
+            )
 
             result: UnitMemoryResultDict = unit.machinery
             if min(result.get("quality", ()), default=0) >= self.max_score:
                 continue
 
             translation_lists = [translations[text] for text, _ in sources]
-            plural_count = len(translation_lists[0]) if is_plural else len(translation_lists)
+            plural_count = (
+                len(translation_lists[0]) if is_plural else len(translation_lists)
+            )
 
             translation = result.setdefault("translation", [""] * plural_count)
             quality = result.setdefault("quality", [0] * plural_count)
             origin = result.setdefault("origin", [None] * plural_count)
-            for translation_number, possible_translations in enumerate(translation_lists):
+            for translation_number, possible_translations in enumerate(
+                translation_lists
+            ):
                 for word_number, item in enumerate(possible_translations):
                     # NOTE: for singles: 3 alternative translations
                     #       for plurals: N plurals, where there is a translation for each plural
