@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 17:32+0000\n"
-"PO-Revision-Date: 2025-08-02 19:02+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-08-05 08:02+0000\n"
+"Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -2255,7 +2255,7 @@ msgstr ""
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Tidak dapat memperoleh kunci %(scope)s untuk %(origin)s untuk melakukan "
+"Tidak dapat memperoleh kunci %(scope)s bagi %(origin)s untuk menjalankan "
 "operasi."
 
 #: weblate/api/views.py:2515 weblate/auth/models.py:980
@@ -3165,10 +3165,8 @@ msgid "This component is currently locked."
 msgstr "Komponen ini saat ini dikunci."
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "Format berkas tidak mendukung ini."
+msgstr "Format berkas tidak mendukung pembaruan string sumber."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4409,30 +4407,21 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "Terjemahan menggunakan markup HTML yang tidak aman."
 
 #: weblate/checks/markup.py:471
-#, fuzzy
-#| msgid "Inconsistent reStructuredText references"
 msgid "Inconsistent reStructuredText"
-msgstr "Referensi reStructuredText tidak konsisten"
+msgstr "reStructuredText tidak konsisten"
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid ""
-#| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr ""
-"Referensi reStructuredText tidak konsisten dalam pesan yang diterjemahkan."
+"Penanda reStructuredText tidak konsisten dalam pesan yang diterjemahkan."
 
 #: weblate/checks/markup.py:478
-#, fuzzy
-#| msgid "The following format strings are missing: {}"
 msgid "The following reStructuredText markup is missing: {}"
-msgstr "String format berikut tidak ada: {}"
+msgstr "Penanda reStructuredText berikut tidak ada: {}"
 
 #: weblate/checks/markup.py:483
-#, fuzzy
-#| msgid "The following format strings are extra: {}"
 msgid "The following reStructuredText markup is extra: {}"
-msgstr "String format berikut adalah tambahan: {}"
+msgstr "Penanda reStructuredText berikut adalah tambahan: {}"
 
 #: weblate/checks/markup.py:628
 msgid "reStructuredText syntax error"
@@ -5003,7 +4992,7 @@ msgstr "Berkas lang @draggable/i18n"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2207
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Catkey Haiku"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2227
@@ -5923,10 +5912,8 @@ msgid "Missing source or target language in file!"
 msgstr "Bahasa sumber atau target tidak ada dalam berkas!"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
-msgstr "tertunda"
+msgstr "Tertunda"
 
 #: weblate/memory/models.py:490
 msgctxt "Translation memory category"
@@ -7304,10 +7291,8 @@ msgstr[0] "%(count)s komentar"
 #. Translators: Name of a tab which lists translations the user has contributed to
 #: weblate/templates/accounts/user.html:156
 #: weblate/templates/accounts/user_contributions.html:14
-#, fuzzy
-#| msgid "Translate"
 msgid "Translates"
-msgstr "Terjemahkan"
+msgstr "Menerjemahkan"
 
 #: weblate/templates/accounts/user.html:165
 msgid "Activity"
@@ -7991,10 +7976,8 @@ msgid "Failing checks in %(language)s"
 msgstr "Pemeriksaan gagal di %(language)s"
 
 #: weblate/templates/base.html:225
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "All failing checks"
-msgstr "Beberapa pemeriksaan gagal"
+msgstr "Semua pemeriksaan yang gagal"
 
 #: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Administration"
@@ -8068,26 +8051,20 @@ msgid "Get help"
 msgstr "Dapatkan Bantuan"
 
 #: weblate/templates/base.html:379
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact server admins"
-msgstr "Hubungi administrator server"
+msgstr "Hubungi admin server"
 
 #: weblate/templates/base.html:382
-#, fuzzy
-#| msgid "Community support"
 msgid "Community discussions"
-msgstr "Dukungan komunitas"
+msgstr "Diskusi komunitas"
 
 #: weblate/templates/base.html:386
 msgid "Professional support"
-msgstr ""
+msgstr "Dukungan profesional"
 
 #: weblate/templates/base.html:390
-#, fuzzy
-#| msgid "Get support"
 msgid "Get professional support"
-msgstr "Dapatkan dukungan"
+msgstr "Dapatkan dukungan profesional"
 
 #: weblate/templates/base.html:399 weblate/templates/base.html:401
 #: weblate/templates/footer.html:39
@@ -8107,10 +8084,8 @@ msgid "Keyboard shortcuts"
 msgstr "Pintasan papan tik"
 
 #: weblate/templates/base.html:407
-#, fuzzy
-#| msgid "Create project"
 msgid "Weblate project"
-msgstr "Buat proyek"
+msgstr "Proyek Weblate"
 
 #: weblate/templates/base.html:409
 msgctxt "Contribute to Weblate"
@@ -8118,11 +8093,9 @@ msgid "Contribute"
 msgstr "Berkontribusi"
 
 #: weblate/templates/base.html:413 weblate/templates/footer.html:43
-#, fuzzy
-#| msgid "Get support"
 msgctxt "Support Weblate financially"
 msgid "Become a supporter"
-msgstr "Dapatkan dukungan"
+msgstr "Menjadi pendukung"
 
 #: weblate/templates/base.html:417 weblate/templates/footer.html:9
 msgctxt "About this server"
@@ -8130,11 +8103,9 @@ msgid "About"
 msgstr "Perihal"
 
 #: weblate/templates/base.html:420
-#, fuzzy
-#| msgid "Website URL"
 msgctxt "Weblate website"
 msgid "Website"
-msgstr "URL Situs Web"
+msgstr "Situs web"
 
 #: weblate/templates/base.html:449 weblate/templates/manage/index.html:43
 msgid ""
@@ -8357,10 +8328,8 @@ msgid "Any authenticated user can contribute."
 msgstr "Setiap pengguna terdaftar dapat berkontribusi."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:42
-#, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
 msgid "VCS repository is accessible to everybody."
-msgstr "Repositori VCS dapat diekspos ke semua orang."
+msgstr "Repositori VCS dapat diakses oleh semua orang."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:55
@@ -8455,10 +8424,8 @@ msgstr "Unduh berkas terjemahan asli sebagai berkas ZIP"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "Versi"
+msgstr "Operasi"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9150,15 +9117,11 @@ msgid "Privacy"
 msgstr "Privasi"
 
 #: weblate/templates/footer.html:21
-#, fuzzy
-#| msgid "Legal"
 msgctxt "Link to legal documents"
 msgid "Legal"
 msgstr "Hukum"
 
 #: weblate/templates/footer.html:32
-#, fuzzy
-#| msgid "Status"
 msgctxt "Service status"
 msgid "Status"
 msgstr "Status"
@@ -9545,6 +9508,9 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"Harap pertimbangkan untuk mengirimkan suntingan Anda ke <a href=\"%(url)s\""
+">repositori data bahasa Weblate</a> sehingga dapat disertakan dalam rilis "
+"Weblate mendatang."
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9553,6 +9519,10 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"Definisi bahasa diperbarui secara otomatis oleh Weblate setelah migrasi "
+"basis data. Penyuntingan yang tidak tepat kemungkinan besar akan "
+"dikembalikan.<a href=\"%(url)s\">Lihat dokumentasi untuk penanganan yang "
+"tepat.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2312
 msgid "Workflow"
@@ -10371,10 +10341,8 @@ msgid "Manage support package"
 msgstr "Kelola paket dukungan"
 
 #: weblate/templates/manage/index.html:97
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Unlink support package"
-msgstr "Kelola paket dukungan"
+msgstr "Batalkan tautan paket dukungan"
 
 #: weblate/templates/manage/index.html:100
 #: weblate/templates/manage/snippets/activation-form.html:20
@@ -11911,10 +11879,8 @@ msgstr ""
 "nya, memindahkannya, atau menghapusnya."
 
 #: weblate/templates/snippets/share-menu.html:6
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Commit"
+msgstr "Komunitas"
 
 #: weblate/templates/snippets/share-menu.html:11
 #: weblate/templates/snippets/share-menu.html:16
@@ -12587,10 +12553,8 @@ msgid "Update the repository"
 msgstr "Perbarui repositori"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "Mengimpor cadangan"
+msgstr "Cadangan yang ada"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -12633,8 +12597,6 @@ msgstr "Dari kontrol versi"
 
 #. Translators: Create a component from existing component
 #: weblate/templates/trans/component_create.html:16
-#, fuzzy
-#| msgid "From existing component"
 msgid "From an existing component"
 msgstr "Dari komponen yang ada"
 
@@ -14093,13 +14055,11 @@ msgid "New revision: {}"
 msgstr "Revisi baru: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s karakter diedit"
+msgstr[0] "%(count)d karakter disunting"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14136,17 +14096,15 @@ msgstr "{filename} ({parameter}) tidak ada."
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:32
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgid "Recent changes on %s"
-msgstr "Perubahan terbaru dalam %s"
+msgstr "Perubahan terbaru pada %s"
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:36
-#, fuzzy, python-format
-#| msgid "All recent changes made using Weblate in %s."
+#, python-format
 msgid "All recent changes made using Weblate on %s."
-msgstr "Semua perubahan terbaru yang dibuat Weblate dalam %s."
+msgstr "Semua perubahan terkini yang dibuat menggunakan Weblate pada %s."
 
 #. Translators: %s is translation name
 #: weblate/trans/feeds.py:71
@@ -14602,12 +14560,18 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"Kebijakan komit khusus yang disetujui mengharuskan tinjauan terjemahan "
+"diaktifkan. Harap aktifkan tinjauan terjemahan terlebih dahulu atau pilih "
+"kebijakan komit lain."
 
 #: weblate/trans/forms.py:2254
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"Tinjauan terjemahan diperlukan untuk kebijakan komit yang hanya disetujui. "
+"Silakan pilih kebijakan komit yang berbeda sebelum menonaktifkan tinjauan "
+"terjemahan."
 
 #: weblate/trans/forms.py:2302
 msgid "Access"
@@ -15392,10 +15356,8 @@ msgid "Enforced checks"
 msgstr "Pemeriksaan paksa"
 
 #: weblate/trans/models/component.py:594
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Daftar cek yang tidak bisa diabaikan."
+msgstr "Daftar pemeriksaan yang tidak dapat dibatalkan."
 
 #: weblate/trans/models/component.py:612
 msgid ""
@@ -15917,19 +15879,15 @@ msgstr "Deskripsi label"
 
 #: weblate/trans/models/project.py:57
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "Komit semua terjemahan tanpa mempedulikan kualitasnya"
 
 #: weblate/trans/models/project.py:60
-#, fuzzy
-#| msgid "Strings marked as needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "String ditandai sebagai perlu disunting"
+msgstr "Lewati terjemahan yang ditandai sebagai perlu disunting"
 
 #: weblate/trans/models/project.py:62
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "Tambahkan sebagai terjemahan yang disetujui"
+msgstr "Hanya sertakan terjemahan yang disetujui"
 
 #: weblate/trans/models/project.py:168
 msgid "Public"
@@ -15982,15 +15940,15 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Berkontribusi pada kumpulan terjemahan bersama antar proyek."
 
 #: weblate/trans/models/project.py:222
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Autoclean translation memory"
-msgstr "Simpan riwayat penerjemahan"
+msgstr "Pembersihan otomatis memori terjemahan"
 
 #: weblate/trans/models/project.py:225
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
 msgstr ""
+"Secara otomatis menghapus entri yang sudah ketinggalan zaman dan tidak "
+"berguna dari memori terjemahan."
 
 #: weblate/trans/models/project.py:234
 msgid ""
@@ -16022,16 +15980,16 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Membutuhkan peninjau khusus untuk menyetujui string sumber."
 
 #: weblate/trans/models/project.py:258
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "Berkas penerjemahan"
+msgstr "Filter kualitas terjemahan"
 
 #: weblate/trans/models/project.py:262
 msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
 msgstr ""
+"Pilih terjemahan mana yang akan disertakan saat melakukan perubahan. Opsi "
+"yang lebih ketat akan melewatkan terjemahan dengan potensi masalah kualitas."
 
 #: weblate/trans/models/project.py:267
 msgid "Enable hooks"
@@ -16527,13 +16485,8 @@ msgstr ""
 "sendiri."
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr ""
-"Anda bisa menyuntingnya nanti, seperti halnya string lainnya dalam bahasa "
-"sumber."
+msgstr "Pengunggahan sumber hanya didukung pada bahasa sumber."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -16606,32 +16559,31 @@ msgstr "Mari Berkontribusi di {0}!"
 
 #: weblate/trans/views/basic.py:775
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Penambahan bahasa tidak didukung oleh komponen apa pun."
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "Bahasa baru ditambahkan ke %(component)s"
+msgstr[0] "Bahasa %(language)s ditambahkan ke %(count)d komponen."
 
 #: weblate/trans/views/basic.py:823
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Permintaan bahasa baru dalam %(component)s"
+msgstr[0] "Bahasa %(language)s diminta untuk %(count)d komponen."
 
 #: weblate/trans/views/basic.py:837
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "Bahasa baru ditambahkan ke %(component)s"
+msgstr[0] ""
+"Bahasa %(language)s tidak dapat ditambahkan ke %(count)d komponen. Silakan "
+"periksa konfigurasi komponen."
 
 #: weblate/trans/views/basic.py:913
 msgid ""

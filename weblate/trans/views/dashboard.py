@@ -222,7 +222,9 @@ def fetch_componentlists(user: User, user_translations):
                     language.code,
                 ) in existing or not component.can_add_new_language(user, fast=True):
                     continue
-                translations.append(GhostTranslation(component, language))
+                translations.append(
+                    GhostTranslation(component.project, language, component)
+                )
 
         componentlist.translations = translations
 

@@ -58,9 +58,14 @@ jobs:
     - name: Run mypy
       env:
         CI_DATABASE: postgresql
-      run: uv run mypy --show-column-numbers weblate scripts/*.py | ./scripts/filter-mypy.sh | tee mypy.log
-      # Temporary hack until we have this fully working
-      continue-on-error: true
+      run: |
+        set +e
+        uv run mypy --show-column-numbers weblate scripts/*.py | ./scripts/filter-mypy.sh | tee mypy.log
+        # Temporary hack until we have mypy fully passing
+        mypy_err="$?"
+        if [ "$mypy_err" -ne 0 ] && [ "$mypy_err" -ne 1 ] ; then
+          exit "$mypy_err"
+        fi
     - name: Report mypy
       run: |
         if [ ! -s mypy.log ] ; then

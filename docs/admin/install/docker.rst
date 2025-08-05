@@ -1633,6 +1633,12 @@ instance when running Weblate in Docker.
 
     The Redis database number, defaults to ``1``.
 
+.. envvar:: REDIS_USER
+
+   .. versionadded:: 5.13
+
+    The Redis database user, not used by default.
+
 .. envvar:: REDIS_PASSWORD
 
     The Redis server password, not used by default.

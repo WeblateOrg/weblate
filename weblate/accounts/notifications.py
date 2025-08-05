@@ -175,6 +175,8 @@ class Notification:
             query |= Q(project=project) | Q(component__project=project)
         return list(
             result.filter(query)
+            # Inactive users and bots
+            .filter(Q(user__is_bot=False) & Q(user__is_active=True))
             .order_by("user", "-scope")
             .prefetch_related("user", "user__profile", "user__profile__languages")
         )
@@ -257,9 +259,6 @@ class Notification:
                 (user == last_user)
                 # Own change
                 or (change is not None and user == change.user)
-                # Inactive users
-                or (not user.is_active)
-                or user.is_bot
                 # Admin for not admin projects
                 or (
                     subscription.scope == NotificationScope.SCOPE_ADMIN

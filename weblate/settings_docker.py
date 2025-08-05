@@ -1240,24 +1240,32 @@ ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
 # Extract redis password
 REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
+REDIS_USER = get_env_str("REDIS_USER")
+REDIS_USER_PASSWORD = (
+    f"{REDIS_USER}:{REDIS_PASSWORD}"
+    if REDIS_USER and REDIS_PASSWORD
+    else f":{REDIS_PASSWORD}"
+    if REDIS_PASSWORD
+    else REDIS_USER  # can be None
+)
 REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
+REDIS_URL = "{}://{}{}:{}/{}".format(
+    REDIS_PROTO,
+    f"{REDIS_USER_PASSWORD}@" if REDIS_USER_PASSWORD else "",
+    get_env_str("REDIS_HOST", "cache", required=True),
+    get_env_int("REDIS_PORT", 6379),
+    get_env_int("REDIS_DB", 1),
+)
 
 # Configuration for caching
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "{}://{}:{}/{}".format(
-            REDIS_PROTO,
-            get_env_str("REDIS_HOST", "cache", required=True),
-            get_env_int("REDIS_PORT", 6379),
-            get_env_int("REDIS_DB", 1),
-        ),
+        "LOCATION": REDIS_URL,
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # If you set password here, adjust CELERY_BROKER_URL as well
-            "PASSWORD": REDIS_PASSWORD or None,
             "CONNECTION_POOL_KWARGS": {},
         },
         "KEY_PREFIX": "weblate",
@@ -1372,13 +1380,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
-CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
-    REDIS_PROTO,
-    f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
-    get_env_str("REDIS_HOST", "cache", required=True),
-    get_env_int("REDIS_PORT", 6379),
-    get_env_int("REDIS_DB", 1),
-)
+CELERY_BROKER_URL = REDIS_URL
 if REDIS_PROTO == "rediss":
     CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
         CELERY_BROKER_URL,
