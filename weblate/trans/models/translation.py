@@ -1937,12 +1937,14 @@ class Translation(
             return
         expected_count = self.component.translation_set.count()
         author: User | None = None
+        added: bool = False
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
             if source.unit_set.count() == expected_count:
                 continue
+            added = True
             if author is None:
                 author = User.objects.get_or_create_bot(
                     scope="glossary",
@@ -1959,7 +1961,9 @@ class Translation(
                 skip_existing=True,
                 author=author,
             )
-        self.store_update_changes()
+        if added:
+            self.store_update_changes()
+            self.component.invalidate_cache()
 
     def validate_new_unit_data(
         self,

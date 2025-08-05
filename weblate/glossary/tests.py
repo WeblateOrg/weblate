@@ -423,6 +423,10 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
 
+        # Verify stats have been updated
+        translation = self.glossary_component.translation_set.get(language_code="de")
+        self.assertEqual(translation.stats.all, translation.unit_set.count())
+
         # Terminology sync should be no-op now
         sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
