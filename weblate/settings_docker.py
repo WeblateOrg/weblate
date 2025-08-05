@@ -1044,6 +1044,11 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
+# This allows to hide glossary components when shared to other projects
+HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
+    "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
+)
+
 # Default number of elements to display when pagination is active
 DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 

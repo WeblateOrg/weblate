@@ -6,6 +6,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import TYPE_CHECKING, Any
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Q
@@ -381,9 +382,13 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
-    all_components = obj.get_child_components_access(
-        user, lambda qs: qs.filter(category=None)
-    )
+    def filter_components(qs):
+        qs = qs.filter(category=None)
+        if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
+            qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
+        return qs
+
+    all_components = obj.get_child_components_access(user, filter_components)
     all_components = get_paginator(request, all_components, stats=True)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
