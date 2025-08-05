@@ -142,6 +142,8 @@ REPO_OPERATIONS = {
     "commit": ("vcs.commit", "commit_pending", ("api",), False),
     "file-sync": ("vcs.reset", "do_file_sync", (), True),
     "file-scan": ("vcs.reset", "do_file_scan", (), True),
+    "lock": ("component.lock", "do_lock", (), False),
+    "unlock": ("component.lock", "do_lock", (False,), False),
 }
 
 DOC_TEXT = """
@@ -319,6 +321,7 @@ class WeblateViewSet(DownloadViewSet):
             data["url"] = reverse(
                 "api:project-repository", kwargs={"slug": obj.slug}, request=request
             )
+            data["locked"] = obj.locked
         else:
             if isinstance(obj, Translation):
                 component = obj.component

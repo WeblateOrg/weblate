@@ -977,6 +977,7 @@ Projects
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
+    :>json boolean locked: whether all project components are locked (only for projects)
 
     **Example JSON data:**
 
@@ -985,7 +986,8 @@ Projects
         {
             "needs_commit": true,
             "needs_merge": false,
-            "needs_push": true
+            "needs_push": true,
+            "locked": false
         }
 
 
@@ -996,7 +998,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``, ``lock``, ``unlock``
     :>json boolean result: result of the operation
 
     **CURL example:**
