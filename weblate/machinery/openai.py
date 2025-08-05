@@ -334,25 +334,56 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         # Ignore extra whitespace in response as OpenAI can be creative in that
         # (see https://github.com/WeblateOrg/weblate/issues/12456)
         translations = SEPARATOR_RE.split(translations_string)
-        if not rephrase and len(translations) != len(texts):
-            self.report_error(
-                "Failed to parse assistant reply",
-                extra_log=translations_string,
-                message=True,
-            )
-            msg = f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
-            raise MachineTranslationError(msg)
+        if not rephrase:
+            # For plural translations, we expect target_plural.number translations
+            # But we need to map them back to the original source texts
+            expected_len = target_plural.number if plural_mapping is not None else len(texts)
 
-        for index, translation in enumerate(translations):
-            text = texts[index if not rephrase else 0]
-            result[text].append(
-                {
-                    "text": translation,
-                    "quality": self.max_score,
-                    "service": self.name,
-                    "source": text,
-                }
-            )
+            if len(translations) != expected_len:
+                self.report_error(
+                    "Failed to parse assistant reply",
+                    extra_log=translations_string,
+                    message=True,
+                )
+                msg = f"Could not parse assistant reply, expected={expected_len}, received={len(translations)}"
+                raise MachineTranslationError(msg)
+
+            # Map translations back to original source strings
+            # The translations array corresponds to target plural forms (0,1,2,3...)
+            # But texts array corresponds to source strings from unit.plural_map
+            # We need to map each translation to its corresponding source text
+
+            for index, translation in enumerate(translations):
+                # For plural translations, use the source text at the same index
+                # The machinery system ensures texts array corresponds to target forms
+
+                if index < len(texts):
+                    text = texts[index]
+                else:
+                    # This shouldn't happen with proper plural mapping
+                    # text = f"Form {index}"
+                    text = texts[0]
+
+                result[text].append(
+                    {
+                        "text": translation,
+                        "quality": self.max_score,
+                        "service": self.name,
+                        "source": text,
+                    }
+                )
+        else:
+            # For rephrase mode, use original logic
+            for index, translation in enumerate(translations):
+                text = texts[0]  # Rephrase mode always uses first text
+                result[text].append(
+                    {
+                        "text": translation,
+                        "quality": self.max_score,
+                        "service": self.name,
+                        "source": text,
+                    }
+                )
 
     def get_model(self) -> str:
         raise NotImplementedError
