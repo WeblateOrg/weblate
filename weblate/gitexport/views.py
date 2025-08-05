@@ -13,7 +13,7 @@ from selectors import EVENT_READ, DefaultSelector
 from typing import TYPE_CHECKING, BinaryIO, cast
 
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
-from django.http import Http404, StreamingHttpResponse
+from django.http import Http404, HttpRequest, StreamingHttpResponse
 from django.http.response import HttpResponse, HttpResponseBase, HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -38,7 +38,7 @@ def response_authenticate():
     return response
 
 
-def authenticate(request: AuthenticatedHttpRequest, auth: str) -> bool:
+def authenticate(request: HttpRequest, auth: str) -> bool:
     """Perform authentication with HTTP Basic auth."""
     try:
         method, data = auth.split(None, 1)

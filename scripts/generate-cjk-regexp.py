@@ -71,7 +71,7 @@ if prev is not None:
     cjkmerged.append(prev)
 
 
-def hexchar(char):
+def hexchar(char) -> str:
     val = ord(char)
     if val > 0xFFFF:
         return rf"\U{val:08x}"

@@ -1,11 +1,21 @@
 {% load compress static %}
 
 {% compress css %}
-  <link rel="stylesheet"
-        href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
-  {% if LANGUAGE_BIDI %}
+  {% if bootstrap_5 %}
+    {% if LANGUAGE_BIDI %}
+      <link rel="stylesheet"
+            href="{% static 'vendor/bootstrap/v5/css/bootstrap.rtl.css' %}{{ cache_param }}" />
+    {% else %}
+      <link rel="stylesheet"
+            href="{% static 'vendor/bootstrap/v5/css/bootstrap.css' %}{{ cache_param }}" />
+    {% endif %}
+  {% else %}
     <link rel="stylesheet"
-          href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
+          href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
+    {% if LANGUAGE_BIDI %}
+      <link rel="stylesheet"
+            href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
+    {% endif %}
   {% endif %}
   <link rel="stylesheet"
         href="{% static 'js/vendor/fonts/fonts.css' %}{{ cache_param }}" />
