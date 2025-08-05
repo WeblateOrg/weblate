@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-05 08:02+0000\n"
+"PO-Revision-Date: 2025-08-05 13:51+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14015,6 +14015,9 @@ msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
+"La base de datos de Weblate debería migrarse automáticamente la primera vez "
+"que se inicie, y no debería ser necesario realizar acciones manuales "
+"adicionales."
 
 #: ../../admin/install/docker.rst:256
 msgid ""
@@ -14035,6 +14038,9 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
+"También es posible que desee actualizar el repositorio ``docker-compose`` "
+"aunque en la mayoría de los casos no sea necesario. Ver :ref:`docker-"
+"postgres-upgrade` para actualizar el servidor PostgreSQL."
 
 #: ../../admin/install/docker.rst:267
 msgid "Upgrading PostgreSQL container"
@@ -14046,6 +14052,9 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"Los contenedores de PostgreSQL no admiten la actualización automática entre "
+"versiones, debe realizar la actualización manualmente. Los siguientes pasos "
+"muestran una de las opciones de actualización."
 
 #: ../../admin/install/docker.rst:275
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -14057,7 +14066,7 @@ msgstr "Detener el contenedor de Weblate:"
 
 #: ../../admin/install/docker.rst:283
 msgid "Backup the database:"
-msgstr ""
+msgstr "Copia de seguridad de la base de datos:"
 
 #: ../../admin/install/docker.rst:289
 msgid "Stop the database container:"
@@ -14072,10 +14081,14 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"El nombre del volumen contiene el nombre del proyecto Docker Compose, que "
+"por defecto es el nombre del directorio que es  ``weblate-docker`` en esta "
+"documentación."
 
 #: ../../admin/install/docker.rst:307
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
+"Adjustar :file:`docker-compose.yml` para usar la nueva versión de PostgreSQL."
 
 #: ../../admin/install/docker.rst:309
 msgid "Start the database container:"
@@ -14088,6 +14101,7 @@ msgstr "Restaurar la base de datos a partir de la copia de seguridad:"
 #: ../../admin/install/docker.rst:323 ../../admin/install/docker.rst:333
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
+"Verificar que el nombre de la base de datos coincida :envvar:`POSTGRES_DB`."
 
 #: ../../admin/install/docker.rst:325
 msgid ""
@@ -14095,6 +14109,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Opcional) Actualizar la contraseña del usuario de Weblate. Esto podría ser "
+"necesario al migrar a PostgreSQL 14 o 15, ya que se ha cambiado la forma de "
+"almacenar contraseñas:"
 
 #: ../../admin/install/docker.rst:335
 msgid "Start all remaining containers:"
@@ -14110,18 +14127,27 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"Después de la configuración del contenedor, puede iniciar sesión como "
+"usuario 'administrador' con la contraseña proporcionada en "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, o una contraseña aleatoria generada en el "
+"primer inicio si no se estableció."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Para restablecer la contraseña de `administrador`, reiniciar el contenedor "
+"con :envvar:`WEBLATE_ADMIN_PASSWORD` con la nueva contraseña."
 
 #: ../../admin/install/docker.rst:355
+#, fuzzy
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:360
 msgid "Number of processes and memory consumption"
