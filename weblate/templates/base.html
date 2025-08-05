@@ -274,40 +274,47 @@
 
               {# Adding new translations #}
               {% if user.is_authenticated %}
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="hidden-xs">{% icon "plus.svg" %}</span>
-                    <span class="visible-xs-inline">{% translate "Add" %}</span>
-                    <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
-                    </li>
-                    <li>
-                      <a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% translate "Add new translation component" %}</a>
-                    </li>
-                    {% if component %}
-                      {% perm 'translation.add' component as user_can_add_translation %}
-                      {% if user_can_add_translation %}
+                {% perm "project.add" user as user_can_add_project %}
+                {% if component %}
+                  {% perm 'translation.add' component as user_can_add_translation %}
+                {% endif %}
+                {% if user_can_add_project or user.managed_projects.exists or user_can_add_translation|default:False or offer_hosting %}
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <span class="hidden-xs">{% icon "plus.svg" %}</span>
+                      <span class="visible-xs-inline">{% translate "Add" %}</span>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      {% if user_can_add_project or offer_hosting %}
+                        <li>
+                          <a href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
+                        </li>
+                      {% endif %}
+                      {% if user.managed_projects.exists or offer_hosting %}
+                        <li>
+                          <a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% translate "Add new translation component" %}</a>
+                        </li>
+                      {% endif %}
+                      {% if component and user_can_add_translation|default:False %}
                         <li>
                           <a href="{% url "new-language" path=component.get_url_path %}">{% translate "Start new translation" %}</a>
                         </li>
                       {% endif %}
-                    {% endif %}
-                    {% if offer_hosting %}
-                      <li role="separator" class="divider"></li>
-                      {% if payment_enabled %}
+                      {% if offer_hosting %}
+                        <li role="separator" class="divider"></li>
+                        {% if payment_enabled %}
+                          <li>
+                            <a href="{% url 'trial' %}">{% translate "Try Weblate for free" %}</a>
+                          </li>
+                        {% endif %}
                         <li>
-                          <a href="{% url 'trial' %}">{% translate "Try Weblate for free" %}</a>
+                          <a href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
                         </li>
                       {% endif %}
-                      <li>
-                        <a href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
-                      </li>
-                    {% endif %}
-                  </ul>
-                </li>
+                    </ul>
+                  </li>
+                {% endif %}
               {% endif %}
 
               {# Profile and logout for authenticated #}
