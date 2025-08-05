@@ -67,6 +67,7 @@ from weblate.wladmin.models import get_support_status
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.http.request import HttpRequest
     from django_otp.models import Device
 
 LOGGER = logging.getLogger("weblate.audit")
@@ -373,7 +374,7 @@ class AuditLogManager(models.Manager):
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
     def create(  # type: ignore[override]
-        self, user: User, request: AuthenticatedHttpRequest | None, activity, **params
+        self, user: User, request: HttpRequest | None, activity, **params
     ):
         address = get_ip_address(request)
         user_agent = get_user_agent(request)

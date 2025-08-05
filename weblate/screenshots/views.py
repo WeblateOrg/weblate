@@ -18,7 +18,6 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot

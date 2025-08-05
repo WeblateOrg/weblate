@@ -509,7 +509,7 @@ class SubscriptionTest(ViewTestCase):
             action=ActionEvents.FAILED_MERGE,
             details={"error": "error", "status": "status"},
         )
-        notification = self.notification(None)
+        notification = self.notification([])
         return list(notification.get_users(frequency, change))
 
     def test_scopes(self) -> None:

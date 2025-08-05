@@ -27,7 +27,7 @@ class WeblateAdminSite(AdminSite):
     enable_nav_sidebar = False
 
     @property
-    def login_form(self):
+    def login_form(self):  # type: ignore[override]
         from weblate.accounts.forms import AdminLoginForm
 
         return AdminLoginForm
@@ -78,7 +78,7 @@ class WeblateAdminSite(AdminSite):
         return BaseLoginView.as_view(**defaults)(request)
 
     @property
-    def site_url(self):
+    def site_url(self):  # type: ignore[override]
         if settings.URL_PREFIX:
             return settings.URL_PREFIX
         return "/"

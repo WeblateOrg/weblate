@@ -488,6 +488,6 @@ class TestThemeColorField(TestCase):
         self.assertEqual(self.field.compress(data_list), expected)
 
     def test_compress_no_data(self) -> None:
-        data_list = []
+        data_list: list[str] = []
         expected = None
         self.assertEqual(self.field.compress(data_list), expected)

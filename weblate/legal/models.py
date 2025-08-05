@@ -15,7 +15,7 @@ from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from django.http.request import HttpRequest
 
 if "wllegal" in settings.INSTALLED_APPS:
     import wllegal.models
@@ -59,7 +59,7 @@ class Agreement(models.Model):
     def is_current(self):
         return self.tos == self.current_tos_date()
 
-    def make_current(self, request: AuthenticatedHttpRequest) -> None:
+    def make_current(self, request: HttpRequest) -> None:
         if not self.is_current():
             AuditLog.objects.create(
                 self.user, request, "tos", date=self.current_tos_date().isoformat()
