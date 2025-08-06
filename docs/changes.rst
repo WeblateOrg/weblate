@@ -23,6 +23,7 @@ Weblate 5.13
 * Adding a new TOTP device removes the existing one by default; checkbox for not removing previous ones available.
 * Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
 * :ref:`check-rst-references` correctly handles Unicode punctuation and detects more issues.
+* Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
 
 .. rubric:: Bug fixes
 
@@ -38,6 +39,7 @@ Weblate 5.13
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
@@ -277,7 +279,6 @@ Weblate 5.11
 * Improved rendering of :ref:`additional-flags` and :ref:`additional-explanation` changes in history.
 * :ref:`mt-cyrtranslit` now automatically transliterates from a matching translation instead of the source strings.
 * Errors from creating a duplicate glossary and failure to delete a glossary are now handled gracefully.
-* Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
 
 .. rubric:: Bug fixes
 
@@ -296,7 +297,6 @@ Weblate 5.11
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The database migration updates indexes and this might take considerable time.
-* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
