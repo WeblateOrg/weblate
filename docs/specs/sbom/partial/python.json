@@ -2888,6 +2888,50 @@
       "version": "1.70.0"
     },
     {
+      "bom-ref": "granian==2.5.0",
+      "description": "A Rust HTTP server for Python applications",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: Source",
+          "type": "other",
+          "url": "https://github.com/emmett-framework/granian"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Funding",
+          "type": "other",
+          "url": "https://github.com/sponsors/gi0baro"
+        },
+        {
+          "comment": "from packaging metadata Project-URL: Homepage",
+          "type": "website",
+          "url": "https://github.com/emmett-framework/granian"
+        },
+        {
+          "comment": "from packaging metadata: Home-page",
+          "type": "website",
+          "url": "https://github.com/emmett-framework/granian"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: BSD License"
+          }
+        }
+      ],
+      "name": "granian",
+      "purl": "pkg:pypi/granian@2.5.0",
+      "type": "library",
+      "version": "2.5.0"
+    },
+    {
       "bom-ref": "grpc-google-iam-v1==0.14.2",
       "description": "IAM API client library",
       "externalReferences": [
@@ -7301,6 +7345,12 @@
     },
     {
       "dependsOn": [
+        "click==8.2.1"
+      ],
+      "ref": "granian==2.5.0"
+    },
+    {
+      "dependsOn": [
         "googleapis-common-protos==1.70.0",
         "grpcio==1.74.0",
         "protobuf==6.31.1"
@@ -7932,6 +7982,7 @@
         "git-review==2.5.0",
         "google-cloud-storage==3.2.0",
         "google-cloud-translate==3.21.1",
+        "granian==2.5.0",
         "gunicorn==23.0.0",
         "hiredis==3.2.1",
         "html2text==2025.4.15",
@@ -8158,5 +8209,5 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:4633fc24-47b6-511a-bc7c-7a2a69f75f3c"
+  "serialNumber": "urn:uuid:6d5ce757-c621-5a78-bda5-02a8fd073444"
 }

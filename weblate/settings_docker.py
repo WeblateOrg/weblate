@@ -916,13 +916,6 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
         },
-        # gunicorn
-        "gunicorn.error": {
-            "level": "INFO",
-            "handlers": [*DEFAULT_LOG],
-            "propagate": True,
-            "qualname": "gunicorn.error",
-        },
     },
 }
 
