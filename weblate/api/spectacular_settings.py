@@ -52,7 +52,7 @@ def get_spectacular_settings(
         # OpenAPI Specification version: 'webhooks' field is supported from 3.1.0
         "OAS_VERSION": "3.1.1",
         "SERVERS": [
-            {"url": site_url.rstrip("/"), "description": site_title},
+            {"url": site_url.rstrip("/") + "/api", "description": site_title},
         ],
         # Document only API (not webauthn and other drf endpoints)
         "SERVE_URLCONF": "weblate.api.urls",
