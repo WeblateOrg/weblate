@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-05 08:02+0000\n"
+"PO-Revision-Date: 2025-08-06 15:02+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -3365,7 +3365,7 @@ msgstr "Sesuaikan keluaran JSON"
 
 #: ../../admin/addons.rst:914
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "Opsi :guilabel:`Avoid spaces after separators` ditambahkan."
 
 #: ../../admin/addons.rst:918
 msgid "Sort JSON keys"
@@ -3840,6 +3840,9 @@ msgid ""
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
+"Konten notifikasi mungkin menampilkan tag HTML. Ini adalah masalah umum yang "
+"akan segera diatasi; lihat https://github.com/WeblateOrg/weblate/issues/"
+"15056."
 
 #: ../../admin/addons.rst:1267
 msgid ""
@@ -3847,6 +3850,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Untuk mendapatkan URL webhook, ikuti langkah-langkah yang diuraikan dalam `"
+"Dokumentasi Webhook Masuk Slack <https://docs.slack.dev/messaging/sending-"
+"messages-using-incoming-webhooks>`_"
 
 #: ../../admin/addons.rst:1272
 msgid "Webhook"
@@ -3873,14 +3879,16 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"Muatan permintaan sesuai dengan skema :ref:`schema-messaging`. Deskripsi "
+"OpenAPI juga dapat ditemukan di ``/api/docs/``. Contoh isi permintaan:"
 
 #: ../../admin/addons.rst:1541
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Contoh isi permintaan dengan kategori:"
 
 #: ../../admin/addons.rst:1562
 msgid "Sample request headers:"
-msgstr ""
+msgstr "Contoh header permintaan:"
 
 #: ../../admin/addons.rst:1572
 msgid ""
@@ -3889,6 +3897,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"``webhook-signature`` adalah daftar tanda tangan HMAC yang dipisahkan spasi, "
+"yang dihasilkan menggunakan string ``secret``, payload permintaan, ``webhook-"
+"timestamp``, dan ``webhook-id``. Hal ini memastikan keaslian dan integritas "
+"permintaan webhook."
 
 #: ../../admin/addons.rst:1576
 msgid ""
@@ -3896,6 +3908,9 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Untuk memverifikasi permintaan, Anda dapat menggunakan metode "
+"``Webhook.verify`` dari pustaka ``standardwebhooks`` atau implementasi "
+"\"Spesifikasi Webhook Standar\"."
 
 #: ../../admin/addons.rst:1582
 msgid ""
@@ -3904,6 +3919,10 @@ msgid ""
 "messaging`, `Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
 msgstr ""
+"`Spesifikasi Webhook Standar <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
+"messaging`, `Pustaka Python untuk Webhook Standar <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1591
 msgid "Customize XML output"
@@ -3947,22 +3966,20 @@ msgid "Line breaks"
 msgstr "Jeda baris"
 
 #: ../../admin/addons.rst:1632
-#, fuzzy
-#| msgid "DOS (\\r\\n)"
 msgid "DOS (\\\\r\\\\n)"
-msgstr "DOS (\\r\\n)"
+msgstr ""
+"DOS (\\\\r\\\\n"
+")"
 
 #: ../../admin/addons.rst:1635
-#, fuzzy
-#| msgid "UNIX (\\n)"
 msgid "UNIX (\\\\n)"
-msgstr "UNIX (\\n)"
+msgstr ""
+"UNIX (\\\\n"
+")"
 
 #: ../../admin/addons.rst:1638
-#, fuzzy
-#| msgid "MAC (\\r)"
 msgid "MAC (\\\\r)"
-msgstr "MAC (\\r)"
+msgstr "MAC (\\\\r)"
 
 #: ../../admin/addons.rst:1642
 msgid ""
@@ -4143,22 +4160,24 @@ msgstr ""
 "terjemahan saat ini."
 
 #: ../../admin/addons.rst:1780
-#, fuzzy
-#| msgid "Account activity"
 msgid "Add-on activity logging"
-msgstr "Aktivitas akun"
+msgstr "Log aktivitas pengaya"
 
 #: ../../admin/addons.rst:1782
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
+"Log aktivitas pengaya melacak eksekusi pengaya dan dapat digunakan untuk "
+"melacak aktivitas pengaya."
 
 #: ../../admin/addons.rst:1785
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 msgstr ""
+"Log dapat dipangkas setelah interval waktu tertentu dengan mengonfigurasi "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:139
 msgid "Management interface"
@@ -4179,22 +4198,16 @@ msgid "It includes basic overview of your Weblate:"
 msgstr "Ini mencakup ikhtisar dasar Weblate Anda:"
 
 #: ../../admin/admin.rst:14
-#, fuzzy
-#| msgid "Support status, see :doc:`support`"
 msgid "Support status, see :doc:`support`."
-msgstr "Status dukungan, lihat :doc:`support`"
+msgstr "Status dukungan, lihat :doc:`support`."
 
 #: ../../admin/admin.rst:15
-#, fuzzy
-#| msgid "Backups, see :doc:`backup`"
 msgid "Backups, see :doc:`backup`."
-msgstr "Pencadangan, lihat :doc:`backup`"
+msgstr "Pencadangan, lihat :doc:`backup`."
 
 #: ../../admin/admin.rst:16
-#, fuzzy
-#| msgid "Shared translation memory, see :doc:`memory`"
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr "Memori terjemahan bersama, lihat :doc:`memory`"
+msgstr "Memori terjemahan bersama, lihat :doc:`memory`."
 
 #: ../../admin/admin.rst:17
 msgid ""
@@ -4205,16 +4218,12 @@ msgstr ""
 "antrian Celery."
 
 #: ../../admin/admin.rst:18
-#, fuzzy
-#| msgid "SSH keys management, see :ref:`ssh-repos`"
 msgid "SSH keys management, see :ref:`ssh-repos`."
-msgstr "Manajemen kunci SSH, lihat :ref:`ssh-repos`"
+msgstr "Manajemen kunci SSH, lihat :ref:`ssh-repos`."
 
 #: ../../admin/admin.rst:19
-#, fuzzy
-#| msgid "Alerts overview for all components, see :ref:`alerts`"
 msgid "Alerts overview for all components, see :ref:`alerts`."
-msgstr "Ikhtisar peringatan untuk semua komponen, lihat :ref:`alerts`"
+msgstr "Ikhtisar peringatan untuk semua komponen, lihat :ref:`alerts`."
 
 #: ../../admin/admin.rst:20
 msgid "Users and teams, see :ref:`custom-acl`."
@@ -4241,6 +4250,7 @@ msgid ""
 "This page provides an overview of Weblate configuration and performance "
 "status."
 msgstr ""
+"Halaman ini menyediakan ikhtisar konfigurasi dan status kinerja Weblate."
 
 #: ../../admin/admin.rst:32
 msgid ""
@@ -4249,6 +4259,10 @@ msgid ""
 "deps`), configuration issues or delayed processing of background tasks (see :"
 "ref:`celery`)."
 msgstr ""
+":guilabel:`Configuration errors` menunjukkan adanya masalah di lingkungan "
+"Anda. Ini mencakup dependensi opsional yang hilang (lihat :ref:`python-deps`)"
+", masalah konfigurasi, atau pemrosesan tugas latar belakang yang tertunda ("
+"lihat :ref:`celery`)."
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -4256,6 +4270,10 @@ msgid ""
 "silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also :doc:"
 "`django:howto/deployment/checklist`."
 msgstr ""
+":guilabel:`System checks` mencantumkan kemungkinan masalah konfigurasi. "
+"Masalah ini dapat diatasi menggunakan "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, lihat juga :doc:`django:howto/"
+"deployment/checklist`."
 
 #: ../../admin/admin.rst:40
 msgid ""
@@ -4263,38 +4281,48 @@ msgid ""
 "typically should be close to zero. The same can be obtained on the command "
 "line using :wladmin:`celery_queues`."
 msgstr ""
+":guilabel:`Celery queues` memberikan ikhtisar antrian Celery. Antrian ini "
+"biasanya mendekati nol. Hal yang sama dapat diperoleh di baris perintah "
+"menggunakan :wladmin:`celery_queues`."
 
 #: ../../admin/admin.rst:44
 msgid ""
 ":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
 "This needs to be configured in your system, see :ref:`production-encoding`."
 msgstr ""
+":guilabel:`System encoding` harus mencantumkan pengodean ``UTF-8`` di semua "
+"proses. Ini perlu dikonfigurasi di sistem Anda, lihat :ref:`production-"
+"encoding`."
 
 #: ../../admin/admin.rst:47
 msgid ""
 ":guilabel:`Connectivity` shows latencies to the database, cache, and Celery. "
 "This might be useful to diagnose connectivity issues."
 msgstr ""
+":guilabel:`Connectivity` menunjukkan latensi ke basis data, simpanan "
+"temporer, dan Celery. Ini mungkin berguna untuk mendiagnosis masalah "
+"konektivitas."
 
 #: ../../admin/admin.rst:54
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Appearance customization"
-msgstr "Mengatur ulang kustomisasi"
+msgstr "Kustomisasi tampilan"
 
 #: ../../admin/admin.rst:60
 msgid ""
 "The colors are currently used in both dark and light theme, so be careful "
 "when choosing them."
 msgstr ""
+"Warna-warna saat ini digunakan dalam tema gelap dan terang, jadi berhati-"
+"hatilah saat memilihnya."
 
 #: ../../admin/admin.rst:63
 msgid "Colors, fonts, and page appearance can be customized here."
-msgstr ""
+msgstr "Warna, font, dan tampilan halaman dapat disesuaikan di sini."
 
 #: ../../admin/admin.rst:67
 msgid "If you are looking for more customization, see :doc:`/admin/customize`."
 msgstr ""
+"Jika Anda mencari lebih banyak penyesuaian, lihat :doc:`/admin/customize`."
 
 #: ../../admin/admin.rst:72
 msgid "The Django admin interface"
@@ -4306,6 +4334,9 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Gunakan dengan hati-hati karena ini adalah antarmuka tingkat rendah. Anda "
+"seharusnya tidak membutuhkannya dalam kebanyakan kasus karena sebagian besar "
+"hal dapat diakses dengan mudah melalui UI atau API Weblate."
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -4425,16 +4456,12 @@ msgstr ""
 "web hingga menentukan target terjemahan."
 
 #: ../../admin/announcements.rst:18
-#, fuzzy
-#| msgid ""
-#| "The announcements can posted on each level in the :guilabel:`Manage` "
-#| "menu, using :guilabel:`Post announcement`:"
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Operations` "
 "menu, using :guilabel:`Post announcement`:"
 msgstr ""
-"Pengumuman dapat diposting pada setiap level di menu :guilabel:`Kelola`, "
-"menggunakan :guilabel:`Posting pengumuman`:"
+"Pengumuman dapat diposting di setiap tingkat di :guilabel:`Operations`, "
+"menggunakan :guilabel:`Post announcement`:"
 
 #: ../../admin/announcements.rst:21
 msgid ""
@@ -4542,21 +4569,17 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate mengandalkan Django untuk autentikasi. Ini mencakup autentikasi "
+"berbasis kata sandi bawaan, autentikasi sosial, dan backend autentikasi "
+"pihak ketiga untuk Django."
 
 #: ../../admin/auth.rst:24
-#, fuzzy
-#| msgid ""
-#| "The built-in solution of Django is used for authentication, including "
-#| "various social options to do so. Using it means you can import the user "
-#| "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Solusi bawaan Django digunakan untuk autentikasi, termasuk berbagai opsi "
-"sosial untuk melakukannya. Menggunakannya berarti Anda dapat mengimpor basis "
-"data pengguna dari proyek berbasis Django lainnya (lihat :ref:`pootle-"
-"migration`)."
+"Menggunakan autentikasi bawaan Django berarti Anda dapat mengimpor basis "
+"data pengguna proyek berbasis Django lainnya (lihat :ref:`pootle-migration`)."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -4658,27 +4681,14 @@ msgstr ""
 "Weblate semua rahasianya:"
 
 #: ../../admin/auth.rst:112
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
 "GitHub harus dikonfigurasi untuk memiliki URL panggilan balik sebagai "
-"``https://example.com/accounts/complete/github/``."
+"``https://WEBLATE SERVER/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:115
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``. Their callback URLs are ``https://"
-#| "example.com/accounts/complete/github-org/`` and ``https://example.com/"
-#| "accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -4687,12 +4697,13 @@ msgid ""
 "Their callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-"
 "org/`` and ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 msgstr ""
-"Ada backend autentikasi serupa untuk GitHub untuk Organisasi dan GitHub "
-"untuk Tim. Pengaturannya diberi nama ``SOCIAL_AUTH_GITHUB_ORG_*`` dan "
-"``SOCIAL_AUTH_GITHUB_TEAM_*``, dan memerlukan pengaturan cakupan tambahan "
-"yaitu ``SOCIAL_AUTH_GITHUB_ORG_NAME`` atau ``SOCIAL_AUTH_GITHUB_TEAM_ID``. "
-"URL panggilan balik mereka adalah ``https://example.com/accounts/complete/"
-"github-org/`` dan ``https://example.com/accounts/complete/github-teams/``."
+"Terdapat backend autentikasi serupa untuk GitHub for Organizations dan "
+"GitHub for Teams. Pengaturannya bernama ``SOCIAL_AUTH_GITHUB_ORG_*`` dan "
+"``SOCIAL_AUTH_GITHUB_TEAM_*``, dan keduanya memerlukan pengaturan tambahan "
+"untuk cakupannya - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` atau "
+"``SOCIAL_AUTH_GITHUB_TEAM_ID``. URL panggilan baliknya adalah ``https://"
+"WEBLATE SERVER/accounts/complete/github-org/`` dan ``https://WEBLATE SERVER/"
+"accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -4706,34 +4717,24 @@ msgstr ""
 "`production-site`."
 
 #: ../../admin/auth.rst:131
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub EE authentication"
-msgstr "Autentikasi GitHub"
+msgstr "Autentikasi GitHub EE"
 
 #: ../../admin/auth.rst:133
-#, fuzzy
-#| msgid ""
-#| "You need to register an OAuth application on GitHub and then tell Weblate "
-#| "all its secrets:"
 msgid ""
 "You need to register an OAuth App on GitHub EE and then tell Weblate all its "
 "secrets:"
 msgstr ""
-"Anda perlu mendaftarkan aplikasi OAuth di GitHub kemudian memberi tahu "
-"Weblate semua rahasianya:"
+"Anda perlu mendaftarkan Aplikasi OAuth di GitHub EE dan kemudian memberi "
+"tahu Weblate semua rahasianya:"
 
 #: ../../admin/auth.rst:151
-#, fuzzy
-#| msgid ""
-#| "The GitHub should be configured to have callback URL as ``https://example."
-#| "com/accounts/complete/github/``."
 msgid ""
 "The GitHub OAuth App should be configured to have callback URL as ``https://"
 "WEBLATE SERVER/accounts/complete/github-enterprise/``."
 msgstr ""
-"GitHub harus dikonfigurasi untuk memiliki URL panggilan balik sebagai "
-"``https://example.com/accounts/complete/github/``."
+"Aplikasi GitHub OAuth harus dikonfigurasi untuk memiliki URL panggilan balik "
+"sebagai ``https://WEBLATE SERVER/accounts/complete/github-enterprise/``."
 
 #: ../../admin/auth.rst:154
 msgid ""
@@ -4742,6 +4743,11 @@ msgid ""
 "If you decide to use GitHub App, you need to enable `Access: Read-only` "
 "permission for Users - <Email addresses> and Organisation - <Members>."
 msgstr ""
+"Selain Aplikasi OAuth GitHub, Aplikasi GitHub juga dapat digunakan. Dengan "
+"Aplikasi GitHub, izin dapat diberikan pada repositori, organisasi, dan/atau "
+"tingkat pengguna. Jika Anda memutuskan untuk menggunakan Aplikasi GitHub, "
+"Anda perlu mengaktifkan izin `Akses: Hany baca` untuk Pengguna - <Alamat "
+"surel> dan Organisasi - <Anggota>."
 
 #: ../../admin/auth.rst:168
 msgid "Bitbucket authentication"
@@ -4760,28 +4766,20 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:197
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application on <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an application at <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"Untuk menggunakan Google OAuth 2, Anda harus mendaftarkan aplikasi di "
-"<https://console.developers.google.com/> dan mengaktifkan Google+ API."
+"Untuk menggunakan Google OAuth 2, Anda perlu mendaftarkan aplikasi di "
+"<https://console.developers.google.com/> dan mengaktifkan API Google+."
 
 #: ../../admin/auth.rst:200
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-"
-#| "oauth2/``"
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``."
 msgstr ""
-"URL pengalihannya adalah ``https://WEBLATE SERVER/accounts/complete/google-"
-"oauth2/``"
+"URL pengalihannya adalah ``https://WEBLATE SERVER/accounts/complete/"
+"google-oauth2/``."
 
 #: ../../admin/auth.rst:224
 msgid "Facebook OAuth 2"
@@ -4797,24 +4795,17 @@ msgstr ""
 "menggunakannya:"
 
 #: ../../admin/auth.rst:229
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``."
 msgstr ""
 "URL pengalihannya adalah ``https://WEBLATE SERVER/accounts/complete/facebook/"
-"``"
+"``."
 
 #: ../../admin/auth.rst:255
 msgid "GitLab OAuth 2"
 msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:257
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
@@ -4831,31 +4822,22 @@ msgstr ""
 "`` dan pastikan Anda menandai cakupan `read_user`."
 
 #: ../../admin/auth.rst:289
-#, fuzzy
-#| msgid "GitLab OAuth 2"
 msgid "Gitea OAuth 2"
-msgstr "GitLab OAuth 2"
+msgstr "Gitea OAuth 2"
 
 #: ../../admin/auth.rst:291
-#, fuzzy
-#| msgid ""
-#| "For using GitLab OAuth 2, you need to register an application on <https://"
-#| "gitlab.com/profile/applications>."
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
-"Untuk menggunakan GitLab OAuth 2, Anda perlu mendaftarkan aplikasi di "
-"<https://gitlab.com/profile/applications>."
+"Untuk menggunakan Gitea OAuth 2, Anda perlu mendaftarkan aplikasi di "
+"``https://GITEA SERVER/user/settings/applications``."
 
 #: ../../admin/auth.rst:294
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
-"URL pengalihannya adalah ``https://WEBLATE SERVER/accounts/complete/slack/``."
+"URL pengalihannya adalah ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 
 #: ../../admin/auth.rst:316
 msgid ""
@@ -4863,6 +4845,9 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <https://"
 "translate.codeberg.org>`_."
 msgstr ""
+"Konfigurasi di atas juga berfungsi dengan Forgejo; untuk contoh penerapan "
+"produksi dengan Forgejo, lihat `Codeberg Translate "
+"<https://translate.codeberg.org>`_."
 
 #: ../../admin/auth.rst:327
 msgid "Microsoft Azure Active Directory"
@@ -4888,35 +4873,37 @@ msgstr ""
 
 #: ../../admin/auth.rst:335
 msgid "You will need following:"
-msgstr ""
+msgstr "Anda akan memerlukan hal berikut:"
 
 #: ../../admin/auth.rst:337
 msgid ""
 "*Application (client) ID* can be obtained from application page. *Object ID* "
 "is not used in Weblate."
 msgstr ""
+"*ID Aplikasi (klien)* dapat diperoleh dari halaman aplikasi. *ID Objek* "
+"tidak digunakan di Weblate."
 
 #: ../../admin/auth.rst:338
 msgid ""
 "*Directory (tenant) ID* is needed for tenant scoped authentication, what is "
 "usually desired."
 msgstr ""
+"*ID Direktori (penyewa)* diperlukan untuk autentikasi cakupan penyewa, yang "
+"biasanya diinginkan."
 
 #: ../../admin/auth.rst:339
 msgid ""
 "*Secret value* is displayed once you generate a secret for an application. "
 "*Secret ID* is not used in Weblate."
 msgstr ""
+"*Nilai rahasia* ditampilkan setelah Anda membuat rahasia untuk aplikasi. *ID "
+"Rahasia* tidak digunakan di Weblate."
 
 #: ../../admin/auth.rst:383 ../../admin/install/docker.rst:1410
 msgid "Slack"
 msgstr "Slack"
 
 #: ../../admin/auth.rst:385
-#, fuzzy
-#| msgid ""
-#| "For using Slack OAuth 2, you need to register an application on <https://"
-#| "api.slack.com/apps>."
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://api."
 "slack.com/apps>."
@@ -4980,13 +4967,12 @@ msgstr ""
 "admin/login/``."
 
 #: ../../admin/auth.rst:441
-#, fuzzy
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
-"Untuk contoh autentikasi menggunakan hanya penyedia Open ID openSUSE dapat "
-"dilakukan seperti berikut:"
+"Misalnya, autentikasi hanya menggunakan penyedia Open ID openSUSE dapat "
+"dicapai dengan menggunakan yang berikut ini:"
 
 #: ../../admin/auth.rst:455
 msgid "Password authentication"
@@ -5004,22 +4990,16 @@ msgstr ""
 "sesuai dengan kebijakan kata sandi Anda."
 
 #: ../../admin/auth.rst:461
-#, fuzzy
-#| msgid ""
-#| "Additionally you can also install `django-zxcvbn-password <https://pypi."
-#| "org/project/django-zxcvbn-password/>`_ which gives quite realistic "
-#| "estimates of password difficulty and allows rejecting passwords below a "
-#| "certain threshold."
 msgid ""
 "Additionally you can also install `django-zxcvbn-password-validator <https://"
 "github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ which gives "
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
-"Selain itu, Anda juga dapat menginstal `django-zxcvbn-password <https://pypi."
-"org/project/django-zxcvbn-password/>`_ yang mana akan memberikan perkiraan "
-"yang cukup realistis tentang kesulitan kata sandi dan memungkinkan untuk "
-"menolak kata sandi di bawah ambang batas tertentu."
+"Selain itu Anda juga dapat menginstal `django-zxcvbn-password-validator "
+"<https://github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_ "
+"yang memberikan perkiraan kesulitan kata sandi yang cukup realistis dan "
+"memungkinkan penolakan kata sandi di bawah ambang batas tertentu."
 
 #: ../../admin/auth.rst:468
 msgid ""
@@ -5039,6 +5019,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Ketergantungan untuk autentikasi SAML tidak lagi disertakan dalam ekstra "
+"``all`` bawaan. Anda perlu menyertakan ``saml`` saat menginstal paket "
+"Weblate menggunakan pip (``uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:486
 msgid ""
@@ -5191,14 +5174,13 @@ msgid "Using bind password"
 msgstr "Menggunakan kata sandi pengikat"
 
 #: ../../admin/auth.rst:639
-#, fuzzy
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
-"Jika Anda tidak dapat menggunakan ikatan langsung untuk autentikasi, Anda "
-"harus menggunakan pencarian, dan menyediakan pengguna untuk mengikat untuk "
-"pencarian. Sebagai contoh:"
+"Jika Anda tidak dapat menggunakan pengikatan langsung untuk autentikasi, "
+"Anda perlu menggunakan pencarian, dan menyediakan pengguna untuk diikat "
+"dalam pencarian tersebut. Contoh:"
 
 #: ../../admin/auth.rst:654
 msgid "Active Directory integration"
@@ -5312,51 +5294,49 @@ msgstr ""
 "dengan mengharuskan lebih dari sekadar kata sandi untuk masuk."
 
 #: ../../admin/auth.rst:790
-#, fuzzy
-#| msgid "It offers the following options:"
 msgid "Weblate supports the following second factors:"
-msgstr "Hal tersebut menawarkan opsi berikut ini:"
+msgstr "Weblate mendukung faktor kedua berikut:"
 
 #: ../../admin/auth.rst:792
 msgid "Security keys (WebAuthn)"
 msgstr "Kunci keamanan (WebAuthn)"
 
 #: ../../admin/auth.rst:793
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "Both, Passkeys and security keys are supported."
-msgstr "Undangan pengguna dihapus."
+msgstr "Keduanya, Kunci sandi dan kunci keamanan didukung."
 
 #: ../../admin/auth.rst:795
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Kunci sandi memvalidasi identitas Anda menggunakan sentuhan, pengenalan "
+"wajah, kata sandi perangkat, atau PIN karena kunci sandi mencakup verifikasi "
+"pengguna."
 
 #: ../../admin/auth.rst:797
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Kunci keamanan adalah kredensial WebAuthn yang hanya dapat digunakan sebagai "
+"faktor autentikasi kedua, dan ini hanya memvalidasi keberadaan pengguna."
 
 #: ../../admin/auth.rst:799
 msgid "Authenticator apps (TOTP)"
 msgstr "Aplikasi autentikator (TOTP)"
 
 #: ../../admin/auth.rst:800
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps generate one-time passwords that are used as a second "
-#| "factor to verify your identity when prompted during sign-in."
 msgid ""
 "Authenticator apps and browser extensions like Aegis, Bitwarden, Google "
 "Authenticator, 1Password, Authy, Microsoft Authenticator, etc. generate time-"
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
-"Aplikasi autentikator menghasilkan kata sandi sekali pakai yang digunakan "
-"sebagai faktor kedua untuk memverifikasi identitas Anda ketika diminta saat "
-"masuk."
+"Aplikasi autentikator dan ekstensi peramban seperti Aegis, Bitwarden, Google "
+"Authenticator, 1Password, Authy, Microsoft Authenticator, dsb. menghasilkan "
+"kata sandi sekali pakai berbasis waktu yang digunakan sebagai faktor kedua "
+"untuk memverifikasi identitas Anda saat diminta saat masuk."
 
 #: ../../admin/auth.rst:805
 msgid "Recovery codes"
@@ -5376,43 +5356,50 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Jaga keamanan kode pemulihan Anda sama seperti keamanan kata sandi Anda. "
+"Kami sarankan menyimpannya dengan pengelola kata sandi seperti Bitwarden, "
+"1Password, Authy, atau Keeper."
 
 #: ../../admin/auth.rst:810
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Setiap pengguna dapat mengonfigurasi ini di :ref:`profile-account` dan "
+"faktor kedua akan diperlukan untuk masuk sebagai tambahan terhadap metode "
+"autentikasi yang ada."
 
 #: ../../admin/auth.rst:813
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Hal ini dapat diberlakukan untuk pengguna di tingkat proyek (lihat :ref"
+":`project-enforced_2fa`) atau tim."
 
 #: ../../admin/auth.rst:815
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Izin tim dengan autentikasi dua faktor yang diberlakukan tidak akan "
+"diterapkan kepada pengguna yang tidak mengonfigurasinya."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
 msgstr "Mencadangkan dan memindahkan Weblate"
 
 #: ../../admin/backup.rst:9
-#, fuzzy
-#| msgid "Remote backups"
 msgid "Project level backups"
 msgstr "Pencadangan tingkat proyek"
 
 #: ../../admin/backup.rst:15
-#, fuzzy
 msgid ""
 "Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ "
 "as a database."
 msgstr ""
-"Memulihkan pencadangan hanya didukung ketika menggunakan PostgreSQL atau "
-"MariaDB 10.5+ sebagai database."
+"Memulihkan cadangan hanya didukung saat menggunakan PostgreSQL atau MariaDB "
+"10.5+ sebagai basis data."
 
 #: ../../admin/backup.rst:17
 msgid ""
@@ -5420,6 +5407,9 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"Proyek ini mencadangkan semua konten terjemahan dari Weblate (proyek, "
+"komponen, terjemahan, komentar string, saran, atau pemeriksaan). Proyek ini "
+"cocok untuk mentransfer proyek ke instansi Weblate lain."
 
 #: ../../admin/backup.rst:21
 msgid ""
@@ -5427,11 +5417,15 @@ msgid ""
 "`Backups`. The backup can be restored when creating a project (see :ref:"
 "`adding-projects`)."
 msgstr ""
+"Anda dapat melakukan pencadangan proyek di :guilabel:`Operations` ↓ "
+":guilabel:`Backups`. Cadangan dapat dipulihkan saat membuat proyek (lihat "
+":ref:`adding-projects`)."
 
 #: ../../admin/backup.rst:25
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"Cadangan saat ini tidak menyertakan informasi dan riwayat kontrol akses."
 
 #: ../../admin/backup.rst:27
 msgid ""
@@ -5439,6 +5433,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Komentar dan saran dicadangkan dengan nama pengguna yang membuatnya. Setelah "
+"diimpor, nama pengguna tersebut akan diberikan kepada pengguna yang cocok. "
+"Jika tidak ada pengguna dengan nama pengguna tersebut, nama pengguna "
+"tersebut akan diberikan kepada pengguna anonim."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -5446,12 +5444,18 @@ msgid ""
 "`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it "
 "defaults to keep at most 3 backups for 30 days)."
 msgstr ""
+"Cadangan yang dihasilkan disimpan di server sebagaimana dikonfigurasikan "
+"oleh :setting:`PROJECT_BACKUP_KEEP_DAYS` dan "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` (default-nya adalah menyimpan maksimal "
+"3 cadangan selama 30 hari)."
 
 #: ../../admin/backup.rst:35
 msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
+"Gunakan berkas yang dihasilkan untuk mengimpor proyek saat :ref:`adding-"
+"projects` atau di :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -5460,6 +5464,11 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
+"Pemulihan cadangan mungkin gagal jika server pemulihan memiliki set "
+":ref:`languages` yang berbeda atau konfigurasi :setting:`SIMPLIFY_LANGUAGES` "
+"yang berbeda. Pemulihan akan memberi tahu Anda kode bahasa mana yang tidak "
+"dapat diproses dan Anda kemudian dapat menambahkan definisi bahasa yang "
+"hilang secara manual."
 
 #: ../../admin/backup.rst:48
 msgid "Automated backup using BorgBackup"
@@ -5507,7 +5516,7 @@ msgstr "Rekam cadang bulanan selama 6 bulan ke belakang"
 
 #: ../../admin/backup.rst:70
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Kunci enkripsi Borg"
 
 #: ../../admin/backup.rst:72
 msgid ""
@@ -5565,6 +5574,8 @@ msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Masukkan kunci yang diperoleh di antarmuka manajemen, lihat :ref:`activate-"
+"support`."
 
 #: ../../admin/backup.rst:100
 msgid ""
@@ -5613,11 +5624,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:121
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` dalam dokumentasi Borg"
 
 #: ../../admin/backup.rst:124
 msgid "Local filesystem"
-msgstr ""
+msgstr "Sistem berkas lokal"
 
 #: ../../admin/backup.rst:126
 msgid ""
@@ -5690,6 +5701,8 @@ msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Instal server SSH di dalamnya (Anda akan mendapatkannya secara bawaan di "
+"sebagian besar distribusi Linux)."
 
 #: ../../admin/backup.rst:163
 msgid ""
@@ -5704,12 +5717,16 @@ msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Pilih pengguna yang sudah ada atau buat pengguna baru yang akan digunakan "
+"untuk pencadangan."
 
 #: ../../admin/backup.rst:165
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Tambahkan kunci SSH Weblate ke pengguna sehingga Weblate dapat SSH ke server "
+"tanpa kata sandi (lihat :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:166
 msgid ""
@@ -5727,7 +5744,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:174
 msgid ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
-msgstr ""
+msgstr ":ref:`weblate-ssh-key`, :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:179
 msgid "Restoring from BorgBackup"
@@ -5787,26 +5804,32 @@ msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Salin seluruh direktori data yang dipulihkan ke lokasi yang dikonfigurasikan "
+"oleh :setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:199
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Saat menggunakan kontainer Docker, tempatkan data ke dalam volume data, "
+"lihat :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:202
 msgid ""
 "Please ensure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Pastikan berkas memiliki kepemilikan dan izin yang benar, lihat :ref:`file-"
+"permissions`."
 
 #: ../../admin/backup.rst:204
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "Sesi Borg mungkin terlihat seperti ini:"
 
 #: ../../admin/backup.rst:216
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:224
 msgid "Manual backup"
@@ -5817,6 +5840,8 @@ msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"Bergantung pada apa yang ingin Anda simpan, cadangkan jenis data yang "
+"disimpan Weblate di masing-masing tempat."
 
 #: ../../admin/backup.rst:230
 msgid ""
@@ -5832,11 +5857,12 @@ msgstr ""
 
 #: ../../admin/backup.rst:240 ../../admin/install.rst:142
 msgid "Database"
-msgstr ""
+msgstr "Basis data"
 
 #: ../../admin/backup.rst:242
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"Lokasi penyimpanan sesungguhnya bergantung pada pengaturan basis data Anda."
 
 #: ../../admin/backup.rst:246
 msgid ""
@@ -5934,13 +5960,15 @@ msgstr ""
 
 #: ../../admin/backup.rst:294
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Data yang dibuang untuk cadangan"
 
 #: ../../admin/backup.rst:298
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Buangan lingkungan ditambahkan sebagai :file:`environment.yml` untuk "
+"membantu dalam pemulihan di lingkungan Docker."
 
 #: ../../admin/backup.rst:301
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
@@ -5952,12 +5980,18 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate menyimpan berbagai data di sini, dan Anda dapat menyertakan berkas-"
+"berkas ini untuk pencadangan yang lebih lengkap. Berkas-berkas ini "
+"diperbarui setiap hari (memerlukan server Celery beats yang berjalan, lihat "
+":ref:`celery`). Saat ini, berkas-berkas ini mencakup:"
 
 #: ../../admin/backup.rst:307
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Pengaturan Weblate sebagai :file:`settings.py` (ada juga versi yang "
+"diperluas di :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:308
 msgid "PostgreSQL database backup as :file:`database.sql`."
@@ -5965,7 +5999,7 @@ msgstr "Rekam cadang basis data PostgreSQL sebagai :file:`database.sql`."
 
 #: ../../admin/backup.rst:309
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Buangan lingkungan sebagai :file:`environment.yml`."
 
 #: ../../admin/backup.rst:311
 msgid ""
@@ -5977,22 +6011,19 @@ msgstr ""
 "`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:314
-#, fuzzy
-#| msgid ""
-#| "To restore the database backup load it using database tools, for example:"
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
-"Untuk memulihkan rekam cadang basis data, muatlah menggunakan alat basis "
-"data, misalnya:"
+"Untuk memulihkan cadangan basis data, muat menggunakan alat basis data, "
+"misalnya:"
 
 #: ../../admin/backup.rst:321
 msgid "Version control repositories"
-msgstr ""
+msgstr "Repositori kontrol versi"
 
 #: ../../admin/backup.rst:323
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Disimpan di :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:325
 msgid ""
@@ -6003,15 +6034,21 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location with no "
 "data loss."
 msgstr ""
+"Repositori kontrol versi berisi salinan repositori hulu Anda dengan "
+"perubahan Weblate. Jika Anda mengaktifkan :ref:`component-push_on_commit` "
+"untuk semua komponen terjemahan Anda, semua perubahan Weblate akan "
+"disertakan di hulu. Tidak perlu mencadangkan repositori di sisi Weblate "
+"karena dapat dikloning ulang dari lokasi hulu tanpa kehilangan data."
 
 #: ../../admin/backup.rst:332
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "Kunci SSH dan GPG"
 
 #: ../../admin/backup.rst:334
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Disimpan di :setting:`DATA_DIR` ``/ssh`` dan :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:336
 msgid ""
@@ -6019,22 +6056,27 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Jika Anda menggunakan kunci SSH atau GPG yang dihasilkan oleh Weblate, Anda "
+"harus mencadangkan lokasi ini. Jika tidak, Anda akan kehilangan kunci "
+"pribadi dan harus membuat ulang kunci yang baru."
 
 #: ../../admin/backup.rst:341
 msgid "User uploaded files"
-msgstr ""
+msgstr "Berkas yang diunggah pengguna"
 
 #: ../../admin/backup.rst:343
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Disimpan di :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:345
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Anda harus mencadangkan semua berkas yang diunggah pengguna (misalnya "
+":ref:`screenshots`)."
 
 #: ../../admin/backup.rst:348
 msgid "Celery tasks"
-msgstr ""
+msgstr "Tugas Celery"
 
 #: ../../admin/backup.rst:350
 msgid ""
@@ -6058,6 +6100,8 @@ msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
+"Dengan menggunakan pekerjaan cron, Anda dapat mengatur perintah Bash untuk "
+"dieksekusi setiap hari, misalnya:"
 
 #: ../../admin/backup.rst:368
 msgid ""
@@ -6074,21 +6118,23 @@ msgstr "Memulihkan rekam cadang manual"
 
 #: ../../admin/backup.rst:377
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Pulihkan semua data yang telah Anda cadangkan."
 
 #: ../../admin/backup.rst:379
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr ""
+msgstr "Perbarui semua repositori menggunakan :wladmin:`updategit`."
 
 #: ../../admin/backup.rst:386
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Memindahkan instalasi Weblate"
 
 #: ../../admin/backup.rst:388
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
+"Pindahkan instalasi Anda ke sistem lain dengan mengikuti petunjuk "
+"pencadangan dan pemulihan di atas."
 
 #: ../../admin/backup.rst:393
 msgid ""
@@ -6096,42 +6142,54 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgstr ""
+"`Peningkatan dari Python 2 ke Python 3 dalam dokumentasi Weblate 3.11.1 "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "Pemeriksaan dan perbaikan"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Perbaikan otomatis khusus"
 
 #: ../../admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Anda juga dapat menerapkan perbaikan otomatis Anda sendiri selain yang "
+"standar dan memasukkannya dalam :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage; be careful when "
 "writing one."
 msgstr ""
+"Perbaikan otomatis memang ampuh, tetapi juga dapat menyebabkan kerusakan; "
+"berhati-hatilah saat menuliskannya."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Misalnya, perbaikan otomatis berikut akan mengganti setiap kemunculan string "
+"``foo`` dalam terjemahan dengan ``bar``:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Untuk menginstal pemeriksaan khusus, berikan jalur yang sepenuhnya memenuhi "
+"syarat ke kelas Python di :setting:`AUTOFIX_LIST`, lihat :ref:`custom-check-"
+"modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr ""
+msgstr "Menyesuaikan perilaku menggunakan tanda"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -6139,6 +6197,10 @@ msgid ""
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
 msgstr ""
+"Anda dapat menyempurnakan perilaku Weblate dengan menggunakan tanda. Tanda "
+"ini memberikan umpan balik visual kepada penerjemah dan membantu mereka "
+"meningkatkan terjemahan. Tanda-tanda ini digabungkan dari sumber-sumber "
+"berikut:"
 
 #: ../../admin/checks.rst:33
 msgid "Source string additional flags:"
@@ -6146,29 +6208,34 @@ msgstr "Bendera tambahan string sumber:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` menjelaskan penyuntingan manual."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr ""
+msgstr ":ref:`bulk-edit` dapat digunakan untuk menerapkan tanda secara batch."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+"Pengaya :ref:`addon-weblate.flags.bulk` dapat menerapkan tanda secara "
+"otomatis."
 
 #: ../../admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
 msgstr ""
+"Bendera per-string yang diekstrak dari format berkas, lihat :ref:`formats`."
 
 #: ../../admin/checks.rst:40
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
+"Tanda terjemahan (saat ini hanya tanda ``hanya baca`` untuk string sumber "
+"dwibahasa)."
 
 #: ../../admin/checks.rst:41
 msgid "File-format specific flags."
-msgstr ""
+msgstr "Tanda khusus format berkas."
 
 #: ../../admin/checks.rst:42
 msgid ":ref:`component` (:ref:`component-check_flags`)."
@@ -6184,12 +6251,17 @@ msgid ""
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
+"Tanda dipisahkan dengan koma; jika memiliki parameter, dipisahkan dengan "
+"titik dua. Anda dapat menggunakan tanda kutip untuk menambahkan spasi atau "
+"karakter khusus dalam string. Misalnya:"
 
 #: ../../admin/checks.rst:53
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Kutipan tunggal dan ganda diterima, karakter khusus di-escape menggunakan "
+"garis miring terbalik:"
 
 #: ../../admin/checks.rst:63
 msgid ""
@@ -6197,12 +6269,17 @@ msgid ""
 "A failing check will be triggered if the string ``### Index`` is translated "
 "as ``# Indice``."
 msgstr ""
+"Untuk memverifikasi bahwa penerjemah tidak mengubah judul dokumen Markdown. "
+"Pemeriksaan gagal akan dipicu jika string ``### Index`` diterjemahkan "
+"sebagai ``# Indice``."
 
 #: ../../admin/checks.rst:70
 msgid ""
 "To ensure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Untuk memastikan bahwa tautan internal tidak diterjemahkan (misalnya `[test]("
+"../checks)` tidak menjadi `[test](../chequeos)`."
 
 #: ../../admin/checks.rst:73
 msgid ""
@@ -6211,10 +6288,14 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"Tanda yang didefinisikan pada tingkat yang lebih tinggi dapat diabaikan "
+"menggunakan sintaksis ``discard:NAME``. Misalnya, jika suatu komponen "
+"dikonfigurasi sebagai ``safe-html``, Anda dapat menambahkan ``discard:safe-"
+"html`` ke tanda string untuk melewatinya pada string khusus ini."
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Berikut adalah daftar tanda yang saat ini diterima:"
 
 #: ../../admin/checks.rst:81
 msgid ""
@@ -6434,17 +6515,14 @@ msgid "Enable the :ref:`check-vue-format` quality check."
 msgstr "Aktifkan pemeriksaan kualitas :ref:`check-vue-format`."
 
 #: ../../admin/checks.rst:177
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document. Enable :ref:`check-md-link`, :ref:"
-#| "`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat text as a Markdown document, and provide Markdown syntax highlighting "
 "on the translation text area. Enables :ref:`check-md-link`, :ref:`check-md-"
 "reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Memperlakukan teks sebagai dokumen Markdown. Aktifkan pemeriksaan kualitas :"
-"ref:`check-md-link`, :ref:`check-md-reflink`, dan :ref:`check-md-syntax`."
+"Perlakukan teks sebagai dokumen Markdown, dan berikan penyorotan sintaksis "
+"Markdown pada area teks terjemahan. Mengaktifkan pemeriksaan kualitas :ref"
+":`check-md-link`, :ref:`check-md-reflink`, dan :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:180
 msgid ""
@@ -7211,11 +7289,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:163
-#, fuzzy
-#| msgid "Can not reuse previously used password."
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
-msgstr "Tidak dapat memakai ulang kata sandi yang telah digunakan sebelumnya."
+msgstr ""
+"Berapa hari Weblate menolak penggunaan kembali kata sandi yang digunakan "
+"sebelumnya untuk pengguna."
 
 #: ../../admin/config.rst:165
 msgid ""
@@ -7483,18 +7561,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:436
-#, fuzzy
-#| msgid "Version control repositories for translations."
 msgid "Version-control repositories for translations."
 msgstr "Repositori kontrol versi untuk terjemahan."
 
 #: ../../admin/config.rst:438
-#, fuzzy
-#| msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr ""
-"Rekam cadang data harian, silakan periksa :ref:`backup-dumps` untuk "
-"rinciannya."
+"Data cadangan harian. Silakan periksa :ref:`backup-dumps` untuk rinciannya."
 
 #: ../../admin/config.rst:439
 msgid ":file:`fonts`:"
@@ -7584,10 +7657,8 @@ msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 msgstr ""
 
 #: ../../admin/config.rst:557
-#, fuzzy
-#| msgid "Default add-ons to install on every created component."
 msgid "Default add-ons to install for every created component."
-msgstr "Pengaya bawaan untuk diinstal pada setiap komponen yang dibuat."
+msgstr "Pengaya bawaan yang akan diinstal pada setiap komponen yang dibuat."
 
 #: ../../admin/config.rst:561
 msgid "This setting affects only newly created components."
@@ -7681,11 +7752,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:698
-#, fuzzy
-#| msgid "Whether to allow updating this repository by remote hooks."
 msgid "Whether to turn on anonymous remote hooks."
-msgstr ""
-"Jika ingin mengizinkan pembaruan repositori ini melalui hook jarak jauh."
+msgstr "Apakah akan mengaktifkan kait jarak jauh anonim."
 
 #: ../../admin/config.rst:711
 msgid "Weblate now requires https for WebAuthn support."
@@ -7836,16 +7904,12 @@ msgstr ""
 
 #: ../../admin/config.rst:921 ../../admin/config.rst:961
 #: ../../admin/config.rst:2247
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following configuration is available for each host:"
-msgstr "Terjemahan berikut akan dihapus:"
+msgstr "Konfigurasi berikut tersedia untuk setiap host:"
 
 #: ../../admin/config.rst:924
-#, fuzzy
-#| msgid "SAP username"
 msgid "API user."
-msgstr "Nama pengguna SAP"
+msgstr "Pengguna API."
 
 #: ../../admin/config.rst:926
 msgid "The user workspace slug."
@@ -7878,10 +7942,8 @@ msgid "The name of the Azure DevOps project. This is not the repository name."
 msgstr ""
 
 #: ../../admin/config.rst:966
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "The name of the organization of the project."
-msgstr "Memakai pool terjemahan bersama antar proyek."
+msgstr "Nama organisasi proyek."
 
 #: ../../admin/config.rst:968
 msgid ""
@@ -7927,10 +7989,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1007
-#, fuzzy
-#| msgid "default"
 msgid "On by default."
-msgstr "bawaan, asali"
+msgstr "Aktif secara bawaan."
 
 #: ../../admin/config.rst:1016
 msgid ""
@@ -8026,10 +8086,8 @@ msgstr ""
 "`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:1116
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "The default changed from 1 to -1."
-msgstr "Surel diubah dari {old} menjadi {new}."
+msgstr "Nilai bawaan berubah dari 1 menjadi -1."
 
 #: ../../admin/config.rst:1118
 msgid ""
@@ -8040,41 +8098,32 @@ msgstr ""
 "sebagai alamat IP klien."
 
 #: ../../admin/config.rst:1121
-#, fuzzy
-#| msgid ""
-#| "Depending on your setup, this header might consist of several IP "
-#| "addresses, (for example ``X-Forwarded-For: a, b, client-ip``) and you can "
-#| "configure which address from the header is used as client IP address here."
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
-"Tergantung pada pengaturan Anda, header ini mungkin terdiri atas beberapa "
-"alamat IP, (misalnya ``X-Forwarded-For: a, b, client-ip``) dan Anda bisa "
-"mengonfigurasi alamat mana dari header yang digunakan sebagai alamat IP "
-"klien di sini."
+"Bergantung pada pengaturan Anda, header ini mungkin terdiri dari beberapa "
+"alamat IP, (misalnya ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) dan "
+"Anda dapat mengonfigurasi alamat mana dari header yang digunakan sebagai "
+"alamat IP klien di sini."
 
 #: ../../admin/config.rst:1127
-#, fuzzy
-#| msgid ""
-#| "Setting this affects the security of your installation, you should only "
-#| "configure it to use trusted proxies for determining IP address."
 msgid ""
 "Setting this affects the security of your installation. You should only "
 "configure it to use trusted proxies for determining the IP address. Please "
 "check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-"
 "Forwarded-For#security_and_privacy_concerns> for more details."
 msgstr ""
-"Pengaturan ini dapat memengaruhi keamanan instalasi, Anda harus "
-"mengonfigurasinya untuk menggunakan proksi tepercaya untuk menentukan alamat "
-"IP."
+"Pengaturan ini akan memengaruhi keamanan instalasi Anda. Anda sebaiknya "
+"hanya mengonfigurasinya untuk menggunakan proksi tepercaya dalam menentukan "
+"alamat IP. Silakan periksa <https://developer.mozilla.org/en-US/docs/Web/"
+"HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> untuk "
+"rincian selengkapnya."
 
 #: ../../admin/config.rst:1131
-#, fuzzy
-#| msgid "Defaults to 5."
 msgid "Defaults to -1."
-msgstr "Asali ke 5."
+msgstr "Bawaannya adalah -1."
 
 #: ../../admin/config.rst:1135
 msgid ""
@@ -8300,10 +8349,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1473
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Set to blank string to disable."
-msgstr "Hapus string kosong"
+msgstr "Atur ke string kosong untuk menonaktifkan."
 
 #: ../../admin/config.rst:1477
 msgid ""
@@ -8584,10 +8631,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1800
-#, fuzzy
-#| msgid "This is turned off by default."
 msgid "This is turned off by default now, used to be turned on by default."
-msgstr "Ini dimatikan secara bawaan."
+msgstr ""
+"Ini dinonaktifkan secara bawaan sekarang, dulu diaktifkan secara bawaan."
 
 #: ../../admin/config.rst:1807
 msgid ""
@@ -8829,19 +8875,14 @@ msgstr ""
 "tetap mengaktifkan yang sudah ada, misalnya:"
 
 #: ../../admin/config.rst:2137
-#, fuzzy
-#| msgid ""
-#| "Removing the add-on from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall add-on from "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the add-on from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall the add-on from all "
 "components prior to removing it from this list."
 msgstr ""
-"Menghapus pengaya dari daftar tidak menghapusnya dari komponen. Weblate akan "
-"mogok dalam kasus itu. Harap hapus instalasi pengaya dari semua komponen "
-"sebelum menghapusnya dari daftar ini."
+"Menghapus pengaya dari daftar tidak akan menghapusnya dari komponen. Weblate "
+"akan mogok jika demikian. Harap hapus pengaya dari semua komponen sebelum "
+"menghapusnya dari daftar ini."
 
 #: ../../admin/config.rst:2143
 msgid ""
@@ -13012,10 +13053,8 @@ msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 
 #: ../../admin/install/docker.rst:772
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`IP_PROXY_OFFSET`."
 
 #: ../../admin/install/docker.rst:778
 msgid ""
@@ -13110,10 +13149,8 @@ msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:875
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../admin/install/docker.rst:879
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -13146,11 +13183,10 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:914
-#, fuzzy
-#| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
 msgstr ""
-"Memungkinkan untuk menyesuaikan kepala HTTP ``Content-Security-Policy``."
+"Memungkinkan untuk menyesuaikan header HTTP :http:header:`Content-Security-"
+"Policy`."
 
 #: ../../admin/install/docker.rst:918
 msgid ""
@@ -13164,16 +13200,12 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:932
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`LICENSE_REQUIRED`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`LICENSE_REQUIRED`."
 
 #: ../../admin/install/docker.rst:936
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`WEBSITE_REQUIRED`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/install/docker.rst:940
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -13220,10 +13252,8 @@ msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:999
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`AVATAR_URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:1005
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
@@ -13239,46 +13269,32 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1030
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:1036
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`SUPPORT_STATUS_CHECK`."
 
 #: ../../admin/install/docker.rst:1042
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`EXTRA_HTML_HEAD`."
 
 #: ../../admin/install/docker.rst:1048
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1054
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1060
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1066
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1072
 msgid "Allow CORS requests to API from given origins."
@@ -13329,10 +13345,10 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Atau jalur ke berkas yang berisi kamus Python:"
 
 #: ../../admin/install/docker.rst:1152
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-github` dengan mengubah "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1154 ../../admin/install/docker.rst:1163
 #: ../../admin/install/docker.rst:1172 ../../admin/install/docker.rst:1181
@@ -13342,22 +13358,21 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1161
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-gitlab` dengan mengubah "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1170
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-gitea` dengan mengubah :setting:`GITEA_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1179
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-pagure` dengan mengubah "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1188
 msgid ""
@@ -13366,20 +13381,20 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1196
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by changing :setting:"
 "`BITBUCKETCLOUD_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-bitbucket-cloud` dengan mengubah "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1206
-#, fuzzy
-#| msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
-msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
+msgstr ""
+"Mengonfigurasi :ref:`vcs-azure-devops` dengan mengubah "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1213
 #, fuzzy
@@ -13428,10 +13443,8 @@ msgid "**Example with search and bind against Active Directory:**"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1294
-#, fuzzy
-#| msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
 msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
-msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
+msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:1298
 msgid "GitHub"
@@ -13578,10 +13591,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1480
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
-msgstr ":ref:`password-authentication`"
+msgstr ":ref:`password-authentication`, :setting:`PASSWORD_MINIMAL_STRENGTH`"
 
 #: ../../admin/install/docker.rst:1485
 msgid "PostgreSQL database setup"
@@ -13769,10 +13780,8 @@ msgid "E-mail authentication password."
 msgstr "Kata sandi autentikasi surel."
 
 #: ../../admin/install/docker.rst:1693
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgid ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
+msgstr ":ref:`docker-secrets`, :setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1698
 msgid ""
@@ -13882,22 +13891,16 @@ msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1803
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 
 #: ../../admin/install/docker.rst:1814
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install/docker.rst:1825
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Mengonfigurasi :setting:`SENTRY_SEND_PII`."
 
 #: ../../admin/install/docker.rst:1828
 msgid "Localization CDN"
@@ -13946,16 +13949,12 @@ msgstr ""
 "otomatis dapat disesuaikan dengan variabel berikut ini:"
 
 #: ../../admin/install/docker.rst:1892
-#, fuzzy
-#| msgid ""
-#| ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:"
-#| "`WEBLATE_ADDONS`, :setting:`django:INSTALLED_APPS`"
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 msgstr ""
-":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
-"setting:`django:INSTALLED_APPS`"
+":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS` :setting:`WEBLATE_MACHINERY`"
 
 #: ../../admin/install/docker.rst:1899
 msgid "Container settings"
@@ -14917,10 +14916,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:65
-#, fuzzy
-#| msgid ":ref:`adding-translation`, :ref:`new-translations`"
 msgid ":ref:`language-code`, :ref:`adding-translation`"
-msgstr ":ref:`adding-translation`, :ref:`new-translations`"
+msgstr ":ref:`language-code`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
@@ -14977,10 +14974,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:116
-#, fuzzy
-#| msgid ":ref:`adding-translation`, :ref:`new-translations`"
 msgid ":ref:`language-parsing-codes`, :ref:`adding-translation`"
-msgstr ":ref:`adding-translation`, :ref:`new-translations`"
+msgstr ":ref:`language-parsing-codes`, :ref:`adding-translation`"
 
 #: ../../admin/languages.rst:122 ../../admin/projects.rst:1162
 #: ../../api.rst:775 ../../api.rst:777 ../../api.rst:832 ../../api.rst:843
@@ -15187,10 +15182,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:50
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid ":guilabel:`Automatic selection`"
-msgstr "Menggunakan saran otomatis"
+msgstr ":guilabel:`Automatic selection`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
@@ -15203,10 +15196,8 @@ msgid "This is the default behavior."
 msgstr "Ini dimatikan secara bawaan."
 
 #: ../../admin/machine.rst:54
-#, fuzzy
-#| msgid "Component renamed"
 msgid ":guilabel:`Component source language`"
-msgstr "Komponen diubah namanya"
+msgstr ":guilabel:`Component source language`"
 
 #: ../../admin/machine.rst:55
 #, fuzzy
@@ -15219,18 +15210,16 @@ msgid "This was the behavior before the 5.11 release."
 msgstr ""
 
 #: ../../admin/machine.rst:58
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid ":guilabel:`Secondary language defined in project or component`"
-msgstr "Bahasa baru ditambahkan ke %(component)s"
+msgstr ":guilabel:`Secondary language defined in project or component`"
 
 #: ../../admin/machine.rst:59
-#, fuzzy
-#| msgid ":ref:`languages`, :ref:`component-source_language`"
 msgid ""
 "Use project :ref:`project-secondary_language` or component :ref:`component-"
 "secondary_language`."
-msgstr ":ref:`languages`, :ref:`component-source_language`"
+msgstr ""
+"Gunakan proyek :ref:`project-secondary_language` atau komponen :ref"
+":`component-secondary_language`."
 
 #: ../../admin/machine.rst:61
 msgid ""
@@ -15463,10 +15452,8 @@ msgid "The model's unique deployment name."
 msgstr "Nama penyebaran unik model."
 
 #: ../../admin/machine.rst:189
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
-msgstr "Melakukan pembaruan penuh pada unit terjemahan."
+msgstr "Melakukan penerjemahan menggunakan `OpenAI`_ yang dihosting di Azure."
 
 #: ../../admin/machine.rst:198
 msgid "Baidu"
@@ -15744,16 +15731,12 @@ msgid "`Enable billing for your project.`_"
 msgstr ""
 
 #: ../../admin/machine.rst:407
-#, fuzzy
-#| msgid "Enable machine translation"
 msgid "`Enable the Cloud Translation.`_"
-msgstr "Aktifkan terjemahan mesin"
+msgstr "`Aktifkan Terjemahan Cloud.`_"
 
 #: ../../admin/machine.rst:408
-#, fuzzy
-#| msgid "Authentication"
 msgid "`Setup Authentication.`_"
-msgstr "Autentikasi"
+msgstr "`Atur Autentikasi.`_"
 
 #: ../../admin/machine.rst:416
 msgid ""
@@ -16096,10 +16079,8 @@ msgid "Only needed when model is set to 'Custom model'"
 msgstr "Hanya diperlukan apabila model diatur ke 'Model khusus'"
 
 #: ../../admin/machine.rst:739
-#, fuzzy
-#| msgid "Performs full update on translation unit."
 msgid "Performs translation using `OpenAI`_."
-msgstr "Melakukan pembaruan penuh pada unit terjemahan."
+msgstr "Melakukan penerjemahan menggunakan `OpenAI`_."
 
 #: ../../admin/machine.rst:741
 msgid ""
@@ -17305,12 +17286,12 @@ msgid "Autoclean translation memory"
 msgstr "Pembersihan otomatis memori terjemahan"
 
 #: ../../admin/memory.rst:85
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid ""
 "The translation memory is automatically cleaned up by removing obsolete and "
 "outdated entries."
-msgstr "Terjemahan dikunci secara otomatis karena peringatan berikut:"
+msgstr ""
+"Memori penerjemahan secara otomatis dibersihkan dengan membuang entri yang "
+"usang dan ketinggalan zaman."
 
 #: ../../admin/memory.rst:87
 msgid ""
@@ -18300,16 +18281,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:307
-#, fuzzy
-#| msgid ""
-#| ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-#| "translations`"
 msgid ""
 ":ref:`adding-translation`, :ref:`language-code`, :ref:`language-parsing-"
 "codes`"
 msgstr ""
-":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-"translations`"
+":ref:`adding-translation`, :ref:`language-code`, :ref:`language-parsing-"
+"codes`"
 
 #: ../../admin/projects.rst:314 ../../admin/projects.rst:1023
 msgid "Secondary language"
@@ -18329,10 +18306,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:324 ../../admin/projects.rst:1037
-#, fuzzy
-#| msgid ":ref:`languages`, :ref:`component-source_language`"
 msgid ":ref:`secondary-languages`, :ref:`mt-sources`"
-msgstr ":ref:`languages`, :ref:`component-source_language`"
+msgstr ":ref:`secondary-languages`, :ref:`mt-sources`"
 
 #: ../../admin/projects.rst:330 ../../admin/projects.rst:686
 #: ../../admin/translating.rst:77 ../../formats.rst:432
@@ -18665,16 +18640,12 @@ msgid "Whether to allow editing strings in the :ref:`component-template`."
 msgstr ""
 
 #: ../../admin/projects.rst:561
-#, fuzzy
-#| msgid ""
-#| ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-#| "translations`"
 msgid ""
 ":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref:"
 "`component-manage_units`"
 msgstr ""
-":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-"translations`"
+":ref:`bimono`, :ref:`monolingual`, :ref:`faq-duplicate-files`, :ref"
+":`component-manage_units`"
 
 #: ../../admin/projects.rst:571
 msgid ""
@@ -18751,10 +18722,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:597
-#, fuzzy
-#| msgid ":ref:`component-new_lang`, :ref:`new-translations`"
 msgid "Choose :ref:`component-template` for document translations."
-msgstr ":ref:`component-new_lang`, :ref:`new-translations`"
+msgstr "Pilih :ref:`component-template` untuk terjemahan dokumen."
 
 #: ../../admin/projects.rst:598
 #, fuzzy
@@ -18774,12 +18743,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:609
-#, fuzzy
-#| msgid ":ref:`adding-translation`, :ref:`new-translations`"
 msgid ""
 ":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref:"
 "`faq-duplicate-files`"
-msgstr ":ref:`adding-translation`, :ref:`new-translations`"
+msgstr ""
+":ref:`adding-translation`, :ref:`component-new_lang`, :ref:`bimono`, :ref"
+":`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:619
 msgid "Translation file format, see also :ref:`formats`."
@@ -18820,12 +18789,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:644
-#, fuzzy
-#| msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
 msgid ""
 "The default value can be changed by :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
-msgstr "Nilai bawaan dapat diubah dengan :setting:`DEFAULT_SHARED_TM`."
+msgstr ""
+"Nilai bawaan dapat diubah dengan :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:653 ../../workflows.rst:114 ../../workflows.rst:146
 #: ../../workflows.rst:179
@@ -18859,10 +18827,10 @@ msgid "Enforced checks"
 msgstr "Pemeriksaan paksa"
 
 #: ../../admin/projects.rst:695
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed, see :ref:`enforcing-checks`."
-msgstr "Daftar cek yang tidak bisa diabaikan."
+msgstr ""
+"Daftar pemeriksaan yang tidak dapat dibatalkan, lihat :ref:`enforcing-"
+"checks`."
 
 #: ../../admin/projects.rst:699
 msgid ""
@@ -18950,10 +18918,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:749
-#, fuzzy
-#| msgid ":ref:`adding-translation`, :ref:`new-translations`"
 msgid ":ref:`adding-translation`, :ref:`component-new_base`"
-msgstr ":ref:`adding-translation`, :ref:`new-translations`"
+msgstr ":ref:`adding-translation`, :ref:`component-new_base`"
 
 #: ../../admin/projects.rst:755
 msgid "Manage strings"
@@ -19140,16 +19106,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:835
-#, fuzzy
-#| msgid ""
-#| ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-#| "translations`"
 msgid ""
 ":ref:`adding-translation`, :ref:`language-code`, :ref:`language-parsing-"
 "codes`, :ref:`project-language_aliases`"
 msgstr ""
-":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
-"translations`"
+":ref:`adding-translation`, :ref:`language-code`, :ref:`language-parsing-"
+"codes`, :ref:`project-language_aliases`"
 
 #: ../../admin/projects.rst:843
 msgid "Merge style"
@@ -19206,10 +19168,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:868
-#, fuzzy
-#| msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr "Nilai bawaan dapat diubah dengan :setting:`DEFAULT_SHARED_TM`."
+msgstr "Nilai bawaan dapat diubah dengan :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:878
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -19264,10 +19224,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:908
-#, fuzzy
-#| msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr "Nilai bawaan dapat diubah dengan :setting:`DEFAULT_SHARED_TM`."
+msgstr "Nilai bawaan dapat diubah dengan :setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:912
 msgid ""
@@ -19519,12 +19477,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:1110
-#, fuzzy
-#| msgid "You can configure how you will log in on this site."
 msgid ""
 "You can configure how it will be listed using :ref:`component-"
 "glossary_color`."
-msgstr "Ada dapat mengatur bagaimana Anda akan masuk ke situs ini."
+msgstr ""
+"Anda dapat mengonfigurasikan bagaimana hal itu akan dicantumkan menggunakan "
+":ref:`component-glossary_color`."
 
 #: ../../admin/projects.rst:1112
 msgid ""
@@ -19661,12 +19619,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:1207
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid ""
 "In some places additional variables can be available, see :ref:`addon-"
 "weblate.discovery.discovery`."
-msgstr ":ref:`kelola`, :ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Di beberapa tempat variabel tambahan dapat tersedia, lihat :ref:`addon-"
+"weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1209
 msgid "You can combine them with filters:"
@@ -20794,15 +20752,12 @@ msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:327
-#, fuzzy
-#| msgid ""
-#| "Add-on object attributes are documented at :http:get:`/api/addons/(int:"
-#| "id)/`."
 msgid ""
 "link to translated languages; see :http:get:`/api/languages/(string:"
 "language)/`"
 msgstr ""
-"Atribut objek pengaya didokumentasikan di :http:get:`/api/addons/(int:id)/`."
+"tautan ke bahasa yang diterjemahkan; lihat :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:329 ../../api.rst:528 ../../api.rst:721 ../../api.rst:798
 #: ../../api.rst:909 ../../api.rst:981 ../../api.rst:1382 ../../api.rst:1583
@@ -21257,16 +21212,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:901
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/(string:"
 "project)/credits/`"
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"URL untuk mencantumkan kredit kontributor; lihat :http:get:`/api/projects/"
+"(string:project)/credits/`"
 
 #: ../../api.rst:925
 msgid "Edit a project by a :http:method:`PATCH` request."
@@ -21668,16 +21619,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1368
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"Apakah komponen terkunci, bidang ini hanya baca; lihat :http:get:`/api/"
+"components/(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1375
 msgid ""
@@ -21709,16 +21656,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1380
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/(string:"
 "project)/(string:component)/credits/`"
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"URL untuk mencantumkan kredit kontributor; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1428
 msgid "Edit a component by a :http:method:`PATCH` request."
@@ -22088,13 +22031,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2058
-#, fuzzy
-#| msgid ""
-#| "Add-on object attributes are documented at :http:get:`/api/addons/(int:"
-#| "id)/`."
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
-"Atribut objek pengaya didokumentasikan di :http:get:`/api/addons/(int:id)/`."
+msgstr "Status string; lihat :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2059
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
@@ -23434,10 +23372,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ":doc:`tt:formats/flatxml`"
 msgid ":doc:`/formats/catkeys`."
-msgstr ":doc:`tt:formats/flatxml`"
+msgstr ":doc:`/formats/catkeys`."
 
 #: ../../changes.rst:11
 msgid ""
@@ -23468,10 +23404,8 @@ msgid "Improvements"
 msgstr "Komponen"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
-msgstr "Lokasi string sumber"
+msgstr ":ref:`search-strings` mendukung pencarian ``labels_count:NUMBER``."
 
 #: ../../changes.rst:17
 msgid ""
@@ -23552,12 +23486,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`mt-deepl` integration now correctly handle all supported source "
 "languages."
-msgstr "Lokasi string sumber"
+msgstr ""
+"Integrasi :ref:`mt-deepl` sekarang menangani semua bahasa sumber yang "
+"didukung dengan benar."
 
 #: ../../changes.rst:31
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
@@ -23676,10 +23610,10 @@ msgid "*Released on June 20th 2025.*"
 msgstr "Dirilis pada 19 Juni 2020."
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr "Lokasi string sumber"
+msgstr ""
+"Integrasi :ref:`mt-deepl` sekarang mendukung penggunaan model LLM generasi "
+"berikutnya."
 
 #: ../../changes.rst:59
 #, fuzzy
