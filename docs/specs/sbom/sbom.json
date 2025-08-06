@@ -4064,6 +4064,50 @@
     },
     {
       "type": "library",
+      "bom-ref": "granian==2.5.0",
+      "name": "granian",
+      "version": "2.5.0",
+      "description": "A Rust HTTP server for Python applications",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "acknowledgement": "declared"
+          }
+        },
+        {
+          "license": {
+            "name": "License :: OSI Approved :: BSD License",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/granian@2.5.0",
+      "externalReferences": [
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Source"
+        },
+        {
+          "url": "https://github.com/sponsors/gi0baro",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Funding"
+        },
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "website",
+          "comment": "from packaging metadata Project-URL: Homepage"
+        },
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "website",
+          "comment": "from packaging metadata: Home-page"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "bom-ref": "grpc-google-iam-v1==0.14.2",
       "name": "grpc-google-iam-v1",
       "version": "0.14.2",
@@ -8619,6 +8663,12 @@
       ]
     },
     {
+      "ref": "granian==2.5.0",
+      "dependsOn": [
+        "click==8.2.1"
+      ]
+    },
+    {
       "ref": "grpc-google-iam-v1==0.14.2",
       "dependsOn": [
         "googleapis-common-protos==1.70.0",
@@ -9252,6 +9302,7 @@
         "git-review==2.5.0",
         "google-cloud-storage==3.2.0",
         "google-cloud-translate==3.21.1",
+        "granian==2.5.0",
         "gunicorn==23.0.0",
         "hiredis==3.2.1",
         "html2text==2025.4.15",
