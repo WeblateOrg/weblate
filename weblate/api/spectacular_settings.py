@@ -56,7 +56,7 @@ def get_spectacular_settings(
         ],
         # Document only API (not webauthn and other drf endpoints)
         "SERVE_URLCONF": "weblate.api.urls",
-        "TITLE": gettext_lazy("Weblate's REST API"),
+        "TITLE": gettext_lazy("Weblate REST API"),
         "LICENSE": {
             "name": "GNU General Public License v3 or later",
             "url": lazy(get_doc_url_wrapper, str)("contributing/license"),
