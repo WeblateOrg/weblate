@@ -154,10 +154,9 @@ def render_widget(
 ):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
-        request,
+        None,
         path,
         (Component, ProjectLanguage, Project, Translation, Language, None),
-        skip_acl=True,
     )
     lang = set_lang = None
     if isinstance(obj, Language):

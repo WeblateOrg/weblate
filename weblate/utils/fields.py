@@ -48,7 +48,7 @@ class EmailField(CaseInsensitiveField):
         # the default in future.
         return name, path, args, kwargs
 
-    def formfield(self, **kwargs):
+    def formfield(self, **kwargs):  # type: ignore[override]
         # As with CharField, this will cause email validation to be performed
         # twice.
         return super().formfield(

@@ -27,7 +27,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.timezone import now
-from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -63,6 +63,8 @@ from weblate.utils.stats import (
 from weblate.utils.token import get_token
 from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
 from weblate.wladmin.models import get_support_status
+
+from .types import ThemeChoices
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -601,11 +603,7 @@ class Profile(models.Model):
         max_length=10,
         verbose_name=gettext_lazy("Theme"),
         default="auto",
-        choices=(
-            ("auto", pgettext_lazy("Theme selection", "Sync with system")),
-            ("light", pgettext_lazy("Theme selection", "Light")),
-            ("dark", pgettext_lazy("Theme selection", "Dark")),
-        ),
+        choices=ThemeChoices,
     )
     hide_completed = models.BooleanField(
         verbose_name=gettext_lazy("Hide completed translations on the dashboard"),
