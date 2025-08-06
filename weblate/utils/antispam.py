@@ -13,7 +13,7 @@ from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from django.http import HttpRequest
 
 
 def get_akismet():
@@ -29,7 +29,7 @@ def get_akismet():
     )
 
 
-def is_spam(request: AuthenticatedHttpRequest, texts: str | list[str]) -> bool:
+def is_spam(request: HttpRequest, texts: str | list[str]) -> bool:
     """Check whether text is considered spam."""
     if not texts or not any(texts):
         return False
