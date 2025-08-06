@@ -201,7 +201,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
     return settings
 
 
-def get_drf_standardized_errors_sertings() -> dict[str, Any]:
+def get_drf_standardized_errors_settings() -> dict[str, Any]:
     return {
         "ALLOWED_ERROR_STATUS_CODES": [
             "400",
