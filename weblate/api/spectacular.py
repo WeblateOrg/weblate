@@ -313,3 +313,10 @@ class DynamicSchemaView(SpectacularAPIView):
         resp.data = schema
         return resp
 
+
+class DynamicRedocView(SpectacularRedocView):
+    def _get_schema_url(self, request):
+        base = get_relative_url(reverse(self.url_name, request=request))
+        qs = urlencode(list(request.GET.lists()), doseq=True, safe="./?&,")
+        return f"{base}?{qs}" if qs else base
+
