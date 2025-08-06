@@ -2395,6 +2395,14 @@ class Component(
 
                 raise
 
+            # Delete alerts
+            if self.id:
+                self.delete_alert("MergeFailure")
+                self.delete_alert("RepositoryOutdated")
+                if not self.repo_needs_push():
+                    self.delete_alert("PushFailure")
+
+            # New upstream matches previous local revision
             if self.local_revision == new_head:
                 return False
 
@@ -2411,12 +2419,6 @@ class Component(
                 # The files have been updated and the signal receivers (addons)
                 # might need to access the template
                 self.drop_template_store_cache()
-
-                # Delete alerts
-                self.delete_alert("MergeFailure")
-                self.delete_alert("RepositoryOutdated")
-                if not self.repo_needs_push():
-                    self.delete_alert("PushFailure")
 
                 # Run post update hook, this should be done with repo lock held
                 # to avoid possible race with another update
