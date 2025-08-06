@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-06 15:02+0000\n"
+"PO-Revision-Date: 2025-08-07 09:33+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -795,7 +795,7 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Jika tim menentukan :guilabel:`Component list` apa pun, semua izin yang "
+"Jika tim menentukan :guilabel:`Component list` apa pun, semua izin yang "
 "diberikan kepada anggota tim tersebut diberikan untuk semua komponen dalam "
 "daftar komponen yang terlampir pada tim, dan akses tanpa izin tambahan "
 "diberikan untuk semua proyek tempat komponen tersebut berada. "
@@ -6302,24 +6302,34 @@ msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgstr ""
+"Memperlakukan teks sebagai dokumen reStructuredText akan memengaruhi :ref"
+":`check-same`. Mengaktifkan :ref:`check-rst-syntax` dan :ref:`check-rst-"
+"references`."
 
 #: ../../admin/checks.rst:84
 msgid ""
 "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:"
 "`check-same`."
 msgstr ""
+"Memperlakukan teks sebagai dokumen Bulletin Board Code (BBCode), memengaruhi "
+":ref:`check-same`."
 
 #: ../../admin/checks.rst:86
 msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of "
 "``\\n``)."
 msgstr ""
+"Menggunakan penanda akhir baris DOS, bukan penanda Unix (``\\r\\n"
+"``, bukan ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:88
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"String tersebut hanya baca dan tidak boleh disunting di Weblate, lihat :ref"
+":`read-only-strings`."
 
 #: ../../admin/checks.rst:90
 msgid ""
@@ -6327,6 +6337,9 @@ msgid ""
 "can be used consistently in all translations. Also useful in combination "
 "with ``read-only``, for example in product names."
 msgstr ""
+"Digunakan dalam :ref:`glossary`. Menyalin string ke semua bahasa glosarium "
+"agar dapat digunakan secara konsisten dalam semua terjemahan. Juga berguna "
+"jika dikombinasikan dengan ``hanya baca``, misalnya dalam nama produk."
 
 #: ../../admin/checks.rst:92
 msgid ""
@@ -6334,34 +6347,42 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Prioritas string. String dengan prioritas lebih tinggi ditampilkan terlebih "
+"dahulu untuk terjemahan. Prioritas bawaan adalah 100. Semakin tinggi "
+"prioritas suatu string, semakin cepat string tersebut ditawarkan untuk "
+"terjemahan."
 
 #: ../../admin/checks.rst:96
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
+"Batasi panjang maksimal string menjadi N karakter, lihat :ref:`check-max-"
+"length`."
 
 #: ../../admin/checks.rst:98
 msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Memperlakukan teks sebagai dokumen XML, memengaruhi :ref:`check-xml-invalid` "
+"dan :ref:`check-xml-tags`."
 
 #: ../../admin/checks.rst:100
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Tentukan jenis font untuk pemeriksaan rendering, lihat :ref:`fonts`."
 
 #: ../../admin/checks.rst:102
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Tentukan bobot font untuk pemeriksaan rendering, lihat :ref:`fonts`."
 
 #: ../../admin/checks.rst:104
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Tentukan ukuran font untuk pemeriksaan rendering, lihat :ref:`fonts`."
 
 #: ../../admin/checks.rst:106
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Tentukan spasi huruf untuk pemeriksaan rendering, lihat :ref:`fonts`."
 
 #: ../../admin/checks.rst:108
 msgid ""
@@ -6383,6 +6404,8 @@ msgstr ""
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"String tempat yang diharapkan dalam terjemahan, lihat :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:114
 msgid ""
@@ -6391,12 +6414,19 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Penggantian yang dilakukan saat memeriksa parameter teks yang dihasilkan ("
+"misalnya dalam :ref:`check-max-size` atau :ref:`check-max-length`). Kasus "
+"penggunaan umum untuk ini adalah untuk memperluas placeable guna memastikan "
+"teks tetap pas meskipun memiliki nilai yang panjang, misalnya: "
+"``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:119
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
+"Tandai string ini sebagai varian string dengan sumber yang cocok. Lihat "
+":ref:`variants`."
 
 #: ../../admin/checks.rst:121
 msgid "Regular expression to match translation, see :ref:`check-regex`."
@@ -6405,22 +6435,27 @@ msgstr ""
 
 #: ../../admin/checks.rst:123
 msgid "Discards flag defined on a higher level."
-msgstr ""
+msgstr "Membuang tanda yang ditetapkan pada tingkat yang lebih tinggi."
 
 #: ../../admin/checks.rst:125
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Menunjukkan terjemahan terlarang dalam glosarium, lihat :ref:`glossary-"
+"forbidden`."
 
 #: ../../admin/checks.rst:127
 msgid "Make the :ref:`check-same` avoid using the built-in words exceptions."
 msgstr ""
+"Jadikan :ref:`check-same` menghindari penggunaan pengecualian kata bawaan."
 
 #: ../../admin/checks.rst:129
 msgid ""
 "Make format checks enforce using format even for plural forms with a single "
 "value, see :ref:`check-formats`."
 msgstr ""
+"Buat pemeriksaan format diberlakukan menggunakan format bahkan untuk bentuk "
+"jamak dengan nilai tunggal, lihat :ref:`check-formats`."
 
 #: ../../admin/checks.rst:131
 msgid "Enable the :ref:`check-check-glossary` quality check."
@@ -6444,7 +6479,7 @@ msgstr "Aktifkan pemeriksaan kualitas :ref:`check-es-format`."
 
 #: ../../admin/checks.rst:141
 msgid "Enable the :ref:`check-i18next-interpolation` quality check."
-msgstr ""
+msgstr "Aktifkan pemeriksaan kualitas :ref:`check-i18next-interpolation`."
 
 #: ../../admin/checks.rst:143
 msgid "Enable the :ref:`check-icu-message-format` quality check."
@@ -6472,7 +6507,7 @@ msgstr "Aktifkan pemeriksaan kualitas :ref:`check-object-pascal-format`."
 
 #: ../../admin/checks.rst:155
 msgid "Enable the :ref:`check-percent-placeholders` quality check."
-msgstr ""
+msgstr "Aktifkan pemeriksaan kualitas :ref:`check-percent-placeholders`."
 
 #: ../../admin/checks.rst:157
 msgid "Enable the :ref:`check-perl-brace-format` quality check."
@@ -6529,6 +6564,8 @@ msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects only :ref:"
 "`check-placeholders` quality check."
 msgstr ""
+"Sesuaikan perilaku pemeriksaan agar tidak peka huruf kapital. Saat ini hanya "
+"memengaruhi pemeriksaan kualitas :ref:`check-placeholders`."
 
 #: ../../admin/checks.rst:182
 msgid "Enable the :ref:`check-safe-html` quality check."
@@ -6539,6 +6576,8 @@ msgid ""
 "The string should consist of only a URL. Enable the :ref:`check-url` quality "
 "check."
 msgstr ""
+"String harus hanya berisi URL. Aktifkan pemeriksaan kualitas :ref:`check-"
+"url`."
 
 #: ../../admin/checks.rst:187
 msgid "Ignore all quality checks."
@@ -6865,6 +6904,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"Secara umum aturan ini diberi nama ``ignore-*`` untuk pemeriksaan apa pun, "
+"menggunakan pengenalnya, sehingga Anda dapat menggunakan ini bahkan untuk "
+"pemeriksaan khusus Anda."
 
 #: ../../admin/checks.rst:352
 msgid ""
@@ -6872,12 +6914,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Tanda ini dipahami baik dalam pengaturan :ref:`component`, per pengaturan "
+"string sumber dan dalam berkas terjemahan itu sendiri (misalnya dalam GNU "
+"gettext)."
 
 #: ../../admin/checks.rst:358
-#, fuzzy
-#| msgid "Locations"
 msgid "Location-based flags"
-msgstr "Lokasi"
+msgstr "Tanda berbasis lokasi"
 
 #: ../../admin/checks.rst:360
 msgid ""
@@ -6885,47 +6928,51 @@ msgid ""
 "means that certain checks will be automatically enabled depending on where "
 "the string is used."
 msgstr ""
+"Beberapa tanda ditambahkan ke string secara bawaan, berdasarkan lokasinya. "
+"Ini berarti pemeriksaan tertentu akan diaktifkan secara otomatis tergantung "
+"di mana string tersebut digunakan."
 
 #: ../../admin/checks.rst:363
 msgid ""
 "``rst-text``: This flag is automatically added to strings in "
 "reStructuredText files, if location extension is ``.rst``."
 msgstr ""
+"``rst-text``: Tanda ini secara otomatis ditambahkan ke string dalam berkas "
+"reStructuredText, jika ekstensi lokasi adalah ``.rst``."
 
 #: ../../admin/checks.rst:364
 msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown files, "
 "if location extension is ``.md`` or ``.markdown``."
 msgstr ""
+"``md-text``: Tanda ini secara otomatis ditambahkan ke string dalam berkas "
+"Markdown, jika ekstensi lokasi adalah ``.md`` atau ``.markdown``."
 
 #: ../../admin/checks.rst:369
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Menegakkan pemeriksaan"
 
 #: ../../admin/checks.rst:371
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "ref:`component-enforced_checks` in :ref:`component`. Each listed check "
-#| "can not be ignored in the user interface and any string failing this "
-#| "check is marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be dismissed by setting :"
 "ref:`component-enforced_checks` in :ref:`component`. Each listed check can "
 "not be dismissed in the user interface and any string failing this check is "
 "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Anda dapat mengonfigurasi daftar pemeriksaan yang mana tidak dapat diabaikan "
-"dengan menyetel :ref:`component-enforced_checks` di :ref:`component`. Setiap "
-"pemeriksaan yang terdaftar tidak dapat diabaikan dalam antarmuka pengguna "
-"dan string apa pun yang gagal dalam pemeriksaan ini ditandai sebagai :"
-"guilabel:`Perlu disunting` (lihat :ref:`states`)."
+"Anda dapat mengonfigurasi daftar pemeriksaan yang tidak dapat ditutup dengan "
+"mengatur :ref:`component-enforced_checks` di :ref:`component`. Setiap "
+"pemeriksaan yang tercantum tidak dapat ditutup di antarmuka pengguna dan "
+"string apa pun yang gagal dalam pemeriksaan ini ditandai sebagai :guilabel:`"
+"Needs editing` (lihat :ref:`states`)."
 
 #: ../../admin/checks.rst:378
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. The check can be "
 "turned on by adding the corresponding flag to string or component flags."
 msgstr ""
+"Mengaktifkan pemberlakuan pemeriksaan tidak otomatis mengaktifkannya. "
+"Pemeriksaan dapat diaktifkan dengan menambahkan tanda yang sesuai ke tanda "
+"string atau komponen."
 
 #: ../../admin/checks.rst:383
 msgid ":ref:`additional`, :ref:`component-check_flags`"
@@ -6933,13 +6980,16 @@ msgstr ":ref:`additional`, :ref:`component-check_flags`"
 
 #: ../../admin/checks.rst:389
 msgid "Managing fonts"
-msgstr ""
+msgstr "Mengelola font"
 
 #: ../../admin/checks.rst:393
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"Font yang diunggah ke Weblate digunakan murni untuk tujuan pemeriksaan :ref"
+":`check-max-size`, font tersebut tidak memiliki efek pada antarmuka pengguna "
+"Weblate."
 
 #: ../../admin/checks.rst:397
 msgid ""
@@ -6947,6 +6997,9 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"Pemeriksaan :ref:`check-max-size` yang digunakan untuk menghitung dimensi "
+"teks yang ditampilkan memerlukan font yang dimuat ke Weblate dan dipilih "
+"menggunakan tanda terjemahan (lihat :ref:`custom-checks`)."
 
 #: ../../admin/checks.rst:401
 msgid ""
@@ -6955,54 +7008,67 @@ msgid ""
 "and manage fonts. TrueType or OpenType fonts can be uploaded, set up font-"
 "groups and use those in the check."
 msgstr ""
+"Alat manajemen font Weblate di :guilabel:`Fonts` pada menu "
+":guilabel:`Operations` proyek terjemahan Anda menyediakan antarmuka untuk "
+"mengunggah dan mengelola font. Font TrueType atau OpenType dapat diunggah, "
+"grup font dapat diatur, dan font tersebut dapat digunakan dalam pemeriksaan."
 
 #: ../../admin/checks.rst:406
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"Grup font memungkinkan Anda menentukan font yang berbeda untuk bahasa yang "
+"berbeda, yang biasanya diperlukan untuk bahasa non-latin:"
 
 #: ../../admin/checks.rst:411
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"Grup font diidentifikasi berdasarkan nama, yang tidak boleh mengandung spasi "
+"atau karakter khusus, sehingga dapat dengan mudah digunakan dalam definisi "
+"pemeriksaan:"
 
 #: ../../admin/checks.rst:416
 msgid "Font-family and style is automatically recognized after uploading them:"
-msgstr ""
+msgstr "Jenis font dan gaya akan dikenali secara otomatis setelah diunggah:"
 
 #: ../../admin/checks.rst:420
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "Anda dapat memuat sejumlah font ke Weblate:"
 
 #: ../../admin/checks.rst:424
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Untuk menggunakan font guna memeriksa panjang string, berikan tanda yang "
+"sesuai (lihat :ref:`custom-checks`). Anda mungkin memerlukan tanda berikut:"
 
 #: ../../admin/checks.rst:427
 msgid "``max-size:500`` / ``max-size:300:5``"
-msgstr ""
+msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: ../../admin/checks.rst:428
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
+"Menentukan lebar maksimal dalam piksel dan, secara opsional, jumlah baris "
+"maksimum (pembungkusan kata diterapkan)."
 
 #: ../../admin/checks.rst:430
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Menentukan grup font yang akan digunakan dengan menentukan pengenalnya."
 
 #: ../../admin/checks.rst:432
 msgid "Defines font size in pixels."
-msgstr ""
+msgstr "Menentukan ukuran font dalam piksel."
 
 #: ../../admin/checks.rst:438
 msgid "Writing own checks"
-msgstr ""
+msgstr "Menulis pemeriksaan sendiri"
 
 #: ../../admin/checks.rst:440
 msgid ""
@@ -7011,54 +7077,69 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Berbagai macam pemeriksaan kualitas sudah tersedia (lihat :ref:`checks`), "
+"meskipun mungkin tidak mencakup semua yang ingin Anda periksa. Daftar "
+"pemeriksaan yang dilakukan dapat disesuaikan menggunakan "
+":setting:`CHECK_LIST`, dan Anda juga dapat menambahkan pemeriksaan khusus."
 
 #: ../../admin/checks.rst:444
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Subkelas `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:445
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Atur beberapa atribut."
 
 #: ../../admin/checks.rst:446
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
+"Implementasikan ``check`` (jika Anda ingin menangani bentuk jamak dalam kode "
+"Anda) atau metode ``check_single`` (yang melakukannya untuk Anda)."
 
 #: ../../admin/checks.rst:449
 msgid "Some examples:"
-msgstr ""
+msgstr "Beberapa contoh:"
 
 #: ../../admin/checks.rst:451
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Untuk memasang pemeriksaan khusus, berikan jalur yang sepenuhnya memenuhi "
+"syarat ke kelas Python di :setting:`CHECK_LIST`, lihat :ref:`custom-check-"
+"modules`."
 
 #: ../../admin/checks.rst:455
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Memeriksa teks terjemahan tidak mengandung \"foo\""
 
 #: ../../admin/checks.rst:457
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
+"Ini adalah pemeriksaan yang cukup sederhana yang hanya memeriksa apakah "
+"terjemahan kehilangan string \"foo\"."
 
 #: ../../admin/checks.rst:464
 msgid "Checking that Czech translation text plurals differ"
 msgstr ""
+"Memeriksa bahwa teks terjemahan bahasa Ceko memiliki bentuk jamak yang "
+"berbeda"
 
 #: ../../admin/checks.rst:466
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
+"Periksa menggunakan info bahasa untuk memverifikasi dua bentuk jamak dalam "
+"bahasa Ceko tidak sama."
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "Daftar Komponen"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -7066,12 +7147,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Tentukan beberapa daftar komponen untuk ditampilkan sebagai opsi di dasbor "
+"pengguna, yang darinya pengguna dapat memilih satu sebagai tampilan default. "
+"Lihat :ref:`dashboard` untuk mempelajari lebih lanjut."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Status akan disajikan untuk setiap daftar komponen yang disajikan pada "
+"dasbor."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -7080,22 +7166,29 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Nama dan isi daftar komponen dapat ditentukan di antarmuka admin, di bagian "
+":guilabel:`Component lists` Setiap daftar komponen harus memiliki nama yang "
+"ditampilkan kepada pengguna, dan slug yang mewakilinya di URL."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Ubah pengaturan dasbor untuk pengguna anonim dari antarmuka admin, ubah "
+"dasbor apa yang disajikan kepada pengguna yang tidak diautentikasi."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Daftar komponen otomatis"
 
 #: ../../admin/componentlists.rst:28
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Tambahkan komponen ke daftar secara otomatis berdasarkan slugnya dengan "
+"membuat aturan :guilabel:`Automatic component list assignment`."
 
 #: ../../admin/componentlists.rst:31
 msgid ""
@@ -7103,12 +7196,15 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Berguna untuk memelihara daftar komponen untuk instalasi besar, atau jika "
+"Anda ingin memiliki satu daftar komponen dengan semua komponen pada "
+"instalasi Weblate Anda."
 
 #: ../../admin/componentlists.rst:36
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr ""
+msgstr "Buat daftar komponen yang berisi semua komponen instalasi Weblate Anda."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
@@ -7116,41 +7212,56 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Tentukan :guilabel:`Automatic component list assignment` dengan ``^.*$`` "
+"sebagai ekspresi reguler di bidang proyek dan komponen, seperti yang "
+"ditunjukkan pada gambar ini:"
 
 #: ../../admin/componentlists.rst:41
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
+"Gambar yang menunjukkan panel administrasi Weblate dengan konfigurasi di "
+"atas yang telah diisi."
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Semua pengaturan disimpan dalam :file:`settings.py` (seperti biasa untuk "
+"Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
 msgstr ""
+"Setelah mengubah salah satu pengaturan ini, Anda perlu memulai ulang Weblate "
+"— baik proses WSGI maupun Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"Jika dijalankan sebagai ``mod_wsgi``, Anda perlu memulai ulang Apache untuk "
+"memuat ulang konfigurasi."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Silakan periksa juga :doc:`Django's documentation <django:ref/settings>` "
+"untuk parameter yang mengonfigurasi Django itu sendiri."
 
 #: ../../admin/config.rst:26
 msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
 "addresses from :setting:`ADMINS` are used."
 msgstr ""
+"Mengonfigurasi ke mana formulir kontak akan mengirimkan email. Jika tidak "
+"dikonfigurasi, alamat surel dari :setting:`ADMINS` akan digunakan."
 
 #: ../../admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
@@ -7158,7 +7269,7 @@ msgstr "Konfigurasikan ini sebagai daftar alamat surel:"
 
 #: ../../admin/config.rst:37
 msgid ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
-msgstr ""
+msgstr ":setting:`CONTACT_FORM`, :setting:`ADMINS`"
 
 #: ../../admin/config.rst:45
 msgid ""
@@ -7166,120 +7277,141 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate dapat menggunakan Akismet untuk memeriksa saran anonim yang masuk "
+"untuk mendeteksi spam. Kunjungi `akismet.com <https://akismet.com/>`_ untuk "
+"membeli kunci API dan mengaitkannya dengan situs."
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr ""
+msgstr "Mengonfigurasi jumlah maksimal untuk mekanisme bukti kerja ALTCHA."
 
 #: ../../admin/config.rst:60
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`Mekanisme Bukti Kerja ALTCHA <https://altcha.org/docs/proof-of-work/>`_"
 
 #: ../../admin/config.rst:67
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Nama pengguna dari pengguna yang tidak masuk."
 
 #: ../../admin/config.rst:78
 msgid ""
 "The maximum number of days Weblate will keep audit logs containing "
 "information about the account activity."
 msgstr ""
+"Jumlah hari maksimum Weblate akan menyimpan log audit yang berisi informasi "
+"tentang aktivitas akun."
 
 #: ../../admin/config.rst:81 ../../admin/config.rst:172
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "Bawaannya adalah 180 hari."
 
 #: ../../admin/config.rst:88
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Jumlah maksimum upaya autentikasi yang gagal sebelum pembatasan akses "
+"diterapkan."
 
 #: ../../admin/config.rst:90
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Ini saat ini diterapkan di lokasi berikut:"
 
 #: ../../admin/config.rst:92
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Masuk. Menghapus kata sandi akun, mencegah pengguna masuk tanpa meminta kata "
+"sandi baru."
 
 #: ../../admin/config.rst:94
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
 msgstr ""
+"Pengaturan ulang kata sandi. Mencegah pengiriman surel baru, menghindari "
+"spam kepada pengguna dengan terlalu banyak upaya pengaturan ulang kata sandi."
 
 #: ../../admin/config.rst:97
 msgid "Defaults to 10."
-msgstr ""
+msgstr "Bawaannya adalah 10."
 
 #: ../../admin/config.rst:108
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Memperbarui semua repositori setiap hari."
 
 #: ../../admin/config.rst:112
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Berguna jika Anda tidak menggunakan :ref:`hooks` untuk memperbarui "
+"repositori Weblate secara otomatis."
 
 #: ../../admin/config.rst:116
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Pilihan hidup/mati tersedia sebagai tambahan pada pemilihan string untuk "
+"kompatibilitas mundur."
 
 #: ../../admin/config.rst:118
 msgid "The options are:"
-msgstr ""
+msgstr "Pilihannya adalah:"
 
 #: ../../admin/config.rst:121
 msgid "No daily updates."
-msgstr ""
+msgstr "Tidak ada pembaruan harian."
 
 #: ../../admin/config.rst:122
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"jarak jauh\"`` juga ``Salah``"
 
 #: ../../admin/config.rst:123
 msgid "Only update remotes."
-msgstr ""
+msgstr "Hanya perbarui jarak jauh."
 
 #: ../../admin/config.rst:124
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"penuh\"`` juga ``Benar``"
 
 #: ../../admin/config.rst:125
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Perbarui jarak jauh dan gabungkan salinan kerja."
 
 #: ../../admin/config.rst:129
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Ini mengharuskan :ref:`celery` berfungsi, dan akan berlaku setelah dimulai "
+"ulang."
 
 #: ../../admin/config.rst:136
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Awalan untuk membangun URL avatar adalah: ``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``. Layanan berikut diketahui berfungsi:"
 
 #: ../../admin/config.rst:140
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (bawaan), sesuai https://gravatar.com/"
 
 #: ../../admin/config.rst:142
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, sesuai https://www.libravatar.org/"
 
 #: ../../admin/config.rst:147
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:156
 msgid ""
@@ -23622,10 +23754,8 @@ msgid "Restoring :ref:`projectbackup` with votes."
 msgstr ":ref:`projectbackup`"
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
+msgstr "Peningkatan penanganan galat dalam :ref:`mt-apertium-apy`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -23763,58 +23893,43 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:103
-#, fuzzy
-#| msgid ""
-#| "Use :http:post:`/api/projects/(string:project)/components/` to create new "
-#| "components."
 msgid ""
 "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for "
 "the given translation unit."
 msgstr ""
-"Gunakan :http:post:`/api/projects/(string:project)/components/` untuk "
-"membuat komponen baru."
+"Menambahkan :http:post:`/api/units/(int:id)/comments/` untuk membuat "
+"komentar baru untuk unit terjemahan yang diberikan."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 ":ref:`addon-weblate.json.customize` now has a configurable compact mode."
 msgstr ""
-"Pengaya :ref:`addon-weblate.cdn.cdnjs` menyediakan beberapa opsi konfigurasi."
+":ref:`addon-weblate.json.customize` sekarang memiliki mode ringkas yang "
+"dapat dikonfigurasi."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-space` quality check."
 msgid "Added :ref:`check-kabyle-characters` quality check."
-msgstr "Lewati pemeriksaan kualitas :ref:`check-end-space`."
+msgstr "Menambahkan :ref:`check-kabyle-characters` pemeriksaan kualitas."
 
 #: ../../changes.rst:106
 msgid ":ref:`sbom` is now being provided for Weblate."
 msgstr ""
 
 #: ../../changes.rst:107
-#, fuzzy
-#| msgid ":doc:`/contributing/documentation`"
 msgid ":doc:`/security/index` documentation."
-msgstr ":doc:`/contributing/documentation`"
+msgstr ":doc:`/security/index` dokumentasi."
 
 #: ../../changes.rst:108
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
 
 #: ../../changes.rst:109
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Added :guilabel:`Translation Coordinator` role."
-msgstr "Komentar terjemahan"
+msgstr "Menambahkan peran :guilabel:`Translation Coordinator`."
 
 #: ../../changes.rst:110
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
-msgstr "Pengaya :ref:`addon-weblate.autotranslate.autotranslate`"
+msgstr ":ref:`addon-weblate.webhook.slack` sekarang tersedia sebagai pengaya."
 
 #: ../../changes.rst:111
 msgid ""
@@ -23827,10 +23942,8 @@ msgid ":ref:`check-same` is now skipped for Toki Pona."
 msgstr ""
 
 #: ../../changes.rst:116
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
-msgstr "Lokasi string sumber"
+msgstr ":ref:`search-strings` mendukung pencarian ``has:location``."
 
 #: ../../changes.rst:117
 msgid ""
@@ -23863,34 +23976,24 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:123
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ":http:get:`/api/users/` now includes ``languages``."
-msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+msgstr ":http:get:`/api/users/` sekarang menyertakan ``languages``."
 
 #: ../../changes.rst:124
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.webhook.webhook` documentation improved."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ":ref:`addon-weblate.webhook.webhook` dokumentasi ditingkatkan."
 
 #: ../../changes.rst:125
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Improved support for extended metadata in :ref:`tbx`."
-msgstr "Menambahkan dukungan untuk :ref:`txt`."
+msgstr "Peningkatan dukungan untuk metadata yang diperluas di :ref:`tbx`."
 
 #: ../../changes.rst:126
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` now includes a category field when "
 "available."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.webhook.webhook` sekarang menyertakan kolom kategori "
+"jika tersedia."
 
 #: ../../changes.rst:127
 msgid ""
@@ -23911,10 +24014,9 @@ msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
 msgstr ""
 
 #: ../../changes.rst:134
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.webhook.webhook` penyampaian peristiwa di seluruh proyek."
 
 #: ../../changes.rst:135
 msgid ""
@@ -49704,8 +49806,8 @@ msgid ""
 msgstr ""
 "Untuk Hosted Weblate, ada pengguna push khusus yang terdaftar di GitHub, "
 "Bitbucket, Codeberg, dan GitLab (dengan nama pengguna :guilabel:`weblate`, "
-"email ``hosted@weblate.org``, dan nama atau deskripsi profil :guilabel:"
-"`Weblate push user`)."
+"surel ``hosted@weblate.org``, dan nama atau deskripsi profil :guilabel:`"
+"Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""
