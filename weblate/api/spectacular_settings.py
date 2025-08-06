@@ -66,6 +66,19 @@ def get_spectacular_settings(
 The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
 
 The OpenAPI specification is available as feature preview, feedback welcome!
+The following versions are available:
+
+ - **OpenAPI 3.1:** The full API including WebHooks    
+   [OAD](../schema/) — [ReDoc](../docs/) — [Swagger Doc](../swagger/)
+ - **OpenAPI 3.0:** Full API except WebHooks (requires OAS 3.1)    
+   [OAD](../schema/?oav=3.0) — [ReDoc](../docs/?oav=3.0) — [Swagger Doc](../swagger/?oav=3.0)
+ - **OpenAPI 3.0 (Light):** A massively stripped-down version for cases where a slim OAD is needed.
+   It excludes error definitions and their models, examples, and all administrative APIs (user, roles, etc.)    
+   [OAD](../schema/?oav=3.0&light=true) — [ReDoc](../docs/?oav=3.0&light=true) — [Swagger Doc](../swagger/?oav=3.0&light=true)
+ - **Custom Subsets**    
+   See the API description for the `/api/schema/` endpoint (Tag: root) for how to create custom subsets of the API description
+
+   
 
 ## Authorization
 
