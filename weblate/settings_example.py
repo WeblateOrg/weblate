@@ -9,7 +9,7 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
-from weblate.api.spectacular import (
+from weblate.api.spectacular_settings import (
     get_drf_settings,
     get_drf_standardized_errors_settings,
     get_spectacular_settings,
