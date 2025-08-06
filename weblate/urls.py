@@ -47,7 +47,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
-from weblate.api.spectacular import DynamicSchemaView, DynamicRedocView
+from weblate.api.spectacular import DynamicSchemaView, DynamicRedocView, DynamicSwaggerView
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
@@ -813,7 +813,7 @@ real_patterns = [
     path("api/schema/", DynamicSchemaView.as_view(), name="api-schema"),
     # API documentation
     path("api/docs/", DynamicRedocView.as_view(url_name="api-schema"), name="redoc"),
-    ),
+    path("api/swagger/", DynamicSwaggerView.as_view(url_name="api-schema"), name="swagger"),
     # Static pages
     path("contact/", weblate.accounts.views.contact, name="contact"),
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),

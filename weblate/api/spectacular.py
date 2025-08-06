@@ -320,3 +320,9 @@ class DynamicRedocView(SpectacularRedocView):
         qs = urlencode(list(request.GET.lists()), doseq=True, safe="./?&,")
         return f"{base}?{qs}" if qs else base
 
+class DynamicSwaggerView(SpectacularSwaggerSplitView):
+    def _get_schema_url(self, request):
+        base = get_relative_url(reverse(self.url_name, request=request))
+        qs = urlencode(list(request.GET.lists()), doseq=True, safe="./?&,")
+        return f"{base}?{qs}" if qs else base
+

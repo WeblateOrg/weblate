@@ -30,6 +30,7 @@ def get_spectacular_settings(
     settings = {
         # Use redoc from sidecar
         # TODO: Should bundle it internally
+        "SWAGGER_UI_DIST": "SIDECAR",
         "REDOC_DIST": "SIDECAR",
         "REDOC_UI_SETTINGS": {
             "theme": {
