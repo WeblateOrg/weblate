@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:2ff7c1a6-e908-55d4-b8cf-03ab981dd7bc",
+  "serialNumber": "urn:uuid:d4905de1-e7ee-5141-bcf8-ea351e1792d6",
   "version": 1,
   "metadata": {
     "tools": [
@@ -68,6 +68,53 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@altcha/crypto"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "@popperjs/core@2.11.8",
+      "author": "Federico Zivolo",
+      "name": "@popperjs/core",
+      "version": "2.11.8",
+      "description": "Tooltip and Popover Positioning Engine",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40popperjs/core@2.11.8",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/popperjs/popper-core.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://github.com/popperjs/popper-core#readme",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/popperjs/popper-core/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@popperjs/core"
         }
       ]
     },
@@ -538,6 +585,53 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/autosize"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "bootstrap@5.3.7",
+      "author": "The Bootstrap Authors",
+      "name": "bootstrap",
+      "version": "5.3.7",
+      "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "eca8220fc5078df70f0471290cd83ecc6cfc2f72ea477195c2a662051157d386b504202b64ecf5af6923972d874345a892a4ced2fd6717e400b7c76c5b894a97"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/bootstrap@5.3.7",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.7.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/twbs/bootstrap.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://getbootstrap.com/",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/twbs/bootstrap/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/bootstrap"
         }
       ]
     },
@@ -7860,10 +7954,12 @@
     {
       "ref": "weblate-client-libs@5.13.0",
       "dependsOn": [
+        "@popperjs/core@2.11.8",
         "@sentry/browser@10.1.0",
         "@tarekraafat/autocomplete.js@10.2.9",
         "altcha@2.1.0",
         "autosize@6.0.1",
+        "bootstrap@5.3.7",
         "daterangepicker@3.1.0",
         "jquery@3.7.1",
         "moment@2.30.1",
@@ -7879,6 +7975,10 @@
     },
     {
       "ref": "@altcha/crypto@0.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "@popperjs/core@2.11.8",
       "dependsOn": []
     },
     {
@@ -7939,6 +8039,12 @@
     {
       "ref": "autosize@6.0.1",
       "dependsOn": []
+    },
+    {
+      "ref": "bootstrap@5.3.7",
+      "dependsOn": [
+        "@popperjs/core@2.11.8"
+      ]
     },
     {
       "ref": "daterangepicker@3.1.0",

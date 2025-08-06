@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:5bf556fb-72c4-5d35-bc28-3058f72d7694",
+  "serialNumber": "urn:uuid:ff6fb3f0-54fd-5d4c-bcdd-b2a479f23402",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -67,6 +67,53 @@
         {
           "alg": "SHA-512",
           "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@popperjs/core@2.11.8",
+      "type": "library",
+      "name": "@popperjs/core",
+      "version": "2.11.8",
+      "scope": "required",
+      "author": "Federico Zivolo",
+      "description": "Tooltip and Popover Positioning Engine",
+      "purl": "pkg:npm/%40popperjs/core@2.11.8",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@popperjs/core"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/popperjs/popper-core.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/popperjs/popper-core#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/popperjs/popper-core/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
         }
       ],
       "licenses": [
@@ -537,6 +584,53 @@
         {
           "alg": "SHA-512",
           "content": "7fce848e250a13a5ef7337388a83f52419561bb14aac4d77a9efc3c410a97bc1828a90aada7170ef768ef101012877d26d8183379781f635d629e9fbb6ca43a9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "bootstrap@5.3.7",
+      "type": "library",
+      "name": "bootstrap",
+      "version": "5.3.7",
+      "scope": "required",
+      "author": "The Bootstrap Authors",
+      "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+      "purl": "pkg:npm/bootstrap@5.3.7",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/bootstrap"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.7.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/twbs/bootstrap.git"
+        },
+        {
+          "type": "website",
+          "url": "https://getbootstrap.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/twbs/bootstrap/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "eca8220fc5078df70f0471290cd83ecc6cfc2f72ea477195c2a662051157d386b504202b64ecf5af6923972d874345a892a4ced2fd6717e400b7c76c5b894a97"
         }
       ],
       "licenses": [
@@ -1069,10 +1163,12 @@
     {
       "ref": "weblate-client-libs@5.13.0",
       "dependsOn": [
+        "@popperjs/core@2.11.8",
         "@sentry/browser@10.1.0",
         "@tarekraafat/autocomplete.js@10.2.9",
         "altcha@2.1.0",
         "autosize@6.0.1",
+        "bootstrap@5.3.7",
         "daterangepicker@3.1.0",
         "jquery@3.7.1",
         "moment@2.30.1",
@@ -1088,6 +1184,10 @@
     },
     {
       "ref": "@altcha/crypto@0.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "@popperjs/core@2.11.8",
       "dependsOn": []
     },
     {
@@ -1148,6 +1248,12 @@
     {
       "ref": "autosize@6.0.1",
       "dependsOn": []
+    },
+    {
+      "ref": "bootstrap@5.3.7",
+      "dependsOn": [
+        "@popperjs/core@2.11.8"
+      ]
     },
     {
       "ref": "daterangepicker@3.1.0",
