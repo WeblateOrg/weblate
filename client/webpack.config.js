@@ -51,7 +51,7 @@ function mainLicenseTransform(packages) {
     "@altcha",
     "altcha",
     "source-",
-    "boostrap",
+    "bootstrap",
   ];
   return genericTransform(
     packages,
