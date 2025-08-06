@@ -48,6 +48,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
+from weblate.api.spectacular import DynamicSchemaView
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
@@ -810,7 +811,7 @@ real_patterns = [
     # Auth
     path("api/", include((weblate.api.urls, "weblate.api"), namespace="api")),
     # OpenAPI schema
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+    path("api/schema/", DynamicSchemaView.as_view(), name="api-schema"),
     # API documentation
     path(
         "api/docs/", SpectacularRedocView.as_view(url_name="api-schema"), name="redoc"
