@@ -198,7 +198,8 @@ module.exports = {
         "../../styles/vendor/fonts/fonts.css.license": fontsLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,
-        "../../styles/vendor/bootstrap5_rtl.css.license": bootstrapLicenseTransform,
+        "../../styles/vendor/bootstrap5_rtl.css.license":
+          bootstrapLicenseTransform,
       },
     }),
     new MiniCssExtractPlugin({
