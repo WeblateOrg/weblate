@@ -24,6 +24,7 @@ Weblate 5.13
 * Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
 * :ref:`check-rst-references` correctly handles Unicode punctuation and detects more issues.
 * Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
+* :ref:`xliff` now supports starting from scratch when :ref:`adding-projects`.
 
 .. rubric:: Bug fixes
 
