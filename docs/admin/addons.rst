@@ -879,6 +879,11 @@ Squash Git commits
 
 Squash Git commits prior to pushing changes.
 
+.. hint::
+
+   To avoid unnecessary conflicts, it is recommended to configure automatic
+   receiving of upstream changes by webhooks or API, see :ref:`update-vcs`.
+
 Git commits can be squashed prior to pushing changes
 in one of the following modes:
 
