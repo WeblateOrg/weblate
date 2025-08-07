@@ -3405,6 +3405,8 @@ paths:
             - 80
             - 81
             - 82
+            - 83
+            - 84
             - 9
         description: |-
           * `0` - Resource updated
@@ -3484,6 +3486,8 @@ paths:
           * `80` - Font uploaded
           * `81` - Font changed
           * `82` - Font removed
+          * `83` - Forced synchronization of translations
+          * `84` - Forced rescan of translations
         explode: true
         style: form
       - in: query
@@ -43461,6 +43465,8 @@ components:
       - 80
       - 81
       - 82
+      - 83
+      - 84
       type: integer
       description: |-
         * `0` - Resource updated
@@ -43540,6 +43546,8 @@ components:
         * `80` - Font uploaded
         * `81` - Font changed
         * `82` - Font removed
+        * `83` - Forced synchronization of translations
+        * `84` - Forced rescan of translations
     Addon:
       type: object
       properties:
