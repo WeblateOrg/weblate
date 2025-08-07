@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, Literal, cast
 from urllib.parse import quote
 
 from django.conf import settings
@@ -66,6 +66,7 @@ from weblate.wladmin.forms import (
     ActivateForm,
     AppearanceForm,
     BackupForm,
+    BackupSelectionForm,
     SSHAddForm,
     TestMailForm,
 )
@@ -318,21 +319,25 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:
-            service = BackupService.objects.get(pk=request.POST["service"])
-            service.delete()
-            return redirect("manage-backups")
-        elif "toggle" in request.POST:
-            service = BackupService.objects.get(pk=request.POST["service"])
-            service.enabled = not service.enabled
-            service.save()
-            return redirect("manage-backups")
-        elif "trigger" in request.POST:
-            settings_backup.delay()
-            database_backup.delay()
-            backup_service.delay(pk=request.POST["service"])
-            messages.success(request, gettext("Backup process triggered"))
-            return redirect("manage-backups")
+        else:
+            modelform = BackupSelectionForm(request.POST)
+            if modelform.is_valid():
+                service = cast("BackupService", modelform.cleaned_data["service"])
+                if "remove" in request.POST:
+                    service.delete()
+                    return redirect("manage-backups")
+                if "toggle" in request.POST:
+                    service.enabled = not service.enabled
+                    service.save()
+                    return redirect("manage-backups")
+                if "trigger" in request.POST:
+                    settings_backup.delay()
+                    database_backup.delay()
+                    backup_service.delay(pk=service.pk)
+                    messages.success(request, gettext("Backup process triggered"))
+                    return redirect("manage-backups")
+            else:
+                show_form_errors(request, modelform)
 
     context = {
         "services": BackupService.objects.all(),
@@ -496,7 +501,9 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     user_list = None
     if form.is_valid():
         query = form.cleaned_data.get("q", "")
-        parser = getattr(form.fields["q"], "parser", "unit")
+        parser = cast(
+            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "unit")
+        )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
             return redirect_param(

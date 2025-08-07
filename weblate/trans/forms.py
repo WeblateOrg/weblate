@@ -1234,9 +1234,7 @@ class NewProjectLanguageOwnerForm(FullLanguageForm):
 
     def get_lang_objects(self) -> QuerySet[Language]:
         # Get all child components
-        components = self.project.get_child_components_access(
-            self.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
-        )
+        components = self.project.components_user_can_add_new_language(self.user)
         components_count = components.count()
 
         # Count source and target languages

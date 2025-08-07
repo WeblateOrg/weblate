@@ -3,10 +3,11 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
-from distutils import log
-from distutils.core import Command
+from distutils import log  # type: ignore[attr-defined]
+from distutils.core import Command  # type: ignore[import-not-found]
 from glob import glob
 from itertools import chain
 
@@ -30,7 +31,7 @@ class WeblateBuildPy(build_py):
 
 class BuildMo(Command):
     description = "update MO files to match PO"
-    user_options = []
+    user_options: list[str] = []
 
     def initialize_options(self) -> None:
         self.build_base = None
@@ -58,6 +59,11 @@ class WeblateBuild(build):
     ]
 
 
+cmdclass: dict[str, type[Command]] = {
+    "build_py": WeblateBuildPy,  # type: ignore[dict-item]
+    "build_mo": BuildMo,
+    "build": WeblateBuild,  # type: ignore[dict-item]
+}
 setup(
-    cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
+    cmdclass=cmdclass,  # type: ignore[arg-type]
 )

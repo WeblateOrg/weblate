@@ -23,6 +23,8 @@ Weblate 5.13
 * Adding a new TOTP device removes the existing one by default; checkbox for not removing previous ones available.
 * Creating pull or merge requests to remote repositories is no longer blocked by merge conflicts.
 * :ref:`check-rst-references` correctly handles Unicode punctuation and detects more issues.
+* Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
+* :ref:`xliff` now supports starting from scratch when :ref:`adding-projects`.
 
 .. rubric:: Bug fixes
 
@@ -38,6 +40,8 @@ Weblate 5.13
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+* Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers including client protocol. See :ref:`reverse-proxy`.
 
 .. rubric:: Contributors
 

@@ -176,10 +176,10 @@ Imports given content into Weblate, useful for benchmarking.
    :caption: Example of memory profiling
 
    # Run benchmark under memray
-   memray run ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
+   uvx memray run ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
 
    # Render the profile
-   memray flamegraph ./memray-manage.py.2554179.bin
+   uvx memray flamegraph ./memray-manage.py.2554179.bin
 
    # Display it
    fixefox memray-flamegraph-manage.py.2554179.html

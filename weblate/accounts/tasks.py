@@ -80,7 +80,6 @@ def cleanup_auditlog() -> None:
 
 class NotificationFactory:
     def __init__(self) -> None:
-        self.perm_cache: dict[int, set[int]] = {}
         self.outgoing: list[OutgoingEmail] = []
         self.instances: dict[str, Notification] = {}
 
@@ -94,9 +93,7 @@ class NotificationFactory:
             try:
                 yield self.instances[name]
             except KeyError:
-                result = self.instances[name] = notification_cls(
-                    self.outgoing, self.perm_cache
-                )
+                result = self.instances[name] = notification_cls(self.outgoing)
                 yield result
 
     def send_queued(self) -> None:

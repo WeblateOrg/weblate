@@ -42,6 +42,7 @@ blocks, or user-visible features.
 
    :doc:`/contributing/documentation`
 
+
 Test cases
 ~~~~~~~~~~
 
@@ -61,15 +62,21 @@ Commit messages
 Git commits should follow `Conventional Commits
 <https://www.conventionalcommits.org/>`_ specification.
 
+Type checking
+~~~~~~~~~~~~~
+
+Any new code should utilize :pep:`484` type hints. We are using :program:`mypy`
+to check (because it has a Django plugin that makes type checking of Django
+apps doable).
+
+The code base is not yet completely covered by type annotations, but some
+modules are already enforced for type checking in the CI.
 
 Coding standard and linting the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The code should follow :pep:`8` coding guidelines and should be formatted using
 :program:`ruff` code formatter.
-
-Any new code should utilize :pep:`484` type hints. We're not checking this in
-our CI yet as existing code does not yet include them.
 
 To check the code quality, you can use :program:`ruff`, its configuration is
 stored in :file:`pyproject.toml`.

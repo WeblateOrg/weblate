@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:e6b76892-b5f0-5822-990d-e57f25550124",
+  "serialNumber": "urn:uuid:5904fd24-9c73-54de-b08c-46505fe26c27",
   "version": 1,
   "metadata": {
     "tools": [
@@ -73,6 +73,53 @@
     },
     {
       "type": "library",
+      "bom-ref": "@popperjs/core@2.11.8",
+      "author": "Federico Zivolo",
+      "name": "@popperjs/core",
+      "version": "2.11.8",
+      "description": "Tooltip and Popover Positioning Engine",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40popperjs/core@2.11.8",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/popperjs/popper-core.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://github.com/popperjs/popper-core#readme",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/popperjs/popper-core/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@popperjs/core"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "author": "Lukas Taegert-Atkinson",
       "name": "@rollup/rollup-linux-x64-gnu",
@@ -120,16 +167,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry-internal/browser-utils@10.0.0",
+      "bom-ref": "@sentry-internal/browser-utils@10.2.0",
       "author": "Sentry",
       "name": "@sentry-internal/browser-utils",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "Browser Utilities for all Sentry JavaScript SDKs",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "a8b676ba0b81863194b2eab598b17a39eeaf2b7235203615ba436e2706ec59bfedee141734dca1ccd204356430e2ff88a2dabaa1c64f886a4b378641f45b97e5"
+          "content": "878b765468c119c4dbe5d5fdea4d63aa410c14c8b7d4f3d9bff7dd0e0c613be26f7281497f0cc2c4cd3169fcc9e78bac2d838e74d18513ae0cc35c04dc921b90"
         }
       ],
       "licenses": [
@@ -139,10 +186,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.0.0",
+      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -167,16 +214,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry-internal/feedback@10.0.0",
+      "bom-ref": "@sentry-internal/feedback@10.2.0",
       "author": "Sentry",
       "name": "@sentry-internal/feedback",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "Sentry SDK integration for user feedback",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "befe7e7045d48cbebcbe0300d58918f3544d1a7414bab82ccb80b2ff6fe92fda7e9fdabbdfa8eafa515f2a538c3f01900d71109a8b9234b8328658389d2bc672"
+          "content": "ad261ba798b1a806102df53d89c685fa48960c7a08855d9525124ec73e234166ed9f03c1ac4c6aaac6d540f5e8326d9f16e5083e23427e369d8134b98c3ed513"
         }
       ],
       "licenses": [
@@ -186,10 +233,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry-internal/feedback@10.0.0",
+      "purl": "pkg:npm/%40sentry-internal/feedback@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -214,16 +261,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry-internal/replay@10.0.0",
+      "bom-ref": "@sentry-internal/replay@10.2.0",
       "author": "Sentry",
       "name": "@sentry-internal/replay",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "User replays for Sentry",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "deb8c51f7d210a5c67eb97b669f8d5a26d6db9df2a624c90ab4a3e224b244c20348941ebb200ca021d6687253b3e1dba6edca724621f26d32ee77cca256fe772"
+          "content": "516cbc55553aa541c23c436c6407d492b331331fddfe486cea6e4201f7ba2d02a523699fe6f474b97b451feb4913d94ea72ab0145ffba9aa5551beb19daa93ed"
         }
       ],
       "licenses": [
@@ -233,10 +280,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry-internal/replay@10.0.0",
+      "purl": "pkg:npm/%40sentry-internal/replay@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -261,16 +308,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry-internal/replay-canvas@10.0.0",
+      "bom-ref": "@sentry-internal/replay-canvas@10.2.0",
       "author": "Sentry",
       "name": "@sentry-internal/replay-canvas",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "Replay canvas integration",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "88f360b124dd079e4db47ab6e16a072d162d4de134cc5e6c871f9e2550a6bd5b62f4e4f044b4403dc43cbe7090cede6c00a3d4a3a90002763910f89334c3f9fb"
+          "content": "15ea00e288b8ff99088093057f0bb87e8a7f2b84913d9b799dd166c2eb8205504c1e41cde3ebf5526dda8c90cad48c301362761c3414b94c6b0b9dcdee773f87"
         }
       ],
       "licenses": [
@@ -280,10 +327,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.0.0",
+      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -308,16 +355,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry/browser@10.0.0",
+      "bom-ref": "@sentry/browser@10.2.0",
       "author": "Sentry",
       "name": "@sentry/browser",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "Official Sentry SDK for browsers",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "85eb5ada0aa254138f379f47e0f44f4bde7a64d6a05e5aab4d47a869075c2daf005663c1159aa49016d92288227870cc1a9fe6d4ce96a9d39c57aac06f6e8d1f"
+          "content": "a7d2f30249a46950a5637a428ce0118d618dc9ff3d893ff667c7311761958ab6f3b4e96481f8d30ef4144c55b3d233fb44970e772f93a3bcb5590d59e3af3386"
         }
       ],
       "licenses": [
@@ -327,10 +374,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry/browser@10.0.0",
+      "purl": "pkg:npm/%40sentry/browser@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -355,16 +402,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "@sentry/core@10.0.0",
+      "bom-ref": "@sentry/core@10.2.0",
       "author": "Sentry",
       "name": "@sentry/core",
-      "version": "10.0.0",
+      "version": "10.2.0",
       "description": "Base implementation for all Sentry JavaScript SDKs",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "52f90fcd655c5d5481e863a61139445e506e9aab85582bded159d1d92a90200c893dc8fb98ee81bd8ae9bb28ade1ce175da0a16897be6cf67afb85d06d41e700"
+          "content": "d903aea36076ea845eba6f42c62ccaf9cf7a165579a08ea7b0d8ca80861fad3f814c0011dce943fe9cdf26dc68df2758cdf537dd976dbbd5d35af8440251de65"
         }
       ],
       "licenses": [
@@ -374,10 +421,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40sentry/core@10.0.0",
+      "purl": "pkg:npm/%40sentry/core@10.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.0.0.tgz",
+          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.2.0.tgz",
           "type": "distribution"
         },
         {
@@ -538,6 +585,53 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/autosize"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "bootstrap@5.3.7",
+      "author": "The Bootstrap Authors",
+      "name": "bootstrap",
+      "version": "5.3.7",
+      "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "eca8220fc5078df70f0471290cd83ecc6cfc2f72ea477195c2a662051157d386b504202b64ecf5af6923972d874345a892a4ced2fd6717e400b7c76c5b894a97"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/bootstrap@5.3.7",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.7.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/twbs/bootstrap.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://getbootstrap.com/",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/twbs/bootstrap/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/bootstrap"
         }
       ]
     },
@@ -1823,9 +1917,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "argon2-cffi-bindings==21.2.0",
+      "bom-ref": "argon2-cffi-bindings==25.1.0",
       "name": "argon2-cffi-bindings",
-      "version": "21.2.0",
+      "version": "25.1.0",
       "description": "Low-level CFFI bindings for Argon2",
       "licenses": [
         {
@@ -1835,32 +1929,27 @@
           }
         }
       ],
-      "purl": "pkg:pypi/argon2-cffi-bindings@21.2.0",
+      "purl": "pkg:pypi/argon2-cffi-bindings@25.1.0",
       "externalReferences": [
-        {
-          "url": "https://github.com/hynek/argon2-cffi-bindings",
-          "type": "other",
-          "comment": "from packaging metadata Project-URL: Source Code"
-        },
         {
           "url": "https://github.com/sponsors/hynek",
           "type": "other",
           "comment": "from packaging metadata Project-URL: Funding"
         },
         {
-          "url": "https://ko-fi.com/the_hynek",
-          "type": "other",
-          "comment": "from packaging metadata Project-URL: Ko-fi"
-        },
-        {
-          "url": "https://tidelift.com/subscription/pkg/pypi-argon2-cffi?utm_source=pypi-argon2-cffi&utm_medium=pypi",
+          "url": "https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek",
           "type": "other",
           "comment": "from packaging metadata Project-URL: Tidelift"
         },
         {
+          "url": "https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md",
+          "type": "release-notes",
+          "comment": "from packaging metadata Project-URL: Changelog"
+        },
+        {
           "url": "https://github.com/hynek/argon2-cffi-bindings",
-          "type": "website",
-          "comment": "from packaging metadata: Home-page"
+          "type": "vcs",
+          "comment": "from packaging metadata Project-URL: GitHub"
         }
       ]
     },
@@ -2075,9 +2164,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "boto3==1.39.14",
+      "bom-ref": "boto3==1.40.1",
       "name": "boto3",
-      "version": "1.39.14",
+      "version": "1.40.1",
       "description": "The AWS SDK for Python",
       "licenses": [
         {
@@ -2087,7 +2176,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/boto3@1.39.14",
+      "purl": "pkg:pypi/boto3@1.40.1",
       "externalReferences": [
         {
           "url": "https://boto3.amazonaws.com/v1/documentation/api/latest/index.html",
@@ -2108,9 +2197,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "botocore==1.39.14",
+      "bom-ref": "botocore==1.40.1",
       "name": "botocore",
-      "version": "1.39.14",
+      "version": "1.40.1",
       "description": "Low-level, data-driven core of boto 3.",
       "licenses": [
         {
@@ -2120,7 +2209,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/botocore@1.39.14",
+      "purl": "pkg:pypi/botocore@1.40.1",
       "externalReferences": [
         {
           "url": "https://github.com/boto/botocore",
@@ -2258,9 +2347,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "certifi==2025.7.14",
+      "bom-ref": "certifi==2025.8.3",
       "name": "certifi",
-      "version": "2025.7.14",
+      "version": "2025.8.3",
       "description": "Python package for providing Mozilla's CA Bundle.",
       "licenses": [
         {
@@ -2276,7 +2365,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/certifi@2025.7.14",
+      "purl": "pkg:pypi/certifi@2025.8.3",
       "externalReferences": [
         {
           "url": "https://github.com/certifi/python-certifi",
@@ -2538,6 +2627,44 @@
     },
     {
       "type": "library",
+      "bom-ref": "crispy-bootstrap5==2025.6",
+      "name": "crispy-bootstrap5",
+      "version": "2025.6",
+      "description": "Bootstrap5 template pack for django-crispy-forms",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/crispy-bootstrap5@2025.6",
+      "externalReferences": [
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/issues",
+          "type": "issue-tracker",
+          "comment": "from packaging metadata Project-URL: Issues"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/actions",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: CI"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5/releases",
+          "type": "release-notes",
+          "comment": "from packaging metadata Project-URL: Changelog"
+        },
+        {
+          "url": "https://github.com/django-crispy-forms/crispy-bootstrap5",
+          "type": "website",
+          "comment": "from packaging metadata Project-URL: Homepage"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "bom-ref": "cron-descriptor==1.4.5",
       "name": "cron-descriptor",
       "version": "1.4.5",
@@ -2760,9 +2887,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "disposable-email-domains==0.0.128",
+      "bom-ref": "disposable-email-domains==0.0.129",
       "name": "disposable-email-domains",
-      "version": "0.0.128",
+      "version": "0.0.129",
       "description": "A set of disposable email domains",
       "licenses": [
         {
@@ -2772,7 +2899,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/disposable-email-domains@0.0.128",
+      "purl": "pkg:pypi/disposable-email-domains@0.0.129",
       "externalReferences": [
         {
           "url": "https://github.com/disposable-email-domains/disposable-email-domains",
@@ -3402,9 +3529,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "drf-spectacular-sidecar==2025.7.1",
+      "bom-ref": "drf-spectacular-sidecar==2025.8.1",
       "name": "drf-spectacular-sidecar",
-      "version": "2025.7.1",
+      "version": "2025.8.1",
       "description": "Serve self-contained distribution builds of Swagger UI and Redoc with Django",
       "licenses": [
         {
@@ -3414,7 +3541,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/drf-spectacular-sidecar@2025.7.1",
+      "purl": "pkg:pypi/drf-spectacular-sidecar@2025.8.1",
       "externalReferences": [
         {
           "url": "https://drf-spectacular.readthedocs.io",
@@ -3932,6 +4059,50 @@
         {
           "name": "cdx:python:package:required-extra",
           "value": "grpc"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "granian==2.5.0",
+      "name": "granian",
+      "version": "2.5.0",
+      "description": "A Rust HTTP server for Python applications",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause",
+            "acknowledgement": "declared"
+          }
+        },
+        {
+          "license": {
+            "name": "License :: OSI Approved :: BSD License",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/granian@2.5.0",
+      "externalReferences": [
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Source"
+        },
+        {
+          "url": "https://github.com/sponsors/gi0baro",
+          "type": "other",
+          "comment": "from packaging metadata Project-URL: Funding"
+        },
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "website",
+          "comment": "from packaging metadata Project-URL: Homepage"
+        },
+        {
+          "url": "https://github.com/emmett-framework/granian",
+          "type": "website",
+          "comment": "from packaging metadata: Home-page"
         }
       ]
     },
@@ -4649,19 +4820,19 @@
     },
     {
       "type": "library",
-      "bom-ref": "mercurial==7.0.3",
+      "bom-ref": "mercurial==7.1",
       "name": "mercurial",
-      "version": "7.0.3",
+      "version": "7.1",
       "description": "Fast scalable distributed SCM (revision control, version control) system",
       "licenses": [
         {
           "license": {
-            "name": "License :: OSI Approved :: GNU General Public License (GPL)",
+            "id": "GPL-2.0-or-later",
             "acknowledgement": "declared"
           }
         }
       ],
-      "purl": "pkg:pypi/mercurial@7.0.3",
+      "purl": "pkg:pypi/mercurial@7.1",
       "externalReferences": [
         {
           "url": "https://mercurial-scm.org/release/",
@@ -4823,9 +4994,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "openai==1.97.1",
+      "bom-ref": "openai==1.98.0",
       "name": "openai",
-      "version": "1.97.1",
+      "version": "1.98.0",
       "description": "The official Python library for the openai API",
       "licenses": [
         {
@@ -4841,7 +5012,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/openai@1.97.1",
+      "purl": "pkg:pypi/openai@1.98.0",
       "externalReferences": [
         {
           "url": "https://github.com/openai/openai-python",
@@ -5932,24 +6103,22 @@
     },
     {
       "type": "library",
-      "bom-ref": "regex==2024.11.6",
+      "bom-ref": "regex==2025.7.34",
       "name": "regex",
-      "version": "2024.11.6",
+      "version": "2025.7.34",
       "description": "Alternative regular expression module, to replace re.",
       "licenses": [
         {
-          "license": {
-            "name": "License :: OSI Approved :: Apache Software License",
-            "acknowledgement": "declared"
-          }
+          "expression": "Apache-2.0 AND CNRI-Python",
+          "acknowledgement": "declared"
         }
       ],
-      "purl": "pkg:pypi/regex@2024.11.6",
+      "purl": "pkg:pypi/regex@2025.7.34",
       "externalReferences": [
         {
           "url": "https://github.com/mrabarnett/mrab-regex",
           "type": "website",
-          "comment": "from packaging metadata: Home-page"
+          "comment": "from packaging metadata Project-URL: Homepage"
         }
       ]
     },
@@ -6079,24 +6248,29 @@
     },
     {
       "type": "library",
-      "bom-ref": "retrying==1.4.1",
+      "bom-ref": "retrying==1.4.2",
       "name": "retrying",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "description": "Retrying",
       "licenses": [
         {
           "license": {
-            "name": "License :: OSI Approved :: Apache Software License",
+            "id": "Apache-2.0",
             "acknowledgement": "declared"
           }
         }
       ],
-      "purl": "pkg:pypi/retrying@1.4.1",
+      "purl": "pkg:pypi/retrying@1.4.2",
       "externalReferences": [
         {
           "url": "https://github.com/groodt/retrying",
+          "type": "vcs",
+          "comment": "from packaging metadata Project-URL: Repository"
+        },
+        {
+          "url": "https://github.com/groodt/retrying",
           "type": "website",
-          "comment": "from packaging metadata: Home-page"
+          "comment": "from packaging metadata Project-URL: Homepage"
         }
       ]
     },
@@ -6334,9 +6508,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "sentry-sdk==2.33.2",
+      "bom-ref": "sentry-sdk==2.34.1",
       "name": "sentry-sdk",
-      "version": "2.33.2",
+      "version": "2.34.1",
       "description": "Python client for Sentry (https://sentry.io)",
       "licenses": [
         {
@@ -6352,7 +6526,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/sentry-sdk@2.33.2",
+      "purl": "pkg:pypi/sentry-sdk@2.34.1",
       "externalReferences": [
         {
           "url": "https://docs.sentry.io/platforms/python/",
@@ -6814,9 +6988,9 @@
     },
     {
       "type": "library",
-      "bom-ref": "translation-finder==2.22",
+      "bom-ref": "translation-finder==2.23",
       "name": "translation-finder",
-      "version": "2.22",
+      "version": "2.23",
       "description": "A translation file finder used in Weblate.",
       "licenses": [
         {
@@ -6826,7 +7000,7 @@
           }
         }
       ],
-      "purl": "pkg:pypi/translation-finder@2.22",
+      "purl": "pkg:pypi/translation-finder@2.23",
       "externalReferences": [
         {
           "url": "https://github.com/WeblateOrg/translation-finder",
@@ -7780,10 +7954,12 @@
     {
       "ref": "weblate-client-libs@5.13.0",
       "dependsOn": [
-        "@sentry/browser@10.0.0",
+        "@popperjs/core@2.11.8",
+        "@sentry/browser@10.2.0",
         "@tarekraafat/autocomplete.js@10.2.9",
         "altcha@2.1.0",
         "autosize@6.0.1",
+        "bootstrap@5.3.7",
         "daterangepicker@3.1.0",
         "jquery@3.7.1",
         "moment@2.30.1",
@@ -7802,47 +7978,51 @@
       "dependsOn": []
     },
     {
+      "ref": "@popperjs/core@2.11.8",
+      "dependsOn": []
+    },
+    {
       "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "dependsOn": []
     },
     {
-      "ref": "@sentry-internal/browser-utils@10.0.0",
+      "ref": "@sentry-internal/browser-utils@10.2.0",
       "dependsOn": [
-        "@sentry/core@10.0.0"
+        "@sentry/core@10.2.0"
       ]
     },
     {
-      "ref": "@sentry-internal/feedback@10.0.0",
+      "ref": "@sentry-internal/feedback@10.2.0",
       "dependsOn": [
-        "@sentry/core@10.0.0"
+        "@sentry/core@10.2.0"
       ]
     },
     {
-      "ref": "@sentry-internal/replay@10.0.0",
+      "ref": "@sentry-internal/replay@10.2.0",
       "dependsOn": [
-        "@sentry-internal/browser-utils@10.0.0",
-        "@sentry/core@10.0.0"
+        "@sentry-internal/browser-utils@10.2.0",
+        "@sentry/core@10.2.0"
       ]
     },
     {
-      "ref": "@sentry-internal/replay-canvas@10.0.0",
+      "ref": "@sentry-internal/replay-canvas@10.2.0",
       "dependsOn": [
-        "@sentry-internal/replay@10.0.0",
-        "@sentry/core@10.0.0"
+        "@sentry-internal/replay@10.2.0",
+        "@sentry/core@10.2.0"
       ]
     },
     {
-      "ref": "@sentry/browser@10.0.0",
+      "ref": "@sentry/browser@10.2.0",
       "dependsOn": [
-        "@sentry-internal/browser-utils@10.0.0",
-        "@sentry-internal/feedback@10.0.0",
-        "@sentry-internal/replay@10.0.0",
-        "@sentry-internal/replay-canvas@10.0.0",
-        "@sentry/core@10.0.0"
+        "@sentry-internal/browser-utils@10.2.0",
+        "@sentry-internal/feedback@10.2.0",
+        "@sentry-internal/replay@10.2.0",
+        "@sentry-internal/replay-canvas@10.2.0",
+        "@sentry/core@10.2.0"
       ]
     },
     {
-      "ref": "@sentry/core@10.0.0",
+      "ref": "@sentry/core@10.2.0",
       "dependsOn": []
     },
     {
@@ -7859,6 +8039,12 @@
     {
       "ref": "autosize@6.0.1",
       "dependsOn": []
+    },
+    {
+      "ref": "bootstrap@5.3.7",
+      "dependsOn": [
+        "@popperjs/core@2.11.8"
+      ]
     },
     {
       "ref": "daterangepicker@3.1.0",
@@ -8018,7 +8204,7 @@
       ]
     },
     {
-      "ref": "argon2-cffi-bindings==21.2.0",
+      "ref": "argon2-cffi-bindings==25.1.0",
       "dependsOn": [
         "cffi==1.17.1"
       ]
@@ -8026,7 +8212,7 @@
     {
       "ref": "argon2-cffi==25.1.0",
       "dependsOn": [
-        "argon2-cffi-bindings==21.2.0"
+        "argon2-cffi-bindings==25.1.0"
       ]
     },
     {
@@ -8061,15 +8247,15 @@
       ]
     },
     {
-      "ref": "boto3==1.39.14",
+      "ref": "boto3==1.40.1",
       "dependsOn": [
-        "botocore==1.39.14",
+        "botocore==1.40.1",
         "jmespath==0.10.0",
         "s3transfer==0.13.1"
       ]
     },
     {
-      "ref": "botocore==1.39.14",
+      "ref": "botocore==1.40.1",
       "dependsOn": [
         "jmespath==0.10.0",
         "python-dateutil==2.9.0.post0",
@@ -8091,7 +8277,7 @@
       "dependsOn": [
         "Django==5.2.4",
         "billiard==4.2.1",
-        "boto3==1.39.14",
+        "boto3==1.40.1",
         "click-didyoumean==0.3.1",
         "click-plugins==1.1.1.2",
         "click-repl==0.3.0",
@@ -8107,7 +8293,7 @@
       ]
     },
     {
-      "ref": "certifi==2025.7.14"
+      "ref": "certifi==2025.8.3"
     },
     {
       "ref": "cffi==1.17.1",
@@ -8148,12 +8334,19 @@
       ]
     },
     {
+      "ref": "crispy-bootstrap5==2025.6",
+      "dependsOn": [
+        "Django==5.2.4",
+        "django-crispy-forms==2.4"
+      ]
+    },
+    {
       "ref": "cron-descriptor==1.4.5"
     },
     {
       "ref": "cryptography==45.0.5",
       "dependsOn": [
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "cffi==1.17.1",
         "click==8.2.1"
       ]
@@ -8172,7 +8365,7 @@
       "dependsOn": [
         "python-dateutil==2.9.0.post0",
         "pytz==2025.2",
-        "regex==2024.11.6",
+        "regex==2025.7.34",
         "tzlocal==5.3.1"
       ]
     },
@@ -8183,7 +8376,7 @@
       "ref": "diff-match-patch==20241021"
     },
     {
-      "ref": "disposable-email-domains==0.0.128"
+      "ref": "disposable-email-domains==0.0.129"
     },
     {
       "ref": "distro==1.9.0"
@@ -8283,7 +8476,7 @@
       "ref": "django-vies==6.2.0",
       "dependsOn": [
         "Django==5.2.4",
-        "retrying==1.4.1",
+        "retrying==1.4.2",
         "zeep==4.3.1"
       ]
     },
@@ -8319,7 +8512,7 @@
       "ref": "docutils==0.21.2"
     },
     {
-      "ref": "drf-spectacular-sidecar==2025.7.1",
+      "ref": "drf-spectacular-sidecar==2025.8.1",
       "dependsOn": [
         "Django==5.2.4"
       ]
@@ -8330,7 +8523,7 @@
         "Django==5.2.4",
         "PyYAML==6.0.2",
         "djangorestframework==3.16.0",
-        "drf-spectacular-sidecar==2025.7.1",
+        "drf-spectacular-sidecar==2025.8.1",
         "inflection==0.5.1",
         "jsonschema==4.25.0",
         "typing_extensions==4.14.1",
@@ -8470,6 +8663,12 @@
       ]
     },
     {
+      "ref": "granian==2.5.0",
+      "dependsOn": [
+        "click==8.2.1"
+      ]
+    },
+    {
       "ref": "grpc-google-iam-v1==0.14.2",
       "dependsOn": [
         "googleapis-common-protos==1.70.0",
@@ -8507,7 +8706,7 @@
       "ref": "httpcore==1.0.9",
       "dependsOn": [
         "anyio==4.9.0",
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "h11==0.16.0"
       ]
     },
@@ -8516,7 +8715,7 @@
       "dependsOn": [
         "Pygments==2.19.2",
         "anyio==4.9.0",
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "click==8.2.1",
         "httpcore==1.0.9",
         "idna==3.10"
@@ -8566,7 +8765,7 @@
       "dependsOn": [
         "PyYAML==6.0.2",
         "amqp==5.3.1",
-        "boto3==1.39.14",
+        "boto3==1.40.1",
         "grpcio==1.74.0",
         "msgpack==1.1.0",
         "packaging==25.0",
@@ -8597,7 +8796,7 @@
       ]
     },
     {
-      "ref": "mercurial==7.0.3"
+      "ref": "mercurial==7.1"
     },
     {
       "ref": "mistletoe==1.4.0"
@@ -8619,7 +8818,7 @@
       ]
     },
     {
-      "ref": "openai==1.97.1",
+      "ref": "openai==1.98.0",
       "dependsOn": [
         "anyio==4.9.0",
         "distro==1.9.0",
@@ -8816,7 +9015,7 @@
       ]
     },
     {
-      "ref": "regex==2024.11.6"
+      "ref": "regex==2025.7.34"
     },
     {
       "ref": "requests-file==2.1.0",
@@ -8840,14 +9039,14 @@
     {
       "ref": "requests==2.32.4",
       "dependsOn": [
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "charset-normalizer==3.4.2",
         "idna==3.10",
         "urllib3==2.5.0"
       ]
     },
     {
-      "ref": "retrying==1.4.1"
+      "ref": "retrying==1.4.2"
     },
     {
       "ref": "rfc3987==1.3.8"
@@ -8870,27 +9069,27 @@
     {
       "ref": "ruamel.yaml==0.18.14",
       "dependsOn": [
-        "mercurial==7.0.3",
+        "mercurial==7.1",
         "ruamel.yaml.clib==0.2.12"
       ]
     },
     {
       "ref": "s3transfer==0.13.1",
       "dependsOn": [
-        "botocore==1.39.14"
+        "botocore==1.40.1"
       ]
     },
     {
-      "ref": "sentry-sdk==2.33.2",
+      "ref": "sentry-sdk==2.34.1",
       "dependsOn": [
         "Django==5.2.4",
         "MarkupSafe==3.0.2",
         "celery==5.5.3",
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "grpcio==1.74.0",
         "httpcore==1.0.9",
         "httpx==0.28.1",
-        "openai==1.97.1",
+        "openai==1.98.0",
         "protobuf==6.31.1",
         "urllib3==2.5.0"
       ]
@@ -8978,7 +9177,7 @@
       ]
     },
     {
-      "ref": "translation-finder==2.22",
+      "ref": "translation-finder==2.23",
       "dependsOn": [
         "charset-normalizer==3.4.2",
         "ruamel.yaml==0.18.14",
@@ -9069,17 +9268,18 @@
         "aliyun-python-sdk-core==2.16.0",
         "altcha==0.2.0",
         "borgbackup==1.4.1",
-        "boto3==1.39.14",
+        "boto3==1.40.1",
         "celery==5.5.3",
-        "certifi==2025.7.14",
+        "certifi==2025.8.3",
         "charset-normalizer==3.4.2",
         "crispy-bootstrap3==2024.1",
+        "crispy-bootstrap5==2025.6",
         "cryptography==45.0.5",
         "cssselect==1.3.0",
         "cyrtranslit==1.1.1",
         "dateparser==1.2.2",
         "diff-match-patch==20241021",
-        "disposable-email-domains==0.0.128",
+        "disposable-email-domains==0.0.129",
         "django-appconf==1.1.0",
         "django-auth-ldap==5.2.0",
         "django-celery-beat==2.8.1",
@@ -9102,6 +9302,7 @@
         "git-review==2.5.0",
         "google-cloud-storage==3.2.0",
         "google-cloud-translate==3.21.1",
+        "granian==2.5.0",
         "gunicorn==23.0.0",
         "hiredis==3.2.1",
         "html2text==2025.4.15",
@@ -9109,11 +9310,11 @@
         "jsonschema==4.25.0",
         "logging-gelf==0.0.32",
         "lxml==6.0.0",
-        "mercurial==7.0.3",
+        "mercurial==7.1",
         "mistletoe==1.4.0",
         "mysqlclient==2.2.7",
         "nh3==0.3.0",
-        "openai==1.97.1",
+        "openai==1.98.0",
         "openpyxl==3.1.5",
         "packaging==25.0",
         "phply==1.2.6",
@@ -9127,17 +9328,17 @@
         "python3-saml==1.16.0",
         "qrcode==8.2",
         "redis==5.2.1",
-        "regex==2024.11.6",
+        "regex==2025.7.34",
         "requests==2.32.4",
         "ruamel.yaml==0.18.14",
-        "sentry-sdk==2.33.2",
+        "sentry-sdk==2.34.1",
         "siphashc==2.5",
         "social-auth-app-django==5.5.1",
         "social-auth-core==4.7.0",
         "standardwebhooks==1.0.0",
         "tesserocr==2.8.0",
         "translate-toolkit==3.15.6",
-        "translation-finder==2.22",
+        "translation-finder==2.23",
         "user-agents==2.2.0",
         "weblate-language-data==2025.8",
         "weblate_schemas==2025.5",

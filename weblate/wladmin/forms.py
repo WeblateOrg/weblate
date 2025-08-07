@@ -52,6 +52,10 @@ class BackupForm(forms.ModelForm):
         fields = ("repository",)
 
 
+class BackupSelectionForm(forms.Form):
+    service = forms.ModelChoiceField(BackupService.objects.all())
+
+
 class FontField(forms.CharField):
     def __init__(self, **kwargs) -> None:
         super().__init__(

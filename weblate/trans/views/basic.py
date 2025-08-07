@@ -3,13 +3,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import re
 from collections import Counter
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -56,7 +54,10 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
-from weblate.trans.models.component import prefetch_tasks, translation_prefetch_tasks
+from weblate.trans.models.component import (
+    prefetch_tasks,
+    translation_prefetch_tasks,
+)
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode, translation_percent
@@ -64,6 +65,7 @@ from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import (
     CategoryLanguage,
+    GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     ProjectLanguage,
     get_non_glossary_stats,
@@ -118,22 +120,18 @@ def list_projects(request: AuthenticatedHttpRequest):
 
 
 def add_ghost_translations(
-    component: Component,
+    obj: Project | Category,
     user: User,
     translations: list,
-    existing: set[str],
     generator: Callable,
     **kwargs,
 ) -> None:
     """Add ghost translations for user languages to the list."""
-    if component.can_add_new_language(user, fast=True):
-        for language in user.profile.all_languages:
-            if language.code in existing:
-                continue
-            code = component.format_new_language_code(language)
-            if re.match(component.language_regex, code) is None:
-                continue
-            translations.append(generator(component, language, **kwargs))
+    language_ids = {translation.language.id for translation in translations}
+    for language in user.profile.all_languages:
+        if language.id in language_ids:
+            continue
+        translations.append(generator(obj, language, **kwargs))
 
 
 def show_engage(request: AuthenticatedHttpRequest, path):
@@ -141,7 +139,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
     if len(path) == 2:
         return redirect("engage", permanent=True, path=[path[0], "-", path[1]])
     # Get project object, skipping ACL
-    obj = parse_path(request, path, (ProjectLanguage, Project), skip_acl=True)
+    obj = parse_path(None, path, (ProjectLanguage, Project))
 
     translate_object = None
     if isinstance(obj, ProjectLanguage):
@@ -249,7 +247,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
         for item in missing:
             item.project = project_object
         extra_translations = [
-            GhostTranslation(component, language_object)
+            GhostTranslation(project_object, language_object, component)
             for component in missing
             if component.can_add_new_language(user, fast=True)
         ]
@@ -320,7 +318,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
         existing = {translation.component.slug for translation in obj.translation_set}
         missing = category_object.component_set.exclude(slug__in=existing)
         extra_translations = [
-            GhostTranslation(component, language_object)
+            GhostTranslation(obj.project, language_object, component)
             for component in missing
             if component.can_add_new_language(user, fast=True)
         ]
@@ -383,19 +381,14 @@ def show_project(request: AuthenticatedHttpRequest, obj):
         component.is_shared = None if component.project == obj else component.project
 
     language_stats = obj.stats.get_language_stats()
-    # Show ghost translations for user languages
-    component = None
-    for component in all_components:
-        if component.can_add_new_language(user, fast=True):
-            break
-    if component:
+    can_add_language_components = obj.components_user_can_add_new_language(user)
+    user_can_add_translation = can_add_language_components.exists()
+    if user_can_add_translation:
         add_ghost_translations(
-            component,
+            obj,
             user,
             language_stats,
-            {translation.language.code for translation in language_stats},
             GhostProjectLanguageStats,
-            is_shared=component.is_shared,
         )
 
     language_stats = sort_unicode(
@@ -446,6 +439,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
+            "user_can_add_translation": user_can_add_translation,
         },
     )
 
@@ -464,18 +458,14 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     all_components = get_paginator(request, all_components, stats=True)
 
     language_stats = obj.stats.get_language_stats()
-    # Show ghost translations for user languages
-    component = None
-    for component in all_components:
-        if component.can_add_new_language(user, fast=True):
-            break
-    if component and all_components.paginator.num_pages == 1:
+    can_add_language_components = obj.project.components_user_can_add_new_language(user)
+    user_can_add_translation = can_add_language_components.exists()
+    if user_can_add_translation:
         add_ghost_translations(
-            component,
+            obj,
             user,
             language_stats,
-            {translation.language.code for translation in language_stats},
-            GhostProjectLanguageStats,
+            GhostCategoryLanguageStats,
         )
 
     orderer = user.profile.get_translation_orderer(request)
@@ -528,6 +518,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.all()),
+            "user_can_add_translation": user_can_add_translation,
         },
     )
 
@@ -541,14 +532,16 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
 
-    # Show ghost translations for user languages
-    add_ghost_translations(
-        obj,
-        user,
-        translations,
-        set(obj.translation_set.values_list("language__code", flat=True)),
-        GhostTranslation,
-    )
+    can_add_language_components = obj.project.components_user_can_add_new_language(user)
+    user_can_add_translation = can_add_language_components.exists()
+    if user_can_add_translation:
+        add_ghost_translations(
+            obj.project,
+            user,
+            translations,
+            GhostTranslation,
+            component=obj,
+        )
 
     translations = sort_unicode(
         translations, user.profile.get_translation_orderer(request)
@@ -596,6 +589,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
+            "user_can_add_translation": user_can_add_translation,
         },
     )
 
@@ -648,7 +642,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
                     continue
                 if test_component.can_add_new_language(user, fast=True):
                     other_translations.append(
-                        GhostTranslation(test_component, obj.language)
+                        GhostTranslation(project, obj.language, test_component)
                     )
 
     return render(
@@ -766,9 +760,7 @@ def new_project_language(
     request: AuthenticatedHttpRequest, obj: Project
 ) -> HttpResponse:
     user = request.user
-    eligible_components = obj.get_child_components_access(
-        request.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
-    )
+    eligible_components = obj.components_user_can_add_new_language(user)
     if not eligible_components.exists():
         messages.error(
             request,

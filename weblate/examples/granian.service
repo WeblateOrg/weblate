@@ -1,0 +1,24 @@
+[Unit]
+Description=granian daemon
+After=network.target
+
+[Service]
+User=weblate
+Group=weblate
+WorkingDirectory=/home/weblate/weblate-env/
+Environment="DJANGO_SETTINGS_MODULE=weblate.settings"
+RuntimeDirectory=granian
+ExecStart=/home/weblate/weblate-env/bin/granian \
+    --no-ws \
+    --workers-max-rss 350 \
+    --interface wsgi \
+    --workers 2 \
+    --backpressure 16 \
+    --runtime-threads 8 \
+    --runtime-mode mt \
+    --port 8888 \
+    weblate.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+~

@@ -58,15 +58,37 @@ jobs:
     - name: Run mypy
       env:
         CI_DATABASE: postgresql
-      run: uv run mypy --show-column-numbers weblate scripts/*.py | ./scripts/filter-mypy.sh | tee mypy.log
-      # Temporary hack until we have this fully working
-      continue-on-error: true
-    - name: Report mypy
       run: |
+        set +e
+        uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
+        # Temporary hack until we have mypy fully passing
+        mypy_err="$?"
+        if [ "$mypy_err" -ne 0 ] && [ "$mypy_err" -ne 1 ] ; then
+          exit "$mypy_err"
+        fi
         if [ ! -s mypy.log ] ; then
           echo "mypy log not found!"
           exit 1
         fi
+        # Use summary as step summary
+        tail -n1 mypy.log >> "$GITHUB_STEP_SUMMARY"
+        # Remove summary and .venv hints from the log
+        cp mypy.log mypy.log.tmp
+        head -n-1 mypy.log.tmp | grep -v '^\.venv/' > mypy.log
+        rm mypy.log.tmp
+    - name: Enforced mypy
+      # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
+      env:
+        EXCLUDED_MODULES: accounts/|addons/|api/|auth/|billing/|fonts/|formats/|checks/|lang/|machinery/|metrics/|screenshots/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models|tests|views|widgets)|utils/|vcs/
+      run: |
+        echo "::add-matcher::.github/matchers/mypy.json"
+        if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then
+          grep --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log
+          exit 1
+        fi
+        echo "::remove-matcher owner=mypy::"
+    - name: Report mypy
+      run: |
         echo "::add-matcher::.github/matchers/mypy.json"
         if [ -f changed-files.txt ] ; then
           if grep --silent --fixed-strings --file=changed-files.txt mypy.log ; then
@@ -76,4 +98,3 @@ jobs:
           cat mypy.log
         fi
         echo "::remove-matcher owner=mypy::"
-        tail -n1 mypy.log >> "$GITHUB_STEP_SUMMARY"

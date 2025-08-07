@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-08-06 15:02+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -13127,6 +13127,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Para ejecutar el servidor web de producción, use el contenedor WSGI "
+"instalado con Weblate (en el caso de env virtual, se instala como :file"
+":`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). No olvide "
+"establecer también la ruta de búsqueda de Python en su virtualenv (por "
+"ejemplo, usando ``virtualenv = /home/user/weblate-env`` en uWSGI)."
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -13209,35 +13214,47 @@ msgid ""
 "install everything you need to run Gunicorn. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate tiene una dependencia opcional 'wsgi`(ver :ref:`python-deps`) que "
+"instalará todo lo que necesita para ejecutar Gunicorn. Al instalar Weblate, "
+"puede especificarlo como:"
 
 #: ../../admin/install.rst:1565
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Una vez que haya instalado Gunicorn, puede ejecutarlo. Esto generalmente se "
+"hace a nivel del sistema. Los siguientes ejemplos muestran cómo comenzar a "
+"través de systemd:"
 
 #: ../../admin/install.rst:1568
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.socket"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.socket"
 
 #: ../../admin/install.rst:1572
+#, fuzzy
 msgid "/etc/systemd/system/gunicorn.service"
-msgstr ""
+msgstr "/etc/systemd/system/gunicorn.service"
 
 #: ../../admin/install.rst:1583
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Ejecución de Weblate en path"
 
 #: ../../admin/install.rst:1587
+#, fuzzy
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
+"Una configuración Apache de ejemplo para servir Weblate en``/weblate``. "
+"Usando de nuevo ``mod_wsgi``(también disponible como :file:`weblate/examples/"
+"apache-path.conf`):"
 
 #: ../../admin/install.rst:1593
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Además, tendrá que ajustar :file:`weblate/settings.py`:"
 
 #: ../../admin/install.rst:1602
 msgid "Background tasks using Celery"
@@ -13447,7 +13464,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1741
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Esto tendrá un impacto notable en el rendimiento de Weblate."
 
 #: ../../admin/install.rst:1746
 msgid "Monitoring Weblate"
@@ -13459,12 +13476,17 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate proporciona la URL ``/healthz/`` que se utilizará en comprobaciones "
+"de estado simples, por ejemplo, utilizando Kubernetes. El contenedor Docker "
+"tiene una verificación de estado incorporada usando esta URL."
 
 #: ../../admin/install.rst:1751
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Para monitorear las métricas de Weblate, puede usar :http:get:`/api/metrics/`"
+" punto final de la API."
 
 #: ../../admin/install.rst:1755
 msgid ""
@@ -13476,7 +13498,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1762 ../../admin/install/docker.rst:1772
 msgid "Collecting error reports and monitoring performance"
-msgstr ""
+msgstr "Recopilación de informes de errores y supervisión del rendimiento"
 
 #: ../../admin/install.rst:1764
 msgid ""
@@ -13747,7 +13769,7 @@ msgstr "Elección del registro de imágenes de Docker"
 
 #: ../../admin/install/docker.rst:60
 msgid "Weblate containers are published to following registries:"
-msgstr ""
+msgstr "Los contenedores de Weblate se publican en los siguientes registros:"
 
 #: ../../admin/install/docker.rst:62
 msgid "Docker Hub, see https://hub.docker.com/r/weblate/weblate"
@@ -13766,6 +13788,8 @@ msgid ""
 "All examples currently fetch images from Docker Hub, please adjust the "
 "configuration accordingly to use a different registry."
 msgstr ""
+"Todos los ejemplos actualmente obtienen imágenes de Docker Hub, ajuste la "
+"configuración en consecuencia para usar un registro diferente."
 
 #: ../../admin/install/docker.rst:71
 msgid "Choosing Docker image tag"
@@ -13791,6 +13815,7 @@ msgstr "Caso de uso"
 #: ../../admin/install/docker.rst:78
 msgid "Weblate stable release, matches latest tagged release"
 msgstr ""
+"Lanzamiento estable de Weblate, coincide con el último lanzamiento etiquetado"
 
 #: ../../admin/install/docker.rst:78
 msgid "Rolling updates in a production environment"
@@ -13829,25 +13854,30 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:90 ../../admin/install/docker.rst:92
 msgid "Development version Weblate from Git"
-msgstr ""
+msgstr "Versión de desarrollo Weblate desde Git"
 
 #: ../../admin/install/docker.rst:90
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Actualizaciones continuas para probar las próximas funciones de Weblate"
 
 #: ../../admin/install/docker.rst:92
 msgid "Well defined deploy to test upcoming Weblate features"
 msgstr ""
+"Implementación bien definida para probar las próximas funciones de Weblate"
 
 #: ../../admin/install/docker.rst:95
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
+"Cada imagen la prueba nuestro CI antes de que se publique, por lo que "
+"incluso la versión \"desteñida\" debería ser bastante segura de usar."
 
 #: ../../admin/install/docker.rst:97
 msgid "Full list of published tags can be found at `GitHub Packages`_"
 msgstr ""
+"La lista completa de etiquetas publicadas se puede encontrar en `GitHub "
+"Packages`_"
 
 #: ../../admin/install/docker.rst:104
 msgid "Docker container with HTTPS support"
@@ -13858,10 +13888,12 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Ver :ref:`docker-deploy` para las instrucciones de implementación genéricas, "
+"esta sección solo menciona diferencias en comparación con ella."
 
 #: ../../admin/install/docker.rst:113
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "Proxy de terminación SSL"
 
 #: ../../admin/install/docker.rst:115
 msgid ""
@@ -13870,14 +13902,19 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"SSL se puede terminar fuera del contenedor de Weblate. Para que esto "
+"funcione bien en conjunto, es necesario pasar varios encabezados al "
+"contenedor para que conozca su entorno real. Con más detalle, estos "
+"encabezados se describen en :ref:`reverse-proxy`."
 
 #: ../../admin/install/docker.rst:120
 msgid "Example nginx reverse proxy configuration for a Docker container."
 msgstr ""
+"Ejemplo de configuración de proxy inverso nginx para un contenedor Docker."
 
 #: ../../admin/install/docker.rst:133
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "Entorno de contenedor Docker para terminación SSL externa."
 
 #: ../../admin/install/docker.rst:140
 msgid "Using own SSL certificates"
@@ -13978,6 +14015,9 @@ msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
+"La base de datos de Weblate debería migrarse automáticamente la primera vez "
+"que se inicie, y no debería ser necesario realizar acciones manuales "
+"adicionales."
 
 #: ../../admin/install/docker.rst:256
 msgid ""
@@ -13998,6 +14038,9 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
+"También es posible que desee actualizar el repositorio ``docker-compose`` "
+"aunque en la mayoría de los casos no sea necesario. Ver :ref:`docker-"
+"postgres-upgrade` para actualizar el servidor PostgreSQL."
 
 #: ../../admin/install/docker.rst:267
 msgid "Upgrading PostgreSQL container"
@@ -14009,6 +14052,9 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"Los contenedores de PostgreSQL no admiten la actualización automática entre "
+"versiones, debe realizar la actualización manualmente. Los siguientes pasos "
+"muestran una de las opciones de actualización."
 
 #: ../../admin/install/docker.rst:275
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -14020,7 +14066,7 @@ msgstr "Detener el contenedor de Weblate:"
 
 #: ../../admin/install/docker.rst:283
 msgid "Backup the database:"
-msgstr ""
+msgstr "Copia de seguridad de la base de datos:"
 
 #: ../../admin/install/docker.rst:289
 msgid "Stop the database container:"
@@ -14035,10 +14081,14 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"El nombre del volumen contiene el nombre del proyecto Docker Compose, que "
+"por defecto es el nombre del directorio que es  ``weblate-docker`` en esta "
+"documentación."
 
 #: ../../admin/install/docker.rst:307
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
+"Adjustar :file:`docker-compose.yml` para usar la nueva versión de PostgreSQL."
 
 #: ../../admin/install/docker.rst:309
 msgid "Start the database container:"
@@ -14051,6 +14101,7 @@ msgstr "Restaurar la base de datos a partir de la copia de seguridad:"
 #: ../../admin/install/docker.rst:323 ../../admin/install/docker.rst:333
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
+"Verificar que el nombre de la base de datos coincida :envvar:`POSTGRES_DB`."
 
 #: ../../admin/install/docker.rst:325
 msgid ""
@@ -14058,6 +14109,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Opcional) Actualizar la contraseña del usuario de Weblate. Esto podría ser "
+"necesario al migrar a PostgreSQL 14 o 15, ya que se ha cambiado la forma de "
+"almacenar contraseñas:"
 
 #: ../../admin/install/docker.rst:335
 msgid "Start all remaining containers:"
@@ -14073,18 +14127,27 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"Después de la configuración del contenedor, puede iniciar sesión como "
+"usuario 'administrador' con la contraseña proporcionada en "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, o una contraseña aleatoria generada en el "
+"primer inicio si no se estableció."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Para restablecer la contraseña de `administrador`, reiniciar el contenedor "
+"con :envvar:`WEBLATE_ADMIN_PASSWORD` con la nueva contraseña."
 
 #: ../../admin/install/docker.rst:355
+#, fuzzy
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:360
 msgid "Number of processes and memory consumption"
@@ -14166,48 +14229,57 @@ msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Si necesita definir una configuración que no esté expuesta a través de las "
+"variables de entorno de Docker, ver :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:438
-#, fuzzy
-#| msgid "Client secret"
 msgid "Passing secrets"
-msgstr "Secreto del cliente"
+msgstr "Pasando secretos"
 
 #: ../../admin/install/docker.rst:442
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"El contenedor Weblate admite pasar secretos como archivos. Para utilizar "
+"eso, agregar el sufijo ``_FILE`` a la variable de entorno y pase el archivo "
+"secreto a través de Docker."
 
 #: ../../admin/install/docker.rst:445
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr ""
+msgstr "Relacionado :file:`docker-compose.yml` podría verse así:"
 
 #: ../../admin/install/docker.rst:468
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/how-"
 "tos/use-secrets/>`_"
 msgstr ""
+"`Cómo usar secretos en Docker Compose <https://docs.docker.com/compose/"
+"how-tos/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:471
 msgid "Generic settings"
-msgstr ""
+msgstr "Ajustes genéricos"
 
 #: ../../admin/install/docker.rst:475
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "Configura el modo de depuración de Django usando :setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:490
 msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
 msgstr ""
+"Configurar la verbosidad del registro. Establecer esto en ``DEBUG`` para "
+"obtener registros más detallados."
 
 #: ../../admin/install/docker.rst:492
 msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
 msgstr ""
+"El valor predeterminado es ``INFO`` cuando :envvar:`WEBLATE_DEBUG` está "
+"desactivado, ``DEBUG`` se usa cuando el modo de depuración está activado."
 
 #: ../../admin/install/docker.rst:494
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."

@@ -1288,6 +1288,14 @@ class XliffFormat(TTKitFormat):
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
+    new_translation = """<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="Weblate" source-language="en" datatype="plaintext">
+    <body>
+    </body>
+  </file>
+</xliff>
+"""
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)

@@ -540,7 +540,6 @@ class UnitTermExpr(BaseTermExpr):
                     CategoryLanguage,
                     Language,
                 ),
-                skip_acl=True,
             )
         except Http404:
             return Q(translation=None)

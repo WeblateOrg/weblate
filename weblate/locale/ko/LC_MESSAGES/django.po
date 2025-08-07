@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 17:32+0000\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
-"Last-Translator: 이정희 <daemul72@gmail.com>\n"
+"PO-Revision-Date: 2025-08-02 19:03+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -1076,20 +1076,18 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "당신의 비밀번호를 동일한 문자열이나 공백으로만 할 수는 없습니다."
 
 #: weblate/accounts/password_validation.py:44
-#, fuzzy, python-format
-#| msgid "This password is only a single character."
+#, python-format
 msgid ""
 "This password is too long. It must contain at most %(max_length)d character."
 msgid_plural ""
 "This password is too long. It must contain at most %(max_length)d characters."
-msgstr[0] "이 비밀번호는 동일한 문자로 이루어져 있습니다."
+msgstr[0] "비밀번호가 너무 깁니다. 최대 %(max_length)d자까지만 포함할 수 있습니다."
 
 #: weblate/accounts/password_validation.py:56
-#, fuzzy, python-format
-#| msgid "Your password can't contain repeated words or characters."
+#, python-format
 msgid "Your password must contain at most %(max_length)d character."
 msgid_plural "Your password must contain at most %(max_length)d characters."
-msgstr[0] "비밀번호는 반복된 단어나 문자를 포함할 수 없습니다."
+msgstr[0] "비밀번호는 최대 %(max_length)d자까지만 가능합니다."
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
@@ -1905,10 +1903,8 @@ msgid "Secret"
 msgstr ""
 
 #: weblate/addons/forms.py:704
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "A Base64 encoded string"
-msgstr "잘못된 검색 문자열!"
+msgstr "Base64 인코딩된 문자열"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2209,24 +2205,21 @@ msgid "Specified unit id is not a translation source unit."
 msgstr ""
 
 #: weblate/api/views.py:172
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
-msgstr "작업을 수행하기 위한 저장소 잠금을 얻을 수 없습니다."
+msgstr "%s에 대한 저장소 잠금을 얻어서 작업을 수행할 수 없습니다."
 
 #: weblate/api/views.py:180
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
-msgstr "작업을 수행하기 위한 저장소 잠금을 얻을 수 없습니다."
+msgstr "구성 요소 %s에 대한 업데이트 잠금을 얻어 작업을 수행할 수 없습니다."
 
 #: weblate/api/views.py:187
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "작업을 수행하기 위한 저장소 잠금을 얻을 수 없습니다."
+msgstr "%(origin)s가 작업을 수행하기 위해 %(scope)s 잠금을 얻을 수 없습니다."
 
 #: weblate/api/views.py:2515 weblate/auth/models.py:980
 #: weblate/checks/views.py:230 weblate/checks/views.py:237
@@ -3579,11 +3572,9 @@ msgid "Text contains the same word twice in a row."
 msgstr "동일한 단어가 두 번 연속으로 포함돼 있습니다:"
 
 #: weblate/checks/duplicate.py:102
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "다음 구성요소가 생성됩니다"
+msgstr[0] "다음 단어는 중복됩니다:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
@@ -6652,10 +6643,9 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "이 사용자 이름/비밀번호 조합을 찾을 수 없습니다. 다시 시도하십시오."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "%(site_title)s에 초대됨"
+msgstr "%(formatted_site_title)s에 로그인하세요"
 
 #: weblate/templates/accounts/login.html:47
 msgid "Sign in with:"
@@ -6992,10 +6982,8 @@ msgid "User agent"
 msgstr "사용자 에이전트"
 
 #: weblate/templates/accounts/profile.html:511
-#, fuzzy
-#| msgid "No recent activity found!"
 msgid "No recent activity found."
-msgstr "최근 활동이 없습니다!"
+msgstr "최근 활동이 없습니다."
 
 #: weblate/templates/accounts/profile.html:517
 msgid "Report suspicious activity"
@@ -7135,10 +7123,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "초대를 수락하려면 등록을 완료해 주세요."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "%(site_title)s에 등록됨"
+msgstr "%(formatted_site_title)s에 등록하세요"
 
 #: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
@@ -8190,11 +8177,9 @@ msgid "Weblate project"
 msgstr "프로젝트 생성"
 
 #: weblate/templates/base.html:409
-#, fuzzy
-#| msgid "Contributed to"
 msgctxt "Contribute to Weblate"
 msgid "Contribute"
-msgstr "기여한 프로젝트"
+msgstr "기여"
 
 #: weblate/templates/base.html:413 weblate/templates/footer.html:43
 #, fuzzy
@@ -8204,11 +8189,9 @@ msgid "Become a supporter"
 msgstr "지원 받기"
 
 #: weblate/templates/base.html:417 weblate/templates/footer.html:9
-#, fuzzy
-#| msgid "About"
 msgctxt "About this server"
 msgid "About"
-msgstr "이 사이트에 대하여"
+msgstr "정보"
 
 #: weblate/templates/base.html:420
 #, fuzzy
@@ -9205,15 +9188,11 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "%(weblate_version_link)s 제공"
 
 #: weblate/templates/footer.html:13
-#, fuzzy
-#| msgid "Terms"
 msgctxt "General terms and conditions"
 msgid "Terms"
 msgstr "약관"
 
 #: weblate/templates/footer.html:16 weblate/templates/footer.html:26
-#, fuzzy
-#| msgid "Privacy"
 msgctxt "Privacy policy"
 msgid "Privacy"
 msgstr "개인 정보 보호"
@@ -9321,11 +9300,10 @@ msgid "Lock"
 msgstr "잠금"
 
 #: weblate/templates/js/git-status.html:110
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "%(component)s 구성요소가 잠겼습니다"
+msgstr[0] "%(count)s 구성 요소가 잠겼습니다"
 
 #: weblate/templates/js/git-status.html:114 weblate/utils/html.py:203
 msgctxt "Joins a list of values"
@@ -9333,11 +9311,10 @@ msgid ", "
 msgstr ""
 
 #: weblate/templates/js/git-status.html:116
-#, fuzzy, python-format
-#| msgid "Component %(component)s was unlocked"
+#, python-format
 msgid "%(count)s component is unlocked"
 msgid_plural "%(count)s components are unlocked"
-msgstr[0] "%(component)s 구성요소가 잠금 해제되었습니다"
+msgstr[0] "%(count)s 구성 요소가 잠금 해제되었습니다"
 
 #: weblate/templates/js/git-status.html:119
 #: weblate/templates/js/git-status.html:124
@@ -9959,15 +9936,10 @@ msgstr[0] "초대장은 %(count)s시간 후에 만료됩니다."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/invite_subject.txt:6
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
-msgstr ""
-"%(from_user)s가 %(site_title)s의 %(project_name)s 번역 프로젝트에 협업을 위"
-"해 당신을 초대했습니다."
+msgstr "%(invitation_author)s님이 %(project_name)s 프로젝트에 초대했습니다"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/invite_subject.txt:9
@@ -10309,10 +10281,8 @@ msgid "Backup service: %(url)s"
 msgstr "백업 서비스: %(url)s"
 
 #: weblate/templates/manage/backups.html:25
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed with an error"
-msgstr "우선 순위를 변경하는 데 실패하였습니다!"
+msgstr "오류로 실패했습니다"
 
 #: weblate/templates/manage/backups.html:28
 msgid "Turned off"
@@ -14083,10 +14053,8 @@ msgid "Fixing an alert automatically unlocked the component."
 msgstr "경고를 수정하면 구성요소가 자동으로 잠금 해제됩니다."
 
 #: weblate/trans/change_display.py:108
-#, fuzzy
-#| msgid "File upload mode"
 msgid "File upload mode:"
-msgstr "파일 올리기 모드"
+msgstr "파일 올리기 모드:"
 
 #: weblate/trans/change_display.py:163
 msgid "The “{}” file was changed."
@@ -14123,13 +14091,11 @@ msgid "New revision: {}"
 msgstr "새로운 리비전: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s 문자 편집됨"
+msgstr[0] "%(count)d개 문자 편집됨"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14142,10 +14108,9 @@ msgid "Previous translation"
 msgstr "이전 번역은 \"%s\"였습니다."
 
 #: weblate/trans/change_display.py:476
-#, fuzzy, python-format
-#| msgid "Weblate status"
+#, python-format
 msgid "State: %(state)s"
-msgstr "웹레이트 상태"
+msgstr "상태: %(state)s"
 
 #: weblate/trans/context_processors.py:134
 msgid "Hosted Weblate, the place to localize your software project."
@@ -16087,11 +16052,10 @@ msgid "…"
 msgstr "…"
 
 #: weblate/trans/models/translation.py:1091
-#, fuzzy, python-format
-#| msgid "Could not find merged string."
+#, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "병합된 문자열을 찾을 수 없습니다."
+msgstr[0] "%d개 문자열을 찾을 수 없음:"
 
 #: weblate/trans/models/translation.py:1277
 #: weblate/trans/models/translation.py:1336
@@ -16101,10 +16065,8 @@ msgid "Could not commit pending changes: %s"
 msgstr "보류 중인 변경사항을 커밋하지 못했습니다: %s"
 
 #: weblate/trans/models/translation.py:1981
-#, fuzzy
-#| msgid "Plurals are not supported by the file format!"
 msgid "Plurals are not supported by the file format."
-msgstr "해당 파일 형식에서는 복수형을 지원하지 않습니다!"
+msgstr "해당 파일 형식에서는 복수형을 지원하지 않습니다."
 
 #: weblate/trans/models/translation.py:1986 weblate/trans/models/unit.py:782
 #: weblate/utils/forms.py:127
@@ -16138,11 +16100,10 @@ msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "문자열을 %(component)s로 전파할 수 없습니다: %(reason)s"
 
 #: weblate/trans/models/unit.py:1213
-#, fuzzy, python-format
-#| msgid "String could not be propagated to %(component)s: %(reason)s"
+#, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
-msgstr[0] "문자열을 %(component)s로 전파할 수 없습니다: %(reason)s"
+msgstr[0] "문자열을 %d개 구성 요소로 전파할 수 없습니다."
 
 #: weblate/trans/models/unit.py:1999
 msgid "Unmark as read-only"
@@ -16620,29 +16581,27 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:809
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "새로운 언어가 %(component)s 에 추가되었습니다"
+msgstr[0] "%(count)d개 구성 요소에 언어 %(language)s가 추가되었습니다."
 
 #: weblate/trans/views/basic.py:823
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "%(component)s 에서 새로운 언어를 요청합니다"
+msgstr[0] "%(count)d개 구성 요소에 대해 %(language)s 언어가 요청되었습니다."
 
 #: weblate/trans/views/basic.py:837
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "새로운 언어가 %(component)s 에 추가되었습니다"
+msgstr[0] "%(language)s 언어를 %(count)d개 구성 요소에 추가할 수 없습니다. 구성 요소의 "
+"구성을 확인하세요."
 
 #: weblate/trans/views/basic.py:913
 msgid ""
@@ -16968,12 +16927,11 @@ msgid "A language in the category was removed."
 msgstr "카테고리의 언어가 제거되었습니다."
 
 #: weblate/trans/views/settings.py:241
-#, fuzzy, python-format
-#| msgid "Could not change %s due to outstanding issue in its settings: %s"
+#, python-format
 msgid ""
 "Could not change %(obj)s due to an outstanding issue in its settings: "
 "%(error)s"
-msgstr "설정에 문제가 있어 %s을(를) 변경할 수 없습니다: %s"
+msgstr "설정에 문제가 있어 %(obj)s를 변경할 수 없습니다: %(error)s"
 
 #: weblate/trans/views/settings.py:417
 msgid "Backup scheduled. It will be available soon."
@@ -17334,10 +17292,8 @@ msgid "This URL is prohibited"
 msgstr "이 URL은 금지됨"
 
 #: weblate/utils/validators.py:319
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid base64 encoded string"
-msgstr "잘못된 검색 문자열!"
+msgstr "잘못된 base64 인코딩 문자열"
 
 #: weblate/utils/views.py:204 weblate/utils/views.py:233
 msgid "Position and priority"

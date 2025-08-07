@@ -272,7 +272,7 @@ Django REST Framework
        - Hosted Weblate integration
 
      * - ``wsgi``
-       - | `gunicorn <https://pypi.org/project/gunicorn>`_
+       - | `granian <https://pypi.org/project/granian>`_
        - wsgi server for Weblate
 
      * - ``zxcvbn``
@@ -762,14 +762,42 @@ Client protocol
    loop trying to upgrade client to HTTPS. Make sure it is correctly exposed by
    the reverse proxy as :http:header:`X-Forwarded-Proto`.
 
+   This header then needs to be configured in
+   :setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or
+   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment).
+
+   .. important::
+
+      The header value is case-sensitive in the configuration, so
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not
+      interchangeable.
+
+   .. hint::
+
+      If you are getting a "Too many redirects" error from the browser, this is
+      most likely caused by mismatch between the actual protocol (HTTPS) and
+      what is observed by Weblate.
+
+   .. versionchanged:: 5.13
+
+      The protocol proxy headers are automatically handled by
+      :program:`gunicorn` in the default configuration, but other WSGI servers
+      have more secure configuration and require explicit setting of this.
+
+      Since Weblate 5.13 the Docker container is using :program:`granian` and
+      it now requires the explicit configuration of
+      :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`.
+
 .. seealso::
 
    * :ref:`docker-ssl-proxy`
    * :ref:`spam-protection`
    * :ref:`rate-limit`
    * :ref:`audit-log`
-   * :ref:`uwsgi`
+   * :ref:`nginx-granian`
    * :ref:`nginx-gunicorn`
+   * :ref:`uwsgi`
    * :ref:`apache`
    * :ref:`apache-gunicorn`
    * :setting:`IP_BEHIND_REVERSE_PROXY`
@@ -1409,8 +1437,14 @@ For testing purposes, you can use the built-in web server in Django:
 
    The Django built-in server serves static files only with :setting:`DEBUG`
    enabled as it is intended for development only. For production use, please
-   see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and
-   :ref:`static-files`.
+   see WSGI setups:
+
+   * :ref:`nginx-granian`
+   * :ref:`nginx-gunicorn`
+   * :ref:`uwsgi`
+   * :ref:`apache`
+   * :ref:`apache-gunicorn`
+   * :ref:`static-files`
 
 .. _static-files:
 
@@ -1435,6 +1469,8 @@ use that for the following paths:
 
 .. seealso::
 
+   * :ref:`nginx-granian`
+   * :ref:`nginx-gunicorn`
    * :ref:`uwsgi`
    * :ref:`apache`
    * :ref:`apache-gunicorn`
@@ -1460,6 +1496,23 @@ configuration, but this might need customization for your environment.
    * :setting:`CSP_STYLE_SRC`
    * :setting:`CSP_FONT_SRC`
    * :setting:`CSP_FORM_SRC`
+
+.. _nginx-granian:
+
+Sample configuration for NGINX and Granian
++++++++++++++++++++++++++++++++++++++++++++
+
+The following configuration runs Weblate using Granian the NGINX webserver:
+
+.. literalinclude:: ../../weblate/examples/weblate.nginx.granian.conf
+    :language: nginx
+    :caption: weblate/examples/weblate.nginx.granian.conf
+
+.. seealso::
+
+   * :ref:`running-granian`
+   * https://github.com/emmett-framework/granian
+   * :doc:`django:howto/deployment/wsgi/index`
 
 .. _nginx-gunicorn:
 
@@ -1549,18 +1602,40 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
    * :doc:`django:howto/deployment/wsgi/gunicorn`
 
 
-.. _running-gunicorn:
+.. _running-granian:
 
-Sample configuration to start Gunicorn
-++++++++++++++++++++++++++++++++++++++
+Sample configuration to start Granian
++++++++++++++++++++++++++++++++++++++
 
 Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will
-install everything you need to run Gunicorn. When installing Weblate you can specify it as:
+install everything you need to run Granian. When installing Weblate you can specify it as:
 
 .. code-block:: shell
 
    uv pip install Weblate[all,wsgi]
 
+Once you have Granian installed, you can run it. This is usually done at the
+system level. The following examples show starting via systemd:
+
+.. literalinclude:: ../../weblate/examples/granian.service
+   :caption: /etc/systemd/system/granian.service
+   :language: ini
+
+.. seealso::
+
+   * https://github.com/emmett-framework/granian
+   * :doc:`django:howto/deployment/wsgi/index`
+
+.. _running-gunicorn:
+
+Sample configuration to start Gunicorn
+++++++++++++++++++++++++++++++++++++++
+
+Gunicorn has to be installed separately:
+
+.. code-block:: shell
+
+   uv pip install gunicorn
 
 Once you have Gunicorn installed, you can run it. This is usually done at the
 system level. The following examples show starting via systemd:

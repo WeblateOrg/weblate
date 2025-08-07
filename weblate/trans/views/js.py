@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils.http import urlencode
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
@@ -122,6 +123,9 @@ def git_status(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "changes": changes,
+            "changes_url_query": urlencode(
+                ("action", action) for action in Change.ACTIONS_REPOSITORY
+            ),
             "repositories": repo_components,
             "pending_units": obj.count_pending_units,
             "outgoing_commits": sum(
