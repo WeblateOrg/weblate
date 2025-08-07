@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-07 09:33+0000\n"
+"PO-Revision-Date: 2025-08-08 08:52+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -8124,17 +8124,22 @@ msgstr ":file:`fonts` :"
 
 #: ../../admin/config.rst:440
 msgid "User-uploaded fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Polices téléversées par l'utilisateur, voir :ref:`fonts`."
 
 #: ../../admin/config.rst:442
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Différents caches. Peut être placé n'importe où en utilisant "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:448
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Ce répertoire doit être accessible en écriture par Weblate. S'il est exécuté "
+"en tant que WSGI, cela signifie que l'utilisateur ``www-data`` doit avoir un "
+"accès en écriture dessus."
 
 #: ../../admin/config.rst:451
 msgid ""
@@ -8148,6 +8153,8 @@ msgstr ""
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"``/home/weblate/data`` est la valeur par défaut mais il est envisagé qu'elle "
+"puisse être modifiée."
 
 #: ../../admin/config.rst:461
 #, fuzzy
@@ -8165,7 +8172,7 @@ msgstr ""
 
 #: ../../admin/config.rst:486
 msgid "The default access-control setting for new projects:"
-msgstr ""
+msgstr "Valeur du contrôle d'accès par défaut pour les nouveaux projets :"
 
 #: ../../admin/config.rst:497
 msgid ""
@@ -49665,10 +49672,8 @@ msgstr ""
 "suggestion\" droits <privileges>`."
 
 #: ../../user/files.rst:114
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Add as approved translation (``approve``)"
-msgstr "Ajouter comme traduction approuvée"
+msgstr "Ajouter comme traduction approuvée (``approuver``)"
 
 #: ../../user/files.rst:115
 msgid ""
@@ -49737,10 +49742,8 @@ msgstr ""
 "<privileges>`."
 
 #: ../../user/files.rst:140
-#, fuzzy
-#| msgid "Add new string"
 msgid "Add new strings (``add``)"
-msgstr "Ajouter une nouvelle chaîne"
+msgstr "Ajouter de nouvelles chaînes (``ajouter``)"
 
 #: ../../user/files.rst:141
 msgid ""
@@ -49797,16 +49800,12 @@ msgid "Change only untranslated strings (``ignore``)"
 msgstr "Modifier uniquement les chaînes non traduites"
 
 #: ../../user/files.rst:163
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid "Ignore uploaded translations which are already translated."
-msgstr "Traduction automatique à l’aide de chaînes déjà traduites."
+msgstr "Ignorer les traductions téléversées qui sont déjà traduites."
 
 #: ../../user/files.rst:164
-#, fuzzy
-#| msgid "Add as translation (``translate``)"
 msgid "Change translated strings (``replace-translated``)"
-msgstr "Ajouter comme traduction (``translate``)"
+msgstr "Modifier les chaînes traduites (``replace-translated``)"
 
 #: ../../user/files.rst:165
 msgid ""
@@ -49890,6 +49889,9 @@ msgid ""
 "The glossary terms are not used in quality checks unless you enable that, "
 "see :ref:`check-check-glossary` for more information."
 msgstr ""
+"Les termes du glossaire ne sont pas utilisés dans le contrôle qualité sauf "
+"si vous avez activé cette fonctionnalité, voir :ref:`check-check-glossary` "
+"pour d'autres informations."
 
 #: ../../user/glossary.rst:21
 msgid "Managing glossaries"
@@ -50652,10 +50654,15 @@ msgid ""
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
+"Ce champ supporte également les :ref:`search-operators`, donc la recherche "
+"de chaînes entières peut être réalisée par ``state:>=translated`` et la "
+"recherche de chaînes à traduire par ``state:<translated``."
 
 #: ../../user/search.rst:52
 msgid "Search for source string states, see above for more info."
 msgstr ""
+"Recherche les états de la chaîne source, voir ci-dessus pour d'autres "
+"informations."
 
 #: ../../user/search.rst:54
 msgid "String pending for flushing to VCS."
@@ -50764,6 +50771,10 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
+"La chaîne de caractères a été modifiée à la date, elle reconnait les :ref"
+":`search-operators`, à la différence de ``changed`` ceci inclut l'événement "
+"qui ne modifie pas le contenu et vous pouvez appliquer une action de "
+"filtrage personnalisée en utilisant ``change_action``."
 
 #: ../../user/search.rst:89
 msgid ""
