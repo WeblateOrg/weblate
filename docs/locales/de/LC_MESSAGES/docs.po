@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-05 13:51+0000\n"
+"PO-Revision-Date: 2025-08-07 09:33+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2796,6 +2796,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Stellen Sie mit :ref:`addon-weblate.consistency.languages` sicher, dass die "
+"neue Komponente den vollständigen Satz übersetzbarer Sprachen enthält."
 
 #: ../../admin/addons.rst:458
 msgid ""
@@ -2804,6 +2806,11 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"Um erkannt zu werden, muss eine neue Komponente eine Datei enthalten, die "
+"mit ``base_file_template`` übereinstimmt **und** mindestens eine Datei mit "
+"einem Namen, der mit ``match`` übereinstimmt -- d. h. die Komponente muss "
+"eine Basissprachdatei und mindestens eine vorhandene Übersetzung enthalten. "
+"Andernfalls wird sie ignoriert."
 
 #: ../../admin/addons.rst:465
 msgid ":ref:`markup`, :wladmin:`import_project`"
@@ -4378,7 +4385,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:54
 msgid "Appearance customization"
-msgstr "Anpassen des Erscheinungsbilds"
+msgstr "Anpassen des Erscheinungsbildes"
 
 #: ../../admin/admin.rst:60
 msgid ""
@@ -16165,6 +16172,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"Die interne Weblate-API kann von Version zu Version stark variieren und ist "
+"nicht als stabil zu betrachten. Bitte überprüfen Sie bei jedem Upgrade Ihren "
+"benutzerdefinierten Code, der mit Weblate-Interna interagiert."
 
 #: ../../admin/install/docker.rst:2219
 msgid ""
@@ -16173,18 +16183,27 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"Sie können zusätzlichen Python-Code in :file:`/app/data/python/customize` "
+"einfügen (siehe :ref:`docker-volume`). Es ist bereits als Django-Anwendung "
+"in Weblate installiert (dies wird zum Anpassen von Vorlagen und statischen "
+"Dateien wie oben beschrieben verwendet)."
 
 #: ../../admin/install/docker.rst:2224
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"Dies kann verwendet werden, um beliebigen Code zu platzieren (z. B. :ref"
+":`own-checks`) oder um benutzerdefinierte Wartungsaufgaben in den Celery-"
+"Aufgabenplaner aufzunehmen."
 
 #: ../../admin/install/docker.rst:2227
 msgid ""
 "An example of custom scheduled tasks in :file:`/app/data/python/customize/"
 "tasks.py`."
 msgstr ""
+"Ein Beispiel für benutzerdefinierte geplante Aufgaben in :file:`/app/data/"
+"python/customize/tasks.py`."
 
 #: ../../admin/install/docker.rst:2232
 msgid "Configuring PostgreSQL server"
@@ -18757,18 +18776,15 @@ msgstr ""
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
 msgstr ""
+"Importiert vorgegebene Inhalte in Weblate, nützlich für Leistungsvergleiche."
 
 #: ../../admin/management.rst:163
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Example of performance profiling"
-msgstr "Beispiel für übereinstimmende Dateien"
+msgstr "Beispiel für das Erstellen eines Leistungsprofils"
 
 #: ../../admin/management.rst:175
-#, fuzzy
-#| msgid "Example of JSON file:"
 msgid "Example of memory profiling"
-msgstr "Beispiel für eine JSON-Datei:"
+msgstr "Beispiel für das Erstellen eines Speicherprofils"
 
 #: ../../admin/management.rst:193
 msgid "Displays length of Celery task queues."
@@ -18845,11 +18861,11 @@ msgstr ""
 "Bereinigungen automatisch im Hintergrund erfolgen."
 
 #: ../../admin/management.rst:266
-#, fuzzy
-#| msgid "Removes any control characters from the translation."
 msgid ""
 "Removes all obsolete entries with pending status from the translation memory."
-msgstr "Entfernt alle Steuerzeichen aus der Übersetzung."
+msgstr ""
+"Entfernt alle veralteten Einträge mit Status „ausstehend“ aus dem "
+"Übersetzungsspeicher."
 
 #: ../../admin/management.rst:276
 msgid "Performs cleanup of stored SSH host keys:"
@@ -19719,19 +19735,23 @@ msgid ""
 "entries with pending status are automatically removed when a translation is "
 "approved."
 msgstr ""
+"Übersetzungsspeichereinträge können zwei verschiedene Status haben: **aktiv**"
+" und **ausstehend**. Ausstehende Einträge werden in Übersetzungsvorschlägen "
+"berücksichtigt, allerdings mit einem Qualitätsabzug. Wenn :ref:`autoclean-tm`"
+" aktiviert ist, werden veraltete Einträge mit dem Status „ausstehend“ "
+"automatisch entfernt, wenn eine Übersetzung genehmigt wird."
 
 #: ../../admin/memory.rst:81 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
 msgstr "Automatisches Bereinigen des Übersetzungsspeichers"
 
 #: ../../admin/memory.rst:85
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid ""
 "The translation memory is automatically cleaned up by removing obsolete and "
 "outdated entries."
 msgstr ""
-"Die Übersetzung wurde automatisch gesperrt, aufgrund folgender Hinweise:"
+"Der Übersetzungsspeicher wird automatisch bereinigt, indem veraltete und "
+"überholte Einträge entfernt werden."
 
 #: ../../admin/memory.rst:87
 msgid ""
@@ -19842,10 +19862,9 @@ msgid "Imports TMX or JSON files into the translation memory"
 msgstr "Importiert TMX- oder JSON-Dateien in den Übersetzungsspeicher"
 
 #: ../../admin/memory.rst:150
-#, fuzzy
-#| msgid "Removes any control characters from the translation."
 msgid "Removes all entries with pending status from the translation memory"
-msgstr "Entfernt alle Steuerzeichen aus der Übersetzung."
+msgstr ""
+"Entfernt alle Einträge mit Status „ausstehend“ aus dem Übersetzungsspeicher"
 
 #: ../../admin/memory.rst:154
 msgid ""
@@ -20823,18 +20842,16 @@ msgstr ""
 "ref:`project-use_shared_tm` umgeschaltet."
 
 #: ../../admin/projects.rst:201
-#, fuzzy
-#| msgid "Added support for removing entries from translation memory."
 msgid ""
 "Whether to automatically remove outdated and obsolete entries from "
 "translation memory."
 msgstr ""
-"Unterstützung für das Entfernen von Einträgen aus dem Übersetzungsspeicher "
-"hinzugefügt."
+"Ob veraltete und überholte Einträge automatisch aus dem Übersetzungsspeicher "
+"entfernt werden sollen."
 
 #: ../../admin/projects.rst:205
 msgid "This does not affect manually uploaded memory entries."
-msgstr ""
+msgstr "Manuell hochgeladene Speichereinträge sind davon nicht betroffen."
 
 #: ../../admin/projects.rst:212
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -20894,18 +20911,27 @@ msgid ""
 "changes to the version control system. This setting is available at the "
 "project level and supports the following options:"
 msgstr ""
+"Die Commit-Richtlinie bestimmt, welche Übersetzungen beim Commit von "
+"Änderungen in die Versionsverwaltung aufgenommen werden. Diese Einstellung "
+"ist auf Projektebene verfügbar und unterstützt die folgenden Optionen:"
 
 #: ../../admin/projects.rst:260
 msgid ""
 "**Commit all translations regardless of quality**: All translations will be "
 "committed, including those marked as needing editing or not reviewed."
 msgstr ""
+"**Alle Übersetzungen unabhängig von der Qualität committen**: Alle "
+"Übersetzungen werden übernommen, auch diejenigen, die als "
+"bearbeitungsbedürftig oder nicht überprüft markiert sind."
 
 #: ../../admin/projects.rst:262
 msgid ""
 "**Skip translations marked as needing editing**: Only translations that "
 "don't have the \"needs editing\" flag will be committed."
 msgstr ""
+"**Als bearbeitungsbedürftig markierte Zeichenketten überspringen**: Es "
+"werden nur Übersetzungen übernommen, die nicht als „bearbeitungsbedürftig“ "
+"markiert sind."
 
 #: ../../admin/projects.rst:264
 msgid ""
@@ -20913,6 +20939,9 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
+"**Nur genehmigte Übersetzungen einschließen**: Es werden nur Übersetzungen "
+"übernommen, die von einem Prüfer genehmigt wurden. Für diese Option muss :ref"
+":`project-translation_review` eingeschaltet sein."
 
 #: ../../admin/projects.rst:272
 msgid "Enable hooks"
@@ -26599,12 +26628,16 @@ msgid ""
 "Enhanced :ref:`translation-memory` management with configurable status "
 "control, see :ref:`memory-status`."
 msgstr ""
+"Erweiterte :ref:`translation-memory`-Verwaltung mit konfigurierbarer "
+"Statuskontrolle, siehe :ref:`memory-status`."
 
 #: ../../changes.rst:9
 msgid ""
 "Added :wladmin:`cleanup_memory` management command to remove obsolete "
 "translation memory entries."
 msgstr ""
+"Verwaltungsbefehl :wladmin:`cleanup_memory` zum Entfernen veralteter "
+"Übersetzungsspeichereinträge hinzugefügt."
 
 #: ../../changes.rst:10
 msgid ":doc:`/formats/catkeys`."
@@ -26615,12 +26648,16 @@ msgid ""
 "Some flags are now added to a string by default, based on locations; see :"
 "ref:`location-based-flags`."
 msgstr ""
+"Einige Markierungen werden jetzt standardmäßig zu einer Zeichenkette "
+"hinzugefügt, basierend auf den Orten; siehe :ref:`location-based-flags`."
 
 #: ../../changes.rst:12
 msgid ""
 "Added :ref:`project-commit_policy` setting to control which translations are "
 "included when committing changes."
 msgstr ""
+"Unter :ref:`project-commit_policy` kann eingestellt werden, welche "
+"Übersetzungen beim Committen von Änderungen berücksichtigt werden."
 
 #: ../../changes.rst:15 ../../changes.rst:54 ../../changes.rst:114
 #: ../../changes.rst:161 ../../changes.rst:203 ../../changes.rst:230
@@ -26637,17 +26674,16 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`search-strings` supports ``has:location`` lookup."
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
-msgstr ""
-":ref:`search-strings` unterstützt nun ``has:location``.:ref:`search-strings`"
+msgstr ":ref:`search-strings` unterstützt nun ``labels_count:NUMBER``."
 
 #: ../../changes.rst:17
 msgid ""
 "A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry "
 "monitoring of Celery Beat tasks."
 msgstr ""
+"Eine neue Einstellung :envvar:`SENTRY_MONITOR_BEAT_TASKS` ermöglicht das "
+"Deaktivieren der Sentry-Überwachung von Celery-Beat-Aufgaben."
 
 #: ../../changes.rst:18
 msgid ""
@@ -26655,6 +26691,9 @@ msgid ""
 "`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the "
 "generic OIDC authentication."
 msgstr ""
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` und "
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` ermöglichen die Konfiguration des "
+"Erscheinungsbildes der generischen OIDC-Authentifizierung."
 
 #: ../../changes.rst:19
 msgid "Background commits are now identified by an internal user."
@@ -37907,7 +37946,7 @@ msgstr "Weblate benötigt jetzt Django 3.1."
 #: ../../changes/v4.rst:909
 msgid "Added support for appearance customization in the management interface."
 msgstr ""
-"Unterstützung für die Anpassung des Erscheinungsbilds in der "
+"Unterstützung für die Anpassung des Erscheinungsbildes in der "
 "Verwaltungsoberfläche hinzugefügt."
 
 #: ../../changes/v4.rst:910
