@@ -674,6 +674,12 @@ Generic settings
           WEBLATE_REGISTRATION_OPEN: 0
           WEBLATE_REGISTRATION_ALLOW_BACKENDS: azuread-oauth2,azuread-tenant-oauth2
 
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_REGISTRATION_OPEN: 1
+          WEBLATE_REGISTRATION_ALLOW_BACKENDS: email,google-oauth2
+
 
 .. envvar:: WEBLATE_REGISTRATION_REBIND
 
