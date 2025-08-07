@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-06 15:02+0000\n"
+"PO-Revision-Date: 2025-08-08 08:52+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14337,10 +14337,13 @@ msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Si no se establece y el usuario `admin` no existe, se crea con una "
+"contraseña aleatoria que se muestra en el primer inicio del contenedor."
 
 #: ../../admin/install/docker.rst:561
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Si no se establece y existe el usuario `admin`, no se realiza ninguna acción."
 
 #: ../../admin/install/docker.rst:562
 msgid ""
@@ -14348,6 +14351,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Si está configurado, el usuario `admin` se ajusta en cada inicio del "
+"contenedor para que coincida :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME` y :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:568
 msgid ""
@@ -14355,34 +14361,49 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Puede ser un riesgo para la seguridad almacenar la contraseña en el archivo "
+"de configuración. Piense usar esta variable solo para la configuración "
+"inicial (o deje que Weblate genere una contraseña aleatoria en el inicio "
+"inicial) o para la recuperación de la contraseña."
 
 #: ../../admin/install/docker.rst:575
+#, fuzzy
 msgid ""
 ":ref:`docker-admin-login`, :ref:`docker-secrets`, :envvar:"
 "`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":ref:`docker-admin-login`, :ref:`docker-secrets`, "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:583
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
+"Si se enviara un correo a los administradores en caso de error del servidor. "
+"Activado por defecto."
 
 #: ../../admin/install/docker.rst:585
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
+"Es posible que desee utilizar otra recopilación de errores como Sentry o "
+"Rollbar y desactivarla."
 
 #: ../../admin/install/docker.rst:589
+#, fuzzy
 msgid ""
 ":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, :envvar:"
 "`SENTRY_DSN`"
 msgstr ""
+":ref:`django:logging-security-implications`, :envvar:`ROLLBAR_KEY`, "
+":envvar:`SENTRY_DSN`"
 
 #: ../../admin/install/docker.rst:595
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "La dirección de correo desde la que se envían los mensajes de error."
 
 #: ../../admin/install/docker.rst:599
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
@@ -14390,7 +14411,7 @@ msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:604
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Configura la dirección de los correos electrónicos salientes."
 
 #: ../../admin/install/docker.rst:608
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
@@ -46171,10 +46192,8 @@ msgid "Check our :doc:`faq`."
 msgstr ""
 
 #: ../../index.rst:49
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Consigna"
+msgstr "Comunidad"
 
 #: ../../index.rst:50
 #, fuzzy
