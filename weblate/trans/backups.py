@@ -483,6 +483,10 @@ class ProjectBackup:
             msg = "Can not validate None file."
             raise TypeError(msg)
         with ZipFile(input_file, "r") as zipfile:
+            names = zipfile.namelist()
+            if len(names) != len(set(names)):
+                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
+                raise ValueError(msg)
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
