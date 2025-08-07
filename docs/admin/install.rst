@@ -762,6 +762,33 @@ Client protocol
    loop trying to upgrade client to HTTPS. Make sure it is correctly exposed by
    the reverse proxy as :http:header:`X-Forwarded-Proto`.
 
+   This header then needs to be configured in
+   :setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or
+   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment).
+
+   .. important::
+
+      The header value is case-sensitive in the configuration, so
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not
+      interchangeable.
+
+   .. hint::
+
+      If you are getting a "Too many redirects" error from the browser, this is
+      most likely caused by mismatch between the actual protocol (HTTPS) and
+      what is observed by Weblate.
+
+   .. versionchanged:: 5.13
+
+      The protocol proxy headers are automatically handled by
+      :program:`gunicorn` in the default configuration, but other WSGI servers
+      have more secure configuration and require explicit setting of this.
+
+      Since Weblate 5.13 the Docker container is using :program:`granian` and
+      it now requires the explicit configuration of
+      :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`.
+
 .. seealso::
 
    * :ref:`docker-ssl-proxy`
