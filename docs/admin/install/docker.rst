@@ -802,7 +802,8 @@ Generic settings
 
     .. seealso::
 
-        :setting:`django:SECURE_PROXY_SSL_HEADER`
+       * :ref:`reverse-proxy`
+       * :setting:`django:SECURE_PROXY_SSL_HEADER`
 
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
