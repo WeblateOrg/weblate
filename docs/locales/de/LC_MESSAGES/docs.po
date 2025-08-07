@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-07-31 19:29+0200\n"
-"PO-Revision-Date: 2025-08-07 09:33+0000\n"
+"PO-Revision-Date: 2025-08-08 08:51+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -26698,6 +26698,7 @@ msgstr ""
 #: ../../changes.rst:19
 msgid "Background commits are now identified by an internal user."
 msgstr ""
+"Hintergrund-Commits werden jetzt von einem internen Benutzer identifiziert."
 
 #: ../../changes.rst:20
 msgid "Reorganized navigation menu."
@@ -26708,33 +26709,37 @@ msgid ""
 "When editing a language definition, a warning about automated updates is "
 "shown; see :ref:`included-languages`."
 msgstr ""
+"Beim Bearbeiten einer Sprachdefinition wird eine Warnung zu automatischen "
+"Aktualisierungen angezeigt; siehe :ref:`included-languages`."
 
 #: ../../changes.rst:22
 msgid "Avatars for API and internal accounts."
-msgstr ""
+msgstr "Avatare für API und interne Konten."
 
 #: ../../changes.rst:23
 msgid ""
 "Adding a new TOTP device removes the existing one by default; checkbox for "
 "not removing previous ones available."
 msgstr ""
+"Beim Hinzufügen eines neuen TOTP-Gerätes wird das vorhandene Gerät "
+"standardmäßig entfernt; ein Kontrollkästchen zum Beibehalten der vorherigen "
+"Geräte ist verfügbar."
 
 #: ../../changes.rst:24
 msgid ""
 "Creating pull or merge requests to remote repositories is no longer blocked "
 "by merge conflicts."
 msgstr ""
+"Das Erstellen von Pull Requests oder Merge Requests für Remote-Repositorys "
+"wird nicht mehr durch Merge-Konflikte blockiert."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ""
 ":ref:`check-rst-references` correctly handles Unicode punctuation and "
 "detects more issues."
 msgstr ""
-"Prüfung auf :ref:`check-rst-references` zur Validierung der Referenzen von "
-"reStructuredText."
+":ref:`check-rst-references` verarbeitet Unicode-Interpunktion korrekt und "
+"erkennt weitere Probleme."
 
 #: ../../changes.rst:28 ../../changes.rst:58 ../../changes.rst:78
 #: ../../changes.rst:131 ../../changes.rst:165 ../../changes.rst:184
@@ -26760,24 +26765,26 @@ msgid ""
 ":ref:`upload` correctly tracks authorship when using :guilabel:`Replace "
 "existing translation file`."
 msgstr ""
+":ref:`upload` verfolgt die Urheberschaft beim Verwenden von :guilabel:`"
+"Vorhandene Übersetzungsdatei ersetzen` korrekt nach."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handle all supported source "
 "languages."
-msgstr ":ref:`mt-deepl` verarbeitet problemlos Glossare für Sprachvarianten."
+msgstr ""
+"Die :ref:`mt-deepl`-Integration verarbeitet jetzt alle unterstützten "
+"Ausgangssprachen korrekt."
 
 #: ../../changes.rst:31
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
-msgstr ""
+msgstr "Möglicher Absturz unter macOS 15 in :samp:`strxfrm`."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Improved error reporting when uploading files."
 msgid "Internal server error on permission denied while uploading files."
-msgstr "Verbesserte Fehlerberichterstattung beim Hochladen von Dateien."
+msgstr ""
+"Interner Serverfehler wegen verweigerter Berechtigung beim Hochladen von "
+"Dateien."
 
 #: ../../changes.rst:35 ../../changes.rst:140 ../../changes.rst:290
 #: ../../changes.rst:373 ../../changes.rst:463 ../../changes.rst:564
@@ -26846,6 +26853,8 @@ msgid ""
 "The distributed locking now uses a different implementation and that "
 "introduced several changes in :file:`settings_example.py`."
 msgstr ""
+"Das verteilte Sperren verwendet nun eine andere Implementierung, was zu "
+"einigen Änderungen in :file:`settings_example.py` führte."
 
 #: ../../changes.rst:43 ../../changes.rst:67 ../../changes.rst:86
 #: ../../changes.rst:150 ../../changes.rst:173 ../../changes.rst:192
@@ -40717,22 +40726,25 @@ msgid "Django admin interface customization."
 msgstr "Anpassen der Django-Adminoberfläche."
 
 #: ../../contributing/internals.rst:111
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Background tasks internals"
-msgstr "Hintergrundaufgaben mit Celery"
+msgstr "Interne Hintergrundaufgaben"
 
 #: ../../contributing/internals.rst:115
 msgid ""
 "This section describes Celery task internals. :ref:`celery` describes how to "
 "configure Celery to run the tasks."
 msgstr ""
+"Dieser Abschnitt beschreibt die internen Vorgänge von Celery-Aufgaben. "
+":ref:`celery` beschreibt, wie Celery für das Ausführen der Aufgaben "
+"konfiguriert wird."
 
 #: ../../contributing/internals.rst:117
 msgid ""
 "Weblate uses Celery to execute tasks in the background. Some tasks are event-"
 "triggered, and some tasks are schedule-triggered."
 msgstr ""
+"Weblate verwendet Celery, um Aufgaben im Hintergrund auszuführen. Einige "
+"Aufgaben sind ereignisgesteuert, andere zeitgesteuert."
 
 #: ../../contributing/internals.rst:120
 msgid ""
@@ -40740,6 +40752,10 @@ msgid ""
 "used to store the periodic task schedule in the database. The tasks schedule "
 "is configured in :file:`tasks.py` in each of the Django apps."
 msgstr ""
+"Der Celery Beat wird für die Planung von Aufgaben verwendet, und `django-"
+"celery-beat` wird verwendet, um den periodischen Aufgabenplan in der "
+"Datenbank zu speichern. Der Aufgabenplan wird unter :file:`tasks.py` in "
+"jeder der Django-Apps konfiguriert."
 
 #: ../../contributing/internals.rst:124
 msgid ""
@@ -40747,10 +40763,14 @@ msgid ""
 "file:`settings.py`. The queues were designed to separate different types of "
 "workload:"
 msgstr ""
+"Die Aufgaben werden über mehrere Warteschlangen abgearbeitet; das Routing "
+"wird in :file:`settings.py` konfiguriert. Die Warteschlangen wurden "
+"entwickelt, um verschiedene Arten von Arbeitslasten zu trennen:"
 
 #: ../../contributing/internals.rst:129
 msgid "The default queue where background tasks are processed."
 msgstr ""
+"Die Standardwarteschlange, in der Hintergrundaufgaben verarbeitet werden."
 
 #: ../../contributing/internals.rst:131
 msgid ""
@@ -40758,6 +40778,10 @@ msgid ""
 "authentication or registration. This is a separate queue to make e-mail "
 "delivery smooth even if there is a backlog of other tasks."
 msgstr ""
+"Liefert E-Mail-Benachrichtigungen, sowohl für Ereignisse innerhalb von "
+"Weblate als auch für die Authentifizierung oder Registrierung. Dies ist eine "
+"separate Warteschlange, damit die E-Mail-Zustellung auch dann reibungslos "
+"verläuft, wenn es einen Rückstau bei anderen Aufgaben gibt."
 
 #: ../../contributing/internals.rst:133
 msgid ""
@@ -40765,18 +40789,26 @@ msgid ""
 "importing new strings, and long processing does not matter much here, so "
 "having a separate queue avoids blocking other tasks."
 msgstr ""
+"Aktualisiert Übersetzungsspeichereintrage. Die Aktualisierungswarteschlange "
+"kann beim Importieren neuer Zeichenketten sehr lang sein, und eine lange "
+"Verarbeitungszeit spielt hier keine große Rolle, so dass eine separate "
+"Warteschlange das Blockieren anderer Aufgaben verhindert."
 
 #: ../../contributing/internals.rst:135
 msgid ""
 "The backup tasks cannot be executed in parallel, and a single dedicated "
 "worker makes this easier."
 msgstr ""
+"Die Sicherungsaufgaben können nicht parallel ausgeführt werden, und ein "
+"einzelner dedizierter Worker erleichtert dies."
 
 #: ../../contributing/internals.rst:137
 msgid ""
 "Automatic translation tasks are known to take long because they hit external "
 "services."
 msgstr ""
+"Automatische Übersetzungsaufgaben dauern bekanntermaßen lange, da sie auf "
+"externe Dienste angewiesen sind."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -41494,33 +41526,31 @@ msgstr "Es gibt mehrere Aufgaben, um verschiedene Aspekte zu überprüfen:"
 
 #: ../../contributing/tests.rst:22
 msgid "Unit and functional tests using `pytest <https://pytest.org/>`_."
-msgstr ""
+msgstr "Einheiten- und Funktionstests mit `pytest <https://pytest.org/>`_."
 
 #: ../../contributing/tests.rst:23
-#, fuzzy
-#| msgid ""
-#| "Source code for this documentation, which can be built using `Sphinx "
-#| "<https://www.sphinx-doc.org/>`_."
 msgid ""
 "Documentation build and external links using `Sphinx <https://www.sphinx-doc."
 "org/>`_."
 msgstr ""
-"Quellcode für diese Dokumentation, die mit `Sphinx <https://www.sphinx-doc."
-"org/>`_ erstellt werden kann."
+"Erstellen der Dokumentation und externer Links mit `Sphinx <https://"
+"www.sphinx-doc.org/>`_."
 
 #: ../../contributing/tests.rst:24
 msgid ""
 "Code linting and quality assurace using `ruff <https://docs.astral.sh/ruff/"
 ">`_ and `pylint <https://www.pylint.org/>`_."
 msgstr ""
+"Codeanalyse und Qualitätssicherung mit `ruff <https://docs.astral.sh/ruff/>`"
+"_ und `pylint <https://www.pylint.org/>`_."
 
 #: ../../contributing/tests.rst:25
 msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
-msgstr ""
+msgstr "Code-Sicherheitsscan mit `CodeQL <https://codeql.github.com/>`_."
 
 #: ../../contributing/tests.rst:26
 msgid "Code formatting using `pre-commit <https://pre-commit.com/>`_."
-msgstr ""
+msgstr "Code-Formatierung mit `pre-commit <https://pre-commit.com/>`_."
 
 #: ../../contributing/tests.rst:27
 msgid "Migration testing from all supported releases"
@@ -43706,19 +43736,10 @@ msgstr ""
 "sie schnell beheben."
 
 #: ../../devel/share.rst:4
-#, fuzzy
-#| msgid "Building a translators community"
 msgid "Building the translation community"
-msgstr "Aufbau einer Übersetzungscommunity"
+msgstr "Aufbau der Übersetzungscommunity"
 
 #: ../../devel/share.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate provides you widgets to share on your website or other sources to "
-#| "promote the translation project. It also has a nice welcome page for new "
-#| "contributors to give them basic information about the translation. "
-#| "Additionally you can share information about translation using Facebook "
-#| "or X. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgid ""
 "Weblate provides you content to share on your website or other channels to "
 "promote your translation project. A nice welcome page called Engage is "
@@ -43727,19 +43748,15 @@ msgid ""
 "efforts using social networks. All these possibilities can be found on the :"
 "guilabel:`Community` tab:"
 msgstr ""
-"Weblate stellt Ihnen Widgets zur Verfügung, die Sie auf Ihrer Website oder "
-"in anderen Quellen veröffentlichen können, um das Übersetzungsprojekt "
-"gezielt zu fördern. Es gibt auch eine nette Willkommensseite für neue "
-"Mitwirkende, um ihnen grundlegende Informationen über die Übersetzung zu "
-"geben. Außerdem können Sie Informationen über die Übersetzung über Facebook "
-"oder X weitergeben. All diese Möglichkeiten finden Sie unter dem Reiter :"
-"guilabel:`Teilen`:"
+"Weblate bietet Ihnen Inhalte, die Sie auf Ihrer Website oder über andere "
+"Kanäle teilen können, um Ihr Übersetzungsprojekt gezielt zu fördern. Eine "
+"nette Willkommensseite namens „Beteiligungsseite“ ist verfügbar, um neue "
+"Mitwirkende zu gewinnen und ihnen grundlegende Informationen über die "
+"Übersetzung zu geben. Außerdem können Sie Informationen über die Arbeit in "
+"sozialen Netzwerken teilen. All diese Möglichkeiten finden Sie unter dem "
+"Reiter :guilabel:`Community`:"
 
 #: ../../devel/share.rst:14
-#, fuzzy
-#| msgid ""
-#| "All these badges are provided with the link to simple page which explains "
-#| "users how to translate using Weblate:"
 msgid ""
 "All these badges are provided with a link to simple page which explains "
 "users how to translate using Weblate:"
@@ -46223,10 +46240,8 @@ msgid "Catkeys file"
 msgstr "Catkeys-Datei"
 
 #: ../../formats/catkeys.rst:8
-#, fuzzy
-#| msgid "INI file format for translations."
 msgid "File format used for Haiku operating system translations."
-msgstr "INI-Dateiformat für Übersetzungen."
+msgstr "Dateiformat für Übersetzungen von Haiku-Betriebssystemen."
 
 #: ../../formats/catkeys.rst:14 ../../formats/csv.rst:55
 #: ../../formats/fluent.rst:20 ../../formats/formatjs.rst:15
@@ -46563,12 +46578,12 @@ msgid ""
 "The header comments also can be updated to contain author names using :ref:"
 "`addon-weblate.gettext.authors`."
 msgstr ""
+"Die Kommentare im Header können auch mit :ref:`addon-weblate.gettext.authors`"
+" aktualisiert werden, um Autorennamen aufzunehmen."
 
 #: ../../formats/gettext.rst:53
-#, fuzzy
-#| msgid "No line wrapping"
 msgid "Line wrapping"
-msgstr "Kein Umbruch langer Zeilen"
+msgstr "Zeilenumbruch"
 
 #: ../../formats/gettext.rst:55
 msgid ""
@@ -46576,36 +46591,43 @@ msgid ""
 "algorithm in the GNU gettext and the Unicode data the wrapping is based on "
 "evolve which might cause differences in some corner cases."
 msgstr ""
+"Der Zeilenumbruch entspricht weitgehend dem Verhalten von GNU gettext. "
+"Sowohl der Umbruchalgorithmus in GNU gettext als auch die Unicode-Daten, auf "
+"denen der Umbruch basiert, entwickeln sich weiter, was in einigen "
+"Ausnahmefällen zu Unterschieden führen kann."
 
 #: ../../formats/gettext.rst:59
 msgid ""
 "The wrapping width can be configured using :ref:`addon-weblate.gettext."
 "customize`."
 msgstr ""
+"Die Umbruchbreite kann mit :ref:`addon-weblate.gettext.customize` "
+"konfiguriert werden."
 
 #: ../../formats/gettext.rst:62
-#, fuzzy
-#| msgid "Generate MO files"
 msgid "Generating matching MO files"
-msgstr "MO-Dateien erzeugen"
+msgstr "Erzeugen passender MO-Dateien"
 
 #: ../../formats/gettext.rst:64
 msgid ""
 "In case MO files are kept in the repository together with PO files, :ref:"
 "`addon-weblate.gettext.mo` can be used to keep them up-to-date with PO files."
 msgstr ""
+"Falls MO-Dateien zusammen mit PO-Dateien im Repository aufbewahrt werden, "
+"kann :ref:`addon-weblate.gettext.mo` verwendet werden, um sie mit den PO-"
+"Dateien auf dem neuesten Stand zu halten."
 
 #: ../../formats/gettext.rst:69
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Updating PO files from the POT file"
-msgstr "PO-Dateien auf POT aktualisieren (msgmerge)"
+msgstr "Aktualisieren von PO-Dateien aus der POT-Datei"
 
 #: ../../formats/gettext.rst:71
 msgid ""
 ":ref:`addon-weblate.gettext.msgmerge` can be used to update PO files from "
 "the POT file, see :ref:`updating-target-files`."
 msgstr ""
+":ref:`addon-weblate.gettext.msgmerge` kann verwendet werden, um PO-Dateien "
+"aus der POT-Datei zu aktualisieren, siehe :ref:`updating-target-files`."
 
 #: ../../formats/gettext.rst:77
 msgid "Monolingual gettext"
@@ -47280,16 +47302,12 @@ msgstr ""
 "einsprachige Übersetzungen verwendet."
 
 #: ../../formats/qt.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_, :"
-#| "doc:`tt:formats/ts`, :ref:`bimono`"
 msgid ""
 "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_, :doc:"
 "`tt:formats/ts`, :ref:`bimono`"
 msgstr ""
-"`Qt-Linguist-Handbuch <https://doc.qt.io/qt-5/qtlinguist-index.html>`_, :doc:"
-"`tt:formats/ts`, :ref:`bimono`"
+"`Qt-Linguist-Handbuch <https://doc.qt.io/qt-6/qtlinguist-index.html>`_, "
+":doc:`tt:formats/ts`, :ref:`bimono`"
 
 #: ../../formats/qt.rst:29
 msgid "Typical Weblate :ref:`component` when using as bilingual"
@@ -57507,15 +57525,6 @@ msgid "Quality gateway for the source strings"
 msgstr "Qualitäts-Gateway für die Ausgangszeichenketten"
 
 #: ../../workflows.rst:209
-#, fuzzy
-#| msgid ""
-#| "In many cases the original source language strings are coming from "
-#| "developers, because they write the code and provide initial strings. "
-#| "However developers are often not native speakers in the source language "
-#| "and do not provide desired quality of the source strings. The "
-#| "intermediate translation can help you address this - there is an "
-#| "additional quality gateway for the strings between developers and "
-#| "translators."
 msgid ""
 "The original source language strings usually come from developers, since "
 "they write the code and provide the initial strings. However, developers are "
@@ -57524,21 +57533,15 @@ msgid ""
 "you address this - there is an additional quality gateway for the strings "
 "between developers and translators."
 msgstr ""
-"In vielen Fällen stammen die ursprünglichen Zeichenketten der "
-"Ausgangssprache von den Entwicklern, da sie den Code schreiben und die "
-"ursprünglichen Zeichenketten bereitstellen. Die Entwickler sind jedoch oft "
-"keine Muttersprachler in der Ausgangssprache und bieten nicht die gewünschte "
-"Qualität der Ausgangszeichenketten. Die Zwischenübersetzung kann dabei "
-"helfen, dieses Problem zu lösen – es gibt ein zusätzliches Qualitäts-Gateway "
-"für die Zeichenketten zwischen Entwicklern und Übersetzern."
+"Die Ausgangszeichenketten der Ausgangssprache stammen in der Regel von "
+"Entwicklern, da sie den Code schreiben und die ursprünglichen Zeichenketten "
+"bereitstellen. Die Entwickler sind jedoch oft keine Muttersprachler der "
+"Ausgangssprache und liefern nicht die gewünschte Qualität der "
+"Ausgangszeichenketten. Die Zwischenübersetzung kann Ihnen dabei helfen, dies "
+"zu beheben – es gibt ein zusätzliches Qualitäts-Gateway für die "
+"Zeichenketten zwischen Entwicklern und Übersetzern."
 
 #: ../../workflows.rst:216
-#, fuzzy
-#| msgid ""
-#| "By setting :ref:`component-intermediate`, this file is used for "
-#| "translating strings to the source language by translators/editors. Once "
-#| "this stage is done, strings are available for translations to target "
-#| "languages, based on what is now a polished source language."
 msgid ""
 "By setting the :ref:`component-intermediate`, this file is used for "
 "translating strings to the source language by translators/editors while it "
@@ -57549,9 +57552,11 @@ msgid ""
 msgstr ""
 "Durch das Einstellen der :ref:`component-intermediate` wird diese Datei für "
 "das Übersetzen von Zeichenketten in die Ausgangssprache durch Übersetzer/"
-"Editor verwendet. Sobald dieser Schritt abgeschlossen ist, stehen die "
-"Zeichenketten für Übersetzungen in die Zielsprachen zur Verfügung, basierend "
-"auf der nun ausgefeilten Ausgangssprache."
+"Editor verwendet, während sie den Entwicklern gehört (oft unter Verwendung "
+"beliebiger Sprachen wie ``en_devel``). Sobald dieser Schritt abgeschlossen "
+"ist, stehen die Zeichenketten für Übersetzungen in die Zielsprachen zur "
+"Verfügung, basierend auf der nun ausgefeilten Ausgangssprache, die in :ref"
+":`component-template` gespeichert ist."
 
 #: ../../workflows.rst:262
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
