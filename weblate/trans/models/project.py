@@ -4,11 +4,7 @@
 
 from __future__ import annotations
 
-import os
-import os.path
 from collections import UserDict
-from datetime import datetime
-from operator import itemgetter
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.conf import settings
@@ -19,7 +15,6 @@ from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy, gettext_noop
 
 from weblate.configuration.models import Setting, SettingCategory
@@ -31,7 +26,6 @@ from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
@@ -47,7 +41,6 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import Group, User
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.backups import BackupListDict
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
@@ -735,31 +728,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 # is installed at project level.
                 settings[item]["_project"] = self
         return settings
-
-    def list_backups(self) -> list[BackupListDict]:
-        from weblate.trans.backups import PROJECTBACKUP_PREFIX
-
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
-        result: list[BackupListDict] = []
-        if not os.path.exists(backup_dir):
-            return result
-        with os.scandir(backup_dir) as iterator:
-            for entry in iterator:
-                if not entry.name.endswith(".zip"):
-                    continue
-                result.append(
-                    {
-                        "name": entry.name,
-                        "path": os.path.join(backup_dir, entry.name),
-                        "timestamp": make_aware(
-                            datetime.fromtimestamp(  # noqa: DTZ006
-                                int(entry.name.split(".")[0])
-                            )
-                        ),
-                        "size": entry.stat().st_size,
-                    }
-                )
-        return sorted(result, key=itemgetter("timestamp"), reverse=True)
 
     @cached_property
     def enable_review(self):

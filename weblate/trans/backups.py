@@ -12,6 +12,7 @@ from collections import defaultdict
 from datetime import datetime
 from functools import partial
 from itertools import chain
+from operator import itemgetter
 from pathlib import Path
 from shutil import copyfileobj
 from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
@@ -23,6 +24,7 @@ from django.db import connection, transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
@@ -42,7 +44,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.utils.data import data_dir
+from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
@@ -63,6 +65,28 @@ class BackupListDict(TypedDict):
     path: str
     timestamp: datetime
     size: int
+
+
+def list_backups(project_id: Project | int | str) -> list[BackupListDict]:
+    if isinstance(project_id, Project):
+        project_id = project_id.pk
+    backup_dir = data_path(PROJECTBACKUP_PREFIX) / f"{project_id}"
+    if not backup_dir.exists():
+        return []
+    result: list[BackupListDict] = [
+        {
+            "name": entry.name,
+            "path": entry.as_posix(),
+            "timestamp": make_aware(
+                datetime.fromtimestamp(  # noqa: DTZ006
+                    int(entry.name.split(".")[0])
+                )
+            ),
+            "size": entry.stat().st_size,
+        }
+        for entry in backup_dir.glob("*.zip")
+    ]
+    return sorted(result, key=itemgetter("timestamp"), reverse=True)
 
 
 class ProjectBackup:
@@ -216,24 +240,29 @@ class ProjectBackup:
             handle.write(json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"))
 
     def generate_filename(self, project: Project) -> None:
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{project.pk}")
-        backup_info = os.path.join(backup_dir, "README.txt")
-        timestamp = int(self.timestamp.timestamp())
-        if not os.path.exists(backup_dir):
-            os.makedirs(backup_dir)
-        if not os.path.exists(backup_info):
-            with open(backup_info, "w") as handle:
+        # Create directory
+        backup_dir = data_path(PROJECTBACKUP_PREFIX) / f"{project.pk}"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+
+        # Create README.txt
+        backup_info = backup_dir / "README.txt"
+        if not backup_info.exists():
+            with backup_info.open("w") as handle:
                 handle.write(f"# Weblate project backups for {project.name}\n")
                 handle.write(f"slug={project.slug}\n")
                 handle.write(f"web={project.web}\n")
                 handle.writelines(
                     f"billing={billing.id}\n" for billing in project.billings
                 )
-        while os.path.exists(
-            os.path.join(backup_dir, f"{timestamp}.zip")
-        ) or os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip.part")):
+
+        # Find unused timestamp
+        timestamp = int(self.timestamp.timestamp())
+        while (filename := backup_dir / f"{timestamp}.zip").exists() or (
+            backup_dir / f"{timestamp}.zip.part"
+        ).exists():
             timestamp += 1
-        self.filename = os.path.join(backup_dir, f"{timestamp}.zip")
+
+        self.filename = filename.as_posix()
 
     def backup_component(self, backupzip: ZipFile, component: Component) -> None:
         data: dict = {
@@ -908,18 +937,20 @@ class ProjectBackup:
         return self.project
 
     def store_for_import(self) -> str:
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, "import")
-        if not os.path.exists(backup_dir):
-            os.makedirs(backup_dir)
-        timestamp = int(timezone.now().timestamp())
+        backup_dir = data_path(PROJECTBACKUP_PREFIX) / "import"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+
+        # self.fileio is a file object from upload here
         if self.fileio is None or isinstance(self.fileio, str):
             msg = "Need a file object."
             raise TypeError(msg)
-        # self.fileio is a file object from upload here
         self.fileio.seek(0)
-        while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
+
+        timestamp = int(timezone.now().timestamp())
+        while (filename := backup_dir / f"{timestamp}.zip").exists():
             timestamp += 1
-        filename = os.path.join(backup_dir, f"{timestamp}.zip")
-        with open(filename, "xb") as target:
+
+        with filename.open("xb") as target:
             copyfileobj(self.fileio, target)
-        return filename
+
+        return filename.as_posix()
