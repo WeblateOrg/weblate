@@ -380,16 +380,19 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
+        ("gpt-5-nano", "GPT-5-nano"),
+        ("gpt-5-mini", "GPT-5-mini"),
+        ("gpt-5", "GPT-5"),
+        ("gpt-4.1-nano", "GPT-4.1-nano"),
+        ("gpt-4.1-mini", "GPT-4.1-mini"),
+        ("gpt-4.1", "GPT-4.1"),
         ("gpt-4o-mini", "GPT-4o mini"),
         ("gpt-4o", "GPT-4o"),
-        ("o3-mini", "OpenAI o3-mini"),
-        ("o3", "OpenAI o3"),
-        ("o1-mini", "OpenAI o1-mini"),
-        ("o1", "OpenAI o1"),
-        ("gpt-4.5-preview", "GPT-4.5"),
-        ("gpt-4-turbo", "GPT-4 Turbo"),
-        ("gpt-4", "GPT-4"),
-        ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
+        ("o3-mini", "o3-mini"),
+        ("o3", "o3"),
+        ("o1-mini", "o1-mini"),
+        ("o1", "o1"),
+        ("o1-pro", "o1-pro"),
         ("custom", pgettext_lazy("OpenAI model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(
