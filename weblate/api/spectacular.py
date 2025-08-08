@@ -5,257 +5,324 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Iterable, Set, Any
+from urllib.parse import urlencode
+from rest_framework.reverse import reverse
+from urllib.parse import urlencode
 
-from django.utils.functional import lazy
-from django.utils.translation import gettext_lazy
+from rest_framework.decorators import action
+from drf_spectacular.plumbing import get_relative_url
+from django.conf import settings
+from django.urls import URLResolver, URLPattern, get_resolver
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerSplitView
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+from drf_spectacular.types import OpenApiTypes
+
+OAS_MAP = {"3.0": "3.0.3", "3.1": "3.1.0"}  # drf-spectacular supports both.  # noqa
+
+LIGHT_EXCLUDE = {"users", "groups", "roles", "component-lists", "addons", "categories", "tasks" }  # your "admin-ish" bundle
+SUCCESS_CODES = {"200", "201", "202", "204"}
+
+def _first_seg(s: str) -> str:
+    s = s.strip("^$").lstrip("/")
+    return s.split("/", 1)[0] if s else ""
+
+def _iter_leaf_patterns(resolver: URLResolver) -> Iterable[URLPattern]:
+    # Walk into includes (important for: path("", include(router.urls)))
+    for p in resolver.url_patterns:
+        if isinstance(p, URLResolver):
+            yield from _iter_leaf_patterns(p)
+        else:
+            yield p
+
+def _filter_patterns(resolver: URLResolver,
+                     include_tags: Set[str] | None,
+                     exclude_tags: Set[str] | None) -> list[URLPattern | URLResolver]:
+    leaves = list(_iter_leaf_patterns(resolver))
+    out: list[URLPattern] = []
+    for p in leaves:
+        seg = _first_seg(str(p.pattern))
+        if include_tags and seg not in include_tags:
+            continue
+        if exclude_tags and seg in exclude_tags:
+            continue
+        out.append(p)
+    return out
+
+def _strip_examples(node: Any) -> None:
+    if isinstance(node, dict):
+        node.pop("example", None)
+        node.pop("examples", None)
+        for v in node.values(): _strip_examples(v)
+    elif isinstance(node, list):
+        for v in node: _strip_examples(v)
+
+def _collect_used_security_schemes(schema: dict) -> set[str]:
+    """Names of schemes referenced by top-level or per-operation `security`."""
+    used: set[str] = set()
+
+    def collect(sec_reqs):
+        if isinstance(sec_reqs, list):
+            for obj in sec_reqs:
+                if isinstance(obj, dict):
+                    used.update(obj.keys())
+
+    collect(schema.get("security"))
+    paths = schema.get("paths") or {}
+    for _p, methods in paths.items():
+        if not isinstance(methods, dict):
+            continue
+        for _m, op in methods.items():
+            if isinstance(op, dict):
+                collect(op.get("security"))
+
+    return used
 
 
-def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
+def _prune_unused_components(schema: dict) -> None:
     """
-    Wrap get_doc_url to delay get_doc_url import.
-
-    It cannot be imported directly, because get_spectacular_settings is used
-    from settings and get_doc_url needs settings to determine if it should hide t
-    he version info.
+    Remove unreferenced entries under components by graph reachability.
+    - Roots: paths (and webhooks). We also preserve securitySchemes used via
+      security requirements (they are not $ref'd).
     """
-    from weblate.utils.docs import get_doc_url
+    comps = schema.get("components")
+    if not isinstance(comps, dict):
+        return
 
-    return get_doc_url(page, anchor)
+    # --- special-case securitySchemes: keep referenced; if none referenced, keep all ---
+    used_schemes = _collect_used_security_schemes(schema)
+    sec_schemes = comps.get("securitySchemes")
+    if isinstance(sec_schemes, dict):
+        if used_schemes:
+            for name in list(sec_schemes.keys()):
+                if name not in used_schemes:
+                    sec_schemes.pop(name, None)
+        # If no schemes referenced, KEEP them all (don’t erase auth info)
+
+    # Standard reachability for the rest (schemas, parameters, responses, headers, etc.)
+    def get_component(section: str, name: str):
+        sec = comps.get(section)
+        if isinstance(sec, dict):
+            return sec.get(name)
+        return None
+
+    reachable: set[str] = set()
+    from collections import deque
+    q = deque()
+
+    # roots
+    paths = schema.get("paths") or {}
+    q.append(paths)
+    if "webhooks" in schema:
+        q.append(schema["webhooks"])
+
+    def enqueue_component(key: str):
+        if key in reachable:
+            return
+        reachable.add(key)
+        try:
+            section, name = key.split("/", 1)
+        except ValueError:
+            return
+        node = get_component(section, name)
+        if node is not None:
+            q.append(node)
+
+    def ref_to_key(ref: str) -> str | None:
+        p = "#/components/"
+        if isinstance(ref, str) and ref.startswith(p):
+            return ref[len(p):]
+        return None
+
+    while q:
+        node = q.popleft()
+        if isinstance(node, dict):
+            # $ref
+            if "$ref" in node:
+                key = ref_to_key(node["$ref"])
+                if key:
+                    enqueue_component(key)
+            # discriminator.mapping
+            disc = node.get("discriminator")
+            if isinstance(disc, dict):
+                mapping = disc.get("mapping")
+                if isinstance(mapping, dict):
+                    for v in mapping.values():
+                        key = ref_to_key(v)
+                        if key:
+                            enqueue_component(key)
+            # descend
+            for v in node.values():
+                q.append(v)
+        elif isinstance(node, list):
+            for v in node:
+                q.append(v)
+
+    # prune everything EXCEPT securitySchemes (already handled)
+    for section, items in list(comps.items()):
+        if section == "securitySchemes":
+            continue
+        if not isinstance(items, dict):
+            continue
+        for name in list(items.keys()):
+            if f"{section}/{name}" not in reachable:
+                items.pop(name, None)
 
 
-def get_spectacular_settings(
-    installed_apps: list[str], site_url: str, site_title: str
-) -> dict[str, Any]:
-    settings = {
-        # Use redoc from sidecar
-        # TODO: Should bundle it internally
-        "REDOC_DIST": "SIDECAR",
-        "REDOC_UI_SETTINGS": {
-            "theme": {
-                "typography": {
-                    "fontFamily": '"Source Sans 3", sans-serif',
-                    "headings": {
-                        "fontFamily": '"Source Sans 3", sans-serif',
-                    },
-                    "code": {
-                        "fontFamily": '"Source Code Pro", monospace',
-                    },
-                },
-                "logo": {
-                    "maxWidth": "150px",
-                    "maxHeight": "50vh",
-                    "margin": "auto",
-                },
-            },
-        },
-        # OpenAPI Specification version: 'webhooks' field is supported from 3.1.0
-        "OAS_VERSION": "3.1.1",
-        "SERVERS": [
-            {"url": site_url.rstrip("/"), "description": site_title},
+def _prune_unused_tags(schema: dict) -> None:
+    paths = schema.get("paths") or {}
+    used = set()
+    for _p, methods in paths.items():
+        if not isinstance(methods, dict):
+            continue
+        for _m, op in methods.items():
+            if not isinstance(op, dict):
+                continue
+            for t in op.get("tags") or []:
+                used.add(t)
+
+    # If operations were not tagged, fall back to first path segment
+    if not used:
+        for p in paths.keys():
+            seg = p.lstrip("/").split("/", 1)[0]
+            if seg:
+                used.add(seg)
+
+    if "tags" in schema and isinstance(schema["tags"], list):
+        schema["tags"] = [t for t in schema["tags"] if t.get("name") in used]
+
+
+class DynamicSchemaView(SpectacularAPIView):
+    """
+    /api/schema/                                      # 3.1 (default)
+    /api/schema/?oav=3.0                              # 3.0
+    /api/schema/?oav=3.1                              # 3.1
+    /api/schema/?oav=3.0&light=true                   # light preset
+    /api/schema/?oav=3.1&tags=projects,components     # include only
+    /api/schema/?oav=3.0&exclude=users,groups,addons  # exclude tags
+    /api/schema/?errors=false&examples=false          # doc-only trimming
+    """
+
+    exclude_from_schema = False
+    oa_request_version = "3.1"
+
+    @extend_schema(
+        operation_id="getOpenAPISchema",
+        tags=["root"],
+        summary="Download the OpenAPI Description",
+        description="Returns the OpenAPI document. Supports per-request filtering and OAS version selection.",
+        parameters=[
+            OpenApiParameter(name="oav", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.STR, enum=["3.0", "3.1"], default="3.1",
+                             description="OpenAPI version to generate."),
+            OpenApiParameter(name="light", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.BOOL, default=False,
+                             description="Exclude predefined admin-ish tags."),
+            OpenApiParameter(name="tags", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.STR,
+                             description="Comma-separated list of tags to include (first path segments)."),
+            OpenApiParameter(name="exclude", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.STR,
+                             description="Comma-separated list of tags to exclude."),
+            OpenApiParameter(name="errors", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.BOOL, default=True,
+                             description="Include non-2xx error responses in operations."),
+            OpenApiParameter(name="examples", location=OpenApiParameter.QUERY,
+                             type=OpenApiTypes.BOOL, default=True,
+                             description="Include example/example(s) objects."),
         ],
-        # Document only API (not webauthn and other drf endpoints)
-        "SERVE_URLCONF": "weblate.api.urls",
-        "TITLE": gettext_lazy("Weblate's REST API"),
-        "LICENSE": {
-            "name": "GNU General Public License v3 or later",
-            "url": lazy(get_doc_url_wrapper, str)("contributing/license"),
+        responses={
+            200: OpenApiResponse(
+                description="OpenAPI document (filtered)",
+                response=OpenApiTypes.OBJECT,  # the JSON/YAML document
+            ),
         },
-        "DESCRIPTION": """
-The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
+    )
+    @action(
+        detail=True,
+        methods=["get"]
+    )
+    def get(self, request, *args, **kwargs):
+        # --- params ---
+        ver = request.query_params.get("oav", "3.1")
+        oas = OAS_MAP.get(ver, OAS_MAP["3.1"])
+        title_suffix = ""
 
-The OpenAPI specification is available as feature preview, feedback welcome!
+        if oas.startswith("3.0"):
+            oa_request_version = "3.0"
+        else:
+            oa_request_version = "3.1"
 
-## Authorization
+        drop_errors = request.query_params.get("errors", "true").lower() == "false"
+        drop_examples = request.query_params.get("examples", "true").lower() == "false"
 
-<!-- Redoc-Inject: <security-definitions> -->
+        include_tags = ({t.strip() for t in request.query_params.get("tags", "").split(",") if t.strip()}
+                        or None)
 
+        exclude_tags: Set[str] = {t.strip() for t in request.query_params.get("exclude", "").split(",") if t.strip()}
 
-    """,
-        "EXTENSIONS_INFO": {
-            "x-logo": {
-                "url": "/static/weblate.svg",
-            }
-        },
-        # Do not use API versioning
-        "VERSION": None,
-        # Flatten enum definitions
-        "ENUM_NAME_OVERRIDES": {
-            "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
-            "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
-            "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
-            "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
-            "ErrorCode401Enum": "drf_standardized_errors.openapi_serializers.ErrorCode401Enum.choices",
-            "ErrorCode403Enum": "drf_standardized_errors.openapi_serializers.ErrorCode403Enum.choices",
-            "ErrorCode404Enum": "drf_standardized_errors.openapi_serializers.ErrorCode404Enum.choices",
-            "ErrorCode405Enum": "drf_standardized_errors.openapi_serializers.ErrorCode405Enum.choices",
-            "ErrorCode406Enum": "drf_standardized_errors.openapi_serializers.ErrorCode406Enum.choices",
-            "ErrorCode415Enum": "drf_standardized_errors.openapi_serializers.ErrorCode415Enum.choices",
-            "ErrorCode429Enum": "drf_standardized_errors.openapi_serializers.ErrorCode429Enum.choices",
-            "ErrorCode500Enum": "drf_standardized_errors.openapi_serializers.ErrorCode500Enum.choices",
-            "ErrorCode423Enum": "weblate.api.serializers.ErrorCode423Enum.choices",
-        },
-        "POSTPROCESSING_HOOKS": [
-            "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
-            "weblate.api.docs.add_middleware_headers",
-        ],
-        "EXTERNAL_DOCS": {
-            "url": lazy(get_doc_url_wrapper, str)("index"),
-            "description": "Official Weblate documentation",
-        },
-        "TAGS": [
-            {
-                "name": "root",
-                "description": "The API root entry point.",
-            },
-            {
-                "name": "users",
-                "description": "Added in version 4.0.",
-            },
-            {
-                "name": "groups",
-                "description": "Added in version 4.0.",
-            },
-            {
-                "name": "roles",
-            },
-            {
-                "name": "languages",
-            },
-            {
-                "name": "projects",
-            },
-            {
-                "name": "components",
-            },
-            {
-                "name": "translations",
-            },
-            {
-                "name": "memory",
-                "description": "Added in version 4.14.",
-            },
-            {
-                "name": "units",
-                "description": "A unit is a single piece of a translation which pairs a source string with a corresponding translated string and also contains some related metadata. The term is derived from the Translate Toolkit and XLIFF.",
-            },
-            {
-                "name": "changes",
-            },
-            {
-                "name": "screenshots",
-            },
-            {
-                "name": "addons",
-                "description": "Added in version 4.4.1.",
-            },
-            {
-                "name": "component-lists",
-                "description": "Added in version 4.0.",
-            },
-            {
-                "name": "glossary",
-                "description": "**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.",
-            },
-            {
-                "name": "tasks",
-                "description": "Added in version 4.4.\n\nListing of the tasks is currently not available.",
-            },
-            {
-                "name": "statistics",
-                "description": "Many endpoints support displaying statistics for their objects.",
-            },
-            {
-                "name": "metrics",
-            },
-            {
-                "name": "search",
-                "description": "Added in version 4.18.",
-            },
-            {
-                "name": "categories",
-            },
-            {
-                "name": "hooks",
-                "description": """Notification hooks allow external applications to notify Weblate that the VCS repository has been updated."""
-                """\n\nYou can use repository endpoints for projects, components and translations to update individual repositories.""",
-            },
-            {
-                "name": "exports",
-                "description": "Weblate provides various exports to allow you to further process the data.",
-            },
-            {
-                "name": "rssFeeds",
-                "description": "Changes in translations are exported in RSS feeds.",
-            },
-            {
-                "name": "webhooks",
-                "description": "Notifications sent by Weblate.",
-            },
-        ],
-        "WEBHOOKS": ["weblate.addons.webhooks.change_event_webhook"],
-    }
-    if "weblate.legal" in installed_apps:
-        settings["TOS"] = "/legal/terms/"
+        if (drop_errors or drop_examples or include_tags or exclude_tags):
+            title_suffix = " Subset"
 
-    return settings
+        if request.query_params.get("light", "false").lower() == "true":
+            exclude_tags = LIGHT_EXCLUDE
+            include_tags = None
+            drop_errors = True
+            drop_examples = True
+            title_suffix = " Light"
+
+        # --- lock to your API urlconf (already set globally) ---
+        # self.urlconf = settings.SPECTACULAR_SETTINGS.get("SERVE_URLCONF", settings.ROOT_URLCONF)
+
+        # --- PRE-GENERATION filtering (walk into the router include) ---
+        resolver = get_resolver(self.urlconf)
+        self.patterns = _filter_patterns(resolver, include_tags, exclude_tags or None)
+
+        # --- OAS version per request ---
+        self.custom_settings = {**(getattr(self, "custom_settings", {}) or {}), "OAS_VERSION": oas}
+
+        title = settings.SPECTACULAR_SETTINGS.get("TITLE", "REST API");
+                                                  
+        self.custom_settings = {**(getattr(self, "custom_settings", {}) or {}), "TITLE": f"{title}{title_suffix} (OAS {oa_request_version})"}
+
+        # generate
+        resp = super().get(request, *args, **kwargs)
+        schema = resp.data
+
+        # --- doc-only edits ---
+        if drop_examples:
+            _strip_examples(schema)
+
+        if drop_errors:
+            paths = schema.get("paths") or {}
+            for _, methods in paths.items():
+                if not isinstance(methods, dict): continue
+                for _, op in methods.items():
+                    if not isinstance(op, dict): continue
+                    rs = op.get("responses")
+                    if isinstance(rs, dict):
+                        for code in list(rs.keys()):
+                            if code not in SUCCESS_CODES and code != "default":
+                                rs.pop(code, None)
+
+        if oas.startswith("3.0"):
+            schema.pop("webhooks", None)
+
+        _prune_unused_tags(schema)
+        _prune_unused_components(schema)
+        resp.data = schema
+        return resp
 
 
-def get_drf_standardized_errors_sertings() -> dict[str, Any]:
-    return {
-        "ALLOWED_ERROR_STATUS_CODES": [
-            "400",
-            "401",
-            "403",
-            "404",
-            "405",
-            "406",
-            "415",
-            "423",  # Added by Weblate
-            "429",
-            "500",
-        ],
-        "ERROR_SCHEMAS": {
-            "423": "weblate.api.serializers.ErrorResponse423Serializer",
-        },
-        "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",
-    }
+class DynamicRedocView(SpectacularRedocView):
+    def _get_schema_url(self, request):
+        base = get_relative_url(reverse(self.url_name, request=request))
+        qs = urlencode(list(request.GET.lists()), doseq=True, safe="./?&,")
+        return f"{base}?{qs}" if qs else base
 
+class DynamicSwaggerView(SpectacularSwaggerSplitView):
+    def _get_schema_url(self, request):
+        base = get_relative_url(reverse(self.url_name, request=request))
+        qs = urlencode(list(request.GET.lists()), doseq=True, safe="./?&,")
+        return f"{base}?{qs}" if qs else base
 
-def get_drf_settings(
-    *, require_login: bool, anon_throttle: str, user_throttle: str
-) -> dict[str, Any]:
-    return {
-        # Use Django's standard `django.contrib.auth` permissions,
-        # or allow read-only access for unauthenticated users.
-        "DEFAULT_PERMISSION_CLASSES": [
-            # Require authentication for login required sites
-            "rest_framework.permissions.IsAuthenticated"
-            if require_login
-            else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-        ],
-        "DEFAULT_AUTHENTICATION_CLASSES": (
-            "rest_framework.authentication.TokenAuthentication",
-            "weblate.api.authentication.BearerAuthentication",
-            "rest_framework.authentication.SessionAuthentication",
-        ),
-        "DEFAULT_THROTTLE_CLASSES": (
-            "weblate.api.throttling.UserRateThrottle",
-            "weblate.api.throttling.AnonRateThrottle",
-        ),
-        "DEFAULT_THROTTLE_RATES": {
-            "anon": anon_throttle,
-            "user": user_throttle,
-        },
-        "DEFAULT_RENDERER_CLASSES": [
-            "rest_framework.renderers.JSONRenderer",
-            "rest_framework.renderers.BrowsableAPIRenderer",
-            "weblate.api.renderers.AutoCSVRenderer",
-        ],
-        "DEFAULT_PAGINATION_CLASS": "weblate.api.pagination.StandardPagination",
-        "PAGE_SIZE": 50,
-        "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
-        "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
-        "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
-        "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
-    }

@@ -5,6 +5,7 @@
 from django.urls import include, path
 
 from weblate.api.routers import WeblateRouter
+from weblate.api.spectacular import DynamicSchemaView
 from weblate.api.views import (
     AddonViewSet,
     CategoryViewSet,
@@ -46,6 +47,7 @@ router.register("categories", CategoryViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    path("schema/", DynamicSchemaView.as_view(), name="root"),
     path("metrics/", Metrics.as_view(), name="metrics"),
     path("search/", Search.as_view(), name="search"),
     path("", include(router.urls)),
