@@ -71,6 +71,7 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
+    ProjectLockSerializer,
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
@@ -1333,6 +1334,25 @@ class ProjectViewSet(
             data=ProjectMachinerySettingsSerializer(project).data,
             status=HTTP_200_OK,
         )
+
+    @extend_schema(description="Return project lock status.", methods=["get"])
+    @extend_schema(description="Sets project lock status.", methods=["post"])
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
+    )
+    def lock(self, request: Request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                raise PermissionDenied
+
+            serializer = LockRequestSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            obj.do_lock(request.user, serializer.validated_data["lock"])
+
+        return Response(data=ProjectLockSerializer(obj).data)
 
 
 @extend_schema_view(
