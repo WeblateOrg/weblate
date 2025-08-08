@@ -40,5 +40,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             update_autotranslate_filter_type,
             migrations.RunPython.noop,
+            elidable=True,
         ),
     ]
