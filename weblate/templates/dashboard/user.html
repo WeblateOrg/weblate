@@ -16,7 +16,10 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item" {% active_link "your-subscriptions" %}>
-      <a class="nav-link active" data-bs-target="#your-subscriptions" data-bs-toggle="tab" href="#">{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
+      <a class="nav-link active"
+         data-bs-target="#your-subscriptions"
+         data-bs-toggle="tab"
+         href="#">{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
     </li>
     {% if all_componentlists %}
       <li class="nav-item" {% active_link "componentlists" %}>
@@ -33,13 +36,13 @@
     {% endif %}
     {% for componentlist in componentlists %}
       <li class="nav-item" {% active_link componentlist.tab_slug %}>
-        <a class="nav-link" data-bs-target="#{{ componentlist.tab_slug }}" data-bs-toggle="tab">{{ componentlist.name }} <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span></a>
+        <a class="nav-link"
+           data-bs-target="#{{ componentlist.tab_slug }}"
+           data-bs-toggle="tab">{{ componentlist.name }} <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span></a>
       </li>
     {% endfor %}
     <li class="nav-item" class="dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Insights" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item" href="{% url 'changes' %}">{% translate "History" %}</a>
