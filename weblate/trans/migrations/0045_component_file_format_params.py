@@ -9,7 +9,7 @@ from typing import Any
 
 from django.db import migrations, models
 
-ADDON_CONFG_TO_FILE_FORMAT_PARAMS = {
+ADDON_CONFG_TO_FILE_FORMAT_PARAMS: dict[str, dict[str, Any]] = {
     "weblate.json.customize": {
         "file_formats": (
             "json",
@@ -122,23 +122,25 @@ def collect_addon_configurations(apps) -> dict[str, list | dict]:
         name__in=ADDON_CONFG_TO_FILE_FORMAT_PARAMS.keys()
     ).select_related("component", "project")
 
-    configs = {
-        "site_wide": [],
-        "project_wide": defaultdict(list),
-        "component_wide": defaultdict(list),
-    }
+    site_wide = []
+    project_wide = defaultdict(list)
+    component_wide = defaultdict(list)
 
     for addon in addons:
         file_formats, params = convert_addon_config_to_file_format_params(addon)
         config_entry = (file_formats, params)
 
         if not addon.component and not addon.project:
-            configs["site_wide"].append(config_entry)
+            site_wide.append(config_entry)
         elif addon.project and not addon.component:
-            configs["project_wide"][addon.project_id].append(config_entry)
+            project_wide[addon.project_id].append(config_entry)
         elif addon.component:
-            configs["component_wide"][addon.component_id].append(config_entry)
-    return configs
+            component_wide[addon.component_id].append(config_entry)
+    return {
+        "site_wide": site_wide,
+        "project_wide": project_wide,
+        "component_wide": component_wide,
+    }
 
 
 def merge_file_format_params(component, configs) -> dict[str, bool | int | str]:

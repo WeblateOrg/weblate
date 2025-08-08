@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from collections.abc import Iterable
 from typing import TYPE_CHECKING, cast
 
 from django import forms
@@ -19,7 +18,7 @@ if TYPE_CHECKING:
 
 class BaseFileFormatParam:
     name: str = ""
-    file_formats: Iterable[str] = ()
+    file_formats: tuple[str] | list[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
     default: str | int | bool
@@ -106,9 +105,8 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     default = False
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        store.store.dump_args["sort_keys"] = file_format_params.get(
-            self.name, self.default
-        )
+        dump_args = getattr(store.store, "dump_args", {})
+        dump_args["sort_keys"] = file_format_params.get(self.name, self.default)
 
 
 @register_file_format_param
@@ -138,9 +136,11 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
             )
             or JSONOutputIndentation.default
         )
+        dump_args = getattr(store.store, "dump_args", {})
         if file_format_params.get(self.name, self.default) == "tabs":
-            indent = "\t" * indent
-        store.store.dump_args["indent"] = indent
+            dump_args["indent"] = "\t" * indent
+        else:
+            dump_args["indent"] = indent
 
 
 @register_file_format_param
@@ -152,7 +152,8 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
         use_compact_separators = file_format_params.get(self.name, self.default)
-        store.store.dump_args["separators"] = (
+        dump_args = getattr(store.store, "dump_args", {})
+        dump_args["separators"] = (
             ",",
             ":" if use_compact_separators else ": ",
         )
@@ -187,9 +188,10 @@ class GettextPoLineWrap(BaseFileFormatParam):
     )
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        cast("BasePoFormat", store).store.wrapper.width = int(
-            file_format_params.get(self.name, self.default) or self.default
-        )
+        if wrapper := cast("BasePoFormat", store).store.wrapper:
+            wrapper.width = int(
+                file_format_params.get(self.name, self.default) or self.default
+            )
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
@@ -236,7 +238,8 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     field_kwargs = {"min_value": 0, "max_value": 10}
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        store.store.dump_args["indent"] = int(
+        dump_args = getattr(store.store, "dump_args", {})
+        dump_args["indent"] = int(
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -256,7 +259,8 @@ class YAMLLineWrap(BaseYAMLFormatParam):
     ]
 
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        store.store.dump_args["width"] = int(
+        dump_args = getattr(store.store, "dump_args", {})
+        dump_args["width"] = int(
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -276,7 +280,8 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
         line_break = file_format_params.get(self.name, self.default)
-        store.store.dump_args["line_break"] = breaks[line_break]
+        dump_args = getattr(store.store, "dump_args", {})
+        dump_args["line_break"] = breaks[line_break]
 
 
 @register_file_format_param

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import operator
-from collections.abc import Iterable
+from collections.abc import Sequence
 
 from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.utils.management.base import BaseCommand
@@ -13,7 +13,7 @@ from weblate.utils.rst import format_table
 class Command(BaseCommand):
     help = "List file format parameters"
 
-    def format_file_formats(self, file_formats: Iterable[str]) -> str:
+    def format_file_formats(self, file_formats: Sequence[str]) -> str:
         lines = [
             " ".join([f"``{f}``" for f in file_formats[i * 4 : (i + 1) * 4]])
             for i in range((len(file_formats) // 4) + 1)
