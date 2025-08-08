@@ -493,7 +493,7 @@ def auto_translate(
     user_id: int | None,
     translation_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     component: int | None,
     engines: list[str],
@@ -506,7 +506,7 @@ def auto_translate(
         auto = AutoTranslate(
             user=user,
             translation=translation,
-            filter_type=filter_type,
+            q=q,
             mode=mode,
             component_wide=component_wide,
         )
@@ -528,7 +528,7 @@ def auto_translate(
 def auto_translate_component(
     component_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
@@ -543,7 +543,7 @@ def auto_translate_component(
         auto = AutoTranslate(
             user=None,
             translation=translation,
-            filter_type=filter_type,
+            q=q,
             mode=mode,
             component_wide=True,
         )

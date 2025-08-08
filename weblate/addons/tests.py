@@ -1314,7 +1314,7 @@ class AutoTranslateAddonTest(ViewTestCase):
             component=self.component,
             configuration={
                 "component": "",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "mt",
                 "engines": [],
                 "threshold": 80,

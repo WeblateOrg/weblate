@@ -68,19 +68,6 @@ if TYPE_CHECKING:
     from weblate.formats.base import TranslationUnit
     from weblate.machinery.base import UnitMemoryResultDict
 
-SIMPLE_FILTERS: dict[str, dict[str, Any]] = {
-    "fuzzy": {"state": STATE_FUZZY},
-    "approved": {"state": STATE_APPROVED},
-    "approved_suggestions": {"state": STATE_APPROVED, "suggestion__isnull": False},
-    "unapproved": {"state": STATE_TRANSLATED},
-    "todo": {"state__lt": STATE_TRANSLATED},
-    "nottranslated": {"state": STATE_EMPTY},
-    "translated": {"state__gte": STATE_TRANSLATED},
-    "suggestions": {"suggestion__isnull": False},
-    "nosuggestions": {"suggestion__isnull": True, "state__lt": STATE_TRANSLATED},
-    "comments": {"comment__resolved": False},
-    "allchecks": {"check__ignore": False},
-}
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
 
@@ -98,23 +85,6 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_type(self, rqtype):
-        """Filter based on unit state or failed checks."""
-        if rqtype in SIMPLE_FILTERS:
-            return self.filter(**SIMPLE_FILTERS[rqtype])
-        if rqtype.startswith("check:"):
-            check_id = rqtype[6:]
-            if check_id not in CHECKS:
-                msg = f"Unknown check: {check_id}"
-                raise ValueError(msg)
-            return self.filter(check__name=check_id, check__dismissed=False)
-        if rqtype.startswith("label:"):
-            return self.filter(labels__name=rqtype[6:])
-        if rqtype == "all":
-            return self.all()
-        msg = f"Unknown filter: {rqtype}"
-        raise ValueError(msg)
-
     def prefetch(self):
         from weblate.trans.models import Component
 

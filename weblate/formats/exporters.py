@@ -17,9 +17,9 @@ from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
 from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
-from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.properties import stringsutf8file
+from translate.storage.pypo import pofile
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile

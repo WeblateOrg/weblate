@@ -38,6 +38,7 @@ from weblate.trans.tests.utils import get_test_file
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
+TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 class BackupsTest(ViewTestCase):
@@ -267,6 +268,13 @@ class BackupsTest(ViewTestCase):
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
+
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_duplicate_files(self) -> None:
+        restore = ProjectBackup(TEST_BACKUP_DUPLICATE_FILES)
+        with self.assertRaises(ValueError) as ex:
+            restore.validate()
+        self.assertIn("zip file contains duplicate files", str(ex.exception))
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()

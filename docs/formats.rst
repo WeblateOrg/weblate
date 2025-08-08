@@ -318,7 +318,7 @@ Translation types capabilities
      - bilingual
      - no
      - yes
-     - no
+     - yes
      - no
      - yes
      -
