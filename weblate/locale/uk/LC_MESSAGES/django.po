@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim5@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -2110,10 +2110,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Некоректна назва додатка: «%s»"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Додаток вилучено"
+msgstr "Не вдалося встановити доповнення: ”%s”"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8218,30 +8217,18 @@ msgid "Checks overview"
 msgstr "Огляд перевірок"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
 msgstr "Зробити внесок"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Станьте прихильником"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
 msgstr "Про нас"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Вебсайт"
 
@@ -9280,12 +9267,9 @@ msgid "Status"
 msgstr "Статус"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Станьте прихильником"
+msgstr "Станьте прихильником Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9536,10 +9520,8 @@ msgid "Repository changes"
 msgstr "Зміни репозиторію"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Переглянути усі зміни у рядках"
+msgstr "Переглянути всі зміни в репозиторії"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14209,17 +14191,13 @@ msgstr "Шрифт вилучено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Примусова синхронізація"
+msgstr "Примусова синхронізація перекладів"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Заборонений переклад"
+msgstr "Примусове повторне сканування перекладів"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14860,6 +14838,8 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Не вдалося завантажити резервну копію проєкту: резервна копія з несумісної "
+"версії (%(version)s). Будь ласка, оновіть свій екземпляр Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format
