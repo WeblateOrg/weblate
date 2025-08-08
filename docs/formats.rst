@@ -359,7 +359,7 @@ Translation types capabilities
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 .. [#fp] Plurals are handled in the syntax of the strings and not exposed as plurals in Weblate.
 
-.. _Localization in Laravel: https://laravel.com/docs/7.x/localization
+.. _Localization in Laravel: https://laravel.com/docs/localization
 
 .. _bimono:
 
