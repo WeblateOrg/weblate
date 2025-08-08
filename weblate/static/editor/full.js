@@ -291,7 +291,7 @@
         },
         error: (jqXhr, textStatus, errorThrown) => {
           addAlert(
-            `${gettext("Failed to clear cache:")} ${textStatus}: ${errorThrown}`
+            `${gettext("Failed to clear cache:")} ${textStatus}: ${errorThrown}`,
           );
         },
       });
