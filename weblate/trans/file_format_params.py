@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, cast
 
 from django import forms
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
 
 class BaseFileFormatParam:
     name: str = ""
-    file_formats: tuple[str] | list[str] = []
+    file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
     default: str | int | bool
@@ -292,7 +293,7 @@ class XMLClosingTags(BaseFileFormatParam):
     default = True
 
     @classproperty
-    def file_formats(self):
+    def file_formats(self) -> list[str]:
         from weblate.formats.models import FILE_FORMATS
 
         result = []
