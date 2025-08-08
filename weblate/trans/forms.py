@@ -517,8 +517,9 @@ class TranslationForm(UnitForm):
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         super().__init__(unit, *args, **kwargs)
         if unit.readonly:
-            for field in ["target", "fuzzy", "review"]:
-                self.fields[field].widget.attrs["readonly"] = 1
+            self.fields["target"].widget.attrs["readonly"] = 1
+            # checkbox cannot be read-only, so hide it instead
+            self.fields["fuzzy"].widget = forms.HiddenInput()
             self.fields["review"].choices = [
                 (state, label)
                 for state, label in StringState.choices
