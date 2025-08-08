@@ -731,6 +731,11 @@ real_patterns = [
         name="js-memory",
     ),
     path(
+        "js/clear-cache/<int:unit_id>/",
+        weblate.machinery.views.clear_cache,
+        name="js-clear-cache",
+    ),
+    path(
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",

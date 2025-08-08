@@ -257,6 +257,45 @@
       });
       return false;
     });
+
+    this.$editor.on("click", "#clear-machinery-cache", (e) => {
+      e.preventDefault();
+
+      const translateUrl = $("#js-translate").attr("href");
+      const unitId = translateUrl.match(/\/(\d+)\//)[1];
+      const clearCacheUrl = "/js/clear-cache/" + unitId + "/";
+
+      $.ajax({
+        type: "POST",
+        url: clearCacheUrl,
+        data: {
+          csrfmiddlewaretoken: this.csrfToken,
+        },
+        dataType: "json",
+        success: (data) => {
+          if (data.responseStatus === 200) {
+            addAlert(data.message);
+            // Refresh machinery suggestions
+            this.machinery.setState({ translations: [] });
+            $("#machinery-translations").empty();
+            // Reload all machinery services
+            $("#js-translate")
+              .data("services")
+              .forEach((serviceName) => {
+                increaseLoading("machinery");
+                this.fetchMachinery(serviceName);
+              });
+          } else {
+            addAlert(gettext("Failed to clear cache"));
+          }
+        },
+        error: (jqXhr, textStatus, errorThrown) => {
+          addAlert(
+            `${gettext("Failed to clear cache:")} ${textStatus}: ${errorThrown}`
+          );
+        },
+      });
+    });
   };
 
   FullEditor.prototype.removeTranslationEntry = function (deleteUrl) {
