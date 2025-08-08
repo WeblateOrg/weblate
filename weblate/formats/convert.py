@@ -26,7 +26,7 @@ from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
-from translate.storage.po import pofile
+from translate.storage.pypo import pofile
 from translate.storage.rc import rcfile
 from translate.storage.txt import TxtFile
 from translate.storage.xliff import xlifffile
