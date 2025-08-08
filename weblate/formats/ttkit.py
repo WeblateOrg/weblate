@@ -31,8 +31,8 @@ from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
 from translate.storage.lisa import LISAfile
-from translate.storage.po import pofile, pounit
 from translate.storage.poxliff import PoXliffFile
+from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
 from translate.storage.ts2 import tsfile, tsunit
