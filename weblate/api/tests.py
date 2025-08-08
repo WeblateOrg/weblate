@@ -1208,6 +1208,39 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertFalse(response.data["locked"])
 
+    def test_project_lock_endpoint(self) -> None:
+        """Test the dedicated project lock API endpoint."""
+        # Test without authentication
+        self.do_request("api:project-lock", self.project_kwargs, code=403)
+        
+        # Test without permissions
+        self.do_request("api:project-lock", self.project_kwargs, method="post", 
+                       request={"lock": True}, code=403)
+        
+        self.authenticate(True)
+        
+        # Initially unlocked
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertFalse(response.data["locked"])
+        
+        # Lock the project
+        response = self.do_request("api:project-lock", self.project_kwargs, 
+                                  method="post", request={"lock": True})
+        self.assertTrue(response.data["locked"])
+        
+        # Verify lock status persists
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertTrue(response.data["locked"])
+        
+        # Unlock the project
+        response = self.do_request("api:project-lock", self.project_kwargs,
+                                  method="post", request={"lock": False})
+        self.assertFalse(response.data["locked"])
+        
+        # Test invalid request
+        self.do_request("api:project-lock", self.project_kwargs, method="post",
+                       request={}, code=400)
+
     def test_repo_invalid(self) -> None:
         self.do_request(
             "api:project-repository",
