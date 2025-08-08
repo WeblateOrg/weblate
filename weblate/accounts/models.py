@@ -27,7 +27,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.timezone import now
-from django.utils.translation import get_language, gettext, gettext_lazy, pgettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -56,6 +56,7 @@ from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import (
     CategoryLanguageStats,
+    GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
@@ -63,9 +64,12 @@ from weblate.utils.token import get_token
 from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
 from weblate.wladmin.models import get_support_status
 
+from .types import ThemeChoices
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.http.request import HttpRequest
     from django_otp.models import Device
 
 LOGGER = logging.getLogger("weblate.audit")
@@ -372,7 +376,7 @@ class AuditLogManager(models.Manager):
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
     def create(  # type: ignore[override]
-        self, user: User, request: AuthenticatedHttpRequest | None, activity, **params
+        self, user: User, request: HttpRequest | None, activity, **params
     ):
         address = get_ip_address(request)
         user_agent = get_user_agent(request)
@@ -451,7 +455,7 @@ class AuditLog(models.Model):
             logging.WARNING if self.activity in AUDIT_WARNING else logging.INFO,
             "audit[%s]: %s from %s",
             self.activity,
-            self.user.username if self.user else None,
+            self.user.username if self.user else "<no-user>",
             self.address,
         )
 
@@ -599,11 +603,7 @@ class Profile(models.Model):
         max_length=10,
         verbose_name=gettext_lazy("Theme"),
         default="auto",
-        choices=(
-            ("auto", pgettext_lazy("Theme selection", "Sync with system")),
-            ("light", pgettext_lazy("Theme selection", "Light")),
-            ("dark", pgettext_lazy("Theme selection", "Dark")),
-        ),
+        choices=ThemeChoices,
     )
     hide_completed = models.BooleanField(
         verbose_name=gettext_lazy("Hide completed translations on the dashboard"),
@@ -963,6 +963,7 @@ class Profile(models.Model):
             | ProjectLanguageStats
             | CategoryLanguageStats
             | GhostProjectLanguageStats
+            | GhostCategoryLanguageStats
             | GhostTranslation
         ],
         str,
@@ -976,6 +977,7 @@ class Profile(models.Model):
             | ProjectLanguageStats
             | CategoryLanguageStats
             | GhostProjectLanguageStats
+            | GhostCategoryLanguageStats
             | GhostTranslation,
         ) -> str:
             from weblate.trans.models import Unit
@@ -995,6 +997,7 @@ class Profile(models.Model):
                     ProjectLanguageStats,
                     CategoryLanguageStats,
                     GhostProjectLanguageStats,
+                    GhostCategoryLanguageStats,
                     GhostTranslation,
                 ),
             ):

@@ -4,9 +4,9 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
-from typing import Literal
+from typing import TYPE_CHECKING, ClassVar, Literal
 
-from django.db.models import Aggregate, Count, F, Q
+from django.db.models import Count, Expression, F, Q
 from django.test import TestCase
 
 from weblate.auth.models import User
@@ -24,17 +24,20 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
 
 class SearchTestCase(TestCase):
-    object_class = Unit
-    parser: Literal["unit", "user", "superuser"] = "unit"
+    object_class: ClassVar[type[Unit | User]] = Unit
+    parser: ClassVar[Literal["unit", "user", "superuser"]] = "unit"
 
     def assert_query(
         self,
         string: str,
-        expected: Q | tuple[Q, dict[str, Aggregate]],
+        expected: Q | tuple[Q, Mapping[str, Expression]],
         *,
-        expected_annotations: dict[str, Aggregate] | None = None,
+        expected_annotations: Mapping[str, Expression] | None = None,
         exists: bool = False,
         **context,
     ) -> None:
@@ -548,8 +551,8 @@ class UnitQueryParserTest(SearchTestCase):
 
 
 class UserQueryParserTest(SearchTestCase):
-    object_class = User
-    parser = "user"
+    object_class: ClassVar[type[Unit | User]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser"]] = "user"
 
     def test_simple(self) -> None:
         self.assert_query(
@@ -634,7 +637,8 @@ class UserQueryParserTest(SearchTestCase):
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
-    parser = "superuser"
+    object_class: ClassVar[type[Unit | User]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser"]] = "superuser"
 
     def test_simple(self) -> None:
         self.assert_query(

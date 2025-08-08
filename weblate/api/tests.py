@@ -1813,9 +1813,9 @@ class ProjectAPITest(APIBaseTest):
                 "slug": "local-project",
                 "repo": "local:",
                 "vcs": "local",
-                "filemask": "*.xliff",
-                "template": "en.xliff",
-                "file_format": "xliff",
+                "filemask": "*.ts",
+                "template": "en.ts",
+                "file_format": "ts",
                 "new_lang": "none",
             },
         )

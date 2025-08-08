@@ -6,14 +6,22 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from weblate.utils.classloader import ClassLoaderProtocol
+
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
     from weblate.trans.models import Unit
 
 
-class AutoFix:
+class AutoFix(ClassLoaderProtocol):
     """Base class for AutoFixes."""
 
     fix_id = "auto"
+
+    @property
+    def name(self) -> StrOrPromise:
+        return self.fix_id
 
     def get_identifier(self):
         return self.fix_id
@@ -28,7 +36,7 @@ class AutoFix:
         """Fix a single target, implement this method in subclasses."""
         raise NotImplementedError
 
-    def fix_target(self, target: str, unit: Unit) -> tuple[list[str], bool]:
+    def fix_target(self, target: list[str], unit: Unit) -> tuple[list[str], bool]:
         """Return a target translation array with a single fix applied."""
         source_strings = unit.get_source_plurals()
         if unit.translation.component.is_multivalue:

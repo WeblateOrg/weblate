@@ -135,7 +135,7 @@ SUPPORT_NAMES = {
 }
 
 
-class SupportStatusManager(models.Manager):
+class SupportStatusManager(models.Manager["SupportStatus"]):
     def get_current(self, *, for_update: bool = False) -> SupportStatus:
         base = self.filter(enabled=True)
         if for_update:

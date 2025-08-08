@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.unit import Unit
 
 
-class AutofixLoader(ClassLoader):
+class AutofixLoader(ClassLoader[AutoFix]):
     def __init__(self) -> None:
         super().__init__("AUTOFIX_LIST", base_class=AutoFix)
 

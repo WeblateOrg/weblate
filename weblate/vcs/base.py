@@ -603,3 +603,6 @@ class Repository:
 
     def compact(self) -> None:
         return
+
+    def show(self, revision: str) -> str:
+        raise NotImplementedError

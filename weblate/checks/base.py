@@ -15,12 +15,13 @@ from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
 
+from weblate.utils.classloader import ClassLoaderProtocol
 from weblate.utils.docs import get_doc_url
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Callable, Generator, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -37,7 +38,7 @@ class MissingExtraDict(TypedDict, total=False):
     errors: list[str]
 
 
-class BaseCheck:
+class BaseCheck(ClassLoaderProtocol):
     """Basic class for checks."""
 
     check_id = ""
@@ -50,7 +51,7 @@ class BaseCheck:
     ignore_readonly = True
     default_disabled = False
     propagates: Literal["source", "target"] | None = None
-    param_type = None
+    param_type: Callable[[tuple[str, ...]], Any] | None = None
     always_display = False
     batch_project_wide = False
     skip_suggestions = False

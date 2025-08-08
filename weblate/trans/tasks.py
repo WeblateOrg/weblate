@@ -288,7 +288,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
         try:
             # Find matching components
             component: Component = parse_path(
-                None, path.relative_to(vcs_root).parts, (Component,), skip_acl=True
+                None, path.relative_to(vcs_root).parts, (Component,)
             )
         except Http404:
             # Remove stale dir
@@ -304,12 +304,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
     if empty_dir and root != vcs_root:
         try:
             # Find matching components
-            parse_path(
-                None,
-                root.relative_to(vcs_root).parts,
-                (Category, Project),
-                skip_acl=True,
-            )
+            parse_path(None, root.relative_to(vcs_root).parts, (Category, Project))
         except Http404:
             LOGGER.info("removing stale VCS path (not found): %s", root)
             root.rmdir()

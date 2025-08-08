@@ -73,7 +73,7 @@ def check_support(
     from weblate.wladmin.models import SupportStatus
 
     support_status = SupportStatus.objects.get_current()
-    if not support_status.has_expired_support:
+    if not support_status.has_expired_support or support_status.expiry is None:
         return []
     return [
         weblate_check(

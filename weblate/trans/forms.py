@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal, cast
 
 import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -1198,9 +1198,7 @@ class NewProjectLanguageOwnerForm(FullLanguageForm):
 
     def get_lang_objects(self) -> QuerySet[Language]:
         # Get all child components
-        components = self.project.get_child_components_access(
-            self.user, lambda qs: qs.exclude(Q(new_lang="none") | Q(new_lang="url"))
-        )
+        components = self.project.components_user_can_add_new_language(self.user)
         components_count = components.count()
 
         # Count source and target languages
@@ -2019,7 +2017,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context = value.data.copy()
+        context = cast("dict[str, str]", value.data.copy())
         try:
             format_cls = FILE_FORMATS[value["file_format"]]
             context["file_format_name"] = format_cls.name

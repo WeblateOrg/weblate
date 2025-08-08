@@ -1,15 +1,25 @@
 {% load compress static %}
 
 {% compress css %}
-  <link rel="stylesheet"
-        href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
-  {% if LANGUAGE_BIDI %}
+  {% if bootstrap_5 %}
+    {% if LANGUAGE_BIDI %}
+      <link rel="stylesheet"
+            href="{% static 'styles/vendor/bootstrap5_rtl.css' %}{{ cache_param }}" />
+    {% else %}
+      <link rel="stylesheet"
+            href="{% static 'styles/vendor/bootstrap5.css' %}{{ cache_param }}" />
+    {% endif %}
+  {% else %}
     <link rel="stylesheet"
-          href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
+          href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
+    {% if LANGUAGE_BIDI %}
+      <link rel="stylesheet"
+            href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
+    {% endif %}
   {% endif %}
   <link rel="stylesheet"
-        href="{% static 'js/vendor/fonts/fonts.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" href="{% static 'js/vendor/multi.css' %}{{ cache_param }}" />
+        href="{% static 'styles/vendor/fonts/fonts.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'styles/vendor/multi.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'styles/new-language.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'styles/variables.css' %}{{ cache_param }}" />
   <link rel="stylesheet" href="{% static 'styles/main.css' %}{{ cache_param }}" />

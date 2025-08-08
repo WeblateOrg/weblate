@@ -734,8 +734,15 @@ class Translation(
             changes_status = self.update_units(changes, store, author_name)
             all_changes_status.update(changes_status)
 
-            # Commit changes
-            self.git_commit(user, author_name, timestamp, skip_push=True, signals=False)
+            # Commit changes if there was anything written out
+            if any(changes_status.values()):
+                self.git_commit(
+                    user, author_name, timestamp, skip_push=True, signals=False
+                )
+
+        # Short-circuit when no changes were processed
+        if not any(all_changes_status.values()):
+            return False
 
         # A pending change can be deleted from the database:
         # 1. Always, if it has been applied successfully.
@@ -943,9 +950,11 @@ class Translation(
                     pounit, add = store.find_unit(unit.context, unit.source)
                 except UnitNotFoundError:
                     # Bail out if we have not found anything
-                    report_error("String disappeared", project=self.component.project)
-                    # TODO: once we have a deeper stack of pending changes,
-                    # this should be kept as pending, so that the changes are not lost
+                    report_error(
+                        "String disappeared",
+                        project=self.component.project,
+                        skip_sentry=True,
+                    )
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
@@ -953,6 +962,7 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
+                    # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
 
@@ -1937,12 +1947,14 @@ class Translation(
             return
         expected_count = self.component.translation_set.count()
         author: User | None = None
+        added: bool = False
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
             if source.unit_set.count() == expected_count:
                 continue
+            added = True
             if author is None:
                 author = User.objects.get_or_create_bot(
                     scope="glossary",
@@ -1959,7 +1971,9 @@ class Translation(
                 skip_existing=True,
                 author=author,
             )
-        self.store_update_changes()
+        if added:
+            self.store_update_changes()
+            self.component.invalidate_cache()
 
     def validate_new_unit_data(
         self,
@@ -2055,10 +2069,11 @@ class GhostTranslation:
 
     is_ghost = True
 
-    def __init__(self, component, language) -> None:
-        self.component = component
+    def __init__(self, project, language, component) -> None:
+        self.project = project
         self.language = language
-        self.stats = GhostStats(component.source_translation.stats)
+        self.component = component
+        self.stats = GhostStats(component.stats)
         self.pk = self.stats.pk
         self.is_source = False
 
@@ -2067,3 +2082,6 @@ class GhostTranslation:
 
     def get_absolute_url(self) -> str:
         return ""
+
+    def base_obj(self):
+        return self.component

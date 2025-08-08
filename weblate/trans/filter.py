@@ -117,7 +117,7 @@ FILTERS = FilterRegistry()
 
 def get_filter_choice(project=None):
     """Return all filtering choices."""
-    result = [
+    result: list[tuple[str, StrOrPromise]] = [
         ("all", gettext("All strings")),
         ("nottranslated", gettext("Untranslated strings")),
         ("todo", gettext("Unfinished strings")),

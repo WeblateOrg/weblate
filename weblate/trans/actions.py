@@ -168,6 +168,10 @@ class ActionEvents(IntegerChoices):
     FONT_CHANGE = 81, gettext_lazy("Font changed")
     # Translators: Name of event in the history
     FONT_REMOVE = 82, gettext_lazy("Font removed")
+    # Translators: Name of event in the history
+    FORCE_SYNC = 83, gettext_lazy("Forced synchronization of translations")
+    # Translators: Name of event in the history
+    FORCE_SCAN = 84, gettext_lazy("Forced rescan of translations")
 
 
 # Actions which are logged
@@ -241,6 +245,8 @@ ACTIONS_REPOSITORY = {
     ActionEvents.UNLOCK,
     ActionEvents.HOOK,
     ActionEvents.FILE_UPLOAD,
+    ActionEvents.FORCE_SYNC,
+    ActionEvents.FORCE_SCAN,
 }
 
 # Actions where target is rendered as translation string

@@ -119,20 +119,14 @@ class Notification:
     any_watched: bool = False
     required_attr: str | None = None
     skip_when_notify: list[Any] = []
-    perm_cache: dict[int, set[int]]
 
     def __init__(
         self,
         outgoing: list[OutgoingEmail],
-        perm_cache: dict[int, set[int]] | None = None,
     ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
         self.subscription_cache: dict[int | None, list[Subscription]] = {}
         self.child_notify: list[Notification] | None = None
-        if perm_cache is not None:
-            self.perm_cache = perm_cache
-        else:
-            self.perm_cache = {}
 
     def get_language_filter(
         self, change: Change | None, translation: Translation | None
@@ -157,10 +151,7 @@ class Notification:
         from weblate.accounts.models import Subscription
 
         result = Subscription.objects.filter(notification=self.get_name())
-        scopes: set[NotificationScope] = {
-            NotificationScope.SCOPE_ADMIN,
-            NotificationScope.SCOPE_ALL,
-        }
+        scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}
         # special case for site-wide announcements
         if self.any_watched and not project:
             scopes.add(NotificationScope.SCOPE_WATCHED)
@@ -172,9 +163,16 @@ class Notification:
                 query |= Q(scope=NotificationScope.SCOPE_WATCHED) & Q(
                     user__profile__watched=project
                 )
+            # Direct subscriptions
             query |= Q(project=project) | Q(component__project=project)
+            # Admins for current project
+            query |= Q(scope=NotificationScope.SCOPE_ADMIN) & Q(
+                user__in=User.objects.all_admins(project)
+            )
         return list(
             result.filter(query)
+            # Inactive users and bots
+            .filter(Q(user__is_bot=False) & Q(user__is_active=True))
             .order_by("user", "-scope")
             .prefetch_related("user", "user__profile", "user__profile__languages")
         )
@@ -219,17 +217,6 @@ class Notification:
         except ObjectDoesNotExist:
             return False
 
-    def is_admin(self, user: User, project) -> bool:
-        if project is None:
-            return False
-
-        if project.pk not in self.perm_cache:
-            self.perm_cache[project.pk] = set(
-                User.objects.all_admins(project).values_list("pk", flat=True)
-            )
-
-        return user.pk in self.perm_cache[project.pk]
-
     def get_users(
         self,
         frequency: NotificationFrequency,
@@ -257,14 +244,6 @@ class Notification:
                 (user == last_user)
                 # Own change
                 or (change is not None and user == change.user)
-                # Inactive users
-                or (not user.is_active)
-                or user.is_bot
-                # Admin for not admin projects
-                or (
-                    subscription.scope == NotificationScope.SCOPE_ADMIN
-                    and not self.is_admin(user, project)
-                )
             ):
                 continue
 
@@ -418,8 +397,7 @@ class Notification:
             return False
         if self.child_notify is None:
             self.child_notify = [
-                notify_class(None, self.perm_cache)
-                for notify_class in self.skip_when_notify
+                notify_class(None) for notify_class in self.skip_when_notify
             ]
         converted_change = self._convert_change_skip(change)
         return any(

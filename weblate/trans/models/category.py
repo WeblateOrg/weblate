@@ -104,6 +104,7 @@ class Category(
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
+        self.acting_user: User | None = None
 
     def save(self, *args, **kwargs) -> None:
         old = None

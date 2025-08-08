@@ -1276,3 +1276,9 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # type hint for wladmin
     weblate_support_status: SupportStatusDict
+
+    # type hint for configuration module
+    weblate_custom_css: str
+
+    # Overrides django.http.request URL generating
+    _current_scheme_host: str
