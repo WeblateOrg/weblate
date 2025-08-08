@@ -124,47 +124,6 @@ class GenerateForm(BaseAddonForm):
         return self.cleaned_data["template"]
 
 
-class GettextCustomizeForm(BaseAddonForm):
-    width = forms.ChoiceField(
-        label=gettext_lazy("Long lines wrapping"),
-        choices=[
-            (
-                77,
-                gettext_lazy(
-                    "Wrap lines at 77 characters and at newlines (xgettext default)"
-                ),
-            ),
-            (
-                65535,
-                gettext_lazy("Only wrap lines at newlines (like 'xgettext --no-wrap')"),
-            ),
-            (-1, gettext_lazy("No line wrapping")),
-        ],
-        required=True,
-        initial=77,
-        help_text=gettext_lazy(
-            "By default gettext wraps lines at 77 characters and at newlines. "
-            "With the --no-wrap parameter, wrapping is only done at newlines."
-        ),
-    )
-
-
-class MsgmergeForm(BaseAddonForm):
-    previous = forms.BooleanField(
-        label=gettext_lazy("Keep previous msgids of translated strings"),
-        required=False,
-        initial=True,
-    )
-    no_location = forms.BooleanField(
-        label=gettext_lazy("Remove locations of translated strings"),
-        required=False,
-        initial=False,
-    )
-    fuzzy = forms.BooleanField(
-        label=gettext_lazy("Use fuzzy matching"), required=False, initial=True
-    )
-
-
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
         label=gettext_lazy("Commit squashing"),
@@ -207,68 +166,6 @@ class GitSquashForm(BaseAddonForm):
             Field("commit_message"),
             ContextDiv(template="addons/squash_help.html", context={"user": self.user}),
         )
-
-
-class JSONCustomizeForm(BaseAddonForm):
-    sort_keys = forms.BooleanField(label=gettext_lazy("Sort JSON keys"), required=False)
-    use_compact_separators = forms.BooleanField(
-        label=gettext_lazy("Avoid spaces after separators"),
-        required=False,
-    )
-    indent = forms.IntegerField(
-        label=gettext_lazy("JSON indentation"), min_value=0, initial=4, required=True
-    )
-    style = forms.ChoiceField(
-        label=gettext_lazy("JSON indentation style"),
-        choices=[
-            ("spaces", gettext_lazy("Spaces")),
-            ("tabs", gettext_lazy("Tabs")),
-        ],
-        required=True,
-        initial="space",
-    )
-
-
-class XMLCustomizeForm(BaseAddonForm):
-    """Class defining user Form to configure XML Formatting AddOn."""
-
-    closing_tags = forms.BooleanField(
-        label=gettext_lazy("Include closing tag for blank XML tags"),
-        required=False,
-        initial=True,
-    )
-
-
-class YAMLCustomizeForm(BaseAddonForm):
-    indent = forms.IntegerField(
-        label=gettext_lazy("YAML indentation"),
-        min_value=1,
-        max_value=10,
-        initial=2,
-        required=True,
-    )
-    width = forms.ChoiceField(
-        label=gettext_lazy("Long lines wrapping"),
-        choices=[
-            ("80", gettext_lazy("Wrap lines at 80 chars")),
-            ("100", gettext_lazy("Wrap lines at 100 chars")),
-            ("120", gettext_lazy("Wrap lines at 120 chars")),
-            ("180", gettext_lazy("Wrap lines at 180 chars")),
-            ("65535", gettext_lazy("No line wrapping")),
-        ],
-        required=True,
-        initial=80,
-    )
-    line_break = forms.ChoiceField(
-        label=gettext_lazy("Line breaks"),
-        choices=[
-            ("dos", gettext_lazy("DOS (\\r\\n)")),
-            ("unix", gettext_lazy("UNIX (\\n)")),
-            ("mac", gettext_lazy("MAC (\\r)")),
-        ],
-        required=True,
-        initial="unix",
-    )
 
 
 class RemoveForm(BaseAddonForm):

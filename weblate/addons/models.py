@@ -23,7 +23,6 @@ from weblate.trans.models import Alert, Change, Component, Project, Translation,
 from weblate.trans.signals import (
     change_bulk_create,
     component_post_update,
-    store_post_load,
     translation_post_add,
     unit_pre_create,
     vcs_post_commit,
@@ -236,7 +235,6 @@ class AddonsConf(AppConf):
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.cleanup.RemoveBlankAddon",
@@ -251,14 +249,11 @@ class AddonsConf(AppConf):
         "weblate.addons.generate.PseudolocaleAddon",
         "weblate.addons.generate.PrefillAddon",
         "weblate.addons.generate.FillReadOnlyAddon",
-        "weblate.addons.json.JSONCustomizeAddon",
-        "weblate.addons.xml.XMLCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
         "weblate.addons.removal.RemoveComments",
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
-        "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         "weblate.addons.webhooks.WebhookAddon",
         "weblate.addons.webhooks.SlackWebhookAddon",
@@ -278,7 +273,6 @@ class AddonsConf(AppConf):
 NO_LOG_EVENTS = {
     AddonEvent.EVENT_UNIT_PRE_CREATE,
     AddonEvent.EVENT_UNIT_POST_SAVE,
-    AddonEvent.EVENT_STORE_POST_LOAD,
 }
 
 # Repository scoped events
@@ -561,16 +555,6 @@ def unit_post_save_handler(sender, instance: Unit, created, **kwargs) -> None:
         "unit_post_save",
         (instance, created),
         translation=instance.translation,
-    )
-
-
-@receiver(store_post_load)
-def store_post_load_handler(sender, translation: Translation, store, **kwargs) -> None:
-    handle_addon_event(
-        AddonEvent.EVENT_STORE_POST_LOAD,
-        "store_post_load",
-        (translation, store),
-        translation=translation,
     )
 
 
