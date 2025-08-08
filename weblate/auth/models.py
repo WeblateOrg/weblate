@@ -30,7 +30,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext
-from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
     ACL_GROUPS,
@@ -1250,14 +1249,6 @@ class WeblateAuthConf(AppConf):
 
     class Meta:
         prefix = ""
-
-
-def get_auth_backends():
-    return load_backends(settings.AUTHENTICATION_BACKENDS)
-
-
-def get_auth_keys():
-    return set(get_auth_backends().keys())
 
 
 class AuthenticatedHttpRequest(HttpRequest):

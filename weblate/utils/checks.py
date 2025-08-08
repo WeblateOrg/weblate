@@ -71,6 +71,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.W039": ("admin/machine",),
     "weblate.C040": ("vcs",),
     "weblate.C041": "https://weblate.org/user/",
+    "weblate.C042": ("admin/config", "std-setting-REGISTRATION_ALLOW_BACKENDS"),
 }
 
 

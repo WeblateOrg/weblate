@@ -31,6 +31,8 @@ EXCLUDE_RE = re.compile(
         [<>]json[ ].*                               # API descriptions
         |
         :(ref|doc|setting|envvar):`[^<`]+`          # Unlabeled references
+        |
+        /[a-z_./-]+                                 # File names
     )$
     """,
     re.VERBOSE,

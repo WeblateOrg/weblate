@@ -5,9 +5,10 @@
 from time import sleep
 
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.messages.storage import default_storage
+from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
+from django.http.response import HttpResponse
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
@@ -26,8 +27,12 @@ class RateLimitTest(SimpleTestCase):
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         request.method = "POST"
         request.session = SessionStore()
-        request._messages = default_storage(request)  # noqa: SLF001
         request.user = AnonymousUser()
+
+        # Initialize messages storage using fake middleware
+        middleware = MessageMiddleware(lambda _request: HttpResponse())
+        middleware.process_request(request)
+
         return request
 
     def setUp(self) -> None:

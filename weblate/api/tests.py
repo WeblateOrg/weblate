@@ -1905,9 +1905,9 @@ class ProjectAPITest(APIBaseTest):
                 "slug": "local-project",
                 "repo": "local:",
                 "vcs": "local",
-                "filemask": "*.xliff",
-                "template": "en.xliff",
-                "file_format": "xliff",
+                "filemask": "*.ts",
+                "template": "en.ts",
+                "file_format": "ts",
                 "new_lang": "none",
             },
         )
@@ -3649,7 +3649,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             request={
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "others",
                 "threshold": "100",
             },
@@ -3664,7 +3664,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             request={
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "mt",
                 "threshold": "90",
                 "engines": ["weblate"],

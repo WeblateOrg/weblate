@@ -209,6 +209,10 @@
       <h4 class="panel-title">{% translate "Repository changes" %}</h4>
     </div>
     <div class="panel-body">{% format_last_changes_content last_changes=changes user=user %}</div>
+    <div class="panel-footer">
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}?{{ changes_url_query }}">{% translate "Browse all repository changes" %}</a>
+    </div>
   </div>
 
 {% endwith %}

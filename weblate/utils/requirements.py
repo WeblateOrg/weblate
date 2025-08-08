@@ -89,7 +89,7 @@ def get_version_module(name, optional=False):
             return None
         msg = f"Missing dependency {name}, please install using: pip install {name}"
         raise ImproperlyConfigured(msg) from exc
-    url = package.get("Home-page")
+    url = package["Home-page"]
     if url is None and (project_urls := package.get_all("Project-URL")):
         for project_url in project_urls:
             url_name, current_url = project_url.split(",", 1)
@@ -99,9 +99,9 @@ def get_version_module(name, optional=False):
     if url is None:
         url = f"https://pypi.org/project/{name}/"
     return (
-        package.get("Name"),
+        package["Name"],
         url,
-        package.get("Version"),
+        package["Version"],
     )
 
 
@@ -179,7 +179,7 @@ def get_db_version():
     return (
         f"{connection.display_name} sever",
         "https://mariadb.org/"
-        if connection.mysql_is_mariadb
+        if connection.mysql_is_mariadb  # type: ignore[attr-defined]
         else "https://www.mysql.com/",
         version.split("-", 1)[0],
     )
@@ -188,7 +188,7 @@ def get_db_version():
 def get_cache_version():
     if settings.CACHES["default"]["BACKEND"] == "django_redis.cache.RedisCache":
         try:
-            version = cache.client.get_client().info()["redis_version"]
+            version = cache.client.get_client().info()["redis_version"]  # type: ignore[attr-defined]
         except RuntimeError:
             report_error("Redis version check")
             return None

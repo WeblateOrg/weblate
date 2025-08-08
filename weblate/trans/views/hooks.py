@@ -107,7 +107,8 @@ def update(request: AuthenticatedHttpRequest, path) -> HttpResponse:
     """Update git repository API hook."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = project = parse_path(request, path, (Component, Project), skip_acl=True)
+    # We intentionally skip ACL here to allow unauthenticated trigger
+    obj = project = parse_path(None, path, (Component, Project))
     if isinstance(obj, Component):
         project = obj.project
     if not project.enable_hooks:

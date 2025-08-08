@@ -1898,7 +1898,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         auto = AutoTranslate(
             user=request.user,
             translation=translation,
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
         )
         message = auto.perform(

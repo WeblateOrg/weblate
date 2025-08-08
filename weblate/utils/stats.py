@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from itertools import chain
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import sentry_sdk
 from django.conf import settings
@@ -38,9 +38,9 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
 
-    from weblate.trans.models import Category, Project
+    from weblate.trans.models import Category, Component, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -919,7 +919,7 @@ class AggregatingStats(BaseStats):
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
             if item == "stats_timestamp":
-                stats[item] = max(values, default=time.time())
+                stats[item] = max(cast("Generator[float]", values), default=time.time())
             elif item == "last_changed":
                 # We need to access values twice here
                 values_list = list(values)
@@ -933,7 +933,7 @@ class AggregatingStats(BaseStats):
                 # The last_author is calculated together with last_changed
                 continue
             else:
-                stats[item] = sum(values)
+                stats[item] = sum(cast("Generator[float]", values))
 
         if not self.sum_source_keys:
             self.calculate_source(stats, all_stats)
@@ -1482,6 +1482,9 @@ class GhostStats(BaseStats):
 
     def get_absolute_url(self) -> str:
         return ""
+
+    def base_obj(self) -> Project | Component:
+        raise NotImplementedError
 
 
 class GhostProjectLanguageStats(GhostStats):

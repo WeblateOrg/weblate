@@ -196,8 +196,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 Google OAuth 2
 ~~~~~~~~~~~~~~
 
-To use Google OAuth 2, you need to register an application at
-<https://console.developers.google.com/> and enable the Google+ API.
+To use Google OAuth 2, you need to register an OAuth application at
+<https://console.developers.google.com/>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``.
 

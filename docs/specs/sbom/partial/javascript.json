@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:5bf556fb-72c4-5d35-bc28-3058f72d7694",
+  "serialNumber": "urn:uuid:646d3169-bc21-5755-9a11-a6ca8c8606a3",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -78,6 +78,53 @@
       ]
     },
     {
+      "bom-ref": "@popperjs/core@2.11.8",
+      "type": "library",
+      "name": "@popperjs/core",
+      "version": "2.11.8",
+      "scope": "required",
+      "author": "Federico Zivolo",
+      "description": "Tooltip and Popover Positioning Engine",
+      "purl": "pkg:npm/%40popperjs/core@2.11.8",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@popperjs/core"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/popperjs/popper-core.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/popperjs/popper-core#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/popperjs/popper-core/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "type": "library",
       "name": "@rollup/rollup-linux-x64-gnu",
@@ -125,14 +172,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/browser-utils@10.1.0",
+      "bom-ref": "@sentry-internal/browser-utils@10.3.0",
       "type": "library",
       "name": "@sentry-internal/browser-utils",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Browser Utilities for all Sentry JavaScript SDKs",
-      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.1.0",
+      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -142,7 +189,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -160,7 +207,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "f60f443a509c06d1a2a4240a17763ef19f864052eb7363713abeec627cacd2e10bb5c604e00c59b321ca111cf954d6ffb23a4db80b1c2f58b6601ca42a9d9078"
+          "content": "8ca06834c9b1320a23cdca48b14a9593a5cbe98896d22f23b4d743f5474129df04c45a5591784fb8c75607d7ffe6654d2bff419df23be1e4e21151d9124799e9"
         }
       ],
       "licenses": [
@@ -172,14 +219,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/feedback@10.1.0",
+      "bom-ref": "@sentry-internal/feedback@10.3.0",
       "type": "library",
       "name": "@sentry-internal/feedback",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Sentry SDK integration for user feedback",
-      "purl": "pkg:npm/%40sentry-internal/feedback@10.1.0",
+      "purl": "pkg:npm/%40sentry-internal/feedback@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -189,7 +236,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -207,7 +254,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "bb86376410166f1dd465739c7cc085477433aa8cf1ba3d5e40b2d44655138fe8cab42b96aea498bdbe42ca7b91828f840f03c575ce4303c3e63578c6260be490"
+          "content": "1c6bc1a14c1b8f5eb823febabebb548c7202baac1c63944818002eb43f87f84c215113a916ecda21ef6eb486a587253d0ab4cdfef16ce1460f5a678ea6a83695"
         }
       ],
       "licenses": [
@@ -219,14 +266,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/replay@10.1.0",
+      "bom-ref": "@sentry-internal/replay@10.3.0",
       "type": "library",
       "name": "@sentry-internal/replay",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "User replays for Sentry",
-      "purl": "pkg:npm/%40sentry-internal/replay@10.1.0",
+      "purl": "pkg:npm/%40sentry-internal/replay@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -236,7 +283,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -254,7 +301,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "81fb96082b25360f345cc70a14257c454d78311d3a5eb51b2770acc6b383e1cc7d6e203911f05dcb4e80780e50de5dca098cd5ccb0191f6ad2fcf76faf686b3c"
+          "content": "49517b98c0d6fbe2da79a38dcb115443635adda32feafca1bfd57961beb21d680f5c8f0d096f37989fcc89d1c30f7c88d1b71c8132541260784b4bc18a869fce"
         }
       ],
       "licenses": [
@@ -266,14 +313,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/replay-canvas@10.1.0",
+      "bom-ref": "@sentry-internal/replay-canvas@10.3.0",
       "type": "library",
       "name": "@sentry-internal/replay-canvas",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Replay canvas integration",
-      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.1.0",
+      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -283,7 +330,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -301,7 +348,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "99f746e9b1ea564bd095c61294787bd9449c26365d2d4aa47f47d6e13e6acab2bc6f8a26597fe27859abf03c2d51d3aed2202baf590de04ffcdd6155a518497e"
+          "content": "24613562659be4b6219da12069854c2a3d3714242cbaf00b176457271f907bca4fc16b44596057305108b7bd789afe263b7610c599e7c50871151b9226a5d07d"
         }
       ],
       "licenses": [
@@ -313,14 +360,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry/browser@10.1.0",
+      "bom-ref": "@sentry/browser@10.3.0",
       "type": "library",
       "name": "@sentry/browser",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Official Sentry SDK for browsers",
-      "purl": "pkg:npm/%40sentry/browser@10.1.0",
+      "purl": "pkg:npm/%40sentry/browser@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -330,7 +377,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -348,7 +395,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "29ebd6b5d99cc6344439591f194957841ed88f62b9019c080ef772420f74e3830ce4cda1c4c596229b097b017e7f6574ad9378418831b1ca5ee0d29783918161"
+          "content": "9f48d1382493e9726153ba244a7d38b911852b8163259363551f270d28bf03a814ed5c5502cde2bdae5253291718540a495697544f242a34ba06d29f965ba540"
         }
       ],
       "licenses": [
@@ -360,14 +407,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry/core@10.1.0",
+      "bom-ref": "@sentry/core@10.3.0",
       "type": "library",
       "name": "@sentry/core",
-      "version": "10.1.0",
+      "version": "10.3.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Base implementation for all Sentry JavaScript SDKs",
-      "purl": "pkg:npm/%40sentry/core@10.1.0",
+      "purl": "pkg:npm/%40sentry/core@10.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -377,7 +424,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.1.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -395,7 +442,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "b1d6bbea92a3804821e953513496bd3f4586d9e800ecdf3975343cc12fd067aac3fdd357419f884df2fdf496f46fa5a14e0bf3b2926af1b35297f9d151d6f06d"
+          "content": "144142aa21a4cc9ae6e93349be1ca385ce2ba42d4a9a8fda6d838009177a30bbe6f06073e3578514ac6c371199014037164d6d47698f7d7207389cd2d2e955c3"
         }
       ],
       "licenses": [
@@ -537,6 +584,53 @@
         {
           "alg": "SHA-512",
           "content": "7fce848e250a13a5ef7337388a83f52419561bb14aac4d77a9efc3c410a97bc1828a90aada7170ef768ef101012877d26d8183379781f635d629e9fbb6ca43a9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "bootstrap@5.3.7",
+      "type": "library",
+      "name": "bootstrap",
+      "version": "5.3.7",
+      "scope": "required",
+      "author": "The Bootstrap Authors",
+      "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+      "purl": "pkg:npm/bootstrap@5.3.7",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/bootstrap"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.7.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/twbs/bootstrap.git"
+        },
+        {
+          "type": "website",
+          "url": "https://getbootstrap.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/twbs/bootstrap/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "eca8220fc5078df70f0471290cd83ecc6cfc2f72ea477195c2a662051157d386b504202b64ecf5af6923972d874345a892a4ced2fd6717e400b7c76c5b894a97"
         }
       ],
       "licenses": [
@@ -1069,10 +1163,12 @@
     {
       "ref": "weblate-client-libs@5.13.0",
       "dependsOn": [
-        "@sentry/browser@10.1.0",
+        "@popperjs/core@2.11.8",
+        "@sentry/browser@10.3.0",
         "@tarekraafat/autocomplete.js@10.2.9",
         "altcha@2.1.0",
         "autosize@6.0.1",
+        "bootstrap@5.3.7",
         "daterangepicker@3.1.0",
         "jquery@3.7.1",
         "moment@2.30.1",
@@ -1091,47 +1187,51 @@
       "dependsOn": []
     },
     {
+      "ref": "@popperjs/core@2.11.8",
+      "dependsOn": []
+    },
+    {
       "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "dependsOn": []
     },
     {
-      "ref": "@sentry-internal/browser-utils@10.1.0",
+      "ref": "@sentry-internal/browser-utils@10.3.0",
       "dependsOn": [
-        "@sentry/core@10.1.0"
+        "@sentry/core@10.3.0"
       ]
     },
     {
-      "ref": "@sentry-internal/feedback@10.1.0",
+      "ref": "@sentry-internal/feedback@10.3.0",
       "dependsOn": [
-        "@sentry/core@10.1.0"
+        "@sentry/core@10.3.0"
       ]
     },
     {
-      "ref": "@sentry-internal/replay@10.1.0",
+      "ref": "@sentry-internal/replay@10.3.0",
       "dependsOn": [
-        "@sentry-internal/browser-utils@10.1.0",
-        "@sentry/core@10.1.0"
+        "@sentry-internal/browser-utils@10.3.0",
+        "@sentry/core@10.3.0"
       ]
     },
     {
-      "ref": "@sentry-internal/replay-canvas@10.1.0",
+      "ref": "@sentry-internal/replay-canvas@10.3.0",
       "dependsOn": [
-        "@sentry-internal/replay@10.1.0",
-        "@sentry/core@10.1.0"
+        "@sentry-internal/replay@10.3.0",
+        "@sentry/core@10.3.0"
       ]
     },
     {
-      "ref": "@sentry/browser@10.1.0",
+      "ref": "@sentry/browser@10.3.0",
       "dependsOn": [
-        "@sentry-internal/browser-utils@10.1.0",
-        "@sentry-internal/feedback@10.1.0",
-        "@sentry-internal/replay@10.1.0",
-        "@sentry-internal/replay-canvas@10.1.0",
-        "@sentry/core@10.1.0"
+        "@sentry-internal/browser-utils@10.3.0",
+        "@sentry-internal/feedback@10.3.0",
+        "@sentry-internal/replay@10.3.0",
+        "@sentry-internal/replay-canvas@10.3.0",
+        "@sentry/core@10.3.0"
       ]
     },
     {
-      "ref": "@sentry/core@10.1.0",
+      "ref": "@sentry/core@10.3.0",
       "dependsOn": []
     },
     {
@@ -1148,6 +1248,12 @@
     {
       "ref": "autosize@6.0.1",
       "dependsOn": []
+    },
+    {
+      "ref": "bootstrap@5.3.7",
+      "dependsOn": [
+        "@popperjs/core@2.11.8"
+      ]
     },
     {
       "ref": "daterangepicker@3.1.0",

@@ -72,12 +72,12 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
     @override_settings(TEST_ADDONS=("weblate.addons.cleanup.CleanupAddon"))
     def test_invalid(self) -> None:
         loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)  # noqa: F841
-        errors = check_class_loader(app_configs=None, databases=None)
+        errors = list(check_class_loader(app_configs=None, databases=None))
         self.assertEqual(len(errors), 1)
 
     @override_settings(TEST_ADDONS=("weblate.addons.not_found",))
     def test_not_found(self) -> None:
         loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)  # noqa: F841
-        errors = check_class_loader(app_configs=None, databases=None)
+        errors = list(check_class_loader(app_configs=None, databases=None))
         self.assertEqual(len(errors), 1)
         self.assertIn("does not define a 'not_found' class", errors[0].msg)

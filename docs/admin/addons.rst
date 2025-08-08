@@ -145,23 +145,8 @@ Automatic translation
                 |                 |                                  |    * - ``fuzzy``                                                                                     |
                 |                 |                                  |      - Add as "Needing edit"                                                                         |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``filter_type`` | Search filter                    | Please note that translating all strings will discard all existing translations.                     |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | .. list-table:: Available choices:                                                                   |
-                |                 |                                  |    :width: 100%                                                                                      |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  |    * - ``all``                                                                                       |
-                |                 |                                  |      - All strings                                                                                   |
-                |                 |                                  |    * - ``nottranslated``                                                                             |
-                |                 |                                  |      - Untranslated strings                                                                          |
-                |                 |                                  |    * - ``todo``                                                                                      |
-                |                 |                                  |      - Unfinished strings                                                                            |
-                |                 |                                  |    * - ``fuzzy``                                                                                     |
-                |                 |                                  |      - Strings marked for edit                                                                       |
-                |                 |                                  |    * - ``check:inconsistent``                                                                        |
-                |                 |                                  |      - Failing check: Inconsistent                                                                   |
-                |                 |                                  |    * - ``check:translated``                                                                          |
-                |                 |                                  |      - Failing check: Has been translated                                                            |
+                | ``q``           | Search query                     | See :ref:`search-strings` for how to define a filter using a search query.                           |
+                |                 |                                  | Please note that translating all strings will discard all existing translations.                     |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                   |
                 |                 |                                  |    :width: 100%                                                                                      |
@@ -878,6 +863,11 @@ Squash Git commits
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`
 
 Squash Git commits prior to pushing changes.
+
+.. hint::
+
+   To avoid unnecessary conflicts, it is recommended to configure automatic
+   receiving of upstream changes by webhooks or API, see :ref:`update-vcs`.
 
 Git commits can be squashed prior to pushing changes
 in one of the following modes:

@@ -25,12 +25,10 @@ from weblate.utils.validators import (
 
 class EditorValidatorTest(SimpleTestCase):
     def test_empty(self) -> None:
-        self.assertIsNone(validate_editor(""))
+        validate_editor("")
 
     def test_valid(self) -> None:
-        self.assertIsNone(
-            validate_editor("editor://open/?file={{ filename }}&line={{ line }}")
-        )
+        validate_editor("editor://open/?file={{ filename }}&line={{ line }}")
 
     def test_old_format(self) -> None:
         with self.assertRaises(ValidationError):

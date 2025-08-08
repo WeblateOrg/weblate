@@ -2091,7 +2091,7 @@ class Component(
 
     @perform_on_link
     @transaction.atomic
-    def do_file_sync(self, request=None) -> None:
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> None:
         from weblate.trans.models import Unit
         from weblate.trans.tasks import perform_commit
 
@@ -2101,14 +2101,24 @@ class Component(
         ).exclude(translation__language_id=self.source_language_id):
             PendingUnitChange.store_unit_change(unit)
 
+        self.change_set.create(
+            action=ActionEvents.FORCE_SYNC,
+            user=self.acting_user or (request.user if request else None),
+        )
+
         perform_commit.delay_on_commit(
             self.pk, "file-sync", user_id=request.user.id if request else None
         )
 
     @perform_on_link
     @transaction.atomic
-    def do_file_scan(self, request=None) -> bool:
+    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         self.commit_pending("file-scan", request.user if request else None)
+        self.change_set.create(
+            action=ActionEvents.FORCE_SCAN,
+            user=self.acting_user or (request.user if request else None),
+        )
+
         self.create_translations(request=request, force=True)
         return True
 
@@ -2395,6 +2405,14 @@ class Component(
 
                 raise
 
+            # Delete alerts
+            if self.id:
+                self.delete_alert("MergeFailure")
+                self.delete_alert("RepositoryOutdated")
+                if not self.repo_needs_push():
+                    self.delete_alert("PushFailure")
+
+            # New upstream matches previous local revision
             if self.local_revision == new_head:
                 return False
 
@@ -2411,12 +2429,6 @@ class Component(
                 # The files have been updated and the signal receivers (addons)
                 # might need to access the template
                 self.drop_template_store_cache()
-
-                # Delete alerts
-                self.delete_alert("MergeFailure")
-                self.delete_alert("RepositoryOutdated")
-                if not self.repo_needs_push():
-                    self.delete_alert("PushFailure")
 
                 # Run post update hook, this should be done with repo lock held
                 # to avoid possible race with another update

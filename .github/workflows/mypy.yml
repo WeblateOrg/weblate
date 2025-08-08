@@ -79,11 +79,11 @@ jobs:
     - name: Enforced mypy
       # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
       env:
-        EXCLUDED_MODULES: accounts|addons|api|auth|billing|fonts|formats|checks|lang|machinery|metrics|screenshots|trans|utils|vcs
+        EXCLUDED_MODULES: accounts/|addons/|api/|auth/|billing/|fonts/|formats/|checks/|lang/|machinery/|metrics/|screenshots/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models|tests|views|widgets)|utils/|vcs/
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
-        if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)/" mypy.log ; then
-          grep --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)/" mypy.log
+        if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then
+          grep --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log
           exit 1
         fi
         echo "::remove-matcher owner=mypy::"

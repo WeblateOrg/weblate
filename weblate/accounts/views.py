@@ -132,9 +132,8 @@ from weblate.auth.models import (
     Invitation,
     User,
     get_anonymous,
-    get_auth_keys,
 )
-from weblate.auth.utils import format_address
+from weblate.auth.utils import format_address, get_auth_keys
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks

@@ -139,7 +139,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
     if len(path) == 2:
         return redirect("engage", permanent=True, path=[path[0], "-", path[1]])
     # Get project object, skipping ACL
-    obj = parse_path(request, path, (ProjectLanguage, Project), skip_acl=True)
+    obj = parse_path(None, path, (ProjectLanguage, Project))
 
     translate_object = None
     if isinstance(obj, ProjectLanguage):

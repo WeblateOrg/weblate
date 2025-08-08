@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, BinaryIO, cast
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -170,7 +170,7 @@ def get_paginator(
 
         object_list, sort_by = sort_objects(object_list, sort_by)
     paginator = Paginator(object_list, limit)
-    paginator.sort_by = sort_by
+    paginator.sort_by = sort_by  # type: ignore[attr-defined]
     try:
         result = paginator.page(page)
     except EmptyPage:
@@ -241,14 +241,9 @@ def parse_path(  # noqa: C901
     request: AuthenticatedHttpRequest | None,
     path: list[str] | tuple[str, ...] | None,
     types: tuple[type[Model | BaseURLMixin] | None, ...],
-    *,
-    skip_acl: bool = False,
 ):
     if None in types and not path:
         return None
-    if not skip_acl and request is None:
-        msg = "Request needs to be provided for ACL check"
-        raise TypeError(msg)
 
     allowed_types = {x for x in types if x is not None}
     acting_user = request.user if request else None
@@ -273,7 +268,7 @@ def parse_path(  # noqa: C901
 
     # First level is always project
     project = get_object_or_404(Project, slug=path.pop(0))
-    if not skip_acl:
+    if request is not None:
         request.user.check_access(project)
     project.acting_user = acting_user
     if not path:
@@ -300,19 +295,23 @@ def parse_path(  # noqa: C901
         if slug == "-" and len(path) == 1:
             language = get_object_or_404(Language, code=path[0])
             check_type(CategoryLanguage)
+            if not isinstance(current, Category):
+                raise TypeError
             return CategoryLanguage(current, language)
 
         # Try component first
         with suppress(Component.DoesNotExist):
             current = current.component_set.get(slug=slug, **category_args)
-            if not skip_acl:
+            if request is not None:
                 request.user.check_access_component(current)
             current.acting_user = acting_user
             break
 
         # Try category
         with suppress(Category.DoesNotExist):
-            current = current.category_set.get(slug=slug, **category_args)
+            current = cast("Project | Category", current).category_set.get(
+                slug=slug, **category_args
+            )
             current.acting_user = acting_user
             category_args = {}
             continue
@@ -332,7 +331,9 @@ def parse_path(  # noqa: C901
         msg = "No remaining supported object type"
         raise UnsupportedPathObjectError(msg)
 
-    translation = get_object_or_404(current.translation_set, language__code=path.pop(0))
+    translation = get_object_or_404(
+        cast("Component", current).translation_set, language__code=path.pop(0)
+    )
     if not path:
         check_type(Translation)
         return translation
@@ -352,7 +353,7 @@ def parse_path(  # noqa: C901
 
 
 def parse_path_units(
-    request,
+    request: AuthenticatedHttpRequest,
     path: list[str] | tuple[str, ...],
     types: tuple[type[Model | BaseURLMixin] | None, ...],
 ):
@@ -509,7 +510,7 @@ def zip_download(
     extra: dict[str, bytes | str] | None = None,
 ):
     response = HttpResponse(content_type="application/zip")
-    with ZipFile(response, "w", strict_timestamps=False) as zipfile:
+    with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
         for filename in iter_files(filenames):
             try:
                 zipfile.write(filename, arcname=os.path.relpath(filename, root))
@@ -585,8 +586,12 @@ def download_translation_file(
             )
         else:
             extension = ".zip"
+            filename = translation.get_filename()
+            if not filename:
+                msg = "No file to download"
+                raise Http404(msg)
             response = zip_download(
-                translation.get_filename(),
+                filename,
                 filenames,
                 translation.full_slug.replace("/", "-"),
             )
@@ -641,6 +646,6 @@ class ErrorFormView(FormView):
         show_form_errors(self.request, form)
         return HttpResponseRedirect(self.get_success_url())
 
-    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         """There is no GET view here."""
         return HttpResponseRedirect(self.get_success_url())
