@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-07 09:33+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: VisionR1 <25982450+VisionR1@users.noreply.github.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
@@ -2130,10 +2130,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Μη έγκυρο όνομα πρόσθετου: \"%s\""
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on installed"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Εγκαταστάθηκε το πρόσθετο"
+msgstr "Αδύνατη η εγκατάσταση του πρόσθετου: \"%s\""
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -2144,12 +2143,12 @@ msgid "Webhook"
 msgstr ""
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Send notification to subscribed users."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
-msgstr "Αποστολή ειδοποίησης σε εγγεγραμμένους χρήστες."
+msgstr ""
+"Αποστέλλει ειδοποιήσεις σε εξωτερικές υπηρεσίες με βάση επιλεγμένα συμβάντα, "
+"ακολουθώντας την προδιαγραφή Standard Webhooks."
 
 #: weblate/addons/webhooks.py:177
 msgid "Slack Webhooks"
@@ -6494,7 +6493,7 @@ msgstr[1] "Πρόσφατες αλλαγές"
 #: weblate/templates/manage/index.html:101
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Δώστε στο Weblate"
+msgstr "Δωρεά στο Weblate"
 
 #: weblate/templates/about/index.html:27
 msgid "Hosting translations"
@@ -9536,11 +9535,9 @@ msgid "Status"
 msgstr "Κατάσταση"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgid "Get support"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Υποστήριξη"
+msgstr "Γίνετε υποστηρικτής του Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9779,10 +9776,8 @@ msgid "Repository changes"
 msgstr "Αλλαγές αποθετηρίου"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Περιηγηθείτε σε όλες τις αλλαγές των κειμένων"
+msgstr "Περιηγηθείτε σε όλες τις αλλαγές στο αποθετήριο"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14441,21 +14436,17 @@ msgstr "Σχόλιο αφαιρέθηκε"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Αναγκαστικός συγχρονισμός"
+msgstr "Αναγκαστικός συγχρονισμός μεταφράσεων"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Απαγορευμένη μετάφραση"
+msgstr "Αναγκαστική επανάληψη σάρωσης μεταφράσεων"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
-msgstr "Διάπραξη διαπραχθεισών αλλαγών"
+msgstr "Υποβολή εκκρεμών αλλαγών"
 
 #: weblate/trans/admin.py:42
 msgid "Update VCS repository"
@@ -15103,6 +15094,9 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Αδύνατη η φόρτωση του αντιγράφου ασφαλείας του έργου: Το αντίγραφο ασφαλείας "
+"προέρχεται από μια μη συμβατή έκδοση (%(version)s). Αναβαθμίστε την παρουσία "
+"του Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format
