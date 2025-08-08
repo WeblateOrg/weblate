@@ -489,6 +489,12 @@
                     <th>{% translate "Origin" %}</th>
                     <th>{% translate "Similarity" %}</th>
                     <th colspan="2">
+                      <button type="button"
+                              class="btn btn-xs btn-warning"
+                              id="clear-machinery-cache"
+                              title="{% translate 'Clear cache for automatic suggestions' %}">
+                        <i class="fa fa-refresh"></i> {% translate "Clear Cache" %}
+                      </button>
                       {% loading_icon "machinery" %}
                     </th>
                   </tr>
