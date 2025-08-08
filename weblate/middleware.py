@@ -22,7 +22,7 @@ from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
 from social_django.utils import load_strategy
 
-from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
+from weblate.auth.utils import get_auth_backends
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -35,6 +35,7 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
 
     from weblate.accounts.strategy import WeblateStrategy
+    from weblate.auth.models import AuthenticatedHttpRequest
 
     CSP_KIND = Literal[
         "default-src",
