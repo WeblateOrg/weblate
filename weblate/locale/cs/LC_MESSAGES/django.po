@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-03 23:02+0000\n"
+"PO-Revision-Date: 2025-08-08 10:24+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -2065,10 +2065,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Neplatný název doplňku: „%s“"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Doplněk byl odinstalovaný"
+msgstr "Doplněk se nepodařilo nainstalovat: „%s“"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8092,30 +8091,18 @@ msgid "Checks overview"
 msgstr "Souhrn kontrol"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
 msgstr "Přispějte"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Staňte se podporovatelem"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
 msgstr "O nás"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Webové stránky"
 
@@ -9140,12 +9127,9 @@ msgid "Status"
 msgstr "Stav"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Staňte se podporovatelem"
+msgstr "Staňte se podporovatelem Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9386,10 +9370,8 @@ msgid "Repository changes"
 msgstr "Změny repozitáře"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Procházet všechny změny řetězců"
+msgstr "Procházet všechny změny repozitáře"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14001,17 +13983,13 @@ msgstr "Písmo odstraněno"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Vynucení synchronizace"
+msgstr "Vynucená synchronizace překladů"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Zakázaný překlad"
+msgstr "Vynucený opětovný sken překladů"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14644,6 +14622,8 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Nepodařilo se načíst zálohu projektu: záloha pochází z nekompatibilní verze "
+"(%(version)s). Aktualizujte prosím vaší instanci Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format
