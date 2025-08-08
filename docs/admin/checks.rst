@@ -368,18 +368,29 @@ This means that certain checks will be automatically enabled depending on where 
 Enforcing checks
 ----------------
 
-You can configure a list of checks which can not be dismissed by setting
-:ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
-be dismissed in the user interface and any string failing this check is marked as
-:guilabel:`Needs editing` (see :ref:`states`).
+The enforced checks cannot be dismissed and mark string as :guilabel:`Needs
+editing` (see :ref:`states`). This prevents translators from hiding such
+checks.
 
-.. note::
+.. hint::
 
-   Turning on check enforcing doesn't enable it automatically. The check can be
-   turned on by adding the corresponding flag to string or component flags.
+   Turning on check enforcing doesn't enable it automatically. Some checks have
+   to be turned on by adding the corresponding flag to the string or component
+   flags.
+
+This is best used with checks that can cause serious issues when used like
+checks for :ref:`check-formats`. Using for style checks like :ref:`check-same`
+is not recommended because dismissal is sometimes a reasonable approach in these.
+
+The :ref:`project-commit_policy` can then be used to exclude strings needing
+editing from being committed to the version control.
+
 
 .. seealso::
 
+   * :ref:`states`
+   * :ref:`component-enforced_checks`
+   * :ref:`project-commit_policy`
    * :ref:`additional`
    * :ref:`component-check_flags`
 
