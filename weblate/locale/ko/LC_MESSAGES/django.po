@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-09 13:21+0000\n"
+"PO-Revision-Date: 2025-08-09 13:47+0000\n"
 "Last-Translator: 안정언 <me@jeongeon.net>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -60,7 +60,7 @@ msgstr "이름은 버전 제어 시스템의 커밋에서도 사용됩니다."
 
 #: weblate/accounts/forms.py:197 weblate/accounts/models.py:808
 msgid "Commit e-mail"
-msgstr "e-mail 커밋"
+msgstr "커밋 전자우편"
 
 #: weblate/accounts/forms.py:198
 msgid "Use account e-mail address"
@@ -83,10 +83,8 @@ msgid "Public e-mail"
 msgstr "전자우편 공개"
 
 #: weblate/accounts/forms.py:234
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "이 전자우편 주소는 사용할 수 없습니다."
+msgstr "전자우편 주소를 공개하지 않음"
 
 #: weblate/accounts/forms.py:352
 #, python-format
@@ -402,11 +400,9 @@ msgstr ""
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
-msgstr ""
+msgstr "다른 2단계 인증 방법(WebAuthn 또는 보안 키 등)은 영향을 받지 않습니다."
 
 #: weblate/accounts/forms.py:1130
-#, fuzzy
-#| msgid "Entered token is not valid."
 msgid "The entered token is not valid."
 msgstr "입력된 토큰이 유효하지 않습니다."
 
@@ -1624,7 +1620,7 @@ msgstr "JSON 키 분류하기"
 
 #: weblate/addons/forms.py:215
 msgid "Avoid spaces after separators"
-msgstr ""
+msgstr "구분자 이후 공백을 사용하지 마세요"
 
 #: weblate/addons/forms.py:219
 msgid "JSON indentation"
@@ -2069,10 +2065,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "잘못된 애드온 이름: \"%s\""
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "애드온이 설치 제거되었습니다"
+msgstr "설치할 수 없는 애드온: \"%s\""
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -2080,7 +2075,7 @@ msgstr "애드온이 설치된 경우, 통합 지침을 검토하세요."
 
 #: weblate/addons/webhooks.py:91
 msgid "Webhook"
-msgstr ""
+msgstr "웹훅"
 
 #: weblate/addons/webhooks.py:93
 #, fuzzy
@@ -6301,14 +6296,10 @@ msgid ""
 msgstr "오픈 소스 가치를 지향하는 개인 정보 존중 현지화 플랫폼입니다."
 
 #: weblate/templates/about/donate.html:36
-#, fuzzy
-#| msgctxt "Label on engage page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgctxt "Label on donate page"
 msgid "GitHub star"
 msgid_plural "GitHub stars"
-msgstr[0] "깃허브(GitHub) 별점"
+msgstr[0] "GitHub 별점"
 
 #: weblate/templates/about/donate.html:42
 #, fuzzy
@@ -7487,10 +7478,8 @@ msgid "Edit user"
 msgstr "사용자 편집"
 
 #: weblate/templates/accounts/user.html:395
-#, fuzzy
-#| msgid "Requires two-factor authentication"
 msgid "The user has two-factor authentication."
-msgstr "2단계 인증이 필요함"
+msgstr "사용자가 2단계 인증을 사용합니다."
 
 #: weblate/templates/accounts/user.html:397
 #, fuzzy
@@ -7499,22 +7488,16 @@ msgid "The user doesn't have two-factor authentication."
 msgstr "사용자에게 2단계 인증이 구성되어 있지 않습니다."
 
 #: weblate/templates/accounts/user.html:404
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Turn off two-factor authentication"
-msgstr "2단계 인증"
+msgstr "2단계 인증 비활성화"
 
 #: weblate/templates/accounts/user.html:413
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Disables password authentication for the user."
-msgstr "계정 보안을 위해 비밀번호 인증을 사용하십시오."
+msgstr "사용자의 비밀번호 인증을 비활성화합니다."
 
 #: weblate/templates/accounts/user.html:417
-#, fuzzy
-#| msgid "New password"
 msgid "Disable password"
-msgstr "새로운 비밀번호"
+msgstr "비밀번호 비활성화"
 
 #: weblate/templates/accounts/user.html:425
 msgid "Account removal deletes all user private data."
@@ -7878,30 +7861,24 @@ msgstr ""
 
 #: weblate/templates/addons/webhook_log.html:7
 msgid "HTTP Response"
-msgstr ""
+msgstr "HTTP 응답"
 
 #: weblate/templates/addons/webhook_log.html:10
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "잘못된 요청"
+msgstr "HTTP 요청"
 
 #: weblate/templates/addons/webhook_log.html:17
 #: weblate/templates/addons/webhook_log.html:24
 msgid "HTTP headers"
-msgstr ""
+msgstr "HTTP 헤더"
 
 #: weblate/templates/addons/webhook_log.html:20
-#, fuzzy
-#| msgid "Resolve comment"
 msgid "Response content"
-msgstr "의견 해결하기"
+msgstr "응답 내용"
 
 #: weblate/templates/addons/webhook_log.html:26
-#, fuzzy
-#| msgid "Requested by:"
 msgid "Request payload"
-msgstr "요청됨:"
+msgstr "응답 페이로드"
 
 #: weblate/templates/auth/team.html:10 weblate/templates/base.html:351
 #: weblate/templates/base5.html:376 weblate/templates/component-settings.html:8
@@ -8167,13 +8144,11 @@ msgstr "커뮤니티 지원"
 
 #: weblate/templates/base.html:386 weblate/templates/base5.html:410
 msgid "Professional support"
-msgstr ""
+msgstr "전문 지원"
 
 #: weblate/templates/base.html:390 weblate/templates/base5.html:414
-#, fuzzy
-#| msgid "Get support"
 msgid "Get professional support"
-msgstr "지원 받기"
+msgstr "전문 지원 받기"
 
 #: weblate/templates/base.html:399 weblate/templates/base.html:401
 #: weblate/templates/base5.html:423 weblate/templates/base5.html:425
@@ -8196,10 +8171,8 @@ msgid "Keyboard shortcuts"
 msgstr "키보드 단축키"
 
 #: weblate/templates/base.html:407 weblate/templates/base5.html:431
-#, fuzzy
-#| msgid "Create project"
 msgid "Weblate project"
-msgstr "프로젝트 생성"
+msgstr "Weblate 프로젝트"
 
 #: weblate/templates/base.html:409
 msgctxt "Contribute to Weblate"
@@ -8572,10 +8545,8 @@ msgstr "번역 원본 파일을 ZIP으로 내려받기"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "버전"
+msgstr "운영"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -8793,16 +8764,12 @@ msgid "Alerts"
 msgstr "알리미"
 
 #: weblate/templates/component.html:39 weblate/templates/project.html:41
-#, fuzzy
-#| msgid "Download statistics (CSV)"
 msgid "Download language statistics (CSV)"
-msgstr "통계 내려받기 (CSV)"
+msgstr "언어 통계 내려받기 (CSV)"
 
 #: weblate/templates/component.html:42 weblate/templates/project.html:44
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download language statistics (JSON)"
-msgstr "통계 내려받기 (JSON)"
+msgstr "언어 통계 내려받기 (JSON)"
 
 #: weblate/templates/component.html:50 weblate/templates/data.html:10
 #: weblate/templates/project.html:52 weblate/templates/translation.html:44
@@ -9184,10 +9151,8 @@ msgid "Font groups"
 msgstr "글꼴 그룹"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
-msgstr "글꼴 그룹 수정"
+msgstr "글꼴 수정"
 
 #: weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:56
@@ -9268,11 +9233,9 @@ msgid "Status"
 msgstr "상태"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgid "Get support"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "지원 받기"
+msgstr "Weblate 지원하기"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9498,10 +9461,8 @@ msgid "Repository changes"
 msgstr "저장소 변경 사항"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "모든 문자열 변경사항 찾아보기"
+msgstr "모든 저장소 변경사항 찾아보기"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
