@@ -505,9 +505,13 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     credits_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-credits", lookup_field="slug"
     )
+    lock_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-lock", lookup_field="slug"
+    )
     machinery_settings = serializers.HyperlinkedIdentityField(
         view_name="api:project-machinery-settings", lookup_field="slug"
     )
+    locked = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Project
@@ -527,6 +531,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "languages_url",
             "labels_url",
             "credits_url",
+            "lock_url",
             "translation_review",
             "source_review",
             "commit_policy",
@@ -537,6 +542,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "secondary_language",
             "enforced_2fa",
             "machinery_settings",
+            "locked",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -979,6 +985,12 @@ class ReadOnlySerializer(serializers.Serializer):
 class LockSerializer(serializers.ModelSerializer[Component]):
     class Meta:
         model = Component
+        fields = ("locked",)
+
+
+class ProjectLockSerializer(serializers.ModelSerializer[Project]):
+    class Meta:
+        model = Project
         fields = ("locked",)
 
 
