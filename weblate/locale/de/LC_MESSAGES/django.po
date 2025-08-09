@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-05 13:51+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2145,10 +2145,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Ungültiger Name der Erweiterung: „%s“"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Erweiterung deinstalliert"
+msgstr "Erweiterung kann nicht installiert werden: „%s“"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8339,30 +8338,18 @@ msgid "Checks overview"
 msgstr "Prüfungsübersicht"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
 msgstr "Mitmachen"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Werden Sie Unterstützer"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
 msgstr "Über"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Website"
 
@@ -9396,12 +9383,9 @@ msgid "Status"
 msgstr "Status"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Werden Sie Unterstützer"
+msgstr "Werden Sie Weblate-Unterstützer"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9646,10 +9630,8 @@ msgid "Repository changes"
 msgstr "Repository-Änderungen"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Alle Zeichenkettenänderungen durchsuchen"
+msgstr "Alle Repository-Änderungen durchsuchen"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14353,17 +14335,13 @@ msgstr "Schriftart entfernt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Synchronisation erzwingen"
+msgstr "Erzwungene Synchronisation von Übersetzungen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Unzulässige Übersetzung"
+msgstr "Erzwungenes erneutes Scannen von Übersetzungen"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -15022,6 +15000,9 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Die Projektsicherung konnte nicht geladen werden: Die Sicherung stammt aus "
+"einer inkompatiblen Version (%(version)s). Bitte aktualisieren Sie Ihre "
+"Weblate-Instanz."
 
 #: weblate/trans/forms.py:2427
 #, python-format
