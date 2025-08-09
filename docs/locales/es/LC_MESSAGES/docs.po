@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 10:56+0200\n"
-"PO-Revision-Date: 2025-08-08 08:52+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -13639,12 +13639,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Si ya aloja otros sitios en el mismo servidor, es probable que los puertos "
+"``80`` y ``443`` sean utilizados por un proxy inverso, como NGINX. Para "
+"pasar la conexión HTTPS de NGINX al contenedor docker, puede usar la "
+"siguiente configuración:"
 
 #: ../../admin/install/docker.rst:186
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Sustituir ``<SITE_URL>``, ``<SITE>`` y ``<EXPOSED_DOCKER_PORT>`` con valores "
+"reales de su entorno."
 
 #: ../../admin/install/docker.rst:192
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -13659,12 +13665,21 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file. Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"En caso de que quieras usar 'Let's Encrypt <https://letsencrypt.org/>' _ "
+"certificados SSL generados automáticamente en la instalación pública, debe "
+"agregar un proxy HTTPS inverso y un contenedor Docker adicional, ' https-"
+"portal <https://hub.docker.com/r/steveltn/https-portal/>`_ se usará para "
+"eso. Esto se hace uso de en el archivo :file:`docker-compose-https.yml`. "
+"Luego cree un archivo :file:`docker-compose-https.override.yml` con su "
+"configuración:"
 
 #: ../../admin/install/docker.rst:216
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+"Siempre que invoque :program:`docker compose` debe pasarle ambos archivos y "
+"luego hacer:"
 
 #: ../../admin/install/docker.rst:227
 msgid "Upgrading the Docker container"
@@ -13676,6 +13691,10 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
+"Por lo general, es una buena idea actualizar solo el contenedor Weblate y "
+"mantener el contenedor PostgreSQL en la versión que tiene, ya que actualizar "
+"PostgreSQL es bastante molesto y, en la mayoría de los casos, no brinda "
+"muchos beneficios."
 
 #: ../../admin/install/docker.rst:235
 msgid ""
@@ -13683,12 +13702,17 @@ msgid ""
 "PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`docker-postgres-upgrade`."
 msgstr ""
+"Desde Weblate 4.17 - 1, el contenedor Docker usa Django 4.2, lo que requiere "
+"PostgreSQL 12 o posterior, actualícelo antes de actualizar Weblate. Ver :ref"
+":`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:239
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
 msgstr ""
+"Puede hacer esto siguiendo con la composición de docker existente y "
+"simplemente extrayendo las últimas imágenes y luego reiniciando:"
 
 #: ../../admin/install/docker.rst:253
 msgid ""
@@ -13822,7 +13846,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:362
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Número de procesos y consumo de memoria"
 
 #: ../../admin/install/docker.rst:364
 msgid ""
@@ -13830,12 +13854,18 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"El número de procesos de trabajo tanto para WSGI como para Celery se "
+"determina automáticamente en función del número de CPU. Esto funciona bien "
+"para la mayoría de las máquinas virtuales en la nube, ya que generalmente "
+"tienen pocas CPU y una buena cantidad de memoria."
 
 #: ../../admin/install/docker.rst:368
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
 msgstr ""
+"En caso de que tenga muchos núcleos de CPU y se quede sin memoria, intente "
+"reducir la cantidad de trabajos:"
 
 #: ../../admin/install/docker.rst:376
 msgid "You can also fine-tune individual worker categories:"
