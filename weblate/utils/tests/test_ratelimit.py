@@ -4,21 +4,22 @@
 
 from time import sleep
 
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.messages.middleware import MessageMiddleware
+from django.contrib.messages.storage import default_storage
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.auth.models import User
 from weblate.utils.ratelimit import (
+    RateLimitNotify,
     check_rate_limit,
+    rate_limit_notify,
     reset_rate_limit,
     revert_rate_limit,
     session_ratelimit_post,
-    rate_limit_notify,
 )
 
 
@@ -37,8 +38,13 @@ class RateLimitTest(SimpleTestCase):
         return request
 
     def setUp(self) -> None:
-        # Ensure no rate limits are there
-        reset_rate_limit("test", self.get_request())
+        # Ensure no rate limits are there, across combinations used in tests
+        request = self.get_request()
+        for attempts, window in [(5, 60), (1, 2), (2, 2), (1, 1)]:
+            with override_settings(
+                RATELIMIT_ATTEMPTS=attempts, RATELIMIT_WINDOW=window
+            ):
+                reset_rate_limit("test", request)
 
     def test_basic(self) -> None:
         self.assertTrue(check_rate_limit("test", self.get_request()))
@@ -118,29 +124,103 @@ class RateLimitUserTest(RateLimitTest):
 
 
 class NotifyRateLimitTest(SimpleTestCase):
+    @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(2, 60), (5, 60)])
     def test_allows_until_smallest_bucket(self) -> None:
-        limits = [(2, 60), (5, 60)]
-        base_key = "mlrl-allow"
+        address = "mlrl-allow@example.com"
 
         # First two pass
-        blocked, _ = rate_limit_notify(base_key, limits)
+        blocked, _ = rate_limit_notify(address)
         self.assertFalse(blocked)
-        blocked, _ = rate_limit_notify(base_key, limits)
+        blocked, _ = rate_limit_notify(address)
         self.assertFalse(blocked)
 
         # Third is blocked due to the smallest bucket
-        blocked, reason = rate_limit_notify(base_key, limits)
+        blocked, reason = rate_limit_notify(address)
         self.assertTrue(blocked)
         self.assertIn("2/60s", reason)
 
+    @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(1, 60)])
     def test_separate_keys_are_independent(self) -> None:
-        limits = [(1, 60)]
-        key_a = "mlrl-A"
-        key_b = "mlrl-B"
+        key_a = "mlrl-A@example.com"
+        key_b = "mlrl-B@example.com"
 
         # A: first allowed, second blocked
-        self.assertFalse(rate_limit_notify(key_a, limits)[0])
-        self.assertTrue(rate_limit_notify(key_a, limits)[0])
+        self.assertFalse(rate_limit_notify(key_a)[0])
+        self.assertTrue(rate_limit_notify(key_a)[0])
 
         # B: still allowed independently
-        self.assertFalse(rate_limit_notify(key_b, limits)[0])
+        self.assertFalse(rate_limit_notify(key_b)[0])
+
+
+class NotifyRateLimitBehaviorTest(SimpleTestCase):
+    def test_notify_revert_allows_one_more_then_blocks(self) -> None:
+        limits = [(2, 60)]
+        limiter = RateLimitNotify("mlrl-revert", limits)
+
+        # Consume two allowed requests
+        blocked, _ = limiter.is_limit_exceeded()
+        self.assertFalse(blocked)
+        blocked, _ = limiter.is_limit_exceeded()
+        self.assertFalse(blocked)
+
+        # Third should be blocked
+        blocked, _ = limiter.is_limit_exceeded()
+        self.assertTrue(blocked)
+
+        # Revert once to add a single credit back
+        limiter.revert()
+
+        # One more should pass, then block again
+        blocked, _ = limiter.is_limit_exceeded()
+        self.assertFalse(blocked)
+        blocked, _ = limiter.is_limit_exceeded()
+        self.assertTrue(blocked)
+
+
+class RateLimitHttpBehaviorTest(SimpleTestCase):
+    def get_request(self):
+        request = HttpRequest()
+        request.META["REMOTE_ADDR"] = "5.6.7.8"
+        request.method = "POST"
+        request.session = SessionStore()
+        request._messages = default_storage(request)  # noqa: SLF001
+        request.user = AnonymousUser()
+        return request
+
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=60)
+    def test_reset_rate_limit_clears_block(self) -> None:
+        scope = "reset-case"
+        request = self.get_request()
+        self.assertTrue(check_rate_limit(scope, request))
+        self.assertFalse(check_rate_limit(scope, request))
+        reset_rate_limit(scope, request)
+        self.assertTrue(check_rate_limit(scope, request))
+
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=60)
+    def test_revert_rate_limit_adds_exactly_one_credit(self) -> None:
+        scope = "revert-case-one"
+        request = self.get_request()
+        self.assertTrue(check_rate_limit(scope, request))
+        self.assertFalse(check_rate_limit(scope, request))
+        revert_rate_limit(scope, request)
+        self.assertTrue(check_rate_limit(scope, request))
+        self.assertFalse(check_rate_limit(scope, request))
+
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2)
+    def test_superuser_bypass(self) -> None:
+        scope = "superuser-bypass"
+        request = self.get_request()
+        user = User()
+        user.is_superuser = True
+        request.user = user
+        for _ in range(5):
+            self.assertTrue(check_rate_limit(scope, request))
+
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=100)
+    def test_lockout_keeps_blocked_without_time_advance(self) -> None:
+        scope = "lockout-immediate"
+        request = self.get_request()
+        self.assertTrue(check_rate_limit(scope, request))
+        self.assertFalse(check_rate_limit(scope, request))
+        # Immediate subsequent call should still be blocked due to lockout
+        self.assertFalse(check_rate_limit(scope, request))
