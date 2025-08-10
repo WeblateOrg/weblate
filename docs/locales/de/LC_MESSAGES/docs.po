@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 10:56+0200\n"
-"PO-Revision-Date: 2025-08-09 11:39+0000\n"
+"PO-Revision-Date: 2025-08-11 05:02+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2119,17 +2119,15 @@ msgid "Search query"
 msgstr "Suchanfrage"
 
 #: ../../admin/addons.rst:148
-#, fuzzy
-#| msgid ""
-#| "Please note that translating all strings will discard all existing "
-#| "translations."
 msgid ""
 "See :ref:`search-strings` for how to define a filter using a search query. "
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Bitte beachten Sie, dass bei der Übersetzung aller Zeichenketten alle "
-"vorhandenen Übersetzungen verworfen werden."
+"Unter :ref:`search-strings` erfahren Sie, wie Sie einen Filter mit Hilfe "
+"einer Suchanfrage definieren können. Bitte beachten Sie, dass bei der "
+"Übersetzung aller Zeichenketten alle vorhandenen Übersetzungen verworfen "
+"werden."
 
 #: ../../admin/addons.rst:151
 msgid "Source of automated translations"
@@ -3283,6 +3281,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"Um unnötige Konflikte zu vermeiden, empfiehlt es sich, den automatischen "
+"Empfang von Upstream-Änderungen über Webhooks oder API zu konfigurieren, "
+"siehe :ref:`update-vcs`."
 
 #: ../../admin/addons.rst:872
 msgid ""
@@ -3887,12 +3888,12 @@ msgstr ""
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 
 #: ../../admin/addons.rst:1417
-#, fuzzy
-#| msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
 msgid ""
 "`Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`Python-Bibliothek für Standard-Webhooks <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1424
 msgid "Customize XML output"
@@ -6947,21 +6948,20 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
+"Die erzwungenen Prüfungen können nicht verworfen werden und kennzeichnen "
+"Zeichenketten als :guilabel:`Bearbeitungsbedürftig` (siehe :ref:`states`). "
+"Dadurch wird verhindert, dass Übersetzer solche Prüfungen ausblenden können."
 
 #: ../../admin/checks.rst:377
-#, fuzzy
-#| msgid ""
-#| "Turning on check enforcing doesn't enable it automatically. The check can "
-#| "be turned on by adding the corresponding flag to string or component "
-#| "flags."
 msgid ""
 "Turning on check enforcing doesn't enable it automatically. Some checks have "
 "to be turned on by adding the corresponding flag to the string or component "
 "flags."
 msgstr ""
 "Das Einschalten der Qualitätsprüfung-Erzwingung aktiviert diese nicht "
-"automatisch. Die Prüfung kann durch Hinzufügen der entsprechenden Markierung "
-"zu den Zeichenketten- oder Komponenten-Markierungen aktiviert werden."
+"automatisch. Einige Prüfungen müssen durch Hinzufügen der entsprechenden "
+"Markierung zu den Zeichenketten- oder Komponenten-Markierungen aktiviert "
+"werden."
 
 #: ../../admin/checks.rst:381
 msgid ""
@@ -6970,12 +6970,19 @@ msgid ""
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
+"Dies eignet sich am besten für Prüfungen, die beim Anwenden schwerwiegende "
+"Probleme verursachen können, wie z. B. bei Prüfungen für :ref:`check-formats`"
+". Das Verwenden bei Stilprüfungen wie :ref:`check-same` wird nicht "
+"empfohlen, da ein Verwerfen dort manchmal sinnvoll ist."
 
 #: ../../admin/checks.rst:385
 msgid ""
 "The :ref:`project-commit_policy` can then be used to exclude strings needing "
 "editing from being committed to the version control."
 msgstr ""
+"Die :ref:`project-commit_policy` können dann verwendet werden, um "
+"bearbeitungsbedürftige Zeichenketten beim Commit an die Versionsverwaltung "
+"auszuschließen."
 
 #: ../../admin/checks.rst:400
 msgid "Managing fonts"
@@ -8140,20 +8147,20 @@ msgstr ""
 "unter :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:937
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-app-password/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`Ein App-Passwort erstellen <https://support.atlassian.com/bitbucket-cloud/"
+"docs/create-an-app-password/>`_"
 
 #: ../../admin/config.rst:938
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`App password permissions <https://support.atlassian.com/bitbucket-cloud/"
 "docs/app-password-permissions/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`App-Passwort-Berechtigungen <https://support.atlassian.com/bitbucket-cloud/"
+"docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:947
 msgid "List for credentials for Azure DevOps servers."
@@ -11790,6 +11797,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"Dieser Header muss dann in :setting:`django:SECURE_PROXY_SSL_HEADER` "
+"(:file:`settings.py`) oder :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker-"
+"Umgebung) konfiguriert werden."
 
 #: ../../admin/install.rst:771
 msgid ""
@@ -11798,6 +11808,10 @@ msgid ""
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
+"In der Konfiguration wird zwischen Groß- und Kleinschreibung unterschieden, "
+"so dass ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` und "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` nicht "
+"austauschbar sind."
 
 #: ../../admin/install.rst:778
 msgid ""
@@ -11805,6 +11819,10 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"Wenn Sie die Fehlermeldung „Too many redirects“ (zu viele Weiterleitungen) "
+"vom Browser erhalten, liegt dies höchstwahrscheinlich an einer Diskrepanz "
+"zwischen dem tatsächlichen Protokoll (HTTPS) und dem von Weblate "
+"beobachteten Protokoll."
 
 #: ../../admin/install.rst:784
 msgid ""
@@ -11812,6 +11830,10 @@ msgid ""
 "in the default configuration, but other WSGI servers have more secure "
 "configuration and require explicit setting of this."
 msgstr ""
+"Die Protokoll-Proxy-Header werden in der Standardkonfiguration automatisch "
+"von :program:`gunicorn` verarbeitet, aber andere WSGI-Server haben eine "
+"sicherere Konfiguration und erfordern eine explizite Einstellung dieses "
+"Parameters."
 
 #: ../../admin/install.rst:788
 msgid ""
@@ -11819,6 +11841,9 @@ msgid ""
 "now requires the explicit configuration of :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 msgstr ""
+"Seit Weblate 5.13 verwendet der Docker-Container :program:`granian` und "
+"erfordert nun die explizite Konfiguration von "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 
 #: ../../admin/install.rst:811
 msgid "HTTP proxy"
@@ -12657,31 +12682,22 @@ msgstr ""
 "möglicherweise für Ihre Einsatzumgebung angepasst werden."
 
 #: ../../admin/install.rst:1503
-#, fuzzy
-#| msgid "Sample configuration for NGINX and Gunicorn"
 msgid "Sample configuration for NGINX and Granian"
-msgstr "Beispielkonfiguration für NGINX und Gunicorn"
+msgstr "Beispielkonfiguration für NGINX und Granian"
 
 #: ../../admin/install.rst:1505
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as uWSGI under the NGINX "
-#| "webserver."
 msgid ""
 "The following configuration runs Weblate using Granian the NGINX webserver:"
 msgstr ""
-"In der folgenden Konfiguration wird Weblate als uWSGI unter dem NGINX-"
-"Webserver ausgeführt."
+"Die folgende Konfiguration führt Weblate mit dem NGINX-Webserver Granian aus:"
 
 #: ../../admin/install.rst:1507
 msgid "weblate/examples/weblate.nginx.granian.conf"
-msgstr ""
+msgstr "weblate/examples/weblate.nginx.granian.conf"
 
 #: ../../admin/install.rst:1514 ../../admin/install.rst:1626
-#, fuzzy
-#| msgid "https://github.com/tesseract-ocr/tesseract"
 msgid "https://github.com/emmett-framework/granian"
-msgstr "https://github.com/tesseract-ocr/tesseract"
+msgstr "https://github.com/emmett-framework/granian"
 
 #: ../../admin/install.rst:1520
 msgid "Sample configuration for NGINX and Gunicorn"
@@ -12812,7 +12828,7 @@ msgstr "Beispielkonfiguration zum Starten von Gunicorn"
 
 #: ../../admin/install.rst:1634
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn muss separat installiert werden:"
 
 #: ../../admin/install.rst:1640
 msgid ""
@@ -14913,14 +14929,12 @@ msgid "The Redis database number, defaults to ``1``."
 msgstr "Die Nummer der Redis-Datenbank, standardmäßig ``1``."
 
 #: ../../admin/install/docker.rst:1641
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The Redis database user, not used by default."
-msgstr "Das Redis Server-Passwort, nicht standardmäßig verwendet."
+msgstr "Der Benutzer der Redis-Datenbank, nicht standardmäßig verwendet."
 
 #: ../../admin/install/docker.rst:1645
 msgid "The Redis server password, not used by default."
-msgstr "Das Redis Server-Passwort, nicht standardmäßig verwendet."
+msgstr "Das Passwort des Redis-Servers, nicht standardmäßig verwendet."
 
 #: ../../admin/install/docker.rst:1653
 msgid "Enables using SSL for Redis connection."
@@ -16550,11 +16564,11 @@ msgstr ""
 
 #: ../../admin/languages.rst:177
 msgid "`Additional functions for plural forms in GNU gettext`_"
-msgstr ""
+msgstr "`Zusätzliche Funktionen für Pluralformen in GNU gettext`_"
 
 #: ../../admin/languages.rst:178
 msgid "`Language Plural Rules by the Unicode Consortium`_"
-msgstr ""
+msgstr "`Pluralregeln von Sprachen durch das Unicode-Konsortium`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -16940,7 +16954,7 @@ msgid ""
 "`AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-"
 "policy/latest/reference/TranslateFullAccess.html>`_"
 msgstr ""
-"`AWS-TranslateFullAccess-Policy <https://docs.aws.amazon.com/"
+"`AWS-TranslateFullAccess-Richtlinie <https://docs.aws.amazon.com/"
 "aws-managed-policy/latest/reference/TranslateFullAccess.html>`_"
 
 #: ../../admin/machine.rst:163
@@ -17357,23 +17371,24 @@ msgid ""
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
 "com/docs/authentication/client-libraries>`_"
 msgstr ""
+"`Authentifizierung bei Cloud-Diensten mit Client-Bibliotheken <https://"
+"cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:431
 msgid ""
 "`Creating Google Translate project <https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project>`_"
 msgstr ""
+"`Google-Translate-Projekt erstellen <https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:432
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/"
 "standard/locations>`_"
 msgstr ""
-"`Google-Translate-Dokumentation <https://cloud.google.com/translate/docs>`_"
+"`Google-Cloud-App-Engine-Standorte <https://cloud.google.com/appengine/docs/"
+"standard/locations>`_"
 
 #: ../../admin/machine.rst:437
 msgid "IBM Watson Language Translator"
@@ -17404,11 +17419,11 @@ msgstr ""
 "processing>`_"
 
 #: ../../admin/machine.rst:467
-#, fuzzy
-#| msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_"
 msgid ""
 "`IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_"
-msgstr "`ModernMT-API <https://www.modernmt.com/api/#translation>`_"
+msgstr ""
+"`IBM-Cloud-API-Dokumentation <https://cloud.ibm.com/apidocs/language-"
+"translator>`_"
 
 #: ../../admin/machine.rst:472
 msgid "LibreTranslate"
@@ -17544,7 +17559,7 @@ msgstr "Translator Text API V2"
 #: ../../admin/machine.rst:567
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
-"Der Schlüssel, den Sie mit Translator-API V2 verwenden, kann auch mit API 3 "
+"Der Schlüssel, den Sie mit Translator API V2 verwenden, kann auch mit API 3 "
 "verwendet werden."
 
 #: ../../admin/machine.rst:570
@@ -17580,16 +17595,20 @@ msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_"
 msgstr ""
+"`Cognitive Services – Textübersetzungs-API <https://azure.microsoft.com/"
+"en-us/products/ai-services/ai-translator>`_"
 
 #: ../../admin/machine.rst:583
 msgid "`Microsoft Azure Portal <https://portal.azure.com/>`_"
-msgstr ""
+msgstr "`Microsoft-Azure-Portal <https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:584
 msgid ""
 "`Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
 "text-translation/reference/v3/reference#base-urls>`_"
 msgstr ""
+"`Basis-URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+"text-translation/reference/v3/reference#base-urls>`_"
 
 #: ../../admin/machine.rst:585
 msgid ""
@@ -17597,21 +17616,19 @@ msgid ""
 "com/en-us/azure/ai-services/translator/text-translation/reference/v3/"
 "reference#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
+"`„Authentifizieren mit einer Multi-Service-Ressource“ <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/v3/reference#authenticating-with-a-multi-service-resource>`_"
 
 #: ../../admin/machine.rst:586
-#, fuzzy
-#| msgid ""
-#| "You can also specify a custom category to use `custom translator <https://"
-#| "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
-#| "concepts/customization>`_."
 msgid ""
 "`\"Authenticating with an access token\" section <https://learn.microsoft."
 "com/en-us/azure/ai-services/translator/text-translation/reference/v3/"
 "reference#authenticating-with-an-access-token>`_"
 msgstr ""
-"Sie können auch eine benutzerdefinierte Kategorie angeben, um den "
-"`benutzerdefinierten Übersetzer <https://learn.microsoft.com/en-gb/azure/ai-"
-"services/Translator/custom-translator/concepts/customization>`_ zu verwenden."
+"`„Authentifizieren mit einem Zugriffstoken“-Abschnitt <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/v3/reference#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:592
 msgid "ModernMT"
@@ -25055,11 +25072,11 @@ msgstr "Aktion zum Filtern, kann mehrfach verwendet werden"
 
 #: ../../api.rst:2337
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr "ISO 8601-formatierter Zeitstempel zur Auflistung von Änderungen nach"
+msgstr "ISO-8601-formatierter Zeitstempel zur Auflistung von Änderungen nach"
 
 #: ../../api.rst:2338
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr "ISO 8601-formatierter Zeitstempel zur Auflistung von Änderungen vor"
+msgstr "ISO-8601-formatierter Zeitstempel zur Auflistung von Änderungen vor"
 
 #: ../../api.rst:2342
 msgid "Returns information about the translation change."
@@ -26072,15 +26089,15 @@ msgid ""
 "Migration towards Bootstrap 5 has started, selected views now use Bootstrap "
 "5."
 msgstr ""
+"Die Migration auf Bootstrap 5 hat begonnen, ausgewählte Ansichten verwenden "
+"jetzt Bootstrap 5."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ""
 ":ref:`xliff` now supports starting from scratch when :ref:`adding-projects`."
 msgstr ""
-":ref:`xliff` unterstützt nun die Anzeige der Position der "
-"Ausgangszeichenkette."
+":ref:`xliff` unterstützt jetzt „Bei Null anfangen“ bei :ref:`adding-"
+"projects`."
 
 #: ../../changes.rst:30 ../../changes.rst:62 ../../changes.rst:82
 #: ../../changes.rst:135 ../../changes.rst:169 ../../changes.rst:188
@@ -26198,18 +26215,13 @@ msgstr ""
 "einigen Änderungen in :file:`settings_example.py` führte."
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; "
-#| "please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; "
 "please adjust your settings accordingly."
 msgstr ""
 "Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
-"sind die geänderten Einstellungen ``AUTH_PASSWORD_VALIDATORS`` und "
+"sind die geänderten Einstellungen ``CRISPY_ALLOWED_TEMPLATE_PACKS`` und "
 "``INSTALLED_APPS``; bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: ../../changes.rst:44
@@ -26218,6 +26230,9 @@ msgid ""
 "configuration of proxy trusted headers including client protocol. See :ref:"
 "`reverse-proxy`."
 msgstr ""
+"Docker-Container verwenden jetzt :program:`granian`. Dies erfordert nun eine "
+"explizite Konfiguration der vertrauenswürdigen Proxy-Header einschließlich "
+"des Client-Protokolls. Siehe :ref:`reverse-proxy`."
 
 #: ../../changes.rst:47 ../../changes.rst:71 ../../changes.rst:90
 #: ../../changes.rst:154 ../../changes.rst:177 ../../changes.rst:196
@@ -30274,8 +30289,7 @@ msgstr "*Veröffentlicht am 7. Oktober 2013.*"
 
 #: ../../changes/v1.rst:42
 msgid "Support for checking Python brace format string."
-msgstr ""
-"Unterstützung für die Überprüfung von Python-Brace-Format-Zeichenketten."
+msgstr "Unterstützung für die Überprüfung von Python-Brace-Formatzeichenketten."
 
 #: ../../changes/v1.rst:43
 msgid "Per component customization of quality checks."
@@ -33380,7 +33394,7 @@ msgstr "Ansichten für die Sprachverwaltung hinzugefügt."
 #: ../../changes/v3.rst:231
 msgid "Add checks for Qt library and Ruby format strings."
 msgstr ""
-"Qualitätsprüfungen für Qt-Bibliothek und Ruby-Format-Zeichenketten "
+"Qualitätsprüfungen für Qt-Bibliothek und Ruby-Formatzeichenketten "
 "hinzugefügt."
 
 #: ../../changes/v3.rst:232
@@ -35441,7 +35455,7 @@ msgstr "Das Audit-Protokoll für Einladungs-E-Mails für Benutzer korrigiert."
 
 #: ../../changes/v4.rst:344
 msgid "Fixed flag names for Java formatting strings."
-msgstr "Name der Markierung für JavaScript-Formatzeichenketten korrigiert."
+msgstr "Name der Markierung für Java-Formatzeichenketten korrigiert."
 
 #: ../../changes/v4.rst:346
 msgid ""
@@ -37633,7 +37647,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:997
 msgid "Add Vue I18n formatting check."
-msgstr "„Vue I18n“-Formatierungsprüfung hinzugefügt."
+msgstr "Vue-I18n-Formatierungsprüfung hinzugefügt."
 
 #: ../../changes/v4.rst:998
 msgid "Generic placeholders check now supports regular expressions."
@@ -39017,29 +39031,26 @@ msgstr ""
 "conventionalcommits.org/>`_ folgen."
 
 #: ../../contributing/snippets/code-guide.rst:66
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Type checking"
-msgstr "Kontrolle von Genehmigungen"
+msgstr "Typprüfung"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "Any new code should utilize :pep:`484` type hints. We're not checking "
-#| "this in our CI yet as existing code does not yet include them."
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We are using :program:"
 "`mypy` to check (because it has a Django plugin that makes type checking of "
 "Django apps doable)."
 msgstr ""
-"Jeder neue Code sollte :pep:`484` Type Hints verwenden. Wir überprüfen dies "
-"noch nicht in unserem CI, da der vorhandene Code sie noch nicht enthält."
+"Jeder neue Code sollte :pep:`484`-Typhinweise verwenden. Wir verwenden "
+":program:`mypy` zur Überprüfung (da es ein Django-Plugin hat, das die "
+"Typprüfung von Django-Apps ermöglicht)."
 
 #: ../../contributing/snippets/code-guide.rst:72
 msgid ""
 "The code base is not yet completely covered by type annotations, but some "
 "modules are already enforced for type checking in the CI."
 msgstr ""
+"Der Quellcode ist noch nicht vollständig durch Typbeschriftungen abgedeckt, "
+"für einige Module wird jedoch bereits eine Typprüfung im CI erzwungen."
 
 #: ../../contributing/snippets/code-guide.rst:76
 msgid "Coding standard and linting the code"
@@ -45388,8 +45399,8 @@ msgid ""
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 msgstr ""
-"Apple „Strings Files“-Dokumentation <https://developer.apple.com/library/"
-"archive/documentation/MacOSX/Conceptual/BPInternational/"
+"Apple-„Zeichenketten-Dateien“-Dokumentation <https://developer.apple.com/"
+"library/archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 
 #: ../../formats/apple.rst:19
@@ -45397,6 +45408,8 @@ msgid ""
 "`Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
 "candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 msgstr ""
+"`Message-Catalog-Dateiformat in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
+"candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 
 #: ../../formats/apple.rst:30
 msgid ""
@@ -45485,13 +45498,11 @@ msgstr ""
 
 #: ../../formats/arb.rst:17
 msgid "`Application Resource Bundle Specification`_"
-msgstr ""
+msgstr "`Application-Resource-Bundle-Spezifikation`_"
 
 #: ../../formats/arb.rst:18
-#, fuzzy
-#| msgid "International transfers"
 msgid "`Internationalizing Flutter apps`_"
-msgstr "Internationale Übermittlungen"
+msgstr "`Internationalisierung von Flutter-Apps`_"
 
 #: ../../formats/arb.rst:38
 msgid "`ARB file`"
@@ -45536,7 +45547,7 @@ msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`JetBrains Compose-Multiplatform-Ressourcen <https://www.jetbrains.com/help/"
+"`JetBrains-Compose-Multiplatform-Ressourcen <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:30
@@ -45789,7 +45800,7 @@ msgstr ""
 
 #: ../../formats/gettext.rst:19
 msgid "`Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_"
-msgstr "`Gettext auf Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_"
+msgstr "`Gettext auf Wikipedia <https://de.wikipedia.org/wiki/GNU_gettext>`_"
 
 #: ../../formats/gettext.rst:29
 msgid "Showing source string change"
@@ -45988,16 +45999,12 @@ msgstr ""
 "Basisdatei mit (meist) englischen Zeichenketten anzugeben."
 
 #: ../../formats/gotext.rst:17
-#, fuzzy
-#| msgid ""
-#| "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
-#| "machine-translation>`_"
 msgid ""
 "`I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-"
 "managing-translations>`_"
 msgstr ""
-"`Alibaba-Translate-Dokumentation <https://www.alibabacloud.com/help/en/"
-"machine-translation>`_"
+"`I18n in Go: Übersetzungen verwalten <https://www.alexedwards.net/blog/i18n-"
+"managing-translations>`_"
 
 #: ../../formats/gotext.rst:34
 msgid "`gotext JSON file`"
@@ -46022,12 +46029,16 @@ msgid ""
 "`GWT localization guide <https://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_"
 msgstr ""
+"`GWT-Lokalisierungsleitfaden <https://www.gwtproject.org/doc/latest/"
+"DevGuideI18n.html>`_"
 
 #: ../../formats/gwt.rst:16
 msgid ""
 "`GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/"
 "tutorial/i18n.html>`_"
 msgstr ""
+"`GWT-Internationalisierungs-Tutorial <https://www.gwtproject.org/doc/latest/"
+"tutorial/i18n.html>`_"
 
 #: ../../formats/gwt.rst:34
 msgid "`GWT Properties`"
@@ -46128,7 +46139,7 @@ msgstr ""
 
 #: ../../formats/i18next.rst:44
 msgid "`i18next JSON Format <https://www.i18next.com/misc/json-format>`_"
-msgstr ""
+msgstr "`i18next-JSON-Format <https://www.i18next.com/misc/json-format>`_"
 
 #: ../../formats/i18next.rst:66
 msgid "`i18next JSON file v3`"
@@ -46259,13 +46270,11 @@ msgstr ""
 "Sie also darauf, die richtige Kodierung für Ihre Anwendung zu wählen."
 
 #: ../../formats/java.rst:26
-#, fuzzy
-#| msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgid ""
 "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_"
 msgstr ""
-"`Auslassungspunkte auf Wikipedia <https://de.wikipedia.org/wiki/"
-"Auslassungspunkte>`_"
+"`Java-Properties auf Wikipedia <https://de.wikipedia.org/wiki/Java-"
+"Properties-Datei>`_"
 
 #: ../../formats/java.rst:46
 msgid "`Java Properties (ISO-8859-1)`"
@@ -46703,7 +46712,7 @@ msgstr "TBX ist ein XML-Format für den Austausch von Terminologiedaten."
 
 #: ../../formats/tbx.rst:27
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
-msgstr "`TBX auf Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
+msgstr "`TBX auf Wikipedia <https://de.wikipedia.org/wiki/TermBase_eXchange>`_"
 
 #: ../../formats/tbx.rst:32
 msgid "Explanations"
@@ -46794,6 +46803,8 @@ msgid ""
 "`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
 "api/i18n>`_"
 msgstr ""
+"`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
+"api/i18n>`_"
 
 #: ../../formats/webextension.rst:18
 msgid ""
@@ -46898,10 +46909,8 @@ msgstr ""
 "zur Unterstützung von Pluralformen."
 
 #: ../../formats/xliff.rst:30
-#, fuzzy
-#| msgid "XML Localization Interchange File Format (XLIFF)"
 msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
-msgstr "XML-Übersetzungsaustauschformat (XLIFF)"
+msgstr "`XML Localization Interchange File Format (XLIFF)`_ Spezifikation"
 
 #: ../../formats/xliff.rst:31
 msgid "`XLIFF 1.2 Representation Guide for Gettext PO`_"
@@ -46909,7 +46918,9 @@ msgstr "`XLIFF-1.2-Darstellungsleitfaden für Gettext PO`_"
 
 #: ../../formats/xliff.rst:32
 msgid "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
-msgstr "`XLIFF auf Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
+msgstr ""
+"`XLIFF auf Wikipedia <https://de.wikipedia.org/wiki/"
+"XML_Localization_Interchange_File_Format>`_"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -50035,7 +50046,7 @@ msgid ""
 "`Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview."
 "html>`_"
 msgstr ""
-"`Fluent DOM <https://projectfluent.org/dom-l10n-documentation/"
+"`Fluent-DOM <https://projectfluent.org/dom-l10n-documentation/"
 "overview.html>`_"
 
 #: ../../user/checks.rst:384
@@ -50149,8 +50160,7 @@ msgstr "AngularJS-Interpolations-Zeichenkette"
 #: ../../user/checks.rst:445
 msgid "AngularJS interpolation strings do not match source."
 msgstr ""
-"AngularJS-Interpolations-Format-Zeichenketten passen nicht zur "
-"Ausgangszeichenkette."
+"AngularJS-Interpolations-Zeichenketten passen nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Named format string example"
@@ -50190,31 +50200,23 @@ msgstr "C-Format"
 
 #: ../../user/checks.rst:481
 msgid "C format string does not match source."
-msgstr "C-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "C-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Position format string example"
 msgstr "Beispiel für eine Zeichenkette im Positionsformat"
 
 #: ../../user/checks.rst:493
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "c_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Perl-Format-Zeichenketten <https://www.gnu.org/"
-"software/gettext/manual/html_node/perl_002dformat.html>`_"
+"`C-Formatzeichenketten <https://www.gnu.org/software/gettext/manual/"
+"html_node/c_002dformat.html>`_"
 
 #: ../../user/checks.rst:494
-#, fuzzy
-#| msgid ""
-#| "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgid "`C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_"
-msgstr ""
-"`Doppelpunkt auf Wikipedia <https://de.wikipedia.org/wiki/Doppelpunkt>`_"
+msgstr "`C-printf-Format <https://en.wikipedia.org/wiki/Printf_format_string>`_"
 
 #: ../../user/checks.rst:499
 msgid "C# format"
@@ -50222,23 +50224,19 @@ msgstr "C#-Format"
 
 #: ../../user/checks.rst:501
 msgid "C# format string does not match source."
-msgstr "C#-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "C#-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:505
 msgid "``c-sharp-format``, ``csharp-format``"
 msgstr "``c-sharp-format``, ``csharp-format``"
 
 #: ../../user/checks.rst:512
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-"
-#| "us/dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgid ""
 "`C# String Format <https://learn.microsoft.com/en-us/dotnet/api/system."
 "string.format?view=netframework-4.7.2>`_"
 msgstr ""
-":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-us/"
-"dotnet/api/system.string.format?view=netframework-4.7.2>`_"
+"`C#-String-Format <https://learn.microsoft.com/en-us/dotnet/api/"
+"system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:517
 msgid "ECMAScript template literals"
@@ -50253,24 +50251,20 @@ msgid "Interpolation example"
 msgstr "Beispiel für Interpolation"
 
 #: ../../user/checks.rst:530
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/"
-#| "en-US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgid ""
 "`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
 "Reference/Template_literals>`_"
 msgstr ""
-":ref:`check-formats`, `Template literals <https://developer.mozilla.org/en-"
-"US/docs/Web/JavaScript/Reference/Template_literals>`_"
+"`Buchstabenvorlagen <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
+"Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:535
 msgid "i18next interpolation"
-msgstr "i18next Interpolation"
+msgstr "i18next-Interpolation"
 
 #: ../../user/checks.rst:539
 msgid "The i18next interpolation does not match source."
-msgstr "Die i18next Interpolation passt nicht zur Ausgangszeichenkette."
+msgstr "Die i18next-Interpolation passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Nesting example"
@@ -50292,7 +50286,7 @@ msgstr "ICU MessageFormat"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Syntaxfehler und/oder nicht übereinstimmende Platzhalter in ICU "
+"Syntaxfehler und/oder nicht übereinstimmende Platzhalter in ICU-"
 "MessageFormat-Zeichenketten."
 
 #: ../../user/checks.rst:569
@@ -50391,18 +50385,16 @@ msgid ""
 "`ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/"
 "format_parse/messages/>`_"
 msgstr ""
+"`ICU: Formatieren von Nachrichten <https://unicode-org.github.io/icu/"
+"userguide/format_parse/messages/>`_"
 
 #: ../../user/checks.rst:618
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://formatjs."
-#| "github.io/docs/getting-started/message-extraction>`_"
 msgid ""
 "`Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/"
 "icu-syntax>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Format.JS-Nachrichtenextraktion <https://formatjs."
-"github.io/docs/getting-started/message-extraction>`_"
+"`Format.JS:-Nachrichtensyntax <https://formatjs.github.io/docs/core-concepts/"
+"icu-syntax>`_"
 
 #: ../../user/checks.rst:624
 msgid "Java format"
@@ -50410,7 +50402,7 @@ msgstr "Java-Format"
 
 #: ../../user/checks.rst:626
 msgid "Java format string does not match source."
-msgstr "Java-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Java-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:637
 msgid ""
@@ -50425,7 +50417,7 @@ msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
-"`Java-Format-Zeichenketten <https://docs.oracle.com/javase/7/docs/api/java/"
+"`Java-Formatzeichenketten <https://docs.oracle.com/javase/7/docs/api/java/"
 "util/Formatter.html>`_"
 
 #: ../../user/checks.rst:648
@@ -50483,7 +50475,7 @@ msgstr "JavaScript-Format"
 
 #: ../../user/checks.rst:678
 msgid "JavaScript format string does not match source."
-msgstr "JavaScript-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "JavaScript-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:689
 msgid ""
@@ -50499,7 +50491,7 @@ msgstr "Lua-Format"
 
 #: ../../user/checks.rst:696
 msgid "Lua format string does not match source."
-msgstr "Lua-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Lua-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:707
 msgid ""
@@ -50511,12 +50503,11 @@ msgstr ""
 
 #: ../../user/checks.rst:712
 msgid "Object Pascal format"
-msgstr "Object Pascal-Format"
+msgstr "Object-Pascal-Format"
 
 #: ../../user/checks.rst:714
 msgid "Object Pascal format string does not match source."
-msgstr ""
-"Object-Pascal-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Object-Pascal-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:725
 msgid ""
@@ -50558,14 +50549,14 @@ msgstr "Perl-Brace-Format"
 
 #: ../../user/checks.rst:753
 msgid "Perl brace format string does not match source."
-msgstr "Perl-Brace-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Perl-Brace-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:764 ../../user/checks.rst:784
 msgid ""
 "`Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
-"`Perl-Format-Zeichenketten <https://www.gnu.org/software/gettext/manual/"
+"`Perl-Formatzeichenketten <https://www.gnu.org/software/gettext/manual/"
 "html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:769
@@ -50574,11 +50565,11 @@ msgstr "Perl-Format"
 
 #: ../../user/checks.rst:771
 msgid "Perl format string does not match source."
-msgstr "Perl-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Perl-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:783
 msgid "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_"
-msgstr ""
+msgstr "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_"
 
 #: ../../user/checks.rst:789
 msgid "PHP format"
@@ -50586,7 +50577,7 @@ msgstr "PHP-Format"
 
 #: ../../user/checks.rst:791
 msgid "PHP format string does not match source."
-msgstr "PHP-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "PHP-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:803
 msgid ""
@@ -50597,16 +50588,12 @@ msgstr ""
 "function.sprintf.php>`_"
 
 #: ../../user/checks.rst:804
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "php_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Perl-Format-Zeichenketten <https://www.gnu.org/"
-"software/gettext/manual/html_node/perl_002dformat.html>`_"
+"`PHP-Formatzeichenketten <https://www.gnu.org/software/gettext/manual/"
+"html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:809
 msgid "Python brace format"
@@ -50614,7 +50601,7 @@ msgstr "Python-Brace-Format"
 
 #: ../../user/checks.rst:811
 msgid "Python brace format string does not match source."
-msgstr "Python-Brace-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Python-Brace-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Simple format string"
@@ -50625,16 +50612,12 @@ msgid ":ref:`Python brace format <python:formatstrings>`"
 msgstr ":ref:`Python brace format <python:formatstrings>`"
 
 #: ../../user/checks.rst:824 ../../user/checks.rst:844
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Perl-Format-Zeichenketten <https://www.gnu.org/"
-"software/gettext/manual/html_node/perl_002dformat.html>`_"
+"`Python-Formatzeichenketten <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:829
 msgid "Python format"
@@ -50642,11 +50625,11 @@ msgstr "Python-Format"
 
 #: ../../user/checks.rst:831
 msgid "Python format string does not match source."
-msgstr "Python-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Python-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:843
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ""
+msgstr ":ref:`Python string formatting <python:old-string-formatting>`"
 
 #: ../../user/checks.rst:849
 msgid "Qt format"
@@ -50654,7 +50637,7 @@ msgstr "Qt-Format"
 
 #: ../../user/checks.rst:851
 msgid "Qt format string does not match source."
-msgstr "Qt-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Qt-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:862
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_"
@@ -50666,7 +50649,7 @@ msgstr "Qt-Plural-Format"
 
 #: ../../user/checks.rst:869
 msgid "Qt plural format string does not match source."
-msgstr "Qt-Plural-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Qt-Plural-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Plural format string example"
@@ -50686,7 +50669,7 @@ msgstr "Ruby-Format"
 
 #: ../../user/checks.rst:887
 msgid "Ruby format string does not match source."
-msgstr "Ruby-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Ruby-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Named template string"
@@ -50706,35 +50689,31 @@ msgstr "Scheme-Format"
 
 #: ../../user/checks.rst:908
 msgid "Scheme format string does not match source."
-msgstr "Scheme-Format-Zeichenkette passt nicht zur Ausgangszeichenkette."
+msgstr "Scheme-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:919
 msgid "`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_"
-msgstr ""
+msgstr "`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_"
 
 #: ../../user/checks.rst:920
 msgid "`Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_"
-msgstr ""
+msgstr "`Chicken-Scheme-Format <https://wiki.call-cc.org/eggref/5/format>`_"
 
 #: ../../user/checks.rst:921
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
 "html_node/Formatted-Output.html>`_"
 msgstr ""
-":ref:`check-formats`, `Perl-Format-Zeichenketten <https://www.gnu.org/"
-"software/gettext/manual/html_node/perl_002dformat.html>`_"
+"`Guile-Scheme-formatierte-Ausgabe <https://www.gnu.org/software/guile/manual/"
+"html_node/Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:926
 msgid "Vue I18n formatting"
-msgstr "Vue I18n-Formatierung"
+msgstr "Vue-I18n-Formatierung"
 
 #: ../../user/checks.rst:928
 msgid "The Vue I18n formatting does not match source."
-msgstr "Die Vue I18n-Formatierung passt nicht zur Ausgangszeichenkette."
+msgstr "Die Vue-I18n-Formatierung passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:0
 msgid "Named formatting"
@@ -50753,6 +50732,8 @@ msgid ""
 "`Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting."
 "html>`_"
 msgstr ""
+"`Vue-I18n-Formatierung <https://kazupon.github.io/vue-i18n/guide/"
+"formatting.html>`_"
 
 #: ../../user/checks.rst:942
 msgid ""
@@ -50898,10 +50879,8 @@ msgid "Using quotes instead of backticks."
 msgstr "Verwenden von Anführungszeichen anstelle von Gravis."
 
 #: ../../user/checks.rst:1024 ../../user/checks.rst:1517
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "`reStructuredText Primer`_"
-msgstr "reStructuredText"
+msgstr "`reStructuredText-Leitfaden`_"
 
 #: ../../user/checks.rst:1030
 msgid "Kashida letter used"
@@ -51438,8 +51417,8 @@ msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
-"`Französische und englische Abstände auf Wikipedia <https://en.wikipedia.org/"
-"wiki/History_of_sentence_spacing#French_and_English_spacing>`_"
+"`Französische und englische Abstände auf Wikipedia <https://de.wikipedia.org/"
+"wiki/Leerzeichen#French/English_Spacing>`_"
 
 #: ../../user/checks.rst:1467
 msgid "Translation does not match regular expression."
@@ -52052,11 +52031,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1947
 msgid "ICU MessageFormat syntax"
-msgstr "ICU MessageFormat-Syntax"
+msgstr "ICU-MessageFormat-Syntax"
 
 #: ../../user/checks.rst:1951
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Syntaxfehler in ICU MessageFormat-Zeichenketten."
+msgstr "Syntaxfehler in ICU-MessageFormat-Zeichenketten."
 
 #: ../../user/checks.rst:1965
 msgid "Long untranslated"
