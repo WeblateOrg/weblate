@@ -951,6 +951,14 @@ DATABASE_BACKUP = "plain"
 # Enable auto updating
 AUTO_UPDATE = False
 
+# Multi-level rate limiting for email notifications
+# Each tuple contains (max_emails, time_window_seconds)
+RATELIMIT_NOTIFICATION_LIMITS = [
+    (3, 120),  # Prevent burst sends - 3 emails per 2 minutes
+    (10, 3600),  # Equalize to avoid getting blocked for too long - 10 emails per hour
+    (50, 86400),  # Daily limit: 50 emails per day
+]
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = None
 

@@ -18,6 +18,7 @@ from weblate.utils.ratelimit import (
     reset_rate_limit,
     revert_rate_limit,
     session_ratelimit_post,
+    rate_limit_notify,
 )
 
 
@@ -114,3 +115,32 @@ class RateLimitUserTest(RateLimitTest):
         request = super().get_request()
         request.user = User()
         return request
+
+
+class NotifyRateLimitTest(SimpleTestCase):
+    def test_allows_until_smallest_bucket(self) -> None:
+        limits = [(2, 60), (5, 60)]
+        base_key = "mlrl-allow"
+
+        # First two pass
+        blocked, _ = rate_limit_notify(base_key, limits)
+        self.assertFalse(blocked)
+        blocked, _ = rate_limit_notify(base_key, limits)
+        self.assertFalse(blocked)
+
+        # Third is blocked due to the smallest bucket
+        blocked, reason = rate_limit_notify(base_key, limits)
+        self.assertTrue(blocked)
+        self.assertIn("2/60s", reason)
+
+    def test_separate_keys_are_independent(self) -> None:
+        limits = [(1, 60)]
+        key_a = "mlrl-A"
+        key_b = "mlrl-B"
+
+        # A: first allowed, second blocked
+        self.assertFalse(rate_limit_notify(key_a, limits)[0])
+        self.assertTrue(rate_limit_notify(key_a, limits)[0])
+
+        # B: still allowed independently
+        self.assertFalse(rate_limit_notify(key_b, limits)[0])
