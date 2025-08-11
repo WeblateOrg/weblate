@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-11 05:02+0000\n"
+"PO-Revision-Date: 2025-08-12 06:02+0000\n"
 "Last-Translator: AlaxLima <thanhkhoidangngoc@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -415,21 +415,23 @@ msgstr "Mã token đã nhập không hợp lệ."
 
 #: weblate/accounts/forms.py:1200
 msgid "Recovery token"
-msgstr ""
+msgstr "Mã token khôi phục"
 
 #: weblate/accounts/forms.py:1202
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
+"Mã khôi phục chỉ có thể được sử dụng đúng một lần. Vui lòng nhớ đánh dấu các "
+"mã đã được sử dụng là hết hạn."
 
 #: weblate/accounts/forms.py:1259
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Nhập mã từ ứng dụng"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:223
 msgid "Password changed."
-msgstr "Mật khẩu đã thay đổi."
+msgstr "Mật khẩu đã được thay đổi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:225
@@ -505,10 +507,8 @@ msgstr "Tài khoản đã bị khoá vì nhiều lần thử đăng nhập thấ
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:253
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Không thể gửi tin nhắn đến quản trị viên."
+msgstr "Tại khoản đã bị khóa bởi quản trị viên của trang."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:255
@@ -517,17 +517,15 @@ msgstr "Đã xoá tài khoản và tất cả dữ liệu riêng tư."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:257
-#, fuzzy, python-brace-format
-#| msgid "Sent confirmation mail to {email}."
+#, python-brace-format
 msgid "Account removal confirmation sent to {email}."
-msgstr "Đã gửi mail xác nhận đến {email}."
+msgstr "Xác nhận hủy bỏ tài khoản đã được gửi đến {email}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:259
-#, fuzzy, python-brace-format
-#| msgid "Agreement with Terms of Service {date}."
+#, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "Đồng ý với Điều khoản dịch vụ {date}."
+msgstr "Đồng ý với Điều khoản và Điều kiện Tổng quát {date}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:261
@@ -562,29 +560,24 @@ msgstr ""
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:274
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked"
+#, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr "Truy cập vào dự án {project} đã bị chặn"
+msgstr "Truy cập vào dự án {project} đã bị chặn."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:276
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator."
-msgstr "Đã gửi tin nhắn đến người quản trị."
+msgstr "Người dùng đã được kích hoạt bởi quản trị viên."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:278
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator."
-msgstr "Đã gửi tin nhắn đến người quản trị."
+msgstr "Người dùng đã bị vô hiệu hóa bởi quản trị viên."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:280
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Đánh giá tình trạng hỗ trợ mỗi nửa năm được hiển thị."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:282
@@ -600,29 +593,29 @@ msgstr "Người dùng đã bị xóa khỏi nhóm {team} bởi {username}."
 
 #: weblate/accounts/models.py:287
 msgid "Two-factor authentication recovery codes were generated"
-msgstr ""
+msgstr "Mã khôi phục xác thực 2 yếu tố đã được khởi tạo"
 
 #: weblate/accounts/models.py:291
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
+msgstr "Mã khôi phục xác thực 2 yếu tố đã được xem lại"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:294
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr ""
+msgstr "Xác thực 2 yếu tố đã được thêm vào: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:296
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr ""
+msgstr "Xác thực 2 yếu tố đã được hủy bỏ: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:298
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr ""
+msgstr "Đăng nhập qua xác thực 2 yếu tố sử dụng {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:305
@@ -646,15 +639,12 @@ msgstr "Không thể đăng nhập bằng mật khẩu."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:315
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Được mời đến {site_title} qua {username}."
+msgstr "Được mời đến {project} qua {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
 msgstr "Mật khẩu đã thay đổi."
 
@@ -673,6 +663,7 @@ msgstr ""
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
+"Nếu đó là bạn, hãy đặt lại mật khẩu để lấy lại quyền truy cập vào tài khoản."
 
 #: weblate/accounts/models.py:482 weblate/templates/accounts/profile.html:503
 #: weblate/templates/accounts/user.html:297
@@ -709,7 +700,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:604
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: weblate/accounts/models.py:609
 msgid "Hide completed translations on the dashboard"
