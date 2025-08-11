@@ -28,8 +28,6 @@ from .base import (
 from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
     from openai import OpenAI
 
     from weblate.lang.models import PluralMapper
