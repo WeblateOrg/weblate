@@ -184,6 +184,7 @@ class LanguagesForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
     def save(self, commit=True) -> None:
         super().save(commit=commit)
@@ -222,6 +223,7 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class ProfileForm(ProfileBaseForm):
@@ -258,6 +260,7 @@ class ProfileForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class SubscriptionForm(ProfileBaseForm):
@@ -285,6 +288,7 @@ class SubscriptionForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class UserSettingsForm(ProfileBaseForm):
@@ -311,6 +315,7 @@ class UserSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class DashboardSettingsForm(ProfileBaseForm):
@@ -329,6 +334,7 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
         component_lists = self.instance.allowed_dashboard_component_lists
         self.fields["dashboard_component_list"].queryset = component_lists
         choices = [
@@ -398,6 +404,7 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
     @classmethod
     def from_request(cls, request: AuthenticatedHttpRequest):
@@ -858,8 +865,10 @@ class NotificationForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        self.helper.label_class = "col-md-3"
-        self.helper.field_class = "col-md-9"
+        self.helper.template_pack = "bootstrap5"
+        self.helper.label_class = "col-3"
+        self.helper.field_class = "col-9"
+        self.helper.form_class = "form-horizontal"
         self.helper.layout = Layout(
             "scope",
             "project",

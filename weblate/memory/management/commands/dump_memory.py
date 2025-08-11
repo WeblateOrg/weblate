@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         memory = Memory.objects.all().prefetch_lang()
-        self.stdout.ending = None
+        self.stdout.ending = None  # type: ignore[assignment]
         json.dump(
             [item.as_dict() for item in memory], self.stdout, indent=options["indent"]
         )

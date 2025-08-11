@@ -20,7 +20,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
 from weblate.auth.models import AuthenticatedHttpRequest
-from weblate.trans.backups import PROJECTBACKUP_PREFIX
+from weblate.trans.backups import PROJECTBACKUP_PREFIX, list_backups
 from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
@@ -423,14 +423,14 @@ class BackupsView(BackupsMixin, TemplateView):
         context["keep_count"] = settings.PROJECT_BACKUP_KEEP_COUNT
         context["keep_days"] = settings.PROJECT_BACKUP_KEEP_DAYS
         context["object"] = context["project"] = self.obj
-        context["backups"] = self.obj.list_backups()
+        context["backups"] = list_backups(self.obj)
         return context
 
 
 @method_decorator(login_required, name="dispatch")
 class BackupsDownloadView(BackupsMixin):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
-        for backup in self.obj.list_backups():
+        for backup in list_backups(self.obj):
             if backup["name"] != kwargs["backup"]:
                 continue
             # Generate random name for download

@@ -41,14 +41,15 @@ class AutoTranslate:
         *,
         user: User | None,
         translation: Translation,
-        filter_type: str,
+        q: str,
         mode: str,
         component_wide: bool = False,
     ) -> None:
         self.user: User | None = user
         self.translation: Translation = translation
         translation.component.batch_checks = True
-        self.filter_type: str = filter_type
+
+        self.q: str = q
         self.mode: str = mode
         self.updated = 0
         self.progress_steps = 0
@@ -64,7 +65,7 @@ class AutoTranslate:
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
-        return units.filter_type(self.filter_type)
+        return units.search(self.q, parser="unit")
 
     def set_progress(self, current) -> None:
         if current_task and current_task.request.id and self.progress_steps:

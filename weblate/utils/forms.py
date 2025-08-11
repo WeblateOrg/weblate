@@ -258,4 +258,4 @@ class WeblateServiceURLField(forms.URLField):
 
 class NormalizedNewlineCharField(forms.CharField):
     def to_python(self, value):
-        return normalize_newlines(super().to_python(value))
+        return normalize_newlines(str(super().to_python(value)))

@@ -175,9 +175,9 @@
         <tr id="{{ row_id }}">
           <td class="actions" rowspan="2">
             {% if object.is_ghost %}
-              {% perm 'translation.add' object.component as user_can_add_translation %}
+              {% perm 'translation.add' object.base_obj as user_can_add_translation %}
               {% if user_can_add_translation %}
-                <form action="{% url 'new-language' path=object.component.get_url_path %}"
+                <form action="{% url 'new-language' path=object.base_obj.get_url_path %}"
                       method="post">
                   {% csrf_token %}
                   <input type="hidden" name="lang" value="{{ object.language.code }}" />

@@ -727,6 +727,14 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+        self.do_test(
+            True,
+            (
+                "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_",
+                "`Amazon Translate Documentație <https://docs.aws.amazon.com/translate/>``_",
+                "rst-text",
+            ),
+        )
 
     def test_references_space(self) -> None:
         result = self.do_test(

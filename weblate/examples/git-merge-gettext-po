@@ -103,7 +103,7 @@ TEMP="$(mktemp -d /tmp/merge-po.XXXXXX)"
 # abort on any error and report the details if possible
 set -E
 set -e
-# shellcheck disable=SC2317  # shellcheck does not understand trap below
+# shellcheck disable=SC2329 # shellcheck does not understand trap below
 on_error() {
     local parent_lineno="$1"
     local code="$2"

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, cast
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -22,7 +22,7 @@ from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
 from social_django.utils import load_strategy
 
-from weblate.auth.models import AuthenticatedHttpRequest, get_auth_backends
+from weblate.auth.utils import get_auth_backends
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -32,7 +32,10 @@ from weblate.utils.site import get_site_url
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
+    from django.http.request import HttpRequest
+
     from weblate.accounts.strategy import WeblateStrategy
+    from weblate.auth.models import AuthenticatedHttpRequest
 
     CSP_KIND = Literal[
         "default-src",
@@ -54,7 +57,8 @@ if TYPE_CHECKING:
 CSP_DIRECTIVES: CSP_TYPE = {
     "default-src": {"'none'"},
     "style-src": {"'self'", "'unsafe-inline'"},
-    "img-src": {"'self'"},
+    # "data:" is required for bootstrap 5 icons
+    "img-src": {"'self'", "data:"},
     "script-src": {"'self'"},
     "connect-src": {"'self'"},
     "object-src": {"'none'"},
@@ -86,10 +90,10 @@ class ProxyMiddleware:
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
 
-    def __call__(self, request: AuthenticatedHttpRequest):
+    def __call__(self, request: HttpRequest):
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
-        request._current_scheme_host = get_site_url()  # noqa: SLF001
+        request.__dict__["_current_scheme_host"] = get_site_url()
 
         # Actual proxy handling
         proxy = None
@@ -181,12 +185,13 @@ class RedirectMiddleware:
             except IndexError:
                 try:
                     # Look for renamed components in a project
-                    component = (
+                    component = cast(
+                        "Component",
                         project.change_set.filter(
                             action=ActionEvents.RENAME_COMPONENT, old=slug
                         )
                         .order()[0]
-                        .component
+                        .component,
                     )
                 except IndexError:
                     return None
@@ -451,7 +456,7 @@ class CSPBuilder:
 
                 for url in urls:
                     domain = self.add_csp_host(url, "form-action")
-                    if domain.endswith(".amazonaws.com"):
+                    if domain and domain.endswith(".amazonaws.com"):
                         self.directives["form-action"].add("*.awsapps.com")
 
 

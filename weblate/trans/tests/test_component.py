@@ -493,7 +493,7 @@ class AutoAddonTest(RepoTestCase):
             # Correct
             "weblate.autotranslate.autotranslate": {
                 "mode": "suggest",
-                "filter_type": "todo",
+                "q": "state:<translated",
                 "auto_source": "mt",
                 "component": "",
                 "engines": ["weblate-translation-memory"],
@@ -558,7 +558,7 @@ class ComponentDeleteTest(RepoTestCase):
         unit = Unit.objects.filter(check__isnull=False)[0].source_unit
         unit.source = "Test..."
         unit.save(update_fields=["source"])
-        unit.check_set.filter(name="ellipisis").delete()
+        self.assertEqual(unit.check_set.filter(name="ellipsis").delete()[0], 1)
         component.delete()
 
 

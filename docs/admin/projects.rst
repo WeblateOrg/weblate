@@ -692,13 +692,11 @@ Customization of quality checks and other Weblate behavior, see :ref:`custom-che
 Enforced checks
 +++++++++++++++
 
-List of checks which can not be dismissed, see :ref:`enforcing-checks`.
+List of checks which can not be dismissed.
 
-.. note::
+.. seealso::
 
-   Enforcing the check does not automatically enable it, you still should
-   enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or
-   :ref:`additional`.
+   :ref:`enforcing-checks`
 
 .. _component-license:
 

@@ -154,6 +154,7 @@
       $row.removeData("focus-timer");
     }
   });
+
   $document.on("focusout", ".translation-editor", function () {
     const $this = $(this);
     const $row = $this.closest("tr");
@@ -194,11 +195,6 @@
     // First save
     if (lastPayload === undefined) {
       statusdiv.data("last-payload", payload);
-      // Check if the editor doesn't have changes
-      if (!$this.closest(".translation-editor").hasClass("has-changes")) {
-        statusdiv.removeClass("unit-state-save-timeout");
-        return;
-      }
     }
     // Guard: skip if nothing has changed
     if (payload === lastPayload) {

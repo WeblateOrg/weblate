@@ -16,7 +16,7 @@ from typing import NoReturn
 from unittest import TestCase
 
 from lxml import etree
-from translate.storage.po import pofile
+from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load

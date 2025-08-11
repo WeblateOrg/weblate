@@ -394,7 +394,12 @@ class LanguageQuerySet(models.QuerySet):
     def order_translated(self):
         return sort_objects(self)
 
-    def get_by_code(self, code, cache, langmap=None):
+    def get_by_code(
+        self,
+        code: str,
+        cache: dict[str, Language],
+        langmap: dict[str, str] | None = None,
+    ) -> Language:
         """
         Get language by code.
 

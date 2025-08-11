@@ -59,14 +59,22 @@ class DashboardTest(ViewTestCase):
         self.assertEqual(len(response.context["componentlists"]), 1)
 
     def test_component_list_ghost(self) -> None:
+        new_component = self.create_po_new_base(
+            project=self.component.project, name="New component", new_lang="add"
+        )
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
-        clist.components.add(self.component)
+        clist.components.add(new_component)
+
+        response = self.client.get(reverse("home"))
+        self.assertNotContains(response, "Spanish")
 
         self.user.profile.languages.add(Language.objects.get(code="es"))
 
         response = self.client.get(reverse("home"))
-
-        self.assertContains(response, "Spanish")
+        # testing for language name in text is insufficient as profile languages name
+        # is always present in the languages drop down in the top bar and hence, it would
+        # pass the test even if the ghost translation was not added.
+        self.assertContains(response, f"{new_component} — Spanish")
 
     def test_user_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")

@@ -8,7 +8,7 @@ from weblate.utils.celery import app
 
 
 @app.task
-def custom_task():
+def custom_task() -> None:
     """Execute custom task code."""
     subprocess.run(["sleep", "1"], check=True)
 

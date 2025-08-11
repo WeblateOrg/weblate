@@ -123,13 +123,12 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon.name for x in self.get_queryset()}
-        if (
-            not name
-            or addon is None
-            or (obj_component and not addon.can_install(obj_component, request.user))
-            or (name in installed and not addon.multiple)
+        if (obj_component and not addon.can_install(obj_component, request.user)) or (
+            name in installed and not addon.multiple
         ):
-            return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
+            return self.redirect_list(
+                gettext("Add-on cannot be installed: ”%s”") % name
+            )
 
         form = None
         if addon.settings_form is None:

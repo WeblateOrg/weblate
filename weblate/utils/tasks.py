@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import gzip
 import os
 import shutil
@@ -10,6 +12,7 @@ import sys
 import time
 from importlib import import_module
 from shutil import copyfile
+from typing import cast
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -125,7 +128,7 @@ def database_backup() -> None:
             else:
                 cmd.extend(["--file", out_text])
 
-            env["PGPASSWORD"] = database["PASSWORD"]
+            env["PGPASSWORD"] = cast("str", database["PASSWORD"])
         else:
             cmd = [
                 "mysqldump",
@@ -144,7 +147,7 @@ def database_backup() -> None:
 
             cmd.extend(["--databases", database["NAME"]])
 
-            env["MYSQL_PWD"] = database["PASSWORD"]
+            env["MYSQL_PWD"] = cast("str", database["PASSWORD"])
 
         try:
             subprocess.run(

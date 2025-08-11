@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
+from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
     GLOBAL_PERMISSIONS,
@@ -22,6 +23,14 @@ from weblate.auth.data import (
 
 if TYPE_CHECKING:
     from weblate.auth.models import Group, Permission, Role
+
+
+def get_auth_backends():
+    return load_backends(settings.AUTHENTICATION_BACKENDS)
+
+
+def get_auth_keys():
+    return set(get_auth_backends().keys())
 
 
 def is_django_permission(permission: str):

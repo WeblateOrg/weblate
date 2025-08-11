@@ -57,8 +57,8 @@ CJK_BLOCKS = {
 
 cjkranges = [(b[0], b[1]) for b in tinyunicodeblock.BLOCKS if b[2] in CJK_BLOCKS]
 cjkranges.sort(key=lambda r: ord(r[0]))
-cjkmerged = []
-prev = None
+cjkmerged: list[tuple[str, str]] = []
+prev: tuple[str, str] | None = None
 for r in cjkranges:
     if prev is None:
         prev = r
@@ -67,10 +67,11 @@ for r in cjkranges:
     else:
         cjkmerged.append(prev)
         prev = r
-cjkmerged.append(prev)
+if prev is not None:
+    cjkmerged.append(prev)
 
 
-def hexchar(char):
+def hexchar(char) -> str:
     val = ord(char)
     if val > 0xFFFF:
         return rf"\U{val:08x}"

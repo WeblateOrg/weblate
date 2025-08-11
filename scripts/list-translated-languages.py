@@ -24,26 +24,30 @@ def main() -> None:
     data = requests.get(URL, timeout=5).json()
 
     # select languages
-    languages = []
+    languages_list = []
     for lang in data:
         if lang["translated_percent"] > THRESHOLD:
             code = lang["code"].replace("_", "-").lower()
             if code == "nb-no":
                 code = "nb"
-            languages.append(code)
-    languages.sort()
+            languages_list.append(code)
+    languages_list.sort()
     print("Expected setup:")
-    for lang in languages:
+    for lang in languages_list:
         print_language(lang, fmt="    ('{0}', '{1}'),")
 
     # prepare for checking
-    languages = set(languages)
+    languages = set(languages_list)
     # we always want english language
     languages.add("en")
     # load settings
     extra = set()
     spec = spec_from_file_location("settings", "./weblate/settings_example.py")
+    if spec is None or spec.loader is None:
+        raise ValueError
     settings = module_from_spec(spec)
+    if settings is None:
+        raise ValueError
     spec.loader.exec_module(settings)
     for lang in settings.LANGUAGES:
         if lang[0] in languages:

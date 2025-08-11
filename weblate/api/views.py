@@ -428,7 +428,7 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.order_by("id")
         if not self.request.user.has_perm("user.edit"):
             return queryset
-        return queryset.prefetch_related("groups")
+        return queryset.prefetch_related("groups", "profile", "profile__languages")
 
     def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):
@@ -1875,7 +1875,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         auto = AutoTranslate(
             user=request.user,
             translation=translation,
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
         )
         message = auto.perform(

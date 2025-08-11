@@ -288,7 +288,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
         try:
             # Find matching components
             component: Component = parse_path(
-                None, path.relative_to(vcs_root).parts, (Component,), skip_acl=True
+                None, path.relative_to(vcs_root).parts, (Component,)
             )
         except Http404:
             # Remove stale dir
@@ -304,12 +304,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
     if empty_dir and root != vcs_root:
         try:
             # Find matching components
-            parse_path(
-                None,
-                root.relative_to(vcs_root).parts,
-                (Category, Project),
-                skip_acl=True,
-            )
+            parse_path(None, root.relative_to(vcs_root).parts, (Category, Project))
         except Http404:
             LOGGER.info("removing stale VCS path (not found): %s", root)
             root.rmdir()
@@ -498,7 +493,7 @@ def auto_translate(
     user_id: int | None,
     translation_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     component: int | None,
     engines: list[str],
@@ -511,7 +506,7 @@ def auto_translate(
         auto = AutoTranslate(
             user=user,
             translation=translation,
-            filter_type=filter_type,
+            q=q,
             mode=mode,
             component_wide=component_wide,
         )
@@ -533,7 +528,7 @@ def auto_translate(
 def auto_translate_component(
     component_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
@@ -548,7 +543,7 @@ def auto_translate_component(
         auto = AutoTranslate(
             user=None,
             translation=translation,
-            filter_type=filter_type,
+            q=q,
             mode=mode,
             component_wide=True,
         )
