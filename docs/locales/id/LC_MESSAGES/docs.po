@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 10:56+0200\n"
-"PO-Revision-Date: 2025-08-10 04:26+0000\n"
+"PO-Revision-Date: 2025-08-11 05:02+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -7495,6 +7495,8 @@ msgstr ""
 #: ../../admin/config.rst:344
 msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
+"Sesuaikan daftar pemeriksaan untuk menyertakan pemeriksaan yang relevan bagi "
+"Anda."
 
 #: ../../admin/config.rst:346
 msgid ""
@@ -7503,14 +7505,18 @@ msgid ""
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
+"Semua :ref:`checks` bawaan diaktifkan secara bawaan, dan Anda dapat mengubah "
+"pengaturan ini. Secara bawaan, pemeriksaan ini diberi komentar di :ref"
+":`sample-configuration` sehingga nilai bawaan digunakan. Pemeriksaan baru "
+"kemudian dilakukan untuk setiap versi Weblate yang baru."
 
 #: ../../admin/config.rst:350
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Anda dapat menonaktifkan semua pemeriksaan:"
 
 #: ../../admin/config.rst:356
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Anda hanya dapat mengaktifkan beberapa:"
 
 #: ../../admin/config.rst:368
 msgid ""
@@ -7518,24 +7524,34 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
+"Mengubah pengaturan ini hanya akan memengaruhi terjemahan yang baru diubah. "
+"Pemeriksaan yang sudah ada akan tetap disimpan dalam basis data. Untuk "
+"menerapkan perubahan pada terjemahan yang tersimpan, jalankan "
+":wladmin:`updatechecks`."
 
 #: ../../admin/config.rst:382
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Hapus komentar setelah beberapa hari tertentu. Bawaannya adalah ``Tidak Ada``"
+", artinya tidak ada penghapusan sama sekali."
 
 #: ../../admin/config.rst:390
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Jumlah jam antara melakukan perubahan yang tertunda melalui tugas latar "
+"belakang."
 
 #: ../../admin/config.rst:407
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
 msgstr ""
+"Mengonfigurasi cara pengiriman surel dari formulir kontak. Pilih konfigurasi "
+"yang sesuai dengan konfigurasi server surat Anda."
 
 #: ../../admin/config.rst:411
 msgid ""
@@ -7558,20 +7574,25 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"Map Weblate menyimpan semua data. Map ini berisi tautan ke repositori VCS, "
+"indeks teks lengkap, dan berbagai berkas konfigurasi untuk alat eksternal."
 
 #: ../../admin/config.rst:432
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Direktori beranda yang digunakan untuk menjalankan skrip."
 
 #: ../../admin/config.rst:434
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "Kunci SSH dan konfigurasi."
 
 #: ../../admin/config.rst:436
 msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
+"Lokasi bawaan untuk berkas media Django, ditentukan oleh "
+":setting:`django:MEDIA_ROOT`. Berisi tangkapan layar yang diunggah, lihat "
+":ref:`screenshots`."
 
 #: ../../admin/config.rst:438
 msgid "Version-control repositories for translations."
@@ -7588,28 +7609,37 @@ msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:442
 msgid "User-uploaded fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Font yang diunggah pengguna, lihat :ref:`fonts`."
 
 #: ../../admin/config.rst:444
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Berbagai cache. Dapat ditempatkan di tempat lain menggunakan "
+":setting:`CACHE_DIR`."
 
 #: ../../admin/config.rst:450
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Direktori ini harus dapat ditulis oleh Weblate. Menjalankannya sebagai WSGI "
+"berarti pengguna ``www-data`` harus memiliki akses tulis ke direktori "
+"tersebut."
 
 #: ../../admin/config.rst:453
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Cara termudah untuk mencapai hal ini adalah menjadikan pengguna sebagai "
+"pemilik direktori:"
 
 #: ../../admin/config.rst:459
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"Bawaannya adalah ``/home/weblate/data``, tetapi diharapkan untuk "
+"dikonfigurasi."
 
 #: ../../admin/config.rst:472
 msgid ""
@@ -7621,23 +7651,28 @@ msgstr ""
 
 #: ../../admin/config.rst:488
 msgid "The default access-control setting for new projects:"
-msgstr ""
+msgstr "Pengaturan kontrol akses bawaan untuk proyek baru:"
 
 #: ../../admin/config.rst:499
 msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Gunakan :guilabel:`Custom` jika Anda mengelola ACL secara manual, yang "
+"berarti tidak bergantung pada manajemen Weblate internal."
 
 #: ../../admin/config.rst:514
 msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Mengonfigurasi apakah :guilabel:`Automatically watch projects on "
+"contribution` harus diaktifkan untuk pengguna baru. Nilai default-nya adalah "
+"``Benar``."
 
 #: ../../admin/config.rst:528
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Nilai bawaan untuk pembatasan komponen."
 
 #: ../../admin/config.rst:542
 msgid ""
@@ -7652,6 +7687,8 @@ msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
+"Pesan komit bawaan untuk operasi yang berbeda-beda, silakan periksa "
+":ref:`component` untuk rinciannya."
 
 #: ../../admin/config.rst:559
 msgid "Default add-ons to install for every created component."
@@ -7659,7 +7696,7 @@ msgstr "Pengaya bawaan yang akan diinstal pada setiap komponen yang dibuat."
 
 #: ../../admin/config.rst:563
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Pengaturan ini hanya memengaruhi komponen yang baru dibuat."
 
 #: ../../admin/config.rst:565 ../../admin/config.rst:1175
 #: ../../admin/config.rst:1438 ../../admin/config.rst:1637
@@ -7671,11 +7708,11 @@ msgstr "Contoh:"
 
 #: ../../admin/config.rst:594
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
-msgstr ""
+msgstr "Alamat surel komiter, bawaannya adalah ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:605
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr ""
+msgstr "Nama komiter, bawaannya adalah ``Weblate``."
 
 #: ../../admin/config.rst:618
 msgid ":ref:`component-source_language` for any new components."
@@ -7686,6 +7723,7 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"Bawaannya adalah `en`. Objek bahasa yang cocok harus ada di dalam basis data."
 
 #: ../../admin/config.rst:632
 msgid ":ref:`component-merge_style` for any new components."
@@ -7693,39 +7731,46 @@ msgstr ":ref:`component-merge_style` untuk komponen baru."
 
 #: ../../admin/config.rst:634
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - bawaan"
 
 #: ../../admin/config.rst:635
 msgid "`merge`"
-msgstr ""
+msgstr "`gabung`"
 
 #: ../../admin/config.rst:647
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` and :ref:"
 "`project-contribute_shared_tm`."
 msgstr ""
+"Mengonfigurasi nilai bawaan :ref:`project-use_shared_tm` dan :ref:`project-"
+"contribute_shared_tm`."
 
 #: ../../admin/config.rst:656
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
-msgstr ""
+msgstr "Mengonfigurasi nilai bawaan :ref:`project-autoclean_tm`."
 
 #: ../../admin/config.rst:663
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Pengaturan bawaan untuk propagasi translasi, defaultnya adalah ``Benar``."
 
 #: ../../admin/config.rst:677
 msgid "Configures the default title and message for pull requests."
-msgstr ""
+msgstr "Mengonfigurasi judul dan pesan bawaan untuk permintaan penarikan."
 
 #: ../../admin/config.rst:684
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
+"Apakah avatar berbasis Gravatar akan diaktifkan untuk pengguna? Aktif secara "
+"bawaan."
 
 #: ../../admin/config.rst:686
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Avatar diambil dan di-cache di server, mengurangi risiko kebocoran informasi "
+"pribadi, dan mempercepat pengalaman pengguna."
 
 #: ../../admin/config.rst:700
 msgid "Whether to turn on anonymous remote hooks."
@@ -7733,13 +7778,15 @@ msgstr "Apakah akan mengaktifkan kait jarak jauh anonim."
 
 #: ../../admin/config.rst:713
 msgid "Weblate now requires https for WebAuthn support."
-msgstr ""
+msgstr "Weblate sekarang memerlukan https untuk dukungan WebAuthn."
 
 #: ../../admin/config.rst:715
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Apakah tautan akan dikirim ke Weblate sebagai HTTPS atau HTTP. Pengaturan "
+"ini memengaruhi surel terkirim dan URL absolut yang dihasilkan."
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -7747,6 +7794,9 @@ msgid ""
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
 "redirection to a HTTPS URL."
 msgstr ""
+"Dalam konfigurasi bawaan ini juga digunakan untuk beberapa pengaturan Django "
+"yang terkait dengan HTTPS — ini mengaktifkan kuki aman, mengaktifkan HSTS "
+"atau mengaktifkan pengalihan ke URL HTTPS."
 
 #: ../../admin/config.rst:722
 msgid ""
@@ -7758,6 +7808,14 @@ msgid ""
 "setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly detect the "
 "SSL status."
 msgstr ""
+"Pengalihan HTTPS mungkin bermasalah dalam beberapa kasus, dan Anda mungkin "
+"mengalami masalah dengan pengalihan tak terbatas jika Anda menggunakan "
+"proksi terbalik yang melakukan penghentian SSL yang tidak meneruskan header "
+"protokol dengan benar ke Django. Harap sesuaikan konfigurasi proksi terbalik "
+"Anda untuk menampilkan header :http:header:`X-Forwarded-Proto` atau "
+":http:header:`Forwarded` atau konfigurasikan "
+":setting:`django:SECURE_PROXY_SSL_HEADER` agar Django dapat mendeteksi "
+"status SSL dengan benar."
 
 #: ../../admin/config.rst:729
 msgid ""
@@ -7766,32 +7824,42 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"Jika ini dinonaktifkan, Weblate akan gagal memulai dengan galat "
+"``otp_webauthn.E031``. Anda dapat menonaktifkan galat ini dengan "
+"menambahkannya ke :setting:`django:SILENCED_SYSTEM_CHECKS`, tetapi WebAuthn "
+"tetap tidak akan berfungsi untuk situs tanpa HTTPS."
 
 #: ../../admin/config.rst:747
 msgid ""
 "Turn on/off the :guilabel:`Community` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Aktifkan/nonaktifkan :guilabel:`Community` sehingga pengguna dapat berbagi "
+"kemajuan penerjemahan di jejaring sosial."
 
 #: ../../admin/config.rst:760
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
+"Masukkan markup tambahan ke dalam header HTML. Dapat digunakan untuk "
+"verifikasi kepemilikan situs, misalnya:"
 
 #: ../../admin/config.rst:768
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
 msgstr ""
+"Tidak ada sanitasi yang dilakukan pada string. String tersebut dimasukkan "
+"apa adanya ke dalam header HTML."
 
 #: ../../admin/config.rst:777
 msgid "URL where support for your Weblate instance can be found."
-msgstr ""
+msgstr "URL tempat dukungan untuk instansi Weblate Anda dapat ditemukan."
 
 #: ../../admin/config.rst:786
 msgid "List for credentials for Gitea servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server Gitea."
 
 #: ../../snippets/vcs-credentials.rst:1
 msgid ""
@@ -7799,6 +7867,9 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
+"Kamus konfigurasi terdiri dari kredensial yang ditentukan untuk setiap host "
+"API. Tata letaknya sama untuk hampir semua integrasi kontrol versi dan "
+"dijelaskan di :ref:`settings-credentials`."
 
 #: ../../admin/config.rst:802
 msgid "`Creating a Gitea personal access token`_"
@@ -7806,17 +7877,19 @@ msgstr "`Membuat token akses pribadi Gitea`_"
 
 #: ../../admin/config.rst:813
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server GitLab."
 
 #: ../../admin/config.rst:829
 msgid ""
 "`GitLab: Personal access token <https://docs.gitlab.com/user/profile/"
 "personal_access_tokens/>`_"
 msgstr ""
+"`GitLab: Token akses pribadi <https://docs.gitlab.com/user/profile/"
+"personal_access_tokens/>`_"
 
 #: ../../admin/config.rst:838
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server GitHub."
 
 #: ../../admin/config.rst:851
 msgid ""
@@ -7825,22 +7898,31 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
+"Anda dapat menggunakan token akses personal berbutir halus maupun token "
+"akses personal klasik. Token berbutir halus ini terbatas pada satu "
+"organisasi, sehingga tidak akan berfungsi jika Anda ingin Weblate melakukan "
+"forking repositori di luar organisasi (biasanya ke namespace pengguna)."
 
 #: ../../admin/config.rst:856
 msgid ""
 "To clone, push and create pull requests, the read and write access to :"
 "guilabel:`Contents` and :guilabel:`Pull requests` is required."
 msgstr ""
+"Untuk mengkloning, mendorong, dan membuat permintaan tarik, akses baca dan "
+"tulis ke :guilabel:`Contents` dan :guilabel:`Pull requests` diperlukan."
 
 #: ../../admin/config.rst:859
 msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
+":guilabel:`Administration` mungkin juga diperlukan untuk melakukan forking "
+"repositori jika Anda bermaksud menggunakan forking dan repositori asli tidak "
+"bersifat publik."
 
 #: ../../admin/config.rst:864
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
-msgstr ""
+msgstr "Gunakan ``api.github.com`` sebagai host API untuk https://github.com/."
 
 #: ../../admin/config.rst:871
 msgid "`Creating a GitHub personal access token`_"
@@ -7848,17 +7930,19 @@ msgstr "`Membuat token akses pribadi GitHub`_"
 
 #: ../../admin/config.rst:882
 msgid "List for credentials for Bitbucket Data Center."
-msgstr ""
+msgstr "Daftar kredensial untuk Bitbucket Data Center."
 
 #: ../../admin/config.rst:898
 msgid ""
 "`Bitbucket: HTTP access token <https://confluence.atlassian.com/"
 "bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+"`Bitbucket: Token akses HTTP <https://confluence.atlassian.com/"
+"bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: ../../admin/config.rst:907
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server Bitbucket Cloud."
 
 #: ../../admin/config.rst:919 ../../admin/config.rst:959
 #: ../../admin/config.rst:2241
@@ -7867,6 +7951,9 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Kamus konfigurasi berisi kredensial yang ditentukan untuk setiap host API. "
+"Host API mungkin berbeda dari yang Anda gunakan di peramban web, misalnya "
+"API GitHub diakses sebagai ``api.github.com``."
 
 #: ../../admin/config.rst:923 ../../admin/config.rst:963
 #: ../../admin/config.rst:2249
@@ -7879,41 +7966,43 @@ msgstr "Pengguna API."
 
 #: ../../admin/config.rst:928
 msgid "The user workspace slug."
-msgstr ""
+msgstr "Slug ruang kerja pengguna."
 
 #: ../../admin/config.rst:930
 msgid "The App password with `pullrequest:write` permission."
-msgstr ""
+msgstr "Kata sandi Aplikasi dengan izin `pullrequest:write`."
 
 #: ../../admin/config.rst:932 ../../admin/config.rst:975
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Pengaturan tambahan yang tidak dijelaskan di sini dapat ditemukan di :ref"
+":`settings-credentials`."
 
 #: ../../admin/config.rst:937
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-app-password/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`Buat kata sandi Aplikasi <https://support.atlassian.com/bitbucket-cloud/"
+"docs/create-an-app-password/>`_"
 
 #: ../../admin/config.rst:938
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`App password permissions <https://support.atlassian.com/bitbucket-cloud/"
 "docs/app-password-permissions/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`Izin kata sandi aplikasi <https://support.atlassian.com/bitbucket-cloud/"
+"docs/app-password-permissions/>`_"
 
 #: ../../admin/config.rst:947
 msgid "List for credentials for Azure DevOps servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server Azure DevOps."
 
 #: ../../admin/config.rst:966
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr ""
+msgstr "Nama proyek Azure DevOps. Ini bukan nama repositori."
 
 #: ../../admin/config.rst:968
 msgid "The name of the organization of the project."
@@ -7924,10 +8013,12 @@ msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
+"Daftar opsional ID item pekerjaan dari organisasi Anda. Setelah disediakan, "
+"permintaan tarik baru akan menyertakannya."
 
 #: ../../admin/config.rst:973 ../../admin/config.rst:2254
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "Token API untuk pengguna API, diperlukan."
 
 #: ../../admin/config.rst:980
 msgid ""
@@ -7935,18 +8026,25 @@ msgid ""
 "azure/devops/organizations/accounts/use-personal-access-tokens-to-"
 "authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+"`Azure DevOps: Token akses pribadi <https://learn.microsoft.com/en-us/azure/"
+"devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view"
+"=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:987
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
+"ID Google Analytics untuk mengaktifkan pemantauan Weblate menggunakan Google "
+"Universal Analytics."
 
 #: ../../admin/config.rst:991
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Integrasi Google Analytics 4 saat ini tidak tersedia untuk Weblate, silakan "
+"lihat https://github.com/WeblateOrg/weblate/issues/14015."
 
 #: ../../admin/config.rst:999
 msgid ""
@@ -7954,6 +8052,9 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
+"Sembunyikan kredensial repositori dari antarmuka web. Jika Anda memiliki URL "
+"repositori dengan nama pengguna dan kata sandi, Weblate akan "
+"menyembunyikannya saat informasi terkait ditampilkan kepada pengguna."
 
 #: ../../admin/config.rst:1003
 msgid ""
@@ -7961,6 +8062,9 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Misalnya, alih-alih ``https://user:password@git.example.com/repo.git``, "
+"``https://git.example.com/repo.git`` akan ditampilkan. Itu juga mencoba "
+"membersihkan pesan galat VCS dengan cara yang serupa."
 
 #: ../../admin/config.rst:1009
 msgid "On by default."
@@ -7972,12 +8076,18 @@ msgid ""
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
 msgstr ""
+"Menyembunyikan informasi versi dari pengguna yang tidak terautentikasi. Ini "
+"juga membuat semua tautan dokumentasi mengarah ke versi terbaru, alih-alih "
+"dokumentasi yang sesuai dengan versi yang saat ini terinstal."
 
 #: ../../admin/config.rst:1022
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "does not prevent an attacker from figuring out version by probing behavior."
 msgstr ""
+"Menyembunyikan versi merupakan praktik keamanan yang direkomendasikan di "
+"beberapa perusahaan, namun tidak mencegah penyerang mengetahui versi dengan "
+"menyelidiki perilaku."
 
 #: ../../admin/config.rst:1027
 msgid "This is turned off by default."
@@ -7986,30 +8096,36 @@ msgstr "Ini dimatikan secara bawaan."
 #: ../../admin/config.rst:1036
 msgid "Toggles built-in Interledger Payment Pointer for funding Weblate."
 msgstr ""
+"Mengaktifkan Penunjuk Pembayaran Interledger bawaan untuk pendanaan Weblate."
 
 #: ../../admin/config.rst:1050
 msgid "List of Interledger Payment Pointers (ILPs) for Web Monetization."
-msgstr ""
+msgstr "Daftar Penunjuk Pembayaran Interledger (ILP) untuk Monetisasi Web."
 
 #: ../../admin/config.rst:1052
 msgid ""
 "If multiple are specified, probabilistic revenue sharing is achieved by "
 "selecting one randomly."
 msgstr ""
+"Jika beberapa ditentukan, pembagian pendapatan probabilistik dicapai dengan "
+"memilih satu secara acak."
 
 #: ../../admin/config.rst:1055
 msgid "Please check <https://webmonetization.org/> for more details."
 msgstr ""
+"Silakan periksa <https://webmonetization.org/> untuk rincian selengkapnya."
 
 #: ../../admin/config.rst:1059
 msgid ""
 "A pointer to fund Weblate itself is automatically added unless turned off "
 "by :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 msgstr ""
+"Penunjuk untuk mendanai Weblate itu sendiri ditambahkan secara otomatis "
+"kecuali dimatikan oleh :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 
 #: ../../admin/config.rst:1072
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Menunjukkan apakah Weblate berjalan di belakang proksi terbalik."
 
 #: ../../admin/config.rst:1074
 msgid ""
@@ -8024,10 +8140,12 @@ msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Pastikan Anda benar-benar menggunakan proksi terbalik dan menyetel header "
+"ini, jika tidak, pengguna akan dapat memalsukan alamat IP."
 
 #: ../../admin/config.rst:1084
 msgid "This is not on by default."
-msgstr ""
+msgstr "Ini tidak aktif secara bawaan."
 
 #: ../../admin/config.rst:1098
 msgid ""
@@ -8039,7 +8157,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1101
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Bawaannya adalah ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:1118
 msgid "The default changed from 1 to -1."
@@ -8083,85 +8201,98 @@ msgstr "Bawaannya adalah -1."
 
 #: ../../admin/config.rst:1152
 msgid "You need :ref:`legal` installed to make this work."
-msgstr ""
+msgstr "Anda perlu menginstal :ref:`legal` agar ini berfungsi."
 
 #: ../../admin/config.rst:1154
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
+"Tanggal pembaruan terakhir dokumen persyaratan layanan. Setiap kali tanggal "
+"berubah, pengguna diwajibkan untuk menyetujui persyaratan layanan yang "
+"diperbarui."
 
 #: ../../admin/config.rst:1168
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL tempat instansi Weblate Anda menampilkan dokumen hukumnya."
 
 #: ../../admin/config.rst:1172
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
+"Berguna jika Anda menyimpan dokumen hukum di luar Weblate untuk disematkan "
+"di dalam Weblate. Silakan periksa :ref:`legal` untuk rinciannya."
 
 #: ../../admin/config.rst:1190
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Lisensi tambahan untuk disertakan dalam pilihan lisensi."
 
 #: ../../admin/config.rst:1194
 msgid ""
 "Each license definition should be tuple of its short name, a long name, a "
 "URL and a boolean, indication with it is a libre license."
 msgstr ""
+"Setiap definisi lisensi harus berupa tupel nama pendeknya, nama panjang, "
+"URL, dan boolean, yang menunjukkan bahwa lisensi tersebut bersifat libre."
 
 #: ../../admin/config.rst:1196 ../../admin/config.rst:1225
 #: ../../admin/config.rst:1352 ../../admin/projects.rst:523
 #: ../../formats/xliff.rst:77
 msgid "For example:"
-msgstr ""
+msgstr "Misalnya:"
 
 #: ../../admin/config.rst:1216
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
+msgstr "Mengatur ini ke nilai kosong sekarang menonaktifkan peringatan lisensi."
 
 #: ../../admin/config.rst:1218
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
+"Filter daftar lisensi yang akan ditampilkan. Ini juga menonaktifkan "
+"peringatan lisensi jika diatur kosong."
 
 #: ../../admin/config.rst:1223
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Filter ini menggunakan nama lisensi yang pendek."
 
 #: ../../admin/config.rst:1231
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Berikut menonaktifkan peringatan lisensi:"
 
 #: ../../admin/config.rst:1246
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "Menentukan apakah atribut lisensi dalam :ref:`component` diperlukan."
 
 #: ../../admin/config.rst:1250
 msgid "This is off by default."
-msgstr ""
+msgstr "Ini nonaktif secara bawaan."
 
 #: ../../admin/config.rst:1257
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
+"Apakah panjang terjemahan tertentu harus dibatasi? Batasannya adalah panjang "
+"string sumber × 10 karakter."
 
 #: ../../admin/config.rst:1262
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Atur ini ke ``Salah`` untuk memperbolehkan penerjemahan yang lebih panjang ("
+"hingga 10.000 karakter) tanpa mempedulikan panjang string sumber."
 
 #: ../../admin/config.rst:1266
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "Bawaannya adalah ``Benar``."
 
 #: ../../admin/config.rst:1272
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL dan LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:1274
 msgid ""
@@ -8178,45 +8309,56 @@ msgstr ""
 
 #: ../../admin/config.rst:1281
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Pada Hosted Weblate, ini menggunakan ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:1292
 msgid ""
 "A list of URLs you want to require signing in. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Daftar URL yang mengharuskan Anda untuk masuk. (Selain aturan standar yang "
+"ada dalam Weblate)."
 
 #: ../../admin/config.rst:1296
 msgid "This allows you to password protect a whole installation using:"
 msgstr ""
+"Ini memungkinkan Anda untuk melindungi seluruh instalasi dengan kata sandi "
+"menggunakan:"
 
 #: ../../admin/config.rst:1307
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
+"Sebaiknya akses API juga dikunci, seperti ditunjukkan pada contoh di atas."
 
 #: ../../admin/config.rst:1318
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign-in page."
 msgstr ""
+"Daftar pengecualian untuk :setting:`LOGIN_REQUIRED_URLS`. Jika tidak "
+"ditentukan, pengguna diizinkan mengakses halaman masuk."
 
 #: ../../admin/config.rst:1321
 msgid ""
 "See the :ref:`sample-configuration` for recommended configuration of this "
 "setting."
 msgstr ""
+"Lihat :ref:`sample-configuration` untuk konfigurasi yang direkomendasikan "
+"untuk pengaturan ini."
 
 #: ../../admin/config.rst:1329
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
+"ID situs di Matomo (sebelumnya Piwik) yang ingin Anda gunakan untuk melacak "
+"Weblate."
 
 #: ../../admin/config.rst:1333 ../../admin/config.rst:1350
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "Integrasi ini tidak mendukung Matomo Tag Manager."
 
 #: ../../admin/config.rst:1345
 msgid ""
@@ -8224,6 +8366,9 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"URL lengkap (termasuk garis miring di akhir) instalasi Matomo (sebelumnya "
+"Piwik) yang ingin Anda gunakan untuk melacak penggunaan Weblate. Silakan "
+"periksa <https://matomo.org/> untuk rincian selengkapnya."
 
 #: ../../admin/config.rst:1368
 msgid "Number of nearby strings to show in each direction in the full editor."
@@ -8235,58 +8380,69 @@ msgstr ""
 msgid ""
 "This is just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"Ini hanyalah nilai bawaan, pengguna dapat menyesuaikannya di :ref:`user-"
+"profile`."
 
 #: ../../admin/config.rst:1379
 msgid "Default number of elements to display when pagination is active."
-msgstr ""
+msgstr "Jumlah elemen bawaan yang akan ditampilkan saat paginasi aktif."
 
 #: ../../admin/config.rst:1388
 msgid "List for credentials for Pagure servers."
-msgstr ""
+msgstr "Daftar kredensial untuk server Pagure."
 
 #: ../../admin/config.rst:1404
-#, fuzzy
-#| msgid "`curl <https://curl.se/>`_"
 msgid "`Pagure API <https://pagure.io/api/0/>`_"
-msgstr "`curl <https://curl.se/>`_"
+msgstr "`API Pagure <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1413
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
+"Skor kata sandi minimal sebagaimana dievaluasi oleh penaksir kekuatan kata "
+"sandi `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_."
 
 #: ../../admin/config.rst:1416
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "Bawaannya adalah 0, yang berarti pemeriksaan kekuatan dinonaktifkan."
 
 #: ../../admin/config.rst:1431
 msgid "URL where your Weblate instance shows its privacy policy."
-msgstr ""
+msgstr "URL tempat instansi Weblate Anda menampilkan kebijakan privasinya."
 
 #: ../../admin/config.rst:1435
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Berguna jika Anda menyimpan dokumen hukum Anda di luar Weblate untuk "
+"menanamkannya di dalam Weblate, silakan periksa :ref:`legal` untuk "
+"rinciannya."
 
 #: ../../admin/config.rst:1455
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
+"Mengonfigurasi apakah komit surel pribadi bersifat opt-in atau opt-out ("
+"secara bawaan bersifat opt-in)."
 
 #: ../../admin/config.rst:1459
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr ""
+"Pengaturan ini hanya berlaku bagi pengguna yang belum secara eksplisit "
+"memilih surel komit."
 
 #: ../../admin/config.rst:1473
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Templat untuk membuat surel komitmen pribadi bagi pengguna. Bawaannya adalah "
+"``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1475
 msgid "Set to blank string to disable."
@@ -8298,23 +8454,32 @@ msgid ""
 "setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in "
 "the :ref:`profile`."
 msgstr ""
+"Penggunaan surel komit yang berbeda merupakan opsi bagi pengguna, kecuali "
+"dikonfigurasi oleh :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Pengguna dapat "
+"mengonfigurasi surel komit di :ref:`profile`."
 
 #: ../../admin/config.rst:1490
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
+"Menentukan jumlah cadangan per proyek yang disimpan di server. Bawaannya "
+"adalah 3."
 
 #: ../../admin/config.rst:1503
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Menentukan berapa lama cadangan proyek akan disimpan di server. Bawaannya "
+"adalah 30 hari."
 
 #: ../../admin/config.rst:1516
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Menentukan ekspresi reguler untuk membatasi penamaan proyek. Nama yang cocok "
+"akan ditolak."
 
 #: ../../admin/config.rst:1529
 msgid ""
@@ -8323,6 +8488,10 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Tolak penggunaan host tertentu di situs web proyek. Semua subdomain akan "
+"dicocokkan, jadi jika ``example.com`` disertakan, ``test.example.com`` juga "
+"akan diblokir. Daftar ini hanya boleh berisi string huruf kecil, domain yang "
+"diurai akan diubah menjadi huruf kecil sebelum dicocokkan."
 
 #: ../../admin/config.rst:1534
 msgid "Default configuration:"
@@ -8331,17 +8500,22 @@ msgstr "Konfigurasi bawaan:"
 #: ../../admin/config.rst:1554
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
+"Tolak penggunaan alamat IP numerik di situs web proyek. Aktif secara bawaan."
 
 #: ../../admin/config.rst:1569
 msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
+"Menentukan ekspresi reguler untuk membatasi apa yang dapat dimasukkan "
+"sebagai :ref:`project-web`. URL yang cocok akan ditolak."
 
 #: ../../admin/config.rst:1582
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
+"Jumlah maksimum percobaan autentikasi sebelum pembatasan kecepatan "
+"diterapkan."
 
 #: ../../admin/config.rst:1584
 msgid "Defaults to 5."
@@ -8349,19 +8523,19 @@ msgstr "Asali ke 5."
 
 #: ../../admin/config.rst:1597
 msgid "How long authentication is accepted after rate limiting applies."
-msgstr ""
+msgstr "Berapa lama autentikasi diterima setelah pembatasan tarif berlaku."
 
 #: ../../admin/config.rst:1599
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
-msgstr ""
+msgstr "Jumlah detik, bawaannya 300 (5 menit)."
 
 #: ../../admin/config.rst:1612
 msgid "How long authentication is locked after rate limiting applies."
-msgstr ""
+msgstr "Berapa lama autentikasi dikunci setelah pembatasan akses diterapkan."
 
 #: ../../admin/config.rst:1614
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr ""
+msgstr "Jumlah detik bawaan ke 600 (10 menit)."
 
 #: ../../admin/config.rst:1629
 msgid ""
@@ -8369,6 +8543,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Daftar backend autentikasi yang memungkinkan pendaftaran. Ini hanya "
+"membatasi pendaftaran baru; pengguna masih dapat mengautentikasi dan "
+"menambahkan autentikasi menggunakan semua backend autentikasi yang telah "
+"dikonfigurasi."
 
 #: ../../admin/config.rst:1633
 msgid ""
@@ -8376,70 +8554,84 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"Disarankan untuk tetap mengaktifkan :setting:`REGISTRATION_OPEN` saat "
+"membatasi backend pendaftaran, jika tidak, pengguna akan dapat mendaftar, "
+"tetapi Weblate tidak akan menampilkan tautan untuk mendaftar di antarmuka "
+"pengguna."
 
 #: ../../admin/config.rst:1645
 msgid "The backend names match names used in the URL for authentication."
-msgstr ""
+msgstr "Nama backend cocok dengan nama yang digunakan di URL untuk autentikasi."
 
 #: ../../admin/config.rst:1657
 msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
 msgstr ""
+"Apakah pendaftaran akun baru dilindungi oleh CAPTCHA. Bawaannya adalah "
+"diaktifkan."
 
 #: ../../admin/config.rst:1659
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
+"Jika diaktifkan, CAPTCHA akan ditambahkan ke semua halaman tempat pengguna "
+"memasukkan alamat surel mereka:"
 
 #: ../../admin/config.rst:1661
 msgid "New account registration."
-msgstr ""
+msgstr "Pendaftaran akun baru."
 
 #: ../../admin/config.rst:1662
 msgid "Password recovery."
-msgstr ""
+msgstr "Pemulihan kata sandi."
 
 #: ../../admin/config.rst:1663
 msgid "Adding e-mail to an account."
-msgstr ""
+msgstr "Menambahkan surel ke akun."
 
 #: ../../admin/config.rst:1664
 msgid "Contact form for users that are not signed in."
-msgstr ""
+msgstr "Formulir kontak untuk pengguna yang tidak masuk."
 
 #: ../../admin/config.rst:1666
 msgid "The protection currently consists of following steps:"
-msgstr ""
+msgstr "Perlindungan saat ini terdiri dari langkah-langkah berikut:"
 
 #: ../../admin/config.rst:1668
 msgid "Mathematical captcha to be solved by the user."
-msgstr ""
+msgstr "Captcha matematika yang harus dipecahkan oleh pengguna."
 
 #: ../../admin/config.rst:1669
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgstr ""
+"Tantangan proof of work dihitung oleh peramban. Tingkat kesulitannya dapat "
+"disesuaikan menggunakan :setting:`ALTCHA_MAX_NUMBER`."
 
 #: ../../admin/config.rst:1676
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr ""
+msgstr "Memungkinkan Anda memfilter alamat surel mana yang dapat mendaftar."
 
 #: ../../admin/config.rst:1678
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
+"Bawaannya adalah ``.*``, yang memperbolehkan alamat surel apa pun untuk "
+"didaftarkan."
 
 #: ../../admin/config.rst:1680
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
+"Anda dapat menggunakannya untuk membatasi pendaftaran ke satu domain surel:"
 
 #: ../../admin/config.rst:1691
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
+"Apakah pendaftaran akun baru saat ini diizinkan. Bawaannya adalah diaktifkan."
 
 #: ../../admin/config.rst:1694
 msgid ""
@@ -8447,6 +8639,9 @@ msgid ""
 "the Python Social Auth (you can allow certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Pengaturan ini memengaruhi autentikasi bawaan melalui alamat surel atau "
+"melalui Python Social Auth (Anda dapat mengizinkan back-end tertentu "
+"menggunakan :setting:`REGISTRATION_ALLOW_BACKENDS`)."
 
 #: ../../admin/config.rst:1700
 msgid ""
@@ -8454,12 +8649,17 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+"Jika menggunakan metode autentikasi pihak ketiga seperti :ref:`ldap-auth`, "
+"ia hanya menyembunyikan formulir pendaftaran, tetapi pengguna baru mungkin "
+"masih dapat masuk dan membuat akun."
 
 #: ../../admin/config.rst:1717
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Izinkan pengikatan ulang backend autentikasi untuk pengguna yang sudah ada. "
+"Aktifkan ini saat bermigrasi antar penyedia autentikasi."
 
 #: ../../admin/config.rst:1722
 msgid ""
@@ -8467,62 +8667,81 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Dinonaktifkan secara bawaan untuk mencegah penambahan backend autentikasi "
+"lain ke akun yang sudah ada. Pengikatan ulang dapat menyebabkan akun "
+"disusupi saat menggunakan lebih banyak backend autentikasi pihak ketiga."
 
 #: ../../admin/config.rst:1733
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
+"Ambang batas untuk memicu peringatan repositori yang kedaluwarsa, atau "
+"repositori yang berisi terlalu banyak perubahan. Bawaannya adalah 25."
 
 #: ../../admin/config.rst:1747
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require authentication for all API endpoints."
 msgstr ""
+"Ini mengaktifkan :setting:`LOGIN_REQUIRED_URLS` dan mengonfigurasi kerangka "
+"kerja REST untuk memerlukan autentikasi untuk semua titik akhir API."
 
 #: ../../admin/config.rst:1752
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Ini diimplementasikan dalam :ref:`sample-configuration`. Untuk Docker, "
+"gunakan :envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1760
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr ""
+msgstr "Sentry DSN yang digunakan untuk :ref:`collecting-errors`."
 
 #: ../../admin/config.rst:1764
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
+"`Integrasi Django untuk Sentry <https://docs.sentry.io/platforms/python/"
+"integrations/django/>`_"
 
 #: ../../admin/config.rst:1771
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr ""
+msgstr "Mengonfigurasi lingkungan untuk Sentry. Bawaannya adalah ``devel``."
 
 #: ../../admin/config.rst:1780
 msgid ""
 "Configure whether to monitor Celery Beat tasks with Sentry. Defaults to "
 "``True``."
 msgstr ""
+"Konfigurasikan apakah akan memantau tugas Celery Beat dengan Sentry. "
+"Bawaannya adalah ``Benar``."
 
 #: ../../admin/config.rst:1787
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Konfigurasikan akses sampel untuk pemantauan kinerja. Atur ke 1 untuk "
+"melacak semua peristiwa, 0 (bawaan) menonaktifkan pelacakan."
 
 #: ../../admin/config.rst:1791 ../../admin/install.rst:1861
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
 "performance-monitoring/>`_"
 msgstr ""
+"`Pemantauan Kinerja Sentry <https://docs.sentry.io/product/sentry-basics/"
+"performance-monitoring/>`_"
 
 #: ../../admin/config.rst:1798
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
+"Izinkan Sentry mengumpulkan informasi identitas pribadi tertentu. "
+"Dinonaktifkan secara bawaan."
 
 #: ../../admin/config.rst:1802
 msgid "This is turned off by default now, used to be turned on by default."
@@ -8534,16 +8753,21 @@ msgid ""
 "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Konfigurasikan akses sampel untuk pemantauan profil. Atur ke 1 untuk melacak "
+"semua peristiwa, 0 (bawaan) menonaktifkan pelacakan."
 
 #: ../../admin/config.rst:1813 ../../admin/install.rst:1862
 msgid "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
-msgstr ""
+msgstr "`Profil Sentry <https://docs.sentry.io/product/explore/profiling/>`_"
 
 #: ../../admin/config.rst:1822
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
+"Atur masa berlaku sesi untuk pengguna terautentikasi. Ini melengkapi "
+":setting:`django:SESSION_COOKIE_AGE` yang digunakan untuk pengguna tidak "
+"terautentikasi."
 
 #: ../../admin/config.rst:1834
 msgid ""
@@ -8552,20 +8776,29 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
+"Gunakan kode bahasa sederhana untuk kombinasi bahasa/negara bawaan. "
+"Misalnya, terjemahan ``fr_FR`` akan menggunakan kode bahasa ``fr``. Perilaku "
+"ini biasanya diinginkan karena menyederhanakan daftar bahasa untuk kombinasi "
+"bawaan ini."
 
 #: ../../admin/config.rst:1839
 msgid "Turn this off if you want to different translations for each variant."
 msgstr ""
+"Matikan ini jika Anda menginginkan terjemahan yang berbeda untuk setiap "
+"varian."
 
 #: ../../admin/config.rst:1846
 msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
+"Mengonfigurasi domain situs. Diperlukan untuk menghasilkan tautan absolut "
+"yang benar dalam berbagai cakupan (misalnya surel aktivasi, notifikasi, atau "
+"umpan RSS)."
 
 #: ../../admin/config.rst:1849
 msgid "If Weblate is running on a non-standard port, include it here as well."
-msgstr ""
+msgstr "Jika Weblate berjalan pada port nonstandar, sertakan juga di sini."
 
 #: ../../admin/config.rst:1863
 msgid ""
@@ -8573,26 +8806,33 @@ msgid ""
 "(turning on and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for "
 "changing the URL, use :setting:`URL_PREFIX`."
 msgstr ""
+"Pengaturan ini hanya boleh berisi nama domain. Untuk mengonfigurasi protokol "
+"(mengaktifkan dan menerapkan HTTPS), gunakan :setting:`ENABLE_HTTPS` dan "
+"untuk mengubah URL, gunakan :setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1869
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"Pada kontainer Docker, domain situs dikonfigurasikan melalui "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/config.rst:1885
 msgid "Site title to be used for the website and sent e-mails."
-msgstr ""
+msgstr "Judul situs yang akan digunakan untuk situs web dan mengirim surel."
 
 #: ../../admin/config.rst:1892
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
+"Karakter tambahan yang akan disertakan dalam papan ketik visual, :ref"
+":`visual-keyboard`."
 
 #: ../../admin/config.rst:1894
 msgid "The default value is:"
-msgstr ""
+msgstr "Nilai bawaannya adalah:"
 
 #: ../../admin/config.rst:1905
 msgid ""
@@ -8601,12 +8841,19 @@ msgid ""
 "actually only single project in Weblate. Alternatively, set the project "
 "slug, and it will redirect unconditionally to this project."
 msgstr ""
+"Mengalihkan pengguna langsung ke proyek atau komponen, alih-alih menampilkan "
+"dasbor. Anda dapat mengaturnya ke ``Benar`` agar hanya berfungsi jika hanya "
+"ada satu proyek di Weblate. Alternatifnya, atur slug proyek, dan ini akan "
+"mengalihkan pengguna tanpa syarat ke proyek ini."
 
 #: ../../admin/config.rst:1923
 msgid ""
 "Allows adding custom parameters when Weblate is invoking SSH. Useful when "
 "connecting to servers using legacy encryption or other non-standard features."
 msgstr ""
+"Memungkinkan penambahan parameter khusus saat Weblate memanggil SSH. Berguna "
+"saat menghubungkan ke server yang menggunakan enkripsi lama atau fitur non-"
+"standar lainnya."
 
 #: ../../admin/config.rst:1926
 msgid ""
@@ -8614,12 +8861,18 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can turn that on using:"
 msgstr ""
+"Misalnya, ketika koneksi SSH di Weblate gagal dengan pesan `Tidak dapat "
+"bernegosiasi dengan legacyhost: tidak ditemukan metode pertukaran kunci yang "
+"cocok. Penawaran mereka: diffie-hellman-group1-sha1`, Anda dapat "
+"mengaktifkannya menggunakan:"
 
 #: ../../admin/config.rst:1935
 msgid ""
 "The string is evaluated by the shell, so ensure any whitespace and special "
 "characters is quoted."
 msgstr ""
+"String dievaluasi oleh shell, jadi pastikan semua spasi dan karakter khusus "
+"diberi tanda kutip."
 
 #: ../../admin/config.rst:1940
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
@@ -8627,34 +8880,42 @@ msgstr "`Opsi Legacy OpenSSH <https://www.openssh.com/legacy.html>`_"
 
 #: ../../admin/config.rst:1947
 msgid "The URL where your Weblate instance reports its status."
-msgstr ""
+msgstr "URL tempat instansi Weblate Anda melaporkan statusnya."
 
 #: ../../admin/config.rst:1954
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
+"Secara otomatis menghapus saran setelah jumlah hari tertentu. Bawaannya "
+"adalah ``Tidak Ada``, artinya tidak ada penghapusan."
 
 #: ../../admin/config.rst:1964
 msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
+"Menonaktifkan pemeriksaan status dukungan semi tahunan dan mengalihkan "
+"pengguna super saat masuk ke halaman donasi jika tidak ada langganan "
+"dukungan aktif."
 
 #: ../../admin/config.rst:1969
 msgid ""
 "Improve your Weblate experience by purchasing a support subscription and "
 "boosting Weblate progress instead of turning this off."
 msgstr ""
+"Tingkatkan pengalaman Weblate Anda dengan membeli langganan dukungan dan "
+"tingkatkan kemajuan Weblate alih-alih menonaktifkannya."
 
 #: ../../admin/config.rst:1978
 msgid ""
 "Configures when the :guilabel:`Component seems unused` alert is triggered."
 msgstr ""
+"Mengonfigurasi kapan peringatan :guilabel:`Component seems unused` dipicu."
 
 #: ../../admin/config.rst:1980
 msgid "Defaults to 365 days, set to 0 to turn it off."
-msgstr ""
+msgstr "Bawaannya adalah 365 hari, atur ke 0 untuk menonaktifkannya."
 
 #: ../../admin/config.rst:1989
 msgid ""
@@ -8662,6 +8923,9 @@ msgid ""
 "migration and is on by default. This setting has no effect on invocation of :"
 "wladmin:`setuplang`."
 msgstr ""
+"Mengontrol apakah basis data bahasa harus diperbarui saat menjalankan "
+"migrasi basis data dan aktif secara bawaan. Pengaturan ini tidak memengaruhi "
+"pemanggilan :wladmin:`setuplang`."
 
 #: ../../admin/config.rst:1995
 msgid ""
@@ -8669,12 +8933,17 @@ msgid ""
 "definitions expand over time and it will not display language code for the "
 "defined languages."
 msgstr ""
+"Tampilan bahasa mungkin menjadi tidak konsisten dengan hal ini. Definisi "
+"bahasa Weblate berkembang seiring waktu dan tidak akan menampilkan kode "
+"bahasa untuk bahasa yang didefinisikan."
 
 #: ../../admin/config.rst:2008
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
+"Pengaturan ini memungkinkan Anda menjalankan Weblate pada jalur tertentu ("
+"jika tidak, ia bergantung pada jalur yang dijalankan dari root server web)."
 
 #: ../../admin/config.rst:2013
 msgid ""
@@ -8682,16 +8951,21 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
+"Untuk menggunakan pengaturan ini, Anda juga perlu mengonfigurasi server Anda "
+"untuk menghapus prefiks ini. Misalnya, dengan WSGI, hal ini dapat dicapai "
+"dengan mengatur ``WSGIScriptAlias``."
 
 #: ../../admin/config.rst:2018
 msgid "The prefix should start with a ``/``."
-msgstr ""
+msgstr "Awalan harus dimulai dengan ``/``."
 
 #: ../../admin/config.rst:2028
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
+"Pengaturan ini tidak berfungsi dengan server bawaan Django, Anda harus "
+"menyesuaikan :file:`urls.py` untuk memuat awalan ini."
 
 #: ../../admin/config.rst:2038
 msgid ""
@@ -8699,38 +8973,51 @@ msgid ""
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :"
 "ref:`vcs-azure-devops`."
 msgstr ""
+"Mengonfigurasi penundaan minimal dalam hitungan detik antara panggilan API "
+"pihak ketiga di :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref"
+":`vcs-pagure`, dan :ref:`vcs-azure-devops`."
 
 #: ../../admin/config.rst:2042
 msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
+"Ini membatasi akses panggilan API dari Weblate ke layanan-layanan ini untuk "
+"menghindari kelebihan beban."
 
 #: ../../admin/config.rst:2044
 msgid ""
 "If you are being limited by secondary rate-limiter at GitHub, increasing "
 "this might help."
 msgstr ""
+"Jika Anda dibatasi oleh pembatas akses sekunder di GitHub, meningkatkannya "
+"mungkin dapat membantu."
 
 #: ../../admin/config.rst:2046
 msgid "The default value is 10."
-msgstr ""
+msgstr "Nilai bawaan adalah 10."
 
 #: ../../admin/config.rst:2053
 msgid "Configuration of available VCS backends."
-msgstr ""
+msgstr "Konfigurasi backend VCS yang tersedia."
 
 #: ../../admin/config.rst:2057
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
+"Weblate mencoba menggunakan semua back-end yang didukung yang alatnya Anda "
+"miliki."
 
 #: ../../admin/config.rst:2061
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
+"Anda dapat membatasi pilihan atau menambahkan back-end VCS khusus dengan "
+"menggunakan ini."
 
 #: ../../admin/config.rst:2076
 msgid "Configures how deep cloning of repositories Weblate should do."
 msgstr ""
+"Mengonfigurasi seberapa dalam kloning repositori yang harus dilakukan "
+"Weblate."
 
 #: ../../admin/config.rst:2080
 msgid ""
@@ -8740,6 +9027,11 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
+"Saat ini, fitur ini hanya didukung di :ref:`vcs-git`. Secara bawaan, Weblate "
+"melakukan kloning dangkal repositori untuk mempercepat proses kloning dan "
+"menghemat ruang disk. Tergantung penggunaan Anda (misalnya saat menggunakan "
+":ref:`addons` khusus), Anda mungkin ingin meningkatkan kedalaman atau "
+"menonaktifkan kloning dangkal sepenuhnya dengan mengatur ini ke 0."
 
 #: ../../admin/config.rst:2087
 msgid ""
@@ -8747,6 +9039,9 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
+"Jika Anda mendapatkan galat ``fatal: protocol error: expected old/new/ref, "
+"got 'shallow <commit hash>'`` saat mendorong dari Weblate, matikan klon "
+"dangkal sepenuhnya dengan mengatur:"
 
 #: ../../admin/config.rst:2099
 msgid ""
@@ -8774,28 +9069,34 @@ msgstr ""
 msgid ""
 "Configures how long activity logs for add-ons are kept. Defaults to 180 days."
 msgstr ""
+"Mengonfigurasi durasi penyimpanan log aktivitas untuk pengaya. Bawaannya "
+"adalah 180 hari."
 
 #: ../../admin/config.rst:2165
 msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
+"Daftar eksportir yang menawarkan unduhan terjemahan atau glosarium dalam "
+"berbagai format berkas."
 
 #: ../../admin/config.rst:2177
 msgid "List of file formats available for use."
-msgstr ""
+msgstr "Daftar format berkas yang tersedia untuk digunakan."
 
 #: ../../admin/config.rst:2181
 msgid "The default list already has the common formats."
-msgstr ""
+msgstr "Daftar bawaan sudah memiliki format umum."
 
 #: ../../admin/config.rst:2195
 msgid "List of machinery services available for use."
-msgstr ""
+msgstr "Daftar layanan permesinan yang tersedia untuk digunakan."
 
 #: ../../admin/config.rst:2206
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
+"Identitas yang digunakan oleh Weblate untuk menandatangani komit Git, "
+"misalnya:"
 
 #: ../../admin/config.rst:2212
 msgid ""
@@ -8803,12 +9104,17 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
+"Pencarian kunci GPG Weblate dilakukan untuk kunci yang cocok (:file:`home/"
+".gnupg` di bawah :setting:`DATA_DIR`). Jika tidak ditemukan, kunci akan "
+"dibuat, silakan periksa :ref:`gpg-sign` untuk rincian selengkapnya."
 
 #: ../../admin/config.rst:2225
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. On by default, as that suits public server setups."
 msgstr ""
+"Menentukan apakah :ref:`project-web` harus ditentukan saat membuat proyek. "
+"Aktif secara bawaan, karena hal itu sesuai dengan pengaturan server publik."
 
 #: ../../admin/config.rst:2232
 msgid "Configuring version control credentials"
@@ -8821,6 +9127,10 @@ msgid ""
 "`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Bagian ini menjelaskan variabel kredensial VCS sebagai "
+":setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, "
+":setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/config.rst:2245
 msgid ""
@@ -8828,10 +9138,13 @@ msgid ""
 "`component-repo` (if push URL is not configured), these take precedence over "
 "the ones specified in the configuration file."
 msgstr ""
+"Kredensial juga dapat ditimpa dalam :ref:`component-push` atau :ref"
+":`component-repo` (jika URL push tidak dikonfigurasi), ini diutamakan "
+"daripada yang ditentukan dalam berkas konfigurasi."
 
 #: ../../admin/config.rst:2252
 msgid "API user, required."
-msgstr ""
+msgstr "Pengguna API, diperlukan."
 
 #: ../../admin/config.rst:2258
 msgid ""
@@ -8839,12 +9152,17 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Penimpaan skema. Weblate mencoba mengurai skema dari URL repositori dan "
+"kembali ke ``https``. Jika Anda menjalankan server API secara internal, Anda "
+"mungkin ingin menggunakan ``http``, tetapi pertimbangkan keamanannya."
 
 #: ../../admin/config.rst:2264
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
 msgstr ""
+"Dalam kontainer Docker, kredensial dapat dikonfigurasi menggunakan variabel "
+"lingkungan, lihat :ref:`docker-vcs-config`."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -8856,20 +9174,26 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
+"Tersedia infrastruktur yang memastikan terjemahan Anda mengikuti "
+"perkembangan secara saksama. Dengan demikian, penerjemah dapat mengerjakan "
+"terjemahan secara berkelanjutan, alih-alih mengerjakan sejumlah besar teks "
+"baru tepat sebelum dirilis."
 
 #: ../../admin/continuous.rst:12
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
 msgstr ""
+":doc:`/devel/integration` menjelaskan cara dasar untuk mengintegrasikan "
+"pengembangan Anda dengan Weblate."
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
-msgstr ""
+msgstr "Ini prosesnya:"
 
 #: ../../admin/continuous.rst:17
 msgid "Developers make changes and push them to the VCS repository."
-msgstr ""
+msgstr "Pengembang membuat perubahan dan mengirimkannya ke repositori VCS."
 
 #: ../../admin/continuous.rst:18
 msgid ""
@@ -8883,12 +9207,16 @@ msgid ""
 "Weblate pulls changes from the VCS repository, parses translation files and "
 "updates its database, see :ref:`update-vcs`."
 msgstr ""
+"Weblate menarik perubahan dari repositori VCS, mengurai berkas terjemahan "
+"dan memperbarui basis datanya, lihat :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:20
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
 msgstr ""
+"Penerjemah mengirimkan terjemahan menggunakan antarmuka web Weblate, atau "
+"mengunggah perubahan secara luring."
 
 #: ../../admin/continuous.rst:21
 msgid ""
@@ -8909,21 +9237,27 @@ msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
+"Hosting kode hulu tidak diperlukan, Anda dapat menggunakan Weblate dengan "
+":ref:`vcs-local` di mana hanya ada repositori di dalam Weblate."
 
 #: ../../admin/continuous.rst:79
 msgid "Updating repositories"
-msgstr ""
+msgstr "Memperbarui repositori"
 
 #: ../../admin/continuous.rst:81
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
 msgstr ""
+"Anda harus menyiapkan beberapa cara untuk memperbarui repositori backend "
+"dari sumbernya."
 
 #: ../../admin/continuous.rst:84
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
+"Gunakan :ref:`hooks` untuk berintegrasi dengan sebagian besar layanan "
+"hosting kode umum:"
 
 #: ../../admin/continuous.rst:93
 msgid "You must also :ref:`project-enable_hooks` for this to work."
@@ -8934,18 +9268,24 @@ msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Memicu pembaruan secara manual baik dalam manajemen repositori atau "
+"menggunakan :ref:`api` atau :ref:`wlc`"
 
 #: ../../admin/continuous.rst:97
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Aktifkan :setting:`AUTO_UPDATE` untuk memperbarui semua komponen secara "
+"otomatis pada instans Weblate Anda"
 
 #: ../../admin/continuous.rst:99
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+"Jalankan :wladmin:`updategit` (dengan pemilihan proyek atau ``--all`` untuk "
+"memperbarui semua)"
 
 #: ../../admin/continuous.rst:101
 msgid ""
@@ -8957,7 +9297,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Menghindari konflik penggabungan"
 
 #: ../../admin/continuous.rst:109
 msgid ""
@@ -8965,6 +9305,9 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
+"Konflik penggabungan dari Weblate muncul ketika berkas yang sama diubah baik "
+"di dalam maupun di luar Weblate. Tergantung situasinya, ada beberapa "
+"pendekatan yang mungkin dapat membantu:"
 
 #: ../../admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
@@ -8980,28 +9323,42 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
+"Menghindari penyuntingan di luar Weblate mudah dilakukan dengan berkas "
+"monolingual — Anda dapat menambahkan string baru di dalam Weblate dan "
+"membiarkan seluruh proses penyuntingan berkas tetap di sana. Untuk berkas "
+"bilingual, biasanya terdapat semacam proses ekstraksi pesan untuk "
+"menghasilkan berkas yang dapat diterjemahkan dari kode sumber. Dalam "
+"beberapa kasus, proses ini dapat dibagi menjadi dua bagian:"
 
 #: ../../admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Ekstraksi menghasilkan templat (misalnya gettext POT dihasilkan menggunakan "
+":program:`xgettext`)."
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Proses selanjutnya menggabungkannya ke dalam terjemahan aktual (berkas PO "
+"gettext diperbarui menggunakan :program:`msgmerge`)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"Anda dapat melakukan langkah kedua dalam Weblate dan itu akan memastikan "
+"bahwa semua perubahan yang tertunda disertakan sebelum operasi ini."
 
 #: ../../admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
 msgstr ""
+"Menghindari konflik penggabungan dengan mengunci Weblate saat melakukan "
+"perubahan eksternal"
 
 #: ../../admin/continuous.rst:138
 msgid ""
@@ -9010,16 +9367,22 @@ msgid ""
 "`api` to force Weblate to push all pending changes and lock the translation "
 "while you are doing changes on your side."
 msgstr ""
+"Mengintegrasikan Weblate ke dalam proses pembaruan Anda sehingga ia membuang "
+"perubahan sebelum memperbarui berkas di luar Weblate dapat dicapai dengan "
+"menggunakan :ref:`api` untuk memaksa Weblate mendorong semua perubahan yang "
+"tertunda dan mengunci penerjemahan saat Anda membuat perubahan di pihak Anda."
 
 #: ../../admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "Skrip untuk melakukan pembaruan dapat terlihat seperti ini:"
 
 #: ../../admin/continuous.rst:163
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
+"Jika Anda memiliki beberapa komponen yang berbagi repositori yang sama, Anda "
+"perlu menguncinya semua secara terpisah:"
 
 #: ../../admin/continuous.rst:174
 msgid ""
@@ -9027,6 +9390,10 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
+"Contoh ini menggunakan :ref:`wlc`, yang memerlukan konfigurasi (kunci API) "
+"agar dapat mengontrol Weblate dari jarak jauh. Anda juga dapat melakukannya "
+"menggunakan klien HTTP apa pun selain :ref:`wlc`, misalnya curl, lihat "
+":ref:`api`."
 
 #: ../../admin/continuous.rst:181
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -9040,6 +9407,11 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
+"Bahkan ketika Weblate merupakan satu-satunya sumber perubahan pada berkas "
+"terjemahan, konflik dapat muncul saat menggunakan pengaya :ref:`addon-"
+"weblate.git.squash`, :ref:`component-merge_style` dikonfigurasikan ke "
+":guilabel:`Rebase`, atau Anda melakukan squashing commit di luar Weblate ("
+"misalnya, saat menggabungkan permintaan tarik)."
 
 #: ../../admin/continuous.rst:188
 msgid ""
@@ -9049,6 +9421,12 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
+"Alasan konflik penggabungan berbeda dalam kasus ini - terdapat perubahan di "
+"Weblate yang terjadi setelah Anda menggabungkan komit Weblate. Hal ini "
+"biasanya terjadi jika penggabungan tidak diotomatisasi dan menunggu berhari-"
+"hari atau berminggu-minggu hingga manusia meninjaunya. Terkadang, Git tidak "
+"lagi dapat mengidentifikasi perubahan hulu sebagai perubahan yang cocok "
+"dengan perubahan Weblate dan menolak untuk melakukan rebase."
 
 #: ../../admin/continuous.rst:194
 msgid ""
@@ -9056,6 +9434,9 @@ msgid ""
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
 "by not squashing changes."
 msgstr ""
+"Untuk mengatasi hal ini, Anda perlu meminimalkan jumlah perubahan yang "
+"tertunda di Weblate saat Anda menggabungkan permintaan tarik, atau "
+"menghindari konflik sepenuhnya dengan tidak menghentikan perubahan."
 
 #: ../../admin/continuous.rst:198
 msgid "Here are few options how to avoid that:"
@@ -9211,10 +9592,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/continuous.rst:317
-#, fuzzy
-#| msgid "https://docs.gitea.io/en-us/webhooks/"
 msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
-msgstr "https://docs.gitea.io/en-us/webhooks/"
+msgstr "`Manual Webhook dalam Gitea <https://docs.gitea.io/en-us/webhooks/>`_"
 
 #: ../../admin/continuous.rst:318
 msgid ":http:post:`/hooks/gitea/`"
@@ -24256,10 +24635,9 @@ msgstr ""
 ":ref:`machine-translation-setup` terkadang menyimpan hasil terlalu agresif."
 
 #: ../../changes.rst:460
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation`"
+msgstr ""
+"Memperbaiki terjemahan yang di-cache di :ref:`machine-translation-setup`."
 
 #: ../../changes.rst:461
 msgid ""
@@ -24273,13 +24651,9 @@ msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgstr "Lewati pemeriksaan kualitas :ref:`check-punctuation-spacing`."
 
 #: ../../changes.rst:463
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgstr ""
-"Mengganti nama :ref:`addon-weblate.consistency.languages` untuk memperjelas "
-"tujuannya."
+"Memperbaiki :ref:`addon-weblate.git.squash` pada repositori yang tertaut."
 
 #: ../../changes.rst:464
 #, fuzzy
@@ -24422,14 +24796,9 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:540
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"Ditambahkan :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:541
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
@@ -24457,11 +24826,11 @@ msgid "Logging to :ref:`graylog`."
 msgstr ""
 
 #: ../../changes.rst:550
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ""
+":ref:`mt-google-translate-api-v3` sekarang mendukung :ref:`glossary-mt` "
+"(opsional)."
 
 #: ../../changes.rst:551
 msgid ""
@@ -24494,20 +24863,16 @@ msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
 
 #: ../../changes.rst:556
-#, fuzzy
-#| msgid "Added pagination to projects listing."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Tambahkan paginasi ke daftar proyek."
+msgstr "Menambahkan navigasi halaman saat :ref:`translating`."
 
 #: ../../changes.rst:557
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
 
 #: ../../changes.rst:558
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Peningkatan kinerja :ref:`translation-propagation`."
 
 #: ../../changes.rst:559
 #, fuzzy
@@ -24534,10 +24899,8 @@ msgid "Saving newly added strings in some formats."
 msgstr "Memperbaiki terjemahan string yang baru ditambahkan."
 
 #: ../../changes.rst:565
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr "Lewati pemeriksaan kualitas :ref:`check-icu-message-format`."
+msgstr ":ref:`check-java-printf-format` menangani pelolosan dengan baik."
 
 #: ../../changes.rst:569
 msgid ""
@@ -24594,10 +24957,8 @@ msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
 #: ../../changes.rst:596
-#, fuzzy
-#| msgid "Fixed digest notifications in some corner cases."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "Memperbaiki pemberitahuan intisari dalam beberapa kasus khusus."
+msgstr "Memperbaiki mogok sesekali di :ref:`rss`."
 
 #: ../../changes.rst:597
 #, fuzzy
@@ -24755,34 +25116,24 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:683
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
-msgstr "Layanan saran otomatis yang dikonfigurasi"
+msgstr ":ref:`mt-azure-openai` layanan saran otomatis."
 
 #: ../../changes.rst:684
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`vcs-bitbucket-cloud`."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-cloud`."
 
 #: ../../changes.rst:688
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-modernmt` mendukung :ref:`glossary-mt`."
 
 #: ../../changes.rst:689
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "Lokasi string sumber"
+msgstr ":ref:`mt-deepl` sekarang mendukung penentuan konteks terjemahan."
 
 #: ../../changes.rst:690
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-aws` now supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-aws` sekarang mendukung :ref:`glossary-mt`."
 
 #: ../../changes.rst:691
 msgid ":ref:`autofix` for Devanagari danda now better handles latin script."
@@ -25030,10 +25381,9 @@ msgid ":ref:`labels` now include description to explain them."
 msgstr ""
 
 #: ../../changes.rst:789
-#, fuzzy
-#| msgid "Other translation components"
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr "Komponen terjemahan lainnya"
+msgstr ""
+":ref:`subscriptions` baru untuk terjemahan dan komponen yang telah selesai."
 
 #: ../../changes.rst:790
 msgid ""
@@ -25042,16 +25392,14 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:791
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
-msgstr "Layanan saran otomatis yang tersedia"
+msgstr ":ref:`mt-cyrtranslit` layanan saran otomatis."
 
 #: ../../changes.rst:795
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.properties.sort` can now do case-sensitive sorting."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.properties.sort` sekarang dapat melakukan pengurutan "
+"peka huruf besar-kecil."
 
 #: ../../changes.rst:796
 msgid ""
@@ -25078,17 +25426,14 @@ msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr ""
 
 #: ../../changes.rst:801
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
 "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
 "components and projects."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+":http:get:`/api/components/(string:project)/(string:component)/credits/` dan "
+":http:get:`/api/projects/(string:project)/credits/` titik akhir API untuk "
+"komponen dan proyek."
 
 #: ../../changes.rst:802
 msgid ""
@@ -25103,10 +25448,10 @@ msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr "Lewati pemeriksaan kualitas :ref:`check-python-brace-format`."
 
 #: ../../changes.rst:804
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "Menambahkan dukungan untuk tangkapan layar lokal."
+msgstr ""
+"Tangkapan layar sekarang dapat ditempel dari papan klip di "
+":ref:`screenshots`."
 
 #: ../../changes.rst:808
 msgid "Accessibility of keyboard navigation."
@@ -25141,10 +25486,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:818
-#, fuzzy
-#| msgid ":setting:`ENABLE_HOOKS`"
 msgid "Default value for :setting:`SENTRY_SEND_PII` was changed."
-msgstr ":setting:`ENABLE_HOOKS`"
+msgstr "Nilai bawaan untuk :setting:`SENTRY_SEND_PII` telah diubah."
 
 #: ../../changes.rst:819
 msgid ""
@@ -25207,16 +25550,13 @@ msgid ":ref:`addons` button layout."
 msgstr ""
 
 #: ../../changes.rst:844
-#, fuzzy
-#| msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":ref:`kelola`, :ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Terjadi mogok saat memasang pengaya :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../changes.rst:845
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Removal of source strings in :ref:`glossary`."
-msgstr "Tinjau string sumber dalam %s"
+msgstr "Penghapusan string sumber dalam :ref:`glossary`."
 
 #: ../../changes.rst:846
 msgid ""
@@ -25294,10 +25634,8 @@ msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ""
 
 #: ../../changes.rst:882
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
+msgstr "Peningkatan pemilihan rentang tanggal di :ref:`reports`."
 
 #: ../../changes.rst:886
 msgid ":ref:`subscriptions` now include strings which need updating."
@@ -25322,26 +25660,18 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:890
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+":http:get:`/api/units/(int:id)/` sekarang menyertakan stempel waktu "
+"``last_updated``."
 
 #: ../../changes.rst:891
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+":http:get:`/api/changes/(int:id)/` sekarang menyertakan ``old`` dan "
+"``details``."
 
 #: ../../changes.rst:892
 msgid "Reduced memory usage and increased performance of some views."
@@ -25354,26 +25684,16 @@ msgid "Loading of strings with many glossary matches."
 msgstr "Menyimpan jumlah string dengan pemeriksaan yang gagal."
 
 #: ../../changes.rst:897
-#, fuzzy
-#| msgid "Source string description"
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Deskripsi string sumber"
+msgstr "Memperbaiki perilaku beberapa :ref:`addons` di seluruh situs."
 
 #: ../../changes.rst:898
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid "Saving strings needing editing to :doc:`/formats/winrc`."
-msgstr "Meningkatkan penanganan placeholder dalam terjemahan mesin."
+msgstr "Menyimpan string yang perlu disunting ke :doc:`/formats/winrc`."
 
 #: ../../changes.rst:899
-#, fuzzy
-#| msgid ""
-#| ":ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-"
-#| "translation`"
 msgid ":ref:`check-xml-tags` better handle XML entities."
-msgstr ""
-":ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-"
-"translation`"
+msgstr ":ref:`check-xml-tags` menangani entitas XML dengan lebih baik."
 
 #: ../../changes.rst:900
 msgid ""
@@ -25459,10 +25779,8 @@ msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgstr ""
 
 #: ../../changes.rst:942
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved handling placeables in :ref:`mt-openai`."
-msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
+msgstr "Peningkatan penanganan placeable di :ref:`mt-openai`."
 
 #: ../../changes.rst:948
 #, fuzzy
@@ -25556,10 +25874,8 @@ msgid "Weblate 5.5.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:993
-#, fuzzy
-#| msgid "``source_changed:DATETIME``"
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr "``source_changed:DATETIME``"
+msgstr ":doc:`/user/search` mendukung ``source_changed:DATETIME``."
 
 #: ../../changes.rst:994
 #, fuzzy
@@ -25572,16 +25888,14 @@ msgid "Display more details on source string change in history."
 msgstr ""
 
 #: ../../changes.rst:999
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ""
+":ref:`mt-microsoft-translator` sekarang mendukung penggunaan penerjemah "
+"khusus."
 
 #: ../../changes.rst:1000
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling in :ref:`invite-user`."
-msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
+msgstr "Peningkatan penanganan galat dalam :ref:`invite-user`."
 
 #: ../../changes.rst:1001
 #, fuzzy
@@ -25668,24 +25982,12 @@ msgid "API improvements."
 msgstr ""
 
 #: ../../changes.rst:1034
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
-msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+msgstr "Ditambahkan :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:1035
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+msgstr "Ditambahkan :http:get:`/api/projects/(string:project)/file/`."
 
 #: ../../changes.rst:1036
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
@@ -25696,22 +25998,16 @@ msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 msgstr ""
 
 #: ../../changes.rst:1038
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Peningkatan :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../changes.rst:1040
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Added :ref:`mt-systran` automatic translation support."
-msgstr "Gunakan layanan penerjamahan mesin"
+msgstr "Menambahkan :ref:`mt-systran` dukungan terjemahan otomatis."
 
 #: ../../changes.rst:1044
 msgid ""
@@ -25720,10 +26016,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1045
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation`"
+msgstr "Peningkatan pelaporan galat dalam :ref:`machine-translation-setup`."
 
 #: ../../changes.rst:1046
 msgid ":ref:`check-max-size` better displays rendered text."
@@ -25734,10 +26028,8 @@ msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 
 #: ../../changes.rst:1048
-#, fuzzy
-#| msgid ":ref:`check-end-newline`"
 msgid "Added :ref:`check-end-interrobang`."
-msgstr ":ref:`check-end-newline`"
+msgstr "Ditambahkan :ref:`check-end-interrobang`."
 
 #: ../../changes.rst:1049
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
@@ -25757,10 +26049,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1056
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid ":ref:`alerts` better handle non-latin source languages."
-msgstr "Gunakan layanan penerjamahan mesin"
+msgstr ":ref:`alerts` menangani bahasa sumber non-latin dengan lebih baik."
 
 #: ../../changes.rst:1057
 msgid ":ref:`check-max-size` sometimes ignored ``font-spacing:SPACING`` flag."
@@ -25979,22 +26269,16 @@ msgid "*Released on February 15th 2024.*"
 msgstr "Dirilis pada 15 Februari 2018."
 
 #: ../../changes.rst:1141
-#, fuzzy
-#| msgid "Skip the :ref:`check-perl-format` quality check."
 msgid ":ref:`check-perl-brace-format` quality check."
-msgstr "Lewati pemeriksaan kualitas :ref:`check-perl-format`."
+msgstr "Pemeriksaan kualitas :ref:`check-perl-brace-format`."
 
 #: ../../changes.rst:1142
-#, fuzzy
-#| msgid ":doc:`tt:formats/dtd`"
 msgid ":doc:`/formats/moko-resources`."
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`/formats/moko-resources`."
 
 #: ../../changes.rst:1143
-#, fuzzy
-#| msgid ":doc:`tt:formats/flatxml`"
 msgid ":doc:`/formats/formatjs`."
-msgstr ":doc:`tt:formats/flatxml`"
+msgstr ":doc:`/formats/formatjs`."
 
 #: ../../changes.rst:1144
 msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
@@ -26021,20 +26305,13 @@ msgid "Adding string in a repository triggers :ref:`subscriptions`."
 msgstr ""
 
 #: ../../changes.rst:1152
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
-msgstr "Gunakan layanan penerjamahan mesin"
+msgstr ""
+":ref:`mt-openai` menangani terjemahan batch dan glosarium dengan lebih baik."
 
 #: ../../changes.rst:1153
-#, fuzzy
-#| msgid ""
-#| ":ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-"
-#| "translation`"
 msgid ":ref:`mt-libretranslate` better handles batch translations."
-msgstr ""
-":ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-"
-"translation`"
+msgstr ":ref:`mt-libretranslate` menangani terjemahan batch dengan lebih baik."
 
 #: ../../changes.rst:1154
 msgid ""
@@ -26050,11 +26327,11 @@ msgid ":ref:`num-words` support for CJK languages."
 msgstr ""
 
 #: ../../changes.rst:1157
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.discovery.discovery` sekarang mempertahankan "
+":ref:`componentlists`."
 
 #: ../../changes.rst:1158
 msgid "Nicer formatting of :ref:`glossary` tooltips."
@@ -26079,10 +26356,8 @@ msgid "Improved :ref:`workflow-customization` configuration forms."
 msgstr ":ref:`workflow-customization`"
 
 #: ../../changes.rst:1164
-#, fuzzy
-#| msgid "Improve handling of placeholders in machine translations."
 msgid "Plural forms handling in :doc:`/formats/qt`."
-msgstr "Meningkatkan penanganan placeholder dalam terjemahan mesin."
+msgstr "Penanganan bentuk jamak dalam :doc:`/formats/qt`."
 
 #: ../../changes.rst:1165
 msgid "Added missing documentation for :setting:`ADMINS_CONTACT`."
@@ -26099,14 +26374,10 @@ msgid "Pending changes committing could be omitted under some circumstances."
 msgstr ""
 
 #: ../../changes.rst:1168
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ":ref:`addon-weblate.cleanup.blank` now correctly removes blank plurals."
 msgstr ""
-"Gunakan :ref:`addon-weblate.cleanup.generic` jika Anda hanya ingin menghapus "
-"kunci terjemahan yang usang."
+":ref:`addon-weblate.cleanup.blank` sekarang dengan benar menghapus bentuk "
+"jamak kosong."
 
 #: ../../changes.rst:1172
 msgid ""
@@ -26173,33 +26444,23 @@ msgid "*Released on December 14th 2023.*"
 msgstr "Dirilis pada tanggal 16 Desember 2021."
 
 #: ../../changes.rst:1203
-#, fuzzy
-#| msgid "Configured automatic suggestion services"
 msgid ":ref:`mt-openai` automatic suggestion service."
-msgstr "Layanan saran otomatis yang dikonfigurasi"
+msgstr ":ref:`mt-openai` layanan saran otomatis."
 
 #: ../../changes.rst:1204
-#, fuzzy
-#| msgid "Available automatic suggestion services"
 msgid ":ref:`mt-alibaba` automatic suggestion service."
-msgstr "Layanan saran otomatis yang tersedia"
+msgstr ":ref:`mt-alibaba` layanan saran otomatis."
 
 #: ../../changes.rst:1205
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+"Menambahkan label API, lihat :http:get:`/api/projects/(string:project)/"
+"labels/`."
 
 #: ../../changes.rst:1206
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: ../../changes.rst:1207
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
@@ -26222,10 +26483,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1214
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` mendukung :ref:`glossary-mt`."
 
 #: ../../changes.rst:1215
 #, fuzzy
@@ -26238,10 +26497,8 @@ msgid "Added nested JSON exporter in :ref:`download`."
 msgstr ""
 
 #: ../../changes.rst:1217
-#, fuzzy
-#| msgid "Improve performance of repository scoped add-ons."
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
-msgstr "Meningkatkan kinerja pengaya cakupan repositori."
+msgstr "Peningkatan kinerja :ref:`git-exporter` pada repositori besar."
 
 #: ../../changes.rst:1221
 msgid "Removing stale VCS directories."
