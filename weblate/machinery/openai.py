@@ -27,6 +27,8 @@ from .base import (
 from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from openai import OpenAI
 
     from weblate.trans.models import Unit
@@ -218,7 +220,9 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         add_breadcrumb("openai", "prompt", prompt=prompt)
         add_breadcrumb("openai", "chat", content=content)
 
-        messages = [
+        messages: Iterable[
+            ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
+        ] = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
             ChatCompletionUserMessageParam(
                 role="user",
@@ -229,10 +233,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         try:
             response = self.client.chat.completions.create(
                 model=self.get_model(),
-                messages=messages,  # type: ignore[arg-type]
-                temperature=0,
-                frequency_penalty=0,
-                presence_penalty=0,
+                messages=messages,
             )
         except RateLimitError as error:
             if not isinstance(error.body, dict) or not (

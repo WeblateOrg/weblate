@@ -21,7 +21,7 @@ There are several jobs to verify different aspects:
 
 * Unit and functional tests using `pytest <https://pytest.org/>`_.
 * Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
-* Code linting and quality assurace using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
+* Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
 * Code security scanning using `CodeQL <https://codeql.github.com/>`_.
 * Code formatting using `pre-commit <https://pre-commit.com/>`_.
 * Migration testing from all supported releases

@@ -25,11 +25,12 @@ Weblate 5.13
 * :ref:`check-rst-references` correctly handles Unicode punctuation and detects more issues.
 * Migration towards Bootstrap 5 has started, selected views now use Bootstrap 5.
 * :ref:`xliff` now supports starting from scratch when :ref:`adding-projects`.
+* :ref:`mt-openai` compatibility with latest models.
 
 .. rubric:: Bug fixes
 
 * :ref:`upload` correctly tracks authorship when using :guilabel:`Replace existing translation file`.
-* :ref:`mt-deepl` integration now correctly handle all supported source languages.
+* :ref:`mt-deepl` integration now correctly handles all supported source languages.
 * Possible crash on macOS 15 in :samp:`strxfrm`.
 * Internal server error on permission denied while uploading files.
 
