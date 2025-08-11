@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
+"PO-Revision-Date: 2025-08-11 05:02+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -2095,10 +2095,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Nieprawidłowa nazwa dodatku: „%s”"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Odinstalowano dodatek"
+msgstr "Nie można zainstalować dodatku: „%s”"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8173,7 +8172,7 @@ msgstr "Zostań wspierającym"
 #: weblate/templates/base.html:417 weblate/templates/footer.html:9
 msgctxt "About this server"
 msgid "About"
-msgstr "O serwerze"
+msgstr "O Weblate"
 
 #: weblate/templates/base.html:420
 msgctxt "Weblate website"
@@ -8196,30 +8195,18 @@ msgid "Checks overview"
 msgstr "Podsumowanie sprawdzeń"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
 msgstr "Weź udział"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Zostań wspierającym"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
-msgstr "O serwerze"
+msgstr "O Weblate"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Strona internetowa"
 
@@ -9250,12 +9237,9 @@ msgid "Status"
 msgstr "Status"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Zostań wspierającym"
+msgstr "Zostań wspierającym Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9498,10 +9482,8 @@ msgid "Repository changes"
 msgstr "Zmiany repozytorium"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Przeglądaj wszystkie zmiany ciągu"
+msgstr "Przeglądaj wszystkie zmiany w repozytorium"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14168,17 +14150,13 @@ msgstr "Usunięto czcionkę"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Wymuś synchronizację"
+msgstr "Wymuszono synchronizację tłumaczeń"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Tłumaczenie zabronione"
+msgstr "Wymuszono ponowne skanowanie tłumaczeń"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14819,6 +14797,8 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Nie udało się załadować kopii zapasowej projektu: kopia zapasowa pochodzi z "
+"niekompatybilnej wersji (%(version)s). Zaktualizuj swoją instancję Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format

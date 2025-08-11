@@ -2497,7 +2497,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                     "object": "list",
                     "data": [
                         {
-                            "id": "gpt-3.5-turbo",
+                            "id": "gpt-5-nano",
                             "object": "model",
                             "created": 1686935002,
                             "owned_by": "openai",
@@ -2515,7 +2515,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                     "id": "chatcmpl-123",
                     "object": "chat.completion",
                     "created": 1677652288,
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-5-nano",
                     "system_fingerprint": "fp_44709d6fcb",
                     "choices": [
                         {
@@ -2554,7 +2554,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                     "object": "list",
                     "data": [
                         {
-                            "id": "gpt-3.5-turbo",
+                            "id": "gpt-5-nano",
                             "object": "model",
                             "created": 1686935002,
                             "owned_by": "openai",
@@ -2572,7 +2572,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                     "id": "chatcmpl-123",
                     "object": "chat.completion",
                     "created": 1677652288,
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-5-nano",
                     "system_fingerprint": "fp_44709d6fcb",
                     "choices": [
                         {

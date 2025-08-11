@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 10:56+0200\n"
-"PO-Revision-Date: 2025-08-08 08:52+0000\n"
+"PO-Revision-Date: 2025-08-11 05:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -13639,12 +13639,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Si ya aloja otros sitios en el mismo servidor, es probable que los puertos "
+"``80`` y ``443`` sean utilizados por un proxy inverso, como NGINX. Para "
+"pasar la conexión HTTPS de NGINX al contenedor docker, puede usar la "
+"siguiente configuración:"
 
 #: ../../admin/install/docker.rst:186
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Sustituir ``<SITE_URL>``, ``<SITE>`` y ``<EXPOSED_DOCKER_PORT>`` con valores "
+"reales de su entorno."
 
 #: ../../admin/install/docker.rst:192
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -13659,12 +13665,21 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file. Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"En caso de que quieras usar 'Let's Encrypt <https://letsencrypt.org/>' _ "
+"certificados SSL generados automáticamente en la instalación pública, debe "
+"agregar un proxy HTTPS inverso y un contenedor Docker adicional, ' https-"
+"portal <https://hub.docker.com/r/steveltn/https-portal/>`_ se usará para "
+"eso. Esto se hace uso de en el archivo :file:`docker-compose-https.yml`. "
+"Luego cree un archivo :file:`docker-compose-https.override.yml` con su "
+"configuración:"
 
 #: ../../admin/install/docker.rst:216
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+"Siempre que invoque :program:`docker compose` debe pasarle ambos archivos y "
+"luego hacer:"
 
 #: ../../admin/install/docker.rst:227
 msgid "Upgrading the Docker container"
@@ -13676,6 +13691,10 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
+"Por lo general, es una buena idea actualizar solo el contenedor Weblate y "
+"mantener el contenedor PostgreSQL en la versión que tiene, ya que actualizar "
+"PostgreSQL es bastante molesto y, en la mayoría de los casos, no brinda "
+"muchos beneficios."
 
 #: ../../admin/install/docker.rst:235
 msgid ""
@@ -13683,12 +13702,17 @@ msgid ""
 "PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`docker-postgres-upgrade`."
 msgstr ""
+"Desde Weblate 4.17 - 1, el contenedor Docker usa Django 4.2, lo que requiere "
+"PostgreSQL 12 o posterior, actualícelo antes de actualizar Weblate. Ver :ref"
+":`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:239
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
 msgstr ""
+"Puede hacer esto siguiendo con la composición de docker existente y "
+"simplemente extrayendo las últimas imágenes y luego reiniciando:"
 
 #: ../../admin/install/docker.rst:253
 msgid ""
@@ -13822,7 +13846,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:362
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Número de procesos y consumo de memoria"
 
 #: ../../admin/install/docker.rst:364
 msgid ""
@@ -13830,12 +13854,18 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"El número de procesos de trabajo tanto para WSGI como para Celery se "
+"determina automáticamente en función del número de CPU. Esto funciona bien "
+"para la mayoría de las máquinas virtuales en la nube, ya que generalmente "
+"tienen pocas CPU y una buena cantidad de memoria."
 
 #: ../../admin/install/docker.rst:368
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
 msgstr ""
+"En caso de que tenga muchos núcleos de CPU y se quede sin memoria, intente "
+"reducir la cantidad de trabajos:"
 
 #: ../../admin/install/docker.rst:376
 msgid "You can also fine-tune individual worker categories:"
@@ -13981,7 +14011,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:559
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Establece la contraseña para el usuario `admin`."
 
 #: ../../admin/install/docker.rst:561
 msgid ""
@@ -14049,10 +14079,14 @@ msgstr "Configura :setting:`STATUS_URL`."
 #: ../../admin/install/docker.rst:619
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
+"Configura el comportamiento del formulario de contacto, ver "
+":setting:`CONTACT_FORM`."
 
 #: ../../admin/install/docker.rst:623
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
+"Configura los nombres de host HTTP permitidos mediante "
+":setting:`ALLOWED_HOSTS`."
 
 #: ../../admin/install/docker.rst:625
 msgid "Defaults to ``*`` which allows all hostnames."
@@ -14064,18 +14098,24 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Configura si los registros están abiertos al alternar "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:655
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
+"Configura si se usa captcha para el registro y otras acciones no "
+"autenticadas, ver :std:setting:`REGISTRATION_CAPTCHA`."
 
 #: ../../admin/install/docker.rst:666
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Configure qué métodos de autenticación se pueden utilizar para crear una "
+"nueva cuenta a través de :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:682
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
@@ -14102,6 +14142,9 @@ msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Hace que Weblate asuma que funciona detrás de un proxy HTTPS inverso, hace "
+"que Weblate use HTTPS en el correo electrónico y los enlaces API o "
+"establezca indicadores de seguridad en las cookies."
 
 #: ../../admin/install/docker.rst:707
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
@@ -14118,16 +14161,16 @@ msgstr ""
 "configurarlas también. Vea :ref:`docker-ssl` para obtener ejemplos."
 
 #: ../../admin/install/docker.rst:731
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
-msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
+msgstr "Configurar :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
 
 #: ../../admin/install/docker.rst:737
 msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Permite que Weblate establezca el campo`meta[name=monetization]`en el "
+"encabezado del documento. Si se especifican varios, elija uno al azar.."
 
 #: ../../admin/install/docker.rst:746
 msgid ""
@@ -14143,6 +14186,8 @@ msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
+"Habilita :setting:`IP_BEHIND_REVERSE_PROXY` y configura "
+":setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/install/docker.rst:753
 msgid ""
@@ -14150,6 +14195,10 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"El formato debe ajustarse a las expectativas de Django. Django transforma "
+"los nombres de los encabezados `transforms <https://docs.djangoproject.com/"
+"en/2.2/ref/request-response/#django.http.HttpRequest.META>`_ raw HTTP de la "
+"siguiente manera:"
 
 #: ../../admin/install/docker.rst:757
 msgid "converts all characters to uppercase"
@@ -14165,13 +14214,11 @@ msgstr "antepone el prefijo ``HTTP_``"
 
 #: ../../admin/install/docker.rst:761
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Así ``X-Forwarded-For`` se asignaría a ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/install/docker.rst:774
-#, fuzzy
-#| msgid "Configures :setting:`PRIVACY_URL`."
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr "Configura :setting:`PRIVACY_URL`."
+msgstr "Configura :setting:`IP_PROXY_OFFSET`."
 
 #: ../../admin/install/docker.rst:780
 msgid ""
@@ -14179,10 +14226,14 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
+"Un valor booleano que especifica si se debe usar el encabezado "
+":http:header:`X-Forwarded-Port` con preferencia a la variable SERVER_PORT "
+"META. Esto solo debe habilitarse si se está utilizando un proxy que "
+"establece este encabezado."
 
 #: ../../admin/install/docker.rst:788
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
-msgstr ""
+msgstr "Esta es una configuración booleana (usar ``\"true\"`` o ``\"false\"``)."
 
 #: ../../admin/install/docker.rst:792
 msgid ""
@@ -14190,17 +14241,23 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"Una tupla que representa una combinación de encabezado/valor HTTP que "
+"significa que una solicitud es segura. Esto es necesario cuando Weblate se "
+"ejecuta detrás de un proxy inverso que realiza la terminación SSL que no "
+"pasa los encabezados HTTPS estándar."
 
 #: ../../admin/install/docker.rst:810
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
-msgstr ""
+msgstr "Habilita :setting:`REQUIRE_LOGIN` la autenticación en todo Weblate."
 
 #: ../../admin/install/docker.rst:823
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+"Agrega excepciones de URL para la autenticación requerida para toda la "
+"instalación de Weblate usando :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 
 #: ../../admin/install/docker.rst:826
 msgid ""
@@ -14220,6 +14277,7 @@ msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+"Configura el ID de Google Analytics cambiando :setting:`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:841
 #, fuzzy

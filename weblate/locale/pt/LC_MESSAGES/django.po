@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-05 08:02+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -2121,10 +2121,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Nome de extra inválido: ”%s”"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Extra desinstalado"
+msgstr "O extra não pode ser instalado: ”%s”"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8226,30 +8225,18 @@ msgid "Checks overview"
 msgstr "Resumo das verificações"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
-msgstr "Contribuiu"
+msgstr "Contribuir"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Torne-se num apoiante"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
 msgstr "Sobre"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Site da Web"
 
@@ -8276,7 +8263,7 @@ msgstr "Para terminar a faturação, tem de remover primeiro todos os projetos."
 
 #: weblate/templates/billing/detail.html:48
 msgid "Change plan or payment method"
-msgstr "Modificar plano ou forma de pagamento"
+msgstr "Alterar plano ou forma de pagamento"
 
 #: weblate/templates/billing/detail.html:52
 msgid "Terminate recurring payment"
@@ -8351,12 +8338,12 @@ msgstr "Palavras alojadas"
 
 #: weblate/templates/billing/list.html:26
 msgid "No users currently assigned!"
-msgstr "Sem utilizadores atribuídos atualmente!"
+msgstr "Atualmente, nenhuns utilizadores atribuídos!"
 
 #: weblate/templates/billing/list.html:34
 #: weblate/templates/billing/status.html:115
 msgid "No projects currently assigned!"
-msgstr "Sem projetos atribuídos!"
+msgstr "Atualmente, sem projetos atribuídos!"
 
 #: weblate/templates/billing/list.html:42 weblate/templates/data.html:80
 #: weblate/templates/mail/base.html:58 weblate/templates/mail/base.html:74
@@ -9276,12 +9263,9 @@ msgid "Status"
 msgstr "Estado"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Torne-se num apoiante"
+msgstr "Torne-se num apoiante do Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9521,10 +9505,8 @@ msgid "Repository changes"
 msgstr "Alterações do repositório"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Explorar todas as alterações nas cadeias de carateres"
+msgstr "Explorar todas as alterações do repositório"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -13796,7 +13778,7 @@ msgstr "Chegou ao fim da tradução."
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
-msgstr "Editar no modo de cadeia de carateres única"
+msgstr "Editar no modo de cadeia de carateres único"
 
 #: weblate/templates/zen.html:39
 msgid "Exit Zen"
@@ -14184,17 +14166,13 @@ msgstr "Tipo de letra removido"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Forçar sincronização"
+msgstr "Sincronização forçada das traduções"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Tradução proibida"
+msgstr "Reverificação forçada das traduções"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14844,6 +14822,9 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Não foi possível carregar a cópia de segurança do projeto: Esta é de uma "
+"versão incompatível (%(version)s). Por favor, atualize a sua instância do "
+"Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 08:54+0000\n"
-"PO-Revision-Date: 2025-08-01 18:02+0000\n"
+"PO-Revision-Date: 2025-08-09 11:39+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -2099,15 +2099,13 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Nome add-on non valido: \"%s\""
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Addon disinstallato"
+msgstr "Impossibile installare l'add-on: \"%s\""
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
-msgstr ""
-"Componente aggiuntivo installato. Consulta le istruzioni di integrazione."
+msgstr "Add-on installato, consulta le istruzioni di integrazione."
 
 #: weblate/addons/webhooks.py:91
 msgid "Webhook"
@@ -7569,7 +7567,7 @@ msgstr "Sfortunatamente, il tuo browser non supporta WebAuthn."
 #: weblate/templates/component.html:133 weblate/templates/project.html:155
 #: weblate/wladmin/views.py:93
 msgid "Add-ons"
-msgstr "Addon"
+msgstr "Add-on"
 
 #: weblate/templates/addons/addon_detail.html:33
 msgid "Configure add-on"
@@ -8204,30 +8202,18 @@ msgid "Checks overview"
 msgstr "Panoramica dei controlli"
 
 #: weblate/templates/base5.html:434
-#, fuzzy
-#| msgctxt "Contribute to Weblate"
-#| msgid "Contribute"
 msgid "Contribute"
 msgstr "Contribuisci"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
 msgstr "Diventa un sostenitore"
 
 #: weblate/templates/base5.html:442
-#, fuzzy
-#| msgctxt "About this server"
-#| msgid "About"
 msgid "About"
 msgstr "Informazioni su"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Sito web"
 
@@ -9253,12 +9239,9 @@ msgid "Status"
 msgstr "Stato"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Diventa un sostenitore"
+msgstr "Diventa un sostenitore di Weblate"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9497,10 +9480,8 @@ msgid "Repository changes"
 msgstr "Modifiche del repository"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Sfoglia tutte le modifiche alle stringhe"
+msgstr "Sfoglia tutte le modifiche del repository"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -12373,7 +12354,7 @@ msgstr "L'URL del sito web del progetto punta ad una destinazione inesistente:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
-msgstr "L'addon Weblate CDN non può analizzare i file HTML."
+msgstr "L'add-on Weblate CDN non è riuscito ad analizzare i file HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -14060,12 +14041,12 @@ msgstr "Add-on installato"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:125
 msgid "Add-on configuration changed"
-msgstr "Configurazione addon modificata"
+msgstr "Configurazione dell'add-on modificata"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:127
 msgid "Add-on uninstalled"
-msgstr "Addon disinstallato"
+msgstr "Add-on disinstallato"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:129
@@ -14169,17 +14150,13 @@ msgstr "Font rimosso"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Forza sincronizzazione"
+msgstr "Sincronizzazione forzata delle traduzioni"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Traduzione vietata"
+msgstr "Nuova scansione forzata delle traduzioni"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14821,6 +14798,8 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Impossibile caricare il backup del progetto: il backup proviene da una "
+"versione incompatibile (%(version)s). Aggiorna l'istanza di Weblate."
 
 #: weblate/trans/forms.py:2427
 #, python-format

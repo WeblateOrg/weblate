@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import warnings
 from collections import defaultdict
 from datetime import datetime
 from functools import partial
@@ -56,6 +57,8 @@ if TYPE_CHECKING:
     from django.db.models import Model
 
     from weblate.billing.models import Billing
+
+warnings.filterwarnings("error", module="zipfile")
 
 PROJECTBACKUP_PREFIX = "projectbackups"
 
