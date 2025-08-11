@@ -240,7 +240,7 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     field_kwargs = {"min_value": 0, "max_value": 10}
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("YAMLFile", store).dump_args["indent"] = int(
+        cast("YAMLFile", store).dump_args["indent"] = int(  # type: ignore[assignment]
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -260,7 +260,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
     ]
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("YAMLFile", store).dump_args["width"] = int(
+        cast("YAMLFile", store).dump_args["width"] = int(  # type: ignore[assignment]
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -280,7 +280,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
         line_break = file_format_params.get(self.name, self.default)
-        cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]
+        cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]  # type: ignore[assignment]
 
 
 @register_file_format_param
