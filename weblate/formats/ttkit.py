@@ -278,11 +278,17 @@ class TTKitFormat(TranslationFormat):
         file_format_params: dict[str, Any],
     ) -> TranslationStore:
         """Load file using defined loader."""
+        from weblate.trans.file_format_params import get_params_for_file_format
+
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
-            return storefile
+            store = storefile
+        else:
+            store = self.parse_store(storefile)
 
-        return self.parse_store(storefile)
+        for format_param_class in get_params_for_file_format(self.format_id):
+            format_param_class().setup_store(store, **file_format_params)
+        return store
 
     @classmethod
     def get_class(cls) -> TranslationStore:

@@ -9,12 +9,13 @@ from django import forms
 from django.utils.functional import classproperty
 from django.utils.translation import gettext_lazy
 from django_stubs_ext import StrOrPromise
+from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
 
-from weblate.formats.base import TranslationFormat
-
 if TYPE_CHECKING:
-    from weblate.formats.ttkit import BasePoFormat
+    from translate.storage.jsonl10n import JsonFile
+    from translate.storage.pypo import pofile
+    from translate.storage.yaml import YAMLFile
 
 
 class BaseFileFormatParam:
@@ -57,7 +58,7 @@ class BaseFileFormatParam:
             kwargs["help_text"] = self.help_text
         return kwargs
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         """Configure store with this file format parameters."""
 
 
@@ -105,9 +106,10 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     field_class = forms.BooleanField
     default = False
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        dump_args = getattr(store.store, "dump_args", {})
-        dump_args["sort_keys"] = file_format_params.get(self.name, self.default)
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        cast("JsonFile", store).dump_args["sort_keys"] = file_format_params.get(
+            self.name, self.default
+        )
 
 
 @register_file_format_param
@@ -130,14 +132,14 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     ]
     default = "spaces"
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         indent = int(
             file_format_params.get(
                 JSONOutputIndentation.name, JSONOutputIndentation.default
             )
             or JSONOutputIndentation.default
         )
-        dump_args = getattr(store.store, "dump_args", {})
+        dump_args = cast("JsonFile", store).dump_args
         if file_format_params.get(self.name, self.default) == "tabs":
             dump_args["indent"] = "\t" * indent
         else:
@@ -151,9 +153,9 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
     field_class = forms.BooleanField
     default = False
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        dump_args = cast("JsonFile", store).dump_args
         use_compact_separators = file_format_params.get(self.name, self.default)
-        dump_args = getattr(store.store, "dump_args", {})
         dump_args["separators"] = (
             ",",
             ":" if use_compact_separators else ": ",
@@ -188,11 +190,10 @@ class GettextPoLineWrap(BaseFileFormatParam):
         "With the --no-wrap parameter, wrapping is only done at newlines."
     )
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        if wrapper := cast("BasePoFormat", store).store.wrapper:
-            wrapper.width = int(
-                file_format_params.get(self.name, self.default) or self.default
-            )
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        cast("pofile", store).wrapper.width = int(
+            file_format_params.get(self.name, self.default) or self.default
+        )
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
@@ -238,9 +239,8 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     default = 2
     field_kwargs = {"min_value": 0, "max_value": 10}
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        dump_args = getattr(store.store, "dump_args", {})
-        dump_args["indent"] = int(
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        cast("YAMLFile", store).dump_args["indent"] = int(
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -259,9 +259,8 @@ class YAMLLineWrap(BaseYAMLFormatParam):
         (65535, gettext_lazy("No line wrapping")),
     ]
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        dump_args = getattr(store.store, "dump_args", {})
-        dump_args["width"] = int(
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        cast("YAMLFile", store).dump_args["width"] = int(
             file_format_params.get(self.name, self.default) or self.default
         )
 
@@ -278,11 +277,10 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     ]
     default = "unix"
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
         line_break = file_format_params.get(self.name, self.default)
-        dump_args = getattr(store.store, "dump_args", {})
-        dump_args["line_break"] = breaks[line_break]
+        cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]
 
 
 @register_file_format_param
@@ -293,7 +291,7 @@ class XMLClosingTags(BaseFileFormatParam):
     default = True
 
     @classproperty
-    def file_formats(self) -> list[str]:
+    def file_formats(self) -> Sequence[str]:
         from weblate.formats.models import FILE_FORMATS
 
         result = []
@@ -303,7 +301,7 @@ class XMLClosingTags(BaseFileFormatParam):
                 result.append(file_format)
         return result
 
-    def setup_store(self, store: TranslationFormat, **file_format_params) -> None:
-        cast("LISAfile", store.store).XMLSelfClosingTags = not file_format_params.get(
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        cast("LISAfile", store).XMLSelfClosingTags = not file_format_params.get(
             self.name, self.default
         )

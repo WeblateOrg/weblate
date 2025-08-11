@@ -387,14 +387,6 @@ class TranslationFormat:
             is_template=is_template,
         )
 
-        self.post_store_load_setup(file_format_params)
-
-    def post_store_load_setup(self, file_format_params: dict[str, Any]) -> None:
-        from weblate.trans.file_format_params import get_params_for_file_format
-
-        for format_param_class in get_params_for_file_format(self.format_id):
-            format_param_class().setup_store(self, **file_format_params)
-
     def _invalidate_units(self) -> None:
         for key in ("all_units", "template_units", "_unit_index", "_template_index"):
             if key in self.__dict__:

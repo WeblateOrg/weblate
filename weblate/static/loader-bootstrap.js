@@ -1651,26 +1651,28 @@ $(function () {
   });
 
   function displayRelevantFileFormatParams(form, selectedFileFormat) {
-    file_format_params_fields_ids.forEach((fieldId) => {
-      form.find(fieldId).show();
-    });
-    form.find(".file-format-param").each(function () {
-      const fileFormats = $(this)
-        .find(".file-format-param-field")
-        .attr("fileformats")
-        ?.split(" ");
-      if (fileFormats.includes(selectedFileFormat)) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-    // hide the file_format_params field if no matching file format params are visible
-    file_format_params_fields_ids.forEach((fieldId) => {
-      form
-        .find(fieldId)
-        .toggle(form.find(".file-format-param:visible").length > 0);
-    });
+    if (selectedFileFormat) {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).show();
+      });
+      let displayFieldLabel = false;
+      form.find(".file-format-param").each(function () {
+        const fileFormats = $(this)
+          .find(".file-format-param-field")
+          .attr("fileformats")
+          ?.split(" ");
+        if (fileFormats.includes(selectedFileFormat)) {
+          $(this).show();
+          displayFieldLabel = true;
+        } else {
+          $(this).hide();
+        }
+      });
+      // hide the field if no matching file format parameter is visible
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).toggle(displayFieldLabel);
+      });
+    }
   }
 
   form_auto_ids
@@ -1678,7 +1680,6 @@ $(function () {
       return `#${id}_file_format`;
     })
     .forEach((fieldId) => {
-      // fileformat_field_ids.forEach((fieldId) => {
       const fileFormatForm = $(fieldId).closest("form");
       displayRelevantFileFormatParams(fileFormatForm, $(fieldId).val());
 

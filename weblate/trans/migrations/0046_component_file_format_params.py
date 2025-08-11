@@ -163,7 +163,8 @@ def merge_file_format_params(component, configs) -> dict[str, bool | int | str]:
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0044_merge_20250721_1211"),
+        ("trans", "0045_alter_change_action"),
+        ("addons", "0006_alter_addonactivitylog_component"),
     ]
 
     operations = [
@@ -174,5 +175,7 @@ class Migration(migrations.Migration):
                 blank=True, default=dict, verbose_name="File format parameters"
             ),
         ),
-        migrations.RunPython(migrate_addons_config, migrations.RunPython.noop),
+        migrations.RunPython(
+            migrate_addons_config, migrations.RunPython.noop, elidable=True
+        ),
     ]
