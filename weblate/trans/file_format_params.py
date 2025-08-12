@@ -2,17 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from collections.abc import Sequence
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, cast
 
 from django import forms
 from django.utils.functional import classproperty
 from django.utils.translation import gettext_lazy
-from django_stubs_ext import StrOrPromise
-from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from django_stubs_ext import StrOrPromise
+    from translate.storage.base import TranslationStore
     from translate.storage.jsonl10n import JsonFile
     from translate.storage.pypo import pofile
     from translate.storage.yaml import YAMLFile
