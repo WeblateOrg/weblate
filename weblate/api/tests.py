@@ -1160,7 +1160,6 @@ class ProjectAPITest(APIBaseTest):
                 request={"operation": operation},
             )
 
-
     def test_project_lock_endpoint(self) -> None:
         """Test the dedicated project lock API endpoint."""
         # Test without authentication
