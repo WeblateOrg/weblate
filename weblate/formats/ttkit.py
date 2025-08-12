@@ -272,14 +272,23 @@ class TTKitFormat(TranslationFormat):
             store.setsourcelanguage(self.source_language)
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> TranslationStore:
         """Load file using defined loader."""
+        from weblate.trans.file_format_params import get_params_for_file_format
+
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
-            return storefile
+            store = storefile
+        else:
+            store = self.parse_store(storefile)
 
-        return self.parse_store(storefile)
+        for format_param_class in get_params_for_file_format(self.format_id):
+            format_param_class().setup_store(store, **file_format_params)
+        return store
 
     @classmethod
     def get_class(cls) -> TranslationStore:
@@ -1649,6 +1658,7 @@ class CSVFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -1657,6 +1667,7 @@ class CSVFormat(TTKitFormat):
             source_language=source_language,
             is_template=is_template,
             existing_units=existing_units,
+            file_format_params=file_format_params,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -1936,9 +1947,12 @@ class INIFormat(TTKitFormat):
         return "ini"
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> TranslationStore:
-        store = super().load(storefile, template_store)
+        store = super().load(storefile, template_store, file_format_params)
         # Adjust store to have translations
         for unit in store.units:
             unit.target = unit.source
@@ -2187,6 +2201,7 @@ class TBXFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2195,6 +2210,7 @@ class TBXFormat(TTKitFormat):
             is_template=is_template,
             source_language=source_language,
             existing_units=existing_units,
+            file_format_params=file_format_params,
         )
         # Add language header if not present
         self.store.addheader()

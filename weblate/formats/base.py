@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -358,6 +358,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -375,7 +376,8 @@ class TranslationFormat:
         self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
-        self.store = self.load(storefile, template_store)
+        file_format_params = file_format_params or {}
+        self.store = self.load(storefile, template_store, file_format_params)
 
         self.add_breadcrumb(
             "Loaded translation file {}".format(
@@ -406,7 +408,10 @@ class TranslationFormat:
         return [self.storefile.name]
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
+        file_format_params: dict[str, Any],
     ) -> InnerStore:
         raise NotImplementedError
 
@@ -881,7 +886,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
-    def load(cls, storefile, template_store):  # noqa: ARG003
+    def load(cls, storefile, template_store, file_format_params):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
     def save(self) -> None:
@@ -908,6 +913,31 @@ class BilingualUpdateMixin:
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
+
+    @classmethod
+    def get_msgmerge_args(cls, component) -> list[str]:
+        """
+        Return list of arguments for update command.
+
+        This is used to pass additional arguments to update command.
+        """
+        from weblate.addons.gettext import MsgmergeAddon
+
+        params = component.file_format_params
+        args: list[str] = []
+        if component.get_addon(MsgmergeAddon.name):
+            if not params.get("po_fuzzy_matching", True):
+                args.append("--no-fuzzy-matching")
+            if params.get("po_keep_previous", True):
+                args.append("--previous")
+            if params.get("po_no_location", False):
+                args.append("--no-location")
+        else:
+            args.append("--previous")
+
+        if int(params.get("po_line_wrap", 77)) != 77:
+            args.append("--no-wrap")
+        return args
 
 
 class BaseExporter:
