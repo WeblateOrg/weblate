@@ -1643,4 +1643,49 @@ $(function () {
     "font-size: 20px; font-family: sans-serif",
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
+
+  /* Display relevant file_format_params field in Component forms */
+  const form_auto_ids = ["id", "id_scratchcreate"];
+  const file_format_params_fields_ids = form_auto_ids.map((id) => {
+    return `#div_${id}_file_format_params`;
+  });
+
+  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+    if (selectedFileFormat) {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).show();
+      });
+      let displayFieldLabel = false;
+      form.find(".file-format-param").each(function () {
+        const fileFormats = $(this)
+          .find(".file-format-param-field")
+          .attr("fileformats")
+          ?.split(" ");
+        if (fileFormats.includes(selectedFileFormat)) {
+          $(this).show();
+          displayFieldLabel = true;
+        } else {
+          $(this).hide();
+        }
+      });
+      // hide the field if no matching file format parameter is visible
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).toggle(displayFieldLabel);
+      });
+    }
+  }
+
+  form_auto_ids
+    .map((id) => {
+      return `#${id}_file_format`;
+    })
+    .forEach((fieldId) => {
+      const fileFormatForm = $(fieldId).closest("form");
+      displayRelevantFileFormatParams(fileFormatForm, $(fieldId).val());
+
+      $(fieldId).on("change", function () {
+        var newValue = $(this).val();
+        displayRelevantFileFormatParams(fileFormatForm, newValue);
+      });
+    });
 });

@@ -114,6 +114,8 @@ Weblate 5.12
 * Added :guilabel:`Translation Coordinator` role.
 * :ref:`addon-weblate.webhook.slack` is now available as an add-on.
 * Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
+* :ref:`file_format_params` can now be configured at the component level.
+* New management command :wladmin:`list_file_format_params` to list all available file format parameters.
 
 .. rubric:: Improvements
 
@@ -146,6 +148,7 @@ Weblate 5.12
 * The projects and categories default tab now shows translated languages.
 * If no ``secret`` is provided in the Webhook add-on configuration, the Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`.
 * :ref:`saml-auth` support is no longer included in the default dependencies.
+* Some addons have been deprecated and replaced by :ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`.
 
 .. rubric:: Upgrading
 
