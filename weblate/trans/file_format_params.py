@@ -186,7 +186,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
     ]
     default = 77
     help_text = gettext_lazy(
-        "By default gettext wraps lines at 77 characters and at newlines."
+        "By default gettext wraps lines at 77 characters and at newlines. "
         "With the --no-wrap parameter, wrapping is only done at newlines."
     )
 
