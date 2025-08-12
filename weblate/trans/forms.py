@@ -1526,6 +1526,7 @@ class ComponentSettingsForm(
             "report_source_bugs",
             "license",
             "agreement",
+            "hide_glossary_matches",
             "allow_translation_propagation",
             "contribute_project_tm",
             "enable_suggestions",
@@ -1626,6 +1627,7 @@ class ComponentSettingsForm(
                     ),
                     Fieldset(
                         gettext("Translation settings"),
+                        "hide_glossary_matches",
                         "allow_translation_propagation",
                         "contribute_project_tm",
                         "manage_units",
