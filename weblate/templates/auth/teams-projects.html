@@ -7,5 +7,7 @@
 {% elif group.project_selection == 4 %}
   <em>{% translate "All protected projects" %}</em>
 {% else %}
-  {% for project in group.projects.all %}<span class="badge">{{ project }}</span>{% endfor %}
+  {% for project in group.projects.all %}
+    <span class="badge"><a href="{{ project.get_absolute_url }}">{{ project }}</a></span>
+  {% endfor %}
 {% endif %}
