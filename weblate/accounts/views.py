@@ -454,9 +454,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": user.cached_groups.prefetch_related(
-                "roles", "projects", "languages", "components"
-            ),
+            "user_groups": user.cached_groups,
             "profile": profile,
             "title": gettext("User profile"),
             "licenses": license_components,
