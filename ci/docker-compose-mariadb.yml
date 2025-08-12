@@ -9,7 +9,7 @@ services:
     - 60001:6379
     restart: always
   database:
-    image: mariadb:11.8.2@sha256:2bcbaec92bd9d4f6591bc8103d3a8e6d0512ee2235506e47a2e129d190444405
+    image: mariadb:11.8.3@sha256:9ccdbf8e284542698c07f06eff11aa759be5794f53d52315ffcb024b8653f1d6
     environment:
       MYSQL_ROOT_PASSWORD: weblate
     ports:
