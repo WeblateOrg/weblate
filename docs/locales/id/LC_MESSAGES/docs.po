@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-08 10:56+0200\n"
-"PO-Revision-Date: 2025-08-12 06:02+0000\n"
+"PO-Revision-Date: 2025-08-12 08:52+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -11418,6 +11418,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
+"Weblate mengirimkan surel pada berbagai kesempatan - untuk aktivasi akun dan "
+"berbagai notifikasi yang dikonfigurasi oleh pengguna. Untuk itu, Weblate "
+"memerlukan akses ke server SMTP."
 
 #: ../../admin/install.rst:707
 msgid ""
@@ -11427,6 +11430,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"Pengaturan server surat dikonfigurasi menggunakan pengaturan berikut: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER`, dan :setting:`django:EMAIL_PORT`. Nama-"
+"namanya cukup jelas, tetapi Anda dapat menemukan informasi lebih lanjut "
+"dalam dokumentasi Django."
 
 #: ../../admin/install.rst:716
 msgid ""
@@ -11435,14 +11444,19 @@ msgid ""
 "using insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
+"Jika Anda mendapatkan galat tentang autentikasi yang tidak didukung ("
+"misalnya :samp:`SMTP AUTH extension not supported by server`), kemungkinan "
+"besar hal ini disebabkan oleh penggunaan koneksi yang tidak aman dan server "
+"menolak untuk mengautentikasi dengan cara ini. Coba aktifkan "
+":setting:`django:EMAIL_USE_TLS` untuk kasus tersebut."
 
 #: ../../admin/install.rst:724
 msgid ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
-msgstr ""
+msgstr ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
 
 #: ../../admin/install.rst:729
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "Berjalan di belakang proksi terbalik"
 
 #: ../../admin/install.rst:731
 msgid ""
@@ -11450,6 +11464,9 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Beberapa fitur di Weblate bergantung pada header HTTP yang benar yang "
+"diteruskan ke Weblate. Saat menggunakan proksi terbalik, pastikan informasi "
+"yang diperlukan diteruskan dengan benar."
 
 #: ../../admin/install.rst:735
 msgid "Client IP address"
@@ -11460,6 +11477,8 @@ msgid ""
 "This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
 "log`."
 msgstr ""
+"Ini diperlukan untuk :ref:`rate-limit`, :ref:`spam-protection` atau :ref"
+":`audit-log`."
 
 #: ../../admin/install.rst:738
 msgid ""
@@ -11468,6 +11487,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
+"Weblate mengurai alamat IP dari ``REMOTE_ADDR``, yang diatur oleh pengendali "
+"WSGI. Alamat ini mungkin kosong (ketika menggunakan soket untuk WSGI) atau "
+"berisi alamat proksi terbalik, sehingga Weblate memerlukan header HTTP "
+"tambahan dengan alamat IP klien."
 
 #: ../../admin/install.rst:743
 msgid ""
@@ -11477,6 +11500,11 @@ msgid ""
 "`WEBLATE_IP_PROXY_HEADER` and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the "
 "Docker container)."
 msgstr ""
+"Mengaktifkan :setting:`IP_BEHIND_REVERSE_PROXY` seharusnya cukup untuk "
+"pengaturan paling umum, tetapi Anda mungkin perlu menyesuaikan "
+":setting:`IP_PROXY_HEADER` dan :setting:`IP_PROXY_OFFSET` juga (gunakan "
+":envvar:`WEBLATE_IP_PROXY_HEADER` dan :envvar:`WEBLATE_IP_PROXY_OFFSET` "
+"dalam kontainer Docker)."
 
 #: ../../admin/install.rst:750
 msgid ""
@@ -11484,12 +11512,13 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"Konfigurasi ini tidak dapat diaktifkan secara bawaan, karena akan "
+"memungkinkan pemalsuan alamat IP pada instalasi yang tidak memiliki proksi "
+"terbalik yang dikonfigurasi dengan benar."
 
 #: ../../admin/install.rst:754
-#, fuzzy
-#| msgid "Service"
 msgid "Server host name"
-msgstr "Layanan"
+msgstr "Nama host server"
 
 #: ../../admin/install.rst:755
 msgid ""
@@ -11498,12 +11527,14 @@ msgid ""
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
+"Header :http:header:`Host` harus sesuai dengan konfigurasi yang ditetapkan "
+"sebagai :setting:`SITE_DOMAIN`. Konfigurasi tambahan mungkin diperlukan di "
+"proksi terbalik Anda (misalnya, gunakan ``ProxyPreserveHost On`` untuk "
+"Apache atau ``proxy_set_header Host $host;`` dengan nginx)."
 
 #: ../../admin/install.rst:760
-#, fuzzy
-#| msgid "Client secret"
 msgid "Client protocol"
-msgstr "Rahasia klien"
+msgstr "Protokol klien"
 
 #: ../../admin/install.rst:761
 msgid ""
@@ -11511,6 +11542,10 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"Tidak melewati protokol yang benar dapat menyebabkan Weblate terjebak dalam "
+"loop pengalihan saat mencoba meningkatkan klien ke HTTPS. Pastikan protokol "
+"tersebut diekspos dengan benar oleh proksi terbalik sebagai :http:header:`X"
+"-Forwarded-Proto`."
 
 #: ../../admin/install.rst:765
 msgid ""
@@ -11518,6 +11553,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"Header ini kemudian perlu dikonfigurasi dalam "
+":setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) atau "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (lingkungan Docker)."
 
 #: ../../admin/install.rst:771
 msgid ""
@@ -11526,6 +11564,10 @@ msgid ""
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
+"Nilai header peka huruf besar-kecil dalam konfigurasi, jadi "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` dan "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` tidak dapat "
+"dipertukarkan."
 
 #: ../../admin/install.rst:778
 msgid ""
@@ -11533,6 +11575,9 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"Jika Anda mendapatkan galat \"Terlalu banyak pengalihan\" dari peramban, "
+"kemungkinan besar ini disebabkan oleh ketidakcocokan antara protokol aktual "
+"(HTTPS) dan apa yang diamati oleh Weblate."
 
 #: ../../admin/install.rst:784
 msgid ""
@@ -11540,6 +11585,9 @@ msgid ""
 "in the default configuration, but other WSGI servers have more secure "
 "configuration and require explicit setting of this."
 msgstr ""
+"Header proksi protokol secara otomatis ditangani oleh :program:`gunicorn` "
+"dalam konfigurasi bawaan, tetapi server WSGI lainnya memiliki konfigurasi "
+"yang lebih aman dan memerlukan pengaturan eksplisit ini."
 
 #: ../../admin/install.rst:788
 msgid ""
@@ -11547,10 +11595,13 @@ msgid ""
 "now requires the explicit configuration of :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 msgstr ""
+"Sejak Weblate 5.13 kontainer Docker menggunakan :program:`granian` dan "
+"sekarang memerlukan konfigurasi eksplisit "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 
 #: ../../admin/install.rst:811
 msgid "HTTP proxy"
-msgstr ""
+msgstr "Proksi HTTP"
 
 #: ../../admin/install.rst:813
 msgid ""
@@ -11558,22 +11609,21 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"Weblate memang menjalankan perintah VCS dan perintah tersebut menerima "
+"konfigurasi proksi dari lingkungan. Pendekatan yang disarankan adalah "
+"menentukan pengaturan proksi di :file:`settings.py`:"
 
 #: ../../admin/install.rst:826
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
 "`Variabel Lingkungan Proksi <https://everything.curl.dev/usingcurl/proxies/"
-"env>`_"
+"env.html>`_"
 
 #: ../../admin/install.rst:831
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "Menyesuaikan konfigurasi"
 
 #: ../../admin/install.rst:837
 msgid ""
@@ -11590,22 +11640,29 @@ msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
+"Daftar administrator situs yang menerima pemberitahuan saat terjadi "
+"kesalahan, misalnya pemberitahuan tentang penggabungan yang gagal, atau "
+"galat Django."
 
 #: ../../admin/install.rst:848
 msgid ""
 "Contact form sends e-mail on these as well unless :setting:`ADMINS_CONTACT` "
 "is configured."
 msgstr ""
+"Formulir kontak juga mengirimkan surel pada ini kecuali "
+":setting:`ADMINS_CONTACT` dikonfigurasi."
 
 #: ../../admin/install.rst:861
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
+"Anda perlu mengaturnya agar mencantumkan host yang seharusnya dilayani oleh "
+"situs Anda. Misalnya:"
 
 #: ../../admin/install.rst:868
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "Alternatifnya Anda dapat menyertakan wildcard:"
 
 #: ../../admin/install.rst:884
 msgid ""
@@ -11613,18 +11670,26 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"Konfigurasikan cara penyimpanan sesi Anda. Jika Anda tetap menggunakan mesin "
+"backend basis data bawaan, Anda harus menjadwalkan: :command:`weblate "
+"clearsessions` untuk menghapus data sesi yang tidak lagi relevan dari basis "
+"data."
 
 #: ../../admin/install.rst:889
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
+"Jika Anda menggunakan Redis sebagai cache (lihat :ref:`production-cache`) "
+"disarankan untuk menggunakannya untuk sesi juga:"
 
 #: ../../admin/install.rst:905
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
+"Konektivitas ke server basis data, silakan periksa dokumentasi Django untuk "
+"rincian lebih lanjut."
 
 #: ../../admin/install.rst:918
 msgid ""
@@ -11632,29 +11697,39 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Nonaktifkan ini untuk semua server produksi. Dengan mode debug diaktifkan, "
+"Django akan menampilkan backtrace jika terjadi galat kepada pengguna. Saat "
+"Anda menonaktifkannya, galat akan dikirim melalui surel ke ``ADMIN`` (lihat "
+"di atas)."
 
 #: ../../admin/install.rst:922
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
+"Mode debug juga memperlambat Weblate, karena Django menyimpan lebih banyak "
+"informasi secara internal dalam kasus ini."
 
 #: ../../admin/install.rst:934
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
-msgstr ""
+msgstr "Alamat pengirim surel untuk email keluar, misalnya surel pendaftaran."
 
 #: ../../admin/install.rst:944
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
+"Kunci yang digunakan oleh Django untuk menandatangani beberapa info dalam "
+"kuki, lihat :ref:`production-secret` untuk info lebih lanjut."
 
 #: ../../admin/install.rst:955
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
+"Surel digunakan sebagai alamat pengirim untuk mengirim surel ke "
+"administrator, misalnya notifikasi tentang penggabungan yang gagal."
 
 #: ../../admin/install.rst:965
 msgid "Filling up the database"
