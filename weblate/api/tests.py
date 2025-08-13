@@ -2577,6 +2577,8 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data, {"locked": True})
         response = self.client.post(url, {"lock": False})
         self.assertEqual(response.data, {"locked": False})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 400)
 
     def test_repo_status_denied(self) -> None:
         self.do_request("api:component-repository", self.component_kwargs, code=403)
