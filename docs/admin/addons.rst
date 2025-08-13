@@ -751,7 +751,7 @@ Customize gettext output
 
 :Add-on ID: ``weblate.gettext.customize``
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-                | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
+                | ``width`` | Long lines wrapping | By default, gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines.|
                 |           |                     |                                                                                                                                   |
                 |           |                     | .. list-table:: Available choices:                                                                                                |
                 |           |                     |    :width: 100%                                                                                                                   |
@@ -775,7 +775,7 @@ It offers the following options:
 
 .. note::
 
-   By default gettext wraps lines at 77 characters and at newlines.
+   By default, gettext wraps lines at 77 characters and at newlines.
    With the ``--no-wrap`` parameter, wrapping is only done at newlines.
 
 
