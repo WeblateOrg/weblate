@@ -855,7 +855,7 @@ class Translation(
         return self.component.repo_needs_push()
 
     @cached_property
-    def filenames(self):
+    def filenames(self) -> list[str]:
         if not self.filename:
             return []
         if self.component.file_format_cls.simple_filename:
