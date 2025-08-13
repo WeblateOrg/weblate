@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-13 12:03+0000\n"
+"PO-Revision-Date: 2025-08-13 22:17+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -13416,7 +13416,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:269
 msgid "Upgrading PostgreSQL container"
-msgstr ""
+msgstr "Memutakhirkan kontainer PostgreSQL"
 
 #: ../../admin/install/docker.rst:271
 msgid ""
@@ -13424,6 +13424,9 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
+"Kontainer PostgreSQL tidak mendukung pemutakhiran otomatis antar versi, Anda "
+"perlu melakukan pemutakhiran secara manual. Langkah-langkah berikut "
+"menunjukkan salah satu opsi pemutakhiran."
 
 #: ../../admin/install/docker.rst:277
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -13439,7 +13442,7 @@ msgstr "Rekam cadang basis data:"
 
 #: ../../admin/install/docker.rst:291
 msgid "Stop the database container:"
-msgstr ""
+msgstr "Hentikan kontainer basis data:"
 
 #: ../../admin/install/docker.rst:297
 msgid "Remove the PostgreSQL volume:"
@@ -13450,14 +13453,17 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"Nama volume berisi nama proyek Docker Compose, yang secara bawaan adalah "
+"nama direktori ``weblate-docker`` dalam dokumentasi ini."
 
 #: ../../admin/install/docker.rst:309
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
+"Sesuaikan :file:`docker-compose.yml` untuk menggunakan versi PostgreSQL baru."
 
 #: ../../admin/install/docker.rst:311
 msgid "Start the database container:"
-msgstr ""
+msgstr "Mulai kontainer basis data:"
 
 #: ../../admin/install/docker.rst:317
 msgid "Restore the database from the backup:"
@@ -13466,6 +13472,7 @@ msgstr "Memulihkan basis data dari rekam cadang:"
 #: ../../admin/install/docker.rst:325 ../../admin/install/docker.rst:335
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
+"Harap periksa apakah nama basis data cocok dengan :envvar:`POSTGRES_DB`."
 
 #: ../../admin/install/docker.rst:327
 msgid ""
@@ -13473,6 +13480,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Opsional) Perbarui kata sandi untuk pengguna Weblate. Ini mungkin "
+"diperlukan saat bermigrasi ke PostgreSQL 14 atau 15 karena cara penyimpanan "
+"kata sandi telah diubah:"
 
 #: ../../admin/install/docker.rst:337
 msgid "Start all remaining containers:"
@@ -13488,33 +13498,32 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"Setelah pengaturan kontainer, Anda dapat masuk sebagai pengguna `admin` "
+"dengan kata sandi yang diberikan di :envvar:`WEBLATE_ADMIN_PASSWORD`, atau "
+"kata sandi acak yang dibuat saat pertama kali memulai jika belum diatur."
 
 #: ../../admin/install/docker.rst:352
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Untuk mengatur ulang kata sandi `admin`, mulai ulang kontainer dengan "
+":envvar:`WEBLATE_ADMIN_PASSWORD` yang diatur ke kata sandi baru."
 
 #: ../../admin/install/docker.rst:362
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Jumlah proses dan konsumsi memori"
 
 #: ../../admin/install/docker.rst:364
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both uWSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both WSGI and Celery is determined "
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
-"Jumlah proses worker untuk uWSGI dan Celery ditentukan secara otomatis "
-"berdasarkan jumlah CPU. Ini berfungsi dengan baik untuk sebagian besar mesin "
-"virtual awan karena biasanya memiliki sedikit CPU dan jumlah memori yang "
-"baik."
+"Jumlah proses pekerja untuk WSGI dan Celery ditentukan secara otomatis "
+"berdasarkan jumlah CPU. Hal ini berfungsi dengan baik untuk sebagian besar "
+"mesin virtual cloud karena biasanya memiliki CPU yang sedikit dan memori "
+"yang memadai."
 
 #: ../../admin/install/docker.rst:368
 msgid ""
@@ -13526,16 +13535,18 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:376
 msgid "You can also fine-tune individual worker categories:"
-msgstr ""
+msgstr "Anda juga dapat menyempurnakan kategori pekerja individual:"
 
 #: ../../admin/install/docker.rst:386
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
+"Penggunaan memori dapat dikurangi lebih lanjut dengan hanya menjalankan satu "
+"proses Celery:"
 
 #: ../../admin/install/docker.rst:408
 msgid "Scaling horizontally"
-msgstr ""
+msgstr "Menskala secara horizontal"
 
 #: ../../admin/install/docker.rst:412
 msgid ""
@@ -13557,6 +13568,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
+"Setiap kontainer Weblate memiliki peran yang ditentukan menggunakan variabel "
+"lingkungan :envvar:`WEBLATE_SERVICE`. Harap ikuti dokumentasi dengan saksama "
+"karena beberapa layanan hanya boleh dijalankan sekali dalam klaster, dan "
+"urutan layanan juga penting."
 
 #: ../../admin/install/docker.rst:422
 msgid ""
@@ -13564,48 +13579,58 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Anda dapat menemukan contoh pengaturan di repo ``docker-compose`` sebagai "
+"`docker-compose-split.yml <https://github.com/WeblateOrg/docker-compose/blob/"
+"main/docker-compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:429
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Variabel lingkungan Docker"
 
 #: ../../admin/install/docker.rst:431
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
+"Banyak :ref:`config` Weblate yang dapat diatur dalam kontainer Docker "
+"menggunakan variabel lingkungan yang dijelaskan di bawah ini."
 
 #: ../../admin/install/docker.rst:434
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Jika Anda perlu menentukan pengaturan yang tidak diekspos melalui variabel "
+"lingkungan Docker, lihat :ref:`docker-custom-config`."
 
 #: ../../admin/install/docker.rst:440
-#, fuzzy
-#| msgid "Client secret"
 msgid "Passing secrets"
-msgstr "Rahasia klien"
+msgstr "Rahasia yang melewati"
 
 #: ../../admin/install/docker.rst:444
 msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"Kontainer Weblate mendukung penerusan rahasia sebagai berkas. Untuk "
+"memanfaatkannya, tambahkan sufiks ``_FILE`` ke variabel lingkungan dan "
+"teruskan berkas rahasia melalui Docker."
 
 #: ../../admin/install/docker.rst:447
 msgid "Related :file:`docker-compose.yml` might look like:"
-msgstr ""
+msgstr "Terkait :file:`docker-compose.yml` mungkin terlihat seperti:"
 
 #: ../../admin/install/docker.rst:470
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/how-"
 "tos/use-secrets/>`_"
 msgstr ""
+"`Cara menggunakan rahasia di Docker Compose <https://docs.docker.com/compose/"
+"how-tos/use-secrets/>`_"
 
 #: ../../admin/install/docker.rst:473
 msgid "Generic settings"
-msgstr ""
+msgstr "Pengaturan umum"
 
 #: ../../admin/install/docker.rst:477
 msgid "Configures Django debug mode using :setting:`DEBUG`."
@@ -13629,21 +13654,25 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:496
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "Untuk pencatatan yang lebih senyap gunakan ``ERROR`` atau ``WARNING``."
 
 #: ../../admin/install/docker.rst:500
 msgid "Configures the logging of the database queries verbosity."
-msgstr ""
+msgstr "Mengonfigurasi pencatatan verbositas kueri basis data."
 
 #: ../../admin/install/docker.rst:506
 msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Mengonfigurasi pencatatan jarak jauh menggunakan koneksi TCP GELF. Dapat "
+"digunakan untuk integrasi dengan Graylog."
 
 #: ../../admin/install/docker.rst:512
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Gunakan port khusus untuk :envvar:`WEBLATE_LOG_GELF_HOST`, bawaannya adalah "
+"12201."
 
 #: ../../admin/install/docker.rst:516
 msgid "Changes the site-title shown in the header of all pages."
@@ -13655,7 +13684,7 @@ msgstr "Mengonfigurasi domain situs. Parameter ini diperlukan."
 
 #: ../../admin/install/docker.rst:522
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Sertakan port jika menggunakan port non-standar."
 
 #: ../../admin/install/docker.rst:539
 msgid ""
@@ -13663,20 +13692,27 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"Mengonfigurasi nama dan surel admin situs. Ini digunakan untuk pengaturan "
+":setting:`ADMINS` dan pembuatan pengguna `admin` (lihat "
+":envvar:`WEBLATE_ADMIN_PASSWORD` untuk informasi selengkapnya)."
 
 #: ../../admin/install/docker.rst:559
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Mengatur kata sandi untuk pengguna `admin`."
 
 #: ../../admin/install/docker.rst:561
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Jika tidak diatur dan pengguna `admin` tidak ada, maka akan dibuat dengan "
+"kata sandi acak yang ditampilkan saat kontainer pertama kali dinyalakan."
 
 #: ../../admin/install/docker.rst:563
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Jika tidak diatur dan pengguna `admin` ada, tidak ada tindakan yang "
+"dilakukan."
 
 #: ../../admin/install/docker.rst:564
 msgid ""
@@ -13684,6 +13720,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Jika diatur, pengguna `admin` akan disesuaikan pada setiap permulaan "
+"kontainer agar cocok dengan :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME`, dan :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:570
 msgid ""
@@ -13691,25 +13730,33 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Menyimpan kata sandi dalam berkas konfigurasi mungkin berisiko bagi "
+"keamanan. Pertimbangkan untuk menggunakan variabel ini hanya untuk "
+"pengaturan awal (atau biarkan Weblate menghasilkan kata sandi acak saat "
+"pertama kali dijalankan) atau untuk pemulihan kata sandi."
 
 #: ../../admin/install/docker.rst:585
 msgid ""
 "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgstr ""
+"Apakah akan mengirim surel ke admin jika terjadi galat server. Diaktifkan "
+"secara bawaan."
 
 #: ../../admin/install/docker.rst:587
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
+"Anda mungkin ingin menggunakan pengumpulan galat lain seperti Sentry atau "
+"Rollbar dan nonaktifkan ini."
 
 #: ../../admin/install/docker.rst:597
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "Alamat surel tempat pesan galat dikirim."
 
 #: ../../admin/install/docker.rst:606
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Mengonfigurasi alamat untuk surel keluar."
 
 #: ../../admin/install/docker.rst:615
 msgid "Configures :setting:`ADMINS_CONTACT`."
@@ -13717,11 +13764,13 @@ msgstr "Mengonfigurasi :setting:`ADMINS_CONTACT`."
 
 #: ../../admin/install/docker.rst:619
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr ""
+msgstr "Mengonfigurasi perilaku formulir kontak, lihat :setting:`CONTACT_FORM`."
 
 #: ../../admin/install/docker.rst:623
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
+"Mengonfigurasi nama host HTTP yang diizinkan menggunakan "
+":setting:`ALLOWED_HOSTS`."
 
 #: ../../admin/install/docker.rst:625
 msgid "Defaults to ``*`` which allows all hostnames."
