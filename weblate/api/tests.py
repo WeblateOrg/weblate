@@ -1135,7 +1135,13 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["slug"], "test")
 
     def test_repo_op_denied(self) -> None:
-        for operation in ("push", "pull", "reset", "cleanup", "commit"):
+        for operation in (
+            "push",
+            "pull",
+            "reset",
+            "cleanup",
+            "commit",
+        ):
             self.do_request(
                 "api:project-repository",
                 self.project_kwargs,
@@ -1153,6 +1159,59 @@ class ProjectAPITest(APIBaseTest):
                 superuser=True,
                 request={"operation": operation},
             )
+
+    def test_project_lock_endpoint(self) -> None:
+        """Test the dedicated project lock API endpoint."""
+        # Test without authentication
+        self.do_request("api:project-lock", self.project_kwargs, data={"locked": False})
+
+        # Test without permissions
+        self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": True},
+            code=403,
+        )
+
+        self.authenticate(True)
+
+        # Initially unlocked
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertFalse(response.data["locked"])
+
+        # Lock the project
+        response = self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": True},
+            superuser=True,
+        )
+        self.assertTrue(response.data["locked"])
+
+        # Verify lock status persists
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertTrue(response.data["locked"])
+
+        # Unlock the project
+        response = self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": False},
+            superuser=True,
+        )
+        self.assertFalse(response.data["locked"])
+
+        # Test invalid request
+        self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+        )
 
     def test_repo_invalid(self) -> None:
         self.do_request(
@@ -1172,7 +1231,11 @@ class ProjectAPITest(APIBaseTest):
             "api:project-repository",
             self.project_kwargs,
             superuser=True,
-            data={"needs_push": False, "needs_merge": False, "needs_commit": False},
+            data={
+                "needs_push": False,
+                "needs_merge": False,
+                "needs_commit": False,
+            },
             skip=("url",),
         )
 
