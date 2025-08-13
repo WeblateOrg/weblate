@@ -1206,7 +1206,12 @@ class ProjectAPITest(APIBaseTest):
 
         # Test invalid request
         self.do_request(
-            "api:project-lock", self.project_kwargs, method="post", request={}, code=400, superuser=True
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={},
+            code=400,
+            superuser=True,
         )
 
     def test_repo_invalid(self) -> None:
