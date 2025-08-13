@@ -1186,6 +1186,7 @@ class ProjectAPITest(APIBaseTest):
             self.project_kwargs,
             method="post",
             request={"lock": True},
+            superuser=True,
         )
         self.assertTrue(response.data["locked"])
 
@@ -1199,12 +1200,13 @@ class ProjectAPITest(APIBaseTest):
             self.project_kwargs,
             method="post",
             request={"lock": False},
+            superuser=True,
         )
         self.assertFalse(response.data["locked"])
 
         # Test invalid request
         self.do_request(
-            "api:project-lock", self.project_kwargs, method="post", request={}, code=400
+            "api:project-lock", self.project_kwargs, method="post", request={}, code=400, superuser=True
         )
 
     def test_repo_invalid(self) -> None:
