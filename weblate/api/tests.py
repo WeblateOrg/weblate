@@ -1209,7 +1209,6 @@ class ProjectAPITest(APIBaseTest):
             "api:project-lock",
             self.project_kwargs,
             method="post",
-            request={},
             code=400,
             superuser=True,
         )
