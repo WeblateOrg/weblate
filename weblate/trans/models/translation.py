@@ -982,6 +982,9 @@ class Translation(
                         pending_change.source_unit_explanation
                     )
                 except Exception as error:
+                    report_error(
+                        "Could not update unit", project=self.component.project
+                    )
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
