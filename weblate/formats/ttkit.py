@@ -275,7 +275,6 @@ class TTKitFormat(TranslationFormat):
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> TranslationStore:
         """Load file using defined loader."""
         from weblate.trans.file_format_params import get_params_for_file_format
@@ -287,7 +286,7 @@ class TTKitFormat(TranslationFormat):
             store = self.parse_store(storefile)
 
         for format_param_class in get_params_for_file_format(self.format_id):
-            format_param_class().setup_store(store, **file_format_params)
+            format_param_class().setup_store(store, **self.file_format_params)
         return store
 
     @classmethod
@@ -305,12 +304,14 @@ class TTKitFormat(TranslationFormat):
         # Get the class
         return getattr(module, class_name)
 
-    @staticmethod
-    def get_class_kwargs():
+    def get_format_class_kwargs(self) -> dict[str, Any]:
+        return {}
+
+    def get_unit_class_kwargs(self) -> dict[str, Any]:
         return {}
 
     def get_store_instance(self, **kwargs):
-        kwargs.update(self.get_class_kwargs())
+        kwargs.update(self.get_format_class_kwargs())
         store = self.get_class()(**kwargs)
 
         # Apply possible fixups
@@ -318,9 +319,9 @@ class TTKitFormat(TranslationFormat):
 
         return store
 
-    def parse_store(self, storefile):
+    def parse_store(self, storefile, **kwargs):
         """Parse the store."""
-        store = self.get_store_instance()
+        store = self.get_store_instance(**kwargs)
 
         # Read the content
         if isinstance(storefile, str):
@@ -374,13 +375,15 @@ class TTKitFormat(TranslationFormat):
     def construct_unit(self, source: str):
         if self.use_settarget and self.source_language:
             # Setting source on LISAunit will make it use default language
-            unit = self.store.UnitClass(None)
+            unit = self.store.UnitClass(None, **self.get_unit_class_kwargs())
             unit.setsource(source, self.source_language)
         elif hasattr(self.store, "wrapper"):
             # gettext PO
-            unit = self.store.UnitClass(source, wrapper=self.store.wrapper)
+            unit = self.store.UnitClass(
+                source, wrapper=self.store.wrapper, **self.get_unit_class_kwargs()
+            )
         else:
-            unit = self.store.UnitClass(source)
+            unit = self.store.UnitClass(source, **self.get_unit_class_kwargs())
         # Needed by some formats (Android) to set target
         unit._store = self.store  # noqa: SLF001
         return unit
@@ -464,11 +467,12 @@ class TTKitFormat(TranslationFormat):
         language: str,
         base: str,
         callback: Callable | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if base:
             # Parse file
-            store = cls(base)
+            store = cls(base, file_format_params=file_format_params)
             if callback:
                 callback(store)
             store.untranslate_store(language)
@@ -487,6 +491,7 @@ class TTKitFormat(TranslationFormat):
         monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -495,7 +500,7 @@ class TTKitFormat(TranslationFormat):
             return monolingual and cls.new_translation is not None
         try:
             if not fast:
-                cls(base)
+                cls(base, file_format_params=file_format_params)
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
@@ -1910,6 +1915,19 @@ class FlatXMLFormat(TTKitFormat):
     unit_class = FlatXMLUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
 
+    def get_format_class_kwargs(self):
+        return {
+            "root_name": self.file_format_params.get("flatxml_root_name", None),
+            "value_name": self.file_format_params.get("flatxml_value_name", None),
+            "key_name": self.file_format_params.get("flatxml_key_name", None),
+        }
+
+    def get_unit_class_kwargs(self):
+        return {
+            "element_name": self.file_format_params.get("flatxml_value_name", None),
+            "attribute_name": self.file_format_params.get("flatxml_key_name", None),
+        }
+
 
 class ResourceDictionaryFormat(FlatXMLFormat):
     # Translators: File format name
@@ -1950,9 +1968,8 @@ class INIFormat(TTKitFormat):
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> TranslationStore:
-        store = super().load(storefile, template_store, file_format_params)
+        store = super().load(storefile, template_store)
         # Adjust store to have translations
         for unit in store.units:
             unit.target = unit.source
@@ -1982,8 +1999,7 @@ class InnoSetupINIFormat(INIFormat):
         # INI files do not expose extension
         return "islu"
 
-    @staticmethod
-    def get_class_kwargs():
+    def get_format_class_kwargs(self):
         return {"dialect": "inno"}
 
 

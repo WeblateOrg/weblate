@@ -376,8 +376,8 @@ class TranslationFormat:
         self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
-        file_format_params = file_format_params or {}
-        self.store = self.load(storefile, template_store, file_format_params)
+        self.file_format_params = file_format_params or {}
+        self.store = self.load(storefile, template_store)
 
         self.add_breadcrumb(
             "Loaded translation file {}".format(
@@ -411,7 +411,6 @@ class TranslationFormat:
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> InnerStore:
         raise NotImplementedError
 
@@ -593,6 +592,7 @@ class TranslationFormat:
         monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError
@@ -689,6 +689,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Add new language file."""
         # Create directory for a translation
@@ -698,7 +699,9 @@ class TranslationFormat:
         if not dirname.exists():
             dirname.mkdir(parents=True)
 
-        cls.create_new_file(str(filename.as_posix()), language, base, callback)
+        cls.create_new_file(
+            str(filename.as_posix()), language, base, callback, file_format_params
+        )
 
     @classmethod
     def get_new_file_content(cls) -> bytes:
@@ -711,6 +714,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
@@ -886,7 +890,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
-    def load(cls, storefile, template_store, file_format_params):  # noqa: ARG003
+    def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
     def save(self) -> None:

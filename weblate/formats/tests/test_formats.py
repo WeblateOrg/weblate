@@ -67,6 +67,7 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
 TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
@@ -193,6 +194,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     EDIT_OFFSET = 0
     EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
     MONOLINGUAL = False
+    FILE_FORMAT_PARAMS: dict[str, int | str | bool] = {}
 
     def setUp(self) -> None:
         super().setUp()
@@ -212,10 +214,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             return self.format_class(
                 filename,
                 template_store=self.format_class(
-                    template or self.TEMPLATE or filename, is_template=True
+                    template or self.TEMPLATE or filename,
+                    is_template=True,
+                    file_format_params=self.FILE_FORMAT_PARAMS,
                 ),
+                file_format_params=self.FILE_FORMAT_PARAMS,
             )
-        return self.format_class(filename)
+        return self.format_class(filename, file_format_params=self.FILE_FORMAT_PARAMS)
 
     def test_parse(self) -> None:
         storage = self.parse_file(self.FILE)
@@ -293,9 +298,18 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.assertEqual(unit.target, self.FIND_MATCH)
 
     def test_add(self) -> None:
-        self.assertTrue(self.format_class.is_valid_base_for_new(self.BASE, True))
+        self.assertTrue(
+            self.format_class.is_valid_base_for_new(
+                self.BASE, True, file_format_params=self.FILE_FORMAT_PARAMS
+            )
+        )
         out = os.path.join(self.tempdir, f"test.{self.EXT}")
-        self.format_class.add_language(out, Language.objects.get(code="cs"), self.BASE)
+        self.format_class.add_language(
+            out,
+            Language.objects.get(code="cs"),
+            self.BASE,
+            file_format_params=self.FILE_FORMAT_PARAMS,
+        )
         self.parse_file(out)  # check the parser agrees that the new file is valid.
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
@@ -401,7 +415,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
         # Create the template under test with a single string
         shutil.copy(self.FILE, template_file)
-        template_storage = self.format_class(template_file, is_template=True)
+        template_storage = self.format_class(
+            template_file, is_template=True, file_format_params=self.FILE_FORMAT_PARAMS
+        )
         template_unit = template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
         if self.SUPPORTS_NOTES:
             template_unit.unit.addnote(self.NOTE_FOR_TEST)
@@ -411,7 +427,10 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
         # Add a new language and translate the new string.
         self.format_class.add_language(
-            main_file, Language.objects.get(code="cs"), self.BASE
+            main_file,
+            Language.objects.get(code="cs"),
+            self.BASE,
+            file_format_params=self.FILE_FORMAT_PARAMS,
         )
         target_storage = self.parse_file(main_file, template=template_file)
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
@@ -1083,6 +1102,17 @@ class FlatXMLFormatTest(BaseFormatTest):
     EXPECTED_FLAGS = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
+
+
+class CustomFlatXMLFormatTest(FlatXMLFormatTest):
+    FILE = TEST_CUSTOM_FLATXML
+    BASE = TEST_CUSTOM_FLATXML
+    NEW_UNIT_MATCH = b'<entry name="key">Source string</entry>\n'
+    FILE_FORMAT_PARAMS = {
+        "flatxml_root_name": "dictionary",
+        "flatxml_value_name": "entry",
+        "flatxml_key_name": "name",
+    }
 
 
 class ResourceDictionaryFormatTest(BaseFormatTest):
