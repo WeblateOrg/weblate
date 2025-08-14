@@ -210,7 +210,6 @@ class AppStoreFormat(TranslationFormat):
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
@@ -230,6 +229,7 @@ class AppStoreFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,  # noqa: ARG003
         callback: Callable | None = None,  # noqa: ARG003
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         os.makedirs(filename)
@@ -265,6 +265,7 @@ class AppStoreFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:

@@ -12,6 +12,7 @@ Weblate 5.13
 * Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
 * :ref:`file_format_params` can now be configured at the component level.
 * New management command :wladmin:`list_file_format_params` to list all available file format parameters.
+* Tag and attribute names can now be customized for :ref:`flatxml` with :ref:`file_format_params`.
 
 .. rubric:: Improvements
 
@@ -1496,5 +1497,6 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * There are several changes in :file:`settings_example.py`, most notable is changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your settings accordingly.
 * Several previously optional dependencies are now required.
 * The database upgrade can take considerable time on larger sites due to structure changes.
+
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.

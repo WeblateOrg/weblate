@@ -308,3 +308,34 @@ class XMLClosingTags(BaseFileFormatParam):
         cast("LISAfile", store).XMLSelfClosingTags = not file_format_params.get(
             self.name, self.default
         )
+
+
+class BaseFlatXMLFormatParam(BaseFileFormatParam):
+    file_formats = ("flatxml",)
+
+
+@register_file_format_param
+class FlatXMLRootName(BaseFlatXMLFormatParam):
+    name = "flatxml_root_name"
+    label = gettext_lazy("FlatXML Root name")
+    field_class = forms.CharField
+    default = "root"
+    field_kwargs = {"min_length": 1}
+
+
+@register_file_format_param
+class FlatXMLValueName(BaseFlatXMLFormatParam):
+    name = "flatxml_value_name"
+    label = gettext_lazy("FlatXML value name")
+    field_class = forms.CharField
+    default = "str"
+    field_kwargs = {"min_length": 1}
+
+
+@register_file_format_param
+class FlatXMLKeyName(BaseFlatXMLFormatParam):
+    name = "flatxml_key_name"
+    label = gettext_lazy("FlatXML key name")
+    field_class = forms.CharField
+    default = "key"
+    field_kwargs = {"min_length": 1}

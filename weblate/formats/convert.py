@@ -140,7 +140,6 @@ class ConvertFormat(TranslationFormat):
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
@@ -163,6 +162,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -178,6 +178,7 @@ class ConvertFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:
