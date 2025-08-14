@@ -426,10 +426,14 @@ class UserViewSet(viewsets.ModelViewSet):
         return BasicUserSerializer
 
     def get_queryset(self):
-        queryset = User.objects.order_by("id")
-        if not self.request.user.has_perm("user.edit"):
-            return queryset
-        return queryset.prefetch_related("groups", "profile", "profile__languages")
+        user = self.request.user
+        if not user.is_authenticated:
+            return User.objects.none()
+        if not user.has_perm("user.edit"):
+            return User.objects.filter(pk=user.pk)
+        return User.objects.order_by("id").prefetch_related(
+            "groups", "profile", "profile__languages"
+        )
 
     def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):
