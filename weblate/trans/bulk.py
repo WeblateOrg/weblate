@@ -61,15 +61,14 @@ def bulk_perform(  # noqa: C901
                 unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
                 for unit in (
-                    Unit.objects.filter(id__in=unit_ids).prefetch().select_for_update()
+                    Unit.objects.filter(id__in=unit_ids, state__in=EDITABLE_STATES)
+                    .exclude(translation__filename="", state=target_state)
+                    .prefetch()
+                    .select_for_update()
                 ):
                     source_unit_ids.add(unit.source_unit_id)
 
-                    if (
-                        (user is None or user.has_perm("unit.edit", unit))
-                        and target_state != unit.state
-                        and unit.state in EDITABLE_STATES
-                    ):
+                    if user is None or user.has_perm("unit.edit", unit):
                         # Create change object for edit, update is done outside the loop
                         unit.state = target_state
                         unit.generate_change(
