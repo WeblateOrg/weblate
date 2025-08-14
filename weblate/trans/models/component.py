@@ -2103,7 +2103,9 @@ class Component(
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
-        ).exclude(translation__language_id=self.source_language_id):
+        ).exclude(
+            translation__language_id=self.source_language_id, translation__filename=""
+        ):
             PendingUnitChange.store_unit_change(unit)
 
         self.change_set.create(
