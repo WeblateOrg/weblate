@@ -63,6 +63,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
       run: |
@@ -71,6 +72,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies
       if: steps.detect.outputs.method == 'requirements'
       run: uv pip install --system -r requirements-lint.txt
@@ -85,6 +87,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: diff
       run: git diff
       if: always()
