@@ -15,7 +15,7 @@ Flat XML files
 
    The tag and attribute names can now be customized using :ref:`file_format_params`.
 
-Example of a flat XML files:
+Example of flat XML files:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs-flat.xml
     :language: xml
