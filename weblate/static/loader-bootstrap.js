@@ -265,7 +265,7 @@ function loadTableSorting() {
             // Skip statically initialized parts (when server side ordering is supported)
             th.attr("title", gettext("Sort this column")).addClass("sort-cell");
             if (th.hasClass("number")) {
-              th.innerHTML = '<span class="sort-icon"> </span>' + th.text();
+              th.innerHTML = `<span·class="sort-icon">·</span>${th.text()}`;
             } else {
               th.append('<span class="sort-icon" />');
             }
@@ -335,7 +335,7 @@ function interpolate(fmt, obj, named) {
 function loadMatrix() {
   const $loadingNext = $("#loading-next");
   const $loader = $("#matrix-load");
-  const offset = Number.parseInt($loader.data("offset"));
+  const offset = Number.parseInt($loader.data("offset"), 10);
 
   if ($("#last-section").length > 0 || $loadingNext.css("display") !== "none") {
     return;
@@ -1333,7 +1333,9 @@ $(function () {
         const link = button.parentElement;
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
-          .forEach((select) => select.remove());
+          .forEach((select) => {
+            select.remove();
+          });
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(

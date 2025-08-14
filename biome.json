@@ -8,7 +8,12 @@
       "!weblate/trans/tests/data/memory-broken.json",
       "!weblate/templates/site.webmanifest",
       "!weblate/templates/configuration/custom.css",
-      "!weblate/static/js/vendor"
+      "!weblate/static/js/vendor",
+      "!weblate/static/styles/vendor",
+      "!dev-docker/data"
+    ],
+    "experimentalScannerIgnores": [
+      "dev-docker/data"
     ]
   },
   "assist": {
@@ -30,6 +35,9 @@
         "useNumberNamespace": "error",
         "noDescendingSpecificity": "off",
         "noUselessElse": "error"
+      },
+      "complexity": {
+        "noImportantStyles": "off"
       }
     }
   },
