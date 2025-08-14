@@ -10,6 +10,8 @@ Weblate 5.13
 * :doc:`/formats/catkeys`.
 * Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 * Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
+* :ref:`file_format_params` can now be configured at the component level.
+* New management command :wladmin:`list_file_format_params` to list all available file format parameters.
 
 .. rubric:: Improvements
 
@@ -35,6 +37,8 @@ Weblate 5.13
 * Internal server error on permission denied while uploading files.
 
 .. rubric:: Compatibility
+
+* Some addons have been deprecated and replaced by :ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`.
 
 .. rubric:: Upgrading
 
@@ -114,8 +118,6 @@ Weblate 5.12
 * Added :guilabel:`Translation Coordinator` role.
 * :ref:`addon-weblate.webhook.slack` is now available as an add-on.
 * Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a list of all translations contributed by the user.
-* :ref:`file_format_params` can now be configured at the component level.
-* New management command :wladmin:`list_file_format_params` to list all available file format parameters.
 
 .. rubric:: Improvements
 
