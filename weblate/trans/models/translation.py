@@ -239,13 +239,15 @@ class Translation(
         return self.component.project
 
     @cached_property
-    def is_template(self):
+    def is_template(self) -> bool:
         """
         Check whether this is template translation.
 
         This means that translations should be propagated as sources to others.
         """
-        return self.component.template and self.filename == self.component.template
+        return (
+            self.component.has_template() and self.filename == self.component.template
+        )
 
     @cached_property
     def is_source(self) -> bool:

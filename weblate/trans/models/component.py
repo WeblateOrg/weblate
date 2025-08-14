@@ -3632,10 +3632,10 @@ class Component(
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
-    def has_template(self):
+    def has_template(self) -> bool:
         """Return true if component is using template for translation."""
         monolingual = self.file_format_cls.monolingual
-        return (monolingual or monolingual is None) and self.template
+        return (monolingual or monolingual is None) and bool(self.template)
 
     def drop_template_store_cache(self) -> None:
         if "template_store" in self.__dict__:
