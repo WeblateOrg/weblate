@@ -10,9 +10,12 @@ Flat XML files
 
    :doc:`tt:formats/flatxml`
 
-Example of a flat XML file:
+Example of a flat XML files:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs-flat.xml
+    :language: xml
+
+.. literalinclude:: ../../weblate/trans/tests/data/cs-flat-custom.xml
     :language: xml
 
 Weblate configuration

@@ -210,7 +210,6 @@ class AppStoreFormat(TranslationFormat):
         self,
         storefile: str | BinaryIO,
         template_store: TranslationFormat | None,
-        file_format_params: dict[str, Any],
     ) -> AppStoreParser:
         return AppStoreParser(storefile)
 
