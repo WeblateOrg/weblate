@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-15 01:02+0000\n"
+"PO-Revision-Date: 2025-08-15 04:47+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -18861,16 +18861,17 @@ msgid ""
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, CSV."
 msgstr ""
+"Memori terjemahan dalam berbagai format dapat diimpor ke Weblate, dan format "
+"TMX disediakan untuk interoperabilitas dengan alat lain. Semua format yang "
+"didukung adalah TMX, JSON, XLIFF, PO, dan CSV."
 
 #: ../../admin/memory.rst:124
 msgid "You can search for translations in the view built for this."
 msgstr "Anda dapat mencari terjemahan dalam tampilan yang dibuat untuk ini."
 
 #: ../../admin/memory.rst:127
-#, fuzzy
-#| msgid "Django admin interface"
 msgid "Admin interface"
-msgstr "Antarmuka admin Django"
+msgstr "Antarmuka admin"
 
 #: ../../admin/memory.rst:129
 msgid "There is a platform-wide interface to manage the translation memory."
@@ -18885,6 +18886,11 @@ msgid ""
 "from amidst the different tabs at the top of the screen, and then "
 "\"Translation memory\"."
 msgstr ""
+"Opsi yang tersedia sama dengan antarmuka pengguna, tetapi juga memungkinkan "
+"Anda untuk membangun kembali sebagian atau seluruh memori terjemahan. Semua "
+"entri lama dapat dihapus dan dibuat ulang dari suatu komponen atau proyek "
+"dengan memilih \"Administrasi\" dari berbagai tab di bagian atas layar, lalu "
+"\"Memori terjemahan\"."
 
 #: ../../admin/memory.rst:142
 msgid ""
@@ -18892,14 +18898,17 @@ msgid ""
 "operate on the translation memory as a whole, unfiltered by scopes (unless "
 "requested by parameters):"
 msgstr ""
+"Beberapa perintah manajemen dapat memanipulasi isi memori terjemahan. Ini "
+"beroperasi pada memori terjemahan secara keseluruhan, tanpa difilter oleh "
+"cakupan (kecuali diminta oleh parameter):"
 
 #: ../../admin/memory.rst:147
 msgid "Exports the memory into JSON"
-msgstr ""
+msgstr "Mengekspor memori ke JSON"
 
 #: ../../admin/memory.rst:149
 msgid "Imports TMX or JSON files into the translation memory"
-msgstr ""
+msgstr "Mengimpor berkas TMX atau JSON ke dalam memori terjemahan"
 
 #: ../../admin/memory.rst:151
 msgid "Removes all entries with pending status from the translation memory"
@@ -18911,37 +18920,48 @@ msgid ""
 "manipulation for different purposes, or based on events in the translation "
 "cycle."
 msgstr ""
+"API Weblate mencakup memori terjemahan. Hal ini memungkinkan manipulasi "
+"otomatis untuk berbagai tujuan, atau berdasarkan peristiwa dalam siklus "
+"terjemahan."
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
-msgstr ""
+msgstr "Modul Weblate opsional"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
-msgstr ""
+msgstr "Beberapa modul opsional tersedia untuk pengaturan Anda."
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
-msgstr ""
+msgstr "Eksportir Git"
 
 #: ../../admin/optionals.rst:11
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
 msgstr ""
+"Memberikan Anda akses hanya baca ke repositori Git yang mendasarinya "
+"menggunakan HTTP(S)."
 
 #: ../../admin/optionals.rst:16
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"Tambahkan ``weblate.gitexport`` ke aplikasi yang terinstal di "
+":file:`settings.py`:"
 
 #: ../../admin/optionals.rst:22
 msgid ""
 "Export existing repositories by migrating your database after installation:"
 msgstr ""
+"Ekspor repositori yang ada dengan memigrasikan basis data Anda setelah "
+"instalasi:"
 
 #: ../../admin/optionals.rst:30
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it of, use:"
 msgstr ""
+"Eksportir Git diaktifkan di gambar Docker resmi kami. Untuk "
+"menonaktifkannya, gunakan:"
 
 #: ../../admin/optionals.rst:37 ../../admin/optionals.rst:102
 #: ../../admin/optionals.rst:179 ../../faq.rst:304
@@ -18955,12 +18975,17 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"Modul ini secara otomatis terhubung ke Weblate dan mengatur URL repositori "
+"yang diekspor di :ref:`component`. Repositori dapat diakses di bagian ``/git/"
+"`` dari URL Weblate, misalnya ``https://example.org/git/weblate/main/``."
 
 #: ../../admin/optionals.rst:44
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
 msgstr ""
+"Repositori untuk proyek yang tersedia untuk umum dapat dikloning tanpa "
+"autentikasi:"
 
 #: ../../admin/optionals.rst:50
 msgid ""
@@ -18969,6 +18994,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Akses untuk menelusuri repositori dengan akses terbatas (dengan `Pribadi` "
+":ref:`access control <acl>` atau saat :setting:`REQUIRE_LOGIN` diaktifkan) "
+"memerlukan token API yang dapat diperoleh di :ref:`user profile <user-"
+"profile>` Anda:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -18976,6 +19005,9 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"Secara bawaan, anggota atau grup :guilabel:`Users` dan pengguna anonim "
+"memiliki akses ke repositori untuk proyek publik melalui peran :guilabel:`"
+"Access repository` dan :guilabel:`Power user`."
 
 #: ../../admin/optionals.rst:69
 msgid "Billing"
@@ -18986,20 +19018,26 @@ msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Ini digunakan pada `Hosted Weblate <https://weblate.org/hosting/>`_ untuk "
+"menentukan paket penagihan, melacak faktur, dan batas penggunaan."
 
 #: ../../admin/optionals.rst:77
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Tambahkan ``weblate.billing`` ke aplikasi yang terinstal di "
+":file:`settings.py`:"
 
 #: ../../admin/optionals.rst:84 ../../admin/optionals.rst:170
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"Jalankan migrasi basis data untuk secara opsional menginstal struktur basis "
+"data tambahan untuk modul:"
 
 #: ../../admin/optionals.rst:91
 msgid "Billing plan creation and assignment"
-msgstr ""
+msgstr "Pembuatan dan penugasan rencana penagihan"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -19007,12 +19045,17 @@ msgid ""
 "`Administration` section (represented by the wrench icon) and open the "
 "`Tools` screen. From there, proceed to the `Django admin interface`."
 msgstr ""
+"Pertama, Anda perlu membuat paket penagihan untuk mengaktifkan penagihan. "
+"Buka bagian `Administrasi` (diwakili oleh ikon kunci inggris) dan buka layar "
+"`Alat`. Dari sana, lanjutkan ke `Antarmuka admin Django`."
 
 #: ../../admin/optionals.rst:95
 msgid ""
 "In the Django admin interface, locate the `BILLING` section and add a "
 "billing plan. For instance, you can add a `Free` plan with no cost."
 msgstr ""
+"Di antarmuka admin Django, cari bagian `PENAGIHAN` dan tambahkan paket "
+"penagihan. Misalnya, Anda dapat menambahkan paket `Gratis` tanpa biaya."
 
 #: ../../admin/optionals.rst:97
 msgid ""
@@ -19020,12 +19063,17 @@ msgid ""
 "be done within the `Django admin interface` using the `Customer billings` "
 "option."
 msgstr ""
+"Jika Anda ingin menetapkan paket penagihan ke proyek yang ada, ini juga "
+"dapat dilakukan dalam `antarmuka admin Django` menggunakan opsi `Penagihan "
+"pelanggan`."
 
 #: ../../admin/optionals.rst:99
 msgid ""
 "Lastly, the `Django admin interface` provides an `Invoice` option for "
 "logging your customer payments."
 msgstr ""
+"Terakhir, `antarmuka admin Django` menyediakan opsi `Faktur` untuk mencatat "
+"pembayaran pelanggan Anda."
 
 #: ../../admin/optionals.rst:104
 msgid ""
@@ -19033,6 +19081,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Setelah instalasi, Anda dapat mengontrol penagihan di antarmuka admin. "
+"Pengguna yang mengaktifkan penagihan akan mendapatkan tab :guilabel:`Billing`"
+" baru di :ref:`user-profile` mereka."
 
 #: ../../admin/optionals.rst:108
 msgid ""
@@ -19049,6 +19100,9 @@ msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"Penagihan berada dalam batas yang dikonfigurasi (setiap penggunaan "
+"berlebihan mengakibatkan pemblokiran pembuatan proyek/komponen) dan dibayar ("
+"jika harganya bukan nol)"
 
 #: ../../admin/optionals.rst:114
 msgid ""
@@ -19056,18 +19110,22 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"Pengguna adalah admin proyek yang ada dengan penagihan atau pengguna adalah "
+"pemilik penagihan (yang terakhir diperlukan saat membuat penagihan baru agar "
+"pengguna dapat mengimpor proyek baru)."
 
 #: ../../admin/optionals.rst:118
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"Saat pembuatan proyek, pengguna dapat memilih penagihan mana yang akan "
+"dikenakan untuk proyek tersebut jika ia memiliki akses ke lebih banyak "
+"proyek."
 
 #: ../../admin/optionals.rst:125
-#, fuzzy
-#| msgid "Debug mode"
 msgid "Legal module"
-msgstr "Mode Awakutu"
+msgstr "Modul hukum"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -19075,18 +19133,22 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Ini digunakan pada `Hosted Weblate <https://weblate.org/hosting/>`_ untuk "
+"menyediakan dokumen hukum yang diperlukan. Formulir ini dilengkapi dengan "
+"dokumen kosong, dan Anda diharapkan untuk mengisi templat berikut dalam "
+"dokumen tersebut:"
 
 #: ../../admin/optionals.rst:132
 msgid "Terms of service document"
-msgstr ""
+msgstr "Dokumen persyaratan layanan"
 
 #: ../../admin/optionals.rst:134
 msgid "Privacy policy document"
-msgstr ""
+msgstr "Dokumen kebijakan privasi"
 
 #: ../../admin/optionals.rst:136
 msgid "Short overview of the terms of service and privacy policy"
-msgstr ""
+msgstr "Ikhtisar singkat tentang ketentuan layanan dan kebijakan privasi"
 
 #: ../../admin/optionals.rst:138
 msgid ""
@@ -19094,6 +19156,9 @@ msgid ""
 "`LEGAL_TOS_DATE` so that users are forced to agree with the updated "
 "documents."
 msgstr ""
+"Saat mengubah dokumen ketentuan layanan, harap sesuaikan "
+":setting:`LEGAL_TOS_DATE` sehingga pengguna dipaksa untuk menyetujui dokumen "
+"yang diperbarui."
 
 #: ../../admin/optionals.rst:144
 msgid ""
@@ -19101,32 +19166,42 @@ msgid ""
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
+"Dokumen hukum untuk layanan Hosted Weblate tersedia di repositori Git ini "
+"<https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/"
+"documents>."
 
 #: ../../admin/optionals.rst:147
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
+"Kemungkinan besar ini tidak dapat langsung Anda gunakan, tetapi mungkin "
+"berguna sebagai titik awal jika disesuaikan dengan kebutuhan Anda."
 
 #: ../../admin/optionals.rst:153
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Tambahkan ``weblate.legal`` ke aplikasi yang terinstal di "
+":file:`settings.py`:"
 
 #: ../../admin/optionals.rst:176
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
+"Sunting dokumen hukum di map :file:`weblate/legal/templates/legal/` agar "
+"sesuai dengan layanan Anda."
 
 #: ../../admin/optionals.rst:181
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
 msgstr ""
+"Setelah instalasi dan penyuntingan, dokumen hukum ditampilkan di UI Weblate."
 
 #: ../../admin/optionals.rst:186
 msgid "Avatars"
-msgstr ""
+msgstr "Avatar"
 
 #: ../../admin/optionals.rst:188
 msgid ""
@@ -19142,7 +19217,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:192
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "Weblate saat ini mendukung:"
 
 #: ../../admin/optionals.rst:194
 msgid "`Gravatar <https://gravatar.com/>`_"
@@ -19154,37 +19229,42 @@ msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: ../../admin/optionals.rst:206
 msgid "Spam protection"
-msgstr ""
+msgstr "Perlindungan spam"
 
 #: ../../admin/optionals.rst:208
 msgid ""
 "You can protect against spamming by users by using the `Akismet <https://"
 "akismet.com/>`_ service."
 msgstr ""
+"Anda dapat melindungi dari spamming oleh pengguna dengan menggunakan layanan "
+"`Akismet <https://akismet.com/>`_."
 
 #: ../../admin/optionals.rst:211
 msgid ""
 "Install the `akismet` Python module (this is already included in the "
 "official Docker image)."
 msgstr ""
+"Instal Modul Python `akismet` (ini sudah termasuk dalam gambar Docker resmi)."
 
 #: ../../admin/optionals.rst:212
 msgid "Obtain the Akismet API key."
-msgstr ""
+msgstr "Dapatkan kunci API Akismet."
 
 #: ../../admin/optionals.rst:213
 msgid ""
 "Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` "
 "in Docker."
 msgstr ""
+"Simpan sebagai :setting:`AKISMET_API_KEY` atau "
+":envvar:`WEBLATE_AKISMET_API_KEY` di Docker."
 
 #: ../../admin/optionals.rst:215
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "Konten berikut dikirim ke Akismet untuk memeriksa:"
 
 #: ../../admin/optionals.rst:217
 msgid "Suggestions from unauthenticated users"
-msgstr ""
+msgstr "Saran dari pengguna yang tidak autentikasi"
 
 #: ../../admin/optionals.rst:218
 msgid "Project and component descriptions and links"
@@ -19195,36 +19275,46 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Ini (antara lain) bergantung pada alamat IP klien, silakan lihat :ref"
+":`reverse-proxy` untuk mengkonfigurasi dengan benar."
 
 #: ../../admin/optionals.rst:235
 msgid "Signing Git commits with GnuPG"
-msgstr ""
+msgstr "Menandatangani komit Git dengan GnuPG"
 
 #: ../../admin/optionals.rst:237
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr ""
+"Semua komit dapat ditandatangani dengan kunci GnuPG dari instansi Weblate."
 
 #: ../../admin/optionals.rst:239
 msgid ""
 "Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG key "
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
+"Aktifkan :setting:`WEBLATE_GPG_IDENTITY`. (Weblate akan menghasilkan kunci "
+"GNUPG saat dibutuhkan dan akan menggunakannya untuk menandatangani semua "
+"komit terjemahan.)"
 
 #: ../../admin/optionals.rst:242
 msgid "This feature needs GnuPG 2.1 or newer installed."
-msgstr ""
+msgstr "Fitur ini membutuhkan GnuPG 2.1 atau yang lebih baru diinstal."
 
 #: ../../admin/optionals.rst:244
 msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Anda dapat menemukan kunci dalam :setting:`DATA_DIR` dan kunci publik "
+"ditampilkan pada halaman\" Tentang \":"
 
 #: ../../admin/optionals.rst:249
 msgid ""
 "Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"Atau Anda juga dapat mengimpor kunci yang ada ke dalam Weblate, cukup atur "
+"``HOME=$DATA_DIR/home`` saat memohon gpg."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -19245,16 +19335,18 @@ msgid ""
 "instructions at https://wiki.gnupg.org/NFS to make GnuPG signing work "
 "reliably."
 msgstr ""
+"Saat berbagi :setting:`DATA_DIR` antara beberapa host, silakan ikuti "
+"instruksi di https://wiki.gnupg.org/NFS untuk membuat penandatanganan GnuPG "
+"bekerja dengan andal."
 
 #: ../../admin/optionals.rst:272 ../../user/translating.rst:397
 msgid "Rate limiting"
-msgstr ""
+msgstr "Pembatasan akses"
 
 #: ../../admin/optionals.rst:276
-#, fuzzy
-#| msgid "The rate limiting no longer applies to superusers."
 msgid "The rate limiting no longer applies to signed in superusers."
-msgstr "Pembatasan tarif tidak lagi berlaku untuk pengguna super."
+msgstr ""
+"Pembatasan akses tidak lagi berlaku untuk penandatanganan super pengguna."
 
 #: ../../admin/optionals.rst:278
 msgid ""
@@ -19265,6 +19357,12 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Beberapa operasi di Weblate terbatas. Paling banyak "
+":setting:`RATELIMIT_ATTEMPTS` percobaan diizinkan di dalam "
+":setting:`RATELIMIT_WINDOW` detik. Pengguna kemudian diblokir untuk "
+":setting:`RATELIMIT_LOCKOUT`. Ada juga pengaturan khusus untuk cakupan, "
+"misalnya ``ratelimit_contact_attempts`` atau ``ratelimit_translate_attempts``"
+". Tabel di bawah ini adalah daftar lengkap cakupan yang tersedia."
 
 #: ../../admin/optionals.rst:282
 msgid "The following operations are subject to rate limiting:"
@@ -26130,10 +26228,10 @@ msgid "*Released on December 19th 2024.*"
 msgstr "*Dirilis pada 19 Desember 2024.*"
 
 #: ../../changes.rst:496
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ""
+"Mengganti nama :ref:`vcs-bitbucket-data-center` agar cocok dengan nama "
+"produk baru."
 
 #: ../../changes.rst:497
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -26176,10 +26274,8 @@ msgid "Weblate 5.9.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:519 ../../changes.rst:538
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "*Released on December 16th 2024.*"
-msgstr "Dirilis pada tanggal 16 Desember 2021."
+msgstr "*Dirilis pada 16 Desember 2024.*"
 
 #: ../../changes.rst:523
 msgid "Fixed publishing package to PyPI."
@@ -26261,16 +26357,12 @@ msgid ":ref:`bulk-edit` shows a preview of matched strings."
 msgstr ""
 
 #: ../../changes.rst:558
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+":http:get:`/api/components/(string:project)/(string:component)/` mengekspos "
+"status kunci komponen."
 
 #: ../../changes.rst:559
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
@@ -26289,16 +26381,12 @@ msgid "Improved :ref:`translation-propagation` performance."
 msgstr "Peningkatan kinerja :ref:`translation-propagation`."
 
 #: ../../changes.rst:563
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/file/`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+"Pesan galat yang lebih rinci untuk :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`."
 
 #: ../../changes.rst:567
 msgid ""
@@ -26361,10 +26449,8 @@ msgid "Weblate 5.8.4"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:592
-#, fuzzy
-#| msgid "Released on November 19th 2021."
 msgid "*Released on November 19th 2024.*"
-msgstr "Dirilis pada tanggal 19 November 2021."
+msgstr "*Dirilis pada 19 November 2024.*"
 
 #: ../../changes.rst:596
 msgid ":ref:`search-users` can search based on user changes."
@@ -26404,10 +26490,8 @@ msgid "Weblate 5.8.3"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:617
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "*Released on November 6th 2024.*"
-msgstr "Dirilis pada 16 November 2012."
+msgstr "*Dirilis pada 6 November 2024.*"
 
 #: ../../changes.rst:621
 msgid "Formatting of some :ref:`audit-log` entries."
@@ -26442,10 +26526,8 @@ msgid "Weblate 5.8.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:638
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "*Released on November 1st 2024.*"
-msgstr "Dirilis pada 16 November 2012."
+msgstr "*Dirilis pada 1 November 2024.*"
 
 #: ../../changes.rst:642
 msgid "Update outdated plural definitions during the database migration."
@@ -26462,10 +26544,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:645
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Peningkatan kinerja :ref:`workflow-customization`."
 
 #: ../../changes.rst:656
 #, fuzzy
@@ -26486,10 +26566,8 @@ msgid "Weblate 5.8.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:661 ../../changes.rst:680
-#, fuzzy
-#| msgid "Released on October 15th 2020."
 msgid "*Released on October 15th 2024.*"
-msgstr "Dirilis pada 15 Oktober 2020."
+msgstr "*Dirilis pada 15 Oktober 2024.*"
 
 #: ../../changes.rst:665
 msgid "Use lower case name for the Python package."
@@ -26592,10 +26670,9 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:707
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
-msgstr ":ref:`workflow-customization`"
+msgstr ""
+"Menampilkan pengaturan :ref:`workflow-customization` dalam beberapa kasus."
 
 #: ../../changes.rst:708
 #, fuzzy
@@ -26644,10 +26721,8 @@ msgid "Weblate 5.7.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:731
-#, fuzzy
-#| msgid "Released on September 10th 2021."
 msgid "*Released on September 5th 2024.*"
-msgstr "Dirilis pada tanggal 10 September 2021."
+msgstr "*Dirilis pada 5 September 2024.*"
 
 #: ../../changes.rst:735
 msgid ":ref:`2fa` remembers last method used by user."
@@ -26698,10 +26773,8 @@ msgid "Weblate 5.7.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:757
-#, fuzzy
-#| msgid "Released on August 15th 2019."
 msgid "*Released on August 30th 2024.*"
-msgstr "Dirilis pada 15 Agustus 2019."
+msgstr "*Dirilis pada 30 Agustus 2024.*"
 
 #: ../../changes.rst:761
 #, fuzzy
@@ -26769,10 +26842,8 @@ msgid "Weblate 5.7"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:785
-#, fuzzy
-#| msgid "Released on August 15th 2019."
 msgid "*Released on August 15th 2024.*"
-msgstr "Dirilis pada 15 Agustus 2019."
+msgstr "*Dirilis pada 15 Agustus 2024.*"
 
 #: ../../changes.rst:789
 msgid ""
@@ -26943,21 +27014,16 @@ msgid "Weblate 5.6.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:841
-#, fuzzy
-#| msgid "Released on July 15th 2021."
 msgid "*Released on July 1st 2024.*"
-msgstr "Dirilis pada tanggal 15 Juli 2021."
+msgstr "*Dirilis pada 1 Juli 2024.*"
 
 #: ../../changes.rst:845
 msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
 #: ../../changes.rst:846
-#, fuzzy
-#| msgid "%(count)s outgoing commit"
-#| msgid_plural "%(count)s outgoing commits"
 msgid "Detection of pending outgoing commits."
-msgstr "%(count)s komit keluar"
+msgstr "Deteksi komit keluar yang tertunda."
 
 #: ../../changes.rst:847
 msgid ":ref:`addons` button layout."
@@ -26997,10 +27063,8 @@ msgid "Weblate 5.6.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:861
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "*Released on June 24th 2024.*"
-msgstr "Dirilis pada 19 Juni 2020."
+msgstr "*Dirilis pada 24 Juni 2024.*"
 
 #: ../../changes.rst:865
 msgid ""
@@ -27014,10 +27078,8 @@ msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgstr ""
 
 #: ../../changes.rst:870
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid "Language aliases in :doc:`/admin/machine`."
-msgstr ":doc:`/admin/machine`"
+msgstr "Alias bahasa dalam :doc:`/admin/machine`."
 
 #: ../../changes.rst:876
 #, fuzzy
@@ -27038,10 +27100,8 @@ msgid "Weblate 5.6"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:881
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "*Released on June 19th 2024.*"
-msgstr "Dirilis pada 19 Juni 2020."
+msgstr "*Dirilis pada 19 Juni 2024.*"
 
 #: ../../changes.rst:885
 msgid ":ref:`addons` activity log for tracking add-on activity."
@@ -27137,20 +27197,16 @@ msgid "Weblate 5.5.5"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:919
-#, fuzzy
-#| msgid "Released on May 8th 2021."
 msgid "*Released on May 13th 2024.*"
-msgstr "Dirilis pada 8 Mei 2021."
+msgstr "*Dirilis pada 13 Mei 2024.*"
 
 #: ../../changes.rst:923
 msgid "False-positive merge failure alert when using push branch."
 msgstr ""
 
 #: ../../changes.rst:924
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Cleanup of stale repositories."
-msgstr "Status repositori"
+msgstr "Pembersihan repositori yang basi."
 
 #: ../../changes.rst:930
 #, fuzzy
@@ -27171,10 +27227,8 @@ msgid "Weblate 5.5.4"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:935
-#, fuzzy
-#| msgid "Released on May 10th 2012."
 msgid "*Released on May 10th 2024.*"
-msgstr "Dirilis pada 10 Mei 2012."
+msgstr "*Dirilis pada 10 Mei 2024.*"
 
 #: ../../changes.rst:939
 msgid "Visually highlight explanation in :ref:`glossary`."
@@ -27215,10 +27269,8 @@ msgid "Weblate 5.5.3"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:957
-#, fuzzy
-#| msgid "Released on Mar 3rd 2017."
 msgid "*Released on May 3rd 2024.*"
-msgstr "Dirilis pada 3 Maret 2017."
+msgstr "*Dirilis pada 3 Mei 2024.*"
 
 #: ../../changes.rst:961
 #, fuzzy
@@ -27260,10 +27312,8 @@ msgid "Weblate 5.5.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:978 ../../changes.rst:993
-#, fuzzy
-#| msgid "Released on April 20th 2022."
 msgid "*Released on April 26th 2024.*"
-msgstr "Dirilis pada 20 April 2022."
+msgstr "*Dirilis pada 26 April 2024.*"
 
 #: ../../changes.rst:982
 msgid "Fixed publishing packages to PyPI."
@@ -27292,10 +27342,8 @@ msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
 msgstr ":doc:`/user/search` mendukung ``source_changed:DATETIME``."
 
 #: ../../changes.rst:998
-#, fuzzy
-#| msgid ":ref:`component-language_code_style`"
 msgid "Added several new :ref:`component-language_code_style`."
-msgstr ":ref:`component-language_code_style`"
+msgstr "Menambahkan beberapa :ref:`component-language_code_style` baru."
 
 #: ../../changes.rst:1002
 msgid "Display more details on source string change in history."
@@ -27312,10 +27360,8 @@ msgid "Improved error handling in :ref:`invite-user`."
 msgstr "Peningkatan penanganan galat dalam :ref:`invite-user`."
 
 #: ../../changes.rst:1005
-#, fuzzy
-#| msgid "Big status badge"
 msgid "Added PNG status badge."
-msgstr "Lencana status besar"
+msgstr "Menambahkan lencana status PNG."
 
 #: ../../changes.rst:1006
 msgid "Added list of managed projects to the dashboard view."
@@ -27338,10 +27384,8 @@ msgid "Daily execution of project and site wide add-ons."
 msgstr ""
 
 #: ../../changes.rst:1014
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid "Allow editing strings when the source is marked for editing."
-msgstr "Sunting string ketika saran dipaksakan"
+msgstr "Izinkan penyuntingan string saat sumber ditandai untuk menyunting."
 
 #: ../../changes.rst:1015
 msgid "Updates of the last updated timestamp of a string."
@@ -27382,10 +27426,8 @@ msgid "Weblate 5.5"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:1030
-#, fuzzy
-#| msgid "Released on April 20th 2022."
 msgid "*Released on April 20th 2024.*"
-msgstr "Dirilis pada 20 April 2022."
+msgstr "*Dirilis pada 20 April 2024.*"
 
 #: ../../changes.rst:1034
 msgid ":ref:`addons` can be now installed project-wide and site-wide."
@@ -27543,10 +27585,8 @@ msgid "Weblate 5.4.3"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:1086
-#, fuzzy
-#| msgid "Released on March 26th 2021."
 msgid "*Released on March 26th 2024.*"
-msgstr "Dirilis pada 26 Maret 2021."
+msgstr "*Dirilis pada 26 Maret 2024.*"
 
 #: ../../changes.rst:1090
 msgid "Superuser access to components with :ref:`component-restricted`."
@@ -27591,10 +27631,8 @@ msgstr ""
 "Memperbaiki kemungkinan terjadinya kerusakan ketika menambahkan string."
 
 #: ../../changes.rst:1098
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operations on project could have skipped some components."
-msgstr "Operasi repositori dalam %(component)s"
+msgstr "Operasi repositori pada proyek dapat melewatkan beberapa komponen."
 
 #: ../../changes.rst:1104
 #, fuzzy
@@ -27615,10 +27653,8 @@ msgid "Weblate 5.4.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1109
-#, fuzzy
-#| msgid "Released on February 22nd 2020."
 msgid "*Released on February 22nd 2024.*"
-msgstr "Dirilis pada 22 Februari 2020."
+msgstr "*Dirilis pada 22 Februari 2024.*"
 
 #: ../../changes.rst:1113
 msgid "Displaying debugging page in case of database connection issues."
@@ -27648,10 +27684,8 @@ msgid "Weblate 5.4.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1125
-#, fuzzy
-#| msgid "Released on February 19th 2021."
 msgid "*Released on February 19th 2024.*"
-msgstr "Dirilis pada 19 Februari 2021."
+msgstr "*Dirilis pada 19 Februari 2024.*"
 
 #: ../../changes.rst:1129
 msgid ""
@@ -27680,10 +27714,8 @@ msgid "Weblate 5.4"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:1141
-#, fuzzy
-#| msgid "Released on February 15th 2018."
 msgid "*Released on February 15th 2024.*"
-msgstr "Dirilis pada 15 Februari 2018."
+msgstr "*Dirilis pada 15 Februari 2024.*"
 
 #: ../../changes.rst:1145
 msgid ":ref:`check-perl-brace-format` quality check."
@@ -27706,16 +27738,14 @@ msgid "Weblate is now available in Tamil."
 msgstr ""
 
 #: ../../changes.rst:1153
-#, fuzzy
-#| msgid ":wladmin:`createadmin`"
 msgid "Better logging in :wladmin:`createadmin`."
-msgstr ":wladmin:`createadmin`"
+msgstr "Masuk yang lebih baik :wladmin:`createadmin`."
 
 #: ../../changes.rst:1154
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.discovery.discovery` sekarang melaporkan entri yang "
+"dilewati."
 
 #: ../../changes.rst:1155
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
@@ -27755,22 +27785,16 @@ msgid "Nicer formatting of :ref:`glossary` tooltips."
 msgstr ""
 
 #: ../../changes.rst:1163
-#, fuzzy
-#| msgid ""
-#| "Component parameters, see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` now "
 "includes information about linked component."
 msgstr ""
-"Parameter komponen, lihat :http:get:`/api/components/(string:project)/"
-"(string:component)/`"
+":http:get:`/api/components/(string:project)/(string:component)/` sekarang "
+"menyertakan informasi tentang komponen yang ditautkan."
 
 #: ../../changes.rst:1164
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` configuration forms."
-msgstr ":ref:`workflow-customization`"
+msgstr "Peningkatan :ref:`workflow-customization` pada formulir konfigurasi."
 
 #: ../../changes.rst:1168
 msgid "Plural forms handling in :doc:`/formats/qt`."
@@ -27825,10 +27849,8 @@ msgid "Weblate 5.3.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1188
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "*Released on December 19th 2023.*"
-msgstr "Dirilis pada tanggal 16 Desember 2021."
+msgstr "*Dirilis pada 19 Desember 2023.*"
 
 #: ../../changes.rst:1192
 #, fuzzy
@@ -27855,10 +27877,8 @@ msgid "Weblate 5.3"
 msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:1203
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "*Released on December 14th 2023.*"
-msgstr "Dirilis pada tanggal 16 Desember 2021."
+msgstr "*Dirilis pada 14 Desember 2023.*"
 
 #: ../../changes.rst:1207
 msgid ":ref:`mt-openai` automatic suggestion service."
@@ -27904,10 +27924,8 @@ msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-translator` mendukung :ref:`glossary-mt`."
 
 #: ../../changes.rst:1219
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Improved region selection in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Peningkatan pemilihan wilayah di :ref:`mt-google-translate-api-v3`."
 
 #: ../../changes.rst:1220
 msgid "Added nested JSON exporter in :ref:`download`."
@@ -27954,10 +27972,8 @@ msgid "Weblate 5.2.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1241
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "*Released on November 22nd 2023.*"
-msgstr "Dirilis pada 16 November 2012."
+msgstr "*Dirilis pada 22 November 2023.*"
 
 #: ../../changes.rst:1245
 #, fuzzy
@@ -28010,22 +28026,16 @@ msgid "Weblate 5.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1265
-#, fuzzy
-#| msgid "Released on November 16th 2012."
 msgid "*Released on November 16th 2023.*"
-msgstr "Dirilis pada 16 November 2012."
+msgstr "*Dirilis pada 16 November 2023.*"
 
 #: ../../changes.rst:1269
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`"
 msgid ":ref:`vcs-azure-devops`."
-msgstr ":ref:`vcs-azure-devops`"
+msgstr ":ref:`vcs-azure-devops`."
 
 #: ../../changes.rst:1273
-#, fuzzy
-#| msgid "Last updated"
 msgid "Faster statistics updates."
-msgstr "Terakhir diperbarui"
+msgstr "Pembaruan statistik lebih cepat."
 
 #: ../../changes.rst:1274
 msgid "Better e-mail selection in user profile."
@@ -28073,16 +28083,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1286
-#, fuzzy
-#| msgid "Creating component"
 msgid "Fixed creating component within a category by upload."
-msgstr "Membuat komponen"
+msgstr "Memperbaiki pembuatan komponen dalam kategori dengan mengunggah."
 
 #: ../../changes.rst:1287
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Error handling in organizing components and categories."
-msgstr "Peringatan komponen"
+msgstr "Penanganan galat dalam mengatur komponen dan kategori."
 
 #: ../../changes.rst:1288
 #, fuzzy
@@ -28092,10 +28098,8 @@ msgstr ""
 "Memperbaiki kerusakan setelah memindahkan komponen bersama antar proyek."
 
 #: ../../changes.rst:1289
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed formatting of translation memory search results."
-msgstr "Terjemahan otomatis sedang berlangsung"
+msgstr "Memperbaiki format hasil pencarian memori terjemahan."
 
 #: ../../changes.rst:1290
 msgid "Allow non-breaking space character in :ref:`autofix-html`."
@@ -28129,10 +28133,8 @@ msgid "Weblate 5.1.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1306
-#, fuzzy
-#| msgid "Released on October 15th 2020."
 msgid "*Released on October 25th 2023.*"
-msgstr "Dirilis pada 15 Oktober 2020."
+msgstr "*Dirilis pada 25 Oktober 2023.*"
 
 #: ../../changes.rst:1310
 #, fuzzy
@@ -28188,10 +28190,8 @@ msgid "Weblate 5.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:1329
-#, fuzzy
-#| msgid "Released on October 15th 2020."
 msgid "*Released on October 16th 2023.*"
-msgstr "Dirilis pada 15 Oktober 2020."
+msgstr "*Dirilis pada 16 Oktober 2023.*"
 
 #: ../../changes.rst:1333
 msgid ":ref:`mt-yandex-v2` machine translation service."
@@ -28234,11 +28234,11 @@ msgid "Project is added to watched upon accepting an invitation."
 msgstr ""
 
 #: ../../changes.rst:1343
-#, fuzzy
-#| msgid "Configuration errors"
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
-msgstr "Kesalahan konfigurasi"
+msgstr ""
+"Konfigurasikan kredensial VCS API sebagai dict Python dari variabel "
+"lingkungan."
 
 #: ../../changes.rst:1344
 #, fuzzy
@@ -28267,10 +28267,8 @@ msgid "Show plural form examples more prominently."
 msgstr ""
 
 #: ../../changes.rst:1349
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Highlight whitespace in :ref:`machine-translation`."
-msgstr ":ref:`machine-translation`"
+msgstr "Sorot spasi di :ref:`machine-translation`."
 
 #: ../../changes.rst:1350
 #, fuzzy
