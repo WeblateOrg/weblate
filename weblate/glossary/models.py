@@ -109,6 +109,10 @@ def fetch_glossary_terms(  # noqa: C901
         project = component.project
         source_language = component.source_language
 
+        # Do not get glossary matches when display is disabled
+        if component.hide_glossary_matches:
+            continue
+
         # Short circuit source language
         if language == source_language:
             continue
@@ -153,6 +157,11 @@ def fetch_glossary_terms(  # noqa: C901
             base_units = get_glossary_units(project, source_language, language)
             # Variant is used for variant grouping below, source unit for flags
             base_units = base_units.select_related("source_unit", "variant")
+
+            # Exclude currently edited unit items to prevent self-referencing glossary items
+            current_unit_ids = [u.pk for u in translation_units[translation_id] if u.pk]
+            if current_unit_ids:
+                base_units = base_units.exclude(pk__in=current_unit_ids)
 
             if full:
                 # Include full details needed for rendering
