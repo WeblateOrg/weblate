@@ -11,7 +11,10 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-target="#translations" data-bs-toggle="tab" href="#">{% translate "Languages" %}</a>
+      <a class="nav-link active"
+         data-bs-target="#translations"
+         data-bs-toggle="tab"
+         href="#">{% translate "Languages" %}</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
@@ -25,9 +28,7 @@
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Insights" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
@@ -36,10 +37,12 @@
           <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=json-flat">{% translate "Download language statistics (JSON)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=json-flat">{% translate "Download language statistics (JSON)" %}</a>
         </li>
         {% if user.is_authenticated %}
           <li>
@@ -47,7 +50,8 @@
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
         </li>
         <li>
           <a class="dropdown-item" href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
@@ -55,9 +59,7 @@
       </ul>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Files" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item"
@@ -82,9 +84,7 @@
       </ul>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Operations" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
@@ -127,12 +127,14 @@
         {% endif %}
         {% if user_can_manage_acl %}
           <li>
-            <a class="dropdown-item" href="{% url 'manage-access' project=object.project.slug %}">{% translate "Users" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'manage-access' project=object.project.slug %}">{% translate "Users" %}</a>
           </li>
         {% endif %}
         {% if user_can_edit_component %}
           <li>
-            <a class="dropdown-item" href="{% url 'create-component' %}?component={{ object.id }}#existing">{% translate "Duplicate this component" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'create-component' %}?component={{ object.id }}#existing">{% translate "Duplicate this component" %}</a>
           </li>
           <li>
             <a class="dropdown-item" href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>

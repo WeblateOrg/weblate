@@ -115,7 +115,7 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
-            "bootstrap_5": True
+            "bootstrap_5": True,
         },
     )
 

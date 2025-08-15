@@ -15,7 +15,10 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-target="#translation" data-bs-toggle="tab" href="#">{% translate "Translation" %}</a>
+      <a class="nav-link active"
+         data-bs-target="#translation"
+         data-bs-toggle="tab"
+         href="#">{% translate "Translation" %}</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
@@ -24,31 +27,30 @@
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Insights" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=csv">{% translate "Download statistics (CSV)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=csv">{% translate "Download statistics (CSV)" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
         </li>
         <li>
           <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
         </li>
       </ul>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Files" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu">
         {% if object.filename %}
           <li>
@@ -66,9 +68,7 @@
       </ul>
     </li>
     <li class="nav-itemdropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Operations" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
       <ul class="dropdown-menu">
         {% if replace_form %}
           <li>
@@ -102,7 +102,10 @@
         {% if announcement_form %}
           <hr class="dropdown-divider">
           <li>
-            <a class="dropdown-item" data-bs-target="#announcement" data-bs-toggle="tab" href="#">{% translate "Post announcement" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#announcement"
+               data-bs-toggle="tab"
+               href="#">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
         {% if delete_form %}

@@ -1642,7 +1642,9 @@ def list_objects_number(
     url_end: str | SafeString
     url_start = url_end = ""
     if value == 0 and not show_zero:
-        value_formatted = format_html("""<span class="visually-hidden">{}</span>""", value)
+        value_formatted = format_html(
+            """<span class="visually-hidden">{}</span>""", value
+        )
     else:
         if search_url or translate_url:
             url_start = format_html(
@@ -1727,6 +1729,8 @@ def list_objects_percent(
         value_formatted=gettext("%(value)s of %(all)s")
         % {"value": intcomma(value), "all": intcomma(total)},
     )
+
+
 @register.inclusion_tag("snippets/info5.html", takes_context=True)
 def show_info5(  # noqa: PLR0913
     context: Context,
@@ -1763,8 +1767,9 @@ def show_info5(  # noqa: PLR0913
         "show_full_language": show_full_language,
         "top_users": top_users,
         "total_translations": total_translations,
-        "bootstrap_5": True
+        "bootstrap_5": True,
     }
+
 
 @register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(  # noqa: PLR0913

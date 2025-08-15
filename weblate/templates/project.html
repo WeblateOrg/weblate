@@ -10,7 +10,10 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-target="#languages" data-bs-toggle="tab" href="#">{% translate "Languages" %}</a>
+      <a class="nav-link active"
+         data-bs-target="#languages"
+         data-bs-toggle="tab"
+         href="#">{% translate "Languages" %}</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
@@ -22,9 +25,7 @@
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Insights" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu shadow">
         <li>
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
@@ -34,14 +35,19 @@
         </li>
         {% if last_announcements %}
           <li>
-            <a class="dropdown-item" data-bs-target="#announcement-history" data-bs-toggle="tab" href="#">{% translate "Announcements" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#announcement-history"
+               data-bs-toggle="tab"
+               href="#">{% translate "Announcements" %}</a>
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" href="{% url 'api:project-languages' slug=object.slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:project-languages' slug=object.slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'api:project-languages' slug=object.slug %}?format=json">{% translate "Download language statistics (JSON)" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'api:project-languages' slug=object.slug %}?format=json">{% translate "Download language statistics (JSON)" %}</a>
         </li>
         {% if user.is_authenticated %}
           <li>
@@ -54,9 +60,7 @@
       </ul>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-        {% translate "Files" %}
-      </a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu shadow">
         <li>
           <a class="dropdown-item"
@@ -110,7 +114,10 @@
         </li>
         {% if announcement_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#announcement" data-bs-toggle="tab" href="#">{% translate "Post announcement" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#announcement"
+               data-bs-toggle="tab"
+               href="#">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
         {% if can_add_new_translation %}
@@ -120,10 +127,14 @@
         {% endif %}
         {% if user_can_edit_project %}
           <li>
-            <a class="dropdown-item" data-bs-target="#add-category" data-bs-toggle="tab" href="#">{% translate "Add new category" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#add-category"
+               data-bs-toggle="tab"
+               href="#">{% translate "Add new category" %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
           </li>
           {% if offer_hosting %}
             {% for billing in object.billings %}
@@ -137,7 +148,8 @@
         {% endif %}
         {% if user_can_manage_acl %}
           <li>
-            <a class="dropdown-item" href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
           </li>
           <li>
             <a class="dropdown-item" href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
