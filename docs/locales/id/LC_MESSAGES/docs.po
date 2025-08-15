@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-13 22:17+0000\n"
+"PO-Revision-Date: 2025-08-15 01:02+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -13774,25 +13774,31 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:625
 msgid "Defaults to ``*`` which allows all hostnames."
-msgstr ""
+msgstr "Bawaannya adalah ``*`` yang memperbolehkan semua nama host."
 
 #: ../../admin/install/docker.rst:642
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Mengonfigurasi apakah pendaftaran dibuka dengan mengaktifkan "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:655
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
+"Mengonfigurasi apakah captcha digunakan untuk pendaftaran dan tindakan tidak "
+"terautentikasi lainnya, lihat :std:setting:`REGISTRATION_CAPTCHA`."
 
 #: ../../admin/install/docker.rst:666
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Konfigurasikan metode autentikasi mana yang dapat digunakan untuk membuat "
+"akun baru melalui :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:682
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
@@ -13803,28 +13809,39 @@ msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
+"Mengonfigurasi zona waktu yang digunakan di Weblate, lihat "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:690
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Untuk mengubah zona waktu kontainer Docker itu sendiri, gunakan variabel "
+"lingkungan ``TZ``."
 
 #: ../../admin/install/docker.rst:702
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Menjadikan Weblate berasumsi bahwa ia dioperasikan di balik proksi HTTPS "
+"terbalik, ia membuat Weblate menggunakan HTTPS dalam surel dan tautan API "
+"atau mengatur tanda aman pada kuki."
 
 #: ../../admin/install/docker.rst:707
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
+"Silakan lihat dokumentasi :setting:`ENABLE_HTTPS` untuk kemungkinan "
+"peringatan."
 
 #: ../../admin/install/docker.rst:711
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"Ini tidak membuat kontainer Weblate menerima koneksi HTTPS, Anda perlu "
+"mengonfigurasinya juga, lihat :ref:`docker-ssl` untuk contoh."
 
 #: ../../admin/install/docker.rst:731
 msgid "Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`."
@@ -13835,6 +13852,8 @@ msgid ""
 "Lets Weblate set the `meta[name=monetization]` field in the head of the "
 "document. If multiple are specified, chooses one randomly."
 msgstr ""
+"Memungkinkan Weblate mengatur kolom `meta[name=monetization]` di bagian atas "
+"dokumen. Jika ada beberapa kolom yang ditentukan, pilih satu secara acak."
 
 #: ../../admin/install/docker.rst:746
 msgid ""
@@ -13864,19 +13883,19 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:757
 msgid "converts all characters to uppercase"
-msgstr ""
+msgstr "mengubah semua karakter menjadi huruf besar"
 
 #: ../../admin/install/docker.rst:758
 msgid "replaces any hyphens with underscores"
-msgstr ""
+msgstr "mengganti tanda hubung dengan garis bawah"
 
 #: ../../admin/install/docker.rst:759
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "menambahkan awalan ``HTTP_``"
 
 #: ../../admin/install/docker.rst:761
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Jadi ``X-Forwarded-For`` akan dipetakan ke ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/install/docker.rst:774
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
@@ -13888,10 +13907,14 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
+"Boolean yang menentukan apakah header :http:header:`X-Forwarded-Port` akan "
+"digunakan alih-alih variabel META SERVER_PORT. Opsi ini hanya boleh "
+"diaktifkan jika proksi yang mengatur header ini sedang digunakan."
 
 #: ../../admin/install/docker.rst:788
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
+"Ini adalah pengaturan boolean (gunakan ``\"true\"`` atau ``\"false\"``)."
 
 #: ../../admin/install/docker.rst:792
 msgid ""
@@ -13907,18 +13930,24 @@ msgstr ""
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
+"Mengaktifkan :setting:`REQUIRE_LOGIN` untuk menerapkan autentikasi pada "
+"seluruh Weblate."
 
 #: ../../admin/install/docker.rst:823
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+"Menambahkan pengecualian URL untuk autentikasi yang diperlukan untuk seluruh "
+"instalasi Weblate menggunakan :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 
 #: ../../admin/install/docker.rst:826
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
+"Anda dapat mengganti seluruh pengaturan, atau mengubah nilai bawaan "
+"menggunakan variabel ``ADD`` dan ``REMOVE``."
 
 #: ../../admin/install/docker.rst:828
 msgid "To enforce authentication for the contact form, do:"
@@ -13930,30 +13959,40 @@ msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+"Mengonfigurasi ID untuk Google Analytics dengan mengubah "
+":setting:`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:841
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
+"Mengonfigurasi judul dan pesan bawaan untuk permintaan penarikan melalui API "
+"dengan mengubah :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/install/docker.rst:850
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Mengonfigurasi kebijakan penyederhanaan bahasa, lihat "
+":setting:`SIMPLIFY_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:854
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Mengonfigurasi :ref:`project-access_control` bawaan untuk proyek baru, lihat "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:858
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Mengonfigurasi nilai bawaan untuk :ref:`component-restricted` untuk komponen "
+"baru, lihat :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:862
 msgid ""
@@ -13961,18 +14000,21 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Mengonfigurasi nilai bawaan untuk :ref:`component-"
+"allow_translation_propagation` untuk komponen baru, lihat "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:866
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/install/docker.rst:870
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:874
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/install/docker.rst:878
 msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
@@ -13980,22 +14022,28 @@ msgstr "Mengonfigurasi :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../admin/install/docker.rst:882
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
-msgstr ""
+msgstr "Mengonfigurasi kunci API Akismet, lihat :setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:886
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Mengonfigurasi penandatanganan komit GPG, lihat "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:894
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Mengonfigurasi awalan URL tempat Weblate berjalan, lihat "
+":setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:898
 msgid ""
 "Configures URL that handles the media served from :setting:`django:"
 "MEDIA_ROOT`."
 msgstr ""
+"Mengonfigurasi URL yang menangani media yang disajikan dari "
+":setting:`django:MEDIA_ROOT`."
 
 #: ../../admin/install/docker.rst:903
 msgid ""
@@ -14009,6 +14057,8 @@ msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Mengonfigurasi pemeriksaan yang tidak ingin ditampilkan, lihat "
+":setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:917
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
@@ -14018,7 +14068,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:931
 msgid "Configures :setting:`LICENSE_FILTER`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:935
 msgid "Configures :setting:`LICENSE_REQUIRED`."
@@ -14030,15 +14080,15 @@ msgstr "Mengonfigurasi :setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/install/docker.rst:943
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:947
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`BASIC_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:951
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../admin/install/docker.rst:959
 msgid "Configures rate limiter."
@@ -14049,12 +14099,17 @@ msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Anda dapat mengatur konfigurasi untuk cakupan pembatas akses apa pun. Untuk "
+"melakukannya, tambahkan awalan ``WEBLATE_`` ke pengaturan apa pun yang "
+"dijelaskan di :ref:`rate-limit`."
 
 #: ../../admin/install/docker.rst:979
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
+"Mengonfigurasi pembatasan akses API. Bawaannya adalah ``100/hari`` untuk "
+"pengguna anonim dan ``5000/jam`` untuk pengguna terautentikasi."
 
 #: ../../admin/install/docker.rst:990
 msgid "Configures :setting:`ENABLE_HOOKS`."
@@ -14062,7 +14117,7 @@ msgstr "Mengonfigurasi :setting:`ENABLE_HOOKS`."
 
 #: ../../admin/install/docker.rst:996
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/install/docker.rst:1002
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
@@ -14074,12 +14129,14 @@ msgstr "Mengonfigurasi :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 
 #: ../../admin/install/docker.rst:1014
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`SSH_EXTRA_ARGS`."
 
 #: ../../admin/install/docker.rst:1020
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
+"Mengonfigurasi :setting:`BORG_EXTRA_ARGS` sebagai daftar argumen yang "
+"dipisahkan koma."
 
 #: ../../admin/install/docker.rst:1033
 msgid "Configures :setting:`ENABLE_SHARING`."
@@ -14111,27 +14168,29 @@ msgstr "Mengonfigurasi :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1075
 msgid "Allow CORS requests to API from given origins."
-msgstr ""
+msgstr "Izinkan permintaan CORS ke API dari asal yang diberikan."
 
 #: ../../admin/install/docker.rst:1088
 msgid "Allows CORS requests to API from all origins."
-msgstr ""
+msgstr "Mengizinkan permintaan CORS ke API dari semua asal."
 
 #: ../../admin/install/docker.rst:1095
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
+"Mengonfigurasi ukuran body maksimal yang diterima oleh server web bawaan."
 
 #: ../../admin/install/docker.rst:1104
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
 msgstr ""
+"Variabel ini sengaja tidak memiliki awalan ``WEBLATE_`` karena digunakan "
+"bersama dengan kontainer pihak ketiga yang digunakan dalam :ref:`docker-"
+"https-portal`."
 
 #: ../../admin/install/docker.rst:1111
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Code hosting sites credentials"
-msgstr "Kredensial Subversion"
+msgstr "Kredensial situs hosting kode"
 
 #: ../../admin/install/docker.rst:1113
 msgid ""
@@ -14140,18 +14199,22 @@ msgid ""
 "once. The following examples are for :ref:`vcs-github`, but applies to all :"
 "ref:`vcs` with appropriately changed variable names."
 msgstr ""
+"Dalam kontainer Docker, kredensial yang menghosting kode dapat dikonfigurasi "
+"dalam variabel terpisah atau menggunakan kamus Python untuk mengaturnya "
+"sekaligus. Contoh berikut berlaku untuk :ref:`vcs-github`, tetapi berlaku "
+"untuk semua :ref:`vcs` dengan nama variabel yang diubah dengan tepat."
 
 #: ../../admin/install/docker.rst:1118
 msgid "An example configuration for GitHub might look like:"
-msgstr ""
+msgstr "Contoh konfigurasi untuk GitHub mungkin terlihat seperti ini:"
 
 #: ../../admin/install/docker.rst:1126
 msgid "Will be used as:"
-msgstr ""
+msgstr "Akan digunakan sebagai:"
 
 #: ../../admin/install/docker.rst:1137
 msgid "Alternatively the Python dictionary can be provided as a string:"
-msgstr ""
+msgstr "Alternatifnya kamus Python dapat disediakan sebagai string:"
 
 #: ../../admin/install/docker.rst:1143
 msgid "Or the path to a file containing the Python dictionary:"
@@ -14169,6 +14232,7 @@ msgstr ""
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
+":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 
 #: ../../admin/install/docker.rst:1166
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
@@ -14192,6 +14256,8 @@ msgid ""
 "Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Mengonfigurasi :ref:`vcs-bitbucket-data-center` dengan mengubah "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1207
 msgid ""
@@ -14210,26 +14276,28 @@ msgstr ""
 "`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1228
-#, fuzzy
-#| msgid "Automatic suggestions"
 msgid "Automatic suggestion settings"
-msgstr "Saran otomatis"
+msgstr "Pengaturan saran otomatis"
 
 #: ../../admin/install/docker.rst:1232
 msgid ""
 "Automatic suggestion services are now configured in the user interface, see :"
 "ref:`machine-translation-setup`."
 msgstr ""
+"Layanan saran otomatis sekarang dikonfigurasi dalam antarmuka pengguna, "
+"lihat :ref:`machine-translation-setup`."
 
 #: ../../admin/install/docker.rst:1235
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
+"Variabel lingkungan yang ada diimpor selama migrasi ke Weblate 4.13, tetapi "
+"mengubahnya tidak akan memiliki efek lebih lanjut."
 
 #: ../../admin/install/docker.rst:1241
 msgid "Authentication settings"
-msgstr ""
+msgstr "Pengaturan autentikasi"
 
 #: ../../admin/install/docker.rst:1244
 msgid "LDAP"
@@ -14237,23 +14305,23 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:1257
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Konfigurasi autentikasi LDAP."
 
 #: ../../admin/install/docker.rst:1259
 msgid "**Example for direct bind:**"
-msgstr ""
+msgstr "**Contoh untuk pengikatan langsung:**"
 
 #: ../../admin/install/docker.rst:1270
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**Contoh untuk pencarian dan pengikatan:**"
 
 #: ../../admin/install/docker.rst:1282
 msgid "**Example for union search and bind:**"
-msgstr ""
+msgstr "**Contoh untuk pencarian dan pengikatan serikat:**"
 
 #: ../../admin/install/docker.rst:1294
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Contoh dengan pencarian dan pengikatan terhadap Direktori Aktif:**"
 
 #: ../../admin/install/docker.rst:1313
 msgid "GitHub"
@@ -14261,17 +14329,15 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:1324
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:1327
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub Enterprise Edition"
-msgstr "Autentikasi GitHub"
+msgstr "GitHub Enterprise Edition"
 
 #: ../../admin/install/docker.rst:1335
 msgid "Enables :ref:`github_ee_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`github_ee_auth`."
 
 #: ../../admin/install/docker.rst:1338
 msgid "Bitbucket"
@@ -14279,35 +14345,35 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:1343
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`bitbucket_auth`."
 
 #: ../../admin/install/docker.rst:1346
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:1351
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:1354
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: ../../admin/install/docker.rst:1361
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:1364
 msgid "GitLab"
-msgstr ""
+msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:1370
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Mengaktifkan :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:1373
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1379
 msgid "Enables Gitea authentication."
@@ -14315,21 +14381,24 @@ msgstr "Mengaktifkan autentikasi Gitea."
 
 #: ../../admin/install/docker.rst:1382
 msgid "Azure Active Directory"
-msgstr ""
+msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:1387
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Mengaktifkan autentikasi Azure Active Directory, lihat :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1390
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Azure Active Directory dengan dukungan Penyewa"
 
 #: ../../admin/install/docker.rst:1396
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
+"Mengaktifkan autentikasi Azure Active Directory dengan dukungan Penyewa, "
+"lihat :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1400
 msgid "Keycloak"
@@ -14337,29 +14406,31 @@ msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1411
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr ""
+msgstr "Mengaktifkan autentikasi Keycloak, lihat :doc:`psa:backends/keycloak`."
 
 #: ../../admin/install/docker.rst:1414
 msgid "Linux vendors"
-msgstr ""
+msgstr "Vendor Linux"
 
 #: ../../admin/install/docker.rst:1416
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
+"Anda dapat mengaktifkan autentikasi menggunakan layanan autentikasi vendor "
+"Linux dengan menetapkan variabel berikut ke nilai apa pun."
 
 #: ../../admin/install/docker.rst:1430
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Mengaktifkan autentikasi Slack, lihat :ref:`slack-auth`."
 
 #: ../../admin/install/docker.rst:1434
 msgid "OpenID Connect"
-msgstr ""
+msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1445
 msgid "Configures generic OpenID Connect integration."
-msgstr ""
+msgstr "Mengonfigurasi integrasi OpenID Connect generik."
 
 #: ../../admin/install/docker.rst:1454
 msgid "SAML"
@@ -14371,18 +14442,22 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Kunci SAML yang ditandatangani sendiri akan otomatis dibuat saat kontainer "
+"pertama kali dijalankan. Jika Anda ingin menggunakan kunci sendiri, "
+"tempatkan sertifikat dan kunci pribadi di :file:`/app/data/ssl/saml.crt` dan "
+":file:`/app/data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1466
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "Pengaturan Penyedia Identitas SAML, lihat :ref:`saml-auth`."
 
 #: ../../admin/install/docker.rst:1475
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "Pemetaan atribut SAML."
 
 #: ../../admin/install/docker.rst:1479
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Pengaturan autentikasi lainnya"
 
 #: ../../admin/install/docker.rst:1483
 msgid ""
@@ -14398,36 +14473,43 @@ msgid ""
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
+"Skor kata sandi minimum yang dievaluasi oleh penaksir kekuatan kata sandi `"
+"zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_. Bawaannya adalah 3, "
+"dan atur ke 0 untuk menonaktifkan pemeriksaan kekuatan."
 
 #: ../../admin/install/docker.rst:1500
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Pengaturan basis data PostgreSQL"
 
 #: ../../admin/install/docker.rst:1502
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"Basis data dibuat oleh :file:`docker-compose.yml`, jadi pengaturan ini "
+"memengaruhi kontainer Weblate dan PostgreSQL."
 
 #: ../../admin/install/docker.rst:1511
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "Kata sandi PostgreSQL."
 
 #: ../../admin/install/docker.rst:1519
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "Nama pengguna PostgreSQL."
 
 #: ../../admin/install/docker.rst:1523
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "Nama basis data PostgreSQL."
 
 #: ../../admin/install/docker.rst:1527
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Nama host atau alamat IP server PostgreSQL. Bawaannya adalah ``database``."
 
 #: ../../admin/install/docker.rst:1531
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Port server PostgreSQL. Bawaannya adalah none (menggunakan nilai bawaan)."
 
 #: ../../admin/install/docker.rst:1535
 msgid ""
@@ -14435,45 +14517,61 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
+"Konfigurasikan bagaimana PostgreSQL menangani SSL dalam koneksi ke server, "
+"untuk pilihan yang memungkinkan lihat `Deskripsi Mode SSL <https://"
+"www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: ../../admin/install/docker.rst:1540
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
+"Mengonfigurasi nama peran PostgreSQL untuk diubah selama migrasi basis data, "
+"lihat :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1542
 msgid "Defaults to :envvar:`POSTGRES_USER`."
-msgstr ""
+msgstr "Bawaannya adalah :envvar:`POSTGRES_USER`."
 
 #: ../../admin/install/docker.rst:1548
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
+"Masa pakai koneksi basis data, dalam bilangan bulat detik. Gunakan 0 untuk "
+"menutup koneksi basis data di akhir setiap permintaan."
 
 #: ../../admin/install/docker.rst:1553
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
+"Perilaku bawaan adalah memiliki koneksi basis data persisten yang tidak "
+"terbatas."
 
 #: ../../admin/install/docker.rst:1555
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
+"Mengaktifkan persistensi koneksi biasanya akan menyebabkan lebih banyak "
+"koneksi terbuka ke basis data. Harap sesuaikan konfigurasi basis data Anda "
+"sebelum mengaktifkannya."
 
 #: ../../admin/install/docker.rst:1574
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
+"Nonaktifkan kursor sisi server di basis data. Ini diperlukan dalam beberapa "
+"pengaturan :command:`pgbouncer`."
 
 #: ../../admin/install/docker.rst:1586
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`"
 msgstr ""
+":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
+"DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: ../../admin/install/docker.rst:1593
 msgid ""
@@ -14481,10 +14579,13 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Atur ke false untuk menonaktifkan konfigurasi koneksi basis data berbasis "
+"lingkungan. Gunakan :ref:`docker-settings-override` untuk mengonfigurasi "
+"koneksi basis data secara manual."
 
 #: ../../admin/install/docker.rst:1598
 msgid "MySQL or MariaDB server"
-msgstr ""
+msgstr "Server MySQL atau MariaDB"
 
 #: ../../admin/install/docker.rst:1600
 msgid ""
@@ -14492,6 +14593,10 @@ msgid ""
 "See :ref:`mysql` for info on using those with Weblate. Use :envvar:"
 "`WEBLATE_DATABASES` to configure the database connection manually."
 msgstr ""
+"Baik MySQL maupun MariaDB tidak dapat dikonfigurasi melalui variabel "
+"lingkungan. Lihat :ref:`mysql` untuk informasi tentang penggunaannya dengan "
+"Weblate. Gunakan :envvar:`WEBLATE_DATABASES` untuk mengonfigurasi koneksi "
+"basis data secara manual."
 
 #: ../../admin/install/docker.rst:1605
 msgid "Database backup settings"
@@ -14514,6 +14619,8 @@ msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
+"Penggunaan Redis sangat disarankan oleh Weblate dan Anda harus menyediakan "
+"instansi Redis saat menjalankan Weblate di Docker."
 
 #: ../../admin/install/docker.rst:1627
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
@@ -14521,30 +14628,30 @@ msgstr "Nama host atau alamat IP server Redis. Bawaannya adalah ``cache``."
 
 #: ../../admin/install/docker.rst:1631
 msgid "The Redis server port. Defaults to ``6379``."
-msgstr ""
+msgstr "Port server Redis. Bawaannya adalah ``6379``."
 
 #: ../../admin/install/docker.rst:1635
 msgid "The Redis database number, defaults to ``1``."
-msgstr ""
+msgstr "Nomor basis data Redis, bawaannya adalah ``1``."
 
 #: ../../admin/install/docker.rst:1641
-#, fuzzy
-#| msgid "This is turned off by default."
 msgid "The Redis database user, not used by default."
-msgstr "Ini dimatikan secara bawaan."
+msgstr "Pengguna basis data Redis, tidak digunakan secara bawaan."
 
 #: ../../admin/install/docker.rst:1645
 msgid "The Redis server password, not used by default."
-msgstr ""
+msgstr "Kata sandi server Redis, tidak digunakan secara bawaan."
 
 #: ../../admin/install/docker.rst:1653
 msgid "Enables using SSL for Redis connection."
-msgstr ""
+msgstr "Mengaktifkan penggunaan SSL untuk koneksi Redis."
 
 #: ../../admin/install/docker.rst:1657
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
+"Dapat digunakan untuk menonaktifkan verifikasi sertifikat SSL untuk koneksi "
+"Redis."
 
 #: ../../admin/install/docker.rst:1662
 msgid "Email server setup"
@@ -14552,23 +14659,23 @@ msgstr "Pengaturan server surel"
 
 #: ../../admin/install/docker.rst:1664
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
+msgstr "Agar surel keluar dapat berfungsi, Anda perlu menyediakan server surat."
 
 #: ../../admin/install/docker.rst:1666
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Contoh konfigurasi TLS:"
 
 #: ../../admin/install/docker.rst:1675
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Contoh konfigurasi SSL:"
 
 #: ../../admin/install/docker.rst:1694
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Nama host atau alamat IP server surat."
 
 #: ../../admin/install/docker.rst:1705
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "Port server surat, bawaannya adalah 25."
 
 #: ../../admin/install/docker.rst:1713
 msgid "E-mail authentication user."
@@ -14613,15 +14720,17 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1766
 msgid "Configures Django back-end to use for sending e-mails."
-msgstr ""
+msgstr "Konfigurasikan backend Django yang akan digunakan untuk mengirim surel."
 
 #: ../../admin/install/docker.rst:1776
 msgid "Configures if and how Weblate should update repositories."
 msgstr ""
+"Mengonfigurasi apakah dan bagaimana Weblate harus memperbarui repositori."
 
 #: ../../admin/install/docker.rst:1782
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
+"Ini adalah pengaturan Boolean (gunakan ``\"true\"`` atau ``\"false\"``)."
 
 #: ../../admin/install/docker.rst:1785
 msgid "Site integration"
@@ -14629,55 +14738,61 @@ msgstr "Integrasi situs"
 
 #: ../../admin/install/docker.rst:1789
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`GET_HELP_URL`."
 
 #: ../../admin/install/docker.rst:1793
 msgid "Configures :setting:`STATUS_URL`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:1797
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1801
 msgid "Configures :setting:`PRIVACY_URL`."
-msgstr ""
+msgstr "Mengonfigurasi :setting:`PRIVACY_URL`."
 
 #: ../../admin/install/docker.rst:1806
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
+"Disarankan untuk mengumpulkan galat dari instalasi secara sistematis, lihat "
+":ref:`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1809
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "Untuk mengaktifkan dukungan untuk Rollbar, atur yang berikut ini:"
 
 #: ../../admin/install/docker.rst:1813
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Token akses server posting Rollbar Anda."
 
 #: ../../admin/install/docker.rst:1817
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Lingkungan Rollbar Anda, bawaannya adalah ``production``."
 
 #: ../../admin/install/docker.rst:1819
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "Untuk mengaktifkan dukungan untuk Sentry, atur berikut:"
 
 #: ../../admin/install/docker.rst:1823
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr ""
+msgstr "Sentry DSN Anda, lihat :setting:`SENTRY_DSN`."
 
 #: ../../admin/install/docker.rst:1827
 msgid ""
 "Your Sentry Environment (optional), defaults to :envvar:"
 "`WEBLATE_SITE_DOMAIN`."
 msgstr ""
+"Lingkungan Sentry Anda (opsional), bawaannya adalah "
+":envvar:`WEBLATE_SITE_DOMAIN`."
 
 #: ../../admin/install/docker.rst:1831
 msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
+"Apakah akan memantau tugas Celery Beat dengan Sentry, bawaannya adalah "
+"``Benar``."
 
 #: ../../admin/install/docker.rst:1835
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
@@ -14704,25 +14819,28 @@ msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
+":envvar:`WEBLATE_LOCALIZE_CDN_PATH` adalah jalur di dalam kontainer. Jalur "
+"ini harus disimpan di volume persisten, bukan di penyimpanan sementara."
 
 #: ../../admin/install/docker.rst:1872
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr ""
+"Salah satu kemungkinan adalah menyimpannya di dalam direktori data Weblate:"
 
 #: ../../admin/install/docker.rst:1882
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr ""
+"Anda bertanggung jawab untuk menyiapkan penyajian berkas yang dihasilkan "
+"oleh Weblate, Weblate hanya menyimpan berkas di lokasi yang dikonfigurasi."
 
 #: ../../admin/install/docker.rst:1893
-#, fuzzy
-#| msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
-"Mengubah aplikasi yang diaktifkan, pemeriksaan, pengaya, atau perbaikan "
-"otomatis"
+"Mengubah aplikasi yang diaktifkan, pemeriksaan, pengaya, terjemahan mesin, "
+"atau perbaikan otomatis"
 
 #: ../../admin/install/docker.rst:1895
 msgid ""
@@ -14742,6 +14860,9 @@ msgid ""
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
+"Jumlah dasar proses pekerja yang berjalan di dalam kontainer. Jika tidak "
+"diatur, jumlah tersebut akan ditentukan secara otomatis saat kontainer "
+"dimulai berdasarkan jumlah inti CPU yang tersedia."
 
 #: ../../admin/install/docker.rst:1941
 msgid ""
@@ -14763,42 +14884,55 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"Variabel-variabel ini memungkinkan Anda menyesuaikan opsi pekerja Celery. "
+"Penyesuaian konkurensi (``--concurrency 16``) atau implementasi pool yang "
+"berbeda (``--pool=gevent``) dapat bermanfaat."
 
 #: ../../admin/install/docker.rst:1958
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr ""
+"Secara bawaan, jumlah pekerja bersamaan didasarkan pada "
+":envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1969
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ""
+msgstr ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
 
 #: ../../admin/install/docker.rst:1976
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Variabel ini dapat diatur ke ``1`` untuk menjalankan hanya satu proses "
+"celery. Hal ini mengurangi penggunaan memori tetapi dapat memengaruhi "
+"kinerja Weblate."
 
 #: ../../admin/install/docker.rst:1989
 msgid "Configure how many WSGI workers should be executed."
-msgstr ""
+msgstr "Konfigurasikan berapa banyak pekerja WSGI yang akan dieksekusi."
 
 #: ../../admin/install/docker.rst:1991
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "Bawaannya adalah :envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:2002
 msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"Kontainer Docker menjalankan dua proses WSGI sejak 5.9 dan "
+":envvar:`WEB_WORKERS` mengonfigurasi berapa banyak utas yang dimiliki setiap "
+"proses."
 
 #: ../../admin/install/docker.rst:2007
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
+"Menentukan layanan mana yang harus dijalankan di dalam kontainer. Gunakan "
+"ini untuk :ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:2009
 msgid "Following services are defined:"
@@ -14810,16 +14944,18 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Penjadwal tugas Celery, hanya satu instans yang boleh berjalan. Kontainer "
+"ini juga bertanggung jawab atas migrasi struktur basis data dan harus "
+"dimulai sebelum yang lain."
 
 #: ../../admin/install/docker.rst:2016
-#, fuzzy
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
-"Celery worker untuk rekam cadang, hanya satu instansi yang boleh berjalan."
+"Pekerja seledri untuk pencadangan, hanya satu instansi yang harus dijalankan."
 
 #: ../../admin/install/docker.rst:2018
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Pekerja Celery generik."
 
 #: ../../admin/install/docker.rst:2020
 msgid "Translation memory Celery worker."
@@ -14835,7 +14971,7 @@ msgstr "Terjemahan otomatis Celery worker."
 
 #: ../../admin/install/docker.rst:2026
 msgid "Web server."
-msgstr ""
+msgstr "Server web."
 
 #: ../../admin/install/docker.rst:2036
 msgid ""
@@ -14844,18 +14980,23 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL server `Anubis`_ untuk menangani autentikasi subpermintaan. Ini berguna "
+"untuk memfilter permintaan HTTP yang masuk menggunakan proof-of-work untuk "
+"menghentikan perayap AI. Anda perlu mengonfigurasi `Anubis untuk Autentikasi "
+"Subpermintaan`_ agar berfungsi."
 
 #: ../../admin/install/docker.rst:2041
 msgid "This can be done using docker compose, for example:"
-msgstr ""
+msgstr "Ini dapat dilakukan menggunakan docker compose, misalnya:"
 
 #: ../../admin/install/docker.rst:2056
 msgid "You can then turn on the Anubis usage in Weblate using:"
 msgstr ""
+"Anda kemudian dapat mengaktifkan penggunaan Anubis di Weblate menggunakan:"
 
 #: ../../admin/install/docker.rst:2069
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Volume kontainer Docker"
 
 #: ../../admin/install/docker.rst:2071
 msgid ""
@@ -14874,6 +15015,10 @@ msgid ""
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
+"Volume :file:`data` dipasang sebagai :file:`/app/data` dan digunakan untuk "
+"menyimpan data persisten Weblate seperti repositori kloning atau untuk "
+"menyesuaikan instalasi Weblate. :setting:`DATA_DIR` menjelaskan secara lebih "
+"rinci apa yang disimpan di sini."
 
 #: ../../admin/install/docker.rst:2079
 msgid ""
@@ -14882,6 +15027,10 @@ msgid ""
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
+"Penempatan volume Docker pada sistem host bergantung pada konfigurasi Docker "
+"Anda, tetapi biasanya disimpan di :file:`/var/lib/docker/volumes/"
+"weblate-docker_weblate-data/_data/` (jalur terdiri dari nama direktori "
+"docker-compose, kontainer, dan nama volume)."
 
 #: ../../admin/install/docker.rst:2084
 msgid ""
@@ -14900,6 +15049,8 @@ msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Saat membuat volume secara manual, direktori harus dimiliki oleh UID 1000 "
+"karena itulah yang digunakan pengguna di dalam kontainer."
 
 #: ../../admin/install/docker.rst:2091
 msgid ""
@@ -14907,32 +15058,33 @@ msgid ""
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
+"Kontainer Weblate juga dapat dijalankan dengan sistem berkas root hanya "
+"baca. Dalam hal ini, dua volume ``tmpfs`` tambahan harus dipasang: "
+":file:`/tmp` dan :file:`/run`."
 
 #: ../../admin/install/docker.rst:2097
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr ""
+"`Dokumentasi volume Docker <https://docs.docker.com/engine/storage/volumes/"
+">`_"
 
 #: ../../admin/install/docker.rst:2102
-#, fuzzy
-#| msgid "Read-only strings"
 msgid "Read-only root filesystem"
-msgstr "String hanya-baca"
+msgstr "Sistem berkas root hanya baca"
 
 #: ../../admin/install/docker.rst:2106
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Saat menjalankan kontainer dengan sistem berkas root hanya baca, dua volume "
+"`tmpfs` tambahan diperlukan - :file:`/tmp` dan :file:`/run`."
 
 #: ../../admin/install/docker.rst:2113
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "Configuration beyond environment variables"
-msgstr "Kesalahan konfigurasi"
+msgstr "Konfigurasi di luar variabel lingkungan"
 
 #: ../../admin/install/docker.rst:2115
 msgid ""
@@ -14940,6 +15092,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker environment variables <docker-environment>` dimaksudkan untuk "
+"memaparkan sebagian besar :ref:`configuration settings <config>` yang "
+"relevan untuk instalasi Weblate."
 
 #: ../../admin/install/docker.rst:2119
 msgid ""
@@ -14947,6 +15102,10 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Jika Anda menemukan pengaturan yang tidak diekspos sebagai variabel "
+"lingkungan, dan Anda yakin bahwa itu seharusnya diekspos, jangan ragu untuk "
+":ref:`ask for it to be exposed in a future version of Weblate <report-"
+"issue>`."
 
 #: ../../admin/install/docker.rst:2123
 msgid ""
@@ -14955,10 +15114,14 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Jika Anda perlu mengubah pengaturan yang tidak diekspos sebagai variabel "
+"lingkungan Docker, Anda masih dapat melakukannya, baik :ref:`from the data "
+"volume <docker-settings-override>` atau :ref:`extending the Docker image "
+"<docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:2135
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Menimpa pengaturan dari volume data"
 
 #: ../../admin/install/docker.rst:2137
 msgid ""
@@ -14966,26 +15129,33 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Anda dapat membuat berkas di :file:`/app/data/settings-override.py`, yaitu "
+"di akar :ref:`data volume <docker-volume>`, untuk memperluas atau menimpa "
+"pengaturan yang ditetapkan melalui variabel lingkungan."
 
 #: ../../admin/install/docker.rst:2145
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Menimpa pengaturan dengan memperluas gambar Docker"
 
 #: ../../admin/install/docker.rst:2147
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
+"Untuk menimpa pengaturan pada tingkat gambar Docker dan bukan pada volume "
+"data:"
 
 #: ../../admin/install/docker.rst:2149
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Create a custom Python package <custom-module>`."
 
 #: ../../admin/install/docker.rst:2151
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Tambahkan modul ke paket Anda yang mengimpor semua pengaturan dari "
+"``weblate.settings_docker``."
 
 #: ../../admin/install/docker.rst:2154
 msgid ""
@@ -14993,6 +15163,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Misalnya, dalam struktur paket contoh yang didefinisikan di :ref:`custom-"
+"module`, Anda dapat membuat berkas di ``weblate_customization/"
+"weblate_customization/settings.py`` dengan kode awal berikut:"
 
 #: ../../admin/install/docker.rst:2163
 msgid ""
@@ -15000,12 +15173,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Buat ``Dockerfile`` khusus yang mewarisi gambar Docker Weblate resmi, lalu "
+"menginstal paket Anda dan mengarahkan variabel lingkungan "
+"``DJANGO_SETTINGS_MODULE`` ke modul pengaturan Anda:"
 
 #: ../../admin/install/docker.rst:2179
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"Daripada menggunakan gambar Docker Weblate resmi, buatlah gambar khusus dari "
+"berkas ``Dockerfile`` ini."
 
 #: ../../admin/install/docker.rst:2182
 msgid ""
@@ -15014,6 +15192,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Tidak ada cara yang bersih <https://github.com/docker/compose/issues/7231>`"
+"__ untuk melakukan ini dengan ``docker-compose.override.yml``. Anda *bisa* "
+"menambahkan ``build: .`` ke simpul ``weblate`` di berkas tersebut, tetapi "
+"gambar khusus Anda akan ditandai sebagai ``weblate/weblate`` di sistem Anda, "
+"yang bisa jadi bermasalah."
 
 #: ../../admin/install/docker.rst:2188
 msgid ""
@@ -15023,16 +15206,25 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Jadi, daripada menggunakan ``docker-compose.yml`` langsung dari `repositori "
+"resmi <https://github.com/WeblateOrg/docker-compose>`__, tanpa modifikasi, "
+"dan memperluasnya melalui ``docker-compose.override.yml``, Anda mungkin "
+"ingin membuat salinan berkas resmi ``docker-compose.yml``, dan menyunting "
+"salinan Anda untuk mengganti ``image: weblate/weblate`` dengan ``build: .``."
 
 #: ../../admin/install/docker.rst:2194
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"Lihat `Referensi pembuatan berkas Compose`_ untuk detail tentang pembuatan "
+"gambar dari sumber saat menggunakan ``docker-compose``."
 
 #: ../../admin/install/docker.rst:2199
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Perluaskan modul pengaturan khusus Anda untuk menentukan atau mendefinisikan "
+"ulang pengaturan."
 
 #: ../../admin/install/docker.rst:2201
 msgid ""
@@ -15042,6 +15234,11 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
+"Anda dapat menentukan pengaturan sebelum atau setelah pernyataan impor di "
+"atas untuk menentukan pengaturan mana yang diutamakan. Pengaturan yang "
+"didefinisikan sebelum pernyataan impor dapat ditimpa oleh variabel "
+"lingkungan dan penimpaan pengaturan yang didefinisikan dalam volume data. "
+"Pengaturan yang didefinisikan setelah pernyataan impor tidak dapat ditimpa."
 
 #: ../../admin/install/docker.rst:2207
 msgid ""
@@ -15051,10 +15248,15 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"Anda juga bisa melangkah lebih jauh. Misalnya, Anda dapat mereproduksi "
+"beberapa hal yang dilakukan ``weblate.docker_settings`` `<https://github.com/"
+"WeblateOrg/weblate/blob/main/weblate/settings_docker.py>`__, seperti "
+"mengekspos pengaturan sebagai variabel lingkungan, atau mengizinkan "
+"penimpaan pengaturan dari berkas Python di volume data."
 
 #: ../../admin/install/docker.rst:2214
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Mengganti logo dan berkas statis lainnya"
 
 #: ../../admin/install/docker.rst:2216
 msgid ""
@@ -15063,12 +15265,18 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Berkas statis yang disertakan dengan Weblate dapat ditimpa dengan "
+"menempatkannya di :file:`/app/data/python/customize/static` (lihat :ref"
+":`docker-volume`). Misalnya, membuat :file:`/app/data/python/customize/"
+"static/favicon.ico` akan menggantikan favicon."
 
 #: ../../admin/install/docker.rst:2223
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
+"Berkas disalin ke lokasi terkait saat kontainer dimulai, jadi Weblate perlu "
+"dimulai ulang setelah mengubah konten volume."
 
 #: ../../admin/install/docker.rst:2226
 msgid ""
@@ -15076,18 +15284,22 @@ msgid ""
 "ref:`legal` documents can be placed into :file:`/app/data/python/customize/"
 "templates/legal/documents`."
 msgstr ""
+"Pendekatan ini juga dapat digunakan untuk menimpa templat Weblate. Misalnya, "
+"dokumen :ref:`legal` dapat ditempatkan di :file:`/app/data/python/customize/"
+"templates/legal/documents`."
 
 #: ../../admin/install/docker.rst:2230
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Alternatifnya Anda juga dapat menyertakan modul Anda sendiri (lihat :doc:`../"
+"customize`) dan menambahkannya sebagai volume terpisah ke kontainer Docker, "
+"misalnya:"
 
 #: ../../admin/install/docker.rst:2243
-#, fuzzy
-#| msgid "Customizing backup"
 msgid "Customizing code"
-msgstr "Menyesuaikan pencadangan"
+msgstr "Menyesuaikan kode"
 
 #: ../../admin/install/docker.rst:2247
 msgid ""
@@ -15095,6 +15307,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"API internal Weblate mungkin sangat bervariasi antar rilis dan tidak "
+"dirancang untuk stabil. Harap tinjau kode kustom Anda yang berinteraksi "
+"dengan internal Weblate pada setiap pembaruan."
 
 #: ../../admin/install/docker.rst:2251
 msgid ""
@@ -15103,18 +15318,27 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"Anda dapat menambahkan kode Python tambahan ke dalam :file:`/app/data/python/"
+"customize` (lihat :ref:`docker-volume`). Kode ini sudah terinstal sebagai "
+"aplikasi Django di dalam Weblate (ini digunakan untuk mengkustomisasi "
+"templat dan berkas statis seperti dijelaskan di atas)."
 
 #: ../../admin/install/docker.rst:2256
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"Ini dapat digunakan untuk menempatkan kode apa pun (misalnya :ref:`own-"
+"checks`) atau untuk menambahkan tugas pemeliharaan khusus ke penjadwal tugas "
+"Celery."
 
 #: ../../admin/install/docker.rst:2259
 msgid ""
 "An example of custom scheduled tasks in :file:`/app/data/python/customize/"
 "tasks.py`."
 msgstr ""
+"Contoh tugas terjadwal khusus dalam :file:`/app/data/python/customize/"
+"tasks.py`."
 
 #: ../../admin/install/docker.rst:2264
 msgid "Configuring PostgreSQL server"
@@ -15126,6 +15350,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"Kontainer PostgreSQL menggunakan konfigurasi PostgreSQL bawaan dan tidak "
+"akan memanfaatkan inti CPU atau memori Anda secara efektif. Disarankan untuk "
+"menyesuaikan konfigurasi guna meningkatkan kinerja."
 
 #: ../../admin/install/docker.rst:2270
 msgid ""
@@ -15133,12 +15360,14 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"Konfigurasi dapat disesuaikan seperti yang dijelaskan dalam `Konfigurasi "
+"Basis Data` di https://hub.docker.com/_/postgres. Konfigurasi yang sesuai "
+"dengan lingkungan Anda dapat dibuat menggunakan https://pgtune.leopard.in.ua/"
+"."
 
 #: ../../admin/install/docker.rst:2275
-#, fuzzy
-#| msgid "Container settings"
 msgid "Container internals"
-msgstr "Pengaturan kontainer"
+msgstr "Bagian dalam kontainer"
 
 #: ../../admin/install/docker.rst:2277
 msgid ""
@@ -15146,10 +15375,13 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"Kontainer menggunakan :program:`supervisor` untuk memulai layanan "
+"individual. Dalam kasus :ref:`docker-scaling`, kontainer hanya memulai satu "
+"layanan dalam satu kontainer."
 
 #: ../../admin/install/docker.rst:2280
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Untuk memeriksa status layanan gunakan:"
 
 #: ../../admin/install/docker.rst:2286
 msgid ""
@@ -15157,16 +15389,21 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Terdapat layanan individual untuk setiap antrean Celery (lihat :ref:`celery` "
+"untuk rinciannya). Anda dapat menghentikan pemrosesan beberapa tugas dengan "
+"menghentikan pekerja yang sesuai:"
 
 #: ../../admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Menginstal di Kubernetes"
 
 #: ../../admin/install/kubernetes.rst:6
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
 msgstr ""
+"Panduan ini mencari kontributor berpengalaman dengan Kubernetes untuk "
+"membahas pengaturannya secara lebih rinci."
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -15175,22 +15412,31 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Dengan bagan Kubernetes Helm, Anda dapat menjalankan instansi Weblate "
+"pribadi Anda dalam hitungan detik. Semua dependensi Weblate sudah "
+"disertakan. PostgreSQL diatur sebagai basis data bawaan dan klaim volume "
+"persisten digunakan."
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"Anda dapat menemukan bagan tersebut di <https://github.com/WeblateOrg/helm/> "
+"dan dapat ditampilkan di <https://artifacthub.io/packages/helm/weblate/"
+"weblate>."
 
 #: ../../admin/install/kubernetes.rst:28
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
+"Untuk pilihan konfigurasi lebih lanjut, lihat :ref:`docker-environment` "
+"untuk daftar lengkap variabel lingkungan."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Menginstal di OpenShift"
 
 #: ../../admin/install/openshift.rst:4
 msgid ""
@@ -15199,11 +15445,17 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Dengan templat OpenShift Weblate, Anda dapat langsung menjalankan instansi "
+"Weblate pribadi Anda dalam hitungan detik. Semua dependensi Weblate sudah "
+"disertakan. PostgreSQL telah dikonfigurasi sebagai basis data bawaan dan "
+"klaim volume persisten digunakan."
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
 msgstr ""
+"Anda dapat menemukan templatnya di <https://github.com/WeblateOrg/openshift/"
+">."
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -15211,6 +15463,9 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"Contoh-contoh berikut mengasumsikan Anda memiliki lingkungan OpenShift v3.x "
+"yang berfungsi, dengan alat klien ``oc`` terpasang. Silakan periksa "
+"dokumentasi OpenShift untuk petunjuk lebih lanjut."
 
 #: ../../admin/install/openshift.rst:18
 msgid ""
@@ -15218,10 +15473,14 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml` cocok untuk menjalankan semua komponen di OpenShift. "
+"Terdapat juga :file:`template-external-postgresql.yml` yang tidak memulai "
+"server PostgreSQL dan memungkinkan Anda mengonfigurasi server PostgreSQL "
+"eksternal."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
-msgstr ""
+msgstr "Konsol Web"
 
 #: ../../admin/install/openshift.rst:25
 msgid ""
@@ -15231,26 +15490,34 @@ msgid ""
 "your application. The web console will prompt you for the values for all of "
 "the parameters used by the template."
 msgstr ""
+"Salin konten mentah dari `template.yml <https://github.com/WeblateOrg/"
+"openshift/blob/main/template.yml>`_ dan impor ke proyek Anda, lalu gunakan "
+"tombol :guilabel:`Create` di konsol web OpenShift untuk membuat aplikasi "
+"Anda. Konsol web akan meminta Anda memasukkan nilai untuk semua parameter "
+"yang digunakan oleh templat."
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Untuk mengunggah templat Weblate ke pustaka templat proyek Anda saat ini, "
+"berikan berkas :file:`template.yml` dengan perintah berikut:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
+"Templat sekarang tersedia untuk dipilih menggunakan konsol web atau CLI."
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0
 #: ../../contributing/addons.rst:0 ../../python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: ../../admin/install/openshift.rst:48
 msgid ""
@@ -15258,6 +15525,9 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"Parameter yang dapat Anda timpa tercantum di bagian parameter templat. Anda "
+"dapat mencantumkannya melalui CLI dengan menggunakan perintah berikut dan "
+"menentukan berkas yang akan digunakan:"
 
 #: ../../admin/install/openshift.rst:60
 msgid "Provisioning"
@@ -15268,12 +15538,16 @@ msgid ""
 "You can also use the CLI to process templates and use the configuration that "
 "is generated to create objects immediately."
 msgstr ""
+"Anda juga dapat menggunakan CLI untuk memproses templat dan menggunakan "
+"konfigurasi yang dihasilkan untuk segera membuat objek."
 
 #: ../../admin/install/openshift.rst:75
 msgid ""
 "The Weblate instance should be available after successful migration and "
 "deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
 msgstr ""
+"Instansi Weblate seharusnya tersedia setelah migrasi dan penerapan berhasil "
+"pada parameter ``WEBLATE_SITE_DOMAIN`` yang ditentukan."
 
 #: ../../admin/install/openshift.rst:78
 msgid ""
@@ -15281,12 +15555,18 @@ msgid ""
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
+"Setelah pengaturan kontainer, Anda dapat masuk sebagai pengguna `admin` "
+"dengan kata sandi yang diberikan dalam ``WEBLATE_ADMIN_PASSWORD``, atau kata "
+"sandi acak yang dibuat saat pertama kali memulai jika belum ditetapkan."
 
 #: ../../admin/install/openshift.rst:82
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
+"Untuk mengatur ulang kata sandi `admin`, mulai ulang kontainer dengan "
+"``WEBLATE_ADMIN_PASSWORD`` yang diatur ke kata sandi baru dalam ``Secret`` "
+"masing-masing."
 
 #: ../../admin/install/openshift.rst:86
 msgid "Eliminate"
@@ -15300,22 +15580,31 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"Dengan memproses templat, ``ConfigMap`` yang sesuai akan dibuat dan dapat "
+"digunakan untuk menyesuaikan gambar Weblate. ``ConfigMap`` dipasang langsung "
+"sebagai variabel lingkungan dan memicu penerapan baru setiap kali diubah. "
+"Untuk opsi konfigurasi lebih lanjut, lihat :ref:`docker-environment` untuk "
+"daftar lengkap variabel lingkungan."
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "Menginstal dari sumber"
 
 #: ../../admin/install/source.rst:4
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
+"Silakan ikuti petunjuk instalasi untuk sistem Anda terlebih dahulu hingga "
+"menginstal Weblate:"
 
 #: ../../admin/install/source.rst:11
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Ambil sumber Weblate terbaru menggunakan Git (atau unduh tarball dan "
+"ekstrak):"
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -15323,15 +15612,19 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"Alternatifnya, Anda dapat menggunakan arsip yang telah dirilis. Anda dapat "
+"mengunduhnya dari situs web kami <https://weblate.org/>. Unduhan tersebut "
+"ditandatangani secara kriptografis, silakan lihat :ref:`verify`."
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "Instal kode Weblate saat ini ke virtualenv:"
 
 #: ../../admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+"Salin :file:`weblate/settings_example.py` ke :file:`weblate/settings.py`."
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -15340,50 +15633,63 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
+"Sesuaikan nilai dalam berkas :file:`settings.py` yang baru sesuai keinginan "
+"Anda. Anda perlu memberikan setidaknya kredensial basis data dan kunci "
+"rahasia Django, tetapi Anda akan memerlukan lebih banyak perubahan untuk "
+"pengaturan produksi, lihat :ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgstr ""
+"Buat basis data yang digunakan oleh Weblate, lihat :ref:`database-setup`."
 
 #: ../../admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Bangun tabel Django, berkas statis dan data awal (lihat :ref:`tables-setup` "
+"dan :ref:`static-files`):"
 
 #: ../../admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "Langkah ini harus diulang setiap kali Anda memperbarui repositori."
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "Setelah instalasi"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Selamat, server Weblate Anda sekarang sudah berjalan dan Anda dapat mulai "
+"menggunakannya."
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "Anda sekarang dapat mengakses Weblate di ``http://localhost:8000/``."
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
 msgstr ""
+"Masuk dengan kredensial admin yang diperoleh selama instalasi atau daftar "
+"dengan pengguna baru."
 
 #: ../../admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
 msgstr ""
+"Anda sekarang dapat menjalankan perintah Weblate menggunakan perintah "
+":command:`weblate` saat Weblate virtualenv aktif, lihat :ref:`manage`."
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr ""
+msgstr "Anda dapat menghentikan server pengujian dengan :kbd:`Ctrl+C`."
 
 #: ../../admin/install/steps/install-after.rst:11
 msgid ""
@@ -15391,10 +15697,13 @@ msgid ""
 "performance/`` URL (see :ref:`manage-performance`) or using :command:"
 "`weblate check --deploy`, see :ref:`production`."
 msgstr ""
+"Tinjau potensi masalah dengan instalasi Anda baik di URL ``/manage/"
+"performance/`` (lihat :ref:`manage-performance`) atau menggunakan :command:`"
+"weblate check --deploy`, lihat :ref:`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
-msgstr ""
+msgstr "Menambahkan terjemahan"
 
 #: ../../admin/install/steps/install-after.rst:16
 msgid ""
@@ -15402,10 +15711,13 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Buka antarmuka admin (``http://localhost:8000/create/project/``) dan buat "
+"proyek yang ingin Anda terjemahkan. Lihat :ref:`project` untuk rincian "
+"selengkapnya."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "Yang perlu Anda tentukan di sini adalah nama proyek dan situs webnya."
 
 #: ../../admin/install/steps/install-after.rst:21
 msgid ""
@@ -15413,6 +15725,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
 msgstr ""
+"Buat komponen yang merupakan objek sebenarnya untuk terjemahan - komponen "
+"ini menunjuk ke repositori VCS, dan memilih berkas mana yang akan "
+"diterjemahkan. Lihat :ref:`component` untuk rincian selengkapnya."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -15422,6 +15737,11 @@ msgid ""
 "`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` or :ref:"
 "`fluent`, see :ref:`formats` for more details."
 msgstr ""
+"Kolom-kolom penting di sini adalah: :ref:`component-name`, :ref:`component-"
+"repo`, dan :ref:`component-filemask` untuk menemukan berkas yang dapat "
+"diterjemahkan. Weblate mendukung berbagai format, termasuk :ref:`gettext`, "
+":ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict`, atau "
+":ref:`fluent`. Lihat :ref:`formats` untuk rincian selengkapnya."
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
@@ -15429,10 +15749,13 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
+"Setelah hal di atas selesai (proses ini bisa memakan waktu lama tergantung "
+"pada ukuran repositori VCS Anda, dan jumlah pesan yang akan diterjemahkan), "
+"Anda dapat mulai menerjemahkan."
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Mengonfigurasi Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -15440,6 +15763,10 @@ msgid ""
 "executing ``. ~/weblate-env/bin/activate``). If not, specify the full path "
 "to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
+"Berikut ini mengasumsikan virtualenv yang digunakan oleh Weblate diaktifkan ("
+"dengan menjalankan ``. ~/weblate-env/bin/activate``). Jika tidak, tentukan "
+"path lengkap ke perintah :command:`weblate` sebagai ``~/weblate-env/bin/"
+"weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:10
 msgid ""
@@ -15447,58 +15774,67 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+"Salin berkas :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"settings_example.py` ke :file:`~/weblate-env/lib/python3.9/site-packages/"
+"weblate/settings.py`."
 
 #: ../../admin/install/steps/install-configure.rst:16
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
+"Buat basis data dan strukturnya untuk Weblate (pengaturan contoh menggunakan "
+"PostgreSQL, periksa :ref:`database-setup` untuk pengaturan siap produksi):"
 
 #: ../../admin/install/steps/install-configure.rst:27
 msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
+"Buat akun pengguna administrator ``admin``, buat kata sandinya, dan salin ke "
+"papan klip; ingat untuk menyimpannya untuk digunakan nanti:"
 
 #: ../../admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
 msgstr ""
+"Jika sebelumnya Anda lupa/hilang kata sandi admin, Anda dapat membuat kata "
+"sandi baru dengan perintah berikut:"
 
 #: ../../admin/install/steps/install-configure.rst:46
 msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
+"Kumpulkan berkas statis untuk server web Anda (lihat :ref:`server` dan :ref"
+":`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:52
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
+"Kompres berkas JavaScript dan CSS (opsional, lihat :ref:`production-"
+"compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:58
-#, fuzzy
-#| msgid ""
-#| "Start Celery workers. This is not necessary for development purposes, but "
-#| "strongly recommended otherwise. See :ref:`celery` for more info:"
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
-"Memulai Celery worker. Ini tidak diperlukan untuk tujuan pengembangan, "
-"tetapi sangat disarankan sebaliknya. Lihat :ref:`celery` untuk info lebih "
+"Jalankan pekerja Celery. Ini tidak wajib untuk tujuan pengembangan, tetapi "
+"sangat disarankan untuk tujuan lain. :ref:`celery` memiliki informasi lebih "
 "lanjut:"
 
 #: ../../admin/install/steps/install-configure.rst:65
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
-msgstr ""
+msgstr "Mulai server pengembangan (:ref:`server` merinci pengaturan produksi):"
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Modul Python"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -15506,45 +15842,55 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"Kami menggunakan virtualenv untuk menginstal Weblate di lingkungan yang "
+"terpisah dari sistem Anda. Jika Anda belum familiar dengannya, silakan "
+"periksa virtualenv :doc:`venv:user_guide`."
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Buat virtualenv untuk Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Aktifkan virtualenv untuk Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "Instal Weblate termasuk semua dependensi opsional:"
 
 #: ../../admin/install/steps/install-python.rst:29
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"Silakan periksa :ref:`python-deps` untuk penyempurnaan dependensi opsional."
 
 #: ../../admin/install/steps/install-python.rst:33
 msgid ""
 ":ref:`troubleshoot-pip-install` describes frequent issues while installing "
 "Python dependencies."
 msgstr ""
+":ref:`troubleshoot-pip-install` menjelaskan masalah yang sering terjadi saat "
+"menginstal dependensi Python."
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "Persyaratan sistem"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
 msgstr ""
+"Instal dependensi yang diperlukan untuk membangun modul Python (lihat "
+":ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
+"Instal dependensi opsional yang diinginkan tergantung pada fitur yang ingin "
+"Anda gunakan (lihat :ref:`python-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -15552,63 +15898,65 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"Anda dapat menginstal perangkat lunak untuk menjalankan server produksi "
+"secara opsional, lihat :ref:`server`, :ref:`database-setup`, :ref:`celery`. "
+"Tergantung pada ukuran instalasi Anda, Anda mungkin ingin menjalankan "
+"komponen-komponen ini di server khusus."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "Petunjuk instalasi lokal:"
 
 #: ../../admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
-msgstr ""
+msgstr "manajer paket uv"
 
 #: ../../admin/install/steps/install-uv.rst:6
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "We're using uv package manager to install Weblate."
-msgstr "Izin tidak dikelola dalam Weblate."
+msgstr "Kami menggunakan manajer paket uv untuk menginstal Weblate."
 
 #: ../../admin/install/steps/install-uv.rst:15
-#, fuzzy
-#| msgid ""
-#| "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/"
-#| "#fetch-your-app-metadata>`_"
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
-"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
-"your-app-metadata>`_"
+"`Menginstal uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Menginstal di Debian dan Ubuntu"
 
 #: ../../admin/install/venv-debian.rst:18
 msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Distribusi yang lebih lama tidak memiliki ``libgirepository-2.0-dev``, "
+"gunakan ``libgirepository1.0-dev`` sebagai gantinya. Lihat juga :ref"
+":`troubleshoot-pip-install`."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "Menginstal di macOS"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "Menginstal di RedHat, Fedora dan CentOS"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "Menginstal di SUSE dan openSUSE"
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:97
 msgid "Language definitions"
-msgstr ""
+msgstr "Definisi bahasa"
 
 #: ../../admin/languages.rst:6
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
 msgstr ""
+"Untuk menyajikan berbagai terjemahan dengan tepat, diperlukan informasi "
+"tentang nama bahasa, arah teks, definisi jamak, dan kode bahasa."
 
 #: ../../admin/languages.rst:12
 msgid "Built-in language definitions"
@@ -15622,6 +15970,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Definisi untuk sekitar 650 bahasa disertakan dalam Weblate, dan daftarnya "
+"terus bertambah di setiap rilis. Setiap kali Weblate diperbarui (lebih "
+"spesifiknya setiap kali :wladmin:`migrate` dijalankan, lihat :ref:`generic-"
+"upgrade-instructions`), basis data bahasa diperbarui untuk mencakup semua "
+"definisi bahasa yang disertakan dalam Weblate."
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -15629,6 +15982,9 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :wladmin:"
 "`setuplang`."
 msgstr ""
+"Fitur ini dapat dinonaktifkan menggunakan :setting:`UPDATE_LANGUAGES`. Anda "
+"juga dapat memaksa pembaruan basis data agar sesuai dengan data bawaan "
+"Weblate menggunakan :wladmin:`setuplang`."
 
 #: ../../admin/languages.rst:27
 msgid ""
@@ -15640,7 +15996,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:32
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Mengurai kode bahasa"
 
 #: ../../admin/languages.rst:34
 msgid ""
@@ -15648,26 +16004,33 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
+"Saat mengurai terjemahan, Weblate mencoba memetakan kode bahasa (biasanya "
+"kode ISO 639-1) dari :ref:`component-filemask` ke objek bahasa apa pun yang "
+"ada."
 
 #: ../../admin/languages.rst:38
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"Anda dapat menyesuaikan pemetaan ini lebih lanjut di tingkat proyek dengan "
+":ref:`project-language_aliases`."
 
 #: ../../admin/languages.rst:40
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Jika tidak ditemukan kecocokan persis, akan dilakukan upaya untuk "
+"menyesuaikannya dengan bahasa yang ada. Berikut langkah-langkah yang dicoba:"
 
 #: ../../admin/languages.rst:43
 msgid "Case insensitive lookups."
-msgstr ""
+msgstr "Pencarian tidak memperhatikan huruf besar/kecil."
 
 #: ../../admin/languages.rst:44
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Menormalkan garis bawah dan tanda hubung."
 
 #: ../../admin/languages.rst:45
 msgid "Looking up built-in language aliases."
@@ -15682,6 +16045,8 @@ msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
+"Mengabaikan kode negara bawaan untuk bahasa tertentu—memilih ``cs`` alih-"
+"alih ``cs_CZ``."
 
 #: ../../admin/languages.rst:49
 msgid ""
@@ -15693,22 +16058,33 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"Jika gagal, definisi bahasa baru akan dibuat menggunakan bawaan (arah teks "
+"dari kiri ke kanan, satu jamak). Bahasa yang dibuat secara otomatis dengan "
+"kode ``xx_XX`` akan dinamai :guilabel:`xx_XX (generated)`. Anda mungkin "
+"ingin mengubah ini di antarmuka admin nanti (lihat :ref:`changing-languages`)"
+" dan melaporkannya ke pelacak masalah (lihat :ref:`contributing`) agar "
+"definisi yang tepat dapat ditambahkan ke rilis Weblate mendatang."
 
 #: ../../admin/languages.rst:59
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"Jika Anda melihat sesuatu yang tidak diinginkan sebagai suatu bahasa, Anda "
+"mungkin ingin menyesuaikan :ref:`component-language_regex` untuk mengabaikan "
+"berkas tersebut saat mengurai terjemahan."
 
 #: ../../admin/languages.rst:72
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Mengubah definisi bahasa"
 
 #: ../../admin/languages.rst:74
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Anda dapat mengubah definisi bahasa di antarmuka bahasa (:file:`/languages/` "
+"URL)."
 
 #: ../../admin/languages.rst:77
 msgid ""
@@ -15716,6 +16092,9 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Saat menyunting, pastikan semua kolom sudah benar (terutama bentuk jamak dan "
+"arah teks), jika tidak, penerjemah tidak akan dapat menyunting terjemahan "
+"tersebut dengan benar."
 
 #: ../../admin/languages.rst:84
 msgid "Ambiguous language codes and macrolanguages"
@@ -15729,16 +16108,23 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macrolanguages."
 msgstr ""
+"Dalam banyak kasus, penggunaan kode makrobahasa untuk terjemahan bukanlah "
+"ide yang baik. Kasus bermasalah yang umum terjadi adalah bahasa Kurdi, yang "
+"mungkin ditulis dalam aksara Arab atau Latin, tergantung variannya. Untuk "
+"mendapatkan perilaku yang tepat di Weblate, disarankan untuk hanya "
+"menggunakan kode bahasa individual dan menghindari makrobahasa."
 
 #: ../../admin/languages.rst:94
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
+"`Makrobahasa di Wikipedia <https://en.wikipedia.org/wiki/"
+"ISO_639_macrolanguage>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Setiap bahasa terdiri dari kolom-kolom berikut:"
 
 #: ../../admin/languages.rst:104 ../../admin/projects.rst:1159
 #: ../../api.rst:790 ../../api.rst:792 ../../api.rst:859 ../../api.rst:2434
@@ -15753,6 +16139,12 @@ msgid ""
 "wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not have two "
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
+"Kode yang mengidentifikasi bahasa. Weblate lebih menyukai kode dua huruf "
+"sebagaimana didefinisikan oleh `ISO 639-1 <https://en.wikipedia.org/wiki/"
+"ISO_639-1>`_, tetapi menggunakan kode `ISO 639-2 <https://en.wikipedia.org/"
+"wiki/ISO_639-2>`_ atau `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`"
+"_ untuk bahasa yang tidak memiliki kode dua huruf. Weblate juga dapat "
+"mendukung kode yang diperluas sebagaimana didefinisikan oleh `BCP 47`_."
 
 #: ../../admin/languages.rst:122 ../../admin/projects.rst:1161
 #: ../../api.rst:775 ../../api.rst:777 ../../api.rst:832 ../../api.rst:843
@@ -15764,6 +16156,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Nama bahasa yang terlihat. Nama-nama bahasa yang disertakan dalam Weblate "
+"juga dilokalkan tergantung pada bahasa antarmuka pengguna."
 
 #: ../../admin/languages.rst:129 ../../api.rst:779 ../../api.rst:793
 #: ../../api.rst:833 ../../api.rst:844
@@ -15775,6 +16169,8 @@ msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
 msgstr ""
+"Menentukan apakah bahasa ditulis dari kanan ke kiri atau dari kiri ke kanan. "
+"Properti ini terdeteksi otomatis dengan benar untuk sebagian besar bahasa."
 
 #: ../../admin/languages.rst:137 ../../api.rst:781 ../../api.rst:794
 #: ../../api.rst:834 ../../api.rst:845
@@ -15782,28 +16178,29 @@ msgid "Number of speakers"
 msgstr "Jumlah penutur bahasa"
 
 #: ../../admin/languages.rst:139
-#, fuzzy
-#| msgid "Number of people speaking this language."
 msgid "Number of worldwide speakers of this language."
-msgstr "Jumlah orang yang berbicara menggunakan bahasa ini."
+msgstr "Jumlah penutur bahasa ini di seluruh dunia."
 
 #: ../../admin/languages.rst:145
-#, fuzzy
-#| msgid "Plural definition source"
 msgid "Plural definitions"
-msgstr "Sumber definisi jamak"
+msgstr "Definisi jamak"
 
 #: ../../admin/languages.rst:147
 msgid ""
 "Weblate comes with a built-in set of plural definitions. These are based on "
 "file-format specifications, CLDR, and other sources."
 msgstr ""
+"Weblate dilengkapi dengan serangkaian definisi jamak bawaan. Definisi ini "
+"didasarkan pada spesifikasi format berkas, CLDR, dan sumber lainnya."
 
 #: ../../admin/languages.rst:152
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
 msgstr ""
+"Melakukan perubahan pada definisi jamak bawaan kemungkinan besar tidak akan "
+"memberikan efek yang diinginkan, karena aturan-aturan ini harus cocok dengan "
+"implementasi yang mendasarinya."
 
 #: ../../admin/languages.rst:155
 msgid ""
@@ -15811,14 +16208,18 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
+"Mengubah angka jamak atau rumus hanya akan memengaruhi tampilan string, "
+"tetapi tidak akan memengaruhi penguraian dan penyimpanan string ke dalam "
+"berkas. Jika Anda merasa Weblate berperilaku tidak semestinya, silakan "
+"laporkan masalah Anda di pelacak masalah kami."
 
 #: ../../admin/languages.rst:163
 msgid "Plural number"
-msgstr ""
+msgstr "Nomor jamak"
 
 #: ../../admin/languages.rst:165
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Jumlah bentuk jamak yang digunakan dalam bahasa tersebut."
 
 #: ../../admin/languages.rst:170
 msgid "Plural formula"
@@ -15829,18 +16230,20 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Rumus jamak yang kompatibel dengan Gettext digunakan untuk menentukan bentuk "
+"jamak mana yang digunakan untuk hitungan tertentu."
 
 #: ../../admin/languages.rst:177
 msgid "`Additional functions for plural forms in GNU gettext`_"
-msgstr ""
+msgstr "`Fungsi tambahan untuk bentuk jamak di GNU gettext`_"
 
 #: ../../admin/languages.rst:178
 msgid "`Language Plural Rules by the Unicode Consortium`_"
-msgstr ""
+msgstr "`Aturan Jamak Bahasa oleh Konsorsium Unicode`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Lisensi terjemahan"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -15848,22 +16251,29 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Anda dapat menentukan lisensi terjemahan yang disumbangkan. Hal ini terutama "
+"penting jika terjemahan terbuka untuk umum, untuk menentukan kegunaannya."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Anda harus menentukan informasi lisensi :ref:`component`. Anda sebaiknya "
+"menghindari persyaratan perjanjian lisensi kontributor, meskipun hal itu "
+"dimungkinkan."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "Info lisensi"
 
 #: ../../admin/licensing.rst:13
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Setelah menentukan info lisensi (nama lisensi dan URL), info ini ditampilkan "
+"di bagian info terjemahan pada masing-masing :ref:`component`."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -15871,6 +16281,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Biasanya ini adalah tempat terbaik untuk memposting informasi lisensi jika "
+"tidak diperlukan persetujuan eksplisit. Jika proyek atau terjemahan Anda "
+"tidak bebas, kemungkinan besar Anda memerlukan persetujuan terlebih dahulu."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:711
 msgid "Contributor license agreement"
@@ -15882,21 +16295,26 @@ msgid ""
 "it will be able to contribute. This is a clearly visible step when accessing "
 "the translation:"
 msgstr ""
+"Jika Anda menentukan :ref:`component-agreement`, hanya pengguna yang telah "
+"menyetujuinya yang dapat berkontribusi. Ini adalah langkah yang terlihat "
+"jelas saat mengakses terjemahan:"
 
 #: ../../admin/licensing.rst:28
 msgid "User licenses"
-msgstr ""
+msgstr "Lisensi pengguna"
 
 #: ../../admin/licensing.rst:30
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Setiap pengguna dapat meninjau semua lisensi penerjemahan dari semua proyek "
+"publik pada instansi dari profil mereka:"
 
 #: ../../admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "Sebelum Weblate 4.13, layanan dikonfigurasi dalam :ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -15905,29 +16323,35 @@ msgid ""
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
+"Dukungan untuk beberapa layanan terjemahan mesin dan memori terjemahan sudah "
+"terintegrasi. Setiap layanan dapat diaktifkan oleh administrator untuk "
+"seluruh situs (di :guilabel:`Automatic suggestions` dalam :ref:`management-"
+"interface`) atau di pengaturan proyek:"
 
 #: ../../admin/machine.rst:19
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Mereka tunduk pada ketentuan penggunaannya, jadi pastikan Anda diizinkan "
+"menggunakannya sesuai keinginan Anda."
 
 #: ../../admin/machine.rst:22
 msgid ""
 "The services translate from the source language as configured at :ref:"
 "`component`, see :ref:`component-source_language`."
 msgstr ""
+"Layanan diterjemahkan dari bahasa sumber sebagaimana dikonfigurasi di "
+":ref:`component`, lihat :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
-msgstr ""
+msgstr "Saran otomatis per proyek juga dapat dikonfigurasi melalui :ref:`api`."
 
 #: ../../admin/machine.rst:34
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "Priority of machine translation and translation memory services"
-msgstr "Konfirmasikan penghapusan semua entri memori terjemahan"
+msgstr "Prioritas layanan terjemahan mesin dan memori terjemahan"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -15936,6 +16360,11 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+"Kecocokan :ref:`mt-weblate-translation-memory` dengan skor 100% "
+"diprioritaskan daripada layanan terjemahan mesin. Jika cocok 100% ditemukan "
+"dalam memori terjemahan, terjemahan mesin tidak akan dilakukan. Jika "
+"terdapat beberapa cocok 100%, cocok pertama yang dikembalikan oleh basis "
+"data akan digunakan."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -15945,12 +16374,15 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Setiap layanan terjemahan mesin memiliki skor maksimum yang telah ditentukan "
+"sebelumnya. Penggunaan layanan terjemahan yang terpasang diurutkan "
+"berdasarkan skor maksimumnya. Untuk setiap string dengan skor terjemahan di "
+"bawah skor maksimum layanan, layanan akan diminta untuk menghasilkan "
+"terjemahan. Terjemahan dengan skor di atas skor saat ini akan diterima."
 
 #: ../../admin/machine.rst:43
-#, fuzzy
-#| msgid "Source of automated translations"
 msgid "Source strings for the machine translation"
-msgstr "Sumber terjemahan otomatis"
+msgstr "String sumber untuk terjemahan mesin"
 
 #: ../../admin/machine.rst:47
 msgid ""
@@ -15958,6 +16390,9 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"Asal string sumber untuk semua layanan pihak ketiga dapat dikonfigurasi. Ini "
+"dapat digunakan untuk menyesuaikan layanan guna mendapatkan hasil terbaik. "
+"Pilihan berikut tersedia:"
 
 #: ../../admin/machine.rst:50
 msgid ":guilabel:`Automatic selection`"
@@ -15965,13 +16400,11 @@ msgstr ":guilabel:`Automatic selection`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "Memilih bahasa sumber terbaik secara otomatis."
 
 #: ../../admin/machine.rst:53
-#, fuzzy
-#| msgid "This is turned off by default."
 msgid "This is the default behavior."
-msgstr "Ini dimatikan secara bawaan."
+msgstr "Ini adalah perilaku bawaan."
 
 #: ../../admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
@@ -15983,7 +16416,7 @@ msgstr "Menggunakan bahasa sumber komponen."
 
 #: ../../admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
-msgstr ""
+msgstr "Ini adalah perilaku sebelum rilis 5.11."
 
 #: ../../admin/machine.rst:58
 msgid ":guilabel:`Secondary language defined in project or component`"
@@ -16002,20 +16435,20 @@ msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
 msgstr ""
+"Kembali ke pemilihan bahasa sumber secara otomatis jika bahasa sekunder "
+"tidak dikonfigurasi."
 
 #: ../../admin/machine.rst:66
 msgid "Alibaba"
-msgstr ""
+msgstr "Alibaba"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "Service"
 msgid "Service ID"
-msgstr "Layanan"
+msgstr "ID Layanan"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "Skor maksimal"
 
 #: ../../admin/machine.rst:73 ../../admin/machine.rst:103
 #: ../../admin/machine.rst:134 ../../admin/machine.rst:170
@@ -16044,10 +16477,8 @@ msgstr "Pemilihan bahasa sumber"
 #: ../../admin/machine.rst:772 ../../admin/machine.rst:821
 #: ../../admin/machine.rst:845 ../../admin/machine.rst:925
 #: ../../admin/machine.rst:955 ../../admin/machine.rst:983
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``auto`` -- Automatic selection"
-msgstr "Deteksi otomatis"
+msgstr "``auto`` -- Pemilihan otomatis"
 
 #: ../../admin/machine.rst:77 ../../admin/machine.rst:107
 #: ../../admin/machine.rst:138 ../../admin/machine.rst:174
@@ -16061,10 +16492,8 @@ msgstr "Deteksi otomatis"
 #: ../../admin/machine.rst:823 ../../admin/machine.rst:847
 #: ../../admin/machine.rst:927 ../../admin/machine.rst:957
 #: ../../admin/machine.rst:985
-#, fuzzy
-#| msgid "Component renamed"
 msgid "``source`` -- Component source language"
-msgstr "Komponen diubah namanya"
+msgstr "``sumber`` -- Bahasa sumber komponen"
 
 #: ../../admin/machine.rst:79 ../../admin/machine.rst:109
 #: ../../admin/machine.rst:140 ../../admin/machine.rst:176
@@ -16078,10 +16507,9 @@ msgstr "Komponen diubah namanya"
 #: ../../admin/machine.rst:825 ../../admin/machine.rst:849
 #: ../../admin/machine.rst:929 ../../admin/machine.rst:959
 #: ../../admin/machine.rst:987
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid "``secondary`` -- Secondary language defined in project or component"
-msgstr "Bahasa baru ditambahkan ke %(component)s"
+msgstr ""
+"``sekunder`` -- Bahasa sekunder yang didefinisikan dalam proyek atau komponen"
 
 #: ../../admin/machine.rst:81 ../../admin/machine.rst:142
 msgid "Access key ID"
@@ -16100,20 +16528,20 @@ msgid ""
 "Alibaba Translate is a neural machine translation service for translating "
 "text and it supports up to 214 language pairs."
 msgstr ""
+"Alibaba Translate adalah layanan terjemahan mesin saraf untuk menerjemahkan "
+"teks dan mendukung hingga 214 pasangan bahasa."
 
 #: ../../admin/machine.rst:93
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid ""
 "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
 "machine-translation>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr ""
+"`Dokumentasi Alibaba Translate <https://www.alibabacloud.com/help/en/machine-"
+"translation>`_"
 
 #: ../../admin/machine.rst:98
-#, fuzzy
-#| msgid "Apertium"
 msgid "Apertium APy"
-msgstr "Apertium"
+msgstr "Apertium APy"
 
 #: ../../admin/machine.rst:111 ../../admin/machine.rst:267
 #: ../../admin/machine.rst:452 ../../admin/machine.rst:487
@@ -16127,28 +16555,29 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Platform terjemahan mesin perangkat lunak bebas yang menyediakan terjemahan "
+"ke sejumlah bahasa terbatas."
 
 #: ../../admin/machine.rst:117
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Cara yang disarankan untuk menggunakan Apertium adalah menjalankan server "
+"Apertium-APy Anda sendiri."
 
 #: ../../admin/machine.rst:121
-#, fuzzy
-#| msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgid "`Apertium website <https://www.apertium.org/>`_"
-msgstr "`Situs web Project Fluent <https://projectfluent.org/>`_"
+msgstr "`Situs web Apertium <https://www.apertium.org/>`_"
 
 #: ../../admin/machine.rst:122
 msgid ""
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+"`Dokumentasi Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:129
-#, fuzzy
-#| msgid "Translate"
 msgid "Amazon Translate"
-msgstr "Terjemahkan"
+msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:144
 msgid "API secret key"
@@ -16164,30 +16593,34 @@ msgid ""
 "text to and from English across a breadth of supported languages. The "
 "service requires the `TranslateFullAccess` Managed Policy."
 msgstr ""
+"Amazon Translate adalah layanan terjemahan mesin neural untuk menerjemahkan "
+"teks ke dan dari bahasa Inggris ke berbagai bahasa yang didukung. Layanan "
+"ini memerlukan Kebijakan Terkelola `TranslateFullAccess`."
 
 #: ../../admin/machine.rst:153 ../../admin/machine.rst:311
 #: ../../admin/machine.rst:614 ../../admin/machine.rst:749
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgstr ""
+"Layanan secara otomatis menggunakan :ref:`glossary`, lihat :ref:`glossary-"
+"mt`."
 
 #: ../../admin/machine.rst:157
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid ""
 "`Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr ""
+"`Dokumentasi Amazon Translate <https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:158
 msgid ""
 "`AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-"
 "policy/latest/reference/TranslateFullAccess.html>`_"
 msgstr ""
+"`Kebijakan AWS TranslateFullAccess <https://docs.aws.amazon.com/"
+"aws-managed-policy/latest/reference/TranslateFullAccess.html>`_"
 
 #: ../../admin/machine.rst:163
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Azure OpenAI"
-msgstr "Mode Zen"
+msgstr "Azure OpenAI"
 
 #: ../../admin/machine.rst:178 ../../admin/machine.rst:269
 #: ../../admin/machine.rst:362 ../../admin/machine.rst:454
@@ -16244,7 +16677,7 @@ msgstr "Melakukan penerjemahan menggunakan `OpenAI`_ yang dihosting di Azure."
 
 #: ../../admin/machine.rst:198
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: ../../admin/machine.rst:211 ../../admin/machine.rst:671
 #: ../../admin/machine.rst:989
@@ -16258,42 +16691,45 @@ msgstr "Rahasia klien"
 
 #: ../../admin/machine.rst:216
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Layanan terjemahan mesin disediakan oleh Baidu."
 
 #: ../../admin/machine.rst:218
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Layanan ini menggunakan API dan Anda perlu memperoleh ID dan kunci API dari "
+"Baidu untuk menggunakannya."
 
 #: ../../admin/machine.rst:222
 msgid ""
 "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+"`API Baidu Translate <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:227
-#, fuzzy
-#| msgid "Untranslated"
 msgid "CyrTranslit"
-msgstr "Belum diterjemahkan"
+msgstr "CyrTranslit"
 
 #: ../../admin/machine.rst:243
-#, fuzzy
-#| msgid "Machine translation service provided by NetEase."
 msgid "Machine translation service using the Cyrtranslit library."
-msgstr "Layanan terjemahan mesin disediakan oleh NetEase."
+msgstr "Layanan penerjemahan mesin menggunakan pustaka Cyrtranslit."
 
 #: ../../admin/machine.rst:245
 msgid ""
 "This service converts text between Cyrillic and Latin scripts for languages "
 "that have both scripts."
 msgstr ""
+"Layanan ini mengonversi teks antara aksara Sirilik dan Latin untuk bahasa "
+"yang memiliki kedua aksara tersebut."
 
 #: ../../admin/machine.rst:249
 msgid ""
 "`Cyrtranslit repository <https://github.com/opendatakosovo/cyrillic-"
 "transliteration>`_"
 msgstr ""
+"`Repositori Cyrtranslit <https://github.com/opendatakosovo/cyrillic-"
+"transliteration>`_"
 
 #: ../../admin/machine.rst:254
 msgid "DeepL"
@@ -16335,30 +16771,41 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL adalah layanan berbayar yang menyediakan terjemahan mesin yang baik "
+"untuk beberapa bahasa. Anda perlu membeli langganan :guilabel:`DeepL API` "
+"atau Anda dapat menggunakan paket :guilabel:`DeepL Pro (classic)` yang lama."
 
 #: ../../admin/machine.rst:282
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"URL API untuk digunakan dengan layanan DeepL. Saat artikel ini ditulis, "
+"tersedia API v1 serta versi gratis dan berbayar dari API v2."
 
 #: ../../admin/machine.rst:285
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr ""
+msgstr "``https://api.deepl.com/v2/`` (bawaan di Weblate)"
 
 #: ../../admin/machine.rst:286
 msgid ""
 "Is meant for API usage on the paid plan, and the subscription is usage-based."
 msgstr ""
+"Ditujukan untuk penggunaan API pada paket berbayar, dan langganannya "
+"berbasis penggunaan."
 
 #: ../../admin/machine.rst:288
 msgid ""
 "Is meant for API usage on the free plan, and the subscription is usage-based."
 msgstr ""
+"Ditujukan untuk penggunaan API pada paket gratis, dan langganannya berbasis "
+"penggunaan."
 
 #: ../../admin/machine.rst:290
 msgid "Is meant for CAT tools and is usable with a per-user subscription."
 msgstr ""
+"Ditujukan untuk peralatan CAT dan dapat digunakan dengan langganan per "
+"pengguna."
 
 #: ../../admin/machine.rst:292
 msgid ""
@@ -16367,12 +16814,18 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Sebelumnya, Weblate diklasifikasikan sebagai alat CAT oleh DeepL, sehingga "
+"seharusnya menggunakan API v1, tetapi sekarang seharusnya menggunakan API "
+"v2. Oleh karena itu, default-nya adalah v2, dan Anda dapat mengubahnya ke v1 "
+"jika Anda sudah memiliki langganan CAT dan ingin Weblate menggunakannya."
 
 #: ../../admin/machine.rst:297
 msgid ""
 "The easiest way to find out which one to use is to open an URL like the "
 "following in your browser:"
 msgstr ""
+"Cara termudah untuk mengetahui mana yang harus digunakan adalah dengan "
+"membuka URL seperti berikut di peramban Anda:"
 
 #: ../../admin/machine.rst:300
 msgid ""
@@ -16385,12 +16838,16 @@ msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
+"Ganti XXX dengan kunci autentikasi Anda. Jika Anda menerima objek JSON yang "
+"berisi \"Bonjour\", URL Anda sudah benar; jika tidak, coba tiga lainnya."
 
 #: ../../admin/machine.rst:305
 msgid ""
 "Weblate supports DeepL formality, it will choose matching one based on the "
 "language (for example, there is ``de@formal`` and ``de@informal``)."
 msgstr ""
+"Weblate mendukung formalitas DeepL, ia akan memilih yang cocok berdasarkan "
+"bahasa (misalnya, ada ``de@formal`` dan ``de@informal``)."
 
 #: ../../admin/machine.rst:308
 msgid ""
@@ -16398,24 +16855,22 @@ msgid ""
 "quality. Read more on that in `DeepL translation context documentation "
 "<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
 msgstr ""
+"Konteks terjemahan dapat ditentukan secara opsional untuk meningkatkan "
+"kualitas terjemahan. Baca selengkapnya di `Dokumentasi konteks terjemahan "
+"DeepL <https://developers.deepl.com/docs/best-practices/working-with-"
+"context>`_."
 
 #: ../../admin/machine.rst:315
-#, fuzzy
-#| msgid "`Libravatar <https://www.libravatar.org/>`_"
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
-msgstr "`Libravatar <https://www.libravatar.org/>`_"
+msgstr "`Penerjemah DeepL <https://www.deepl.com/translator>`_"
 
 #: ../../admin/machine.rst:316
-#, fuzzy
-#| msgid "`OpenSSL <https://www.openssl.org/>`_"
 msgid "`DeepL pricing <https://www.deepl.com/pro>`_"
-msgstr "`OpenSSL <https://www.openssl.org/>`_"
+msgstr "`Harga DeepL <https://www.deepl.com/pro>`_"
 
 #: ../../admin/machine.rst:317
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid "`DeepL API documentation <https://developers.deepl.com/docs>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr "`Dokumentasi API DeepL <https://developers.deepl.com/docs>`_"
 
 #: ../../admin/machine.rst:322
 msgid "Glosbe"
@@ -16424,7 +16879,7 @@ msgstr "Glosbe"
 #: ../../admin/machine.rst:336
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "Kamus gratis dan memori terjemahan untuk hampir setiap bahasa yang ada."
 
 #: ../../admin/machine.rst:338
 msgid ""
@@ -16432,41 +16887,40 @@ msgid ""
 "license of the used data source. There is a limit of calls that may be done "
 "from one IP in a set period of time, to prevent abuse."
 msgstr ""
+"API ini gratis untuk digunakan, tetapi penggunaan terjemahannya tunduk pada "
+"lisensi sumber data yang digunakan. Terdapat batasan jumlah panggilan yang "
+"dapat dilakukan dari satu IP dalam jangka waktu tertentu, untuk mencegah "
+"penyalahgunaan."
 
 #: ../../admin/machine.rst:344
 msgid "`Glosbe website <https://glosbe.com/>`_"
 msgstr "`Situs web Glosbe <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:349
-#, fuzzy
-#| msgid "Google Translate location"
 msgid "Google Cloud Translation Basic"
-msgstr "Lokasi Google Translate"
+msgstr "Google Cloud Translation Dasar"
 
 #: ../../admin/machine.rst:365 ../../admin/machine.rst:399
-#, fuzzy
-#| msgid "Machine translation service provided by NetEase."
 msgid "Machine translation service provided by the Google Cloud services."
-msgstr "Layanan terjemahan mesin disediakan oleh NetEase."
+msgstr "Layanan terjemahan mesin yang disediakan oleh layanan Google Cloud."
 
 #: ../../admin/machine.rst:367
 msgid ""
 "This service uses the Google Translation API v2, and you need to obtain an "
 "API key and turn on billing in the Google API console."
 msgstr ""
+"Layanan ini menggunakan Google Translation API v2, dan Anda perlu "
+"mendapatkan kunci API dan mengaktifkan penagihan di konsol Google API."
 
 #: ../../admin/machine.rst:372 ../../admin/machine.rst:429
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid ""
 "`Google translate documentation <https://cloud.google.com/translate/docs>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr ""
+"`Dokumentasi Google Translate <https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:377
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Google Cloud Translation Advanced"
-msgstr "Promosikan proyek terjemahan"
+msgstr "Google Cloud Translation Lanjutan"
 
 #: ../../admin/machine.rst:390
 msgid "Google Translate service account info"
@@ -16513,20 +16967,24 @@ msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
 msgstr ""
+"Layanan ini menggunakan Google Translation API v3 dan Anda memerlukan "
+"kredensial dalam format JSON untuk mengaksesnya."
 
 #: ../../admin/machine.rst:403
 msgid ""
 "In order to use this service, you first need to go through the following "
 "steps:"
 msgstr ""
+"Untuk menggunakan layanan ini, pertama-tama Anda perlu melalui langkah-"
+"langkah berikut:"
 
 #: ../../admin/machine.rst:405
 msgid "`Select or create a Cloud Platform project.`_"
-msgstr ""
+msgstr "`Pilih atau buat proyek Cloud Platform.`_"
 
 #: ../../admin/machine.rst:406
 msgid "`Enable billing for your project.`_"
-msgstr ""
+msgstr "`Aktifkan penagihan untuk proyek Anda.`_"
 
 #: ../../admin/machine.rst:407
 msgid "`Enable the Cloud Translation.`_"
@@ -16541,38 +16999,44 @@ msgid ""
 "Optionally, you can configure the service to use :ref:`glossary` by setting "
 "up a Bucket:"
 msgstr ""
+"Secara opsional, Anda dapat mengonfigurasi layanan untuk menggunakan "
+":ref:`glossary` dengan menyiapkan Bucket:"
 
 #: ../../admin/machine.rst:418
 msgid "`Create a Google Cloud bucket.`_"
-msgstr ""
+msgstr "`Buat bucket Google Cloud.`_"
 
 #: ../../admin/machine.rst:419
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr ""
+msgstr "`Atur lokasi bucket ke \"us-central1\".`_"
 
 #: ../../admin/machine.rst:420
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr ""
+msgstr "`Berikan izin 'Admin Penyimpanan' ke Akun Layanan.`_"
 
 #: ../../admin/machine.rst:430
 msgid ""
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
 "com/docs/authentication/client-libraries>`_"
 msgstr ""
+"`Otentikasi ke layanan Cloud menggunakan pustaka klien <https://"
+"cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:431
 msgid ""
 "`Creating Google Translate project <https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project>`_"
 msgstr ""
+"`Membuat proyek Google Translate <https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:432
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid ""
 "`Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/"
 "standard/locations>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr ""
+"`Lokasi Google Cloud App Engine <https://cloud.google.com/appengine/docs/"
+"standard/locations>`_"
 
 #: ../../admin/machine.rst:437
 msgid "IBM Watson Language Translator"
@@ -16583,23 +17047,30 @@ msgid ""
 "This service is deprecated by vendor and will be withdrawn entirely as of 10 "
 "December 2024."
 msgstr ""
+"Layanan ini tidak lagi digunakan oleh vendor dan akan dihentikan sepenuhnya "
+"mulai 10 Desember 2024."
 
 #: ../../admin/machine.rst:461
 msgid ""
 "IBM Watson Language Translator translates text from one language to another. "
 "The service offers multiple domain-specific models."
 msgstr ""
+"IBM Watson Language Translator menerjemahkan teks dari satu bahasa ke bahasa "
+"lain. Layanan ini menawarkan beberapa model khusus domain."
 
 #: ../../admin/machine.rst:466
 msgid ""
 "`Watson Language Translator <https://www.ibm.com/products/natural-language-"
 "processing>`_"
 msgstr ""
+"`Watson Language Translator <https://www.ibm.com/products/natural-language-"
+"processing>`_"
 
 #: ../../admin/machine.rst:467
 msgid ""
 "`IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_"
 msgstr ""
+"`Dokumen API IBM Cloud <https://cloud.ibm.com/apidocs/language-translator>`_"
 
 #: ../../admin/machine.rst:472
 msgid "LibreTranslate"
@@ -16611,20 +17082,22 @@ msgid ""
 "The public instance requires an API key, but LibreTranslate can be self-"
 "hosted and there are several mirrors available to use the API for free."
 msgstr ""
+"LibreTranslate adalah layanan gratis dan sumber terbuka untuk terjemahan "
+"mesin. Instansi publik memerlukan kunci API, tetapi LibreTranslate dapat "
+"dihosting sendiri dan terdapat beberapa mirror yang tersedia untuk "
+"menggunakan API secara gratis."
 
 #: ../../admin/machine.rst:496
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr ""
+msgstr "``https://libretranslate.com/`` (instansi publik resmi)"
 
 #: ../../admin/machine.rst:497
 msgid "Requires an API key to use outside of the website."
-msgstr ""
+msgstr "Memerlukan kunci API untuk digunakan di luar situs web."
 
 #: ../../admin/machine.rst:501
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`LibreTranslate website <https://libretranslate.com/>`_"
-msgstr "`Situs web Glosbe <https://glosbe.com/>`_"
+msgstr "`Situs web LibreTranslate <https://libretranslate.com/>`_"
 
 #: ../../admin/machine.rst:502
 msgid ""
@@ -16635,10 +17108,8 @@ msgstr ""
 "LibreTranslate>`_"
 
 #: ../../admin/machine.rst:507
-#, fuzzy
-#| msgid "LibreTranslate"
 msgid "Azure AI Translator"
-msgstr "LibreTranslate"
+msgstr "Azure AI Translator"
 
 #: ../../admin/machine.rst:526
 msgid "Application base URL"
@@ -16646,27 +17117,27 @@ msgstr "URL basis aplikasi"
 
 #: ../../admin/machine.rst:528
 msgid "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
-msgstr ""
+msgstr "``api.cognitive.microsofttranslator.com`` -- Global (non-regional)"
 
 #: ../../admin/machine.rst:530
 msgid "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pacific"
-msgstr ""
+msgstr "``api-apc.cognitive.microsofttranslator.com`` -- Asia Pasifik"
 
 #: ../../admin/machine.rst:532
 msgid "``api-eur.cognitive.microsofttranslator.com`` -- Europe"
-msgstr ""
+msgstr "``api-eur.cognitive.microsofttranslator.com`` -- Eropa"
 
 #: ../../admin/machine.rst:534
 msgid "``api-nam.cognitive.microsofttranslator.com`` -- North America"
-msgstr ""
+msgstr "``api-nam.cognitive.microsofttranslator.com`` -- Amerika Utara"
 
 #: ../../admin/machine.rst:536
 msgid "``api.translator.azure.cn`` -- China"
-msgstr ""
+msgstr "``api.translator.azure.cn`` -- Tiongkok"
 
 #: ../../admin/machine.rst:538
 msgid "``api.cognitive.microsofttranslator.us`` -- Azure US Government cloud"
-msgstr ""
+msgstr "``api.cognitive.microsofttranslator.us`` -- Awan Pemerintah AS Azure"
 
 #: ../../admin/machine.rst:540
 msgid "Authentication service URL"
@@ -16680,15 +17151,15 @@ msgstr ""
 
 #: ../../admin/machine.rst:544
 msgid "``api.cognitive.microsoft.com`` -- Global"
-msgstr ""
+msgstr "``api.cognitive.microsoft.com`` -- Global"
 
 #: ../../admin/machine.rst:546
 msgid "``api.cognitive.azure.cn`` -- China"
-msgstr ""
+msgstr "``api.cognitive.azure.cn`` -- Tiongkok"
 
 #: ../../admin/machine.rst:548
 msgid "``api.cognitive.microsoft.us`` -- Azure US Government cloud"
-msgstr ""
+msgstr "``api.cognitive.microsoft.us`` -- Awan Pemerintah AS Azure"
 
 #: ../../admin/machine.rst:550
 msgid "Authentication service region"
@@ -16710,10 +17181,12 @@ msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
 msgstr ""
+"Layanan terjemahan mesin yang disediakan oleh Microsoft di portal Azure "
+"sebagai salah satu Layanan Kognitif."
 
 #: ../../admin/machine.rst:561
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate mengimplementasikan Translator API V3."
 
 #: ../../admin/machine.rst:563
 msgid ""
@@ -16721,24 +17194,32 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"Layanan secara otomatis menggunakan :ref:`glossary` melalui `kamus dinamis "
+"<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
+"dictionary>`_, lihat :ref:`glossary-mt`."
 
 #: ../../admin/machine.rst:566
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "API Translator Text V2"
 
 #: ../../admin/machine.rst:567
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
+"Kunci yang Anda gunakan dengan Translator API V2 dapat digunakan dengan API "
+"3."
 
 #: ../../admin/machine.rst:570
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "API Translator Text V3"
 
 #: ../../admin/machine.rst:571
 msgid ""
 "You need to register at Azure portal and use the key you obtain there. With "
 "new Azure keys, you also need to set ``region`` to locale of your service."
 msgstr ""
+"Anda perlu mendaftar di portal Azure dan menggunakan kunci yang Anda peroleh "
+"di sana. Dengan kunci Azure baru, Anda juga perlu mengatur ``region`` ke "
+"lokal layanan Anda."
 
 #: ../../admin/machine.rst:574
 msgid ""
@@ -16746,26 +17227,33 @@ msgid ""
 "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
 "concepts/customization>`_."
 msgstr ""
+"Anda juga dapat menentukan kategori khusus untuk menggunakan `penerjemah "
+"khusus <https://learn.microsoft.com/en-gb/azure/ai-services/Translator/"
+"custom-translator/concepts/customization>`_."
 
 #: ../../admin/machine.rst:578
 msgid "For Azure China, please use your endpoint from the Azure Portal."
-msgstr ""
+msgstr "Untuk Azure China, silakan gunakan titik akhir Anda dari Portal Azure."
 
 #: ../../admin/machine.rst:582
 msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_"
 msgstr ""
+"`Layanan Kognitif - API Text Translation <https://azure.microsoft.com/en-us/"
+"products/ai-services/ai-translator>`_"
 
 #: ../../admin/machine.rst:583
 msgid "`Microsoft Azure Portal <https://portal.azure.com/>`_"
-msgstr ""
+msgstr "`Portal Microsoft Azure <https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:584
 msgid ""
 "`Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
 "text-translation/reference/v3/reference#base-urls>`_"
 msgstr ""
+"`URL Dasar <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+"text-translation/reference/v3/reference#base-urls>`_"
 
 #: ../../admin/machine.rst:585
 msgid ""
@@ -16773,6 +17261,9 @@ msgid ""
 "com/en-us/azure/ai-services/translator/text-translation/reference/v3/"
 "reference#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
+"`\"Mengautentikasi dengan sumber daya Multi-layanan\" <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/v3/reference#authenticating-with-a-multi-service-resource>`_"
 
 #: ../../admin/machine.rst:586
 msgid ""
@@ -16780,6 +17271,9 @@ msgid ""
 "com/en-us/azure/ai-services/translator/text-translation/reference/v3/"
 "reference#authenticating-with-an-access-token>`_"
 msgstr ""
+"`Bagian \"Autentikasi dengan token akses\" <https://learn.microsoft.com/"
+"en-us/azure/ai-services/translator/text-translation/reference/v3/reference"
+"#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:592
 msgid "ModernMT"
@@ -16796,7 +17290,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:618
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_"
-msgstr ""
+msgstr "`API ModernMT <https://www.modernmt.com/api/#translation>`_"
 
 #: ../../admin/machine.rst:623
 msgid "MyMemory"
@@ -16808,7 +17302,7 @@ msgstr "Kontak surel"
 
 #: ../../admin/machine.rst:644
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Memori terjemahan besar dengan terjemahan mesin."
 
 #: ../../admin/machine.rst:646
 msgid ""
@@ -16821,14 +17315,12 @@ msgstr ""
 "``email``. Anda juga dapat meminta lebih banyak."
 
 #: ../../admin/machine.rst:653
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
-msgstr "`Situs web Glosbe <https://glosbe.com/>`_"
+msgstr "`Situs web MyMemory <https://mymemory.translated.net/>`_"
 
 #: ../../admin/machine.rst:658
 msgid "Netease Sight"
-msgstr ""
+msgstr "Netease Sight"
 
 #: ../../admin/machine.rst:676
 msgid "Machine translation service provided by NetEase."
@@ -16838,16 +17330,16 @@ msgstr "Layanan terjemahan mesin disediakan oleh NetEase."
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Layanan ini menggunakan API, dan Anda perlu mendapatkan kunci dan rahasia "
+"dari NetEase."
 
 #: ../../admin/machine.rst:682
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
-msgstr ""
+msgstr "`Platform NetEase Sight Translation <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:687
-#, fuzzy
-#| msgid "Zen mode"
 msgid "OpenAI"
-msgstr "Mode Zen"
+msgstr "OpenAI"
 
 #: ../../admin/machine.rst:708
 msgid "OpenAI API base URL"
@@ -16863,49 +17355,47 @@ msgstr "Model OpenAI"
 
 #: ../../admin/machine.rst:714
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
-msgstr ""
+msgstr "``gpt-4o-mini`` -- GPT-4o mini"
 
 #: ../../admin/machine.rst:716
 msgid "``gpt-4o`` -- GPT-4o"
-msgstr ""
+msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:718
 msgid "``o3-mini`` -- OpenAI o3-mini"
-msgstr ""
+msgstr "``o3-mini`` -- OpenAI o3-mini"
 
 #: ../../admin/machine.rst:720
 msgid "``o3`` -- OpenAI o3"
-msgstr ""
+msgstr "``o3`` -- OpenAI o3"
 
 #: ../../admin/machine.rst:722
 msgid "``o1-mini`` -- OpenAI o1-mini"
-msgstr ""
+msgstr "``o1-mini`` -- OpenAI o1-mini"
 
 #: ../../admin/machine.rst:724
 msgid "``o1`` -- OpenAI o1"
-msgstr ""
+msgstr "``o1`` -- OpenAI o1"
 
 #: ../../admin/machine.rst:726
 msgid "``gpt-4.5-preview`` -- GPT-4.5"
-msgstr ""
+msgstr "``gpt-4.5-preview`` -- GPT-4.5"
 
 #: ../../admin/machine.rst:728
 msgid "``gpt-4-turbo`` -- GPT-4 Turbo"
-msgstr ""
+msgstr "``gpt-4-turbo`` -- GPT-4 Turbo"
 
 #: ../../admin/machine.rst:730
 msgid "``gpt-4`` -- GPT-4"
-msgstr ""
+msgstr "``gpt-4`` -- GPT-4"
 
 #: ../../admin/machine.rst:732
 msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
-msgstr ""
+msgstr "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 
 #: ../../admin/machine.rst:734
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``custom`` -- Custom model"
-msgstr "Deteksi otomatis"
+msgstr "``custom`` -- Model khusus"
 
 #: ../../admin/machine.rst:736
 msgid "Custom model name"
@@ -16926,6 +17416,10 @@ msgid ""
 "available, but you might want to choose a specific model that matches your "
 "needs."
 msgstr ""
+"API OpenAI didukung oleh beragam model dengan kemampuan dan harga yang "
+"berbeda-beda. Pemilihan otomatis akan memilih model terbaik yang tersedia, "
+"tetapi Anda mungkin ingin memilih model spesifik yang sesuai dengan "
+"kebutuhan Anda."
 
 #: ../../admin/machine.rst:745
 msgid ""
@@ -16933,22 +17427,25 @@ msgid ""
 "be used in a prompt for OpenAI and allow you to change the style of the "
 "translations."
 msgstr ""
+"Gunakan kolom persona dan gaya untuk menyempurnakan terjemahan lebih lanjut. "
+"Ini akan digunakan dalam perintah untuk OpenAI dan memungkinkan Anda "
+"mengubah gaya terjemahan."
 
 #: ../../admin/machine.rst:753
 msgid "Support for custom model and base URL was added."
-msgstr ""
+msgstr "Dukungan untuk model khusus dan URL dasar telah ditambahkan."
 
 #: ../../admin/machine.rst:757
 msgid "`OpenAI models <https://platform.openai.com/docs/models>`_"
-msgstr ""
+msgstr "`Model OpenAI <https://platform.openai.com/docs/models>`_"
 
 #: ../../admin/machine.rst:758
 msgid "`OpenAI API keys <https://platform.openai.com/api-keys>`_"
-msgstr ""
+msgstr "`Kunci API OpenAI <https://platform.openai.com/api-keys>`_"
 
 #: ../../admin/machine.rst:765
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:782
 msgid "SAP username"
@@ -16976,56 +17473,65 @@ msgstr ""
 
 #: ../../admin/machine.rst:791
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Layanan terjemahan mesin yang disediakan oleh SAP."
 
 #: ../../admin/machine.rst:793
 msgid ""
 "You need to have a SAP account (and the SAP Translation Hub enabled in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
+"Anda perlu memiliki akun SAP (dan SAP Translation Hub diaktifkan di SAP "
+"Cloud Platform) untuk menggunakan layanan ini."
 
 #: ../../admin/machine.rst:796
 msgid ""
 "You can also configure whether to also use machine translation services, in "
 "addition to the term database."
 msgstr ""
+"Anda juga dapat mengonfigurasi apakah akan menggunakan layanan terjemahan "
+"mesin, selain basis data istilah."
 
 #: ../../admin/machine.rst:801
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
-msgstr ""
+msgstr "Untuk mengakses Sandbox API, Anda perlu mengatur ``url`` dan ``key``."
 
 #: ../../admin/machine.rst:804
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
+"Untuk mengakses API produktif, Anda perlu mengatur ``url``, ``username`` dan "
+"``password``."
 
 #: ../../admin/machine.rst:808
 msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
+"`Apa itu SAP Translation Hub <https://help.sap.com/docs/translation-hub/"
+"sap-translation-hub/what-is-sap-translation-hub>`_"
 
 #: ../../admin/machine.rst:809
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 msgstr ""
+"`API SAP Translation Hub <https://api.sap.com/api/translationhub/overview>`_"
 
 #: ../../admin/machine.rst:814
 msgid "Systran"
-msgstr ""
+msgstr "Systran"
 
 #: ../../admin/machine.rst:831
-#, fuzzy
-#| msgid "Machine translation service provided by NetEase."
 msgid "Machine translation service provided by Systran."
-msgstr "Layanan terjemahan mesin disediakan oleh NetEase."
+msgstr "Layanan terjemahan mesin disediakan oleh Systran."
 
 #: ../../admin/machine.rst:833
 msgid ""
 "This service uses an API, and you need to obtain API key at <https://"
 "translate.systran.net/en/account>."
 msgstr ""
+"Layanan ini menggunakan API, dan Anda perlu mendapatkan kunci API di "
+"<https://translate.systran.net/en/account>."
 
 #: ../../admin/machine.rst:838
 msgid "tmserver"
@@ -17037,26 +17543,30 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Anda dapat menjalankan server memori terjemahan Anda sendiri dengan "
+"menggunakan server yang disertakan dalam Translate-toolkit dan biarkan "
+"Weblate berkomunikasi dengannya. Anda juga dapat menggunakannya dengan "
+"server amaGama, yang merupakan versi tmserver yang disempurnakan."
 
 #: ../../admin/machine.rst:858
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "Pertama Anda ingin mengimpor beberapa data ke memori terjemahan:"
 
 #: ../../admin/machine.rst:866
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Mulai tmserver untuk mendengarkan permintaan Anda:"
 
 #: ../../admin/machine.rst:872
 msgid ""
 "Configure Weblate to talk to it, the default URL is ``http://localhost:8888/"
 "tmserver/``."
 msgstr ""
+"Konfigurasikan Weblate untuk berkomunikasi dengannya, URL bawaan adalah "
+"``http://localhost:8888/tmserver/``."
 
 #: ../../admin/machine.rst:879
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid "`Amagama Translation Memory <https://amagama.translatehouse.org/>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr "`Memori Terjemahan Amagama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:885
 msgid "Weblate"
@@ -17073,10 +17583,14 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
+"Layanan terjemahan mesin Weblate dapat menyediakan terjemahan berdasarkan "
+"kecocokan persis string dalam string yang saat ini ada dalam "
+":guilabel:`Translated`, :guilabel:`Approved`, atau :guilabel:`Read-only` "
+":ref:`states <states>` di dalam Weblate."
 
 #: ../../admin/machine.rst:900
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Memori Terjemahan Weblate"
 
 #: ../../admin/machine.rst:906
 msgid ""
@@ -17084,82 +17598,95 @@ msgid ""
 "that has been translated before (or uploaded to the translation memory) can "
 "be translated in this way. This suggestion source works with fuzzy matching."
 msgstr ""
+"Gunakan :ref:`translation-memory` sebagai layanan terjemahan mesin. Setiap "
+"string yang telah diterjemahkan sebelumnya (atau diunggah ke memori "
+"terjemahan) dapat diterjemahkan dengan cara ini. Sumber saran ini bekerja "
+"dengan pencocokan fuzzy."
 
 #: ../../admin/machine.rst:913
 msgid ""
 "Recreating :ref:`translation-memory` reduces capabilities of this TM source."
 msgstr ""
+"Membuat ulang :ref:`translation-memory` mengurangi kemampuan sumber TM ini."
 
 #: ../../admin/machine.rst:918
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: ../../admin/machine.rst:934 ../../admin/machine.rst:964
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Layanan terjemahan mesin disediakan oleh Yandex."
 
 #: ../../admin/machine.rst:936
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
 msgstr ""
+"Layanan ini menggunakan API Terjemahan, dan Anda perlu memperoleh kunci API "
+"dari Yandex."
 
 #: ../../admin/machine.rst:940
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid "`Yandex Translate API <https://yandex.com/dev/translate/>`_"
-msgstr "`Dokumentasi Gallette <https://doc.galette.eu/>`_"
+msgstr "`API Yandex Translate <https://yandex.com/dev/translate/>`_"
 
 #: ../../admin/machine.rst:941
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`Powered by Yandex.Translate <https://translate.yandex.com/>`_"
-msgstr "`Situs web Glosbe <https://glosbe.com/>`_"
+msgstr "`Didukung oleh Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:946
 msgid "Yandex v2"
-msgstr ""
+msgstr "Yandex v2"
 
 #: ../../admin/machine.rst:966
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex Cloud."
 msgstr ""
+"Layanan ini menggunakan API Terjemahan, dan Anda perlu memperoleh kunci API "
+"dari Yandex Cloud."
 
 #: ../../admin/machine.rst:970
 msgid ""
 "`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
 "authentication>`_"
 msgstr ""
+"`API Yandex Translate v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
+"authentication>`_"
 
 #: ../../admin/machine.rst:971
 msgid ""
 "`Powered by Yandex.Cloud <https://cloud.yandex.com/en/services/translate>`_"
 msgstr ""
+"`Didukung oleh Yandex.Cloud <https://cloud.yandex.com/en/services/"
+"translate>`_"
 
 #: ../../admin/machine.rst:976
 msgid "Youdao Zhiyun"
-msgstr ""
+msgstr "Youdao Zhiyun"
 
 #: ../../admin/machine.rst:994
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Layanan terjemahan mesin disediakan oleh Youdao."
 
 #: ../../admin/machine.rst:996
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Layanan ini menggunakan API, dan Anda perlu memperoleh ID dan kunci API dari "
+"Youdao."
 
 #: ../../admin/machine.rst:1000
 msgid ""
 "`Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/"
 "product-fanyi-text.s>`_"
 msgstr ""
+"`Layanan Youdao Zhiyun Natural Language Translation <https://ai.youdao.com/"
+"product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:1003
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Terjemahan mesin khusus"
 
 #: ../../admin/machine.rst:1005
 msgid ""
@@ -17167,16 +17694,22 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"Anda juga dapat mengimplementasikan layanan terjemahan mesin Anda sendiri "
+"menggunakan beberapa baris kode Python. Contoh ini mengimplementasikan "
+"terjemahan mesin dalam daftar bahasa tertentu menggunakan modul Python "
+"``dictionary``:"
 
 #: ../../admin/machine.rst:1012
 msgid ""
 "You can list your own class in :setting:`WEBLATE_MACHINERY` and Weblate will "
 "start using that."
 msgstr ""
+"Anda dapat mencantumkan kelas Anda sendiri di :setting:`WEBLATE_MACHINERY` "
+"dan Weblate akan mulai menggunakannya."
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Perintah manajemen"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -17184,6 +17717,9 @@ msgid ""
 "webserver can result in files getting wrong permissions, please check :ref:"
 "`file-permissions` for more details."
 msgstr ""
+"Menjalankan perintah manajemen di bawah pengguna yang berbeda dari yang "
+"menjalankan server web Anda dapat mengakibatkan berkas mendapatkan izin yang "
+"salah, silakan periksa :ref:`file-permissions` untuk rincian selengkapnya."
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -17191,20 +17727,28 @@ msgid ""
 "the Django sources, or as an extended set in a script called :command:"
 "`weblate` installable atop Weblate)."
 msgstr ""
+"Anda akan menemukan perintah manajemen dasar (tersedia sebagai :file:`./"
+"manage.py` dalam sumber Django, atau sebagai set yang diperluas dalam skrip "
+"yang disebut :command:`weblate` yang dapat diinstal di atas Weblate)."
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "Memanggil perintah manajemen"
 
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Seperti disebutkan sebelumnya, pemanggilan bergantung pada bagaimana Anda "
+"menginstal Weblate."
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"Jika menggunakan virtualenv untuk Weblate, Anda dapat menentukan jalur "
+"lengkap ke :command:`weblate`, atau mengaktifkan virtualenv sebelum "
+"memanggilnya:"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -17212,6 +17756,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Jika Anda menggunakan kode sumber secara langsung (baik dari tarball atau "
+"Git checkout), skrip manajemennya adalah :file:`./manage.py` yang tersedia "
+"di sumber Weblate. Untuk menjalankannya:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -17219,34 +17766,49 @@ msgid ""
 "`./setup.py` script, the :command:`weblate` is installed to your path (or "
 "virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"Jika Anda menginstal Weblate menggunakan penginstal pip, atau dengan "
+"menggunakan skrip :file:`./setup.py`, :command:`weblate` diinstal ke jalur "
+"Anda (atau jalur virtualenv), dari sana Anda dapat menggunakannya untuk "
+"mengontrol Weblate:"
 
 #: ../../admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"Untuk gambar Docker, skrip diinstal seperti di atas, dan Anda dapat "
+"menjalankannya menggunakan :command:`docker exec`:"
 
 #: ../../admin/management.rst:57
 msgid ""
 "For :program:`docker-compose-plugin` the process is similar, you just have "
 "to use :command:`docker compose exec`:"
 msgstr ""
+"Untuk :program:`docker-compose-plugin` prosesnya serupa, Anda hanya perlu "
+"menggunakan :command:`docker compose exec`:"
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"Jika Anda perlu memberikannya sebuah berkas, Anda dapat menambahkan volume "
+"sementara:"
 
 #: ../../admin/management.rst:84
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
+"Mengimpor terjemahan dari berkas untuk digunakan sebagai saran terjemahan "
+"yang diberikan. Terjemahan duplikat akan dilewati; hanya terjemahan yang "
+"berbeda yang ditambahkan."
 
 #: ../../admin/management.rst:89
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
+"Surel penulis untuk saran. Pengguna ini harus ada sebelum mengimpor (Anda "
+"dapat membuatnya di antarmuka admin jika diperlukan)."
 
 #: ../../admin/management.rst:106
 msgid "Added parameter for translation mode."
@@ -17254,70 +17816,78 @@ msgstr "Menambahkan parameter untuk mode terjemahan."
 
 #: ../../admin/management.rst:108
 msgid "Performs automatic translation based on other component translations."
-msgstr ""
+msgstr "Melakukan terjemahan otomatis berdasarkan terjemahan komponen lainnya."
 
 #: ../../admin/management.rst:112
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
 msgstr ""
+"Menentukan komponen yang akan digunakan sebagai sumber yang tersedia untuk "
+"terjemahan. Jika tidak ditentukan, semua komponen dalam proyek akan "
+"digunakan."
 
 #: ../../admin/management.rst:117
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
+"Tentukan nama pengguna yang tercantum sebagai penulis terjemahan. "
+"\"Pengguna anonim\" digunakan jika tidak ditentukan."
 
 #: ../../admin/management.rst:122
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "Apakah akan menimpa terjemahan yang ada."
 
 #: ../../admin/management.rst:126
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
 msgstr ""
+"Apakah akan menimpa terjemahan yang ada yang tidak konsisten (lihat :ref"
+":`check-inconsistent`)."
 
 #: ../../admin/management.rst:131
 msgid "Automatically add language if a given translation does not exist."
 msgstr ""
+"Tambahkan bahasa secara otomatis jika terjemahan yang diberikan tidak ada."
 
 #: ../../admin/management.rst:135
 msgid ""
 "Use machine translation instead of other components as machine translations."
-msgstr ""
+msgstr "Gunakan terjemahan mesin, bukan komponen lain sebagai terjemahan mesin."
 
 #: ../../admin/management.rst:139
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "Ambang kesamaan untuk terjemahan mesin, bawaannya adalah 80."
 
 #: ../../admin/management.rst:143
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
 msgstr ""
+"Tentukan mode terjemahan, bawaannya adalah ``translate`` tetapi ``fuzzy`` "
+"atau ``suggest`` dapat digunakan."
 
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
-msgstr ""
+msgstr "Mengimpor konten yang diberikan ke Weblate, berguna untuk pembandingan."
 
 #: ../../admin/management.rst:163
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Example of performance profiling"
-msgstr "Contoh berkas yang cocok"
+msgstr "Contoh profil kinerja"
 
 #: ../../admin/management.rst:175
 msgid "Example of memory profiling"
-msgstr ""
+msgstr "Contoh profil memori"
 
 #: ../../admin/management.rst:193
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Menampilkan panjang antrian tugas Celery."
 
 #: ../../admin/management.rst:204
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Mencetak status terkini repositori Git back-end."
 
 #: ../../admin/management.rst:206 ../../admin/management.rst:227
 #: ../../admin/management.rst:790 ../../admin/management.rst:810
@@ -17327,35 +17897,38 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Anda dapat menentukan proyek atau komponen mana yang akan diperbarui ("
+"misalnya ``weblate/application``), atau menggunakan ``--all`` untuk "
+"memperbarui semua komponen yang ada."
 
 #: ../../admin/management.rst:214
 msgid "Commits any possible pending changes to the back-end Git repository."
 msgstr ""
+"Melakukan komit terhadap kemungkinan perubahan yang tertunda pada repositori "
+"Git back-end."
 
 #: ../../admin/management.rst:216
-#, fuzzy
-#| msgid ""
-#| "You can either define which project or component to install the add-on in "
-#| "(for example ``weblate/application``), or use ``--all`` to include all "
-#| "existing components."
 msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
-"Anda dapat menentukan proyek atau komponen mana yang akan dipasangi pengaya "
-"(misalnya ``weblate/application``), atau menggunakan ``--all`` untuk "
-"menyertakan semua komponen yang ada."
+"Anda dapat menentukan proyek atau komponen mana yang akan diperbarui ("
+"misalnya ``weblate/application``), atau menggunakan ``--all`` untuk "
+"memperbarui semua komponen yang ada, atau menggunakan ``--file-format`` "
+"untuk memfilter berdasarkan format berkas."
 
 #: ../../admin/management.rst:225
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "Melakukan perubahan tertunda yang lebih lama dari usia tertentu."
 
 #: ../../admin/management.rst:232
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
 msgstr ""
+"Usia dalam jam untuk melakukan komitmen. Jika tidak ditentukan, nilai yang "
+"dikonfigurasi dalam :ref:`component` akan digunakan."
 
 #: ../../admin/management.rst:237
 msgid ""
@@ -17363,6 +17936,9 @@ msgid ""
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
 msgstr ""
+"Hal ini secara otomatis dilakukan di latar belakang oleh Weblate, jadi tidak "
+"perlu lagi menjalankannya secara manual, selain memaksa komit lebih awal "
+"daripada yang ditetapkan oleh :ref:`component`."
 
 #: ../../admin/management.rst:251
 msgid ""
@@ -17370,68 +17946,78 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"Membersihkan pemeriksaan yang tidak terpakai dan saran terjemahan. Biasanya "
+"tidak perlu menjalankannya secara manual, karena pembersihan terjadi secara "
+"otomatis di latar belakang."
 
 #: ../../admin/management.rst:266
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "Removes all obsolete entries with pending status from the translation memory."
-msgstr "Gabungkan konten dari tajuk berkas ke dalam terjemahan."
+msgstr ""
+"Menghapus semua entri usang dengan status tertunda dari memori terjemahan."
 
 #: ../../admin/management.rst:276
 msgid "Performs cleanup of stored SSH host keys:"
-msgstr ""
+msgstr "Melakukan pembersihan kunci host SSH yang tersimpan:"
 
 #: ../../admin/management.rst:278
 msgid ""
 "Removes deprecated RSA keys for GitHub which might cause issues connecting "
 "to GitHub."
 msgstr ""
+"Menghapus kunci RSA yang tidak digunakan lagi untuk GitHub yang mungkin "
+"menyebabkan masalah saat menghubungkan ke GitHub."
 
 #: ../../admin/management.rst:279
 msgid "Removes duplicate entries in host keys."
-msgstr ""
+msgstr "Menghapus entri duplikat pada kunci host."
 
 #: ../../admin/management.rst:290
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
-msgstr ""
+msgstr "Membuat akun ``admin`` dengan kata sandi acak, kecuali jika ditentukan."
 
 #: ../../admin/management.rst:294
 msgid "Provides a password on the command-line, to not generate a random one."
 msgstr ""
+"Menyediakan kata sandi pada baris perintah, agar tidak membuat kata sandi "
+"acak."
 
 #: ../../admin/management.rst:298
 msgid "Do not set password, this can be useful with `--update`."
-msgstr ""
+msgstr "Jangan atur kata sandi, ini dapat berguna dengan `--update`."
 
 #: ../../admin/management.rst:302
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "Gunakan nama yang diberikan, bukan ``admin``."
 
 #: ../../admin/management.rst:306
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "Tentukan alamat surel admin."
 
 #: ../../admin/management.rst:310
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "Tentukan nama admin (terlihat)."
 
 #: ../../admin/management.rst:314
 msgid "Update the existing user (you can use this to change passwords)."
 msgstr ""
+"Perbarui pengguna yang ada (Anda dapat menggunakan ini untuk mengubah kata "
+"sandi)."
 
 #: ../../admin/management.rst:321
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
+msgstr "Ekspor berkas JSON yang berisi konten Memori Terjemahan Weblate."
 
 #: ../../admin/management.rst:333
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
 msgstr ""
+"Membuang data pengguna ke sebuah berkas untuk digunakan kemudian oleh "
+":wladmin:`importuserdata`."
 
 #: ../../admin/management.rst:337
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "Ini berguna saat melakukan migrasi atau penggabungan instansi Weblate."
 
 #: ../../admin/management.rst:346
 msgid ""
@@ -17439,10 +18025,13 @@ msgid ""
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
+"Membuat proyek demo dengan komponen berdasarkan <https://github.com/"
+"WeblateOrg/demo>. Pastikan tugas celery berjalan sebelum menjalankan "
+"perintah ini."
 
 #: ../../admin/management.rst:349
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "Ini dapat berguna saat mengembangkan Weblate."
 
 #: ../../admin/management.rst:353
 msgid "Removes existing demo project."
@@ -17450,7 +18039,7 @@ msgstr "Menghapus proyek demo yang ada."
 
 #: ../../admin/management.rst:361
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "Impor komponen secara batch berdasarkan data JSON."
 
 #: ../../admin/management.rst:363
 msgid ""
@@ -17458,26 +18047,29 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"Struktur berkas JSON yang diimpor kurang lebih sama dengan objek komponen ("
+"lihat :http:get:`/api/components/(string:project)/(string:component)/`). "
+"Anda harus menyertakan kolom ``name`` dan ``filemask``."
 
 #: ../../admin/management.rst:369
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "Menentukan dari mana komponen akan diimpor."
 
 #: ../../admin/management.rst:373
 msgid "Use the given VCS repository from this component for all of them."
-msgstr ""
+msgstr "Gunakan repositori VCS yang diberikan dari komponen ini untuk semuanya."
 
 #: ../../admin/management.rst:377
 msgid "Skip (already) imported components."
-msgstr ""
+msgstr "Lewati komponen yang (sudah) diimpor."
 
 #: ../../admin/management.rst:381
 msgid "Update (already) imported components."
-msgstr ""
+msgstr "Perbarui komponen yang (sudah) diimpor."
 
 #: ../../admin/management.rst:383
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "Contoh berkas JSON:"
 
 #: ../../admin/management.rst:398
 msgid "Imports a file into the Weblate translation memory."
@@ -17485,64 +18077,72 @@ msgstr "Mengimpor berkas ke dalam memori terjemahan Weblate."
 
 #: ../../admin/management.rst:400
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Format berkas yang didukung adalah TMX, JSON, XLIFF, PO, CSV."
 
 #: ../../admin/management.rst:402
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"Menentukan bahasa sumber dan bahasa target mungkin diperlukan untuk format "
+"selain JSON dan TMX."
 
 #: ../../admin/management.rst:407
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
 msgstr ""
+"Memungkinkan pemetaan bahasa dalam TMX ke memori terjemahan Weblate. Kode "
+"bahasa dipetakan setelah normalisasi, yang biasanya dilakukan oleh Weblate."
 
 #: ../../admin/management.rst:410
 msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
+"``--language-map en_US:en`` misalnya akan mengimpor semua string ``en_US`` "
+"sebagai string ``en``."
 
 #: ../../admin/management.rst:413
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
 msgstr ""
+"Ini dapat berguna jika lokal berkas TMX Anda tidak cocok dengan yang Anda "
+"gunakan di Weblate."
 
 #: ../../admin/management.rst:418
 msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Menentukan bahasa sumber untuk terjemahan yang diimpor. Biasanya diperlukan "
+"untuk format yang bahasanya tidak dapat ditentukan dari berkas itu sendiri."
 
 #: ../../admin/management.rst:423
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"Menentukan bahasa target untuk terjemahan yang diimpor. Biasanya diperlukan "
+"untuk format yang bahasanya tidak dapat ditentukan dari berkas itu sendiri."
 
 #: ../../admin/management.rst:436
-#, fuzzy
-#| msgid ""
-#| "The import_project command is now based on the :ref:`addon-weblate."
-#| "discovery.discovery` add-on, leading to some changes in behavior and what "
-#| "parameters are accepted."
 msgid ""
 "Batch imports components into project based on the file mask. It is based on "
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
-"Perintah import_project sekarang didasarkan atas pengaya :ref:`addon-weblate."
-"discovery.discovery`, yang mana menyebabkan beberapa perubahan perilaku dan "
-"jenis parameter yang diterima."
+"Mengimpor komponen secara batch ke dalam proyek berdasarkan topeng berkas. "
+"Ini didasarkan pada pengaya :ref:`addon-weblate.discovery.discovery`, jadi "
+"Anda mungkin ingin menggunakannya sebagai gantinya."
 
 #: ../../admin/management.rst:440
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<project>` memberi nama proyek yang sudah ada, tempat komponen akan diimpor."
 
 #: ../../admin/management.rst:443
 msgid ""
@@ -17551,6 +18151,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"`<gitrepo>` mendefinisikan URL repositori Git yang akan digunakan, dan "
+"`<branch>` menandakan cabang Git. Untuk mengimpor komponen terjemahan "
+"tambahan dari komponen Weblate yang sudah ada, gunakan URL "
+"`weblate://<project>/<component>` untuk `<gitrepo>`."
 
 #: ../../admin/management.rst:448
 msgid ""
@@ -17558,24 +18162,34 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"`<filemask>` mendefinisikan penemuan berkas untuk repositori. Hal ini dapat "
+"disederhanakan dengan menggunakan karakter pengganti, atau dapat "
+"memanfaatkan sepenuhnya ekspresi reguler."
 
 #: ../../admin/management.rst:451
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"Pencocokan sederhana menggunakan ``**`` untuk nama komponen dan ``*`` untuk "
+"bahasa, misalnya: ``**/*.po``"
 
 #: ../../admin/management.rst:454
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`, for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 msgstr ""
+"Ekspresi reguler harus berisi grup bernama `component` dan `language`, "
+"misalnya: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 
 #: ../../admin/management.rst:457
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"Proses impor ini mencocokkan komponen yang ada berdasarkan berkas dan "
+"menambahkan komponen yang belum ada. Proses ini tidak mengubah komponen yang "
+"sudah ada."
 
 #: ../../admin/management.rst:462
 msgid "Customize the name of a component using Django template syntax."
@@ -17587,7 +18201,7 @@ msgstr "Misalnya: ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:468
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "Sesuaikan berkas dasar untuk terjemahan monolingual."
 
 #: ../../admin/management.rst:470
 msgid "For example: ``{{ component }}/res/values/string.xml``"
@@ -17595,7 +18209,7 @@ msgstr "Misalnya: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:474
 msgid "Customize the base file for addition of new translations."
-msgstr ""
+msgstr "Sesuaikan berkas dasar untuk penambahan terjemahan baru."
 
 #: ../../admin/management.rst:476
 msgid "For example: ``{{ component }}/ts/en.ts``"
@@ -17606,42 +18220,53 @@ msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
+"Anda juga dapat menentukan format berkas yang akan digunakan (lihat "
+":ref:`formats`), bawaannya adalah deteksi otomatis."
 
 #: ../../admin/management.rst:485
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
 msgstr ""
+"Anda dapat menentukan pemfilteran bahasa (lihat :ref:`component`) dengan "
+"parameter ini. Parameter ini harus berupa ekspresi reguler yang valid."
 
 #: ../../admin/management.rst:490
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
+"Anda dapat menentukan komponen mana yang akan dipilih sebagai komponen utama—"
+"komponen yang benar-benar berisi repositori VCS."
 
 #: ../../admin/management.rst:495
 msgid "Specify the overall, project or component translation license."
-msgstr ""
+msgstr "Tentukan lisensi terjemahan keseluruhan, proyek atau komponen."
 
 #: ../../admin/management.rst:499
 msgid "Specify the URL where the translation license is to be found."
-msgstr ""
+msgstr "Tentukan URL tempat lisensi terjemahan dapat ditemukan."
 
 #: ../../admin/management.rst:503
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
+"Jika Anda perlu menentukan sistem kontrol versi yang akan digunakan, Anda "
+"dapat melakukannya di sini. Kontrol versi bawaan adalah Git."
 
 #: ../../admin/management.rst:506
 msgid "To give you some examples, let's try importing two projects."
 msgstr ""
+"Untuk memberi Anda beberapa contoh, mari kita coba mengimpor dua proyek."
 
 #: ../../admin/management.rst:508
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
+"Pertama Terjemahan Buku Pegangan Debian, di mana setiap bahasa memiliki map "
+"terpisah dengan terjemahan setiap bab:"
 
 #: ../../admin/management.rst:519
 msgid ""
@@ -17649,6 +18274,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"Kemudian alat Tanaguru, di mana format berkas perlu ditentukan, bersama "
+"dengan templat berkas dasar, dan bagaimana semua komponen dan terjemahan "
+"ditempatkan dalam satu map:"
 
 #: ../../admin/management.rst:533
 msgid ""
@@ -17656,24 +18284,30 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"Contoh yang lebih rumit dari penguraian nama berkas untuk mendapatkan "
+"komponen dan bahasa yang benar dari nama berkas seperti ``src/security/"
+"Numerous_security_holes_in_0.10.1.de.po``:"
 
 #: ../../admin/management.rst:544
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "Memfilter hanya terjemahan dalam bahasa yang dipilih:"
 
 #: ../../admin/management.rst:554
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Mengimpor dokumentasi Sphinx dibagi menjadi beberapa berkas:"
 
 #: ../../admin/management.rst:563
 msgid "Importing Sphinx documentation split to multiple files and directories:"
 msgstr ""
+"Mengimpor dokumentasi Sphinx dibagi menjadi beberapa berkas dan direktori:"
 
 #: ../../admin/management.rst:578
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :wladmin:`import_json`."
 msgstr ""
+"Contoh yang lebih rinci dapat ditemukan di bab :ref:`starting`, atau Anda "
+"mungkin ingin menggunakan :wladmin:`import_json`."
 
 #: ../../admin/management.rst:588
 msgid "Imports :ref:`projectbackup`."
@@ -17683,24 +18317,29 @@ msgstr "Mengimpor :ref:`projectbackup`."
 msgid ""
 "Usually it is more comfortable to import project when :ref:`adding-projects`."
 msgstr ""
+"Biasanya lebih nyaman untuk mengimpor proyek ketika :ref:`adding-projects`."
 
 #: ../../admin/management.rst:599
 msgid "Imports user data from a file created by :wladmin:`dumpuserdata`."
 msgstr ""
+"Mengimpor data pengguna dari berkas yang dibuat oleh :wladmin:`dumpuserdata`."
 
 #: ../../admin/management.rst:606
 msgid "Imports users from JSON dump of the Django auth_users database."
-msgstr ""
+msgstr "Mengimpor pengguna dari dump JSON basis data auth_users Django."
 
 #: ../../admin/management.rst:611
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"Dengan opsi ini, ia akan memeriksa apakah berkas tertentu dapat diimpor dan "
+"melaporkan kemungkinan konflik yang timbul dari nama pengguna atau surel."
 
 #: ../../admin/management.rst:614
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
+"Anda dapat membuang pengguna dari instalasi Django yang ada menggunakan:"
 
 #: ../../admin/management.rst:625
 msgid "Installs an add-on to a set of components."
@@ -17739,70 +18378,76 @@ msgid "Installs an site-wide automatic suggestion service."
 msgstr "Menginstal layanan saran otomatis di seluruh situs."
 
 #: ../../admin/management.rst:663
-#, fuzzy
-#| msgid ""
-#| "Name of the add-on to install. For example ``weblate.gettext.customize``."
 msgid "Name of the service to install. For example ``deepl``."
-msgstr ""
-"Nama pengaya yang akan dipasang. Misalnya ``weblate.gettext.customize``."
+msgstr "Nama layanan yang akan diinstal. Misalnya ``deepl``."
 
 #: ../../admin/management.rst:667
-#, fuzzy
-#| msgid "JSON encoded configuration of an add-on."
 msgid "JSON encoded configuration of a service."
-msgstr "Konfigurasi JSON yang dikodekan dari sebuah pengaya."
+msgstr "Konfigurasi layanan yang dikodekan JSON."
 
 #: ../../admin/management.rst:671
-#, fuzzy
-#| msgid "Update the existing add-on configuration."
 msgid "Update the existing service configuration."
-msgstr "Perbarui konfigurasi pengaya yang ada."
+msgstr "Perbarui konfigurasi layanan yang ada."
 
 #: ../../admin/management.rst:673
 msgid "To install :ref:`mt-deepl`:"
-msgstr ""
+msgstr "Untuk menginstal :ref:`mt-deepl`:"
 
 #: ../../admin/management.rst:688
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
+"Mencantumkan pengaya dalam reStructuredText sebagai templat untuk :doc:`/"
+"admin/addons`."
 
 #: ../../admin/management.rst:699
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
+"Mencantumkan izin dalam reStructuredText sebagai templat untuk :doc:`/admin/"
+"access`."
 
 #: ../../admin/management.rst:710
 msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
+"Mencantumkan pemeriksaan kualitas dalam reStructuredText sebagai templat "
+"untuk :doc:`/admin/checks` dan :doc:`/user/checks`."
 
 #: ../../admin/management.rst:722
 msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
+"Mencantumkan bahasa yang didukung dalam markup MediaWiki - kode bahasa, nama "
+"dalam bahasa Inggris, dan nama lokal."
 
 #: ../../admin/management.rst:725
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/"
 "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
+"Ini digunakan untuk menghasilkan <https://wiki.l10n.cz/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 
 #: ../../admin/management.rst:732
 msgid ""
 "Lists automatic suggestions services in reStructuredText as a template for :"
 "doc:`/admin/machine`."
 msgstr ""
+"Mencantumkan layanan saran otomatis di reStructuredText sebagai templat "
+"untuk :doc:`/admin/machine`."
 
 #: ../../admin/management.rst:743
 msgid "Lists translators by contributed language for the given project:"
 msgstr ""
+"Mencantumkan penerjemah berdasarkan bahasa yang disumbangkan untuk proyek "
+"yang diberikan:"
 
 #: ../../admin/management.rst:754
 msgid "List names by language code instead of language name."
-msgstr ""
+msgstr "Daftar nama berdasarkan kode bahasa daripada nama bahasa."
 
 #: ../../admin/management.rst:756
 msgid ""
@@ -17810,10 +18455,13 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
+"Anda dapat menentukan proyek atau komponen mana yang akan digunakan ("
+"misalnya ``weblate/application``), atau menggunakan ``--all`` untuk "
+"mencantumkan penerjemah dari semua komponen yang ada."
 
 #: ../../admin/management.rst:765
 msgid "Lists all Weblate dependencies and their versions."
-msgstr ""
+msgstr "Mencantumkan semua dependensi Weblate dan versinya."
 
 #: ../../admin/management.rst:772
 msgid "Lists File format parameters."
@@ -17824,14 +18472,16 @@ msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
 msgstr ""
+"Memuat ulang terjemahan dari disk (misalnya jika Anda telah melakukan "
+"beberapa pembaruan dalam repositori VCS)."
 
 #: ../../admin/management.rst:784
 msgid "Force update, even if the files should be up-to-date."
-msgstr ""
+msgstr "Paksa pembaruan, meskipun berkasnya harus yang terbaru."
 
 #: ../../admin/management.rst:788
 msgid "Limit processing to a single language."
-msgstr ""
+msgstr "Batasi pemrosesan ke satu bahasa."
 
 #: ../../admin/management.rst:795
 msgid ""
@@ -17840,21 +18490,29 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
+"Anda jarang perlu menjalankan perintah ini, Weblate akan secara otomatis "
+"memuat berkas yang diubah untuk setiap pembaruan VCS. Hal ini diperlukan "
+"jika Anda mengubah repositori VCS Weblate yang mendasarinya secara manual "
+"atau dalam beberapa kasus khusus setelah pemutakhiran."
 
 #: ../../admin/management.rst:804
 msgid "Prevents further translation of a component."
-msgstr ""
+msgstr "Mencegah penerjemahan komponen lebih lanjut."
 
 #: ../../admin/management.rst:808 ../../admin/management.rst:884
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
 msgstr ""
+"Berguna jika Anda ingin melakukan pemeliharaan pada repositori yang "
+"mendasarinya."
 
 #: ../../admin/management.rst:822
 msgid ""
 "Migrates database to current Weblate schema. The command line options are "
 "described at Django :djadmin:`django:migrate`."
 msgstr ""
+"Memigrasikan basis data ke skema Weblate saat ini. Opsi baris perintah "
+"dijelaskan di Django :djadmin:`django:migrate`."
 
 #: ../../admin/management.rst:827
 msgid ""
@@ -17862,6 +18520,9 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :wladmin:"
 "`createadmin` command."
 msgstr ""
+"Jika Anda ingin menjalankan instalasi secara non-interaktif, Anda dapat "
+"menggunakan :samp:`weblate migrate --noinput`, lalu membuat pengguna admin "
+"menggunakan perintah :wladmin:`createadmin`."
 
 #: ../../admin/management.rst:833
 msgid ":djadmin:`django:migrate`"
@@ -17874,6 +18535,10 @@ msgid ""
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
+"Memungkinkan Anda menggabungkan konten bahasa. Ini berguna saat memperbarui "
+"ke versi baru yang berisi alias untuk bahasa yang sebelumnya tidak dikenal "
+"yang telah dibuat dengan akhiran :samp:`(generated)`. Ini akan memindahkan "
+"semua konten dari bahasa `source` ke bahasa `target`."
 
 #: ../../admin/management.rst:852
 msgid ""
@@ -17881,68 +18546,76 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
+"Setelah memindahkan konten, Anda harus memeriksa apakah masih ada yang "
+"tersisa (ini tergantung pada kondisi perlombaan saat seseorang memperbarui "
+"repositori sementara waktu) dan menghapus bahasa :samp:`(generated)`."
 
 #: ../../admin/management.rst:861
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr ""
+msgstr "Mendorong perubahan yang dikomit ke repositori VCS hulu."
 
 #: ../../admin/management.rst:865
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
+msgstr "Paksa komit perubahan yang tertunda, sebelum mendorong."
 
 #: ../../admin/management.rst:872
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
+"Weblate mendorong perubahan secara otomatis jika :ref:`component-"
+"push_on_commit` di :ref:`component` diaktifkan, yang merupakan bawaan."
 
 #: ../../admin/management.rst:880
 msgid "Unlocks a given component, making it available for translation."
-msgstr ""
+msgstr "Membuka komponen tertentu, membuatnya tersedia untuk terjemahan."
 
 #: ../../admin/management.rst:898
 msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
 msgstr ""
+"Mengonfigurasi grup bawaan dan secara opsional menetapkan semua pengguna ke "
+"grup bawaan tersebut."
 
 #: ../../admin/management.rst:902
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
 msgstr ""
+"Menonaktifkan pembaruan otomatis grup yang ada (hanya menambahkan grup baru)."
 
 #: ../../admin/management.rst:906
 msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
+"Mencegah pembaruan otomatis grup untuk proyek yang sudah ada. Ini "
+"memungkinkan penambahan grup baru ke proyek yang sudah ada, lihat :ref:`acl`."
 
 #: ../../admin/management.rst:918
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Memperbarui daftar bahasa yang ditentukan di Weblate."
 
 #: ../../admin/management.rst:922
 msgid "Turns off automatic updates of existing languages (only adds new ones)."
 msgstr ""
+"Mematikan pembaruan otomatis bahasa yang ada (hanya menambahkan bahasa baru)."
 
 #: ../../admin/management.rst:929
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "Memperbarui semua pemeriksaan untuk semua string."
 
 #: ../../admin/management.rst:933
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
+"Berguna untuk pemutakhiran yang melakukan perubahan besar pada pemeriksaan."
 
 #: ../../admin/management.rst:940
-#, fuzzy
-#| msgid ""
-#| "Once in a month for every component, this can be configured using :"
-#| "setting:`BACKGROUND_TASKS`."
 msgid ""
 "Checks are recalculated regularly by Weblate in the background, the "
 "frequency can be configured via :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"Sekali dalam sebulan untuk setiap komponen, ini dapat dikonfigurasi "
-"menggunakan :setting:`BACKGROUND_TASKS`."
+"Pemeriksaan dihitung ulang secara berkala oleh Weblate di latar belakang, "
+"frekuensinya dapat dikonfigurasikan melalui :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/management.rst:948
 msgid "Fetches remote VCS repositories and updates the internal cache."
@@ -17953,6 +18626,9 @@ msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular triggering the updates by :wladmin:`updategit`."
 msgstr ""
+"Biasanya lebih baik mengonfigurasi kait dalam repositori untuk memicu "
+":ref:`hooks`, daripada memicu pembaruan secara teratur oleh "
+":wladmin:`updategit`."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -17960,26 +18636,31 @@ msgstr "Memori Terjemahan"
 
 #: ../../admin/memory.rst:7
 msgid "Weblate comes with a built-in translation memory consisting of:"
-msgstr ""
+msgstr "Weblate dilengkapi dengan memori terjemahan bawaan yang terdiri dari:"
 
 #: ../../admin/memory.rst:9
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
 msgstr ""
+"Memori terjemahan yang diimpor secara manual (lihat :ref:`memory-user`)."
 
 #: ../../admin/memory.rst:10
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
 msgstr ""
+"Terjemahan yang dilakukan di Weblate disimpan secara otomatis (tergantung "
+"pada :ref:`memory-scopes`)."
 
 #: ../../admin/memory.rst:11
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "Terjemahan terdahulu diimpor secara otomatis."
 
 #: ../../admin/memory.rst:13
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
 msgstr ""
+"Konten dalam memori terjemahan dapat diterapkan ke string dengan beberapa "
+"cara:"
 
 #: ../../admin/memory.rst:15
 msgid ""
@@ -17994,40 +18675,40 @@ msgid ""
 "The selected strings can be processed using :ref:`auto-translation` from "
 "the :guilabel:`Operations` menu."
 msgstr ""
+"String yang dipilih dapat diproses menggunakan :ref:`auto-translation` dari "
+"menu :guilabel:`Operations`."
 
 #: ../../admin/memory.rst:17
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`addon-weblate.autotranslate.autotranslate` add-on trigger on "
-#| "newly added strings."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` add-on can automatically "
 "apply changes to new and existing strings."
 msgstr ""
-"Memperbaiki pemicu pengaya :ref:`addon-weblate.autotranslate.autotranslate` "
-"pada string yang baru ditambahkan."
+"Pengaya :ref:`addon-weblate.autotranslate.autotranslate` dapat secara "
+"otomatis menerapkan perubahan ke string baru dan yang sudah ada."
 
 #: ../../admin/memory.rst:19
 msgid ""
 "For installation tips, see :ref:`mt-weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
+"Untuk tips instalasi, lihat :ref:`mt-weblate-translation-memory`, yang "
+"diaktifkan secara bawaan."
 
 #: ../../admin/memory.rst:26
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation-memory scopes"
-msgstr "Status memori terjemahan"
+msgstr "Cakupan memori terjemahan"
 
 #: ../../admin/memory.rst:28
 msgid ""
 "The translation-memory scopes ensure privacy for different projects and "
 "users. Sharing of translations is also available."
 msgstr ""
+"Cakupan memori terjemahan memastikan privasi untuk berbagai proyek dan "
+"pengguna. Berbagi terjemahan juga tersedia."
 
 #: ../../admin/memory.rst:32
 msgid "Imported translation memory"
-msgstr ""
+msgstr "Memori terjemahan yang diimpor"
 
 #: ../../admin/memory.rst:34
 msgid ""
@@ -18035,64 +18716,65 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+"Mengimpor data memori terjemahan arbitrer menggunakan perintah "
+":wladmin:`import_memory` membuat konten memori tersedia untuk semua pengguna "
+"dan proyek."
 
 #: ../../admin/memory.rst:38
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Per-user translation memory"
-msgstr "Simpan riwayat penerjemahan"
+msgstr "Memori terjemahan per pengguna"
 
 #: ../../admin/memory.rst:40
 msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
+"Menyimpan semua terjemahan pengguna secara otomatis dalam memori terjemahan "
+"pribadi masing-masing pengguna."
 
 #: ../../admin/memory.rst:43
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Per-project translation memory"
-msgstr "Hapus memori penerjemahan"
+msgstr "Memori terjemahan per proyek"
 
 #: ../../admin/memory.rst:45
 msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
+"Semua terjemahan dalam suatu proyek secara otomatis disimpan dalam memori "
+"terjemahan proyek yang hanya tersedia untuk proyek ini."
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
 msgstr "Memori terjemahan bersama"
 
 #: ../../admin/memory.rst:53
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects."
 msgstr ""
-"Semua terjemahan dalam Weblate dapat digunakan berkat memori terjemahan "
-"bersama."
+"Semua terjemahan dalam proyek dengan memori terjemahan bersama diaktifkan "
+"disimpan dalam memori terjemahan bersama yang tersedia untuk semua proyek."
 
 #: ../../admin/memory.rst:56
 msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
 msgstr ""
+"Harap pertimbangkan dengan cermat apakah akan mengaktifkan fitur ini untuk "
+"instalasi Weblate bersama, karena dapat menimbulkan implikasi serius:"
 
 #: ../../admin/memory.rst:59
 msgid "The translations can be used by anybody else."
-msgstr ""
+msgstr "Terjemahannya dapat digunakan oleh siapa saja."
 
 #: ../../admin/memory.rst:60
 msgid "This might lead to disclosing secret information."
-msgstr ""
+msgstr "Hal ini mungkin mengarah pada terungkapnya informasi rahasia."
 
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
-msgstr ""
+msgstr "Pastikan terjemahan yang Anda bagikan memiliki kualitas yang baik."
 
 #: ../../admin/memory.rst:71
 msgid "Translation memory status"
@@ -18106,6 +18788,11 @@ msgid ""
 "entries with pending status are automatically removed when a translation is "
 "approved."
 msgstr ""
+"Entri memori terjemahan dapat memiliki dua status berbeda: **aktif** dan "
+"**tertunda**. Entri tertunda disertakan dalam saran, tetapi dengan penalti "
+"kualitas yang diterapkan. Jika :ref:`autoclean-tm` diaktifkan, entri yang "
+"basi dan usang dengan status tertunda akan otomatis dihapus ketika "
+"terjemahan disetujui."
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
@@ -18128,14 +18815,12 @@ msgstr ""
 "`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../admin/memory.rst:95
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Managing the Translation Memory"
-msgstr "Mengelola memori terjemahan"
+msgstr "Mengelola Memori Terjemahan"
 
 #: ../../admin/memory.rst:100
 msgid "User interface"
-msgstr ""
+msgstr "Antarmuka pengguna"
 
 #: ../../admin/memory.rst:102
 msgid ""
@@ -18145,6 +18830,12 @@ msgid ""
 "in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
+"Manajemen memori terjemahan pribadi tersedia dengan mengeklik avatar "
+"pengguna di pojok kanan atas UI dan memilih \"Memori terjemahan\" dari menu "
+"tarik-turun. Entri yang diatribusikan kepada pengguna dicantumkan dalam "
+"cakupan – total, untuk setiap proyek, komponen, atau bahasa yang "
+"dikontribusikan, dengan opsi untuk mengunduh (sebagai JSON, atau TMX) atau "
+"menghapusnya."
 
 #: ../../admin/memory.rst:109
 msgid ""
@@ -18152,14 +18843,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"Di antarmuka pengguna dasar, Anda dapat mengelola memori terjemahan per "
+"pengguna dan per proyek. Antarmuka ini dapat digunakan untuk mengunduh, "
+"menghapus, atau mengimpor memori terjemahan."
 
 #: ../../admin/memory.rst:112
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
-msgstr "Menambahkan dukungan untuk membangun kembali memori terjemahan proyek."
+msgstr ""
+"Ada beberapa pilihan untuk mengunduh memori terjemahan dari keseluruhan "
+"instansi."
 
 #: ../../admin/memory.rst:115
 msgid ""
@@ -23416,10 +24110,8 @@ msgid "Listing of the tasks is currently not available."
 msgstr "Daftar tugas saat ini tidak tersedia."
 
 #: ../../api.rst:2632
-#, fuzzy
-#| msgid "Returns information about a task"
 msgid "Returns information about a task."
-msgstr "Mengembalikan informasi tentang tugas"
+msgstr "Mengembalikan informasi tentang suatu tugas."
 
 #: ../../api.rst:2634
 msgid "Task UUID"
@@ -23714,10 +24406,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2733
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Name of the matched item."
-msgstr "Nama dari berkas yang dihasilkan"
+msgstr "Nama item yang cocok."
 
 #: ../../api.rst:2734
 msgid "Web URL of the matched item."
@@ -23753,22 +24443,16 @@ msgid "Category ID"
 msgstr "Kategori"
 
 #: ../../api.rst:2758
-#, fuzzy
-#| msgid "Rename project"
 msgid "Name of category."
-msgstr "Ubah nama proyek"
+msgstr "Nama kategori."
 
 #: ../../api.rst:2759
-#, fuzzy
-#| msgid "Category"
 msgid "Slug of category."
-msgstr "Kategori"
+msgstr "Slug kategori."
 
 #: ../../api.rst:2760
-#, fuzzy
-#| msgid "Adding a project"
 msgid "Link to a project."
-msgstr "Menambahkan proyek"
+msgstr "Tautan ke suatu proyek."
 
 #: ../../api.rst:2761
 msgid "Link to a parent category."
@@ -24053,10 +24737,8 @@ msgid "Weblate 5.13"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet released."
 msgid "*Not yet released.*"
-msgstr "Belum dirilis."
+msgstr "*Belum dirilis.*"
 
 #: ../../changes.rst:7 ../../changes.rst:107 ../../changes.rst:264
 #: ../../changes.rst:430 ../../changes.rst:541 ../../changes.rst:683
@@ -24135,10 +24817,8 @@ msgid "Background commits are now identified by an internal user."
 msgstr ""
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Toggle navigation"
 msgid "Reorganized navigation menu."
-msgstr "Menu navigasi"
+msgstr "Menu navigasi yang ditata ulang."
 
 #: ../../changes.rst:21
 msgid ""
@@ -24349,10 +25029,8 @@ msgid "Weblate 5.12.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:56
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "*Released on June 20th 2025.*"
-msgstr "Dirilis pada 19 Juni 2020."
+msgstr "*Dirilis pada 20 Juni 2025.*"
 
 #: ../../changes.rst:60
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
@@ -24361,10 +25039,8 @@ msgstr ""
 "berikutnya."
 
 #: ../../changes.rst:64
-#, fuzzy
-#| msgid ":ref:`projectbackup`"
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr ":ref:`projectbackup`"
+msgstr "Memulihkan :ref:`projectbackup` dengan suara."
 
 #: ../../changes.rst:65
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
@@ -24436,10 +25112,8 @@ msgstr "Terjemahan dengan kontribusi"
 #: ../../changes/contributors/5.9.1.rst:7
 #: ../../changes/contributors/5.9.2.rst:12
 #: ../../changes/contributors/5.9.rst:11
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Documentation contributions"
-msgstr "Dokumentasi untuk bentuk jamak."
+msgstr "Kontribusi dokumentasi"
 
 #: ../../changes.rst:75
 #, fuzzy
@@ -24460,10 +25134,8 @@ msgid "Weblate 5.12.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:80 ../../changes.rst:99
-#, fuzzy
-#| msgid "Released on June 15th 2020."
 msgid "*Released on June 16th 2025.*"
-msgstr "Dirilis pada 15 Juni 2020."
+msgstr "*Dirilis pada 16 Juni 2025.*"
 
 #: ../../changes.rst:84
 msgid ":ref:`sbom` now includes serial number."
@@ -24695,10 +25367,8 @@ msgid "Weblate 5.11.4"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:166
-#, fuzzy
-#| msgid "Released on May 7th 2020."
 msgid "*Released on May 7th 2025.*"
-msgstr "Dirilis pada 7 Mei 2020."
+msgstr "*Dirilis pada 7 Mei 2025.*"
 
 #: ../../changes.rst:170
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
@@ -24728,10 +25398,8 @@ msgid "Weblate 5.11.3"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:189 ../../changes.rst:208
-#, fuzzy
-#| msgid "Released on Mar 3rd 2017."
 msgid "*Released on May 3rd 2025.*"
-msgstr "Dirilis pada 3 Maret 2017."
+msgstr "*Dirilis pada 3 Mei 2025.*"
 
 #: ../../changes.rst:193
 msgid "Fixed release publishing."
@@ -24756,10 +25424,8 @@ msgid "Weblate 5.11.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:212
-#, fuzzy
-#| msgid "Use automatic suggestions"
 msgid "Glossary performance in zen mode and automatic suggestions."
-msgstr "Menggunakan saran otomatis"
+msgstr "Kinerja glosarium dalam mode zen dan saran otomatis."
 
 #: ../../changes.rst:213
 msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
@@ -24777,10 +25443,8 @@ msgid "Improved error handling on ZIP upload."
 msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
 
 #: ../../changes.rst:219
-#, fuzzy
-#| msgid "**activity**"
 msgid "Django 5.2 compatibility."
-msgstr "**aktivitas**"
+msgstr "Kompatibilitas Django 5.2."
 
 #: ../../changes.rst:220
 #, fuzzy
@@ -24807,10 +25471,8 @@ msgid "Weblate 5.11.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:235
-#, fuzzy
-#| msgid "Released on April 19th 2021."
 msgid "*Released on April 25th 2025.*"
-msgstr "Dirilis pada 19 April 2021."
+msgstr "*Dirilis pada 25 April 2025.*"
 
 #: ../../changes.rst:239
 msgid ":ref:`projectbackup` now include teams and categories."
@@ -24831,10 +25493,8 @@ msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
 msgstr ""
 
 #: ../../changes.rst:246
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Removing pending glossary terms."
-msgstr "Istilah glosarium terlarang"
+msgstr "Menghapus istilah glosarium yang tertunda."
 
 #: ../../changes.rst:256
 #, fuzzy
@@ -24855,10 +25515,8 @@ msgid "Weblate 5.11"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:261
-#, fuzzy
-#| msgid "Released on April 19th 2021."
 msgid "*Released on April 15th 2025.*"
-msgstr "Dirilis pada 19 April 2021."
+msgstr "*Dirilis pada 15 April 2025.*"
 
 #: ../../changes.rst:265
 msgid ""
@@ -24933,17 +25591,15 @@ msgid "Changes in string flags are now tracked in history."
 msgstr "Perubahan terjemahan diekspor ke umpan RSS."
 
 #: ../../changes.rst:281
-#, fuzzy
-#| msgid ":doc:`/admin/machine`"
 msgid ":doc:`/admin/machine` documentation extended."
-msgstr ":doc:`/admin/machine`"
+msgstr ":doc:`/admin/machine` dokumentasi diperluas."
 
 #: ../../changes.rst:282
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` better handles hundreds of matches."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+":ref:`addon-weblate.discovery.discovery` menangani ratusan kecocokan dengan "
+"lebih baik."
 
 #: ../../changes.rst:283
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
@@ -25028,16 +25684,12 @@ msgid "Weblate 5.10.4"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:316
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "*Released on March 19th 2025.*"
-msgstr "Dirilis pada 11 Maret 2020."
+msgstr "*Dirilis pada 19 Maret 2025.*"
 
 #: ../../changes.rst:320
-#, fuzzy
-#| msgid "Dismiss failing check"
 msgid "Fixed dismissing of checks."
-msgstr "Abaikan pemeriksaan kegagalan"
+msgstr "Memperbaiki penolakan pemeriksaan."
 
 #: ../../changes.rst:321
 #, fuzzy
@@ -25076,10 +25728,8 @@ msgid "Weblate 5.10.3"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:339
-#, fuzzy
-#| msgid "Released on March 11th 2020."
 msgid "*Released on March 13th 2025.*"
-msgstr "Dirilis pada 11 Maret 2020."
+msgstr "*Dirilis pada 13 Maret 2025.*"
 
 #: ../../changes.rst:343
 msgid "Captcha is not shown for registrations via :ref:`invite-user`."
@@ -25108,10 +25758,8 @@ msgid "Improved handling of components using :ref:`internal-urls`."
 msgstr "Peningkatan penanganan komponen menggunakan :ref:`internal-urls`."
 
 #: ../../changes.rst:351
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed authenticating with some Git servers."
-msgstr "Terjemahan otomatis sedang berlangsung"
+msgstr "Memperbaiki autentikasi dengan beberapa server Git."
 
 #: ../../changes.rst:361
 #, fuzzy
@@ -25132,10 +25780,8 @@ msgid "Weblate 5.10.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:366
-#, fuzzy
-#| msgid "Released on February 8th 2012."
 msgid "*Released on February 28th 2025.*"
-msgstr "Dirilis pada 8 Februari 2012."
+msgstr "*Dirilis pada 28 Februari 2025.*"
 
 #: ../../changes.rst:370
 msgid "Improved :ref:`translation-memory` matching."
@@ -25201,10 +25847,8 @@ msgid "Weblate 5.10.1"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:400
-#, fuzzy
-#| msgid "Released on February 14th 2012."
 msgid "*Released on February 21st 2025.*"
-msgstr "Dirilis pada 14 Februari 2012."
+msgstr "*Dirilis pada 21 Februari 2025.*"
 
 #: ../../changes.rst:404
 #, fuzzy
@@ -25261,10 +25905,8 @@ msgid "Weblate 5.10"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:427
-#, fuzzy
-#| msgid "Released on February 14th 2012."
 msgid "*Released on February 14th 2025.*"
-msgstr "Dirilis pada 14 Februari 2012."
+msgstr "*Dirilis pada 14 Februari 2025.*"
 
 #: ../../changes.rst:431
 msgid ""
@@ -25346,10 +25988,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:449
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator`"
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ":ref:`mt-microsoft-translator`"
+msgstr "Peningkatan kompatibilitas bahasa di :ref:`mt-microsoft-translator`."
 
 #: ../../changes.rst:450
 msgid ""
@@ -25486,10 +26126,8 @@ msgid "Weblate 5.9.2"
 msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:492
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "*Released on December 19th 2024.*"
-msgstr "Dirilis pada tanggal 16 Desember 2021."
+msgstr "*Dirilis pada 19 Desember 2024.*"
 
 #: ../../changes.rst:496
 #, fuzzy
