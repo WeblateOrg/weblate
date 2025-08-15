@@ -905,13 +905,15 @@ def translation_progress_render(
     if approved_percent > 0.1:
         approved_tag = format_html(
             """
-            <div class="progress-bar"
-                role="progressbar"
-                aria-valuenow="{approved}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {approved}%"
-                title="{title}"></div>
+            <div class="progress progress5"
+                 role="progressbar"
+                 aria-valuenow="{approved}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {approved}%"
+                 title="{title}">
+                    <div class="progress-bar"></div>
+            </div>
             """,
             approved=f"{approved_percent:.1f}",
             title=gettext("Approved"),
@@ -919,20 +921,22 @@ def translation_progress_render(
     if good_percent > 0.1:
         good_tag = format_html(
             """
-            <div class="progress-bar progress-bar-success"
-                role="progressbar"
-                aria-valuenow="{good}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {good}%"
-                title="{title}"></div>
+            <div class="progress progress5"
+                 role="progressbar"
+                 aria-valuenow="{good}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {good}%"
+                 title="{title}">
+                    <div class="progress-bar progress-bar-success"></div>
+            </div>
             """,
             good=f"{good_percent:.1f}",
             title=gettext("Translated without any problems"),
         )
 
     return format_html(
-        """<div class="progress" title="{}">{}{}</div>""",
+        """<div class="progress-stacked progress5" title="{}">{}{}</div>""",
         gettext("Needs attention"),
         approved_tag,
         good_tag,
@@ -1638,7 +1642,7 @@ def list_objects_number(
     url_end: str | SafeString
     url_start = url_end = ""
     if value == 0 and not show_zero:
-        value_formatted = format_html("""<span class="sr-only">{}</span>""", value)
+        value_formatted = format_html("""<span class="visually-hidden">{}</span>""", value)
     else:
         if search_url or translate_url:
             url_start = format_html(
@@ -1723,7 +1727,44 @@ def list_objects_percent(
         value_formatted=gettext("%(value)s of %(all)s")
         % {"value": intcomma(value), "all": intcomma(total)},
     )
+@register.inclusion_tag("snippets/info5.html", takes_context=True)
+def show_info5(  # noqa: PLR0913
+    context: Context,
+    *,
+    project: Project | None = None,
+    component: Component | None = None,
+    translation: Translation | None = None,
+    language: Language | None = None,
+    componentlist: ComponentList | None = None,
+    stats: BaseStats | None = None,
+    metrics: MetricsWrapper | None = None,
+    show_source: bool = False,
+    show_global: bool = False,
+    show_full_language: bool = True,
+    top_users: QuerySet[Profile] | None = None,
+    total_translations: int | None = None,
+):
+    """
+    Render project information table.
 
+    This merely exists to be able to pass default values to {% include %}.
+    """
+    return {
+        "user": context["user"],
+        "project": project,
+        "component": component,
+        "translation": translation,
+        "language": language,
+        "componentlist": componentlist,
+        "stats": stats,
+        "metrics": metrics,
+        "show_source": show_source,
+        "show_global": show_global,
+        "show_full_language": show_full_language,
+        "top_users": top_users,
+        "total_translations": total_translations,
+        "bootstrap_5": True
+    }
 
 @register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(  # noqa: PLR0913

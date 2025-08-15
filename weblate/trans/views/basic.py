@@ -115,6 +115,7 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
+            "bootstrap_5": True
         },
     )
 
@@ -440,6 +441,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "user_can_add_translation": user_can_add_translation,
+            "bootstrap_5": True,
         },
     )
 
@@ -590,6 +592,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
             if "alerts" not in request.GET
             else obj.alert_set.all(),
             "user_can_add_translation": user_can_add_translation,
+            "bootstrap_5": True,
         },
     )
 
@@ -687,6 +690,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
             "last_changes": last_changes,
             "other_translations": other_translations,
             "exporters": EXPORTERS.list_exporters(obj),
+            "bootstrap_5": True,
         },
     )
 
