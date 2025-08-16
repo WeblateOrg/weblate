@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-13 12:03+0000\n"
+"PO-Revision-Date: 2025-08-16 17:31+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -14671,16 +14671,12 @@ msgid "Enables :ref:`github_auth`."
 msgstr "Activa la :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:1327
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub Enterprise Edition"
-msgstr "Autenticación por GitHub"
+msgstr "Edición GitHub Enterprise"
 
 #: ../../admin/install/docker.rst:1335
-#, fuzzy
-#| msgid "Enables :ref:`github_auth`."
 msgid "Enables :ref:`github_ee_auth`."
-msgstr "Activa la :ref:`github_auth`."
+msgstr "Activa :ref:`github_ee_auth`."
 
 #: ../../admin/install/docker.rst:1338
 msgid "Bitbucket"
@@ -14715,14 +14711,13 @@ msgid "Enables :ref:`gitlab_auth`."
 msgstr "Activa la :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:1373
+#, fuzzy
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1379
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "Enables Gitea authentication."
-msgstr "Autenticación por GitHub"
+msgstr "Habilita la autenticación Gitea."
 
 #: ../../admin/install/docker.rst:1382
 msgid "Azure Active Directory"
@@ -14731,24 +14726,28 @@ msgstr "Active Directory de Azure"
 #: ../../admin/install/docker.rst:1387
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Habilita la autenticación de Azure Active Directory, ver :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1390
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Azure Active Directory con soporte Tenant"
 
 #: ../../admin/install/docker.rst:1396
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
+"Habilita la autenticación de Azure Active Directory con soporte Tenant, ver "
+":ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:1400
+#, fuzzy
 msgid "Keycloak"
-msgstr ""
+msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1411
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr ""
+msgstr "Habilita la autenticación Keycloak, ver :doc:`psa:backends/keycloak`."
 
 #: ../../admin/install/docker.rst:1414
 msgid "Linux vendors"
@@ -14759,6 +14758,9 @@ msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
+"Puede habilitar la autenticación mediante los servicios de autenticación de "
+"proveedores de Linux estableciendo las siguientes variables en cualquier "
+"valor."
 
 #: ../../admin/install/docker.rst:1430
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
@@ -14835,10 +14837,14 @@ msgstr "Nombre de base de datos de PostgreSQL."
 #: ../../admin/install/docker.rst:1527
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Nombre de host o dirección IP del servidor PostgreSQL. Por defecto a "
+"``database``."
 
 #: ../../admin/install/docker.rst:1531
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Puerto del servidor PostgreSQL. El valor predeterminado es ninguno (usa el "
+"valor predeterminado)."
 
 #: ../../admin/install/docker.rst:1535
 msgid ""
@@ -14846,16 +14852,21 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
+"Configure cómo PostgreSQL maneja SSL en conexión con el servidor, para "
+"conocer las posibles opciones, ver ' Descripciones del modo SSL <https://"
+"www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: ../../admin/install/docker.rst:1540
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
+"Configura el nombre del rol de PostgreSQL para modificarlo durante la "
+"migración de la base de datos, ver :ref:`config-postgresql`."
 
 #: ../../admin/install/docker.rst:1542
 msgid "Defaults to :envvar:`POSTGRES_USER`."
-msgstr ""
+msgstr "Por defecto a :envvar:`POSTGRES_USER`."
 
 #: ../../admin/install/docker.rst:1548
 msgid ""
@@ -14870,24 +14881,34 @@ msgstr ""
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
 msgstr ""
+"El comportamiento predeterminado es tener conexiones de base de datos "
+"persistentes ilimitadas."
 
 #: ../../admin/install/docker.rst:1555
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
+"Habilitar la persistencia de la conexión generalmente provocará una conexión "
+"más abierta a la base de datos. Ajuste la configuración de su base de datos "
+"antes de habilitarla."
 
 #: ../../admin/install/docker.rst:1574
 msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
+"Deshabilitar los cursores del lado del servidor en la base de datos. Esto es "
+"necesario en algunas configuraciones :command:`pgbouncer`."
 
 #: ../../admin/install/docker.rst:1586
+#, fuzzy
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`"
 msgstr ""
+":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
+"DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: ../../admin/install/docker.rst:1593
 msgid ""
@@ -14895,6 +14916,9 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Establecer en falso para deshabilitar la configuración basada en el entorno "
+"de la conexión de la base de datos. Usar :ref:`docker-settings-override` "
+"para configurar la conexión de la base de datos manualmente."
 
 #: ../../admin/install/docker.rst:1598
 #, fuzzy
