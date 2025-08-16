@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-15 04:47+0000\n"
+"PO-Revision-Date: 2025-08-16 07:01+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -19366,7 +19366,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:282
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Operasi berikut ini tunduk pada pembatasan akses:"
 
 #: ../../admin/optionals.rst:285
 msgid "Name"
@@ -19374,15 +19374,15 @@ msgstr "Nama"
 
 #: ../../admin/optionals.rst:285
 msgid "Allowed attempts"
-msgstr ""
+msgstr "Percobaan yang diizinkan"
 
 #: ../../admin/optionals.rst:285
 msgid "Ratelimit window"
-msgstr ""
+msgstr "Jendela batas akses"
 
 #: ../../admin/optionals.rst:285
 msgid "Lockout period"
-msgstr ""
+msgstr "Periode penguncian"
 
 #: ../../admin/optionals.rst:287 ../../user/profile.rst:5
 msgid "Registration"
@@ -19390,23 +19390,19 @@ msgstr "Pendaftaran"
 
 #: ../../admin/optionals.rst:289
 msgid "Sending message to admins"
-msgstr ""
+msgstr "Mengirim pesan ke admin"
 
 #: ../../admin/optionals.rst:291
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Password authentication on sign-in"
-msgstr "Autentikasi kata sandi"
+msgstr "Autentikasi kata sandi saat masuk"
 
 #: ../../admin/optionals.rst:293
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Second-factor authentication"
-msgstr "Autentikasi dua faktor"
+msgstr "Autentikasi faktor kedua"
 
 #: ../../admin/optionals.rst:295
 msgid "Sitewide search"
-msgstr ""
+msgstr "Pencarian di seluruh situs"
 
 #: ../../admin/optionals.rst:297 ../../user/translating.rst:116
 msgid "Translating"
@@ -19414,7 +19410,7 @@ msgstr "Mentranslasi"
 
 #: ../../admin/optionals.rst:299
 msgid "Adding to glossary"
-msgstr ""
+msgstr "Menambahkan ke glosarium"
 
 #: ../../admin/optionals.rst:301
 msgid "Starting translation into a new language"
@@ -19429,6 +19425,8 @@ msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
 msgstr ""
+"Pembatasan akses didasarkan pada sesi saat pengguna masuk dan pada alamat IP "
+"jika tidak."
 
 #: ../../admin/optionals.rst:309
 msgid ""
@@ -19436,6 +19434,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Jika pengguna gagal masuk :setting:`AUTH_LOCK_ATTEMPTS` kali, autentikasi "
+"kata sandi akan dinonaktifkan pada akun tersebut hingga proses pengaturan "
+"ulang kata sandi selesai."
 
 #: ../../admin/optionals.rst:311
 msgid ""
@@ -19443,10 +19444,14 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"Pengaturan juga dapat diterapkan dalam kontainer Docker dengan menambahkan "
+"awalan ``WEBLATE_`` ke nama pengaturan, misalnya "
+":setting:`RATELIMIT_ATTEMPTS` menjadi :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:313
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"API memiliki pengaturan pembatasan akses terpisah, lihat :ref:`api-rate`."
 
 #: ../../admin/optionals.rst:324
 msgid "Fedora Messaging integration"
@@ -19458,6 +19463,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
+"Fedora Messaging adalah penerbit berbasis AMQP untuk semua perubahan yang "
+"terjadi di Weblate. Anda dapat menghubungkan layanan tambahan pada perubahan "
+"yang terjadi di Weblate menggunakan ini."
 
 #: ../../admin/optionals.rst:329
 msgid ""
@@ -19465,6 +19473,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"Integrasi Fedora Messaging tersedia sebagai modul Python terpisah ``weblate-"
+"fedora-messaging``. Silakan lihat <https://github.com/WeblateOrg/"
+"fedora_messaging/> untuk petunjuk pengaturan."
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:24
 msgid "Translation projects"
@@ -19472,7 +19483,7 @@ msgstr "Proyek terjemahan"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Organisasi terjemahan"
 
 #: ../../admin/projects.rst:7
 msgid ""
@@ -19480,6 +19491,9 @@ msgid ""
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
+"Weblate mengorganisasikan konten VCS yang dapat diterjemahkan dari proyek/"
+"komponen ke dalam struktur seperti pohon. Anda juga dapat mengorganisasikan "
+"komponen dalam proyek menggunakan kategori."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -19487,12 +19501,17 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Objek tingkat bawah adalah :ref:`project`, yang seharusnya menampung semua "
+"terjemahan yang termasuk bersama-sama (misalnya terjemahan suatu aplikasi "
+"dalam beberapa versi dan/atau dokumentasi yang menyertainya)."
 
 #: ../../admin/projects.rst:15
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"Tingkat tengah dapat dibuat secara opsional oleh :ref:`category`. Kategori "
+"dapat disarangkan untuk mencapai struktur yang lebih kompleks."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -19500,6 +19519,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Pada level di atas, :ref:`component`, yang sebenarnya adalah komponen yang "
+"akan diterjemahkan, Anda menentukan repositori VCS yang akan digunakan, dan "
+"topeng berkas yang akan diterjemahkan."
 
 #: ../../admin/projects.rst:22
 msgid ""
@@ -19507,12 +19529,18 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Di atas :ref:`component` terdapat terjemahan individual, ditangani secara "
+"otomatis oleh Weblate sebagai berkas terjemahan (yang cocok dengan :ref"
+":`component-filemask` yang didefinisikan dalam :ref:`component`) muncul di "
+"repositori VCS."
 
 #: ../../admin/projects.rst:25
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate mendukung berbagai format terjemahan (baik bilingual maupun "
+"monolingual) yang didukung oleh Translate Toolkit, lihat :ref:`formats`."
 
 #: ../../admin/projects.rst:30
 msgid ""
@@ -19520,10 +19548,14 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Anda dapat berbagi repositori VCS kloning menggunakan :ref:`internal-urls`. "
+"Fitur ini sangat disarankan jika Anda memiliki banyak komponen yang berbagi "
+"VCS yang sama. Itu meningkatkan kinerja dan mengurangi ruang disk yang "
+"dibutuhkan."
 
 #: ../../admin/projects.rst:38
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "Menambahkan proyek dan komponen terjemahan"
 
 #: ../../admin/projects.rst:40
 msgid ""
@@ -19533,16 +19565,23 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"Berdasarkan izin Anda, proyek dan komponen terjemahan baru dapat dibuat. Hal "
+"ini selalu diizinkan untuk pengguna dengan izin :guilabel:`Add new projects`"
+", dan jika instans Anda menggunakan penagihan (misalnya seperti https://"
+"hosted.weblate.org/ lihat :ref:`billing`), Anda juga dapat membuatnya "
+"berdasarkan izin paket Anda dari akun pengguna yang mengelola penagihan."
 
 #: ../../admin/projects.rst:48
 msgid ""
 "To grant every user permission to create new projects create new :ref:"
 "`autoteam` for the :guilabel:`Project creators` team."
 msgstr ""
+"Untuk memberikan setiap pengguna izin untuk membuat proyek baru, buat "
+":ref:`autoteam` baru untuk :guilabel:`Project creators`."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Anda dapat melihat paket penagihan Anda saat ini di halaman terpisah:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -19550,10 +19589,13 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"Pembuatan proyek dapat dimulai dari sana, atau menggunakan menu di bilah "
+"navigasi, mengisi info dasar tentang proyek terjemahan untuk menyelesaikan "
+"penambahannya:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr ""
+msgstr "Setelah membuat proyek, Anda akan dibawa langsung ke halaman proyek:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -19562,6 +19604,10 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Pembuatan komponen terjemahan baru dapat dimulai hanya dengan satu klik. "
+"Proses pembuatan komponen ini bertahap dan secara otomatis mendeteksi "
+"sebagian besar parameter terjemahan. Ada beberapa pendekatan untuk membuat "
+"komponen:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -19569,7 +19615,7 @@ msgstr "Dari kontrol versi"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "Membuat komponen dari repositori kontrol versi jarak jauh."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -19579,6 +19625,8 @@ msgstr "Dari komponen yang ada"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Membuat komponen tambahan untuk komponen yang sudah ada dengan memilih "
+"berkas yang berbeda."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -19588,6 +19636,8 @@ msgstr "Cabang tambahan"
 msgid ""
 "Creates additional component to existing one, just for different branch."
 msgstr ""
+"Membuat komponen tambahan untuk komponen yang sudah ada, hanya untuk cabang "
+"yang berbeda."
 
 #: ../../admin/projects.rst:74
 msgid "Upload translations files"
@@ -19599,6 +19649,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Unggah berkas terjemahan ke Weblate jika Anda tidak memiliki kontrol versi "
+"atau tidak ingin mengintegrasikannya dengan Weblate. Anda dapat memperbarui "
+"konten nanti menggunakan antarmuka web atau :ref:`api`."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -19606,7 +19659,7 @@ msgstr "Terjemahkan dokumen"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document or translation file and translate that."
-msgstr ""
+msgstr "Unggah dokumen tunggal atau berkas terjemahan dan terjemahkan."
 
 #: ../../admin/projects.rst:80
 msgid "Start from scratch"
@@ -19614,33 +19667,40 @@ msgstr "Mulai dari awal"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Buat proyek terjemahan kosong dan tambahkan string secara manual."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Setelah Anda memiliki komponen terjemahan yang ada, Anda juga dapat dengan "
+"mudah menambahkan komponen baru untuk berkas atau cabang tambahan "
+"menggunakan repositori yang sama."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Pertama Anda perlu mengisi nama dan lokasi repositori:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Pada halaman berikutnya, Anda akan disajikan dengan daftar sumber daya "
+"terjemahan yang ditemukan:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"Sebagai langkah terakhir, Anda meninjau info komponen terjemahan dan mengisi "
+"rincian opsional:"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr ""
+msgstr "Konfigurasi proyek"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -19651,10 +19711,15 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Buat proyek terjemahan, lalu tambahkan komponen baru untuk terjemahan di "
+"dalamnya. Proyek ini seperti rak, tempat terjemahan asli ditumpuk. Semua "
+"komponen dalam proyek yang sama berbagi saran dan kamusnya; terjemahan juga "
+"secara otomatis disebarkan ke semua komponen dalam satu proyek (kecuali "
+"dinonaktifkan dalam konfigurasi komponen), lihat :ref:`memory`."
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr ""
+msgstr "Atribut dasar ini menyiapkan dan memberi tahu penerjemah suatu proyek:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:1167 ../../api.rst:882
 #: ../../contributing/about.rst:11
@@ -19663,7 +19728,7 @@ msgstr "Nama proyek"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Nama proyek verbose, digunakan untuk menampilkan nama proyek."
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
@@ -19671,7 +19736,7 @@ msgstr "URL slug"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Nama proyek yang cocok untuk URL."
 
 #: ../../admin/projects.rst:142 ../../api.rst:886
 #: ../../contributing/about.rst:16
@@ -19681,12 +19746,15 @@ msgstr "Situs web proyek"
 #: ../../admin/projects.rst:144
 msgid "URL where translators can find more info about the project."
 msgstr ""
+"URL tempat penerjemah dapat menemukan informasi lebih lanjut tentang proyek."
 
 #: ../../admin/projects.rst:146
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Ini adalah parameter yang diperlukan kecuali dinonaktifkan oleh "
+":setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/projects.rst:157
 msgid "Translation instructions"
@@ -19698,6 +19766,9 @@ msgid ""
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
 msgstr ""
+"Teks yang menjelaskan proses pelokalan dalam proyek, dan informasi lain yang "
+"berguna bagi penerjemah. Markdown dapat digunakan untuk pemformatan teks "
+"atau penyisipan tautan."
 
 #: ../../admin/projects.rst:165
 msgid "Set \"Language-Team\" header"
@@ -19720,6 +19791,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Apakah akan menggunakan memori terjemahan bersama, lihat :ref:`shared-tm` "
+"untuk rincian lebih lanjut."
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
@@ -19734,34 +19807,42 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Apakah akan berkontribusi pada memori terjemahan bersama, lihat :ref:`shared-"
+"tm` untuk rincian lebih lanjut."
 
 #: ../../admin/projects.rst:186
 msgid ""
 "This also affects whether the project can be used as source for :ref:"
 "`automatic-translation`."
 msgstr ""
+"Ini juga memengaruhi apakah proyek dapat digunakan sebagai sumber untuk :ref"
+":`automatic-translation`."
 
 #: ../../admin/projects.rst:192
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together with :"
 "ref:`project-use_shared_tm`."
 msgstr ""
+"Opsi ini tidak tersedia di Hosted Weblate, opsi ini diaktifkan bersama "
+"dengan :ref:`project-use_shared_tm`."
 
 #: ../../admin/projects.rst:201
-#, fuzzy
-#| msgid "Added support for rebuilding project translation memory."
 msgid ""
 "Whether to automatically remove outdated and obsolete entries from "
 "translation memory."
-msgstr "Menambahkan dukungan untuk membangun kembali memori terjemahan proyek."
+msgstr ""
+"Apakah akan secara otomatis menghapus entri yang ketinggalan zaman dan tidak "
+"berguna dari memori terjemahan."
 
 #: ../../admin/projects.rst:205
 msgid "This does not affect manually uploaded memory entries."
-msgstr ""
+msgstr "Hal ini tidak memengaruhi entri memori yang diunggah secara manual."
 
 #: ../../admin/projects.rst:212
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Konfigurasikan kontrol akses per proyek, lihat :ref:`acl` untuk rincian "
+"lebih lanjut."
 
 #: ../../admin/projects.rst:214
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
@@ -19776,6 +19857,8 @@ msgid ""
 "Enforce :ref:`2fa` for all contributors. Users won’t be allowed to perform "
 "any operations within the project without having it configured."
 msgstr ""
+"Terapkan :ref:`2fa` untuk semua kontributor. Pengguna tidak akan diizinkan "
+"melakukan operasi apa pun dalam proyek tanpa mengonfigurasinya."
 
 #: ../../admin/projects.rst:229 ../../workflows.rst:112 ../../workflows.rst:144
 #: ../../workflows.rst:177
@@ -19784,7 +19867,7 @@ msgstr "Aktifkan tinjauan"
 
 #: ../../admin/projects.rst:231
 msgid "Enable review workflow for translations, see :ref:`reviews`."
-msgstr ""
+msgstr "Aktifkan alur kerja peninjauan untuk terjemahan, lihat :ref:`reviews`."
 
 #: ../../admin/projects.rst:240
 msgid "Enable source reviews"
@@ -19793,12 +19876,12 @@ msgstr "Aktifkan ulasan sumber"
 #: ../../admin/projects.rst:242
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Aktifkan alur kerja peninjauan untuk string sumber, lihat :ref:`source-"
+"reviews`."
 
 #: ../../admin/projects.rst:252
-#, fuzzy
-#| msgid "Cookies Policy"
 msgid "Commit Policy"
-msgstr "Kebijakan Kuki"
+msgstr "Kebijakan Komit"
 
 #: ../../admin/projects.rst:256
 msgid ""
@@ -19806,18 +19889,27 @@ msgid ""
 "changes to the version control system. This setting is available at the "
 "project level and supports the following options:"
 msgstr ""
+"Kebijakan komit menentukan terjemahan mana yang disertakan saat melakukan "
+"komit perubahan ke sistem kontrol versi. Pengaturan ini tersedia di tingkat "
+"proyek dan mendukung opsi berikut:"
 
 #: ../../admin/projects.rst:260
 msgid ""
 "**Commit all translations regardless of quality**: All translations will be "
 "committed, including those marked as needing editing or not reviewed."
 msgstr ""
+"**Komit semua terjemahan tanpa mempedulikan kualitasnya**: Semua terjemahan "
+"akan dikomit, termasuk terjemahan yang ditandai perlu disunting atau tidak "
+"ditinjau."
 
 #: ../../admin/projects.rst:262
 msgid ""
 "**Skip translations marked as needing editing**: Only translations that "
 "don't have the \"needs editing\" flag will be committed."
 msgstr ""
+"**Lewati terjemahan yang ditandai memerlukan penyuntingan**: Hanya "
+"terjemahan yang tidak memiliki tanda \"perlu penyuntingan\" yang akan "
+"dikomit."
 
 #: ../../admin/projects.rst:264
 msgid ""
@@ -19825,6 +19917,9 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
+"**Hanya sertakan terjemahan yang disetujui**: Hanya terjemahan yang telah "
+"disetujui oleh peninjau yang akan dikomit. Opsi ini mengharuskan :ref"
+":`project-translation_review` diaktifkan."
 
 #: ../../admin/projects.rst:272
 msgid "Enable hooks"
@@ -19834,6 +19929,8 @@ msgstr "Aktifkan hook"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Apakah :ref:`hooks` yang tidak diautentikasi akan digunakan untuk repositori "
+"ini."
 
 #: ../../admin/projects.rst:286
 msgid "Language aliases"
@@ -19846,20 +19943,26 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"Tentukan pemetaan kode bahasa saat mengimpor terjemahan ke Weblate. Gunakan "
+"ini jika kode bahasa tidak konsisten di repositori Anda dan Anda ingin "
+"mendapatkan tampilan yang konsisten di Weblate, atau jika Anda ingin "
+"menggunakan penamaan non-standar untuk berkas terjemahan Anda."
 
 #: ../../admin/projects.rst:293
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Kasus penggunaan yang umum mungkin memetakan Bahasa Inggris Amerika ke "
+"Bahasa Inggris: ``en_US:en``"
 
 #: ../../admin/projects.rst:295
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "Beberapa pemetaan harus dipisahkan dengan koma: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:297
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "Menggunakan kode non standar: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:301
 msgid ""
@@ -19867,6 +19970,9 @@ msgid ""
 "matches are case sensitive, so ensure you use the source language codes in "
 "same form as used in the filenames."
 msgstr ""
+"Kode bahasa dipetakan saat mencocokkan berkas terjemahan dan kecocokannya "
+"peka huruf besar-kecil, jadi pastikan Anda menggunakan kode bahasa sumber "
+"dalam bentuk yang sama seperti yang digunakan dalam nama berkas."
 
 #: ../../admin/projects.rst:314 ../../admin/projects.rst:1022
 msgid "Secondary language"
@@ -19884,6 +19990,8 @@ msgstr ""
 msgid ""
 "Optionally, it can be also used as a source for the machine translation."
 msgstr ""
+"Secara opsional, ini juga dapat digunakan sebagai sumber untuk terjemahan "
+"mesin."
 
 #: ../../admin/projects.rst:330 ../../admin/projects.rst:686
 #: ../../admin/translating.rst:79 ../../formats.rst:432
@@ -19896,10 +20004,12 @@ msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
 "checks`."
 msgstr ""
+"Kustomisasi pemeriksaan kualitas dan perilaku Weblate lainnya, lihat :ref"
+":`custom-checks`."
 
 #: ../../admin/projects.rst:340 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr ""
+msgstr "Konfigurasi komponen"
 
 #: ../../admin/projects.rst:342
 msgid ""
@@ -19908,11 +20018,16 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Komponen adalah pengelompokan sesuatu untuk terjemahan. Anda memasukkan "
+"lokasi repositori VCS dan masker berkas untuk berkas yang ingin Anda "
+"terjemahkan, dan Weblate secara otomatis mengambil dari VCS ini, dan "
+"menemukan semua berkas terjemahan yang cocok."
 
 #: ../../admin/projects.rst:350
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Anda dapat menemukan beberapa contoh konfigurasi umum di :ref:`formats`."
 
 #: ../../admin/projects.rst:354
 msgid ""
@@ -19930,6 +20045,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate dengan mudah menangani terjemahan dengan 10000-an string, tetapi "
+"lebih sulit untuk membagi pekerjaan dan berkoordinasi di antara penerjemah "
+"dengan komponen terjemahan yang begitu besar."
 
 #: ../../admin/projects.rst:361
 msgid ""
@@ -19938,12 +20056,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Jika definisi bahasa untuk terjemahan hilang, definisi kosong akan dibuat "
+"dan diberi nama \"cs_CZ (dihasilkan)\". Anda harus menyesuaikan definisi "
+"tersebut dan melaporkannya kembali kepada pengembang Weblate agar bahasa "
+"yang hilang dapat ditambahkan pada rilis berikutnya."
 
 #: ../../admin/projects.rst:366
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Komponen ini berisi semua parameter penting untuk bekerja dengan VCS, dan "
+"untuk mendapatkan terjemahan darinya:"
 
 #: ../../admin/projects.rst:372 ../../admin/projects.rst:1163
 msgid "Component name"
@@ -19951,24 +20075,24 @@ msgstr "Nama komponen"
 
 #: ../../admin/projects.rst:374
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "Nama komponen verbose, digunakan untuk menampilkan nama komponen."
 
 #: ../../admin/projects.rst:379 ../../admin/projects.rst:1165
 #: ../../api.rst:2433 ../../api.rst:2503 ../../api.rst:2610
 msgid "Component slug"
-msgstr ""
+msgstr "Komponen slug"
 
 #: ../../admin/projects.rst:381
 msgid "Component name suitable for URLs."
-msgstr ""
+msgstr "Nama komponen yang cocok untuk URL."
 
 #: ../../admin/projects.rst:386
 msgid "Component project"
-msgstr ""
+msgstr "Proyek komponen"
 
 #: ../../admin/projects.rst:388
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr ":ref:`project` tempat komponen berada."
 
 #: ../../admin/projects.rst:393
 msgid "Version control system"
@@ -19976,7 +20100,7 @@ msgstr "Sistem kontrol versi"
 
 #: ../../admin/projects.rst:395
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "VCS yang akan digunakan, lihat :ref:`vcs` untuk rinciannya."
 
 #: ../../admin/projects.rst:404 ../../devel/gettext.rst:224
 msgid "Source code repository"
@@ -19984,11 +20108,12 @@ msgstr "Repositori kode sumber"
 
 #: ../../admin/projects.rst:406
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "Repositori VCS digunakan untuk menarik perubahan."
 
 #: ../../admin/projects.rst:410
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
 msgstr ""
+"Lihat :ref:`vcs-repos` untuk rincian lebih lanjut tentang menentukan URL."
 
 #: ../../admin/projects.rst:414
 msgid ""
@@ -19996,6 +20121,9 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Ini bisa berupa URL VCS asli atau ``weblate://project/component`` yang "
+"menunjukkan bahwa repositori tersebut harus dibagikan dengan komponen lain. "
+"Lihat :ref:`internal-urls` untuk rincian selengkapnya."
 
 #: ../../admin/projects.rst:421
 msgid "Repository push URL"
@@ -20006,6 +20134,8 @@ msgid ""
 "Repository URL used for pushing. The behavior of this depends on :ref:"
 "`component-vcs`, and this is in more detail covered in :ref:`push-changes`."
 msgstr ""
+"URL repositori yang digunakan untuk mendorong. Perilaku ini bergantung pada "
+":ref:`component-vcs`, dan hal ini dibahas lebih rinci di :ref:`push-changes`."
 
 #: ../../admin/projects.rst:427 ../../admin/projects.rst:467
 #: ../../admin/projects.rst:476
@@ -20013,12 +20143,17 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Untuk repositori tertaut, ini tidak digunakan dan pengaturan dari komponen "
+"tertaut berlaku."
 
 #: ../../admin/projects.rst:431
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Lihat :ref:`vcs-repos` untuk rincian lebih lanjut tentang cara menentukan "
+"URL repositori dan :ref:`push-changes` untuk rincian lebih lanjut tentang "
+"mendorong perubahan dari Weblate."
 
 #: ../../admin/projects.rst:437
 msgid "Repository browser"
@@ -20030,12 +20165,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"URL peramban repositori yang digunakan untuk menampilkan berkas sumber ("
+"lokasi pesan yang digunakan). Jika kosong, tautan tersebut tidak akan "
+"dibuat. Anda dapat menggunakan :ref:`markup`."
 
 #: ../../admin/projects.rst:442
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Misalnya di GitHub, gunakan sesuatu seperti: ``https://github.com/WeblateOrg/"
+"hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:445
 msgid ""
@@ -20044,6 +20184,10 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
+"Jika lintasan Anda relatif terhadap map berbeda (lintasan berisi ``..``), "
+"Anda mungkin ingin menghapus direktori utama dengan filter ``parentdir`` ("
+"lihat :ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:453
 msgid "Exported repository URL"
@@ -20056,6 +20200,11 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"URL tempat perubahan yang dibuat oleh Weblate diekspor. Hal ini penting "
+"ketika :ref:`continuous-translation` tidak digunakan, atau ketika ada "
+"kebutuhan untuk menggabungkan perubahan secara manual. Anda dapat "
+"menggunakan :ref:`git-exporter` untuk mengotomatiskan proses ini untuk "
+"repositori Git."
 
 #: ../../admin/projects.rst:463
 msgid "Repository branch"
@@ -20065,6 +20214,7 @@ msgstr "Repositori branch"
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
 msgstr ""
+"Cabang mana yang harus diperiksa dari VCS, dan di mana mencari terjemahan."
 
 #: ../../admin/projects.rst:472
 msgid "Push branch"
@@ -20073,12 +20223,16 @@ msgstr "Push branch"
 #: ../../admin/projects.rst:474
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Cabang untuk mendorong perubahan, biarkan kosong untuk menggunakan :ref"
+":`component-branch`."
 
 #: ../../admin/projects.rst:480
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
+"Saat ini hanya didukung untuk Git, GitLab dan GitHub, diabaikan untuk "
+"integrasi VCS lainnya."
 
 #: ../../admin/projects.rst:490 ../../devel/gettext.rst:226
 #: ../../formats/android.rst:76 ../../formats/apple.rst:28
@@ -20115,16 +20269,24 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"Topeng berkas yang akan diterjemahkan, termasuk jalurnya. Masker ini harus "
+"menyertakan satu tanda \"*\" yang menggantikan kode bahasa (lihat "
+":ref:`languages` untuk informasi tentang cara pemrosesannya). Jika "
+"repositori Anda berisi lebih dari satu berkas terjemahan (misalnya, lebih "
+"banyak domain gettext), Anda perlu membuat komponen untuk masing-masing "
+"berkas."
 
 #: ../../admin/projects.rst:498
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
-msgstr ""
+msgstr "Misalnya ``po/*.po`` atau ``locale/*/LC_MESSAGES/django.po``."
 
 #: ../../admin/projects.rst:500
 msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
+"Jika nama berkas Anda berisi karakter khusus seperti ``[``, ``]``, karakter "
+"tersebut perlu diloloskan sebagai ``[[]`` atau ``[]]``."
 
 #: ../../admin/projects.rst:511
 msgid "Screenshot file mask"
@@ -20137,10 +20299,14 @@ msgid ""
 "the component level and necessitates the use of an asterisk \"*\" to replace "
 "the screenshot file name."
 msgstr ""
+"Fitur ini memungkinkan penemuan dan pembaruan tangkapan layar melalui topeng "
+"berkas tangkapan layar, menggunakan jalur dari repositori VCS. Fitur ini "
+"beroperasi pada tingkat komponen dan memerlukan penggunaan tanda bintang "
+"\"*\" untuk menggantikan nama berkas tangkapan layar."
 
 #: ../../admin/projects.rst:516
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
-msgstr ""
+msgstr "Format yang diizinkan adalah WebP, JPEG, PNG, APNG dan GIF."
 
 #: ../../admin/projects.rst:518
 msgid "Note:"
@@ -20151,16 +20317,20 @@ msgid ""
 "The file mask and screenshot file mask are not related. Configure them "
 "separately."
 msgstr ""
+"Topeng berkas dan topeng berkas tangkapan layar tidak terkait. "
+"Konfigurasikan keduanya secara terpisah."
 
 #: ../../admin/projects.rst:521
 msgid ""
 "It is a manual job to link a discovered screenshot in a component to a "
 "specific translation key."
 msgstr ""
+"Itu adalah pekerjaan manual untuk menautkan tangkapan layar yang ditemukan "
+"dalam suatu komponen ke kunci terjemahan tertentu."
 
 #: ../../admin/projects.rst:525
 msgid "Let's assume your VCS repository has a structure like this:"
-msgstr ""
+msgstr "Mari kita asumsikan repositori VCS Anda memiliki struktur seperti ini:"
 
 #: ../../admin/projects.rst:534
 msgid ""
@@ -20171,6 +20341,13 @@ msgid ""
 "you provide should be named ``image1.png``, matching the existing "
 "``filename``, and stored under ``component_A/docs/``."
 msgstr ""
+"Untuk komponen_A, Anda ingin mengizinkan penemuan dan pembaruan tangkapan "
+"layar PNG. Anda akan mengatur topeng berkas tangkapan layar untuk komponen_A "
+"sebagai ``component_A/docs/*.png``. Ini berarti gambar PNG apa pun dalam "
+"dokumen di komponen_A dapat ditemukan dan diperbarui. Jadi, jika Anda ingin "
+"memperbarui ``image1.png``, tangkapan layar baru yang Anda berikan harus "
+"diberi nama ``image1.png``, sesuai dengan ``filename`` yang ada, dan "
+"disimpan di ``component_A/docs/``."
 
 #: ../../admin/projects.rst:543 ../../formats/android.rst:78
 #: ../../formats/apple.rst:30 ../../formats/appstore.rst:31
@@ -20201,7 +20378,7 @@ msgstr "Berkas bahasa berbasis ekabahasa"
 
 #: ../../admin/projects.rst:545
 msgid "Base file containing string definitions for :ref:`monolingual`."
-msgstr ""
+msgstr "Berkas dasar berisi definisi string untuk :ref:`monolingual`."
 
 #: ../../admin/projects.rst:555
 msgid "Edit base file"
@@ -20209,7 +20386,7 @@ msgstr "Sunting berkas dasar"
 
 #: ../../admin/projects.rst:557
 msgid "Whether to allow editing strings in the :ref:`component-template`."
-msgstr ""
+msgstr "Apakah mengizinkan penyuntingan string dalam :ref:`component-template`."
 
 #: ../../admin/projects.rst:571
 msgid ""
@@ -20217,6 +20394,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Berkas bahasa perantara untuk :ref:`monolingual`. Umumnya, ini adalah berkas "
+"terjemahan yang disediakan oleh pengembang dan digunakan saat membuat string "
+"sumber yang sebenarnya."
 
 #: ../../admin/projects.rst:575
 msgid ""
@@ -20225,6 +20405,10 @@ msgid ""
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
+"Saat diatur, string sumber didasarkan pada berkas ini, tetapi semua bahasa "
+"lain didasarkan pada :ref:`component-template`. Jika string tersebut tidak "
+"diterjemahkan ke dalam bahasa sumber, penerjemahan ke bahasa lain dilarang. "
+"Ini menghasilkan :ref:`source-quality-gateway`."
 
 #: ../../admin/projects.rst:589 ../../devel/gettext.rst:228
 #: ../../formats/android.rst:80 ../../formats/apple.rst:33
@@ -20263,6 +20447,8 @@ msgid ""
 "Keep this field empty for most of the monoligual formats. Those are "
 "typically able to start from an empty file."
 msgstr ""
+"Biarkan kolom ini kosong untuk sebagian besar format monolingual. Format "
+"tersebut biasanya dapat dimulai dari berkas kosong."
 
 #: ../../admin/projects.rst:594
 msgid "Choose ``.pot`` file with GNU gettext PO files."
@@ -20270,13 +20456,15 @@ msgstr "Pilih berkas ``.pot`` dengan berkas PO GNU gettext."
 
 #: ../../admin/projects.rst:595
 msgid "Choose blank file without translations, if you have one."
-msgstr ""
+msgstr "Pilih berkas kosong tanpa terjemahan, jika Anda memilikinya."
 
 #: ../../admin/projects.rst:596
 msgid ""
 "Choose :ref:`component-template` for monolingual formats that need a full "
 "set of keys present."
 msgstr ""
+"Pilih :ref:`component-template` untuk format monolingual yang memerlukan "
+"sekumpulan kunci lengkap."
 
 #: ../../admin/projects.rst:597
 msgid "Choose :ref:`component-template` for document translations."
@@ -20288,7 +20476,7 @@ msgstr "Pilih berkas terjemahan untuk orang lain."
 
 #: ../../admin/projects.rst:599
 msgid "Template file can be the same as the base file in most cases."
-msgstr ""
+msgstr "Dalam kebanyakan kasus, berkas templat dapat sama dengan berkas dasar."
 
 #: ../../admin/projects.rst:603
 msgid ""
@@ -20296,10 +20484,13 @@ msgid ""
 "this in case you want to have all strings present with empty value when "
 "creating new translation."
 msgstr ""
+"Dalam banyak format monolingual, Weblate dimulai dengan berkas kosong secara "
+"bawaan. Gunakan ini jika Anda ingin semua string hadir dengan nilai kosong "
+"saat membuat terjemahan baru."
 
 #: ../../admin/projects.rst:619
 msgid "Translation file format, see also :ref:`formats`."
-msgstr ""
+msgstr "Format berkas terjemahan, lihat juga :ref:`formats`."
 
 #: ../../admin/projects.rst:624
 msgid "Source string bug reporting address"
@@ -20319,6 +20510,8 @@ msgid ""
 "With the :ref:`gettext` format, this address is also saved by Weblate in "
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
+"Dengan format :ref:`gettext`, alamat ini juga disimpan oleh Weblate di "
+"header :mailheader:`Report-Msgid-Bugs-To` pada berkas."
 
 #: ../../admin/projects.rst:635
 msgid "Allow translation propagation"
@@ -20331,12 +20524,18 @@ msgid ""
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
 msgstr ""
+"Anda dapat menonaktifkan propagasi terjemahan ke komponen ini dari komponen "
+"lain dalam proyek yang sama. Hal ini sangat bergantung pada apa yang Anda "
+"terjemahkan, terkadang penggunaan terjemahan lebih dari sekali memang "
+"diinginkan."
 
 #: ../../admin/projects.rst:641
 msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
 "unless you are using the same IDs across the whole project."
 msgstr ""
+"Biasanya merupakan ide yang baik untuk menonaktifkannya untuk terjemahan "
+"monolingual, kecuali Anda menggunakan ID yang sama di seluruh proyek."
 
 #: ../../admin/projects.rst:644
 msgid ""
@@ -20352,7 +20551,7 @@ msgstr "Aktifkan saran"
 
 #: ../../admin/projects.rst:655
 msgid "Whether translation suggestions are accepted for this component."
-msgstr ""
+msgstr "Apakah saran terjemahan diterima untuk komponen ini."
 
 #: ../../admin/projects.rst:664 ../../admin/translating.rst:7
 #: ../../workflows.rst:117 ../../workflows.rst:148 ../../workflows.rst:182
@@ -20361,7 +20560,7 @@ msgstr "Voting saran"
 
 #: ../../admin/projects.rst:666
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "Mengaktifkan pemberian suara untuk saran, lihat :ref:`voting`."
 
 #: ../../admin/projects.rst:675 ../../workflows.rst:119 ../../workflows.rst:150
 #: ../../workflows.rst:184
@@ -20370,7 +20569,7 @@ msgstr "Setujui saran secara otomatis"
 
 #: ../../admin/projects.rst:677
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "Terima saran yang telah dipilih secara otomatis, lihat :ref:`voting`."
 
 #: ../../admin/projects.rst:693
 msgid "Enforced checks"
@@ -20388,7 +20587,7 @@ msgstr "Lisensi terjemahan"
 msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
-msgstr ""
+msgstr "Lisensi terjemahan (tidak harus sama dengan lisensi kode sumber)."
 
 #: ../../admin/projects.rst:713
 msgid ""
@@ -20400,7 +20599,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:716
 msgid "Markdown can be used for text formatting or inserting links."
-msgstr ""
+msgstr "Markdown dapat digunakan untuk memformat teks atau menyisipkan tautan."
 
 #: ../../admin/projects.rst:721
 msgid "Adding new translation"
@@ -20409,7 +20608,7 @@ msgstr "Menambahkan terjemahan baru"
 #: ../../admin/projects.rst:723
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
-msgstr ""
+msgstr "Cara menangani permintaan pembuatan bahasa baru. Opsi yang tersedia:"
 
 #: ../../admin/projects.rst:725
 msgid "Contact maintainers"
@@ -20421,6 +20620,9 @@ msgid ""
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
 msgstr ""
+"Pengguna dapat memilih bahasa yang diinginkan dan pengelola proyek akan "
+"menerima notifikasi. Mereka bebas menambahkan (atau tidak) bahasa tersebut "
+"ke repositori."
 
 #: ../../admin/projects.rst:729
 msgid "Point to translation instructions URL"
@@ -20432,6 +20634,9 @@ msgid ""
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
 msgstr ""
+"Pengguna akan diberikan tautan ke halaman yang menjelaskan proses memulai "
+"terjemahan baru. Gunakan tautan ini jika menginginkan proses yang lebih "
+"formal (misalnya, membentuk tim sebelum memulai terjemahan)."
 
 #: ../../admin/projects.rst:733
 msgid "Create new language file"
@@ -20442,6 +20647,8 @@ msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
 msgstr ""
+"Pengguna dapat memilih bahasa dan Weblate secara otomatis membuat berkas "
+"untuk bahasa tersebut dan terjemahan dapat dimulai."
 
 #: ../../admin/projects.rst:736
 msgid "Disable adding new translations"
@@ -20449,7 +20656,7 @@ msgstr "Nonaktifkan menambah terjemahan baru"
 
 #: ../../admin/projects.rst:737
 msgid "There will be no option for user to start new translation."
-msgstr ""
+msgstr "Tidak akan ada opsi bagi pengguna untuk memulai terjemahan baru."
 
 #: ../../admin/projects.rst:741
 msgid ""
@@ -20457,6 +20664,9 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"Admin proyek dapat menambahkan terjemahan baru meskipun dinonaktifkan di "
+"sini jika memungkinkan (baik :ref:`component-new_base` atau format berkas "
+"mendukung memulai dari berkas kosong)."
 
 #: ../../admin/projects.rst:753
 msgid "Manage strings"
@@ -20468,6 +20678,9 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
+"Mengonfigurasi apakah pengguna di Weblate akan diizinkan untuk menambahkan "
+"string baru dan menghapus string yang sudah ada. Sesuaikan ini dengan alur "
+"kerja pelokalan Anda - bagaimana string baru seharusnya dimasukkan."
 
 #: ../../admin/projects.rst:761
 msgid ""
@@ -20477,6 +20690,12 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"Untuk format dwibahasa, string biasanya diekstrak dari kode sumber (misalnya "
+"dengan menggunakan :program:`xgettext`) dan penambahan string baru di "
+"Weblate harus dinonaktifkan (string tersebut akan dihapus saat Anda "
+"memperbarui berkas terjemahan berikutnya). Di Weblate, Anda dapat mengelola "
+"string untuk setiap terjemahan, dan Weblate tidak mewajibkan konsistensi "
+"string di semua terjemahan."
 
 #: ../../admin/projects.rst:767
 msgid ""
@@ -20484,12 +20703,17 @@ msgid ""
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
 msgstr ""
+"Untuk format monolingual, string hanya dikelola pada bahasa sumber dan "
+"secara otomatis ditambahkan atau dihapus dalam terjemahan. String tersebut "
+"akan muncul dalam berkas terjemahan setelah diterjemahkan."
 
 #: ../../admin/projects.rst:773
 msgid ""
 "You might want to turn on :ref:`component-edit_template` together with :"
 "guilabel:`Manage strings` for monolingual formats."
 msgstr ""
+"Anda mungkin ingin mengaktifkan :ref:`component-edit_template` bersama "
+"dengan :guilabel:`Manage strings` untuk format monolingual."
 
 #: ../../admin/projects.rst:780
 msgid ""
@@ -20516,6 +20740,8 @@ msgid ""
 "Weblate recognizes any of the language codes when parsing translation files, "
 "following settings only influences how new files are created."
 msgstr ""
+"Weblate mengenali kode bahasa apa pun saat mengurai berkas terjemahan, "
+"pengaturan berikut hanya memengaruhi bagaimana berkas baru dibuat."
 
 #: ../../admin/projects.rst:795
 msgid "Default based on the file format"
@@ -20523,7 +20749,7 @@ msgstr "Pilih standar berdasarkan format berkas"
 
 #: ../../admin/projects.rst:796
 msgid "Dependent on file format, for most of them POSIX is used."
-msgstr ""
+msgstr "Tergantung pada format berkas, sebagian besar menggunakan POSIX."
 
 #: ../../admin/projects.rst:797
 msgid "POSIX style using underscore as a separator"
@@ -20534,6 +20760,8 @@ msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
 msgstr ""
+"Biasanya digunakan oleh gettext dan alat terkait, menghasilkan kode bahasa "
+"seperti ``pt_BR``."
 
 #: ../../admin/projects.rst:800
 msgid "POSIX style using underscore as a separator, lower cased"
@@ -20549,6 +20777,8 @@ msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
 msgstr ""
+"Kode bahasa bergaya POSIX termasuk kode negara meskipun tidak diperlukan ("
+"misalnya ``cs_CZ``)."
 
 #: ../../admin/projects.rst:806
 msgid ""
@@ -20563,6 +20793,8 @@ msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(lowercase) (for example ``cs_cz``)."
 msgstr ""
+"Kode bahasa bergaya POSIX termasuk kode negara meskipun tidak diperlukan ("
+"huruf kecil) (misalnya ``cs_cz``)."
 
 #: ../../admin/projects.rst:809
 msgid "BCP style using hyphen as a separator"
@@ -20572,6 +20804,8 @@ msgstr "Gaya BCP menggunakan tanda hubung sebagai pemisah"
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
 msgstr ""
+"Biasanya digunakan pada platform web, menghasilkan kode bahasa seperti ``pt-"
+"BR``."
 
 #: ../../admin/projects.rst:812
 msgid "BCP style using hyphen as a separator, including country code"
@@ -20583,6 +20817,8 @@ msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
 msgstr ""
+"Kode bahasa gaya BCP termasuk kode negara meskipun tidak diperlukan ("
+"misalnya ``cs-CZ``)."
 
 #: ../../admin/projects.rst:815
 msgid "BCP style using hyphen as a separator, legacy language codes"
@@ -20590,7 +20826,7 @@ msgstr "Gaya BCP menggunakan tanda hubung sebagai pemisah, kode negara lawas"
 
 #: ../../admin/projects.rst:816
 msgid "Uses legacy codes for Chinese and BCP style notation."
-msgstr ""
+msgstr "Menggunakan kode lama untuk notasi gaya Mandarin dan BCP."
 
 #: ../../admin/projects.rst:817
 msgid "BCP style using hyphen as a separator, lower cased"
@@ -20598,7 +20834,7 @@ msgstr "Gaya BCP menggunakan tanda hubung sebagai pemisah, huruf kecil"
 
 #: ../../admin/projects.rst:818
 msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
-msgstr ""
+msgstr "Notasi gaya BCP, semuanya dalam huruf kecil (misalnya ``cs-cz``)."
 
 #: ../../admin/projects.rst:819
 msgid "Apple App Store metadata style"
@@ -20606,7 +20842,7 @@ msgstr "Gaya metadata Apple App Store"
 
 #: ../../admin/projects.rst:820
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
+msgstr "Gaya yang cocok untuk mengunggah metadata ke Apple App Store."
 
 #: ../../admin/projects.rst:821
 msgid "Google Play metadata style"
@@ -20614,7 +20850,7 @@ msgstr "Gaya metadata Google Play"
 
 #: ../../admin/projects.rst:822
 msgid "Style suitable for uploading metadata to Google Play Store."
-msgstr ""
+msgstr "Gaya yang cocok untuk mengunggah metadata ke Google Play Store."
 
 #: ../../admin/projects.rst:823
 msgid "Android style"
@@ -20623,6 +20859,8 @@ msgstr "Gaya Android"
 #: ../../admin/projects.rst:824
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
 msgstr ""
+"Hanya digunakan dalam aplikasi Android, menghasilkan kode bahasa seperti "
+"``pt-rBR``."
 
 #: ../../admin/projects.rst:826
 msgid "Linux style"
@@ -20633,6 +20871,8 @@ msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation."
 msgstr ""
+"Lokal seperti yang digunakan oleh Linux, menggunakan kode lama untuk notasi "
+"gaya Mandarin dan POSIX."
 
 #: ../../admin/projects.rst:828
 msgid "Linux style, lower cased"
@@ -20643,6 +20883,8 @@ msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
 "notation. Lower cased."
 msgstr ""
+"Lokal seperti yang digunakan oleh Linux, menggunakan kode lama untuk notasi "
+"gaya Mandarin dan POSIX. Diawali dengan huruf kecil."
 
 #: ../../admin/projects.rst:841
 msgid "Merge style"
@@ -20653,6 +20895,8 @@ msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
+"Anda dapat mengonfigurasi cara penanganan pembaruan dari repositori hulu. "
+"Implementasinya bergantung pada VCS, lihat :doc:`/vcs`."
 
 #: ../../admin/projects.rst:846
 msgid "Rebase"
@@ -20663,18 +20907,26 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"Rebase komit Weblate di atas repositori hulu saat pembaruan. Ini "
+"menghasilkan riwayat yang bersih tanpa komit gabungan tambahan."
 
 #: ../../admin/projects.rst:850
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
 msgstr ""
+"Rebasing dapat menimbulkan masalah jika terjadi penggabungan yang rumit, "
+"jadi pertimbangkan dengan cermat apakah Anda ingin mengaktifkannya atau "
+"tidak."
 
 #: ../../admin/projects.rst:853
 msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"Anda mungkin perlu mengaktifkan pemaksaan mendorong dengan memilih :ref:`vcs-"
+"git-force-push` sebagai :ref:`component-vcs`, terutama saat mendorong ke "
+"cabang lain."
 
 #: ../../admin/projects.rst:856
 msgid "Merge"
@@ -20686,6 +20938,9 @@ msgid ""
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
 msgstr ""
+"Perubahan repositori hulu digabungkan ke repositori Weblate. Pengaturan ini "
+"menggunakan percepatan jika memungkinkan. Ini adalah cara teraman, tetapi "
+"mungkin menghasilkan banyak komit gabungan."
 
 #: ../../admin/projects.rst:861
 msgid "Merge without fast-forward"
@@ -20697,6 +20952,9 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
+"Perubahan repositori hulu digabungkan ke repositori Weblate dengan melakukan "
+"komit gabungan setiap saat (bahkan ketika percepatan dimungkinkan). Setiap "
+"perubahan Weblate akan muncul sebagai komit gabungan di repositori Weblate."
 
 #: ../../admin/projects.rst:866
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -20711,24 +20969,19 @@ msgstr ""
 #: ../../admin/projects.rst:878
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
+"Pesan yang digunakan saat melakukan komit terjemahan, lihat :ref:`markup`."
 
 #: ../../admin/projects.rst:880
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-#| "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-#| "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
-#| "`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
 "`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"Nilai bawaan dapat diubah dengan :setting:`DEFAULT_ADD_MESSAGE`, :setting:"
-"`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
-"`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:"
-"`DEFAULT_PULL_MESSAGE`."
+"Nilai bawaan dapat diubah dengan :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, "
+":setting:`DEFAULT_PULL_MESSAGE`."
 
 #: ../../admin/projects.rst:888
 msgid "Push on commit"
@@ -20741,6 +20994,11 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Apakah perubahan yang dikomit harus otomatis didorong ke repositori hulu? "
+"Jika diaktifkan, proses dorong akan dimulai setelah Weblate mengkomit "
+"perubahan ke repositori yang mendasarinya (lihat :ref:`lazy-commit`). Untuk "
+"mengaktifkan proses dorong, :guilabel:`Repository push URL` juga harus "
+"dikonfigurasi."
 
 #: ../../admin/projects.rst:899
 msgid "Age of changes to commit"
@@ -20753,6 +21011,10 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
+"Mengatur lamanya (dalam jam) perubahan harus dilakukan sebelum dikomit oleh "
+"tugas latar belakang atau perintah manajemen :wladmin:`commit_pending`. "
+"Semua perubahan dalam suatu komponen dikomit setelah terdapat setidaknya "
+"satu perubahan yang lebih lama dari periode ini."
 
 #: ../../admin/projects.rst:906
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -20763,6 +21025,8 @@ msgid ""
 "There are other situations where pending changes might be committed, see :"
 "ref:`lazy-commit`."
 msgstr ""
+"Ada situasi lain di mana perubahan yang tertunda mungkin dikomit, lihat :ref"
+":`lazy-commit`."
 
 #: ../../admin/projects.rst:916
 msgid "Lock on error"
@@ -20775,12 +21039,18 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
+"Mengunci komponen (dan komponen yang tertaut, lihat :ref:`internal-urls`) "
+"saat dorong atau penggabungan pertama gagal ke repositori hulunya, atau "
+"menariknya dari repositori tersebut. Hal ini menghindari penambahan konflik "
+"lain, yang harus diselesaikan secara manual."
 
 #: ../../admin/projects.rst:922
 msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
 msgstr ""
+"Komponen akan otomatis terbuka setelah tidak ada lagi galat repositori yang "
+"tersisa."
 
 #: ../../admin/projects.rst:928
 msgid "Source language"
@@ -20791,6 +21061,8 @@ msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
 msgstr ""
+"Bahasa yang digunakan untuk string sumber. Ubah ini jika Anda menerjemahkan "
+"dari sumber selain bahasa Inggris."
 
 #: ../../admin/projects.rst:935
 msgid ""
@@ -20799,12 +21071,18 @@ msgid ""
 "`English (Developer)` as a source language to avoid conflict between the "
 "name of the source language and the existing translation."
 msgstr ""
+"Jika Anda menerjemahkan file dwibahasa dari bahasa Inggris, tetapi ingin "
+"dapat melakukan perbaikan pada terjemahan bahasa Inggris juga, pilih "
+":guilabel:`English (Developer)` sebagai bahasa sumber untuk menghindari "
+"konflik antara nama bahasa sumber dan terjemahan yang ada."
 
 #: ../../admin/projects.rst:940
 msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"Untuk terjemahan monolingual, Anda dapat menggunakan terjemahan perantara "
+"dalam kasus ini, lihat :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:949
 msgid ""
@@ -20818,14 +21096,15 @@ msgstr ""
 #: ../../admin/projects.rst:954
 msgid "You need to list language codes as they appear in the filename."
 msgstr ""
+"Anda perlu mencantumkan kode bahasa seperti yang muncul dalam nama berkas."
 
 #: ../../admin/projects.rst:956 ../../admin/projects.rst:984
 msgid "Some examples of filtering:"
-msgstr ""
+msgstr "Beberapa contoh filter:"
 
 #: ../../admin/projects.rst:959 ../../admin/projects.rst:987
 msgid "Filter description"
-msgstr ""
+msgstr "Deskripsi filter"
 
 #: ../../admin/projects.rst:959 ../../admin/projects.rst:987
 #: ../../user/checks.rst:1465
@@ -20834,23 +21113,23 @@ msgstr "Ekspresi reguler"
 
 #: ../../admin/projects.rst:961
 msgid "Selected languages only"
-msgstr ""
+msgstr "Hanya bahasa yang dipilih"
 
 #: ../../admin/projects.rst:963
 msgid "Exclude languages"
-msgstr ""
+msgstr "Kecualikan bahasa"
 
 #: ../../admin/projects.rst:965
 msgid "Filter two letter codes only"
-msgstr ""
+msgstr "Filter hanya dua kode huruf"
 
 #: ../../admin/projects.rst:967
 msgid "Exclude non language files"
-msgstr ""
+msgstr "Kecualikan berkas non bahasa"
 
 #: ../../admin/projects.rst:969
 msgid "Include all files (default)"
-msgstr ""
+msgstr "Sertakan semua berkas (bawaan)"
 
 #: ../../admin/projects.rst:976
 msgid "Key filter"
@@ -20862,31 +21141,27 @@ msgid ""
 "only those units whose keys match the regular expression that was set as the "
 "value of this field."
 msgstr ""
+"Ekspresi reguler yang digunakan untuk memfilter unit berdasarkan kuncinya. "
+"Ekspresi ini hanya menampilkan unit yang kuncinya cocok dengan ekspresi "
+"reguler yang ditetapkan sebagai nilai kolom ini."
 
 #: ../../admin/projects.rst:989
 msgid "Selected keys only"
-msgstr ""
+msgstr "Hanya kunci yang dipilih"
 
 #: ../../admin/projects.rst:991
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Kecualikan catatan perubahan toko aplikasi"
 
 #: ../../admin/projects.rst:993
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Filter prefixed strings"
-msgstr "String yang disetujui"
+msgstr "Filter string awalan"
 
 #: ../../admin/projects.rst:998
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "file mask."
 msgid ""
 "This filter is only available for components with monolingual file formats."
 msgstr ""
-"Ekspresi reguler digunakan untuk memfilter berkas terjemahan saat memindai "
-"file mask."
+"Filter ini hanya tersedia untuk komponen dengan format berkas monolingual."
 
 #: ../../admin/projects.rst:1004
 msgid "Variants regular expression"
@@ -20897,12 +21172,16 @@ msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
 msgstr ""
+"Ekspresi reguler yang digunakan untuk menentukan varian suatu string, lihat "
+":ref:`variants`."
 
 #: ../../admin/projects.rst:1011
 msgid ""
 "Most of the fields can be edited by project owners or administrators, in the "
 "Weblate interface."
 msgstr ""
+"Sebagian besar bidang dapat disunting oleh pemilik proyek atau "
+"administrator, di antarmuka Weblate."
 
 #: ../../admin/projects.rst:1032
 msgid "This setting is inherited from the project if left empty."
@@ -20920,11 +21199,11 @@ msgstr ""
 
 #: ../../admin/projects.rst:1048
 msgid "This now also affects ordering of matched glossary terms."
-msgstr ""
+msgstr "Ini sekarang juga memengaruhi urutan istilah glosarium yang cocok."
 
 #: ../../admin/projects.rst:1053
 msgid "Restricted access"
-msgstr ""
+msgstr "Akses terbatas"
 
 #: ../../admin/projects.rst:1057
 msgid ""
@@ -20932,6 +21211,10 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"Secara bawaan, komponen ini dapat dilihat oleh siapa pun yang memiliki akses "
+"ke proyek, meskipun orang tersebut tidak dapat melakukan perubahan apa pun "
+"pada komponen tersebut. Hal ini memudahkan untuk menjaga konsistensi "
+"terjemahan dalam proyek."
 
 #: ../../admin/projects.rst:1061
 msgid ""
@@ -20941,17 +21224,25 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"Membatasi akses di tingkat komponen atau daftar komponen akan mengambil alih "
+"izin akses ke komponen tersebut, terlepas dari izin di tingkat proyek. Anda "
+"harus memberikan akses secara eksplisit. Hal ini dapat dilakukan dengan "
+"memberikan akses ke grup pengguna baru dan menambahkan pengguna ke dalamnya, "
+"atau menggunakan grup kontrol akses `custom` atau `private` bawaan."
 
 #: ../../admin/projects.rst:1067
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Nilai bawaan dapat diubah dalam :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/projects.rst:1071
 msgid ""
 "This applies to project admins as well — please ensure you will not loose "
 "access to the component after toggling the status."
 msgstr ""
+"Hal ini juga berlaku untuk admin proyek — pastikan Anda tidak kehilangan "
+"akses ke komponen setelah mengubah status."
 
 #: ../../admin/projects.rst:1077
 msgid "Share in projects"
@@ -20962,6 +21253,8 @@ msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
 msgstr ""
+"Anda dapat memilih proyek tambahan di mana komponen tersebut akan terlihat. "
+"Berguna untuk pustaka bersama yang Anda gunakan di beberapa proyek."
 
 #: ../../admin/projects.rst:1084
 msgid ""
@@ -20969,6 +21262,9 @@ msgid ""
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
+"Membagikan komponen tidak mengubah kontrol aksesnya. Komponen tersebut hanya "
+"akan terlihat saat menelusuri proyek lain. Pengguna tetap memerlukan akses "
+"ke komponen itu sendiri untuk menelusuri atau menerjemahkannya."
 
 #: ../../admin/projects.rst:1092
 msgid "Use as a glossary"
@@ -20979,29 +21275,33 @@ msgid ""
 "Allows using this component as a glossary. Use when you want to manage "
 "terminology separately from normal translations."
 msgstr ""
+"Memungkinkan penggunaan komponen ini sebagai glosarium. Gunakan ketika Anda "
+"ingin mengelola terminologi secara terpisah dari terjemahan normal."
 
 #: ../../admin/projects.rst:1099
 msgid "Glossaries are best for:"
-msgstr ""
+msgstr "Glosarium paling baik digunakan untuk:"
 
 #: ../../admin/projects.rst:1101
 msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
 msgstr ""
+"Memastikan penggunaan istilah yang konsisten (misalnya, label UI, nama "
+"produk)."
 
 #: ../../admin/projects.rst:1102
-#, fuzzy
-#| msgid "Improved performance of translation, component or project removal."
 msgid "Sharing preferred translations across multiple components or projects."
-msgstr "Meningkatkan kinerja terjemahan, penghapusan komponen, atau proyek."
+msgstr "Berbagi terjemahan yang disukai di beberapa komponen atau proyek."
 
 #: ../../admin/projects.rst:1103
 msgid "Supporting translators with definitions and context."
-msgstr ""
+msgstr "Mendukung penerjemah dengan definisi dan konteks."
 
 #: ../../admin/projects.rst:1107
 msgid ""
 "Glossaries are not for regular translations—they are for managing terms only."
 msgstr ""
+"Glosarium bukan untuk terjemahan biasa—glosarium hanya untuk mengelola "
+"istilah."
 
 #: ../../admin/projects.rst:1109
 msgid ""
@@ -21016,12 +21316,16 @@ msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"Glosarium ini dapat diakses di semua proyek yang didefinisikan oleh :ref"
+":`component-links`."
 
 #: ../../admin/projects.rst:1113
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
+"Disarankan untuk mengaktifkan :ref:`component-manage_units` pada glosarium "
+"agar dapat menambahkan kata-kata baru ke dalamnya."
 
 #: ../../admin/projects.rst:1123
 msgid "Glossary color"
@@ -21032,16 +21336,21 @@ msgid ""
 "Color used when displaying terms from this glossary. Useful to distinguish "
 "glossaries when using more of them."
 msgstr ""
+"Warna digunakan saat menampilkan istilah dari glosarium ini. Berguna untuk "
+"membedakan glosarium saat menggunakan lebih banyak istilah."
 
 #: ../../admin/projects.rst:1136
 msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
 msgstr ""
+"Kategori berfungsi untuk memberi struktur pada komponen-komponen dalam "
+"sebuah proyek. Anda dapat menyusunnya secara bertingkat untuk mencapai "
+"struktur yang lebih kompleks."
 
 #: ../../admin/projects.rst:1142
 msgid "Template markup"
-msgstr ""
+msgstr "Markup templat"
 
 #: ../../admin/projects.rst:1144
 msgid ""
@@ -21049,33 +21358,34 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate menggunakan bahasa markup sederhana di beberapa tempat yang "
+"membutuhkan rendering teks. Weblate berbasis :doc:`django:ref/templates/"
+"language`, sehingga bisa sangat canggih."
 
 #: ../../admin/projects.rst:1148
 msgid "Currently it is used in:"
-msgstr ""
+msgstr "Saat ini digunakan di:"
 
 #: ../../admin/projects.rst:1150
 msgid "Commit message formatting, see :ref:`component`"
-msgstr ""
+msgstr "Pemformatan pesan komit, lihat :ref:`component`"
 
 #: ../../admin/projects.rst:1151
 msgid "Several add-ons"
 msgstr "Beberapa pengaya"
 
 #: ../../admin/projects.rst:1156
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following variables are available in the component templates:"
-msgstr "Komponen terjemahan berikut akan dihapus:"
+msgstr "Variabel berikut tersedia dalam templat komponen:"
 
 #: ../../admin/projects.rst:1169 ../../api.rst:884 ../../api.rst:1852
 #: ../../api.rst:2432 ../../api.rst:2502
 msgid "Project slug"
-msgstr ""
+msgstr "Slug proyek"
 
 #: ../../admin/projects.rst:1171
 msgid "Translation URL"
-msgstr ""
+msgstr "URL terjemahan"
 
 #: ../../admin/projects.rst:1173
 msgid "Translation filename"
@@ -21084,38 +21394,39 @@ msgstr "Nama berkas penerjemahan"
 #: ../../admin/projects.rst:1175
 msgid "Translation stats, this has further attributes, examples below."
 msgstr ""
+"Statistik terjemahan, ini memiliki atribut lebih lanjut, contoh di bawah."
 
 #: ../../admin/projects.rst:1177
 msgid "Total strings count"
-msgstr ""
+msgstr "Jumlah total string"
 
 #: ../../admin/projects.rst:1179
 msgid "Count of strings needing review"
-msgstr ""
+msgstr "Jumlah string yang perlu ditinjau"
 
 #: ../../admin/projects.rst:1181
 msgid "Percent of strings needing review"
-msgstr ""
+msgstr "Persentase string yang perlu ditinjau"
 
 #: ../../admin/projects.rst:1183
 msgid "Translated strings count"
-msgstr ""
+msgstr "Jumlah string yang diterjemahkan"
 
 #: ../../admin/projects.rst:1185
 msgid "Translated strings percent"
-msgstr ""
+msgstr "Persentase string yang diterjemahkan"
 
 #: ../../admin/projects.rst:1187
 msgid "Number of strings with failing checks"
-msgstr ""
+msgstr "Jumlah string dengan pemeriksaan yang gagal"
 
 #: ../../admin/projects.rst:1189
 msgid "Percent of strings with failing checks"
-msgstr ""
+msgstr "Persentase string dengan pemeriksaan yang gagal"
 
 #: ../../admin/projects.rst:1191
 msgid "Author of current commit, available only in the commit scope."
-msgstr ""
+msgstr "Penulis komit saat ini, hanya tersedia dalam cakupan komit."
 
 #: ../../admin/projects.rst:1193
 msgid ""
@@ -21130,20 +21441,23 @@ msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
+"Variabel berikut tersedia di templat peramban atau penyunting repositori:"
 
 #: ../../admin/projects.rst:1198
 msgid "current branch"
-msgstr ""
+msgstr "cabang saat ini"
 
 #: ../../admin/projects.rst:1200
 msgid "line in file"
-msgstr ""
+msgstr "baris dalam berkas"
 
 #: ../../admin/projects.rst:1202
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
+"nama berkas, Anda juga dapat menghapus bagian utama menggunakan filter "
+"``parentdir``, misalnya ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:1206
 msgid ""
@@ -21155,41 +21469,44 @@ msgstr ""
 
 #: ../../admin/projects.rst:1208
 msgid "You can combine them with filters:"
-msgstr ""
+msgstr "Anda dapat menggabungkannya dengan filter:"
 
 #: ../../admin/projects.rst:1214
 msgid "You can use conditions:"
-msgstr ""
+msgstr "Anda dapat menggunakan kondisi:"
 
 #: ../../admin/projects.rst:1220
 msgid "There is additional tag available for replacing characters:"
-msgstr ""
+msgstr "Ada tag tambahan yang tersedia untuk mengganti karakter:"
 
 #: ../../admin/projects.rst:1226
 msgid "You can combine it with filters:"
-msgstr ""
+msgstr "Anda dapat menggabungkannya dengan filter:"
 
 #: ../../admin/projects.rst:1232
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr ""
+msgstr "Ada juga filter tambahan untuk memanipulasi nama berkas:"
 
 #: ../../admin/projects.rst:1241
 msgid "…and other Django template features."
-msgstr ""
+msgstr "…dan fitur templat Django lainnya."
 
 #: ../../admin/projects.rst:1246
 msgid "Importing speed"
-msgstr ""
+msgstr "Kecepatan impor"
 
 #: ../../admin/projects.rst:1248
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
 msgstr ""
+"Mengambil repositori VCS dan mengimpor terjemahan ke Weblate bisa menjadi "
+"proses yang panjang, tergantung ukuran terjemahan Anda. Berikut beberapa "
+"tipsnya:"
 
 #: ../../admin/projects.rst:1252
 msgid "Optimize configuration"
-msgstr ""
+msgstr "Optimalkan konfigurasi"
 
 #: ../../admin/projects.rst:1254
 msgid ""
@@ -21206,16 +21523,20 @@ msgstr ""
 #: ../../admin/projects.rst:1259
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
+"Konfigurasikan Celery untuk menjalankan tugas latar belakang (lihat "
+":ref:`celery`)"
 
 #: ../../admin/projects.rst:1265
 msgid "Check resource limits"
-msgstr ""
+msgstr "Periksa batas sumber daya"
 
 #: ../../admin/projects.rst:1267
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
 msgstr ""
+"Jika Anda mengimpor terjemahan atau repositori yang besar, Anda mungkin "
+"terkena keterbatasan sumber daya server Anda."
 
 #: ../../admin/projects.rst:1270
 msgid ""
@@ -21230,16 +21551,20 @@ msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
+"Operasi disk mungkin menjadi hambatan jika ada banyak string yang harus "
+"diproses—disk didorong oleh Weblate dan basis data."
 
 #: ../../admin/projects.rst:1272
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
+"Inti CPU tambahan mungkin membantu meningkatkan kinerja tugas latar belakang "
+"(lihat :ref:`celery`)."
 
 #: ../../admin/projects.rst:1275
 msgid "Disable unneeded checks"
-msgstr ""
+msgstr "Nonaktifkan pemeriksaan yang tidak diperlukan"
 
 #: ../../admin/projects.rst:1277
 msgid ""
@@ -21247,10 +21572,13 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
+"Beberapa pemeriksaan kualitas bisa sangat mahal, dan jika tidak diperlukan, "
+"dapat menghemat waktu Anda selama proses impor jika diabaikan. Lihat "
+":setting:`CHECK_LIST` untuk informasi tentang konfigurasi."
 
 #: ../../admin/projects.rst:1284
 msgid "Automatic creation of components"
-msgstr ""
+msgstr "Pembuatan komponen otomatis"
 
 #: ../../admin/projects.rst:1286
 msgid ""
@@ -21283,20 +21611,25 @@ msgid ""
 "all components and then run :wladmin:`import_project` or :wladmin:"
 "`import_json`."
 msgstr ""
+"Untuk perintah manajemen, Anda perlu membuat proyek yang akan berisi semua "
+"komponen dan kemudian menjalankan :wladmin:`import_project` atau "
+":wladmin:`import_json`."
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr ""
+msgstr "Konfigurasi sampel"
 
 #: ../../admin/sample.rst:6
 msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
 msgstr ""
+"Contoh berikut dikirimkan sebagai :file:`weblate/settings_example.py` dengan "
+"Weblate:"
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
-msgstr ""
+msgstr "Mendapatkan dukungan untuk Weblate"
 
 #: ../../admin/support.rst:5
 msgid ""
@@ -21305,10 +21638,15 @@ msgid ""
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
+"*Weblate* adalah perangkat lunak bebas copylefted dengan dukungan komunitas. "
+"Pelanggan hosting mendapatkan dukungan prioritas tanpa biaya tambahan. Paket "
+"bantuan prabayar tersedia untuk semua orang, termasuk pengguna hosting "
+"mandiri. Temukan informasi tentang penawaran dukungan terkini di https://"
+"weblate.org/support."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
-msgstr ""
+msgstr "Mengintegrasikan dukungan"
 
 #: ../../admin/support.rst:15
 msgid ""
@@ -21317,87 +21655,85 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"Paket dukungan yang dibeli dapat secara opsional diintegrasikan ke dalam "
+"antarmuka `manajemen langganan <https://weblate.org/user/>`_ Weblate Anda, "
+"dan Anda akan menemukan tautan ke sana. Detail dasar tentang instalasi Anda "
+"juga akan dilaporkan kembali ke Weblate dengan cara ini."
 
 #: ../../admin/support.rst:24
 msgid "Info sent to the Weblate"
-msgstr ""
+msgstr "Info dikirim ke Weblate"
 
 #: ../../admin/support.rst:26
 msgid "Your Weblate instance URL"
 msgstr "URL instansi Weblate Anda"
 
 #: ../../admin/support.rst:27
-#, fuzzy
-#| msgid "site wide"
 msgid "Its site title"
-msgstr "seluruh situs"
+msgstr "Judul situsnya"
 
 #: ../../admin/support.rst:28
 msgid "The version you are running"
-msgstr ""
+msgstr "Versi yang Anda jalankan"
 
 #: ../../admin/support.rst:29
 msgid "Tallies of projects, components, languages, source strings, and users"
-msgstr ""
+msgstr "Jumlah proyek, komponen, bahasa, string sumber, dan pengguna"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
-msgstr ""
+msgstr "Kunci SSH publik dari instansi Anda"
 
 #: ../../admin/support.rst:32
-#, fuzzy
-#| msgid "Additionally, when :ref:`discover-weblate` is turned on:"
 msgid "Additionally, if you turn on :ref:`discover-weblate`:"
-msgstr "Selain itu, saat :ref:`discover-weblate` diaktifkan:"
+msgstr "Selain itu, jika Anda mengaktifkan :ref:`discover-weblate`:"
 
 #: ../../admin/support.rst:34
 msgid "List of public projects (name, URL, and website)."
-msgstr ""
+msgstr "Daftar proyek publik (nama, URL, dan situs web)."
 
 #: ../../admin/support.rst:37
 msgid ""
 "Check what *Discover* shows publicly in the :ref:`discover-weblate` "
 "description."
 msgstr ""
+"Periksa apa yang *Discover* tampilkan secara publik dalam deskripsi :ref"
+":`discover-weblate`."
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
-msgstr ""
+msgstr "Tidak ada data lain yang diserahkan."
 
 #: ../../admin/support.rst:42
 msgid "Integration services"
-msgstr ""
+msgstr "Layanan integrasi"
 
 #: ../../admin/support.rst:44
 msgid "See if your support package is still valid"
-msgstr ""
+msgstr "Lihat apakah paket dukungan Anda masih berlaku"
 
 #: ../../admin/support.rst:50
 msgid ""
 "Purchased support packages are already activated upon purchase and can be "
 "used without integrating them."
 msgstr ""
+"Paket dukungan yang dibeli sudah diaktifkan setelah pembelian dan dapat "
+"digunakan tanpa mengintegrasikannya."
 
 #: ../../admin/support.rst:55
 msgid "Discover Weblate"
 msgstr "Jelajahi Weblate"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid ""
-#| "Discover Weblate is an opt-in service that makes it easier for users to "
-#| "find Weblate servers and communities. Users can browse registered "
-#| "services on <https://weblate.org/discover/>, and find there projects to "
-#| "contribute."
 msgid ""
 "*Discover* is an opt-in service making it easier for translators to find "
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
-"Jelajahi Weblate adalah layanan keikutsertaan yang memudahkan pengguna dalam "
-"menemukan server dan komunitas Weblate. Pengguna dapat menelusuri layanan "
-"terdaftar di <https://weblate.org/discover/> dan menemukan proyek untuk ikut "
-"berkontribusi."
+"*Discover* adalah layanan opt-in yang memudahkan penerjemah menemukan "
+"instansi dan komunitas Weblate lainnya. Pengguna dapat menelusuri situs "
+"terdaftar dan menemukan proyek untuk dikontribusikan di https://weblate.org/"
+"discover/."
 
 #: ../../admin/support.rst:65
 msgid "Getting listed"
@@ -21409,50 +21745,43 @@ msgid ""
 "projects, components, and users, together with names of public projects and "
 "components for use on *Discover*."
 msgstr ""
+"Pastikan Anda setuju untuk menerbitkan nama instansi, URL, jumlah proyek, "
+"komponen, dan pengguna, bersama dengan nama proyek dan komponen publik untuk "
+"digunakan di *Discover*."
 
 #: ../../admin/support.rst:73
 msgid ""
 "List your server directly from the management panel if you have an active "
 "support subscription (:ref:`activate-support`):"
 msgstr ""
+"Daftarkan server Anda langsung dari panel manajemen jika Anda memiliki "
+"langganan dukungan aktif (:ref:`activate-support`):"
 
 #: ../../admin/support.rst:78
-#, fuzzy
-#| msgid ""
-#| "Listing your server without a support subscription in Discover Weblate:"
 msgid "All steps for listing a server without a support contract:"
-msgstr ""
-"Cara untuk mencantumkan server Anda tanpa langganan dukungan di Jelajahi "
-"Weblate:"
+msgstr "Semua langkah untuk mendaftarkan server tanpa kontrak dukungan:"
 
 #: ../../admin/support.rst:80
-#, fuzzy
-#| msgid "Register yourself at <https://weblate.org/user/>"
 msgid "Register yourself at https://weblate.org/user/"
-msgstr "Daftarkan diri Anda di <https://weblate.org/user/>"
+msgstr "Daftarkan diri Anda di https://weblate.org/user/"
 
 #: ../../admin/support.rst:81
-#, fuzzy
-#| msgid ""
-#| "Register your Weblate server in the discovery database at <https://"
-#| "weblate.org/subscription/discovery/>"
 msgid ""
 "Register your Weblate site at https://weblate.org/subscription/discovery/"
 msgstr ""
-"Daftarkan server Weblate Anda di basis data penemuan di <https://weblate.org/"
-"subscription/discovery/>"
+"Daftarkan situs Weblate Anda di https://weblate.org/subscription/discovery/"
 
 #: ../../admin/support.rst:82
 msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from its management page :"
 msgstr ""
+"Konfirmasikan bahwa Anda ingin Weblate Anda terdaftar dengan mengklik "
+":guilabel:`Enable discovery` dari halaman manajemennya:"
 
 #: ../../admin/support.rst:89
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Listing customization"
-msgstr "Mengatur ulang kustomisasi"
+msgstr "Kustomisasi daftar"
 
 #: ../../admin/support.rst:91
 msgid ""
@@ -21460,6 +21789,9 @@ msgid ""
 "your Weblate site at https://weblate.org/user/. This improves your "
 "instance’s visibility in the list."
 msgstr ""
+"Anda disarankan untuk memberikan gambar (570 x 260 piksel) dan deskripsi "
+"situs Weblate Anda di https://weblate.org/user/. Hal ini akan meningkatkan "
+"visibilitas situs Anda dalam daftar."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -21474,6 +21806,13 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
+"Setiap orang dapat menambahkan saran secara bawaan, agar dapat diterima oleh "
+"pengguna yang masuk. Pemungutan suara saran dapat digunakan untuk "
+"memanfaatkan string ketika lebih dari satu pengguna yang masuk "
+"menyetujuinya, dengan mengatur :ref:`component` dengan :guilabel:`Suggestion "
+"voting` untuk mengaktifkan pemungutan suara, dan :guilabel:`Automatically "
+"accept suggestions` untuk menetapkan ambang batas penerimaan saran (ini "
+"termasuk suara dari pengguna yang memberikan saran jika diberikan)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -21482,12 +21821,18 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` :ref:"
 "`permission <privileges>`."
 msgstr ""
+"Setelah penerimaan otomatis diatur, pengguna biasa kehilangan hak istimewa "
+"untuk langsung menyimpan terjemahan atau menerima saran. Hal ini dapat "
+"ditimpa dengan :guilabel:`Edit string when suggestions are enforced` :ref:`"
+"permission <privileges>`."
 
 #: ../../admin/translating.rst:23
 msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
+"Anda dapat menggabungkan ini dengan :ref:`access control <access-control>` "
+"ke dalam salah satu pengaturan berikut:"
 
 #: ../../admin/translating.rst:26
 msgid ""
@@ -21495,6 +21840,9 @@ msgid ""
 "accepted. - Turn on voting. - Turn off automatic acceptance. - Don't let "
 "users save translations."
 msgstr ""
+"Pengguna menyarankan dan memberikan suara untuk saran, dan grup terbatas "
+"mengontrol apa yang diterima. - Aktifkan pemungutan suara. - Nonaktifkan "
+"penerimaan otomatis. - Jangan biarkan pengguna menyimpan terjemahan."
 
 #: ../../admin/translating.rst:31
 msgid ""
@@ -21502,6 +21850,10 @@ msgid ""
 "defined number of them agree. - Turn on voting. - Set the desired number of "
 "votes for automatic acceptance."
 msgstr ""
+"Pengguna menyarankan dan memberikan suara untuk saran dengan penerimaan "
+"otomatis setelah jumlah pengguna yang ditentukan menyetujuinya. - Aktifkan "
+"pemungutan suara. - Tetapkan jumlah suara yang diinginkan untuk penerimaan "
+"otomatis."
 
 #: ../../admin/translating.rst:35
 msgid ""
@@ -21509,10 +21861,13 @@ msgid ""
 "are unsure about a translation by making multiple suggestions.) - Only turn "
 "on voting."
 msgstr ""
+"Pemungutan suara opsional untuk saran. (Dapat digunakan secara opsional oleh "
+"pengguna ketika mereka tidak yakin tentang suatu terjemahan karena "
+"memberikan beberapa saran.) - Hanya aktifkan pemungutan suara."
 
 #: ../../admin/translating.rst:42
 msgid "Additional info on source strings"
-msgstr ""
+msgstr "Info tambahan tentang string sumber"
 
 #: ../../admin/translating.rst:44
 msgid ""
@@ -21521,26 +21876,35 @@ msgid ""
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
+"Tingkatkan proses terjemahan dengan menambahkan informasi tambahan ke "
+"string, termasuk penjelasan, prioritas string, tanda centang, dan konteks "
+"visual. Sebagian informasi tersebut dapat diekstrak dari berkas terjemahan, "
+"dan sebagian lagi dapat ditambahkan dengan menyunting informasi string "
+"tambahan:"
 
 #: ../../admin/translating.rst:51
 msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"Akses ini langsung dari antarmuka terjemahan dengan mengklik ikon \"Sunting\""
+" di samping :guilabel:`Screenshot context` atau :guilabel:`Flags`."
 
 #: ../../admin/translating.rst:63
 msgid "Strings prioritization"
-msgstr ""
+msgstr "Prioritas string"
 
 #: ../../admin/translating.rst:65
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
 msgstr ""
+"Prioritas string dapat diubah untuk menawarkan string berprioritas lebih "
+"tinggi untuk terjemahan lebih awal dengan menggunakan tanda ``priority``."
 
 #: ../../admin/translating.rst:70
 msgid "This can be used to order the flow of translation in a logical manner."
-msgstr ""
+msgstr "Ini dapat digunakan untuk mengatur aliran terjemahan secara logis."
 
 #: ../../admin/translating.rst:84
 msgid ""
@@ -21548,6 +21912,8 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
+"Tanda string juga diwarisi dari :ref:`component-check_flags` di "
+":ref:`component` dan tanda dari berkas terjemahan (lihat :doc:`/formats`)."
 
 #: ../../admin/translating.rst:96 ../../formats.rst:411
 msgid "Explanation"
@@ -21555,35 +21921,40 @@ msgstr "Penjelasan"
 
 #: ../../admin/translating.rst:100
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr ""
+msgstr "Pada versi sebelumnya ini disebut :guilabel:`Extra context`."
 
 #: ../../admin/translating.rst:104
-#, fuzzy
-#| msgid "Added support for restricting translation file downloads."
 msgid "Support for syncing explanation with a file was introduced."
-msgstr "Menambahkan dukungan untuk membatasi unduhan berkas terjemahan."
+msgstr ""
+"Dukungan untuk sinkronisasi penjelasan dengan berkas telah diperkenalkan."
 
 #: ../../admin/translating.rst:106
 msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
 msgstr ""
+"Gunakan penjelasan untuk memperjelas cakupan atau penggunaan terjemahan. "
+"Anda dapat menggunakan Markdown untuk menyertakan tautan dan markup lainnya."
 
 #: ../../admin/translating.rst:109
 msgid ""
 "Some file formats support storing explanation within the file, see :ref:"
 "`format-explanation`."
 msgstr ""
+"Beberapa format berkas mendukung penyimpanan penjelasan dalam berkas, lihat "
+":ref:`format-explanation`."
 
 #: ../../admin/translating.rst:113
 msgid ""
 "Weblate can also display description present in the translation file for "
 "some formats, see :ref:`format-description`."
 msgstr ""
+"Weblate juga dapat menampilkan deskripsi yang ada dalam berkas terjemahan "
+"untuk beberapa format, lihat :ref:`format-description`."
 
 #: ../../admin/translating.rst:119
 msgid "Visual context for strings"
-msgstr ""
+msgstr "Konteks visual untuk string"
 
 #: ../../admin/translating.rst:121
 msgid ""
@@ -21591,10 +21962,14 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
+"Anda dapat mengunggah tangkapan layar yang menunjukkan string sumber "
+"tertentu yang digunakan dalam program Anda. Ini membantu penerjemah memahami "
+"di mana string tersebut digunakan, dan bagaimana seharusnya diterjemahkan."
 
 #: ../../admin/translating.rst:125
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
 msgstr ""
+"Tangkapan layar yang diunggah ditampilkan di bilah sisi konteks terjemahan:"
 
 #: ../../admin/translating.rst:129
 msgid ""
@@ -21603,18 +21978,27 @@ msgid ""
 "them to source strings manually, or use optical character recognition (OCR) "
 "to do so by pressing the :guilabel:`Automatically recognize` button."
 msgstr ""
+"Selain :ref:`additional`, tangkapan layar memiliki antarmuka manajemen "
+"terpisah di bawah menu :guilabel:`Operations`. Unggah tangkapan layar, "
+"tetapkan ke string sumber secara manual, atau gunakan pengenalan karakter "
+"optik (OCR) untuk melakukannya dengan menekan tombol :guilabel:`"
+"Automatically recognize`."
 
 #: ../../admin/translating.rst:135
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
 msgstr ""
+"Setelah tangkapan layar diunggah, antarmuka ini menangani manajemen dan "
+"asosiasi string sumber:"
 
 #: ../../admin/translating.rst:140
 msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
 msgstr ""
+"Anda dapat menambahkan atau memperbarui tangkapan layar langsung dari "
+"repositori Sistem Kontrol Versi (VCS) Anda."
 
 #: ../../admin/translating.rst:143
 msgid ""
@@ -21622,6 +22006,10 @@ msgid ""
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
 msgstr ""
+"Untuk mengaktifkan fitur ini, Anda dapat mengatur topeng berkas tangkapan "
+"layar saat membuat komponen, yang akan dipantau pembaruannya dalam "
+"repositori, atau Anda dapat menambahkan atau memperbarui tangkapan layar "
+"saat mengunggahnya secara manual."
 
 #: ../../admin/translating.rst:147
 msgid ""
@@ -21630,14 +22018,18 @@ msgid ""
 "screenshots matching the specified screenshot file mask will be added to the "
 "component."
 msgstr ""
+"Saat repositori diperbarui, sistem akan otomatis memindai perubahan. "
+"Tangkapan layar yang ada di repositori akan diperbarui, dan tangkapan layar "
+"baru yang sesuai dengan topeng berkas tangkapan layar yang ditentukan akan "
+"ditambahkan ke komponen."
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
-msgstr ""
+msgstr "Memutakhirkan Weblate"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr ""
+msgstr "Pemutakhiran gambar Docker"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
@@ -21645,10 +22037,13 @@ msgid ""
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
+"Gambar Docker Weblate resmi (lihat :doc:`install/docker`) mengintegrasikan "
+"semua langkah pemutakhiran. Biasanya, tidak diperlukan interaksi manual "
+"selain menarik versi terbaru (atau setidaknya yang lebih baru)."
 
 #: ../../admin/upgrade.rst:18
 msgid "Generic upgrade instructions"
-msgstr ""
+msgstr "Petunjuk pemutakhiran umum"
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -21657,6 +22052,10 @@ msgid ""
 "matches the changes in the configuration (consult :file:`settings_example."
 "py` for correct values)."
 msgstr ""
+"Selalu periksa perubahan baru pada :ref:`requirements` sebelum melakukan "
+"pemutakhiran. Setelah semua persyaratan terinstal atau dimutakhirkan, "
+"pastikan :file:`settings.py` Anda sesuai dengan perubahan konfigurasi (lihat "
+":file:`settings_example.py` untuk nilai yang benar)."
 
 #: ../../admin/upgrade.rst:25
 msgid ""
@@ -21667,110 +22066,121 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
+"Selalu periksa :ref:`version-specific-instructions` sebelum melakukan "
+"pemutakhiran. Jika Anda melewatkan versi apa pun, pastikan untuk mengikuti "
+"petunjuk untuk semua versi yang Anda lewatkan selama pemutakhiran tersebut. "
+"Terkadang lebih baik untuk memutakhirkan secara bertahap ke versi perantara "
+"untuk memastikan migrasi yang lancar. Memutakhirkan beberapa rilis "
+"seharusnya berhasil, tetapi tidak teruji sebaik pemutakhiran versi tunggal!"
 
 #: ../../admin/upgrade.rst:33
-#, fuzzy
-#| msgid ""
-#| "It is recommended to perform a full database backup prior to upgrade so "
-#| "that you can roll back the database in case upgrade fails, see :doc:"
-#| "`backup`."
 msgid ""
 "Always back up the full database before upgrading, so that you can roll back "
 "the database if the upgrade fails, see :doc:`backup`."
 msgstr ""
-"Disarankan untuk melakukan rekam cadang basis data secara penuh sebelum "
-"melakukan peningkatan sehingga Anda dapat memlihkan kembali basis data jika "
-"proses peningkatan gagal, lihat :doc:`backup`."
+"Selalu cadangkan seluruh basis data sebelum melakukan pemutakhiran, sehingga "
+"Anda dapat mengembalikan basis data jika pemutakhiran gagal, lihat "
+":doc:`backup`."
 
 #: ../../admin/upgrade.rst:36
 msgid ""
 "Stop the WSGI and Celery processes to avoid old processes running while "
 "upgrading. Otherwise incompatible changes in the database might occur."
 msgstr ""
+"Hentikan proses WSGI dan Celery untuk mencegah proses lama berjalan saat "
+"pemutakhiran. Jika tidak, perubahan yang tidak kompatibel pada basis data "
+"dapat terjadi."
 
 #: ../../admin/upgrade.rst:39
-#, fuzzy
-#| msgid "Weblate"
 msgid "Upgrade Weblate"
-msgstr "Weblate"
+msgstr "Mutakhirkan Weblate"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
-msgstr ""
+msgstr "Untuk instalasi pip dapat dicapai dengan:"
 
 #: ../../admin/upgrade.rst:47
 msgid "Or, if you just want to get the latest released version:"
-msgstr ""
+msgstr "Atau, jika Anda hanya ingin mendapatkan versi rilis terbaru:"
 
 #: ../../admin/upgrade.rst:53
 msgid "If you don't want to install all of the optional dependencies do:"
-msgstr ""
+msgstr "Jika Anda tidak ingin menginstal semua dependensi opsional, lakukan:"
 
 #: ../../admin/upgrade.rst:59
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
 msgstr ""
+"Dengan menggunakan Git checkout, Anda perlu mengambil kode sumber baru dan "
+"memperbarui instalasi Anda:"
 
 #: ../../admin/upgrade.rst:72
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
 msgstr ""
+"Rilis Weblate baru mungkin memiliki :ref:`python-deps` baru, periksa apakah "
+"mereka mencakup fitur yang Anda inginkan."
 
 #: ../../admin/upgrade.rst:75
 msgid ""
 "Upgrade the configuration file by following either :file:`settings_example."
 "py`, or :ref:`version-specific-instructions`."
 msgstr ""
+"Mutakhirkan berkas konfigurasi dengan mengikuti :file:`settings_example.py`, "
+"atau :ref:`version-specific-instructions`."
 
 #: ../../admin/upgrade.rst:78
-#, fuzzy
-#| msgid "Backup the database:"
 msgid "Upgrade the database:"
-msgstr "Rekam cadang basis data:"
+msgstr "Mutakhirkan basis data:"
 
 #: ../../admin/upgrade.rst:84
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
 msgstr ""
+"Kumpulkan berkas statis yang diperbarui (lihat :ref:`server` dan :ref"
+":`static-files`):"
 
 #: ../../admin/upgrade.rst:90
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
+"Kompres berkas JavaScript dan CSS (opsional, lihat :ref:`production-"
+"compress`):"
 
 #: ../../admin/upgrade.rst:96
 msgid ""
 "If you are running an installation from Git, you should also regenerate "
 "locale files every time you upgrade. You can do this by invoking:"
 msgstr ""
+"Jika Anda menjalankan instalasi dari Git, Anda juga harus membuat ulang "
+"berkas lokal setiap kali Anda melakukan pemutakhiran. Anda dapat "
+"melakukannya dengan menjalankan perintah:"
 
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
-msgstr ""
+msgstr "Verifikasi bahwa pengaturan Anda waras (lihat juga :ref:`production`):"
 
 #: ../../admin/upgrade.rst:109
-#, fuzzy
-#| msgid "Restart Celery worker (see :ref:`celery`)."
 msgid "Restart the Celery worker (see :ref:`celery`)."
-msgstr "Mulai ulang Celery worker (lihat :ref:`celery`)."
+msgstr "Mulai ulang pekerja Celery (lihat :ref:`celery`)."
 
 #: ../../admin/upgrade.rst:114
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Version-specific instructions"
-msgstr "Instruksi penerjemahan"
+msgstr "Instruksi khusus versi"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
 "Version specific instructions are now included in the release notes, see :"
 "doc:`/changes`."
 msgstr ""
+"Petunjuk khusus versi sekarang disertakan dalam catatan rilis, lihat "
+":doc:`/changes`."
 
 #: ../../admin/upgrade.rst:122
 msgid "Upgrade from an older major version"
-msgstr ""
+msgstr "Mutakhirkan dari versi utama yang lebih lama"
 
 #: ../../admin/upgrade.rst:124
 msgid ""
@@ -21778,21 +22188,30 @@ msgid ""
 "latest patch level for the initial major release. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
+"Pemutakhiran lintas versi utama tidak didukung. Selalu mutakhirkan ke "
+"tingkat patch terbaru untuk rilis utama awal. Pemutakhiran yang melewati "
+"langkah ini tidak didukung dan akan rusak."
 
 #: ../../admin/upgrade.rst:128
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
 msgstr ""
+"Jika Anda melakukan pemutakhiran dari versi 2.x, selalu mutakhirkan terlebih "
+"dahulu ke versi 3.0.1."
 
 #: ../../admin/upgrade.rst:129
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
 msgstr ""
+"Jika Anda melakukan pemutakhiran dari versi 3.x, selalu mutakhirkan terlebih "
+"dahulu ke versi 4.0.4."
 
 #: ../../admin/upgrade.rst:130
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgstr ""
+"Jika Anda melakukan pemutakhiran dari versi 4.x, selalu mutakhirkan terlebih "
+"dahulu ke versi 5.0.2."
 
 #: ../../admin/upgrade.rst:134
 msgid ""
@@ -21820,7 +22239,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:141
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "Migrasi dari basis data lain ke PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
 msgid ""
@@ -21829,30 +22248,42 @@ msgid ""
 "following steps. Remember to stop both, the web and Celery servers "
 "beforehand, otherwise you might end up with inconsistent data."
 msgstr ""
+"Jika Anda menjalankan Weblate dengan basis data selain PostgreSQL, "
+"pertimbangkan untuk bermigrasi ke PostgreSQL demi kinerja yang lebih baik "
+"dengan melakukan langkah-langkah berikut. Ingatlah untuk menghentikan server "
+"web dan server Celery terlebih dahulu, jika tidak, Anda mungkin akan "
+"mendapatkan data yang tidak konsisten."
 
 #: ../../admin/upgrade.rst:151
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and a "
 "separate user account:"
 msgstr ""
+"Biasanya merupakan ide yang bagus untuk menjalankan Weblate dalam basis data "
+"terpisah, dan akun pengguna terpisah:"
 
 #: ../../admin/upgrade.rst:167
 msgid "Migrating to PostgreSQL using pgloader"
-msgstr ""
+msgstr "Migrasi ke PostgreSQL menggunakan pgloader"
 
 #: ../../admin/upgrade.rst:169
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
+"`pgloader`_ adalah alat migrasi generik untuk memigrasikan data ke "
+"PostgreSQL. Anda dapat menggunakannya untuk memigrasikan basis data Weblate "
+"Anda."
 
 #: ../../admin/upgrade.rst:172
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
 msgstr ""
+"Sesuaikan :file:`settings.py` Anda untuk menggunakan PostgreSQL sebagai "
+"basis data."
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr ""
+msgstr "Migrasikan skema dalam basis data PostgreSQL:"
 
 #: ../../admin/upgrade.rst:181
 msgid ""
@@ -21860,10 +22291,14 @@ msgid ""
 "to migrate the database, but you might want to learn more about `pgloader`_ "
 "to better understand what it does, and tweak it to match your setup:"
 msgstr ""
+"3. Jalankan pgloader untuk mentransfer data. Skrip berikut dapat digunakan "
+"untuk memigrasikan basis data, tetapi Anda mungkin ingin mempelajari lebih "
+"lanjut tentang `pgloader`_ untuk lebih memahami fungsinya, dan "
+"menyesuaikannya agar cocok dengan pengaturan Anda:"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating from Pootle"
-msgstr ""
+msgstr "Bermigrasi dari Pootle"
 
 #: ../../admin/upgrade.rst:205
 msgid ""
@@ -21871,6 +22306,9 @@ msgid ""
 "supported to migrate the user accounts from it. You can dump the users from "
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
+"Karena Weblate awalnya ditulis sebagai pengganti Pootle, migrasi akun "
+"pengguna dari Pootle didukung. Anda dapat membuang pengguna dari Pootle dan "
+"mengimpornya menggunakan :wladmin:`importusers`."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
@@ -21882,12 +22320,17 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
+"API ini dapat diakses melalui URL ``/api/`` dan berbasis pada `Django REST "
+"framework <https://www.django-rest-framework.org/>`_. Anda dapat "
+"menggunakannya secara langsung atau melalui :ref:`wlc`."
 
 #: ../../api.rst:14
 msgid ""
 "The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, "
 "you can browse at ``/api/docs/``."
 msgstr ""
+"API juga didokumentasikan menggunakan OpenAPI 3.1 pada URL ``/api/schema/``, "
+"Anda dapat menelusurinya di ``/api/docs/``."
 
 #: ../../api.rst:19
 msgid ""
@@ -21895,10 +22338,13 @@ msgid ""
 "incomplete at this point and subject to change. Please consult the "
 "documentation below for more detailed information on the API."
 msgstr ""
+"OpenAPI tersedia sebagai pratinjau fitur. Dokumentasinya kemungkinan besar "
+"belum lengkap saat ini dan dapat berubah sewaktu-waktu. Silakan lihat "
+"dokumentasi di bawah ini untuk informasi lebih lanjut tentang API."
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
-msgstr ""
+msgstr "Autentikasi dan parameter generik"
 
 #: ../../api.rst:28
 msgid ""
@@ -21924,7 +22370,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Parameter Kueri"
 
 #: ../../api.rst:38
 msgid ""
@@ -21932,12 +22378,18 @@ msgid ""
 "on REST framework setup, by default ``json``, ``csv`` and ``api`` are "
 "supported. The latter provides web browser interface for API."
 msgstr ""
+"Format respons (menggantikan :http:header:`Accept`). Nilai yang memungkinkan "
+"bergantung pada pengaturan kerangka kerja REST. Secara bawaan, ``json``, "
+"``csv``, dan ``api`` didukung. Ini menyediakan antarmuka peramban web untuk "
+"API."
 
 #: ../../api.rst:42
 msgid ""
 "Returns given page of paginated results (use `next` and `previous` fields in "
 "response to automate the navigation)."
 msgstr ""
+"Mengembalikan halaman hasil yang diberi halaman (gunakan kolom `next` dan "
+"`previous` sebagai respons untuk mengotomatiskan navigasi)."
 
 #: ../../api.rst:43
 msgid ""
@@ -21946,10 +22398,14 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
+"Mengembalikan jumlah item yang diberikan per permintaan. Bawaannya adalah 50 "
+"dan maksimumnya adalah 1000. Untuk titik akhir `units`, bawaannya adalah 100 "
+"dengan maksimum 10000. Nilai bawaan juga dapat dikonfigurasi menggunakan "
+"pengaturan `PAGE_SIZE`."
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "Header Permintaan"
 
 #: ../../api.rst:48
 msgid "the response content type depends on :http:header:`Accept` header"
@@ -21958,10 +22414,12 @@ msgstr "jenis konten respons tergantung pada kepala :http:header:`Accept`"
 #: ../../api.rst:50
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
 msgstr ""
+"token opsional untuk diautentikasi sebagai ``Authorization: Token YOUR-"
+"TOKEN``"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "Header Respons"
 
 #: ../../api.rst:52
 msgid "this depends on :http:header:`Accept` header of request"
@@ -21969,69 +22427,71 @@ msgstr "ini tergantung pada permintaaan kepala :http:header:`Accept`"
 
 #: ../../api.rst:54
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "daftar metode HTTP yang diizinkan pada objek"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "Objek JSON Respons"
 
 #: ../../api.rst:55
 msgid ""
 "verbose description of the result (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
+"deskripsi hasil yang terperinci (untuk kode status HTTP selain "
+":http:statuscode:`200`)"
 
 #: ../../api.rst:56
 msgid "total item count for object lists"
-msgstr ""
+msgstr "jumlah total item untuk daftar objek"
 
 #: ../../api.rst:57
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "URL halaman berikutnya untuk daftar objek"
 
 #: ../../api.rst:58
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "URL halaman sebelumnya untuk daftar objek"
 
 #: ../../api.rst:59
 msgid "results for object lists"
-msgstr ""
+msgstr "hasil untuk daftar objek"
 
 #: ../../api.rst:60
 msgid "URL to access this resource using the API"
-msgstr ""
+msgstr "URL untuk mengakses sumber daya ini menggunakan API"
 
 #: ../../api.rst:61
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "URL untuk mengakses sumber daya ini menggunakan peramban web"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "Kode Status"
 
 #: ../../api.rst:62
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "ketika permintaan ditangani dengan benar"
 
 #: ../../api.rst:63
 msgid "when a new object was created successfully"
-msgstr ""
+msgstr "ketika objek baru berhasil dibuat"
 
 #: ../../api.rst:64
 msgid "when an object was deleted successfully"
-msgstr ""
+msgstr "ketika suatu objek berhasil dihapus"
 
 #: ../../api.rst:65
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "ketika parameter formulir tidak ada"
 
 #: ../../api.rst:66
 msgid "when access is denied"
-msgstr ""
+msgstr "ketika akses ditolak"
 
 #: ../../api.rst:67
 msgid "when throttling is in place"
-msgstr ""
+msgstr "saat pembatasan diberlakukan"
 
 #: ../../api.rst:72
 msgid "Authentication tokens"
@@ -22039,41 +22499,45 @@ msgstr "Token autentikasi"
 
 #: ../../api.rst:76
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr ""
+msgstr "Token dengan cakupan proyek diperkenalkan dalam rilis 4.10."
 
 #: ../../api.rst:78
 msgid ""
 "Each user has a personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Setiap pengguna memiliki token akses pribadi yang dapat diperoleh di profil "
+"pengguna. Token pengguna yang baru dibuat memiliki awalan ``wlu_``."
 
 #: ../../api.rst:81
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"Dimungkinkan untuk membuat token dengan cakupan proyek hanya untuk akses API "
+"ke proyek tertentu. Token ini dapat diidentifikasi dengan awalan ``wlp_``."
 
 #: ../../api.rst:91
 msgid "Authentication examples"
-msgstr ""
+msgstr "Contoh autentikasi"
 
 #: ../../api.rst:93 ../../api.rst:248
 msgid "**Example request:**"
-msgstr ""
+msgstr "**Contoh permintaan:**"
 
 #: ../../api.rst:102 ../../api.rst:257
 msgid "**Example response:**"
-msgstr ""
+msgstr "**Contoh respons:**"
 
 #: ../../api.rst:122 ../../api.rst:162 ../../api.rst:1002 ../../api.rst:1440
 #: ../../api.rst:1604 ../../api.rst:1671 ../../api.rst:1747 ../../api.rst:2125
 #: ../../api.rst:2396
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**Contoh CURL:**"
 
 #: ../../api.rst:131
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "Contoh Parameter yang Dilewatkan"
 
 #: ../../api.rst:133
 msgid ""
@@ -22081,25 +22545,26 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+"Untuk metode :http:method:`POST` parameter dapat ditetapkan sebagai "
+"pengiriman formulir (:mimetype:`application/x-www-form-urlencoded`) atau "
+"sebagai JSON (:mimetype:`application/json`)."
 
 #: ../../api.rst:137
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**Contoh permintaan formulir:**"
 
 #: ../../api.rst:149 ../../api.rst:1011 ../../api.rst:1450 ../../api.rst:1613
 #: ../../api.rst:1680 ../../api.rst:1756
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**Contoh permintaan JSON:**"
 
 #: ../../api.rst:171
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**Contoh CURL JSON:**"
 
 #: ../../api.rst:184
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Components and categories"
-msgstr "Peringatan komponen"
+msgstr "Komponen dan kategori"
 
 #: ../../api.rst:186
 msgid ""
@@ -22109,10 +22574,16 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
+"Untuk mengakses komponen yang bersarang di dalam :ref:`category`, Anda perlu "
+"mengodekan URL nama kategori menjadi nama komponen yang dipisahkan dengan "
+"garis miring. Misalnya, ``usage`` yang ditempatkan dalam kategori ``docs`` "
+"harus digunakan sebagai ``docs%252Fusage``. URL lengkap dalam kasus ini "
+"misalnya ``https://example.com/api/components/hello/docs%252Fusage/"
+"repository/``."
 
 #: ../../api.rst:195
 msgid "API rate limiting"
-msgstr ""
+msgstr "Pembatasan akses API"
 
 #: ../../api.rst:197
 msgid ""
@@ -22120,6 +22591,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"Permintaan API dibatasi; konfigurasi bawaan membatasinya hingga 100 "
+"permintaan per hari untuk pengguna anonim dan 5000 permintaan per jam untuk "
+"pengguna terautentikasi."
 
 #: ../../api.rst:201
 msgid ""
@@ -22127,12 +22601,19 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"Pembatasan akses dapat disesuaikan dalam :file:`settings.py`; lihat `"
+"Dokumentasi pembatasan dalam kerangka kerja Django REST <https://"
+"www.django-rest-framework.org/api-guide/throttling/>`_ untuk rincian lebih "
+"lanjut tentang cara mengonfigurasinya."
 
 #: ../../api.rst:205
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgstr ""
+"Dalam kontainer Docker ini dapat dikonfigurasi menggunakan "
+":envvar:`WEBLATE_API_RATELIMIT_ANON` dan "
+":envvar:`WEBLATE_API_RATELIMIT_USER`."
 
 #: ../../api.rst:208
 msgid "The status of rate limiting is reported in following headers:"
@@ -22155,28 +22636,28 @@ msgid "Added ratelimiting status headers."
 msgstr "Menambahkan kepala status pembatasan akses."
 
 #: ../../api.rst:232
-#, fuzzy
-#| msgid "Error message"
 msgid "Error responses"
-msgstr "Pesan kesalahan"
+msgstr "Respons galat"
 
 #: ../../api.rst:236
 msgid "Error responses were endpoint specific before this release."
-msgstr ""
+msgstr "Respons galat bersifat spesifik titik akhir sebelum rilis ini."
 
 #: ../../api.rst:238
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-error:"
 "error_response`."
 msgstr ""
+"Respons galat Weblate diformat berdasarkan :doc:`drf-standardized-"
+"error:error_response`."
 
 #: ../../api.rst:242
 msgid "API Entry Point"
-msgstr ""
+msgstr "Titik Masuk API"
 
 #: ../../api.rst:246
 msgid "The API root entry point."
-msgstr ""
+msgstr "Titik masuk root API."
 
 #: ../../api.rst:279
 msgid "Users"
@@ -22187,32 +22668,32 @@ msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
 msgstr ""
+"Menampilkan daftar pengguna jika Anda memiliki izin untuk mengelola "
+"pengguna. Jika tidak, Anda hanya dapat melihat rincian Anda sendiri."
 
 #: ../../api.rst:288
-#, fuzzy
-#| msgid "Language code style"
 msgid "Username to search for"
-msgstr "Gaya kode bahasa"
+msgstr "Nama pengguna untuk mencari"
 
 #: ../../api.rst:289
-#, fuzzy
-#| msgid "Language code style"
 msgid "User ID to search for"
-msgstr "Gaya kode bahasa"
+msgstr "ID Pengguna untuk mencari"
 
 #: ../../api.rst:293
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
+"Atribut objek pengguna didokumentasikan di :http:get:`/api/users/"
+"(str:username)/`."
 
 #: ../../api.rst:297
 msgid "Creates a new user."
-msgstr ""
+msgstr "Membuat pengguna baru."
 
 #: ../../api.rst:301
 msgid "User full name"
-msgstr ""
+msgstr "Nama lengkap pengguna"
 
 #: ../../api.rst:303
 msgid "User email"
@@ -22224,30 +22705,30 @@ msgstr "Apakah pengguna merupakan pengguna super? (opsional)"
 
 #: ../../api.rst:307
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "Apakah pengguna aktif? (opsional)"
 
 #: ../../api.rst:309
 msgid "Is user bot? (optional) (used for project scoped tokens)"
-msgstr ""
+msgstr "Apakah pengguna bot? (opsional) (digunakan untuk token cakupan proyek)"
 
 #: ../../api.rst:314
 msgid "Returns information about users."
-msgstr ""
+msgstr "Mengembalikan informasi tentang pengguna."
 
 #: ../../api.rst:316 ../../api.rst:357 ../../api.rst:371 ../../api.rst:385
 #: ../../api.rst:392 ../../api.rst:402 ../../api.rst:410 ../../api.rst:422
 #: ../../api.rst:430 ../../api.rst:437 ../../api.rst:447 ../../api.rst:456
 #: ../../api.rst:468 ../../api.rst:480
 msgid "User's username"
-msgstr ""
+msgstr "Nama pengguna"
 
 #: ../../api.rst:318 ../../api.rst:359 ../../api.rst:373
 msgid "username of a user"
-msgstr ""
+msgstr "nama pengguna dari pengguna"
 
 #: ../../api.rst:319 ../../api.rst:360 ../../api.rst:374
 msgid "full name of a user"
-msgstr ""
+msgstr "nama lengkap dari pengguna"
 
 #: ../../api.rst:320 ../../api.rst:361 ../../api.rst:375
 msgid "email of a user"
@@ -22259,25 +22740,23 @@ msgstr "apakah pengguna adalah pengguna super"
 
 #: ../../api.rst:322 ../../api.rst:363 ../../api.rst:377
 msgid "whether the user is active"
-msgstr ""
+msgstr "apakah pengguna aktif"
 
 #: ../../api.rst:323 ../../api.rst:364 ../../api.rst:378
 msgid "whether the user is bot (used for project scoped tokens)"
-msgstr ""
+msgstr "apakah pengguna adalah bot (digunakan untuk token cakupan proyek)"
 
 #: ../../api.rst:324 ../../api.rst:365 ../../api.rst:379
 msgid "date the user is created"
-msgstr ""
+msgstr "tanggal pengguna dibuat"
 
 #: ../../api.rst:325
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "date the user last signed in"
-msgstr "Belum masuk"
+msgstr "tanggal terakhir pengguna masuk"
 
 #: ../../api.rst:326
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr ""
+msgstr "tautkan ke grup terkait; lihat :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:327
 msgid ""
@@ -22291,27 +22770,27 @@ msgstr ""
 #: ../../api.rst:909 ../../api.rst:981 ../../api.rst:1382 ../../api.rst:1583
 #: ../../api.rst:1934
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**Contoh data JSON:**"
 
 #: ../../api.rst:355 ../../api.rst:369
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "Mengubah parameter pengguna."
 
 #: ../../api.rst:383
 msgid "Deletes all user information and marks the user inactive."
-msgstr ""
+msgstr "Menghapus semua informasi pengguna dan menandai pengguna tidak aktif."
 
 #: ../../api.rst:390
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "Asosiasikan grup dengan pengguna."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Parameter Formulir"
 
 #: ../../api.rst:394 ../../api.rst:404
 msgid "The unique group ID"
-msgstr ""
+msgstr "ID grup yang unik"
 
 #: ../../api.rst:400
 msgid "Remove user from a group."
@@ -22319,7 +22798,7 @@ msgstr "Hapus pengguna dari grup."
 
 #: ../../api.rst:408
 msgid "List statistics of a user."
-msgstr ""
+msgstr "Daftar statistik dari pengguna."
 
 #: ../../api.rst:412
 msgid "Number of translations by user"
@@ -22355,31 +22834,31 @@ msgstr ""
 
 #: ../../api.rst:428
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "Daftar langganan dari pengguna."
 
 #: ../../api.rst:435
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "Asosiasikan langganan dengan pengguna."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "Permintaan Objek JSON"
 
 #: ../../api.rst:439 ../../api.rst:460 ../../api.rst:472 ../../api.rst:482
 msgid "Name of notification registered"
-msgstr ""
+msgstr "Nama notifikasi yang terdaftar"
 
 #: ../../api.rst:440 ../../api.rst:461 ../../api.rst:473
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "Cakupan notifikasi dari pilihan yang tersedia"
 
 #: ../../api.rst:441 ../../api.rst:462 ../../api.rst:474
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "Pilihan frekuensi untuk notifikasi"
 
 #: ../../api.rst:445
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "Dapatkan langganan yang terkait dengan pengguna."
 
 #: ../../api.rst:449 ../../api.rst:458 ../../api.rst:470
 msgid "ID of notification registered"
@@ -22387,11 +22866,11 @@ msgstr "ID notifikasi terdaftar"
 
 #: ../../api.rst:454 ../../api.rst:466
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "Sunting langganan yang terasosiasi dengan pengguna."
 
 #: ../../api.rst:478
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "Hapus langganan yang terasosiasi dengan pengguna."
 
 #: ../../api.rst:483 ../../api.rst:2770 ../../api.rst:2780 ../../api.rst:2790
 msgid "int"
@@ -22406,11 +22885,14 @@ msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
 msgstr ""
+"Menampilkan daftar grup jika Anda memiliki izin untuk mengelola grup. Jika "
+"tidak, Anda hanya dapat melihat grup tempat pengguna tersebut berada."
 
 #: ../../api.rst:498
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
+"Atribut objek grup didokumentasikan di :http:get:`/api/groups/(int:id)/`."
 
 #: ../../api.rst:502
 msgid "Creates a new group."
@@ -42764,10 +43246,10 @@ msgid ""
 "them read-only (see :ref:`custom-checks`). This can be automated by the :ref:"
 "`addon-weblate.flags.bulk`."
 msgstr ""
-"Jika Anda tidak ingin menerjemahkan string tertentu (misalnya changelog), "
-"Anda dapat menyembunyikannya menggunakan :ref:`component-key_filter` atau "
-"menandainya sebagai hanya-baca (lihat :ref:`custom-checks`). Ini dapat "
-"diotomatisasi oleh :ref:`addon-weblate.flags.bulk`."
+"Jika Anda tidak ingin menerjemahkan string tertentu (misalnya catatan "
+"perubahan), Anda dapat menyembunyikannya menggunakan :ref:`component-"
+"key_filter` atau menandainya sebagai hanya-baca (lihat :ref:`custom-checks`)"
+". Ini dapat diotomatisasi oleh :ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:35
 msgid "`App store metadata files`"
