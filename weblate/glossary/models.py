@@ -15,12 +15,12 @@ from typing import TYPE_CHECKING, cast
 import ahocorasick_rs
 import sentry_sdk
 from django.core.cache import cache
-from django.db.models import Prefetch, Q, Value, F
+from django.db.models import F, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
-from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.trans.models.translation import Translation
@@ -155,7 +155,9 @@ def fetch_glossary_terms(  # noqa: C901
             base_units = base_units.select_related("source_unit", "variant")
 
             # Exclude fuzzy entries whose target exactly equals source
-            base_units = base_units.exclude(Q(state=STATE_FUZZY) & Q(source=F("target")))
+            base_units = base_units.exclude(
+                Q(state=STATE_FUZZY) & Q(source=F("target"))
+            )
 
             if full:
                 # Include full details needed for rendering
