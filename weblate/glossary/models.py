@@ -15,12 +15,12 @@ from typing import TYPE_CHECKING, cast
 import ahocorasick_rs
 import sentry_sdk
 from django.core.cache import cache
-from django.db.models import Prefetch, Q, Value
+from django.db.models import Prefetch, Q, Value, F
 from django.db.models.functions import MD5, Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 
 if TYPE_CHECKING:
     from weblate.trans.models.translation import Translation
@@ -153,6 +153,9 @@ def fetch_glossary_terms(  # noqa: C901
             base_units = get_glossary_units(project, source_language, language)
             # Variant is used for variant grouping below, source unit for flags
             base_units = base_units.select_related("source_unit", "variant")
+
+            # Exclude fuzzy entries whose target exactly equals source
+            base_units = base_units.exclude(Q(state=STATE_FUZZY) & Q(source=F("target")))
 
             if full:
                 # Include full details needed for rendering
