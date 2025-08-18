@@ -63,7 +63,7 @@ Weblate 5.13
 .. rubric:: Compatibility
 
 * Some addons have been deprecated and replaced by :ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`.
-* :ref:`machine-translation` and :ref:`addon-weblate.autotranslate.autotranslate` now support all search operators, not only limited filters. Existing add-on configuration has been migrated.
+* :ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` and :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/` now support all search operators, not only limited filters. Existing add-on configuration has been migrated. API users will need to adjust invocation.
 
 .. rubric:: Upgrading
 
