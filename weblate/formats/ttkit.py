@@ -712,7 +712,8 @@ class XliffUnit(TTKitUnit):
 
         if target_state:
             for xliff_node in self.get_xliff_nodes():
-                xliff_node.set("state", target_state)
+                if xliff_node is not None:
+                    xliff_node.set("state", target_state)
 
     def is_approved(self, fallback=False):
         """Check whether unit is approved."""
