@@ -797,7 +797,7 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
             os.path.join(settings.STATIC_URL, "state/ghost.svg"), permanent=True
         )
     # Bot and anonymous accounts
-    if email.startswith("noreply") and email.endswith("@weblate.org"):
+    if not email or (email.startswith("noreply") and email.endswith("@weblate.org")):
         return redirect(get_fallback_avatar_url(int(size)), permanent=True)
     # Project API tokens
     if email.endswith("@bots.noreply.weblate.org"):
