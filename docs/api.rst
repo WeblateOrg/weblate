@@ -2730,6 +2730,15 @@ Search
    Returns site-wide search results as a list. There is no pagination on the
    result set, only first few matches are returned for each category.
 
+   The search looks for:
+
+   - Projects
+   - Categories
+   - Components
+   - Languages
+   - Users
+
+   :param q: Search query string
    :>json str name: Name of the matched item.
    :>json str url: Web URL of the matched item.
    :>json str category: Category of the matched item.
