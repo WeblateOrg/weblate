@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-16 17:31+0000\n"
+"PO-Revision-Date: 2025-08-18 13:13+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15030,12 +15030,19 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"Si se debe utilizar una conexión TLS (segura) implícita al hablar con el "
+"servidor SMTP. En la mayoría de la documentación de correo electrónico, este "
+"tipo de conexión TLS se denomina SSL. Generalmente se usa en el puerto 465. "
+"Si tiene problemas, consulte la configuración explícita de TLS "
+":envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: ../../admin/install/docker.rst:1737 ../../admin/install/docker.rst:1755
 msgid ""
 "The SSL/TLS support is automatically enabled based on the :envvar:"
 "`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"El soporte SSL/TLS se habilita automáticamente en función de la "
+":envvar:`WEBLATE_EMAIL_PORT`."
 
 #: ../../admin/install/docker.rst:1748
 msgid ""
@@ -15044,6 +15051,10 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"Si se debe utilizar una conexión TLS (segura) al hablar con el servidor "
+"SMTP. Esto se usa para conexiones TLS explícitas, generalmente en el puerto "
+"587 o 25. Si experimenta conexiones bloqueadas, consulte la configuración "
+"implícita de TLS :envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: ../../admin/install/docker.rst:1766
 msgid "Configures Django back-end to use for sending e-mails."
@@ -15057,7 +15068,7 @@ msgstr "Configura si Weblate debe actualizar los repositorios y cómo."
 
 #: ../../admin/install/docker.rst:1782
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
-msgstr ""
+msgstr "Esta es una configuración booleana (use ``\"true\"`` o ``\"false\"``)."
 
 #: ../../admin/install/docker.rst:1785
 msgid "Site integration"
@@ -15104,22 +15115,21 @@ msgid "To enable support for Sentry, set following:"
 msgstr "Para activar la compatibilidad con Sentry, defina lo siguiente:"
 
 #: ../../admin/install/docker.rst:1823
-#, fuzzy
-#| msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr "Configura :setting:`SSH_EXTRA_ARGS`."
+msgstr "Su DSN Centinela, ver :setting:`SENTRY_DSN`."
 
 #: ../../admin/install/docker.rst:1827
-#, fuzzy
-#| msgid "Your Sentry Environment (optional)."
 msgid ""
 "Your Sentry Environment (optional), defaults to :envvar:"
 "`WEBLATE_SITE_DOMAIN`."
-msgstr "Su entorno de Sentry (opcional)."
+msgstr ""
+"Su entorno de Sentry (opcional), por defecto :envvar:`WEBLATE_SITE_DOMAIN`."
 
 #: ../../admin/install/docker.rst:1831
 msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
+"Si desea supervisar las tareas de Celery Beat con Sentry, el valor "
+"predeterminado es ``True``."
 
 #: ../../admin/install/docker.rst:1835
 #, fuzzy
