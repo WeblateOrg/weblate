@@ -10,13 +10,14 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 # 김인수 <simmon@nplob.com>, 2025.
 # 안정언 <me@jeongeon.net>, 2025.
+# Junghyuk Kwon <kwon@junghy.uk>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-09 22:10+0000\n"
-"Last-Translator: 안정언 <me@jeongeon.net>\n"
+"PO-Revision-Date: 2025-08-19 04:31+0000\n"
+"Last-Translator: Junghyuk Kwon <kwon@junghy.uk>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -38,9 +39,10 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
-"Weblate는 사전 정의된 역할로 전체 인스턴스에 대한 사용자 권한을 할당하거나, "
-"모든 항목이나 개별 프로젝트, 구성 요소, 용어집 등에 대한 하나 이상의 권한 그"
-"룹을 사용자에게 할당할 수 있는 세분화된 권한 시스템을 제공합니다."
+"Weblate에는 세밀하게 구분된 권한 시스템이 포함되어 있어, 전체 인스턴스에 "
+"대해 미리 정의된 역할을 사용자에게 부여하거나, 하나 이상의 권한 그룹을 "
+"사용자에게 할당하여 전체 범위 또는 개별 프로젝트, 구성 요소, 용어집 등에 "
+"대한 권한을 지정할 수 있습니다."
 
 #: ../../admin/access.rst:14
 msgid "Project access control"
@@ -52,9 +54,9 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
-"웹레이트 번역 플랫폼에서 무료 Libre 플랜을 실행하는 프로젝트는 항상 :"
-"guilabel:`공개` 입니다. 프로젝트에 대한 액세스를 제한하려면 유료 플랜으로 전"
-"환할 수 있습니다."
+"Hosted Weblate에서 무료 Libre 요금제를 사용하는 프로젝트는 항상 "
+":guilabel:`Public` 상태입니다. 프로젝트 접근을 제한하려면 유료 요금제로 "
+"전환할 수 있습니다."
 
 #: ../../admin/access.rst:22
 msgid ""
@@ -128,7 +130,7 @@ msgstr ":guilabel:`사용자 정의`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
-msgstr "웹레이트 번역 플랫폼에서 사용할 수 없습니다."
+msgstr "Hosted Weblate에서 사용할 수 없습니다."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
@@ -139,8 +141,8 @@ msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
-"**세부적으로 사용자 정의할 수 있는 특정 방식으로 액세스를 정의하려면 자체 웹"
-"레이트 인스턴스에서 이 옵션을 선택합니다.**"
+"**세부적으로 사용자 정의할 수 있는 특정 방식으로 액세스를 정의하려면 자체 "
+"Weblate 인스턴스에서 이 옵션을 선택합니다.**"
 
 #: ../../admin/access.rst:62
 #, fuzzy
@@ -391,9 +393,8 @@ msgstr ""
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
-msgstr ""
-"웹레이트는 이제 자동으로 계정을 생성하거나 팀에 유저를 추가하지 않습니다. 이"
-"것은 오직 유저가 확인했을 때만 이루어집니다."
+msgstr "Weblate는 이제 자동으로 계정을 생성하거나 팀에 유저를 추가하지 않습니다. "
+"이것은 오직 유저가 확인했을 때만 이루어집니다."
 
 #: ../../admin/access.rst:191
 msgid "Blocking users"
@@ -466,7 +467,7 @@ msgstr "사이트 전체 액세스 제어"
 
 #: ../../snippets/not-hosted.rst:3
 msgid "This feature is unavailable on Hosted Weblate."
-msgstr "이 기능은 웹레이트 번역 플랫폼에서 사용할 수 없습니다."
+msgstr "이 기능은 Hosted Weblate에서 사용할 수 없습니다."
 
 #: ../../admin/access.rst:238
 #, fuzzy
@@ -490,11 +491,11 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"웹레이트의 접근 제어 시스템의 가장 강력한 기능은 :ref:`management-interface` "
-"에서 구현할 수 있습니다. 당신은 어떤 프로젝트에서나 이것을 사용하여 허가를 관"
-"리할 수 있습니다. 당신은 꼭 :guilabel:`Custom`:ref:`access control <acl>` 로 "
-"전환해야할 필요성은 없습니다. 그러나 당신은 이것을 사용하기 위해 슈퍼유저 권"
-"한을 가지고 있어야 합니다."
+"Weblate의 접근 제어 시스템의 가장 강력한 기능은 :ref:`management-interface` "
+"에서 구현할 수 있습니다. 당신은 어떤 프로젝트에서나 이것을 사용하여 허가를 "
+"관리할 수 있습니다. 당신은 꼭 :guilabel:`Custom`:ref:`access control <acl>` "
+"로 전환해야할 필요성은 없습니다. 그러나 당신은 이것을 사용하기 위해 슈퍼유저 "
+"권한을 가지고 있어야 합니다."
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -3471,7 +3472,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "웹레이트 URL"
+msgstr "Weblate URL"
 
 #: ../../admin/addons.rst:1009 ../../admin/addons.rst:1192
 #, fuzzy
@@ -4440,9 +4441,9 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
-"새로운 유저의 가입을 관리하기 위해서 웹레이트의 기본 설정은 python-social-"
-"auth를 사용합니다. 새로운 유저는 이메일 확인 후 서드파티 서비스를 사용하여 기"
-"여하거나 인증할 수 있습니다."
+"새로운 유저의 가입을 관리하기 위해서 Weblate의 기본 설정은 python-social-"
+"auth를 사용합니다. 새로운 유저는 이메일 확인 후 서드파티 서비스를 사용하여 "
+"기여하거나 인증할 수 있습니다."
 
 #: ../../admin/auth.rst:11
 msgid ""
@@ -4490,8 +4491,8 @@ msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
-":doc:`psa:index` 덕분에 웹레이트는 GitLab, Ubuntu, Fedora 등과 같은 서드 파"
-"티 서비스를 이용한 인증을 지원합니다."
+":doc:`psa:index` 덕분에 Weblate는 GitLab, Ubuntu, Fedora 등과 같은 서드 파티 "
+"서비스를 이용한 인증을 지원합니다."
 
 #: ../../admin/auth.rst:38
 msgid ""
@@ -4507,10 +4508,9 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"기본적으로 웹레이트는 이메일 주소를 검증하기 위한 인증 서비스를 서드 파티에 "
+"기본적으로 Weblate는 이메일 주소를 검증하기 위한 인증 서비스를 서드 파티에 "
 "의존하고 있습니다. 만약 사용하길 원하는 서비스가 이것을 지원하지 않는다면 "
-"FORCE_EMAIL_VALIDATION을 설정하여 웹레이트에서 이메일을 검증하세요. 예를 들"
-"어:"
+"FORCE_EMAIL_VALIDATION을 설정하여 Weblate에서 이메일을 검증하세요. 예를 들어:"
 
 #: ../../admin/auth.rst:56
 msgid ""
@@ -4577,9 +4577,9 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
-"웹레이트는 도메인 구성을 포함하여 인증 동안 콜백 URL을 제공합니다. 만약 URL "
-"미스매치와 관련한 에러가 발생했을 경우 이것을 고치길 원한다면 :ref:"
-"`production-site` 를 참고하세요."
+"Weblate는 도메인 구성을 포함하여 인증 동안 콜백 URL을 제공합니다. 만약 URL "
+"미스매치와 관련한 에러가 발생했을 경우 이것을 고치길 원한다면 :ref"
+":`production-site` 를 참고하세요."
 
 #: ../../admin/auth.rst:133
 #, fuzzy
@@ -8767,9 +8767,9 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
-"웹레이트 번역 플랫폼을 사용하는 경우 권장되는 접근 방식은 `Weblate 앱 "
-"<https://github.com/apps/weblate>`_ 을 설치하는 것입니다. 이렇게 하면 많은 것"
-"을 설정하지 않고도 올바른 설정을 얻을 수 있습니다. 변경 사항을 다시 푸시하는 "
+"Hosted Weblate을 사용하는 경우 권장되는 접근 방식은 `Weblate 앱 <https://"
+"github.com/apps/weblate>`_ 을 설치하는 것입니다. 이렇게 하면 많은 것을 "
+"설정하지 않고도 올바른 설정을 얻을 수 있습니다. 변경 사항을 다시 푸시하는 "
 "데에도 사용할 수 있습니다."
 
 #: ../../admin/continuous.rst:221
@@ -9765,7 +9765,7 @@ msgstr "파이썬 중괄호 형식"
 #, fuzzy
 #| msgid "Weblate languages"
 msgid "Weblate feature"
-msgstr "웹레이트 언어"
+msgstr "Weblate 언어"
 
 #: ../../admin/install.rst:0
 msgid ""
@@ -9862,7 +9862,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate administration"
 msgid "Hosted Weblate integration"
-msgstr "웹레이트 관리"
+msgstr "Weblate 관리"
 
 #: ../../admin/install.rst:0
 msgid "`wllegal <https://pypi.org/project/wllegal>`_"
@@ -14021,7 +14021,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Permissions are not managed in Weblate."
 msgid "We're using uv package manager to install Weblate."
-msgstr "권한은 웹레이트에서 관리되지 않습니다."
+msgstr "권한은 Weblate에서 관리되지 않습니다."
 
 #: ../../admin/install/steps/install-uv.rst:15
 msgid ""
@@ -15507,7 +15507,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:885
 msgid "Weblate"
-msgstr "웹레이트"
+msgstr ""
 
 #: ../../admin/machine.rst:889 ../../admin/machine.rst:904
 #, fuzzy
@@ -35714,7 +35714,7 @@ msgstr "저작권"
 #, fuzzy
 #| msgid "Weblate keys"
 msgid "Weblate license"
-msgstr "웹레이트 키"
+msgstr "Weblate 키"
 
 #: ../../contributing/license.rst:7
 msgid ""
@@ -38688,7 +38688,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Last commit in Weblate"
 msgid "Lock the affected component in Weblate."
-msgstr "웹레이트에서 마지막 커밋"
+msgstr "Weblate에서 마지막 커밋"
 
 #: ../../faq.rst:293
 msgid "Commit any pending changes and merge them into the upstream repository."
@@ -38898,7 +38898,7 @@ msgstr "보류중인 변경사항 커밋 (:ref:`lazy-commit` 참조)."
 
 #: ../../faq.rst:428
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "웹레이트 변경 사항을 업스트림 저장소에 병합합니다."
+msgstr "Weblate 변경 사항을 업스트림 저장소에 병합합니다."
 
 #: ../../faq.rst:429
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
@@ -42863,7 +42863,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate languages"
 msgid "Weblate threat model"
-msgstr "웹레이트 언어"
+msgstr "Weblate 언어"
 
 #: ../../security/threat-model.rst:4
 msgid ""
@@ -43051,7 +43051,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "**Weblate application**"
-msgstr "웹레이트 번역"
+msgstr "Weblate 번역"
 
 #: ../../security/threat-model.rst:74 ../../security/threat-model.rst:130
 msgid "**Spoofing**"
@@ -43213,7 +43213,7 @@ msgstr "Sentry 통합 기능 테스트"
 msgid ""
 "**Malicious commits from Weblate:** Compromised Weblate pushes malicious "
 "changes to the upstream repository."
-msgstr "웹레이트가 업스트림 저장소에 변경사항을 푸시할 수 없습니다."
+msgstr "Weblate가 업스트림 저장소에 변경사항을 푸시할 수 없습니다."
 
 #: ../../security/threat-model.rst:124
 msgid "Introduction of malware/backdoors into target projects."
@@ -43753,10 +43753,8 @@ msgid "Double space"
 msgstr "두 번 띄기"
 
 #: ../../user/checks.rst:192
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "번역이 두 번 띄기를 포함합니다"
+msgstr "번역문에 연속된 공백이 있습니다."
 
 #: ../../user/checks.rst:198
 msgid ""
@@ -44045,10 +44043,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS 보간 문자열"
 
 #: ../../user/checks.rst:445
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "AngularJS 보간 문자열이 원본과 일치하지 않습니다"
+msgstr "AngularJS 보간 문자열이 원본과 일치하지 않습니다."
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -44901,10 +44897,8 @@ msgid "Mismatched colon"
 msgstr "일치하지 않는 콜론(:)"
 
 #: ../../user/checks.rst:1194
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "원본과 번역 모두 콜론으로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 콜론으로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1200
 msgid ""
@@ -44923,10 +44917,8 @@ msgid "Mismatched ellipsis"
 msgstr "일치하지 않는 줄임표"
 
 #: ../../user/checks.rst:1213
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "원본과 번역 모두 말 줄임표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 말줄임표(…)로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1219
 msgid ""
@@ -44950,10 +44942,8 @@ msgid "Mismatched exclamation mark"
 msgstr "일치하지 않는 느낌표(!)"
 
 #: ../../user/checks.rst:1234
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "원본과 번역 모두 느낌표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 느낌표로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1240
 msgid ""
@@ -44974,10 +44964,8 @@ msgid "Mismatched full stop"
 msgstr "일치하지 않는 마침표(.)"
 
 #: ../../user/checks.rst:1254
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "원본과 번역 모두 마침표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 마침표로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1260
 msgid ""
@@ -44995,11 +44983,8 @@ msgid "Mismatched interrobang"
 msgstr "일치하지 않는 인터로뱅"
 
 #: ../../user/checks.rst:1273
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "출처와 번역이 모두 인터로방 표현으로 끝나는 것은 아님"
+msgstr "원문과 번역문의 끝이 인터로뱅(‽)으로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1279
 msgid ""
@@ -45017,10 +45002,8 @@ msgid "Mismatched question mark"
 msgstr "일치하지 않는 물음표(?)"
 
 #: ../../user/checks.rst:1290
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "원본과 번역 모두 물음표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 물음표로 일치하지 않습니다."
 
 #: ../../user/checks.rst:1296
 msgid ""
@@ -45280,10 +45263,8 @@ msgid "Starting newline"
 msgstr "앞쪽 새로운 줄"
 
 #: ../../user/checks.rst:1555
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "원본과 번역 모두 새로운 줄로 시작하지 않습니다"
+msgstr "원문과 번역문의 줄바꿈 시작이 일치하지 않습니다."
 
 #: ../../user/checks.rst:1561 ../../user/checks.rst:1593
 msgid ""
@@ -45297,10 +45278,8 @@ msgid "Starting spaces"
 msgstr "앞쪽 공백"
 
 #: ../../user/checks.rst:1573
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "원본과 번역이 같은 단어나 공백으로 시작하지 않습니다"
+msgstr "원문과 번역문이 동일한 개수의 공백으로 시작하지 않습니다."
 
 #: ../../user/checks.rst:1579
 msgid ""
@@ -45313,20 +45292,16 @@ msgid "Trailing newline"
 msgstr "뒤쪽 새로운 줄"
 
 #: ../../user/checks.rst:1587
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "원본과 번역 모두 새로운 줄로 끝나지 않습니다"
+msgstr "원본과 번역본의 줄바꿈 끝이 일치하지 않습니다."
 
 #: ../../user/checks.rst:1603
 msgid "Trailing space"
 msgstr "뒤쪽 공백"
 
 #: ../../user/checks.rst:1605
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "원본과 번역 모두 공백으로 끝나지 않습니다"
+msgstr "원문과 번역문이 동일한 개수의 공백으로 끝나지 않습니다."
 
 #: ../../user/checks.rst:1611
 msgid ""
@@ -46905,7 +46880,7 @@ msgstr "번역 메시지를 추가"
 #, fuzzy
 #| msgid "Pending changes not yet committed to the Weblate repository"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
-msgstr "아직 웹레이트 저장소에 커밋되지 않은 보류중인 변경사항"
+msgstr "아직 Weblate 저장소에 커밋되지 않은 보류중인 변경사항"
 
 #: ../../user/search.rst:73
 msgid "String target language."
@@ -47266,7 +47241,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Thank you for your interest in trying Weblate!"
 msgid "Thank you for your interest in translating with Weblate!"
-msgstr "웹레이트에 관심을 가져주셔서 감사합니다!"
+msgstr "Weblate에 관심을 가져주셔서 감사합니다!"
 
 #: ../../user/translating.rst:6
 msgid "Generally, there are two most used modes of translation:"
