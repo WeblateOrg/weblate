@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-18 13:13+0000\n"
+"PO-Revision-Date: 2025-08-20 11:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15221,42 +15221,55 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"Estas variables permiten ajustar las opciones de trabajo de Celery. Puede "
+"ser útil ajustar la concurrencia (``--concurrency 16``) o usar una "
+"implementación de pool diferente (``--pool=gevent``)."
 
 #: ../../admin/install/docker.rst:1958
 msgid ""
 "By default, the number of concurrent workers is based on :envvar:"
 "`WEBLATE_WORKERS`."
 msgstr ""
+"De forma predeterminada, el número de trabajos simultáneos se basa en "
+":envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:1969
+#, fuzzy
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ""
+msgstr ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
 
 #: ../../admin/install/docker.rst:1976
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Esta variable se puede establecer en ``1`` para ejecutar solo un proceso de "
+"celery. Esto reduce el uso de memoria, pero puede afectar el rendimiento de "
+"Weblate."
 
 #: ../../admin/install/docker.rst:1989
 msgid "Configure how many WSGI workers should be executed."
-msgstr ""
+msgstr "Configurar cuántos trabajos WSGI se deben ejecutar."
 
 #: ../../admin/install/docker.rst:1991
 msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
-msgstr ""
+msgstr "Por defecto :envvar:`WEBLATE_WORKERS`."
 
 #: ../../admin/install/docker.rst:2002
 msgid ""
 "The Docker container runs two WSGI processes since 5.9 and :envvar:"
 "`WEB_WORKERS` configures how many threads each process will have."
 msgstr ""
+"El contenedor Docker ejecuta dos procesos WSGI desde 5.9 y "
+":envvar:`WEB_WORKERS` configura cuántos subprocesos tenga cada proceso."
 
 #: ../../admin/install/docker.rst:2007
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
+"Define qué servicios deben ejecutarse dentro del contenedor. Usa esto para "
+":ref:`docker-scaling`."
 
 #: ../../admin/install/docker.rst:2009
 msgid "Following services are defined:"
@@ -15268,14 +15281,19 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Programador de tareas de Celery, solo se debe ejecutar una instancia. Este "
+"contenedor también es responsable de las migraciones de la estructura de la "
+"base de datos y debe iniciarse antes que otros."
 
 #: ../../admin/install/docker.rst:2016
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
+"Trabajo de Celery para las copias de seguridad, solo se debe ejecutar una "
+"instancia."
 
 #: ../../admin/install/docker.rst:2018
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Trabajo genérico de Celery."
 
 #: ../../admin/install/docker.rst:2020
 msgid "Translation memory Celery worker."
