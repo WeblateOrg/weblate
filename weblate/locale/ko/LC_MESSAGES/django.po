@@ -6,13 +6,14 @@
 # simmon <simmon@nplob.com>, 2024.
 # 김인수 <simmon@nplob.com>, 2025.
 # 안정언 <me@jeongeon.net>, 2025.
+# Junghyuk Kwon <kwon@junghy.uk>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 08:53+0000\n"
-"PO-Revision-Date: 2025-08-09 22:09+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-08-19 04:31+0000\n"
+"Last-Translator: Junghyuk Kwon <kwon@junghy.uk>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -38,14 +39,11 @@ msgstr "사용자 아바타"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr ""
-"이미 사용 중인 전자우편입니다. 다른 전자우편 주소를 입력해주시길 바랍니다."
+msgstr "이 이메일 주소는 이미 사용 중입니다. 다른 이메일 주소를 입력해 주세요."
 
 #: weblate/accounts/forms.py:118
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "이미 존재하는 사용자 이름입니다. 다른 이름을 선택하십시오."
+msgstr "이 사용자명은 이미 존재합니다. 다른 이름을 선택하세요."
 
 #: weblate/accounts/forms.py:130 weblate/accounts/forms.py:1026
 #: weblate/auth/models.py:463 weblate/auth/models.py:1166
@@ -825,7 +823,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:734
 msgid "Website URL"
-msgstr "웹레이트 URL"
+msgstr "Weblate URL"
 
 #: weblate/accounts/models.py:739
 #, fuzzy
@@ -1797,7 +1795,7 @@ msgstr "변경된 라이선스"
 #, fuzzy
 #| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "웹레이트 URL"
+msgstr "Weblate URL"
 
 #: weblate/addons/forms.py:596
 msgid "Secret"
@@ -2033,10 +2031,8 @@ msgid "You can use Markdown and mention users by @username."
 msgstr "마크다운을 사용하고 @username과 같이 사용자를 언급할 수 있습니다."
 
 #: weblate/api/serializers.py:355
-#, fuzzy
-#| msgid "Generated on %(timestamp)s."
 msgid "Creation timestamp"
-msgstr "%(timestamp)s 에 만들어졌습니다."
+msgstr "생성 타임스탬프"
 
 #: weblate/api/serializers.py:357
 msgid ""
@@ -2865,7 +2861,7 @@ msgstr "추가할 사용자"
 #: weblate/auth/models.py:1153 weblate/trans/forms.py:1323
 #: weblate/trans/forms.py:1341
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr "기존 웹레이트 계정 이름 또는 이메일 주소를 입력하세요."
+msgstr "기존 Weblate 계정 이름 또는 이메일 주소를 입력하세요."
 
 #: weblate/auth/models.py:1161
 msgid "Suggest username for the user. It can be changed later."
@@ -3155,10 +3151,8 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS 보간 문자열"
 
 #: weblate/checks/angularjs.py:33
-#, fuzzy
-#| msgid "AngularJS interpolation strings do not match source"
 msgid "AngularJS interpolation strings do not match source."
-msgstr "AngularJS 보간 문자열이 원본과 일치하지 않습니다"
+msgstr "AngularJS 보간 문자열이 원본과 일치하지 않습니다."
 
 #: weblate/checks/base.py:325
 msgid "The following format strings are missing: {}"
@@ -3177,30 +3171,24 @@ msgid "Starting newline"
 msgstr "앞쪽 새로운 줄"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "원본과 번역 모두 새로운 줄로 시작하지 않습니다"
+msgstr "원문과 번역문의 줄바꿈 시작이 일치하지 않습니다."
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "뒤쪽 새로운 줄"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "원본과 번역 모두 새로운 줄로 끝나지 않습니다"
+msgstr "원본과 번역본의 줄바꿈 끝이 일치하지 않습니다."
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "앞쪽 공백"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "원본과 번역이 같은 단어나 공백으로 시작하지 않습니다"
+msgstr "원문과 번역문이 동일한 개수의 공백으로 시작하지 않습니다."
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
@@ -3217,81 +3205,64 @@ msgid "Trailing space"
 msgstr "뒤쪽 공백"
 
 #: weblate/checks/chars.py:143
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "원본과 번역 모두 공백으로 끝나지 않습니다"
+msgstr "원문과 번역문이 동일한 개수의 공백으로 끝나지 않습니다."
 
 #: weblate/checks/chars.py:178
 msgid "Double space"
 msgstr "두 번 띄기"
 
 #: weblate/checks/chars.py:179
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "번역이 두 번 띄기를 포함합니다"
+msgstr "번역문에 연속된 공백이 있습니다."
 
 #: weblate/checks/chars.py:200
 msgid "Mismatched full stop"
 msgstr "일치하지 않는 마침표(.)"
 
 #: weblate/checks/chars.py:202
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "원본과 번역 모두 마침표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 마침표로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:256
 msgid "Mismatched colon"
 msgstr "일치하지 않는 콜론(:)"
 
 #: weblate/checks/chars.py:257
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "원본과 번역 모두 콜론으로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 콜론으로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched question mark"
 msgstr "일치하지 않는 물음표(?)"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "원본과 번역 모두 물음표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 물음표로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched exclamation mark"
 msgstr "일치하지 않는 느낌표(!)"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "원본과 번역 모두 느낌표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 느낌표로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:371
 msgid "Mismatched interrobang"
 msgstr "일치하지 않는 인터로뱅"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "출처와 번역이 모두 인터로방 표현으로 끝나는 것은 아님"
+msgstr "원문과 번역문의 끝이 인터로뱅(‽)으로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:387
 msgid "Mismatched ellipsis"
 msgstr "일치하지 않는 줄임표"
 
 #: weblate/checks/chars.py:389
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "원본과 번역 모두 말 줄임표로 끝나지 않습니다"
+msgstr "원문과 번역문의 끝이 말줄임표(…)로 일치하지 않습니다."
 
 #: weblate/checks/chars.py:412
 msgid "Mismatched \\n"
@@ -4981,7 +4952,7 @@ msgstr "용어집"
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
-msgstr "웹레이트 언어"
+msgstr "Weblate 언어"
 
 #: weblate/lang/data.py:304
 msgctxt "Plural form description"
@@ -6147,11 +6118,11 @@ msgstr "<strong>Weblate</strong>가 계속 발전할 수 있도록 돕기"
 
 #: weblate/templates/about/donate.html:24
 msgid "Welcome and thank you for supporting Weblate"
-msgstr "웹레이트를 지원해 주셔서 감사합니다"
+msgstr "Weblate를 지원해 주셔서 감사합니다"
 
 #: weblate/templates/about/donate.html:26
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "웹레이트를 선택해 주셔서 감사합니다"
+msgstr "Weblate를 선택해 주셔서 감사합니다"
 
 #: weblate/templates/about/donate.html:29
 msgid ""
@@ -6186,7 +6157,7 @@ msgstr[0] "최근 변경사항"
 #: weblate/templates/manage/index.html:101
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Weblate에 보내기"
+msgstr "Weblate에 기부"
 
 #: weblate/templates/about/index.html:27
 msgid "Hosting translations"
@@ -6195,13 +6166,12 @@ msgstr "번역 호스팅"
 #: weblate/templates/about/index.html:31
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
-msgstr ""
-"이 웹레이트 인스턴스는 다양한 무료 소프트웨어 프로젝트에 대한 번역을 진행합니"
-"다."
+msgstr "이 Weblate 인스턴스는 다양한 무료 소프트웨어 프로젝트에 대한 번역을 "
+"진행합니다."
 
 #: weblate/templates/about/index.html:32
 msgid "Weblate can host your project as well, please get in touch."
-msgstr "웹레이트에서 사용자의 프로젝트를 진행할 수도 있으니, 문의해 주세요."
+msgstr "Weblate에서 사용자의 프로젝트를 진행할 수도 있으니, 문의해 주세요."
 
 #: weblate/templates/about/index.html:35
 #: weblate/templates/accounts/hosting.html:58
@@ -6234,11 +6204,11 @@ msgstr "영리 목적으로 호스팅을 하시기 위해서는 연락해 주세
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
-msgstr "웹레이트는 무료 소프트웨어를 기반으로 합니다"
+msgstr "Weblate는 무료 소프트웨어를 기반으로 합니다"
 
 #: weblate/templates/about/keys.html:10 weblate/trans/views/about.py:95
 msgid "Weblate keys"
-msgstr "웹레이트 키"
+msgstr "Weblate 키"
 
 #: weblate/templates/about/keys.html:22
 msgid "Commit signing"
@@ -6283,8 +6253,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"웹레이트로 만든 모든 커밋은 GPG 키 %(gpg_key_id)s 로 서명되며, 해당 공개 키"
-"는 아래에서 확인할 수 있습니다."
+"Weblate로 만든 모든 커밋은 GPG 키 %(gpg_key_id)s 로 서명되며, 해당 공개 키는 "
+"아래에서 확인할 수 있습니다."
 
 #: weblate/templates/about/keys.html:38
 msgid "Commit signing is not configured."
@@ -6326,9 +6296,8 @@ msgstr "사용자 ID 추가 확인"
 msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
-msgstr ""
-"이것을 확인한 후, %(backend_verbose)s (%(uid)s) 를 사용하여 웹레이트에 인증"
-"할 수 있습니다."
+msgstr "이것을 확인한 후, %(backend_verbose)s (%(uid)s) 를 사용하여 Weblate에 인증할 "
+"수 있습니다."
 
 #: weblate/templates/accounts/confirm.html:27
 msgid "Confirm"
@@ -7086,7 +7055,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate version"
 msgid "Weblate single sign on"
-msgstr "웹레이트 버전"
+msgstr "Weblate 버전"
 
 #: weblate/templates/accounts/snippets/login-title.html:5
 msgctxt "Badge for site title for Hosted Weblate"
@@ -7136,7 +7105,7 @@ msgstr "회원 가입 확인"
 
 #: weblate/templates/accounts/trial.html:15
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "웹레이트에 관심을 가져주셔서 감사합니다!"
+msgstr "Weblate에 관심을 가져주셔서 감사합니다!"
 
 #: weblate/templates/accounts/trial.html:22
 msgid "Your trial offer"
@@ -7427,7 +7396,7 @@ msgstr "정말로 확신하십니까?"
 #: weblate/templates/accounts/user.html:451
 #, python-format
 msgid "This will remove <b>%(user)s</b> from Weblate."
-msgstr "웹레이트에서 <b>%(user)s</b> 가 제거됩니다."
+msgstr "Weblate에서 <b>%(user)s</b> 가 제거됩니다."
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -8035,7 +8004,7 @@ msgstr "키보드 단축키"
 
 #: weblate/templates/base.html:407 weblate/templates/base5.html:431
 msgid "Weblate project"
-msgstr "웹레이트 프로젝트"
+msgstr "Weblate 프로젝트"
 
 #: weblate/templates/base.html:409
 msgctxt "Contribute to Weblate"
@@ -8059,13 +8028,13 @@ msgstr "정보"
 #| msgid "Website URL"
 msgctxt "Weblate website"
 msgid "Website"
-msgstr "웹레이트 URL"
+msgstr "Weblate URL"
 
 #: weblate/templates/base.html:449 weblate/templates/base5.html:474
 #: weblate/templates/manage/index.html:43
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
-msgstr "웹레이트가 서비스 한도를 초과했습니다. 구독을 업그레이드하세요."
+msgstr "Weblate가 서비스 한도를 초과했습니다. 구독을 업그레이드하세요."
 
 #: weblate/templates/base.html:497 weblate/templates/base5.html:521
 #: weblate/templates/screenshots/screenshot_detail.html:108
@@ -8094,7 +8063,7 @@ msgstr "정보"
 #, fuzzy
 #| msgid "Website URL"
 msgid "Website"
-msgstr "웹레이트 URL"
+msgstr "Weblate URL"
 
 #: weblate/templates/billing/detail.html:27
 msgid "Recurring payment"
@@ -8326,7 +8295,7 @@ msgstr "선택된 사용자만이 볼 수 있음."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:62
 msgid "Permissions are not managed in Weblate."
-msgstr "권한은 웹레이트에서 관리되지 않습니다."
+msgstr "권한은 Weblate에서 관리되지 않습니다."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:65
 msgid ""
@@ -8788,7 +8757,7 @@ msgstr ""
 
 #: weblate/templates/data.html:16
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr "웹레이트의 다양한 데이터는 기계에서 읽을 수 있는 형식으로 제공됩니다."
+msgstr "Weblate의 다양한 데이터는 기계에서 읽을 수 있는 형식으로 제공됩니다."
 
 #: weblate/templates/data.html:19
 msgid "RSS feeds"
@@ -8837,9 +8806,8 @@ msgstr "알림 후크"
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
-msgstr ""
-"알림 후크를 사용하면, 웹레이트는 개발자가 변경한 내용을 자동으로 가져오기 때"
-"문에 지속적인 현지화가 가능합니다."
+msgstr "알림 후크를 사용하면, Weblate는 개발자가 변경한 내용을 자동으로 가져오기 "
+"때문에 지속적인 현지화가 가능합니다."
 
 #: weblate/templates/data.html:123 weblate/templates/data.html:131
 msgid "Hook"
@@ -8847,12 +8815,12 @@ msgstr "후크"
 
 #: weblate/templates/data.html:138
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "다음과 같이 원격 저장소에서 웹레이트로 변경 내용을 가져옵니다:"
+msgstr "다음과 같이 원격 저장소에서 Weblate로 변경 내용을 가져옵니다:"
 
 #: weblate/templates/data.html:148
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
-msgstr "웹레이트는 여러 코드 호스팅 사이트의 직접 알림도 지원합니다:"
+msgstr "Weblate는 여러 코드 호스팅 사이트의 직접 알림도 지원합니다:"
 
 #: weblate/templates/data.html:154
 msgid "Hosting site"
@@ -9092,7 +9060,7 @@ msgstr "상태"
 #: weblate/templates/footer.html:43
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "웹레이트 지원하기"
+msgstr "Weblate 지원하기"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -9123,9 +9091,8 @@ msgstr[0] "%(count)s개의 보류 중인 변경사항"
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr ""
-"이렇게 하면 저장소가 아닌 웹레이트에 있는 모든 보류 중인 변경사항이 커밋됩니"
-"다."
+msgstr "이렇게 하면 저장소가 아닌 Weblate에 있는 모든 보류 중인 변경사항이 "
+"커밋됩니다."
 
 #: weblate/templates/js/git-status.html:40
 msgid "Push"
@@ -9167,7 +9134,7 @@ msgstr "그러면 Weblate 저장소가 업스트림 변경 사항으로 업데�
 
 #: weblate/templates/js/git-status.html:98
 msgid "Allow changes to the Weblate repository"
-msgstr "웹레이트 저장소에 대한 변경 허용하기"
+msgstr "Weblate 저장소에 대한 변경 허용하기"
 
 #: weblate/templates/js/git-status.html:98
 #: weblate/templates/snippets/component/lock.html:13
@@ -9176,7 +9143,7 @@ msgstr "잠금 해제"
 
 #: weblate/templates/js/git-status.html:104
 msgid "Prevent any changes in the Weblate repository"
-msgstr "웹레이트 저장소의 모든 변경 방지하기"
+msgstr "Weblate 저장소의 모든 변경 방지하기"
 
 #: weblate/templates/js/git-status.html:104
 msgid "Lock"
@@ -9202,11 +9169,11 @@ msgstr[0] "%(count)s 구성 요소가 잠금 해제되었습니다"
 #: weblate/templates/js/git-status.html:119
 #: weblate/templates/js/git-status.html:124
 msgid "Weblate translations are unlocked"
-msgstr "웹레이트 번역이 잠금 해제됩니다"
+msgstr "Weblate 번역이 잠금 해제됩니다"
 
 #: weblate/templates/js/git-status.html:122
 msgid "Weblate translations are locked"
-msgstr "웹레이트 번역이 잠겨 있습니다"
+msgstr "Weblate 번역이 잠겨 있습니다"
 
 #: weblate/templates/js/git-status.html:127
 msgid "Locking prevents translators from doing changes."
@@ -9223,23 +9190,21 @@ msgstr "재설정"
 
 #: weblate/templates/js/git-status.html:146
 msgid "Reset all changes in the Weblate repository"
-msgstr "웹레이트 저장소의 모든 변경사항 재설정"
+msgstr "Weblate 저장소의 모든 변경사항 재설정"
 
 #: weblate/templates/js/git-status.html:148
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream."
-msgstr ""
-"재설정하면 웹레이트의 모든 변경사항이 제거되어 저장소가 업스트림과 일치하게 "
+msgstr "재설정하면 Weblate의 모든 변경사항이 제거되어 저장소가 업스트림과 일치하게 "
 "됩니다."
 
 #: weblate/templates/js/git-status.html:149
 msgid ""
 "Use when you want to discard changes in Weblate and bring it in sync with "
 "upstream repository."
-msgstr ""
-"웹레이트의 변경내용을 삭제하고 업스트림 저장소와 동기화하려는 경우에 사용합니"
-"다."
+msgstr "Weblate의 변경내용을 삭제하고 업스트림 저장소와 동기화하려는 경우에 "
+"사용합니다."
 
 #: weblate/templates/js/git-status.html:155
 msgid "Cleanup"
@@ -9247,7 +9212,7 @@ msgstr "정리"
 
 #: weblate/templates/js/git-status.html:156
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "웹레이트 저장소에서 추적되지 않은 모든 파일 정리하기"
+msgstr "Weblate 저장소에서 추적되지 않은 모든 파일 정리하기"
 
 #: weblate/templates/js/git-status.html:158
 msgid ""
@@ -9262,7 +9227,7 @@ msgstr "또한 Weblate에서 사용되지 않는 오래된 브랜치를 제거�
 
 #: weblate/templates/js/git-status.html:160
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "웹레이트 저장소에 약간의 찌꺼기가 남아있을 때 사용합니다."
+msgstr "Weblate 저장소에 약간의 찌꺼기가 남아있을 때 사용합니다."
 
 #: weblate/templates/js/git-status.html:166
 msgid "Synchronize"
@@ -9270,7 +9235,7 @@ msgstr "동기화"
 
 #: weblate/templates/js/git-status.html:167
 msgid "Force writing all translations to the Weblate repository"
-msgstr "웹레이트 저장소에 모든 번역을 강제로 작성"
+msgstr "Weblate 저장소에 모든 번역을 강제로 작성"
 
 #: weblate/templates/js/git-status.html:169
 msgid "Forces writing all strings to the translation files."
@@ -9280,7 +9245,7 @@ msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
 msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
-msgstr "저장소 파일이 어떤 이유로 웹레이트와 동기화되지 않았을 때 사용합니다."
+msgstr "저장소 파일이 어떤 이유로 Weblate와 동기화되지 않았을 때 사용합니다."
 
 #: weblate/templates/js/git-status.html:176
 msgid "Rescan"
@@ -9288,11 +9253,11 @@ msgstr "재검색"
 
 #: weblate/templates/js/git-status.html:177
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "웹레이트 저장소에 있는 모든 번역 파일 다시 검색하기"
+msgstr "Weblate 저장소에 있는 모든 번역 파일 다시 검색하기"
 
 #: weblate/templates/js/git-status.html:179
 msgid "Loads translations from the files into Weblate."
-msgstr "파일에서 웹레이트에 번역을 불러옵니다."
+msgstr "파일에서 Weblate에 번역을 불러옵니다."
 
 #: weblate/templates/js/git-status.html:180
 msgid ""
@@ -9651,16 +9616,14 @@ msgstr "시험판 사용 기간이 1주일 이내에 만료됩니다."
 msgid ""
 "If you like Weblate and you want to continue using it, please purchase the "
 "subscription. If not, tell us what you are missing."
-msgstr ""
-"웹레이트를 좋아하고 계속 사용하려 한다면 구독을 고려해주세요. 그렇지 않다면 "
+msgstr "Weblate를 좋아하고 계속 사용하려 한다면 구독을 고려해주세요. 그렇지 않다면 "
 "어떤 점이 마음에 들지 않는지 알려주세요."
 
 #: weblate/templates/mail/billing_expired.html:14
 msgid ""
 "If you like Weblate and you want to continue using it, just request an "
 "approval of your libre plan."
-msgstr ""
-"웹레이트가 마음에 들고 계속 사용하고 싶다면, 무료 플랜 승인을 요청하십시오."
+msgstr "Weblate가 마음에 들고 계속 사용하고 싶다면, 무료 플랜 승인을 요청하십시오."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -9905,8 +9868,7 @@ msgstr "%(component)s의 %(site_title)s에서 %(user)s의 새 언어 요청이 �
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
-msgstr ""
-"VCS에 언어 파일을 추가하면 다음 업데이트 시 웹레이트가 자동으로 해당 파일을 "
+msgstr "VCS에 언어 파일을 추가하면 다음 업데이트 시 Weblate가 자동으로 해당 파일을 "
 "검색합니다."
 
 #: weblate/templates/mail/new_language.html:19
@@ -9982,7 +9944,7 @@ msgstr[0] "%(component)s에서 %(count)s개의 보류 중인 제안"
 #: weblate/templates/mail/remove.html:7
 #, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr "%(site_title)s 에서 웹레이트 계정을 삭제해 달라는 요청이 있었습니다."
+msgstr "%(site_title)s 에서 Weblate 계정을 삭제해 달라는 요청이 있었습니다."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/remove_subject.txt:5
@@ -10015,9 +9977,8 @@ msgstr ""
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
-msgstr ""
-"이 웹레이트 인스턴스가 본인이 사용한 인스턴스인지, 등록할 때 사용한 이메일 주"
-"소가 맞는지 확인해 주세요."
+msgstr "이 Weblate 인스턴스가 본인이 사용한 인스턴스인지, 등록할 때 사용한 이메일 "
+"주소가 맞는지 확인해 주세요."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
 #, python-format
@@ -10031,8 +9992,7 @@ msgstr ""
 #: weblate/templates/mail/reset.html:7
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
-msgstr ""
-"%(site_title)s 에서 웹레이트 비밀번호를 재설정하라는 요청이 있었습니다."
+msgstr "%(site_title)s 에서 Weblate 비밀번호를 재설정하라는 요청이 있었습니다."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/reset_subject.txt:5
@@ -10236,11 +10196,11 @@ msgstr "리브르"
 #: weblate/templates/manage/index.html:17
 #: weblate/wladmin/templates/admin/weblate-index.html:15
 msgid "Weblate support status"
-msgstr "웹레이트 지원 상태"
+msgstr "Weblate 지원 상태"
 
 #: weblate/templates/manage/index.html:22
 msgid "Weblate version"
-msgstr "웹레이트 버전"
+msgstr "Weblate 버전"
 
 #: weblate/templates/manage/index.html:34
 msgid "Support status"
@@ -10268,7 +10228,7 @@ msgstr "탐색하기"
 
 #: weblate/templates/manage/index.html:75
 msgid "Your Weblate is listed on weblate.org"
-msgstr "사용자의 웹레이트는 welate.org에 등록되어 있습니다"
+msgstr "사용자의 Weblate는 welate.org에 등록되어 있습니다"
 
 #: weblate/templates/manage/index.html:79
 msgid "Disable discovery"
@@ -10280,7 +10240,7 @@ msgstr "리스팅 관리"
 
 #: weblate/templates/manage/index.html:82
 msgid "Your Weblate is not listed on weblate.org"
-msgstr "사용자의 웹레이트는 weblate.org 에 등록되어 있지 않습니다"
+msgstr "사용자의 Weblate는 weblate.org 에 등록되어 있지 않습니다"
 
 #: weblate/templates/manage/index.html:86
 msgid "Enable discovery"
@@ -10403,9 +10363,8 @@ msgstr "지원 패키지 활성화"
 msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
-msgstr ""
-"지원 패키지에는 우선 이메일 지원 또는 웹레이트 설치의 클라우드 백업이 포함됩"
-"니다."
+msgstr "지원 패키지에는 우선 이메일 지원 또는 Weblate 설치의 클라우드 백업이 "
+"포함됩니다."
 
 #: weblate/templates/manage/snippets/activation-form.html:19
 msgid "Activate"
@@ -10453,9 +10412,8 @@ msgstr "%(key_type)s SSH 키 생성하기"
 msgid ""
 "You don't seem to have existing %(key_type)s SSH key, by pressing button "
 "below Weblate will generate one for you."
-msgstr ""
-"기존 %(key_type)s SSH 키가 없는 것 같으면 아래 버튼을 눌러 웹레이트에서 생성"
-"해드립니다."
+msgstr "기존 %(key_type)s SSH 키가 없는 것 같으면 아래 버튼을 눌러 Weblate에서 "
+"생성해드립니다."
 
 #: weblate/templates/manage/ssh.html:40
 #, python-format
@@ -10835,7 +10793,7 @@ msgstr "잠시 후 다시 시도하시기 바랍니다."
 
 #: weblate/templates/registration/logged_out.html:11
 msgid "Thank you for using Weblate"
-msgstr "웹레이트를 사용해주셔서 감사합니다"
+msgstr "Weblate를 사용해주셔서 감사합니다"
 
 #: weblate/templates/registration/logged_out.html:14
 msgid "Return to dashboard"
@@ -10931,8 +10889,7 @@ msgstr ""
 #: weblate/templates/snippets/about.html:8
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr ""
-"웹레이트에 대한 자세한 내용은 %(weblate_link)s 에서 확인할 수 있습니다."
+msgstr "Weblate에 대한 자세한 내용은 %(weblate_link)s 에서 확인할 수 있습니다."
 
 #: weblate/templates/snippets/about.html:12
 msgid ""
@@ -11115,11 +11072,11 @@ msgstr "%(date)s %(author)s가 작성함"
 
 #: weblate/templates/snippets/git-info.html:56
 msgid "Last commit in Weblate"
-msgstr "웹레이트의 마지막 커밋"
+msgstr "Weblate의 마지막 커밋"
 
 #: weblate/templates/snippets/git-info.html:76
 msgid "Weblate repository"
-msgstr "웹레이트 저장소"
+msgstr "Weblate 저장소"
 
 #: weblate/templates/snippets/glossary.html:5
 #: weblate/trans/templatetags/translations.py:1017
@@ -11482,15 +11439,15 @@ msgstr "프로젝트 승인"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "웹레이트 사용은 업스트림 프로젝트에서 승인되었습니다."
+msgstr "Weblate 사용은 업스트림 프로젝트에서 승인되었습니다."
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
-"README에서 번역에 웹레이트를 사용한다고 언급하세요. 새로운 번역자를 유치하고 "
-"더 많은 프로젝트에 웹레이트를 무료로 제공하는 데 도움이 될 것입니다."
+"README에서 번역에 Weblate를 사용한다고 언급하세요. 새로운 번역자를 유치하고 "
+"더 많은 프로젝트에 Weblate를 무료로 제공하는 데 도움이 될 것입니다."
 
 #: weblate/templates/snippets/libre-basic.html:29
 msgid "Established projects"
@@ -11864,9 +11821,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"웹레이트는 SSH 키를 사용하여 원격 저장소에 액세스합니다. 해당 공개 키는 아래"
-"에서 확인할 수 있으며, 이 키를 사용하여 웹레이트에 저장소에 대한 액세스 권한"
-"을 부여할 수 있습니다."
+"Weblate는 SSH 키를 사용하여 원격 저장소에 액세스합니다. 해당 공개 키는 "
+"아래에서 확인할 수 있으며, 이 키를 사용하여 Weblate에 저장소에 대한 액세스 "
+"권한을 부여할 수 있습니다."
 
 #: weblate/templates/snippets/ssh-key.html:27
 #, python-format
@@ -12243,9 +12200,8 @@ msgstr ""
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"원본 언어에 대한 번역 파일이 필요하지만, 웹레이트에서 무시해야 하는 경우 언"
-"어 필터를 조정하여 제외하세요."
+msgstr "원본 언어에 대한 번역 파일이 필요하지만, Weblate에서 무시해야 하는 경우 언어 "
+"필터를 조정하여 제외하세요."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:31
 msgid ""
@@ -12303,9 +12259,8 @@ msgstr "신규 번역의 템플릿"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr ""
-"저장소를 업데이트하는 동안 웹레이트에서 업스트림 변경 사항을 병합할 수 없습니"
-"다."
+msgstr "저장소를 업데이트하는 동안 Weblate에서 업스트림 변경 사항을 병합할 수 "
+"없습니다."
 
 #: weblate/templates/trans/alert/missinglicense.html:4
 msgid ""
@@ -12352,9 +12307,8 @@ msgstr "이 구성요소 설정은 번역이 없기 때문에 불완전합니다
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the file mask."
-msgstr ""
-"웹레이트에서 바로 새 번역을 시작할 수 있으며 파일 마스크를 기반으로 파일을 생"
-"성할 수 있습니다."
+msgstr "Weblate에서 바로 새 번역을 시작할 수 있으며 파일 마스크를 기반으로 파일을 "
+"생성할 수 있습니다."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:12
 #, python-format
@@ -12376,12 +12330,11 @@ msgstr[0] "%(count)s 개의 발생 중 일부만 표시됩니다."
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
-msgstr ""
-"번역을 업데이트하는 동안 웹레이트에서 번역 파일을 구문 분석할 수 없습니다."
+msgstr "번역을 업데이트하는 동안 Weblate에서 번역 파일을 구문 분석할 수 없습니다."
 
 #: weblate/templates/trans/alert/pushfailure.html:3
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "웹레이트가 업스트림 저장소에 변경사항을 푸시할 수 없습니다."
+msgstr "Weblate가 업스트림 저장소에 변경사항을 푸시할 수 없습니다."
 
 #: weblate/templates/trans/alert/pushfailure.html:14
 msgid "Push the repository"
@@ -12461,8 +12414,7 @@ msgstr "스크린숏 관리하기"
 
 #: weblate/templates/trans/alert/updatefailure.html:3
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr ""
-"저장소를 업데이트할 때 웹레이트가 업스트림 변경사항을 가져올 수 없습니다."
+msgstr "저장소를 업데이트할 때 Weblate가 업스트림 변경사항을 가져올 수 없습니다."
 
 #: weblate/templates/trans/alert/updatefailure.html:14
 msgid "Update the repository"
@@ -12758,16 +12710,15 @@ msgstr "업스트림 저장소의 기존 체크아웃을 열거나 새로 체크
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"웹레이트에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
+msgstr "Weblate에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
 
 #: weblate/templates/trans/merge_instructions.html:15
 msgid "Add Weblate exported repository as a remote."
-msgstr "웹레이트에서 내보낸 저장소를 원격으로 추가합니다."
+msgstr "Weblate에서 내보낸 저장소를 원격으로 추가합니다."
 
 #: weblate/templates/trans/merge_instructions.html:20
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "웹레이트 변경사항을 병합하고 충돌을 해결합니다."
+msgstr "Weblate 변경사항을 병합하고 충돌을 해결합니다."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
@@ -12780,8 +12731,7 @@ msgstr "변경사항을 업스트림 저장소로 올리기(Push)를 합니다."
 #: weblate/templates/trans/merge_instructions.html:37
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"이제 웹레이트에서 업데이트된 저장소를 볼 수 있으며 잠금을 해제할 수 있습니다."
+msgstr "이제 Weblate에서 업데이트된 저장소를 볼 수 있으며 잠금을 해제할 수 있습니다."
 
 #: weblate/templates/trans/merge_instructions.html:46
 msgid "Check the FAQ for info on how to resolve this."
@@ -13035,7 +12985,7 @@ msgstr "다른 언어"
 
 #: weblate/templates/translate.html:338
 msgid "List of recent changes done in Weblate"
-msgstr "웹레이트에서 최근 변경된 사항 목록"
+msgstr "Weblate에서 최근 변경된 사항 목록"
 
 #: weblate/templates/translate.html:374
 msgid "Showing only subset of the strings as there were too many matches."
@@ -13204,7 +13154,7 @@ msgstr "문자열 %(position)s"
 
 #: weblate/templates/translate.html:873
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "아직 웹레이트 저장소에 커밋되지 않은 보류중인 변경사항"
+msgstr "아직 Weblate 저장소에 커밋되지 않은 보류중인 변경사항"
 
 #: weblate/templates/translate.html:873
 msgid "pending"
@@ -13880,7 +13830,7 @@ msgstr "버전 컨트롤 시스템 저장소"
 
 #: weblate/trans/apps.py:12
 msgid "Weblate translations"
-msgstr "웹레이트 번역"
+msgstr "Weblate 번역"
 
 #: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
@@ -13989,9 +13939,8 @@ msgstr "Hosted Weblate는 소프트웨어 프로젝트를 현지화하는 장소
 
 #: weblate/trans/context_processors.py:138
 msgid "This site runs Weblate for localizing various software projects."
-msgstr ""
-"이 사이트는 다양한 소프트웨어 프로젝트의 현지화를 위해 웹레이트를 운영하고 있"
-"습니다."
+msgstr "이 사이트는 다양한 소프트웨어 프로젝트의 현지화를 위해 Weblate를 운영하고 "
+"있습니다."
 
 #: weblate/trans/discovery.py:320
 msgid "File mask matches the main component."
@@ -14014,7 +13963,7 @@ msgstr "%s의 최근 변경사항"
 #, fuzzy, python-format
 #| msgid "All recent changes made using Weblate in %s."
 msgid "All recent changes made using Weblate on %s."
-msgstr "%s의 모든 최근 변경사항은 웹레이트를 사용하여 만들었습니다."
+msgstr "%s의 모든 최근 변경사항은 Weblate를 사용하여 만들었습니다."
 
 #. Translators: %s is translation name
 #: weblate/trans/feeds.py:71
@@ -14026,7 +13975,7 @@ msgstr "%s의 최근 변경사항"
 #: weblate/trans/feeds.py:75
 #, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "%s의 모든 최근 변경사항은 웹레이트를 사용하여 만들었습니다."
+msgstr "%s의 모든 최근 변경사항은 Weblate를 사용하여 만들었습니다."
 
 #: weblate/trans/file_format_params.py:105
 msgid "Sort JSON keys"
@@ -14589,7 +14538,7 @@ msgid ""
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
 "프로젝트 백업 불러올 수 없음: 이 백업은 호환되지 않는 버전(%(version)s)에서 "
-"생성되었습니다. 웹레이트 인스턴스를 업그레이드해주세요."
+"생성되었습니다. Weblate 인스턴스를 업그레이드해주세요."
 
 #: weblate/trans/forms.py:2540
 #, python-format
@@ -15208,7 +15157,7 @@ msgstr "내보내기된 저장소 URL"
 
 #: weblate/trans/models/component.py:439
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "사용자가 웹레이트에서 변경사항을 가져올 수 있는 저장소 URL"
+msgstr "사용자가 Weblate에서 변경사항을 가져올 수 있는 저장소 URL"
 
 #: weblate/trans/models/component.py:444
 msgid "Source string bug reporting address"
@@ -15344,7 +15293,7 @@ msgstr "번역 플래그"
 #: weblate/trans/models/component.py:592 weblate/trans/models/project.py:292
 #: weblate/trans/models/unit.py:433
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr "웹레이트 동작에 영향을 주는 쉼표로 구분된 추가 플래그입니다."
+msgstr "Weblate 동작에 영향을 주는 쉼표로 구분된 추가 플래그입니다."
 
 #: weblate/trans/models/component.py:598
 msgid "Enforced checks"
@@ -15396,8 +15345,8 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"웹레이트에서 바로 문자열을 추가 및 제거할 수 있습니다. 문자열이 소스 코드에"
-"서 추출되거나 외부에서 관리되는 경우 이 기능을 비활성화하는 것이 좋습니다."
+"Weblate에서 바로 문자열을 추가 및 제거할 수 있습니다. 문자열이 소스 코드에서 "
+"추출되거나 외부에서 관리되는 경우 이 기능을 비활성화하는 것이 좋습니다."
 
 #: weblate/trans/models/component.py:653
 msgid "Merge style"
@@ -15407,8 +15356,7 @@ msgstr "병합 스타일"
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
-msgstr ""
-"웹레이트가 업스트림 저장소를 병합할지 아니면 변경 사항을 다시 기준 설정할지 "
+msgstr "Weblate가 업스트림 저장소를 병합할지 아니면 변경 사항을 다시 기준 설정할지 "
 "정의합니다."
 
 #: weblate/trans/models/component.py:663
@@ -15626,18 +15574,16 @@ msgstr "분류된 구성요소는 공유할 수 없습니다."
 
 #: weblate/trans/models/component.py:2982
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr ""
-"웹레이트 프로젝트에 대한 잘못된 링크, weblate://project/component를 사용하세"
-"요."
+msgstr "Weblate 프로젝트에 대한 잘못된 링크, weblate://project/component를 "
+"사용하세요."
 
 #: weblate/trans/models/component.py:2992
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
-msgstr ""
-"웹레이트 프로젝트에 대한 링크가 잘못되어, 연결된 저장소에 링크할 수 없습니다!"
+msgstr "Weblate 프로젝트에 대한 링크가 잘못되어, 연결된 저장소에 링크할 수 없습니다!"
 
 #: weblate/trans/models/component.py:3001
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
-msgstr "웹레이트 프로젝트에 대한 링크가 잘못되어, 자체 링크할 수 없습니다!"
+msgstr "Weblate 프로젝트에 대한 링크가 잘못되어, 자체 링크할 수 없습니다!"
 
 #: weblate/trans/models/component.py:3012
 msgid ""
@@ -15681,9 +15627,8 @@ msgstr[0] "일치하는 %d 개 파일을 구문 분석할 수 없습니다."
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
-msgstr ""
-"새 번역 파일을 추가하도록 웹레이트를 설정했지만, 이를 위한 기본 파일을 제공하"
-"지 않았습니다."
+msgstr "새 번역 파일을 추가하도록 Weblate를 설정했지만, 이를 위한 기본 파일을 "
+"제공하지 않았습니다."
 
 #: weblate/trans/models/component.py:3126
 #, python-format
@@ -15905,7 +15850,7 @@ msgstr "\"번역 팀\" 머리글 설정"
 
 #: weblate/trans/models/project.py:197
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
-msgstr "웹레이트가 프로젝트의 \"언어-팀\" 파일 헤더를 업데이트하도록 합니다."
+msgstr "Weblate가 프로젝트의 \"언어-팀\" 파일 헤더를 업데이트하도록 합니다."
 
 #: weblate/trans/models/project.py:201
 msgid "Use shared translation memory"
@@ -16505,7 +16450,7 @@ msgstr "키"
 
 #: weblate/trans/views/about.py:65
 msgid "Weblate statistics"
-msgstr "웹레이트 통계"
+msgstr "Weblate 통계"
 
 #: weblate/trans/views/acl.py:89 weblate/trans/views/acl.py:194
 msgid "You can not remove yourself!"
@@ -17551,7 +17496,7 @@ msgstr "저장소 초기화"
 
 #: weblate/wladmin/sites.py:24 weblate/wladmin/sites.py:25
 msgid "Weblate administration"
-msgstr "웹레이트 관리"
+msgstr "Weblate 관리"
 
 #: weblate/wladmin/sites.py:90
 msgid "Object listing turned off"
@@ -17559,7 +17504,7 @@ msgstr "대상 목록이 꺼졌습니다"
 
 #: weblate/wladmin/templates/admin/base.html:7
 msgid "Return to Weblate"
-msgstr "웹레이트로 돌아가기"
+msgstr "Weblate로 돌아가기"
 
 #. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 #: weblate/wladmin/templates/admin/trans/change_form.html:10
@@ -17573,7 +17518,7 @@ msgstr "필수 입력란은 굵게 표시되어 있습니다."
 #: weblate/wladmin/templates/admin/trans/change_form.html:43
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "여기서 객체를 변경하지 말고, 대신 웹레이트 인터페이스를 사용하세요."
+msgstr "여기서 객체를 변경하지 말고, 대신 Weblate 인터페이스를 사용하세요."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
@@ -17581,7 +17526,7 @@ msgstr "보고"
 
 #: weblate/wladmin/views.py:81
 msgid "Weblate status"
-msgstr "웹레이트 상태"
+msgstr "Weblate 상태"
 
 #: weblate/wladmin/views.py:87
 msgid "Repositories"
@@ -17604,8 +17549,7 @@ msgstr "테스트 이메일을 보낼 수 없습니다: %s"
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
-msgstr ""
-"설정에서 SITE_TITLE을 변경하여 웹레이트가 검색에서 쉽게 인식되도록 하세요."
+msgstr "설정에서 SITE_TITLE을 변경하여 Weblate가 검색에서 쉽게 인식되도록 하세요."
 
 #: weblate/wladmin/views.py:263 weblate/wladmin/views.py:280
 msgid "Could not activate your installation. Please try again later."
