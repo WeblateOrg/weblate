@@ -9,6 +9,8 @@ Weblate 5.13.1
 
 .. rubric:: Bug fixes
 
+* Access control for :http:get:`/api/users/(str:username)/`.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
