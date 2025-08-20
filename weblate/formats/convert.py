@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -26,7 +26,7 @@ from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
-from translate.storage.po import pofile
+from translate.storage.pypo import pofile
 from translate.storage.rc import rcfile
 from translate.storage.txt import TxtFile
 from translate.storage.xliff import xlifffile
@@ -38,7 +38,6 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
-from weblate.checks.flags import Flags
 from weblate.formats.base import (
     TranslationFormat,
     TranslationUnit,
@@ -100,9 +99,9 @@ class ConvertXliffUnit(XliffUnit):
 
     @cached_property
     def flags(self):
-        flags = Flags(super().flags)
+        flags = super().flags
         flags.remove("xml-text")
-        return flags.format()
+        return flags
 
 
 class ConvertFormat(TranslationFormat):
@@ -138,7 +137,9 @@ class ConvertFormat(TranslationFormat):
         return False
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
@@ -161,6 +162,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -174,8 +176,9 @@ class ConvertFormat(TranslationFormat):
         cls,
         base: str,
         monolingual: bool,  # noqa: ARG003
-        errors: list | None = None,
+        errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -275,6 +278,7 @@ class ConvertFormat(TranslationFormat):
 
 
 class HTMLFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("HTML file")
     autoload = ("*.htm", "*.html")
     format_id = "html"
@@ -309,6 +313,7 @@ class HTMLFormat(ConvertFormat):
 
 
 class MarkdownFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("Markdown file")
     autoload = ("*.md", "*.markdown")
     format_id = "markdown"
@@ -348,6 +353,7 @@ class MarkdownFormat(ConvertFormat):
 
 
 class OpenDocumentFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("OpenDocument file")
     autoload = (
         "*.sxw",
@@ -412,6 +418,7 @@ class OpenDocumentFormat(ConvertFormat):
 
 
 class IDMLFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("IDML file")
     autoload = ("*.idml", "*.idms")
     format_id = "idml"
@@ -470,6 +477,7 @@ class IDMLFormat(ConvertFormat):
 
 
 class WindowsRCFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("RC file")
     format_id = "rc"
     autoload = ("*.rc",)
@@ -537,6 +545,7 @@ class WindowsRCFormat(ConvertFormat):
 
 
 class PlainTextFormat(ConvertFormat):
+    # Translators: File format name
     name = gettext_lazy("Plain text file")
     format_id = "txt"
     autoload = ("*.txt",)
@@ -574,6 +583,7 @@ class PlainTextFormat(ConvertFormat):
 
 
 class DokuWikiFormat(PlainTextFormat):
+    # Translators: File format name
     name = gettext_lazy("DokuWiki text file")
     format_id = "dokuwiki"
     autoload = ("*.dw",)
@@ -581,6 +591,7 @@ class DokuWikiFormat(PlainTextFormat):
 
 
 class MediaWikiFormat(PlainTextFormat):
+    # Translators: File format name
     name = gettext_lazy("MediaWiki text file")
     format_id = "mediawiki"
     autoload = ("*.mw",)

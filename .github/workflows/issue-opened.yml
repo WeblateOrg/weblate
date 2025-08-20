@@ -22,9 +22,23 @@ jobs:
     - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
         script: |
-          await github.rest.issues.addLabels({
+          const labels = await github.rest.issues.listLabelsOnIssue({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            labels: ['Waiting for: Triage']
-          })
+          });
+          var should_label = true;
+
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ')) {
+              should_label = false;
+            }
+          }
+          if (should_label) {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Triage']
+            })
+          }

@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 from contextlib import suppress
+from functools import lru_cache
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
@@ -54,6 +55,8 @@ SESSION_CREATE_KEY = "session_component"
 
 
 class BaseCreateView(CreateView):
+    request: AuthenticatedHttpRequest
+
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.has_billing = "weblate.billing" in settings.INSTALLED_APPS
@@ -111,7 +114,7 @@ class CreateProject(BaseCreateView):
             "project.add"
         )
 
-    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not self.can_create():
             return redirect("create-project")
         return super().post(request, *args, **kwargs)
@@ -128,25 +131,22 @@ class CreateProject(BaseCreateView):
             ).exists()
         return kwargs
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if self.has_billing:
             from weblate.billing.models import Billing
 
-            billings = Billing.objects.get_valid().for_user(request.user).prefetch()
-            pks = set()
-            for billing in billings:
-                limit = billing.plan.display_limit_projects
-                if limit == 0 or billing.count_projects < limit:
-                    pks.add(billing.pk)
-            self.billings = Billing.objects.filter(pk__in=pks).prefetch()
+            self.billings = Billing.objects.for_user_within_limits(request.user)
         return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self) -> str:
+        return f"{super().get_success_url()}#components"
 
 
 class ImportProject(CreateProject):
     form_class = ProjectImportForm
     template_name = "trans/project_import.html"
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         if "import_project" in request.session and os.path.exists(
             request.session["import_project"]
         ):
@@ -188,7 +188,7 @@ class ImportProject(CreateProject):
             kwargs["projectbackup"] = self.projectbackup
         return kwargs
 
-    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "zipfile" in request.FILES and self.projectbackup:
             # Delete previous (stale) import data
             os.unlink(self.projectbackup.filename)
@@ -227,7 +227,9 @@ class CreateComponent(BaseCreateView):
     basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
-    request: AuthenticatedHttpRequest
+    origin = "vcs"
+    object: Component
+    duplicate_existing_component: int | None = None
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -320,7 +322,7 @@ class CreateComponent(BaseCreateView):
                     setattr(form.instance, field, getattr(source_component, field))
 
             result = super().form_valid(form)
-            self.object.post_create(self.request.user)
+            self.object.post_create(self.request.user, origin=self.origin)
             return result
         if self.stage == "discover":
             # Move to create
@@ -419,7 +421,7 @@ class CreateComponent(BaseCreateView):
             for field in self.basic_fields
         )
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "new_base" in request.POST:
             self.stage = "create"
         elif "discovery" in request.POST:
@@ -438,6 +440,7 @@ class CreateComponent(BaseCreateView):
 
 class CreateFromZip(CreateComponent):
     form_class = ComponentZipCreateForm
+    origin = "zip"
 
     def form_valid(self, form):
         if self.stage != "init":
@@ -462,6 +465,7 @@ class CreateFromZip(CreateComponent):
 
 class CreateFromDoc(CreateComponent):
     form_class = ComponentDocCreateForm
+    origin = "document"
 
     def form_valid(self, form):
         if self.stage != "init":
@@ -485,18 +489,24 @@ class CreateFromDoc(CreateComponent):
         return self.get(self.request)
 
 
+@lru_cache(maxsize=1024)
+def component_branches(repo: str) -> set[str]:
+    return set(Component.objects.filter(repo=repo).values_list("branch", flat=True))
+
+
+def branch_exists(repo: str, branch: str) -> bool:
+    return branch in component_branches(repo)
+
+
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
     components: ComponentQuerySet
     origin: str | None = None
-    duplicate_existing_component = None
+    duplicate_existing_component: int | None = None
 
     @cached_property
     def branch_data(self):
-        def branch_exists(repo, branch):
-            return Component.objects.filter(repo=repo, branch=branch).exists()
-
         result = {}
         for component in self.components:
             repo = component.repo
@@ -594,6 +604,7 @@ class CreateComponentSelection(CreateComponent):
         if self.origin == "scratch":
             project = form.cleaned_data["project"]
             component = project.scratch_create_component(**form.cleaned_data)
+            component.post_create(self.request.user, origin="scratch")
             return redirect(
                 reverse("show_progress", kwargs={"path": component.get_url_path()})
             )
@@ -613,13 +624,14 @@ class CreateComponentSelection(CreateComponent):
             )
         if self.origin == "branch":
             form.instance.save()
+            form.instance.post_create(self.request.user, origin="branch")
             return redirect(
                 reverse("show_progress", kwargs={"path": form.instance.get_url_path()})
             )
 
         return redirect("create-component")
 
-    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if self.origin == "vcs":
             kwargs = {}
             if self.selected_project:

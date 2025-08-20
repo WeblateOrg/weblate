@@ -69,11 +69,11 @@ In case you need to pass it a file, you can temporary add a volume:
 
 .. seealso::
 
-    :doc:`install/docker`,
-    :doc:`install/venv-debian`,
-    :doc:`install/venv-suse`,
-    :doc:`install/venv-redhat`,
-    :doc:`install/source`
+   * :doc:`install/docker`
+   * :doc:`install/venv-debian`
+   * :doc:`install/venv-suse`
+   * :doc:`install/venv-redhat`
+   * :doc:`install/source`
 
 
 add_suggestions
@@ -153,12 +153,48 @@ Example:
 
    :ref:`auto-translation`
 
+benchmark
+---------
+
+.. weblate-admin:: benchmark
+
+Imports given content into Weblate, useful for benchmarking.
+
+.. code-block:: sh
+   :caption: Example of performance profiling
+
+   # Run benchmark with a profiling
+   python -m cProfile -o benchmark.prof ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
+
+   # Convert to SVG for visualization
+   uvx gprof2dot -f pstats benchmark.prof | dot -Tsvg -o benchmark.svg
+
+   # Display SVG
+   firefox ./benchmark.svg
+
+.. code-block:: sh
+   :caption: Example of memory profiling
+
+   # Run benchmark under memray
+   uvx memray run ./manage.py benchmark --project benchmark --filemask '*.tbx' --format tbx --zipfile /tmp/MicrosoftTermCollection2.zip
+
+   # Render the profile
+   uvx memray flamegraph ./memray-manage.py.2554179.bin
+
+   # Display it
+   fixefox memray-flamegraph-manage.py.2554179.html
+
+
 celery_queues
 -------------
 
 .. weblate-admin:: celery_queues
 
 Displays length of Celery task queues.
+
+.. seealso::
+
+   :ref:`background-tasks-internals`
 
 checkgit
 --------
@@ -204,8 +240,8 @@ You can either define which project or component to update (for example
 
 .. seealso::
 
-    :ref:`production-cron`,
-    :setting:`COMMIT_PENDING_HOURS`
+   * :ref:`production-cron`
+   * :setting:`COMMIT_PENDING_HOURS`
 
 cleanuptrans
 ------------
@@ -218,6 +254,17 @@ manually, as the cleanups happen automatically in the background.
 .. seealso::
 
    :ref:`production-cron`
+
+
+cleanup_memory
+--------------
+
+.. weblate-admin:: cleanup_memory
+
+.. versionadded:: 5.13
+
+Removes all obsolete entries with pending status from the translation memory.
+
 
 cleanup_ssh_keys
 ----------------
@@ -275,8 +322,8 @@ Export a JSON file containing Weblate Translation Memory content.
 
 .. seealso::
 
-    :ref:`translation-memory`,
-    :ref:`schema-memory`
+   * :ref:`translation-memory`
+   * :ref:`schema-memory`
 
 dumpuserdata
 ------------
@@ -378,8 +425,8 @@ for formats other than JSON and TMX.
 
 .. seealso::
 
-    :ref:`translation-memory`,
-    :ref:`schema-memory`
+   * :ref:`translation-memory`
+   * :ref:`schema-memory`
 
 import_project
 --------------
@@ -592,11 +639,11 @@ Installs an add-on to a set of components.
 You can either define which project or component to install the add-on in (for example
 ``weblate/application``), or use ``--all`` to include all existing components.
 
-To install :ref:`addon-weblate.gettext.customize` for all components:
+To install :ref:`addon-weblate.gettext.mo` for all components:
 
 .. code-block:: shell
 
-   weblate install_addon --addon weblate.gettext.customize --configuration '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.mo --configuration '{"fuzzy": true}' --update --all
 
 .. seealso::
 
@@ -717,6 +764,13 @@ list_versions
 
 Lists all Weblate dependencies and their versions.
 
+list_file_format_params
+-----------------------
+
+.. weblate-admin:: list_file_format_params
+
+Lists File format parameters.
+
 loadpo
 ------
 
@@ -776,8 +830,8 @@ described at Django :djadmin:`django:migrate`.
 
 .. seealso::
 
-   :djadmin:`django:migrate`,
-   :ref:`tables-setup`
+   * :djadmin:`django:migrate`
+   * :ref:`tables-setup`
 
 move_language
 -------------
@@ -786,7 +840,7 @@ move_language
 
 Allows you to merge language content. This is useful when updating to a new
 version which contains aliases for previously unknown languages that have been
-created with the `(generated)` suffix. It moves all content from the `source`
+created with the :samp:`(generated)` suffix. It moves all content from the `source`
 language to the `target` one.
 
 Example:
@@ -797,7 +851,7 @@ Example:
 
 After moving the content, you should check whether there is anything left (this is
 subject to race conditions when somebody updates the repository meanwhile) and
-remove the `(generated)` language.
+remove the :samp:`(generated)` language.
 
 pushgit
 -------

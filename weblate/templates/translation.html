@@ -2,38 +2,23 @@
 
 {% load crispy_forms_tags humanize i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements component=object.component language=object.language %}
-
-  {% include "snippets/component/state.html" with object=object.component %}
-
-  {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
-
+{% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
   {% perm 'unit.add' object as user_can_add_unit %}
-
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
   {% url 'browse' path=object.get_url_path as browse_url %}
 
+
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Overview" %}</a>
+      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
       <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
@@ -51,6 +36,12 @@
         </li>
         <li>
           <a href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
         </li>
       </ul>
     </li>
@@ -76,7 +67,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -94,156 +85,66 @@
             <a href="#auto" data-toggle="tab">{% translate "Automatic translation" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'data_project' project=object.component.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
+        <li role="separator" class="divider"></li>
         {% if user_can_add_unit %}
           <li>
             <a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a>
           </li>
         {% endif %}
+        {% if user_can_see_repository_status %}
+          <li>
+            <a href="#repository"
+               data-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
+          </li>
+        {% endif %}
+        {% if announcement_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if delete_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
-    {% if user_can_see_repository_status %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_see_repository_status %}
-            <li>
-              <a href="#repository"
-                 data-toggle="tab"
-                 data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
-            </li>
-          {% endif %}
-          {% if announcement_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if delete_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-            </li>
-          {% endif %}
-        </ul>
-      </li>
-    {% endif %}
     {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
   </ul>
+{% endblock nav_pills %}
 
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements component=object.component language=object.language %}
+
+  {% include "snippets/component/state.html" with object=object.component %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
+  {% perm 'unit.add' object as user_can_add_unit %}
+
+  {% get_translate_url object as translate_url %}
+  {% url 'translate' path=object.get_url_path as edit_url %}
+  {% url 'zen' path=object.get_url_path as zen_url %}
+  {% url 'browse' path=object.get_url_path as browse_url %}
 
   <div class="tab-content">
-    <div class="tab-pane active" id="overview">
+    <div class="tab-pane active" id="translation">
 
-      <div class="panel {% if object.is_source %}panel-warning{% else %}panel-default{% endif %}">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% if object.is_source %}
-              {% translate "Source strings" %}
-            {% else %}
-              {% translate "Translation status" %}
-            {% endif %}
-          </h4>
-        </div>
-
-        <table class="table table-autowidth">
-          <tr>
-            <th class="number">{{ object.stats.all|intcomma }}</th>
-            <td>{% translate "Strings" %}</td>
-            <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
-            <td class="percent">{{ object.stats.translated_without_checks_percent|percent_format }}</td>
-            <td rowspan="3" class="buttons-cell full-cell">
-              <div class="pull-right flip">
-                {% if user_can_add_unit %}
-                  <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
-                {% endif %}
-                <a href="{{ browse_url }}" class=" btn btn-info">{% translate "Browse" %}</a>
-                <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
-                   class="btn btn-primary">{% translate "Translate" %}</a>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <th class="number">{{ object.stats.all_words|intcomma }}</th>
-            <td>{% translate "Words" %}</td>
-            <td class="progress-cell hidden-xs">{% words_progress object %}</td>
-            <td class="percent">{{ object.stats.translated_without_checks_words_percent|percent_format }}</td>
-          </tr>
-
-          <tr>
-            <th class="number">{{ object.stats.all_chars|intcomma }}</th>
-            <td>{% translate "Characters" %}</td>
-            <td class="progress-cell hidden-xs">{% chars_progress object %}</td>
-            <td class="percent">{{ object.stats.translated_without_checks_chars_percent|percent_format }}</td>
-          </tr>
-        </table>
-
-        {% if object.is_source %}
-          <div class="panel-footer">
-            {% translate "This translation is being used as source strings within this component." %}
-          </div>
-        {% endif %}
-
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'user/translating' 'strings-to-check' right=True %}
-            {% translate "Strings status" %}
-          </h4>
-        </div>
-        <table class="table table-autowidth table-listing">
-          <thead>
-            <tr>
-              <th class="number split-cell wrap-cell">
-                <span>{% translate "Strings" %}</span>
-                <span>{% translate "Words" %}</span>
-                <span>{% translate "Characters" %}</span>
-              </th>
-            </tr>
-          </thead>
-          {% for query, name, count, color, words, characters in object.list_translation_checks %}
-            <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
-              <th class="number split-cell wrap-cell">
-                <span>{{ count|intcomma }}</span>
-                <span>{{ words|intcomma }}</span>
-                <span>{{ characters|intcomma }}</span>
-              </th>
-              <td class="legend">
-                {% if name != "all" %}
-                  <div class="progress">
-                    {% if color %}
-                      <div class="progress-bar{% if color != "primary" %} progress-bar-{{ color }}{% endif %}"
-                           role="progressbar"
-                           aria-valuenow="100"
-                           aria-valuemin="0"
-                           aria-valuemax="100"
-                           style="width: 100%"></div>
-                    {% endif %}
-                  </div>
-                {% endif %}
-              </td>
-              <td class="full-cell">
-                <a href="{{ translate_url }}?q={{ query }}">{{ name }}</a>
-              </td>
-              <td class="wrap-cell">
-                <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% translate "Browse" %}</a>
-                <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% translate "Translate" %}</a>
-                <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% translate "Zen" %}</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+      {% include "snippets/translation.html" %}
 
       {% if other_translations %}
         <div class="panel panel-default">
@@ -264,12 +165,10 @@
       {% show_info project=object.component.project component=object.component translation=object language=object.language stats=object.stats metrics=object|metrics show_full_language=False %}
     </div>
 
-
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
     </div>
-
 
     {% if autoform %}
       <div class="tab-pane" id="auto">
@@ -499,9 +398,8 @@
             <div class="panel-footer">
               <input type="submit" value="{% translate "Upload" %}" class="btn btn-primary" />
             </div>
-          </form>
-
-        </div>
+          </div>
+        </form>
       </div>
     {% endif %}
 
@@ -525,9 +423,8 @@
             <div class="panel-footer">
               <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
             </div>
-          </form>
-
-        </div>
+          </div>
+        </form>
       </div>
     {% endif %}
 

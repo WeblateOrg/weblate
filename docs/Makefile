@@ -16,7 +16,7 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile update-po update-screenshots run-selenium
+.PHONY: help Makefile update-po update-screenshots update-schemas update-openapi run-selenium
 
 run-selenium:
 	@rm -rf ../data-test ../test-images
@@ -37,7 +37,10 @@ update-screenshots: $(SCREENSHOTS)
 	@echo $(SCREENSHOTS)
 
 update-schemas:
-	@cp $$(python -c "import importlib.resources; print(importlib.resources.files('weblate_schemas'))")/schemas/* schemas/
+	@cp $$(python -c "import importlib.resources; print(importlib.resources.files('weblate_schemas'))")/schemas/* specs/schemas/
+
+update-openapi:
+	@WEBLATE_HIDE_VERSION=1 uv run --no-sync ../manage.py spectacular --skip-checks --fail-on-warn --validate --urlconf="weblate.api.urls" > specs/openapi.yaml
 
 update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
 
@@ -46,6 +49,8 @@ locales/%/LC_MESSAGES/docs.po: locales/docs.pot
 
 locales/docs.pot: gettext
 	@cp _build/gettext/docs.pot $@
+	@../scripts/filter-docs-po.py $@
+
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

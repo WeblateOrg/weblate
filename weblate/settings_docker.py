@@ -105,6 +105,7 @@ LANGUAGE_CODE = "en-us"
 LANGUAGES = (
     ("ar", "العربية"),
     ("az", "Azərbaycan"),
+    ("ba", "башҡорт теле"),  # codespell:ignore
     ("be", "Беларуская"),
     ("be-latn", "Biełaruskaja"),
     ("bg", "Български"),
@@ -511,6 +512,8 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
         "social_core.backends.open_id_connect.OpenIdConnectAuth",
     )
     SOCIAL_AUTH_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_KEY", required=True)
+    SOCIAL_AUTH_OIDC_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_TITLE")
+    SOCIAL_AUTH_OIDC_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_IMAGE")
     SOCIAL_AUTH_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )
@@ -771,6 +774,7 @@ INSTALLED_APPS = [
     "social_django",
     "crispy_forms",
     "crispy_bootstrap3",
+    "crispy_bootstrap5",
     "compressor",
     "rest_framework",
     "rest_framework.authtoken",
@@ -888,10 +892,6 @@ LOGGING: dict = {
             # Toggle to DEBUG to log all database queries
             "level": get_env_str("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
         },
-        "redis_lock": {
-            "handlers": [*DEFAULT_LOG],
-            "level": DEFAULT_LOGLEVEL,
-        },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
@@ -915,13 +915,6 @@ LOGGING: dict = {
         "djangosaml2idp": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
-        },
-        # gunicorn
-        "gunicorn.error": {
-            "level": "INFO",
-            "handlers": [*DEFAULT_LOG],
-            "propagate": True,
-            "qualname": "gunicorn.error",
         },
     },
 }
@@ -987,11 +980,12 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as ewll
+# Apply session coookie settings to language cookie as well with exception
+# of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
 LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE_AUTHENTICATED * 10
-LANGUAGE_COOKIE_SAMESITE = SESSION_COOKIE_SAMESITE
+LANGUAGE_COOKIE_SAMESITE = "None"
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
@@ -1066,7 +1060,7 @@ SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
 # Render forms using bootstrap
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap3", "bootstrap5"]
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # List of quality checks
@@ -1087,6 +1081,7 @@ CHECK_LIST = [
     "weblate.checks.chars.MaxLengthCheck",
     "weblate.checks.chars.KashidaCheck",
     "weblate.checks.chars.PunctuationSpacingCheck",
+    "weblate.checks.chars.KabyleCharactersCheck",
     "weblate.checks.format.PythonFormatCheck",
     "weblate.checks.format.PythonBraceFormatCheck",
     "weblate.checks.format.PHPFormatCheck",
@@ -1166,7 +1161,6 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.UpdateLinguasAddon",
     "weblate.addons.gettext.UpdateConfigureAddon",
     "weblate.addons.gettext.MsgmergeAddon",
-    "weblate.addons.gettext.GettextCustomizeAddon",
     "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
     "weblate.addons.cleanup.RemoveBlankAddon",
@@ -1181,16 +1175,14 @@ WEBLATE_ADDONS = [
     "weblate.addons.generate.PseudolocaleAddon",
     "weblate.addons.generate.PrefillAddon",
     "weblate.addons.generate.FillReadOnlyAddon",
-    "weblate.addons.json.JSONCustomizeAddon",
-    "weblate.addons.xml.XMLCustomizeAddon",
     "weblate.addons.properties.PropertiesSortAddon",
     "weblate.addons.git.GitSquashAddon",
     "weblate.addons.removal.RemoveComments",
     "weblate.addons.removal.RemoveSuggestions",
     "weblate.addons.resx.ResxUpdateAddon",
-    "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.webhooks.WebhookAddon",
+    "weblate.addons.webhooks.SlackWebhookAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
@@ -1237,24 +1229,32 @@ ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
 # Extract redis password
 REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
+REDIS_USER = get_env_str("REDIS_USER")
+REDIS_USER_PASSWORD = (
+    f"{REDIS_USER}:{REDIS_PASSWORD}"
+    if REDIS_USER and REDIS_PASSWORD
+    else f":{REDIS_PASSWORD}"
+    if REDIS_PASSWORD
+    else REDIS_USER  # can be None
+)
 REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
+REDIS_URL = "{}://{}{}:{}/{}".format(
+    REDIS_PROTO,
+    f"{REDIS_USER_PASSWORD}@" if REDIS_USER_PASSWORD else "",
+    get_env_str("REDIS_HOST", "cache", required=True),
+    get_env_int("REDIS_PORT", 6379),
+    get_env_int("REDIS_DB", 1),
+)
 
 # Configuration for caching
 CACHES = {
     "default": {
-        "BACKEND": "redis_lock.django_cache.RedisCache",
-        "LOCATION": "{}://{}:{}/{}".format(
-            REDIS_PROTO,
-            get_env_str("REDIS_HOST", "cache", required=True),
-            get_env_int("REDIS_PORT", 6379),
-            get_env_int("REDIS_DB", 1),
-        ),
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # If you set password here, adjust CELERY_BROKER_URL as well
-            "PASSWORD": REDIS_PASSWORD or None,
             "CONNECTION_POOL_KWARGS": {},
         },
         "KEY_PREFIX": "weblate",
@@ -1268,7 +1268,7 @@ CACHES = {
     },
 }
 if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
-    CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = None
+    CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = None  # type: ignore[index]
 
 
 # Store sessions in cache
@@ -1369,13 +1369,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
-CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
-    REDIS_PROTO,
-    f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
-    get_env_str("REDIS_HOST", "cache", required=True),
-    get_env_int("REDIS_PORT", 6379),
-    get_env_int("REDIS_DB", 1),
-)
+CELERY_BROKER_URL = REDIS_URL
 if REDIS_PROTO == "rediss":
     CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
         CELERY_BROKER_URL,
@@ -1442,6 +1436,8 @@ DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
+DEFAULT_AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
+
 CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
 
@@ -1485,6 +1481,7 @@ MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")
 GOOGLE_ANALYTICS_ID = get_env_str("WEBLATE_GOOGLE_ANALYTICS_ID")
 SENTRY_DSN = get_env_str("SENTRY_DSN")
 SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
+SENTRY_MONITOR_BEAT_TASKS = get_env_bool("SENTRY_MONITOR_BEAT_TASKS", True)
 SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
 SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE", 1.0)
 SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")

@@ -80,7 +80,6 @@ def cleanup_auditlog() -> None:
 
 class NotificationFactory:
     def __init__(self) -> None:
-        self.perm_cache: dict[int, set[int]] = {}
         self.outgoing: list[OutgoingEmail] = []
         self.instances: dict[str, Notification] = {}
 
@@ -94,9 +93,7 @@ class NotificationFactory:
             try:
                 yield self.instances[name]
             except KeyError:
-                result = self.instances[name] = notification_cls(
-                    self.outgoing, self.perm_cache
-                )
+                result = self.instances[name] = notification_cls(self.outgoing)
                 yield result
 
     def send_queued(self) -> None:
@@ -147,7 +144,7 @@ def notify_monthly() -> None:
 
 
 @app.task(trail=False)
-def notify_auditlog(log_id, email) -> None:
+def notify_auditlog(log_id: int, email: str) -> None:
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email
 
@@ -159,7 +156,7 @@ def notify_auditlog(log_id, email) -> None:
         context={
             "message": audit.get_message,
             "extra_message": audit.get_extra_message,
-            "address": audit.address,
+            "address": audit.shortened_address,
             "user_agent": audit.user_agent,
         },
         info=f"{audit.activity} from {audit.address}",

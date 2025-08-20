@@ -71,6 +71,7 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
+    ProjectLockSerializer,
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
@@ -89,6 +90,7 @@ from weblate.api.serializers import (
     get_reverse_kwargs,
 )
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
+from weblate.auth.results import PermissionResult
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
@@ -101,7 +103,6 @@ from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Category,
     Change,
-    Comment,
     Component,
     ComponentList,
     Project,
@@ -425,10 +426,41 @@ class UserViewSet(viewsets.ModelViewSet):
         return BasicUserSerializer
 
     def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return User.objects.none()
         queryset = User.objects.order_by("id")
-        if not self.request.user.has_perm("user.edit"):
+        if not user.has_perm("user.edit"):
             return queryset
-        return queryset.prefetch_related("groups")
+        return queryset.prefetch_related("groups", "profile", "profile__languages")
+
+    def list(self, request, *args, **kwargs):
+        """
+        List of users if you have permissions to see manage users.
+
+        Without a permission you get to see only your own details.
+        """
+        # Copy of rest_framework.mixins.ListModelMixin.list with additional
+        # filtering based on user permissions. We limit listing of user to
+        # non-admins, but access to individual users is retained (with limited
+        # serializer).
+        user = self.request.user
+        if not user.is_authenticated:
+            queryset = User.objects.none()
+        elif not user.has_perm("user.edit"):
+            queryset = User.objects.filter(pk=user.pk)
+        else:
+            queryset = self.get_queryset()
+
+        queryset = self.filter_queryset(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):
@@ -576,8 +608,44 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @extend_schema(
+        description="List translation contributions of a user.",
+        methods=["get"],
+        tags=["users", "contributions"],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+    )
+    def contributions(self, request: Request, **kwargs):
+        user_translation_ids = set(
+            Change.objects.content()
+            .filter(user=self.get_object())
+            .values_list("translation", flat=True)
+        )
+        user_translations = (
+            Translation.objects.filter_access(request.user)
+            .prefetch()
+            .filter(
+                id__in=user_translation_ids,
+            )
+            .order()
+        )
+
+        page = self.paginate_queryset(user_translations)
+
+        serializer = TranslationSerializer(
+            page,
+            many=True,
+            context={"request": request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 @extend_schema_view(
+    create=extend_schema(description="Create a new group."),
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
 )
@@ -590,12 +658,23 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
-            return Group.objects.order_by("id")
-        return self.request.user.groups.order_by(
-            "id"
-        ) | self.request.user.administered_group_set.order_by("id")
+            queryset = Group.objects.all()
+        else:
+            queryset = Group.objects.filter(
+                Q(user=self.request.user) | Q(admins=self.request.user)
+            ).distinct()
+        return queryset.order_by("id")
 
-    def perm_check(self, request: Request, group: Group | None = None) -> None:
+    def perm_check(
+        self,
+        request: Request,
+        group: Group | None = None,
+        project: Project | None = None,
+    ) -> None:
+        # if a project is provided and the user has the required permission to edit teams in the project, allow access
+        if project is not None and request.user.has_perm("meta:team.edit", project):
+            return
+
         if (group is None and not self.request.user.has_perm("group.edit")) or (
             group is not None and not request.user.has_perm("meta:team.edit", group)
         ):
@@ -606,10 +685,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().update(request, *args, **kwargs)
 
-    def create(self, request: Request, *args, **kwargs):
-        """Create a new group."""
-        self.perm_check(request)
-        return super().create(request, *args, **kwargs)
+    def perform_create(self, serializer) -> None:
+        self.perm_check(
+            self.request, project=serializer.validated_data.get("defining_project")
+        )
+        super().perform_create(serializer)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
@@ -990,7 +1070,7 @@ class ProjectViewSet(
                 )
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
-                serializer.instance.post_create(self.request.user)
+                serializer.instance.post_create(self.request.user, origin="api")
                 return Response(
                     serializer.data,
                     status=HTTP_201_CREATED,
@@ -1113,26 +1193,29 @@ class ProjectViewSet(
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
+        billing = None
         if not request.user.has_perm("project.add"):
-            self.permission_denied(request, "Can not create projects")
+            if "weblate.billing" in settings.INSTALLED_APPS:
+                from weblate.billing.models import Billing
+
+                try:
+                    billing = Billing.objects.for_user_within_limits(self.request.user)[
+                        0
+                    ]
+                except IndexError:
+                    self.permission_denied(
+                        request, "No valid billing found or limit exceeded."
+                    )
+            else:
+                self.permission_denied(request, "Can not create projects")
         self.request = request
+        self.billing = billing
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
         with transaction.atomic():
             super().perform_create(serializer)
-            if (
-                not self.request.user.is_superuser
-                and "weblate.billing" in settings.INSTALLED_APPS
-            ):
-                from weblate.billing.models import Billing
-
-                try:
-                    billing = Billing.objects.get_valid().for_user(self.request.user)[0]
-                except IndexError:
-                    billing = None
-            else:
-                billing = None
+            billing = getattr(self, "billing", None)
             serializer.instance.post_create(self.request.user, billing)
 
     def update(self, request: Request, *args, **kwargs):
@@ -1280,6 +1363,25 @@ class ProjectViewSet(
             status=HTTP_200_OK,
         )
 
+    @extend_schema(description="Return project lock status.", methods=["get"])
+    @extend_schema(description="Sets project lock status.", methods=["post"])
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
+    )
+    def lock(self, request: Request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                raise PermissionDenied
+
+            serializer = LockRequestSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            obj.do_lock(request.user, serializer.validated_data["lock"])
+
+        return Response(data=ProjectLockSerializer(obj).data)
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation components."),
@@ -1372,18 +1474,22 @@ class ComponentViewSet(
 
             if "language_code" not in request.data:
                 msg = "Missing 'language_code' parameter"
-                raise ValidationError({"languge_code": msg})
+                raise ValidationError({"language_code": msg})
 
             language_code = request.data["language_code"]
 
-            try:
-                language = Language.objects.get(code=language_code)
-            except Language.DoesNotExist as error:
-                msg = f"No language code {language_code!r} found!"
-                raise ValidationError({"language_code": msg}) from error
-
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+
+            base_languages = obj.get_all_available_languages()
+            if not request.user.has_perm("translation.add_more", obj):
+                base_languages = base_languages.filter_for_add(obj.project)
+
+            try:
+                language = base_languages.get(code=language_code)
+            except Language.DoesNotExist as error:
+                message = f"Could not add {language_code!r}!"
+                raise ValidationError({"language_code": message}) from error
 
             translation = obj.add_new_language(language, request)
             if translation is None:
@@ -1676,7 +1782,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 raise ValidationError({"format": str(error)}) from error
 
         if not (can_upload := user.has_perm("upload.perform", obj)):
-            self.permission_denied(request, can_upload.reason)
+            self.permission_denied(
+                request,
+                can_upload.reason
+                if isinstance(can_upload, PermissionResult)
+                else "Insufficient privileges for uploading.",
+            )
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -1815,7 +1926,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         auto = AutoTranslate(
             user=request.user,
             translation=translation,
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
         )
         message = auto.perform(
@@ -2053,17 +2164,29 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def comments(self, request, *args, **kwargs):
         """Add a new comment to a unit."""
         unit = self.get_object()
+        user = request.user
 
-        if not request.user.has_perm("comment.add", unit.translation):
+        if not user.has_perm("comment.add", unit.translation):
             self.permission_denied(request)
 
-        serializer = CommentSerializer(data=request.data, context={"unit": unit})
+        serializer = CommentSerializer(
+            data=request.data,
+            context={
+                "unit": unit,
+                "request": request,
+            },
+        )
         serializer.is_valid(raise_exception=True)
 
-        text = serializer.validated_data["comment"]
-        scope = serializer.validated_data["scope"]
-        Comment.objects.add(request, unit, text, scope)
-        return Response(data={"result": True}, status=HTTP_201_CREATED)
+        timestamp = serializer.validated_data.get("timestamp")
+        user_email = serializer.validated_data.get("user_email")
+        if (timestamp is not None or user_email is not None) and (
+            not user.has_perm("project.edit", unit.translation.component.project)
+        ):
+            self.permission_denied(request)
+
+        serializer.save()
+        return Response(serializer.data, status=HTTP_201_CREATED)
 
 
 @extend_schema_view(

@@ -2,23 +2,7 @@
 
 {% load i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  <li>
-    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
-  </li>
-  <li>
-    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-  </li>
-
-  <a class="pull-right flip">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements language=object %}
-
+{% block nav_pills %}
   {% perm 'language.edit' as user_can_edit_language %}
 
   <ul class="nav nav-pills">
@@ -26,7 +10,7 @@
       <a href="#overview" data-toggle="tab">{% translate "Projects" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Information" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
       <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
@@ -58,6 +42,26 @@
       </ul>
     </li>
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li>
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+  <li>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+
+  <a class="pull-right flip">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements language=object %}
+
+  {% perm 'language.edit' as user_can_edit_language %}
 
   <div class="tab-content">
 
@@ -72,7 +76,7 @@
     <div class="tab-pane" id="information">{% show_info language=object stats=object.stats metrics=object|metrics %}</div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 

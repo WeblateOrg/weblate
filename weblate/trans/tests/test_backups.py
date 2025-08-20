@@ -21,8 +21,16 @@ from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.backups import ProjectBackup
-from weblate.trans.models import Category, Comment, Project, Suggestion, Unit, Vote
+from weblate.trans.backups import ProjectBackup, list_backups
+from weblate.trans.models import (
+    Category,
+    Comment,
+    PendingUnitChange,
+    Project,
+    Suggestion,
+    Unit,
+    Vote,
+)
 from weblate.trans.tasks import cleanup_project_backup_download, cleanup_project_backups
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -30,6 +38,7 @@ from weblate.trans.tests.utils import get_test_file
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
+TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 class BackupsTest(ViewTestCase):
@@ -63,6 +72,9 @@ class BackupsTest(ViewTestCase):
             user=self.user,
         )
         Vote.objects.create(suggestion=suggestion, user=self.user, value=1)
+
+        PendingUnitChange.store_unit_change(unit)
+
         team = Group.objects.create(name="Test group", defining_project=self.project)
         team.roles.set([Role.objects.get(name="Translate")])
         team.admins.add(self.user)
@@ -148,6 +160,10 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(
             set(self.project.category_set.values_list("slug", flat=True)),
             set(restored.category_set.values_list("slug", flat=True)),
+        )
+        self.assertEqual(
+            self.project.count_pending_units,
+            restored.count_pending_units,
         )
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
@@ -253,26 +269,33 @@ class BackupsTest(ViewTestCase):
         with self.assertRaises(ValueError):
             restore.validate()
 
+    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_duplicate_files(self) -> None:
+        restore = ProjectBackup(TEST_BACKUP_DUPLICATE_FILES)
+        with self.assertRaises(ValueError) as ex:
+            restore.validate()
+        self.assertIn("zip file contains duplicate files", str(ex.exception))
+
     def test_cleanup(self) -> None:
         cleanup_project_backups()
-        self.assertLessEqual(len(self.project.list_backups()), 3)
+        self.assertLessEqual(len(list_backups(self.project)), 3)
         ProjectBackup().backup_project(self.project)
         cleanup_project_backups()
-        self.assertLessEqual(len(self.project.list_backups()), 3)
+        self.assertLessEqual(len(list_backups(self.project)), 3)
         ProjectBackup().backup_project(self.project)
         cleanup_project_backups()
-        self.assertLessEqual(len(self.project.list_backups()), 3)
+        self.assertLessEqual(len(list_backups(self.project)), 3)
         ProjectBackup().backup_project(self.project)
         cleanup_project_backups()
-        self.assertLessEqual(len(self.project.list_backups()), 3)
+        self.assertLessEqual(len(list_backups(self.project)), 3)
         ProjectBackup().backup_project(self.project)
-        self.assertEqual(len(self.project.list_backups()), 4)
+        self.assertEqual(len(list_backups(self.project)), 4)
         cleanup_project_backups()
-        self.assertEqual(len(self.project.list_backups()), 3)
+        self.assertEqual(len(list_backups(self.project)), 3)
         cleanup_project_backup_download()
 
     def test_views(self) -> None:
-        start = len(self.project.list_backups())
+        start = len(list_backups(self.project))
         url = reverse("backups", kwargs=self.kw_project)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 403)
@@ -280,7 +303,7 @@ class BackupsTest(ViewTestCase):
         self.user.save()
         response = self.client.post(url)
         self.assertRedirects(response, url)
-        self.assertEqual(start + 1, len(self.project.list_backups()))
+        self.assertEqual(start + 1, len(list_backups(self.project)))
         response = self.client.get(url)
         self.assertNotContains(response, " no backups")
 
@@ -288,7 +311,7 @@ class BackupsTest(ViewTestCase):
             "backups-download",
             kwargs={
                 "project": self.project.slug,
-                "backup": self.project.list_backups()[0]["name"],
+                "backup": list_backups(self.project)[0]["name"],
             },
         )
         response = self.client.get(url)

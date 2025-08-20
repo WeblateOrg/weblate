@@ -3,12 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext
 from django.views.decorators.cache import cache_control
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView
@@ -62,40 +64,47 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
         reverse("engage", kwargs={"path": engage_obj.get_url_path()})
     )
     engage_link = format_html('<a href="{0}" id="engage-link">{0}</a>', engage_url)
-    widget_base_url = get_site_url(
-        reverse("widgets", kwargs={"path": project.get_url_path()})
+
+    engage_base_url = get_site_url(
+        reverse("engage", kwargs={"path": project.get_url_path()})
     )
+    widget_base_url = f"{get_site_url()}/widget/{'/'.join(project.get_url_path())}"
+
     widget_list = []
+    widgets_json = {}
     for widget_name in sorted(WIDGETS, key=widgets_sorter):
         widget_class = WIDGETS[widget_name]
-        color_list = []
-        for color in widget_class.colors:
-            color_url = reverse(
-                "widget-image",
-                kwargs={
-                    "path": obj.get_url_path(),
-                    "widget": widget_name,
-                    "color": color,
-                    "extension": widget_class.extension,
-                },
-            )
-            color_list.append({"name": color, "url": get_site_url(color_url)})
-        widget_list.append(
-            {"name": widget_name, "colors": color_list, "verbose": widget_class.verbose}
-        )
+        widgets_json[widget_name] = {
+            "name": widget_name,
+            "extension": widget_class.extension,
+            "colors": widget_class.colors,
+            "extra_parameters": widget_class.extra_parameters,
+        }
+        widget_list.append({"name": widget_name, "verbose": widget_class.verbose})
 
     return render(
         request,
         "widgets.html",
         {
-            "engage_url": engage_url,
             "engage_link": engage_link,
             "widget_list": widget_list,
-            "widget_base_url": widget_base_url,
             "object": obj,
             "project": project,
-            "image_src": widget_list[0]["colors"][0]["url"],
             "form": form,
+            "widgets_json": json.dumps(
+                {
+                    "widget_base_url": widget_base_url,
+                    "engage_base_url": engage_base_url,
+                    "language": lang.code if lang else None,
+                    "component": component.id if component else None,
+                    "components": [
+                        {"id": c.id, "slug": c.slug}
+                        for c in form.fields["component"].queryset
+                    ],
+                    "translation_status": gettext("Translation status"),
+                    "widgets": widgets_json,
+                }
+            ),
         },
     )
 
@@ -145,10 +154,9 @@ def render_widget(
 ):
     # We intentionally skip ACL here to allow widget sharing
     obj = parse_path(
-        request,
+        None,
         path,
         (Component, ProjectLanguage, Project, Translation, Language, None),
-        skip_acl=True,
     )
     lang = set_lang = None
     if isinstance(obj, Language):
@@ -187,7 +195,7 @@ def render_widget(
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)
-    widget_obj.render(response)
+    widget_obj.render(request, response)
     return response
 
 
@@ -199,5 +207,5 @@ def render_og(request: AuthenticatedHttpRequest):
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)
-    widget_obj.render(response)
+    widget_obj.render(request, response)
     return response

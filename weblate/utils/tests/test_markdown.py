@@ -110,6 +110,20 @@ class MarkdownTestCase(TestCase):
             render_markdown("This is https://weblate.org"),
         )
 
+    def test_plain_link_underscore(self) -> None:
+        self.assertEqual(
+            '<p><a rel="ugc" target="_blank" href="https://en.wikipedia.org/wiki/Celery_(software)">https://en.wikipedia.org/wiki/Celery_(software)</a></p>\n',
+            render_markdown("https://en.wikipedia.org/wiki/Celery_(software)"),
+        )
+        self.assertEqual(
+            '<p><a rel="ugc" target="_blank" href="https://en.wikipedia.org/wiki/Celery_(software)">https://en.wikipedia.org/wiki/Celery_(software)</a> link</p>\n',
+            render_markdown("https://en.wikipedia.org/wiki/Celery_(software) link"),
+        )
+        self.assertEqual(
+            '<p>See <a rel="ugc" target="_blank" href="https://en.wikipedia.org/wiki/Celery_(software)">https://en.wikipedia.org/wiki/Celery_(software)</a>.</p>\n',
+            render_markdown("See https://en.wikipedia.org/wiki/Celery_(software)."),
+        )
+
 
 class MarkdownMentionTestCase(TestCase):
     def test_mention(self) -> None:
@@ -131,7 +145,7 @@ class MarkdownMentionTestCase(TestCase):
             ),
         )
 
-    def test_get_mentions_case_insentivite(self) -> None:
+    def test_get_mentions_case_insensitive(self) -> None:
         user = User.objects.create(username="testuser", full_name="Full Name")
         self.assertEqual(
             {user.pk},

@@ -1,7 +1,3 @@
-# Copyright © Michal Čihař <michal@weblate.org>
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 """Simple quality check example."""
 
 from django.utils.translation import gettext_lazy

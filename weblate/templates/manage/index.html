@@ -50,7 +50,7 @@
           {% if limit_details %}
             {# TODO: this rendering will break with no limits #}
             {# djlint:off #}
-        <tr>
+            <tr>
             {# djlint:on #}
             <th rowspan="{{ limit_details|length }}">{% translate "Support package limits" %}</th>
             {% for limit in limit_details %}
@@ -92,10 +92,13 @@
     <div class="panel-footer">
       {% if support.secret %}
         <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
+        <a href=""
+           class="btn btn-danger link-post pull-right"
+           data-href="{% url 'manage-activate' %}">{% translate "Unlink support package" %}</a>
       {% endif %}
       {% if support.name == 'community' %}
         <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
-        <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Donate to Weblate" %}</a>
+        <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
       {% endif %}
     </div>
   </div>

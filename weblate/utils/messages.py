@@ -12,100 +12,78 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from django.contrib.messages import add_message, constants
+from django.contrib.messages import add_message as django_add_message
+from django.contrib.messages import constants
+from django.http import HttpRequest
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import HttpRequest
 
 
-def get_request(request: AuthenticatedHttpRequest):
+def get_request(request: HttpRequest):
     """Return Django request object even for DRF requests."""
     return getattr(request, "_request", request)
 
 
-def debug(
-    request: AuthenticatedHttpRequest | None,
+def add_message(
+    request: HttpRequest | None,
+    level: int,
     message: str,
     extra_tags: str = "",
-    fail_silently=False,
 ) -> None:
-    """Add a message with the ``DEBUG`` level."""
     if request is not None:
-        add_message(
+        django_add_message(
             get_request(request),
-            constants.DEBUG,
+            level,
             message,
             extra_tags=extra_tags,
-            fail_silently=fail_silently,
+            fail_silently=True,
         )
+
+
+def debug(
+    request: HttpRequest | None,
+    message: str,
+    extra_tags: str = "",
+) -> None:
+    """Add a message with the ``DEBUG`` level."""
+    add_message(request, constants.DEBUG, message, extra_tags)
 
 
 def info(
-    request: AuthenticatedHttpRequest | None,
+    request: HttpRequest | None,
     message: str,
     extra_tags: str = "",
-    fail_silently=False,
 ) -> None:
     """Add a message with the ``INFO`` level."""
-    if request is not None:
-        add_message(
-            get_request(request),
-            constants.INFO,
-            message,
-            extra_tags=extra_tags,
-            fail_silently=fail_silently,
-        )
+    add_message(request, constants.INFO, message, extra_tags)
 
 
 def success(
-    request: AuthenticatedHttpRequest | None,
+    request: HttpRequest | None,
     message: str,
     extra_tags: str = "",
-    fail_silently=False,
 ) -> None:
     """Add a message with the ``SUCCESS`` level."""
-    if request is not None:
-        add_message(
-            get_request(request),
-            constants.SUCCESS,
-            message,
-            extra_tags=extra_tags,
-            fail_silently=fail_silently,
-        )
+    add_message(request, constants.SUCCESS, message, extra_tags)
 
 
 def warning(
-    request: AuthenticatedHttpRequest | None,
+    request: HttpRequest | None,
     message: str,
     extra_tags: str = "",
-    fail_silently=False,
 ) -> None:
     """Add a message with the ``WARNING`` level."""
-    if request is not None:
-        add_message(
-            get_request(request),
-            constants.WARNING,
-            message,
-            extra_tags=extra_tags,
-            fail_silently=fail_silently,
-        )
+    add_message(request, constants.WARNING, message, extra_tags)
 
 
 def error(
-    request: AuthenticatedHttpRequest | None,
+    request: HttpRequest | None,
     message: str,
     extra_tags: str = "",
-    fail_silently=False,
 ) -> None:
     """Add a message with the ``ERROR`` level."""
-    if request is not None:
-        add_message(
-            get_request(request),
-            constants.ERROR,
-            message,
-            extra_tags=extra_tags,
-            fail_silently=fail_silently,
-        )
+    add_message(request, constants.ERROR, message, extra_tags)
 
 
 def get_message_kind(tags):

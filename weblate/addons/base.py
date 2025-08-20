@@ -18,9 +18,11 @@ from django.utils.translation import gettext
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
+from weblate.trans.templatetags.translations import format_json
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
@@ -30,9 +32,8 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
-    from weblate.addons.models import Addon
+    from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.formats.base import TranslationFormat
     from weblate.trans.models import Change, Project, Translation, Unit
 
 
@@ -196,6 +197,7 @@ class BaseAddon:
             self.post_commit(component, True)
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
+            # The post_update typically operates on files, so make sure these are updated
             component.commit_pending("add-on", None)
             self.post_update(component, "", False)
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
@@ -275,19 +277,6 @@ class BaseAddon:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def store_post_load(
-        self, translation: Translation, store: TranslationFormat
-    ) -> None:
-        """
-        Event handler after a file is parsed.
-
-        It receives an instance of a file format class as a argument.
-
-        This is useful to modify file format class parameters, for example
-        adjust how the file will be saved.
-        """
-        # To be implemented in a subclass
-
     def daily(self, component: Component) -> None:
         """Event handler daily."""
         # To be implemented in a subclass
@@ -322,7 +311,7 @@ class BaseAddon:
                 {
                     "addon": self.name,
                     "command": " ".join(cmd),
-                    "output": output,
+                    "output": cleanup_error_message(output),
                     "error": str(err),
                 }
             )
@@ -421,8 +410,20 @@ class BaseAddon:
             raise ValueError(msg)
 
         return User.objects.get_or_create_bot(
-            "addon", self.user_name, self.user_verbose
+            scope="addon",
+            name=self.user_name,
+            verbose=self.user_verbose,
         )
+
+    def render_activity_log(self, activity: AddonActivityLog) -> str:
+        result = activity.details["result"]
+        if result is None:
+            return ""
+        if isinstance(result, str):
+            return result
+        if isinstance(result, dict):
+            return format_json(result)
+        return str(result)
 
 
 class UpdateBaseAddon(BaseAddon):
@@ -455,15 +456,6 @@ class UpdateBaseAddon(BaseAddon):
             self.commit_and_push(component, skip_push=skip_push)
 
 
-class StoreBaseAddon(BaseAddon):
-    """Base class for add-ons tweaking store."""
-
-    events: set[AddonEvent] = {
-        AddonEvent.EVENT_STORE_POST_LOAD,
-    }
-    icon = "wrench.svg"
-
-
 class ChangeBaseAddon(BaseAddon):
     """Base class for add-ons that listen for Change notifications."""
 
@@ -471,4 +463,4 @@ class ChangeBaseAddon(BaseAddon):
         AddonEvent.EVENT_CHANGE,
     }
 
-    icon = "pencil.svg"
+    multiple = False

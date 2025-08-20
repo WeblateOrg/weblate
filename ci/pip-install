@@ -24,7 +24,7 @@ elif [ "${1:-latest}" = edge ]; then
     # see https://github.com/xmlsec/python-xmlsec/issues/327
     # Add downloaded zip, cannot add URL as uv complains about missing checksum
     uv add --no-binary-package lxml --no-binary-package xmlsec build/packages/*
-    # Allow pre-repeases
+    # Allow pre-releases
     uv add --no-binary-package lxml --no-binary-package xmlsec --prerelease allow Django
     uv sync --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
 else

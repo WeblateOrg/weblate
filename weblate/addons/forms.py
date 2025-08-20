@@ -124,47 +124,6 @@ class GenerateForm(BaseAddonForm):
         return self.cleaned_data["template"]
 
 
-class GettextCustomizeForm(BaseAddonForm):
-    width = forms.ChoiceField(
-        label=gettext_lazy("Long lines wrapping"),
-        choices=[
-            (
-                77,
-                gettext_lazy(
-                    "Wrap lines at 77 characters and at newlines (xgettext default)"
-                ),
-            ),
-            (
-                65535,
-                gettext_lazy("Only wrap lines at newlines (like 'xgettext --no-wrap')"),
-            ),
-            (-1, gettext_lazy("No line wrapping")),
-        ],
-        required=True,
-        initial=77,
-        help_text=gettext_lazy(
-            "By default gettext wraps lines at 77 characters and at newlines. "
-            "With the --no-wrap parameter, wrapping is only done at newlines."
-        ),
-    )
-
-
-class MsgmergeForm(BaseAddonForm):
-    previous = forms.BooleanField(
-        label=gettext_lazy("Keep previous msgids of translated strings"),
-        required=False,
-        initial=True,
-    )
-    no_location = forms.BooleanField(
-        label=gettext_lazy("Remove locations of translated strings"),
-        required=False,
-        initial=False,
-    )
-    fuzzy = forms.BooleanField(
-        label=gettext_lazy("Use fuzzy matching"), required=False, initial=True
-    )
-
-
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
         label=gettext_lazy("Commit squashing"),
@@ -207,64 +166,6 @@ class GitSquashForm(BaseAddonForm):
             Field("commit_message"),
             ContextDiv(template="addons/squash_help.html", context={"user": self.user}),
         )
-
-
-class JSONCustomizeForm(BaseAddonForm):
-    sort_keys = forms.BooleanField(label=gettext_lazy("Sort JSON keys"), required=False)
-    indent = forms.IntegerField(
-        label=gettext_lazy("JSON indentation"), min_value=0, initial=4, required=True
-    )
-    style = forms.ChoiceField(
-        label=gettext_lazy("JSON indentation style"),
-        choices=[
-            ("spaces", gettext_lazy("Spaces")),
-            ("tabs", gettext_lazy("Tabs")),
-        ],
-        required=True,
-        initial="space",
-    )
-
-
-class XMLCustomizeForm(BaseAddonForm):
-    """Class defining user Form to configure XML Formatting AddOn."""
-
-    closing_tags = forms.BooleanField(
-        label=gettext_lazy("Include closing tag for blank XML tags"),
-        required=False,
-        initial=True,
-    )
-
-
-class YAMLCustomizeForm(BaseAddonForm):
-    indent = forms.IntegerField(
-        label=gettext_lazy("YAML indentation"),
-        min_value=1,
-        max_value=10,
-        initial=2,
-        required=True,
-    )
-    width = forms.ChoiceField(
-        label=gettext_lazy("Long lines wrapping"),
-        choices=[
-            ("80", gettext_lazy("Wrap lines at 80 chars")),
-            ("100", gettext_lazy("Wrap lines at 100 chars")),
-            ("120", gettext_lazy("Wrap lines at 120 chars")),
-            ("180", gettext_lazy("Wrap lines at 180 chars")),
-            ("65535", gettext_lazy("No line wrapping")),
-        ],
-        required=True,
-        initial=80,
-    )
-    line_break = forms.ChoiceField(
-        label=gettext_lazy("Line breaks"),
-        choices=[
-            ("dos", gettext_lazy("DOS (\\r\\n)")),
-            ("unix", gettext_lazy("UNIX (\\n)")),
-            ("mac", gettext_lazy("MAC (\\r)")),
-        ],
-        required=True,
-        initial="unix",
-    )
 
 
 class RemoveForm(BaseAddonForm):
@@ -514,7 +415,9 @@ class CDNJSForm(BaseAddonForm):
         max_value=100,
         min_value=0,
         required=True,
-        help_text=gettext_lazy("Threshold for inclusion of translations."),
+        help_text=gettext_lazy(
+            "The percentage of translated strings that must be present for translation to be included."
+        ),
     )
     css_selector = forms.CharField(
         label=gettext_lazy("CSS selector"),
@@ -586,31 +489,31 @@ class PseudolocaleAddonForm(BaseAddonForm):
     )
     # This shadows prefix from the Form class
     prefix = forms.CharField(  # type: ignore[assignment]
-        label=gettext_lazy("Fixed string prefix"),
+        label=gettext_lazy("Prepended static text"),
         required=False,
         initial="",
     )
     var_prefix = forms.CharField(
-        label=gettext_lazy("Variable string prefix"),
+        label=gettext_lazy("Prepended variable text"),
         required=False,
         initial="",
     )
     suffix = forms.CharField(
-        label=gettext_lazy("Fixed string suffix"),
+        label=gettext_lazy("Appended static text"),
         required=False,
         initial="",
     )
     var_suffix = forms.CharField(
-        label=gettext_lazy("Variable string suffix"),
+        label=gettext_lazy("Appended variable text"),
         required=False,
         initial="",
     )
     var_multiplier = forms.FloatField(
-        label=gettext_lazy("Variable part multiplier"),
+        label=gettext_lazy("Variable text multiplier"),
         required=False,
         initial=0.1,
         help_text=gettext_lazy(
-            "How many times to repeat the variable part depending on "
+            "How many times to repeat the variable text depending on "
             "the length of the source string."
         ),
     )
@@ -675,19 +578,27 @@ class ChangeBaseAddonForm(BaseAddonForm):
     )
 
 
-class WebhooksAddonForm(ChangeBaseAddonForm):
+class BaseWebhooksAddonForm(ChangeBaseAddonForm):
     """Form for webhook add-on configuration."""
 
     webhook_url = WeblateServiceURLField(
         label=gettext_lazy("Webhook URL"),
         required=True,
     )
+
+    field_order = ["webhook_url", "events"]
+
+
+class WebhooksAddonForm(BaseWebhooksAddonForm):
+    """Form for webhook add-on configuration."""
+
     secret = forms.CharField(
         label=gettext_lazy("Secret"),
         validators=[
             validate_base64_encoded_string,
         ],
         required=False,
+        help_text=gettext_lazy("A Base64 encoded string"),
     )
 
     field_order = ["webhook_url", "secret", "events"]

@@ -11,7 +11,7 @@ from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -57,8 +57,12 @@ def handle_unit_translation_change(
         project = component.project
 
     # Do not keep per-user memory for bots
-    if user and user.is_bot:
-        user = None
+    if user is None or (user and user.is_bot):
+        user_id = None
+        add_user = False
+    else:
+        user_id = user.id
+        add_user = user.profile.contribute_personal_tm
 
     source_language: Language = get_machinery_language(component.source_language)
     target_language: Language = get_machinery_language(unit.translation.language)
@@ -76,8 +80,12 @@ def handle_unit_translation_change(
         target=target,
         origin=origin,
         add_shared=project.contribute_shared_tm,
-        user_id=user.id if user is not None else None,
+        user_id=user_id,
         project_id=project.id,
+        add_project=component.contribute_project_tm,
+        add_user=add_user,
+        unit_state=unit.state,
+        context=unit.context or "",
     )
 
 
@@ -87,46 +95,74 @@ def update_memory(
     source_language_id: int,
     target_language_id: int,
     source: str,
+    context: str,
     target: str,
     origin: str,
     add_shared: bool,
+    add_project: bool,
+    add_user: bool,
     user_id: int | None,
     project_id: int,
+    unit_state: int,
 ) -> None:
-    add_project = True
-    add_user = user_id is not None
+    from weblate.trans.models import Project
 
-    # Check matching entries in memory
-    for matching in Memory.objects.filter(
-        from_file=False,
-        source=source,
-        target=target,
-        origin=origin,
-        source_language_id=source_language_id,
-        target_language_id=target_language_id,
+    project = Project.objects.get(pk=project_id)
+    check_matching = True
+    if (project.translation_review and unit_state == STATE_APPROVED) or (
+        not project.translation_review and unit_state >= STATE_TRANSLATED
     ):
-        if (
-            matching.user_id is None
-            and matching.project_id == project_id
-            and not matching.shared
-        ):
-            add_project = False
-        elif (
-            add_shared
-            and matching.user_id is None
-            and matching.project_id is None
-            and matching.shared
-        ):
-            add_shared = False
-        elif (
-            add_user
-            and matching.user_id == user_id
-            and matching.project_id is None
-            and not matching.shared
-        ):
-            add_user = False
-
+        memory_status = Memory.STATUS_ACTIVE
+        if project.autoclean_tm:
+            # delete old entries, including those with different targets
+            Memory.objects.filter(
+                from_file=False,
+                source=source,
+                origin=origin,
+                context=context,
+                source_language_id=source_language_id,
+                target_language_id=target_language_id,
+            ).delete()
+            check_matching = False
+    else:
+        memory_status = Memory.STATUS_PENDING
     to_create = []
+    to_update = []
+
+    if check_matching:
+        # Check matching entries in memory
+        for matching in Memory.objects.filter(
+            from_file=False,
+            source=source,
+            target=target,
+            origin=origin,
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+        ):
+            if matching.target == target and matching.status != memory_status:
+                matching.status = memory_status
+                to_update.append(matching)
+
+            if (
+                matching.user_id is None
+                and matching.project_id == project_id
+                and not matching.shared
+            ):
+                add_project = False
+            elif (
+                add_shared
+                and matching.user_id is None
+                and matching.project_id is None
+                and matching.shared
+            ):
+                add_shared = False
+            elif (
+                add_user
+                and matching.user_id == user_id
+                and matching.project_id is None
+                and not matching.shared
+            ):
+                add_user = False
 
     if add_project:
         to_create.append(
@@ -136,10 +172,12 @@ def update_memory(
                 from_file=False,
                 shared=False,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
     if add_shared:
@@ -150,10 +188,12 @@ def update_memory(
                 from_file=False,
                 shared=True,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
     if add_user:
@@ -164,11 +204,17 @@ def update_memory(
                 from_file=False,
                 shared=False,
                 source=source,
+                context=context,
                 target=target,
                 origin=origin,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
+                status=memory_status,
             )
         )
+
     if to_create:
         Memory.objects.bulk_create(to_create)
+
+    if to_update:
+        Memory.objects.bulk_update(to_update, fields=["status"])

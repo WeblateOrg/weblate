@@ -24,6 +24,7 @@ from weblate.trans.forms import (
     SearchForm,
 )
 from weblate.trans.models import Category, Component, Project, Translation, Unit
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
@@ -83,6 +84,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
 
         if not confirm.is_valid():
             for unit in matching:
+                # This is rendered using format_unit_target which does split_plurals
                 unit.replacement = unit.target.replace(search_text, replacement)
             context.update(
                 {
@@ -104,7 +106,10 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     continue
                 unit.translate(
                     request.user,
-                    unit.target.replace(search_text, replacement),
+                    [
+                        plural.replace(search_text, replacement)
+                        for plural in unit.get_target_plurals()
+                    ],
                     unit.state,
                     change_action=ActionEvents.REPLACE,
                 )
@@ -168,6 +173,8 @@ def search(request: AuthenticatedHttpRequest, path=None):
         units = get_paginator(
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
+        # Make sure source translation is available
+        fill_in_source_translation(units)
         # Rebuild context from scratch here to get new form
         context.update(
             {

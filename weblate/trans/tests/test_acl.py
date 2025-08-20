@@ -11,8 +11,10 @@ from django.urls import reverse
 
 from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
+from weblate.utils.pii import mask_email
 
 
 class ACLTest(FixtureTestCase, RegistrationTestMixin):
@@ -130,6 +132,12 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Ensure invitation was mapped to existing user
         self.assertEqual(invitation.user, self.user)
 
+        # check change display is user's username
+        change = Project.objects.get(pk=self.project.pk).change_set.get(
+            action=ActionEvents.INVITE_USER
+        )
+        self.assertEqual(change.get_details_display(), self.user.username)
+
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_invite_user(self) -> None:
         """Test inviting user."""
@@ -145,8 +153,17 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
-        self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        self.assertEqual(
+            message.subject,
+            "[Weblate] testuser has invited you to join the Test project",
+        )
         mail.outbox = []
+
+        # Check change display is user's email masked
+        change = Project.objects.get(pk=self.project.pk).change_set.get(
+            action=ActionEvents.INVITE_USER
+        )
+        self.assertEqual(change.get_details_display(), mask_email("user@example.com"))
 
         self.assertEqual(Invitation.objects.count(), 1)
 
@@ -161,7 +178,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
-        self.assertEqual(message.subject, "[Weblate] Invitation to Weblate")
+        self.assertEqual(
+            message.subject,
+            "[Weblate] testuser has invited you to join the Test project",
+        )
         mail.outbox = []
 
         user_client = self.client_class()
@@ -229,6 +249,12 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 "groups": [self.translate_group.pk],
             },
         )
+        # check group name is included in change details
+        change = Project.objects.get(pk=self.project.pk).change_set.get(
+            action=ActionEvents.ADD_USER
+        )
+        self.assertIn(self.translate_group.name, change.get_details_display())
+
         self.assertFalse(
             User.objects.all_admins(self.project)
             .filter(username=self.second_user.username)

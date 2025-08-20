@@ -33,7 +33,8 @@ SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "email": {"name": gettext_lazy("E-mail"), "image": "email.svg"},
     "ubuntu": {"name": "Ubuntu", "image": "ubuntu.svg"},
     "opensuse": {"name": "openSUSE", "image": "opensuse.svg"},
-    "fedora": {"name": "Fedora", "image": "fedora.svg"},
+    "fedora": {"name": "Fedora OpenID", "image": "fedora.svg"},
+    "fedora-oidc": {"name": "Fedora", "image": "fedora.svg"},
     "facebook": {"name": "Facebook", "image": "facebook.svg"},
     "github": {"name": "GitHub", "image": "github.svg"},
     "github-enterprise": {"name": "GitHub Enterprise", "image": "github.svg"},
@@ -118,5 +119,16 @@ def key_name(device: Device) -> str:
 
 
 @register.simple_tag
-def second_factor_name(name: DeviceType) -> str:
+def second_factor_name(name: DeviceType) -> StrOrPromise:
     return SECOND_FACTORS[name]
+
+
+@register.simple_tag(takes_context=True)
+def format_site_title(context) -> str:
+    style = ""
+    site_title = context["site_title"]
+    if context["support_status"]["is_hosted_weblate"]:
+        style = "text-info"
+        site_title = "Weblate cloud"
+
+    return format_html('<span class="{}">{}</span>', style, site_title)

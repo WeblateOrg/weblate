@@ -31,11 +31,18 @@ function decreaseLoading(sel) {
   }
 }
 
-function addAlert(message, kind = "danger", delay = 3000) {
+function addAlert(message, kind = "danger", delay = 3000, bootstrap5 = false) {
   const alerts = $("#popup-alerts");
-  const e = $(
-    '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
-  );
+  let e;
+  if (bootstrap5) {
+    e = $(
+      '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
+    );
+  } else {
+    e = $(
+      '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
+    );
+  }
   e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
@@ -256,9 +263,12 @@ function loadTableSorting() {
           th.addClass("sort-init");
           if (!th.hasClass("sort-cell")) {
             // Skip statically initialized parts (when server side ordering is supported)
-            th.attr("title", gettext("Sort this column"))
-              .addClass("sort-cell")
-              .append('<span class="sort-icon" />');
+            th.attr("title", gettext("Sort this column")).addClass("sort-cell");
+            if (th.hasClass("number")) {
+              th.innerHTML = `<span·class="sort-icon">·</span>${th.text()}`;
+            } else {
+              th.append('<span class="sort-icon" />');
+            }
           }
 
           // Click handler
@@ -325,7 +335,7 @@ function interpolate(fmt, obj, named) {
 function loadMatrix() {
   const $loadingNext = $("#loading-next");
   const $loader = $("#matrix-load");
-  const offset = Number.parseInt($loader.data("offset"));
+  const offset = Number.parseInt($loader.data("offset"), 10);
 
   if ($("#last-section").length > 0 || $loadingNext.css("display") !== "none") {
     return;
@@ -369,7 +379,6 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
-  // biome-ignore lint/complexity/noForEach: TODO
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -430,9 +439,6 @@ function initHighlight(root) {
 
     resizeObserver.observe(input);
   });
-  // biome-ignore lint/complexity/noForEach: TODO
-  // biome-ignore lint/complexity/useSimplifiedLogicExpression: TODO
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
   root.querySelectorAll(".highlight-editor").forEach((editor) => {
     const parent = editor.parentElement;
     const hasFocus = editor === document.activeElement;
@@ -488,9 +494,7 @@ function initHighlight(root) {
           "\u200A|\u202F|\u205F|\u3000",
         ].join(""),
       );
-      // biome-ignore lint/performance/useTopLevelRegex: TODO
       const newlineRegex = /\n/;
-      // biome-ignore lint/performance/useTopLevelRegex: TODO
       const nonBreakingSpaceRegex = /\u00A0/;
       const extension = {
         hlspace: {
@@ -549,7 +553,6 @@ function initHighlight(root) {
   });
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
 $(function () {
   const $window = $(window);
   const $document = $(document);
@@ -611,6 +614,14 @@ $(function () {
       );
       if (activeTab.length > 0) {
         activeTab.tab("show");
+      } else {
+        // For Bootstrap 5
+        activeTab = $(
+          `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
+        );
+        if (activeTab.length > 0) {
+          bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        }
       }
     }
     activeTab = $(`.nav [data-toggle=tab][href="${location.hash}"]`);
@@ -621,6 +632,14 @@ $(function () {
       const anchor = document.getElementById(location.hash.substr(1));
       if (anchor !== null) {
         anchor.scrollIntoView();
+      }
+      // For Bootstrap 5
+      activeTab = $(
+        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash}"]`,
+      );
+      if (activeTab.length > 0) {
+        bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        window.scrollTo(0, 0);
       }
     }
   } else if (
@@ -642,13 +661,19 @@ $(function () {
     /* Remove focus on rows */
     $(".selectable-row").removeClass("active");
   });
+  /* Same for Bootstrap 5 tabs */
+  $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function (_e) {
+    history.pushState(null, null, $(this).attr("data-bs-target"));
+    /* Remove focus on rows */
+    $(".selectable-row").removeClass("active");
+  });
 
   /* Navigate to a tab when the history changes */
   window.addEventListener("popstate", (_e) => {
     if (location.hash !== "") {
       activeTab = $(`[data-toggle=tab][href="${location.hash}"]`);
     } else {
-      activeTab = new Array();
+      activeTab = [];
     }
     if (activeTab.length > 0) {
       activeTab.tab("show");
@@ -685,12 +710,6 @@ $(function () {
         },
       });
     }
-  });
-
-  /* Widgets selector */
-  $(".select-tab").on("change", function (_e) {
-    $(this).parent().find(".tab-pane").removeClass("active");
-    $(`#${$(this).val()}`).addClass("active");
   });
 
   /* Code samples (on widgets page) */
@@ -871,13 +890,9 @@ $(function () {
 
   /* Override all multiple selects */
   $("select[multiple]").multi({
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     enable_search: true,
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     search_placeholder: gettext("Search…"),
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     non_selected_header: gettext("Available:"),
-    // biome-ignore lint/style/useNamingConvention: need to match the library
     selected_header: gettext("Chosen:"),
   });
 
@@ -938,7 +953,6 @@ $(function () {
       fetch(url, {
         method: "DELETE",
         headers: {
-          // biome-ignore lint/style/useNamingConvention: special case
           Accept: "application/json",
           "X-CSRFToken": $form.find("input").val(),
         },
@@ -1249,14 +1263,12 @@ $(function () {
           callback(userMentionList);
         },
         error: (_jqXhr, _textStatus, errorThrown) => {
-          // biome-ignore lint/suspicious/noConsole: TODO
           console.error(errorThrown);
         },
       });
     },
   });
   tribute.attach(document.querySelectorAll(".markdown-editor"));
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
     editor.addEventListener("tribute-active-true", (_e) => {
       $(".tribute-container").addClass("open");
@@ -1314,31 +1326,35 @@ $(function () {
   });
 
   /* Notifications removal */
-  // biome-ignore lint/complexity/noForEach: TODO
   document
-    .querySelectorAll(".nav-pills > li > a > button.close")
+    .querySelectorAll(".nav-pills > li > a > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
         const link = button.parentElement;
-        // biome-ignore lint/complexity/noForEach: TODO
         document
-          .querySelectorAll(`${link.getAttribute("href")} select`)
-          .forEach((select) => select.remove());
+          .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
+          .forEach((select) => {
+            select.remove();
+          });
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
-        link.parentElement.remove();
         /* Activate watched tab */
-        $("a[href='#notifications__1']").tab("show");
+        const watched = document.querySelector(
+          'a[data-bs-target="#notifications__1"',
+        );
+        bootstrap.Tab.getOrCreateInstance(watched).show();
+        link.parentElement.remove();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
           ),
           "info",
+          3000,
+          true,
         );
       });
     });
 
   /* User autocomplete */
-  // biome-ignore lint/complexity/noForEach: TODO
   document
     .querySelectorAll(".user-autocomplete")
     .forEach((autoCompleteInput) => {
@@ -1371,7 +1387,6 @@ $(function () {
               return data.results.map((user) => {
                 return {
                   username: user.username,
-                  // biome-ignore lint/style/useNamingConvention: special case
                   full_name: `${user.full_name} (${user.username})`,
                 };
               });
@@ -1446,7 +1461,6 @@ $(function () {
   });
 
   /* Workflow customization form */
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
     enableInput.addEventListener("click", () => {
       if (enableInput.checked) {
@@ -1471,10 +1485,8 @@ $(function () {
     });
   });
 
-  // biome-ignore lint/complexity/noForEach: TODO
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (_event) => {
-      // biome-ignore lint/complexity/noForEach: TODO
       document
         .querySelectorAll(toggle.getAttribute("data-visibility"))
         .forEach((element) => {
@@ -1616,13 +1628,11 @@ $(function () {
   });
 
   /* Warn users that they do not want to use developer console in most cases */
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "color: red; font-weight: bold; font-size: 50px; font-family: sans-serif; -webkit-text-stroke: 1px black;",
     pgettext("Alert to user when opening browser developer console", "Stop!"),
   );
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "font-size: 20px; font-family: sans-serif",
@@ -1630,10 +1640,54 @@ $(function () {
       "This is a browser feature intended for developers. If someone told you to copy-paste something here, they are likely trying to compromise your Weblate account.",
     ),
   );
-  // biome-ignore lint/suspicious: It is intentional to log a warning
   console.log(
     "%c%s",
     "font-size: 20px; font-family: sans-serif",
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
+
+  /* Display relevant file_format_params field in Component forms */
+  const form_auto_ids = ["id", "id_scratchcreate"];
+  const file_format_params_fields_ids = form_auto_ids.map((id) => {
+    return `#div_${id}_file_format_params`;
+  });
+
+  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+    if (selectedFileFormat) {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).show();
+      });
+      let displayFieldLabel = false;
+      form.find(".file-format-param").each(function () {
+        const fileFormats = $(this)
+          .find(".file-format-param-field")
+          .attr("fileformats")
+          ?.split(" ");
+        if (fileFormats.includes(selectedFileFormat)) {
+          $(this).show();
+          displayFieldLabel = true;
+        } else {
+          $(this).hide();
+        }
+      });
+      // hide the field if no matching file format parameter is visible
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).toggle(displayFieldLabel);
+      });
+    }
+  }
+
+  form_auto_ids
+    .map((id) => {
+      return `#${id}_file_format`;
+    })
+    .forEach((fieldId) => {
+      const fileFormatForm = $(fieldId).closest("form");
+      displayRelevantFileFormatParams(fileFormatForm, $(fieldId).val());
+
+      $(fieldId).on("change", function () {
+        var newValue = $(this).val();
+        displayRelevantFileFormatParams(fileFormatForm, newValue);
+      });
+    });
 });

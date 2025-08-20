@@ -234,10 +234,11 @@
         </tr>
       {% endfor %}
       {% if project %}
+        {% perm 'project.edit' project as user_can_edit_project %}
         <tr>
           <th>{% translate "Shared translation memory" %}</th>
           <td></td>
-          <td>
+          <td class="number">
             {% if project.use_shared_tm %}
               {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
               {% translate "on" %}
@@ -247,7 +248,26 @@
             {% endif %}
           </td>
           <td>
-            {% perm 'project.edit' project as user_can_edit_project %}
+            {% if user_can_edit_project %}
+              <a href="{% url 'settings' path=project.get_url_path %}#workflow"
+                 class="btn btn-primary">{% translate "Configure" %}</a>
+            {% endif %}
+
+          </td>
+        </tr>
+        <tr>
+          <th>{% translate "Autoclean translation memory" %}</th>
+          <td></td>
+          <td class="number">
+            {% if project.autoclean_tm %}
+              {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
+              {% translate "on" %}
+            {% else %}
+              {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
+              {% translate "off" %}
+            {% endif %}
+          </td>
+          <td>
             {% if user_can_edit_project %}
               <a href="{% url 'settings' path=project.get_url_path %}#workflow"
                  class="btn btn-primary">{% translate "Configure" %}</a>

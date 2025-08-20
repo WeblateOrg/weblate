@@ -3,31 +3,39 @@ Data schemas
 
 Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of external JSON files.
 
-.. _schema-memory:
+.. only:: not gettext
 
-.. jsonschema:: ../schemas/weblate-memory.schema.json
+   .. _schema-memory:
 
-.. seealso::
-
-    :ref:`translation-memory`,
-    :wladmin:`dump_memory`,
-    :wladmin:`import_memory`
-
-.. _schema-userdata:
-
-.. jsonschema:: ../schemas/weblate-userdata.schema.json
+   .. jsonschema:: ../specs/schemas/weblate-memory.schema.json
 
 .. seealso::
 
-    :ref:`user-profile`,
-    :wladmin:`dumpuserdata`
+   * :ref:`translation-memory`
+   * :wladmin:`dump_memory`
+   * :wladmin:`import_memory`
 
 
-.. _schema-messaging:
+.. only:: not gettext
 
-.. jsonschema:: ../schemas/weblate-messaging.schema.json
+   .. _schema-userdata:
+
+   .. jsonschema:: ../specs/schemas/weblate-userdata.schema.json
 
 .. seealso::
 
-    :ref:`fedora-messaging`,
-    :ref:`addon-weblate.webhook.webhook`
+   * :ref:`user-profile`
+   * :wladmin:`dumpuserdata`
+
+
+
+.. only:: not gettext
+
+   .. _schema-messaging:
+
+   .. jsonschema:: ../specs/schemas/weblate-messaging.schema.json
+
+.. seealso::
+
+   * :ref:`fedora-messaging`
+   * :ref:`addon-weblate.webhook.webhook`

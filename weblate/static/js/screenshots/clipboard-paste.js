@@ -13,7 +13,6 @@ $(document).ready(() => {
     $pasteScreenshotBtn.remove();
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: factor out clipboard handling
   $pasteScreenshotBtn.on("click", async (e) => {
     e.preventDefault();
     try {

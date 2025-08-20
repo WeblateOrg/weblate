@@ -449,7 +449,7 @@ Weblate 4.11.1
 
 *Released on March 4th 2022.*
 
-* Fixed missing sanitizing of arguments to Git and Mercurial - CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details.
+* Fixed missing sanitizing of arguments to Git and Mercurial - :cve:`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details.
 * Fixed loading fuzzy strings from CSV files.
 * Added support for creating teams using the API.
 * Fixed user mention suggestions display.
@@ -462,7 +462,7 @@ Weblate 4.11
 
 *Released on February 25th 2022.*
 
-* Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ for more details.
+* Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more details.
 * Fixed add-on installation using the API.
 * Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 * Fixed false positives from :ref:`check-icu-message-format-syntax`.
@@ -864,7 +864,7 @@ Notable configuration or dependencies changes:
 * The migration might take considerable time if you had big glossaries.
 * Glossaries are now stored as regular components.
 * The glossary API is removed, use regular translation API to access glossaries.
-* There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
+* There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` should be added.
 
 .. versionchanged:: 4.5.1
 

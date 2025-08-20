@@ -11,6 +11,8 @@ from django.db.models import TextChoices
 from django.utils.translation import pgettext_lazy
 
 if TYPE_CHECKING:
+    from weblate.trans.models import Project
+
     from .base import BatchMachineTranslation
 
 
@@ -54,6 +56,7 @@ class SettingsDict(TypedDict, total=False):
     deployment: str
     azure_endpoint: str
     source_language: SourceLanguageChoices
+    _project: Project
 
 
 class TranslationResultDict(TypedDict):
@@ -64,8 +67,8 @@ class TranslationResultDict(TypedDict):
     original_source: NotRequired[str]
     show_quality: NotRequired[bool]
     origin: NotRequired[str | None]
-    origin_url: NotRequired[str]
-    delete_url: NotRequired[str]
+    origin_url: NotRequired[str | None]
+    delete_url: NotRequired[str | None]
 
 
 class UnitMemoryResultDict(TypedDict, total=False):

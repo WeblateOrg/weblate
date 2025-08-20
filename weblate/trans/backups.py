@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import json
 import os
+import warnings
 from collections import defaultdict
 from datetime import datetime
 from functools import partial
 from itertools import chain
+from operator import itemgetter
 from pathlib import Path
 from shutil import copyfileobj
 from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
@@ -23,6 +25,7 @@ from django.db import connection, transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
@@ -35,13 +38,14 @@ from weblate.trans.models import (
     Comment,
     Component,
     Label,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
     Unit,
     Vote,
 )
-from weblate.utils.data import data_dir
+from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
@@ -51,6 +55,10 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from django.db.models import Model
+
+    from weblate.billing.models import Billing
+
+warnings.filterwarnings("error", module="zipfile")
 
 PROJECTBACKUP_PREFIX = "projectbackups"
 
@@ -62,14 +70,34 @@ class BackupListDict(TypedDict):
     size: int
 
 
+def list_backups(project_id: Project | int | str) -> list[BackupListDict]:
+    if isinstance(project_id, Project):
+        project_id = project_id.pk
+    backup_dir = data_path(PROJECTBACKUP_PREFIX) / f"{project_id}"
+    if not backup_dir.exists():
+        return []
+    result: list[BackupListDict] = [
+        {
+            "name": entry.name,
+            "path": entry.as_posix(),
+            "timestamp": make_aware(
+                datetime.fromtimestamp(  # noqa: DTZ006
+                    int(entry.name.split(".")[0])
+                )
+            ),
+            "size": entry.stat().st_size,
+        }
+        for entry in backup_dir.glob("*.zip")
+    ]
+    return sorted(result, key=itemgetter("timestamp"), reverse=True)
+
+
 class ProjectBackup:
     COMPONENTS_PREFIX = "components/"
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
 
-    def __init__(
-        self, filename: str | None = None, *, fileio: BinaryIO | None = None
-    ) -> None:
+    def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
         self.fileio = fileio
@@ -91,15 +119,15 @@ class ProjectBackup:
         return "/".join(parts[1:])
 
     @property
-    def supports_restore(self):
+    def supports_restore(self) -> bool:
         return connection.features.can_return_rows_from_bulk_insert
 
     def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
 
     def backup_property(
-        self, obj, field: str, extras: dict[str, Callable] | None = None
-    ):
+        self, obj: Model, field: str, extras: dict[str, Callable] | None = None
+    ) -> str | int | dict | None:
         if extras and field in extras:
             return extras[field](obj)
         value = getattr(obj, field)
@@ -123,8 +151,11 @@ class ProjectBackup:
         return value
 
     def backup_object(
-        self, obj, properties: list[str], extras: dict[str, Callable] | None = None
-    ):
+        self,
+        obj: Model,
+        properties: list[str],
+        extras: dict[str, Callable] | None = None,
+    ) -> dict[str, str | int | dict | None]:
         return {field: self.backup_property(obj, field, extras) for field in properties}
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
@@ -132,7 +163,7 @@ class ProjectBackup:
         return list(getattr(obj, relation).values_list(field, flat=True))
 
     def backup_teams(self, project: Project) -> list[dict]:
-        extras = {}
+        extras: dict[str, Callable] = {}
         for schema_name, relation, field in [
             ("roles", "roles", "name"),
             ("languages", "languages", "code"),
@@ -172,7 +203,7 @@ class ProjectBackup:
             for category in categories
         ]
 
-    def backup_data(self, project) -> None:
+    def backup_data(self, project: Project) -> None:
         self.project = project
         self.data = {
             "metadata": {
@@ -195,7 +226,7 @@ class ProjectBackup:
         # Make sure generated backup data is correct
         self.validate_data()
 
-    def backup_dir(self, backupzip, directory: str, target: str) -> None:
+    def backup_dir(self, backupzip: ZipFile, directory: str, target: str) -> None:
         """Backup single directory to specified target in zip."""
         for folder, _subfolders, filenames in os.walk(directory):
             for filename in filenames:
@@ -207,32 +238,37 @@ class ProjectBackup:
                     path, os.path.join(target, os.path.relpath(path, directory))
                 )
 
-    def backup_json(self, backupzip, data, target: str) -> None:
+    def backup_json(self, backupzip: ZipFile, data: dict | list, target: str) -> None:
         with backupzip.open(target, "w") as handle:
             handle.write(json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"))
 
-    def generate_filename(self, project) -> None:
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{project.pk}")
-        backup_info = os.path.join(backup_dir, "README.txt")
-        timestamp = int(self.timestamp.timestamp())
-        if not os.path.exists(backup_dir):
-            os.makedirs(backup_dir)
-        if not os.path.exists(backup_info):
-            with open(backup_info, "w") as handle:
+    def generate_filename(self, project: Project) -> None:
+        # Create directory
+        backup_dir = data_path(PROJECTBACKUP_PREFIX) / f"{project.pk}"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+
+        # Create README.txt
+        backup_info = backup_dir / "README.txt"
+        if not backup_info.exists():
+            with backup_info.open("w") as handle:
                 handle.write(f"# Weblate project backups for {project.name}\n")
                 handle.write(f"slug={project.slug}\n")
                 handle.write(f"web={project.web}\n")
                 handle.writelines(
                     f"billing={billing.id}\n" for billing in project.billings
                 )
-        while os.path.exists(
-            os.path.join(backup_dir, f"{timestamp}.zip")
-        ) or os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip.part")):
-            timestamp += 1
-        self.filename = os.path.join(backup_dir, f"{timestamp}.zip")
 
-    def backup_component(self, backupzip, component) -> None:
-        data = {
+        # Find unused timestamp
+        timestamp = int(self.timestamp.timestamp())
+        while (filename := backup_dir / f"{timestamp}.zip").exists() or (
+            backup_dir / f"{timestamp}.zip.part"
+        ).exists():
+            timestamp += 1
+
+        self.filename = filename.as_posix()
+
+    def backup_component(self, backupzip: ZipFile, component: Component) -> None:
+        data: dict = {
             "component": self.backup_object(
                 component, self.component_schema["properties"]["component"]["required"]
             ),
@@ -306,6 +342,23 @@ class ProjectBackup:
                     translation__component=component
                 ).iterator()
             ],
+            "pending_unit_changes": [
+                self.backup_object(
+                    pending_unit_change,
+                    self.component_schema["properties"]["pending_unit_changes"][
+                        "items"
+                    ]["required"],
+                    extras={
+                        "unit_id_hash": lambda obj: obj.unit.checksum,
+                        "translation_id": lambda obj: obj.unit.translation_id,
+                    },
+                )
+                for pending_unit_change in PendingUnitChange.objects.for_component(
+                    component
+                )
+                .prefetch_related("unit", "author")
+                .iterator(2000)
+            ],
         }
         # component category is not a required field
         if component.category:
@@ -357,7 +410,7 @@ class ProjectBackup:
         )
 
     @transaction.atomic
-    def backup_project(self, project) -> None:
+    def backup_project(self, project: Project) -> None:
         """Backup whole project."""
         # Generate data
         self.backup_data(project)
@@ -390,20 +443,20 @@ class ProjectBackup:
 
         os.rename(part_name, self.filename)
 
-    def list_components(self, zipfile):
+    def list_components(self, zipfile: ZipFile) -> list[str]:
         return [
             name
             for name in zipfile.namelist()
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
 
-    def load_data(self, zipfile) -> None:
+    def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
             self.data = json.load(handle)
         self.validate_data()
         self.timestamp = datetime.fromisoformat(self.data["metadata"]["timestamp"])
 
-    def load_memory(self, zipfile):
+    def load_memory(self, zipfile: ZipFile) -> dict:
         with zipfile.open("weblate-memory.json") as handle:
             data = json.load(handle)
         validate_schema(data, "weblate-memory.schema.json")
@@ -411,12 +464,12 @@ class ProjectBackup:
 
     def load_component(
         self,
-        zipfile,
+        zipfile: ZipFile,
         filename: str,
         *,
         skip_linked: bool = False,
         do_restore: bool = False,
-    ) -> None:
+    ) -> bool:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
@@ -440,7 +493,7 @@ class ProjectBackup:
                 self.restore_component(zipfile, data)
             return True
 
-    def load_components(self, zipfile, *, do_restore: bool = False) -> None:
+    def load_components(self, zipfile: ZipFile, *, do_restore: bool = False) -> None:
         pending: list[str] = []
         for component in self.list_components(zipfile):
             processed = self.load_component(
@@ -462,16 +515,25 @@ class ProjectBackup:
             msg = "Can not validate None file."
             raise TypeError(msg)
         with ZipFile(input_file, "r") as zipfile:
+            names = zipfile.namelist()
+            if len(names) != len(set(names)):
+                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
+                raise ValueError(msg)
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
             for name in zipfile.namelist():
                 validate_filename(name)
 
-    def restore_unit(self, item, translation_lookup, source_unit_lookup=None):
+    def restore_unit(
+        self,
+        item: dict,
+        translation_lookup: dict[int, Translation],
+        source_unit_lookup: dict[int, Unit] | None = None,
+    ) -> Unit:
         kwargs = item.copy()
-        for skip in ("labels", "comments", "suggestions", "checks"):
-            kwargs.pop(skip)
+        for skip in ("labels", "comments", "suggestions", "checks", "pending"):
+            kwargs.pop(skip, None)
         kwargs["id_hash"] = checksum_to_hash(kwargs["id_hash"])
         kwargs["translation_id"] = translation_lookup[kwargs["translation_id"]].id
         unit = Unit(**kwargs)
@@ -480,7 +542,7 @@ class ProjectBackup:
             unit.source_unit = source_unit_lookup[item["id_hash"]]
         return unit
 
-    def restore_user(self, username):
+    def restore_user(self, username: str) -> User:
         if not self.user_cache:
             self.user_cache[settings.ANONYMOUS_USER_NAME] = get_anonymous()
         if username not in self.user_cache:
@@ -494,14 +556,16 @@ class ProjectBackup:
 
         return self.user_cache[username]
 
-    def restore_with_user(self, data, field: str = "user", remove: str | None = None):
+    def restore_with_user(
+        self, data: dict[str, Any], field: str = "user", remove: str | None = None
+    ) -> dict[str, Any]:
         data = data.copy()
         if remove is not None:
             data.pop(remove)
         data[field] = self.restore_user(data[field])
         return data
 
-    def restore_users(self, usernames: list[str]):
+    def restore_users(self, usernames: list[str]) -> list[User]:
         users = []
         for username in usernames:
             user = self.restore_user(username)
@@ -514,7 +578,7 @@ class ProjectBackup:
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
 
-    def restore_team(self, team: dict):
+    def restore_team(self, team: dict) -> None:
         if team["name"] == "Administration":
             group = Group.objects.get(name=team["name"], defining_project=self.project)
         else:
@@ -539,13 +603,62 @@ class ProjectBackup:
         ]
         AutoGroup.objects.bulk_create(autogroups)
 
-    def restore_teams(self, data: list[dict]):
+    def restore_teams(self, data: list[dict]) -> None:
         self.roles_cache = {r.name: r for r in Role.objects.all()}
         self.create_language_cache()
         for team in data:
             self.restore_team(team)
 
-    def restore_component(self, zipfile, data) -> None:  # noqa: C901
+    def restore_pending_unit_changes(
+        self,
+        data: dict,
+        *,
+        translation_lookup: dict,
+        source_units: list[Unit],
+        units: list[Unit],
+    ) -> None:
+        if "pending_unit_changes" in data:
+            all_units: dict[int, dict[int, Unit]] = defaultdict(dict)
+            for unit in chain(source_units, units):
+                all_units[unit.translation.id][unit.checksum] = unit
+
+            pending_unit_changes = []
+            for item in data["pending_unit_changes"]:
+                new_translation = translation_lookup[item["translation_id"]]
+                unit = all_units[new_translation.id][item["unit_id_hash"]]
+                pending_unit_changes.append(
+                    PendingUnitChange(
+                        unit=unit,
+                        author=self.restore_user(item["author"]),
+                        target=item["target"],
+                        explanation=item["explanation"],
+                        source_unit_explanation=item["source_unit_explanation"],
+                        timestamp=item["timestamp"],
+                        add_unit=item["add_unit"],
+                        state=item["state"],
+                    )
+                )
+        else:
+            pending_unit_changes = [
+                PendingUnitChange(
+                    unit=unit,
+                    author=unit.get_last_content_change()[0],
+                    target=unit.target,
+                    explanation=unit.explanation,
+                    source_unit_explanation=unit.source_unit.explanation,
+                    state=unit.state,
+                    add_unit=unit.details.get("add_unit", False),
+                )
+                for unit in chain(source_units, units)
+                if unit.import_data.get("pending")
+            ]
+
+        if pending_unit_changes:
+            PendingUnitChange.objects.bulk_create(pending_unit_changes)
+
+    def restore_component(self, zipfile: ZipFile, data: dict) -> None:  # noqa: C901
+        if self.project is None:
+            raise TypeError
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
@@ -669,10 +782,25 @@ class ProjectBackup:
                 }
                 for suggestion in suggestions:
                     if suggestion_data[suggestion.target]["votes"]:
+                        # Ignore conflicts here as more users can be mapped to anonymous
+                        # in restore_user().
                         Vote.objects.bulk_create(
-                            Vote(suggestion=suggestion, **self.restore_with_user(vote))
-                            for vote in suggestion_data[suggestion.target]["votes"]
+                            [
+                                Vote(
+                                    suggestion=suggestion,
+                                    **self.restore_with_user(vote),
+                                )
+                                for vote in suggestion_data[suggestion.target]["votes"]
+                            ],
+                            ignore_conflicts=True,
                         )
+
+        self.restore_pending_unit_changes(
+            data,
+            translation_lookup=translation_lookup,
+            source_units=source_units,
+            units=units,
+        )
 
         # Create screenshots
         screenshots = []
@@ -708,11 +836,11 @@ class ProjectBackup:
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
 
-    def create_language_cache(self):
+    def create_language_cache(self) -> None:
         if not self.languages_cache:
             self.languages_cache = {lang.code: lang for lang in Language.objects.all()}
 
-    def import_language(self, code: str):
+    def import_language(self, code: str) -> Language:
         self.create_language_cache()
         try:
             return self.languages_cache[code]
@@ -724,7 +852,7 @@ class ProjectBackup:
 
     def restore_categories(
         self, categories: list[dict], parent_category: Category | None = None
-    ):
+    ) -> None:
         category_objs = [
             Category(
                 name=category["name"],
@@ -740,10 +868,16 @@ class ProjectBackup:
             self.restore_categories(category["categories"], obj)
 
     @transaction.atomic
-    def restore(self, project_name: str, project_slug: str, user: User, billing=None):
-        if not isinstance(self.filename, str):
+    def restore(
+        self,
+        project_name: str,
+        project_slug: str,
+        user: User,
+        billing: Billing | None = None,
+    ) -> Project:
+        if not self.filename:
             msg = "Need a filename string."
-            raise TypeError(msg)
+            raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
 
@@ -772,9 +906,11 @@ class ProjectBackup:
                         project=project,
                         origin=entry["origin"],
                         source=entry["source"],
+                        context=entry.get("context", ""),
                         target=entry["target"],
                         source_language=self.import_language(entry["source_language"]),
                         target_language=self.import_language(entry["target_language"]),
+                        status=entry.get("status", Memory.STATUS_ACTIVE),
                     )
                     for entry in memory
                 ]
@@ -807,19 +943,21 @@ class ProjectBackup:
 
         return self.project
 
-    def store_for_import(self):
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, "import")
-        if not os.path.exists(backup_dir):
-            os.makedirs(backup_dir)
-        timestamp = int(timezone.now().timestamp())
+    def store_for_import(self) -> str:
+        backup_dir = data_path(PROJECTBACKUP_PREFIX) / "import"
+        backup_dir.mkdir(parents=True, exist_ok=True)
+
+        # self.fileio is a file object from upload here
         if self.fileio is None or isinstance(self.fileio, str):
             msg = "Need a file object."
             raise TypeError(msg)
-        # self.fileio is a file object from upload here
         self.fileio.seek(0)
-        while os.path.exists(os.path.join(backup_dir, f"{timestamp}.zip")):
+
+        timestamp = int(timezone.now().timestamp())
+        while (filename := backup_dir / f"{timestamp}.zip").exists():
             timestamp += 1
-        filename = os.path.join(backup_dir, f"{timestamp}.zip")
-        with open(filename, "xb") as target:
+
+        with filename.open("xb") as target:
             copyfileobj(self.fileio, target)
-        return filename
+
+        return filename.as_posix()

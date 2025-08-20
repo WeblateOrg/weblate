@@ -2,34 +2,19 @@
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements project=object.project %}
-
-  {% include "snippets/project/state.html" with object=object.project %}
-
-  {% include "snippets/watch-dropdown.html" with project=object %}
-
+{% block nav_pills %}
   {% perm 'project.edit' object as user_can_edit_project %}
   {% perm 'reports.view' object as user_can_view_reports %}
 
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
-    </li>
-    <li>
       <a href="#languages" data-toggle="tab">{% translate "Languages" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
+      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    </li>
+    <li>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     <li>
       <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
@@ -41,6 +26,9 @@
       <ul class="dropdown-menu">
         <li>
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if last_announcements %}
           <li>
@@ -79,7 +67,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -92,17 +80,8 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
-      </ul>
-    </li>
-    {% if user_can_edit_project %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
+        <li role="separator" class="divider"></li>
+        {% if user_can_edit_project %}
           {% if add_form %}
             <li>
               <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
@@ -111,25 +90,44 @@
           <li>
             <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
           </li>
-          {% if announcement_form %}
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if delete_form or rename_form %}
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-            </li>
-          {% endif %}
-        </ul>
-      </li>
-    {% endif %}
+        {% endif %}
+        {% if announcement_form %}
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if delete_form or rename_form %}
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </li>
     {% include "snippets/share-menu.html" with object=object.project %}
+    {% include "snippets/watch-dropdown.html" with project=object.project %}
   </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements project=object.project %}
+
+  {% include "snippets/project/state.html" with object=object.project %}
+
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
 
   <div class="tab-content">
-    <div class="tab-pane active" id="components">
+    <div class="tab-pane" id="components">
 
       {% include "snippets/list-objects.html" with objects=components list_categories=categories name_source="name" label=_("Component") add_link="component-category" %}
 
@@ -141,20 +139,20 @@
       {% show_info project=object.project stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
-    <div class="tab-pane" id="languages">
+    <div class="tab-pane active" id="languages">
 
-      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats %}
+      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats add_link="translation" %}
 
     </div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
-        {% include "last-changes-content.html" with last_changes=last_announcements %}
+        {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
            href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>

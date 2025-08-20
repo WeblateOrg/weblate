@@ -45,7 +45,7 @@ def check_backups(
         )
     for service in BackupService.objects.filter(enabled=True):
         try:
-            last_obj = service.last_logs()[0]
+            last_obj = service.last_logs[0]
             last_event = last_obj.event
             last_log = last_obj.log
         except IndexError:
@@ -61,3 +61,23 @@ def check_backups(
             break
 
     return errors
+
+
+@register(deploy=True)
+def check_support(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    from weblate.wladmin.models import SupportStatus
+
+    support_status = SupportStatus.objects.get_current()
+    if not support_status.has_expired_support or support_status.expiry is None:
+        return []
+    return [
+        weblate_check(
+            "weblate.C041",
+            f"Your support subscription has expired on {support_status.expiry.date().isoformat()}. Please renew it at https://weblate.org/user/ or contact Weblate care.",
+        )
+    ]

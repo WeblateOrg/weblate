@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-{% if data %}
-  <header adminlang="{{ data.0.source_language.code }}" srclang="{{ data.0.source_language.code }}">
-{% else %}
-  <header adminlang="en" srclang="en">
-{% endif %}
-</header>
-<body>
-{% for item in data %}
-<tu>
-<tuv xml:lang="{{ item.source_language.code }}">
-<seg>{{ item.source }}</seg>
-</tuv>
-<tuv xml:lang="{{ item.target_language.code }}">
-<seg>{{ item.target }}</seg>
-</tuv>
-</tu>
-{% endfor %}
-</body>
+  <header adminlang="{% if data %}{{ data.0.source_language.code }}{% else %}en{% endif %}"
+          srclang="{% if data %}{{ data.0.source_language.code }}{% else %}en{% endif %}">
+  </header>
+  <body>
+    {% for item in data %}
+      <tu>
+        <tuv xml:lang="{{ item.source_language.code }}">
+          <seg>
+            {{ item.source }}
+          </seg>
+        </tuv>
+        <tuv xml:lang="{{ item.target_language.code }}">
+          <seg>
+            {{ item.target }}
+          </seg>
+        </tuv>
+      </tu>
+    {% endfor %}
+  </body>
 </tmx>

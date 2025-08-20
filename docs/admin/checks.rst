@@ -209,6 +209,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-fluent-target-syntax` quality check.
 ``ignore-angularjs-format``
     Skip the :ref:`check-angularjs-format` quality check.
+``ignore-automattic-components-format``
+    Skip the :ref:`check-automattic-components-format` quality check.
 ``ignore-c-format``
     Skip the :ref:`check-c-format` quality check.
 ``ignore-c-sharp-format``
@@ -289,6 +291,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-newline-count` quality check.
 ``ignore-plurals``
     Skip the :ref:`check-plurals` quality check.
+``ignore-kabyle-characters``
+    Skip the :ref:`check-kabyle-characters` quality check.
 ``ignore-placeholders``
     Skip the :ref:`check-placeholders` quality check.
 ``ignore-prohibited-initial-character``
@@ -348,25 +352,47 @@ Here is a list of flags currently accepted:
 These flags are understood both in :ref:`component` settings, per source string
 settings and in the translation file itself (for example in GNU gettext).
 
+.. _location-based-flags:
+
+Location-based flags
+--------------------
+
+Some flags are added to strings by default, based on their locations.
+This means that certain checks will be automatically enabled depending on where the string is used.
+
+* ``rst-text``: This flag is automatically added to strings in reStructuredText files, if location extension is ``.rst``.
+* ``md-text``: This flag is automatically added to strings in Markdown files, if location extension is ``.md`` or ``.markdown``.
+
 .. _enforcing-checks:
 
 Enforcing checks
 ----------------
 
-You can configure a list of checks which can not be ignored by setting
-:ref:`component-enforced_checks` in :ref:`component`. Each listed check can not
-be dismissed in the user interface and any string failing this check is marked as
-:guilabel:`Needs editing` (see :ref:`states`).
+The enforced checks cannot be dismissed and mark string as :guilabel:`Needs
+editing` (see :ref:`states`). This prevents translators from hiding such
+checks.
 
-.. note::
+.. hint::
 
-   Turning on check enforcing doesn't enable it automatically. The check can be
-   turned on by adding the corresponding flag to string or component flags.
+   Turning on check enforcing doesn't enable it automatically. Some checks have
+   to be turned on by adding the corresponding flag to the string or component
+   flags.
 
-   .. seealso::
+This is best used with checks that can cause serious issues when used like
+checks for :ref:`check-formats`. Using for style checks like :ref:`check-same`
+is not recommended because dismissal is sometimes a reasonable approach in these.
 
-      :ref:`additional`,
-      :ref:`component-check_flags`
+The :ref:`project-commit_policy` can then be used to exclude strings needing
+editing from being committed to the version control.
+
+
+.. seealso::
+
+   * :ref:`states`
+   * :ref:`component-enforced_checks`
+   * :ref:`project-commit_policy`
+   * :ref:`additional`
+   * :ref:`component-check_flags`
 
 .. _fonts:
 
@@ -383,7 +409,7 @@ The :ref:`check-max-size` check used to calculate dimensions of the rendered
 text needs font to be loaded into Weblate and selected using a translation flag
 (see :ref:`custom-checks`).
 
-Weblate font management tool in :guilabel:`Fonts` under the :guilabel:`Manage`
+Weblate font management tool in :guilabel:`Fonts` under the :guilabel:`Operations`
 menu of your translation project provides interface to upload and manage fonts.
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those in
 the check.

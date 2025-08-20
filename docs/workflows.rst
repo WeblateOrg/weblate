@@ -93,8 +93,8 @@ The states are represented in the translation files when possible.
 
 .. seealso::
 
-   :ref:`fmt_capabs`,
-   :ref:`workflows`
+   * :ref:`fmt_capabs`
+   * :ref:`workflows`
 
 
 Direct translation
@@ -197,7 +197,7 @@ Turning on reviews
 
 Reviews can be turned on in the project configuration, from the
 :guilabel:`Workflow` subpage of project settings (to be found in the
-:guilabel:`Manage` → :guilabel:`Settings` menu):
+:guilabel:`Operations` → :guilabel:`Settings` menu):
 
 .. image:: /screenshots/project-workflow.webp
 
@@ -206,16 +206,19 @@ Reviews can be turned on in the project configuration, from the
 Quality gateway for the source strings
 --------------------------------------
 
-In many cases the original source language strings are coming from developers,
-because they write the code and provide initial strings. However developers are
-often not native speakers in the source language and do not provide desired
-quality of the source strings. The intermediate translation can help you address this - there is an additional quality gateway for the strings between
+The original source language strings usually come from developers, since they
+write the code and provide the initial strings. However, developers are often
+not native speakers of the source language and do not provide the desired
+quality of the source strings. The intermediate translation can help you
+address this - there is an additional quality gateway for the strings between
 developers and translators.
 
-By setting :ref:`component-intermediate`, this file is used for translating strings
-to the source language by translators/editors. Once this stage is done,
-strings are available for translations to target languages,
-based on what is now a polished source language.
+By setting the :ref:`component-intermediate`, this file is used for translating
+strings to the source language by translators/editors while it is owned by the
+developers (often using arbitrary languages such as ``en_devel``). Once this
+stage is done, strings are available for translations to target languages,
+based on what is now a polished source language stored in the
+:ref:`component-template`.
 
 .. graphviz::
 
@@ -256,9 +259,9 @@ based on what is now a polished source language.
 
 .. seealso::
 
-   :ref:`component-intermediate`,
-   :ref:`component-template`,
-   :ref:`bimono`
+   * :ref:`component-intermediate`
+   * :ref:`component-template`
+   * :ref:`bimono`
 
 .. _secondary-language-workflow:
 
@@ -297,7 +300,7 @@ code, or remove the label.
 
 .. seealso::
 
-   :ref:`bimono`,
-   :ref:`reviews`,
-   :ref:`labels`,
-   :ref:`user-comments`
+   * :ref:`bimono`
+   * :ref:`reviews`
+   * :ref:`labels`
+   * :ref:`user-comments`

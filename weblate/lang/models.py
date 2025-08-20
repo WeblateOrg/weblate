@@ -8,7 +8,7 @@ import re
 from collections import defaultdict
 from gettext import c2py
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 from weakref import WeakValueDictionary
 
 from appconf import AppConf
@@ -32,7 +32,7 @@ from weblate_language_data.rtl import RTL_LANGS
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
 from weblate.lang import data
-from weblate.lang.data import FORMULA_WITH_ZERO
+from weblate.lang.data import BASIC_LANGUAGES, FORMULA_WITH_ZERO
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
@@ -47,7 +47,8 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.trans.models.unit import Unit, UnitQuerySet
+    from weblate.trans.models import Project, Unit
+    from weblate.trans.models.unit import UnitQuerySet
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -393,7 +394,12 @@ class LanguageQuerySet(models.QuerySet):
     def order_translated(self):
         return sort_objects(self)
 
-    def get_by_code(self, code, cache, langmap=None):
+    def get_by_code(
+        self,
+        code: str,
+        cache: dict[str, Language],
+        langmap: dict[str, str] | None = None,
+    ) -> Language:
         """
         Get language by code.
 
@@ -450,16 +456,32 @@ class LanguageQuerySet(models.QuerySet):
             if accept_lang == "en":
                 continue
             try:
-                return self.get(code=accept_lang)
+                return self.get(code__iexact=accept_lang)
             except Language.DoesNotExist:
-                continue
+                try:
+                    return self.get(code__iexact=accept_lang.replace("-", "_"))
+                except Language.DoesNotExist:
+                    continue
         return None
 
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(code__icontains=query))
 
-    def prefetch(self):
+    def prefetch(self) -> Self:
         return self.prefetch_related("plural_set")
+
+    def filter_for_add(self, project: Project) -> Self:
+        codes = BASIC_LANGUAGES
+        if settings.BASIC_LANGUAGES is not None:
+            codes = settings.BASIC_LANGUAGES
+        return self.filter(
+            # Include basic languages
+            Q(code__in=codes)
+            # Include source languages in a project
+            | Q(component__project=project)
+            # Include translations in a project
+            | Q(translation__component__project=project)
+        ).distinct()
 
 
 def dummy_logger(message: str) -> None:

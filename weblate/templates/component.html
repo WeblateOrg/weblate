@@ -2,22 +2,7 @@
 
 {% load compress crispy_forms_tags i18n metrics permissions static translations %}
 
-{% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
-
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
-  </a>
-{% endblock breadcrumbs %}
-
-{% block content %}
-
-  {% announcements component=object %}
-
-  {% include "snippets/component/state.html" %}
-
-  {% include "snippets/watch-dropdown.html" with project=object.project component=object %}
-
+{% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'reports.view' object as user_can_view_reports %}
@@ -29,7 +14,7 @@
       <a href="#translations" data-toggle="tab">{% translate "Languages" %}</a>
     </li>
     <li>
-      <a href="#information" data-toggle="tab">{% translate "Info" %}</a>
+      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
     </li>
     {% if alerts %}
       <li>
@@ -48,6 +33,9 @@
           <a href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         <li>
+          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+        <li>
           <a href="{% url 'api:component-statistics' project__slug=object.project.slug slug=object.api_slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
         </li>
         <li>
@@ -58,6 +46,12 @@
             <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
+        <li>
+          <a href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
+        </li>
       </ul>
     </li>
     <li class="dropdown">
@@ -85,7 +79,7 @@
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Tools" %} <span class="caret"></span>
+        {% translate "Operations" %} <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
         {% if replace_form %}
@@ -99,12 +93,6 @@
           </li>
         {% endif %}
         <li>
-          <a href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
-        </li>
-        <li>
           <a href="{% url 'matrix' path=object.get_url_path %}">{% translate "Matrix view" %}</a>
         </li>
         {% if user_can_add_translation %}
@@ -112,68 +100,78 @@
             <a href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
           </li>
         {% endif %}
-      </ul>
-    </li>
-    {% if user.is_authenticated %}
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {% translate "Manage" %} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {% if user_can_see_repository_status %}
-            <li>
-              <a href="#repository"
-                 data-toggle="tab"
-                 data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
-            </li>
-            <li role="separator" class="divider"></li>
-          {% endif %}
+        <li role="separator" class="divider"></li>
+        {% if user_can_see_repository_status %}
           <li>
-            <a href="{% url 'screenshots' path=object.get_url_path %}">{% translate "Screenshots" %}</a>
+            <a href="#repository"
+               data-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
+          </li>
+          <li role="separator" class="divider"></li>
+        {% endif %}
+        <li>
+          <a href="{% url 'screenshots' path=object.get_url_path %}">{% translate "Screenshots" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'memory' project=object.project.slug %}">{% translate "Translation memory" %}</a>
+        </li>
+        {% if announcement_form %}
+          <li>
+            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if user_can_manage_acl %}
+          <li>
+            <a href="{% url 'manage-access' project=object.project.slug %}">{% translate "Users" %}</a>
+          </li>
+        {% endif %}
+        {% if user_can_edit_component %}
+          <li>
+            <a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% translate "Duplicate this component" %}</a>
           </li>
           <li>
-            <a href="{% url 'memory' project=object.project.slug %}">{% translate "Translation memory" %}</a>
+            <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
           </li>
-          {% if announcement_form %}
-            <li>
-              <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
-            </li>
-          {% endif %}
-          {% if user_can_manage_acl %}
-            <li>
-              <a href="{% url 'manage-access' project=object.project.slug %}">{% translate "Users" %}</a>
-            </li>
-          {% endif %}
+        {% endif %}
+        {% if delete_form or rename_form or user_can_edit_component %}
+          <li role="separator" class="divider"></li>
           {% if user_can_edit_component %}
             <li>
-              <a href="{% url 'create-component' %}?component={{ object.id }}#existing">{% translate "Duplicate this component" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
-            </li>
-            <li>
-              <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+              <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
             </li>
           {% endif %}
-          {% if delete_form or rename_form or user_can_edit_component %}
-            <li role="separator" class="divider"></li>
-            {% if user_can_edit_component %}
-              <li>
-                <a href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
-              </li>
-            {% endif %}
-            {% if delete_form or rename_form %}
-              <li>
-                <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
-              </li>
-            {% endif %}
+          {% if delete_form or rename_form %}
+            <li>
+              <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            </li>
           {% endif %}
-        </ul>
-      </li>
-    {% endif %}
+        {% endif %}
+      </ul>
+    </li>
     {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object.project component=object %}
   </ul>
+{% endblock nav_pills %}
 
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements component=object %}
+
+  {% include "snippets/component/state.html" %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'project.permissions' object as user_can_manage_acl %}
+  {% perm 'reports.view' object as user_can_view_reports %}
+  {% perm 'translation.add' object as user_can_add_translation %}
+  {% perm 'component.edit' object as user_can_edit_component %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="translations">
@@ -276,7 +274,7 @@
     {% endif %}
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all component changes" %}</a>
     </div>
 

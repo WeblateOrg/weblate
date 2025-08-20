@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.12"
+release = "5.13.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -122,11 +122,11 @@ ogp_social_cards = {
         "Kurinto Sans",
     ],
 }
-ogp_custom_meta_tags = [
+ogp_custom_meta_tags = (
     '<meta property="fb:app_id" content="741121112629028" />',
     '<meta property="fb:page_id" content="371217713079025" />',
     '<meta name="twitter:site" content="@WeblateOrg" />',
-]
+)
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -386,6 +386,8 @@ linkcheck_ignore = [
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
+    "https://wiki.gnupg.org/",
+    "https://www.bis.doc.gov/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",
@@ -400,15 +402,23 @@ http_strict_mode = True
 # Autodocs
 autodoc_mock_imports = [
     "django",
+    "unidecode",
+    "nh3",
+    "html2text",
+    "weblate_language_data",
     "celery",
     "sentry_sdk",
     "crispy_forms",
+    "social_django",
+    "social_core",
     "weblate.utils.errors",
     "weblate.trans.discovery",
     "weblate.checks.models",
     "weblate.trans.forms",
     "weblate.addons.forms",
     "weblate.trans.tasks",
+    "weblate.formats",
+    "weblate.trans.templatetags.translations",
     "dateutil",
     "filelock",
     "redis_lock",
@@ -426,6 +436,9 @@ autodoc_mock_imports = [
     "weblate.vcs.git",
     "weblate.utils.files",
     "weblate.utils.validators",
+    "django_otp",
+    "django_otp_webauthn",
+    "rest_framework",
 ]
 
 # Create single gettext PO file for while documentation,
@@ -435,4 +448,5 @@ gettext_compact = "docs"
 redirects = {
     "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
     "contributing/security": "security/index.html",
+    "formats/moko": "formats/moko-resources.html",
 }

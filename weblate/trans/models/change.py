@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, overload
 from uuid import UUID, uuid5
@@ -16,14 +17,13 @@ from django.db.models import Count, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.html import escape, format_html
-from django.utils.translation import gettext, gettext_lazy, pgettext
+from django.utils.translation import gettext, gettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
-from weblate.lang.models import Language
 from weblate.trans.actions import (
     ACTIONS_ADDON,
     ACTIONS_CONTENT,
+    ACTIONS_LOG,
     ACTIONS_MERGE_FAILURE,
     ACTIONS_REPOSITORY,
     ACTIONS_REVERTABLE,
@@ -31,13 +31,10 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.alert import ALERTS
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.files import FileUploadMethod, get_upload_message
-from weblate.utils.pii import mask_email
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
@@ -46,6 +43,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation
 
+LOGGER = logging.getLogger("weblate.change")
 
 CHANGE_PROJECT_LOOKUP_KEY = "change:project-lookup"
 
@@ -61,6 +59,15 @@ PREFETCH_FIELDS = (
     "translation__language",
     "translation__plural",
 )
+
+COMPONENT_ORIGINS = {
+    "scratch": gettext_lazy("Component created from scratch"),
+    "branch": gettext_lazy("Component created as a branch"),
+    "api": gettext_lazy("Component created via API"),
+    "vcs": gettext_lazy("Component created from version control"),
+    "zip": gettext_lazy("Component created via ZIP upload"),
+    "document": gettext_lazy("Component created via document upload"),
+}
 
 
 def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
@@ -266,6 +273,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             ):
                 transaction.on_commit(change.update_cache_last_change)
                 translations.add(change.translation_id)
+
+        # Log to the log
+        for change in changes:
+            change.log_event()
+
         return changes
 
     def filter_components(self, user: User) -> ChangeQuerySet:
@@ -538,10 +550,10 @@ class Change(models.Model, UserDisplayMixin):
                 kwargs[attr] = user.get_token_user()
         super().__init__(*args, **kwargs)
         if not self.pk:
-            self.fixup_refereces()
+            self.fixup_references()
 
     def save(self, *args, **kwargs) -> None:
-        self.fixup_refereces()
+        self.fixup_references()
 
         super().save(*args, **kwargs)
 
@@ -560,6 +572,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == ActionEvents.RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
 
+        self.log_event()
+
     def get_absolute_url(self) -> str:
         """Return link either to unit or translation."""
         if self.unit is not None:
@@ -575,6 +589,24 @@ class Change(models.Model, UserDisplayMixin):
         if self.project is not None:
             return self.project.get_absolute_url()
         return "/"
+
+    def log_event(self) -> None:
+        if self.action in ACTIONS_LOG:
+            message = self.get_action_display()
+            if self.user:
+                message = f"{message} ({self.user.username})"
+            if self.author and self.author != self.user:
+                message = f"{message} ({self.author.username})"
+            if self.target:
+                message = f"{message}: {self.target}"
+            if self.translation:
+                self.translation.log_info("%s", message)
+            elif self.component:
+                self.component.log_info("%s", message)
+            elif self.project:
+                self.project.log_info("%s", message)
+            else:
+                LOGGER.info("%s", message)
 
     @property
     def path_object(self):
@@ -605,7 +637,7 @@ class Change(models.Model, UserDisplayMixin):
     def update_cache_last_change(self) -> None:
         self.store_last_change(self.translation, self)
 
-    def fixup_refereces(self) -> None:
+    def fixup_references(self) -> None:
         """Update references based to least specific one."""
         if self.unit:
             self.translation = self.unit.translation
@@ -667,142 +699,11 @@ class Change(models.Model, UserDisplayMixin):
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self):  # noqa: C901
-        from weblate.addons.models import ADDONS
-        from weblate.utils.markdown import render_markdown
+    def get_details_display(self) -> str:
+        from weblate.trans.change_display import ChangeDetailsRenderFactory
 
-        details = self.details
-        action = self.action
-
-        if action == ActionEvents.FILE_UPLOAD:
-            try:
-                method = FileUploadMethod[details["method"].upper()].label
-            except KeyError:
-                method = details["method"]
-            return format_html(
-                "{}<br>{} {}",
-                get_upload_message(
-                    details["not_found"],
-                    details["skipped"],
-                    details["accepted"],
-                    details["total"],
-                ),
-                gettext("File upload mode:"),
-                method,
-            )
-
-        if action in {
-            ActionEvents.ANNOUNCEMENT,
-            ActionEvents.AGREEMENT_CHANGE,
-        }:
-            return render_markdown(self.target)
-
-        if action == ActionEvents.COMMENT_DELETE and "comment" in details:
-            return render_markdown(details["comment"])
-
-        if action in {
-            ActionEvents.ADDON_CREATE,
-            ActionEvents.ADDON_CHANGE,
-            ActionEvents.ADDON_REMOVE,
-        }:
-            try:
-                return ADDONS[self.target].name
-            except KeyError:
-                return self.target
-
-        if action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[action])
-
-        if action == ActionEvents.UPDATE:
-            reason = details.get("reason", "content changed")
-            filename = format_html(
-                "<code>{}</code>",
-                details.get(
-                    "filename",
-                    self.translation.filename if self.translation else "",
-                ),
-            )
-            if reason == "content changed":
-                message = gettext("The “{}” file was changed.")
-            elif reason == "check forced":
-                message = gettext("Parsing of the “{}” file was enforced.")
-            elif reason == "new file":
-                message = gettext("File “{}” was added.")
-            else:
-                msg = f"Unknown reason: {reason}"
-                raise ValueError(msg)
-            return format_html(escape(message), filename)
-
-        if action == ActionEvents.LICENSE_CHANGE:
-            not_available = pgettext("License information not available", "N/A")
-            return gettext(
-                'The license of the "%(component)s" component was changed '
-                "from %(old)s to %(target)s."
-            ) % {
-                "component": self.component,
-                "old": self.old or not_available,
-                "target": self.target or not_available,
-            }
-
-        # Following rendering relies on details present
-        if not details:
-            return ""
-        user_actions = {
-            ActionEvents.ADD_USER,
-            ActionEvents.INVITE_USER,
-            ActionEvents.REMOVE_USER,
-        }
-        if action == ActionEvents.ACCESS_EDIT:
-            for number, name in Project.ACCESS_CHOICES:
-                if number == details["access_control"]:
-                    return name
-            return "Unknown {}".format(details["access_control"])
-        if action in user_actions:
-            if "username" in details:
-                result = details["username"]
-            else:
-                result = mask_email(details["email"])
-            if "group" in details:
-                result = f"{result} ({details['group']})"
-            return result
-        if action in {
-            ActionEvents.ADDED_LANGUAGE,
-            ActionEvents.REQUESTED_LANGUAGE,
-        }:
-            try:
-                return Language.objects.get(code=details["language"])
-            except Language.DoesNotExist:
-                return details["language"]
-        if action == ActionEvents.ALERT:
-            try:
-                return ALERTS[details["alert"]].verbose
-            except KeyError:
-                return details["alert"]
-        if action == ActionEvents.PARSE_ERROR:
-            return "{filename}: {error_message}".format(**details)
-        if action == ActionEvents.HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**details)
-        if action == ActionEvents.COMMENT and "comment" in details:
-            return render_markdown(details["comment"])
-        if action in {
-            ActionEvents.RESET,
-            ActionEvents.MERGE,
-            ActionEvents.REBASE,
-        }:
-            return format_html(
-                "{}<br/><br/>{}<br/>{}",
-                self.get_action_display(),
-                format_html(
-                    escape(gettext("Original revision: {}")),
-                    details.get("previous_head", "N/A"),
-                ),
-                format_html(
-                    escape(gettext("New revision: {}")),
-                    details.get("new_head", "N/A"),
-                ),
-            )
-
-        return ""
+        strategy = ChangeDetailsRenderFactory.get_strategy(self)
+        return strategy.render_details(self)
 
     def get_distance(self):
         return DamerauLevenshtein.distance(self.old, self.target)

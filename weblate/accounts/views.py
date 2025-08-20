@@ -10,7 +10,6 @@ from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
 from datetime import timedelta
-from importlib import import_module
 from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
 
@@ -25,13 +24,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMessage
-from django.core.signing import (
-    BadSignature,
-    SignatureExpired,
-    TimestampSigner,
-    dumps,
-    loads,
-)
+from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
@@ -71,7 +64,6 @@ from django_otp_webauthn.views import (
 )
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
-from social_core.backends.open_id import OpenIdAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
@@ -81,6 +73,7 @@ from social_core.exceptions import (
     AuthMissingParameter,
     AuthStateForbidden,
     AuthStateMissing,
+    AuthUnreachableProvider,
     InvalidEmail,
     MissingBackend,
 )
@@ -139,9 +132,8 @@ from weblate.auth.models import (
     Invitation,
     User,
     get_anonymous,
-    get_auth_keys,
 )
-from weblate.auth.utils import format_address
+from weblate.auth.utils import format_address, get_auth_keys
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
@@ -158,9 +150,6 @@ from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
-
-AUTHID_SALT = "weblate.authid"
-AUTHID_MAX_AGE = 600
 
 CONTACT_TEMPLATE = """
 Message from %(name)s <%(email)s>:
@@ -288,7 +277,7 @@ def mail_admins_contact(
 
         if settings.CONTACT_FORM == "reply-to":
             headers["Reply-To"] = sender
-            from_email = to[0]
+            from_email = settings.DEFAULT_FROM_EMAIL
         else:
             from_email = sender
 
@@ -465,9 +454,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": user.cached_groups.prefetch_related(
-                "roles", "projects", "languages", "components"
-            ),
+            "user_groups": user.cached_groups,
             "profile": profile,
             "title": gettext("User profile"),
             "licenses": license_components,
@@ -480,6 +467,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "recovery_keys_count": StaticToken.objects.filter(
                 device__user=user
             ).count(),
+            "bootstrap_5": True,
         },
     )
 
@@ -801,11 +789,19 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
         raise Http404(msg)
 
     avatar_user = get_object_or_404(User, username=user)
+    email = avatar_user.email
 
-    if avatar_user.email == "noreply@weblate.org":
-        return redirect(get_fallback_avatar_url(int(size)))
-    if avatar_user.email == f"noreply+{avatar_user.pk}@weblate.org":
-        return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
+    # Deleted users
+    if email == f"noreply+{avatar_user.pk}@weblate.org":
+        return redirect(
+            os.path.join(settings.STATIC_URL, "state/ghost.svg"), permanent=True
+        )
+    # Bot and anonymous accounts
+    if not email or (email.startswith("noreply") and email.endswith("@weblate.org")):
+        return redirect(get_fallback_avatar_url(int(size)), permanent=True)
+    # Project API tokens
+    if email.endswith("@bots.noreply.weblate.org"):
+        return redirect(get_fallback_avatar_url(int(size), "api"), permanent=True)
 
     response = HttpResponse(
         content_type="image/png", content=get_avatar_image(avatar_user, size)
@@ -862,7 +858,7 @@ class WeblateLoginView(BaseLoginView):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["can_reset"] = "email" in auth_backends
+        context["login_email"] = context["can_reset"] = "email" in auth_backends
         context["title"] = gettext("Sign in")
         return context
 
@@ -876,6 +872,9 @@ class WeblateLoginView(BaseLoginView):
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
             return redirect_single(request, auth_backends.pop())
+
+        if request.method == "POST" and "email" not in auth_backends:
+            return redirect("login")
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -1338,16 +1337,6 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
         msg = "Backend not found"
         raise Http404(msg) from None
 
-    # Store session ID for OpenID or SAML based auth. The session cookies will
-    # not be sent on returning POST request due to SameSite cookie policy
-    if isinstance(request.backend, OpenIdAuth) or backend == "saml":
-        request.backend.redirect_uri += "?authid={}".format(
-            dumps(
-                (request.session.session_key, get_ip_address(request)),
-                salt=AUTHID_SALT,
-            )
-        )
-
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
     except AuthException as error:
@@ -1413,7 +1402,7 @@ def handle_missing_parameter(
 
 @csrf_exempt
 @never_cache
-def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C901
+def social_complete(request: AuthenticatedHttpRequest, backend: str):
     """
     Social authentication completion endpoint.
 
@@ -1422,22 +1411,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by JavaScript) to avoid
       confirmations by bots
-    - Restores session from authid for some backends (see social_auth)
     """
-    if "authid" in request.GET:
-        try:
-            session_key, ip_address = loads(
-                request.GET["authid"],
-                max_age=AUTHID_MAX_AGE,
-                salt=AUTHID_SALT,
-            )
-        except (BadSignature, SignatureExpired):
-            return auth_redirect_token(request)
-        if ip_address != get_ip_address(request):
-            return auth_redirect_token(request)
-        engine = import_module(settings.SESSION_ENGINE)
-        request.session = engine.SessionStore(session_key)
-
     if (
         "partial_token" in request.GET
         and "verification_code" in request.GET
@@ -1499,6 +1473,11 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):  # noqa: C
             gettext(
                 "The supplied user identity is already in use for another account."
             ),
+        )
+    except AuthUnreachableProvider:
+        return registration_fail(
+            request,
+            gettext("The authentication provider could not be reached."),
         )
     except ValidationError as error:
         report_error("Could not register")
@@ -1775,13 +1754,22 @@ class TOTPView(FormView):
         return kwargs
 
     def form_valid(self, form: TOTPDeviceForm):
+        user = self.request.user
         device = form.save()
         AuditLog.objects.create(
-            self.request.user,
+            user,
             self.request,
             "twofactor-add",
             device=get_key_name(device),
         )
+        if form.cleaned_data["remove_previous"]:
+            for old in user.totpdevice_set.exclude(pk=device.pk):
+                key_name = get_key_name(old)
+                old.delete()
+                AuditLog.objects.create(
+                    user, self.request, "twofactor-remove", device=key_name
+                )
+
         return redirect_profile("#account")
 
 
@@ -1848,6 +1836,7 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         context["title"] = gettext("Second factor sign in")
         return context
 
+    @method_decorator(session_ratelimit_post("second_factor"))
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         self.user = self.get_user()
         return super().dispatch(request, *args, **kwargs)
@@ -1864,6 +1853,7 @@ class WeblateBeginCredentialAuthenticationView(
     pass
 
 
+@method_decorator(session_ratelimit_post("second_factor"), name="dispatch")
 class WeblateCompleteCredentialAuthenticationView(
     SecondFactorMixin, CompleteCredentialAuthenticationView
 ):

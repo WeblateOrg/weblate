@@ -102,7 +102,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=ActionEvents.LOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
-        mail.outbox = []
+        mail.outbox.clear()
         self.component.change_set.create(
             action=ActionEvents.UNLOCK,
         )
@@ -121,7 +121,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=ActionEvents.UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
-        mail.outbox = []
+        mail.outbox.clear()
         self.component.change_set.create(
             action=ActionEvents.LOCK,
         )
@@ -176,6 +176,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             details={"error_message": "Failed merge", "filename": "test/file.po"},
             action=ActionEvents.PARSE_ERROR,
         )
+        self.assertIn("test/file.po", change.get_details_display())
+        self.assertIn("Failed merge", change.get_details_display())
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -282,7 +284,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(1, "[Weblate] New comment in Test/Test")
 
         # Empty outbox
-        mail.outbox = []
+        mail.outbox.clear()
 
         # Unsubscribed language
         self.add_comment(language="de")
@@ -307,7 +309,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change.save()
         # Notification for other user edit via  TranslatedStringNotificaton
         self.assertEqual(len(mail.outbox), 1)
-        mail.outbox = []
+        mail.outbox.clear()
 
     def test_notify_new_component(self) -> None:
         self.component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
@@ -326,7 +328,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             notify=True,
         )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
-        mail.outbox = []
+        mail.outbox.clear()
         Announcement.objects.create(
             component=self.component,
             language=Language.objects.get(code="cs"),
@@ -334,7 +336,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             notify=True,
         )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
-        mail.outbox = []
+        mail.outbox.clear()
         Announcement.objects.create(
             component=self.component,
             language=Language.objects.get(code="de"),
@@ -342,7 +344,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             notify=True,
         )
         self.validate_notifications(0)
-        mail.outbox = []
+        mail.outbox.clear()
         Announcement.objects.create(
             message="Hello global word",
             notify=True,
@@ -386,11 +388,38 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             ],
         )
 
+    def test_notify_admin(self) -> None:
+        def trigger_alert(expected_count: int) -> None:
+            self.component.add_alert("PushFailure", error="Some error")
+            self.validate_notifications(expected_count)
+            self.component.delete_alert("PushFailure")
+            mail.outbox.clear()
+
+        # None subscription
+        self.user.subscription_set.all().delete()
+        trigger_alert(0)
+
+        # Admin subscription, but no admin
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ADMIN,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        trigger_alert(0)
+
+        # Admin notification
+        self.component.project.add_user(self.user, "Administration")
+        trigger_alert(1)
+
+        # User removed
+        self.component.project.remove_user(self.user)
+        trigger_alert(0)
+
     def test_notify_alert_ignore(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         # Create linked component, this triggers missing license alert
         self.create_link_existing()
-        mail.outbox = []
+        mail.outbox.clear()
         self.component.add_alert("PushFailure", error="Some error")
         self.validate_notifications(
             3,
@@ -409,6 +438,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Verify site root expansion in email
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('href="/', content)
+        # Shortened address is used
+        self.assertIn("<td>127.0.0.0</td>", content)
 
     def test_notify_html_language(self) -> None:
         self.user.profile.language = "cs"
@@ -505,7 +536,7 @@ class SubscriptionTest(ViewTestCase):
             action=ActionEvents.FAILED_MERGE,
             details={"error": "error", "status": "status"},
         )
-        notification = self.notification(None)
+        notification = self.notification([])
         return list(notification.get_users(frequency, change))
 
     def test_scopes(self) -> None:

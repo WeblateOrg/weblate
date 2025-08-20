@@ -16,12 +16,15 @@ from typing import NoReturn
 from unittest import TestCase
 
 from lxml import etree
-from translate.storage.po import pofile
+from translate.storage.pypo import pofile
 
+from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import TranslationFormat, UpdateError
+from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
+    CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
     DTDFormat,
@@ -64,6 +67,7 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
 TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
@@ -75,6 +79,7 @@ TEST_LARAVEL = get_test_file("laravel.php")
 TEST_JOOMLA = get_test_file("cs.joomla.ini")
 TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
+TEST_CATKEYS = get_test_file("cs.catkeys")
 TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
@@ -159,6 +164,11 @@ class AutoLoadTest(TestCase):
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
+    def test_get_class(self) -> None:
+        """Test that each format can properly load its store class."""
+        for format_class in FILE_FORMATS.values():
+            format_class.get_class()
+
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     FILE = TEST_PO
@@ -184,6 +194,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     EDIT_OFFSET = 0
     EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
     MONOLINGUAL = False
+    FILE_FORMAT_PARAMS: dict[str, int | str | bool] = {}
 
     def setUp(self) -> None:
         super().setUp()
@@ -195,7 +206,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     @property
     @abstractmethod
-    def format_class(self) -> TranslationFormat:
+    def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
 
     def parse_file(self, filename: str, template: str | None = None):
@@ -203,10 +214,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             return self.format_class(
                 filename,
                 template_store=self.format_class(
-                    template or self.TEMPLATE or filename, is_template=True
+                    template or self.TEMPLATE or filename,
+                    is_template=True,
+                    file_format_params=self.FILE_FORMAT_PARAMS,
                 ),
+                file_format_params=self.FILE_FORMAT_PARAMS,
             )
-        return self.format_class(filename)
+        return self.format_class(filename, file_format_params=self.FILE_FORMAT_PARAMS)
 
     def test_parse(self) -> None:
         storage = self.parse_file(self.FILE)
@@ -284,9 +298,18 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.assertEqual(unit.target, self.FIND_MATCH)
 
     def test_add(self) -> None:
-        self.assertTrue(self.format_class.is_valid_base_for_new(self.BASE, True))
+        self.assertTrue(
+            self.format_class.is_valid_base_for_new(
+                self.BASE, True, file_format_params=self.FILE_FORMAT_PARAMS
+            )
+        )
         out = os.path.join(self.tempdir, f"test.{self.EXT}")
-        self.format_class.add_language(out, Language.objects.get(code="cs"), self.BASE)
+        self.format_class.add_language(
+            out,
+            Language.objects.get(code="cs"),
+            self.BASE,
+            file_format_params=self.FILE_FORMAT_PARAMS,
+        )
         self.parse_file(out)  # check the parser agrees that the new file is valid.
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
@@ -352,7 +375,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             expected_list = [self.EXPECTED_FLAGS]
         for i, expected_flag in enumerate(expected_list):
             unit = units[i]
-            self.assertEqual(unit.flags, expected_flag)
+            self.assertEqual(unit.flags, Flags(expected_flag))
 
     def test_add_monolingual(self) -> None:
         """
@@ -392,7 +415,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
         # Create the template under test with a single string
         shutil.copy(self.FILE, template_file)
-        template_storage = self.format_class(template_file, is_template=True)
+        template_storage = self.format_class(
+            template_file, is_template=True, file_format_params=self.FILE_FORMAT_PARAMS
+        )
         template_unit = template_storage.new_unit(self.NEW_UNIT_KEY, "Source string")
         if self.SUPPORTS_NOTES:
             template_unit.unit.addnote(self.NOTE_FOR_TEST)
@@ -402,7 +427,10 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
         # Add a new language and translate the new string.
         self.format_class.add_language(
-            main_file, Language.objects.get(code="cs"), self.BASE
+            main_file,
+            Language.objects.get(code="cs"),
+            self.BASE,
+            file_format_params=self.FILE_FORMAT_PARAMS,
         )
         target_storage = self.parse_file(main_file, template=template_file)
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
@@ -552,6 +580,58 @@ class PropertiesFormatTest(BaseFormatTest):
         )
 
 
+class CatkeysFormatTest(BaseFormatTest):
+    format_class = CatkeysFormat
+    FILE = TEST_CATKEYS
+    BASE = TEST_CATKEYS
+    MIME = "text/x-catkeys"
+    EXT = "catkeys"
+    COUNT = 2
+    MATCH = "none"
+    MASK = "*.catkeys"
+    EXPECTED_PATH = "cs_CZ.catkeys"
+    FIND = "none"
+    FIND_CONTEXT = "PackageView"
+    FIND_MATCH = "není"
+    NEW_UNIT_MATCH = b"Source string\tNewSource\t\t\n"
+    NEW_UNIT_KEY = "NewSource"
+    SUPPORTS_FLAG = False
+    SUPPORTS_NOTES = True
+    EXPECTED_FLAGS = ""
+    EDIT_OFFSET = 0
+    EDIT_TARGET = "není"
+    MONOLINGUAL = False
+
+    def test_get_language_filename(self) -> None:
+        self.assertEqual(
+            self.format_class.get_language_filename(
+                self.MASK, self.format_class.get_language_code("cs_CZ")
+            ),
+            self.EXPECTED_PATH,
+        )
+
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
+        # For catkeys, ignore the hash in the header line as it may change
+        new_lines = newdata.decode().strip().split("\n")
+        test_lines = testdata.decode().strip().split("\n")
+
+        # Compare header lines but ignore the hash (last field)
+        if new_lines and test_lines:
+            new_header = new_lines[0].split("\t")
+            test_header = test_lines[0].split("\t")
+            if len(new_header) >= 4 and len(test_header) >= 4:
+                # Compare first 3 fields, ignore the hash (4th field)
+                self.assertEqual(new_header[:3], test_header[:3])
+                # Compare the rest of the lines
+                self.assertEqual(new_lines[1:], test_lines[1:])
+            else:
+                # Fallback to normal comparison
+                self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
+        else:
+            # Fallback to normal comparison
+            self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
+
+
 class GWTFormatTest(BaseFormatTest):
     format_class = GWTFormat
     FILE = TEST_GWT
@@ -635,7 +715,7 @@ class JSONNestedFormatTest(JSONFormatTest):
     SUPPORTS_NOTES = False
 
 
-class WebExtesionJSONFormatTest(JSONFormatTest):
+class WebExtensionJSONFormatTest(JSONFormatTest):
     format_class = WebExtensionJSONFormat
     FILE = TEST_WEBEXT_JSON
     COUNT = 4
@@ -710,7 +790,7 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
     MIME = "application/xml"
     EXT = "xml"
     COUNT = 1
-    MATCH = "<resources></resources>"
+    MATCH = "<resources>\n</resources>"
     MASK = "res/values-*/strings.xml"
     EXPECTED_PATH = "res/values-cs-rCZ/strings.xml"
     FIND = "Hello, world!\n"
@@ -1024,6 +1104,17 @@ class FlatXMLFormatTest(BaseFormatTest):
     SUPPORTS_NOTES = False
 
 
+class CustomFlatXMLFormatTest(FlatXMLFormatTest):
+    FILE = TEST_CUSTOM_FLATXML
+    BASE = TEST_CUSTOM_FLATXML
+    NEW_UNIT_MATCH = b'<entry name="key">Source string</entry>\n'
+    FILE_FORMAT_PARAMS = {
+        "flatxml_root_name": "dictionary",
+        "flatxml_value_name": "entry",
+        "flatxml_key_name": "name",
+    }
+
+
 class ResourceDictionaryFormatTest(BaseFormatTest):
     format_class = ResourceDictionaryFormat
     FILE = TEST_RESOURCEDICTIONARY
@@ -1196,7 +1287,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             units, translation_data, 1, "Erreur lors de la désactivation du compte."
         )
         expected_translation = (
-            "L'utilisateur que vous êtes sur le point de "
+            "L'utilisateur que vous êtes sur le point de "  # codespell:ignore
             "supprimer est le dernier auteur de "
             "{0}{1,choice,1#1 page|1<{1} pages}{2}."
         )
@@ -1352,6 +1443,34 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     NEW_UNIT_MATCH = b"<term>Source string</term>"
     EXPECTED_FLAGS = ""
 
+    def test_extended_metadata(self) -> None:
+        storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
+        self.assertEqual(len(storage.all_units), 3)
+        self.assertEqual(storage.mimetype(), self.MIME)
+        self.assertEqual(storage.extension(), self.EXT)
+
+        unit, _ = storage.find_unit("e001", "data bus")
+        self.assertEqual(unit.notes, "Avoid using this term in any documentation.")
+        self.assertEqual(
+            unit.source_explanation, "Superseded but still found in older manuals."
+        )
+        self.assertEqual(unit.flags, Flags("forbidden"))
+        self.assertEqual(unit.is_readonly(), False)
+
+        unit, _ = storage.find_unit("e002", "SYS_ERR_406")
+        self.assertEqual(unit.notes, "Do not translate error codes.")
+        self.assertEqual(
+            unit.source_explanation, "An internal code identifier not to be localized."
+        )
+        self.assertEqual(unit.flags, Flags())
+        self.assertEqual(unit.is_readonly(), True)
+
+        unit, _ = storage.find_unit("e003", "combo box")
+        self.assertEqual(unit.notes, "")
+        self.assertEqual(unit.source_explanation, "")
+        self.assertEqual(unit.flags, Flags())
+        self.assertEqual(unit.is_readonly(), False)
+
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     format_class = StringsdictFormat
@@ -1403,7 +1522,7 @@ class FluentFormatTest(BaseFormatTest):
     COUNT = 4
     MATCH = ""
     MASK = "locales/*/messages.ftl"
-    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    EXPECTED_PATH = "locales/cs-CZ/messages.ftl"
     BASE = ""
     FIND = 'Ahoj "světe"!\\n'
     FIND_CONTEXT = "hello"

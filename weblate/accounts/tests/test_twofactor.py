@@ -48,8 +48,8 @@ class TwoFactorTestCase(FixtureTestCase):
             self.user, None, "twofactor-add", device="", skip_notify=True
         )
 
-    def assert_audit_mail(self) -> None:
-        self.assertEqual(len(mail.outbox), 1)
+    def assert_audit_mail(self, *, expected: int = 1) -> None:
+        self.assertEqual(len(mail.outbox), expected)
         self.assertEqual(
             mail.outbox[0].subject, "[Weblate] Activity on your account at Weblate"
         )
@@ -103,7 +103,14 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertContains(response, test_name)
         self.assert_audit_mail()
 
-    def add_totp(self, test_name: str = "test totp name"):
+    def add_totp(
+        self,
+        test_name: str = "test totp name",
+        *,
+        expected: int = 1,
+        expected_mail: int = 1,
+        remove_previous: str = "",
+    ):
         # Display form to get TOTP params
         response = self.client.get(reverse("totp"))
 
@@ -113,14 +120,32 @@ class TwoFactorTestCase(FixtureTestCase):
 
         # Register TOTP device
         response = self.client.post(
-            reverse("totp"), {"name": test_name, "token": totp_response}, follow=True
+            reverse("totp"),
+            {
+                "name": test_name,
+                "token": totp_response,
+                "remove_previous": remove_previous,
+            },
+            follow=True,
         )
         self.assertContains(response, test_name)
         devices = TOTPDevice.objects.all()
-        self.assertEqual(len(devices), 1)
+        self.assertEqual(len(devices), expected)
         device = devices[0]
-        self.assert_audit_mail()
+        self.assert_audit_mail(expected=expected_mail)
         return device
+
+    def test_manage_totp(self) -> None:
+        self.add_totp("TOTP 1")
+        self.add_totp("TOTP 2", expected=2)
+        self.assertEqual(
+            set(self.user.totpdevice_set.values_list("name", flat=True)),
+            {"TOTP 1", "TOTP 2"},
+        )
+        self.add_totp("TOTP 3", remove_previous="1", expected_mail=3)
+        self.assertEqual(
+            set(self.user.totpdevice_set.values_list("name", flat=True)), {"TOTP 3"}
+        )
 
     def test_totp(self) -> None:
         test_name = "test totp name"

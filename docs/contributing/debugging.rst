@@ -17,9 +17,9 @@ reports, or configure error collection using a third-party service.
 
 .. seealso::
 
-   :ref:`production-debug`,
-   :ref:`production-admins`,
-   :ref:`collecting-errors`
+   * :ref:`production-debug`
+   * :ref:`production-admins`
+   * :ref:`collecting-errors`
 
 .. _weblate-logs:
 

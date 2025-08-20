@@ -41,7 +41,7 @@
         {% for log in addon_activity_log %}
           <tr>
             <td>
-              {% if log.details.error_occurred %}
+              {% if log.details.error %}
                 <!-- This is a warning sign -->
                 <span class="text-danger">⚠</span>
               {% else %}
@@ -50,7 +50,7 @@
               {% endif %}
             </td>
             <td>{{ log.get_event_display }}</td>
-            <td>{{ log.details.result }}</td>
+            <td>{{ log.get_details_display }}</td>
             <td>{{ log.created|naturaltime:True }}</td>
           </tr>
         {% empty %}

@@ -360,3 +360,7 @@ class PermissionsTest(FixtureTestCase):
             ),
             [],
         )
+
+    def test_meta_team_edit_perm(self) -> None:
+        self.assertTrue(self.admin.has_perm("meta:team.edit", self.project))
+        self.assertFalse(self.admin.has_perm("meta:team.edit"))

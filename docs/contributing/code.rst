@@ -9,8 +9,4 @@ are welcome too.
 
     Check out :ref:`internals` to see how Weblate looks from inside.
 
-.. _owasp:
-
 .. include:: snippets/code-guide.rst
-
-.. include:: snippets/pre-commit.rst

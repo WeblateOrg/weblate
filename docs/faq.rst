@@ -23,7 +23,8 @@ without interaction, unless some merge conflict occurs.
 
 .. seealso::
 
-   :ref:`continuous-translation`, :ref:`avoid-merge-conflicts`
+   * :ref:`continuous-translation`
+   * :ref:`avoid-merge-conflicts`
 
 How to access repositories over SSH?
 ------------------------------------
@@ -40,7 +41,7 @@ both Weblate and the upstream repository concurrently. You can usually avoid thi
 Weblate translations prior to making changes in the translation files (e.g.
 before running msgmerge). Just tell Weblate to commit all pending
 translations (you can do it in :guilabel:`Repository maintenance` in the
-:guilabel:`Manage` menu) and merge the repository (if automatic push is not
+:guilabel:`Operations` menu) and merge the repository (if automatic push is not
 on).
 
 If you've already encountered a merge conflict, the easiest way to solve all
@@ -147,10 +148,10 @@ upstream Git repository: An intact and a working copy):
 
 .. seealso::
 
-   :ref:`git-export`,
-   :ref:`continuous-translation`,
-   :ref:`avoid-merge-conflicts`,
-   :ref:`wlc`
+   * :ref:`git-export`
+   * :ref:`continuous-translation`
+   * :ref:`avoid-merge-conflicts`
+   * :ref:`wlc`
 
 How do I translate several branches at once?
 --------------------------------------------
@@ -255,8 +256,8 @@ open the ``/manage/performance/`` URL directly.
 
 .. seealso::
 
-   :ref:`monitoring`,
-   :ref:`monitoring-celery`
+   * :ref:`monitoring`
+   * :ref:`monitoring-celery`
 
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
@@ -323,8 +324,8 @@ provide feedback on a source string, or discuss it with other translators.
 
 .. seealso::
 
-    :ref:`report-source`,
-    :ref:`user-comments`
+   * :ref:`report-source`
+   * :ref:`user-comments`
 
 How can I use existing translations while translating?
 ------------------------------------------------------
@@ -343,9 +344,9 @@ How can I use existing translations while translating?
 
 .. seealso::
 
-   :ref:`machine-translation-setup`,
-   :ref:`machine-translation`,
-   :ref:`memory`
+   * :ref:`machine-translation-setup`
+   * :ref:`machine-translation`
+   * :ref:`memory`
 
 .. _faq-cleanup:
 
@@ -408,10 +409,10 @@ will then pick up the changes automatically.
 
 .. seealso::
 
-   :ref:`translations-update`,
-   :ref:`updating-target-files`,
-   :doc:`/devel/gettext`,
-   :doc:`/devel/sphinx`
+   * :ref:`translations-update`
+   * :ref:`updating-target-files`
+   * :doc:`/devel/gettext`
+   * :doc:`/devel/sphinx`
 
 How to handle renaming translation files?
 -----------------------------------------
@@ -522,7 +523,9 @@ Weblate also supports VCS-less operation, see :ref:`vcs-local`.
     probably be adjusted to work with anything other than Git and Mercurial, but
     somebody has to implement this support.
 
-.. seealso:: :ref:`vcs`
+.. seealso::
+
+   :ref:`vcs`
 
 How does Weblate credit translators?
 ------------------------------------
@@ -536,8 +539,8 @@ updated to include the translator's name.
 
 .. seealso::
 
-   :wladmin:`list_translators`,
-   :doc:`../devel/reporting`
+   * :wladmin:`list_translators`
+   * :doc:`../devel/reporting`
 
 Why does Weblate force showing all PO files in a single tree?
 -------------------------------------------------------------
@@ -571,6 +574,6 @@ current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 
 .. seealso::
 
-   :ref:`languages`,
-   :ref:`component-language_code_style`,
-   :ref:`adding-translation`
+   * :ref:`languages`
+   * :ref:`component-language_code_style`
+   * :ref:`adding-translation`

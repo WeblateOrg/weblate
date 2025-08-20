@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import F, Q, Value
+from django.db.models import Count, Expression, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -338,7 +338,7 @@ class BaseTermExpr:
             return self.convert_non_field()
 
         # Field specific code
-        field_method: Callable[[str, dict], Q] = cast(
+        field_method: Callable[[str, dict], Q] | None = cast(
             "Callable[[str, dict], Q] | None",
             getattr(self, f"{field}_field", None),
         )
@@ -384,6 +384,9 @@ class BaseTermExpr:
 
         return self.field_extra(field, query, match)
 
+    def get_annotations(self, context: dict) -> dict[str, Expression]:
+        return {}
+
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
         return query
 
@@ -404,12 +407,13 @@ class UnitTermExpr(BaseTermExpr):
         "state": "state",
         "source_state": "source_unit__state",
         "position": "position",
-        "pending": "pending",
+        "pending": "pending_changes__isnull",
         "changed": "change__timestamp",
         "source_changed": "source_unit__last_updated",
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
+        "labels_count": "labels_count",
     }
     STRING_FIELD_MAP: dict[str, str] = {
         "suggestion": "suggestion__target",
@@ -442,7 +446,7 @@ class UnitTermExpr(BaseTermExpr):
         if text == "untranslated":
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
-            return Q(pending=True)
+            return Q(pending_changes__isnull=False)
 
         return super().is_field(text, context)
 
@@ -536,7 +540,6 @@ class UnitTermExpr(BaseTermExpr):
                     CategoryLanguage,
                     Language,
                 ),
-                skip_acl=True,
             )
         except Http404:
             return Q(translation=None)
@@ -562,6 +565,10 @@ class UnitTermExpr(BaseTermExpr):
         msg = f"Unsupported path lookup: {obj}"
         raise TypeError(msg)
 
+    def pending_field(self, text: str, context: dict) -> Q:
+        boolean_value = self.convert_bool(text)
+        return Q(pending_changes__isnull=not boolean_value)
+
     def convert_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -571,13 +578,13 @@ class UnitTermExpr(BaseTermExpr):
     def convert_added(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
-    def convert_pending(self, text: str) -> bool:
-        return self.convert_bool(text)
-
     def convert_position(self, text: str) -> int:
         return self.convert_int(text)
 
     def convert_priority(self, text: str) -> int:
+        return self.convert_int(text)
+
+    def convert_labels_count(self, text: str) -> int:
         return self.convert_int(text)
 
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
@@ -606,6 +613,11 @@ class UnitTermExpr(BaseTermExpr):
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )
+
+    def get_annotations(self, context: dict) -> dict[str, Expression]:
+        if self.field == "labels_count":
+            return {"labels_count": Count("source_unit__labels") + Count("labels")}
+        return super().get_annotations(context)
 
 
 class UserTermExpr(BaseTermExpr):
@@ -670,14 +682,14 @@ PARSERS: dict[Literal["unit", "user", "superuser"], ParserElement] = {
 PARSER_LOCK = threading.Lock()
 
 
-def parser_to_query(obj, context: dict) -> Q:
+def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
     # Simple lookups
     if isinstance(obj, BaseTermExpr):
         return obj.as_query(context)
 
     # Operators
     operator = ""
-    expressions = []
+    expressions: list[Q] = []
     was_operator = False
     for item in obj:
         if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
@@ -704,6 +716,19 @@ def parser_to_query(obj, context: dict) -> Q:
     return reduce(or_, expressions)
 
 
+def parser_annotations(
+    obj: ParseResults | BaseTermExpr, context: dict
+) -> dict[str, Expression]:
+    result: dict[str, Expression] = {}
+    if isinstance(obj, BaseTermExpr):
+        result.update(obj.get_annotations(context))
+    else:
+        for item in obj:
+            if isinstance(item, (BaseTermExpr, ParseResults)):
+                result.update(parser_annotations(item, context))
+    return result
+
+
 @lru_cache(maxsize=512)
 def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
@@ -717,6 +742,6 @@ def parse_string(
 
 def parse_query(
     text: str, parser: Literal["unit", "user", "superuser"] = "unit", **context
-) -> Q:
+) -> tuple[Q, dict[str, Expression]]:
     parsed = parse_string(text, parser)
-    return parser_to_query(parsed, context)
+    return parser_to_query(parsed, context), parser_annotations(parsed, context)

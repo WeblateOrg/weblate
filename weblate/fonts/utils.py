@@ -14,8 +14,9 @@ from typing import NamedTuple
 import cairo
 import gi
 from django.core.cache import cache as django_cache
+from django.db.models.fields.files import FieldFile
 
-from weblate.utils.data import data_dir
+from weblate.utils.data import data_path
 from weblate.utils.icons import find_static_file
 
 gi.require_version("PangoCairo", "1.0")
@@ -96,31 +97,27 @@ FONT_WEIGHTS = {
 @cache
 def configure_fontconfig() -> None:
     """Configure fontconfig to use custom configuration."""
-    fonts_dir = data_dir("fonts")
-    config_name = os.path.join(fonts_dir, "fonts.conf")
-
-    if not os.path.exists(fonts_dir):
-        os.makedirs(fonts_dir)
+    fonts_dir = data_path("fonts")
+    cache_dir = data_path("cache") / "fonts"
+    fonts_dir.mkdir(parents=True, exist_ok=True)
+    config_file = fonts_dir / "fonts.conf"
 
     # Generate the configuration
-    with open(config_name, "w") as handle:
-        handle.write(
-            FONTCONFIG_CONFIG.format(
-                data_dir("cache", "fonts"),
-                fonts_dir,
-                os.path.dirname(
-                    find_static_file(
-                        "js/vendor/fonts/font-source/TTF/SourceSans3-Regular.ttf"
-                    )
-                ),
-                os.path.dirname(
-                    find_static_file("vendor/font-kurinto/KurintoSans-Rg.ttf")
-                ),
-            )
+    config_file.write_text(
+        FONTCONFIG_CONFIG.format(
+            cache_dir.as_posix(),
+            fonts_dir.as_posix(),
+            os.path.dirname(
+                find_static_file(
+                    "js/vendor/fonts/font-source/TTF/SourceSans3-Regular.ttf"
+                )
+            ),
+            os.path.dirname(find_static_file("vendor/font-kurinto/KurintoSans-Rg.ttf")),
         )
+    )
 
     # Inject into environment
-    os.environ["FONTCONFIG_FILE"] = config_name
+    os.environ["FONTCONFIG_FILE"] = config_file.as_posix()
 
 
 def get_font_weight(weight: str) -> int:
@@ -254,6 +251,7 @@ def render_size(
     pixel_size, line_count, buffer = _render_size(
         text,
         font=font,
+        weight=weight,
         size=size,
         spacing=spacing,
         width=width,
@@ -295,6 +293,10 @@ def check_render_size(
 def get_font_name(filelike):
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     from PIL import ImageFont
+
+    # Form uploaded file
+    if isinstance(filelike, FieldFile):
+        filelike = filelike.file
 
     if not hasattr(filelike, "loaded_font"):
         filelike.loaded_font = ImageFont.truetype(filelike)

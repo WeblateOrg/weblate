@@ -30,7 +30,7 @@ sed -i "s/^VERSION =.*/VERSION = \"$version$suffix\"/" weblate/utils/version.py
 sed -E -i "s/^\*(Not yet released.|Expected ).*/*Released on $today.*/" docs/changes.rst
 
 if [ -z "$suffix" ]; then
-    ./scripts/list-contributors --update
+    ./scripts/list-contributors.py --update
     ./scripts/compact-changes.py
 fi
 

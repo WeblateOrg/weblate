@@ -33,22 +33,8 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
 2. Create a :file:`docker-compose.override.yml` file with your settings.
    See :ref:`docker-environment` for full list of environment variables.
 
-   .. code-block:: yaml
-
-        version: '3'
-        services:
-          weblate:
-            ports:
-              - 80:8080
-            environment:
-              WEBLATE_EMAIL_HOST: smtp.example.com
-              WEBLATE_EMAIL_HOST_USER: user
-              WEBLATE_EMAIL_HOST_PASSWORD: pass
-              WEBLATE_SERVER_EMAIL: weblate@example.com
-              WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
-              WEBLATE_SITE_DOMAIN: weblate.example.com
-              WEBLATE_ADMIN_PASSWORD: password for the admin user
-              WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
+   .. literalinclude:: ../../../weblate/examples/docker-compose.yml
+      :language: yaml
 
    .. note::
 
@@ -66,7 +52,9 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
 
-.. seealso:: :ref:`invoke-manage`
+.. seealso::
+
+   :ref:`invoke-manage`
 
 Choosing Docker image registry
 ------------------------------
@@ -366,9 +354,9 @@ To reset `admin` password, restart the container with
 
 .. seealso::
 
-        :envvar:`WEBLATE_ADMIN_PASSWORD`,
-        :envvar:`WEBLATE_ADMIN_NAME`,
-        :envvar:`WEBLATE_ADMIN_EMAIL`
+   * :envvar:`WEBLATE_ADMIN_PASSWORD`
+   * :envvar:`WEBLATE_ADMIN_NAME`
+   * :envvar:`WEBLATE_ADMIN_EMAIL`
 
 Number of processes and memory consumption
 ------------------------------------------
@@ -404,15 +392,15 @@ Memory usage can be further reduced by running only a single Celery process:
 
 .. seealso::
 
-   :envvar:`WEBLATE_WORKERS`
-   :envvar:`CELERY_MAIN_OPTIONS`,
-   :envvar:`CELERY_NOTIFY_OPTIONS`,
-   :envvar:`CELERY_MEMORY_OPTIONS`,
-   :envvar:`CELERY_TRANSLATE_OPTIONS`,
-   :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`,
-   :envvar:`CELERY_SINGLE_PROCESS`,
-   :envvar:`WEB_WORKERS`
+   * :envvar:`WEBLATE_WORKERS`
+   * :envvar:`CELERY_MAIN_OPTIONS`
+   * :envvar:`CELERY_NOTIFY_OPTIONS`
+   * :envvar:`CELERY_MEMORY_OPTIONS`
+   * :envvar:`CELERY_TRANSLATE_OPTIONS`
+   * :envvar:`CELERY_BACKUP_OPTIONS`
+   * :envvar:`CELERY_BEAT_OPTIONS`
+   * :envvar:`CELERY_SINGLE_PROCESS`
+   * :envvar:`WEB_WORKERS`
 
 .. _docker-scaling:
 
@@ -542,8 +530,8 @@ Generic settings
 
    .. seealso::
 
-      :ref:`production-site`,
-      :setting:`SITE_DOMAIN`
+      * :ref:`production-site`
+      * :setting:`SITE_DOMAIN`
 
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
@@ -562,9 +550,9 @@ Generic settings
 
     .. seealso::
 
-            :ref:`docker-admin-login`,
-            :ref:`production-admins`,
-            :setting:`ADMINS`
+       * :ref:`docker-admin-login`
+       * :ref:`production-admins`
+       * :setting:`ADMINS`
 
 .. envvar:: WEBLATE_ADMIN_PASSWORD
 
@@ -586,11 +574,11 @@ Generic settings
 
     .. seealso::
 
-            :ref:`docker-admin-login`,
-            :ref:`docker-secrets`,
-            :envvar:`WEBLATE_ADMIN_PASSWORD`,
-            :envvar:`WEBLATE_ADMIN_NAME`,
-            :envvar:`WEBLATE_ADMIN_EMAIL`
+        * :ref:`docker-admin-login`
+        * :ref:`docker-secrets`
+        * :envvar:`WEBLATE_ADMIN_PASSWORD`
+        * :envvar:`WEBLATE_ADMIN_NAME`
+        * :envvar:`WEBLATE_ADMIN_EMAIL`
 
 .. envvar:: WEBLATE_ADMIN_NOTIFY_ERROR
 
@@ -600,9 +588,9 @@ Generic settings
 
    .. seealso::
 
-      :ref:`django:logging-security-implications`,
-      :envvar:`ROLLBAR_KEY`,
-      :envvar:`SENTRY_DSN`
+      * :ref:`django:logging-security-implications`
+      * :envvar:`ROLLBAR_KEY`
+      * :envvar:`SENTRY_DSN`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 
@@ -610,8 +598,8 @@ Generic settings
 
     .. seealso::
 
-        :std:setting:`django:SERVER_EMAIL`,
-        :ref:`production-email`
+       * :std:setting:`django:SERVER_EMAIL`
+       * :ref:`production-email`
 
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
@@ -619,8 +607,8 @@ Generic settings
 
     .. seealso::
 
-        :std:setting:`django:DEFAULT_FROM_EMAIL`,
-        :ref:`production-email`
+       * :std:setting:`django:DEFAULT_FROM_EMAIL`
+       * :ref:`production-email`
 
 .. envvar:: WEBLATE_ADMINS_CONTACT
 
@@ -645,9 +633,9 @@ Generic settings
 
     .. seealso::
 
-        :setting:`ALLOWED_HOSTS`,
-        :ref:`production-hosts`,
-        :ref:`production-site`
+        * :setting:`ALLOWED_HOSTS`
+        * :ref:`production-hosts`
+        * :ref:`production-site`
 
 .. envvar:: WEBLATE_REGISTRATION_OPEN
 
@@ -732,9 +720,9 @@ Generic settings
 
     .. seealso::
 
-      :setting:`ENABLE_HTTPS`
-      :ref:`production-site`,
-      :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
+       * :setting:`ENABLE_HTTPS`
+       * :ref:`production-site`
+       * :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
 .. envvar:: WEBLATE_INTERLEDGER_PAYMENT_BUILTIN
 
@@ -814,7 +802,8 @@ Generic settings
 
     .. seealso::
 
-        :setting:`django:SECURE_PROXY_SSL_HEADER`
+       * :ref:`reverse-proxy`
+       * :setting:`django:SECURE_PROXY_SSL_HEADER`
 
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
@@ -884,6 +873,10 @@ Generic settings
 
    Configures :setting:`DEFAULT_SHARED_TM`.
 
+.. envvar:: WEBLATE_DEFAULT_AUTOCLEAN_TM
+
+   Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
@@ -925,13 +918,13 @@ Generic settings
 
     .. seealso::
 
-        :ref:`csp`,
-        :setting:`CSP_SCRIPT_SRC`,
-        :setting:`CSP_IMG_SRC`,
-        :setting:`CSP_CONNECT_SRC`,
-        :setting:`CSP_STYLE_SRC`,
-        :setting:`CSP_FONT_SRC`
-        :setting:`CSP_FORM_SRC`
+       * :ref:`csp`
+       * :setting:`CSP_SCRIPT_SRC`
+       * :setting:`CSP_IMG_SRC`
+       * :setting:`CSP_CONNECT_SRC`
+       * :setting:`CSP_STYLE_SRC`
+       * :setting:`CSP_FONT_SRC`
+       * :setting:`CSP_FORM_SRC`
 
 .. envvar:: WEBLATE_LICENSE_FILTER
 
@@ -972,10 +965,10 @@ Generic settings
 
    .. seealso::
 
-      :ref:`rate-limit`,
-      :setting:`RATELIMIT_ATTEMPTS`,
-      :setting:`RATELIMIT_WINDOW`,
-      :setting:`RATELIMIT_LOCKOUT`
+      * :ref:`rate-limit`
+      * :setting:`RATELIMIT_ATTEMPTS`
+      * :setting:`RATELIMIT_WINDOW`
+      * :setting:`RATELIMIT_LOCKOUT`
 
 
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
@@ -1161,7 +1154,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
 .. envvar:: WEBLATE_GITLAB_TOKEN
@@ -1170,7 +1165,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_GITEA_USERNAME
 .. envvar:: WEBLATE_GITEA_TOKEN
@@ -1179,7 +1176,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_PAGURE_USERNAME
 .. envvar:: WEBLATE_PAGURE_TOKEN
@@ -1188,7 +1187,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
 .. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
@@ -1205,7 +1206,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_AZURE_DEVOPS_USERNAME
 .. envvar:: WEBLATE_AZURE_DEVOPS_ORGANIZATION
@@ -1215,7 +1218,9 @@ Or the path to a file containing the Python dictionary:
 
     Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
 
-    .. seealso:: :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+    .. seealso::
+
+       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
 .. _docker-machine:
 
@@ -1301,8 +1306,8 @@ LDAP
 
     .. seealso::
 
-         :ref:`docker-secrets`,
-         :ref:`ldap-auth`
+       * :ref:`docker-secrets`
+       * :ref:`ldap-auth`
 
 GitHub
 ~~~~~~
@@ -1434,6 +1439,8 @@ OpenID Connect
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_TITLE
+.. envvar:: WEBLATE_SOCIAL_AUTH_OIDC_IMAGE
 
    Configures generic OpenID Connect integration.
 
@@ -1485,8 +1492,8 @@ Other authentication settings
 
    .. seealso::
 
-      :ref:`password-authentication`,
-      :setting:`PASSWORD_MINIMAL_STRENGTH`
+      * :ref:`password-authentication`
+      * :setting:`PASSWORD_MINIMAL_STRENGTH`
 
 
 PostgreSQL database setup
@@ -1495,7 +1502,9 @@ PostgreSQL database setup
 The database is created by :file:`docker-compose.yml`, so these settings affect
 both Weblate and PostgreSQL containers.
 
-.. seealso:: :ref:`database-setup`
+.. seealso::
+
+   :ref:`database-setup`
 
 .. envvar:: POSTGRES_PASSWORD
 
@@ -1555,7 +1564,8 @@ both Weblate and PostgreSQL containers.
 
    .. seealso::
 
-      :setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`
+      * :setting:`django:CONN_MAX_AGE`
+      * :ref:`django:persistent-database-connections`
 
 .. envvar:: POSTGRES_DISABLE_SERVER_SIDE_CURSORS
 
@@ -1573,8 +1583,8 @@ both Weblate and PostgreSQL containers.
 
    .. seealso::
 
-      :setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-DISABLE_SERVER_SIDE_CURSORS>`,
-      :ref:`django:transaction-pooling-server-side-cursors`
+      * :setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-DISABLE_SERVER_SIDE_CURSORS>`
+      * :ref:`django:transaction-pooling-server-side-cursors`
 
 .. envvar:: WEBLATE_DATABASES
 
@@ -1608,7 +1618,9 @@ Caching server setup
 Using Redis is strongly recommended by Weblate and you have to provide a Redis
 instance when running Weblate in Docker.
 
-.. seealso:: :ref:`production-cache`
+.. seealso::
+
+   :ref:`production-cache`
 
 .. envvar:: REDIS_HOST
 
@@ -1621,6 +1633,12 @@ instance when running Weblate in Docker.
 .. envvar:: REDIS_DB
 
     The Redis database number, defaults to ``1``.
+
+.. envvar:: REDIS_USER
+
+   .. versionadded:: 5.13
+
+    The Redis database user, not used by default.
 
 .. envvar:: REDIS_PASSWORD
 
@@ -1667,7 +1685,9 @@ Example SSL configuration:
         WEBLATE_EMAIL_USE_SSL: 1
 
 
-.. seealso:: :ref:`out-mail`
+.. seealso::
+
+   :ref:`out-mail`
 
 .. envvar:: WEBLATE_EMAIL_HOST
 
@@ -1675,22 +1695,26 @@ Example SSL configuration:
 
     .. seealso::
 
-        :envvar:`WEBLATE_EMAIL_PORT`,
-        :envvar:`WEBLATE_EMAIL_USE_SSL`,
-        :envvar:`WEBLATE_EMAIL_USE_TLS`,
-        :setting:`django:EMAIL_HOST`
+       * :envvar:`WEBLATE_EMAIL_PORT`
+       * :envvar:`WEBLATE_EMAIL_USE_SSL`
+       * :envvar:`WEBLATE_EMAIL_USE_TLS`
+       * :setting:`django:EMAIL_HOST`
 
 .. envvar:: WEBLATE_EMAIL_PORT
 
     Mail server port, defaults to 25.
 
-    .. seealso:: :setting:`django:EMAIL_PORT`
+    .. seealso::
+
+       :setting:`django:EMAIL_PORT`
 
 .. envvar:: WEBLATE_EMAIL_HOST_USER
 
     E-mail authentication user.
 
-    .. seealso:: :setting:`django:EMAIL_HOST_USER`
+    .. seealso::
+
+       :setting:`django:EMAIL_HOST_USER`
 
 .. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
@@ -1698,8 +1722,8 @@ Example SSL configuration:
 
     .. seealso::
 
-         :ref:`docker-secrets`,
-         :setting:`django:EMAIL_HOST_PASSWORD`
+       * :ref:`docker-secrets`
+       * :setting:`django:EMAIL_HOST_PASSWORD`
 
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
@@ -1715,9 +1739,9 @@ Example SSL configuration:
 
     .. seealso::
 
-        :envvar:`WEBLATE_EMAIL_PORT`,
-        :envvar:`WEBLATE_EMAIL_USE_TLS`,
-        :setting:`django:EMAIL_USE_SSL`
+       * :envvar:`WEBLATE_EMAIL_PORT`
+       * :envvar:`WEBLATE_EMAIL_USE_TLS`
+       * :setting:`django:EMAIL_USE_SSL`
 
 .. envvar:: WEBLATE_EMAIL_USE_TLS
 
@@ -1733,9 +1757,9 @@ Example SSL configuration:
 
     .. seealso::
 
-        :envvar:`WEBLATE_EMAIL_PORT`,
-        :envvar:`WEBLATE_EMAIL_USE_SSL`,
-        :setting:`django:EMAIL_USE_TLS`
+       * :envvar:`WEBLATE_EMAIL_PORT`
+       * :envvar:`WEBLATE_EMAIL_USE_SSL`
+       * :setting:`django:EMAIL_USE_TLS`
 
 .. envvar:: WEBLATE_EMAIL_BACKEND
 
@@ -1744,8 +1768,8 @@ Example SSL configuration:
 
     .. seealso::
 
-        :ref:`production-email`,
-        :setting:`django:EMAIL_BACKEND`
+       * :ref:`production-email`
+       * :setting:`django:EMAIL_BACKEND`
 
 .. envvar:: WEBLATE_AUTO_UPDATE
 
@@ -1802,6 +1826,10 @@ To enable support for Sentry, set following:
 
     Your Sentry Environment (optional), defaults to :envvar:`WEBLATE_SITE_DOMAIN`.
 
+.. envvar:: SENTRY_MONITOR_BEAT_TASKS
+
+    Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``.
+
 .. envvar:: SENTRY_TRACES_SAMPLE_RATE
 
    Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`.
@@ -1856,9 +1884,9 @@ Localization CDN
 
     .. seealso::
 
-        :ref:`weblate-cdn`,
-        :setting:`LOCALIZE_CDN_URL`,
-        :setting:`LOCALIZE_CDN_PATH`
+       * :ref:`weblate-cdn`
+       * :setting:`LOCALIZE_CDN_URL`
+       * :setting:`LOCALIZE_CDN_PATH`
 
 
 Changing enabled apps, checks, add-ons, machine translation or autofixes
@@ -1893,11 +1921,11 @@ adjusted by the following variables:
 
 .. seealso::
 
-   :setting:`CHECK_LIST`,
-   :setting:`AUTOFIX_LIST`,
-   :setting:`WEBLATE_ADDONS`,
-   :setting:`django:INSTALLED_APPS`
-   :setting:`WEBLATE_MACHINERY`
+   * :setting:`CHECK_LIST`
+   * :setting:`AUTOFIX_LIST`
+   * :setting:`WEBLATE_ADDONS`
+   * :setting:`django:INSTALLED_APPS`
+   * :setting:`WEBLATE_MACHINERY`
 
 Container settings
 ++++++++++++++++++
@@ -1938,8 +1966,8 @@ Container settings
 
     .. seealso::
 
-        :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
-        :ref:`celery`
+       * :doc:`Celery worker options <celery:reference/celery.bin.worker>`
+       * :ref:`celery`
 
 .. envvar:: CELERY_SINGLE_PROCESS
 
@@ -1997,6 +2025,43 @@ Container settings
    ``web``
       Web server.
 
+   .. seealso::
+
+      :ref:`background-tasks-internals`
+
+.. envvar:: WEBLATE_ANUBIS_URL
+
+   .. versionadded:: 5.11.4
+
+   URL of `Anubis`_ server to handle subrequest authentication. This can be
+   useful to filter incoming HTTP requests using proof-of-work to stop AI
+   crawlers. You need to configure `Anubis for Subrequest Authentication`_ to
+   make it work.
+
+   This can be done using docker compose, for example:
+
+   .. code-block:: yaml
+
+      anubis:
+         image: ghcr.io/techarohq/anubis:latest
+         environment:
+            BIND: ":8923"
+            DIFFICULTY: "4"
+            METRICS_BIND: ":9090"
+            SERVE_ROBOTS_TXT: "false"
+            TARGET: " "
+            OG_PASSTHROUGH: "false"
+            ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
+
+   You can then turn on the Anubis usage in Weblate using:
+
+   .. code-block:: yaml
+
+      environment:
+         WEBLATE_ANUBIS_URL: http://anubis:8923
+
+.. _Anubis: https://anubis.techaro.lol/
+.. _Anubis for Subrequest Authentication: https://anubis.techaro.lol/docs/admin/configuration/subrequest-auth
 
 .. _docker-volume:
 
@@ -2029,9 +2094,9 @@ this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` and
 
 .. seealso::
 
-   `Docker volumes documentation <https://docs.docker.com/engine/storage/volumes/>`_,
-   :setting:`DATA_DIR`,
-   :setting:`CACHE_DIR`
+   * `Docker volumes documentation <https://docs.docker.com/engine/storage/volumes/>`_
+   * :setting:`DATA_DIR`
+   * :setting:`CACHE_DIR`
 
 Read-only root filesystem
 +++++++++++++++++++++++++
@@ -2146,7 +2211,7 @@ To override settings at the Docker image level instead of from the data volume:
    settings from Python files in the data volume.
 
 Replacing logo and other static files
--------------------------------------
++++++++++++++++++++++++++++++++++++++
 
 The static files coming with Weblate can be overridden by placing into
 :file:`/app/data/python/customize/static` (see :ref:`docker-volume`). For
@@ -2173,6 +2238,27 @@ it as separate volume to the Docker container, for example:
       - ./weblate_customization/weblate_customization:/app/data/python/weblate_customization
     environment:
       WEBLATE_ADD_APPS: weblate_customization
+
+Customizing code
+++++++++++++++++
+
+.. note::
+
+   The internal Weblate API may vary significantly between releases and is not
+   meant to be stable. Please review your custom code interacting with Weblate
+   internals on each upgrade.
+
+You can place additional Python code into :file:`/app/data/python/customize`
+(see :ref:`docker-volume`). It is already installed as a Django application
+inside Weblate (this is used for customizing templates and static files as
+described above).
+
+This can be used to place any code (for example :ref:`own-checks`) or to add
+custom maintenance tasks to the Celery task scheduler.
+
+.. literalinclude:: ../../../weblate/examples/custom_tasks.py
+   :language: python
+   :caption: An example of custom scheduled tasks in :file:`/app/data/python/customize/tasks.py`.
 
 Configuring PostgreSQL server
 -----------------------------

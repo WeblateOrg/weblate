@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import os.path
 from ssl import CertificateError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 from urllib.parse import urlencode
 
 from django.conf import settings
@@ -36,14 +36,17 @@ def avatar_for_email(email, size=80) -> str:
     return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
 
 
-def get_fallback_avatar_url(size: int):
+def get_fallback_avatar_url(size: int, name: Literal["weblate", "api"] = "weblate"):
     """Return URL of fallback avatar."""
-    return os.path.join(settings.STATIC_URL, f"weblate-{size}.png")
+    return os.path.join(settings.STATIC_URL, f"{name}-{size}.png")
 
 
 def get_fallback_avatar(size: int):
     """Return fallback avatar."""
     filename = finders.find(f"weblate-{size}.png")
+    if filename is None:
+        msg = f"Missing fallback avatar file for {size=}!"
+        raise OSError(msg)
     with open(filename, "rb") as handle:
         return handle.read()
 
@@ -106,7 +109,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
         username = format_html(
-            '<img src="{}" class="avatar w32" alt="{}" /> {}',
+            '<img src="{}" class="avatar w32" loading="lazy" alt="{}" /> {}',
             avatar,
             gettext("User avatar"),
             username,
@@ -114,7 +117,7 @@ def get_user_display(user: User, icon: bool = True, link: bool = False):
 
     if link and user is not None:
         return format_html(
-            '<a href="{}" title="{}">{}</a>',
+            '<a href="{}" title="{}" class="user-link"><span>{}</span></a>',
             user.get_absolute_url(),
             full_name,
             username,

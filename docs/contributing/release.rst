@@ -20,8 +20,8 @@ updates.
 
 .. seealso::
 
-    :doc:`../admin/upgrade`,
-    :ref:`security-updates`
+   * :doc:`../admin/upgrade`
+   * :ref:`security-updates`
 
 Release planning
 ----------------
@@ -34,7 +34,7 @@ Release process
 
 Things to check prior to release:
 
-1. Check newly translated languages by :command:`./scripts/list-translated-languages`.
+1. Check newly translated languages by :command:`./scripts/list-translated-languages.py`.
 2. Set final version by :command:`./scripts/prepare-release`.
 3. Make sure screenshots are up to date :command:`make -j 12 -C docs update-screenshots`.
 4. Merge any possibly pending translations :command:`wlc push; git remote update; git merge origin/weblate`
@@ -48,8 +48,8 @@ Post release manual steps:
 6. Close GitHub milestone.
 7. Once the Docker image is tested, add a tag and push it.
 8. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
-9. Increase version in the repository by :command:`./scripts/set-version`.
-10. Check that readthedocs.org did build all translations of the documentation using :command:`./scripts/rtd-projects`.
+9. Increase version in the repository by :command:`./scripts/set-version.py`.
+10. Check that readthedocs.org did build all translations of the documentation using :command:`./scripts/rtd-projects.py`.
 
 To create tags using the :command:`./scripts/create-release` script you will need following:
 

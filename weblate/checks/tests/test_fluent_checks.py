@@ -23,7 +23,7 @@ from weblate.checks.fluent.syntax import (
 )
 
 if TYPE_CHECKING:
-    from weblate.checks.base import Check
+    from weblate.checks.base import BaseCheck
 
 from weblate.checks.tests.test_checks import MockUnit
 
@@ -100,7 +100,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_check_description(
         self,
-        check: Check,
+        check: BaseCheck,
         unit: MockFluentTransUnit,
         description: str | re.Pattern,
     ) -> None:
@@ -131,12 +131,12 @@ class FluentCheckTestBase(SimpleTestCase):
         source: str,
         target: str,
         fluent_type: str,
-        check_state: dict[type[Check], bool] | None = None,
+        check_state: dict[type[BaseCheck], bool] | None = None,
     ) -> None:
         if check_state is None:
             check_state = {}
         source_unit = self._create_source_unit(source, fluent_type)
-        check: Check
+        check: BaseCheck
         for check in self.SOURCE_CHECKS:
             if check_state.get(check.__class__, True):
                 self.assertFalse(
@@ -163,7 +163,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_source_check_passes(
         self,
-        check: Check,
+        check: BaseCheck,
         source: str,
         fluent_type: str,
     ) -> None:
@@ -175,7 +175,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_source_check_fails(
         self,
-        check: Check,
+        check: BaseCheck,
         source: str,
         fluent_type: str,
         description: str | re.Pattern,
@@ -189,7 +189,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_target_check_passes(
         self,
-        check: Check,
+        check: BaseCheck,
         source: str,
         target: str,
         fluent_type: str,
@@ -202,7 +202,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_target_check_fails(
         self,
-        check: Check,
+        check: BaseCheck,
         source: str,
         target: str,
         fluent_type: str,
@@ -217,7 +217,7 @@ class FluentCheckTestBase(SimpleTestCase):
 
     def assert_source_highlights(
         self,
-        check: Check,
+        check: BaseCheck,
         source: str,
         fluent_type: str,
         highlights: list[tuple[int, str]],
@@ -1696,7 +1696,7 @@ class FluentInnerHTMLCheckTestBase:
             "with <SPAN>capitals</SPAN> or <sPaN>mix</sPaN>",
             "with <span DATA-val='something'></span>",
             # Can include a "'" in double quotes.
-            "before <img data-val1=\"val'ue\" other='ok'/> after",
+            "before <img data-val1=\"val'ue\" other='ok'/> after",  # codespell:ignore
             # And '"' in single quotes.
             'before <my-img data-val=\'val"ue\' other="ok"></my-img> after',  # codespell:ignore
             # Empty values.

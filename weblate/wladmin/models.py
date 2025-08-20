@@ -15,7 +15,8 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy
+from django.utils.functional import cached_property
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.models import AuthenticatedHttpRequest, User
 from weblate.trans.models import Component, Project
@@ -79,6 +80,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C037",
             "weblate.C038",
             "weblate.C040",
+            "weblate.C041",
         }
         removals = []
         existing = {error.name: error for error in self.all()}
@@ -120,20 +122,28 @@ class ConfigurationError(models.Model):
 
 
 SUPPORT_NAMES = {
+    # Translators: The Weblate server has no paid support by the Weblate team
     "community": gettext_lazy("Community support"),
+    # Translators: The Weblate server is hosted by the Weblate team
     "hosted": gettext_lazy("Hosted service"),
+    # Translators: The Weblate server has paid support from the Weblate team
     "basic": gettext_lazy("Basic self-hosted support"),
+    # Translators: The Weblate server has extended support from the Weblate team
     "extended": gettext_lazy("Extended self-hosted support"),
+    # Translators: The Weblate server has premium support from the Weblate team
     "premium": gettext_lazy("Premium self-hosted support"),
 }
 
 
-class SupportStatusManager(models.Manager):
-    def get_current(self):
+class SupportStatusManager(models.Manager["SupportStatus"]):
+    def get_current(self, *, for_update: bool = False) -> SupportStatus:
+        base = self.filter(enabled=True)
+        if for_update:
+            base = base.select_for_update()
         try:
-            return self.latest("expiry")
+            return base.latest("expiry")
         except SupportStatus.DoesNotExist:
-            return SupportStatus(name="community")
+            return SupportStatus(name="community", enabled=False)
 
 
 class SupportStatus(models.Model):
@@ -143,6 +153,9 @@ class SupportStatus(models.Model):
     in_limits = models.BooleanField(default=True)
     discoverable = models.BooleanField(default=False)
     limits = models.JSONField(default=dict)
+    has_subscription = models.BooleanField(default=False)
+    backup_repository = models.CharField(max_length=500, default="", blank=True)
+    enabled = models.BooleanField(default=True, db_index=True, blank=True)
 
     objects = SupportStatusManager()
 
@@ -154,6 +167,8 @@ class SupportStatus(models.Model):
         return f"{self.name}:{self.expiry}"
 
     def get_verbose(self):
+        if self.has_expired_support:
+            return gettext("Unpaid subscription")
         return SUPPORT_NAMES.get(self.name, self.name)
 
     def refresh(self) -> None:
@@ -194,9 +209,11 @@ class SupportStatus(models.Model):
         self.expiry = dateutil.parser.parse(payload["expiry"])
         self.in_limits = payload["in_limits"]
         self.limits = payload["limits"]
-        if payload["backup_repository"]:
+        self.has_subscription = payload["has_subscription"]
+        self.backup_repository = payload["backup_repository"]
+        if self.backup_repository:
             BackupService.objects.get_or_create(
-                repository=payload["backup_repository"], defaults={"enabled": False}
+                repository=self.backup_repository, defaults={"enabled": False}
             )
         # Invalidate support status cache
         cache.delete(SUPPORT_STATUS_CACHE_KEY)
@@ -232,6 +249,14 @@ class SupportStatus(models.Model):
             )
         return result
 
+    @property
+    def has_support(self) -> bool:
+        return self.name != "community"
+
+    @property
+    def has_expired_support(self) -> bool:
+        return self.pk is not None and self.has_subscription and not self.has_support
+
 
 class BackupService(models.Model):
     repository = models.CharField(
@@ -257,8 +282,18 @@ class BackupService(models.Model):
     def __str__(self) -> str:
         return self.repository
 
-    def last_logs(self):
+    @cached_property
+    def last_logs(self) -> models.QuerySet[BackupLog]:
         return self.backuplog_set.order_by("-timestamp")[:10]
+
+    @cached_property
+    def has_errors(self) -> bool:
+        for log in self.last_logs:
+            if log.event == "error":
+                return True
+            if log.event == "backup":
+                return False
+        return False
 
     def ensure_init(self) -> None:
         if not self.paperkey:
@@ -303,10 +338,15 @@ class BackupLog(models.Model):
     event = models.CharField(
         max_length=100,
         choices=(
+            # Translators: Backup repository operation
             ("backup", gettext_lazy("Backup performed")),
+            # Translators: Backup repository operation
             ("error", gettext_lazy("Backup failed")),
+            # Translators: Backup repository operation
             ("prune", gettext_lazy("Deleted the oldest backups")),
+            # Translators: Backup repository operation
             ("cleanup", gettext_lazy("Cleaned up backup storage")),
+            # Translators: Backup repository operation
             ("init", gettext_lazy("Repository initialization")),
         ),
         db_index=True,
@@ -324,18 +364,31 @@ class BackupLog(models.Model):
 class SupportStatusDict(TypedDict):
     has_support: bool
     in_limits: bool
+    has_expired_support: bool
+    backup_repository: str
+    name: str
+    is_hosted_weblate: bool
+    is_dedicated: bool
 
 
 def get_support_status(request: AuthenticatedHttpRequest) -> SupportStatusDict:
+    support_status: SupportStatusDict
     if hasattr(request, "weblate_support_status"):
-        support_status: SupportStatusDict = request.weblate_support_status
+        support_status = request.weblate_support_status
     else:
         support_status = cache.get(SUPPORT_STATUS_CACHE_KEY)
         if support_status is None:
             support_status_instance = SupportStatus.objects.get_current()
+            is_hosted = support_status_instance.name == "hosted"
             support_status = {
-                "has_support": support_status_instance.name != "community",
+                "name": support_status_instance.name,
+                "is_hosted_weblate": is_hosted
+                and settings.SITE_DOMAIN == "hosted.weblate.org",
+                "is_dedicated": is_hosted,
+                "has_support": support_status_instance.has_support,
+                "has_expired_support": support_status_instance.has_expired_support,
                 "in_limits": support_status_instance.in_limits,
+                "backup_repository": support_status_instance.backup_repository,
             }
             cache.set(SUPPORT_STATUS_CACHE_KEY, support_status, 86400)
         request.weblate_support_status = support_status

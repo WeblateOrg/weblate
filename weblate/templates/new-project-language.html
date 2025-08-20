@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% perm 'translation.add_more' object as user_can_add_more_translation %}
+  <div class="tab-pane" id="newlang">
+    <form action="{% url 'new-language' path=object.get_url_path %}" method="post">
+      {% csrf_token %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{% translate "Start new translation" %}</h4>
+        </div>
+        <div class="panel-body">
+          <p>{% translate "Please choose the language you want to translate to." %}</p>
+          {{ form|crispy }}
+          {% if user_can_add_more_translation %}
+            <p class="help-block">
+              <a href="{% url 'contact' %}?t=lang">{% translate "Can't find your language in the list above?" %}</a>
+            </p>
+          {% else %}
+            <p class="help-block">
+              {% translate "This list includes only basic languages. Please contact project maintainers to add others." %}
+            </p>
+          {% endif %}
+        </div>
+        <input class="btn btn-primary"
+               type="submit"
+               value="{% translate "Start new translation" %}" />
+      </div>
+    </form>
+  </div>
+{% endblock content %}

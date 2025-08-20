@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if support_status.is_hosted_weblate %}
+  {% translate "Weblate single sign on" %}
+  <span class="label label-info">{% translate "Cloud" context "Badge for site title for Hosted Weblate" %}</span>
+{% else %}
+  {{ site_title }}
+  {% if support_status.is_dedicated %}
+    <span class="label label-primary">{% translate "Dedicated" context "Badge for site title for dedicated instances" %}</span>
+  {% else %}
+    <span class="label label-default">{% translate "Self-hosted" context "Badge for site title for self-hosted instances" %}</span>
+  {% endif %}
+{% endif %}

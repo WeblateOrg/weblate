@@ -30,7 +30,7 @@ jobs:
             repo: context.repo.repo,
           });
           for (const label of labels.data) {
-            if (label.name.startsWith('Waiting for: ')) {
+            if (label.name.startsWith('Waiting for: ') && label.name != 'Waiting for: Implementation') {
               await github.rest.issues.removeLabel({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -39,9 +39,11 @@ jobs:
               })
             }
           }
-          await github.rest.issues.addLabels({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            labels: ['Waiting for: Implementation']
-          })
+          if (! context.payload.issue.milestone || context.payload.issue.milestone.state == 'open') {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Implementation']
+            })
+          }

@@ -222,7 +222,7 @@
                       <li role="separator" class="divider"></li>
                     {% endif %}
                     <li>
-                      <a href="{% url 'checks' %}">{% translate "Checks overview" %}</a>
+                      <a href="{% url 'checks' %}">{% translate "All failing checks" %}</a>
                     </li>
                   </ul>
                 </li>
@@ -261,6 +261,7 @@
               {% if not user.is_authenticated %}
                 {% if registration_open %}
                   <li>
+                    {# Translators: Register on the site #}
                     <a class="button" id="register-button" href="{% url 'register' %}">{% translate "Register" %}</a>
                   </li>
                 {% endif %}
@@ -373,34 +374,50 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  {% if not support_status.has_support %}
-                    <li>
-                      <a href="https://weblate.org/support/">{% translate "Get support" %}</a>
-                    </li>
-                  {% endif %}
-                  {% if get_help_url %}
-                    <li>
-                      <a href="{{ get_help_url }}">{% translate "Get help" %}</a>
-                    </li>
-                  {% endif %}
+                  <li class="dropdown-header">{% translate "Get help" %}</li>
                   <li>
-                    <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+                    <a href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
                   </li>
                   <li>
-                    <a href="{% url 'about' %}">{% blocktranslate %}About Weblate{% endblocktranslate %}</a>
+                    <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
                   </li>
-                  <li role="separator" class="divider"></li>
+                  {% if support_status.has_support %}
+                    <li>
+                      <a href="https://care.weblate.org/">{% translate "Professional support" %}</a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="https://weblate.org/support/">{% translate "Get professional support" %}</a>
+                    </li>
+                    {% if get_help_url %}
+                      <li>
+                        <a href="{{ get_help_url }}">{% translate "Get help" %}</a>
+                      </li>
+                    {% endif %}
+                  {% endif %}
+
+                  <li class="dropdown-header">{% translate "Documentation" %}</li>
                   <li>
                     <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
                   </li>
                   <li>
-                    <a href="https://weblate.org/contribute/">{% translate "Contribute to Weblate" %}</a>
-                  </li>
-                  <li>
-                    <a href="{% url 'donate' %}">{% translate "Donate to Weblate" %}</a>
-                  </li>
-                  <li>
                     <a id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
+                  </li>
+
+                  <li class="dropdown-header">{% translate "Weblate project" %}</li>
+                  <li>
+                    <a href="https://weblate.org/contribute/">{% translate "Contribute" context "Contribute to Weblate" %}</a>
+                  </li>
+                  {% if not support_status.has_support or support_status.is_hosted_weblate %}
+                    <li>
+                      <a href="{% url 'donate' %}">{% translate "Become a supporter" context "Support Weblate financially" %}</a>
+                    </li>
+                  {% endif %}
+                  <li>
+                    <a href="{% url 'about' %}">{% translate "About" context "About this server" %}</a>
+                  </li>
+                  <li>
+                    <a href="https://weblate.org/">{% translate "Website" context "Weblate website" %}</a>
                   </li>
                 </ul>
               </li>
@@ -434,7 +451,7 @@
       {% endif %}
 
       {% if user.is_authenticated and not user.profile.has_2fa and user.group_enforces_2fa %}
-        {% include "snippets/enforced_2fa.html" %}
+        {% include "snippets/enforced_2fa.html" with project="" %}
       {% endif %}
 
       {% if messages %}
@@ -446,6 +463,9 @@
       {% if menu_items %}
         {% include 'snippets/menu.html' %}
       {% endif %}
+
+      {% block nav_pills %}
+      {% endblock nav_pills %}
 
       {% block content %}{% endblock %}
 

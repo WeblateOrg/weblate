@@ -19,7 +19,8 @@ from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.label import Label
-from weblate.trans.models.project import Project
+from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.project import CommitPolicyChoices, Project
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
@@ -35,10 +36,12 @@ __all__ = [
     "Category",
     "Change",
     "Comment",
+    "CommitPolicyChoices",
     "Component",
     "ComponentList",
     "ContributorAgreement",
     "Label",
+    "PendingUnitChange",
     "Project",
     "Suggestion",
     "Translation",

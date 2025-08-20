@@ -10,30 +10,11 @@ For example, this covers:
 * `translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, used to discover translatable files in the repository
 * `language-data <https://github.com/WeblateOrg/language-data/>`_, language definitions for Weblate, see :ref:`languages`
 
-
-
 .. include:: snippets/code-guide.rst
-
-Running tests
--------------
-
-The tests are executed using :program:`py.test`. First you need to install test requirements:
-
-.. code-block:: sh
-
-   uv pip install -e '.[dev]'
-
-You can then execute the testsuite in the repository checkout:
-
-.. code-block:: sh
-
-   py.test
 
 .. seealso::
 
    The CI integration is very similar to :doc:`tests`.
-
-.. include:: snippets/pre-commit.rst
 
 .. seealso::
 

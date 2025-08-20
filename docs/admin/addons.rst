@@ -1,10 +1,13 @@
+..
+   Partly generated using ./manage.py list_addons
+
 .. _addons:
 
 Add-ons
 =======
 
 Add-ons provide ways to customize and automate the translation workflow.
-Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
+Admins can add and manage add-ons from the :guilabel:`Operations` ↓ :guilabel:`Add-ons` menu of each respective
 translation project or component. Add-ons can be also installed site-wide in :ref:`management-interface`.
 
 .. hint::
@@ -132,35 +135,26 @@ Automatic translation
 
 :Add-on ID: ``weblate.autotranslate.autotranslate``
 :Configuration: +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``mode``        | Automatic translation mode       | Available choices:                                                                                   |
+                | ``mode``        | Automatic translation mode       | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
                 |                 |                                  |                                                                                                      |
-                |                 |                                  | ``suggest`` -- Add as suggestion                                                                     |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``translate`` -- Add as translation                                                                  |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``fuzzy`` -- Add as "Needing edit"                                                                   |
+                |                 |                                  |    * - ``suggest``                                                                                   |
+                |                 |                                  |      - Add as suggestion                                                                             |
+                |                 |                                  |    * - ``translate``                                                                                 |
+                |                 |                                  |      - Add as translation                                                                            |
+                |                 |                                  |    * - ``fuzzy``                                                                                     |
+                |                 |                                  |      - Add as "Needing edit"                                                                         |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``filter_type`` | Search filter                    | Please note that translating all strings will discard all existing translations.                     |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | Available choices:                                                                                   |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``all`` -- All strings                                                                               |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``nottranslated`` -- Untranslated strings                                                            |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``todo`` -- Unfinished strings                                                                       |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``fuzzy`` -- Strings marked for edit                                                                 |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``check:inconsistent`` -- Failing check: Inconsistent                                                |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``check:translated`` -- Failing check: Has been translated                                           |
+                | ``q``           | Search query                     | See :ref:`search-strings` for how to define a filter using a search query.                           |
+                |                 |                                  | Please note that translating all strings will discard all existing translations.                     |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-                | ``auto_source`` | Source of automated translations | Available choices:                                                                                   |
+                | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
                 |                 |                                  |                                                                                                      |
-                |                 |                                  | ``others`` -- Other translation components                                                           |
-                |                 |                                  |                                                                                                      |
-                |                 |                                  | ``mt`` -- Machine translation                                                                        |
+                |                 |                                  |    * - ``others``                                                                                    |
+                |                 |                                  |      - Other translation components                                                                  |
+                |                 |                                  |    * - ``mt``                                                                                        |
+                |                 |                                  |      - Machine translation                                                                           |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
@@ -174,9 +168,9 @@ Automatically translates strings using machine translation or other components.
 
 .. seealso::
 
-   :ref:`auto-translation`,
-   :ref:`translation-consistency`,
-   :ref:`mt-translation-services-priority`
+   * :ref:`auto-translation`
+   * :ref:`translation-consistency`
+   * :ref:`mt-translation-services-priority`
 
 .. _addon-weblate.cdn.cdnjs:
 
@@ -187,7 +181,7 @@ JavaScript localization CDN
 
 :Add-on ID: ``weblate.cdn.cdnjs``
 :Configuration: +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
-                | ``threshold``    | Translation threshold           | Threshold for inclusion of translations.                                                  |
+                | ``threshold``    | Translation threshold           | The percentage of translated strings that must be present for translation to be included. |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
                 | ``css_selector`` | CSS selector                    | CSS selector to detect localizable elements.                                              |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
@@ -219,10 +213,10 @@ HTML pages to localize them. See :ref:`weblate-cdn` for more details.
 
 .. seealso::
 
-    :ref:`cdn-addon-config`,
-    :ref:`weblate-cdn`,
-    :ref:`cdn-addon-extract`,
-    :ref:`cdn-addon-html`
+    * :ref:`cdn-addon-config`
+    * :ref:`weblate-cdn`
+    * :ref:`cdn-addon-extract`
+    * :ref:`cdn-addon-html`
 
 .. _addon-weblate.cleanup.blank:
 
@@ -433,14 +427,26 @@ Matching files:
    Component discovery add-on uses :ref:`internal-urls`. It’s a convenient way to share
    VCS setup between multiple components. Linked components use the local repository of
    the main component set up by filling ``weblate://project/main-component``
-   into the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
+   into the :ref:`component-repo` field (in :guilabel:`Operations` ↓ :guilabel:`Settings` ↓
    :guilabel:`Version control system`) of each respective component.
    This saves time with configuration and system resources too.
 
+.. hint::
+
+   Ensure the new component contains the full set of translatable languages with
+   :ref:`addon-weblate.consistency.languages`.
+
+.. warning::
+
+   To be discovered, a new component must contain a file that matches ``base_file_template``
+   **and** at least one file with a name that matches ``match`` -- i.e., the component must
+   contain a base language file and at least one existing translation. Otherwise, it will be
+   ignored.
+
 .. seealso::
 
-   :ref:`markup`,
-   :wladmin:`import_project`
+   * :ref:`markup`
+   * :wladmin:`import_project`
 
 .. _addon-weblate.flags.bulk:
 
@@ -448,27 +454,29 @@ Bulk edit
 ---------
 
 :Add-on ID: ``weblate.flags.bulk``
-:Configuration: +-------------------+-----------------------------+-------------------------+
-                | ``q``             | Query                       |                         |
-                +-------------------+-----------------------------+-------------------------+
-                | ``state``         | State to set                | Available choices:      |
-                |                   |                             |                         |
-                |                   |                             | ``-1`` -- Do not change |
-                |                   |                             |                         |
-                |                   |                             | ``10`` -- Needs editing |
-                |                   |                             |                         |
-                |                   |                             | ``20`` -- Translated    |
-                |                   |                             |                         |
-                |                   |                             | ``30`` -- Approved      |
-                +-------------------+-----------------------------+-------------------------+
-                | ``add_flags``     | Translation flags to add    |                         |
-                +-------------------+-----------------------------+-------------------------+
-                | ``remove_flags``  | Translation flags to remove |                         |
-                +-------------------+-----------------------------+-------------------------+
-                | ``add_labels``    | Labels to add               |                         |
-                +-------------------+-----------------------------+-------------------------+
-                | ``remove_labels`` | Labels to remove            |                         |
-                +-------------------+-----------------------------+-------------------------+
+:Configuration: +-------------------+-----------------------------+------------------------------------+
+                | ``q``             | Query                       |                                    |
+                +-------------------+-----------------------------+------------------------------------+
+                | ``state``         | State to set                | .. list-table:: Available choices: |
+                |                   |                             |    :width: 100%                    |
+                |                   |                             |                                    |
+                |                   |                             |    * - ``-1``                      |
+                |                   |                             |      - Do not change               |
+                |                   |                             |    * - ``10``                      |
+                |                   |                             |      - Needs editing               |
+                |                   |                             |    * - ``20``                      |
+                |                   |                             |      - Translated                  |
+                |                   |                             |    * - ``30``                      |
+                |                   |                             |      - Approved                    |
+                +-------------------+-----------------------------+------------------------------------+
+                | ``add_flags``     | Translation flags to add    |                                    |
+                +-------------------+-----------------------------+------------------------------------+
+                | ``remove_flags``  | Translation flags to remove |                                    |
+                +-------------------+-----------------------------+------------------------------------+
+                | ``add_labels``    | Labels to add               |                                    |
+                +-------------------+-----------------------------+------------------------------------+
+                | ``remove_labels`` | Labels to remove            |                                    |
+                +-------------------+-----------------------------+------------------------------------+
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`
 
 Bulk edit flags, labels, or states of strings.
@@ -502,9 +510,9 @@ Bulk edit flags, labels, or states of strings.
 
 .. seealso::
 
-   :ref:`bulk-edit`,
-   :ref:`custom-checks`,
-   :ref:`labels`
+   * :ref:`bulk-edit`
+   * :ref:`custom-checks`
+   * :ref:`labels`
 
 
 .. _addon-weblate.flags.same_edit:
@@ -644,15 +652,15 @@ Pseudolocale generation
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
                 | ``target``           | Target translation        | All strings in this translation will be overwritten                                      |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``prefix``           | Fixed string prefix       |                                                                                          |
+                | ``prefix``           | Prepended static text     |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_prefix``       | Variable string prefix    |                                                                                          |
+                | ``var_prefix``       | Prepended variable text   |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``suffix``           | Fixed string suffix       |                                                                                          |
+                | ``suffix``           | Appended static text      |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_suffix``       | Variable string suffix    |                                                                                          |
+                | ``var_suffix``       | Appended variable text    |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-                | ``var_multiplier``   | Variable part multiplier  | How many times to repeat the variable part depending on the length of the source string. |
+                | ``var_multiplier``   | Variable text multiplier  | How many times to repeat the variable text depending on the length of the source string. |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
                 | ``include_readonly`` | Include read-only strings |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
@@ -671,18 +679,18 @@ is also possible.
 
 Using the variable parts makes it possible to look for strings which might not
 fit into the user interface after the localization - it extends the text based
-on the source string length. The variable parts are repeated by length of the
+on the source string length. The variable texts are repeated by length of the
 text multiplied by the multiplier. For example ``Hello world`` with variable
-suffix ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
-the suffix is repeated once for each character in the source string.
+text ``_`` and variable multiplier of 1 becomes ``Hello world___________`` -
+the text is repeated once for each character in the source string.
 
 The strings will be generated using following pattern:
 
-:guilabel:`Fixed string prefix`
-:guilabel:`Variable string prefix`
+:guilabel:`Prepended static text`
+:guilabel:`Prepended variable text`
 :guilabel:`Source string`
-:guilabel:`Variable string suffix`
-:guilabel:`Fixed string suffix`
+:guilabel:`Appended variable text`
+:guilabel:`Appended static text`
 
 .. hint::
 
@@ -739,17 +747,21 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 Customize gettext output
 ------------------------
 
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.gettext.customize``
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-                | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
+                | ``width`` | Long lines wrapping | By default, gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines.|
                 |           |                     |                                                                                                                                   |
-                |           |                     | Available choices:                                                                                                                |
+                |           |                     | .. list-table:: Available choices:                                                                                                |
+                |           |                     |    :width: 100%                                                                                                                   |
                 |           |                     |                                                                                                                                   |
-                |           |                     | ``77`` -- Wrap lines at 77 characters and at newlines (xgettext default)                                                          |
-                |           |                     |                                                                                                                                   |
-                |           |                     | ``65535`` -- Only wrap lines at newlines (like 'xgettext --no-wrap')                                                              |
-                |           |                     |                                                                                                                                   |
-                |           |                     | ``-1`` -- No line wrapping                                                                                                        |
+                |           |                     |    * - ``77``                                                                                                                     |
+                |           |                     |      - Wrap lines at 77 characters and at newlines (xgettext default)                                                             |
+                |           |                     |    * - ``65535``                                                                                                                  |
+                |           |                     |      - Only wrap lines at newlines (like 'xgettext --no-wrap')                                                                    |
+                |           |                     |    * - ``-1``                                                                                                                     |
+                |           |                     |      - No line wrapping                                                                                                           |
                 +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 :Triggers: :ref:`addon-event-storage-post-load`
 
@@ -763,7 +775,7 @@ It offers the following options:
 
 .. note::
 
-   By default gettext wraps lines at 77 characters and at newlines.
+   By default, gettext wraps lines at 77 characters and at newlines.
    With the ``--no-wrap`` parameter, wrapping is only done at newlines.
 
 
@@ -807,20 +819,18 @@ The location of the generated MO file can be customized and the field for it use
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
+.. versionchanged:: 5.13
+
+   :guilabel: Settings configuration has been moved to :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.gettext.msgmerge``
-:Configuration: +-----------------+--------------------------------------------+--+
-                | ``previous``    | Keep previous msgids of translated strings |  |
-                +-----------------+--------------------------------------------+--+
-                | ``no_location`` | Remove locations of translated strings     |  |
-                +-----------------+--------------------------------------------+--+
-                | ``fuzzy``       | Use fuzzy matching                         |  |
-                +-----------------+--------------------------------------------+--+
+:Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
-Most msgmerge command-line options can be set up through the add-on
+Most msgmerge command-line options can be set up through file format parameters
 configuration.
 
 .. seealso::
@@ -834,15 +844,17 @@ Squash Git commits
 
 :Add-on ID: ``weblate.git.squash``
 :Configuration: +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``squash``          | Commit squashing                           | Available choices:                                                                                                                                                |
+                | ``squash``          | Commit squashing                           | .. list-table:: Available choices:                                                                                                                                |
+                |                     |                                            |    :width: 100%                                                                                                                                                   |
                 |                     |                                            |                                                                                                                                                                   |
-                |                     |                                            | ``all`` -- All commits into one                                                                                                                                   |
-                |                     |                                            |                                                                                                                                                                   |
-                |                     |                                            | ``language`` -- Per language                                                                                                                                      |
-                |                     |                                            |                                                                                                                                                                   |
-                |                     |                                            | ``file`` -- Per file                                                                                                                                              |
-                |                     |                                            |                                                                                                                                                                   |
-                |                     |                                            | ``author`` -- Per author                                                                                                                                          |
+                |                     |                                            |    * - ``all``                                                                                                                                                    |
+                |                     |                                            |      - All commits into one                                                                                                                                       |
+                |                     |                                            |    * - ``language``                                                                                                                                               |
+                |                     |                                            |      - Per language                                                                                                                                               |
+                |                     |                                            |    * - ``file``                                                                                                                                                   |
+                |                     |                                            |      - Per file                                                                                                                                                   |
+                |                     |                                            |    * - ``author``                                                                                                                                                 |
+                |                     |                                            |      - Per author                                                                                                                                                 |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``append_trailers`` | Append trailers to squashed commit message | Trailer lines are lines that look similar to RFC 822 e-mail headers, at the end of the otherwise free-form part of a commit message, such as 'Co-authored-by: …'. |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -851,6 +863,11 @@ Squash Git commits
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`
 
 Squash Git commits prior to pushing changes.
+
+.. hint::
+
+   To avoid unnecessary conflicts, it is recommended to configure automatic
+   receiving of upstream changes by webhooks or API, see :ref:`update-vcs`.
 
 Git commits can be squashed prior to pushing changes
 in one of the following modes:
@@ -875,21 +892,32 @@ translator.
 Customize JSON output
 ---------------------
 
+.. versionchanged:: 5.12
+
+   :guilabel:`Avoid spaces after separators` option added.
+
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.json.customize``
-:Configuration: +---------------+------------------------+----------------------+
-                | ``sort_keys`` | Sort JSON keys         |                      |
-                +---------------+------------------------+----------------------+
-                | ``indent``    | JSON indentation       |                      |
-                +---------------+------------------------+----------------------+
-                | ``style``     | JSON indentation style | Available choices:   |
-                |               |                        |                      |
-                |               |                        | ``spaces`` -- Spaces |
-                |               |                        |                      |
-                |               |                        | ``tabs`` -- Tabs     |
-                +---------------+------------------------+----------------------+
+:Configuration: +----------------------------+-------------------------------+------------------------------------+
+                | ``sort_keys``              | Sort JSON keys                |                                    |
+                +----------------------------+-------------------------------+------------------------------------+
+                | ``use_compact_separators`` | Avoid spaces after separators |                                    |
+                +----------------------------+-------------------------------+------------------------------------+
+                | ``indent``                 | JSON indentation              |                                    |
+                +----------------------------+-------------------------------+------------------------------------+
+                | ``style``                  | JSON indentation style        | .. list-table:: Available choices: |
+                |                            |                               |    :width: 100%                    |
+                |                            |                               |                                    |
+                |                            |                               |    * - ``spaces``                  |
+                |                            |                               |      - Spaces                      |
+                |                            |                               |    * - ``tabs``                    |
+                |                            |                               |      - Tabs                        |
+                +----------------------------+-------------------------------+------------------------------------+
 :Triggers: :ref:`addon-event-storage-post-load`
 
-Allows adjusting JSON output behavior, for example indentation or sorting.
+Allows adjusting JSON output behavior, for example indentation, sorting or
+compact formatting using minimal whitespace.
 
 .. _addon-weblate.properties.sort:
 
@@ -967,6 +995,187 @@ Unused strings are removed, and new ones added as copies of the source string.
 
    :ref:`faq-cleanup`
 
+.. _addon-weblate.webhook.slack:
+
+Slack Webhooks
+--------------
+
+.. versionadded:: 5.12
+
+:Add-on ID: ``weblate.webhook.slack``
+:Configuration: +-----------------+---------------+----------------------------------------------+
+                | ``webhook_url`` | Webhook URL   |                                              |
+                +-----------------+---------------+----------------------------------------------+
+                | ``events``      | Change events | .. list-table:: Available choices:           |
+                |                 |               |    :width: 100%                              |
+                |                 |               |                                              |
+                |                 |               |    * - ``0``                                 |
+                |                 |               |      - Resource updated                      |
+                |                 |               |    * - ``1``                                 |
+                |                 |               |      - Translation completed                 |
+                |                 |               |    * - ``2``                                 |
+                |                 |               |      - Translation changed                   |
+                |                 |               |    * - ``3``                                 |
+                |                 |               |      - Comment added                         |
+                |                 |               |    * - ``4``                                 |
+                |                 |               |      - Suggestion added                      |
+                |                 |               |    * - ``5``                                 |
+                |                 |               |      - Translation added                     |
+                |                 |               |    * - ``6``                                 |
+                |                 |               |      - Automatically translated              |
+                |                 |               |    * - ``7``                                 |
+                |                 |               |      - Suggestion accepted                   |
+                |                 |               |    * - ``8``                                 |
+                |                 |               |      - Translation reverted                  |
+                |                 |               |    * - ``9``                                 |
+                |                 |               |      - Translation uploaded                  |
+                |                 |               |    * - ``13``                                |
+                |                 |               |      - Source string added                   |
+                |                 |               |    * - ``14``                                |
+                |                 |               |      - Component locked                      |
+                |                 |               |    * - ``15``                                |
+                |                 |               |      - Component unlocked                    |
+                |                 |               |    * - ``17``                                |
+                |                 |               |      - Changes committed                     |
+                |                 |               |    * - ``18``                                |
+                |                 |               |      - Changes pushed                        |
+                |                 |               |    * - ``19``                                |
+                |                 |               |      - Repository reset                      |
+                |                 |               |    * - ``20``                                |
+                |                 |               |      - Repository merged                     |
+                |                 |               |    * - ``21``                                |
+                |                 |               |      - Repository rebased                    |
+                |                 |               |    * - ``22``                                |
+                |                 |               |      - Repository merge failed               |
+                |                 |               |    * - ``23``                                |
+                |                 |               |      - Repository rebase failed              |
+                |                 |               |    * - ``24``                                |
+                |                 |               |      - Parsing failed                        |
+                |                 |               |    * - ``25``                                |
+                |                 |               |      - Translation removed                   |
+                |                 |               |    * - ``26``                                |
+                |                 |               |      - Suggestion removed                    |
+                |                 |               |    * - ``27``                                |
+                |                 |               |      - Translation replaced                  |
+                |                 |               |    * - ``28``                                |
+                |                 |               |      - Repository push failed                |
+                |                 |               |    * - ``29``                                |
+                |                 |               |      - Suggestion removed during cleanup     |
+                |                 |               |    * - ``30``                                |
+                |                 |               |      - Source string changed                 |
+                |                 |               |    * - ``31``                                |
+                |                 |               |      - String added                          |
+                |                 |               |    * - ``32``                                |
+                |                 |               |      - Bulk status changed                   |
+                |                 |               |    * - ``33``                                |
+                |                 |               |      - Visibility changed                    |
+                |                 |               |    * - ``34``                                |
+                |                 |               |      - User added                            |
+                |                 |               |    * - ``35``                                |
+                |                 |               |      - User removed                          |
+                |                 |               |    * - ``36``                                |
+                |                 |               |      - Translation approved                  |
+                |                 |               |    * - ``37``                                |
+                |                 |               |      - Marked for edit                       |
+                |                 |               |    * - ``38``                                |
+                |                 |               |      - Component removed                     |
+                |                 |               |    * - ``39``                                |
+                |                 |               |      - Project removed                       |
+                |                 |               |    * - ``41``                                |
+                |                 |               |      - Project renamed                       |
+                |                 |               |    * - ``42``                                |
+                |                 |               |      - Component renamed                     |
+                |                 |               |    * - ``43``                                |
+                |                 |               |      - Moved component                       |
+                |                 |               |    * - ``45``                                |
+                |                 |               |      - Contributor joined                    |
+                |                 |               |    * - ``46``                                |
+                |                 |               |      - Announcement posted                   |
+                |                 |               |    * - ``47``                                |
+                |                 |               |      - Alert triggered                       |
+                |                 |               |    * - ``48``                                |
+                |                 |               |      - Language added                        |
+                |                 |               |    * - ``49``                                |
+                |                 |               |      - Language requested                    |
+                |                 |               |    * - ``50``                                |
+                |                 |               |      - Project created                       |
+                |                 |               |    * - ``51``                                |
+                |                 |               |      - Component created                     |
+                |                 |               |    * - ``52``                                |
+                |                 |               |      - User invited                          |
+                |                 |               |    * - ``53``                                |
+                |                 |               |      - Repository notification received      |
+                |                 |               |    * - ``54``                                |
+                |                 |               |      - Translation replaced file by upload   |
+                |                 |               |    * - ``55``                                |
+                |                 |               |      - License changed                       |
+                |                 |               |    * - ``56``                                |
+                |                 |               |      - Contributor license agreement changed |
+                |                 |               |    * - ``57``                                |
+                |                 |               |      - Screenshot added                      |
+                |                 |               |    * - ``58``                                |
+                |                 |               |      - Screenshot uploaded                   |
+                |                 |               |    * - ``59``                                |
+                |                 |               |      - String updated in the repository      |
+                |                 |               |    * - ``60``                                |
+                |                 |               |      - Add-on installed                      |
+                |                 |               |    * - ``61``                                |
+                |                 |               |      - Add-on configuration changed          |
+                |                 |               |    * - ``62``                                |
+                |                 |               |      - Add-on uninstalled                    |
+                |                 |               |    * - ``63``                                |
+                |                 |               |      - String removed                        |
+                |                 |               |    * - ``64``                                |
+                |                 |               |      - Comment removed                       |
+                |                 |               |    * - ``65``                                |
+                |                 |               |      - Comment resolved                      |
+                |                 |               |    * - ``66``                                |
+                |                 |               |      - Explanation updated                   |
+                |                 |               |    * - ``67``                                |
+                |                 |               |      - Category removed                      |
+                |                 |               |    * - ``68``                                |
+                |                 |               |      - Category renamed                      |
+                |                 |               |    * - ``69``                                |
+                |                 |               |      - Category moved                        |
+                |                 |               |    * - ``70``                                |
+                |                 |               |      - Saving string failed                  |
+                |                 |               |    * - ``71``                                |
+                |                 |               |      - String added in the repository        |
+                |                 |               |    * - ``72``                                |
+                |                 |               |      - String updated in the upload          |
+                |                 |               |    * - ``73``                                |
+                |                 |               |      - String added in the upload            |
+                |                 |               |    * - ``74``                                |
+                |                 |               |      - Translation updated by source upload  |
+                |                 |               |    * - ``75``                                |
+                |                 |               |      - Component translation completed       |
+                |                 |               |    * - ``76``                                |
+                |                 |               |      - Applied enforced check                |
+                |                 |               |    * - ``77``                                |
+                |                 |               |      - Propagated change                     |
+                |                 |               |    * - ``78``                                |
+                |                 |               |      - File uploaded                         |
+                |                 |               |    * - ``79``                                |
+                |                 |               |      - Extra flags updated                   |
+                |                 |               |    * - ``80``                                |
+                |                 |               |      - Font uploaded                         |
+                |                 |               |    * - ``81``                                |
+                |                 |               |      - Font changed                          |
+                |                 |               |    * - ``82``                                |
+                |                 |               |      - Font removed                          |
+                +-----------------+---------------+----------------------------------------------+
+:Triggers: :ref:`addon-event-event-change`
+
+Sends notification to a Slack channel based on selected events.
+
+.. warning::
+
+   The notification content might show HTML tags. This is a known issue that will be soon addressed; see https://github.com/WeblateOrg/weblate/issues/15056.
+
+.. hint::
+
+   To obtain a webhook URL, follow the steps outlined in the `Slack Incoming Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks>`_
+
 .. _addon-weblate.webhook.webhook:
 
 Webhook
@@ -975,164 +1184,241 @@ Webhook
 .. versionadded:: 5.11
 
 :Add-on ID: ``weblate.webhook.webhook``
-:Configuration: +-----------------+---------------+-------------------------------------------------+
-                | ``webhook_url`` | Webhook URL   |                                                 |
-                +-----------------+---------------+-------------------------------------------------+
-                | ``secret``      | Secret        |                                                 |
-                +-----------------+---------------+-------------------------------------------------+
-                | ``events``      | Change events | Available choices:                              |
-                |                 |               |                                                 |
-                |                 |               | ``0`` -- Resource updated                       |
-                |                 |               |                                                 |
-                |                 |               | ``1`` -- Translation completed                  |
-                |                 |               |                                                 |
-                |                 |               | ``2`` -- Translation changed                    |
-                |                 |               |                                                 |
-                |                 |               | ``3`` -- Comment added                          |
-                |                 |               |                                                 |
-                |                 |               | ``4`` -- Suggestion added                       |
-                |                 |               |                                                 |
-                |                 |               | ``5`` -- Translation added                      |
-                |                 |               |                                                 |
-                |                 |               | ``6`` -- Automatically translated               |
-                |                 |               |                                                 |
-                |                 |               | ``7`` -- Suggestion accepted                    |
-                |                 |               |                                                 |
-                |                 |               | ``8`` -- Translation reverted                   |
-                |                 |               |                                                 |
-                |                 |               | ``9`` -- Translation uploaded                   |
-                |                 |               |                                                 |
-                |                 |               | ``13`` -- Source string added                   |
-                |                 |               |                                                 |
-                |                 |               | ``14`` -- Component locked                      |
-                |                 |               |                                                 |
-                |                 |               | ``15`` -- Component unlocked                    |
-                |                 |               |                                                 |
-                |                 |               | ``17`` -- Changes committed                     |
-                |                 |               |                                                 |
-                |                 |               | ``18`` -- Changes pushed                        |
-                |                 |               |                                                 |
-                |                 |               | ``19`` -- Repository reset                      |
-                |                 |               |                                                 |
-                |                 |               | ``20`` -- Repository merged                     |
-                |                 |               |                                                 |
-                |                 |               | ``21`` -- Repository rebased                    |
-                |                 |               |                                                 |
-                |                 |               | ``22`` -- Repository merge failed               |
-                |                 |               |                                                 |
-                |                 |               | ``23`` -- Repository rebase failed              |
-                |                 |               |                                                 |
-                |                 |               | ``24`` -- Parsing failed                        |
-                |                 |               |                                                 |
-                |                 |               | ``25`` -- Translation removed                   |
-                |                 |               |                                                 |
-                |                 |               | ``26`` -- Suggestion removed                    |
-                |                 |               |                                                 |
-                |                 |               | ``27`` -- Translation replaced                  |
-                |                 |               |                                                 |
-                |                 |               | ``28`` -- Repository push failed                |
-                |                 |               |                                                 |
-                |                 |               | ``29`` -- Suggestion removed during cleanup     |
-                |                 |               |                                                 |
-                |                 |               | ``30`` -- Source string changed                 |
-                |                 |               |                                                 |
-                |                 |               | ``31`` -- String added                          |
-                |                 |               |                                                 |
-                |                 |               | ``32`` -- Bulk status changed                   |
-                |                 |               |                                                 |
-                |                 |               | ``33`` -- Visibility changed                    |
-                |                 |               |                                                 |
-                |                 |               | ``34`` -- User added                            |
-                |                 |               |                                                 |
-                |                 |               | ``35`` -- User removed                          |
-                |                 |               |                                                 |
-                |                 |               | ``36`` -- Translation approved                  |
-                |                 |               |                                                 |
-                |                 |               | ``37`` -- Marked for edit                       |
-                |                 |               |                                                 |
-                |                 |               | ``38`` -- Component removed                     |
-                |                 |               |                                                 |
-                |                 |               | ``39`` -- Project removed                       |
-                |                 |               |                                                 |
-                |                 |               | ``41`` -- Project renamed                       |
-                |                 |               |                                                 |
-                |                 |               | ``42`` -- Component renamed                     |
-                |                 |               |                                                 |
-                |                 |               | ``43`` -- Moved component                       |
-                |                 |               |                                                 |
-                |                 |               | ``45`` -- Contributor joined                    |
-                |                 |               |                                                 |
-                |                 |               | ``46`` -- Announcement posted                   |
-                |                 |               |                                                 |
-                |                 |               | ``47`` -- Alert triggered                       |
-                |                 |               |                                                 |
-                |                 |               | ``48`` -- Language added                        |
-                |                 |               |                                                 |
-                |                 |               | ``49`` -- Language requested                    |
-                |                 |               |                                                 |
-                |                 |               | ``50`` -- Project created                       |
-                |                 |               |                                                 |
-                |                 |               | ``51`` -- Component created                     |
-                |                 |               |                                                 |
-                |                 |               | ``52`` -- User invited                          |
-                |                 |               |                                                 |
-                |                 |               | ``53`` -- Repository notification received      |
-                |                 |               |                                                 |
-                |                 |               | ``54`` -- Translation replaced file by upload   |
-                |                 |               |                                                 |
-                |                 |               | ``55`` -- License changed                       |
-                |                 |               |                                                 |
-                |                 |               | ``56`` -- Contributor license agreement changed |
-                |                 |               |                                                 |
-                |                 |               | ``57`` -- Screenshot added                      |
-                |                 |               |                                                 |
-                |                 |               | ``58`` -- Screenshot uploaded                   |
-                |                 |               |                                                 |
-                |                 |               | ``59`` -- String updated in the repository      |
-                |                 |               |                                                 |
-                |                 |               | ``60`` -- Add-on installed                      |
-                |                 |               |                                                 |
-                |                 |               | ``61`` -- Add-on configuration changed          |
-                |                 |               |                                                 |
-                |                 |               | ``62`` -- Add-on uninstalled                    |
-                |                 |               |                                                 |
-                |                 |               | ``63`` -- String removed                        |
-                |                 |               |                                                 |
-                |                 |               | ``64`` -- Comment removed                       |
-                |                 |               |                                                 |
-                |                 |               | ``65`` -- Comment resolved                      |
-                |                 |               |                                                 |
-                |                 |               | ``66`` -- Explanation updated                   |
-                |                 |               |                                                 |
-                |                 |               | ``67`` -- Category removed                      |
-                |                 |               |                                                 |
-                |                 |               | ``68`` -- Category renamed                      |
-                |                 |               |                                                 |
-                |                 |               | ``69`` -- Category moved                        |
-                |                 |               |                                                 |
-                |                 |               | ``70`` -- Saving string failed                  |
-                |                 |               |                                                 |
-                |                 |               | ``71`` -- String added in the repository        |
-                |                 |               |                                                 |
-                |                 |               | ``72`` -- String updated in the upload          |
-                |                 |               |                                                 |
-                |                 |               | ``73`` -- String added in the upload            |
-                |                 |               |                                                 |
-                |                 |               | ``74`` -- Translation updated by source upload  |
-                |                 |               |                                                 |
-                |                 |               | ``75`` -- Component translation completed       |
-                |                 |               |                                                 |
-                |                 |               | ``76`` -- Applied enforced check                |
-                |                 |               |                                                 |
-                |                 |               | ``77`` -- Propagated change                     |
-                |                 |               |                                                 |
-                |                 |               | ``78`` -- File uploaded                         |
-                |                 |               |                                                 |
-                |                 |               | ``79`` -- Extra flags updated                   |
-                +-----------------+---------------+-------------------------------------------------+
+:Configuration: +-----------------+---------------+----------------------------------------------+
+                | ``webhook_url`` | Webhook URL   |                                              |
+                +-----------------+---------------+----------------------------------------------+
+                | ``secret``      | Secret        | A Base64 encoded string                      |
+                +-----------------+---------------+----------------------------------------------+
+                | ``events``      | Change events | .. list-table:: Available choices:           |
+                |                 |               |    :width: 100%                              |
+                |                 |               |                                              |
+                |                 |               |    * - ``0``                                 |
+                |                 |               |      - Resource updated                      |
+                |                 |               |    * - ``1``                                 |
+                |                 |               |      - Translation completed                 |
+                |                 |               |    * - ``2``                                 |
+                |                 |               |      - Translation changed                   |
+                |                 |               |    * - ``3``                                 |
+                |                 |               |      - Comment added                         |
+                |                 |               |    * - ``4``                                 |
+                |                 |               |      - Suggestion added                      |
+                |                 |               |    * - ``5``                                 |
+                |                 |               |      - Translation added                     |
+                |                 |               |    * - ``6``                                 |
+                |                 |               |      - Automatically translated              |
+                |                 |               |    * - ``7``                                 |
+                |                 |               |      - Suggestion accepted                   |
+                |                 |               |    * - ``8``                                 |
+                |                 |               |      - Translation reverted                  |
+                |                 |               |    * - ``9``                                 |
+                |                 |               |      - Translation uploaded                  |
+                |                 |               |    * - ``13``                                |
+                |                 |               |      - Source string added                   |
+                |                 |               |    * - ``14``                                |
+                |                 |               |      - Component locked                      |
+                |                 |               |    * - ``15``                                |
+                |                 |               |      - Component unlocked                    |
+                |                 |               |    * - ``17``                                |
+                |                 |               |      - Changes committed                     |
+                |                 |               |    * - ``18``                                |
+                |                 |               |      - Changes pushed                        |
+                |                 |               |    * - ``19``                                |
+                |                 |               |      - Repository reset                      |
+                |                 |               |    * - ``20``                                |
+                |                 |               |      - Repository merged                     |
+                |                 |               |    * - ``21``                                |
+                |                 |               |      - Repository rebased                    |
+                |                 |               |    * - ``22``                                |
+                |                 |               |      - Repository merge failed               |
+                |                 |               |    * - ``23``                                |
+                |                 |               |      - Repository rebase failed              |
+                |                 |               |    * - ``24``                                |
+                |                 |               |      - Parsing failed                        |
+                |                 |               |    * - ``25``                                |
+                |                 |               |      - Translation removed                   |
+                |                 |               |    * - ``26``                                |
+                |                 |               |      - Suggestion removed                    |
+                |                 |               |    * - ``27``                                |
+                |                 |               |      - Translation replaced                  |
+                |                 |               |    * - ``28``                                |
+                |                 |               |      - Repository push failed                |
+                |                 |               |    * - ``29``                                |
+                |                 |               |      - Suggestion removed during cleanup     |
+                |                 |               |    * - ``30``                                |
+                |                 |               |      - Source string changed                 |
+                |                 |               |    * - ``31``                                |
+                |                 |               |      - String added                          |
+                |                 |               |    * - ``32``                                |
+                |                 |               |      - Bulk status changed                   |
+                |                 |               |    * - ``33``                                |
+                |                 |               |      - Visibility changed                    |
+                |                 |               |    * - ``34``                                |
+                |                 |               |      - User added                            |
+                |                 |               |    * - ``35``                                |
+                |                 |               |      - User removed                          |
+                |                 |               |    * - ``36``                                |
+                |                 |               |      - Translation approved                  |
+                |                 |               |    * - ``37``                                |
+                |                 |               |      - Marked for edit                       |
+                |                 |               |    * - ``38``                                |
+                |                 |               |      - Component removed                     |
+                |                 |               |    * - ``39``                                |
+                |                 |               |      - Project removed                       |
+                |                 |               |    * - ``41``                                |
+                |                 |               |      - Project renamed                       |
+                |                 |               |    * - ``42``                                |
+                |                 |               |      - Component renamed                     |
+                |                 |               |    * - ``43``                                |
+                |                 |               |      - Moved component                       |
+                |                 |               |    * - ``45``                                |
+                |                 |               |      - Contributor joined                    |
+                |                 |               |    * - ``46``                                |
+                |                 |               |      - Announcement posted                   |
+                |                 |               |    * - ``47``                                |
+                |                 |               |      - Alert triggered                       |
+                |                 |               |    * - ``48``                                |
+                |                 |               |      - Language added                        |
+                |                 |               |    * - ``49``                                |
+                |                 |               |      - Language requested                    |
+                |                 |               |    * - ``50``                                |
+                |                 |               |      - Project created                       |
+                |                 |               |    * - ``51``                                |
+                |                 |               |      - Component created                     |
+                |                 |               |    * - ``52``                                |
+                |                 |               |      - User invited                          |
+                |                 |               |    * - ``53``                                |
+                |                 |               |      - Repository notification received      |
+                |                 |               |    * - ``54``                                |
+                |                 |               |      - Translation replaced file by upload   |
+                |                 |               |    * - ``55``                                |
+                |                 |               |      - License changed                       |
+                |                 |               |    * - ``56``                                |
+                |                 |               |      - Contributor license agreement changed |
+                |                 |               |    * - ``57``                                |
+                |                 |               |      - Screenshot added                      |
+                |                 |               |    * - ``58``                                |
+                |                 |               |      - Screenshot uploaded                   |
+                |                 |               |    * - ``59``                                |
+                |                 |               |      - String updated in the repository      |
+                |                 |               |    * - ``60``                                |
+                |                 |               |      - Add-on installed                      |
+                |                 |               |    * - ``61``                                |
+                |                 |               |      - Add-on configuration changed          |
+                |                 |               |    * - ``62``                                |
+                |                 |               |      - Add-on uninstalled                    |
+                |                 |               |    * - ``63``                                |
+                |                 |               |      - String removed                        |
+                |                 |               |    * - ``64``                                |
+                |                 |               |      - Comment removed                       |
+                |                 |               |    * - ``65``                                |
+                |                 |               |      - Comment resolved                      |
+                |                 |               |    * - ``66``                                |
+                |                 |               |      - Explanation updated                   |
+                |                 |               |    * - ``67``                                |
+                |                 |               |      - Category removed                      |
+                |                 |               |    * - ``68``                                |
+                |                 |               |      - Category renamed                      |
+                |                 |               |    * - ``69``                                |
+                |                 |               |      - Category moved                        |
+                |                 |               |    * - ``70``                                |
+                |                 |               |      - Saving string failed                  |
+                |                 |               |    * - ``71``                                |
+                |                 |               |      - String added in the repository        |
+                |                 |               |    * - ``72``                                |
+                |                 |               |      - String updated in the upload          |
+                |                 |               |    * - ``73``                                |
+                |                 |               |      - String added in the upload            |
+                |                 |               |    * - ``74``                                |
+                |                 |               |      - Translation updated by source upload  |
+                |                 |               |    * - ``75``                                |
+                |                 |               |      - Component translation completed       |
+                |                 |               |    * - ``76``                                |
+                |                 |               |      - Applied enforced check                |
+                |                 |               |    * - ``77``                                |
+                |                 |               |      - Propagated change                     |
+                |                 |               |    * - ``78``                                |
+                |                 |               |      - File uploaded                         |
+                |                 |               |    * - ``79``                                |
+                |                 |               |      - Extra flags updated                   |
+                |                 |               |    * - ``80``                                |
+                |                 |               |      - Font uploaded                         |
+                |                 |               |    * - ``81``                                |
+                |                 |               |      - Font changed                          |
+                |                 |               |    * - ``82``                                |
+                |                 |               |      - Font removed                          |
+                +-----------------+---------------+----------------------------------------------+
 :Triggers: :ref:`addon-event-event-change`
 
-Sends notification to external service based on selected events.
+Sends notifications to external services based on selected events, following
+the Standard Webhooks specification.
+
+The request payload complies with the :ref:`schema-messaging` schema.
+The OpenAPI description can also be found at ``/api/docs/``.
+Sample request body:
+
+.. code-block:: json
+
+   {
+      "change_id": 99,
+      "action": "Translation changed",
+      "timestamp": "2019-08-24T14:15:22Z",
+      "target": "Nazdar svete!",
+      "old": "Nazdar!",
+      "source": "Hello, world",
+      "url": "/translate/project-slug/component-slug/cs/?checksum=46add148a53cab6f",
+      "author": "author-username",
+      "user": "user-username",
+      "project": "project-slug",
+      "component": "component-slug",
+      "translation": "cs"
+   }
+
+Sample request body with categories:
+
+.. code-block:: json
+
+   {
+      "change_id": 8910,
+      "action": "Component renamed",
+      "timestamp": "2025-06-11T07:15:09Z",
+      "target": ["new-name"],
+      "old": ["component-slug"],
+      "url": "/projects/project-slug/parent-category/child-category/sub-category/component-slug/",
+      "user": "testuser",
+      "project": "project-slug",
+      "component": "component-slug",
+      "category": [
+         "sub-category",
+         "child-category",
+         "parent-category"
+      ]
+   }
+
+Sample request headers:
+
+.. code-block:: json
+
+   {
+      "webhook-id": "7f1c5477f6275a69af7b83236c20cb1a",
+      "webhook-timestamp": "1748505623.044281",
+      "webhook-signature": "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc="
+   }
+
+The ``webhook-signature`` is a space separated list of HMAC signatures generated using the ``secret`` string,
+the request payload, the ``webhook-timestamp``, and the ``webhook-id``. This ensures the authenticity
+and integrity of the webhook request.
+
+To verify a request, you can use the ``Webhook.verify`` method from the ``standardwebhooks`` library
+or an implementation of the "Standard Webhooks Specification".
+
+
+.. seealso::
+
+   * `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_
+   * :ref:`schema-messaging`
+   * `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
+
+
 
 .. _addon-weblate.xml.customize:
 
@@ -1140,6 +1426,8 @@ Customize XML output
 --------------------
 
 .. versionadded:: 4.15
+
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.xml.customize``
 :Configuration: +------------------+----------------------------------------+--+
@@ -1154,29 +1442,35 @@ Allows adjusting XML output behavior, for example closing tags.
 Customize YAML output
 ---------------------
 
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.yaml.customize``
 :Configuration: +----------------+---------------------+------------------------------------+
                 | ``indent``     | YAML indentation    |                                    |
                 +----------------+---------------------+------------------------------------+
-                | ``width``      | Long lines wrapping | Available choices:                 |
+                | ``width``      | Long lines wrapping | .. list-table:: Available choices: |
+                |                |                     |    :width: 100%                    |
                 |                |                     |                                    |
-                |                |                     | ``80`` -- Wrap lines at 80 chars   |
-                |                |                     |                                    |
-                |                |                     | ``100`` -- Wrap lines at 100 chars |
-                |                |                     |                                    |
-                |                |                     | ``120`` -- Wrap lines at 120 chars |
-                |                |                     |                                    |
-                |                |                     | ``180`` -- Wrap lines at 180 chars |
-                |                |                     |                                    |
-                |                |                     | ``65535`` -- No line wrapping      |
+                |                |                     |    * - ``80``                      |
+                |                |                     |      - Wrap lines at 80 chars      |
+                |                |                     |    * - ``100``                     |
+                |                |                     |      - Wrap lines at 100 chars     |
+                |                |                     |    * - ``120``                     |
+                |                |                     |      - Wrap lines at 120 chars     |
+                |                |                     |    * - ``180``                     |
+                |                |                     |      - Wrap lines at 180 chars     |
+                |                |                     |    * - ``65535``                   |
+                |                |                     |      - No line wrapping            |
                 +----------------+---------------------+------------------------------------+
-                | ``line_break`` | Line breaks         | Available choices:                 |
+                | ``line_break`` | Line breaks         | .. list-table:: Available choices: |
+                |                |                     |    :width: 100%                    |
                 |                |                     |                                    |
-                |                |                     | ``dos`` -- DOS (\\r\\n)            |
-                |                |                     |                                    |
-                |                |                     | ``unix`` -- UNIX (\\n)             |
-                |                |                     |                                    |
-                |                |                     | ``mac`` -- MAC (\\r)               |
+                |                |                     |    * - ``dos``                     |
+                |                |                     |      - DOS (\\r\\n)                |
+                |                |                     |    * - ``unix``                    |
+                |                |                     |      - UNIX (\\n)                  |
+                |                |                     |    * - ``mac``                     |
+                |                |                     |      - MAC (\\r)                   |
                 +----------------+---------------------+------------------------------------+
 :Triggers: :ref:`addon-event-storage-post-load`
 

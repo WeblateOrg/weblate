@@ -261,8 +261,8 @@ or by enforcing it in the VCS configuration, for example:
 
 .. seealso::
 
-    `The cURL manpage <https://curl.se/docs/manpage.html>`_,
-    `Git config documentation <https://git-scm.com/docs/git-config>`_
+    * `The cURL manpage <https://curl.se/docs/manpage.html>`_
+    * `Git config documentation <https://git-scm.com/docs/git-config>`_
 
 
 .. _vcs-git:
@@ -356,8 +356,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`GITHUB_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`GITHUB_CREDENTIALS`
 
 .. _GitHub API: https://docs.github.com/en/rest
 
@@ -382,8 +382,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`GITLAB_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`GITLAB_CREDENTIALS`
 
 .. _GitLab API: https://docs.gitlab.com/api/
 
@@ -410,8 +410,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`GITEA_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`GITEA_CREDENTIALS`
 
 .. _Gitea API: https://docs.gitea.io/en-us/api-usage/
 
@@ -444,8 +444,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`BITBUCKETSERVER_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`BITBUCKETSERVER_CREDENTIALS`
 
 .. _Bitbucket Data Center API: https://developer.atlassian.com/server/bitbucket/
 
@@ -477,8 +477,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`BITBUCKETCLOUD_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`BITBUCKETCLOUD_CREDENTIALS`
 
 .. _Bitbucket Cloud API: https://developer.atlassian.com/cloud/bitbucket/
 
@@ -505,8 +505,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`PAGURE_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`PAGURE_CREDENTIALS`
 
 .. _Pagure API: https://pagure.io/api/0/
 
@@ -541,8 +541,8 @@ Weblate settings to make this work. Once configured, you will see a
 
 .. seealso::
 
-   :ref:`push-changes`,
-   :setting:`AZURE_DEVOPS_CREDENTIALS`
+   * :ref:`push-changes`
+   * :setting:`AZURE_DEVOPS_CREDENTIALS`
 
 .. _Azure DevOps API: https://learn.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.2
 

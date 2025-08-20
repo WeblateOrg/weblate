@@ -11,6 +11,8 @@ from weblate.checks.models import CHECKS
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
+
     from weblate.checks.base import BaseCheck
 
 
@@ -24,7 +26,7 @@ def sorter(check: BaseCheck):
     return (check.source, pos, check.name.lower())
 
 
-def escape(text: str):
+def escape(text: StrOrPromise):
     return text.replace("\\", "\\\\")
 
 
@@ -32,11 +34,14 @@ class Command(BaseCommand):
     help = "List installed checks"
 
     def flush_lines(self, lines: list[str]) -> None:
-        self.stdout.writelines(lines)
+        self.stdout.write("\n".join(lines))
         lines.clear()
 
     def handle(self, *args, **options) -> None:
         """List installed checks."""
+        self.stdout.write("""..
+   Partly generated using ./manage.py list_checks
+""")
         ignores: list[str] = []
         enables: list[str] = []
         lines: list[str] = []
@@ -94,5 +99,5 @@ class Command(BaseCommand):
                 )
 
         self.stdout.write("\n")
-        self.stdout.writelines(enables)
-        self.stdout.writelines(ignores)
+        self.stdout.write("\n".join(enables))
+        self.stdout.write("\n".join(ignores))

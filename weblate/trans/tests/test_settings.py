@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models import CommitPolicyChoices, Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.views import get_form_data
@@ -108,8 +108,52 @@ class SettingsTest(ViewTestCase):
         # Verify change has been done
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
-        self.assertTrue(
-            project.change_set.filter(action=ActionEvents.ACCESS_EDIT).exists()
+        change = project.change_set.filter(action=ActionEvents.ACCESS_EDIT).get()
+
+        # Check change details display
+        self.assertEqual(change.get_details_display(), "Protected")
+
+    def test_commit_policy(self):
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+
+        self.assertFalse(self.project.translation_review)
+
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["commit_policy"] = CommitPolicyChoices.APPROVED_ONLY
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Approved-only commit policy requires translation reviews to be enabled.",
+        )
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(project.commit_policy, CommitPolicyChoices.ALL)
+
+        data["translation_review"] = True
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertTrue(project.translation_review)
+
+        data["translation_review"] = False
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Translation reviews are required for approved-only commit policy.",
+        )
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertTrue(project.translation_review)
+
+        data["commit_policy"] = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertFalse(project.translation_review)
+        self.assertEqual(
+            project.commit_policy, CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         )
 
     def test_component_denied(self) -> None:

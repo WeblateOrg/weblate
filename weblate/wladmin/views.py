@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, Literal, cast
 from urllib.parse import quote
 
 from django.conf import settings
@@ -13,6 +13,7 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.db import transaction
 from django.db.models import Count, QuerySet
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
@@ -65,6 +66,7 @@ from weblate.wladmin.forms import (
     ActivateForm,
     AppearanceForm,
     BackupForm,
+    BackupSelectionForm,
     SSHAddForm,
     TestMailForm,
 )
@@ -213,8 +215,9 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 @require_POST
+@transaction.atomic
 def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
-    support = SupportStatus.objects.get_current()
+    support = SupportStatus.objects.get_current(for_update=True)
 
     if not support.discoverable and settings.SITE_TITLE == "Weblate":
         messages.error(
@@ -223,7 +226,7 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
                 "Please change SITE_TITLE in settings to make your Weblate easy to recognize in discover."
             ),
         )
-    elif support.secret:
+    elif support.secret and support.enabled:
         support.discoverable = not support.discoverable
         support.save(update_fields=["discoverable"])
         support_status_update.delay()
@@ -233,10 +236,15 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 @require_POST
+@transaction.atomic
 def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
-    support = None
+    support: SupportStatus | None = None
     if "refresh" in request.POST:
-        support = SupportStatus.objects.get_current()
+        support = SupportStatus.objects.get_current(for_update=True)
+    elif "unlink" in request.POST:
+        SupportStatus.objects.select_for_update().filter(enabled=True).update(
+            enabled=False
+        )
     else:
         form = ActivateForm(request.POST)
         if form.is_valid():
@@ -279,6 +287,10 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                 gettext("Could not activate your installation: %s") % error,
             )
         else:
+            if not support.pk:
+                SupportStatus.objects.select_for_update().filter(enabled=True).update(
+                    enabled=False
+                )
             support.save()
             messages.success(request, gettext("Activation completed."))
     return redirect("manage")
@@ -307,21 +319,25 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
             if form.is_valid():
                 form.save()
                 return redirect("manage-backups")
-        elif "remove" in request.POST:
-            service = BackupService.objects.get(pk=request.POST["service"])
-            service.delete()
-            return redirect("manage-backups")
-        elif "toggle" in request.POST:
-            service = BackupService.objects.get(pk=request.POST["service"])
-            service.enabled = not service.enabled
-            service.save()
-            return redirect("manage-backups")
-        elif "trigger" in request.POST:
-            settings_backup.delay()
-            database_backup.delay()
-            backup_service.delay(pk=request.POST["service"])
-            messages.success(request, gettext("Backup process triggered"))
-            return redirect("manage-backups")
+        else:
+            modelform = BackupSelectionForm(request.POST)
+            if modelform.is_valid():
+                service = cast("BackupService", modelform.cleaned_data["service"])
+                if "remove" in request.POST:
+                    service.delete()
+                    return redirect("manage-backups")
+                if "toggle" in request.POST:
+                    service.enabled = not service.enabled
+                    service.save()
+                    return redirect("manage-backups")
+                if "trigger" in request.POST:
+                    settings_backup.delay()
+                    database_backup.delay()
+                    backup_service.delay(pk=service.pk)
+                    messages.success(request, gettext("Backup process triggered"))
+                    return redirect("manage-backups")
+            else:
+                show_form_errors(request, modelform)
 
     context = {
         "services": BackupService.objects.all(),
@@ -485,7 +501,9 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     user_list = None
     if form.is_valid():
         query = form.cleaned_data.get("q", "")
-        parser = getattr(form.fields["q"], "parser", "unit")
+        parser = cast(
+            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "unit")
+        )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
             return redirect_param(

@@ -100,7 +100,8 @@ Please file a bug if anything is reported in error.
 
 .. seealso::
 
-   :setting:`CHECK_LIST`, :ref:`custom-checks`
+   * :setting:`CHECK_LIST`
+   * :ref:`custom-checks`
 
 Translation checks
 ------------------
@@ -179,9 +180,9 @@ This check has to be turned on using ``check-glossary`` flag (see
 
 .. seealso::
 
-   :ref:`glossary`,
-   :ref:`custom-checks`,
-   :ref:`component-check_flags`
+   * :ref:`glossary`
+   * :ref:`custom-checks`
+   * :ref:`component-check_flags`
 
 .. _check-double-space:
 
@@ -374,8 +375,8 @@ nor
 
 .. seealso::
 
-  :ref:`check-fluent-source-inner-html`,
-  `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
+   * :ref:`check-fluent-source-inner-html`
+   * `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
 
 .. _check-fluent-target-syntax:
 
@@ -398,9 +399,9 @@ will be valid for Fluent.
 
 .. seealso::
 
-  :ref:`check-fluent-source-syntax`,
-  `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
-  `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
+   * :ref:`check-fluent-source-syntax`
+   * `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
+   * `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
 
 .. _check-formats:
 
@@ -451,8 +452,8 @@ AngularJS interpolation string
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
+   * :ref:`check-formats`
+   * `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
 
 .. _check-automattic-components-format:
 
@@ -469,8 +470,8 @@ Automattic components formatting
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/packages/interpolate-components>`_
+   * :ref:`check-formats`
+   * `Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/packages/interpolate-components>`_
 
 .. _check-c-format:
 
@@ -488,9 +489,9 @@ C format
 
 .. seealso::
 
-   :ref:`check-formats`,
-    `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_,
-    `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
+   * :ref:`check-formats`
+   * `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_
+   * `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
 
 .. _check-c-sharp-format:
 
@@ -507,8 +508,8 @@ C# format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `C# String Format <https://learn.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+   * :ref:`check-formats`
+   * `C# String Format <https://learn.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
 
 .. _check-es-format:
 
@@ -525,8 +526,8 @@ ECMAScript template literals
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
+   * :ref:`check-formats`
+   * `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
 
 .. _check-i18next-interpolation:
 
@@ -546,8 +547,8 @@ i18next interpolation
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
+   * :ref:`check-formats`
+   * `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
 
 .. _check-icu-message-format:
@@ -611,10 +612,10 @@ This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>
 
 .. seealso::
 
-  :ref:`check-icu-message-format-syntax`,
-  :ref:`check-formats`,
-  `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
-  `Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/icu-syntax>`_
+   * :ref:`check-icu-message-format-syntax`
+   * :ref:`check-formats`
+   * `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_
+   * `Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/icu-syntax>`_
 
 
 .. _check-java-printf-format:
@@ -637,8 +638,8 @@ Java format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
+   * :ref:`check-formats`
+   * `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
 
 .. _check-java-format:
@@ -650,8 +651,7 @@ Java MessageFormat
 :Scope: translated strings
 :Check class: ``weblate.checks.format.JavaMessageFormatCheck``
 :Check identifier: ``java_format``
-:Flag to enable unconditionally: ``java-format``
-:Flag to enable autodetection: ``auto-java-messageformat`` enables check only if there is a format string in the source
+:Flag to enable: ``java-format``, ``auto-java-messageformat`` enables check only if there is a format string in the source
 :Flag to ignore: ``ignore-java-format``
 :Position format string example: ``There are {0} apples``
 
@@ -667,8 +667,8 @@ quoting and will not be shown when rendering the string.
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+   * :ref:`check-formats`
+   * `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
 
 .. _check-javascript-format:
 
@@ -685,8 +685,8 @@ JavaScript format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+   * :ref:`check-formats`
+   * `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
 
 .. _check-lua-format:
 
@@ -703,8 +703,8 @@ Lua format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
+   * :ref:`check-formats`
+   * `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
 
 .. _check-object-pascal-format:
 
@@ -721,10 +721,10 @@ Object Pascal format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_,
-   `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
-   `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+   * :ref:`check-formats`
+   * `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+   * `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
+   * `Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
 .. _check-percent-placeholders:
 
@@ -743,7 +743,7 @@ Percent placeholders
 
 .. seealso::
 
-   :ref:`check-formats`,
+   :ref:`check-formats`
 
 .. _check-perl-brace-format:
 
@@ -760,8 +760,8 @@ Perl brace format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+   * :ref:`check-formats`
+   * `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
 
 .. _check-perl-format:
 
@@ -779,9 +779,9 @@ Perl format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_,
-   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+   * :ref:`check-formats`
+   * `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_
+   * `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
 
 .. _check-php-format:
 
@@ -799,9 +799,9 @@ PHP format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
-   `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+   * :ref:`check-formats`
+   * `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_
+   * `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
 
 .. _check-python-brace-format:
 
@@ -819,9 +819,9 @@ Python brace format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   :ref:`Python brace format <python:formatstrings>`,
-   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   * :ref:`check-formats`
+   * :ref:`Python brace format <python:formatstrings>`
+   * `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
 
 .. _check-python-format:
 
@@ -839,9 +839,9 @@ Python format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   :ref:`Python string formatting <python:old-string-formatting>`,
-   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   * :ref:`check-formats`
+   * :ref:`Python string formatting <python:old-string-formatting>`
+   * `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
 
 .. _check-qt-format:
 
@@ -858,8 +858,8 @@ Qt format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+   * :ref:`check-formats`
+   * `Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_
 
 .. _check-qt-plural-format:
 
@@ -876,8 +876,8 @@ Qt plural format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+   * :ref:`check-formats`
+   * `Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handle-plural-forms>`_
 
 .. _check-ruby-format:
 
@@ -897,8 +897,8 @@ Ruby format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-sprintf>`_
+   * :ref:`check-formats`
+   * `Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-sprintf>`_
 
 .. _check-scheme-format:
 
@@ -915,10 +915,10 @@ Scheme format
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_,
-   `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_,
-   `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
+   * :ref:`check-formats`
+   * `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_
+   * `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_
+   * `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
 
 .. _check-vue-format:
 
@@ -937,9 +937,9 @@ Vue I18n formatting
 
 .. seealso::
 
-   :ref:`check-formats`,
-   `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
-   `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
+   * :ref:`check-formats`
+   * `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_
+   * `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
 
 .. _check-translated:
 
@@ -999,19 +999,19 @@ This check applies to all components in a project that have
 
 .. _check-rst-references:
 
-Inconsistent reStructuredText references
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Inconsistent reStructuredText
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 5.10
 
-:Summary: Inconsistent reStructuredText term references in the translated message.
+:Summary: Inconsistent reStructuredText markup in the translated message.
 :Scope: translated strings
 :Check class: ``weblate.checks.markup.RSTReferencesCheck``
 :Check identifier: ``rst-references``
 :Flag to enable: ``rst-text``
 :Flag to ignore: ``ignore-rst-references``
 
-reStructuredText term references do not match source, the typical causes for these errors are:
+reStructuredText term references or other markup do not match source, the typical causes for these errors are:
 
 * Mismatched or missing backticks.
 * Missing spaces or interpunction around the reference. The reStructuredText inline blocks need to be separated by non-word characters.
@@ -1021,8 +1021,8 @@ reStructuredText term references do not match source, the typical causes for the
 
 .. seealso::
 
-   `reStructuredText Primer`_,
-   :ref:`check-rst-syntax`
+   * `reStructuredText Primer`_
+   * :ref:`check-rst-syntax`
 
 .. _check-kashida:
 
@@ -1168,7 +1168,9 @@ pixels:
 
 .. seealso::
 
-   :ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`
+   * :ref:`fonts`
+   * :ref:`custom-checks`
+   * :ref:`check-max-length`
 
 .. _check-escaped-newline:
 
@@ -1350,6 +1352,25 @@ Specifics on how each plural form is used can be found in the string definition.
 Failing to fill in plural forms will in some cases lead to displaying nothing when
 the plural form is in use.
 
+.. _check-kabyle-characters:
+
+
+Non‑standard characters in Kabyle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.12
+
+:Summary: Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.KabyleCharactersCheck``
+:Check identifier: ``kabyle-characters``
+:Flag to ignore: ``ignore-kabyle-characters``
+
+Checks that Kabyle translations use correct Kabyle letters and not similar
+Greek ones, which were often used before Kabyle characters were standardized in
+Unicode.
+
+
 .. _check-placeholders:
 
 Placeholders
@@ -1493,8 +1514,8 @@ reStructuredText syntax error in the translation. Issues to look for:
 
 .. seealso::
 
-   `reStructuredText Primer`_,
-   :ref:`check-rst-references`
+   * `reStructuredText Primer`_
+   * :ref:`check-rst-references`
 
 .. _check-reused:
 
@@ -1623,9 +1644,9 @@ can be disabled by adding ``strict-same`` flag to a string or component.
 
 .. seealso::
 
-   :ref:`check-check-glossary`,
-   :ref:`component`,
-   :ref:`custom-checks`
+   * :ref:`check-check-glossary`
+   * :ref:`component`
+   * :ref:`custom-checks`
 
 .. _check-safe-html:
 
@@ -1892,8 +1913,8 @@ Examples:
 
 .. seealso::
 
-  :ref:`check-fluent-target-inner-html`,
-  `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
+   * :ref:`check-fluent-target-inner-html`
+   * `Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>`_
 
 .. _check-fluent-source-syntax:
 
@@ -1916,9 +1937,9 @@ valid for Fluent.
 
 .. seealso::
 
-  :ref:`check-fluent-target-syntax`,
-  `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
-  `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
+   * :ref:`check-fluent-target-syntax`
+   * `Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_
+   * `Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/basic_syntax.html>`_
 
 .. _check-icu-message-format-syntax:
 
@@ -1934,7 +1955,9 @@ ICU MessageFormat syntax
 :Flag to enable: ``icu-message-format``
 :Flag to ignore: ``ignore-icu-message-format``
 
-.. seealso:: :ref:`check-icu-message-format`
+.. seealso::
+
+   :ref:`check-icu-message-format`
 
 .. _check-long-untranslated:
 

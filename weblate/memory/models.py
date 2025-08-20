@@ -8,14 +8,14 @@ import json
 import math
 import os
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, BinaryIO
 
 from django.conf import settings
 from django.db import models
 from django.db.models import Q, Value
 from django.db.models.functions import MD5
 from django.utils.encoding import force_str
-from django.utils.translation import gettext, pgettext
+from django.utils.translation import gettext, gettext_lazy, pgettext
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
@@ -190,9 +190,9 @@ class MemoryQuerySet(models.QuerySet):
 class MemoryManager(models.Manager):
     def import_file(
         self,
-        request: AuthenticatedHttpRequest,
-        fileobj,
-        langmap=None,
+        request: AuthenticatedHttpRequest | None,
+        fileobj: BinaryIO,
+        langmap: dict[str, str] | None = None,
         source_language: Language | str | None = None,
         target_language: Language | str | None = None,
         **kwargs,
@@ -229,7 +229,11 @@ class MemoryManager(models.Manager):
         return result
 
     def import_json(
-        self, request: AuthenticatedHttpRequest, fileobj, origin=None, **kwargs
+        self,
+        request: AuthenticatedHttpRequest | None,
+        fileobj: BinaryIO,
+        origin: str | None = None,
+        **kwargs,
     ) -> int:
         # Lazily import as this is expensive
         from jsonschema import validate
@@ -251,7 +255,7 @@ class MemoryManager(models.Manager):
                 gettext("Could not parse JSON file: %s") % error
             ) from error
         found = 0
-        lang_cache = {}
+        lang_cache: dict[str, Language] = {}
         for entry in data:
             try:
                 self.update_entry(
@@ -273,10 +277,10 @@ class MemoryManager(models.Manager):
 
     def import_tmx(
         self,
-        request: AuthenticatedHttpRequest,
-        fileobj,
-        origin=None,
-        langmap=None,
+        request: AuthenticatedHttpRequest | None,
+        fileobj: BinaryIO,
+        origin: str | None = None,
+        langmap: dict[str, str] | None = None,
         **kwargs,
     ) -> int:
         if not kwargs:
@@ -291,7 +295,7 @@ class MemoryManager(models.Manager):
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
-        lang_cache = {}
+        lang_cache: dict[str, Language] = {}
         srclang = header.get("srclang")
         if not srclang:
             raise MemoryImportError(
@@ -345,9 +349,9 @@ class MemoryManager(models.Manager):
 
     def import_other_format(
         self,
-        request,
-        fileobj,
-        origin,
+        request: AuthenticatedHttpRequest | None,
+        fileobj: BinaryIO,
+        origin: str,
         source_language: Language | str | None = None,
         target_language: Language | str | None = None,
         **kwargs,
@@ -362,7 +366,7 @@ class MemoryManager(models.Manager):
         """
         from weblate.formats.auto import try_load
 
-        langcache = {}
+        lang_cache: dict[str, Language] = {}
         try:
             storage = try_load(origin, fileobj.read(), None, None)
         except Exception as error:
@@ -384,7 +388,7 @@ class MemoryManager(models.Manager):
                     gettext("Missing source or target language in file!")
                 )
             try:
-                return Language.objects.get_by_code(language, langcache)
+                return Language.objects.get_by_code(language, lang_cache)
             except Language.DoesNotExist as error:
                 raise MemoryImportError(
                     gettext("Could not find language %s!") % language
@@ -414,6 +418,14 @@ class MemoryManager(models.Manager):
 
 
 class Memory(models.Model):
+    # Status choices for the memory entry
+    STATUS_PENDING = 0
+    STATUS_ACTIVE = 1
+    STATUS_CHOICES = [
+        (STATUS_PENDING, gettext_lazy("Pending")),
+        (STATUS_ACTIVE, gettext_lazy("Active")),
+    ]
+
     source_language = models.ForeignKey(
         "lang.Language",
         on_delete=models.deletion.CASCADE,
@@ -427,6 +439,7 @@ class Memory(models.Model):
     source = models.TextField()
     target = models.TextField()
     origin = models.TextField()
+    context = models.TextField(default="", blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,
@@ -443,6 +456,10 @@ class Memory(models.Model):
     )
     from_file = models.BooleanField(default=False)
     shared = models.BooleanField(default=False)
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+    )
 
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
@@ -500,9 +517,11 @@ class Memory(models.Model):
         """Convert to dict suitable for JSON export."""
         return {
             "source": self.source,
+            "context": self.context,
             "target": self.target,
             "source_language": self.source_language.code,
             "target_language": self.target_language.code,
             "origin": self.origin,
             "category": self.get_category(),
+            "status": self.status,
         }

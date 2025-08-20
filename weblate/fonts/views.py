@@ -15,7 +15,9 @@ from django.views.generic import DetailView, ListView, View
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm
 from weblate.fonts.models import Font, FontGroup
-from weblate.trans.models import Project
+from weblate.fonts.utils import get_font_name
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Project
 from weblate.utils import messages
 from weblate.utils.views import parse_path
 
@@ -62,8 +64,14 @@ class FontListView(ProjectViewMixin, ListView):
             )
         if form.is_valid():
             instance = form.save(commit=False)
+            Change.objects.create(
+                action=ActionEvents.FONT_CREATE,
+                user=request.user,
+                target=str(instance),
+                project=self.project,
+            )
             instance.project = self.project
-            instance.user = self.request.user
+            instance.user = request.user
             try:
                 instance.validate_unique()
             except ValidationError:
@@ -83,6 +91,7 @@ class FontListView(ProjectViewMixin, ListView):
 @method_decorator(login_required, name="dispatch")
 class FontDetailView(ProjectViewMixin, DetailView):
     model = Font
+    _font_form = None
 
     def get_queryset(self):
         return self.project.font_set.all()
@@ -90,16 +99,68 @@ class FontDetailView(ProjectViewMixin, DetailView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
+        result["font_form"] = self._font_form or FontForm()
         return result
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
+
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
 
-        self.object.delete()
-        messages.error(request, gettext("Font deleted."))
-        return redirect("fonts", project=self.project.slug)
+        if "delete" in request.POST:
+            self.object.delete()
+            Change.objects.create(
+                action=ActionEvents.FONT_REMOVE,
+                user=request.user,
+                target=str(self.object),
+                project=self.project,
+            )
+            messages.error(request, gettext("Font deleted."))
+            return redirect("fonts", project=self.project.slug)
+
+        form = self._fort_form = FontForm(data=request.POST, files=request.FILES)
+        if not form.is_valid():
+            return self.get(request, **kwargs)
+
+        new_file = form.cleaned_data["font"]
+
+        # This should not fail as font was loaded during the form validation
+        uploaded_family, uploaded_style = get_font_name(new_file)
+
+        # Enforce same family & style
+        if uploaded_family != self.object.family or uploaded_style != self.object.style:
+            messages.error(
+                request,
+                gettext(
+                    "The uploaded font must match the existing family and style: “%(family)s %(style)s”"
+                )
+                % {"family": self.object.family, "style": self.object.style},
+            )
+            return self.get(request, **kwargs)
+
+        # Compare file content
+        current_content = self.object.font.read()
+        self.object.font.seek(0)
+
+        if new_file.loaded_font.font_bytes == current_content:
+            messages.info(
+                request,
+                gettext("The uploaded font file is identical to the current one."),
+            )
+        else:
+            self.object.font = new_file
+            self.object.user = request.user
+            self.object.save()
+            Change.objects.create(
+                action=ActionEvents.FONT_CHANGE,
+                user=request.user,
+                target=str(self.object),
+                project=self.project,
+            )
+            messages.success(request, gettext("Font updated successfully."))
+
+        return redirect(self.object)
 
 
 @method_decorator(login_required, name="dispatch")

@@ -9,6 +9,7 @@ from collections import defaultdict
 from collections.abc import (
     Iterable,
 )
+from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
@@ -29,7 +30,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext
-from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
     ACL_GROUPS,
@@ -67,7 +67,7 @@ if TYPE_CHECKING:
     from social_django.strategy import DjangoStrategy
 
     from weblate.accounts.models import Subscription
-    from weblate.auth.permissions import PermissionResult
+    from weblate.auth.results import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], set[int] | None]]
@@ -240,6 +240,9 @@ class Group(models.Model):
         return str(self)
 
 
+bot_cache = ContextVar("bot_cache", default=dict)
+
+
 class UserManager(BaseUserManager["User"]):
     def _create_user(self, username, email, password, **extra_fields):
         """Create and save a User with the given fields."""
@@ -266,17 +269,24 @@ class UserManager(BaseUserManager["User"]):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def get_or_create_bot(self, scope: str, username: str, verbose: str):
-        return self.get_or_create(
-            username=f"{scope}:{username}",
-            defaults={
-                "is_bot": True,
-                "full_name": verbose,
-                "email": f"noreply-{scope}-{username}@weblate.org",
-                "is_active": False,
-                "password": make_password(None),
-            },
-        )[0]
+    def get_or_create_bot(self, *, scope: str, name: str, verbose: str) -> User:
+        cached = bot_cache.get({})
+        username = f"{scope}:{name}"
+        try:
+            return cached[username]
+        except KeyError:
+            user = self.get_or_create(
+                username=username,
+                defaults={
+                    "is_bot": True,
+                    "full_name": verbose,
+                    "email": f"noreply-{scope}-{name}@weblate.org",
+                    "is_active": False,
+                    "password": make_password(None),
+                },
+            )[0]
+            cached[username] = user
+            return user
 
 
 class UserQuerySet(models.QuerySet["User"]):
@@ -314,7 +324,8 @@ class UserQuerySet(models.QuerySet["User"]):
                 Q(username__icontains=query) | Q(full_name__icontains=query)
             )
         else:
-            result = self.filter(parse_query(query, parser=parser, **context))
+            filters, annotations = parse_query(query, parser=parser, **context)
+            result = self.annotate(**annotations).filter(filters)
         return result.distinct()
 
     def get_author_by_email(
@@ -758,12 +769,20 @@ class User(AbstractBaseUser):
                 "componentlists__components",
                 queryset=Component.objects.only("id", "project_id"),
             ),
+            # The name and slug are used when rendering the groups
             Prefetch(
                 "components",
-                queryset=Component.objects.all().only("id", "project_id"),
+                queryset=Component.objects.all().only(
+                    "id", "project_id", "name", "slug"
+                ),
             ),
-            Prefetch("projects", queryset=Project.objects.only("id", "access_control")),
-            Prefetch("languages", queryset=Language.objects.only("id")),
+            # The name and slug are used when rendering the groups
+            Prefetch(
+                "projects",
+                queryset=Project.objects.only("id", "access_control", "name", "slug"),
+            ),
+            # The name and code are used when rendering the groups
+            Prefetch("languages", queryset=Language.objects.only("id", "name", "code")),
         )
 
     def group_enforces_2fa(self) -> bool:
@@ -1240,14 +1259,6 @@ class WeblateAuthConf(AppConf):
         prefix = ""
 
 
-def get_auth_backends():
-    return load_backends(settings.AUTHENTICATION_BACKENDS)
-
-
-def get_auth_keys():
-    return set(get_auth_backends().keys())
-
-
 class AuthenticatedHttpRequest(HttpRequest):
     user: User
     # Added by weblate.accounts.AuthenticationMiddleware
@@ -1264,3 +1275,9 @@ class AuthenticatedHttpRequest(HttpRequest):
 
     # type hint for wladmin
     weblate_support_status: SupportStatusDict
+
+    # type hint for configuration module
+    weblate_custom_css: str
+
+    # Overrides django.http.request URL generating
+    _current_scheme_host: str

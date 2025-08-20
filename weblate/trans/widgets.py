@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 import cairo
 import gi
 from django.conf import settings
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.html import format_html
 from django.utils.translation import (
@@ -28,6 +29,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode, translation_percent
+from weblate.utils import messages
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
@@ -41,7 +43,7 @@ from weblate.utils.stats import (
 from weblate.utils.views import get_percent_color
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from django.http import HttpRequest, HttpResponse
     from django_stubs_ext import StrOrPromise
 
 gi.require_version("PangoCairo", "1.0")
@@ -76,6 +78,7 @@ class Widget:
     extension = "png"
     content_type = "image/png"
     order = 100
+    extra_parameters: list[dict] = []
 
     def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
@@ -105,6 +108,9 @@ class Widget:
         return pgettext("Translated percents", "%(percent)s%%") % {
             "percent": int(self.percent)
         }
+
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        raise NotImplementedError
 
 
 class BitmapWidget(Widget):
@@ -170,7 +176,7 @@ class BitmapWidget(Widget):
     def render_additional(self, ctx) -> None:
         return
 
-    def render(self, response) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
         """Render widget."""
         configure_fontconfig()
         surface = cairo.ImageSurface.create_from_png(self.get_filename())
@@ -223,7 +229,7 @@ class SVGWidget(Widget):
     content_type = "image/svg+xml; charset=utf-8"
     template_name = ""
 
-    def render(self, response) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
         raise NotImplementedError
 
 
@@ -231,9 +237,9 @@ class PNGWidget(SVGWidget):
     extension = "png"
     content_type = "image/png"
 
-    def render(self, response) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
         with StringIO() as output:
-            super().render(output)
+            super().render(request, output)
             svgdata = output.getvalue()
 
         handle = Rsvg.Handle.new_from_data(svgdata.encode())
@@ -267,6 +273,7 @@ class NormalWidget(BitmapWidget):
     name = "287x66"
     order = 110
     offset = 10
+    # Translators: status widget name
     verbose = gettext_lazy("Big status badge")
 
     def get_columns(self):
@@ -303,6 +310,7 @@ class SmallWidget(BitmapWidget):
     font_size = 7
     line_spacing = 0.8
     offset = -1
+    # Translators: status widget name
     verbose = gettext_lazy("Small status badge")
 
     def get_columns(self):
@@ -410,9 +418,10 @@ class BaseSVGBadgeWidget(SVGWidget):
 class SVGBadgeWidget(BaseSVGBadgeWidget):
     name = "svg"
     order = 80
+    # Translators: status widget name
     verbose = gettext_lazy("SVG status badge")
 
-    def render(self, response: HttpResponse) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
         translated_text = gettext("translated")
         percent_text = self.get_percent_text()
         if self.percent >= 90:
@@ -427,6 +436,7 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
 @register_widget
 class PNGBadgeWidget(PNGWidget, SVGBadgeWidget):
     name = "status"
+    # Translators: status widget name
     verbose = gettext_lazy("PNG status badge")
 
 
@@ -440,7 +450,7 @@ class MultiLanguageWidget(SVGWidget):
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
-    def render(self, response) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
         translations = []
         offset = 20
         color = self.COLOR_MAP[self.color]
@@ -524,9 +534,34 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
 class LanguageBadgeWidget(BaseSVGBadgeWidget):
     name = "language"
     order = 83
+    # Translators: status widget name
     verbose = gettext_lazy("Language count badge")
+    extra_parameters = [
+        {
+            "name": "threshold",
+            "label": gettext("Threshold"),
+            "type": "number",
+            "default": 0,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+        }
+    ]
 
-    def render(self, response: HttpResponse) -> None:
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        try:
+            threshold = int(request.GET.get("threshold", 0))
+        except ValueError as e:
+            messages.error(
+                request,
+                gettext("Error in parameter %(field)s: %(error)s")
+                % {
+                    "field": "threshold",
+                    "error": str(e),
+                },
+            )
+            threshold = 0
+
         languages: list[BaseStats | ProjectLanguage]
         if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
             languages = [self.stats]
@@ -537,7 +572,9 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
         else:
             languages = self.stats.get_language_stats()
 
-        language_count = sum(1 for _ in languages)
+        language_count = sum(
+            1 for lang in languages if lang.translated_percent >= threshold
+        )
         languages_text = ngettext("language", "languages", language_count)
 
         self.render_badge(response, languages_text, str(language_count), "#3fed48")

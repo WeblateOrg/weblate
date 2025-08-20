@@ -162,6 +162,37 @@ class ActionEvents(IntegerChoices):
     FILE_UPLOAD = 78, gettext_lazy("File uploaded")
     # Translators: Name of event in the history
     EXTRA_FLAGS = 79, gettext_lazy("Extra flags updated")
+    # Translators: Name of event in the history
+    FONT_CREATE = 80, gettext_lazy("Font uploaded")
+    # Translators: Name of event in the history
+    FONT_CHANGE = 81, gettext_lazy("Font changed")
+    # Translators: Name of event in the history
+    FONT_REMOVE = 82, gettext_lazy("Font removed")
+    # Translators: Name of event in the history
+    FORCE_SYNC = 83, gettext_lazy("Forced synchronization of translations")
+    # Translators: Name of event in the history
+    FORCE_SCAN = 84, gettext_lazy("Forced rescan of translations")
+
+
+# Actions which are logged
+ACTIONS_LOG = {
+    ActionEvents.RESET,
+    ActionEvents.REMOVE_TRANSLATION,
+    ActionEvents.ACCESS_EDIT,
+    ActionEvents.ADD_USER,
+    ActionEvents.REMOVE_USER,
+    ActionEvents.REMOVE_COMPONENT,
+    ActionEvents.REMOVE_PROJECT,
+    ActionEvents.RENAME_PROJECT,
+    ActionEvents.RENAME_COMPONENT,
+    ActionEvents.MOVE_COMPONENT,
+    ActionEvents.ADDED_LANGUAGE,
+    ActionEvents.CREATE_PROJECT,
+    ActionEvents.CREATE_COMPONENT,
+    ActionEvents.REMOVE_CATEGORY,
+    ActionEvents.RENAME_CATEGORY,
+    ActionEvents.MOVE_CATEGORY,
+}
 
 
 # Actions which can be reverted
@@ -214,6 +245,8 @@ ACTIONS_REPOSITORY = {
     ActionEvents.UNLOCK,
     ActionEvents.HOOK,
     ActionEvents.FILE_UPLOAD,
+    ActionEvents.FORCE_SYNC,
+    ActionEvents.FORCE_SCAN,
 }
 
 # Actions where target is rendered as translation string

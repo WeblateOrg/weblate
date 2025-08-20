@@ -15,10 +15,10 @@ applications.
 
 .. seealso::
 
-    :doc:`tt:formats/flatxml`,
-    :ref:`flatxml`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.cleanup.generic`
+    * :doc:`tt:formats/flatxml`
+    * :ref:`flatxml`
+    * :ref:`updating-target-files`
+    * :ref:`addon-weblate.cleanup.generic`
 
 Example file:
 

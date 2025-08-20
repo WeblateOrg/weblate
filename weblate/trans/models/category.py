@@ -104,6 +104,7 @@ class Category(
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.stats = CategoryStats(self)
+        self.acting_user: User | None = None
 
     def save(self, *args, **kwargs) -> None:
         old = None
@@ -121,7 +122,7 @@ class Category(
                 or old.category != self.category
             ):
                 for component in self.all_components.exclude(component=None):
-                    component.linked_childs.update(repo=component.get_repo_link_url())
+                    component.linked_children.update(repo=component.get_repo_link_url())
             # Move to a different project
             if old.project != self.project:
                 self.move_to_project(self.project)
@@ -139,10 +140,10 @@ class Category(
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
-    def _get_childs_depth(self):
+    def _get_children_depth(self):
         return 1 + max(
             (
-                child._get_childs_depth()  # noqa: SLF001
+                child._get_children_depth()  # noqa: SLF001
                 for child in self.category_set.all()
             ),
             default=0,
@@ -157,7 +158,9 @@ class Category(
         return depth
 
     def _get_category_depth(self):
-        return (self._get_childs_depth() if self.pk else 1) + self._get_parents_depth()
+        return (
+            self._get_children_depth() if self.pk else 1
+        ) + self._get_parents_depth()
 
     @property
     def can_add_category(self):

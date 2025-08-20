@@ -96,6 +96,7 @@ class WeblateConf(AppConf):
     DEFAULT_ACCESS_CONTROL = 0
     DEFAULT_RESTRICTED_COMPONENT = False
     DEFAULT_SHARED_TM = True
+    DEFAULT_AUTOCLEAN_TM = False
 
     DEFAULT_PUSH_ON_COMMIT = True
     DEFAULT_AUTO_LOCK_ERROR = True
@@ -129,9 +130,9 @@ Translate-URL: {{ url }}"""
 
 Translations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{url}}).
 
-{% if component_linked_childs %}
+{% if component_linked_children %}
 It also includes following components:
-{% for linked in component_linked_childs %}
+{% for linked in component_linked_children %}
 * [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})
 {% endfor %}
 {% endif %}

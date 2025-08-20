@@ -184,6 +184,7 @@ class LanguagesForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
     def save(self, commit=True) -> None:
         super().save(commit=commit)
@@ -222,6 +223,7 @@ class CommitForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class ProfileForm(ProfileBaseForm):
@@ -237,6 +239,7 @@ class ProfileForm(ProfileBaseForm):
         model = Profile
         fields = (
             "website",
+            "contact",
             "public_email",
             "liberapay",
             "codesite",
@@ -257,6 +260,7 @@ class ProfileForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class SubscriptionForm(ProfileBaseForm):
@@ -284,6 +288,7 @@ class SubscriptionForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class UserSettingsForm(ProfileBaseForm):
@@ -301,6 +306,7 @@ class UserSettingsForm(ProfileBaseForm):
             "hide_source_secondary",
             "editor_link",
             "special_chars",
+            "contribute_personal_tm",
         )
 
     def __init__(self, *args, **kwargs) -> None:
@@ -309,6 +315,7 @@ class UserSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
 
 class DashboardSettingsForm(ProfileBaseForm):
@@ -327,6 +334,7 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
         component_lists = self.instance.allowed_dashboard_component_lists
         self.fields["dashboard_component_list"].queryset = component_lists
         choices = [
@@ -396,6 +404,7 @@ class UserForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.helper.template_pack = "bootstrap5"
 
     @classmethod
     def from_request(cls, request: AuthenticatedHttpRequest):
@@ -429,7 +438,7 @@ class CaptchaWidget(forms.TextInput):
                 {
                     "algorithm": self.challenge.algorithm,
                     "challenge": self.challenge.challenge,
-                    "maxnumber": self.challenge.maxnumber,
+                    "maxnumber": self.challenge.max_number,
                     "salt": self.challenge.salt,
                     "signature": self.challenge.signature,
                 }
@@ -456,6 +465,15 @@ class CaptchaForm(forms.Form):
         required=True, widget=CaptchaWidget, label=gettext_lazy("Human verification")
     )
 
+    @staticmethod
+    def is_altcha_available():
+        # Altcha requires secure context in browser, which is available
+        # with HTTPS or on localhost
+        return settings.ENABLE_HTTPS or settings.SITE_DOMAIN.rsplit(":", 1)[0] in {
+            "localhost",
+            "127.0.0.1",
+        }
+
     def __init__(
         self,
         *,
@@ -465,23 +483,30 @@ class CaptchaForm(forms.Form):
         initial=None,
     ) -> None:
         super().__init__(data=data, initial=initial)
-        self.has_captcha = True
         self.request = request
         self.challenge: Challenge | None = None
+
+        # Possibly hide fields
         if not settings.REGISTRATION_CAPTCHA or hide_captcha:
-            self.has_captcha = False
             self.fields["altcha"].widget = forms.HiddenInput()
             self.fields["altcha"].required = False
             self.fields["captcha"].widget = forms.HiddenInput()
             self.fields["captcha"].required = False
-        else:
-            self.generate_challenge()
+        elif not self.is_altcha_available():
+            self.fields["altcha"].widget = forms.HiddenInput()
+            self.fields["altcha"].required = False
+
+        # Initialize captcha if required
+        if self.fields["captcha"].required:
             if data is None or "captcha" not in request.session:
                 self.generate_captcha()
             else:
                 self.mathcaptcha = MathCaptcha.unserialize(request.session["captcha"])
             self.set_label()
 
+        # Initialize altcha if required
+        if self.fields["altcha"].required:
+            self.generate_challenge()
             self.fields["altcha"].widget.challenge = self.challenge
             if data is None:
                 self.store_challenge()
@@ -523,7 +548,7 @@ class CaptchaForm(forms.Form):
 
     def clean_captcha(self) -> None:
         """Validate math captcha."""
-        if not self.has_captcha:
+        if not self.fields["altcha"].required and not self.fields["captcha"].required:
             return
         if not self.mathcaptcha.validate(self.cleaned_data["captcha"]):
             self.generate_captcha()
@@ -535,7 +560,7 @@ class CaptchaForm(forms.Form):
 
     def clean_altcha(self) -> None:
         """Validate altcha."""
-        if not self.has_captcha:
+        if not self.fields["altcha"].required:
             return
         payload = self.data.get("altcha", "")
 
@@ -556,7 +581,7 @@ class CaptchaForm(forms.Form):
         result = super().is_valid()
         if result:
             self.cleanup_session()
-        elif self.has_captcha:
+        elif self.fields["altcha"].required:
             self.store_challenge()
         return result
 
@@ -840,8 +865,10 @@ class NotificationForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        self.helper.label_class = "col-md-3"
-        self.helper.field_class = "col-md-9"
+        self.helper.template_pack = "bootstrap5"
+        self.helper.label_class = "col-3"
+        self.helper.field_class = "col-9"
+        self.helper.form_class = "form-horizontal"
         self.helper.layout = Layout(
             "scope",
             "project",
@@ -1084,6 +1111,21 @@ class TOTPDeviceForm(forms.Form):
         }
     )
 
+    remove_previous = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=gettext_lazy("Discard previously configured authentication apps"),
+        help_text=format_html(
+            "{}<br>{}",
+            gettext_lazy(
+                "All previously configured authentication apps will be discarded upon verification of the new app."
+            ),
+            gettext(
+                "Other two-factor methods (such as WebAuthn and security keys) won't be affected."
+            ),
+        ),
+    )
+
     error_messages = {
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
@@ -1098,6 +1140,8 @@ class TOTPDeviceForm(forms.Form):
         self.digits = 6
         self.user = user
         self.metadata = metadata or {}
+        if not self.user.totpdevice_set.exists():
+            self.fields["remove_previous"].widget = forms.HiddenInput()
 
     @property
     def bin_key(self):

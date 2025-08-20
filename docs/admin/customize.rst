@@ -118,8 +118,8 @@ Changing the logo
 
 .. seealso::
 
-   :doc:`django:howto/static-files/index`,
-   :ref:`static-files`
+   * :doc:`django:howto/static-files/index`
+   * :ref:`static-files`
 
 .. _custom-addon-modules:
 .. _custom-check-modules:
@@ -148,4 +148,7 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 
 .. seealso::
 
-    :ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
+   * :ref:`custom-autofix`
+   * :ref:`own-checks`
+   * :ref:`own-addon`
+   * :ref:`addon-script`

@@ -26,6 +26,7 @@ from rest_framework import serializers
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import AuthenticatedHttpRequest, Group, Permission, Role, User
+from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -35,6 +36,7 @@ from weblate.trans.models import (
     AutoComponentList,
     Category,
     Change,
+    Comment,
     Component,
     ComponentList,
     Label,
@@ -226,6 +228,13 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
+    languages = serializers.HyperlinkedIdentityField(
+        view_name="api:language-detail",
+        lookup_field="code",
+        source="profile.languages",
+        many=True,
+        read_only=True,
+    )
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
         lookup_field="username",
@@ -233,6 +242,9 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
     )
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:user-statistics", lookup_field="username"
+    )
+    contributions_url = serializers.HyperlinkedIdentityField(
+        view_name="api:user-contributions", lookup_field="username"
     )
 
     class Meta:
@@ -243,6 +255,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "full_name",
             "username",
             "groups",
+            "languages",
             "notifications",
             "is_superuser",
             "is_active",
@@ -251,6 +264,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "last_login",
             "url",
             "statistics_url",
+            "contributions_url",
         )
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -322,19 +336,44 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
         return instance
 
 
-class CommentSerializer(serializers.Serializer):
+class CommentSerializer(serializers.Serializer[Comment]):
     scope = serializers.ChoiceField(
         choices=["report", "global", "translation"],
         label=gettext_lazy("Scope"),
         help_text=gettext_lazy(
             "Is your comment specific to this translation, or generic for all of them?"
         ),
+        write_only=True,
     )
     comment = serializers.CharField(
         max_length=1000,
-        label=gettext_lazy("New comment"),
+        label=gettext_lazy("Comment text"),
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
+    timestamp = serializers.DateTimeField(
+        required=False,
+        label=gettext_lazy("Creation timestamp"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can set the explicit timestamp at which the comment was created."
+        ),
+    )
+    user_email = serializers.EmailField(
+        required=False,
+        label=gettext_lazy("Commenter’s email"),
+        help_text=gettext_lazy(
+            "If you’re an admin, you can attribute this comment to another user by their email."
+        ),
+        write_only=True,
+    )
+
+    id = serializers.IntegerField(read_only=True)
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
+
+    class Meta:
+        model = Comment
+        fields = ["scope", "comment", "timestamp", "user_email", "id", "user"]
 
     def validate_scope(self, value):
         unit: Unit | None = self.context.get("unit", None)
@@ -352,6 +391,30 @@ class CommentSerializer(serializers.Serializer):
             raise serializers.ValidationError(msg)
 
         return value
+
+    def create(self, validated_data):
+        request = self.context["request"]
+        unit = self.context["unit"]
+
+        text = validated_data.pop("comment")
+        scope = validated_data.pop("scope")
+        timestamp = validated_data.pop("timestamp", None)
+        user_email = validated_data.pop("user_email", None)
+
+        user = request.user
+        if user_email:
+            override = User.objects.filter(email=user_email).first()
+            if override:
+                user = override
+
+        return Comment.objects.add(
+            request=request,
+            unit=unit,
+            text=text,
+            scope=scope,
+            user=user,
+            timestamp=timestamp,
+        )
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
@@ -442,9 +505,13 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     credits_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-credits", lookup_field="slug"
     )
+    lock_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-lock", lookup_field="slug"
+    )
     machinery_settings = serializers.HyperlinkedIdentityField(
         view_name="api:project-machinery-settings", lookup_field="slug"
     )
+    locked = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Project
@@ -464,8 +531,10 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "languages_url",
             "labels_url",
             "credits_url",
+            "lock_url",
             "translation_review",
             "source_review",
+            "commit_policy",
             "set_language_team",
             "instructions",
             "enable_hooks",
@@ -473,6 +542,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "secondary_language",
             "enforced_2fa",
             "machinery_settings",
+            "locked",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -918,6 +988,12 @@ class LockSerializer(serializers.ModelSerializer[Component]):
         fields = ("locked",)
 
 
+class ProjectLockSerializer(serializers.ModelSerializer[Project]):
+    class Meta:
+        model = Project
+        fields = ("locked",)
+
+
 class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
 
@@ -965,15 +1041,10 @@ class UploadRequestSerializer(ReadOnlySerializer):
         ):
             raise serializers.ValidationError({"conflicts": denied.reason})
 
-        if data["method"] == "source" and not obj.is_source:
-            raise serializers.ValidationError(
-                {"method": "Source upload is supported only on source language."}
-            )
-
-        if not check_upload_method_permissions(user, obj, data["method"]):
+        if not (denied := check_upload_method_permissions(user, obj, data["method"])):
             hint = "Check your permissions or use different translation object."
-            if data["method"] == "add" and not obj.is_source:
-                hint = "Try adding to the source instead of the translation."
+            if isinstance(denied, PermissionResult):
+                hint = denied.reason
             raise serializers.ValidationError(
                 {"method": f"This method is not available here. {hint}"}
             )
@@ -1138,7 +1209,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
     last_updated = serializers.DateTimeField(read_only=True)
-    pending = serializers.BooleanField(read_only=True)
+    pending = serializers.BooleanField(source="has_pending_changes", read_only=True)
     labels = UnitLabelsSerializer(many=True)
 
     class Meta:

@@ -131,9 +131,9 @@ supported and will break.
 
 .. seealso::
 
-   `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_,
-   `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_,,
-   `Upgrade from 4.x to 5.0.2 in Weblate 5.0 documentation <https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_
+   * `Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_
+   * `Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_
+   * `Upgrade from 4.x to 5.0.2 in Weblate 5.0 documentation <https://docs.weblate.org/en/weblate-5.0.2/changes.html>`_
 
 .. _database-migration:
 

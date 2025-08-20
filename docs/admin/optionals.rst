@@ -121,8 +121,8 @@ for the project in case he has access to more of them.
 
 .. _legal:
 
-Legal
------
+Legal module
+------------
 
 This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to provide required
 legal documents. It comes provided with blank documents, and you are expected to fill out the
@@ -196,9 +196,9 @@ Weblate currently supports:
 
 .. seealso::
 
-   :ref:`production-cache-avatar`,
-   :setting:`AVATAR_URL_PREFIX`,
-   :setting:`ENABLE_AVATARS`
+   * :ref:`production-cache-avatar`
+   * :setting:`AVATAR_URL_PREFIX`
+   * :setting:`ENABLE_AVATARS`
 
 .. _spam-protection:
 
@@ -224,9 +224,9 @@ Following content is sent to Akismet for checking:
 
 .. seealso::
 
-    :ref:`reverse-proxy`,
-    :setting:`AKISMET_API_KEY`,
-    :envvar:`WEBLATE_AKISMET_API_KEY`
+    * :ref:`reverse-proxy`
+    * :setting:`AKISMET_API_KEY`
+    * :envvar:`WEBLATE_AKISMET_API_KEY`
 
 
 .. _gpg-sign:
@@ -288,7 +288,9 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sending message to admins         | ``MESSAGE``        | 2                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Password authentication on sign in| ``LOGIN``          | 5                | 300              | 600            |
+| Password authentication on sign-in| ``LOGIN``          | 5                | 300              | 600            |
++-----------------------------------+--------------------+------------------+------------------+----------------+
+| Second-factor authentication      | ``SECOND_FACTOR``  | 5                | 300              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sitewide search                   | ``SEARCH``         | 6                | 60               | 60             |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
@@ -312,9 +314,9 @@ The API has separate rate limiting settings, see :ref:`api-rate`.
 
 .. seealso::
 
-   :ref:`user-rate`,
-   :ref:`reverse-proxy`,
-   :ref:`api-rate`
+   * :ref:`user-rate`
+   * :ref:`reverse-proxy`
+   * :ref:`api-rate`
 
 .. _fedora-messaging:
 

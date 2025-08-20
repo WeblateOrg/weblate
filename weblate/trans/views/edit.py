@@ -48,6 +48,7 @@ from weblate.trans.forms import (
     get_new_unit_form,
 )
 from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
     try_linkify_filename,
@@ -278,6 +279,7 @@ def search(
             "name": str(name),
             "ids": unit_ids,
             "ttl": now + SESSION_SEARCH_CACHE_TTL,
+            "last_viewed_unit_id": None,
         }
         if use_cache:
             request.session[session_key] = store_result
@@ -448,7 +450,7 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
     """Handle unit merging."""
     mergeform = MergeForm(unit, request.POST)
     if not mergeform.is_valid():
-        messages.error(request, gettext("Invalid merge request!"))
+        show_form_errors(request, mergeform)
         return None
 
     merged = mergeform.cleaned_data["merge_unit"]
@@ -468,7 +470,7 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
 def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     revertform = RevertForm(unit, request.GET)
     if not revertform.is_valid():
-        messages.error(request, gettext("Invalid revert request!"))
+        show_form_errors(request, revertform)
         return None
 
     change = revertform.cleaned_data["revert_change"]
@@ -638,6 +640,20 @@ def translate(request: AuthenticatedHttpRequest, path):
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
 
+    last_viewed_unit_id = search_result.get("last_viewed_unit_id")
+    if last_viewed_unit_id:
+        previous_unit = unit_set.get(pk=last_viewed_unit_id)
+        if unit.translation.component != previous_unit.translation.component:
+            messages.warning(
+                request,
+                gettext("You have shifted from %(previous)s to %(current)s.")
+                % {
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
+                },
+            )
+    search_result["last_viewed_unit_id"] = unit.id
+
     # Some URLs we will most likely use
     base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
@@ -773,7 +789,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             user=request.user,
             translation=translation,
             mode=autoform.cleaned_data["mode"],
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data.get("q"),
         )
         message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
@@ -787,7 +803,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             user_id=request.user.id,
             translation_id=translation.id,
             mode=autoform.cleaned_data["mode"],
-            filter_type=autoform.cleaned_data["filter_type"],
+            q=autoform.cleaned_data.get("q"),
             auto_source=autoform.cleaned_data["auto_source"],
             component=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
@@ -801,8 +817,8 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 
 
 @login_required
-@session_ratelimit_post("comment", logout_user=False)
 @transaction.atomic
+@session_ratelimit_post("comment", logout_user=False)
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
@@ -818,6 +834,7 @@ def comment(request: AuthenticatedHttpRequest, pk):
         Comment.objects.add(request, unit, text, scope)
         messages.success(request, gettext("Posted new comment"))
     else:
+        show_form_errors(request, form)
         messages.error(request, gettext("Could not add comment!"))
 
     return redirect_next(request.POST.get("next"), unit)
@@ -876,6 +893,7 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
     units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][offset : offset + 20]
     )
+    fill_in_source_translation(units)
     fetch_glossary_terms(units)
 
     unitdata = [

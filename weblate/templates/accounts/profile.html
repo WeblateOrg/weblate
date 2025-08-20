@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load authnames compress crispy_forms_tags i18n icons otp_webauthn static translations %}
 
@@ -9,6 +9,41 @@
             src="{% static 'js/accounts/profile/index.js' %}{{ cache_param }}"></script>
   {% endcompress %}
 {% endblock extra_script %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-toggle="tab"
+         data-bs-target="#languages"
+         href="#">{% translate "Languages" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences" href="#">{% translate "Preferences" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#account" href="#">{% translate "Account" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" href="#">{% translate "Profile" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#teams" href="#">{% translate "Teams" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#licenses" href="#">{% translate "Licenses" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#api" href="#">{% translate "API access" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
 
 {% block breadcrumbs %}
   <li>
@@ -27,67 +62,37 @@
     {% csrf_token %}
     <input type="hidden" id="form-activetab" name="activetab" value="" />
 
-    <ul class="nav nav-pills">
-      <li class="active">
-        <a data-toggle="tab" href="#languages">{% translate "Languages" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#preferences">{% translate "Preferences" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#account">{% translate "Account" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#profile">{% translate "Profile" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#teams">{% translate "Teams" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#licenses">{% translate "Licenses" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
-      </li>
-      <li>
-        <a data-toggle="tab" href="#api">{% translate "API access" %}</a>
-      </li>
-    </ul>
-
     <div class="tab-content">
 
-      <div class="tab-pane active" id="languages">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
+      <div class="tab-pane show active" id="languages">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon5 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             {% crispy languagesform %}
             <p class="help-block">
               {% blocktranslate %}Send a request to the project you want to translate to add a missing language.{% endblocktranslate %}
             </p>
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
       </div>
 
       <div class="tab-pane" id="preferences">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon5 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
             </h4>
           </div>
-          <div class="panel-body">
-            {{ usersettingsform|crispy }}
-            {{ dashboardsettingsform|crispy }}
+          <div class="card-body">
+            {% crispy usersettingsform %}
+            {% crispy dashboardsettingsform %}
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
@@ -95,42 +100,44 @@
 
       <div class="tab-pane" id="notifications">
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon5 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
             </h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             {% crispy subscriptionform %}
             <p class="help-block">
               {% translate "Add all projects you want to translate to see them as watched projects on the dashboard." %}
             </p>
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon5 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
             </h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
 
             <ul class="nav nav-pills">
               {% for form in notification_forms %}
-                <li {% if form.is_active %}class="active"{% endif %}>
-                  <a data-toggle="tab" href="#{{ form.prefix }}">
+                <li class="nav-item">
+                  <a class="nav-link{% if form.is_active %} active{% endif %}"
+                     data-bs-toggle="tab"
+                     data-bs-target="#{{ form.prefix }}"
+                     role="tab"
+                     href="#">
                     {{ form.get_name }}
                     {% if form.removable %}
                       <button type="button"
-                              class="close"
-                              title="{% translate "Remove this notification setting" %}">
-                        <span aria-hidden="true">×</span>
-                      </button>
+                              class="btn-close"
+                              title="{% translate "Remove this notification setting" %}"></button>
                     {% endif %}
                   </a>
                 </li>
@@ -141,7 +148,9 @@
 
               {% for form in notification_forms %}
                 <div class="tab-pane {% if form.is_active %}active{% endif %}"
-                     id="{{ form.prefix }}">
+                     id="{{ form.prefix }}"
+                     role="tabpanel"
+                     tabindex="0">
                   <div class="form-horizontal">{% crispy form %}</div>
                 </div>
               {% endfor %}
@@ -149,18 +158,18 @@
             </div>
 
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
       </div>
 
       <div class="tab-pane" id="account">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'user/profile' right=True %}{% translate "Account" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon5 'user/profile' right=True %}{% translate "Account" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
 
 
 
@@ -169,13 +178,13 @@
             <p class="help-block">
               {% if has_email_auth %}
                 <a href=""
-                   class="link-post pull-right flip btn btn-link"
+                   class="link-post float-end btn btn-link"
                    data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
               {% endif %}
               {% translate "The e-mail address can be chosen from verified addresses only." %}
             </p>
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
@@ -183,16 +192,16 @@
         <div class="row">
           <div class="col-sm-6">
 
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  {% documentation_icon 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon5 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
                 </h4>
               </div>
               <ul class="list-group">
                 {% if request.user.has_usable_password or has_email_auth %}
                   <li class="list-group-item auth-list">
-                    <a href="{% url 'password' %}" class="btn btn-primary pull-right flip">
+                    <a href="{% url 'password' %}" class="btn btn-primary float-end">
                       {% if request.user.has_usable_password %}
                         {% translate "Change password" %}
                       {% else %}
@@ -212,7 +221,7 @@
                   <li class="list-group-item auth-list">
                     {% if associated.count > 1 %}
                       <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account"
-                         class="disconnect btn btn-danger pull-right flip">{% translate "Disconnect" %}</a>
+                         class="disconnect btn btn-danger float-end">{% translate "Disconnect" %}</a>
                     {% endif %}
 
                     {% auth_name assoc.provider only="icon" %}
@@ -229,11 +238,11 @@
 
           {% if new_backends %}
             <div class="col-sm-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">{% translate "Add new user identity" %}</h4>
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">{% translate "Add new user identity" %}</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                   {% for name in new_backends %}
                     <a href=""
                        class="btn btn-link link-post"
@@ -245,14 +254,14 @@
           {% endif %}
         </div>
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% documentation_icon 'admin/auth' '2fa' right=True %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon5 'admin/auth' '2fa' right=True %}
               {% translate "Two-factor authentication" %}
             </h4>
           </div>
-          <div class="panel-body second-factor">
+          <div class="card-body second-factor">
             <p class="help-block">
               {% translate "Two-factor authentication adds another layer of security to your account by requiring more than just a password to sign in." %}
             </p>
@@ -269,7 +278,7 @@
                     {% for key in webauthn_keys %}
                       <li class="list-group-item">
                         <a href=""
-                           class="btn btn-danger pull-right flip link-post"
+                           class="btn btn-danger float-end link-post"
                            data-href="{% url "webauthn-detail" pk=key.id %}"
                            data-params='{"delete": 1}'>{% translate "Remove" %}</a>
                         {% key_name key %}
@@ -313,7 +322,7 @@
                     {% for key in totp_keys %}
                       <li class="list-group-item">
                         <a href=""
-                           class="btn btn-danger pull-right flip link-post"
+                           class="btn btn-danger float-end link-post"
                            data-href="{% url "totp-detail" pk=key.id %}"
                            data-params='{"delete": 1}'>{% translate "Remove" %}</a>
                         {% key_name key %}
@@ -352,30 +361,30 @@
         <div class="row">
 
           <div class="col-sm-6">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "User data" %}</h4>
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "User data" %}</h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
 
                 <p>{% translate "You can download all your private data." %}</p>
               </div>
-              <div class="panel-footer">
+              <div class="card-footer">
                 <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
               </div>
             </div>
           </div>
 
           <div class="col-sm-6">
-            <div class="panel panel-danger">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "Removal" %}</h4>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Removal" %}</h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
 
                 <p>{% translate "Account removal deletes all your private data." %}</p>
               </div>
-              <div class="panel-footer">
+              <div class="card-footer">
                 <a class="btn btn-danger" href="{% url 'remove' %}">{% translate "Remove my account" %}</a>
               </div>
             </div>
@@ -386,29 +395,29 @@
       </div>
 
       <div class="tab-pane" id="profile">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% documentation_icon 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon5 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
             </h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             {% crispy profileform %}
             <p class="help-block">
               {% blocktranslate %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktranslate %}
             </p>
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
           </div>
         </div>
         {% if enable_avatars %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% documentation_icon5 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
             </div>
-            <div class="panel-body">
-              <p class="border">
+            <div class="card-body">
+              <p>
                 <img class="avatar w128"
                      alt="{% translate "User avatar" %}"
                      src="{% url 'user_avatar' user=request.user.username size=128 %}" />
@@ -472,20 +481,20 @@
       </div>
 
       <div class="tab-pane" id="audit">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Description" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Description" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             <p>
               {% blocktranslate %}Get in contact immediately if you notice anything suspicious in the audit log.{% endblocktranslate %}
             </p>
           </div>
         </div>
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Audit log" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Audit log" %}</h4>
           </div>
           <table class="table">
             <thead>
@@ -511,7 +520,7 @@
               {% endfor %}
             </tbody>
           </table>
-          <div class="panel-footer">
+          <div class="card-footer">
             <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
           </div>
         </div>
@@ -519,9 +528,9 @@
       </div>
 
       <div class="tab-pane" id="api">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% documentation_icon 'api' right=True %}{% translate "API access" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon5 'api' right=True %}{% translate "API access" %}</h4>
           </div>
           <table class="table">
             <tr>
@@ -545,7 +554,7 @@
                         data-clipboard-message="{% translate "API key copied to clipboard." %}"
                         title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
                 <a href=""
-                   class="pull-right flip btn btn-primary link-post"
+                   class="float-end btn btn-primary link-post"
                    data-href="{% url 'reset-api-key' %}">{% translate "Regenerate API key" %}</a>
               </td>
             </tr>
@@ -556,27 +565,31 @@
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon 'api' right=True %}{% translate "API usage example:" %}</th>
+              <th colspan="2">{% documentation_icon5 'api' right=True %}{% translate "API usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
                 <pre dir="ltr">
+                  <code>
 curl \
     -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
     {{ site_url }}{% url 'api:api-root' %}
+                  </code>
 </pre>
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
+              <th colspan="2">{% documentation_icon5 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
                 <pre dir="ltr">
+                  <code>
 wlc \
     --key <span class="auth-token">{{ user.auth_token.key }}</span> \
     --url {{ site_url }}{% url 'api:api-root' %} \
     list-projects
+                  </code>
 </pre>
               </td>
             </tr>
@@ -584,18 +597,18 @@ wlc \
         </div>
 
         {% if has_gitexport %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                {% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon5 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
               </h4>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
               <p>
                 {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
               </p>
-              <pre dir="ltr">
-git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+              <code dir="ltr">
+              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}/git/PROJECT/COMPONENT/'</code>
             </div>
           </div>
         {% endif %}
@@ -603,11 +616,11 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
       </div>
 
       <div class="tab-pane" id="licenses">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Licenses" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Licenses" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             <p>{% translate "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
             <p>
               {% translate "By registering you agree to use your name and e-mail in the commits, and provide your contribution under the license defined by each localization project." %}
@@ -631,11 +644,11 @@ git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ use
         {% if licenses %}
           {% regroup licenses by license as license_list %}
           <div class="tab-pane" id="licenses">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "Licenses for individual translations" %}</h4>
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Licenses for individual translations" %}</h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                 {% for dummy, items in license_list %}
                   <h4>
                     {{ items.0.get_license_display }}

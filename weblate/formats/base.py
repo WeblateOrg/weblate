@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -20,6 +20,7 @@ from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
+from weblate.checks.flags import Flags
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
@@ -197,9 +198,17 @@ class TranslationUnit:
         return ""
 
     @cached_property
-    def flags(self) -> str:
+    def flags(self) -> Flags:
         """Return flags or typecomments from units."""
-        return ""
+        flags = Flags()
+        # add default flags based location extensions
+        for location in self.locations.split(","):
+            _, extension = os.path.splitext(location.split(":")[0].strip())
+            if extension == ".rst":
+                flags.merge("rst-text")
+            elif extension in {".md", ".markdown"}:
+                flags.merge("md-text")
+        return flags
 
     @cached_property
     def notes(self) -> str:
@@ -349,6 +358,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -366,6 +376,7 @@ class TranslationFormat:
         self.existing_units = [] if existing_units is None else existing_units
 
         # Load store
+        self.file_format_params = file_format_params or {}
         self.store = self.load(storefile, template_store)
 
         self.add_breadcrumb(
@@ -397,7 +408,9 @@ class TranslationFormat:
         return [self.storefile.name]
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
     ) -> InnerStore:
         raise NotImplementedError
 
@@ -577,8 +590,9 @@ class TranslationFormat:
         cls,
         base: str,
         monolingual: bool,
-        errors: list | None = None,
+        errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError
@@ -675,6 +689,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Add new language file."""
         # Create directory for a translation
@@ -684,7 +699,9 @@ class TranslationFormat:
         if not dirname.exists():
             dirname.mkdir(parents=True)
 
-        cls.create_new_file(str(filename.as_posix()), language, base, callback)
+        cls.create_new_file(
+            str(filename.as_posix()), language, base, callback, file_format_params
+        )
 
     @classmethod
     def get_new_file_content(cls) -> bytes:
@@ -697,6 +714,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
+        file_format_params: dict[str, Any] | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
@@ -899,6 +917,31 @@ class BilingualUpdateMixin:
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
+
+    @classmethod
+    def get_msgmerge_args(cls, component) -> list[str]:
+        """
+        Return list of arguments for update command.
+
+        This is used to pass additional arguments to update command.
+        """
+        from weblate.addons.gettext import MsgmergeAddon
+
+        params = component.file_format_params
+        args: list[str] = []
+        if component.get_addon(MsgmergeAddon.name):
+            if not params.get("po_fuzzy_matching", True):
+                args.append("--no-fuzzy-matching")
+            if params.get("po_keep_previous", True):
+                args.append("--previous")
+            if params.get("po_no_location", False):
+                args.append("--no-location")
+        else:
+            args.append("--previous")
+
+        if int(params.get("po_line_wrap", 77)) != 77:
+            args.append("--no-wrap")
+        return args
 
 
 class BaseExporter:

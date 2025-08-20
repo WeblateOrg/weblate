@@ -116,8 +116,8 @@ Once you have added a project, translation components can be added to it.
 
 .. seealso::
 
-   :ref:`component`,
-   :ref:`bimono`
+   * :ref:`component`
+   * :ref:`bimono`
 
 .. _monolingual:
 
@@ -132,5 +132,5 @@ mapping of message IDs to its respective source language (usually English).
 
 .. seealso::
 
-   :ref:`component`,
-   :ref:`bimono`
+   * :ref:`component`
+   * :ref:`bimono`

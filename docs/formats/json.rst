@@ -47,10 +47,10 @@ file with (what is most often the) English strings.
 
 .. seealso::
 
-    :doc:`tt:formats/json`,
-    :ref:`updating-target-files`,
-    :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+    * :doc:`tt:formats/json`
+    * :ref:`updating-target-files`
+    * :ref:`addon-weblate.json.customize`
+    * :ref:`addon-weblate.cleanup.generic`
 
 Example files
 +++++++++++++
@@ -79,3 +79,9 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | File format                    | `JSON nested structure file`     |
 +--------------------------------+----------------------------------+
+
+
+File format parameters
+++++++++++++++++++++++
+
+:ref:`file_format_params` with the pattern `json_*` can be used to configure the behavior of the JSON format.

@@ -17,12 +17,12 @@ The authentication attempts are subject to :ref:`rate-limit`.
 Authentication backends
 -----------------------
 
-The built-in solution of Django is used for authentication,
-including various social options to do so.
-Using it means you can import the user database of other Django-based projects
-(see :ref:`pootle-migration`).
+Weblate relies on Django for the authentication. This includes built-in
+password-based authentication, social authentication, and third-party
+authentication backends for Django.
 
-Django can additionally be set up to authenticate against other means too.
+Using Django's built-in authentication means you can import the user database
+of other Django-based projects (see :ref:`pootle-migration`).
 
 .. seealso::
 
@@ -49,7 +49,9 @@ in :doc:`psa:configuration/django`.
 
         SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 
-    .. seealso:: :doc:`psa:pipeline`
+    .. seealso::
+
+       :doc:`psa:pipeline`
 
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
@@ -194,8 +196,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 Google OAuth 2
 ~~~~~~~~~~~~~~
 
-To use Google OAuth 2, you need to register an application at
-<https://console.developers.google.com/> and enable the Google+ API.
+To use Google OAuth 2, you need to register an OAuth application at
+<https://console.developers.google.com/>.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``.
 
@@ -465,8 +467,10 @@ passwords below a certain threshold.
 
 .. seealso::
 
-   :setting:`PASSWORD_MINIMAL_STRENGTH`,
-   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   * :setting:`PASSWORD_MINIMAL_STRENGTH`
+   * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   * :doc:`/security/passwords`
+
 
 .. _saml-auth:
 
@@ -474,6 +478,12 @@ SAML authentication
 -------------------
 
 .. versionadded:: 4.1.1
+
+.. versionchanged:: 5.12
+
+   The dependencies for SAML authentication are no longer included in the
+   default ``all`` extras. You need to include ``saml`` while installing the
+   Weblate package using pip (``uv pip install Weblate[all,saml]``).
 
 Please follow the Python Social Auth instructions for configuration. Notable differences:
 
@@ -549,8 +559,8 @@ configure your IDP to provide them:
 
 .. seealso::
 
-   :ref:`Configuring SAML in Docker <docker-saml>`,
-   :doc:`psa:backends/saml`
+   * :ref:`Configuring SAML in Docker <docker-saml>`
+   * :doc:`psa:backends/saml`
 
 .. _ldap-auth:
 
@@ -676,7 +686,8 @@ Active Directory integration
 
 .. seealso::
 
-    :doc:`ldap:index`, :doc:`ldap:authentication`
+   * :doc:`ldap:index`
+   * :doc:`ldap:authentication`
 
 
 .. _cas-auth:
@@ -685,7 +696,7 @@ Active Directory integration
 CAS authentication
 ------------------
 
-CAS authentication can be achieved using a package such as `django-cas-ng`.
+CAS authentication can be achieved using a package such as `Django CAS NG`_.
 
 Step one is disclosing the e-mail field of the user via CAS. This has to be
 configured on the CAS server itself, and requires you run at least CAS v2 since
@@ -693,7 +704,7 @@ CAS v1 doesn't support attributes at all.
 
 Step two is updating Weblate to use your CAS server and attributes.
 
-To install `django-cas-ng`:
+To install `Django CAS NG`_:
 
 .. code-block:: sh
 
@@ -738,9 +749,7 @@ cause problems, therefore it's suggested to put it:
         user.email = attributes["email"]
         user.save()
 
-.. seealso::
-
-    `Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_
+.. _Django CAS NG: https://github.com/django-cas-ng/django-cas-ng
 
 Configuring third party Django authentication
 ---------------------------------------------
@@ -751,8 +760,8 @@ installed.
 
 .. seealso::
 
-    :ref:`ldap-auth`,
-    :ref:`cas-auth`
+   * :ref:`ldap-auth`
+   * :ref:`cas-auth`
 
 Typically the installation will consist of adding an authentication backend to
 :setting:`django:AUTHENTICATION_BACKENDS` and installing an authentication app (if

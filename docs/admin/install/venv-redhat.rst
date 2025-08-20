@@ -17,7 +17,7 @@ Installing on RedHat, Fedora and CentOS
 
 .. code-block:: sh
 
-    dnf install openldap-devel libsasl2-devel
+    dnf install openldap-devel cyrus-sasl-devel
     dnf install xmlsec1-devel
 
 
@@ -29,7 +29,7 @@ Installing on RedHat, Fedora and CentOS
     dnf install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
-    dnf install apache2 apache2-mod_wsgi
+    dnf install httpd python3-mod_wsgi
 
     # Caching backend: Redis
     dnf install redis

@@ -199,7 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
 with open(get_test_file("googlev3.json")) as handle:
     GOOGLEV3_KEY = handle.read()
 
-MODERNMT_REPONSE = {
+MODERNMT_RESPONSE = {
     "data": {
         "contextVector": {
             "entries": [
@@ -216,9 +216,15 @@ MODERNMT_REPONSE = {
 }
 
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
-DEEPL_LANG_RESPONSE = [
+DEEPL_SOURCE_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
     {"language": "DE", "name": "Deutsch", "supports_formality": True},
+    {"language": "PT", "name": "Portuguese"},
+]
+DEEPL_TARGET_LANG_RESPONSE = [
+    {"language": "EN-GB", "name": "English (British)"},
+    {"language": "DE", "name": "Deutsch", "supports_formality": True},
+    {"language": "PT-BR", "name": "Portuguese (Brasilian)"},
 ]
 
 LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
@@ -1108,8 +1114,8 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
             def delete(self, *args, **kwargs) -> None:
                 """Mock google.cloud.storage.Blob.delete."""
                 if fail_delete:
-                    faile_message = "Blob file was not found"
-                    raise google_api_exceptions.NotFound(faile_message)
+                    failed_message = "Blob file was not found"
+                    raise google_api_exceptions.NotFound(failed_message)
 
         return MockBlob
 
@@ -1475,7 +1481,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET,
             "https://api.modernmt.com/translate",
-            json=MODERNMT_REPONSE,
+            json=MODERNMT_RESPONSE,
             status=200,
             content_type="text/json",
         )
@@ -1548,7 +1554,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         def translate_request_callback(request: PreparedRequest):
             """Check 'glossaries' included in request params."""
             self.assertIn("glossaries", request.params)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
+            return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -1678,7 +1684,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
             )
 
-    def test_glossary_with_delete_fail(self):
+    def test_glossary_with_delete_fail(self) -> None:
         self.test_glossary(fail_delete_glossary=True)
 
     @responses.activate
@@ -1688,7 +1694,7 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         def request_callback(request: PreparedRequest):
             """Check 'context_vector' included in request body."""
             self.assertIn("context_vector", request.params)
-            return (200, {}, json.dumps(MODERNMT_REPONSE))
+            return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         responses.add_callback(
             responses.GET,
@@ -1751,13 +1757,11 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET,
             "https://api.deepl.com/v2/languages",
-            json=DEEPL_LANG_RESPONSE,
             status=500,
         )
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/translate",
-            json=DEEPL_RESPONSE,
             status=500,
         )
 
@@ -1765,8 +1769,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def mock_languages() -> None:
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/languages",
-            json=DEEPL_LANG_RESPONSE,
+            "https://api.deepl.com/v2/languages?type=source",
+            json=DEEPL_SOURCE_LANG_RESPONSE,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v2/languages?type=target",
+            json=DEEPL_TARGET_LANG_RESPONSE,
         )
         responses.add(
             responses.GET,
@@ -2020,6 +2029,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(len(responses.calls), 0)
 
+    @responses.activate
     def test_api_url(self) -> None:
         self.assertEqual(
             self.MACHINE_CLS(self.CONFIGURATION).api_base_url,
@@ -2043,6 +2053,16 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             ).api_base_url,
             "https://example.com/v2",
         )
+
+    @responses.activate
+    def test_languages_map(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        self.mock_languages()
+        lang_pt = Language.objects.get(code="pt")
+        lang_pt_br = Language.objects.get(code="pt_BR")
+        lang_en = Language.objects.get(code="en")
+        self.assertEqual(machine.get_languages(lang_pt_br, lang_en), ("PT", "EN"))
+        self.assertEqual(machine.get_languages(lang_pt, lang_pt_br), ("PT", "PT-BR"))
 
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
@@ -2477,7 +2497,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                     "object": "list",
                     "data": [
                         {
-                            "id": "gpt-3.5-turbo",
+                            "id": "gpt-5-nano",
                             "object": "model",
                             "created": 1686935002,
                             "owned_by": "openai",
@@ -2495,7 +2515,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                     "id": "chatcmpl-123",
                     "object": "chat.completion",
                     "created": 1677652288,
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-5-nano",
                     "system_fingerprint": "fp_44709d6fcb",
                     "choices": [
                         {
@@ -2534,7 +2554,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                     "object": "list",
                     "data": [
                         {
-                            "id": "gpt-3.5-turbo",
+                            "id": "gpt-5-nano",
                             "object": "model",
                             "created": 1686935002,
                             "owned_by": "openai",
@@ -2552,7 +2572,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                     "id": "chatcmpl-123",
                     "object": "chat.completion",
                     "created": 1677652288,
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-5-nano",
                     "system_fingerprint": "fp_44709d6fcb",
                     "choices": [
                         {
@@ -2681,7 +2701,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
         results = machine.translate(unit, self.user)
         self.assertEqual(results, [])
 
-    def test_fallback_language(self):
+    def test_fallback_language(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -2764,7 +2784,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
 
-    def test_multiple_languages(self):
+    def test_multiple_languages(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -2795,7 +2815,7 @@ class CyrTranslitTranslationTest(ViewTestCase):
             ],
         )
 
-    def test_placeholders(self):
+    def test_placeholders(self) -> None:
         machine = self.get_machine()
 
         # Add translations and prepare units
@@ -3084,7 +3104,7 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
         self.edit_unit(self.SOURCE, self.TRANSLATION, language=self.LANGUAGE)
         return self.get_unit(self.SOURCE)
 
-    def test_translate(self):
+    def test_translate(self) -> None:
         czech_unit = self.prepare()
         machine = DummyTranslation({})
         translation = machine.translate(
@@ -3105,7 +3125,7 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
             ],
         )
 
-    def test_batch_translate(self):
+    def test_batch_translate(self) -> None:
         czech_unit = self.prepare()
         machine = DummyTranslation({})
         machine.batch_translate(

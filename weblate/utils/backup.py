@@ -17,6 +17,7 @@ from django.conf import settings
 from weblate.trans.util import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
@@ -102,7 +103,7 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
                 category="backup", message="borg output", stdout=error.stdout
             )
             report_error("Borg failed")
-            raise BackupError(error.stdout) from error
+            raise BackupError(cleanup_error_message(error.stdout)) from error
 
 
 def initialize(location: str, passphrase: str) -> str:

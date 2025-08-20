@@ -53,12 +53,12 @@ used in generated filenames. Additionally, any mappings defined in
 
 .. seealso::
 
-   :ref:`component-new_lang`,
-   :ref:`component-new_base`,
-   :ref:`component-language_code_style`,
-   :ref:`language-code`,
-   :ref:`project-language_aliases`,
-   :ref:`language-parsing-codes`
+   * :ref:`component-new_lang`
+   * :ref:`component-new_base`
+   * :ref:`component-language_code_style`
+   * :ref:`language-code`
+   * :ref:`project-language_aliases`
+   * :ref:`language-parsing-codes`
 
 .. note::
 
@@ -73,7 +73,7 @@ Removing existing translations
 ------------------------------
 
 Languages, components, or the projects they are in, can be removed (deleted from Weblate
-and remote repository if used) from the menu :guilabel:`Manage` ↓ :guilabel:`Removal`
+and remote repository if used) from the menu :guilabel:`Operations` ↓ :guilabel:`Removal`
 of each project, component, or language.
 
 Initiating the :guilabel:`Removal` action shows the list of components to be removed.
@@ -87,7 +87,7 @@ If you want to remove just some specific strings, there are following ways:
 
 .. versionadded:: 4.5
 
-- In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while editing the string.
+- In Weblate’s UI via button :guilabel:`Operations` ↓ :guilabel:`Remove` while editing the string.
   This has differences between file formats, see: :ref:`component-manage_units`
 
 .. note::
@@ -155,8 +155,8 @@ The additional variant for a string can also be added using the :guilabel:`Tools
 
 .. seealso::
 
-   :ref:`custom-checks`,
-   :ref:`glossary-variants`
+   * :ref:`custom-checks`
+   * :ref:`glossary-variants`
 
 Variants while translating
 ++++++++++++++++++++++++++

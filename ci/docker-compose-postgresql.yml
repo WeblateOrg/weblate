@@ -3,17 +3,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 services:
-  database:
-    image: postgres:17.5-alpine@sha256:f325a29ec9deb7039c5f07761d77d79d537dac836ecd99f982f6ca5476724604
+  cache:
+    image: redis:8.2.1-alpine@sha256:987c376c727652f99625c7d205a1cba3cb2c53b92b0b62aade2bd48ee1593232
     ports:
-    - 60000:5432
-    # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
-    command: [postgres, -c, fsync=off, -c, synchronous_commit=off, -c, full_page_writes=off, -c, checkpoint_timeout=7200, -c, wal_level=minimal, -c, max_wal_senders=0]
+    - 60001:6379
+    restart: always
+  database:
+    image: postgres:17.6-alpine@sha256:3406990b6e4c7192317b6fdc5680498744f6142f01f0287f4ee0420d8c74063c
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
-  cache:
-    image: redis:8.0.0-alpine@sha256:0779069b3c24a47a2f681855c1c01d046793e7c5f7d2b079c2aa0652c42eaf0e
-    restart: always
     ports:
-    - 60001:6379
+    - 60000:5432     # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
+    command: [postgres, -c, fsync=off, -c, synchronous_commit=off, -c, full_page_writes=off, -c, checkpoint_timeout=7200, -c, wal_level=minimal, -c, max_wal_senders=0]

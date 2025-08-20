@@ -2,14 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// biome-ignore lint/correctness/noNodejsModules: used for build only
 const path = require("node:path");
 
-// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const TerserPlugin = require("terser-webpack-plugin");
-// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const LicensePlugin = require("webpack-license-plugin");
-// biome-ignore lint/correctness/noUndeclaredDependencies: dev deps
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // Regular expression to match copyright lines
@@ -55,6 +51,7 @@ function mainLicenseTransform(packages) {
     "@altcha",
     "altcha",
     "source-",
+    "bootstrap",
   ];
   return genericTransform(
     packages,
@@ -91,6 +88,10 @@ function altchaLicenseTransform(packages) {
 
 function fontsLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("source-"));
+}
+
+function bootstrapLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
 
 // REUSE-IgnoreStart
@@ -140,6 +141,8 @@ module.exports = {
     mousetrap: "./src/mousetrap.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
+    bootstrap5: "./src/bootstrap5.js",
+    bootstrap5_rtl: "./src/bootstrap5_rtl.css",
     "fonts/fonts": "./src/fonts.js",
   },
   mode: "production",
@@ -187,16 +190,20 @@ module.exports = {
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
         "multi.js.license": multiJsLicenseTransform,
-        "multi.css.license": multiJsLicenseTransform,
+        "../../styles/vendor/multi.css.license": multiJsLicenseTransform,
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
         "fonts/fonts.js.license": fontsLicenseTransform,
-        "fonts/fonts.css.license": fontsLicenseTransform,
+        "../../styles/vendor/fonts/fonts.css.license": fontsLicenseTransform,
+        "bootstrap5.js.license": bootstrapLicenseTransform,
+        "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,
+        "../../styles/vendor/bootstrap5_rtl.css.license":
+          bootstrapLicenseTransform,
       },
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "../../styles/vendor/[name].css",
     }),
   ],
   output: {

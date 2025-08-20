@@ -4,11 +4,7 @@
 
 from __future__ import annotations
 
-import os
-import os.path
 from collections import UserDict
-from datetime import datetime
-from operator import itemgetter
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.conf import settings
@@ -19,7 +15,6 @@ from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.timezone import make_aware
 from django.utils.translation import gettext_lazy, gettext_noop
 
 from weblate.configuration.models import Setting, SettingCategory
@@ -29,8 +24,8 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
@@ -44,12 +39,20 @@ from weblate.utils.validators import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.auth.models import User
-    from weblate.machinery.base import SettingsDict
-    from weblate.trans.backups import BackupListDict
-    from weblate.trans.models.component import Component
+    from weblate.auth.models import Group, User
+    from weblate.machinery.types import SettingsDict
+    from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
+
+
+class CommitPolicyChoices(models.IntegerChoices):
+    ALL = 0, gettext_lazy("Commit all translations regardless of quality")
+    WITHOUT_NEEDS_EDITING = (
+        20,
+        gettext_lazy("Skip translations marked as needing editing"),
+    )
+    APPROVED_ONLY = 30, gettext_lazy("Only include approved translations")
 
 
 class ProjectLanguageFactory(UserDict):
@@ -208,6 +211,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             "Contributes to the pool of shared translations between projects."
         ),
     )
+    autoclean_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Autoclean translation memory"),
+        default=settings.DEFAULT_AUTOCLEAN_TM,
+        help_text=gettext_lazy(
+            "Automatically removes outdated and obsolete entries from translation memory."
+        ),
+    )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
         db_index=True,
@@ -235,6 +245,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=False,
         help_text=gettext_lazy(
             "Requires dedicated reviewers to approve source strings."
+        ),
+    )
+    commit_policy = models.IntegerField(
+        verbose_name=gettext_lazy("Translation quality filter"),
+        default=CommitPolicyChoices.ALL,
+        choices=CommitPolicyChoices,
+        help_text=gettext_lazy(
+            "Select which translations should be included when committing changes. "
+            "More restrictive options will skip translations with potential quality issues."
         ),
     )
     enable_hooks = models.BooleanField(
@@ -323,7 +342,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 for component in old.component_set.iterator():
                     new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
-                    component.linked_childs.update(
+                    component.linked_children.update(
                         repo=new_component.get_repo_link_url()
                     )
             update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
@@ -379,6 +398,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 group = "Review"
             else:
                 group = "Administration"
+        group_objs: Iterable[Group]
         try:
             group_objs = [self.defined_groups.get(name=group)]
         except ObjectDoesNotExist:
@@ -436,11 +456,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self):
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit
-
-        return Unit.objects.filter(
-            translation__component__project=self, pending=True
-        ).count()
+        return PendingUnitChange.objects.for_project(self).count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -567,14 +583,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def all_admins(self):
         from weblate.auth.models import User
 
-        return User.objects.all_admins(self).select_related("profile")
+        return (
+            User.objects.all_admins(self).exclude(is_bot=True).select_related("profile")
+        )
 
+    @cached_property
     def all_reviewers(self):
         from weblate.auth.models import User
 
         if not self.enable_review:
             return User.objects.none()
-        return User.objects.all_reviewers(self).select_related("profile")
+        return (
+            User.objects.all_reviewers(self)
+            .exclude(is_bot=True)
+            .select_related("profile")
+        )
 
     def get_child_components_access(self, user: User, filter_callback=None):
         """
@@ -599,7 +622,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         own = filter_callback(self.component_set.defer_huge())
         if self.has_shared_components:
             shared = filter_callback(self.shared_components.defer_huge())
-            return own | shared
+            return (own | shared).distinct()
         return own
 
     @cached_property
@@ -689,7 +712,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         return get_glossary_automaton(self)
 
-    def get_machinery_settings(self) -> dict[str, SettingsDict | Project]:
+    def get_machinery_settings(self) -> dict[str, SettingsDict]:
         settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
@@ -705,31 +728,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 # is installed at project level.
                 settings[item]["_project"] = self
         return settings
-
-    def list_backups(self) -> list[BackupListDict]:
-        from weblate.trans.backups import PROJECTBACKUP_PREFIX
-
-        backup_dir = data_dir(PROJECTBACKUP_PREFIX, f"{self.pk}")
-        result = []
-        if not os.path.exists(backup_dir):
-            return result
-        with os.scandir(backup_dir) as iterator:
-            for entry in iterator:
-                if not entry.name.endswith(".zip"):
-                    continue
-                result.append(
-                    {
-                        "name": entry.name,
-                        "path": os.path.join(backup_dir, entry.name),
-                        "timestamp": make_aware(
-                            datetime.fromtimestamp(  # noqa: DTZ006
-                                int(entry.name.split(".")[0])
-                            )
-                        ),
-                        "size": entry.stat().st_size // 1024,
-                    }
-                )
-        return sorted(result, key=itemgetter("timestamp"), reverse=True)
 
     @cached_property
     def enable_review(self):
@@ -771,5 +769,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         prefetch_stats(self.label_cleanups)
 
     def cleanup_label_stats(self, name: str) -> None:
-        for translation in self.label_cleanups:
-            translation.stats.remove_stats(f"label:{name}")
+        if self.label_cleanups is not None:
+            for translation in self.label_cleanups:
+                translation.stats.remove_stats(f"label:{name}")
+
+    def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
+        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        filter_ = Q(is_glossary=True)
+        if not user.has_perm("project.edit", self):
+            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+
+        def filter_callback(qs):
+            return qs.exclude(filter_)
+
+        return self.get_child_components_access(user, filter_callback)

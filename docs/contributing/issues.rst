@@ -14,6 +14,34 @@ There are various templates prepared to comfortably guide you through the issue 
 
 If you are not sure about your bug report or feature request, you can try :ref:`discussions`.
 
+.. _ai-issues:
+
+Using AI to create issues
+-------------------------
+
+If you asked an AI tool to find problems in Weblate or its modules, you
+**must** make sure to reveal this fact in your report.
+
+You must also double-check the findings carefully before reporting them to us
+to validate that the issues are indeed existing and working exactly as the AI
+says. AI-based tools frequently generate inaccurate or fabricated results.
+
+It is *rarely* a good idea to just copy and paste an AI-generated report to the
+project. Those generated reports typically are too wordy and rarely to the
+point (in addition to the common fabricated details). If you actually discover
+a issue with an AI and you have verified it yourself to be true, write the
+report yourself and explain the issue as you have learned it. This makes sure
+the AI-generated inaccuracies and invented issues are filtered out early before
+they waste more people's time.
+
+As we take security reports seriously, we investigate each report with
+priority. This work is both time- and energy-consuming and pulls us away from
+doing other meaningful work. Fake and otherwise made-up security issues
+effectively prevent us from doing real project work and make us waste time and
+resources.
+
+We ban users immediately who submit made-up fake reports to the project.
+
 Issues lifecycle
 ----------------
 

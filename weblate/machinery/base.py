@@ -91,7 +91,7 @@ class BatchMachineTranslation:
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
-    hightlight_syntax = False
+    highlight_syntax = False
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -340,7 +340,7 @@ class BatchMachineTranslation:
         self, text: str, unit
     ) -> Iterable[tuple[int, int, str, Unit | None]]:
         for h_start, h_end, h_text in highlight_string(
-            text, unit, hightlight_syntax=self.hightlight_syntax
+            text, unit, highlight_syntax=self.highlight_syntax
         ):
             yield h_start, h_end, h_text, None
 
@@ -571,7 +571,7 @@ class BatchMachineTranslation:
         # Fetch pending strings to translate
         if pending:
             # Unit is only used in WeblateMemory and it is used only to get a project
-            # so it doesn't matter we potentionally flatten this.
+            # so it doesn't matter we potentially flatten this.
             try:
                 translations = self.download_multiple_translations(
                     source_language,
@@ -683,7 +683,11 @@ class BatchMachineTranslation:
         """Weblate user used to track changes by this engine."""
         from weblate.auth.models import User
 
-        return User.objects.get_or_create_bot("mt", self.get_identifier(), self.name)
+        return User.objects.get_or_create_bot(
+            scope="mt",
+            name=self.get_identifier(),
+            verbose=self.name,
+        )
 
 
 class MachineTranslation(BatchMachineTranslation):
@@ -835,6 +839,9 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             *extra_parts,
         )
 
+    def get_glossary_count_limit(self) -> int:
+        return self.glossary_count_limit
+
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
@@ -884,10 +891,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
                     self.delete_glossary(glossary_id)
 
         # Ensure we are in service limits
-        if (
-            self.glossary_count_limit
-            and len(glossaries) + 1 >= self.glossary_count_limit
-        ):
+        glossary_count_limit = self.get_glossary_count_limit()
+        if glossary_count_limit and len(glossaries) + 1 >= glossary_count_limit:
             translation.log_debug(
                 "%s: approached limit of %d glossaries, removing oldest glossary",
                 self.mtid,
@@ -917,7 +922,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 
 
 class XMLMachineTranslationMixin(BatchMachineTranslation):
-    hightlight_syntax = True
+    highlight_syntax = True
     force_uncleanup = True
 
     def unescape_text(self, text: str) -> str:
@@ -943,7 +948,16 @@ class ResponseStatusMachineTranslation(MachineTranslation):
         payload = response.json()
 
         # Check response status
-        if payload["responseStatus"] != 200:
-            raise MachineTranslationError(payload["responseDetails"])
+        response_status = payload.get("responseStatus", payload.get("code", None))
+        if response_status and response_status != 200:
+            raise MachineTranslationError(
+                payload.get(
+                    "responseDetails",
+                    payload.get(
+                        "message",
+                        payload.get("status", f"Response status {response_status}"),
+                    ),
+                )
+            )
 
         super().check_failure(response)

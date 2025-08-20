@@ -10,7 +10,8 @@
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
   </li>
   <li>
-    <a href="{% url 'user_contributions' user=page_user.username %}">{% translate "Translations with contribution" %}</a>
+    {# Translators: Name of a tab which lists translations the user has contributed to #}
+    <a href="{% url 'user_contributions' user=page_user.username %}">{% translate "Translates" %}</a>
   </li>
 {% endblock breadcrumbs %}
 

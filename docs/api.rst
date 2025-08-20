@@ -83,9 +83,9 @@ only. These tokens can be identified by the ``wlp_`` prefix.
 
 .. seealso::
 
-   :doc:`/user/profile`,
-   :ref:`project-api`,
-   :ref:`acl`
+   * :doc:`/user/profile`
+   * :ref:`project-api`
+   * :ref:`acl`
 
 Authentication examples
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,10 +221,10 @@ The status of rate limiting is reported in following headers:
 
 .. seealso::
 
-   :ref:`rate-limit`,
-   :ref:`user-rate`,
-   :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-   :envvar:`WEBLATE_API_RATELIMIT_USER`
+   * :ref:`rate-limit`
+   * :ref:`user-rate`
+   * :envvar:`WEBLATE_API_RATELIMIT_ANON`
+   * :envvar:`WEBLATE_API_RATELIMIT_USER`
 
 .. _api-errors:
 
@@ -324,6 +324,7 @@ Users
     :>json string date_joined: date the user is created
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
+    :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
 
     **Example JSON data:**
 
@@ -337,11 +338,15 @@ Users
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
             ],
+            "languages": [
+                "http://example.com/api/languages/cs/",
+            ],
             "is_superuser": true,
             "is_active": true,
             "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
+            "contributions_url": "http://example.com/api/users/exampleusername/contributions/"
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
@@ -409,6 +414,14 @@ Users
     :>json int uploaded: Number of uploads by user
     :>json int commented: Number of comments by user
     :>json int languages: Number of languages user can translate
+
+.. http:get:: /api/users/(str:username)/contributions/
+
+    List translations with contributions from a user.
+
+    :param username: User's username
+    :type username: string
+    :>json array translations: link to translations; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
 .. http:get:: /api/users/(str:username)/notifications/
 
@@ -2047,10 +2060,14 @@ Translations
 
     .. seealso::
 
-       :ref:`component-manage_units`,
-       :ref:`adding-new-strings`
+       * :ref:`component-manage_units`
+       * :ref:`adding-new-strings`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
+
+    .. versionchanged:: 5.13
+
+       The ``filter_type`` parameter is no longer supported and filtering is done by the ``q`` parameter.
 
     Trigger automatic translation.
 
@@ -2061,7 +2078,7 @@ Translations
     :param language: Translation language code
     :type language: string
     :<json string mode: Automatic translation mode
-    :<json string filter_type: Automatic translation filter type
+    :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
     :<json array engines: Machine translation engines
@@ -2296,6 +2313,12 @@ and XLIFF.
     :type id: int
     :<json string scope: comment scope - global, translation (available on all non-source units), report (need review workflow enabled, see :ref:`reviews`)
     :<json string comment: content of the new comment, you can use Markdown and mention users by @username.
+    :<json string user_email: commenter's email, can be set only by project admins and defaults to the authenticated user.
+    :<json string timestamp: creation timestamp of the comment, can be set only by project admins and defaults to now.
+    :>json int id: comment identifier
+    :>json string comment: content of the new comment
+    :>json string user: URL of the commenter's object
+    :>json string timestamp: creation timestamp of the comment
 
 
 Changes
@@ -2670,11 +2693,11 @@ Statistics
 
    .. seealso::
 
-      :http:get:`/api/languages/(string:language)/statistics/`,
-      :http:get:`/api/projects/(string:project)/statistics/`,
-      :http:get:`/api/categories/(int:id)/statistics/`,
-      :http:get:`/api/components/(string:project)/(string:component)/statistics/`,
-      :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
+      * :http:get:`/api/languages/(string:language)/statistics/`
+      * :http:get:`/api/projects/(string:project)/statistics/`
+      * :http:get:`/api/categories/(int:id)/statistics/`
+      * :http:get:`/api/components/(string:project)/(string:component)/statistics/`
+      * :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
 Metrics
 +++++++
@@ -2711,6 +2734,15 @@ Search
    Returns site-wide search results as a list. There is no pagination on the
    result set, only first few matches are returned for each category.
 
+   The search looks for:
+
+   - Projects
+   - Categories
+   - Components
+   - Languages
+   - Users
+
+   :param q: Search query string
    :>json str name: Name of the matched item.
    :>json str url: Web URL of the matched item.
    :>json str category: Category of the matched item.

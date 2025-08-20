@@ -31,6 +31,7 @@ class CaptchaTest(TestCase):
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
         ALTCHA_MAX_NUMBER=100,
     )
     def test_form(self) -> None:

@@ -23,8 +23,8 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   :ref:`extending-languages`,
-   `Current language definitions <https://github.com/WeblateOrg/language-data/blob/main/languages.csv>`_
+   * :ref:`extending-languages`
+   * `Current language definitions <https://github.com/WeblateOrg/language-data/blob/main/languages.csv>`_
 
 .. _language-parsing-codes:
 
@@ -62,8 +62,8 @@ upcoming Weblate release.
 
 .. seealso::
 
-    :ref:`language-code`,
-    :ref:`adding-translation`
+   * :ref:`language-code`
+   * :ref:`adding-translation`
 
 
 .. _changing-languages:
@@ -113,8 +113,8 @@ have two letter code. It can also support extended codes as defined by `BCP 47`_
 
 .. seealso::
 
-   :ref:`language-parsing-codes`,
-   :ref:`adding-translation`
+   * :ref:`language-parsing-codes`
+   * :ref:`adding-translation`
 
 .. _language-name:
 
@@ -173,8 +173,9 @@ Gettext compatible plural formula used to determine which plural form is used fo
 
 .. seealso::
 
-   :ref:`plurals`,
-   `GNU gettext utilities: Plural forms <https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_,
-   `Language Plural Rules by the Unicode Consortium`_
+   * :ref:`plurals`
+   * `Additional functions for plural forms in GNU gettext`_
+   * `Language Plural Rules by the Unicode Consortium`_
 
+.. _Additional functions for plural forms in GNU gettext: https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
 .. _Language Plural Rules by the Unicode Consortium: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html

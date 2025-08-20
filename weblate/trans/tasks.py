@@ -19,6 +19,7 @@ from django.core.cache import cache
 from django.db import IntegrityError, transaction
 from django.db.models import Count, F
 from django.http import Http404
+from django.http.request import HttpRequest
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import override
@@ -59,7 +60,17 @@ if TYPE_CHECKING:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_update(cls, pk, auto=False, obj=None) -> None:
+def perform_update(
+    cls: Literal["Project", "Component"],
+    pk: int,
+    auto: bool = False,
+    obj=None,
+    user_id: int = 0,
+) -> None:
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
     try:
         if obj is None:
             if cls == "Project":
@@ -67,7 +78,7 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
             else:
                 obj = Component.objects.get(pk=pk)
         if settings.AUTO_UPDATE in {"full", True} or not auto:
-            obj.do_update()
+            obj.do_update(request)
         else:
             obj.update_remote_branch()
     except (FileParseError, RepositoryError, FileNotFoundError):
@@ -83,19 +94,28 @@ def perform_update(cls, pk, auto=False, obj=None) -> None:
 )
 def perform_load(
     pk: int,
+    *,
     force: bool = False,
+    force_scan: bool = False,
     langs: list[str] | None = None,
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
+    user_id: int | None = None,
 ) -> None:
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
     component = Component.objects.get(pk=pk)
-    component.create_translations_task(
+    component.create_translations_immediate(
         force=force,
+        force_scan=force_scan,
         langs=langs,
         changed_template=changed_template,
         from_link=from_link,
         change=change,
+        request=request,
     )
 
 
@@ -105,9 +125,10 @@ def perform_load(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_commit(pk, *args) -> None:
+def perform_commit(pk, reason: str, *, user_id: int | None = None) -> None:
+    user = User.objects.get(pk=user_id) if user_id else None
     component = Component.objects.get(pk=pk)
-    component.commit_pending(*args)
+    component.commit_pending(reason, user=user)
 
 
 @app.task(
@@ -133,31 +154,25 @@ def commit_pending(
         components = Component.objects.filter(translation__pk__in=pks)
 
     # All components with pending units
-    components = components.filter(translation__unit__pending=True).distinct()
+    components = components.filter(
+        translation__unit__pending_changes__isnull=False
+    ).distinct()
 
     for component in prefetch_stats(components.prefetch()):
         age = timezone.now() - timedelta(
             hours=component.commit_pending_age if hours is None else hours
         )
 
-        units = component.pending_units.prefetch_recent_content_changes()
+        units = component.pending_units.older_than(age)
 
         # No pending units
-        if not units:
-            continue
-
-        # All pending units are recent
-        if all(
-            unit.recent_content_changes
-            and unit.recent_content_changes[0].timestamp > age
-            for unit in units
-        ):
+        if not units.exists():
             continue
 
         if logger:
             logger(f"Committing {component}")
 
-        perform_commit.delay(component.pk, "commit_pending", None)
+        perform_commit.delay(component.pk, "commit_pending")
 
 
 @app.task(trail=False)
@@ -273,7 +288,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
         try:
             # Find matching components
             component: Component = parse_path(
-                None, path.relative_to(vcs_root).parts, (Component,), skip_acl=True
+                None, path.relative_to(vcs_root).parts, (Component,)
             )
         except Http404:
             # Remove stale dir
@@ -289,12 +304,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
     if empty_dir and root != vcs_root:
         try:
             # Find matching components
-            parse_path(
-                None,
-                root.relative_to(vcs_root).parts,
-                (Category, Project),
-                skip_acl=True,
-            )
+            parse_path(None, root.relative_to(vcs_root).parts, (Category, Project))
         except Http404:
             LOGGER.info("removing stale VCS path (not found): %s", root)
             root.rmdir()
@@ -483,7 +493,7 @@ def auto_translate(
     user_id: int | None,
     translation_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     component: int | None,
     engines: list[str],
@@ -496,7 +506,7 @@ def auto_translate(
         auto = AutoTranslate(
             user=user,
             translation=translation,
-            filter_type=filter_type,
+            q=q,
             mode=mode,
             component_wide=component_wide,
         )
@@ -518,7 +528,7 @@ def auto_translate(
 def auto_translate_component(
     component_id: int,
     mode: str,
-    filter_type: str,
+    q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
@@ -526,27 +536,26 @@ def auto_translate_component(
 ):
     component_obj = Component.objects.get(pk=component_id)
 
-    with component_obj.lock:
-        for translation in component_obj.translation_set.iterator():
-            if translation.is_source:
-                continue
+    for translation in component_obj.translation_set.iterator():
+        if translation.is_source:
+            continue
 
-            auto = AutoTranslate(
-                user=None,
-                translation=translation,
-                filter_type=filter_type,
-                mode=mode,
-                component_wide=True,
-            )
-            auto.perform(
-                auto_source=auto_source,
-                engines=engines,
-                threshold=threshold,
-                source=component,
-            )
-        component_obj.update_source_checks()
-        component_obj.run_batched_checks()
-        return {"component": component_obj.id}
+        auto = AutoTranslate(
+            user=None,
+            translation=translation,
+            q=q,
+            mode=mode,
+            component_wide=True,
+        )
+        auto.perform(
+            auto_source=auto_source,
+            engines=engines,
+            threshold=threshold,
+            source=component,
+        )
+    component_obj.update_source_checks()
+    component_obj.run_batched_checks()
+    return {"component": component_obj.id}
 
 
 @app.task(trail=False)

@@ -85,11 +85,16 @@
           {% endif %}
         </p>
       {% endif %}
-      {% if can_edit_user or page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
+      {% if can_edit_user or page_profile.website or page_profile.public_email or page_profile.contact or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
         <p>
           {% if page_profile.website %}
             <span class="middle-dot-divider">
               <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website|urlformat }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.contact %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "chat.svg" %}</span> <a href="{{ page_profile.contact }}" rel="ugc">{{ page_profile.contact|urlformat }}</a>
             </span>
           {% endif %}
           {% if page_profile.public_email %}
@@ -147,7 +152,8 @@
 
     <ul class="nav nav-pills nav-center">
       <li class="active">
-        <a data-toggle="tab" href="#contributed">{% translate "Contributed to" %}</a>
+        {# Translators: Name of a tab which lists translations the user has contributed to #}
+        <a data-toggle="tab" href="#contributed">{% translate "Translates" %}</a>
       </li>
       <li>
         <a data-toggle="tab" href="#managed">{% translate "Managed projects" %}</a>
@@ -218,7 +224,7 @@
       <div class="tab-pane" id="activity">{% include "snippets/activity.html" with metrics=page_user|metrics %}</div>
 
       <div class="tab-pane" id="changes">
-        {% include "last-changes-content.html" %}
+        {% format_last_changes_content last_changes=last_changes user=user %}
         <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
       </div>
 

@@ -171,6 +171,14 @@ class MetricsWrapper:
         return self.current["components"]
 
     @property
+    def translations(self) -> int:
+        return self.current["translations"]
+
+    @property
+    def screenshots(self) -> int:
+        return self.current["screenshots"]
+
+    @property
     def users(self) -> int:
         return self.current["users"]
 

@@ -156,7 +156,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
 
 class RegistrationTest(BaseRegistrationTest):
-    @override_settings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
     def test_register_captcha_fail(self) -> None:
         response = self.do_register()
         self.assertContains(response, "That was not correct, please try again.")
@@ -171,7 +171,7 @@ class RegistrationTest(BaseRegistrationTest):
         form = response.context["form"]
         data["captcha"] = form.mathcaptcha.result
 
-    @override_settings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
     def test_register_partial_altcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -180,7 +180,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(response, "That was not correct, please try again.")
 
-    @override_settings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
     def test_register_partial_match(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -189,7 +189,16 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(response, "Validation failed, please try again.")
 
-    @override_settings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=False)
+    def test_register_partial_no_altcha(self) -> None:
+        """Test registration with captcha enabled and altcha disabled."""
+        response = self.client.get(reverse("register"))
+        data = REGISTRATION_DATA.copy()
+        self.solve_math(response, data)
+        response = self.do_register(data)
+        self.assertContains(response, REGISTRATION_SUCCESS)
+
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
     def test_register_captcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -308,7 +317,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "Enter a valid e-mail address.")
         self.assertEqual(len(mail.outbox), 0)
 
-    @override_settings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
     def test_reset_captcha(self) -> None:
         """Test for password reset of invalid captcha."""
         response = self.client.get(reverse("password_reset"))
@@ -370,7 +379,7 @@ class RegistrationTest(BaseRegistrationTest):
         mail.outbox.clear()
 
     @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_reset_paralel(self) -> None:
+    def test_reset_parallel(self) -> None:
         """Test for password reset from two browsers."""
         User.objects.create_user("testuser", "test@example.com", "x")
         match = "[Weblate] Password reset on Weblate"

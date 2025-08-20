@@ -9,18 +9,22 @@ functionality, and verify that it works.
 Continuous integration
 ++++++++++++++++++++++
 
-Current test results can be found on `GitHub Actions`_ and coverage is reported
-on `Codecov`_.
+Weblate relies on `GitHub Actions`_ to run tests, build documentation, code
+linting, and other tasks to ensure code quality.
+
+`Codecov`_ collects the code coverage information from the tests that were run.
 
 .. _GitHub Actions: https://github.com/WeblateOrg/weblate/actions
 .. _Codecov: https://app.codecov.io/gh/WeblateOrg/weblate/
 
 There are several jobs to verify different aspects:
 
-* Unit tests
-* Documentation build and external links
+* Unit and functional tests using `pytest <https://pytest.org/>`_.
+* Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
+* Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
+* Code security scanning using `CodeQL <https://codeql.github.com/>`_.
+* Code formatting using `pre-commit <https://pre-commit.com/>`_.
 * Migration testing from all supported releases
-* Code linting
 * Setup verification (ensures that generated dist files do not miss anything and can be tested)
 
 The configuration for the CI is in :file:`.github/workflows` directory. It
@@ -43,8 +47,8 @@ The simple execution can look like:
 
 .. _local-tests:
 
-Local testing
-+++++++++++++
+Local testing of Weblate
++++++++++++++++++++++++++
 
 Before running test, please ensure test dependencies are installed. This can be done by ``pip install -e .[test]``.
 
@@ -97,3 +101,19 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 
     See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
+
+
+Local testing of Weblate modules
+--------------------------------
+
+The tests are executed using :program:`py.test`. First you need to install test requirements:
+
+.. code-block:: sh
+
+   uv pip install -e '.[dev]'
+
+You can then execute the testsuite in the repository checkout:
+
+.. code-block:: sh
+
+   py.test

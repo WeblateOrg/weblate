@@ -15,7 +15,7 @@ from django.core.checks import (
 
 from weblate.utils.docs import get_doc_url
 
-DOC_LINKS: dict[str, tuple[str] | tuple[str, str]] = {
+DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "security.W001": ("admin/upgdade", "up-3-1"),
     "security.W002": ("admin/upgdade", "up-3-1"),
     "security.W003": ("admin/upgdade", "up-3-1"),
@@ -70,6 +70,8 @@ DOC_LINKS: dict[str, tuple[str] | tuple[str, str]] = {
     "weblate.C038": ("admin/install", "production-database"),
     "weblate.W039": ("admin/machine",),
     "weblate.C040": ("vcs",),
+    "weblate.C041": "https://weblate.org/user/",
+    "weblate.C042": ("admin/config", "std-setting-REGISTRATION_ALLOW_BACKENDS"),
 }
 
 
@@ -77,11 +79,14 @@ def check_doc_link(docid: str, strict: bool = False) -> str | None:
     while docid.count(".") > 1:
         docid = docid.rsplit(".", 1)[0]
     try:
-        return get_doc_url(*DOC_LINKS[docid])
+        doc_link = DOC_LINKS[docid]
     except KeyError:
         if strict:
             raise
         return None
+    if isinstance(doc_link, str):
+        return doc_link
+    return get_doc_url(*doc_link)
 
 
 def weblate_check(

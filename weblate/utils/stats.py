@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from itertools import chain
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import sentry_sdk
 from django.conf import settings
@@ -24,6 +24,7 @@ from django.utils.functional import cached_property
 
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language
+from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
 from weblate.utils.random import get_random_identifier
@@ -37,9 +38,9 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
 
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -103,7 +104,7 @@ SOURCE_MAP = {
 }
 
 
-def zero_stats(keys):
+def zero_stats(keys: Iterable[str]) -> StatDict:
     stats: StatDict = dict.fromkeys(keys, 0)
     stats["last_changed"] = None
     stats["last_author"] = None
@@ -890,14 +891,18 @@ class AggregatingStats(BaseStats):
     def calculate_source(self, stats: dict, all_stats: list) -> None:
         return
 
-    def _calculate_basic(self) -> None:
-        stats = zero_stats(self.basic_keys)
-        all_stats = [
+    @cached_property
+    def aggregated_stats(self) -> list[BaseStats]:
+        return [
             obj.stats
             for obj in prefetch_stats(
                 chain(self.get_child_objects(), self.get_category_objects())
             )
         ]
+
+    def _calculate_basic(self) -> None:
+        stats = zero_stats(self.basic_keys)
+        all_stats: list[BaseStats] = self.aggregated_stats
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
@@ -914,7 +919,7 @@ class AggregatingStats(BaseStats):
             values = (stats_obj.aggregate_get(item) for stats_obj in all_stats)
 
             if item == "stats_timestamp":
-                stats[item] = max(values, default=time.time())
+                stats[item] = max(cast("Generator[float]", values), default=time.time())
             elif item == "last_changed":
                 # We need to access values twice here
                 values_list = list(values)
@@ -928,7 +933,7 @@ class AggregatingStats(BaseStats):
                 # The last_author is calculated together with last_changed
                 continue
             else:
-                stats[item] = sum(values)
+                stats[item] = sum(cast("Generator[float]", values))
 
         if not self.sum_source_keys:
             self.calculate_source(stats, all_stats)
@@ -1062,7 +1067,7 @@ class ProjectLanguageComponent:
         return self.translation_set[0].component.source_language
 
 
-class ProjectLanguage(BaseURLMixin):
+class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
     """Wrapper class used in project-language listings and stats."""
 
     remove_permission = "translation.delete"
@@ -1075,6 +1080,14 @@ class ProjectLanguage(BaseURLMixin):
 
     def __str__(self) -> str:
         return f"{self.project} - {self.language}"
+
+    @property
+    def enable_review(self) -> bool:
+        return self.project.enable_review
+
+    @property
+    def is_readonly(self) -> bool:
+        return False
 
     @property
     def code(self):
@@ -1120,6 +1133,7 @@ class ProjectLanguage(BaseURLMixin):
         result = all_langs.filter(component__project=self.project)
         if self.project.has_shared_components:
             result |= all_langs.filter(component__links=self.project)
+        result = result.distinct()
         for item in result:
             item.is_shared = (
                 None
@@ -1153,7 +1167,38 @@ class ProjectLanguage(BaseURLMixin):
         return workflow_settings[0]
 
 
-class ProjectLanguageStats(SingleLanguageStats):
+class ChecklistStats(SingleLanguageStats):
+    def calculate_by_name(self, name: str) -> None:
+        super().calculate_by_name(name)
+        if name.startswith("check:"):
+            self.calculate_checks()
+        elif name.startswith("label:"):
+            self.calculate_labels()
+
+    def aggregate_stats(self, keys: Iterable[str]) -> None:
+        self.ensure_loaded()
+        all_stats: list[BaseStats] = self.aggregated_stats
+        suffixes: tuple[str, ...] = ("", "_words", "_chars")
+        for key in keys:
+            for suffix in suffixes:
+                name = f"{key}{suffix}"
+                values = (getattr(stats_obj, name) for stats_obj in all_stats)
+                self.store(name, sum(values))
+        self.save()
+
+    def calculate_checks(self) -> None:
+        """Prefetch check stats."""
+        self.aggregate_stats(check.url_id for check in CHECKS.values())
+
+    def calculate_labels(self) -> None:
+        """Prefetch check stats."""
+        self.aggregate_stats(
+            f"label:{name}"
+            for name in self._object.project.label_set.values_list("name", flat=True)
+        )
+
+
+class ProjectLanguageStats(ChecklistStats):
     def __init__(self, obj: ProjectLanguage) -> None:
         self.language = obj.language
         self.project = obj.project
@@ -1170,18 +1215,30 @@ class ProjectLanguageStats(SingleLanguageStats):
         ).only("id", "language")
 
 
-class CategoryLanguage(BaseURLMixin):
+class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     """Wrapper class used in category-language listings and stats."""
 
     remove_permission = "translation.delete"
 
-    def __init__(self, category, language: Language) -> None:
+    def __init__(self, category: Category, language: Language) -> None:
         self.category = category
         self.language = language
         self.component = ProjectLanguageComponent(self)
 
     def __str__(self) -> str:
         return f"{self.category} - {self.language}"
+
+    @property
+    def project(self) -> Project:
+        return self.category.project
+
+    @property
+    def enable_review(self) -> bool:
+        return self.project.enable_review
+
+    @property
+    def is_readonly(self) -> bool:
+        return False
 
     @property
     def code(self):
@@ -1237,7 +1294,7 @@ class CategoryLanguage(BaseURLMixin):
         return self.language.change_set.for_category(self.category)
 
 
-class CategoryLanguageStats(SingleLanguageStats):
+class CategoryLanguageStats(ChecklistStats):
     def __init__(self, obj: CategoryLanguage) -> None:
         self.language = obj.language
         self.category = obj.category
@@ -1312,7 +1369,7 @@ class ProjectStats(ParentAggregatingStats):
 
 class ComponentListStats(ParentAggregatingStats):
     def get_child_objects(self):
-        return self._object.components.only("id", "componentlist")
+        return self._object.components.only("id", "componentlist", "check_flags")
 
 
 class GlobalStats(ParentAggregatingStats):
@@ -1404,11 +1461,12 @@ class GhostStats(BaseStats):
     def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
-            for key in "all", "all_words", "all_chars":
-                stats[key] = getattr(self.base, key)
-            stats["todo"] = stats["all"]
-            stats["todo_words"] = stats["all_words"]
-            stats["todo_chars"] = stats["all_chars"]
+            for skey, dkey, tkey in (
+                ("source_strings", "all", "todo"),
+                ("source_words", "all_words", "todo_words"),
+                ("source_chars", "all_chars", "todo_chars"),
+            ):
+                stats[tkey] = stats[dkey] = getattr(self.base, skey)
         for key, value in stats.items():
             self.store(key, value)
 
@@ -1425,17 +1483,34 @@ class GhostStats(BaseStats):
     def get_absolute_url(self) -> str:
         return ""
 
+    def base_obj(self) -> Project | Component:
+        raise NotImplementedError
+
 
 class GhostProjectLanguageStats(GhostStats):
     language: Language
-    component: Component
-    is_shared: Project | None
+    project: Project
     is_source: bool = False
 
-    def __init__(
-        self, component: Component, language: Language, is_shared: Project | None = None
-    ) -> None:
-        super().__init__(component.stats)
+    def __init__(self, project: Project, language: Language) -> None:
+        super().__init__(project.stats)
+        self.project = project
         self.language = language
-        self.component = component
-        self.is_shared = is_shared
+
+    def base_obj(self):
+        return self.project
+
+
+class GhostCategoryLanguageStats(GhostStats):
+    category: Category
+    language: Language
+    is_source: bool = False
+
+    def __init__(self, category: Category, language: Language) -> None:
+        super().__init__(category.stats)
+        self.project = category.project
+        self.category = category
+        self.language = language
+
+    def base_obj(self):
+        return self.category

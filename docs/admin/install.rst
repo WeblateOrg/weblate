@@ -200,13 +200,13 @@ Python Social Auth
 Django REST Framework
     https://www.django-rest-framework.org/
 
-.. Table is generated using scripts/show-extras
+.. Table is generated using scripts/show-extras.py
 
 .. list-table:: Optional dependencies
      :header-rows: 1
 
      * - Optional dependency specifier
-       - Python Packages
+       - Python packages
        - Weblate feature
 
      * - ``alibaba``
@@ -231,8 +231,8 @@ Django REST Framework
        - :ref:`vcs-gerrit`
 
      * - ``google``
-       - | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
-         | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+       - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
+         | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
        - :ref:`mt-google-translate-api-v3` with glossary support
 
      * - ``ldap``
@@ -272,11 +272,11 @@ Django REST Framework
        - Hosted Weblate integration
 
      * - ``wsgi``
-       - | `gunicorn <https://pypi.org/project/gunicorn>`_
+       - | `granian <https://pypi.org/project/granian>`_
        - wsgi server for Weblate
 
      * - ``zxcvbn``
-       - | `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password>`_
+       - | `django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-password-validator>`_
        - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
@@ -327,6 +327,16 @@ Troubleshooting pip install
 
       uv pip install --force-reinstall --no-binary :all: cffi
 
+``error: ‘xmlSecKeyDataFormatEngine’ undeclared (first use in this function); did you mean ‘xmlSecKeyDataFormat’?``
+   This is a known issue of the xmlsec package, please see https://github.com/xmlsec/python-xmlsec/issues/314.
+
+``lxml & xmlsec libxml2 library version mismatch``
+   The ``lxml`` and ``xmlsec`` packages have to be built against one ``libxml2``. You should build them locally to avoid this issue:
+
+   .. code-block:: sh
+
+      uv pip install --force-reinstall --no-binary xmlsec --no-binary lxml lxml xmlsec
+
 Other system requirements
 +++++++++++++++++++++++++
 
@@ -366,10 +376,10 @@ with development files and GObject introspection data.
 
 .. seealso::
 
-  :doc:`install/venv-debian`,
-  :doc:`install/venv-suse`,
-  :doc:`install/venv-redhat`,
-  :doc:`install/venv-macos`
+   * :doc:`install/venv-debian`
+   * :doc:`install/venv-suse`
+   * :doc:`install/venv-redhat`
+   * :doc:`install/venv-macos`
 
 .. include:: install/steps/hw.rst
 
@@ -440,9 +450,9 @@ PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 .. seealso::
 
-   :ref:`production-database`,
-   :doc:`django:ref/databases`,
-   :ref:`database-migration`
+   * :ref:`production-database`
+   * :doc:`django:ref/databases`
+   * :ref:`database-migration`
 
 .. _db-connections:
 
@@ -704,14 +714,14 @@ Django documentation.
 .. hint::
 
     In case you get error about not supported authentication (for example
-    ``SMTP AUTH extension not supported by server``), it is most likely caused
+    :samp:`SMTP AUTH extension not supported by server`), it is most likely caused
     by using insecure connection and server refuses to authenticate this way.
     Try enabling :setting:`django:EMAIL_USE_TLS` in such case.
 
 .. seealso::
 
-   :ref:`debug-mails`,
-   :ref:`Configuring outgoing e-mail in Docker container <docker-mail>`
+   * :ref:`debug-mails`
+   * :ref:`Configuring outgoing e-mail in Docker container <docker-mail>`
 
 .. _reverse-proxy:
 
@@ -752,22 +762,50 @@ Client protocol
    loop trying to upgrade client to HTTPS. Make sure it is correctly exposed by
    the reverse proxy as :http:header:`X-Forwarded-Proto`.
 
+   This header then needs to be configured in
+   :setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or
+   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment).
+
+   .. important::
+
+      The header value is case-sensitive in the configuration, so
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not
+      interchangeable.
+
+   .. hint::
+
+      If you are getting a "Too many redirects" error from the browser, this is
+      most likely caused by mismatch between the actual protocol (HTTPS) and
+      what is observed by Weblate.
+
+   .. versionchanged:: 5.13
+
+      The protocol proxy headers are automatically handled by
+      :program:`gunicorn` in the default configuration, but other WSGI servers
+      have more secure configuration and require explicit setting of this.
+
+      Since Weblate 5.13 the Docker container is using :program:`granian` and
+      it now requires the explicit configuration of
+      :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`.
+
 .. seealso::
 
-    :ref:`docker-ssl-proxy`,
-    :ref:`spam-protection`,
-    :ref:`rate-limit`,
-    :ref:`audit-log`,
-    :ref:`uwsgi`,
-    :ref:`nginx-gunicorn`,
-    :ref:`apache`,
-    :ref:`apache-gunicorn`,
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`,
-    :envvar:`WEBLATE_IP_PROXY_HEADER`,
-    :envvar:`WEBLATE_IP_PROXY_OFFSET`
+   * :ref:`docker-ssl-proxy`
+   * :ref:`spam-protection`
+   * :ref:`rate-limit`
+   * :ref:`audit-log`
+   * :ref:`nginx-granian`
+   * :ref:`nginx-gunicorn`
+   * :ref:`uwsgi`
+   * :ref:`apache`
+   * :ref:`apache-gunicorn`
+   * :setting:`IP_BEHIND_REVERSE_PROXY`
+   * :setting:`IP_PROXY_HEADER`
+   * :setting:`IP_PROXY_OFFSET`
+   * :setting:`django:SECURE_PROXY_SSL_HEADER`
+   * :envvar:`WEBLATE_IP_PROXY_HEADER`
+   * :envvar:`WEBLATE_IP_PROXY_OFFSET`
 
 HTTP proxy
 ++++++++++
@@ -812,9 +850,9 @@ options:
 
     .. seealso::
 
-        :setting:`django:ADMINS`,
-        :setting:`ADMINS_CONTACT`,
-        :ref:`production-admins`
+       * :setting:`django:ADMINS`
+       * :setting:`ADMINS_CONTACT`
+       * :ref:`production-admins`
 
 .. setting:: ALLOWED_HOSTS
 
@@ -835,9 +873,9 @@ options:
 
     .. seealso::
 
-        :setting:`django:ALLOWED_HOSTS`,
-        :envvar:`WEBLATE_ALLOWED_HOSTS`,
-        :ref:`production-hosts`
+       * :setting:`django:ALLOWED_HOSTS`
+       * :envvar:`WEBLATE_ALLOWED_HOSTS`
+       * :ref:`production-hosts`
 
 .. setting:: SESSION_ENGINE
 
@@ -857,8 +895,8 @@ options:
 
     .. seealso::
 
-        :ref:`django:configuring-sessions`,
-        :setting:`django:SESSION_ENGINE`
+       * :ref:`django:configuring-sessions`
+       * :setting:`django:SESSION_ENGINE`
 
 .. setting:: DATABASES
 
@@ -869,9 +907,9 @@ options:
 
     .. seealso::
 
-        :ref:`database-setup`,
-        :setting:`django:DATABASES`,
-        :doc:`django:ref/databases`
+       * :ref:`database-setup`
+       * :setting:`django:DATABASES`
+       * :doc:`django:ref/databases`
 
 .. setting:: DEBUG
 
@@ -886,8 +924,8 @@ options:
 
     .. seealso::
 
-        :setting:`django:DEBUG`,
-        :ref:`production-debug`
+       * :setting:`django:DEBUG`
+       * :ref:`production-debug`
 
 .. setting:: DEFAULT_FROM_EMAIL
 
@@ -936,8 +974,8 @@ site.
 
 .. seealso::
 
-   :ref:`config`,
-   :ref:`privileges`
+   * :ref:`config`
+   * :ref:`privileges`
 
 .. _production:
 
@@ -1013,11 +1051,11 @@ registration e-mails will not work. This is configured using
 
 .. seealso::
 
-   :ref:`production-hosts`,
-   :ref:`production-ssl`
-   :setting:`SITE_DOMAIN`,
-   :envvar:`WEBLATE_SITE_DOMAIN`,
-   :setting:`ENABLE_HTTPS`
+   * :ref:`production-hosts`
+   * :ref:`production-ssl`
+   * :setting:`SITE_DOMAIN`
+   * :envvar:`WEBLATE_SITE_DOMAIN`
+   * :setting:`ENABLE_HTTPS`
 
 .. _production-ssl:
 
@@ -1038,9 +1076,9 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
 
 .. seealso::
 
-   :setting:`ENABLE_HTTPS`,
-   :ref:`production-hosts`,
-   :ref:`production-site`
+   * :setting:`ENABLE_HTTPS`
+   * :ref:`production-hosts`
+   * :ref:`production-site`
 
 
 Set properly SECURE_HSTS_SECONDS
@@ -1077,10 +1115,10 @@ Use a powerful database engine
 
 .. seealso::
 
-    :ref:`database-setup`,
-    :ref:`database-migration`,
-    :ref:`configuration`,
-    :doc:`django:ref/databases`
+   * :ref:`database-setup`
+   * :ref:`database-migration`
+   * :ref:`configuration`
+   * :doc:`django:ref/databases`
 
 .. _production-cache:
 
@@ -1113,8 +1151,8 @@ variable, for example:
 
 .. seealso::
 
-    :ref:`production-cache-avatar`,
-    :doc:`django:topics/cache`
+   * :ref:`production-cache-avatar`
+   * :doc:`django:topics/cache`
 
 .. _production-cache-avatar:
 
@@ -1148,11 +1186,11 @@ recommended to use a separate, file-backed cache for this purpose:
 
 .. seealso::
 
-    :setting:`ENABLE_AVATARS`,
-    :setting:`AVATAR_URL_PREFIX`,
-    :ref:`avatars`,
-    :ref:`production-cache`,
-    :doc:`django:topics/cache`
+   * :setting:`ENABLE_AVATARS`
+   * :setting:`AVATAR_URL_PREFIX`
+   * :ref:`avatars`
+   * :ref:`production-cache`
+   * :doc:`django:topics/cache`
 
 .. _production-email:
 
@@ -1179,11 +1217,11 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 
 .. seealso::
 
-    :ref:`configuration`,
-    :ref:`out-mail`,
-    :std:setting:`django:EMAIL_BACKEND`,
-    :std:setting:`django:DEFAULT_FROM_EMAIL`,
-    :std:setting:`django:SERVER_EMAIL`
+   * :ref:`configuration`
+   * :ref:`out-mail`
+   * :std:setting:`django:EMAIL_BACKEND`
+   * :std:setting:`django:DEFAULT_FROM_EMAIL`
+   * :std:setting:`django:SERVER_EMAIL`
 
 
 .. _production-hosts:
@@ -1204,9 +1242,9 @@ to ALLOWED_HOSTS.`
 
 .. seealso::
 
-    :setting:`ALLOWED_HOSTS`,
-    :envvar:`WEBLATE_ALLOWED_HOSTS`,
-    :ref:`production-site`
+   * :setting:`ALLOWED_HOSTS`
+   * :envvar:`WEBLATE_ALLOWED_HOSTS`
+   * :ref:`production-site`
 
 .. _production-secret:
 
@@ -1338,8 +1376,8 @@ On each deploy you need to compress the files to match current version:
 
 .. seealso::
 
-   :ref:`compressor:scenarios`,
-   :ref:`static-files`
+   * :ref:`compressor:scenarios`
+   * :ref:`static-files`
 
 .. _server:
 
@@ -1399,8 +1437,14 @@ For testing purposes, you can use the built-in web server in Django:
 
    The Django built-in server serves static files only with :setting:`DEBUG`
    enabled as it is intended for development only. For production use, please
-   see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and
-   :ref:`static-files`.
+   see WSGI setups:
+
+   * :ref:`nginx-granian`
+   * :ref:`nginx-gunicorn`
+   * :ref:`uwsgi`
+   * :ref:`apache`
+   * :ref:`apache-gunicorn`
+   * :ref:`static-files`
 
 .. _static-files:
 
@@ -1425,12 +1469,14 @@ use that for the following paths:
 
 .. seealso::
 
-   :ref:`uwsgi`,
-   :ref:`apache`,
-   :ref:`apache-gunicorn`,
-   :ref:`production-compress`,
-   :doc:`django:howto/deployment/index`,
-   :doc:`django:howto/static-files/deployment`
+   * :ref:`nginx-granian`
+   * :ref:`nginx-gunicorn`
+   * :ref:`uwsgi`
+   * :ref:`apache`
+   * :ref:`apache-gunicorn`
+   * :ref:`production-compress`
+   * :doc:`django:howto/deployment/index`
+   * :doc:`django:howto/static-files/deployment`
 
 .. _csp:
 
@@ -1444,12 +1490,29 @@ configuration, but this might need customization for your environment.
 
 .. seealso::
 
-    :setting:`CSP_SCRIPT_SRC`,
-    :setting:`CSP_IMG_SRC`,
-    :setting:`CSP_CONNECT_SRC`,
-    :setting:`CSP_STYLE_SRC`,
-    :setting:`CSP_FONT_SRC`
-    :setting:`CSP_FORM_SRC`
+   * :setting:`CSP_SCRIPT_SRC`
+   * :setting:`CSP_IMG_SRC`
+   * :setting:`CSP_CONNECT_SRC`
+   * :setting:`CSP_STYLE_SRC`
+   * :setting:`CSP_FONT_SRC`
+   * :setting:`CSP_FORM_SRC`
+
+.. _nginx-granian:
+
+Sample configuration for NGINX and Granian
++++++++++++++++++++++++++++++++++++++++++++
+
+The following configuration runs Weblate using Granian the NGINX webserver:
+
+.. literalinclude:: ../../weblate/examples/weblate.nginx.granian.conf
+    :language: nginx
+    :caption: weblate/examples/weblate.nginx.granian.conf
+
+.. seealso::
+
+   * :ref:`running-granian`
+   * https://github.com/emmett-framework/granian
+   * :doc:`django:howto/deployment/wsgi/index`
 
 .. _nginx-gunicorn:
 
@@ -1465,8 +1528,8 @@ The following configuration runs Weblate using Gunicorn under the NGINX webserve
 
 .. seealso::
 
-    :ref:`running-gunicorn`,
-    :doc:`django:howto/deployment/wsgi/gunicorn`
+   * :ref:`running-gunicorn`
+   * :doc:`django:howto/deployment/wsgi/gunicorn`
 
 .. _uwsgi:
 
@@ -1519,8 +1582,8 @@ The following configuration runs Weblate as WSGI, you need to have enabled
 
 .. seealso::
 
-    :ref:`production-encoding`,
-    :doc:`django:howto/deployment/wsgi/modwsgi`
+   * :ref:`production-encoding`
+   * :doc:`django:howto/deployment/wsgi/modwsgi`
 
 .. _apache-gunicorn:
 
@@ -1535,22 +1598,44 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 
 .. seealso::
 
-    :ref:`running-gunicorn`,
-    :doc:`django:howto/deployment/wsgi/gunicorn`
+   * :ref:`running-gunicorn`
+   * :doc:`django:howto/deployment/wsgi/gunicorn`
 
+
+.. _running-granian:
+
+Sample configuration to start Granian
++++++++++++++++++++++++++++++++++++++
+
+Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will
+install everything you need to run Granian. When installing Weblate you can specify it as:
+
+.. code-block:: shell
+
+   uv pip install Weblate[all,wsgi]
+
+Once you have Granian installed, you can run it. This is usually done at the
+system level. The following examples show starting via systemd:
+
+.. literalinclude:: ../../weblate/examples/granian.service
+   :caption: /etc/systemd/system/granian.service
+   :language: ini
+
+.. seealso::
+
+   * https://github.com/emmett-framework/granian
+   * :doc:`django:howto/deployment/wsgi/index`
 
 .. _running-gunicorn:
 
 Sample configuration to start Gunicorn
 ++++++++++++++++++++++++++++++++++++++
 
-Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will
-install everything you need to run Gunicorn. When installing Weblate you can specify it as:
+Gunicorn has to be installed separately:
 
 .. code-block:: shell
 
-   uv pip install Weblate[all,wsgi]
-
+   uv pip install gunicorn
 
 Once you have Gunicorn installed, you can run it. This is usually done at the
 system level. The following examples show starting via systemd:
@@ -1703,13 +1788,14 @@ configuration error in the admin interface.
 
 .. seealso::
 
-   :ref:`monitoring`,
-   :ref:`faq-monitoring`,
-   :doc:`celery:userguide/configuration`,
-   :doc:`celery:userguide/workers`,
-   :doc:`celery:userguide/daemonizing`,
-   :doc:`celery:userguide/monitoring`,
-   :wladmin:`celery_queues`
+   * :ref:`monitoring`
+   * :ref:`faq-monitoring`
+   * :doc:`celery:userguide/configuration`
+   * :doc:`celery:userguide/workers`
+   * :doc:`celery:userguide/daemonizing`
+   * :doc:`celery:userguide/monitoring`
+   * :ref:`background-tasks-internals`
+   * :wladmin:`celery_queues`
 
 .. _minimal-celery:
 
@@ -1741,9 +1827,9 @@ For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endp
 
 .. seealso::
 
-   :ref:`faq-monitoring`,
-   :ref:`monitoring-celery`,
-   `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
+   * :ref:`faq-monitoring`
+   * :ref:`monitoring-celery`
+   * `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
 
 .. _collecting-errors:
 
@@ -1772,8 +1858,8 @@ and profiles for defined percentage of operations. This can be configured using
 
 .. seealso::
 
-   `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_,
-   `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
+   * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
+   * `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
 .. _rollbar-errors:
 

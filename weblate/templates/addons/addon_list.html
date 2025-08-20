@@ -2,6 +2,17 @@
 
 {% load crispy_forms_tags i18n permissions translations %}
 
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a href="#addons" data-toggle="tab">{% translate "Add-ons" %}</a>
+    </li>
+    <li>
+      <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
 {% block breadcrumbs %}
   {% if object %}
     {% path_object_breadcrumbs object %}
@@ -19,15 +30,6 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-
-  <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#addons" data-toggle="tab">{% translate "Add-ons" %}</a>
-    </li>
-    <li>
-      <a href="#history" data-toggle="tab">{% translate "History" %}</a>
-    </li>
-  </ul>
 
   <div class="tab-content">
 
@@ -126,7 +128,7 @@
     </div>
 
     <div class="tab-pane" id="history">
-      {% include "last-changes-content.html" %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary"
          href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{ action }}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% translate "Browse all add-on changes" %}</a>
     </div>

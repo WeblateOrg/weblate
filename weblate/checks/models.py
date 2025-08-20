@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class ChecksLoader(ClassLoader):
+class ChecksLoader(ClassLoader[BaseCheck]):
     def __init__(self) -> None:
         super().__init__("CHECK_LIST", base_class=BaseCheck)
 
@@ -61,6 +61,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.chars.MaxLengthCheck",
         "weblate.checks.chars.KashidaCheck",
         "weblate.checks.chars.PunctuationSpacingCheck",
+        "weblate.checks.chars.KabyleCharactersCheck",
         "weblate.checks.format.PythonFormatCheck",
         "weblate.checks.format.PythonBraceFormatCheck",
         "weblate.checks.format.PHPFormatCheck",

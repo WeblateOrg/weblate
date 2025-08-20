@@ -13,10 +13,20 @@ import random
 import re
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
+from contextlib import contextmanager
 from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
-from typing import TYPE_CHECKING, Any, NoReturn, NotRequired, TypedDict, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    BinaryIO,
+    NoReturn,
+    NotRequired,
+    Self,
+    TypedDict,
+    cast,
+)
 from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
@@ -302,7 +312,7 @@ class GitRepository(Repository):
             status = self.execute(cmd, merge_err=False)
         return bool(status)
 
-    def show(self, revision):
+    def show(self, revision: str) -> str:
         """
         Get the content of the revision.
 
@@ -576,7 +586,7 @@ class GitRepository(Repository):
 
         self.clean_revision_cache()
 
-    def push(self, branch) -> None:
+    def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
         refspec = f"{self.branch}:{branch}" if branch else self.branch
         self.execute([*self._cmd_push, "origin", refspec])
@@ -590,7 +600,7 @@ class GitRepository(Repository):
         for line in lines:
             yield from line.split("\t")[1:]
 
-    def status(self):
+    def status(self) -> str:
         result = [super().status()]
         cleanups = self.execute(["clean", "-f", "-d", "-n"], needs_lock=False)
         if cleanups:
@@ -606,6 +616,7 @@ class GitWithGerritRepository(GitRepository):
     name = "Gerrit"
     req_version = "1.27.0"
     push_label = gettext_lazy("This will push changes to Gerrit for a review.")
+    pushes_to_different_location = True
 
     _version = None
 
@@ -783,7 +794,7 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     @cached_property
-    def last_remote_revision(self):
+    def last_remote_revision(self) -> str:
         """Return last remote revision."""
         return self.execute(
             ["log", "-n", "1", "--format=format:%H", self.get_remote_branch_name()],
@@ -807,10 +818,10 @@ class SubversionRepository(GitRepository):
                 return "origin/git-svn"
         return f"origin/{branch}"
 
-    def list_remote_branches(self):
+    def list_remote_branches(self) -> list[str]:
         return []
 
-    def push(self, branch) -> None:
+    def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
         self.execute(["svn", "dcommit", self.branch])
 
@@ -826,6 +837,7 @@ class GitForcePushRepository(GitRepository):
 
 class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
+    pushes_to_different_location = True
     identifier: str
     API_TEMPLATE: str
     REQUIRED_CONFIG = {"username", "token"}
@@ -1781,48 +1793,46 @@ class LocalRepository(GitRepository):
         cls.create_blank_repository(target)
 
     @cached_property
-    def last_remote_revision(self):
+    def last_remote_revision(self) -> str:
         return self.last_revision
 
     @classmethod
-    def from_zip(cls, target, zipfile):
-        # Create empty repo
-        if os.path.exists(target):
-            remove_tree(target)
-        cls._clone("local:", target, cls.default_branch)
-        # Extract zip file content, ignoring some files
-        zipobj = ZipFile(zipfile)
-        names = [name for name in zipobj.namelist() if not is_excluded(name)]
-        zipobj.extractall(path=target, members=names)
-        # Add to repository
+    @contextmanager
+    def build_local_repo(cls, target: str, commit_message: str):
         repo = cls(target)
         with repo.lock:
+            # Create empty repo
+            if os.path.exists(target):
+                remove_tree(target)
+            cls._clone("local:", target, cls.default_branch)
+            # Populate files
+            yield repo
+            # Add to repository
             repo.execute(["add", target])
             if repo.needs_commit():
-                repo.commit("ZIP file uploaded into Weblate")
-        return repo
+                repo.commit(commit_message)
 
     @classmethod
-    def from_files(cls, target, files):
-        # Create empty repo
-        if os.path.exists(target):
-            remove_tree(target)
-        cls._clone("local:", target, cls.default_branch)
-        # Create files
-        for name, content in files.items():
-            fullname = os.path.join(target, name)
-            dirname = os.path.dirname(fullname)
-            if not os.path.exists(dirname):
-                os.makedirs(dirname)
-            with open(fullname, "wb") as handle:
-                handle.write(content)
-        # Add to repository
-        repo = cls(target)
-        with repo.lock:
-            repo.execute(["add", target])
-            if repo.needs_commit():
-                repo.commit("Started translation using Weblate")
-        return repo
+    def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
+        with cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo:
+            # Extract zip file content, ignoring some files
+            zipobj = ZipFile(zipfile)
+            names = [name for name in zipobj.namelist() if not is_excluded(name)]
+            zipobj.extractall(path=target, members=names)
+            return repo
+
+    @classmethod
+    def from_files(cls, target: str, files: dict[str, bytes]) -> Self:
+        with cls.build_local_repo(target, "Started translation using Weblate") as repo:
+            # Create files
+            for name, content in files.items():
+                fullname = os.path.join(target, name)
+                dirname = os.path.dirname(fullname)
+                if not os.path.exists(dirname):
+                    os.makedirs(dirname)
+                with open(fullname, "wb") as handle:
+                    handle.write(content)
+            return repo
 
 
 class GitLabRepository(GitMergeRequestBase):
@@ -2038,7 +2048,7 @@ class PagureRepository(GitMergeRequestBase):
         Create pull request.
 
         Use to merge a branch in the forked repository
-        into a branch of thr remote repository.
+        into a branch of the remote repository.
         """
         if credentials["owner"]:
             pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)

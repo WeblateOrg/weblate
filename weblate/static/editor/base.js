@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// biome-ignore lint/style/noVar: TODO: doesn't work without that
 // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: TODO: doesn't work without that
 var WLT = WLT || {};
 
 WLT.Config = (() => ({
-  // biome-ignore lint/performance/useTopLevelRegex: TODO: factor out
-  // biome-ignore lint/style/useNamingConvention: TODO: fix naming
   IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
+  HAS_REVIEW_WORKFLOW:
+    $('.translation-form input[name="review"][value="30"]').length > 0,
 }))();
 
 WLT.Utils = (() => ({
@@ -29,6 +28,13 @@ WLT.Utils = (() => ({
     $el.find('input[name="review"][value="20"]').prop("checked", true);
   },
 
+  markApproved: ($el) => {
+    /* Standard workflow */
+    $el.find('input[name="fuzzy"]').prop("checked", false);
+    /* Review workflow */
+    $el.find('input[name="review"][value="30"]').prop("checked", true);
+  },
+
   /**
    * Indicate that the translation has changed
    * by appending a warning before the editor.
@@ -36,13 +42,18 @@ WLT.Utils = (() => ({
    * @returns {void}
    */
   indicateChanges: (e) => {
-    const $warning = $("<span id='unsaved-label' class='text-warning'/>");
+    const $warning = $(
+      "<div id='unsaved-label' class='text-warning pull-right flip'/>",
+    );
     const $editorArea = e
       ? $(e.target).closest(".translation-editor")
       : $(".translator .translation-editor");
+    const $target = $editorArea
+      .closest(".translation-item")
+      .find(".editor-footer");
     $warning.text(gettext("Unsaved changes!"));
-    if ($editorArea.next(".text-warning").length === 0) {
-      $warning.insertAfter($editorArea);
+    if ($target.next(".text-warning").length === 0) {
+      $warning.insertAfter($target);
       $editorArea.addClass("has-changes");
     }
   },
@@ -85,7 +96,7 @@ WLT.Editor = (() => {
       const counter = editor.querySelector(".length-indicator");
       const classToggle = editor.classList;
 
-      const limit = Number.parseInt(counter.getAttribute("data-max"));
+      const limit = Number.parseInt(counter.getAttribute("data-max"), 10);
       const length = textarea.value.length;
 
       counter.textContent = length;
@@ -163,6 +174,24 @@ WLT.Editor = (() => {
       WLT.Utils.indicateChanges(e);
     });
 
+    // Disable insertion and copy buttons for read only strings
+    $(".translator").each(function () {
+      const $this = $(this);
+
+      if ($this.find(".translation-editor").first().attr("readonly")) {
+        // Apply to zen unit or the entire document
+        // the latter also disables insertion from related strings
+        let root = $this.closest(".zen-unit");
+        if (root.length === 0) {
+          root = $(document);
+        }
+
+        root.find(".specialchar").attr("disabled", "");
+        root.find("[data-clone-value]").attr("disabled", "");
+        root.find(".hlcheck").addClass("disabled");
+      }
+    });
+
     this.initHighlight();
     this.init();
 
@@ -192,7 +221,6 @@ WLT.Editor = (() => {
     });
   }
 
-  // biome-ignore lint/suspicious/noEmptyBlockStatements: TODO
   EditorBase.prototype.init = () => {};
 
   EditorBase.prototype.initHighlight = function () {
@@ -202,7 +230,10 @@ WLT.Editor = (() => {
     /* Copy from source text highlight check */
     this.$editor.on("click", hlSelector, function (e) {
       const $this = $(this);
-      insertEditor(this.getAttribute("data-value"), $this);
+      // Do not insert if highlighted element is disabled
+      if (!$this.hasClass("disabled")) {
+        insertEditor(this.getAttribute("data-value"), $this);
+      }
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
     });
@@ -284,7 +315,6 @@ WLT.Editor = (() => {
   }
 
   return {
-    // biome-ignore lint/style/useNamingConvention: TODO
     Base: EditorBase,
   };
 })();

@@ -83,7 +83,7 @@ class Font(models.Model, UserDisplayMixin):
 
     def clean(self) -> None:
         # Try to parse file only if it passed validation
-        if "font" not in self.field_errors and not self.family:
+        if self.font and "font" not in self.field_errors and not self.family:
             self.family, self.style = get_font_name(self.font)
 
     def get_usage(self):

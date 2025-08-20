@@ -34,8 +34,8 @@ Configure this as a list of e-mail addresses:
 
 .. seealso::
 
-   :setting:`CONTACT_FORM`,
-   :setting:`ADMINS`
+   * :setting:`CONTACT_FORM`
+   * :setting:`ADMINS`
 
 .. setting:: AKISMET_API_KEY
 
@@ -144,9 +144,9 @@ Libravatar, as per https://www.libravatar.org/
 
 .. seealso::
 
-   :ref:`production-cache-avatar`,
-   :setting:`ENABLE_AVATARS`,
-   :ref:`avatars`
+   * :ref:`production-cache-avatar`
+   * :setting:`ENABLE_AVATARS`
+   * :ref:`avatars`
 
 .. setting:: AUTH_TOKEN_VALID
 
@@ -196,7 +196,8 @@ You can select which ones to use:
 
 .. seealso::
 
-   :ref:`autofix`, :ref:`custom-autofix`
+   * :ref:`autofix`
+   * :ref:`custom-autofix`
 
 .. setting:: BACKGROUND_TASKS
 
@@ -271,8 +272,8 @@ You can pass additional arguments to :command:`borg create` when built-in backup
 
 .. seealso::
 
-   :ref:`backup`,
-   :doc:`borg:usage/create`
+   * :ref:`backup`
+   * :doc:`borg:usage/create`
 
 .. setting:: CACHE_DIR
 
@@ -310,11 +311,11 @@ The following subdirectories usually exist:
 CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, CSP_FORM_SRC
 ---------------------------------------------------------------------------------------
 
-Customize :http:header:`Content-Security-Policy` header for Weblate. The header is
+Customize the :http:header:`Content-Security-Policy` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
 (Matomo, Google Analytics, Sentry, …).
 
-All these default to empty list.
+All these default to an empty list.
 
 **Example:**
 
@@ -325,8 +326,8 @@ All these default to empty list.
 
 .. seealso::
 
-    :ref:`csp`,
-    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>`_
+    * :ref:`csp`
+    * `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP>`_
 
 .. setting:: CHECK_LIST
 
@@ -370,7 +371,8 @@ You can turn on only a few:
 
 .. seealso::
 
-   :ref:`checks`, :ref:`custom-checks`
+   * :ref:`checks`
+   * :ref:`custom-checks`
 
 .. setting:: COMMENT_CLEANUP_DAYS
 
@@ -389,10 +391,10 @@ Number of hours between committing pending changes by way of the background task
 
 .. seealso::
 
-   :ref:`component`,
-   :ref:`component-commit_pending_age`,
-   :ref:`production-cron`,
-   :wladmin:`commit_pending`
+   * :ref:`component`
+   * :ref:`component-commit_pending_age`
+   * :ref:`production-cron`
+   * :wladmin:`commit_pending`
 
 
 .. setting:: CONTACT_FORM
@@ -458,9 +460,9 @@ Defaults to ``/home/weblate/data``, but it is expected to be configured.
 
 .. seealso::
 
-    :ref:`file-permissions`,
-    :doc:`backup`,
-    :setting:`CACHE_DIR`
+    * :ref:`file-permissions`
+    * :doc:`backup`
+    * :setting:`CACHE_DIR`
 
 .. setting:: DATABASE_BACKUP
 
@@ -499,8 +501,8 @@ on the internal Weblate management.
 
 .. seealso::
 
-   :ref:`acl`,
-   :ref:`project-access_control`
+   * :ref:`acl`
+   * :ref:`project-access_control`
 
 .. setting:: DEFAULT_AUTO_WATCH
 
@@ -527,8 +529,8 @@ The default value for component restriction.
 
 .. seealso::
 
-   :ref:`component-restricted`,
-   :ref:`perm-check`
+   * :ref:`component-restricted`
+   * :ref:`perm-check`
 
 .. setting:: DEFAULT_COMMIT_MESSAGE
 .. setting:: DEFAULT_ADD_MESSAGE
@@ -544,9 +546,9 @@ Default commit messages for different operations, please check :ref:`component` 
 
 .. seealso::
 
-   :ref:`markup`,
-   :ref:`component`,
-   :ref:`component-commit_message`
+   * :ref:`markup`
+   * :ref:`component`
+   * :ref:`component-commit_message`
 
 
 .. setting:: DEFAULT_ADDONS
@@ -580,9 +582,9 @@ Example:
 
 .. seealso::
 
-   :wladmin:`install_addon`,
-   :doc:`addons`,
-   :setting:`WEBLATE_ADDONS`
+   * :wladmin:`install_addon`
+   * :doc:`addons`
+   * :setting:`WEBLATE_ADDONS`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 
@@ -619,8 +621,8 @@ Defaults to `en`. The matching language object needs to exist in the database.
 
 .. seealso::
 
-   :ref:`languages`,
-   :ref:`component-source_language`
+   * :ref:`languages`
+   * :ref:`component-source_language`
 
 .. setting:: DEFAULT_MERGE_STYLE
 
@@ -634,8 +636,8 @@ DEFAULT_MERGE_STYLE
 
 .. seealso::
 
-   :ref:`component`,
-   :ref:`component-merge_style`
+   * :ref:`component`
+   * :ref:`component-merge_style`
 
 .. setting:: DEFAULT_SHARED_TM
 
@@ -643,6 +645,15 @@ DEFAULT_SHARED_TM
 -----------------
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
+
+.. setting:: DEFAULT_AUTOCLEAN_TM
+
+DEFAULT_AUTOCLEAN_TM
+--------------------
+
+.. versionadded:: 5.13
+
+Configures the default value of :ref:`project-autoclean_tm`.
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -653,8 +664,8 @@ Default setting for translation propagation, defaults to ``True``.
 
 .. seealso::
 
-   :ref:`component`,
-   :ref:`component-allow_translation_propagation`
+   * :ref:`component`
+   * :ref:`component-allow_translation_propagation`
 
 .. setting:: DEFAULT_PULL_MESSAGE
 
@@ -677,9 +688,9 @@ leaking private info, speeding up the user experience.
 
 .. seealso::
 
-   :ref:`production-cache-avatar`,
-   :setting:`AVATAR_URL_PREFIX`,
-   :ref:`avatars`
+   * :ref:`production-cache-avatar`
+   * :setting:`AVATAR_URL_PREFIX`
+   * :ref:`avatars`
 
 .. setting:: ENABLE_HOOKS
 
@@ -722,18 +733,22 @@ sites without HTTPS.
 
 .. seealso::
 
-    :setting:`django:SESSION_COOKIE_SECURE`,
-    :setting:`django:CSRF_COOKIE_SECURE`,
-    :setting:`django:SECURE_SSL_REDIRECT`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`
-    :ref:`production-site`
+    * :setting:`django:SESSION_COOKIE_SECURE`
+    * :setting:`django:CSRF_COOKIE_SECURE`
+    * :setting:`django:SECURE_SSL_REDIRECT`
+    * :setting:`django:SECURE_PROXY_SSL_HEADER`
+    * :ref:`production-site`
 
 .. setting:: ENABLE_SHARING
 
 ENABLE_SHARING
 --------------
 
-Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
+Turn on/off the :guilabel:`Community` menu so users can share translation progress on social networks.
+
+.. seealso::
+
+   :ref:`promotion`
 
 .. setting:: EXTRA_HTML_HEAD
 
@@ -783,8 +798,8 @@ List for credentials for Gitea servers.
 
 .. seealso::
 
-   :ref:`vcs-gitea`,
-   `Creating a Gitea personal access token`_
+   * :ref:`vcs-gitea`
+   * `Creating a Gitea personal access token`_
 
 .. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
 
@@ -810,8 +825,8 @@ List for credentials for GitLab servers.
 
 .. seealso::
 
-   :ref:`vcs-gitlab`,
-   `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
+   * :ref:`vcs-gitlab`
+   * `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
 
 .. setting:: GITHUB_CREDENTIALS
 
@@ -833,8 +848,13 @@ List for credentials for GitHub servers.
 
 .. note::
 
-   When creating a fine-grained personal access token, grant read and write
-   access to :guilabel:`Contents` and :guilabel:`Pull requests`.
+   It is possible to use both fine-grained personal access tokens and classic
+   personal access tokens. The fine-grained tokens are limited to a single
+   organization, so it won't work if you want Weblate to fork a repository
+   outside the organization (typically to the user namespace).
+
+   To clone, push and create pull requests, the read and write access to
+   :guilabel:`Contents` and :guilabel:`Pull requests` is required.
 
    :guilabel:`Administration` might also be necessary for forking a repository
    if you intend to use forking and the original repository is not public.
@@ -847,8 +867,8 @@ List for credentials for GitHub servers.
 
 .. seealso::
 
-   :ref:`vcs-github`,
-   `Creating a GitHub personal access token`_
+   * :ref:`vcs-github`
+   * `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
@@ -874,8 +894,8 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   :ref:`vcs-bitbucket-data-center`,
-   `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
+   * :ref:`vcs-bitbucket-data-center`
+   * `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
 
@@ -913,9 +933,9 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   :ref:`vcs-bitbucket-cloud`,
-   `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_,
-   `App password permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_
+   * :ref:`vcs-bitbucket-cloud`
+   * `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_
+   * `App password permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_
 
 .. setting:: AZURE_DEVOPS_CREDENTIALS
 
@@ -956,8 +976,8 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   :ref:`vcs-azure-devops`,
-   `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
+   * :ref:`vcs-azure-devops`
+   * `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -1065,10 +1085,10 @@ If set to ``True``, Weblate gets IP address from a header defined by
 
 .. seealso::
 
-    :ref:`reverse-proxy`,
-    :ref:`rate-limit`,
-    :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`
+   * :ref:`reverse-proxy`
+   * :ref:`rate-limit`
+   * :setting:`IP_PROXY_HEADER`
+   * :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_HEADER
 
@@ -1082,11 +1102,11 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 .. seealso::
 
-    :ref:`reverse-proxy`,
-    :ref:`rate-limit`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`,
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_OFFSET`
+   * :ref:`reverse-proxy`
+   * :ref:`rate-limit`
+   * :setting:`django:SECURE_PROXY_SSL_HEADER`
+   * :setting:`IP_BEHIND_REVERSE_PROXY`
+   * :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_OFFSET
 
@@ -1114,11 +1134,11 @@ Defaults to -1.
 
 .. seealso::
 
-    :ref:`reverse-proxy`,
-    :ref:`rate-limit`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`,
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_HEADER`
+   * :ref:`reverse-proxy`
+   * :ref:`rate-limit`
+   * :setting:`django:SECURE_PROXY_SSL_HEADER`
+   * :setting:`IP_BEHIND_REVERSE_PROXY`
+   * :setting:`IP_PROXY_HEADER`
 
 .. setting:: LEGAL_TOS_DATE
 
@@ -1171,7 +1191,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-    Each license definition should be tuple of its short name, a long name and an URL.
+    Each license definition should be tuple of its short name, a long name, a URL and a boolean, indication with it is a libre license.
 
 For example:
 
@@ -1182,6 +1202,7 @@ For example:
             "AGPL-3.0",
             "GNU Affero General Public License v3.0",
             "https://www.gnu.org/licenses/agpl-3.0-standalone.html",
+            True,
         ),
     ]
 
@@ -1379,8 +1400,8 @@ List for credentials for Pagure servers.
 
 .. seealso::
 
-   :ref:`vcs-pagure`,
-   `Pagure API <https://pagure.io/api/0/>`_
+   * :ref:`vcs-pagure`
+   * `Pagure API <https://pagure.io/api/0/>`_
 
 .. setting:: PASSWORD_MINIMAL_STRENGTH
 
@@ -1396,8 +1417,8 @@ Defaults to 0, which means strength checking is disabled.
 
 .. seealso::
 
-   :ref:`password-authentication`,
-   :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
+   * :ref:`password-authentication`
+   * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
 
 .. setting:: PRIVACY_URL
@@ -1439,8 +1460,8 @@ Configures whether the private commit e-mail is opt-in or opt-out (by default it
 
 .. seealso::
 
-   :ref:`profile`,
-   :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
+   * :ref:`profile`
+   * :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`
 
 .. setting:: PRIVATE_COMMIT_EMAIL_TEMPLATE
 
@@ -1518,9 +1539,9 @@ Default configuration:
 
 .. seealso::
 
-   :ref:`project-web`
-   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
-   :setting:`PROJECT_WEB_RESTRICT_RE`,
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
 .. setting:: PROJECT_WEB_RESTRICT_NUMERIC
@@ -1534,9 +1555,9 @@ Reject using numeric IP address in project website. On by default.
 
 .. seealso::
 
-   :ref:`project-web`
-   :setting:`PROJECT_WEB_RESTRICT_HOST`,
-   :setting:`PROJECT_WEB_RESTRICT_RE`,
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. setting:: PROJECT_WEB_RESTRICT_RE
 
@@ -1549,9 +1570,9 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
 
 .. seealso::
 
-   :ref:`project-web`
-   :setting:`PROJECT_WEB_RESTRICT_HOST`,
-   :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
 .. setting:: RATELIMIT_ATTEMPTS
 
@@ -1564,9 +1585,9 @@ Defaults to 5.
 
 .. seealso::
 
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_WINDOW`,
-    :setting:`RATELIMIT_LOCKOUT`
+   * :ref:`rate-limit`
+   * :setting:`RATELIMIT_WINDOW`
+   * :setting:`RATELIMIT_LOCKOUT`
 
 .. setting:: RATELIMIT_WINDOW
 
@@ -1579,9 +1600,9 @@ An amount of seconds, defaulting to 300 (5 minutes).
 
 .. seealso::
 
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_ATTEMPTS`,
-    :setting:`RATELIMIT_LOCKOUT`
+   * :ref:`rate-limit`
+   * :setting:`RATELIMIT_ATTEMPTS`
+   * :setting:`RATELIMIT_LOCKOUT`
 
 .. setting:: RATELIMIT_LOCKOUT
 
@@ -1594,9 +1615,9 @@ An amount of seconds defaulting to 600 (10 minutes).
 
 .. seealso::
 
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_ATTEMPTS`,
-    :setting:`RATELIMIT_WINDOW`
+   * :ref:`rate-limit`
+   * :setting:`RATELIMIT_ATTEMPTS`
+   * :setting:`RATELIMIT_WINDOW`
 
 .. setting:: REGISTRATION_ALLOW_BACKENDS
 
@@ -1625,8 +1646,8 @@ Example:
 
 .. seealso::
 
-    :setting:`REGISTRATION_OPEN`,
-    :doc:`auth`
+   * :setting:`REGISTRATION_OPEN`
+   * :doc:`auth`
 
 .. setting:: REGISTRATION_CAPTCHA
 
@@ -1682,9 +1703,9 @@ Python Social Auth (you can allow certain back-ends using
 
 .. seealso::
 
-    :setting:`REGISTRATION_ALLOW_BACKENDS`,
-    :setting:`REGISTRATION_EMAIL_MATCH`,
-    :doc:`auth`
+   * :setting:`REGISTRATION_ALLOW_BACKENDS`
+   * :setting:`REGISTRATION_EMAIL_MATCH`
+   * :doc:`auth`
 
 .. setting:: REGISTRATION_REBIND
 
@@ -1748,6 +1769,15 @@ SENTRY_ENVIRONMENT
 ------------------
 
 Configures environment for Sentry. Defaults to ``devel``.
+
+.. setting:: SENTRY_MONITOR_BEAT_TASKS
+
+SENTRY_MONITOR_BEAT_TASKS
+-------------------------
+
+.. versionadded:: 5.13
+
+Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``.
 
 .. setting:: SENTRY_PROFILES_SAMPLE_RATE
 
@@ -1841,11 +1871,11 @@ If Weblate is running on a non-standard port, include it here as well.
 
 .. seealso::
 
-   :ref:`production-site`,
-   :ref:`production-hosts`,
-   :ref:`production-ssl`
-   :envvar:`WEBLATE_SITE_DOMAIN`,
-   :setting:`ENABLE_HTTPS`
+   * :ref:`production-site`
+   * :ref:`production-hosts`
+   * :ref:`production-ssl`
+   * :envvar:`WEBLATE_SITE_DOMAIN`
+   * :setting:`ENABLE_HTTPS`
 
 .. setting:: SITE_TITLE
 
@@ -2080,7 +2110,6 @@ example:
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.consistency.LanguageConsistencyAddon",
@@ -2090,15 +2119,12 @@ example:
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
-        "weblate.addons.json.JSONCustomizeAddon",
-        "weblate.addons.xml.XMLCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
         "weblate.addons.removal.RemoveComments",
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.autotranslate.AutoTranslateAddon",
-        "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         # Add-on you want to include
         "weblate.addons.example.ExampleAddon",
@@ -2112,9 +2138,9 @@ example:
 
 .. seealso::
 
-    :ref:`addons`,
-    :setting:`DEFAULT_ADDONS`,
-    :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
+   * :ref:`addons`
+   * :setting:`DEFAULT_ADDONS`
+   * :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
 
 .. setting:: ADDON_ACTIVITY_LOG_EXPIRY
 

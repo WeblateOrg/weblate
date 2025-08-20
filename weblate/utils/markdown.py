@@ -40,7 +40,9 @@ class SkipHtmlSpan(span_token.HtmlSpan):
 
 
 class PlainAutoLink(span_token.AutoLink):
-    pattern = re.compile(r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+)\b")
+    pattern = re.compile(
+        r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|})(~-]+[A-Za-z0-9})])(?=\W|$)"
+    )
 
 
 class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
