@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-18 07:02+0000\n"
+"PO-Revision-Date: 2025-08-20 11:02+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -23165,7 +23165,7 @@ msgstr ""
 
 #: ../../api.rst:880
 msgid "Creates a new project."
-msgstr ""
+msgstr "Membuat proyek baru."
 
 #: ../../api.rst:891
 msgid "Returns information about the project."
@@ -23193,28 +23193,34 @@ msgstr "nama proyek"
 
 #: ../../api.rst:896
 msgid "project slug"
-msgstr ""
+msgstr "slug proyek"
 
 #: ../../api.rst:897
 msgid "project website"
-msgstr ""
+msgstr "situs web proyek"
 
 #: ../../api.rst:898
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
+"URL ke daftar komponen; lihat :http:get:`/api/projects/(string:project)/"
+"components/`"
 
 #: ../../api.rst:899
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
+"URL ke status repositori; lihat :http:get:`/api/projects/(string:project)/"
+"repository/`"
 
 #: ../../api.rst:900
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
+"URL ke daftar perubahan; lihat :http:get:`/api/projects/(string:project)/"
+"changes/`"
 
 #: ../../api.rst:901
 msgid ""
@@ -23226,7 +23232,7 @@ msgstr ""
 
 #: ../../api.rst:925
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Sunting proyek dengan permintaan :http:method:`PATCH`."
 
 #: ../../api.rst:929 ../../api.rst:1327 ../../api.rst:1432 ../../api.rst:1516
 #: ../../api.rst:1534 ../../api.rst:1544 ../../api.rst:1557 ../../api.rst:1568
@@ -23241,27 +23247,31 @@ msgstr "Slug URL komponen"
 
 #: ../../api.rst:936
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Sunting proyek dengan permintaan :http:method:`PUT`."
 
 #: ../../api.rst:943
 msgid "Deletes a project."
-msgstr ""
+msgstr "Menghapus proyek."
 
 #: ../../api.rst:950
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Mengembalikan daftar perubahan proyek. Ini pada dasarnya adalah proyek "
+"dengan cakupan :http:get:`/api/changes/` yang menerima parameter yang sama."
 
 #: ../../api.rst:955 ../../api.rst:1546 ../../api.rst:2026
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr ""
+msgstr "array objek komponen; lihat :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:961
 msgid ""
 "Downloads all available translations associated with the project as an "
 "archive file using the requested format and language."
 msgstr ""
+"Mengunduh semua terjemahan yang tersedia terkait dengan proyek sebagai "
+"berkas arsip menggunakan format dan bahasa yang diminta."
 
 #: ../../api.rst:966 ../../api.rst:1560
 msgid ""
@@ -23269,11 +23279,16 @@ msgid ""
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
 msgstr ""
+"Format arsip yang akan digunakan; Jika tidak ditentukan, bawaannya adalah "
+"``zip``; Format yang didukung: ``zip`` dan ``zip:CONVERSION`` di mana "
+"``CONVERSION`` adalah salah satu konverter yang tercantum di :ref:`download`."
 
 #: ../../api.rst:967
 msgid ""
 "The language code to download; If not specified, all languages are included."
 msgstr ""
+"Kode bahasa yang akan diunduh; Jika tidak ditentukan, semua bahasa "
+"disertakan."
 
 #: ../../api.rst:971
 msgid ""
@@ -23282,79 +23297,96 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
+"Mengembalikan informasi tentang status repositori VCS. Titik akhir ini hanya "
+"berisi ringkasan keseluruhan untuk semua repositori dalam proyek. Untuk "
+"mendapatkan status yang lebih detail, gunakan :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:977 ../../api.rst:1651
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "apakah ada perubahan yang tertunda untuk dikomit"
 
 #: ../../api.rst:978 ../../api.rst:1652
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "apakah ada perubahan hulu untuk digabungkan"
 
 #: ../../api.rst:979 ../../api.rst:1653
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "apakah ada perubahan lokal untuk mendorong"
 
 #: ../../api.rst:994 ../../api.rst:2149
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "Melakukan operasi yang diberikan pada repositori VCS."
 
 #: ../../api.rst:999
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``, ``file-scan``"
 msgstr ""
+"Operasi yang harus dilakukan: salah satu dari ``push``, ``pull``, ``commit``"
+", ``reset``, ``cleanup``, ``file-sync``, ``file-scan``"
 
 #: ../../api.rst:1000 ../../api.rst:1669 ../../api.rst:2160
 msgid "result of the operation"
-msgstr ""
+msgstr "hasil dari operasi"
 
 #: ../../api.rst:1024 ../../api.rst:1160 ../../api.rst:1465 ../../api.rst:1626
 #: ../../api.rst:1693 ../../api.rst:1769
 msgid "**JSON response example:**"
-msgstr ""
+msgstr "**Contoh respons JSON:**"
 
 #: ../../api.rst:1042
 msgid "Returns a list of translation components in the given project."
-msgstr ""
+msgstr "Mengembalikan daftar komponen terjemahan dalam proyek yang diberikan."
 
 #: ../../api.rst:1046 ../../api.rst:2594
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"array objek komponen; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1052
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"Parameter ``zipfile`` dan ``docfile`` sekarang diterima untuk komponen tanpa "
+"VCS, lihat :ref:`vcs-local`."
 
 #: ../../api.rst:1056
 msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"Repositori kloning kini dibagikan secara otomatis dalam suatu proyek "
+"menggunakan :ref:`internal-urls`. Gunakan ``disable_autoshare`` untuk "
+"menonaktifkannya."
 
 #: ../../api.rst:1058
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "Membuat komponen terjemahan dalam proyek yang diberikan."
 
 #: ../../api.rst:1062
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
+"Gunakan :ref:`internal-urls` saat membuat beberapa komponen dari repositori "
+"VCS tunggal."
 
 #: ../../api.rst:1066
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
+"Sebagian besar pembuatan komponen terjadi di latar belakang. Periksa atribut "
+"``task_url`` dari komponen yang dibuat dan ikuti perkembangannya."
 
 #: ../../api.rst:1072
 msgid "ZIP file to upload into Weblate for translations initialization"
-msgstr ""
+msgstr "Berkas ZIP untuk diunggah ke Weblate untuk inisialisasi terjemahan"
 
 #: ../../api.rst:1073
 msgid "Document to translate"
@@ -23363,6 +23395,7 @@ msgstr "Dokumen untuk diterjemahkan"
 #: ../../api.rst:1074
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
+"Menonaktifkan pembagian repositori otomatis melalui :ref:`internal-urls`."
 
 #: ../../api.rst:1075
 msgid ""
@@ -23377,6 +23410,8 @@ msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Objek komponen yang dibuat; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1078
 msgid ""
@@ -23384,172 +23419,158 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON tidak dapat digunakan saat mengunggah berkas menggunakan parameter "
+"``zipfile`` dan ``docfile``. Data harus diunggah sebagai :mimetype:`"
+"multipart/form-data`."
 
 #: ../../api.rst:1082
 msgid "**CURL form request example:**"
-msgstr ""
+msgstr "**Contoh permintaan formulir CURL:**"
 
 #: ../../api.rst:1095
 msgid "**CURL JSON request example:**"
-msgstr ""
+msgstr "**Contoh permintaan CURL JSON:**"
 
 #: ../../api.rst:1115
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Permintaan JSON untuk membuat komponen baru dari Git:**"
 
 #: ../../api.rst:1138
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**Permintaan JSON untuk membuat komponen baru dari komponen lain:**"
 
 #: ../../api.rst:1207
 msgid "Returns paginated statistics for all languages within a project."
-msgstr ""
+msgstr "Mengembalikan statistik halaman untuk semua bahasa dalam suatu proyek."
 
 #: ../../api.rst:1211
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "array objek statistik terjemahan"
 
 #: ../../api.rst:1212
 msgid "language name"
-msgstr ""
+msgstr "nama bahasa"
 
 #: ../../api.rst:1213
 msgid "language code"
-msgstr ""
+msgstr "kode bahasa"
 
 #: ../../api.rst:1214 ../../api.rst:1923 ../../api.rst:2653
 msgid "total number of strings"
-msgstr ""
+msgstr "jumlah total string"
 
 #: ../../api.rst:1215 ../../api.rst:1926 ../../api.rst:2657
 msgid "number of translated strings"
-msgstr ""
+msgstr "jumlah string yang diterjemahkan"
 
 #: ../../api.rst:1216 ../../api.rst:1927 ../../api.rst:2658
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "persentase string yang diterjemahkan"
 
 #: ../../api.rst:1217 ../../api.rst:1924 ../../api.rst:2654
 msgid "total number of words"
-msgstr ""
+msgstr "jumlah total kata"
 
 #: ../../api.rst:1218 ../../api.rst:1928 ../../api.rst:2659
 msgid "number of translated words"
-msgstr ""
+msgstr "jumlah kata yang diterjemahkan"
 
 #: ../../api.rst:1219 ../../api.rst:2660
 msgid "percentage of translated words"
-msgstr ""
+msgstr "persentase kata yang diterjemahkan"
 
 #: ../../api.rst:1223
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Mengembalikan statistik untuk proyek."
 
 #: ../../api.rst:1236
 msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Mengembalikan kategori untuk suatu proyek. Lihat :http:get:`/api/categories/"
+"(int:id)/` untuk definisi bidang."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Managed projects"
 msgid "param project"
-msgstr "Proyek yang dikelola"
+msgstr "proyek param"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Create project"
 msgid "type project"
-msgstr "Buat proyek"
+msgstr "proyek jenis"
 
 #: ../../api.rst:1239 ../../api.rst:1248 ../../api.rst:1260 ../../api.rst:2592
 msgid "string"
 msgstr "string,"
 
 #: ../../api.rst:1245
-#, fuzzy
-#| msgid "Returns a list of add-ons."
 msgid "Returns labels for a project."
-msgstr "Mengembalikan daftar pengaya."
+msgstr "Mengembalikan label untuk proyek."
 
 #: ../../api.rst:1249
 msgid "ID of the label"
-msgstr ""
+msgstr "ID label"
 
 #: ../../api.rst:1250 ../../api.rst:1261
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "name of the label"
-msgstr "Nama terjemahan"
+msgstr "nama label"
 
 #: ../../api.rst:1251 ../../api.rst:1262
 msgid "color of the label"
-msgstr ""
+msgstr "warna label"
 
 #: ../../api.rst:1257
 msgid "Creates a label for a project."
 msgstr "Membuat label untuk proyek."
 
 #: ../../api.rst:1266 ../../api.rst:1869
-#, fuzzy
-#| msgid "Returns a list of add-ons."
 msgid "Returns contributor credits for a project."
-msgstr "Mengembalikan daftar pengaya."
+msgstr "Mengembalikan kredit kontributor untuk proyek."
 
 #: ../../api.rst:1272 ../../api.rst:1875
 msgid "Lower-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Stempel waktu ISO 8601 batas bawah (wajib)"
 
 #: ../../api.rst:1274 ../../api.rst:1877
 msgid "Upper-bound ISO 8601 timestamp (mandatory)"
-msgstr ""
+msgstr "Stempel waktu ISO 8601 batas atas (wajib)"
 
 #: ../../api.rst:1276 ../../api.rst:1879
-#, fuzzy
-#| msgid "Language code style"
 msgid "Language code to search for"
-msgstr "Gaya kode bahasa"
+msgstr "Kode bahasa untuk mencari"
 
 #: ../../api.rst:1278 ../../api.rst:1881
 msgid "Email of the contributor"
 msgstr "Surel kontributor"
 
 #: ../../api.rst:1279 ../../api.rst:1882
-#, fuzzy
-#| msgid "I accept the contributor agreement"
 msgid "Full name of the contributor"
-msgstr "Saya menyetujui perjanjian kontributor"
+msgstr "Nama lengkap kontributor"
 
 #: ../../api.rst:1280 ../../api.rst:1883
-#, fuzzy
-#| msgid "Number of shared entries in this Weblate instance"
 msgid "Number of changes done in the time range"
-msgstr "Jumlah entri yang dibagikan di server Weblate ini"
+msgstr "Jumlah perubahan yang dilakukan dalam rentang waktu"
 
 #: ../../api.rst:1287
 msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Mengembalikan pengaturan saran otomatis untuk suatu proyek, yang terdiri "
+"dari konfigurasi yang ditetapkan untuk setiap layanan terjemahan yang "
+"diinstal."
 
 #: ../../api.rst:1291
-#, fuzzy
-#| msgid "JSON encoded configuration of an add-on."
 msgid "Configuration for all installed services."
-msgstr "Konfigurasi JSON yang dikodekan dari sebuah pengaya."
+msgstr "Konfigurasi untuk semua layanan yang terinstal."
 
 #: ../../api.rst:1298
-#, fuzzy
-#| msgid "Update the existing add-on configuration."
 msgid "Create or update the service configuration for a project."
-msgstr "Perbarui konfigurasi pengaya yang ada."
+msgstr "Membuat atau memperbarui konfigurasi layanan untuk suatu proyek."
 
 #: ../../api.rst:1302
-#, fuzzy
-#| msgid "Service"
 msgid "Service name"
-msgstr "Layanan"
+msgstr "Nama layanan"
 
 #: ../../api.rst:1303
 msgid "Service configuration in JSON"
@@ -23565,13 +23586,15 @@ msgstr ""
 
 #: ../../api.rst:1315
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Mengembalikan daftar komponen terjemahan."
 
 #: ../../api.rst:1319
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Atribut objek komponen didokumentasikan di :http:get:`/api/components/"
+"(string:project)/(string:component)/`."
 
 #: ../../api.rst:1323
 msgid "Returns information about the translation component."
@@ -23580,40 +23603,50 @@ msgstr "Mengembalikan informasi tentang komponen terjemahan."
 #: ../../api.rst:1329
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "proyek terjemahan; lihat :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1333
 msgid "component whose repository is linked via :ref:`internal-urls`"
-msgstr ""
+msgstr "komponen yang repositorinya ditautkan melalui :ref:`internal-urls`"
 
 #: ../../api.rst:1334
 msgid ""
 ":ref:`component-repo`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used, use ``linked_component`` to detect this situation"
 msgstr ""
+":ref:`component-repo`, ini adalah URL repositori sebenarnya bahkan ketika "
+":ref:`internal-urls` digunakan, gunakan ``linked_component`` untuk "
+"mendeteksi situasi ini"
 
 #: ../../api.rst:1336
 msgid ""
 ":ref:`component-branch`, this is the actual repository branch even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`, ini adalah cabang repositori sebenarnya bahkan "
+"ketika :ref:`internal-urls` digunakan"
 
 #: ../../api.rst:1337
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even when :ref:"
 "`internal-urls` are used"
 msgstr ""
+":ref:`component-push`, ini adalah URL repositori sebenarnya bahkan ketika "
+":ref:`internal-urls` digunakan"
 
 #: ../../api.rst:1338
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`, ini adalah cabang repositori sebenarnya bahkan "
+"ketika :ref:`internal-urls` digunakan"
 
 #: ../../api.rst:1349 ../../api.rst:1917
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"objek bahasa sumber; lihat :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1368
 msgid ""
@@ -23628,29 +23661,39 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"URL ke status repositori; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1376
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"URL ke daftar terjemahan; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1377
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"URL untuk mengunci status; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1378
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"URL ke daftar perubahan; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1379
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
 msgstr ""
+"URL ke tugas latar belakang (jika ada); lihat :http:get:`/api/tasks/"
+"(str:uuid)/`"
 
 #: ../../api.rst:1380
 msgid ""
@@ -23662,98 +23705,105 @@ msgstr ""
 
 #: ../../api.rst:1428
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Sunting komponen dengan permintaan :http:method:`PATCH`."
 
 #: ../../api.rst:1434
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "Kode bahasa sumber proyek (opsional)"
 
 #: ../../api.rst:1436 ../../api.rst:1521
 msgid "name of component"
-msgstr ""
+msgstr "nama komponen"
 
 #: ../../api.rst:1437 ../../api.rst:1522
 msgid "slug of component"
-msgstr ""
+msgstr "slug komponen"
 
 #: ../../api.rst:1438 ../../api.rst:1523
 msgid "VCS repository URL"
-msgstr ""
+msgstr "URL repositori VCS"
 
 #: ../../api.rst:1512
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Sunting komponen dengan permintaan :http:method:`PUT`."
 
 #: ../../api.rst:1518
 msgid "VCS repository branch"
-msgstr ""
+msgstr "Cabang repositori VCS"
 
 #: ../../api.rst:1519
 msgid "file format of translations"
-msgstr ""
+msgstr "format berkas terjemahan"
 
 #: ../../api.rst:1520
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "topeng berkas terjemahan di repositori"
 
 #: ../../api.rst:1524
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "berkas dasar untuk terjemahan monolingual"
 
 #: ../../api.rst:1525
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "berkas dasar untuk menambahkan terjemahan baru"
 
 #: ../../api.rst:1526
 msgid "version control system"
-msgstr ""
+msgstr "sistem kontrol versi"
 
 #: ../../api.rst:1530
 msgid "Deletes a component."
-msgstr ""
+msgstr "Menghapus komponen."
 
 #: ../../api.rst:1539
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Mengembalikan daftar perubahan komponen. Ini pada dasarnya adalah komponen "
+"dengan cakupan :http:get:`/api/changes/` yang menerima parameter yang sama."
 
 #: ../../api.rst:1553
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
 msgstr ""
+"Mengunduh semua terjemahan yang tersedia terkait dengan komponen sebagai "
+"berkas arsip menggunakan format yang diminta."
 
 #: ../../api.rst:1564
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "Mengembalikan daftar tangkapan layar komponen."
 
 #: ../../api.rst:1570
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"array tangkapan layar komponen; lihat :http:get:`/api/screenshots/(int:id)/`"
 
 #: ../../api.rst:1575
 msgid "Returns component lock status."
-msgstr ""
+msgstr "Mengembalikan status kunci komponen."
 
 #: ../../api.rst:1581
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "apakah komponen terkunci untuk pembaruan"
 
 #: ../../api.rst:1594
 msgid "Sets component lock status."
-msgstr ""
+msgstr "Mengatur status kunci komponen."
 
 #: ../../api.rst:1596
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"Responsnya sama dengan :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`."
 
 #: ../../api.rst:1602
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "Boolean apakah akan terkunci atau tidak."
 
 #: ../../api.rst:1643 ../../api.rst:2136
 msgid "Returns information about the VCS repository status."
@@ -23764,69 +23814,78 @@ msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Responsnya sama seperti untuk :http:get:`/api/projects/(string:project)/"
+"repository/`."
 
 #: ../../api.rst:1654
 msgid "Remote commit information"
-msgstr ""
+msgstr "Informasi komit jarak jauh"
 
 #: ../../api.rst:1655
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "Status repositori VCS seperti yang dilaporkan oleh VCS"
 
 #: ../../api.rst:1656
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "Teks yang menjelaskan kegagalan penggabungan atau null jika tidak ada"
 
 #: ../../api.rst:1660
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "Melakukan operasi yang diberikan pada repositori VCS."
 
 #: ../../api.rst:1662 ../../api.rst:2151
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Lihat :http:post:`/api/projects/(string:project)/repository/` untuk "
+"dokumentasi."
 
 #: ../../api.rst:1668 ../../api.rst:2159
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Operasi yang harus dilakukan: salah satu dari ``push``, ``pull``, ``commit``"
+", ``reset``, ``cleanup``"
 
 #: ../../api.rst:1710
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "Mengunduh berkas dasar untuk terjemahan monolingual."
 
 #: ../../api.rst:1719
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "Mengunduh berkas templat untuk terjemahan baru."
 
 #: ../../api.rst:1728
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "Mengembalikan daftar objek terjemahan dalam komponen yang diberikan."
 
 #: ../../api.rst:1734
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"array objek terjemahan; lihat :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1738
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Membuat terjemahan baru dalam komponen yang diberikan."
 
 #: ../../api.rst:1744
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"kode bahasa terjemahan; lihat :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1745
 msgid "new translation object created"
-msgstr ""
+msgstr "objek terjemahan baru dibuat"
 
 #: ../../api.rst:1819
 msgid "Returns paginated statistics for all translations within component."
-msgstr ""
+msgstr "Mengembalikan statistik halaman untuk semua terjemahan dalam komponen."
 
 #: ../../api.rst:1832
 msgid "Returns projects linked with a component."
@@ -23834,7 +23893,7 @@ msgstr "Mengembalikan proyek yang ditautkan dengan komponen."
 
 #: ../../api.rst:1840
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "proyek terkait; lihat :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1844
 msgid "Associate project with a component."
@@ -23850,13 +23909,15 @@ msgstr "Slug dari proyek untuk menghapus"
 
 #: ../../api.rst:1890
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "Mengembalikan daftar terjemahan."
 
 #: ../../api.rst:1894
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Atribut objek terjemahan didokumentasikan di :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1898
 msgid "Returns information about the translation."
@@ -23866,13 +23927,15 @@ msgstr "Mengembalikan informasi tentang terjemahan."
 #: ../../api.rst:2051 ../../api.rst:2074 ../../api.rst:2105 ../../api.rst:2116
 #: ../../api.rst:2144 ../../api.rst:2157 ../../api.rst:2170
 msgid "Translation language code"
-msgstr ""
+msgstr "Kode bahasa terjemahan"
 
 #: ../../api.rst:1906
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"objek komponen; lihat :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1907
 msgid "number of strings failing checks"
@@ -23888,7 +23951,7 @@ msgstr "jumlah kata dengan pemeriksaan gagal"
 
 #: ../../api.rst:1910
 msgid "translation filename"
-msgstr ""
+msgstr "nama berkas terjemahan"
 
 #: ../../api.rst:1911 ../../api.rst:2663
 msgid "number of fuzzy (marked for edit) strings"
@@ -23896,19 +23959,19 @@ msgstr "jumlah string fuzzy (ditandai untuk diedit)"
 
 #: ../../api.rst:1912 ../../api.rst:2666
 msgid "percentage of fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "persentase string fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:1913
 msgid "number of words in fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "jumlah kata dalam string fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:1914
 msgid "number of strings with comment"
-msgstr ""
+msgstr "jumlah string dengan komentar"
 
 #: ../../api.rst:1915
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "jumlah string dengan saran"
 
 #: ../../api.rst:1916
 msgid "whether the translation has a monolingual base"
@@ -23919,88 +23982,101 @@ msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
 msgstr ""
+"kode bahasa yang digunakan dalam repositori; ini bisa berbeda dari kode "
+"bahasa di objek bahasa"
 
 #: ../../api.rst:1919
 msgid "name of last author"
-msgstr ""
+msgstr "nama penulis terakhir"
 
 #: ../../api.rst:1920
 msgid "last change timestamp"
-msgstr ""
+msgstr "stempel waktu perubahan terakhir"
 
 #: ../../api.rst:1921
 msgid "revision hash for the file"
-msgstr ""
+msgstr "hash revisi untuk berkas tersebut"
 
 #: ../../api.rst:1922
 msgid "URL for sharing leading to engagement page"
-msgstr ""
+msgstr "URL untuk berbagi yang mengarah ke halaman keterlibatan"
 
 #: ../../api.rst:1925
 msgid "URL for translating"
-msgstr ""
+msgstr "URL untuk menerjemahkan"
 
 #: ../../api.rst:1929
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"URL ke status repositori; lihat :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1930
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"URL ke objek berkas; lihat :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1931
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"URL ke daftar perubahan; lihat :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1932
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"URL ke daftar string; lihat :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:2006
 msgid "Deletes a translation."
-msgstr ""
+msgstr "Menghapus terjemahan."
 
 #: ../../api.rst:2017
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
 msgstr ""
+"Mengembalikan daftar perubahan terjemahan. Ini pada dasarnya adalah "
+":http:get:`/api/changes/` dengan cakupan terjemahan yang menerima parameter "
+"yang sama."
 
 #: ../../api.rst:2031 ../../api.rst:2205
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "Mengembalikan daftar unit terjemahan."
 
 #: ../../api.rst:2039 ../../api.rst:2207
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr ""
+msgstr "String kueri pencarian :doc:`/user/search` (opsional)"
 
 #: ../../api.rst:2041
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "array objek komponen; lihat :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2045
 msgid "Add new unit."
 msgstr "Tambahkan unit baru."
 
 #: ../../api.rst:2053
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "*Monolingual translations:* Key of translation unit"
-msgstr "Terjemahan monolingual"
+msgstr "*Terjemahan monolingual:* Kunci unit terjemahan"
 
 #: ../../api.rst:2054
 msgid ""
 "*Monolingual translations:* Source strings (use single string if not "
 "creating plural)"
 msgstr ""
+"*Terjemahan monolingual:* String sumber (gunakan string tunggal jika tidak "
+"membuat jamak)"
 
 #: ../../api.rst:2055
 msgid "*Bilingual translations:* Context of a translation unit"
@@ -24011,12 +24087,16 @@ msgid ""
 "*Bilingual translations:* Source strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Terjemahan dwibahasa:* String sumber (gunakan string tunggal jika tidak "
+"membuat jamak)"
 
 #: ../../api.rst:2057
 msgid ""
 "*Bilingual translations:* Target strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Terjemahan dwibahasa:* String target (gunakan string tunggal jika tidak "
+"membuat jamak)"
 
 #: ../../api.rst:2058
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
@@ -24024,15 +24104,15 @@ msgstr "Status string; lihat :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2059
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "unit yang baru dibuat; lihat :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2068
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Memicu terjemahan otomatis."
 
 #: ../../api.rst:2077
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "Jenis filter terjemahan otomatis"
 
 #: ../../api.rst:2078
 msgid "Automatic translation source - ``mt`` or ``others``"
@@ -24051,6 +24131,8 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
+"Unduh berkas terjemahan saat ini sebagaimana disimpan dalam VCS (tanpa "
+"parameter ``format``) atau dikonversi ke format lain (lihat :ref:`download`)."
 
 #: ../../api.rst:2090
 msgid ""
@@ -24059,40 +24141,50 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Titik akhir API ini menggunakan logika keluaran yang berbeda dari API "
+"lainnya karena beroperasi pada keseluruhan berkas, bukan pada data. Set "
+"parameter ``format`` yang diterima berbeda dan tanpa parameter tersebut,Anda "
+"akan mendapatkan berkas terjemahan sebagaimana tersimpan di VCS."
 
 #: ../../api.rst:2095
 msgid "Timestamp of last change to this file."
-msgstr ""
+msgstr "Stempel waktu perubahan terakhir pada berkas ini."
 
 #: ../../api.rst:2096
 msgid "Skips response if the file has not been modified since that time."
-msgstr ""
+msgstr "Melewati respons apabila berkas belum dimodifikasi sejak saat itu."
 
 #: ../../api.rst:2098
 msgid ""
 "File format to use; if not specified no format conversion happens; see :ref:"
 "`download` for supported formats"
 msgstr ""
+"Format berkas yang akan digunakan; jika tidak ditentukan, tidak ada konversi "
+"format yang terjadi; lihat :ref:`download` untuk format yang didukung"
 
 #: ../../api.rst:2099
 msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Filter string yang diunduh, lihat :ref:`search`, hanya berlaku bila konversi "
+"sudah dilakukan (``format`` ditentukan)."
 
 #: ../../api.rst:2110
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Unggah berkas baru dengan terjemahan."
 
 #: ../../api.rst:2118
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``), see :ref:`upload-conflicts`"
 msgstr ""
+"Cara menangani konflik (``ignore``, ``replace-translated`` atau ``replace-"
+"approved``), lihat :ref:`upload-conflicts`"
 
 #: ../../api.rst:2119 ../../api.rst:2394 ../../api.rst:2430
 msgid "Uploaded file"
-msgstr ""
+msgstr "Berkas yang diunggah"
 
 #: ../../api.rst:2120
 msgid "Author e-mail"
@@ -24107,46 +24199,48 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
+"Metode unggahan (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace``, ``source``, ``add``), lihat :ref:`upload-method`"
 
 #: ../../api.rst:2123 ../../wlc.rst:276
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
 msgstr ""
+"Pemrosesan string fuzzy (ditandai untuk disunting) (*empty*, ``process``, "
+"``approve``)"
 
 #: ../../api.rst:2138
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"Responsnya sama seperti untuk :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:2164
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "Mengembalikan statistik penerjemahan yang terperinci."
 
 #: ../../api.rst:2179
 msgid "Memory"
 msgstr "Memori"
 
 #: ../../api.rst:2185
-#, fuzzy
-#| msgid "Returns a list of add-ons."
 msgid "Returns a list of memory results."
-msgstr "Mengembalikan daftar pengaya."
+msgstr "Mengembalikan daftar hasil memori."
 
 #: ../../api.rst:2189
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a memory object"
-msgstr "Hapus memori penerjemahan"
+msgstr "Menghapus objek memori"
 
 #: ../../api.rst:2191
 msgid "Memory Object ID"
-msgstr ""
+msgstr "ID Objek Memori"
 
 #: ../../api.rst:2196
 msgid "Units"
-msgstr ""
+msgstr "Unit"
 
 #: ../../api.rst:2198
 msgid ""
@@ -24155,23 +24249,29 @@ msgid ""
 "The term is derived from the :py:class:`tt:translate.storage.base."
 "TranslationUnit` in Translate Toolkit and XLIFF."
 msgstr ""
+"`Unit` adalah satu bagian terjemahan yang memasangkan string sumber dengan "
+"string terjemahan yang sesuai dan juga berisi beberapa metadata terkait. "
+"Istilah ini berasal dari "
+":py:class:`tt:translate.storage.base.TranslationUnit` di Translate Toolkit "
+"dan XLIFF."
 
 #: ../../api.rst:2212
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
+"Atribut objek unit didokumentasikan di :http:get:`/api/units/(int:id)/`."
 
 #: ../../api.rst:2218
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"``target`` dan ``source`` sekarang menjadi array untuk menangani string "
+"jamak dengan benar."
 
 #: ../../api.rst:2223
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The ``last_updated`` attribute is now exposed."
-msgstr "Format berkas yang terdeteksi tidak didukung."
+msgstr "Atribut ``last_updated`` sekarang terekspos."
 
 #: ../../api.rst:2225
 msgid "Returns information about the translation unit."
@@ -24180,62 +24280,58 @@ msgstr "Mengembalikan informasi tentang unit terjemahan."
 #: ../../api.rst:2227 ../../api.rst:2265 ../../api.rst:2279 ../../api.rst:2293
 #: ../../api.rst:2308 ../../api.rst:2411
 msgid "Unit ID"
-msgstr ""
+msgstr "ID Unit"
 
 #: ../../api.rst:2229 ../../api.rst:2347 ../../api.rst:2413
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "URL objek terjemahan terkait"
 
 #: ../../api.rst:2230
 msgid "source string"
-msgstr ""
+msgstr "string sumber"
 
 #: ../../api.rst:2231
 msgid "previous source string used for fuzzy matching"
-msgstr ""
+msgstr "string sumber sebelumnya digunakan untuk pencocokan fuzzy"
 
 #: ../../api.rst:2232 ../../api.rst:2268 ../../api.rst:2282
 msgid "target string"
-msgstr ""
+msgstr "string target"
 
 #: ../../api.rst:2233
 msgid "unique identifier of the unit"
-msgstr ""
+msgstr "pengenal unik dari unit"
 
 #: ../../api.rst:2234
 msgid "unique identifier of the source string"
-msgstr ""
+msgstr "pengenal unik dari string sumber"
 
 #: ../../api.rst:2235
 msgid "location of the unit in source code"
-msgstr ""
+msgstr "lokasi dari unit dalam kode sumber"
 
 #: ../../api.rst:2236
 msgid "translation unit context"
-msgstr ""
+msgstr "konteks unit terjemahan"
 
 #: ../../api.rst:2237
 msgid "translation unit note"
-msgstr ""
+msgstr "catatan unit terjemahan"
 
 #: ../../api.rst:2238
 msgid "translation unit flags"
-msgstr ""
+msgstr "tanda unit terjemahan"
 
 #: ../../api.rst:2239
 msgid "translation unit labels, available on source units"
-msgstr ""
+msgstr "label unit terjemahan, tersedia pada unit sumber"
 
 #: ../../api.rst:2240
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved, 100 - read only"
 msgid ""
 "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read-only"
 msgstr ""
-"status unit, 0 - tidak diterjemahkan, 10 - perlu disunting, 20 - "
+"status unit, 0 - belum diterjemahkan, 10 - perlu disunting, 20 - "
 "diterjemahkan, 30 - disetujui, 100 - hanya baca"
 
 #: ../../api.rst:2241
@@ -24252,7 +24348,7 @@ msgstr "apakah terjemahannya disetujui atau tidak"
 
 #: ../../api.rst:2244
 msgid "unit position in translation file"
-msgstr ""
+msgstr "posisi unit dalam berkas terjemahan"
 
 #: ../../api.rst:2245
 msgid "whether the unit has suggestions"
@@ -24268,32 +24364,33 @@ msgstr "apakah unit memiliki pemeriksaan yang gagal atau tidak"
 
 #: ../../api.rst:2248
 msgid "number of source words"
-msgstr ""
+msgstr "jumlah kata sumber"
 
 #: ../../api.rst:2249
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "prioritas terjemahan; 100 adalah bawaan"
 
 #: ../../api.rst:2250
 msgid "unit identifier"
-msgstr ""
+msgstr "pengenal unit"
 
 #: ../../api.rst:2251 ../../api.rst:2269 ../../api.rst:2283
 msgid "String explanation, available on source units, see :ref:`additional`"
-msgstr ""
+msgstr "Penjelasan string, tersedia pada unit sumber, lihat :ref:`additional`"
 
 #: ../../api.rst:2252 ../../api.rst:2270 ../../api.rst:2284
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
 msgstr ""
+"Tanda string tambahan, tersedia pada unit sumber, lihat :ref:`custom-checks`"
 
 #: ../../api.rst:2253
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "URL tempat unit dapat disunting"
 
 #: ../../api.rst:2254
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "Tautan unit sumber; lihat :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2255
 msgid "whether the unit is pending for write"
@@ -24304,10 +24401,8 @@ msgid "string age"
 msgstr "usia string"
 
 #: ../../api.rst:2257
-#, fuzzy
-#| msgid "string age"
 msgid "last string update"
-msgstr "usia string"
+msgstr "pembaruan string terakhir"
 
 #: ../../api.rst:2263
 msgid "Performs partial update on translation unit."
@@ -24324,7 +24419,7 @@ msgstr ""
 
 #: ../../api.rst:2271 ../../api.rst:2285
 msgid "labels, available on source units"
-msgstr ""
+msgstr "label, tersedia pada unit sumber"
 
 #: ../../api.rst:2277
 msgid "Performs full update on translation unit."
@@ -24343,32 +24438,24 @@ msgstr ""
 "sumber yang diberikan."
 
 #: ../../api.rst:2306
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Create a new comment on the given translation unit."
-msgstr "Buat sebuah repositori dengan file terjemahan Anda."
+msgstr "Buat komentar baru pada unit terjemahan yang diberikan."
 
 #: ../../api.rst:2310
-#, fuzzy
-#| msgid ""
-#| "unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - "
-#| "approved (need review workflow enabled, see :ref:`reviews`)"
 msgid ""
 "comment scope - global, translation (available on all non-source units), "
 "report (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
-"status unit, 0 - tidak diterjemahkan, 10 - perlu disunting, 20 - "
-"diterjemahkan, 30 - disetujui (alur kerja peninjauan perlu diaktifkan, "
-"lihat :ref:`reviews`)"
+"cakupan komentar - global, penerjemahan (tersedia pada semua unit non-sumber)"
+", laporan (perlu mengaktifkan alur kerja peninjauan, lihat :ref:`reviews`)"
 
 #: ../../api.rst:2311
-#, fuzzy
-#| msgid "You can use Markdown and mention users by @username."
 msgid ""
 "content of the new comment, you can use Markdown and mention users by "
 "@username."
 msgstr ""
-"Anda dapat menggunakan Markdown dan menyebut pengguna berdasarkan @username."
+"konten komentar baru, Anda dapat menggunakan Markdown dan menyebut pengguna "
+"dengan @username."
 
 #: ../../api.rst:2312
 msgid ""
@@ -24383,22 +24470,20 @@ msgid ""
 "creation timestamp of the comment, can be set only by project admins and "
 "defaults to now."
 msgstr ""
+"stempel waktu pembuatan komentar, hanya dapat diatur oleh admin proyek dan "
+"bawaannya adalah sekarang."
 
 #: ../../api.rst:2314
-#, fuzzy
-#| msgid "Unit identifier"
 msgid "comment identifier"
-msgstr "Pengenal unit"
+msgstr "pengenal komentar"
 
 #: ../../api.rst:2315
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "content of the new comment"
-msgstr "Komentar baru diposting"
+msgstr "konten komentar baru"
 
 #: ../../api.rst:2316
 msgid "URL of the commenter's object"
-msgstr ""
+msgstr "URL objek pemberi komentar"
 
 #: ../../api.rst:2317
 msgid "creation timestamp of the comment"
@@ -24406,33 +24491,37 @@ msgstr "stempel waktu pembuatan komentar"
 
 #: ../../api.rst:2327
 msgid "Filtering of changes was introduced in the 4.1 release."
-msgstr ""
+msgstr "Pemfilter perubahan diperkenalkan dalam rilis 4.1."
 
 #: ../../api.rst:2329
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "Mengembalikan daftar perubahan terjemahan."
 
 #: ../../api.rst:2333
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Perubahan atribut objek didokumentasikan di :http:get:`/api/changes/"
+"(int:id)/`."
 
 #: ../../api.rst:2335
 msgid "Username of user to filters"
-msgstr ""
+msgstr "Nama pengguna untuk filter"
 
 #: ../../api.rst:2336
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "Tindakan untuk memfilter, dapat digunakan beberapa kali"
 
 #: ../../api.rst:2337
 msgid "ISO 8601 formatted timestamp to list changes after"
 msgstr ""
+"Stempel waktu berformat ISO 8601 untuk mencantumkan perubahan setelahnya"
 
 #: ../../api.rst:2338
 msgid "ISO 8601 formatted timestamp to list changes before"
 msgstr ""
+"Stempel waktu berformat ISO 8601 untuk mencantumkan perubahan sebelumnya"
 
 #: ../../api.rst:2342
 msgid "Returns information about the translation change."
@@ -24440,87 +24529,84 @@ msgstr "Mengembalikan informasi tentang perubahan terjemahan."
 
 #: ../../api.rst:2344
 msgid "Change ID"
-msgstr ""
+msgstr "Ubah ID"
 
 #: ../../api.rst:2346
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "URL objek unit terkait"
 
 #: ../../api.rst:2348 ../../api.rst:2377 ../../api.rst:2436 ../../api.rst:2447
 #: ../../api.rst:2458 ../../api.rst:2491
 msgid "URL of a related component object"
-msgstr ""
+msgstr "URL objek komponen terkait"
 
 #: ../../api.rst:2349
 msgid "URL of a related user object"
-msgstr ""
+msgstr "URL objek pengguna terkait"
 
 #: ../../api.rst:2350
 msgid "URL of a related author object"
-msgstr ""
+msgstr "URL objek penulis terkait"
 
 #: ../../api.rst:2351
 msgid "event timestamp"
-msgstr ""
+msgstr "stempel waktu peristiwa"
 
 #: ../../api.rst:2352
 msgid "numeric identification of action"
-msgstr ""
+msgstr "identifikasi numerik tindakan"
 
 #: ../../api.rst:2353
 msgid "text description of action"
-msgstr ""
+msgstr "teks deskripsi tindakan"
 
 #: ../../api.rst:2354
-#, fuzzy
-#| msgid "Recent changes"
 msgid "event changed text"
-msgstr "Perubahan terbaru"
+msgstr "peristiwa mengubah teks"
 
 #: ../../api.rst:2355
-#, fuzzy
-#| msgid "Previous"
 msgid "previous text"
-msgstr "Sebelumnya"
+msgstr "teks sebelumnya"
 
 #: ../../api.rst:2356
 msgid "additional details about the change"
-msgstr ""
+msgstr "rincian tambahan tentang perubahan tersebut"
 
 #: ../../api.rst:2357
 msgid "change identifier"
-msgstr ""
+msgstr "ubah pengenal"
 
 #: ../../api.rst:2364
 msgid "Returns a list of screenshot string information."
-msgstr ""
+msgstr "Mengembalikan daftar informasi string tangkapan layar."
 
 #: ../../api.rst:2368
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
+"Atribut objek tangkapan layar didokumentasikan di :http:get:`/api/"
+"screenshots/(int:id)/`."
 
 #: ../../api.rst:2372
-#, fuzzy
-#| msgid "Edit full information about screenshot."
 msgid "Returns information about the screenshot."
-msgstr "Edit informasi lengkap tentang tangkapan layar."
+msgstr "Mengembalikan informasi tentang tangkapan layar."
 
 #: ../../api.rst:2374 ../../api.rst:2385 ../../api.rst:2392 ../../api.rst:2409
 #: ../../api.rst:2421 ../../api.rst:2444 ../../api.rst:2455 ../../api.rst:2466
 msgid "Screenshot ID"
-msgstr ""
+msgstr "ID Tangkapan Layar"
 
 #: ../../api.rst:2376 ../../api.rst:2412 ../../api.rst:2435 ../../api.rst:2446
 #: ../../api.rst:2457
 msgid "name of a screenshot"
-msgstr ""
+msgstr "nama tangkapan layar"
 
 #: ../../api.rst:2378 ../../api.rst:2414 ../../api.rst:2437 ../../api.rst:2448
 #: ../../api.rst:2459
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
+"URL untuk mengunduh berkas; lihat :http:get:`/api/screenshots/(int:id)/file/`"
 
 #: ../../api.rst:2379 ../../api.rst:2415 ../../api.rst:2438 ../../api.rst:2449
 #: ../../api.rst:2460
@@ -24528,18 +24614,20 @@ msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
 msgstr ""
+"tautan ke informasi string sumber terkait; lihat :http:get:`/api/units/"
+"(int:id)/`"
 
 #: ../../api.rst:2383
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "Unduh gambar tangkapan layar."
 
 #: ../../api.rst:2390
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "Ganti gambar tangkapan layar."
 
 #: ../../api.rst:2407
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "Kaitkan string sumber dengan tangkapan layar."
 
 #: ../../api.rst:2419
 msgid "Remove source string association with screenshot."
@@ -24551,7 +24639,7 @@ msgstr "ID unit string sumber"
 
 #: ../../api.rst:2428
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "Membuat tangkapan layar baru."
 
 #: ../../api.rst:2431
 msgid "Screenshot name"
@@ -24613,90 +24701,88 @@ msgstr "Daftar komponen"
 
 #: ../../api.rst:2540
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Mengembalikan daftar komponen."
 
 #: ../../api.rst:2544
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Atribut objek daftar komponen didokumentasikan di :http:get:`/api/"
+"component-lists/(str:slug)/`."
 
 #: ../../api.rst:2548
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Mengembalikan informasi tentang daftar komponen."
 
 #: ../../api.rst:2550 ../../api.rst:2562 ../../api.rst:2572 ../../api.rst:2582
 #: ../../api.rst:2591 ../../api.rst:2600 ../../api.rst:2608
 msgid "Component list slug"
-msgstr ""
+msgstr "Slug daftar komponen"
 
 #: ../../api.rst:2552 ../../api.rst:2564 ../../api.rst:2574
 msgid "name of a component list"
-msgstr ""
+msgstr "nama daftar komponen"
 
 #: ../../api.rst:2553 ../../api.rst:2565 ../../api.rst:2575
 msgid "slug of a component list"
-msgstr ""
+msgstr "slug daftar komponen"
 
 #: ../../api.rst:2554 ../../api.rst:2566 ../../api.rst:2576
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "apakah akan menampilkannya di dasbor"
 
 #: ../../api.rst:2556
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "aturan penugasan otomatis"
 
 #: ../../api.rst:2560 ../../api.rst:2570
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Mengubah parameter daftar komponen."
 
 #: ../../api.rst:2580
 msgid "Deletes the component list."
-msgstr ""
+msgstr "Menghapus daftar komponen."
 
 #: ../../api.rst:2589
-#, fuzzy
-#| msgid "Returns projects linked with a component."
 msgid "List components in a component list."
-msgstr "Mengembalikan proyek yang ditautkan dengan komponen."
+msgstr "Daftar komponen dalam daftar komponen."
 
 #: ../../api.rst:0
 msgid "param slug"
-msgstr ""
+msgstr "slug param"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type"
 msgid "type slug"
-msgstr "tipe"
+msgstr "jenis slug"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "From existing component"
 msgid "form string component_id"
-msgstr "Dari komponen yang ada"
+msgstr "bentuk string komponen_id"
 
 #: ../../api.rst:2593 ../../api.rst:2602
 msgid "Component ID"
-msgstr ""
+msgstr "ID Komponen"
 
 #: ../../api.rst:2598
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Kaitkan komponen dengan daftar komponen."
 
 #: ../../api.rst:2606
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Pisahkan komponen dari daftar komponen."
 
 #: ../../api.rst:2618
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
 msgstr ""
+"Glosarium sekarang disimpan sebagai komponen, terjemahan, dan string biasa, "
+"silakan gunakan API masing-masing sebagai gantinya."
 
 #: ../../api.rst:2622
 msgid "Tasks"
-msgstr ""
+msgstr "Tugas"
 
 #: ../../api.rst:2628
 msgid "Listing of the tasks is currently not available."
@@ -24708,7 +24794,7 @@ msgstr "Mengembalikan informasi tentang suatu tugas."
 
 #: ../../api.rst:2634
 msgid "Task UUID"
-msgstr ""
+msgstr "UUID Tugas"
 
 #: ../../api.rst:2636
 msgid "Whether the task has completed"
@@ -24716,11 +24802,11 @@ msgstr "Apakah tugas telah selesai atau belum"
 
 #: ../../api.rst:2637
 msgid "Task progress in percent"
-msgstr ""
+msgstr "Kemajuan tugas dalam persen"
 
 #: ../../api.rst:2638
 msgid "Task result or progress details"
-msgstr ""
+msgstr "Rincian hasil atau kemajuan tugas"
 
 #: ../../api.rst:2639
 msgid "Task log"
@@ -24735,166 +24821,124 @@ msgid ""
 "There are several statistics endpoints for objects and all of them contain "
 "same structure."
 msgstr ""
+"Ada beberapa titik akhir statistik untuk objek dan semuanya berisi struktur "
+"yang sama."
 
 #: ../../api.rst:2651
 msgid "URL path"
-msgstr ""
+msgstr "Jalur URL"
 
 #: ../../api.rst:2655
-#, fuzzy
-#| msgid "Number of words"
 msgid "total number of characters"
-msgstr "Jumlah kata"
+msgstr "jumlah total karakter"
 
 #: ../../api.rst:2656
 msgid "date of last change"
-msgstr ""
+msgstr "tanggal perubahan terakhir"
 
 #: ../../api.rst:2661
 msgid "number of translated characters"
-msgstr ""
+msgstr "jumlah karakter yang diterjemahkan"
 
 #: ../../api.rst:2662
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "persentase karakter yang diterjemahkan"
 
 #: ../../api.rst:2664
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) words"
-msgstr "jumlah string fuzzy (ditandai untuk diedit)"
+msgstr "jumlah kata fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:2665
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "number of fuzzy (marked for edit) characters"
-msgstr "jumlah string fuzzy (ditandai untuk diedit)"
+msgstr "jumlah karakter fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:2667
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) words"
-msgstr "jumlah string fuzzy (ditandai untuk diedit)"
+msgstr "persentase kata fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:2668
-#, fuzzy
-#| msgid "number of fuzzy (marked for edit) strings"
 msgid "percentage of fuzzy (marked for edit) characters"
-msgstr "jumlah string fuzzy (ditandai untuk diedit)"
+msgstr "persentase karakter fuzzy (ditandai untuk disunting)"
 
 #: ../../api.rst:2669
 msgid "number of failing checks"
-msgstr ""
+msgstr "jumlah pemeriksaan yang gagal"
 
 #: ../../api.rst:2670
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "persentase pemeriksaan yang gagal"
 
 #: ../../api.rst:2671
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of approved strings"
-msgstr "Termasuk string hanya-baca"
+msgstr "jumlah string yang disetujui"
 
 #: ../../api.rst:2672
-#, fuzzy
-#| msgid "Number of projects"
 msgid "number of approved words"
-msgstr "Jumlah proyek"
+msgstr "jumlah kata yang disetujui"
 
 #: ../../api.rst:2673
-#, fuzzy
-#| msgid "Number of projects"
 msgid "number of approved characters"
-msgstr "Jumlah proyek"
+msgstr "jumlah karakter yang disetujui"
 
 #: ../../api.rst:2674
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved strings"
-msgstr "Mengubah string yang diterjemahkan dan disetujui"
+msgstr "persentase string yang disetujui"
 
 #: ../../api.rst:2675
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved words"
-msgstr "Mengubah string yang diterjemahkan dan disetujui"
+msgstr "persentase kata yang disetujui"
 
 #: ../../api.rst:2676
-#, fuzzy
-#| msgid "Change translated and approved strings"
 msgid "percentage of approved characters"
-msgstr "Mengubah string yang diterjemahkan dan disetujui"
+msgstr "persentase karakter yang disetujui"
 
 #: ../../api.rst:2677
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only strings"
-msgstr "Termasuk string hanya-baca"
+msgstr "jumlah string hanya baca"
 
 #: ../../api.rst:2678
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only words"
-msgstr "Termasuk string hanya-baca"
+msgstr "jumlah kata hanya baca"
 
 #: ../../api.rst:2679
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "number of read-only characters"
-msgstr "Termasuk string hanya-baca"
+msgstr "jumlah karakter hanya baca"
 
 #: ../../api.rst:2680
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "percentage of read-only strings"
-msgstr "Termasuk string hanya-baca"
+msgstr "persentase string hanya baca"
 
 #: ../../api.rst:2681
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "percentage of read-only words"
-msgstr "Termasuk string hanya-baca"
+msgstr "persentase kata hanya baca"
 
 #: ../../api.rst:2682
-#, fuzzy
-#| msgid "Include read-only strings"
 msgid "percentage of read-only characters"
-msgstr "Termasuk string hanya-baca"
+msgstr "persentase karakter hanya baca"
 
 #: ../../api.rst:2683
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "number of strings with suggestions"
-msgstr "String yang disetujui dengan saran"
+msgstr "jumlah string dengan saran"
 
 #: ../../api.rst:2684
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "number of strings with comments"
-msgstr "String dengan komentar"
+msgstr "jumlah string dengan komentar"
 
 #: ../../api.rst:2685
-#, fuzzy
-#| msgid "Project name"
 msgid "object name"
-msgstr "Nama proyek"
+msgstr "nama objek"
 
 #: ../../api.rst:2686
 msgid "URL to access the object (if applicable)"
-msgstr ""
+msgstr "URL untuk mengakses objek (jika ada)"
 
 #: ../../api.rst:2687
-#, fuzzy
-#| msgid "whether the translation is approved"
 msgid "URL to access the translation (if applicable)"
-msgstr "apakah terjemahannya disetujui atau tidak"
+msgstr "URL untuk mengakses terjemahan (jika ada)"
 
 #: ../../api.rst:2688
-#, fuzzy
-#| msgid "Language code style"
 msgid "language code (if applicable)"
-msgstr "Gaya kode bahasa"
+msgstr "kode bahasa (jika ada)"
 
 #: ../../api.rst:2692
 msgid ":http:get:`/api/languages/(string:language)/statistics/`"
@@ -24928,13 +24972,15 @@ msgstr "Metrik"
 
 #: ../../api.rst:2703
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Mengembalikan metrik server."
 
 #: ../../api.rst:2707
 msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Metrik sekarang dapat diekspos dalam format yang kompatibel dengan "
+"OpenMetrics dengan ``?format=openmetrics``."
 
 #: ../../api.rst:2709
 msgid "Number of units"
@@ -24982,7 +25028,7 @@ msgstr "Jumlah saran yang tertunda"
 
 #: ../../api.rst:2720
 msgid "Lengths of Celery queues, see :ref:`celery`"
-msgstr ""
+msgstr "Panjang antrian Celery, lihat :ref:`celery`"
 
 #: ../../api.rst:2721
 msgid "Configured server name"
@@ -24997,6 +25043,9 @@ msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
+"Mengembalikan hasil pencarian di seluruh situs dalam bentuk daftar. Tidak "
+"ada paginasi pada kumpulan hasil, hanya beberapa hasil pertama yang "
+"ditampilkan untuk setiap kategori."
 
 #: ../../api.rst:2733
 msgid "Name of the matched item."
@@ -25004,15 +25053,13 @@ msgstr "Nama item yang cocok."
 
 #: ../../api.rst:2734
 msgid "Web URL of the matched item."
-msgstr ""
+msgstr "URL web dari item yang cocok."
 
 #: ../../api.rst:2735
 msgid "Category of the matched item."
-msgstr ""
+msgstr "Kategori item yang cocok."
 
 #: ../../api.rst:2738
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
 msgstr "Kategori"
 
@@ -25021,19 +25068,21 @@ msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"Mencantumkan kategori yang tersedia. Lihat :http:get:`/api/categories/"
+"(int:id)/` untuk definisi kolom."
 
 #: ../../api.rst:2750
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"Membuat kategori baru. Lihat :http:get:`/api/categories/(int:id)/` untuk "
+"definisi kolom."
 
 #: ../../api.rst:2756 ../../api.rst:2769 ../../api.rst:2779 ../../api.rst:2789
 #: ../../api.rst:2798
-#, fuzzy
-#| msgid "Category"
 msgid "Category ID"
-msgstr "Kategori"
+msgstr "ID Kategori"
 
 #: ../../api.rst:2758
 msgid "Name of category."
@@ -25049,47 +25098,35 @@ msgstr "Tautan ke suatu proyek."
 
 #: ../../api.rst:2761
 msgid "Link to a parent category."
-msgstr ""
+msgstr "Tautkan ke kategori induk."
 
 #: ../../api.rst:2767
-#, fuzzy
-#| msgid "Edit partial information about add-on."
 msgid "Edit partial information about category."
-msgstr "Edit sebagian informasi tentang pengaya."
+msgstr "Sunting informasi sebagian tentang kategori."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "id param"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type"
 msgid "type id"
-msgstr "tipe"
+msgstr "id jenis"
 
 #: ../../api.rst:2771 ../../api.rst:2781
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Optional category configuration"
-msgstr "Konfigurasi pengaya opsional"
+msgstr "Konfigurasi kategori opsional"
 
 #: ../../api.rst:2777
-#, fuzzy
-#| msgid "Edit full information about add-on."
 msgid "Edit full information about category."
-msgstr "Edit informasi lengkap tentang pengaya."
+msgstr "Sunting informasi lengkap tentang kategori."
 
 #: ../../api.rst:2787
-#, fuzzy
-#| msgid "Delete add-on."
 msgid "Delete category."
-msgstr "Hapus pengaya."
+msgstr "Hapus kategori."
 
 #: ../../api.rst:2796
-#, fuzzy
-#| msgid "Returns a list of add-ons."
 msgid "Returns statistics for a category."
-msgstr "Mengembalikan daftar pengaya."
+msgstr "Mengembalikan statistik untuk kategori."
 
 #: ../../api.rst:2808
 msgid "Notification hooks"
@@ -25100,6 +25137,8 @@ msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Kait pemberitahuan memungkinkan aplikasi eksternal memberitahukan Weblate "
+"bahwa repositori VCS telah diperbarui."
 
 #: ../../api.rst:2813
 msgid ""
@@ -25107,6 +25146,9 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"Anda dapat menggunakan titik akhir repositori untuk proyek, komponen, dan "
+"terjemahan untuk memperbarui repositori individual; lihat :http:post:`/api/"
+"projects/(string:project)/repository/` untuk dokumentasi."
 
 #: ../../api.rst:2821
 msgid ""
@@ -25114,30 +25156,42 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Silakan gunakan :http:post:`/api/components/"
+"(string:project)/(string:component)/repository/` sebagai gantinya yang "
+"berfungsi dengan baik dengan autentikasi untuk proyek terbatas ACL."
 
 #: ../../api.rst:2824
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
+"Memicu pembaruan komponen (menarik dari VCS dan memindai perubahan "
+"terjemahan)."
 
 #: ../../api.rst:2831
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Silakan gunakan :http:post:`/api/projects/(string:project)/repository/` "
+"sebagai gantinya yang berfungsi dengan baik dengan autentikasi untuk proyek "
+"yang terbatas ACL."
 
 #: ../../api.rst:2834
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
+"Memicu pembaruan semua komponen dalam suatu proyek (menarik dari VCS dan "
+"memindai perubahan terjemahan)."
 
 #: ../../api.rst:2839
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Kait khusus untuk menangani pemberitahuan GitHub dan memperbarui komponen "
+"yang cocok secara otomatis."
 
 #: ../../api.rst:2844
 msgid ""
@@ -25145,10 +25199,13 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub menyertakan dukungan langsung untuk memberi tahu Weblate: aktifkan "
+"kait layanan Weblate dalam pengaturan repositori dan atur URL ke URL "
+"instalasi Weblate Anda."
 
 #: ../../api.rst:2851
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Untuk petunjuk tentang pengaturan integrasi GitHub"
 
 #: ../../api.rst:2852
 msgid ""
@@ -25160,42 +25217,44 @@ msgstr ""
 
 #: ../../api.rst:2853
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Webhook GitHub"
 
 #: ../../api.rst:2855 ../../api.rst:2869 ../../api.rst:2883 ../../api.rst:2897
 #: ../../api.rst:2916 ../../api.rst:2930 ../../api.rst:2944
 msgid "For enabling hooks for whole Weblate"
-msgstr ""
+msgstr "Untuk mengaktifkan kait untuk seluruh Weblate"
 
 #: ../../api.rst:2859
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi GitLab dan memperbarui komponen yang "
+"cocok secara otomatis."
 
 #: ../../api.rst:2865
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "Untuk instruksi tentang pengaturan integrasi GitLab"
 
 #: ../../api.rst:2866
-#, fuzzy
-#| msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 msgid "https://docs.gitlab.com/user/project/integrations/webhooks/"
-msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
+msgstr "https://docs.gitlab.com/user/project/integrations/webhooks/"
 
 #: ../../api.rst:2867
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Webhook GitLab"
 
 #: ../../api.rst:2873
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi Bitbucket dan memperbarui komponen "
+"yang cocok secara otomatis."
 
 #: ../../api.rst:2879
 msgid "For instruction on setting up Bitbucket integration"
-msgstr ""
+msgstr "Untuk instruksi tentang pengaturan integrasi Bitbucket"
 
 #: ../../api.rst:2880
 msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
@@ -25203,17 +25262,19 @@ msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 
 #: ../../api.rst:2881
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Webhook Bitbucket"
 
 #: ../../api.rst:2887
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi Pagure dan memperbarui komponen yang "
+"cocok secara otomatis."
 
 #: ../../api.rst:2893
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
+msgstr "Untuk instruksi tentang pengaturan integrasi Pagure"
 
 #: ../../api.rst:2894
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
@@ -25221,34 +25282,34 @@ msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2895
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Pagure Webhook"
 
 #: ../../api.rst:2901
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi Azure DevOps dan memperbarui komponen "
+"yang cocok secara otomatis."
 
 #: ../../api.rst:2906
 msgid ""
 "Please ensure that :guilabel:`Resource details to send` is set to *All*, "
 "otherwise Weblate will not be able to match your Azure repository."
 msgstr ""
+"Pastikan bahwa :guilabel:`Resource details to send` diatur ke *Semua*, jika "
+"tidak, Weblate tidak akan dapat mencocokkan repositori Azure Anda."
 
 #: ../../api.rst:2912
 msgid "For instruction on setting up Azure integration"
-msgstr ""
+msgstr "Untuk instruksi tentang cara mengatur integrasi Azure"
 
 #: ../../api.rst:2913
-#, fuzzy
-#| msgid ""
-#| "https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/"
-#| "webhooks?view=azure-devops"
 msgid ""
 "https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
 "webhooks?view=azure-devops"
 msgstr ""
-"https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/"
+"https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/"
 "webhooks?view=azure-devops"
 
 #: ../../api.rst:2914
@@ -25260,10 +25321,12 @@ msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi Webhook Gitea dan memperbarui "
+"komponen yang cocok secara otomatis."
 
 #: ../../api.rst:2926
 msgid "For instruction on setting up Gitea integration"
-msgstr ""
+msgstr "Untuk instruksi tentang pengaturan integrasi Gitea"
 
 #: ../../api.rst:2927
 msgid "https://docs.gitea.io/en-us/webhooks/"
@@ -25271,17 +25334,19 @@ msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:2928
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Webhook Gitea"
 
 #: ../../api.rst:2934
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Kait khusus untuk menangani notifikasi Gitee Webhook dan memperbarui "
+"komponen yang cocok secara otomatis."
 
 #: ../../api.rst:2940
 msgid "For instruction on setting up Gitee integration"
-msgstr ""
+msgstr "Untuk instruksi tentang pengaturan integrasi Gitee"
 
 #: ../../api.rst:2941
 msgid "https://gitee.com/help/categories/40"
@@ -25289,7 +25354,7 @@ msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2942
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Informasi generik tentang Webhook Gitee"
 
 #: ../../api.rst:2949
 msgid "RSS feeds"
@@ -25321,13 +25386,11 @@ msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk instansi Weblate."
 
 #: ../../api.rst:2975
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS di Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.13"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.13"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -25339,22 +25402,24 @@ msgstr "*Belum dirilis.*"
 #: ../../changes.rst:1033 ../../changes.rst:1144 ../../changes.rst:1206
 #: ../../changes.rst:1268 ../../changes.rst:1332 ../../changes.rst:1408
 #: ../../changes.rst:1449
-#, fuzzy
-#| msgid "Features"
 msgid "New features"
-msgstr "Fitur"
+msgstr "Fitur baru"
 
 #: ../../changes.rst:8
 msgid ""
 "Enhanced :ref:`translation-memory` management with configurable status "
 "control, see :ref:`memory-status`."
 msgstr ""
+"Peningkatan :ref:`translation-memory` manajemen dengan kontrol status yang "
+"dapat dikonfigurasi, lihat :ref:`memory-status`."
 
 #: ../../changes.rst:9
 msgid ""
 "Added :wladmin:`cleanup_memory` management command to remove obsolete "
 "translation memory entries."
 msgstr ""
+"Menambahkan perintah manajemen :wladmin:`cleanup_memory` untuk menghapus "
+"entri memori terjemahan yang usang."
 
 #: ../../changes.rst:10
 msgid ":doc:`/formats/catkeys`."
@@ -25365,12 +25430,16 @@ msgid ""
 "Some flags are now added to a string by default, based on locations; see :"
 "ref:`location-based-flags`."
 msgstr ""
+"Beberapa tanda sekarang ditambahkan ke string secara bawaan, berdasarkan "
+"lokasi; lihat :ref:`location-based-flags`."
 
 #: ../../changes.rst:12
 msgid ""
 "Added :ref:`project-commit_policy` setting to control which translations are "
 "included when committing changes."
 msgstr ""
+"Menambahkan pengaturan :ref:`project-commit_policy` untuk mengontrol "
+"terjemahan mana yang disertakan saat melakukan perubahan."
 
 #: ../../changes.rst:15 ../../changes.rst:59 ../../changes.rst:121
 #: ../../changes.rst:169 ../../changes.rst:211 ../../changes.rst:238
@@ -25383,10 +25452,8 @@ msgstr ""
 #: ../../changes.rst:1152 ../../changes.rst:1215 ../../changes.rst:1244
 #: ../../changes.rst:1272 ../../changes.rst:1309 ../../changes.rst:1340
 #: ../../changes.rst:1383 ../../changes.rst:1412 ../../changes.rst:1457
-#, fuzzy
-#| msgid "Components"
 msgid "Improvements"
-msgstr "Komponen"
+msgstr "Perbaikan"
 
 #: ../../changes.rst:16
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
@@ -25397,6 +25464,8 @@ msgid ""
 "A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry "
 "monitoring of Celery Beat tasks."
 msgstr ""
+"Pengaturan :envvar:`SENTRY_MONITOR_BEAT_TASKS` yang baru memungkinkan "
+"penonaktifan pemantauan Sentry pada tugas Celery Beat."
 
 #: ../../changes.rst:18
 msgid ""
@@ -25404,10 +25473,13 @@ msgid ""
 "`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the "
 "generic OIDC authentication."
 msgstr ""
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` dan "
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` memungkinkan konfigurasi tampilan "
+"autentikasi OIDC generik."
 
 #: ../../changes.rst:19
 msgid "Background commits are now identified by an internal user."
-msgstr ""
+msgstr "Komit latar belakang sekarang diidentifikasi oleh pengguna internal."
 
 #: ../../changes.rst:20
 msgid "Reorganized navigation menu."
@@ -25418,34 +25490,45 @@ msgid ""
 "When editing a language definition, a warning about automated updates is "
 "shown; see :ref:`included-languages`."
 msgstr ""
+"Saat menyunting definisi bahasa, peringatan tentang pembaruan otomatis "
+"ditampilkan; lihat :ref:`included-languages`."
 
 #: ../../changes.rst:22
 msgid "Avatars for API and internal accounts."
-msgstr ""
+msgstr "Avatar untuk API dan akun internal."
 
 #: ../../changes.rst:23
 msgid ""
 "Adding a new TOTP device removes the existing one by default; checkbox for "
 "not removing previous ones available."
 msgstr ""
+"Menambahkan perangkat TOTP baru akan menghapus perangkat yang sudah ada "
+"secara bawaan; kotak centang untuk tidak menghapus perangkat sebelumnya "
+"tersedia."
 
 #: ../../changes.rst:24
 msgid ""
 "Creating pull or merge requests to remote repositories is no longer blocked "
 "by merge conflicts."
 msgstr ""
+"Pembuatan permintaan tarik atau gabung ke repositori jarak jauh tidak lagi "
+"diblokir oleh konflik penggabungan."
 
 #: ../../changes.rst:25
 msgid ""
 ":ref:`check-rst-references` correctly handles Unicode punctuation and "
 "detects more issues."
 msgstr ""
+":ref:`check-rst-references` menangani tanda baca Unicode dengan benar dan "
+"mendeteksi lebih banyak masalah."
 
 #: ../../changes.rst:26
 msgid ""
 "Migration towards Bootstrap 5 has started, selected views now use Bootstrap "
 "5."
 msgstr ""
+"Migrasi menuju Bootstrap 5 telah dimulai, tampilan terpilih sekarang "
+"menggunakan Bootstrap 5."
 
 #: ../../changes.rst:27
 msgid ""
@@ -25474,22 +25557,18 @@ msgstr ":ref:`mt-openai` kompatibilitas dengan model terbaru."
 #: ../../changes.rst:1224 ../../changes.rst:1249 ../../changes.rst:1285
 #: ../../changes.rst:1316 ../../changes.rst:1355 ../../changes.rst:1388
 #: ../../changes.rst:1421 ../../changes.rst:1478
-#, fuzzy
-#| msgid "**languages**"
 msgid "Bug fixes"
-msgstr "**languages**"
+msgstr "Perbaikan kesalahan"
 
 #: ../../changes.rst:32
 msgid ""
 ":ref:`upload` correctly tracks authorship when using :guilabel:`Replace "
 "existing translation file`."
 msgstr ""
+":ref:`upload` dengan benar melacak kepengarangan saat menggunakan :guilabel:`"
+"Replace existing translation file`."
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-deepl` integration now correctly handle all supported source "
-#| "languages."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles all supported source "
 "languages."
@@ -25499,13 +25578,11 @@ msgstr ""
 
 #: ../../changes.rst:34
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
-msgstr ""
+msgstr "Kemungkinan mogok pada macOS 15 di :samp:`strxfrm`."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Improved performance of file upload."
 msgid "Internal server error on permission denied while uploading files."
-msgstr "Meningkatkan kinerja pengunggahan berkas."
+msgstr "Terjadi galat server internal saat izin ditolak saat mengunggah berkas."
 
 #: ../../changes.rst:38 ../../changes.rst:147 ../../changes.rst:298
 #: ../../changes.rst:381 ../../changes.rst:471 ../../changes.rst:572
@@ -25513,10 +25590,8 @@ msgstr "Meningkatkan kinerja pengunggahan berkas."
 #: ../../changes.rst:1069 ../../changes.rst:1175 ../../changes.rst:1228
 #: ../../changes.rst:1293 ../../changes.rst:1364 ../../changes.rst:1431
 #: ../../changes.rst:1486
-#, fuzzy
-#| msgid "**activity**"
 msgid "Compatibility"
-msgstr "**aktivitas**"
+msgstr "Kompatibilitas"
 
 #: ../../changes.rst:40 ../../changes.rst:68 ../../changes.rst:87
 #: ../../changes.rst:154 ../../changes.rst:177 ../../changes.rst:196
@@ -25540,10 +25615,8 @@ msgstr "**aktivitas**"
 #: ../../changes/v4.rst:643 ../../changes/v4.rst:698 ../../changes/v4.rst:768
 #: ../../changes/v4.rst:859 ../../changes/v4.rst:934 ../../changes/v4.rst:1020
 #: ../../changes/v4.rst:1095 ../../changes/v4.rst:1168
-#, fuzzy
-#| msgid "pending"
 msgid "Upgrading"
-msgstr "tertunda"
+msgstr "Pemutakhiran"
 
 #: ../../changes.rst:41 ../../changes.rst:69 ../../changes.rst:88
 #: ../../changes.rst:155 ../../changes.rst:178 ../../changes.rst:197
@@ -25570,12 +25643,15 @@ msgstr "tertunda"
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
+"Silakan ikuti :ref:`generic-upgrade-instructions` untuk melakukan pembaruan."
 
 #: ../../changes.rst:43
 msgid ""
 "The distributed locking now uses a different implementation and that "
 "introduced several changes in :file:`settings_example.py`."
 msgstr ""
+"Penguncian terdistribusi sekarang menggunakan implementasi yang berbeda dan "
+"memperkenalkan beberapa perubahan dalam :file:`settings_example.py`."
 
 #: ../../changes.rst:44
 msgid ""
@@ -25583,6 +25659,9 @@ msgid ""
 "changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; "
 "please adjust your settings accordingly."
 msgstr ""
+"Ada beberapa perubahan dalam :file:`settings_example.py`, yang paling "
+"menonjol adalah perubahan pengaturan ``CRISPY_ALLOWED_TEMPLATE_PACKS`` dan "
+"``INSTALLED_APPS``; harap sesuaikan pengaturan Anda."
 
 #: ../../changes.rst:45
 msgid ""
@@ -25590,6 +25669,9 @@ msgid ""
 "configuration of proxy trusted headers including client protocol. See :ref:"
 "`reverse-proxy`."
 msgstr ""
+"Kontainer Docker sekarang menggunakan :program:`granian`. Ini sekarang "
+"memerlukan konfigurasi eksplisit header tepercaya proksi, termasuk protokol "
+"klien. Lihat :ref:`reverse-proxy`."
 
 #: ../../changes.rst:48 ../../changes.rst:72 ../../changes.rst:91
 #: ../../changes.rst:158 ../../changes.rst:181 ../../changes.rst:200
@@ -25604,22 +25686,16 @@ msgid "Contributors"
 msgstr "Kontributor"
 
 #: ../../changes.rst:51
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/143?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/143?closed=1>`__."
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:56
 msgid "*Released on June 20th 2025.*"
@@ -25659,10 +25735,8 @@ msgstr "Peningkatan penanganan galat dalam :ref:`mt-apertium-apy`."
 #: ../../changes/contributors/5.8.4.rst:2 ../../changes/contributors/5.8.rst:2
 #: ../../changes/contributors/5.9.1.rst:2
 #: ../../changes/contributors/5.9.2.rst:2 ../../changes/contributors/5.9.rst:1
-#, fuzzy
-#| msgid "Contributors"
 msgid "Code contributions"
-msgstr "Kontributor"
+msgstr "Kontribusi kode"
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -25678,10 +25752,8 @@ msgstr "Kontributor"
 #: ../../changes/contributors/5.7.2.rst:7 ../../changes/contributors/5.7.rst:7
 #: ../../changes/contributors/5.8.2.rst:7 ../../changes/contributors/5.8.rst:7
 #: ../../changes/contributors/5.9.2.rst:7 ../../changes/contributors/5.9.rst:6
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Translations contributions"
-msgstr "Terjemahan dengan kontribusi"
+msgstr "Kontribusi terjemahan"
 
 #: ../../changes/contributors/5.10.1.rst:12
 #: ../../changes/contributors/5.10.2.rst:12
@@ -25709,22 +25781,16 @@ msgid "Documentation contributions"
 msgstr "Kontribusi dokumentasi"
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/148?closed=1>`__."
 
 #: ../../changes.rst:78
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.12.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.12.1"
 
 #: ../../changes.rst:80 ../../changes.rst:99
 msgid "*Released on June 16th 2025.*"
@@ -25732,43 +25798,39 @@ msgstr "*Dirilis pada 16 Juni 2025.*"
 
 #: ../../changes.rst:84
 msgid ":ref:`sbom` now includes serial number."
-msgstr ""
+msgstr ":ref:`sbom` sekarang menyertakan nomor seri."
 
 #: ../../changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/147?closed=1>`__."
 
 #: ../../changes.rst:97
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.12"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.12"
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid "Security FAQ"
 msgid "Security"
-msgstr "FAQ Keamanan"
+msgstr "Keamanan"
 
 #: ../../changes.rst:103
 msgid ""
 "Exposure of personal IP address via e-mail (:cve:`2025-49134` / :ghsa:"
 "`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Paparan alamat IP pribadi melalui surel (:cve:`2025-49134` / :ghsa:`4qqf-"
+"9m5c-w2c5`)."
 
 #: ../../changes.rst:104
 msgid ""
 "Lack of rate limiting when verifying second factor (:cve:`2025-47951` / :"
 "ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Kurangnya pembatasan akses saat memverifikasi faktor kedua (:cve:`2025-47951`"
+" / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:108
 msgid ""
@@ -25791,7 +25853,7 @@ msgstr "Menambahkan :ref:`check-kabyle-characters` pemeriksaan kualitas."
 
 #: ../../changes.rst:111
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr ":ref:`sbom` sekarang disediakan untuk Weblate."
 
 #: ../../changes.rst:112
 msgid ":doc:`/security/index` documentation."
@@ -25800,6 +25862,7 @@ msgstr ":doc:`/security/index` dokumentasi."
 #: ../../changes.rst:113
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Menambahkan dukungan untuk :doc:`/formats/compose-multiplatform-resources`."
 
 #: ../../changes.rst:114
 msgid "Added :guilabel:`Translation Coordinator` role."
@@ -25814,20 +25877,25 @@ msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
+"Menambahkan :http:get:`/api/users/(str:username)/contributions/` untuk "
+"mengambil daftar semua terjemahan yang dikontribusikan oleh pengguna."
 
 #: ../../changes.rst:117
 msgid ":ref:`file_format_params` can now be configured at the component level."
 msgstr ""
+":ref:`file_format_params` sekarang dapat dikonfigurasi pada tingkat komponen."
 
 #: ../../changes.rst:118
 msgid ""
 "New management command :wladmin:`list_file_format_params` to list all "
 "available file format parameters."
 msgstr ""
+"Perintah manajemen baru :wladmin:`list_file_format_params` untuk "
+"mencantumkan semua parameter format berkas yang tersedia."
 
 #: ../../changes.rst:122
 msgid ":ref:`check-same` is now skipped for Toki Pona."
-msgstr ""
+msgstr ":ref:`check-same` sekarang dilewati untuk Toki Pona."
 
 #: ../../changes.rst:123
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
@@ -25838,30 +25906,36 @@ msgid ""
 "Unicode whitespaces are now considered as problematic characters for :ref:"
 "`glossary`, see :ref:`check-prohibited-initial-character`."
 msgstr ""
+"Spasi Unicode sekarang dianggap sebagai karakter bermasalah untuk "
+":ref:`glossary`, lihat :ref:`check-prohibited-initial-character`."
 
 #: ../../changes.rst:125
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` sekarang ditampilkan dengan baik."
 
 #: ../../changes.rst:126
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` dapat diinstal beberapa kali."
 
 #: ../../changes.rst:127
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr ":ref:`user-profile` sekarang dapat menyertakan URL kontak."
 
 #: ../../changes.rst:128
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects when :"
 "ref:`billing` module is enabled."
 msgstr ""
+":http:post:`/api/projects/` memungkinkan non-superpengguna untuk membuat "
+"proyek ketika modul :ref:`billing` diaktifkan."
 
 #: ../../changes.rst:129
 msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
+":http:post:`/api/groups/` mendukung pembuatan tim dalam cakupan proyek oleh "
+"non-superpengguna."
 
 #: ../../changes.rst:130
 msgid ":http:get:`/api/users/` now includes ``languages``."
@@ -25888,18 +25962,20 @@ msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, see :ref:"
 "`fonts`."
 msgstr ""
+"Font yang diunggah dapat diperbarui dan perubahannya dilacak, lihat "
+":ref:`fonts`."
 
 #: ../../changes.rst:135
 msgid "Weblate is now available in Bashkir language."
-msgstr ""
+msgstr "Weblate sekarang tersedia dalam bahasa Bashkir."
 
 #: ../../changes.rst:139
 msgid ":ref:`dashboard` translations ordering when paginating."
-msgstr ""
+msgstr ":ref:`dashboard` terjemahan yang diurutkan saat membuat halaman."
 
 #: ../../changes.rst:140
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Batasan glosarium gratis Honor DeepL API di :ref:`mt-deepl`."
 
 #: ../../changes.rst:141
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
@@ -25910,6 +25986,7 @@ msgstr ""
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
+"Laporan palsu :ref:`check-translated` dengan tanda atau perubahan penjelasan."
 
 #: ../../changes.rst:143
 msgid "Creating new translations in :doc:`/formats/appstore`."
@@ -25922,17 +25999,23 @@ msgstr ":ref:`search-replace` menangani bentuk jamak dengan benar."
 #: ../../changes.rst:148
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
+"Tab bawaan proyek dan kategori sekarang menampilkan bahasa yang "
+"diterjemahkan."
 
 #: ../../changes.rst:149
 msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"Jika tidak ada ``secret`` yang diberikan dalam konfigurasi pengaya Webhook, "
+"permintaan Webhook tidak akan ditandatangani, lihat :ref:`addon-"
+"weblate.webhook.webhook`."
 
 #: ../../changes.rst:150
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"Dukungan :ref:`saml-auth` tidak lagi disertakan dalam dependensi bawaan."
 
 #: ../../changes.rst:151
 msgid ""
@@ -25940,24 +26023,22 @@ msgid ""
 "ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :"
 "ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`."
 msgstr ""
+"Beberapa pengaya telah ditinggalkan dan digantikan oleh "
+":ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref"
+":`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref"
+":`addon-weblate.xml.customize`."
 
 #: ../../changes.rst:161
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/141?closed=1>`__."
 
 #: ../../changes.rst:164
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.11.4"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.11.4"
 
 #: ../../changes.rst:166
 msgid "*Released on May 7th 2025.*"
@@ -25965,30 +26046,25 @@ msgstr "*Dirilis pada 7 Mei 2025.*"
 
 #: ../../changes.rst:170
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` mencatat permintaan dan respons."
 
 #: ../../changes.rst:174
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` was not triggered in some situations."
 msgstr ""
+":ref:`addon-weblate.webhook.webhook` tidak dipicu dalam beberapa situasi."
 
 #: ../../changes.rst:184
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/146?closed=1>`__."
 
 #: ../../changes.rst:187
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.11.3"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.11.3"
 
 #: ../../changes.rst:189 ../../changes.rst:208
 msgid "*Released on May 3rd 2025.*"
@@ -25996,25 +26072,19 @@ msgstr "*Dirilis pada 3 Mei 2025.*"
 
 #: ../../changes.rst:193
 msgid "Fixed release publishing."
-msgstr ""
+msgstr "Penerbitan rilis tetap."
 
 #: ../../changes.rst:203
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/145?closed=1>`__."
 
 #: ../../changes.rst:206
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.11.2"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.11.2"
 
 #: ../../changes.rst:212
 msgid "Glossary performance in zen mode and automatic suggestions."
@@ -26027,41 +26097,31 @@ msgstr ""
 
 #: ../../changes.rst:217
 msgid "XML export no longer crashes on locations with special characters."
-msgstr ""
+msgstr "Ekspor XML tidak lagi mogok di lokasi dengan karakter khusus."
 
 #: ../../changes.rst:218
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Meningkatkan penanganan kesalahan pada penghapusan string."
+msgstr "Peningkatan penanganan galat pada unggahan ZIP."
 
 #: ../../changes.rst:219
 msgid "Django 5.2 compatibility."
 msgstr "Kompatibilitas Django 5.2."
 
 #: ../../changes.rst:220
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "Hindari pengulangan kata dan karakter."
+msgstr "Hindari sinkronisasi glosarium yang berulang."
 
 #: ../../changes.rst:230
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/144?closed=1>`__."
 
 #: ../../changes.rst:233
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.11.1"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.11.1"
 
 #: ../../changes.rst:235
 msgid "*Released on April 25th 2025.*"
@@ -26069,43 +26129,41 @@ msgstr "*Dirilis pada 25 April 2025.*"
 
 #: ../../changes.rst:239
 msgid ":ref:`projectbackup` now include teams and categories."
-msgstr ""
+msgstr ":ref:`projectbackup` sekarang menyertakan tim dan kategori."
 
 #: ../../changes.rst:240
 msgid "Docker health check is now supported in non-web service containers."
 msgstr ""
+"Pemeriksaan kesehatan Docker sekarang didukung dalam kontainer layanan non-"
+"web."
 
 #: ../../changes.rst:244
 msgid ""
 ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
 "robustly."
 msgstr ""
+"Integrasi :ref:`vcs-gitlab` sekarang mendeteksi konflik permintaan "
+"penggabungan dengan lebih kuat."
 
 #: ../../changes.rst:245
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` sekarang diaktifkan di Docker."
 
 #: ../../changes.rst:246
 msgid "Removing pending glossary terms."
 msgstr "Menghapus istilah glosarium yang tertunda."
 
 #: ../../changes.rst:256
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
-"`Semua perubahan secara detail <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
+"milestone/142?closed=1>`__."
 
 #: ../../changes.rst:259
-#, fuzzy
-#| msgid "Weblate 3.0.1"
 msgid "Weblate 5.11"
-msgstr "Weblate 3.0.1"
+msgstr "Weblate 5.11"
 
 #: ../../changes.rst:261
 msgid "*Released on April 15th 2025.*"
@@ -26116,16 +26174,21 @@ msgid ""
 "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
 "all target translation units for the given source translation unit."
 msgstr ""
+"Menambahkan :http:get:`/api/units/(int:id)/translations/` untuk mengambil "
+"daftar semua unit terjemahan target untuk unit terjemahan sumber yang "
+"diberikan."
 
 #: ../../changes.rst:266
 msgid ""
 "Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a "
 "role from a group."
 msgstr ""
+"Menambahkan :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` untuk "
+"menghapus peran dari grup."
 
 #: ../../changes.rst:267
 msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` sekarang tersedia sebagai pengaya."
 
 #: ../../changes.rst:268
 msgid ""
