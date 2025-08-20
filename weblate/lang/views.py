@@ -52,6 +52,7 @@ def show_languages(request: AuthenticatedHttpRequest):
             "custom_workflows": custom_workflows,
             "title": gettext("Languages"),
             "global_stats": GlobalStats(),
+            "bootstrap_5": True,
         },
     )
 
@@ -102,6 +103,7 @@ def show_language(request: AuthenticatedHttpRequest, lang):
             "search_form": SearchForm(request=request, language=obj, obj=obj),
             "projects": projects,
             "project_languages": project_languages,
+            "bootstrap_5": True,
         },
     )
 
