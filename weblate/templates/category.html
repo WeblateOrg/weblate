@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
@@ -7,112 +7,116 @@
   {% perm 'reports.view' object as user_can_view_reports %}
 
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#languages" data-toggle="tab">{% translate "Languages" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-target="#languages" data-bs-toggle="tab" href="#">{% translate "Languages" %}</a>
     </li>
-    <li>
-      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
     </li>
-    <li>
-      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Insights" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Insights" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if last_announcements %}
           <li>
-            <a href="#announcement-history" data-toggle="tab">{% translate "Announcements" %}</a>
+            <a class="dropdown-item" data-bs-target="#announcement-history" data-bs-toggle="tab" href="#">{% translate "Announcements" %}</a>
           </li>
         {% endif %}
         {% if user.is_authenticated %}
           <li>
-            <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
+            <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Files" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Files" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
         </li>
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Operations" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Operations" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         <li role="separator" class="divider"></li>
         {% if user_can_edit_project %}
           {% if add_form %}
             <li>
-              <a href="#add-category" data-toggle="tab">{% translate "Add new category" %}</a>
+              <a class="dropdown-item" data-bs-target="#add-category" data-bs-toggle="tab" href="#">{% translate "Add new category" %}</a>
             </li>
           {% endif %}
           <li>
-            <a href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
+            <a class="dropdown-item" href="{% url 'create-component' %}?project={{ object.project.pk }}&amp;category={{ object.pk }}">{% translate "Add new translation component" %}</a>
           </li>
         {% endif %}
         {% if announcement_form %}
           <li>
-            <a href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+            <a class="dropdown-item" data-bs-target="#announcement" data-bs-toggle="tab" href="#">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
         {% if delete_form or rename_form %}
           <li role="separator" class="divider"></li>
           <li>
-            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/share-menu.html" with object=object.project %}
-    {% include "snippets/watch-dropdown.html" with project=object.project %}
+    {% include "snippets/share-menu5.html" with object=object.project %}
+    {% include "snippets/watch-dropdown5.html" with project=object.project %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
+  {% path_object_breadcrumbs5 path_object %}
 
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+  <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.project.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}
@@ -136,7 +140,7 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info project=object.project stats=object.stats metrics=object|metrics show_source=True %}
+      {% show_info5 project=object.project stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
     <div class="tab-pane active" id="languages">

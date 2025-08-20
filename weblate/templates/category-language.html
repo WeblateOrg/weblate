@@ -1,74 +1,78 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load crispy_forms_tags i18n metrics translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#translation"
+         data-bs-toggle="tab"
+         href="#">{% translate "Translation" %}</a>
     </li>
-    <li>
-      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
     </li>
-    <li>
-      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Insights" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Insights" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+          <a class="dropdown-item" href="#history" data-toggle="tab">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Files" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Files" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Operations" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Operations" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item" href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item" href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if delete_form %}
           <li role="separator" class="divider"></li>
           <li>
-            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item" href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/watch-dropdown.html" with project=category.project %}
+    {% include "snippets/watch-dropdown5.html" with project=category.project %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
+  {% path_object_breadcrumbs5 path_object %}
 {% endblock breadcrumbs %}
 
 {% block content %}
