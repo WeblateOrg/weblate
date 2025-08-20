@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-20 11:02+0000\n"
+"PO-Revision-Date: 2025-08-21 12:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15390,22 +15390,21 @@ msgstr ""
 "docs>`_"
 
 #: ../../admin/install/docker.rst:2102
-#, fuzzy
-#| msgid "Local filesystem"
 msgid "Read-only root filesystem"
-msgstr "Sistema de archivos local"
+msgstr "Sistema de archivos raíz de solo lectura"
 
 #: ../../admin/install/docker.rst:2106
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Cuando se ejecuta el contenedor con un sistema de archivos raíz de solo "
+"lectura, se requieren dos volúmenes `tmpfs` adicionales - :file:`/tmp` y "
+":file:`/run`."
 
 #: ../../admin/install/docker.rst:2113
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "Configuration beyond environment variables"
-msgstr "Errores de configuración"
+msgstr "Configuración más allá de las variables de entorno"
 
 #: ../../admin/install/docker.rst:2115
 msgid ""
@@ -15413,6 +15412,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Docker environment variables <docker-environment>` están destinados a "
+"exponer la mayoría :ref:`configuration settings <config>` de relevancia para "
+"las instalaciones de Weblate."
 
 #: ../../admin/install/docker.rst:2119
 msgid ""
@@ -15420,6 +15422,9 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Si encuentra una configuración que no está expuesta como variable de "
+"entorno, y cree que debería estarlo, siéntase libre de hacerlo :ref:`ask for "
+"it to be exposed in a future version of Weblate <report-issue>`."
 
 #: ../../admin/install/docker.rst:2123
 msgid ""
@@ -15428,10 +15433,14 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Si necesita modificar una configuración que no está expuesta como variable "
+"de entorno de Docker, aún puede hacerlo, ya sea :ref:`from the data volume "
+"<docker-settings-override>` o :ref:`extending the Docker image <docker-"
+"custom-settings>`."
 
 #: ../../admin/install/docker.rst:2135
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Anulación de la configuración del volumen de datos"
 
 #: ../../admin/install/docker.rst:2137
 msgid ""
@@ -15439,10 +15448,13 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Puede crear un archivo en :file:`/app/data/settings-override.py`, es decir, "
+"en la raíz de :ref:`data volume <docker-volume>`, para extender o anular la "
+"configuración definida a través de variables de entorno."
 
 #: ../../admin/install/docker.rst:2145
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Anular la configuración extendiendo la imagen de Docker"
 
 #: ../../admin/install/docker.rst:2147
 msgid ""
