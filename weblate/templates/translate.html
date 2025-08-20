@@ -463,7 +463,7 @@
           </div>
 
           <div class="tab-pane" id="history">
-            {% format_last_changes_content last_changes=last_changes user=user %}
+            {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
 
             <a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
           </div>

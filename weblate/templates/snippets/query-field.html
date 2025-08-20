@@ -4,23 +4,29 @@
   <div class="input-group-btn">
     <button type="button"
             id="query-dropdown"
-            class="btn btn-default dropdown-toggle search-field"
+            class="btn {% if bootstrap_5 %}btn-outline-primary{% else %}btn-default{% endif %} dropdown-toggle search-field"
             data-field=""
-            data-toggle="dropdown"
+            {% if bootstrap_5 %}
+              data-bs-toggle="dropdown"
+            {% else %}
+              data-toggle="dropdown"
+            {% endif %}
             aria-haspopup="true"
             aria-expanded="false">
       <span class="search-label">{% translate "Filters" %}</span>
-      <span class="caret"></span>
+      {% if not bootstrap_5 %}<span class="caret"></span>{% endif %}
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu{% if bootstrap_5 %} shadow{% endif %}">
       {% for _, name, query in custom_filter_list %}
         <li>
-          <a href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
+          <a {% if bootstrap_5 %}class="dropdown-item" {% endif %}href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
         </li>
       {% endfor %}
     </ul>
   </div>
   <!-- /btn-group -->
+  {% if bootstrap_5 %}<span class="w-75">{% endif %}
   {% crispy_field field 'aria-label' _('Query') 'class' 'form-control' %}
+  {% if bootstrap_5 %}</span>{% endif %}
 </div>
 {% include 'bootstrap3/layout/help_text_and_errors.html' %}

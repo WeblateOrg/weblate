@@ -8,7 +8,7 @@
           {% if in_email %}style="clear:both"{% endif %}>
         <td class="history-event">
           {% if not in_email %}
-            <div class="btn-float pull-right flip">
+            <div class="btn-float {% if bootstrap_5 %}float-end{% else %}pull-right flip{% endif %}">
               {% if item.permissions.can_revert %}
                 <a class="btn btn-link"
                    href="{{ item.change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ item.change.unit.checksum }}&amp;revert={{ item.change.id }}"
@@ -33,7 +33,11 @@
           <p class="text-muted">{{ item.change.get_action_display }}</p>
           <ul class="breadcrumb">
             {% if item.change.path_object %}
-              {% path_object_breadcrumbs item.change.path_object flags=False %}
+              {% if bootstrap_5 %}
+                {% path_object_breadcrumbs5 item.change.path_object flags=False %}
+              {% else %}
+                {% path_object_breadcrumbs item.change.path_object flags=False %}
+              {% endif %}
             {% endif %}
             {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
           </ul>
@@ -44,11 +48,11 @@
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
-                {% for tag in history_field.tags %}<span class="badge">{{ tag }}</span>{% endfor %}
+                {% for tag in history_field.tags %}<span class="badge{% if bootstrap_5%} text-bg-secondary{% endif %}">{{ tag }}</span>{% endfor %}
               </label>
               {{ history_field.content }}
             {% endfor %}
-            <span class="pull-right flip text-muted">{{ item.change.timestamp|naturaltime }}</span>
+            <span class="{% if bootstrap_5 %}float-end{% else %}pull-right flip{% endif %} text-muted">{{ item.change.timestamp|naturaltime }}</span>
             <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
           </div>
           {% if in_email %}

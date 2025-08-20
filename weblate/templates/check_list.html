@@ -1,27 +1,27 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load humanize i18n translations %}
 
 {% block breadcrumbs %}
   {% if path_object %}
-    {% path_object_breadcrumbs path_object %}
-    <li>
+    {% path_object_breadcrumbs5 path_object %}
+    <li class="breadcrumb-item">
       <a href="{% url 'checks' path=path_object.get_url_path name="-" %}">{% translate "Checks" %}</a>
     </li>
     {% if check %}
-      <li>
+      <li class="breadcrumb-item">
         <a href="{% url 'checks' path=path_object.get_url_path name=check.check_id %}">{{ check.name }}</a>
       </li>
     {% endif %}
   {% elif check and not path_object %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'checks' %}">{% translate "Checks" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'checks' name=check.check_id %}">{{ check.name }}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'checks' %}">{% translate "Checks" %}</a>
     </li>
   {% endif %}
@@ -82,12 +82,13 @@
         </tr>
         <tr data-parent="row-{{ row.pk }}">
           <td colspan="5" class="progress-row autocolspan">
-            <div class="progress">
+            <div class="progress progress5"
+                 role="progressbar"
+                 aria-valuenow="{{ row.check_progress }}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 aria-label="{% translate "Checks" %}">
               <div class="progress-bar progress-bar-danger"
-                   role="progressbar"
-                   aria-valuenow="{{ row.check_progress }}"
-                   aria-valuemin="0"
-                   aria-valuemax="100"
                    style="width: {{ row.check_progress }}%"></div>
             </div>
           </td>

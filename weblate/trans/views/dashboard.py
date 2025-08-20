@@ -293,6 +293,7 @@ def dashboard_user(request: AuthenticatedHttpRequest):
             "reports_form": ReportsForm({}),
             "all_owned_projects": owned,
             "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
+            "bootstrap_5": True,
         },
     )
 
@@ -320,5 +321,6 @@ def dashboard_anonymous(request: AuthenticatedHttpRequest):
             "all_projects": Metric.objects.get_current_metric(
                 None, Metric.SCOPE_GLOBAL, 0
             )["public_projects"],
+            "bootstrap_5": True,
         },
     )

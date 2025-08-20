@@ -1,74 +1,78 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load crispy_forms_tags i18n metrics translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#translation" data-toggle="tab">{% translate "Translation" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#translation"
+         data-bs-toggle="tab"
+         href="#">{% translate "Translation" %}</a>
     </li>
-    <li>
-      <a href="#components" data-toggle="tab">{% translate "Components" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
     </li>
-    <li>
-      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Insights" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Insights" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab"  href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Files" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Files" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url 'download' path=object.get_url_path %}?format=zip"
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Operations" %} <span class="caret"></span>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Operations" %}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab"  href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if delete_form %}
           <li role="separator" class="divider"></li>
           <li>
-            <a href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab"  href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/watch-dropdown.html" with project=category.project %}
+    {% include "snippets/watch-dropdown5.html" with project=category.project %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs path_object %}
+  {% path_object_breadcrumbs5 path_object %}
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -77,18 +81,18 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="translation">{% include "snippets/translation.html" %}</div>
-    <div class="tab-pane active" id="components">
+    <div class="tab-pane" id="components">
       {% include "snippets/list-objects.html" with objects=translation_objects list_categories=categories name_source="component_name" label=_("Component") %}
 
       {% include "paginator.html" with page_obj=translations %}
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info project=category.project stats=language_stats metrics=object|metrics %}
+      {% show_info5 project=category.project stats=language_stats metrics=object|metrics %}
     </div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user %}
+      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
@@ -109,15 +113,15 @@
         <form action="{% url 'replace' path=object.get_url_path %}"
               method="post"
               enctype="multipart/form-data">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                {% documentation_icon 'user/translating' 'search-replace' right=True %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon5 'user/translating' 'search-replace' right=True %}
                 {% translate "Search and replace" %}
               </h4>
             </div>
-            <div class="panel-body">{% crispy replace_form %}</div>
-            <div class="panel-footer">
+            <div class="card-body">{% crispy replace_form %}</div>
+            <div class="card-footer">
               <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
             </div>
           </div>
@@ -130,15 +134,15 @@
         <form action="{% url 'bulk-edit' path=object.get_url_path %}"
               method="post"
               enctype="multipart/form-data">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon5 'user/translating' 'bulk-edit' right=True %}
                 {% translate "Bulk edit" %}
               </h4>
             </div>
-            <div class="panel-body">{% crispy bulk_state_form %}</div>
-            <div class="panel-footer">
+            <div class="card-body">{% crispy bulk_state_form %}</div>
+            <div class="card-footer">
               <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
             </div>
           </div>

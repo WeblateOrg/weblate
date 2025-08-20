@@ -455,7 +455,7 @@
           <ol class="breadcrumb">
             <li class="bread-icon">{% icon bread_image|default:"error.svg" %}</li>
             {% block breadcrumbs %}
-              <li>
+              <li class="breadcrumb-item">
                 <a href="{% url 'home' %}">{% translate "Dashboard" %}</a>
               </li>
             {% endblock breadcrumbs %}
@@ -507,8 +507,8 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">×</span><span class="sr-only">{% translate "Close" %}</span>
+            <button type="button" class="btn-close" data-dismiss="modal">
+              <span aria-hidden="true">×</span><span class="visually-hidden">{% translate "Close" %}</span>
             </button>
             <h4 class="modal-title" id="screenshotModal"></h4>
           </div>
