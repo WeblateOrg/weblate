@@ -429,11 +429,38 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             return User.objects.none()
+        queryset = User.objects.order_by("id")
         if not user.has_perm("user.edit"):
-            return User.objects.filter(pk=user.pk)
-        return User.objects.order_by("id").prefetch_related(
-            "groups", "profile", "profile__languages"
-        )
+            return queryset
+        return queryset.prefetch_related("groups", "profile", "profile__languages")
+
+    def list(self, request, *args, **kwargs):
+        """
+        List of users if you have permissions to see manage users.
+
+        Without a permission you get to see only your own details.
+        """
+        # Copy of rest_framework.mixins.ListModelMixin.list with additional
+        # filtering based on user permissions. We limit listing of user to
+        # non-admins, but access to individual users is retained (with limited
+        # serializer).
+        user = self.request.user
+        if not user.is_authenticated:
+            queryset = User.objects.none()
+        elif not user.has_perm("user.edit"):
+            queryset = User.objects.filter(pk=user.pk)
+        else:
+            queryset = self.get_queryset()
+
+        queryset = self.filter_queryset(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):

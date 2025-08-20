@@ -39459,7 +39459,10 @@ paths:
   /users/:
     get:
       operationId: users_list
-      description: Users API.
+      description: |-
+        List of users if you have permissions to see manage users.
+
+        Without a permission you get to see only your own details.
       parameters:
       - in: query
         name: format
