@@ -177,6 +177,21 @@ class JsonParamsTest(BaseFileFormatsTest):
             commit,
         )
 
+    def test_customize_no_indent(self) -> None:
+        self.update_component_file_params(
+            json_indent=0,
+            json_indent_style="spaces",
+            json_sort_keys=True,
+        )
+
+        commit = self.assert_customize("+")
+        self.assertIn(
+            '''"orangutan": "",
++"thanks": "",
++"try": ""''',
+            commit,
+        )
+
     def test_customize_no_sort(self) -> None:
         self.update_component_file_params(
             json_indent=8,
@@ -222,21 +237,24 @@ class YAMLParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
         return self.create_yaml()
 
+    def assert_customize(self, expected: str) -> None:
+        rev = self.component.repository.last_revision
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn(f"{expected}try:", commit)
+        self.assertIn("cs.yml", commit)
+        with open(self.get_translation().get_filename(), "rb") as handle:
+            self.assertIn(b"\r\n", handle.read())
+
     def test_customize(self) -> None:
         self.update_component_file_params(
             yaml_indent=8,
             yaml_line_wrap=100,
             yaml_line_break="dos",
         )
-        rev = self.component.repository.last_revision
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("        try:", commit)
-        self.assertIn("cs.yml", commit)
-        with open(self.get_translation().get_filename(), "rb") as handle:
-            self.assertIn(b"\r\n", handle.read())
+        self.assert_customize("        ")
 
 
 class XMLParamsTest(BaseFileFormatsTest):
