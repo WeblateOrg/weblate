@@ -571,6 +571,23 @@ translations created by the developers.
 
    :ref:`states`
 
+.. _addon-weblate.flags.target_repo_update:
+
+Flag updated translations from repository as "Needs editing"
+------------------------------------------------------------
+
+:Add-on ID: ``weblate.flags.target_repo_update``
+:Configuration: `This add-on has no configuration.`
+:Triggers: :ref:`addon-event-unit-post-sync`
+
+Whenever a string translation is changed from the VCS, it is flagged as needing
+editing in Weblate. Especially useful if translation files are often updated
+manually or by an external service.
+
+.. seealso::
+
+   :ref:`states`
+
 .. _addon-weblate.generate.fill_read_only:
 
 Fill read-only strings with source

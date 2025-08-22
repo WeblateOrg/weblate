@@ -58,8 +58,8 @@ from .flags import (
     BulkEditAddon,
     SameEditAddon,
     SourceEditAddon,
-    TargetChangeAddon,
     TargetEditAddon,
+    TargetRepoUpdateAddon,
 )
 from .forms import BaseAddonForm
 from .generate import (
@@ -1500,11 +1500,7 @@ class TargetChangeAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono(suffix="mono-sync")
 
-    def test_flag_translation_changes(self) -> None:
-        """Verify that TargetChangeAddon flags translation changes."""
-        self.assertTrue(TargetChangeAddon.can_install(self.component, None))
-        TargetChangeAddon.create(component=self.component)
-
+    def update_unit_from_repo(self) -> Unit:
         unit = self.get_unit("Hello, world!\n")
         unit.translate(self.user, ["Nazdar svete!"], STATE_TRANSLATED)
 
@@ -1545,7 +1541,17 @@ class TargetChangeAddonTest(ViewTestCase):
         translation.do_update(request)
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Nazdar svete! edit")
+        return unit
+
+    def test_fuzzy_string_from_repo(self) -> None:
+        self.assertTrue(TargetRepoUpdateAddon.can_install(self.component, None))
+        TargetRepoUpdateAddon.create(component=self.component)
+        unit = self.update_unit_from_repo()
         self.assertEqual(unit.state, STATE_FUZZY)
+
+    def test_non_fuzzy_string_from_repo(self) -> None:
+        unit = self.update_unit_from_repo()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
 
 class TasksTest(TestCase):

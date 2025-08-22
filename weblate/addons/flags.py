@@ -120,3 +120,21 @@ class BulkEditAddon(BaseAddon):
             ),
             project=component.project,
         )
+
+
+class TargetRepoUpdateAddon(BaseAddon):
+    events: set[AddonEvent] = {AddonEvent.EVENT_UNIT_POST_SYNC}
+    icon = "flag.svg"
+    name = "weblate.flags.target_repo_update"
+    verbose = gettext_lazy(
+        'Flag updated translations from repository as "Needs editing"'
+    )
+    description = gettext_lazy(
+        "Whenever a string translation is changed from the VCS, "
+        "it is flagged as needing editing in Weblate. Especially useful if "
+        "translation files are often updated manually or by an external service."
+    )
+
+    def unit_post_sync(self, unit: Unit, changed_attr: str, **kwargs) -> None:
+        if changed_attr == "target":
+            unit.state = STATE_FUZZY

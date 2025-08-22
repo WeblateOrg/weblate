@@ -24,6 +24,7 @@ from weblate.trans.signals import (
     change_bulk_create,
     component_post_update,
     translation_post_add,
+    unit_post_sync,
     unit_pre_create,
     vcs_post_commit,
     vcs_post_push,
@@ -245,6 +246,7 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.TargetEditAddon",
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
+        "weblate.addons.flags.TargetRepoUpdateAddon",
         "weblate.addons.generate.GenerateFileAddon",
         "weblate.addons.generate.PseudolocaleAddon",
         "weblate.addons.generate.PrefillAddon",
@@ -584,6 +586,16 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
     if filtered:
         addon_change.delay_on_commit(filtered)
+
+
+@receiver(unit_post_sync)
+def unit_post_sync_handler(sender, unit: Unit, updated_attr: str, **kwargs) -> None:
+    handle_addon_event(
+        AddonEvent.EVENT_UNIT_POST_SYNC,
+        "unit_post_sync",
+        (unit, updated_attr),
+        translation=unit.translation,
+    )
 
 
 class AddonActivityLog(models.Model):
