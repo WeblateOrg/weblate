@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -1904,18 +1904,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/93/22/238c5f01e6837df54494deb08d5c772bc3f5bf5fb80a15dce254892d1a81/grpcio_status-1.74.0.tar.gz", hash = "sha256:c58c1b24aa454e30f1fc6a7e0dbbc194c54a408143971a94b5f4e40bb5831432", size = 13662, upload-time = "2025-07-24T19:01:56.874Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/28/aa/1b1fe7d8ab699e1ec26d3a36b91d3df9f83a30abc07d4c881d0296b17b67/grpcio_status-1.74.0-py3-none-any.whl", hash = "sha256:52cdbd759a6760fc8f668098a03f208f493dd5c76bf8e02598bbbaf1f6fc2876", size = 14425, upload-time = "2025-07-24T19:01:19.963Z" },
-]
-
-[[package]]
-name = "gunicorn"
-version = "23.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "packaging" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/34/72/9614c465dc206155d93eff0ca20d42e1e35afc533971379482de953521a4/gunicorn-23.0.0.tar.gz", hash = "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec", size = 375031, upload-time = "2024-08-10T20:25:27.378Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/7d/6dac2a6e1eba33ee43f318edbed4ff29151a49b5d37f080aad1e6469bca4/gunicorn-23.0.0-py3-none-any.whl", hash = "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d", size = 85029, upload-time = "2024-08-10T20:25:24.996Z" },
 ]
 
 [[package]]
@@ -4978,7 +4966,6 @@ wllegal = [
 ]
 wsgi = [
     { name = "granian" },
-    { name = "gunicorn" },
 ]
 zxcvbn = [
     { name = "django-zxcvbn-password-validator" },
@@ -5140,7 +5127,6 @@ requires-dist = [
     { name = "google-cloud-storage", marker = "extra == 'google'", specifier = ">=2.18.2,<3.4" },
     { name = "google-cloud-translate", marker = "extra == 'google'", specifier = ">=3.13.0,<4.0" },
     { name = "granian", marker = "extra == 'wsgi'", specifier = "==2.5.0" },
-    { name = "gunicorn", marker = "extra == 'wsgi'", specifier = "==23.0.0" },
     { name = "hiredis", specifier = ">=3.1.0,<3.3" },
     { name = "html2text", specifier = ">=2025.4.15,<2025.4.16" },
     { name = "iniparse", specifier = "==0.5" },
