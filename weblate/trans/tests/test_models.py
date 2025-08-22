@@ -6,7 +6,6 @@
 
 import os
 from datetime import timedelta
-from unittest import mock
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -483,36 +482,18 @@ class TranslationTest(RepoTestCase):
     def test_commit_retry_unit_ttk_failure(self):
         """Test retry logic for units failing due to TTK failure works correctly."""
         user = create_test_user()
-        component = self.create_po_new_base()
+        component = self.create_ftl()
         project = component.project
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
         project.save()
 
         translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.get(source="Hello, world!\n")
-        unit.translate(user, "Ahoj Země!\n", STATE_APPROVED)
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ jméno }!", STATE_APPROVED)
 
         self.assertEqual(translation.count_pending_units, 1)
 
-        # mocking TranslateUnit in weblate or ttk seems impossible in the
-        # relevant code, hence the following hacky property mock to ensure
-        # that the exception is raised in the "Store Translations" block
-        count = 0
-
-        def passthrough_side_effect(instance=""):
-            nonlocal count
-            count += 1
-            if count > 1:
-                msg = "boom"
-                raise Exception(msg)  # noqa: TRY002
-            return instance
-
-        with mock.patch(
-            "weblate.trans.models.pending.PendingUnitChange.explanation",
-            new_callable=mock.PropertyMock,
-            side_effect=passthrough_side_effect,
-        ):
-            component.commit_pending("test", None)
+        component.commit_pending("test", None)
 
         # failed unit, ineligible for commit doesn't count in pending units
         self.assertEqual(translation.count_pending_units, 0)
@@ -523,18 +504,18 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
         self.assertEqual(change.metadata["blocking_unit"], False)
 
-        unit.translate(user, "Ahoj Vesmíre!\n", STATE_APPROVED)
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
 
         # this change is not expected to be applied as it is in translated
         # state only. it is here to ensure that changes newer than the last
         # successful change for the unit are not deleted.
-        unit.translate(user, "Ahoj Marse!\n", STATE_TRANSLATED)
+        unit.translate(user, "Ahoj ${ name }", STATE_TRANSLATED)
         self.assertEqual(PendingUnitChange.objects.count(), 3)
 
         # failed change is not blocking so future changes can be committed
         changes = list(PendingUnitChange.objects.for_translation(translation))
         self.assertEqual(len(changes), 1)
-        self.assertEqual(changes[0].target, "Ahoj Vesmíre!\n")
+        self.assertEqual(changes[0].target, "Ahoj, ${ name }!")
         self.assertEqual(changes[0].metadata, {})
 
         component.commit_pending("test", None)
@@ -543,8 +524,8 @@ class TranslationTest(RepoTestCase):
         # earlier than the last successful change are removed
         self.assertEqual(PendingUnitChange.objects.count(), 1)
 
-        ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, world!\n")
-        self.assertEqual(ttk_unit.target, "Ahoj Vesmíre!\n")
+        ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
+        self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
 
 
 class ComponentListTest(RepoTestCase):
