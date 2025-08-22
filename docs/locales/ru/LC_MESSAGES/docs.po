@@ -35,13 +35,14 @@
 # sletego <sletego@users.noreply.hosted.weblate.org>, 2025.
 # Deniil <danpko@ya.ru>, 2025.
 # Golubev Alexander <fatzer2@gmail.com>, 2025.
+# Данил Костенков <danilkostenkov38@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-15 01:02+0000\n"
-"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
+"PO-Revision-Date: 2025-08-23 01:02+0000\n"
+"Last-Translator: Данил Костенков <danilkostenkov38@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -50,7 +51,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -2699,6 +2700,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Убедитесь, что новый компонент содержит полный набор переводимых языков с "
+"помощью :ref:`addon-weblate.consistency.languages`."
 
 #: ../../admin/addons.rst:441
 msgid ""
@@ -2707,6 +2710,11 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"Чтобы новый компонент был обнаружен, он должен содержать файл, "
+"соответствующий ``base_file_template`` **и**, по крайней мере один файл с "
+"именем, соответствующим ``match`` - т. е. компонент должен содержать файл "
+"базового языка и хотя бы один существующий перевод. В противном случае он "
+"будет проигнорирован."
 
 #: ../../admin/addons.rst:454 ../../user/translating.rst:423
 msgid "Bulk edit"
@@ -3214,7 +3222,7 @@ msgstr ":guilabel:`Заблокировать`"
 
 #: ../../admin/addons.rst:824
 msgid "Settings configuration has been moved to :ref:`file_format_params`."
-msgstr ""
+msgstr "Настройка была перенесена в :ref:`file_format_params`."
 
 #: ../../admin/addons.rst:830
 msgid ""
@@ -3302,6 +3310,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"Чтобы избежать ненужных конфликтов, рекомендуется настроить автоматическое "
+"получение вышестоящих изменений с помощью веб-обработчиков или API, см. :ref"
+":`update-vcs`."
 
 #: ../../admin/addons.rst:872
 msgid ""
@@ -3346,7 +3357,7 @@ msgstr "Настройка вывода в JSON"
 
 #: ../../admin/addons.rst:897
 msgid ":guilabel:`Avoid spaces after separators` option added."
-msgstr ""
+msgstr "Добавлена опция :guilabel:`Avoid spaces after separators`."
 
 #: ../../admin/addons.rst:903 ../../snippets/file-format-parameters.rst:19
 msgid "Sort JSON keys"
@@ -3832,6 +3843,9 @@ msgid ""
 "Webhooks documentation <https://docs.slack.dev/messaging/sending-messages-"
 "using-incoming-webhooks>`_"
 msgstr ""
+"Чтобы получить URL-адрес веб-обработчика, следуйте инструкциям, описанным в «"
+"Документации по входящим веб-перехватам Slack <https://docs.slack.dev/"
+"messaging/sending-messages-using-incoming-webhooks>»."
 
 #: ../../admin/addons.rst:1182
 msgid "Webhook"
@@ -3858,10 +3872,12 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"Полезная нагрузка запроса соответствует схеме :ref:`schema-messaging`. "
+"Описание OpenAPI также можно найти в ``/api/docs/``. Пример текста запроса:"
 
 #: ../../admin/addons.rst:1376
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Пример текста запроса с категориями:"
 
 #: ../../admin/addons.rst:1397
 msgid "Sample request headers:"
@@ -3874,6 +3890,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"``webhook-signature`` — это список HMAC-подписей, разделённых пробелами, "
+"сгенерированный с использованием строки ``secret``, полезной нагрузки "
+"запроса, ``webhook-timestamp`` и ``webhook-id``. Это гарантирует подлинность "
+"и целостность запроса webhook."
 
 #: ../../admin/addons.rst:1411
 msgid ""
@@ -3881,12 +3901,17 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Для проверки запроса можно использовать метод ``Webhook.verify`` из "
+"библиотеки ``standardwebhooks`` или реализацию "
+"\"Стандартной спецификации веб-обработчиков\"."
 
 #: ../../admin/addons.rst:1417
 msgid ""
 "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 msgstr ""
+"`Стандартная спецификация веб-обработчиков <https://github.com/"
+"standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 
 #: ../../admin/addons.rst:1419
 #, fuzzy
@@ -4135,12 +4160,16 @@ msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
+"Журнал активности надстроек отслеживает выполнение надстроек и может "
+"использоваться для отслеживания активности надстроек."
 
 #: ../../admin/addons.rst:1620
 msgid ""
 "The logs can be pruned after a certain time interval by configuring the :"
 "setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 msgstr ""
+"Журналы можно очищать по истечении определенного интервала времени, настроив "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:140
 msgid "Management interface"
@@ -4226,6 +4255,10 @@ msgid ""
 "deps`), configuration issues or delayed processing of background tasks (see :"
 "ref:`celery`)."
 msgstr ""
+":guilabel:`Configuration errors` указывают на проблемы, присутствующие в "
+"вашей среде. Сюда входят отсутствующие необязательные зависимости (см. :ref"
+":`python-deps`), проблемы конфигурации или задержка обработки фоновых задач ("
+"см. :ref:`celery`)."
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -4233,6 +4266,10 @@ msgid ""
 "silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also :doc:"
 "`django:howto/deployment/checklist`."
 msgstr ""
+":guilabel:`System checks` перечисление возможных вопросов, проблем, задач, "
+"обсуждений. Их можно заглушить с помощью "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, см. также :doc:`django:howto/"
+"deployment/checklist`."
 
 #: ../../admin/admin.rst:40
 msgid ""
@@ -4240,18 +4277,27 @@ msgid ""
 "typically should be close to zero. The same can be obtained on the command "
 "line using :wladmin:`celery_queues`."
 msgstr ""
+":guilabel:`Celery queues` предоставляет обзор очередей Celery. Как правило, "
+"они должны быть близки к нулю. То же самое можно получить в командной "
+"строке, используя команду :wladmin:`celery_queues`."
 
 #: ../../admin/admin.rst:44
 msgid ""
 ":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
 "This needs to be configured in your system, see :ref:`production-encoding`."
 msgstr ""
+":guilabel:`System encoding` должно перечислять кодировку ``UTF-8`` во всех "
+"процессах. Это должно быть настроено в вашей системе, см. :ref:`production-"
+"encoding`."
 
 #: ../../admin/admin.rst:47
 msgid ""
 ":guilabel:`Connectivity` shows latencies to the database, cache, and Celery. "
 "This might be useful to diagnose connectivity issues."
 msgstr ""
+":guilabel:`Connectivity` показывает задержки при работе с базой данных, "
+"кэшем и Celery. Это может быть полезно для диагностики вопросов, связанных с "
+"проблемами подключения."
 
 #: ../../admin/admin.rst:54
 msgid "Appearance customization"
@@ -4262,14 +4308,16 @@ msgid ""
 "The colors are currently used in both dark and light theme, so be careful "
 "when choosing them."
 msgstr ""
+"Текущие цвета используются как в темной, так и в светлой теме, поэтому "
+"будьте внимательны при их выборе."
 
 #: ../../admin/admin.rst:63
 msgid "Colors, fonts, and page appearance can be customized here."
-msgstr ""
+msgstr "Здесь можно настроить цвета, шрифты и внешний вид страницы."
 
 #: ../../admin/admin.rst:67
 msgid "If you are looking for more customization, see :doc:`/admin/customize`."
-msgstr ""
+msgstr "Если вам нужны дополнительные настройки, см. :doc:`/admin/customize`."
 
 #: ../../admin/admin.rst:72
 msgid "The Django admin interface"
@@ -4510,6 +4558,9 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate использует Django для аутентификации. Это включает в себя встроенную "
+"аутентификацию по паролю, аутентификацию через социальные сети и сторонние "
+"бэкенды аутентификации для Django."
 
 #: ../../admin/auth.rst:24
 #, fuzzy
@@ -4797,6 +4848,9 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <https://"
 "translate.codeberg.org>`_."
 msgstr ""
+"Приведенная выше конфигурация также работает с Forgejo; пример рабочего "
+"развертывания с Forgejo см. на сайте `Codeberg Translate "
+"<https://translate.codeberg.org>`_."
 
 #: ../../admin/auth.rst:329
 msgid "Microsoft Azure Active Directory"
@@ -4961,6 +5015,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Зависимости для авторизации SAML больше не включены в стандартный пакет "
+"``all`` extras. Вам необходимо включить ``saml`` при установке пакета "
+"Weblate с помощью pip (``uv pip install Weblate[all,saml]``)."
 
 #: ../../admin/auth.rst:488
 msgid ""
@@ -5243,12 +5300,18 @@ msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Опаски проверяют вашу личность, используя прикосновение, распознавание лица, "
+"пароль устройства или PIN, поскольку они включают в себя проверку "
+"пользователя."
 
 #: ../../admin/auth.rst:800
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Ключи безопасности — это учетные данные WebAuthn, которые могут "
+"использоваться только в качестве второго фактора аутентификации и "
+"подтверждают только присутствие пользователя."
 
 #: ../../admin/auth.rst:802
 msgid "Authenticator apps (TOTP)"
@@ -5287,24 +5350,34 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Храните коды восстановления так же надёжно, как и пароль. Мы рекомендуем "
+"хранить их в менеджере паролей, например, Bitwarden, 1Password, Authy или "
+"Keeper."
 
 #: ../../admin/auth.rst:813
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Каждый пользователь может настроить это в :ref:`profile-account`, и для "
+"входа в дополнение к существующему методу аутентификации потребуется второй "
+"фактор."
 
 #: ../../admin/auth.rst:816
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level."
 msgstr ""
+"Это может быть обеспечено для пользователей на уровне проекта (см. :ref"
+":`project-enforced_2fa`) или команды."
 
 #: ../../admin/auth.rst:818
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Разрешения команды с принудительной двухфакторной аутентификацией не будут "
+"применяться к пользователям, у которых она не настроена."
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -5374,6 +5447,8 @@ msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or in :"
 "wladmin:`import_projectbackup`."
 msgstr ""
+"Используйте сгенерированный файл для импорта проекта в :ref:`adding-projects`"
+" или в :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
 msgid ""
@@ -5382,6 +5457,11 @@ msgid ""
 "`SIMPLIFY_LANGUAGES`. The restore will tell you which language codes could "
 "not be processed and you can then add missing language definitions manually."
 msgstr ""
+"Восстановление резервной копии может завершиться ошибкой, если на "
+"восстанавливаемом сервере другой набор :ref:`languages` или другая "
+"конфигурация :setting:`SIMPLIFY_LANGUAGES`. В процессе восстановления будут "
+"указаны коды языков, которые не удалось обработать, и вы сможете вручную "
+"добавить недостающие определения языков."
 
 #: ../../admin/backup.rst:48
 msgid "Automated backup using BorgBackup"
@@ -6126,15 +6206,17 @@ msgstr "Дополнительные флаги исходной строки:"
 
 #: ../../admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` описывает ручное редактирование."
 
 #: ../../admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr ""
+msgstr ":ref:`bulk-edit` может использоваться для нанесения флагов в партии."
 
 #: ../../admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+"Дополнение :ref:`addon-weblate.flags.bulk` может автоматически применять "
+"флаги."
 
 #: ../../admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
@@ -6204,6 +6286,10 @@ msgid ""
 "you can add ``discard:safe-html`` to the string flags to skip it for this "
 "particular string."
 msgstr ""
+"Флаги, определённые на более высоком уровне, можно снять с помощью "
+"синтаксиса ``discard:NAME``. Например, если компонент настроен на ``safe-"
+"html``, вы можете добавить ``discard:safe-html`` к строковым флагам, чтобы "
+"пропустить его для данной строки."
 
 #: ../../admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -6357,7 +6443,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:123
 msgid "Discards flag defined on a higher level."
-msgstr ""
+msgstr "Отменяет флаг, определенный на более высоком уровне."
 
 #: ../../admin/checks.rst:125
 msgid ""
@@ -6858,18 +6944,25 @@ msgid ""
 "means that certain checks will be automatically enabled depending on where "
 "the string is used."
 msgstr ""
+"Некоторые флаги добавляются к строкам по умолчанию в зависимости от их "
+"расположения. Это означает, что определённые флаги будут автоматически "
+"включены в зависимости от того, где используется строка."
 
 #: ../../admin/checks.rst:363
 msgid ""
 "``rst-text``: This flag is automatically added to strings in "
 "reStructuredText files, if location extension is ``.rst``."
 msgstr ""
+"``rst-text``: Этот флаг автоматически добавляется к строкам в файлах "
+"reStructuredText, если расширение расположения - ``.rst``."
 
 #: ../../admin/checks.rst:364
 msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown files, "
 "if location extension is ``.md`` or ``.markdown``."
 msgstr ""
+"``md-text``: Этот флаг автоматически добавляется к строкам в файлах "
+"Markdown, если расширение местоположения является ``.md`` или ``.markdown``."
 
 #: ../../admin/checks.rst:369
 msgid "Enforcing checks"
@@ -6881,6 +6974,9 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
+"Принудительные проверки не могут быть отклонены и помечены как :guilabel:`"
+"Needs editing` (см. :ref:`states`). Это мешает переводчикам скрывать такие "
+"чеки."
 
 #: ../../admin/checks.rst:377
 #, fuzzy
@@ -6903,12 +6999,18 @@ msgid ""
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
+"Этот подход лучше всего использовать для проверок, которые могут вызвать "
+"серьёзные проблемы, например, для :ref:`check-formats`. Не рекомендуется "
+"использовать для проверок стиля, таких как :ref:`check-same`, поскольку "
+"иногда в таких случаях игнорирование является разумным подходом."
 
 #: ../../admin/checks.rst:385
 msgid ""
 "The :ref:`project-commit_policy` can then be used to exclude strings needing "
 "editing from being committed to the version control."
 msgstr ""
+"Затем :ref:`project-commit_policy` можно использовать для исключения из "
+"передачи в систему контроля версий строк, требующих редактирования."
 
 #: ../../admin/checks.rst:400
 msgid "Managing fonts"
@@ -6995,6 +7097,8 @@ msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
+"Определяет максимальную ширину в пикселях и, при необходимости, максимальное "
+"количество строк (применяется перенос слов)."
 
 #: ../../admin/checks.rst:441
 msgid "Defines font group to use by specifying its identifier."
@@ -7226,12 +7330,14 @@ msgstr ""
 
 #: ../../admin/config.rst:56
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr ""
+msgstr "Настройка максимального числа для механизма проверки работы ALTCHA."
 
 #: ../../admin/config.rst:60
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`Механизм доказательства работы ALTCHA <https://altcha.org/docs/"
+"proof-of-work/>`_"
 
 #: ../../admin/config.rst:67
 msgid "Username of users that are not signed in."
@@ -7399,7 +7505,7 @@ msgstr ""
 
 #: ../../admin/config.rst:186
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr ""
+msgstr "Доступные исправления описаны в :ref:`autofix`."
 
 #: ../../admin/config.rst:188
 msgid "You can select which ones to use:"
@@ -7913,6 +8019,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not work for sites without "
 "HTTPS."
 msgstr ""
+"Если эта опция отключена, Weblate не запустится с ошибкой "
+"``otp_webauthn.E031``. Вы можете отключить эту ошибку, добавив её в "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, но WebAuthn всё равно не будет "
+"работать для сайтов без HTTPS."
 
 #: ../../admin/config.rst:747
 #, fuzzy
