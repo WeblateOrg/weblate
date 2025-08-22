@@ -824,7 +824,7 @@ class VueFormattingCheck(BaseFormatCheck):
 
 class AutomatticComponentsCheck(BaseFormatCheck):
     check_id = "automattic_components_format"
-    name = gettext_lazy("Automattic Components")
+    name = gettext_lazy("Automattic components formatting")
     description = gettext_lazy(
         "The Automattic components' placeholders do not match the source."
     )
