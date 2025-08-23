@@ -216,7 +216,7 @@ class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
     field_class = forms.BooleanField
-    default = False
+    default = True
 
 
 @register_file_format_param
@@ -224,7 +224,7 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -291,7 +291,7 @@ class XMLClosingTags(BaseFileFormatParam):
     name = "xml_closing_tags"
     label = gettext_lazy("Include closing tag for blank XML tags")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
