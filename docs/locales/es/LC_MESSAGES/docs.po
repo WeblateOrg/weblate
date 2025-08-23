@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-23 01:02+0000\n"
+"PO-Revision-Date: 2025-08-24 02:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15703,6 +15703,8 @@ msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
+"Para más opciones de configuración, ver :ref:`docker-environment` para una "
+"lista completa de variables de entorno."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
@@ -15715,11 +15717,17 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Con la plantilla de Weblate de OpenShift, puede poner en funcionamiento su "
+"instancia personal de Weblate en cuestión de segundos. Todas las "
+"dependencias de Weblate ya están incluidas. PostgreSQL se configura como la "
+"base de datos predeterminada y se utilizan las notificaciones de volumen "
+"persistentes."
 
 #: ../../admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
 msgstr ""
+"Puede encontrar la plantilla en <https://github.com/WeblateOrg/openshift/>."
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -15737,6 +15745,10 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+"El :file:`template.yml` es adecuado para ejecutar todos los componentes en "
+"OpenShift. También está :file:`template-external-postgresql.yml` que no "
+"inicia un servidor PostgreSQL y permite configurar un servidor PostgreSQL "
+"externo."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
@@ -15750,21 +15762,32 @@ msgid ""
 "your application. The web console will prompt you for the values for all of "
 "the parameters used by the template."
 msgstr ""
+"Copie el contenido sin procesar de `template.yml <https://github.com/"
+"WeblateOrg/openshift/blob/main/template.yml>`_ e impórtelos a su proyecto, "
+"luego use el botón :guilabel:`Create` para crear su aplicación. La consola "
+"web le pedirá los valores de todos los parámetros utilizados por la "
+"plantilla."
 
 #: ../../admin/install/openshift.rst:32
+#, fuzzy
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Para cargar la plantilla de Weblate en la biblioteca de plantillas de su "
+"proyecto actual, pase el archivo :file:`template.yml` con el siguiente "
+"comando:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
+"La plantilla ya está disponible para su selección mediante la consola web o "
+"la CLI."
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0
 #: ../../contributing/addons.rst:0 ../../python.rst:0
@@ -15777,6 +15800,9 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"Los parámetros que puede anular se enumeran en la sección parámetros de la "
+"plantilla. Puede enumerarlos con la CLI utilizando el siguiente comando y "
+"especificando el archivo que se utilizará:"
 
 #: ../../admin/install/openshift.rst:60
 msgid "Provisioning"
