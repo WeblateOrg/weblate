@@ -10,6 +10,7 @@ Weblate 5.13.1
 .. rubric:: Bug fixes
 
 * Access control for :http:get:`/api/users/(str:username)/`.
+* :ref:`file_format_params` were not properly applied in some situations.
 
 .. rubric:: Compatibility
 
