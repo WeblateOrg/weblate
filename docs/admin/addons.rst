@@ -116,6 +116,13 @@ Unit post-save
 
 Triggered just after the string is saved.
 
+.. _addon-event-unit-post-sync:
+
+Unit post-sync
+--------------
+
+Triggered after the string is synchronized with the VCS.
+
 .. _addon-event-unit-pre-create:
 
 Unit pre-create
