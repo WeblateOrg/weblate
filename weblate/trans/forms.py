@@ -1806,12 +1806,6 @@ class ComponentSettingsForm(
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
 
-        if "file_format_params" in data:
-            selected_format = data["file_format"]
-            for param_format in FILE_FORMATS_PARAMS:
-                if selected_format not in param_format.file_formats:
-                    data["file_format_params"].pop(param_format.name, None)
-
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""

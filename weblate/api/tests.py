@@ -2411,6 +2411,30 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
 
+    def test_create_component_with_file_format_params(self) -> None:
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "file_format_params": {"po_line_wrap": -1, "yaml_indent": 8},
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+            },
+            format="json",
+        )
+        component = Component.objects.get(slug="api-project", project__slug="test")
+        self.assertEqual(component.file_format_params["po_line_wrap"], -1)
+        self.assertEqual(component.file_format_params["po_keep_previous"], False)
+        self.assertNotIn("yaml_indent", component.file_format_params)
+
     def test_download_private_project_translations(self) -> None:
         project = self.component.project
         project.access_control = Project.ACCESS_PRIVATE
@@ -2894,6 +2918,7 @@ class ComponentAPITest(APIBaseTest):
             reverse("api:component-detail", kwargs=self.component_kwargs), format="json"
         ).json()
         component["name"] = "New Name"
+        component["file_format_params"] = {"po_line_wrap": -1, "yaml_indent": 8}
         response = self.do_request(
             "api:component-detail",
             self.component_kwargs,
@@ -2904,6 +2929,8 @@ class ComponentAPITest(APIBaseTest):
             request=component,
         )
         self.assertEqual(response.data["name"], "New Name")
+        self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
+        self.assertNotIn("xml_closing_tags", response.data["file_format_params"])
 
     def test_delete(self) -> None:
         self.assertEqual(Component.objects.count(), 2)

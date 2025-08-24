@@ -48,6 +48,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
+from weblate.trans.file_format_params import clean_file_format_params
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -80,6 +81,7 @@ from weblate.trans.util import (
 from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
+    validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
 )
@@ -537,6 +539,7 @@ class Component(
         verbose_name=gettext_lazy("File format parameters"),
         default=dict,
         blank=True,
+        validators=[validate_file_format_parameters],
     )
 
     locked = models.BooleanField(
@@ -3328,6 +3331,9 @@ class Component(
 
         # New language options
         self.clean_new_lang()
+
+        # File format parameters
+        clean_file_format_params(self.file_format, self.file_format_params)
 
         try:
             matches = self.get_mask_matches()

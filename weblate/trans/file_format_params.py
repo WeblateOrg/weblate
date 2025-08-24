@@ -102,6 +102,14 @@ def get_default_params_for_file_format(file_format: str) -> dict[str, str | int 
     return {param.name: param.default for param in params}
 
 
+def clean_file_format_params(file_format: str, file_format_params: dict) -> dict:
+    """Clean file format parameters, removing those not applicable to the given file format."""
+    for param in FILE_FORMATS_PARAMS:
+        if file_format not in param.file_formats:
+            file_format_params.pop(param.name, None)
+    return file_format_params
+
+
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     file_formats = (
         "json",
