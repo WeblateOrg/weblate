@@ -102,29 +102,29 @@ is available for translation in all languages of the glossary.
 
 **What happens when you mark a term as terminology:**
 
-* **First-time behavior**: When a term is marked as terminology for the first time, 
-  Weblate automatically creates empty translation entries for all languages in the glossary 
+* **First-time behavior**: When a term is marked as terminology for the first time,
+  Weblate automatically creates empty translation entries for all languages in the glossary
   that don't already have a translation for this term.
-* **Ongoing behavior**: The flag indicates that this term should be consistently 
+* **Ongoing behavior**: The flag indicates that this term should be consistently
   available across all languages in the glossary.
-* **Removing the flag**: When you unmark a term as terminology, the existing translations 
+* **Removing the flag**: When you unmark a term as terminology, the existing translations
   remain in place. The flag removal does not delete any translations that were already created.
 
 **Use cases:**
 
-* **Important terms**: Use this for key terminology that should be consistently 
+* **Important terms**: Use this for key terminology that should be consistently
   translated across all languages in your project.
-* **Cross-language consistency**: Ensures that important terms are not missing 
+* **Cross-language consistency**: Ensures that important terms are not missing
   from any language in the glossary.
-* **Quality assurance**: Helps maintain consistent terminology across all 
-  translations by making sure all languages have the opportunity to translate 
+* **Quality assurance**: Helps maintain consistent terminology across all
+  translations by making sure all languages have the opportunity to translate
   important terms.
 
 **Important notes:**
 
 * The terminology flag is a **one-time trigger** for creating missing translations.
 * Once translations are created, removing the flag will **not** delete them.
-* This behavior is intentional to preserve existing work and prevent accidental 
+* This behavior is intentional to preserve existing work and prevent accidental
   data loss.
 * If you need to remove translations, you must do so manually for each language.
 

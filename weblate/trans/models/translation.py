@@ -1930,16 +1930,16 @@ class Translation(
     def sync_terminology(self) -> None:
         """
         Sync terminology by creating missing translations for all languages.
-        
+
         This function ensures that terms marked with the 'terminology' flag
         have translation entries in all languages of the glossary.
-        
+
         Behavior:
         - Only processes source units that have the 'terminology' flag
         - Creates empty translation entries for languages that don't have them
         - Does NOT remove existing translations when the flag is removed
         - This is intentional to preserve existing work and prevent data loss
-        
+
         Note: The terminology flag acts as a one-time trigger for creating
         missing translations. Once translations are created, removing the
         flag will not delete them. This behavior is documented in the user guide.
