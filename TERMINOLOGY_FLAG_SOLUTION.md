@@ -87,14 +87,14 @@ Created `scripts/validate_terminology_behavior.py` that:
 
 ### Option 1: Run the Test Suite (Recommended)
 
-```bash
+```
 # In a Weblate development environment
 python -m pytest weblate/glossary/tests.py::GlossaryTest::test_terminology_flag_removal_behavior -v
 ```
 
 ### Option 2: Run the Validation Script
 
-```bash
+```
 # In a Weblate development environment
 python scripts/validate_terminology_behavior.py
 ```
