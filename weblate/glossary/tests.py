@@ -432,6 +432,53 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
 
+    def test_terminology_flag_removal_behavior(self) -> None:
+        """Test that removing terminology flag doesn't delete existing translations."""
+        start = Unit.objects.count()
+
+        # Add single term
+        self.do_add_unit()
+
+        # Get the source unit
+        unit = self.glossary_component.source_translation.unit_set.get(source="source")
+        self.assertEqual(Unit.objects.count(), start + 2)
+        self.assertEqual(unit.unit_set.count(), 2)
+
+        # Make it terminology - this should create translations for all languages
+        with transaction.atomic():
+            unit.translation.component.unload_sources()
+            unit.extra_flags = "terminology"
+            unit.save()
+
+        # Verify it has been added to all languages
+        self.assertEqual(Unit.objects.count(), start + 4)
+        self.assertEqual(unit.unit_set.count(), 4)
+
+        # Now remove the terminology flag
+        with transaction.atomic():
+            unit.translation.component.unload_sources()
+            unit.extra_flags = ""
+            unit.save()
+
+        # Verify that removing the flag does NOT delete the translations
+        # This is the key behavior: terminology flag removal is irreversible
+        self.assertEqual(Unit.objects.count(), start + 4)
+        self.assertEqual(unit.unit_set.count(), 4)
+
+        # Verify that the translations still exist and are accessible
+        for translation in self.glossary_component.translation_set.all():
+            self.assertTrue(translation.unit_set.filter(source="source").exists())
+
+        # Re-adding the terminology flag should not create duplicate translations
+        with transaction.atomic():
+            unit.translation.component.unload_sources()
+            unit.extra_flags = "terminology"
+            unit.save()
+
+        # Should still have the same count (no duplicates created)
+        self.assertEqual(Unit.objects.count(), start + 4)
+        self.assertEqual(unit.unit_set.count(), 4)
+
     def test_terminology_explanation_sync(self) -> None:
         self.make_manager()
         unit = self.get_unit("Thank you for using Weblate.")

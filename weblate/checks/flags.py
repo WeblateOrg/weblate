@@ -63,6 +63,8 @@ PLAIN_FLAGS["read-only"] = gettext_lazy("Read-only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
 PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
 PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
+# Terminology flag: When set, ensures the term has translation entries in all glossary languages
+# Note: This is a one-time trigger - removing the flag does not delete created translations
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 PLAIN_FLAGS["case-insensitive"] = gettext_lazy("Use case insensitive placeholders")

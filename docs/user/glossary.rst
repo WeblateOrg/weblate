@@ -97,9 +97,36 @@ Terminology
 .. versionadded:: 4.5
 
 Flagging certain glossary terms as ``terminology`` by bulk-editing, typing in the flag,
-or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries for them
-to all languages in the glossary. Use this for important terms that should
-be well thought out, and retain a consistent meaning across all languages.
+or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` ensures that the term
+is available for translation in all languages of the glossary.
+
+**What happens when you mark a term as terminology:**
+
+* **First-time behavior**: When a term is marked as terminology for the first time, 
+  Weblate automatically creates empty translation entries for all languages in the glossary 
+  that don't already have a translation for this term.
+* **Ongoing behavior**: The flag indicates that this term should be consistently 
+  available across all languages in the glossary.
+* **Removing the flag**: When you unmark a term as terminology, the existing translations 
+  remain in place. The flag removal does not delete any translations that were already created.
+
+**Use cases:**
+
+* **Important terms**: Use this for key terminology that should be consistently 
+  translated across all languages in your project.
+* **Cross-language consistency**: Ensures that important terms are not missing 
+  from any language in the glossary.
+* **Quality assurance**: Helps maintain consistent terminology across all 
+  translations by making sure all languages have the opportunity to translate 
+  important terms.
+
+**Important notes:**
+
+* The terminology flag is a **one-time trigger** for creating missing translations.
+* Once translations are created, removing the flag will **not** delete them.
+* This behavior is intentional to preserve existing work and prevent accidental 
+  data loss.
+* If you need to remove translations, you must do so manually for each language.
 
 .. seealso::
 

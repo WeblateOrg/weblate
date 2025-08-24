@@ -1928,6 +1928,22 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
+        """
+        Sync terminology by creating missing translations for all languages.
+        
+        This function ensures that terms marked with the 'terminology' flag
+        have translation entries in all languages of the glossary.
+        
+        Behavior:
+        - Only processes source units that have the 'terminology' flag
+        - Creates empty translation entries for languages that don't have them
+        - Does NOT remove existing translations when the flag is removed
+        - This is intentional to preserve existing work and prevent data loss
+        
+        Note: The terminology flag acts as a one-time trigger for creating
+        missing translations. Once translations are created, removing the
+        flag will not delete them. This behavior is documented in the user guide.
+        """
         from weblate.auth.models import User
 
         if not self.is_source or not self.component.manage_units:
@@ -1936,9 +1952,10 @@ class Translation(
         author: User | None = None
         added: bool = False
         for source in self.component.get_all_sources():
-            # Is the string a terminology
+            # Only process units marked as terminology
             if "terminology" not in source.all_flags:
                 continue
+            # Skip if all languages already have this term
             if source.unit_set.count() == expected_count:
                 continue
             added = True
@@ -1948,7 +1965,9 @@ class Translation(
                     name="sync",
                     verbose="Glossary sync",
                 )
-            # Add unit
+            # Create empty translation entries for missing languages
+            # Note: This operation is irreversible - removing the terminology
+            # flag later will not delete these translations
             self.add_unit(
                 None,
                 source.context,

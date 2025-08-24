@@ -100,7 +100,17 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     retry_backoff=60,
 )
 def sync_terminology(pk: int, component: Component | None = None):
-    """Sync terminology and add missing glossary languages."""
+    """
+    Sync terminology and add missing glossary languages.
+    
+    This task ensures that:
+    1. All languages in the project have corresponding glossary languages
+    2. Terms marked with 'terminology' flag have translation entries in all languages
+    
+    Note: The terminology sync creates missing translations but does not remove
+    existing ones when the flag is removed. This behavior is intentional to
+    preserve existing work and prevent accidental data loss.
+    """
     if component is None:
         component = Component.objects.get(pk=pk)
 
