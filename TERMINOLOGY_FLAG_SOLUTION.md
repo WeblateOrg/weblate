@@ -1,4 +1,5 @@
-# SPDX-FileCopyrightText: 2024 Weblate contributors
+# Copyright © 2024 Weblate contributors
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Terminology Flag Semantics Solution
