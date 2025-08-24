@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2024 Weblate contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """
 Validation script for terminology flag behavior.
 
@@ -16,6 +17,9 @@ import os
 import sys
 import django
 from django.db import transaction
+from weblate.trans.models import Unit, Translation, Component, Project
+from weblate.lang.models import Language
+from weblate.auth.models import User
 
 # Add the project root to the Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -23,10 +27,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Setup Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'weblate.settings_test')
 django.setup()
-
-from weblate.trans.models import Unit, Translation, Component, Project
-from weblate.lang.models import Language
-from weblate.auth.models import User
 
 
 def validate_terminology_behavior():

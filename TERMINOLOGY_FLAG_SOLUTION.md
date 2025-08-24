@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Weblate contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Terminology Flag Semantics Solution
 
 This document explains the solution to the "Unclear Semantics of 'terminology' Flag" issue in Weblate.
