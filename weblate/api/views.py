@@ -447,7 +447,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             queryset = User.objects.none()
-        elif not user.has_perm("user.edit"):
+        elif not user.has_perm("user.edit") and self.lookup_field not in request.GET:
             queryset = User.objects.filter(pk=user.pk)
         else:
             queryset = self.get_queryset()
