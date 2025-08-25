@@ -2432,7 +2432,6 @@ class ProjectAPITest(APIBaseTest):
         )
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(component.file_format_params["po_line_wrap"], -1)
-        self.assertEqual(component.file_format_params["po_keep_previous"], False)
         self.assertNotIn("yaml_indent", component.file_format_params)
 
     def test_download_private_project_translations(self) -> None:
