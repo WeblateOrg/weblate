@@ -527,6 +527,24 @@ class TranslationTest(RepoTestCase):
         ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
         self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
 
+    def test_commit_successful_deletes_failed_changes(self):
+        """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+
+        unit.translate(user, "Ahoj, ${ jméno }!", STATE_TRANSLATED)
+        unit.translate(user, "Ahoj, ${ name }!", STATE_TRANSLATED)
+        self.assertEqual(translation.count_pending_units, 2)
+
+        component.commit_pending("test", None)
+
+        # second change applied and first deleted as a result
+        self.assertEqual(translation.count_pending_units, 0)
+        ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
+        self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
+
 
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
