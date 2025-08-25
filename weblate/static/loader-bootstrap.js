@@ -1631,11 +1631,16 @@ $(function () {
   document.querySelectorAll(".auth-image").forEach((el) => {
     src = el.getAttribute("src");
     if (src !== null) {
-      if ((src.endsWith("password.svg")) || src.endsWith("email.svg")) {
+      if (
+        src.endsWith("password.svg") ||
+        src.endsWith("email.svg") ||
+        src.endsWith("twitter.svg") ||
+        src.endsWith("github.svg")
+      ) {
         el.classList.add("auth-image-filter");
       }
     }
-  })
+  });
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
