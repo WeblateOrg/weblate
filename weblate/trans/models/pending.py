@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.db import models
 from django.db.models import BooleanField, Case, OuterRef, Q, Subquery, When
+from django.db.models.fields.json import KT
 from django.utils import timezone
 
 from weblate.utils.db import using_postgresql
@@ -38,19 +39,23 @@ class PendingChangeQuerySet(models.QuerySet):
         # filter changes that are new or eligible for retry
         eligible_for_attempt_filter = (
             Q(metadata__last_failed__isnull=True)
-            | ~Q(metadata__failed_revision=translation.revision)
-            | ~Q(metadata__weblate_version=GIT_VERSION)
+            | ~Q(failed_revision=translation.revision)
+            | ~Q(weblate_version=GIT_VERSION)
             | Q(metadata__last_failed__lt=one_week_ago.isoformat())
         )
 
         qs = (
             self.filter(unit__translation=translation)
             .annotate(
+                # use KT to extract JSON values for string comparison
+                # to prevent quoting issues with mariadb/mysql.
+                failed_revision=KT("metadata__failed_revision"),
+                weblate_version=KT("metadata__weblate_version"),
                 eligible_for_attempt=Case(
                     When(eligible_for_attempt_filter, then=True),
                     default=False,
                     output_field=BooleanField(),
-                )
+                ),
             )
             .filter(Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True))
             .order_by("unit_id", "timestamp")
