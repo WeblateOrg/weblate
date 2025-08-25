@@ -1102,7 +1102,7 @@ Projects
                 "file_format": "po",
                 "file_format_params": {
                     "po_line_wrap": 65535,
-                    "po_no_location": True
+                    "po_no_location": true
                 },
                 "filemask": "po/*.po",
                 "name": "Weblate",
@@ -1132,7 +1132,7 @@ Projects
             "file_format": "po",
             "file_format_params": {
                 "po_line_wrap": 65535,
-                "po_no_location": True
+                "po_no_location": true
             },
             "filemask": "po/*.po",
             "name": "Weblate",
@@ -1183,7 +1183,7 @@ Projects
             "file_format": "po",
             "file_format_params": {
                 "po_line_wrap": 65535,
-                "po_no_location": True
+                "po_no_location": true
             },
             "filemask": "po/*.po",
             "git_export": "",
@@ -1401,7 +1401,7 @@ Components
             "file_format": "po",
             "file_format_params": {
                 "po_line_wrap": 65535,
-                "po_no_location": True
+                "po_no_location": true
             },
             "filemask": "po/*.po",
             "git_export": "",
@@ -1497,7 +1497,7 @@ Components
             "file_format": "po",
             "file_format_params": {
                 "po_line_wrap": 65535,
-                "po_no_location": True
+                "po_no_location": true
             },
             "filemask": "po/*.po",
             "git_export": "",
@@ -1963,7 +1963,7 @@ Translations
                 "file_format": "po",
                 "file_format_params": {
                     "po_line_wrap": 65535,
-                    "po_no_location": True
+                    "po_no_location": true
                 },
                 "filemask": "po/*.po",
                 "git_export": "",
