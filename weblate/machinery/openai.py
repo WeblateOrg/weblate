@@ -331,9 +331,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         if not rephrase:
             # For plural translations, we expect target_plural.number translations
             # But we need to map them back to the original source texts
-            expected_len = (
-                target_plural.number if is_plural is not None else len(texts)
-            )
+            expected_len = target_plural.number if is_plural is not None else len(texts)
 
             if len(translations) != expected_len:
                 self.report_error(
