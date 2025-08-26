@@ -664,10 +664,6 @@ class BatchMachineTranslation:
             alternate_units = plural_mapper.get_other_units(units, source_language)
         plural_mapper.map_units(units, alternate_units)
 
-        # # TODO: fetch source from other units
-        # sources = [(text, unit) for unit in units for text in unit.plural_map]
-        # translations = self._translate(source, language, sources, user, threshold)
-
         # NOTE: Instead of translating all at once (the old approach),
         #       a step-by-step translation is more efficient/robust.
         for unit in units:
@@ -677,7 +673,6 @@ class BatchMachineTranslation:
                 sources = [(unit.get_source_plurals()[0], unit)]
             else:
                 sources = [(text, unit) for text in unit.plural_map]
-
             translations = self._translate(source, language, sources, user, threshold)
 
             result: UnitMemoryResultDict = unit.machinery
