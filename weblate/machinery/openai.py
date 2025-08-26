@@ -349,7 +349,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             for index, translation in enumerate(translations):
                 # For plural translations, use the source text at the same index
                 # The machinery system ensures texts array corresponds to target forms
-                
+
                 text = texts[index] if index < len(texts) else texts[0]
 
                 result[text].append(
