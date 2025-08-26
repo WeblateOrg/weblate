@@ -117,7 +117,9 @@ class BatchMachineTranslation:
     def delete_cache(self) -> None:
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
-    def clear_unit_cache(self, unit, source_language: str, target_language: str) -> None:
+    def clear_unit_cache(
+        self, unit, source_language: str, target_language: str
+    ) -> None:
         """Clear cached translations for a specific unit."""
         for text in unit.get_source_plurals():
             cleaned_text, replacements = self.cleanup_text(text, unit)

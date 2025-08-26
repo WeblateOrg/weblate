@@ -462,9 +462,11 @@ def clear_cache(request: AuthenticatedHttpRequest, unit_id: int):
             try:
                 source_language, target_language = translation_service.get_languages(
                     translation_service.get_source_language(translation),
-                    translation.language
+                    translation.language,
                 )
-                translation_service.clear_unit_cache(unit, source_language, target_language)
+                translation_service.clear_unit_cache(
+                    unit, source_language, target_language
+                )
                 cleared_services.append(translation_service_class.name)
             except Exception:
                 continue
@@ -472,11 +474,13 @@ def clear_cache(request: AuthenticatedHttpRequest, unit_id: int):
         except KeyError:
             continue
 
-    return JsonResponse({
-        "responseStatus": 200,
-        "cleared_services": cleared_services,
-        "message": gettext("Cache cleared for automatic suggestions")
-    })
+    return JsonResponse(
+        {
+            "responseStatus": 200,
+            "cleared_services": cleared_services,
+            "message": gettext("Cache cleared for automatic suggestions"),
+        }
+    )
 
 
 @require_POST
