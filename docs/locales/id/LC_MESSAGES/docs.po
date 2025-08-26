@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-26 01:27+0000\n"
+"PO-Revision-Date: 2025-08-26 13:25+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -54534,8 +54534,8 @@ msgid ""
 "deployed in localhost. The API URL and API_KEY can be configured through the "
 "arguments accepted by Weblate."
 msgstr ""
-"Wadah Docker menggunakan pengaturan bawaan Weblate dan terhubung ke API yang "
-"digunakan di LocalHost. URL API dan API_Key dapat dikonfigurasi melalui "
+"Kontainer Docker menggunakan pengaturan bawaan Weblate dan terhubung ke API "
+"yang digunakan di LocalHost. URL API dan API_Key dapat dikonfigurasi melalui "
 "argumen yang diterima oleh Weblate."
 
 #: ../../wlc.rst:45
@@ -54549,10 +54549,13 @@ msgid ""
 "easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
+"Anda mungkin ingin meneruskan :ref:`wlc-config` ke kontainer Docker, "
+"pendekatan termudah adalah menambahkan direktori Anda saat ini sebagai "
+"volume :file:`/home/weblate`:"
 
 #: ../../wlc.rst:67
 msgid "Getting started"
-msgstr ""
+msgstr "Memulai"
 
 #: ../../wlc.rst:69
 msgid ""
@@ -54560,18 +54563,21 @@ msgid ""
 "(see :ref:`wlc-config` for other locations), please create it to match your "
 "environment:"
 msgstr ""
+"Konfigurasi :program:`wlc` disimpan di :file:`~/.config/weblate` (lihat :ref"
+":`wlc-config` untuk lokasi lain), silakan buat agar cocok dengan lingkungan "
+"Anda:"
 
 #: ../../wlc.rst:81
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "Anda kemudian dapat menjalankan perintah pada server bawaan:"
 
 #: ../../wlc.rst:93
 msgid "Synopsis"
-msgstr ""
+msgstr "Sinopsis"
 
 #: ../../wlc.rst:99
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "Perintah sebenarnya menunjukkan operasi mana yang harus dilakukan."
 
 #: ../../wlc.rst:104
 msgid ""
@@ -54579,6 +54585,10 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Klien Weblate adalah pustaka Python dan utilitas baris perintah untuk "
+"mengelola Weblate dari jarak jauh menggunakan :ref:`api`. Utilitas baris "
+"perintah ini dapat dipanggil sebagai :command:`wlc` dan terintegrasi dengan "
+":mod:`wlc`."
 
 #: ../../wlc.rst:109
 msgid "Arguments"
@@ -54589,10 +54599,13 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
+"Program menerima argumen berikut yang menentukan format keluaran atau "
+"instansi Weblate mana yang akan digunakan. Argumen ini harus dimasukkan "
+"sebelum perintah apa pun."
 
 #: ../../wlc.rst:116
 msgid "Specify the output format."
-msgstr ""
+msgstr "Tentukan format keluaran."
 
 #: ../../wlc.rst:120
 msgid ""
@@ -54600,6 +54613,9 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"Tentukan URL API. Mengganti nilai apa pun yang ditemukan dalam berkas "
+"konfigurasi, lihat :ref:`wlc-config`. URL harus diakhiri dengan ``/api/``, "
+"misalnya ``https://hosted.weblate.org/api/``."
 
 #: ../../wlc.rst:125
 msgid ""
@@ -54607,14 +54623,18 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"Tentukan kunci pengguna API yang akan digunakan. Mengganti nilai apa pun "
+"yang ditemukan dalam berkas konfigurasi, lihat :ref:`wlc-config`. Anda dapat "
+"menemukan kunci Anda di profil Anda di Weblate."
 
 #: ../../wlc.rst:130
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr ""
+msgstr "Mengganti jalur berkas konfigurasi, lihat :ref:`wlc-config`."
 
 #: ../../wlc.rst:134
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Menimpa bagian berkas konfigurasi yang digunakan, lihat :ref:`wlc-config`."
 
 #: ../../wlc.rst:137
 msgid "Commands"
@@ -54622,163 +54642,185 @@ msgstr "Perintah"
 
 #: ../../wlc.rst:139
 msgid "The following commands are available:"
-msgstr ""
+msgstr "Perintah berikut tersedia:"
 
 #: ../../wlc.rst:143
 msgid "Prints the current version."
-msgstr ""
+msgstr "Mencetak versi terkini."
 
 #: ../../wlc.rst:147
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Mencantumkan bahasa yang digunakan di Weblate."
 
 #: ../../wlc.rst:151
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "Mencantumkan proyek di Weblate."
 
 #: ../../wlc.rst:155
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "Mencantumkan komponen dalam Weblate."
 
 #: ../../wlc.rst:159
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "Mencantumkan terjemahan di Weblate."
 
 #: ../../wlc.rst:163
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Menampilkan objek Weblate (terjemahan, komponen atau proyek)."
 
 #: ../../wlc.rst:167
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Mencantumkan objek Weblate (terjemahan, komponen atau proyek)."
 
 #: ../../wlc.rst:171
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
 msgstr ""
+"Mengkomit perubahan yang dibuat pada objek Weblate (terjemahan, komponen "
+"atau proyek)."
 
 #: ../../wlc.rst:175
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
 msgstr ""
+"Menarik perubahan repositori jarak jauh ke objek Weblate (terjemahan, "
+"komponen atau proyek)."
 
 #: ../../wlc.rst:179
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
 msgstr ""
+"Mendorong perubahan objek Weblate ke repositori jarak jauh (terjemahan, "
+"komponen atau proyek)."
 
 #: ../../wlc.rst:185 ../../wlc.rst:241
 msgid "Supported since wlc 0.7."
-msgstr ""
+msgstr "Didukung sejak wlc 0.7."
 
 #: ../../wlc.rst:187
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
 msgstr ""
+"Mengatur ulang perubahan pada objek Weblate agar sesuai dengan repositori "
+"jarak jauh (terjemahan, komponen atau proyek)."
 
 #: ../../wlc.rst:193 ../../wlc.rst:258
 msgid "Supported since wlc 0.9."
-msgstr ""
+msgstr "Didukung sejak wlc 0.9."
 
 #: ../../wlc.rst:195
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
 msgstr ""
+"Menghapus segala perubahan yang tidak terlacak pada objek Weblate agar cocok "
+"dengan repositori jarak jauh (terjemahan, komponen, atau proyek)."
 
 #: ../../wlc.rst:199
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Menampilkan status repositori untuk objek Weblate tertentu (terjemahan, "
+"komponen atau proyek)."
 
 #: ../../wlc.rst:203
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Menampilkan statistik terperinci untuk objek Weblate tertentu (terjemahan, "
+"komponen atau proyek)."
 
 #: ../../wlc.rst:209 ../../wlc.rst:217 ../../wlc.rst:225
 msgid "Supported since wlc 0.5."
-msgstr ""
+msgstr "Didukung sejak wlc 0.5."
 
 #: ../../wlc.rst:211
 msgid "Displays lock status."
-msgstr ""
+msgstr "Menampilkan status kunci."
 
 #: ../../wlc.rst:219
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "Mengunci komponen dari terjemahan lebih lanjut di Weblate."
 
 #: ../../wlc.rst:227
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "Membuka kunci terjemahan komponen Weblate."
 
 #: ../../wlc.rst:233
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr ""
+msgstr "Didukung sejak wlc 0.7 dan Weblate 2.10."
 
 #: ../../wlc.rst:235
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "Menampilkan perubahan untuk objek tertentu."
 
 #: ../../wlc.rst:243
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "Mengunduh berkas terjemahan."
 
 #: ../../wlc.rst:247
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
 msgstr ""
+"Mengonversi format berkas, jika tidak ditentukan, tidak ada konversi yang "
+"terjadi di server dan berkas diunduh apa adanya ke repositori."
 
 #: ../../wlc.rst:252
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
 msgstr ""
+"Menentukan berkas tempat menyimpan keluaran, jika tidak ditentukan, akan "
+"dicetak ke stdout."
 
 #: ../../wlc.rst:260
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "Mengunggah berkas terjemahan."
 
 #: ../../wlc.rst:264
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "Timpa terjemahan yang ada saat mengunggah."
 
 #: ../../wlc.rst:268
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
 msgstr ""
+"Berkas dari konten yang dibaca, jika tidak ditentukan maka akan dibaca dari "
+"stdin."
 
 #: ../../wlc.rst:272
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr ""
+msgstr "Metode unggah yang akan digunakan, lihat :ref:`upload-method`."
 
 #: ../../wlc.rst:280
 msgid "Author name, to override currently authenticated user"
-msgstr ""
+msgstr "Nama penulis, untuk mengganti pengguna yang saat ini diautentikasi"
 
 #: ../../wlc.rst:284
 msgid "Author e-mail, to override currently authenticated user"
-msgstr ""
+msgstr "Surel penulis, untuk mengganti pengguna yang saat ini diautentikasi"
 
 #: ../../wlc.rst:289
 msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Anda bisa mendapatkan informasi lebih rinci tentang menjalankan perintah "
+"individual dengan meneruskan ``--help``, misalnya: ``wlc ls --help``."
 
 #: ../../wlc.rst:295
 msgid "Configuration files"
-msgstr ""
+msgstr "Berkas konfigurasi"
 
 #: ../../wlc.rst:297
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:298
 msgid "Configuration file placed in the project directory."
@@ -54790,7 +54832,7 @@ msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: ../../wlc.rst:300
 msgid "User configuration file on Windows in the roamed profile."
-msgstr ""
+msgstr "Berkas konfigurasi pengguna pada Windows dalam profil roaming."
 
 #: ../../wlc.rst:301
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
@@ -54798,7 +54840,7 @@ msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: ../../wlc.rst:302
 msgid "User configuration file on Windows in the local profile."
-msgstr ""
+msgstr "Berkas konfigurasi pengguna pada Windows di profil lokal."
 
 #: ../../wlc.rst:303
 msgid ":file:`~/.config/weblate`"
@@ -54818,38 +54860,45 @@ msgid ""
 "of config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``."
 msgstr ""
+"Program ini mengikuti spesifikasi XDG, sehingga Anda dapat menyesuaikan "
+"penempatan berkas konfigurasi dengan variabel lingkungan ``XDG_CONFIG_HOME`` "
+"atau ``XDG_CONFIG_DIRS``."
 
 #: ../../wlc.rst:312
 msgid ""
 "On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred "
 "locations for the configuration file."
 msgstr ""
+"Pada Windows, direktori ``APPDATA`` dan ``LOCALAPPDATA`` adalah lokasi yang "
+"disukai untuk berkas konfigurasi."
 
 #: ../../wlc.rst:315
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
 msgstr ""
+"Pengaturan berikut dapat dikonfigurasi di bagian ``[weblate]`` (Anda dapat "
+"menyesuaikannya dengan :option:`--config-section`):"
 
 #: ../../wlc.rst:320
 msgid "API KEY to access Weblate."
-msgstr ""
+msgstr "KUNCI API untuk mengakses Weblate."
 
 #: ../../wlc.rst:324
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "URL server API, bawaannya adalah ``http://127.0.0.1:8000/api/``."
 
 #: ../../wlc.rst:328
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "Jalur ke terjemahan bawaan - komponen atau proyek."
 
 #: ../../wlc.rst:330
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "Berkas konfigurasi adalah berkas INI, misalnya:"
 
 #: ../../wlc.rst:339
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
-msgstr ""
+msgstr "Selain itu kunci API dapat disimpan di bagian ``[kunci]``:"
 
 #: ../../wlc.rst:346
 msgid ""
@@ -54857,6 +54906,9 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that :program:`wlc` "
 "knows which server it should talk to."
 msgstr ""
+"Hal ini memungkinkan Anda untuk menyimpan kunci dalam pengaturan pribadi "
+"Anda, saat menggunakan konfigurasi :file:`.weblate` dalam repositori VCS "
+"sehingga :program:`wlc` mengetahui server mana yang harus diajak bicara."
 
 #: ../../wlc.rst:351
 msgid "Examples"
@@ -54864,11 +54916,11 @@ msgstr "Contoh"
 
 #: ../../wlc.rst:353
 msgid "Print current program version:"
-msgstr ""
+msgstr "Cetak versi program saat ini:"
 
 #: ../../wlc.rst:360
 msgid "List all projects:"
-msgstr ""
+msgstr "Daftar semua proyek:"
 
 #: ../../wlc.rst:371
 msgid "Upload translation file:"
@@ -54877,15 +54929,18 @@ msgstr "Unggah berkas terjemahan:"
 #: ../../wlc.rst:377
 msgid "You can also designate what project :program:`wlc` should work on:"
 msgstr ""
+"Anda juga dapat menentukan proyek mana :program:`wlc` yang harus dikerjakan:"
 
 #: ../../wlc.rst:405
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
 msgstr ""
+"Dengan pengaturan ini, mudah untuk mengkomit perubahan yang tertunda pada "
+"proyek saat ini:"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "Alur kerja penerjemahan"
 
 #: ../../workflows.rst:6
 msgid ""
@@ -54893,12 +54948,17 @@ msgid ""
 "involved in the localization process closer to each other. It is up to you "
 "to decide how many of Weblate features you want to make use of."
 msgstr ""
+"Menggunakan Weblate meningkatkan kualitas, mengurangi pekerjaan manual, dan "
+"mendekatkan semua pihak yang terlibat dalam proses pelokalan. Anda bebas "
+"menentukan berapa banyak fitur Weblate yang ingin Anda gunakan."
 
 #: ../../workflows.rst:10
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the examples listed here."
 msgstr ""
+"Berikut ini bukan daftar lengkap cara mengonfigurasi Weblate. Anda dapat "
+"mendasarkan alur kerja lainnya pada contoh yang tercantum di sini."
 
 #: ../../workflows.rst:16
 msgid "Workflow customization"
@@ -54911,16 +54971,23 @@ msgid ""
 "`component-suggestion_voting`, and :ref:`component-suggestion_autoaccept`), "
 "the translation workflow can be customized per language."
 msgstr ""
+"Selain konfigurasi di :ref:`project` dan :ref:`component` (sebagai :ref"
+":`project-translation_review`, :ref:`component-enable_suggestions`, :ref"
+":`component-suggestion_voting`, dan :ref:`component-suggestion_autoaccept`), "
+"alur kerja terjemahan dapat disesuaikan per bahasa."
 
 #: ../../workflows.rst:24
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
+"Kustomisasi alur kerja di seluruh situs dapat dilakukan saat :ref:`changing-"
+"languages`."
 
 #: ../../workflows.rst:26
 msgid ""
 "Per-project customization can be done on each language page of the project."
 msgstr ""
+"Kustomisasi per proyek dapat dilakukan pada setiap halaman bahasa proyek."
 
 #: ../../workflows.rst:28
 msgid ""
@@ -54928,10 +54995,13 @@ msgid ""
 "`project-translation_review` needs to be turned on and can only be disabled "
 "in the per-language customization."
 msgstr ""
+"Semua pengaturan alur kerja dapat ditimpa, satu-satunya batasan adalah :ref"
+":`project-translation_review` perlu diaktifkan dan hanya dapat dinonaktifkan "
+"dalam penyesuaian per bahasa."
 
 #: ../../workflows.rst:32
 msgid "The first existing setting applies:"
-msgstr ""
+msgstr "Pengaturan pertama yang ada berlaku:"
 
 #: ../../workflows.rst:34
 msgid "Project-language customization"
@@ -54950,10 +55020,13 @@ msgid ""
 "Please be careful when using site-wide override as that applies to all "
 "projects (unless they have own overrides for a given language)."
 msgstr ""
+"Harap berhati-hati saat menggunakan penimpaan di seluruh situs karena hal "
+"itu berlaku untuk semua proyek (kecuali jika proyek tersebut memiliki "
+"penggantian sendiri untuk bahasa tertentu)."
 
 #: ../../workflows.rst:45
 msgid "Translation access"
-msgstr ""
+msgstr "Akses terjemahan"
 
 #: ../../workflows.rst:47
 msgid ""
@@ -54962,6 +55035,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+":ref:`access control <access-control>` tidak dibahas secara bawaan secara "
+"keseluruhan dalam alur kerja, karena sebagian besar opsinya dapat diterapkan "
+"ke alur kerja apa pun. Silakan lihat dokumentasi terkait tentang cara "
+"mengelola akses ke terjemahan."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -54969,6 +55046,10 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
+"Dalam bab selanjutnya, *setiap pengguna* berarti pengguna yang memiliki "
+"akses ke terjemahan. Ini bisa berupa pengguna terautentikasi apa pun jika "
+"proyek bersifat publik, atau pengguna dengan izin :guilabel:`Translate` ke "
+"proyek tersebut."
 
 #: ../../workflows.rst:61
 msgid "Each translated string can be in one of the following states:"
@@ -55019,10 +55100,13 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"Terjemahan telah disetujui dalam proses peninjauan. Terjemahan tidak dapat "
+"diubah lagi oleh penerjemah, tetapi hanya oleh peninjau. Penerjemah hanya "
+"dapat menambahkan saran."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Status ini hanya tersedia saat tinjauan diaktifkan."
 
 #: ../../workflows.rst:79
 msgid "Read-only"
@@ -55034,6 +55118,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"String bersifat hanya baca karena memiliki ``read-only`` :ref:`flag <custom-"
+"checks>`, menjadi string sumber yang tidak dapat disunting, atau ditandai "
+"demikian dalam berkas terjemahan."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
@@ -55062,6 +55149,9 @@ msgid ""
 "The most common setup for smaller teams, where anybody can translate "
 "directly. This is also the default setup in Weblate."
 msgstr ""
+"Pengaturan paling umum untuk tim yang lebih kecil, di mana siapa pun dapat "
+"menerjemahkan secara langsung. Ini juga merupakan pengaturan bawaan di "
+"Weblate."
 
 #: ../../workflows.rst:105
 msgid "*Any user* can edit translations."
@@ -55131,6 +55221,8 @@ msgid ""
 "With this workflow, anybody can add a suggestion, which needs approval from "
 "additional members before it is accepted as a translation."
 msgstr ""
+"Dengan alur kerja ini, siapa pun dapat menambahkan saran, yang memerlukan "
+"persetujuan dari anggota tambahan sebelum diterima sebagai terjemahan."
 
 #: ../../workflows.rst:137
 msgid "*Any user* can add suggestions."
@@ -55148,6 +55240,8 @@ msgstr "Saran menjadi terjemahan ditentukan oleh jumlah suara."
 #: ../../workflows.rst:150
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
+"Anda dapat mengatur nilai yang lebih tinggi untuk memerlukan lebih banyak "
+"tinjauan sejawat."
 
 #: ../../workflows.rst:157
 msgid "Not used, all translators review."
@@ -55163,10 +55257,13 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Dengan peninjau khusus, Anda memiliki dua grup pengguna, satu dapat "
+"mengirimkan terjemahan, dan satu dapat meninjaunya untuk memastikan "
+"terjemahan konsisten dan kualitasnya bagus."
 
 #: ../../workflows.rst:169
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*Setiap pengguna* dapat menyunting terjemahan yang tidak disetujui."
 
 #: ../../workflows.rst:170
 msgid "*Reviewer* can approve / unapprove strings."
@@ -55185,11 +55282,11 @@ msgstr ""
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr ""
+msgstr "Atau `Tinjau` dengan :ref:`per-project access control <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
-msgstr ""
+msgstr "Mengaktifkan tinjauan"
 
 #: ../../workflows.rst:198
 msgid ""
@@ -55197,10 +55294,13 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Operations` → :guilabel:`Settings` menu):"
 msgstr ""
+"Tinjauan dapat diaktifkan dalam konfigurasi proyek, dari subhalaman "
+":guilabel:`Workflow` pada pengaturan proyek (dapat ditemukan dalam menu "
+":guilabel:`Operations` → :guilabel:`Settings`):"
 
 #: ../../workflows.rst:207
 msgid "Quality gateway for the source strings"
-msgstr ""
+msgstr "Gerbang kualitas untuk string sumber"
 
 #: ../../workflows.rst:209
 msgid ""
@@ -55211,6 +55311,12 @@ msgid ""
 "you address this - there is an additional quality gateway for the strings "
 "between developers and translators."
 msgstr ""
+"String bahasa sumber asli biasanya berasal dari pengembang, karena merekalah "
+"yang menulis kode dan menyediakan string awal. Namun, pengembang seringkali "
+"bukan penutur asli bahasa sumber dan tidak memberikan kualitas string sumber "
+"yang diinginkan. Terjemahan perantara dapat membantu Anda mengatasi hal ini -"
+" terdapat gerbang kualitas tambahan untuk string antara pengembang dan "
+"penerjemah."
 
 #: ../../workflows.rst:216
 msgid ""
@@ -55221,6 +55327,12 @@ msgid ""
 "translations to target languages, based on what is now a polished source "
 "language stored in the :ref:`component-template`."
 msgstr ""
+"Dengan mangatur :ref:`component-intermediate`, berkas ini digunakan untuk "
+"menerjemahkan string ke bahasa sumber oleh penerjemah/penyunting, sementara "
+"berkas tersebut dimiliki oleh pengembang (seringkali menggunakan bahasa yang "
+"sembarangan seperti ``en_devel``). Setelah tahap ini selesai, string "
+"tersedia untuk diterjemahkan ke bahasa target, berdasarkan bahasa sumber "
+"yang telah disempurnakan yang tersimpan di :ref:`component-template`."
 
 #: ../../workflows.rst:269
 msgid "String consolidation using secondary language"
@@ -55236,6 +55348,14 @@ msgid ""
 "(see :ref:`secondary-languages`) and can be optionally used as a source for "
 "machine translations (see :ref:`mt-sources`)."
 msgstr ""
+"Jika :ref:`component-intermediate` tidak dapat digunakan untuk menggabungkan "
+"string, Anda dapat memilih salah satu terjemahan untuk bertindak sebagai "
+"bahasa sekunder. Bahasa tersebut dapat dikonfigurasi dalam proyek (:ref"
+":`project-secondary_language`) atau dalam komponen (:ref:`component-"
+"secondary_language`). Bahasa tersebut kemudian ditampilkan kepada penerjemah "
+"saat menerjemahkan (lihat :ref:`secondary-languages`) dan dapat secara "
+"opsional digunakan sebagai sumber untuk terjemahan mesin (lihat :ref:`mt-"
+"sources`)."
 
 #: ../../workflows.rst:279
 msgid ""
@@ -55243,10 +55363,13 @@ msgid ""
 "consolidating them into a single translation, which is then used as a "
 "baseline for other work."
 msgstr ""
+"Pengaturan ini dapat berguna dengan rangkaian sumber bahasa campuran dan "
+"menggabungkannya menjadi satu terjemahan, yang kemudian digunakan sebagai "
+"dasar untuk pekerjaan lain."
 
 #: ../../workflows.rst:285
 msgid "Source strings reviews"
-msgstr ""
+msgstr "Tinjauan string sumber"
 
 #: ../../workflows.rst:287
 msgid ""
@@ -55255,6 +55378,10 @@ msgid ""
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
+"Dengan :ref:`project-source_review` diaktifkan, proses peninjauan dapat "
+"diterapkan untuk string sumber. Setelah diaktifkan, pengguna dapat "
+"melaporkan masalah dengan string sumber. Proses sebenarnya bergantung pada "
+"apakah format bilingual atau monolingual yang digunakan."
 
 #: ../../workflows.rst:291
 msgid ""
