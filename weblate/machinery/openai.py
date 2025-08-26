@@ -189,7 +189,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                     [text],
                     [unit],
                     rephrase=True,
-                    plural_mapping=plural_mapping,
                 )
 
         # Fetch translations in batch
@@ -350,13 +349,8 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             for index, translation in enumerate(translations):
                 # For plural translations, use the source text at the same index
                 # The machinery system ensures texts array corresponds to target forms
-
-                if index < len(texts):
-                    text = texts[index]
-                else:
-                    # This shouldn't happen with proper plural mapping
-                    # text = f"Form {index}"
-                    text = texts[0]
+                
+                text = texts[index] if index < len(texts) else texts[0]
 
                 result[text].append(
                     {
@@ -368,7 +362,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
                 )
         else:
             # For rephrase mode, use original logic
-            for index, translation in enumerate(translations):
+            for translation in translations:
                 text = texts[0]  # Rephrase mode always uses first text
                 result[text].append(
                     {
