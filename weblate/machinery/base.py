@@ -511,14 +511,9 @@ class BatchMachineTranslation:
         plural_mapper.map_units([unit], alternate_units)
         # collect translations
         if unit.is_plural:
-            # NOTE: The unit.plural_map often doesn't provide translations for all units,
-            #       leading to an empty string. Therefore, we're using source plurals
-            #       to ensure translations are available.
             sources = [(unit.get_source_plurals()[0], unit)]
-            translations_mapper = plural_mapper
         else:
             sources = [(text, unit) for text in unit.plural_map]
-            translations_mapper = None  # note: don't need to map singulars
 
         translations = self._translate(
             mapped_source_language,
@@ -526,7 +521,6 @@ class BatchMachineTranslation:
             sources,
             user,
             threshold=threshold,
-            plural_mapper=translations_mapper,
         )
 
         return [translations[text] for text, _ in sources]
@@ -538,7 +532,6 @@ class BatchMachineTranslation:
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
         threshold: int = 75,
-        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         """
         Download dictionary of a lists of possible translations from a service.
@@ -559,7 +552,6 @@ class BatchMachineTranslation:
         sources: list[tuple[str, Unit]],
         user=None,
         threshold: int = 75,
-        plural_mapper: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         output: DownloadMultipleTranslations = {}
         pending = defaultdict(list)
@@ -597,7 +589,6 @@ class BatchMachineTranslation:
                     ],
                     user,
                     threshold,
-                    plural_mapper,
                 )
             except Exception as exc:
                 if self.is_rate_limit_error(exc):
@@ -683,18 +674,11 @@ class BatchMachineTranslation:
             is_plural = unit.is_plural
 
             if is_plural:
-                # NOTE: The unit.plural_map often doesn't provide translations for all units,
-                #       leading to an empty string. Therefore, we're using source plurals
-                #       to ensure translations are available.
                 sources = [(unit.get_source_plurals()[0], unit)]
-                translations_mapper = plural_mapper
             else:
                 sources = [(text, unit) for text in unit.plural_map]
-                translations_mapper = None
 
-            translations = self._translate(
-                source, language, sources, user, threshold, translations_mapper
-            )
+            translations = self._translate(source, language, sources, user, threshold)
 
             result: UnitMemoryResultDict = unit.machinery
             if min(result.get("quality", ()), default=0) >= self.max_score:
@@ -712,8 +696,8 @@ class BatchMachineTranslation:
                 translation_lists
             ):
                 for word_number, item in enumerate(possible_translations):
-                    # NOTE: for singles: 3 alternative translations
-                    #       for plurals: N plurals, where there is a translation for each plural
+                    # NOTE: if singular: 3 alternative translations
+                    #       if  plurals: N translated plurals
                     plural = word_number if is_plural else translation_number
 
                     if quality[plural] > item["quality"]:
@@ -763,7 +747,6 @@ class MachineTranslation(BatchMachineTranslation):
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
         threshold: int = 75,
-        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         return {
             text: list(

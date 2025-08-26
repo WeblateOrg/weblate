@@ -30,7 +30,6 @@ from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 if TYPE_CHECKING:
     from openai import OpenAI
 
-    from weblate.lang.models import PluralMapper
     from weblate.trans.models import Unit
 
 
@@ -114,7 +113,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units: list[Unit | None],
         *,
         rephrase: bool = False,
-        plural_mapping: PluralMapper | None = None,
     ) -> str:
         glossary = ""
 
@@ -160,7 +158,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
-        plural_mapping: PluralMapper | None = None,
     ) -> DownloadMultipleTranslations:
         rephrase: list[tuple[str, Unit]] = []
         texts: list[str] = []
@@ -244,7 +241,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units: list[Unit],
         *,
         rephrase: Literal[True],
-        plural_mapping: PluralMapper | None,
     ): ...
     @overload
     def _download(
@@ -254,7 +250,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         target_language,
         texts: list[str],
         units: list[Unit | None],
-        plural_mapping: PluralMapper | None,
     ): ...
     def _download(
         self,
@@ -265,14 +260,14 @@ class BaseOpenAITranslation(BatchMachineTranslation):
         units,
         *,
         rephrase=False,
-        plural_mapping=None,
     ):
         from openai.types.chat import ChatCompletionContentPartTextParam
 
         # Build plural form context for better translation
         plural_context = ""
         target_plural = None
-        if units and not rephrase and plural_mapping is not None:
+        if units and not rephrase:
+            is_plural = units[0].is_plural
             target_plural = units[0].translation.plural
             if target_plural.number > 1:
                 # Get plural form names/examples
@@ -301,7 +296,6 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             texts,
             units,
             rephrase=rephrase,
-            plural_mapping=plural_mapping,
         )
 
         content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
@@ -338,7 +332,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
             # For plural translations, we expect target_plural.number translations
             # But we need to map them back to the original source texts
             expected_len = (
-                target_plural.number if plural_mapping is not None else len(texts)
+                target_plural.number if is_plural is not None else len(texts)
             )
 
             if len(translations) != expected_len:
