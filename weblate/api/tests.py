@@ -205,8 +205,16 @@ class UserAPITest(APIBaseTest):
         )
 
     def test_filter(self) -> None:
+        """Front-end autocompletion interface."""
         self.authenticate(True)
-        response = self.client.get(reverse("api:user-list"), {"username": "api"})
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
         self.assertEqual(response.data["count"], 1)
 
     def test_create(self) -> None:
