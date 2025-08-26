@@ -1,14 +1,19 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
   "files": {
     "includes": [
       "**",
       "!weblate/trans/tests/data/**/*.ts",
-      "!weblate/static/vendor/**",
+      "!weblate/static/vendor",
       "!weblate/trans/tests/data/memory-broken.json",
       "!weblate/templates/site.webmanifest",
       "!weblate/templates/configuration/custom.css",
-      "!weblate/static/js/vendor/**"
+      "!weblate/static/js/vendor",
+      "!weblate/static/styles/vendor",
+      "!dev-docker/data"
+    ],
+    "experimentalScannerIgnores": [
+      "dev-docker/data"
     ]
   },
   "assist": {
@@ -30,6 +35,9 @@
         "useNumberNamespace": "error",
         "noDescendingSpecificity": "off",
         "noUselessElse": "error"
+      },
+      "complexity": {
+        "noImportantStyles": "off"
       }
     }
   },

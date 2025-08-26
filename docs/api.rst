@@ -2065,6 +2065,10 @@ Translations
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
 
+    .. versionchanged:: 5.13
+
+       The ``filter_type`` parameter is no longer supported and filtering is done by the ``q`` parameter.
+
     Trigger automatic translation.
 
     :param project: Project URL slug
@@ -2074,7 +2078,7 @@ Translations
     :param language: Translation language code
     :type language: string
     :<json string mode: Automatic translation mode
-    :<json string filter_type: Automatic translation filter type
+    :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
     :<json array engines: Machine translation engines
@@ -2730,6 +2734,15 @@ Search
    Returns site-wide search results as a list. There is no pagination on the
    result set, only first few matches are returned for each category.
 
+   The search looks for:
+
+   - Projects
+   - Categories
+   - Components
+   - Languages
+   - Users
+
+   :param q: Search query string
    :>json str name: Name of the matched item.
    :>json str url: Web URL of the matched item.
    :>json str category: Category of the matched item.

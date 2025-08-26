@@ -506,3 +506,17 @@ support for it in the `translate-toolkit`_.
 
 
 .. _translate-toolkit: https://toolkit.translatehouse.org/
+
+.. _file_format_params:
+
+File format parameters
+----------------------
+
+File format parameters provide a way to configure settings related to the file format.
+They are configured at component level and allow you to customize how file parsing and serialization are handled.
+
+
+List of file format parameters
+++++++++++++++++++++++++++++++
+
+.. include:: /snippets/file-format-parameters.rst

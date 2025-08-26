@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.12.8
+  rev: v0.12.10
   hooks:
   - id: ruff-check
     args:
@@ -84,12 +84,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.1.4
+  rev: v2.2.2
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.1.4'
+    - '@biomejs/biome@2.2.2'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -116,7 +116,7 @@ repos:
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
-    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst
+    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst|docs/snippets/file-format-parameters.rst
   - id: rst-http
     name: http link in rst text
     description: Detect mistake of using http links
@@ -158,7 +158,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.35.3
+  rev: v1.35.5
   hooks:
   - id: typos
     args: []
@@ -169,7 +169,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.11.0
+  rev: v1.12.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint

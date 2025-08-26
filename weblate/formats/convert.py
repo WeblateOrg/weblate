@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -137,7 +137,9 @@ class ConvertFormat(TranslationFormat):
         return False
 
     def load(
-        self, storefile: str | BinaryIO, template_store: TranslationFormat | None
+        self,
+        storefile: str | BinaryIO,
+        template_store: TranslationFormat | None,
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
@@ -160,6 +162,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -175,6 +178,7 @@ class ConvertFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
+        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:

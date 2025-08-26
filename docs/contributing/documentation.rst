@@ -48,6 +48,7 @@ following management commands are available:
 * :wladmin:`list_permissions`
 * :wladmin:`list_checks`
 * :wladmin:`list_machinery`
+* :wladmin:`list_file_format_params`
 
 All these commands output reStructuredText which is used as a template for the
 documentation. The easiest way to apply changes to the documentation is using

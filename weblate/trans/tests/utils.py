@@ -375,8 +375,8 @@ class RepoTestMixin:
     def create_resx(self) -> Component:
         return self._create_component("resx", "resx/*.resx", "resx/en.resx")
 
-    def create_yaml(self) -> Component:
-        return self._create_component("yaml", "yml/*.yml", "yml/en.yml")
+    def create_yaml(self, **kwargs) -> Component:
+        return self._create_component("yaml", "yml/*.yml", "yml/en.yml", **kwargs)
 
     def create_ruby_yaml(self) -> Component:
         return self._create_component("ruby-yaml", "ruby-yml/*.yml", "ruby-yml/en.yml")

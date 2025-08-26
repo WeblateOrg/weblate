@@ -265,7 +265,7 @@ function loadTableSorting() {
             // Skip statically initialized parts (when server side ordering is supported)
             th.attr("title", gettext("Sort this column")).addClass("sort-cell");
             if (th.hasClass("number")) {
-              th.innerHTML = '<span class="sort-icon"> </span>' + th.text();
+              th.innerHTML = `<span·class="sort-icon">·</span>${th.text()}`;
             } else {
               th.append('<span class="sort-icon" />');
             }
@@ -335,7 +335,7 @@ function interpolate(fmt, obj, named) {
 function loadMatrix() {
   const $loadingNext = $("#loading-next");
   const $loader = $("#matrix-load");
-  const offset = Number.parseInt($loader.data("offset"));
+  const offset = Number.parseInt($loader.data("offset"), 10);
 
   if ($("#last-section").length > 0 || $loadingNext.css("display") !== "none") {
     return;
@@ -1333,7 +1333,9 @@ $(function () {
         const link = button.parentElement;
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
-          .forEach((select) => select.remove());
+          .forEach((select) => {
+            select.remove();
+          });
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(
@@ -1625,6 +1627,21 @@ $(function () {
     form.submit();
   });
 
+  /* Allow styling of auth icons that we ship */
+  document.querySelectorAll(".auth-image").forEach((el) => {
+    src = el.getAttribute("src");
+    if (src !== null) {
+      if (
+        src.endsWith("password.svg") ||
+        src.endsWith("email.svg") ||
+        src.endsWith("twitter.svg") ||
+        src.endsWith("github.svg")
+      ) {
+        el.classList.add("auth-image-filter");
+      }
+    }
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
@@ -1643,4 +1660,49 @@ $(function () {
     "font-size: 20px; font-family: sans-serif",
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
+
+  /* Display relevant file_format_params field in Component forms */
+  const form_auto_ids = ["id", "id_scratchcreate"];
+  const file_format_params_fields_ids = form_auto_ids.map((id) => {
+    return `#div_${id}_file_format_params`;
+  });
+
+  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+    if (selectedFileFormat) {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).show();
+      });
+      let displayFieldLabel = false;
+      form.find(".file-format-param").each(function () {
+        const fileFormats = $(this)
+          .find(".file-format-param-field")
+          .attr("fileformats")
+          ?.split(" ");
+        if (fileFormats.includes(selectedFileFormat)) {
+          $(this).show();
+          displayFieldLabel = true;
+        } else {
+          $(this).hide();
+        }
+      });
+      // hide the field if no matching file format parameter is visible
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).toggle(displayFieldLabel);
+      });
+    }
+  }
+
+  form_auto_ids
+    .map((id) => {
+      return `#${id}_file_format`;
+    })
+    .forEach((fieldId) => {
+      const fileFormatForm = $(fieldId).closest("form");
+      displayRelevantFileFormatParams(fileFormatForm, $(fieldId).val());
+
+      $(fieldId).on("change", function () {
+        var newValue = $(this).val();
+        displayRelevantFileFormatParams(fileFormatForm, newValue);
+      });
+    });
 });

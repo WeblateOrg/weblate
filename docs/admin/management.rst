@@ -639,11 +639,11 @@ Installs an add-on to a set of components.
 You can either define which project or component to install the add-on in (for example
 ``weblate/application``), or use ``--all`` to include all existing components.
 
-To install :ref:`addon-weblate.gettext.customize` for all components:
+To install :ref:`addon-weblate.gettext.mo` for all components:
 
 .. code-block:: shell
 
-   weblate install_addon --addon weblate.gettext.customize --configuration '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.mo --configuration '{"fuzzy": true}' --update --all
 
 .. seealso::
 
@@ -763,6 +763,13 @@ list_versions
 .. weblate-admin:: list_versions
 
 Lists all Weblate dependencies and their versions.
+
+list_file_format_params
+-----------------------
+
+.. weblate-admin:: list_file_format_params
+
+Lists File format parameters.
 
 loadpo
 ------

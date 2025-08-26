@@ -71,6 +71,7 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NewUnitSerializer,
     NotificationSerializer,
+    ProjectLockSerializer,
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
@@ -425,10 +426,41 @@ class UserViewSet(viewsets.ModelViewSet):
         return BasicUserSerializer
 
     def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return User.objects.none()
         queryset = User.objects.order_by("id")
-        if not self.request.user.has_perm("user.edit"):
+        if not user.has_perm("user.edit"):
             return queryset
         return queryset.prefetch_related("groups", "profile", "profile__languages")
+
+    def list(self, request, *args, **kwargs):
+        """
+        List of users if you have permissions to see manage users.
+
+        Without a permission you get to see only your own details.
+        """
+        # Copy of rest_framework.mixins.ListModelMixin.list with additional
+        # filtering based on user permissions. We limit listing of user to
+        # non-admins, but access to individual users is retained (with limited
+        # serializer).
+        user = self.request.user
+        if not user.is_authenticated:
+            queryset = User.objects.none()
+        elif not user.has_perm("user.edit") and self.lookup_field not in request.GET:
+            queryset = User.objects.filter(pk=user.pk)
+        else:
+            queryset = self.get_queryset()
+
+        queryset = self.filter_queryset(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def perm_check(self, request: Request) -> None:
         if not request.user.has_perm("user.edit"):
@@ -1330,6 +1362,25 @@ class ProjectViewSet(
             data=ProjectMachinerySettingsSerializer(project).data,
             status=HTTP_200_OK,
         )
+
+    @extend_schema(description="Return project lock status.", methods=["get"])
+    @extend_schema(description="Sets project lock status.", methods=["post"])
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
+    )
+    def lock(self, request: Request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("project.edit", obj):
+                raise PermissionDenied
+
+            serializer = LockRequestSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            obj.do_lock(request.user, serializer.validated_data["lock"])
+
+        return Response(data=ProjectLockSerializer(obj).data)
 
 
 @extend_schema_view(

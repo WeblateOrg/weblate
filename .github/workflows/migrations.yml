@@ -35,14 +35,14 @@ jobs:
       UV_FROZEN: '1'
 
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
         persist-credentials: false
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
-    - uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc # v6.4.3
+    - uses: astral-sh/setup-uv@4959332f0f014c5280e7eac8b70c90cb574c9f9b # v6.6.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
@@ -83,11 +83,13 @@ jobs:
       run: ./ci/run-migrate 5.11
     - name: Migrate from 5.12
       run: ./ci/run-migrate 5.12
+    - name: Migrate from 5.13
+      run: ./ci/run-migrate 5.13
     - name: Coverage
       run: |
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
+    - uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations
