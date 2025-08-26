@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-25 04:03+0000\n"
-"Last-Translator: Alan Marques <asmasm97@gmail.com>\n"
+"PO-Revision-Date: 2025-08-26 13:25+0000\n"
+"Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -844,7 +844,6 @@ msgstr ""
 "guilabel:`Projetos` são ignorados."
 
 #: ../../admin/access.rst:399
-#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -855,9 +854,9 @@ msgstr ""
 "Caso contrário, se a equipa especificar :guilabel:`Projetos`, seja listando-"
 "os diretamente ou tendo :guilabel:`Seleção de projetos` definida com um "
 "valor como :guilabel:`Todos os projetos públicos`, todas essas permissões "
-"são aplicadas a todos os projetos, que efetivamente concede as mesmas "
-"permissões para aceder a todos os :ref:`componentes irrestritos <component-"
-"restricted>` dos projetos."
+"são aplicadas a todos os projetos, o que efetivamente concede as mesmas "
+"permissões para aceder a todos os projetos :ref:`unrestricted components "
+"<component-restricted>`."
 
 #: ../../admin/access.rst:405
 msgid ""
@@ -4314,9 +4313,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
-"Na secção :guilabel:`Relatórios` pode verificar o estado do seu site, ajustá-"
-"lo para :ref:`production` ou gerir chaves SSH usadas para acessar :ref:`vcs-"
-"repos`."
+"Na secção :guilabel:`Relatórios` pode verificar o estado do seu sítio Web, "
+"ajustá-lo para :ref:`production` ou gerir chaves SSH usadas para aceder a "
+":ref:`vcs-repos`."
 
 #: ../../admin/admin.rst:87
 msgid ""
@@ -5493,8 +5492,9 @@ msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
-"Se estiver a usar :ref:`cloudbackup`, faça backup da sua chave SSH privada "
-"também, pois ela é usada para acessar os seus backups."
+"Se estiver a usar :ref:`cloudbackup`, por favor, faça também uma cópia de "
+"segurança da sua chave SSH privada, pois é usada para aceder às suas cópias "
+"de segurança."
 
 #: ../../admin/backup.rst:84
 msgid "Customizing backup"
@@ -11558,11 +11558,12 @@ msgid ""
 "documentation on those details."
 msgstr ""
 "Abaixo está um exemplo :file:`/etc/my.cnf.d/server.cnf` para um servidor com "
-"8 GB de RAM. Essas configurações devem ser suficientes para a maioria das "
-"instalações. MySQL e MariaDB têm ajustáveis que irão aumentar o desempenho "
-"do seu servidor que são considerados desnecessários, a menos que esteja a "
-"planejar ter uma grande quantidade de utilizadores simultâneos a acessar o "
-"sistema. Consulte a documentação de vários fornecedores sobre esses detalhes."
+"8 GB de RAM. Estas configurações devem ser suficientes para a maioria das "
+"instalações. MySQL e MariaDB têm definições ajustáveis que irão aumentar o "
+"desempenho do seu servidor que não são consideradas necessárias, a menos que "
+"esteja a planear ter uma grande quantidade de utilizadores simultâneos a "
+"aceder ao sistema. Consulte a documentação dos vários fornecedores sobre "
+"esses detalhes."
 
 #: ../../admin/install.rst:620
 msgid ""
@@ -12504,9 +12505,9 @@ msgid ""
 "setting:`DATA_DIR`."
 msgstr ""
 "Na maioria dos casos, executará todos os serviços num único servidor "
-"(virtual), mas se a sua instalação estar muito carregada, pode dividir os "
+"(virtual), mas, se a sua instalação estiver muito carregada, pode dividir os "
 "serviços. A única limitação disso é que os servidores Celery e Wsgi precisam "
-"acessar :setting:`DATA_DIR`."
+"aceder a :setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:1411
 msgid ""
@@ -12551,21 +12552,14 @@ msgstr ""
 "documentação de Django no :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1438
-#, fuzzy
-#| msgid ""
-#| "The Django built-in server serves static files only with :setting:`DEBUG` "
-#| "enabled as it is intended for development only. For production use, "
-#| "please see WSGI setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-"
-#| "gunicorn`, and :ref:`static-files`."
 msgid ""
 "The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups:"
 msgstr ""
-"O servidor embutido do Django serve apenas ficheiros estáticos com :setting:"
-"`DEBUG` ativado, pois é destinado apenas ao desenvolvimento. Para uso da "
-"produção, consulte as configurações de WSGI em :ref:`uwsgi`, :ref:`apache`, :"
-"ref:`apache-gunicorn` e :ref:`static-files`."
+"O servidor embutido do Django serve apenas ficheiros estáticos com "
+":setting:`DEBUG` ativado, pois é destinado apenas a desenvolvimento. Para "
+"uso em produção, consulte as configurações de WSGI:"
 
 #: ../../admin/install.rst:1452
 msgid "Serving static files"
@@ -12639,15 +12633,11 @@ msgid "Sample configuration for NGINX and Granian"
 msgstr "Configuração de amostra para NGINX e Gunicorn"
 
 #: ../../admin/install.rst:1505
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as uWSGI under the NGINX "
-#| "webserver."
 msgid ""
 "The following configuration runs Weblate using Granian the NGINX webserver:"
 msgstr ""
-"A configuração a seguir executa o Weblate como uWSGI sob o servidor web "
-"NGINX."
+"A configuração seguinte executa o Weblate usando o Granian, o servidor Web "
+"NGINX:"
 
 #: ../../admin/install.rst:1507
 msgid "weblate/examples/weblate.nginx.granian.conf"
@@ -15892,7 +15882,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr "Agora pode acessar o Weblate em ``http://localhost:8000/``."
+msgstr "Agora pode aceder ao Weblate em ``http://localhost:8000/``."
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
@@ -17799,14 +17789,14 @@ msgstr ""
 
 #: ../../admin/machine.rst:801
 msgid "To access the Sandbox API, you need to set ``url`` and ``key``."
-msgstr "Para acessar a API Sandbox, precisa definir ``url`` e ``key``."
+msgstr "Para aceder a API Sandbox, precisa definir ``url`` e ``key``."
 
 #: ../../admin/machine.rst:804
 msgid ""
 "To access the productive API, you need to set ``url``, ``username`` and "
 "``password``."
 msgstr ""
-"Para acessar a API produtiva, precisa definir ``url``, ``username`` e "
+"Para aceder à API produtiva, precisa definir ``url``, ``username`` e "
 "``password``."
 
 #: ../../admin/machine.rst:808
@@ -18214,10 +18204,8 @@ msgid "Example of performance profiling"
 msgstr "Exemplo de ficheiros correspondentes"
 
 #: ../../admin/management.rst:175
-#, fuzzy
-#| msgid "Example of JSON file:"
 msgid "Example of memory profiling"
-msgstr "Exemplo de ficheiro JSON:"
+msgstr "Exemplo de criação de perfil de memória"
 
 #: ../../admin/management.rst:193
 msgid "Displays length of Celery task queues."
@@ -19159,12 +19147,12 @@ msgid "Autoclean translation memory"
 msgstr "Limpar memória de tradução automaticamente"
 
 #: ../../admin/memory.rst:86
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid ""
 "The translation memory is automatically cleaned up by removing obsolete and "
 "outdated entries."
-msgstr "A tradução foi bloqueada automaticamente devido aos alertas seguintes:"
+msgstr ""
+"A tradução foi limpa automaticamente removendo entradas obsoletas ou "
+"desatualizadas"
 
 #: ../../admin/memory.rst:88
 #, fuzzy
@@ -19372,8 +19360,8 @@ msgid ""
 "and :guilabel:`Power user` roles."
 msgstr ""
 "Por predefinição, os membros ou o grupo :guilabel:`Utilizadores` e "
-"utilizador anônimo têm acesso aos repositórios para projetos públicos via :"
-"guilabel:`Acessar repositório` e funções de :guilabel:`Utilizador avançado`."
+"utilizador anónimo têm acesso aos repositórios para projetos públicos via "
+":guilabel:`Acessar repositório` e funções de :guilabel:`Utilizador avançado`."
 
 #: ../../admin/optionals.rst:69
 msgid "Billing"
@@ -21635,9 +21623,9 @@ msgid ""
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
-"Compartilhar um componente não altera o controle de acesso dele. Só o torna "
-"visível ao navegar em outros projetos. Os utilizadores ainda precisam "
-"acessar o componente real para navegar ou traduzi-lo."
+"Partilhar um componente não altera o seu controlo de acesso. Só o torna "
+"visível ao navegar em outros projetos. Os utilizadores continuam a ter de "
+"aceder ao componente real para o navegar ou traduzir."
 
 #: ../../admin/projects.rst:1092
 msgid "Use as a glossary"
@@ -22861,11 +22849,11 @@ msgstr "resultados para listas de objetos"
 
 #: ../../api.rst:60
 msgid "URL to access this resource using the API"
-msgstr "URL para acessar esse recurso a usar API"
+msgstr "URL para aceder a este recurso usando a API"
 
 #: ../../api.rst:61
 msgid "URL to access this resource using web browser"
-msgstr "URL para acessar esse recurso a usar navegador web"
+msgstr "URL para aceder a este recurso usando um navegador Web"
 
 #: ../../api.rst:0
 msgid "Status Codes"
@@ -31312,7 +31300,7 @@ msgstr ""
 msgid ""
 "Return HTTP 404 when trying to access project where user lacks privileges."
 msgstr ""
-"Retorna HTTP 404 ao tentar acessar o projeto onde o utilizador não tem "
+"Devolve HTTP 404 ao tentar aceder a um projeto a que o utilizador não tenha "
 "privilégios."
 
 #: ../../changes/v2.rst:179
@@ -36890,8 +36878,8 @@ msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
-"A API do glossário foi removida. Use a API de tradução normal para acessar "
-"os glossários."
+"A API do glossário foi removida. Use a API de tradução normal para aceder "
+"aos glossários."
 
 #: ../../changes/v4.rst:867
 msgid ""
@@ -43327,7 +43315,7 @@ msgstr ""
 
 #: ../../faq.rst:30
 msgid "How to access repositories over SSH?"
-msgstr "Como acessar os repositórios por SSH?"
+msgstr "Como aceder aos repositórios por SSH?"
 
 #: ../../faq.rst:32
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
@@ -43976,7 +43964,7 @@ msgstr "A maneira mais fácil de fazer isto é executar:"
 
 #: ../../faq.rst:466
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr "Ao acessar ao site recebo um erro de \"Bad Request (400)\""
+msgstr "Ao aceder ao Sítio recebo um erro de \"Bad Request (400)\""
 
 #: ../../faq.rst:468
 msgid ""
@@ -43985,7 +43973,7 @@ msgid ""
 "your Weblate. For example:"
 msgstr ""
 "Isto é muito provavelmente causado por uma :setting:`ALLOWED_HOSTS` mal "
-"configurada. Ele precisa conter todos os nomes de host que quer acessar no "
+"configurada. Terá de incluir aí todos os nomes de Host que quer aceder no "
 "seu Weblate. Por exemplo:"
 
 #: ../../faq.rst:482
@@ -44075,8 +44063,7 @@ msgstr ""
 
 #: ../../faq.rst:516
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
-msgstr ""
-"Também pode usar :ref:`vcs-git-helpers` no Git para acessar outros VCSs."
+msgstr "Também pode usar :ref:`vcs-git-helpers` no Git para aceder outros VCS."
 
 #: ../../faq.rst:518
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
@@ -44769,16 +44756,13 @@ msgid "``po`` ``po-mono``"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:31
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines. Available choices:"
 msgstr ""
-"Por predefinição, gettext quebra as linhas a 77 carateres e nas novas "
-"linhas. Com o parâmetro --no-wrap, quebra apenas nas novas linhas."
+"Por predefinição, gettext envolve as linhas aos 77 caracteres e nas novas "
+"linhas. Com o parâmetro --no-wrap, o envolvimento será feita apenas nas "
+"novas linhas. Escolhas disponíveis:"
 
 #: ../../snippets/file-format-parameters.rst:44
 #, fuzzy
@@ -47121,7 +47105,7 @@ msgstr ""
 
 #: ../../legal.rst:68
 msgid "Accessing remote servers using secure protocols (HTTPS)"
-msgstr "Acessar servidores remotos a usar protocolos seguros (HTTPS)"
+msgstr "Aceder a servidores remotos usando protocolos seguros (HTTPS)"
 
 #: ../../legal.rst:69
 msgid "Generating signatures for code commits (PGP)"
@@ -49585,12 +49569,12 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
-"O Weblate tem suporte a verificar cadeias de formato em vários idiomas. A "
-"verificação não é ativada automaticamente, somente se uma cadeia for "
-"sinalizada adequadamente (e.g. `c-format` for C format). O Gettext adiciona-"
-"o automaticamente, mas provavelmente terá que adicioná-lo manualmente para "
-"outros formatos de ficheiro ou se os seus ficheiros de PO não forem gerados "
-"por :program:`xgettext`."
+"O Weblate suporta verificação de cadeias de formato em vários idiomas. A "
+"verificação não é ativada automaticamente, apenas se uma cadeia for "
+"sinalizada adequadamente (p.ex.: `c-format` para C format). O Gettext "
+"adiciona isto automaticamente, mas provavelmente terá de o adicionar "
+"manualmente para outros formatos de ficheiro ou se os seus ficheiros de PO "
+"não forem gerados por :program:`xgettext`."
 
 #: ../../user/checks.rst:421
 msgid ""
@@ -49646,15 +49630,11 @@ msgid "Named format string example"
 msgstr "Exemplo de cadeia de formato nomeado"
 
 #: ../../user/checks.rst:456
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
-#| "guide/interpolation>`_"
 msgid ""
 "`AngularJS text interpolation <https://angular.io/guide/interpolation>`_"
 msgstr ""
-":ref:`check-formats`, `Interpolação de texto do AngularJS <https://angular."
-"io/guide/interpolation>`_"
+"`Interpolação de texto do AngularJS <https://angular.io/guide/"
+"interpolation>`_"
 
 #: ../../user/checks.rst:461
 msgid "Automattic components formatting"
@@ -50401,12 +50381,12 @@ msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "Marcação de reStructuredText inconsistente na mensagem traduzida."
 
 #: ../../user/checks.rst:1014
-#, fuzzy
-#| msgid "reStructuredText term references do not match source."
 msgid ""
 "reStructuredText term references or other markup do not match source, the "
 "typical causes for these errors are:"
-msgstr "As referências a termos do reStructuredText não correspondem à fonte."
+msgstr ""
+"As referências a termos do reStructuredText ou outras marcações não "
+"correspondem à fonte. As causas típicas para estes erros são:"
 
 #: ../../user/checks.rst:1016
 msgid "Mismatched or missing backticks."
@@ -53219,8 +53199,8 @@ msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
 msgstr ""
-"Pode selecionar entre as consultas predefinidas na página de pesquisa, o que "
-"lhe permite acessar rapidamente as pesquisas mais frequentes:"
+"Na página de pesquisa pode selecionar entre as consultas predefinidas, o que "
+"lhe permite aceder rapidamente às pesquisas mais frequentes:"
 
 #: ../../user/search.rst:207
 msgid "Ordering the results"
@@ -54415,9 +54395,9 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
-"O método mais usado para acessar repositórios privados é baseado no SSH. "
+"O método mais usado para aceder a repositórios privados é baseado em SSH. "
 "Autorize a chave pública SSH do Weblate (veja :ref:`weblate-ssh-key`) para "
-"acessar o repositório upstream desta forma."
+"aceder ao repositório upstream desta forma."
 
 #: ../../vcs.rst:75
 msgid ""
@@ -54505,12 +54485,12 @@ msgid ""
 "the hostname you are going to access (e.g. ``gitlab.com``), and press :"
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
-"Caso queira verificar a impressão digital da chave antes de se conectar ao "
-"repositório, adicione as chaves SSH dos servidores que vai acessar em :"
-"guilabel:`Adicionar chave de host`, a partir da mesma secção da interface de "
-"administração. Digite o nome do host que vai acessar (por exemplo, ``gitlab."
-"com``) e pressione :guilabel:`Enviar`. Verifique se a sua impressão digital "
-"corresponde ao servidor que adicionou."
+"Caso queira verificar a impressão digital da chave antes de se ligar ao "
+"repositório, adicione as chaves SSH dos servidores que vai aceder em "
+":guilabel:`Adicionar chave de Host`, a partir da mesma secção da interface "
+"de administração. Digite o nome do Host que vai aceder (por exemplo, "
+"``gitlab.com``) e pressione :guilabel:`Enviar`. Verifique se a sua impressão "
+"digital corresponde ao servidor que adicionou."
 
 #: ../../vcs.rst:123
 msgid "The added keys with fingerprints are shown in the confirmation message:"
@@ -54592,9 +54572,9 @@ msgid ""
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
-"O acesso via SSH é possível (veja :ref:`ssh-repos`), mas caso precise "
-"acessar mais de um repositório, atingirá uma limitação do GitHub no uso "
-"permitido da chave SSH (já que cada chave pode ser usada apenas uma vez)."
+"O acesso via SSH é possível (veja :ref:`ssh-repos`), mas caso precise aceder "
+"a mais de um repositório, atingirá uma limitação do GitHub no uso permitido "
+"da chave SSH (já que cada chave pode ser usada apenas uma vez)."
 
 #: ../../vcs.rst:173
 msgid ""
@@ -54704,10 +54684,10 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
-"Para acessar repositórios HTTPS protegidos, inclua o nome de utilizador e a "
-"palavra-passe na URL. Não se preocupe, o Weblate irá remover essas "
-"informações quando a URL for mostrada aos utilizadores (se mesmo permitido "
-"ver a URL do repositório)."
+"Para aceder a repositórios HTTPS protegidos, inclua o nome de utilizador e "
+"senha na URL. Não se preocupe, o Weblate irá remover essas informações "
+"quando a URL for mostrada aos utilizadores (mesmo se for permitido ver a URL "
+"do repositório)."
 
 #: ../../vcs.rst:225
 msgid ""
@@ -54744,8 +54724,8 @@ msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
-"Se precisar acessar repositórios VCS por HTTP/HTTPS a usar um servidor "
-"proxy, configure o VCS para usá-lo."
+"Se precisar aceder a repositórios VCS por HTTP/HTTPS a usar um servidor "
+"proxy, configure o VCS para o usar."
 
 #: ../../vcs.rst:248
 msgid ""
@@ -54781,14 +54761,8 @@ msgstr ""
 "do git config <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:265
-#, fuzzy
-#| msgid ""
-#| "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
-#| "documentation <https://git-scm.com/docs/git-config>`_"
 msgid "`Git config documentation <https://git-scm.com/docs/git-config>`_"
-msgstr ""
-"`A página man do cURL <https://curl.se/docs/manpage.html>`_, `Documentação "
-"do git config <https://git-scm.com/docs/git-config>`_"
+msgstr "`Documentação Git config <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:271
 msgid "Git"
@@ -54803,7 +54777,7 @@ msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
 msgstr ""
-"Consulte :ref:`vcs-repos` para obter informações sobre como acessar "
+"Consulte :ref:`vcs-repos` para obter informações sobre como aceder a "
 "diferentes tipos de repositórios."
 
 #: ../../vcs.rst:284
@@ -54916,7 +54890,7 @@ msgid ""
 msgstr ""
 ":ref:`vcs-git` faz push das alterações diretamente para um repositório, "
 "enquanto :ref:`vcs-github` cria pull requests. Este último não é necessário "
-"para apenas acessar repositórios Git."
+"se for apenas para aceder a repositórios Git."
 
 #: ../../vcs.rst:353
 msgid ""
@@ -54949,11 +54923,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
-"git` comum funciona da mesma forma, a ser a única diferença como o push para "
-"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
-"feito diretamente para o repositório, enquanto :ref:`vcs-gitlab` cria merge "
-"request."
+"Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
+"git` comum funciona da mesma forma, sendo a única diferença o modo como o "
+"envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
+"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-gitlab`"
+" cria pedidos de fusão."
 
 #: ../../vcs.rst:379
 msgid ""
@@ -54986,10 +54960,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
-"Não há necessidade de usá-lo para acessar repositórios Git, o :ref:`vcs-git` "
-"comum funciona da mesma forma, sendo a única diferença como o push para um "
-"repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é feito "
-"diretamente ao repositório, enquanto :ref:`vcs-gitea` cria pull requests."
+"Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
+"git` comum funciona da mesma forma, sendo a única diferença o modo como o "
+"envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
+"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-gitea` "
+"cria pedidos de fusão."
 
 #: ../../vcs.rst:407
 msgid ""
@@ -55109,11 +55084,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
-"git` comum funciona da mesma forma, a ser a única diferença como o push para "
-"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
-"feito diretamente para o repositório, enquanto :ref:`vcs-pagure` cria merge "
-"request."
+"Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
+"git` comum funciona da mesma forma, sendo a única diferença o modo como o "
+"envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
+"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-pagure`"
+" cria pedidos de fusão."
 
 #: ../../vcs.rst:502
 msgid ""
@@ -55678,7 +55653,7 @@ msgstr ""
 
 #: ../../wlc.rst:320
 msgid "API KEY to access Weblate."
-msgstr "Chave de API para acessar o Weblate."
+msgstr "Chave de API para aceder ao Weblate."
 
 #: ../../wlc.rst:324
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
