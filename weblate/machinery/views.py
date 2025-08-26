@@ -443,6 +443,43 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
 
 
 @require_POST
+def clear_cache(request: AuthenticatedHttpRequest, unit_id: int):
+    """AJAX handler for clearing machinery cache for a specific unit."""
+    unit = get_object_or_404(Unit, pk=unit_id)
+    translation = unit.translation
+
+    if not request.user.has_perm("machinery.view", translation):
+        raise PermissionDenied
+
+    machinery_settings = translation.component.project.get_machinery_settings()
+    cleared_services = []
+
+    for service_name, settings in machinery_settings.items():
+        try:
+            translation_service_class = MACHINERY[service_name]
+            translation_service = translation_service_class(settings)
+
+            try:
+                source_language, target_language = translation_service.get_languages(
+                    translation_service.get_source_language(translation),
+                    translation.language
+                )
+                translation_service.clear_unit_cache(unit, source_language, target_language)
+                cleared_services.append(translation_service_class.name)
+            except Exception:
+                continue
+
+        except KeyError:
+            continue
+
+    return JsonResponse({
+        "responseStatus": 200,
+        "cleared_services": cleared_services,
+        "message": gettext("Cache cleared for automatic suggestions")
+    })
+
+
+@require_POST
 def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=unit_id)
