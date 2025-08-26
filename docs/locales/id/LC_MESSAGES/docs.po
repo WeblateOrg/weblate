@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-25 20:11+0000\n"
+"PO-Revision-Date: 2025-08-26 01:27+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -53569,6 +53569,11 @@ msgid ""
 "settings, this happens immediately, or requires confirmation on the Weblate "
 "side."
 msgstr ""
+"Anda perlu menambahkan pengguna ini sebagai kolaborator dan memberinya izin "
+"yang sesuai ke repositori Anda (hanya baca diperbolehkan untuk kloning, "
+"tulis diperlukan untuk mendorong). Tergantung pada layanan dan pengaturan "
+"organisasi Anda, hal ini akan segera dilakukan, atau memerlukan konfirmasi "
+"di sisi Weblate."
 
 #: ../../vcs.rst:42
 msgid ""
@@ -53576,6 +53581,9 @@ msgid ""
 "within five minutes. Manual processing might be needed on the other "
 "services, so please be patient."
 msgstr ""
+"Pengguna :guilabel:`weblate` di GitHub menerima undangan secara otomatis "
+"dalam waktu lima menit. Pemrosesan manual mungkin diperlukan pada layanan "
+"lain, jadi harap bersabar."
 
 #: ../../vcs.rst:45
 msgid ""
@@ -53583,12 +53591,18 @@ msgid ""
 "configure :ref:`component-repo` and :ref:`component-push` using the SSH "
 "protocol (for example ``git@github.com:WeblateOrg/weblate.git``)."
 msgstr ""
+"Setelah pengguna :guilabel:`weblate` ditambahkan ke repositori Anda, Anda "
+"dapat mengonfigurasi :ref:`component-repo` dan :ref:`component-push` "
+"menggunakan protokol SSH (misalnya ``git@github.com:WeblateOrg/"
+"weblate.git``)."
 
 #: ../../vcs.rst:50
 msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
+"Mengakses repositori di situs hosting kode (GitHub, GitLab, Bitbucket, Azure "
+"DevOps, ...)"
 
 #: ../../vcs.rst:52
 msgid ""
@@ -53599,16 +53613,24 @@ msgid ""
 "access to the repository. You can then use SSH URL to access the repository "
 "(see :ref:`ssh-repos`)."
 msgstr ""
+"Mengakses repositori di situs hosting kode biasanya dilakukan dengan membuat "
+"pengguna khusus yang terhubung dengan kunci SSH Weblate (lihat :ref:`weblate-"
+"ssh-key`). Dengan cara ini, Anda menghubungkan kunci SSH Weblate dengan satu "
+"pengguna (platform sering kali menerapkan penggunaan kunci SSH tunggal) dan "
+"memberikan akses ke repositori kepada pengguna ini. Anda kemudian dapat "
+"menggunakan URL SSH untuk mengakses repositori (lihat :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:61
 msgid ""
 "On a Hosted Weblate, this is pre-configured for most of the public sites, "
 "please see :ref:`hosted-push`."
 msgstr ""
+"Pada Hosted Weblate, ini telah dikonfigurasikan sebelumnya untuk sebagian "
+"besar situs publik, silakan lihat :ref:`hosted-push`."
 
 #: ../../vcs.rst:67
 msgid "SSH repositories"
-msgstr ""
+msgstr "Repositori SSH"
 
 #: ../../vcs.rst:69
 msgid ""
@@ -53616,12 +53638,17 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
+"Metode yang paling sering digunakan untuk mengakses repositori privat adalah "
+"berbasis SSH. Otorisasi kunci SSH Weblate publik (lihat :ref:`weblate-ssh-"
+"key`) untuk mengakses repositori hulu dengan cara ini."
 
 #: ../../vcs.rst:75
 msgid ""
 "On GitHub, each key can only be used once, see :ref:`vcs-repos-github` and :"
 "ref:`hosted-push`."
 msgstr ""
+"Di GitHub, setiap kunci hanya dapat digunakan satu kali, lihat :ref:`vcs-"
+"repos-github` dan :ref:`hosted-push`."
 
 #: ../../vcs.rst:78
 msgid ""
@@ -53629,26 +53656,32 @@ msgid ""
 "fails to connect to the host should it be changed later (see :ref:`verify-"
 "ssh`)."
 msgstr ""
+"Weblate juga menyimpan sidik jari kunci host pada koneksi pertama, dan gagal "
+"terhubung ke host jika diubah kemudian (lihat :ref:`verify-ssh`)."
 
 #: ../../vcs.rst:81
 msgid "In case adjustment is needed, do so from the Weblate admin interface:"
-msgstr ""
+msgstr "Jika penyesuaian diperlukan, lakukan dari antarmuka admin Weblate:"
 
 #: ../../vcs.rst:89
 msgid "Weblate SSH key"
-msgstr ""
+msgstr "Kunci SSH Weblate"
 
 #: ../../vcs.rst:93
 msgid ""
 "Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is "
 "recommended for new setups."
 msgstr ""
+"Weblate kini menghasilkan kunci SSH RSA dan Ed25519. Penggunaan Ed25519 "
+"direkomendasikan untuk pengaturan baru."
 
 #: ../../vcs.rst:95
 msgid ""
 "The Weblate public key is visible to all users browsing the :guilabel:"
 "`About` page."
 msgstr ""
+"Kunci publik Weblate dapat dilihat oleh semua pengguna yang menelusuri "
+"halaman :guilabel:`About`."
 
 #: ../../vcs.rst:97
 msgid ""
@@ -53656,12 +53689,17 @@ msgid ""
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
 msgstr ""
+"Admin dapat membuat atau menampilkan kunci publik yang saat ini digunakan "
+"oleh Weblate dalam koneksi (dari :guilabel:`SSH keys`) di halaman awal "
+"antarmuka admin."
 
 #: ../../vcs.rst:102
 msgid ""
 "The corresponding private SSH key can not currently have a password, so "
 "ensure it is well protected."
 msgstr ""
+"Kunci SSH pribadi yang sesuai saat ini tidak dapat memiliki kata sandi, jadi "
+"pastikan kunci tersebut terlindungi dengan baik."
 
 #: ../../vcs.rst:107
 msgid "Make a backup of the generated private Weblate SSH key."
@@ -53669,13 +53707,15 @@ msgstr "Buat cadangan kunci SSH Weblate pribadi."
 
 #: ../../vcs.rst:112
 msgid "Verifying SSH host keys"
-msgstr ""
+msgstr "Memverifikasi kunci host SSH"
 
 #: ../../vcs.rst:114
 msgid ""
 "Weblate automatically stores the SSH host keys on first access and remembers "
 "them for further use."
 msgstr ""
+"Weblate secara otomatis menyimpan kunci host SSH pada akses pertama dan "
+"mengingatnya untuk penggunaan lebih lanjut."
 
 #: ../../vcs.rst:117
 msgid ""
@@ -53685,14 +53725,20 @@ msgid ""
 "the hostname you are going to access (e.g. ``gitlab.com``), and press :"
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
+"Jika Anda ingin memverifikasi sidik jari kunci sebelum terhubung ke "
+"repositori, tambahkan kunci host SSH server yang akan Anda akses di "
+":guilabel:`Add host key`, dari bagian yang sama di antarmuka admin. Masukkan "
+"nama host yang akan Anda akses (misalnya ``gitlab.com``), lalu tekan "
+":guilabel:`Submit`. Pastikan sidik jarinya cocok dengan server yang Anda "
+"tambahkan."
 
 #: ../../vcs.rst:123
 msgid "The added keys with fingerprints are shown in the confirmation message:"
-msgstr ""
+msgstr "Kunci tambahan dengan sidik jari ditunjukkan dalam pesan konfirmasi:"
 
 #: ../../vcs.rst:128
 msgid "Connecting to legacy SSH servers"
-msgstr ""
+msgstr "Menghubungkan ke server SSH lama"
 
 #: ../../vcs.rst:130
 msgid ""
@@ -53702,6 +53748,11 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
+"Rilis OpenSSH terbaru (misalnya yang digunakan dalam kontainer Docker "
+"Weblate) menonaktifkan tanda tangan RSA menggunakan algoritma hash SHA-1 "
+"secara bawaan. Perubahan ini dilakukan karena algoritma hash SHA-1 rusak "
+"secara kriptografis, dan tabrakan hash dengan awalan terpilih dapat terjadi "
+"untuk <USD$50K."
 
 #: ../../vcs.rst:135
 msgid ""
@@ -53710,6 +53761,10 @@ msgid ""
 "signatures since release 7.2 and existing ssh-rsa keys will automatically "
 "use the stronger algorithm where possible."
 msgstr ""
+"Bagi sebagian besar pengguna, perubahan ini seharusnya tidak terlihat dan "
+"tidak perlu mengganti kunci ssh-rsa. OpenSSH telah mendukung tanda tangan "
+"RFC8332 RSA/SHA-256/512 sejak rilis 7.2 dan kunci ssh-rsa yang ada akan "
+"secara otomatis menggunakan algoritma yang lebih kuat jika memungkinkan."
 
 #: ../../vcs.rst:140
 msgid ""
@@ -53717,6 +53772,9 @@ msgid ""
 "that have not been upgraded or have not closely tracked improvements in the "
 "SSH protocol. The SSH connection to such server will fail with:"
 msgstr ""
+"Ketidakcocokan lebih mungkin terjadi saat menghubungkan ke implementasi SSH "
+"lama yang belum diperbarui atau belum dipantau secara ketat terkait "
+"peningkatan protokol SSH. Koneksi SSH ke server tersebut akan gagal jika:"
 
 #: ../../vcs.rst:148
 msgid ""
@@ -53726,6 +53784,11 @@ msgid ""
 "`DATA_DIR/ssh/config` will enable RSA/SHA1 for host and user authentication "
 "for a single destination host:"
 msgstr ""
+"Untuk kasus ini, RSA/SHA1 mungkin perlu diaktifkan kembali secara selektif "
+"untuk memungkinkan koneksi dan/atau autentikasi pengguna melalui opsi "
+"HostkeyAlgorithms dan PubkeyAcceptedAlgorithms. Misalnya, bait berikut dalam "
+":file:`DATA_DIR/ssh/config` akan mengaktifkan RSA/SHA1 untuk autentikasi "
+"host dan pengguna untuk satu host tujuan:"
 
 #: ../../vcs.rst:160
 msgid ""
@@ -53733,10 +53796,13 @@ msgid ""
 "implementations can be upgraded or reconfigured with another key type (such "
 "as ECDSA or Ed25519)."
 msgstr ""
+"Kami sarankan mengaktifkan RSA/SHA1 hanya sebagai tindakan sementara hingga "
+"implementasi lama dapat ditingkatkan atau dikonfigurasi ulang dengan jenis "
+"kunci lain (seperti ECDSA atau Ed25519)."
 
 #: ../../vcs.rst:167
 msgid "GitHub repositories"
-msgstr ""
+msgstr "Repositori GitHub"
 
 #: ../../vcs.rst:169
 msgid ""
@@ -53744,6 +53810,10 @@ msgid ""
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
+"Akses melalui SSH dimungkinkan (lihat :ref:`ssh-repos`), tetapi jika Anda "
+"perlu mengakses lebih dari satu repositori, Anda akan menemui batasan GitHub "
+"pada penggunaan kunci SSH yang diizinkan (karena setiap kunci hanya dapat "
+"digunakan satu kali)."
 
 #: ../../vcs.rst:173
 msgid ""
@@ -53751,6 +53821,9 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
+"Jika :ref:`component-push_branch` tidak diatur, proyek akan difork dan "
+"perubahan akan diteruskan melalui fork. Jika diatur, perubahan akan "
+"diteruskan ke repositori hulu dan cabang yang dipilih."
 
 #: ../../vcs.rst:177
 msgid ""
@@ -53758,6 +53831,9 @@ msgid ""
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
 msgstr ""
+"Untuk penerapan yang lebih kecil, gunakan autentikasi HTTPS dengan token "
+"akses pribadi dan akun GitHub Anda, lihat `Membuat token akses untuk "
+"penggunaan baris perintah`_."
 
 #: ../../vcs.rst:182
 msgid ""
@@ -53767,10 +53843,15 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
+"Untuk pengaturan yang lebih besar, biasanya lebih baik membuat pengguna "
+"khusus untuk Weblate, menetapkan kunci SSH publik yang dihasilkan di Weblate "
+"(lihat :ref:`weblate-ssh-key`), dan memberinya akses ke semua repositori "
+"yang ingin Anda terjemahkan. Pendekatan ini juga digunakan untuk Hosted "
+"Weblate, terdapat :guilabel:`weblate` khusus untuk itu."
 
 #: ../../vcs.rst:195
 msgid "Weblate internal URLs"
-msgstr ""
+msgstr "URL internal Weblate"
 
 #: ../../vcs.rst:197
 msgid ""
@@ -53779,10 +53860,14 @@ msgid ""
 "This way linked components use the VCS repository configuration of the main "
 "(referenced) component."
 msgstr ""
+"Berbagi satu pengaturan repositori antar komponen yang berbeda dengan "
+"merujuk penempatannya sebagai ``weblate://project/component`` di komponen "
+"lain (yang tertaut). Dengan cara ini, komponen yang tertaut menggunakan "
+"konfigurasi repositori VCS dari komponen utama (yang direferensikan)."
 
 #: ../../vcs.rst:204
 msgid "Removing main component also removes linked components."
-msgstr ""
+msgstr "Menghapus komponen utama juga menghapus komponen terkait."
 
 #: ../../vcs.rst:206
 msgid ""
@@ -53790,24 +53875,29 @@ msgid ""
 "if it finds a component with a matching repository setup. You can override "
 "this in the last step of the component configuration."
 msgstr ""
+"Weblate secara otomatis menyesuaikan URL repositori saat membuat komponen "
+"jika menemukan komponen dengan pengaturan repositori yang cocok. Anda dapat "
+"mengganti pengaturan ini di langkah terakhir konfigurasi komponen."
 
 #: ../../vcs.rst:210
 msgid "Reasons to use this:"
-msgstr ""
+msgstr "Alasan untuk menggunakan ini:"
 
 #: ../../vcs.rst:212
 msgid "Saves disk space on the server, the repository is stored just once."
-msgstr ""
+msgstr "Menghemat ruang disk pada server, repositori disimpan hanya sekali."
 
 #: ../../vcs.rst:213
 msgid "Makes the updates faster, only one repository is updated."
-msgstr ""
+msgstr "Membuat pembaruan lebih cepat, hanya satu repositori yang diperbarui."
 
 #: ../../vcs.rst:214
 msgid ""
 "There is just single exported repository with Weblate translations (see :ref:"
 "`git-exporter`)."
 msgstr ""
+"Hanya ada satu repositori yang diekspor dengan terjemahan Weblate (lihat :ref"
+":`git-exporter`)."
 
 #: ../../vcs.rst:215
 msgid ""
@@ -53819,7 +53909,7 @@ msgstr ""
 
 #: ../../vcs.rst:219
 msgid "HTTPS repositories"
-msgstr ""
+msgstr "Repositori HTTPS"
 
 #: ../../vcs.rst:221
 msgid ""
@@ -53827,18 +53917,27 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
+"Untuk mengakses repositori HTTPS yang dilindungi, sertakan nama pengguna dan "
+"kata sandi di URL. Jangan khawatir, Weblate akan menghapus informasi ini "
+"ketika URL ditampilkan kepada pengguna (bahkan jika diizinkan untuk melihat "
+"URL repositori tersebut)."
 
 #: ../../vcs.rst:225
 msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
+"Misalnya URL GitHub dengan autentikasi yang ditambahkan mungkin terlihat "
+"seperti: ``https://user:your_access_token@github.com/WeblateOrg/"
+"weblate.git``."
 
 #: ../../vcs.rst:233
 msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
 msgstr ""
+"Hal ini memungkinkan untuk mengakses repositori Azure DevOps dan membuat "
+"akses ke repositori yang diautentikasi lebih cepat."
 
 #: ../../vcs.rst:238
 msgid ""
@@ -53846,16 +53945,21 @@ msgid ""
 "URL encoded, for example ``https://user%40example.com:"
 "%24password%23@bitbucket.org/…``."
 msgstr ""
+"Jika nama pengguna atau kata sandi Anda berisi karakter khusus, karakter "
+"tersebut harus dikodekan URL, misalnya "
+"``https://user%40example.com:%24password%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:243
 msgid "Using proxy"
-msgstr ""
+msgstr "Menggunakan proksi"
 
 #: ../../vcs.rst:245
 msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
+"Jika Anda perlu mengakses repositori HTTP/HTTPS VCS menggunakan server "
+"proksi, konfigurasikan VCS untuk menggunakannya."
 
 #: ../../vcs.rst:248
 msgid ""
@@ -53864,6 +53968,10 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
+"Ini dapat dilakukan menggunakan variabel lingkungan ``http_proxy``, "
+"``https_proxy``, dan ``all_proxy``, (seperti yang dijelaskan dalam `"
+"dokumentasi cURL <https://curl.se/docs/>`_) atau dengan menerapkannya dalam "
+"konfigurasi VCS, misalnya:"
 
 #: ../../vcs.rst:258
 msgid ""
@@ -53871,10 +53979,14 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
+"Konfigurasi proksi perlu dilakukan di bawah pengguna yang menjalankan "
+"Weblate (lihat juga :ref:`file-permissions`) dan dengan ``HOME=$DATA_DIR/"
+"home`` (lihat :setting:`DATA_DIR`), jika tidak, Git yang dijalankan oleh "
+"Weblate tidak akan menggunakannya."
 
 #: ../../vcs.rst:264
 msgid "`The cURL manpage <https://curl.se/docs/manpage.html>`_"
-msgstr ""
+msgstr "`Halaman manual cURL <https://curl.se/docs/manpage.html>`_"
 
 #: ../../vcs.rst:265
 msgid "`Git config documentation <https://git-scm.com/docs/git-config>`_"
@@ -53886,13 +53998,15 @@ msgstr "Git"
 
 #: ../../vcs.rst:275
 msgid "Weblate needs Git 2.28 or newer."
-msgstr ""
+msgstr "Weblate membutuhkan Git 2.28 atau yang lebih baru."
 
 #: ../../vcs.rst:279 ../../vcs.rst:566
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
 msgstr ""
+"Lihat :ref:`vcs-repos` untuk informasi tentang cara mengakses berbagai jenis "
+"repositori."
 
 #: ../../vcs.rst:284
 msgid "Git with force push"
@@ -53904,16 +54018,21 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
+"Ini berperilaku persis seperti Git itu sendiri, satu-satunya perbedaan "
+"adalah ia selalu memaksa dorong. Ini hanya berlaku jika menggunakan "
+"repositori terpisah untuk terjemahan."
 
 #: ../../vcs.rst:292
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
+"Gunakan dengan hati-hati, karena hal ini mudah menyebabkan hilangnya komit "
+"di repositori hulu Anda."
 
 #: ../../vcs.rst:296
 msgid "Customizing Git configuration"
-msgstr ""
+msgstr "Menyesuaikan konfigurasi Git"
 
 #: ../../vcs.rst:298
 msgid ""
@@ -53927,7 +54046,7 @@ msgstr ""
 
 #: ../../vcs.rst:305
 msgid "Git remote helpers"
-msgstr ""
+msgstr "Pembantu jarak jauh Git"
 
 #: ../../vcs.rst:307
 msgid ""
@@ -53946,26 +54065,36 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
+"Saat ini, helper untuk Bazaar dan Mercurial tersedia di repositori terpisah "
+"di GitHub: `git-remote-hg`_ dan `git-remote-bzr`_. Unduh secara manual dan "
+"letakkan di suatu tempat di jalur pencarian Anda (misalnya :file:`~/bin`). "
+"Pastikan Anda telah menginstal sistem kontrol versi yang sesuai."
 
 #: ../../vcs.rst:316
 msgid ""
 "Once you have these installed, such remotes can be used to specify a "
 "repository in Weblate."
 msgstr ""
+"Setelah Anda menginstalnya, remote tersebut dapat digunakan untuk menentukan "
+"repositori di Weblate."
 
 #: ../../vcs.rst:319
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar:"
 msgstr ""
+"Untuk mengkloning proyek ``gnuhello`` dari Launchpad menggunakan Bazaar:"
 
 #: ../../vcs.rst:325
 msgid "For the ``hello`` repository from selenic.com using Mercurial:"
-msgstr ""
+msgstr "Untuk repositori ``hello`` dari selenic.com menggunakan Mercurial:"
 
 #: ../../vcs.rst:337
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
+"Ketidaknyamanan dalam penggunaan pembantu jarak jauh Git misalnya pada "
+"Mercurial, pembantu jarak jauh terkadang membuat tip baru saat mengirim "
+"kembali perubahan."
 
 #: ../../vcs.rst:344
 msgid "GitHub pull requests"
@@ -53977,6 +54106,9 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
+"Ini menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `GitHub API`"
+"_ untuk memungkinkan mendorong perubahan terjemahan sebagai permintaan "
+"tarik, alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:349
 msgid ""
@@ -53984,6 +54116,9 @@ msgid ""
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
 msgstr ""
+":ref:`vcs-git` mendorong perubahan langsung ke repositori, sementara :ref"
+":`vcs-github` membuat permintaan tarik. Permintaan tarik tidak diperlukan "
+"hanya untuk mengakses repositori Git."
 
 #: ../../vcs.rst:353
 msgid ""
@@ -53991,6 +54126,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitHub` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API (:setting:`GITHUB_CREDENTIALS`) di "
+"pengaturan Weblate agar ini berfungsi. Setelah dikonfigurasi, Anda akan "
+"melihat opsi :guilabel:`GitHub` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:368
 msgid "GitLab merge requests"
@@ -54002,6 +54140,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Ini hanya menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `"
+"GitLab API`_ untuk memungkinkan mendorong perubahan terjemahan sebagai "
+"permintaan penggabungan alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:374
 msgid ""
@@ -54010,6 +54151,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
+"Tidak perlu menggunakan ini untuk mengakses repositori Git. :ref:`vcs-git` "
+"biasa berfungsi sama saja. Satu-satunya perbedaan adalah bagaimana proses "
+"pengiriman ke repositori dilakukan. Dengan :ref:`vcs-git`, perubahan akan "
+"langsung dikirim ke repositori, sementara :ref:`vcs-gitlab` membuat "
+"permintaan penggabungan."
 
 #: ../../vcs.rst:379
 msgid ""
@@ -54017,6 +54163,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`GitLab` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API (:setting:`GITLAB_CREDENTIALS`) di "
+"pengaturan Weblate agar ini berfungsi. Setelah dikonfigurasi, Anda akan "
+"melihat opsi :guilabel:`GitLab` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:394
 msgid "Gitea pull requests"
@@ -54028,6 +54177,9 @@ msgid ""
 "allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Ini hanya menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `"
+"Gitea API`_ untuk memungkinkan mendorong perubahan terjemahan sebagai "
+"permintaan tarik alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:402
 msgid ""
@@ -54036,6 +54188,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitea` creates pull requests."
 msgstr ""
+"Tidak perlu menggunakan ini untuk mengakses repositori Git. :ref:`vcs-git` "
+"biasa berfungsi sama saja. Satu-satunya perbedaan adalah bagaimana proses "
+"dorong ke repositori ditangani. Dengan :ref:`vcs-git`, perubahan langsung "
+"didorong ke repositori, sementara :ref:`vcs-gitea` membuat permintaan "
+"penarikan."
 
 #: ../../vcs.rst:407
 msgid ""
@@ -54043,6 +54200,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Gitea` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API (:setting:`GITEA_CREDENTIALS`) di "
+"pengaturan Weblate agar ini berfungsi. Setelah dikonfigurasi, Anda akan "
+"melihat opsi :guilabel:`Gitea` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:423
 msgid "Bitbucket Data Center pull requests"
@@ -54054,10 +54214,14 @@ msgid ""
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
+"Ini hanya menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `"
+"Bitbucket Data Center API`_ untuk memungkinkan mendorong perubahan "
+"terjemahan sebagai permintaan tarik alih-alih mendorong langsung ke "
+"repositori."
 
 #: ../../vcs.rst:433
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Ini tidak mendukung Bitbucket Cloud API."
 
 #: ../../vcs.rst:436
 msgid ""
@@ -54066,6 +54230,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
+"Tidak perlu menggunakan ini untuk mengakses repositori Git. :ref:`vcs-git` "
+"biasa berfungsi sama saja. Satu-satunya perbedaan adalah bagaimana proses "
+"dorong ke repositori ditangani. Dengan :ref:`vcs-git`, perubahan langsung "
+"didorong ke repositori, sementara :ref:`vcs-bitbucket-data-center` membuat "
+"permintaan penarikan."
 
 #: ../../vcs.rst:441
 msgid ""
@@ -54074,6 +54243,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Data Center` option "
 "when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) di pengaturan Weblate agar ini "
+"berfungsi. Setelah dikonfigurasi, Anda akan melihat opsi :guilabel:`"
+"Bitbucket Data Center` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:456
 msgid "Bitbucket Cloud pull requests"
@@ -54085,6 +54258,9 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
+"Ini hanya menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `"
+"Bitbucket Cloud API`_ untuk memungkinkan mendorong perubahan terjemahan "
+"sebagai permintaan tarik alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:466
 msgid "This is different from Bitbucket Data Center API."
@@ -54097,6 +54273,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-cloud` creates pull request."
 msgstr ""
+"Tidak perlu menggunakan ini untuk mengakses repositori Git. :ref:`vcs-git` "
+"biasa berfungsi sama saja. Satu-satunya perbedaan adalah bagaimana proses "
+"dorong ke repositori ditangani. Dengan :ref:`vcs-git`, perubahan langsung "
+"didorong ke repositori, sementara :ref:`vcs-bitbucket-cloud` membuat "
+"permintaan penarikan."
 
 #: ../../vcs.rst:474
 msgid ""
@@ -54105,6 +54286,10 @@ msgid ""
 "Once configured, you will see a :guilabel:`Bitbucket Cloud` option when "
 "selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API "
+"(:setting:`BITBUCKETCLOUD_CREDENTIALS`) di pengaturan Weblate agar ini "
+"berfungsi. Setelah dikonfigurasi, Anda akan melihat opsi :guilabel:`"
+"Bitbucket Cloud` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:489
 msgid "Pagure merge requests"
@@ -54116,6 +54301,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Ini hanya menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `"
+"Pagure API`_ untuk memungkinkan mendorong perubahan terjemahan sebagai "
+"permintaan penggabungan alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:497
 msgid ""
@@ -54124,6 +54312,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
+"Tidak perlu menggunakan ini untuk mengakses repositori Git. :ref:`vcs-git` "
+"biasa berfungsi sama saja. Satu-satunya perbedaan adalah bagaimana proses "
+"dorong ke repositori dilakukan. Dengan :ref:`vcs-git`, perubahan akan "
+"langsung didorong ke repositori, sementara :ref:`vcs-pagure` akan membuat "
+"permintaan penggabungan."
 
 #: ../../vcs.rst:502
 msgid ""
@@ -54131,6 +54324,9 @@ msgid ""
 "Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Pagure` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API (:setting:`PAGURE_CREDENTIALS`) di "
+"pengaturan Weblate agar ini berfungsi. Setelah dikonfigurasi, Anda akan "
+"melihat opsi :guilabel:`Pagure` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:516
 msgid "Gerrit"
@@ -54142,12 +54338,17 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
+"Menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan alat `git-"
+"review`_ untuk memungkinkan mendorong perubahan terjemahan saat permintaan "
+"tinjauan Gerrit, alih-alih mendorongnya langsung ke repositori."
 
 #: ../../vcs.rst:522
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories."
 msgstr ""
+"Dokumentasi Gerrit memiliki rincian tentang konfigurasi yang diperlukan "
+"untuk menyiapkan repositori tersebut."
 
 #: ../../vcs.rst:529
 msgid "Azure DevOps pull requests"
@@ -54159,6 +54360,9 @@ msgid ""
 "allow pushing translation changes as pull requests, instead of pushing "
 "directly to the repository."
 msgstr ""
+"Ini menambahkan lapisan tipis di atas :ref:`vcs-git` menggunakan `Azure "
+"DevOps API`_ untuk memungkinkan mendorong perubahan terjemahan sebagai "
+"permintaan tarik, alih-alih mendorong langsung ke repositori."
 
 #: ../../vcs.rst:534
 msgid ""
@@ -54166,6 +54370,9 @@ msgid ""
 "azure-devops` creates pull requests. The latter is not needed for merely "
 "accessing Git repositories."
 msgstr ""
+":ref:`vcs-git` mendorong perubahan langsung ke repositori, sementara :ref"
+":`vcs-azure-devops` membuat permintaan tarik. Permintaan tarik tidak "
+"diperlukan hanya untuk mengakses repositori Git."
 
 #: ../../vcs.rst:538
 msgid ""
@@ -54173,6 +54380,10 @@ msgid ""
 "in the Weblate settings to make this work. Once configured, you will see a :"
 "guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`."
 msgstr ""
+"Anda perlu mengonfigurasi kredensial API "
+"(:setting:`AZURE_DEVOPS_CREDENTIALS`) di pengaturan Weblate agar ini "
+"berfungsi. Setelah dikonfigurasi, Anda akan melihat opsi :guilabel:`Azure "
+"DevOps` ketika memilih :ref:`component-vcs`."
 
 #: ../../vcs.rst:554
 msgid "Mercurial"
@@ -54180,7 +54391,7 @@ msgstr "Mercurial"
 
 #: ../../vcs.rst:556
 msgid "Mercurial is another VCS you can use directly in Weblate."
-msgstr ""
+msgstr "Mercurial adalah VCS lain yang dapat Anda gunakan langsung di Weblate."
 
 #: ../../vcs.rst:560
 msgid ""
@@ -54188,6 +54399,9 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
+"Seharusnya berfungsi dengan versi Mercurial mana pun, tetapi terkadang ada "
+"perubahan yang tidak kompatibel pada antarmuka baris perintah yang merusak "
+"integrasi Weblate."
 
 #: ../../vcs.rst:572
 msgid "Subversion"
@@ -54233,16 +54447,24 @@ msgid ""
 "`DATA_DIR` directory. Accept the certificate by using `svn` once with the "
 "`$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
+"Weblate mengharapkan Anda untuk menerima sertifikat terlebih dahulu (dan "
+"kredensial Anda jika diperlukan). Weblate akan mencoba memasukkannya ke "
+"dalam direktori :setting:`DATA_DIR`. Terima sertifikat dengan menggunakan "
+"`svn` sekali dengan variabel lingkungan `$HOME` yang diatur ke "
+":setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:612
 msgid "Local files"
-msgstr ""
+msgstr "Berkas lokal"
 
 #: ../../vcs.rst:616
 msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
+"Di bawahnya, ini menggunakan :ref:`vcs-git`. Ini membutuhkan Git yang sudah "
+"terinstal dan memungkinkan Anda beralih menggunakan Git secara asli dengan "
+"riwayat terjemahan yang lengkap."
 
 #: ../../vcs.rst:619
 msgid ""
@@ -54251,6 +54473,10 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
+"Weblate juga dapat beroperasi tanpa VCS jarak jauh. Terjemahan awal diimpor "
+"dengan mengunggahnya. Nantinya, Anda dapat mengganti berkas individual "
+"dengan mengunggah berkas, atau menambahkan string terjemahan langsung dari "
+"Weblate (saat ini hanya tersedia untuk terjemahan monolingual)."
 
 #: ../../vcs.rst:624
 msgid ""
@@ -54259,21 +54485,30 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
+"Di latar belakang Weblate membuat repositori git untuk Anda dan semua "
+"perubahan dilacak. Jika Anda kemudian memutuskan untuk menggunakan VCS untuk "
+"menyimpan terjemahan, Anda sudah memiliki repositori di dalam Weblate dapat "
+"mendasarkan integrasi Anda."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Klien Weblate"
 
 #: ../../wlc.rst:15
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :program:`wlc` using pip:"
 msgstr ""
+"Klien Weblate dikirim secara terpisah dan termasuk modul Python. Untuk "
+"menggunakan perintah di bawah ini, Anda perlu menginstal :program:`wlc` "
+"menggunakan Pip:"
 
 #: ../../wlc.rst:24
 msgid ""
 "You can also use this :program:`wlc` as a Python module, see :mod:`wlc`."
 msgstr ""
+"Anda juga dapat menggunakan ini :program:`wlc` sebagai modul python, lihat "
+":mod:`wlc`."
 
 #: ../../wlc.rst:29
 msgid "Docker usage"
@@ -54281,12 +54516,13 @@ msgstr "Penggunaan Docker"
 
 #: ../../wlc.rst:31
 msgid "The Weblate Client is also available as a Docker image."
-msgstr ""
+msgstr "Klien Weblate juga tersedia sebagai gambar Docker."
 
 #: ../../wlc.rst:33
 msgid ""
 "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
 msgstr ""
+"Gambar ini diterbitkan di Docker Hub: https://hub.docker.com/r/weblate/wlc"
 
 #: ../../wlc.rst:35
 msgid "Installing:"
@@ -54298,6 +54534,9 @@ msgid ""
 "deployed in localhost. The API URL and API_KEY can be configured through the "
 "arguments accepted by Weblate."
 msgstr ""
+"Wadah Docker menggunakan pengaturan bawaan Weblate dan terhubung ke API yang "
+"digunakan di LocalHost. URL API dan API_Key dapat dikonfigurasi melalui "
+"argumen yang diterima oleh Weblate."
 
 #: ../../wlc.rst:45
 msgid "The command to launch the container uses the following syntax:"
