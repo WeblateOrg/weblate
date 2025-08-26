@@ -1207,7 +1207,6 @@ class PluralMapper:
             elif i == last:
                 result.append((-1, None))
             else:
-                # result.append((None, None))
                 # Instead of (None, None), use fallback to last source form
                 # This ensures all target plural forms get mapped to something useful
                 result.append((-1, None))
