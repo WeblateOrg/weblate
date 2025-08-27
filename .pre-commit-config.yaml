@@ -18,12 +18,12 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.25.0
+  rev: 1.26.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
 - repo: https://github.com/adamchainz/djade-pre-commit
-  rev: 1.4.0
+  rev: 1.5.0
   hooks:
   - id: djade
     args: [--target-version, '5.1']
