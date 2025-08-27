@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-26 13:25+0000\n"
+"PO-Revision-Date: 2025-08-27 18:41+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -3337,6 +3337,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"Para evitar conflictos innecesarios, se recomienda configurar la recepción "
+"automática de cambios ascendentes mediante webhooks o API, ver :ref:`update-"
+"vcs`."
 
 #: ../../admin/addons.rst:872
 msgid ""
@@ -3854,17 +3857,14 @@ msgstr ""
 "seleccionados."
 
 #: ../../admin/addons.rst:1173
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The notification content might show HTML tags. This is a known issue that "
 "will be soon addressed; see https://github.com/WeblateOrg/weblate/"
 "issues/15056."
 msgstr ""
-"Integración de Google Analitics 4 actualmente no está disponible para "
-"Weblate, consulte https://github.com/WeblateOrg/weblate/issues/14015."
+"El contenido de la notificación puede mostrar etiquetas HTML. Este es un "
+"problema conocido que pronto se abordará; ver https://github.com/WeblateOrg/"
+"weblate/issues/15056."
 
 #: ../../admin/addons.rst:1177
 msgid ""
@@ -3901,16 +3901,17 @@ msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
+"La carga útil de la solicitud cumple con el esquema :ref:`schema-messaging` "
+"La descripción de OpenAPI también se puede encontrar en ``/api/docs/``. "
+"Cuerpo de solicitud de muestra:"
 
 #: ../../admin/addons.rst:1376
 msgid "Sample request body with categories:"
-msgstr ""
+msgstr "Cuerpo de solicitud de muestra con categorías:"
 
 #: ../../admin/addons.rst:1397
-#, fuzzy
-#| msgid "**Example request**:"
 msgid "Sample request headers:"
-msgstr "**Ejemplo de solicitud**:"
+msgstr "Encabezados de solicitud de muestra:"
 
 #: ../../admin/addons.rst:1407
 msgid ""
@@ -3919,6 +3920,10 @@ msgid ""
 "timestamp``, and the ``webhook-id``. This ensures the authenticity and "
 "integrity of the webhook request."
 msgstr ""
+"La ``webhook-signature`` es una lista separada por espacios de firmas HMAC "
+"generadas utilizando la cadena ``secret``, la carga útil de la solicitud, la "
+"``webhook-timestamp`` y el ``webhook-id``. Esto garantiza la autenticidad e "
+"integridad de la solicitud de webhook."
 
 #: ../../admin/addons.rst:1411
 msgid ""
@@ -3926,12 +3931,18 @@ msgid ""
 "``standardwebhooks`` library or an implementation of the \"Standard Webhooks "
 "Specification\"."
 msgstr ""
+"Para verificar una solicitud, puede utilizar el método ``Webhook.verify`` de "
+"la biblioteca ``standardwebhooks`` o una implementación de la "
+"\"Especificación Estándar de Webhooks\"."
 
 #: ../../admin/addons.rst:1417
+#, fuzzy
 msgid ""
 "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 msgstr ""
+"`Standard Webhooks Specification <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 
 #: ../../admin/addons.rst:1419
 #, fuzzy
@@ -3939,7 +3950,9 @@ msgstr ""
 msgid ""
 "`Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`Python library for Standard Webhooks <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 #: ../../admin/addons.rst:1426
 msgid "Customize XML output"
@@ -4483,16 +4496,12 @@ msgstr ""
 "web hasta especificar los objetivos de las traducciones."
 
 #: ../../admin/announcements.rst:18
-#, fuzzy
-#| msgid ""
-#| "The announcements can posted on each level in the :guilabel:`Manage` "
-#| "menu, using :guilabel:`Post announcement`:"
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Operations` "
 "menu, using :guilabel:`Post announcement`:"
 msgstr ""
-"Los anuncios se pueden publicar en cada nivel en el menú :guilabel:"
-"`Administrar`, usando :guilabel:`Publicar anuncio`:"
+"Los anuncios se pueden publicar en cada nivel en el menú "
+":guilabel:`Operations` , usando :guilabel:`Post announcement`:"
 
 #: ../../admin/announcements.rst:21
 msgid ""
@@ -4689,7 +4698,7 @@ msgstr ""
 #: ../../admin/auth.rst:70
 #, fuzzy
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`Dorsal de Python Social Auth <psa:backends/index>`"
+msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:73
 msgid "OpenID authentication"
