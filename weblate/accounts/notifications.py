@@ -25,7 +25,6 @@ from django.utils.translation import (
     override,
     pgettext_lazy,
 )
-from siphashc import siphash
 
 from weblate.accounts.tasks import OutgoingEmail, send_mails
 from weblate.auth.models import User
@@ -44,7 +43,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
-from weblate.utils.ratelimit import rate_limit
+from weblate.utils.ratelimit import rate_limit_notify
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
@@ -260,12 +259,14 @@ class Notification:
     def send(
         self, address: str, subject: str, body: str, headers: dict[str, str]
     ) -> None:
-        encoded_email = siphash("Weblate notifier", address)
-        if rate_limit(f"notify:rate:{encoded_email}", 1000, 86400):
+        is_blocked, reason = rate_limit_notify(address)
+
+        if is_blocked:
             LOGGER.info(
-                "discarding notification %s to %s after sending too many",
+                "discarding notification %s to %s due to rate limit: %s",
                 self.get_name(),
                 address,
+                reason,
             )
         else:
             self.outgoing.append(
