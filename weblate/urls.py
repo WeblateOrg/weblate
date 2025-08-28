@@ -13,7 +13,6 @@ from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -48,6 +47,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
+from weblate.api.spectacular import DynamicSchemaView, DynamicRedocView, DynamicSwaggerView
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
@@ -810,11 +810,10 @@ real_patterns = [
     # Auth
     path("api/", include((weblate.api.urls, "weblate.api"), namespace="api")),
     # OpenAPI schema
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+    path("api/schema/", DynamicSchemaView.as_view(), name="api-schema"),
     # API documentation
-    path(
-        "api/docs/", SpectacularRedocView.as_view(url_name="api-schema"), name="redoc"
-    ),
+    path("api/docs/", DynamicRedocView.as_view(url_name="api-schema"), name="redoc"),
+    path("api/swagger/", DynamicSwaggerView.as_view(url_name="api-schema"), name="swagger"),
     # Static pages
     path("contact/", weblate.accounts.views.contact, name="contact"),
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),
