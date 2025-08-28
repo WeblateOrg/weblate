@@ -151,6 +151,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
     context["back_url"] = obj.get_absolute_url() if obj is not None else None
+    context["bootstrap_5"] = True
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
