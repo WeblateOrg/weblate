@@ -415,10 +415,17 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
                     )
             else:
                 translations = translation_service.translate(unit, request.user)
-                for plural_form, possible_translations in enumerate(translations):
-                    for item in possible_translations:
+                for transl_num, possible_translations in enumerate(translations):
+                    for word_num, item in enumerate(possible_translations):
+                        # NOTE: if singular: 3 alternative translations
+                        #       if  plurals: N translated plurals
+                        plural_form = word_num if unit.is_plural else transl_num
                         format_results_helper(
-                            item, targets, plural_form, translation, source_translation
+                            item,
+                            targets,
+                            plural_form,
+                            translation,
+                            source_translation,
                         )
                 translations = list(chain.from_iterable(translations))
             response["translations"] = translations
@@ -433,6 +440,47 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         translation.log_info("machinery failed: %s", response["responseDetails"])
 
     return JsonResponse(data=response)
+
+
+@require_POST
+def clear_cache(request: AuthenticatedHttpRequest, unit_id: int):
+    """AJAX handler for clearing machinery cache for a specific unit."""
+    unit = get_object_or_404(Unit, pk=unit_id)
+    translation = unit.translation
+
+    if not request.user.has_perm("machinery.view", translation):
+        raise PermissionDenied
+
+    machinery_settings = translation.component.project.get_machinery_settings()
+    cleared_services = []
+
+    for service_name, settings in machinery_settings.items():
+        try:
+            translation_service_class = MACHINERY[service_name]
+            translation_service = translation_service_class(settings)
+
+            try:
+                source_language, target_language = translation_service.get_languages(
+                    translation_service.get_source_language(translation),
+                    translation.language,
+                )
+                translation_service.clear_unit_cache(
+                    unit, source_language, target_language
+                )
+                cleared_services.append(translation_service_class.name)
+            except Exception:
+                continue
+
+        except KeyError:
+            continue
+
+    return JsonResponse(
+        {
+            "responseStatus": 200,
+            "cleared_services": cleared_services,
+            "message": gettext("Cache cleared for automatic suggestions"),
+        }
+    )
 
 
 @require_POST
