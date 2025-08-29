@@ -1100,6 +1100,10 @@ Projects
             --data-binary '{
                 "branch": "main",
                 "file_format": "po",
+                "file_format_params": {
+                    "po_line_wrap": 65535,
+                    "po_no_location": true
+                },
                 "filemask": "po/*.po",
                 "name": "Weblate",
                 "slug": "weblate",
@@ -1126,6 +1130,10 @@ Projects
         {
             "branch": "main",
             "file_format": "po",
+            "file_format_params": {
+                "po_line_wrap": 65535,
+                "po_no_location": true
+            },
             "filemask": "po/*.po",
             "name": "Weblate",
             "slug": "weblate",
@@ -1173,6 +1181,10 @@ Projects
         {
             "branch": "main",
             "file_format": "po",
+            "file_format_params": {
+                "po_line_wrap": 65535,
+                "po_no_location": true
+            },
             "filemask": "po/*.po",
             "git_export": "",
             "license": "",
@@ -1342,6 +1354,7 @@ Components
     :>json string intermediate: :ref:`component-intermediate`
     :>json string new_base: :ref:`component-new_base`
     :>json string file_format: :ref:`component-file_format`
+    :>json object file_format_params: :ref:`component-file_format_params`
     :>json string license: :ref:`component-license`
     :>json string agreement: :ref:`component-agreement`
     :>json string new_lang: :ref:`component-new_lang`
@@ -1386,6 +1399,10 @@ Components
         {
             "branch": "main",
             "file_format": "po",
+            "file_format_params": {
+                "po_line_wrap": 65535,
+                "po_no_location": true
+            },
             "filemask": "po/*.po",
             "git_export": "",
             "license": "",
@@ -1478,6 +1495,10 @@ Components
         {
             "branch": "main",
             "file_format": "po",
+            "file_format_params": {
+                "po_line_wrap": 65535,
+                "po_no_location": true
+            },
             "filemask": "po/*.po",
             "git_export": "",
             "license": "",
@@ -1517,6 +1538,7 @@ Components
     :type component: string
     :<json string branch: VCS repository branch
     :<json string file_format: file format of translations
+    :<json object file_format_params: parameters related to the file
     :<json string filemask: mask of translation files in the repository
     :<json string name: name of component
     :<json string slug: slug of component
@@ -1939,6 +1961,10 @@ Translations
             "component": {
                 "branch": "main",
                 "file_format": "po",
+                "file_format_params": {
+                    "po_line_wrap": 65535,
+                    "po_no_location": true
+                },
                 "filemask": "po/*.po",
                 "git_export": "",
                 "license": "",
