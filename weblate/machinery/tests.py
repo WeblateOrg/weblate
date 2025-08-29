@@ -234,7 +234,8 @@ LIBRETRANSLATE_TRANS_ERROR_RESPONSE = {
 LIBRETRANSLATE_LANG_RESPONSE = [
     {"code": "en", "name": "English"},
     {"code": "ar", "name": "Arabic"},
-    {"code": "zh", "name": "Chinese"},
+    {"code": "zh-Hant", "name": "Chinese (Traditional)"},
+    {"code": "zh-Hans", "name": "Chinese (Simplified)"},
     {"code": "fr", "name": "French"},
     {"code": "de", "name": "German"},
     {"code": "hi", "name": "Hindi"},
@@ -307,7 +308,13 @@ class BaseMachineTranslationTest(TestCase):
             )
 
     def assert_translate(
-        self, lang, word, expected_len, machine=None, cache=False, unit_args=None
+        self,
+        lang: str,
+        word: str,
+        expected_len: int,
+        machine: BatchMachineTranslation | None = None,
+        cache: bool = False,
+        unit_args=None,
     ):
         if unit_args is None:
             unit_args = {}
@@ -315,6 +322,8 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
+        if expected_len:
+            self.assertGreater(len(translation), 0)
         for items in translation:
             self.assertEqual(len(items), expected_len)
             self.assertIsInstance(items, list)
@@ -2097,6 +2106,18 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
             responses.POST,
             "https://libretranslate.com/translate",
             json=LIBRETRANSLATE_TRANS_RESPONSE,
+        )
+
+    @responses.activate
+    def test_chinese(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_response()
+        self.assert_translate(
+            "zh_Hant", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assert_translate(
+            "zh_Hans", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
 
     @responses.activate
