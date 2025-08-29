@@ -37,7 +37,7 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.project import Project
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
-from weblate.trans.signals import unit_pre_create
+from weblate.trans.signals import unit_post_sync, unit_pre_create
 from weblate.trans.util import (
     count_words,
     get_distinct_translations,
@@ -997,6 +997,9 @@ class Unit(models.Model, LoggerMixin):
 
         if created:
             unit_pre_create.send(sender=self.__class__, unit=self)
+
+        if not created and not same_target:
+            unit_post_sync.send(sender=self.__class__, unit=self, updated_attr="target")
 
         # Save into database
         self.save(

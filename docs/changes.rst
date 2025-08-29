@@ -1,3 +1,27 @@
+Weblate 5.14
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.rst
+
+
 Weblate 5.13.1
 --------------
 
