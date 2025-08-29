@@ -117,3 +117,21 @@ You can then execute the testsuite in the repository checkout:
 .. code-block:: sh
 
    py.test
+
+
+Testing repository
+------------------
+
+Many of the tests in the Weblate test suite use the test repository. The test
+suite repository is maintained at https://github.com/WeblateOrg/test. The
+script :file:`scripts/pack-test-data.sh` is then used to generate a tarball
+with a repository for each of the supported version control systems. These are
+stored as :file:`weblate/trans/tests/data/test-base-repo.git.tar`,
+:file:`weblate/trans/tests/data/test-base-repo.hg.tar`, and
+:file:`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate
+repository.
+
+The https://github.com/WeblateOrg/test repository is tagged at the release
+time, which ensures that the release tags can be used to access test data used
+at the release time. The script tries to create reproducible tarballs as much
+as possible.
