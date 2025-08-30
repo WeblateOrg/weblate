@@ -97,9 +97,56 @@ Terminology
 .. versionadded:: 4.5
 
 Flagging certain glossary terms as ``terminology`` by bulk-editing, typing in the flag,
-or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries for them
-to all languages in the glossary. Use this for important terms that should
-be well thought out, and retain a consistent meaning across all languages.
+or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` declares the term as
+managed project terminology and performs a one-time population:
+
+* Weblate creates an entry for that term in every language of the glossary that does not
+   yet have it, with an empty translation target. This ensures the term exists across all
+   languages so it can be translated (or left empty for later).
+
+What it indicates
+-----------------
+
+The presence of the ``terminology`` flag indicates that this term is intended to exist in
+all glossary languages. While the flag is present on the source term:
+
+* Weblate will keep adding the missing language entries if new languages are added to the
+   project or glossary later.
+* Non‑source terminology entries can not be removed individually — trying to delete one will
+   be refused with an explanation. Remove the source term to remove the whole set, or unmark
+   the source term first (see below).
+
+What it does not do
+-------------------
+
+* Removing the flag later does not delete any entries that were created earlier. It simply
+   stops further automatic creation for newly added languages.
+* The flag does not change how the term is used by translation suggestions or checks by itself;
+   all glossary terms are available to those features. The flag only affects creation/management
+   and deletion protection as described here.
+
+Unmarking a terminology term
+----------------------------
+
+You can remove the ``terminology`` flag from the source term at any time. After unmarking:
+
+* Existing per‑language entries remain as they are.
+* Weblate no longer ensures the term exists in newly added languages.
+* Deleting individual per‑language entries becomes possible again (subject to component settings
+   and file format support). If you want to remove the term everywhere, delete the source term.
+
+How this differs from regular glossary entries
+----------------------------------------------
+
+* Regular glossary entries only exist in languages where they were imported or manually created.
+* Marking a term as ``terminology`` instructs Weblate to create and maintain empty placeholders
+   for all other languages, so translators can fill them. This is especially helpful for key terms
+   that should be present across the project.
+
+.. note::
+
+    Creating terminology entries might require specific permissions (for example
+    :guilabel:`Add glossary terminology`) depending on your Weblate setup.
 
 .. seealso::
 
