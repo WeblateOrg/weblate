@@ -7,11 +7,14 @@ Weblate 5.13.1
 
 .. rubric:: Improvements
 
+* Smarter retries of unwritable pending changes.
+
 .. rubric:: Bug fixes
 
 * Access control for :http:get:`/api/users/(str:username)/`.
 * :ref:`file_format_params` were not properly applied in some situations.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
+* Username autocompletion in comments.
 
 .. rubric:: Compatibility
 
