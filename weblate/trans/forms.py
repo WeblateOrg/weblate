@@ -2730,10 +2730,16 @@ class GlossaryAddMixin(NewUnitBaseForm):
     )
     forbidden = forms.BooleanField(
         label=gettext_lazy("Forbidden translation"),
+        help_text=gettext_lazy(
+            "Mark this option for translations that should not be used."
+        ),
         required=False,
     )
     read_only = forms.BooleanField(
         label=gettext_lazy("Untranslatable term"),
+        help_text=gettext_lazy(
+            "Mark this option if the sentence should stay as in the source language, without change."
+        ),
         required=False,
     )
 
