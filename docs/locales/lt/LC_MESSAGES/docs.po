@@ -3,22 +3,23 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Vaclovas Intas <Gateway_31@protonmail.com>, 2025.
+# Marija Grineviciute <marijagrine@protonmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-07-31 11:53+0000\n"
-"Last-Translator: Fill read-only add-on <noreply-addon-fill@weblate.org>\n"
+"PO-Revision-Date: 2025-08-29 13:31+0000\n"
+"Last-Translator: Marija Grineviciute <marijagrine@protonmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/lt/>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && ("
+"n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -32,12 +33,14 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
+"Weblate pasižymi smulkmeniška privilegijų sistema, kurioje galite paskirti "
+"vartotojo leidimus visam pavyzdžiui (angl. instance) su iš anksto "
+"apibrėžtais vaidmenimis arba paskirti vartotojams vieną ar daugiau leidimų "
+"grupių viskam, individualiems projektams, komponentams, glosarijams ir t. t."
 
 #: ../../admin/access.rst:14
-#, fuzzy
-#| msgid "Versions"
 msgid "Project access control"
-msgstr "Versijos"
+msgstr "Projekto prieigos kontrolė"
 
 #: ../../admin/access.rst:18
 msgid ""
@@ -45,279 +48,288 @@ msgid ""
 "guilabel:`Public`. You can switch to the paid plan if you want to restrict "
 "access to your project."
 msgstr ""
+"Bet kuris projektas, kuriamas turint nemokamą Hosted Weblate planą, visada "
+"yra :guilabel:`Public`. Galite pereiti prie mokamo plano, jei norite "
+"apriboti projekto prieigą."
 
 #: ../../admin/access.rst:22
 msgid ""
 "Limit user access to individual projects by selecting a different :ref:"
 "`project-access_control` setting. The available options are:"
 msgstr ""
+"Apribokite vartotojų prieigą prie atskirų projektų pasirinkę kitokį :ref"
+":`project-access_control` nustatymą. Galimos parinktys:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:491
+#, fuzzy
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Viešas`"
 
 #: ../../admin/access.rst:26 ../../admin/access.rst:34
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Matoma visiems."
 
 #: ../../admin/access.rst:28
 msgid "Any authenticated user can contribute."
-msgstr ""
+msgstr "Visi autentifikuoti vartotojai gali prisidėti."
 
 #: ../../admin/access.rst:30
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "VKS saugykla gali tapti matoma visiems."
 
 #: ../../admin/access.rst:32
 msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
 msgstr ""
+"**Pritaikykite šią parinktį atvirojo kodo projektams arba kai jūsų Weblate "
+"pavyzdys yra privatus arba užrakintas.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:493
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Apsaugotas`"
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
 msgid "Only chosen users can contribute."
-msgstr ""
+msgstr "Gali prisidėti tik pasirinkti vartotojai."
 
 #: ../../admin/access.rst:38 ../../admin/access.rst:46
 #: ../../admin/access.rst:54
 msgid "Only chosen users can access VCS repository."
-msgstr ""
+msgstr "Tik pasirinkti vartotojai turi prieigą prie VKS saugyklos."
 
 #: ../../admin/access.rst:40
 msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Pritaikykite šią parinktį, kad projektas būtų matomas, bet vis tiek "
+"galėtumėte kontroliuoti, kas gali prisidėti.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:495
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privatus`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
-msgstr ""
+msgstr "Matoma tik pasirinktiems vartotojams."
 
 #: ../../admin/access.rst:48
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
+"**Pritaikykite šią parinktį projektams, kurie neturi būti matomi viešai.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:497
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Tinkintas`"
 
 #: ../../admin/access.rst:56
-#, fuzzy
-#| msgid "Login to Weblate"
 msgid "Not available on Hosted Weblate."
-msgstr "Prisijungti prie „Weblate“"
+msgstr "Neprieinamas per Hosted Weblate."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Turėsite nustatyti visus leidimus per :ref:`custom-acl`."
 
 #: ../../admin/access.rst:60
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
+"**Pritaikykite šią parinktį savo Weblate pavyzdyje, jei norite specifinės ir "
+"smulkmeniškai tinkinamos prieigos.**"
 
 #: ../../admin/access.rst:62
+#, fuzzy
 msgid ""
 ":guilabel:`Access control` can be changed in the :guilabel:`Access` tab of "
 "the configuration (:guilabel:`Operations` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Prieigos kontrolę`galima pakeisti kiekvieno projekto "
+"konfigūracijos :guilabel:`Prieigos`skirtuke "
+"(:guilabel:`Veiksmai`↓:guilabel:`Nustatymai`)."
 
 #: ../../admin/access.rst:68
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Numatytasis taip pat gali būti pakeistas nustatant "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"Net ir `Privačių` projektų statistika įtraukiama į viso tinklalapio "
+"statistiką ir kalbos santrauką. Tai neatskleidžia projektų pavadinimų nei "
+"jokios kitos informacijos."
 
 #: ../../admin/access.rst:78
+#, fuzzy
 msgid ""
 "Instance administrators can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
+"Pavyzdžio administratoriai gali modifikuoti numatytuosius leidimų rinkinius "
+"vartotojams `Viešuose`, `Apsaugotuose` ir `Privačiuose` projektuose per "
+":ref:`tinkintuosius nustatymus <custom-acl>`."
 
 #: ../../admin/access.rst:88
-#, fuzzy
-#| msgid "Versions"
 msgid "Managing per-project access control"
-msgstr "Versijos"
+msgstr "Kiekvieno projekto prieigos kontrolės administravimas"
 
 #: ../../admin/access.rst:93
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Skirta `Viešiems`, `Apsaugotiems` ir `Privatiems` projektams:"
 
 #: ../../admin/access.rst:95
+#, fuzzy
 msgid ""
 "Granting users :guilabel:`Manage project access` (see :ref:`privileges`) "
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"Suteikus vartotojams :guilabel:`Projekto valdymo prieigą` (žr. "
+":ref:`privilegijos`), jie gali priskirti kitus vartotojus į `Viešus`, "
+"`Apsaugotus` ir `Privačius` (bet ne `Tinkintus`) projektus įtraukdami juos į "
+"komandas."
 
 #: ../../admin/access.rst:99
 msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
 msgstr ""
+"Tai yra numatytosios komandos, pateikiamos su Weblate; atitinkamas "
+"privilegijas turintys vartotojai gali įtraukti arba modifikuoti komandas:"
 
 #: ../../admin/access.rst:102 ../../admin/access.rst:820
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "Administravimas"
+msgstr "`Administravimas`"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "Watched translations"
 msgid "All available permissions for the project."
-msgstr "Stebimi vertimai"
+msgstr "Visi galimi projekto leidimai."
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Overview"
 msgid "`Review`"
-msgstr "Apžvalga"
+msgstr "`Redaguoti`"
 
 #: ../../admin/access.rst:106
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Approve translations in a review."
-msgstr "Stebimi vertimai"
+msgstr "Patvirtinti peržiūros būsenoje esančius vertimus."
 
 #: ../../admin/access.rst:108
+#, fuzzy
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
+"Prieinamas, tik jei :ref:`peržiūros darbo srautas <reviews>`yra įjungtas."
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Tik `Apsaugotiems` ir `Privatiems` projektams:"
 
 #: ../../admin/access.rst:112 ../../admin/access.rst:956
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
-msgstr "Versti"
+msgstr "`Versti`"
 
 #: ../../admin/access.rst:113
 msgid "Translate the project and upload translations made offline."
-msgstr ""
+msgstr "Versti projektą ir įkelti neprisijungus atliktus vertimus."
 
 #: ../../admin/access.rst:115
-#, fuzzy
-#| msgid "Add new association"
 msgid "`Sources`"
-msgstr "Pridėti naują asociaciją"
+msgstr "`Šaltiniai`"
 
 #: ../../admin/access.rst:116
+#, fuzzy
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
+"Redaguoti šaltinio eilutes (jei suteiktas leidimas :ref:`projekto "
+"nustatymuose <component-manage_units>`) ir šaltinio eilučių informaciją."
 
 #: ../../admin/access.rst:119
-#, fuzzy
-#| msgid "Languages"
 msgid "`Languages`"
-msgstr "Kalbos"
+msgstr "`Kalbos`"
 
 #: ../../admin/access.rst:120
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Manage translated languages (add or remove translations)."
-msgstr "Kalbos, į kurias verčiate"
+msgstr "Administruoti verčiamas kalbas (įtraukti arba pašalinti vertimus)."
 
 #: ../../admin/access.rst:122
-#, fuzzy
-#| msgid "Glossary"
 msgid "`Glossary`"
-msgstr "Aiškinamasis žodynas"
+msgstr "`Terminų žodynėlis`"
 
 #: ../../admin/access.rst:123
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr "Kalbos, į kurias verčiate"
+msgstr "Administruoti terminų žodynėlį (įtraukti, pašalinti ir įkelti įrašus)."
 
 #: ../../admin/access.rst:125
-#, fuzzy
-#| msgid "``memory``"
 msgid "`Memory`"
-msgstr "``memory``"
+msgstr "`Atmintis`"
 
 #: ../../admin/access.rst:126
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Manage translation memory."
-msgstr "Valdyti vertimo atmintį"
+msgstr "Administruoti vertimo atmintį."
 
 #: ../../admin/access.rst:128
-#, fuzzy
-#| msgid "Screenshots"
 msgid "`Screenshots`"
-msgstr "Ekrano nuotraukos"
+msgstr "`Ekrano nuotraukos`"
 
 #: ../../admin/access.rst:129
 msgid "Manage screenshots (add, remove, and associate them to source strings)."
 msgstr ""
+"Administruoti ekrano nuotraukas (įtraukti, pašalinti ir susieti jas su "
+"šaltinio eilutėmis)."
 
 #: ../../admin/access.rst:132 ../../admin/access.rst:972
-#, fuzzy
-#| msgid "Watched translations"
 msgid "`Automatic translation`"
-msgstr "Stebimi vertimai"
+msgstr "`Automatinis vertimas`"
 
 #: ../../admin/access.rst:133
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Can use automatic translation."
-msgstr "Stebimi vertimai"
+msgstr "Gali naudoti automatinį vertimą."
 
 #: ../../admin/access.rst:135
 msgid "`VCS`"
-msgstr ""
+msgstr "`VKS`"
 
 #: ../../admin/access.rst:136
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Manage VCS and access the exported repository."
-msgstr "Saugyklų būsena"
+msgstr "Administruoti VKS ir pasiekti eksportuotą saugyklą."
 
 #: ../../admin/access.rst:138 ../../admin/access.rst:989
-#, fuzzy
-#| msgid "``billing``"
 msgid "`Billing`"
-msgstr "``billing``"
+msgstr "`Mokėjimai`"
 
 #: ../../admin/access.rst:139
+#, fuzzy
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr ""
+msgstr "Matyti mokėjimų informaciją ir nustatymus (žr. :ref:`mokėjimai`)."
 
 #: ../../admin/access.rst:143
+#, fuzzy
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
+"Šias funkcijas rasite :guilabel:`Prieigos kontrolės` puslapyje, esančiame "
+"projekto meniu :guilabel:`Veiksmai`↓:guilabel:`Vartotojai`."
 
 #: ../../admin/access.rst:148
+#, fuzzy
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
+"Galite apriboti kalbų ir komponentų prieigą komandoms ir pavesti joms "
+"numatytus prieigos vaidmenis (žr. :ref:`privilegijos`)."
 
 #: ../../admin/access.rst:153
 #, fuzzy
@@ -588,7 +600,7 @@ msgstr ""
 
 #: ../../admin/access.rst:309 ../../admin/access.rst:424 ../../api.rst:692
 msgid "Roles"
-msgstr ""
+msgstr "Vaidmenys"
 
 #: ../../admin/access.rst:310
 msgid "`Power users`"
@@ -624,34 +636,39 @@ msgstr ""
 
 #: ../../admin/access.rst:327
 msgid "Users, roles, teams, and permissions"
-msgstr ""
+msgstr "Vartotojai, vaidmenys, komandos ir leidimai"
 
 #: ../../admin/access.rst:329
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Autentifikavimo modelius sudaro keletas objektų:"
 
 #: ../../admin/access.rst:331
 msgid "`Permission`"
-msgstr ""
+msgstr "`Leidimas`"
 
 #: ../../admin/access.rst:332
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
+"Individualus, „Weblate“ apibrėžtas leidimas. Leidimai vartotojams gali būti "
+"suteikiami tik paskirsčius vaidmenis."
 
 #: ../../admin/access.rst:334
 msgid "`Role`"
-msgstr ""
+msgstr "`Vaidmuo`"
 
 #: ../../admin/access.rst:335
+#, fuzzy
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
+"Vaidmeniu apibrėžiamas leidimų rinkinys (ir gali būti naudojamas kelete "
+"vietų)."
 
 #: ../../admin/access.rst:337
 msgid "`User`"
-msgstr ""
+msgstr "`Vartotojas`"
 
 #: ../../admin/access.rst:338
 #, fuzzy
@@ -661,13 +678,16 @@ msgstr "Aiškinamasis žodynas"
 
 #: ../../admin/access.rst:339
 msgid "`Group`"
-msgstr ""
+msgstr "`Grupė`"
 
 #: ../../admin/access.rst:340
+#, fuzzy
 msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
 msgstr ""
+"Grupės apjungia vaidmenis ir vartotojus su autentifikacijos objektais ("
+"projektais, kalbomis, komponentais ir komponentų sąrašais)."
 
 #: ../../admin/access.rst:358
 msgid ""
@@ -778,17 +798,15 @@ msgstr "Saugyklų būsena"
 
 #: ../../admin/access.rst:426 ../../api.rst:1307
 msgid "Components"
-msgstr ""
+msgstr "Komponentai"
 
 #: ../../admin/access.rst:427
 msgid "foo/bar"
 msgstr ""
 
 #: ../../admin/access.rst:429
-#, fuzzy
-#| msgid "Spanish"
 msgid "`Spanish`"
-msgstr "ispanų"
+msgstr "`ispanų`"
 
 #: ../../admin/access.rst:432
 msgid ""
@@ -886,10 +904,8 @@ msgid "Scope"
 msgstr ""
 
 #: ../../admin/access.rst:489
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
-msgstr "Leidimai"
+msgstr "Leidimas"
 
 #: ../../admin/access.rst:489
 #, fuzzy
@@ -903,7 +919,7 @@ msgstr ""
 
 #: ../../admin/access.rst:491
 msgid "View billing info"
-msgstr ""
+msgstr "Peržiūrėti mokėjimų informaciją"
 
 #: ../../admin/access.rst:491 ../../admin/access.rst:495
 #: ../../admin/access.rst:497 ../../admin/access.rst:509
@@ -945,20 +961,16 @@ msgid "Changes"
 msgstr "Pakeitimai"
 
 #: ../../admin/access.rst:495
-#, fuzzy
-#| msgid "Download"
 msgid "Download changes"
-msgstr "Parsisiųsti"
+msgstr "Parsisiųsti pakeitimus"
 
 #: ../../admin/access.rst:497 ../../user/translating.rst:62
 msgid "Comments"
-msgstr ""
+msgstr "Komentarai"
 
 #: ../../admin/access.rst:497
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Post comment"
-msgstr "Panaikinti šią paskyrą"
+msgstr "Paskelbti komentarą"
 
 #: ../../admin/access.rst:499 ../../admin/access.rst:563
 #: ../../admin/access.rst:607 ../../admin/access.rst:615
@@ -966,10 +978,8 @@ msgstr "Panaikinti šią paskyrą"
 #: ../../admin/access.rst:659 ../../admin/access.rst:671
 #: ../../admin/access.rst:691 ../../admin/access.rst:719
 #: ../../admin/access.rst:741 ../../admin/access.rst:753
-#, fuzzy
-#| msgid "Add new association"
 msgid ":guilabel:`Edit source`"
-msgstr "Pridėti naują asociaciją"
+msgstr ":guilabel:`Redaguoti šaltinį`"
 
 #: ../../admin/access.rst:501 ../../admin/access.rst:527
 #: ../../admin/access.rst:541 ../../admin/access.rst:549
