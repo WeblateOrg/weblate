@@ -785,14 +785,14 @@ class LoginForm(forms.Form):
                     )
                     % lockout_period
                 )
-            self.user_cache = cast(
+            user = self.user_cache = cast(
                 "User | None",
                 authenticate(self.request, username=username, password=password),
             )
-            if self.user_cache is None:
-                for user in try_get_user(username, True):
+            if user is None:
+                for failed_user in try_get_user(username, True):
                     audit = AuditLog.objects.create(
-                        user,
+                        failed_user,
                         self.request,
                         "failed-auth",
                         method="password",
@@ -803,14 +803,14 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages["invalid_login"], code="invalid_login"
                 )
-            if not self.user_cache.is_active or self.user_cache.is_bot:
+            if not user.is_active or user.is_bot:
                 raise forms.ValidationError(
                     self.error_messages["inactive"], code="inactive"
                 )
             AuditLog.objects.create(
-                self.user_cache, self.request, "login", method="password", name=username
+                user, self.request, "login", method="password", name=username
             )
-            adjust_session_expiry(self.request)
+            adjust_session_expiry(request=self.request, user=user)
             reset_rate_limit("login", self.request)
         return self.cleaned_data
 
