@@ -72,6 +72,8 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django_otp.models import Device
 
+    from weblate.accounts.types import DeviceType
+
 LOGGER = logging.getLogger("weblate.audit")
 
 
@@ -296,8 +298,12 @@ ACCOUNT_ACTIVITY = {
     "twofactor-remove": gettext_lazy("Two-factor authentication removed: {device}"),
     # Translators: Audit log entry
     "twofactor-login": gettext_lazy("Two-factor authentication sign in using {device}"),
+    # Translators: Audit log entry
+    "twofactor-failed": gettext_lazy(
+        "Two-factor authentication failed using {device_type}"
+    ),
 }
-AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked"}
+AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked", "twofactor-failed"}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -357,6 +363,7 @@ NOTIFY_ACTIVITY = {
     "recovery-show",
     "twofactor-add",
     "twofactor-remove",
+    "twofactor-failed",
 }
 
 
@@ -392,7 +399,7 @@ class AuditLogManager(models.Manager):
 
 
 class AuditLogQuerySet(models.QuerySet["AuditLog"]):
-    def get_after(self, user: User, after, activity):
+    def get_after(self, user: User, after: str, activity: str) -> AuditLogQuerySet:
         """
         Get user activities of given type after another activity.
 
@@ -400,7 +407,9 @@ class AuditLogQuerySet(models.QuerySet["AuditLog"]):
         authentication attempts since last login.
         """
         try:
-            latest_login = self.filter(user=user, activity=after).order()[0]
+            latest_login = self.filter(
+                user=user, activity__in={after, "reset"}
+            ).order()[0]
             kwargs = {"timestamp__gte": latest_login.timestamp}
         except IndexError:
             kwargs = {}
@@ -514,6 +523,18 @@ class AuditLog(models.Model):
             and self.user.has_usable_password()
         ):
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
+            if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+                lock_user(self.user, "locked", request)
+                return True
+
+        elif (
+            self.activity == "twofactor-failed"
+            and self.user
+            and self.user.has_usable_password()
+        ):
+            failures = AuditLog.objects.get_after(
+                self.user, "twofactor-login", "twofactor-failed"
+            )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 lock_user(self.user, "locked", request)
                 return True
@@ -1122,6 +1143,13 @@ class Profile(models.Model):
         if device_type not in {self.last_2fa, "recovery"}:
             self.last_2fa = device_type
             self.save(update_fields=["last_2fa"])
+
+    def log_2fa_failed(
+        self, request: AuthenticatedHttpRequest, device_type: DeviceType
+    ) -> None:
+        AuditLog.objects.create(
+            self.user, request, "twofactor-failed", device_type=device_type
+        )
 
     def get_second_factor_type(self) -> Literal["totp", "webauthn"]:
         if self.last_2fa in self.second_factor_types:

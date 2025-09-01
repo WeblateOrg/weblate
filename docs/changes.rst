@@ -7,6 +7,8 @@ Weblate 5.13.1
 
 .. rubric:: Improvements
 
+* Failed :ref:`2fa` is visible in :ref:`audit-log`.
+
 .. rubric:: Bug fixes
 
 * Access control for :http:get:`/api/users/(str:username)/`.
