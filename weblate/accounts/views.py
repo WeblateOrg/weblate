@@ -57,6 +57,7 @@ from django_otp.models import Device
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp.util import random_hex
+from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
@@ -123,7 +124,6 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
-    DeviceType,
     get_key_name,
     lock_user,
     remove_user,
@@ -151,6 +151,7 @@ from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
+    from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
 
 CONTACT_TEMPLATE = """
@@ -1796,6 +1797,10 @@ class SecondFactorMixin(View):
             self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             # This is completed in social_complete after completing social login
 
+    def second_factor_failed(self) -> None:
+        user = self.get_user()
+        user.profile.log_2fa_failed(self.request, self.get_backend())
+
     def get_user(self) -> User:
         try:
             user_id, backend = self.request.session[SESSION_SECOND_FACTOR_USER]
@@ -1853,6 +1858,10 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
 
         return HttpResponseRedirect(self.get_success_url())
 
+    def form_invalid(self, form):
+        self.second_factor_failed()
+        return super().form_invalid(form)
+
 
 class WeblateBeginCredentialAuthenticationView(
     SecondFactorMixin, BeginCredentialAuthenticationView
@@ -1866,3 +1875,10 @@ class WeblateCompleteCredentialAuthenticationView(
 ):
     def complete_auth(self, device: WebAuthnCredential) -> User:
         return self.second_factor_completed(device)
+
+    def post(self, *args, **kwargs):
+        try:
+            return super().post(*args, **kwargs)
+        except OTPWebAuthnApiError:
+            self.second_factor_failed()
+            raise
