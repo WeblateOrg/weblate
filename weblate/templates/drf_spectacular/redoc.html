@@ -27,10 +27,10 @@
         <script src="{{ redoc_standalone }}"></script>
         <script>
       const redocSettings = {{ settings|safe }};
-      Redoc.init("{{ schema_url }}", redocSettings, document.getElementById('redoc-container'))
+      Redoc.init("{{ schema_url|safe }}", redocSettings, document.getElementById('redoc-container'))
         </script>
       {% else %}
-        <redoc spec-url="{{ schema_url }}"></redoc>
+        <redoc spec-url="{{ schema_url|safe }}"></redoc>
         <script src="{{ redoc_standalone }}"></script>
       {% endif %}
     {% endblock body %}
