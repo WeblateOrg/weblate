@@ -47,6 +47,7 @@ class LanguageConsistencyAddon(BaseAddon):
 class LangaugeConsistencyAddon(LanguageConsistencyAddon):
     def __init__(self, storage: Addon) -> None:
         super().__init__(storage)
+        # TODO: Remove in Weblate 5.14
         warnings.warn(
             "LangaugeConsistencyAddon is deprecated, use LanguageConsistencyAddon",
             DeprecationWarning,

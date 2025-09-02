@@ -26,7 +26,7 @@ Weblate 5.13.1
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There is a change in :file:`settings_example.py`, ``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notably, ``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
