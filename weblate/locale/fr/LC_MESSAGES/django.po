@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 08:53+0000\n"
-"PO-Revision-Date: 2025-08-18 21:46+0000\n"
-"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
+"PO-Revision-Date: 2025-08-31 06:34+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2027,10 +2027,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Nom d’extension non valide : « %s »"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Extension désinstallée"
+msgstr "L’extension ne peut pas être installée : « %s »"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -8199,20 +8198,14 @@ msgid "Contribute"
 msgstr "Contribuer"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgctxt "Support Weblate financially"
-#| msgid "Become a supporter"
 msgid "Become a supporter"
-msgstr "Devenir supporter"
+msgstr "Devenir un supporter"
 
 #: weblate/templates/base5.html:442
 msgid "About"
 msgstr "À propos"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgctxt "Weblate website"
-#| msgid "Website"
 msgid "Website"
 msgstr "Site web"
 
@@ -9495,10 +9488,8 @@ msgid "Repository changes"
 msgstr "Modifications dans le dépôt"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Parcourir toutes les modifications de chaînes"
+msgstr "Parcourir toutes les modifications du dépôt"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -14174,17 +14165,13 @@ msgstr "Police supprimée"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Forcer la synchronisation"
+msgstr "Synchronisation forcée des traductions"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Traduction déconseillée"
+msgstr "Analyse forcée des traductions"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14417,7 +14404,7 @@ msgstr "Conserver les msgids précédents des chaînes traduites"
 
 #: weblate/trans/file_format_params.py:214
 msgid "Do not include location information in the file"
-msgstr ""
+msgstr "Ne pas inclure d’informations de localisation dans le fichier"
 
 #: weblate/trans/file_format_params.py:222
 msgid "Use fuzzy matching"
@@ -14943,6 +14930,9 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"Impossible de charger la sauvegarde du projet : la sauvegarde provient d’une "
+"version incompatible (%(version)s). Veuillez mettre à jour votre instance "
+"Weblate."
 
 #: weblate/trans/forms.py:2540
 #, python-format
@@ -15656,10 +15646,8 @@ msgstr ""
 "traductions mono-langues."
 
 #: weblate/trans/models/component.py:536
-#, fuzzy
-#| msgid "File format"
 msgid "File format parameters"
-msgstr "Format de fichier"
+msgstr "Paramètres du format de fichier"
 
 #: weblate/trans/models/component.py:545
 msgid "Locked component will not get any translation updates."

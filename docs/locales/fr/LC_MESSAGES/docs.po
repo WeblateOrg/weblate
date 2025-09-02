@@ -21,13 +21,16 @@
 # MERCRED <augustinseroul@gmail.com>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Clément Lyonnet <clementlyonnet@hotmail.fr>, 2025.
+# Nicolas Van Aarsen <nicovanaarsen@gmail.com>, 2025.
+# Jérôme <jerbring@hotmail.com>, 2025.
+# Nifou <nifou@mailfence.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.13\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-08-12 10:55+0200\n"
-"PO-Revision-Date: 2025-08-18 21:46+0000\n"
-"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
+"PO-Revision-Date: 2025-08-31 06:34+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -35,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:210
@@ -189,14 +192,15 @@ msgstr ""
 "le nom des projets ni d’autres informations."
 
 #: ../../admin/access.rst:78
+#, fuzzy
 msgid ""
 "Instance administrators can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
 "Les sets de permissions disponibles par défaut pour les utilisateurs dans "
-"les projets `Public`, `Protégé`, et `Privé` peuvent être redéfinis via "
-"l’instance administrateur de Weblate en utilisant :ref:`paramètres "
+"les projets `Public`, `Protégé`, et `Privé` peuvent être redéfinis via l’"
+"instance administrateur de Weblate en utilisant :ref:`paramètres "
 "personnalisés <custom-acl>`."
 
 #: ../../admin/access.rst:88
@@ -244,6 +248,7 @@ msgid "Approve translations in a review."
 msgstr "Approuver les traductions lors de la relecture."
 
 #: ../../admin/access.rst:108
+#, fuzzy
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
 "Disponible seulement si :ref:`réviser le processus <reviews>` est activé."
@@ -266,6 +271,7 @@ msgid "`Sources`"
 msgstr "`Sources`"
 
 #: ../../admin/access.rst:116
+#, fuzzy
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
@@ -434,15 +440,17 @@ msgid "Per-project permission management"
 msgstr "Gestion des droits par projet"
 
 #: ../../admin/access.rst:202
+#, fuzzy
 msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Vous pouvez déclarer vos projets comme :guilabel:`Protégé` ou :guilabel:"
-"`Privé` (voir :ref:`acl`), et :ref:`gérer l'accès des utilisateurs<manage-"
-"acl>` par projet."
+"Vous pouvez déclarer vos projets comme :guilabel:`Protégé` ou "
+":guilabel:`Privé` (voir :ref:`acl`), et :ref:`gérer l'accès des utilisateurs"
+"<manage-acl>` par projet."
 
 #: ../../admin/access.rst:205
+#, fuzzy
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -451,8 +459,8 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"Par défaut, cela empêche Weblate d’accorder les accès fournis par les "
-"`Users` et les `Viewers` :ref:`default teams<default-teams>` en raison de la "
+"Par défaut, cela empêche Weblate d’accorder les accès fournis par les `Users`"
+" et les `Viewers` :ref:`default teams<default-teams>` en raison de la "
 "configuration propre de ces équipes. Cela ne vous empêche pas d’accorder des "
 "permissions à ces projets à l’échelle du site en modifiant les équipes par "
 "défaut, créer un nouveau, ou créer des paramètres personnalisés "
@@ -505,6 +513,7 @@ msgstr ""
 "aux traductions, voir :ref:`auth-model` pour plus de détails."
 
 #: ../../admin/access.rst:242
+#, fuzzy
 msgid ""
 "The most powerful features of the Weblate’s access control system can be "
 "configured in the :ref:`management-interface`. You can use it to manage "
@@ -515,8 +524,8 @@ msgstr ""
 "Les fonctionnalités les plus puissantes du système de contrôle d’accès de "
 "Weblate peuvent être configurées dans la :ref:`management-interface`. Vous "
 "pouvez l’utiliser pour gérer les permissions de n’importe quel projet. Vous "
-"n’avez pas nécessairement besoin de passer en mode :guilabel:`Custom` :ref:"
-"`contrôle d'accès <acl>` pour l’utiliser. Cependant, vous devez avoir les "
+"n’avez pas nécessairement besoin de passer en mode :guilabel:`Custom` :ref:`"
+"contrôle d'accès <acl>` pour l’utiliser. Cependant, vous devez avoir les "
 "privilèges de super-utilisateur pour l’utiliser."
 
 #: ../../admin/access.rst:248
@@ -538,15 +547,17 @@ msgid "Site-wide permission management"
 msgstr "Gestion des droits à l’échelle du site"
 
 #: ../../admin/access.rst:256
+#, fuzzy
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
 "Pour gérer les autorisations d’une instance entière en une seule fois, "
 "ajoutez des utilisateurs aux équipes appropriées :ref:`équipes par défaut "
-"<default-teams>` :"
+"<default-teams>` :"
 
 #: ../../admin/access.rst:259
+#, fuzzy
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
@@ -862,6 +873,7 @@ msgstr ""
 "`Projets` sont ignorés."
 
 #: ../../admin/access.rst:399
+#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -936,12 +948,13 @@ msgstr ""
 "paramètres de rôle par défaut) :"
 
 #: ../../admin/access.rst:434
+#, fuzzy
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
 "Accès général (navigation) à l’ensemble du projet ``foo`` incluant les deux "
-"composants : ``foo/bar`` et``foo/baz``."
+"composants : ``foo/bar`` et``foo/baz``."
 
 #: ../../admin/access.rst:436
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
@@ -3311,9 +3324,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
-"Pour éviter les conflits inutiles, il est recommandé de configurer la "
-"réception automatique des modifications amont avec les accroches web ou "
-"l'API, voir :ref:`update-vcs`."
+"Afin d’éviter les conflits inutiles, il est recommandé de configurer la "
+"réception automatique des modifications amont via webhooks ou API, voir :ref"
+":`update-vcs`."
 
 #: ../../admin/addons.rst:872
 msgid ""
@@ -7422,6 +7435,7 @@ msgstr ""
 "recharger la configuration."
 
 #: ../../admin/config.rst:18
+#, fuzzy
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
@@ -12246,6 +12260,7 @@ msgid "A typical setup using Redis as a backend looks like this:"
 msgstr ""
 
 #: ../../admin/install.rst:1701
+#, fuzzy
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -42353,10 +42368,8 @@ msgstr ""
 
 #: ../../formats.rst:513 ../../formats/gettext.rst:166
 #: ../../formats/json.rst:85 ../../formats/yaml.rst:42
-#, fuzzy
-#| msgid "File format"
 msgid "File format parameters"
-msgstr "Format de fichier"
+msgstr "Paramètres du format de fichier"
 
 #: ../../formats.rst:515
 msgid ""
@@ -42469,7 +42482,7 @@ msgstr "Emplacement"
 
 #: ../../snippets/file-format-parameters.rst:44
 msgid "Do not include location information in the file"
-msgstr ""
+msgstr "Ne pas inclure d’informations de localisation dans le fichier"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "xml_closing_tags"
@@ -47914,6 +47927,7 @@ msgstr ""
 "des points de suspension."
 
 #: ../../user/checks.rst:1219
+#, fuzzy
 msgid ""
 "Checks that trailing ellipses are replicated between both source and "
 "translation. This only checks for real ellipsis (``…``) not for three dots "
@@ -48851,12 +48865,13 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:10
+#, fuzzy
 msgid ""
 "Available options might be limited by :ref:`access control <access-control>` "
 "settings."
 msgstr ""
-"Les options disponibles peuvent être limitées par les paramètres du :ref:"
-"`contrôle d'accès <access-control>`."
+"Les options disponibles peuvent être limitées par les paramètres du :ref:`"
+"contrôle d'accès <access-control>`."
 
 #: ../../user/files.rst:16
 msgid "Downloading translations"
@@ -51433,6 +51448,7 @@ msgstr ""
 "menu :guilabel:`Outils` de chaque projet, composant et traduction."
 
 #: ../../user/translating.rst:442
+#, fuzzy
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
 msgstr ":ref:`greffon de modification en masse <addon-weblate.flags.bulk>`"
 
@@ -53071,6 +53087,7 @@ msgid "Translation access"
 msgstr "Accès à la traduction"
 
 #: ../../workflows.rst:47
+#, fuzzy
 msgid ""
 "The :ref:`access control <access-control>` is not discussed in detail as a "
 "whole in the workflows, as most of its options can be applied to any "
@@ -53329,6 +53346,7 @@ msgstr ""
 "chaînes approuvées."
 
 #: ../../workflows.rst:190
+#, fuzzy
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr "Ou `Relecture` avec :ref:`contrôle d'accès par projet <manage-acl>`."
 
