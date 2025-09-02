@@ -1420,7 +1420,7 @@ $(function () {
     selector: "#sitewide-search",
     debounce: 300,
     resultsList: {
-      class: "autoComplete dropdown-menu",
+      class: "autoComplete dropdown-menu shadow",
     },
     resultItem: {
       class: "autoComplete_result",
@@ -1429,6 +1429,7 @@ $(function () {
         const child = document.createElement("a");
         child.setAttribute("href", data.value.url);
         child.textContent = `${data.value.name} `;
+        child.addClass("dropdown-item");
         const category = document.createElement("span");
         category.setAttribute("class", "badge");
         category.textContent = data.value.category;
