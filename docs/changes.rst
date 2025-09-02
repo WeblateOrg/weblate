@@ -9,6 +9,7 @@ Weblate 5.13.1
 
 .. rubric:: Bug fixes
 
+* Sign-in form not shown for LDAP.
 * Access control for :http:get:`/api/users/(str:username)/`.
 * :ref:`file_format_params` were not properly applied in some situations.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.

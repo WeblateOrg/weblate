@@ -17,7 +17,7 @@ import qrcode
 import qrcode.image.svg
 import social_django.utils
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import REDIRECT_FIELD_NAME, get_backends
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -64,6 +64,7 @@ from django_otp_webauthn.views import (
 )
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
+from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
@@ -80,6 +81,7 @@ from social_core.exceptions import (
 from social_django.utils import load_backend, load_strategy
 from social_django.views import complete, disconnect
 
+from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
     CommitForm,
@@ -858,7 +860,12 @@ class WeblateLoginView(BaseLoginView):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["login_email"] = context["can_reset"] = "email" in auth_backends
+        context["can_reset"] = "email" in auth_backends
+        # Show login form for e-mail login or any third-party Django auth backend such as LDAP
+        context["show_login_form"] = context["can_reset"] or any(
+            not isinstance(backend, (BaseAuth, WeblateUserBackend))
+            for backend in get_backends()
+        )
         context["title"] = gettext("Sign in")
         return context
 
