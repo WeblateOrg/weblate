@@ -9,7 +9,7 @@ from typing import Any
 
 from django.db import migrations, models
 
-ADDON_CONFG_TO_FILE_FORMAT_PARAMS: dict[str, dict[str, Any]] = {
+ADDON_CONFIG_TO_FILE_FORMAT_PARAMS: dict[str, dict[str, Any]] = {
     "weblate.json.customize": {
         "file_formats": (
             "json",
@@ -106,7 +106,7 @@ def migrate_addons_config(apps, schema_editor):
 
 def convert_addon_config_to_file_format_params(addon) -> tuple[tuple, dict[str, Any]]:
     """Convert addon configuration to file format parameters."""
-    attrs = ADDON_CONFG_TO_FILE_FORMAT_PARAMS[addon.name]
+    attrs = ADDON_CONFIG_TO_FILE_FORMAT_PARAMS[addon.name]
     params = {}
     for addon_config, param_name in attrs["format_params"].items():
         if addon_config in addon.configuration:
@@ -119,7 +119,7 @@ def collect_addon_configurations(apps) -> dict[str, list | dict]:
     Addon = apps.get_model("addons", "Addon")
 
     addons = Addon.objects.filter(
-        name__in=ADDON_CONFG_TO_FILE_FORMAT_PARAMS.keys()
+        name__in=ADDON_CONFIG_TO_FILE_FORMAT_PARAMS.keys()
     ).select_related("component", "project")
 
     site_wide = []
