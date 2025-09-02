@@ -1988,19 +1988,18 @@ Container settings
 
     Configure how many WSGI workers should be executed.
 
-    It defaults to :envvar:`WEBLATE_WORKERS`.
+    It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2.
 
     **Example:**
 
     .. code-block:: yaml
 
         environment:
-          WEB_WORKERS: 32
+          WEB_WORKERS: 4
 
-   .. versionchanged:: 5.9
+   .. versionchanged:: 5.13
 
-      The Docker container runs two WSGI processes since 5.9 and
-      :envvar:`WEB_WORKERS` configures how many threads each process will have.
+      :envvar:`WEB_WORKERS` configures how many worker processes will used by :program:`granian`.
 
 .. envvar:: WEBLATE_SERVICE
 

@@ -8,19 +8,27 @@ Weblate 5.13.1
 .. rubric:: Improvements
 
 * Smarter retries of unwritable pending changes.
+* Failed :ref:`2fa` is visible in :ref:`audit-log`.
 
 .. rubric:: Bug fixes
 
+* Sign-in form not shown for LDAP.
 * Access control for :http:get:`/api/users/(str:username)/`.
 * :ref:`file_format_params` were not properly applied in some situations.
+* Removed stale :ref:`addon-weblate.xml.customize`.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
 * Username autocompletion in comments.
+* Shorten session expiry while in :ref:`2fa`.
 
 .. rubric:: Compatibility
+
+* Removed support for no longer working :ref:`mt-ibm`.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in :file:`settings_example.py`, ``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

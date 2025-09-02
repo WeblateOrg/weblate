@@ -158,18 +158,28 @@ class Addon(models.Model):
         self.event_set.exclude(event__in=events).delete()
 
     @cached_property
-    def addon_class(self):
+    def addon_class(self) -> type[BaseAddon]:
         return ADDONS[self.name]
 
     @cached_property
-    def addon(self):
+    def addon(self) -> BaseAddon:
         return self.addon_class(self)
+
+    @property
+    def is_valid(self) -> bool:
+        return self.name in ADDONS
+
+    @property
+    def addon_name(self) -> str:
+        if not self.is_valid:
+            return self.name
+        return self.addon.name
 
     def delete(self, using=None, keep_parents=False):
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE)
         # Delete any addon alerts
-        if self.addon.alert:
+        if self.is_valid and self.addon.alert:
             if self.component:
                 self.component.delete_alert(self.addon.alert)
             elif self.project:
@@ -184,7 +194,8 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
         # Trigger post uninstall action
-        self.addon.post_uninstall()
+        if self.is_valid:
+            self.addon.post_uninstall()
         return result
 
     def disable(self) -> None:

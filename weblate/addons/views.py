@@ -74,7 +74,7 @@ class AddonList(PathViewMixin, ListView):
             result["last_changes"] = target.change_set.filter(
                 action__in=Change.ACTIONS_ADDON, component=None
             ).order()[:10]
-        installed = {x.addon.name for x in result["object_list"]}
+        installed = {x.addon_name for x in result["object_list"]}
 
         if isinstance(target, Component):
             result["available"] = sorted(
