@@ -7,6 +7,7 @@ Weblate 5.13.1
 
 .. rubric:: Improvements
 
+* Smarter retries of unwritable pending changes.
 * Failed :ref:`2fa` is visible in :ref:`audit-log`.
 
 .. rubric:: Bug fixes
@@ -16,6 +17,7 @@ Weblate 5.13.1
 * :ref:`file_format_params` were not properly applied in some situations.
 * Removed stale :ref:`addon-weblate.xml.customize`.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
+* Username autocompletion in comments.
 * Shorten session expiry while in :ref:`2fa`.
 
 .. rubric:: Compatibility
