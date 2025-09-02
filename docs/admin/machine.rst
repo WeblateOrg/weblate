@@ -436,35 +436,9 @@ Optionally, you can configure the service to use :ref:`glossary` by setting up a
 IBM Watson Language Translator
 ------------------------------
 
-.. versionadded:: 4.16
+.. versionremoved:: 5.13.1
 
-:Service ID: ``ibm``
-:Maximal score: 88
-:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                  |
-                |                     |                           |                                                                     |
-                |                     |                           | ``auto`` -- Automatic selection                                     |
-                |                     |                           |                                                                     |
-                |                     |                           | ``source`` -- Component source language                             |
-                |                     |                           |                                                                     |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component |
-                +---------------------+---------------------------+---------------------------------------------------------------------+
-                | ``url``             | API URL                   |                                                                     |
-                +---------------------+---------------------------+---------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                     |
-                +---------------------+---------------------------+---------------------------------------------------------------------+
-
-.. warning::
-
-   This service is deprecated by vendor and will be withdrawn entirely as of 10 December 2024.
-
-IBM Watson Language Translator translates text from one language to another.
-The service offers multiple domain-specific models.
-
-.. seealso::
-
-   * `Watson Language Translator <https://www.ibm.com/products/natural-language-processing>`_
-   * `IBM Cloud API Docs <https://cloud.ibm.com/apidocs/language-translator>`_
+   This service was withdrawn by vendor as of 10 December 2024.
 
 .. _mt-libretranslate:
 

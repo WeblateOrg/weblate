@@ -15,6 +15,8 @@ Weblate 5.13.1
 
 .. rubric:: Compatibility
 
+* Removed support for no longer working :ref:`mt-ibm`.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

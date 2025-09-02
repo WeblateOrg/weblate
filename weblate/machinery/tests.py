@@ -50,7 +50,6 @@ from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
-from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -2447,48 +2446,6 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
         )
         patcher.start()
         self.addCleanup(patcher.stop)
-
-
-class IBMTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS = IBMTranslation
-    EXPECTED_LEN = 1
-    ENGLISH = "en"
-    SUPPORTED = "zh-TW"
-    CONFIGURATION = {
-        "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
-        "instances/id",
-        "key": "x",
-    }
-
-    def mock_empty(self) -> NoReturn:
-        self.skipTest("Not tested")
-
-    def mock_error(self) -> NoReturn:
-        self.skipTest("Not tested")
-
-    def mock_response(self) -> None:
-        responses.add(
-            responses.GET,
-            "https://api.region.language-translator.watson.cloud.ibm.com/"
-            "instances/id/v3/languages?version=2018-05-01",
-            json={
-                "languages": [
-                    {"language": "en"},
-                    {"language": "zh-TW"},
-                    {"language": "de"},
-                ]
-            },
-        )
-        responses.add(
-            responses.POST,
-            "https://api.region.language-translator.watson.cloud.ibm.com/"
-            "instances/id/v3/translate?version=2018-05-01",
-            json={
-                "translations": [{"translation": "window"}],
-                "word_count": 1,
-                "character_count": 6,
-            },
-        )
 
 
 class OpenAITranslationTest(BaseMachineTranslationTest):
