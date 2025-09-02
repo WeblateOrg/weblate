@@ -93,6 +93,8 @@ def migrate_addons_config(apps, schema_editor):
         Component.objects.bulk_update(to_update, ["file_format_params"])
 
     # delete stale addons
+    # weblate.xml.customize was missed here, it is handled in
+    # weblate/addons/migrations/0009_remove_migrated_customize_addons.py
     to_delete = [
         "weblate.json.customize",
         "weblate.gettext.customize",

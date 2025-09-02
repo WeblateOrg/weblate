@@ -14,6 +14,7 @@ Weblate 5.13.1
 * Sign-in form not shown for LDAP.
 * Access control for :http:get:`/api/users/(str:username)/`.
 * :ref:`file_format_params` were not properly applied in some situations.
+* Removed stale :ref:`addon-weblate.xml.customize`.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
 * Shorten session expiry while in :ref:`2fa`.
 
