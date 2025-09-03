@@ -899,7 +899,8 @@ class AggregatingStats(BaseStats):
     def calculate_source(self, stats: dict, all_stats: list) -> None:
         return
 
-    def get_aggregated_stats(self) -> list[BaseStats]:
+    @cached_property
+    def aggregated_stats(self) -> list[BaseStats]:
         return [
             obj.stats
             for obj in prefetch_stats(
@@ -909,7 +910,7 @@ class AggregatingStats(BaseStats):
 
     def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
-        all_stats: list[BaseStats] = self.get_aggregated_stats()
+        all_stats: list[BaseStats] = self.aggregated_stats
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:

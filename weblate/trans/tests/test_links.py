@@ -25,9 +25,12 @@ class ComponentLinkTestCase(ViewTestCase):
     def test_stats(self) -> None:
         self.project.stats.force_load()
         self.other.stats.force_load()
-        self.assertEqual(self.project.stats.all, self.other.stats.all)
+
+        project = Project.objects.get(pk=self.project.pk)
+        other = Project.objects.get(pk=self.other.pk)
+
         self.maxDiff = None
-        self.assertEqual(self.project.stats.get_data(), self.other.stats.get_data())
+        self.assertEqual(project.stats.get_data(), other.stats.get_data())
 
     def test_stats_edit(self) -> None:
         self.other.stats.force_load()
@@ -35,9 +38,9 @@ class ComponentLinkTestCase(ViewTestCase):
 
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
-        self.project.stats.force_load()
-        self.other.stats.force_load()
+        project = Project.objects.get(pk=self.project.pk)
+        other = Project.objects.get(pk=self.other.pk)
 
         self.maxDiff = None
-        self.assertEqual(self.project.stats.get_data(), self.other.stats.get_data())
-        self.assertNotEqual(start_data, self.other.stats.get_data())
+        self.assertEqual(project.stats.get_data(), other.stats.get_data())
+        self.assertNotEqual(start_data, other.stats.get_data())
