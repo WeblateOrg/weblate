@@ -334,6 +334,7 @@ class BaseStats:
             self.calculate_by_name(name)
             if name not in self._data:
                 msg = f"Unsupported stats for {self}: {name}"
+                self._pending_save = was_pending
                 raise AttributeError(msg)
             if not was_pending:
                 self.save()
