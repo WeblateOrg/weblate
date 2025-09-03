@@ -70,7 +70,9 @@ class DashboardTest(ViewTestCase):
 
         self.user.profile.languages.add(Language.objects.get(code="es"))
 
-        response = self.client.get(reverse("home"))
+        response = self.client.get(
+            reverse("component-list-dashboard", kwargs={"name": "testcl"})
+        )
         # testing for language name in text is insufficient as profile languages name
         # is always present in the languages drop down in the top bar and hence, it would
         # pass the test even if the ghost translation was not added.

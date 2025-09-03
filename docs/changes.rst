@@ -20,6 +20,7 @@ Weblate 5.13.1
 * Username autocompletion in comments.
 * Shorten session expiry while in :ref:`2fa`.
 * Statistics when using :ref:`component-links`.
+* :ref:`componentlists` are no longer blocking dashboard loading.
 
 .. rubric:: Compatibility
 
