@@ -1193,7 +1193,10 @@ class ChecklistStats(SingleLanguageStats):
         for key in keys:
             for suffix in suffixes:
                 name = f"{key}{suffix}"
-                values = (getattr(stats_obj, name) for stats_obj in all_stats)
+                # The attribute might be missing in some corner cases such as
+                # when component is shared in different project and calculating
+                # label stats.
+                values = (getattr(stats_obj, name, 0) for stats_obj in all_stats)
                 self.store(name, sum(values))
         self.save()
 
