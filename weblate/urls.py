@@ -109,6 +109,11 @@ real_patterns = [
         name="component-list",
     ),
     path(
+        "component-list/<name:name>/dashboard/",
+        weblate.trans.views.dashboard.component_list_user,
+        name="component-list-dashboard",
+    ),
+    path(
         "browse/<object_path:path>/",
         weblate.trans.views.edit.browse,
         name="browse",
