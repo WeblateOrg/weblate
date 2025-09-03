@@ -77,7 +77,7 @@ ADDON_CONFIG_TO_FILE_FORMAT_PARAMS: dict[str, dict[str, Any]] = {
 }
 
 
-def migrate_addons_config(apps, schema_editor):
+def migrate_addons_config(apps, schema_editor) -> None:
     Component = apps.get_model("trans", "Component")
     Addon = apps.get_model("addons", "Addon")
     to_update = []

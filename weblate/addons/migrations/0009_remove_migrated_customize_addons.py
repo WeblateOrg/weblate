@@ -7,7 +7,7 @@
 from django.db import migrations
 
 
-def remove_migrated_addons(apps, schema_editor):
+def remove_migrated_addons(apps, schema_editor) -> None:
     Addon = apps.get_model("addons", "Addon")
     # This removes missing add-on from weblate/trans/migrations/0046_component_file_format_params.py
     Addon.objects.filter(name="weblate.xml.customize").delete()

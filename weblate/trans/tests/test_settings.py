@@ -113,7 +113,7 @@ class SettingsTest(ViewTestCase):
         # Check change details display
         self.assertEqual(change.get_details_display(), "Protected")
 
-    def test_commit_policy(self):
+    def test_commit_policy(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
 
