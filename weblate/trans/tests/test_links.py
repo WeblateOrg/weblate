@@ -23,9 +23,6 @@ class ComponentLinkTestCase(ViewTestCase):
         self.assertContains(response, self.component.get_absolute_url())
 
     def test_stats(self) -> None:
-        self.project.stats.force_load()
-        self.other.stats.force_load()
-
         project = Project.objects.get(pk=self.project.pk)
         other = Project.objects.get(pk=self.other.pk)
 
@@ -44,3 +41,13 @@ class ComponentLinkTestCase(ViewTestCase):
         self.maxDiff = None
         self.assertEqual(project.stats.get_data(), other.stats.get_data())
         self.assertNotEqual(start_data, other.stats.get_data())
+
+    def test_labels(self) -> None:
+        self.other.label_set.create(name="test", color="navy")
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        project = Project.objects.get(pk=self.project.pk)
+        other = Project.objects.get(pk=self.other.pk)
+
+        self.maxDiff = None
+        self.assertEqual(project.stats.get_data(), other.stats.get_data())
