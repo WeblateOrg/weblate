@@ -11,11 +11,3 @@ For example, this covers:
 * `language-data <https://github.com/WeblateOrg/language-data/>`_, language definitions for Weblate, see :ref:`languages`
 
 .. include:: snippets/code-guide.rst
-
-.. seealso::
-
-   The CI integration is very similar to :doc:`tests`.
-
-.. seealso::
-
-   :doc:`code`
