@@ -1501,7 +1501,7 @@ class FormParamsWidget(forms.MultiWidget):
         widgets: dict[str, forms.Widget],
         fields_order: list[tuple[str, str]],
         attrs=None,
-    ):
+    ) -> None:
         self.fields_order = fields_order
         super().__init__(widgets, attrs)
 
@@ -1522,7 +1522,7 @@ class FormParamsWidget(forms.MultiWidget):
 
 
 class FormParamsField(forms.MultiValueField):
-    def __init__(self, encoder=None, decoder=None, **kwargs):
+    def __init__(self, encoder=None, decoder=None, **kwargs) -> None:
         fields = []
         subwidgets = {}
 
@@ -1868,7 +1868,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
                 }
         super().__init__(request, *args, **kwargs)
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         data = self.cleaned_data
 

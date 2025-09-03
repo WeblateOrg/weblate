@@ -360,7 +360,7 @@ class TranslationTest(RepoTestCase):
             [units[0], units[1], units[2], units[1], units[3]],
         )
 
-    def test_commit_explanation(self):
+    def test_commit_explanation(self) -> None:
         user = create_test_user()
         component = self.create_tbx()
 
@@ -386,7 +386,7 @@ class TranslationTest(RepoTestCase):
         # only adds pending change for target unit's translation file
         self.assertEqual(PendingUnitChange.objects.count(), 1)
 
-    def test_commit_policy(self):
+    def test_commit_policy(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
@@ -440,7 +440,7 @@ class TranslationTest(RepoTestCase):
         component.commit_pending("test", None)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
 
-    def test_commit_retry_unit_not_found(self):
+    def test_commit_retry_unit_not_found(self) -> None:
         """Test retry logic for units failing due to UnitFoundError works correctly."""
         user = create_test_user()
         component = self.create_po_new_base()
@@ -479,7 +479,7 @@ class TranslationTest(RepoTestCase):
         unit = translation.unit_set.get(source="Hello, world!\n")
         self.assertEqual(unit.target, "Ahoj Vesmíre!\n")
 
-    def test_commit_retry_unit_ttk_failure(self):
+    def test_commit_retry_unit_ttk_failure(self) -> None:
         """Test retry logic for units failing due to TTK failure works correctly."""
         user = create_test_user()
         component = self.create_ftl()
@@ -527,7 +527,7 @@ class TranslationTest(RepoTestCase):
         ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
         self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
 
-    def test_commit_successful_deletes_failed_changes(self):
+    def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
         user = create_test_user()
         component = self.create_ftl()
