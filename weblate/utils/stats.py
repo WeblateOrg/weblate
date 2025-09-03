@@ -274,8 +274,12 @@ class BaseStats:
     def ensure_loaded(self) -> None:
         """Load from cache if not already done."""
         if not self._loaded:
-            self._data = self.load()
-            self._loaded = True
+            self.force_load()
+
+    def force_load(self) -> None:
+        """Enforced loading of stats."""
+        self._data = self.load()
+        self._loaded = True
 
     def aggregate_get(self, name: str) -> StatItem:
         """
@@ -527,6 +531,10 @@ class TranslationStats(BaseStats):
 
         # Project / language
         yield component.project.stats.get_single_language_stats(translation.language)
+
+        # Linked project / language
+        for link in component.links.all():
+            yield link.stats.get_single_language_stats(translation.language)
 
         # Category / language
         category = component.category
@@ -891,8 +899,7 @@ class AggregatingStats(BaseStats):
     def calculate_source(self, stats: dict, all_stats: list) -> None:
         return
 
-    @cached_property
-    def aggregated_stats(self) -> list[BaseStats]:
+    def get_aggregated_stats(self) -> list[BaseStats]:
         return [
             obj.stats
             for obj in prefetch_stats(
@@ -902,7 +909,7 @@ class AggregatingStats(BaseStats):
 
     def _calculate_basic(self) -> None:
         stats = zero_stats(self.basic_keys)
-        all_stats: list[BaseStats] = self.aggregated_stats
+        all_stats: list[BaseStats] = self.get_aggregated_stats()
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
@@ -991,6 +998,10 @@ class ComponentStats(AggregatingStats):
         # Component lists
         for clist in self._object.componentlist_set.all():
             yield clist.stats
+
+        # Shared components
+        for link in self._object.links.all():
+            yield link.stats
 
         if self._object.category:
             # Category
@@ -1177,7 +1188,7 @@ class ChecklistStats(SingleLanguageStats):
 
     def aggregate_stats(self, keys: Iterable[str]) -> None:
         self.ensure_loaded()
-        all_stats: list[BaseStats] = self.aggregated_stats
+        all_stats: list[BaseStats] = self.get_aggregated_stats()
         suffixes: tuple[str, ...] = ("", "_words", "_chars")
         for key in keys:
             for suffix in suffixes:
@@ -1211,7 +1222,7 @@ class ProjectLanguageStats(ChecklistStats):
 
     def get_child_objects(self):
         return self.language.translation_set.filter(
-            component__project=self.project
+            Q(component__project=self.project) | Q(component__links=self.project)
         ).only("id", "language")
 
 
@@ -1351,12 +1362,16 @@ class ProjectStats(ParentAggregatingStats):
         return self._object.enable_review
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "project", "check_flags")
+        own = self._object.component_set.only("id", "project", "check_flags")
+        shared = self._object.shared_components.only("id", "project", "check_flags")
+        if shared:
+            return (own | shared).distinct()
+        return own
 
-    def get_single_language_stats(self, language):
+    def get_single_language_stats(self, language: Language) -> ProjectLanguageStats:
         return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
-    def get_language_stats(self):
+    def get_language_stats(self) -> list[ProjectLanguageStats]:
         return prefetch_stats(
             self.get_single_language_stats(language)
             for language in self._object.languages

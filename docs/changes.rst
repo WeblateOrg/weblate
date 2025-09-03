@@ -19,6 +19,7 @@ Weblate 5.13.1
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
 * Username autocompletion in comments.
 * Shorten session expiry while in :ref:`2fa`.
+* Statistics when using :ref:`component-links`.
 
 .. rubric:: Compatibility
 
