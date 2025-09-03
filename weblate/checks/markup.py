@@ -437,7 +437,9 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
                     role = match.group(1)
                     if role in RST_TRANSLATABLE:
                         name = f":{role}:"
-                    elif matched := RST_EXPLICIT_TITLE_RE.match(node.rawsource):
+                    elif matched := RST_EXPLICIT_TITLE_RE.match(
+                        node.rawsource[len(role) + 3 : -1]
+                    ):
                         # Exclude title for checking translatable roles
                         name = f":{role}:`{matched.group(2)}`"
                     else:
