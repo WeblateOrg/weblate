@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-01 12:07+0000\n"
-"Last-Translator: Vitalii <stopchan@gmail.com>\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -3056,15 +3056,11 @@ msgid "Long lines wrapping"
 msgstr "Обтікання довгих рядків"
 
 #: ../../admin/addons.rst:754 ../../snippets/file-format-parameters.rst:37
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Типово gettext переносить рядки на 77-у символі та на символах перенесення "
+"Типово, gettext переносить рядки на 77-у символі та на символах перенесення "
 "рядків, з параметром --no-wrap перенесення виконується лише на символах "
 "перенесення рядків."
 
@@ -3105,15 +3101,11 @@ msgid "Only wrap lines at newlines"
 msgstr "Перенесення рядків лише після символу нового рядку"
 
 #: ../../admin/addons.rst:778
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"Типово gettext переносить рядки на 77-у символі та на символах перенесення "
+"Типово, gettext переносить рядки на 77-у символі та на символах перенесення "
 "рядків, з параметром ``--no-wrap`` перенесення виконується лише на символах "
 "перенесення рядків."
 
@@ -8852,22 +8844,16 @@ msgstr ""
 "`Профілювання Sentry <https://docs.sentry.io/product/explore/profiling/>`_"
 
 #: ../../admin/config.rst:1818
-#, fuzzy
-#| msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
 msgid "SESSION_COOKIE_AGE_2FA"
-msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
+msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: ../../admin/config.rst:1822
-#, fuzzy
-#| msgid ""
-#| "Set session expiry for authenticated users. This complements :setting:"
-#| "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgid ""
 "Set session expiry while in :ref:`2fa`. This complements :setting:`django:"
 "SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"Встановити термін дії сеансу для автентифікованих користувачів. Це доповнює: "
-"параметр: :setting:`django:SESSION_COOKIE_AGE`, який застосовується для "
+"Встановлює термін дії сеансу в :ref:`2fa`. Це доповнює "
+":setting:`django:SESSION_COOKIE_AGE`, який використовується для "
 "неавтентифікованих користувачів."
 
 #: ../../admin/config.rst:1832
@@ -15060,22 +15046,19 @@ msgid "Configure how many WSGI workers should be executed."
 msgstr "Налаштуйте, скільки WSGI робітників має бути виконано."
 
 #: ../../admin/install/docker.rst:1991
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr "Типовим значенням є :envvar:`WEBLATE_WORKERS`."
+msgstr ""
+"За замовчуванням воно дорівнює половині від :envvar:`WEBLATE_WORKERS`, але "
+"завжди дорівнює щонайменше 2."
 
 #: ../../admin/install/docker.rst:2002
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` now configures number of threads instead of "
-#| "processes."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will used by :"
 "program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` тепер налаштовує кількість потоків замість процесів."
+":envvar:`WEB_WORKERS` налаштовує, скільки робочих процесів використовуватиме "
+":program:`granian`."
 
 #: ../../admin/install/docker.rst:2006
 msgid ""
@@ -17210,14 +17193,8 @@ msgid "IBM Watson Language Translator"
 msgstr "Перекладач IBM Watson"
 
 #: ../../admin/machine.rst:441
-#, fuzzy
-#| msgid ""
-#| "This service is deprecated by vendor and will be withdrawn entirely as of "
-#| "10 December 2024."
 msgid "This service was withdrawn by vendor as of 10 December 2024."
-msgstr ""
-"Ця служба вважається застарілою її розробником, її буде повністю вимкнено з "
-"10 грудня 2024 року."
+msgstr "Цю послугу було відкликано постачальником з 10 грудня 2024 року."
 
 #: ../../admin/machine.rst:446
 msgid "LibreTranslate"
@@ -24322,16 +24299,16 @@ msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
 msgstr ""
+"Параметр ``filter_type`` більше не підтримується, а фільтрація здійснюється "
+"параметром ``q``."
 
 #: ../../api.rst:2072
 msgid "Trigger automatic translation."
 msgstr "Перемкнути автоматичний переклад."
 
 #: ../../api.rst:2081
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid "Automatic translation search string, see :ref:`search-strings`."
-msgstr "Реалізовано автоматичний переклад на основі вже перекладених рядків."
+msgstr "Рядок пошуку автоматичного перекладу, див. :ref:`search-strings`."
 
 #: ../../api.rst:2082
 msgid "Automatic translation source - ``mt`` or ``others``"
@@ -25272,17 +25249,15 @@ msgstr ""
 
 #: ../../api.rst:2737
 msgid "The search looks for:"
-msgstr ""
+msgstr "Пошук шукає для:"
 
 #: ../../api.rst:2740 ../../api.rst:2751
 msgid "Categories"
 msgstr "Категорії"
 
 #: ../../api.rst:2745
-#, fuzzy
-#| msgid "Search string"
 msgid "Search query string"
-msgstr "Пошук рядка"
+msgstr "Рядок пошукового запиту"
 
 #: ../../api.rst:2746
 msgid "Name of the matched item."
@@ -25623,16 +25598,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.13.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.13.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on September 14th 2023.*"
 msgid "*Released on September 4th 2025.*"
-msgstr "*Випущено 14 вересня 2023 року.*"
+msgstr "*Випущено 4 вересня 2025 року.*"
 
 #: ../../changes.rst:7 ../../changes.rst:48 ../../changes.rst:167
 #: ../../changes.rst:321 ../../changes.rst:487 ../../changes.rst:598
@@ -25659,14 +25630,13 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Smarter retries of unwritable pending changes."
-msgstr "Удосконалено показ попереджень у змінах."
+msgstr ""
+"Розумніші повторні спроби внесення незаписуваних змін, що очікують на запис."
 
 #: ../../changes.rst:11
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr "Невдала :ref:`2fa` відображається в :ref:`audit-log`."
 
 #: ../../changes.rst:14 ../../changes.rst:75 ../../changes.rst:123
 #: ../../changes.rst:143 ../../changes.rst:196 ../../changes.rst:230
@@ -25689,62 +25659,46 @@ msgstr "Виправлення помилок"
 
 #: ../../changes.rst:15
 msgid "Sign-in form not shown for LDAP."
-msgstr ""
+msgstr "Форма входу не відображається для LDAP."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Users object attributes are documented at :http:get:`/api/users/(str:"
-#| "username)/`."
 msgid "Access control for :http:get:`/api/users/(str:username)/`."
-msgstr ""
-"Атрибути об'єкта користувачів описано у :http:get:`/api/users/(str:username)/"
-"`."
+msgstr "Контроль доступу для :http:get:`/api/users/(str:username)/`."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ":ref:`check-rst-references` allows translatable reference names."
-msgstr ""
-"Перевірка :ref:`check-rst-references` для перевірки посилань на "
-"reStructuredText."
+msgstr ":ref:`check-rst-references` дозволяє перекладні назви посилань."
 
 #: ../../changes.rst:18
 msgid ":ref:`file_format_params` were not properly applied in some situations."
 msgstr ""
+":ref:`file_format_params` не застосовувалися належним чином у деяких "
+"ситуаціях."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
 msgid "Removed stale :ref:`addon-weblate.xml.customize`."
-msgstr "Розширено підтримку форматів для :ref:`addon-weblate.json.customize`."
+msgstr "Вилучено застарілий :ref:`addon-weblate.xml.customize`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-openai` compatibility with latest models."
 msgid ":ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0."
-msgstr ":ref:`mt-openai` сумісність з найновішими моделями."
+msgstr ":ref:`mt-libretranslate` сумісність з LibreTranslate 1.7.0."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Notify users mentioned in comments."
 msgid "Username autocompletion in comments."
-msgstr "Реалізовано сповіщення користувачів, яких згадано у коментарях."
+msgstr "Автозаповнення імені користувача в коментарях."
 
 #: ../../changes.rst:22
 msgid "Shorten session expiry while in :ref:`2fa`."
-msgstr ""
+msgstr "Скоротити термін дії сесії в :ref:`2fa`."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid ":ref:`component-license`"
 msgid "Statistics when using :ref:`component-links`."
-msgstr ":ref:`component-license`"
+msgstr "Статистика при використанні :ref:`component-links`."
 
 #: ../../changes.rst:24
 msgid ":ref:`componentlists` are no longer blocking dashboard loading."
 msgstr ""
+":ref:`componentlists` більше не блокують завантаження панелі інструментів."
 
 #: ../../changes.rst:27 ../../changes.rst:82 ../../changes.rst:205
 #: ../../changes.rst:355 ../../changes.rst:438 ../../changes.rst:528
@@ -25756,10 +25710,8 @@ msgid "Compatibility"
 msgstr "Сумісність"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Improved support for extended metadata in :ref:`tbx`."
 msgid "Removed support for no longer working :ref:`mt-ibm`."
-msgstr "Покращена підтримка розширених метаданих у :ref:`tbx`."
+msgstr "Вилучено підтримку для непрацюючого :ref:`mt-ibm`."
 
 #: ../../changes.rst:31 ../../changes.rst:87 ../../changes.rst:128
 #: ../../changes.rst:147 ../../changes.rst:211 ../../changes.rst:234
@@ -25817,19 +25769,14 @@ msgstr ""
 "instructions` для виконання оновлення."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notably, "
 "``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; "
 "please adjust your settings accordingly."
 msgstr ""
-"До :file:`settings_example.py` внесено декілька змін. Найпомітнішими є зміна "
-"проміжного програмного забезпечення (:setting:`django:MIDDLEWARE`). Будь "
-"ласка, скоригуйте параметри відповідним чином."
+"У файлі :file:`settings_example.py` відбулося кілька змін, зокрема, "
+"``django_otp.middleware.OTPMiddleware`` було видалено з ``MIDDLEWARE``; будь "
+"ласка, налаштуйте свої налаштування відповідно."
 
 #: ../../changes.rst:37 ../../changes.rst:108 ../../changes.rst:132
 #: ../../changes.rst:151 ../../changes.rst:215 ../../changes.rst:238
@@ -25844,26 +25791,20 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/150?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/140?"
-"closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"150?closed=1>`__."
 
 #: ../../changes.rst:43
 msgid "Weblate 5.13"
 msgstr "Weblate 5.13"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "*Released on August 15th 2024.*"
 msgid "*Released on August 15th 2025.*"
-msgstr "*Випущено 15 серпня 2024 року.*"
+msgstr "*Випущено 15 серпня 2025 року.*"
 
 #: ../../changes.rst:49
 msgid ""
@@ -25919,6 +25860,8 @@ msgid ""
 "Tag and attribute names can now be customized for :ref:`flatxml` with :ref:"
 "`file_format_params`."
 msgstr ""
+"Назви тегів та атрибутів тепер можна налаштовувати для :ref:`flatxml` за "
+"допомогою :ref:`file_format_params`."
 
 #: ../../changes.rst:60
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
@@ -26047,6 +25990,12 @@ msgid ""
 "limited filters. Existing add-on configuration has been migrated. API users "
 "will need to adjust invocation."
 msgstr ""
+":ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` "
+"та :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/autotranslate/` тепер "
+"підтримують всі оператори пошуку, а не лише обмежені фільтри. Існуюче "
+"налаштовування додатка було перенесено. Користувачам API потрібно буде "
+"налаштувати виклик."
 
 #: ../../changes.rst:90
 msgid ""
@@ -26067,20 +26016,16 @@ msgstr ""
 "``INSTALLED_APPS``; будь ласка, налаштуйте свої налаштування відповідно."
 
 #: ../../changes.rst:92
-#, fuzzy
-#| msgid ""
-#| "Docker container is now using :program:`granian`. This now requires "
-#| "explicit configuration of proxy trusted headers including client "
-#| "protocol. See :ref:`reverse-proxy`."
 msgid ""
 "The Docker container is now using :program:`granian`. This now requires "
 "explicit configuration of proxy trusted headers, including client protocol. :"
 "envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to "
 "avoid redirect loop, for example:"
 msgstr ""
-"Docker-контейнер тепер використовує :program:`granian`. Тепер це вимагає "
-"явного налаштування довірених заголовків проксі-сервера, включаючи протокол "
-"клієнта. Див. :ref:`reverse-proxy`."
+"Контейнер Docker тепер використовує :program:`granian`. Це вимагає явного "
+"налаштування довірених заголовків проксі, включаючи протокол клієнта. "
+"Зазвичай потрібно додати :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`, щоб "
+"уникнути циклу перенаправлення, наприклад:"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -40593,10 +40538,8 @@ msgstr ""
 "Далі, ви можете виконати комплекс перевірок для локальної копії сховища:"
 
 #: ../../contributing/tests.rst:123
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Testing repository"
-msgstr "Доступ до сховищ"
+msgstr "Тестовий репозиторій"
 
 #: ../../contributing/tests.rst:125
 msgid ""
@@ -40608,6 +40551,14 @@ msgid ""
 "tar`, :file:`weblate/trans/tests/data/test-base-repo.hg.tar`, and :file:"
 "`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate repository."
 msgstr ""
+"Багато тестів у наборі тестів Weblate використовують репозиторій тестів. "
+"Репозиторій набору тестів знаходиться за адресою https://github.com/"
+"WeblateOrg/test. Скрипт :file:`scripts/pack-test-data.sh` потім "
+"використовується для створення tar-архіву з репозиторієм для кожної з "
+"підтримуваних систем контролю версій. Вони зберігаються як :file:`weblate/"
+"trans/tests/data/test-base-repo.git.tar`, :file:`weblate/trans/tests/data/"
+"test-base-repo.hg.tar`, і :file:`weblate/trans/tests/data/test-base-"
+"repo.svn.tar` у репозиторії Weblate."
 
 #: ../../contributing/tests.rst:134
 msgid ""
@@ -40616,6 +40567,10 @@ msgid ""
 "used at the release time. The script tries to create reproducible tarballs "
 "as much as possible."
 msgstr ""
+"Репозиторій https://github.com/WeblateOrg/test позначається тегами на момент "
+"випуску, що гарантує можливість використання тегів випуску для доступу до "
+"тестових даних, які використовувалися на момент випуску. Скрипт намагається "
+"створити якомога більше відтворюваних архівів."
 
 #: ../../contributing/trademark.rst:2
 msgid "Weblate Trademark Guidelines"
@@ -44716,35 +44671,27 @@ msgstr "Довідковий текст"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "flatxml_key_name"
-msgstr ""
+msgstr "flatxml_key_name"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Назва категорії"
+msgstr "Ім'я ключа FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:9
 msgid "flatxml_root_name"
-msgstr ""
+msgstr "flatxml_root_name"
 
 #: ../../snippets/file-format-parameters.rst:9
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Плоский XML-файл"
+msgstr "Ім'я кореня FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:11
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "flatxml_value_name"
-msgstr "Плоский XML-файл"
+msgstr "flatxml_value_name"
 
 #: ../../snippets/file-format-parameters.rst:11
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Плоский XML-файл"
+msgstr "Ім'я значення FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:13
 msgid "json_indent"
@@ -45135,8 +45082,6 @@ msgid "`Application Resource Bundle Specification`_"
 msgstr "`Специфікація пакета ресурсів застосунку`_"
 
 #: ../../formats/arb.rst:18
-#, fuzzy
-#| msgid "`Internationalizing Flutter apps`_"
 msgid "`Internationalization of Flutter apps`_"
 msgstr "`Інтернаціоналізація Flutter-додатків`_"
 
@@ -45349,18 +45294,16 @@ msgid "Flat XML files"
 msgstr "Прості файли XML"
 
 #: ../../formats/flatxml.rst:16
-#, fuzzy
-#| msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgid ""
 "The tag and attribute names can now be customized using :ref:"
 "`file_format_params`."
-msgstr "Конфігурацію налаштувань перенесено до :ref:`file_format_params`."
+msgstr ""
+"Назви тегів та атрибутів тепер можна налаштувати за допомогою "
+":ref:`file_format_params`."
 
 #: ../../formats/flatxml.rst:18
-#, fuzzy
-#| msgid "Example of a flat XML file:"
 msgid "Example of flat XML files:"
-msgstr "Приклад простого файла XML:"
+msgstr "Приклад плоских XML-файлів:"
 
 #: ../../formats/flatxml.rst:38
 msgid "`Flat XML file`"
@@ -45733,19 +45676,13 @@ msgstr ""
 "деяких мови використовувалися інші форми множини, що не є правильним."
 
 #: ../../formats/i18next.rst:21
-#, fuzzy
-#| msgid ""
-#| "`i18next <https://www.i18next.com/>`_ is an internationalization "
-#| "framework written in and for JavaScript. Weblate supports its "
-#| "localization files with features such as plurals."
 msgid ""
 "i18next is an internationalization framework written in and for JavaScript. "
 "Weblate supports its localization files with features such as plurals."
 msgstr ""
-"`i18next <https://www.i18next.com/>`_ — бібліотека для перекладу, яку "
-"написано на JavaScript і для JavaScript. У Weblate передбачено підтримку "
-"файлів локалізації цієї бібліотеки із різними можливостями, зокрема формами "
-"множини."
+"i18next — це фреймворк для інтернаціоналізації, написаний на JavaScript та "
+"для JavaScript. Weblate підтримує файли локалізації з такими функціями, як "
+"форми множини."
 
 #: ../../formats/i18next.rst:24
 msgid ""
@@ -45785,10 +45722,8 @@ msgstr ""
 "обробки форм множини."
 
 #: ../../formats/i18next.rst:45
-#, fuzzy
-#| msgid "https://www.djangoproject.com/"
 msgid "https://www.i18next.com/"
-msgstr "https://www.djangoproject.com/"
+msgstr "https://www.i18next.com/"
 
 #: ../../formats/i18next.rst:46
 msgid "`i18next JSON Format <https://www.i18next.com/misc/json-format>`_"
@@ -49270,10 +49205,8 @@ msgid "Check identifier"
 msgstr "Перевірити ідентифікатор"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Triggers"
 msgid "Trigger"
-msgstr "Перемикачі"
+msgstr "Тригер"
 
 #: ../../user/checks.rst:122 ../../user/checks.rst:174
 #: ../../user/checks.rst:219 ../../user/checks.rst:261
@@ -49297,10 +49230,8 @@ msgstr "Перемикачі"
 #: ../../user/checks.rst:1785 ../../user/checks.rst:1815
 #: ../../user/checks.rst:1934 ../../user/checks.rst:2069
 #: ../../user/checks.rst:2096
-#, fuzzy
-#| msgid "This check ensures they are also found in translation."
 msgid "This check needs to be enabled using a flag."
-msgstr "Ця перевірка забезпечує наявність розмітки у перекладі."
+msgstr "Цю перевірку потрібно ввімкнути за допомогою прапорця."
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
@@ -49365,6 +49296,7 @@ msgstr "Текст містить те саме слово двічі поспі
 #: ../../user/checks.rst:2173
 msgid "This check is always enabled but can be ignored using a flag."
 msgstr ""
+"Ця перевірка завжди увімкнена, але її можна ігнорувати за допомогою прапорця."
 
 #: ../../user/checks.rst:155
 msgid ""
@@ -49458,7 +49390,7 @@ msgstr "Повільні частини повинні збігатися."
 
 #: ../../user/checks.rst:0
 msgid "File formats automatically enabling this check"
-msgstr ""
+msgstr "Формати файлів, що автоматично вмикають цю перевірку"
 
 #: ../../user/checks.rst:224
 msgid ""
@@ -49908,10 +49840,8 @@ msgid "The i18next interpolation does not match source."
 msgstr "Інтерполяція i18next не відповідає джерелу."
 
 #: ../../user/checks.rst:570
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`bimono`"
 msgid ":ref:`i18next`, :ref:`i18nextv4`"
-msgstr ":ref:`component`, :ref:`bimono`"
+msgstr ":ref:`i18next`, :ref:`i18nextv4`"
 
 #: ../../user/checks.rst:0
 msgid "Nesting example"
@@ -49937,10 +49867,8 @@ msgstr ""
 "MessageFormat."
 
 #: ../../user/checks.rst:594 ../../user/checks.rst:2097
-#, fuzzy
-#| msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgid ":ref:`arb`, :ref:`formatjs`"
-msgstr ":ref:`faq-vcs`, :ref:`alerts`"
+msgstr ":ref:`arb`, :ref:`formatjs`"
 
 #: ../../user/checks.rst:599
 msgid ""
@@ -50053,12 +49981,8 @@ msgid "Java format string does not match source."
 msgstr "Рядок формату Java не відповідає джерелу."
 
 #: ../../user/checks.rst:661
-#, fuzzy
-#| msgid ""
-#| ":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 msgid ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
-msgstr ""
-":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
+msgstr ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
 
 #: ../../user/checks.rst:669
 msgid ""
@@ -51250,10 +51174,8 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "Переклад використовує небезпечну HTML-розмітку."
 
 #: ../../user/checks.rst:1786
-#, fuzzy
-#| msgid ":ref:`markdown`"
 msgid ":ref:`html`, :ref:`markdown`"
-msgstr ":ref:`markdown`"
+msgstr ":ref:`html`, :ref:`markdown`"
 
 #: ../../user/checks.rst:1790
 msgid ""
