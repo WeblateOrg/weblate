@@ -1,7 +1,7 @@
 Weblate 5.13.1
 --------------
 
-*Not yet released.*
+*Released on September 4th 2025.*
 
 .. rubric:: New features
 
