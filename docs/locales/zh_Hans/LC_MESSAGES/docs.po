@@ -28,7 +28,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
 "PO-Revision-Date: 2025-09-04 11:55+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -8120,16 +8121,12 @@ msgid "SESSION_COOKIE_AGE_2FA"
 msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: ../../admin/config.rst:1822
-#, fuzzy
-#| msgid ""
-#| "Set session expiry for authenticated users. This complements :setting:"
-#| "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgid ""
 "Set session expiry while in :ref:`2fa`. This complements :setting:`django:"
 "SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"对身份已验证用户设置会话过期时间。这是对用于未经身份验证用户的 :setting:"
-"`django:SESSION_COOKIE_AGE` 的补充。"
+"设置 :ref:`2fa` 会话过期时间。这是对用于未验证身份用户的 "
+":setting:`django:SESSION_COOKIE_AGE` 的补充。"
 
 #: ../../admin/config.rst:1832
 msgid ""
@@ -13737,21 +13734,15 @@ msgid "Configure how many WSGI workers should be executed."
 msgstr "配置应该执行多少个 WSGI 工作进程。"
 
 #: ../../admin/install/docker.rst:1991
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr "它默认为 :envvar:`WEBLATE_WORKERS`。"
+msgstr "默认是 :envvar:`WEBLATE_WORKERS` 的一半，但始终至少是 2 个。"
 
 #: ../../admin/install/docker.rst:2002
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` now configures number of threads instead of "
-#| "processes."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will used by :"
 "program:`granian`."
-msgstr ":envvar:`WEB_WORKERS` 现在配置线程数而非进程数。"
+msgstr ":envvar:`WEB_WORKERS` 配置 :program:`granian` 将使用多少 worker 进程。"
 
 #: ../../admin/install/docker.rst:2006
 msgid ""
@@ -15681,12 +15672,8 @@ msgid "IBM Watson Language Translator"
 msgstr "IBM Watson Language Translator"
 
 #: ../../admin/machine.rst:441
-#, fuzzy
-#| msgid ""
-#| "This service is deprecated by vendor and will be withdrawn entirely as of "
-#| "10 December 2024."
 msgid "This service was withdrawn by vendor as of 10 December 2024."
-msgstr "此服务被厂商废弃，并将于2024年12月10日前被彻底退出。"
+msgstr "厂商自 2024 年 12 月 10 日起停止提供本服务。"
 
 #: ../../admin/machine.rst:446
 msgid "LibreTranslate"
@@ -22148,7 +22135,7 @@ msgstr "新创建的单元；请参见 :http:get:`/api/units/(int:id)/`"
 msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
-msgstr ""
+msgstr "不再支持 ``filter_type`` 参数，筛选通过 ``q`` 参数进行。"
 
 #: ../../api.rst:2072
 msgid "Trigger automatic translation."
@@ -23405,14 +23392,12 @@ msgid "Improvements"
 msgstr "改进"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Smarter retries of unwritable pending changes."
-msgstr "改进了变更中警报的呈现方式。"
+msgstr "更智能地重试不可写入的待定更改。"
 
 #: ../../changes.rst:11
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr "可以在 :ref:`audit-log` 中看到失败的 :ref:`2fa`。"
 
 #: ../../changes.rst:14 ../../changes.rst:75 ../../changes.rst:123
 #: ../../changes.rst:143 ../../changes.rst:196 ../../changes.rst:230
@@ -23435,7 +23420,7 @@ msgstr "缺陷修复"
 
 #: ../../changes.rst:15
 msgid "Sign-in form not shown for LDAP."
-msgstr ""
+msgstr "LDAP 协议不显示登录表单。"
 
 #: ../../changes.rst:16
 msgid "Access control for :http:get:`/api/users/(str:username)/`."
@@ -23447,7 +23432,7 @@ msgstr ":ref:`check-rst-references` 允许可翻译的参考名称。"
 
 #: ../../changes.rst:18
 msgid ":ref:`file_format_params` were not properly applied in some situations."
-msgstr ""
+msgstr "一些情形下未正确应用 :ref:`file_format_params`。"
 
 #: ../../changes.rst:19
 msgid "Removed stale :ref:`addon-weblate.xml.customize`."
@@ -23463,7 +23448,7 @@ msgstr "评论中的用户名自动补全。"
 
 #: ../../changes.rst:22
 msgid "Shorten session expiry while in :ref:`2fa`."
-msgstr ""
+msgstr "缩短 :ref:`2fa` 会话过期时间。"
 
 #: ../../changes.rst:23
 msgid "Statistics when using :ref:`component-links`."
@@ -23471,7 +23456,7 @@ msgstr "使用 :ref:`component-links` 时统计数据。"
 
 #: ../../changes.rst:24
 msgid ":ref:`componentlists` are no longer blocking dashboard loading."
-msgstr ""
+msgstr ":ref:`componentlists` 不再拦截操作面板加载。"
 
 #: ../../changes.rst:27 ../../changes.rst:82 ../../changes.rst:205
 #: ../../changes.rst:355 ../../changes.rst:438 ../../changes.rst:528
@@ -23483,10 +23468,8 @@ msgid "Compatibility"
 msgstr "兼容性"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Improved support for extended metadata in :ref:`tbx`."
 msgid "Removed support for no longer working :ref:`mt-ibm`."
-msgstr "改进了对 :ref:`tbx` 中扩展元数据的支持。"
+msgstr "去除了对不再正常工作的 :ref:`mt-ibm` 的支持。"
 
 #: ../../changes.rst:31 ../../changes.rst:87 ../../changes.rst:128
 #: ../../changes.rst:147 ../../changes.rst:211 ../../changes.rst:234
@@ -23542,18 +23525,13 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notably, "
 "``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; "
 "please adjust your settings accordingly."
 msgstr ""
-"在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改(:setting:"
-"`django:MIDDLEWARE`)，请由此调整你的设置。"
+"在 :file:`settings_example.py` 中有几项更改，最明显的是从 ``MIDDLEWARE`` "
+"中去掉了 ``django_otp.middleware.OTPMiddleware`` ；请相应调整你的设置。"
 
 #: ../../changes.rst:37 ../../changes.rst:108 ../../changes.rst:132
 #: ../../changes.rst:151 ../../changes.rst:215 ../../changes.rst:238
@@ -23630,7 +23608,7 @@ msgstr ""
 msgid ""
 "Tag and attribute names can now be customized for :ref:`flatxml` with :ref:"
 "`file_format_params`."
-msgstr ""
+msgstr "现在可以通过 :ref:`file_format_params` 自定义 :ref:`flatxml` 的标签和属性名。"
 
 #: ../../changes.rst:60
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
@@ -23745,6 +23723,11 @@ msgid ""
 "limited filters. Existing add-on configuration has been migrated. API users "
 "will need to adjust invocation."
 msgstr ""
+":ref:`machine-translation`、:ref:`addon-weblate.autotranslate.autotranslate` "
+"和 :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/autotranslate/` "
+"现在支持所有的搜索运算符，不只是有限的筛选器。现有的附加组件配置已被迁移。 "
+"API 用户需要调整调用。"
 
 #: ../../changes.rst:90
 msgid ""
@@ -23765,19 +23748,15 @@ msgstr ""
 "设置。"
 
 #: ../../changes.rst:92
-#, fuzzy
-#| msgid ""
-#| "Docker container is now using :program:`granian`. This now requires "
-#| "explicit configuration of proxy trusted headers including client "
-#| "protocol. See :ref:`reverse-proxy`."
 msgid ""
 "The Docker container is now using :program:`granian`. This now requires "
 "explicit configuration of proxy trusted headers, including client protocol. :"
 "envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to "
 "avoid redirect loop, for example:"
 msgstr ""
-"Docker 容器现在使用 :program:`granian`。这一变化造成要求明确配置代理信任标"
-"头，包括客户端协议。见 :ref:`reverse-proxy`。"
+"Docker 容器现在使用 "
+":program:`granian`。这一变化要求显式配置代理信任标头，包括客户端协议。"
+"通常需添加 :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` 避免重定向循环，例如："
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -36980,6 +36959,12 @@ msgid ""
 "tar`, :file:`weblate/trans/tests/data/test-base-repo.hg.tar`, and :file:"
 "`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate repository."
 msgstr ""
+"Weblate 测试套件中的许多测试使用测试仓库。测试套件仓库维护在 https://"
+"github.com/WeblateOrg/test 进行维护。脚本 :file:`scripts/pack-test-data.sh` "
+"用来生成 tarball，其中每个受支持版本控制系统都有一个仓库。这些文件存储在 "
+"Weblate 仓库中，名称为 :file:`weblate/trans/tests/data/test-base-"
+"repo.git.tar`、:file:`weblate/trans/tests/data/test-base-repo.hg.tar` 和 "
+":file:`weblate/trans/tests/data/test-base-repo.svn.tar`。"
 
 #: ../../contributing/tests.rst:134
 msgid ""
@@ -36988,6 +36973,9 @@ msgid ""
 "used at the release time. The script tries to create reproducible tarballs "
 "as much as possible."
 msgstr ""
+"系统会在版本发行时给 https://github.com/WeblateOrg/test repository "
+"打上标签，这样保证发行标签可被用来访问在发行时所用的测试数据。"
+"该脚本尝试创建尽可能多的可重复 tarball。"
 
 #: ../../contributing/trademark.rst:2
 msgid "Weblate Trademark Guidelines"
@@ -41264,12 +41252,10 @@ msgid "Flat XML files"
 msgstr "Flat XML 文件"
 
 #: ../../formats/flatxml.rst:16
-#, fuzzy
-#| msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgid ""
 "The tag and attribute names can now be customized using :ref:"
 "`file_format_params`."
-msgstr "设置配置已经移动到 :ref:`file_format_params`。"
+msgstr "现在可以用 :ref:`file_format_params` 自定义标签和属性名。"
 
 #: ../../formats/flatxml.rst:18
 msgid "Example of flat XML files:"
