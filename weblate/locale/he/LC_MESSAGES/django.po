@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-23 01:02+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -588,10 +588,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "כניסה מבעד לאימות דו־שלבי עם {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "כניסה מבעד לאימות דו־שלבי עם {device}"
+msgstr "כניסה מבעד לאימות דו־שלבי עם {device_type} נכשלה"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -3956,10 +3955,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "תסדיר הבינאום של Vue אינו תואם למקור."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "רכיבים של Automattic"
+msgstr "עיצוב רכיבים של Automattic"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -13833,15 +13830,11 @@ msgid "No line wrapping"
 msgstr "ללא גלישת שורות"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"כבררת מחדל gettext גורם לגלישת שורות לאחר 77 תווים או תווי שורה חדשה. עם "
+"כברירת מחדל gettext גורם לגלישת שורות לאחר 77 תווים או תווי שורה חדשה. עם "
 "המשתנה ‎--no-wrap, הגלישה תתבצע רק עם תווי שורה חדשה."
 
 #: weblate/trans/file_format_params.py:211
@@ -13897,22 +13890,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "לכלול את תגית הסגירה לתגיות XML ריקות"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "קובץ XML שטוח"
+msgstr "שם מקור XML שטוח"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "קובץ XML שטוח"
+msgstr "שם ערך XML שטוח"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "שם קטגוריה"
+msgstr "שם מפתח XML שטוח"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14368,6 +14355,8 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"לא ניתן לטעון את גיבוי המיזם: הגיבוי הוא מגרסה לא נתמכת (%(version)s). נא "
+"לשדרג את עותק ה־Weblate שלך."
 
 #: weblate/trans/forms.py:2540
 #, python-format
@@ -14437,10 +14426,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "המחרוזת תהיה חלק מהמונחונים בכל השפות"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "המיזם פתוח כעת לעדכוני תרגום."
+msgstr "לסמן את האפשרות הזאת לתרגומים שאין להשתמש בהם."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14450,7 +14437,7 @@ msgstr "מונח שלא לתרגום"
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
-msgstr ""
+msgstr "יש לסמן את האפשרות הזאת אם המשפט אמור להישאר כמו בשפת המקור, ללא שינוי."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
