@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-09-02 17:03+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
+"Last-Translator: Marija Grineviciute <marijagrine@protonmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
 "application/lt/>\n"
 "Language: lt\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || "
 "n%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -590,10 +590,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr ""
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Authentication"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Autentifikavimas"
+msgstr "Dviejų faktorių autentifikacija nepavyko naudojant {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -3351,10 +3350,8 @@ msgstr[2] "Sudaro daug %d projektų"
 msgstr[3] "Sudaro %d projektų"
 
 #: weblate/billing/models.py:489
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Projekto svetainė"
+msgstr "Trūksta projekto svetainės!"
 
 #: weblate/billing/models.py:493
 #, fuzzy
@@ -3569,10 +3566,8 @@ msgid "Mismatching line breaks"
 msgstr ""
 
 #: weblate/checks/chars.py:435
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "Naujų eilučių skaičius vertime nesutampa su šaltiniu."
 
 #: weblate/checks/chars.py:443 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
@@ -4532,10 +4527,8 @@ msgid "BBCode markup"
 msgstr ""
 
 #: weblate/checks/markup.py:120
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "BBKodas vertime nesutampa su šaltiniu."
 
 #: weblate/checks/markup.py:203
 msgid "XML syntax"
@@ -4552,10 +4545,8 @@ msgid "XML markup"
 msgstr ""
 
 #: weblate/checks/markup.py:229
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "XML tags in translation do not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "XML žymės vertime nesutampa su šaltiniu."
 
 #: weblate/checks/markup.py:287
 #, fuzzy
@@ -6235,10 +6226,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Pridėti naują asociaciją"
 
 #: weblate/memory/models.py:293
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Nebuvo galima analizuoti „TMX“ failo!"
+msgstr "Nepavyko išanalizuoti TMX failo: %s"
 
 #: weblate/memory/models.py:302
 msgid "Source language not defined in the TMX file!"
@@ -15277,10 +15267,9 @@ msgid "File mask matches the main component."
 msgstr "Vertimų būsena"
 
 #: weblate/trans/discovery.py:328
-#, fuzzy, python-brace-format
-#| msgid "Translation status"
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Vertimų būsena"
+msgstr "{filename}{parameter} neegzistuoja."
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:32
@@ -17158,10 +17147,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr "Stebimi vertimai"
 
 #: weblate/trans/models/component.py:3075
-#, fuzzy, python-brace-format
-#| msgid "Watched translations"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Stebimi vertimai"
+msgstr "Nepavyko išanalizuoti {file}: {error}"
 
 #: weblate/trans/models/component.py:3083
 #, fuzzy, python-format
@@ -17339,10 +17327,8 @@ msgid "Add new translation string"
 msgstr "Pridėti naują asociaciją"
 
 #: weblate/trans/models/component.py:4074
-#, fuzzy
-#| msgid "Status of repositories"
 msgid "Could not get repository status!"
-msgstr "Saugyklų būsena"
+msgstr "Nepavyko gauti saugyklos būsenos!"
 
 #: weblate/trans/models/componentlist.py:31
 msgid "Component list name"
