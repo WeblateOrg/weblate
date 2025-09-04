@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-02 17:03+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -185,7 +185,8 @@ msgid ""
 msgstr ""
 "Administratoren von Instanzen können die Standardberechtigungen, die "
 "Benutzern in `Öffentlich`-, `Geschützt`- und `Privat`-Projekten zur "
-"Verfügung stehen, mithilfe von :ref:`custom settings <custom-acl>` ändern."
+"Verfügung stehen, mithilfe von :ref:`benutzerdefinierten Einstellungen "
+"<custom-acl>` ändern."
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
@@ -234,7 +235,8 @@ msgstr "Übersetzungen in einer Überprüfung genehmigen."
 #: ../../admin/access.rst:108
 msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr ""
-"Nur verfügbar, wenn :ref:`review workflow <reviews>` eingeschaltet ist."
+"Nur verfügbar, wenn der :ref:`Überprüfungsablauf <reviews>` eingeschaltet "
+"ist."
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
@@ -257,7 +259,7 @@ msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"Ausgangszeichenketten (wenn in :ref:`project settings <component-"
+"Ausgangszeichenketten (wenn in den :ref:`Projekteinstellungen <component-"
 "manage_units>` erlaubt) und Infos zu Ausgangszeichenketten bearbeiten."
 
 #: ../../admin/access.rst:119
@@ -388,9 +390,9 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"Die gleiche Art von Einladungen ist plattformweit über die :ref:`management "
-"interface <management-interface>` auf der Reiterkarte :guilabel:`Benutzer` "
-"verfügbar."
+"Die gleiche Art von Einladungen ist plattformweit über die :ref:`"
+"Verwaltungsoberfläche <management-interface>` auf der Reiterkarte "
+":guilabel:`Benutzer` verfügbar."
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -424,9 +426,9 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Sie können Ihre Projekte auf :guilabel:`Geschützt` oder :guilabel:`Privat` "
-"(siehe :ref:`acl`) setzen und die :ref:`manage users access <manage-acl>` "
-"pro Projekt einstellen."
+"Sie können Ihre Projekte auf :guilabel:`Geschützt` oder :guilabel:`Privat` ("
+"siehe :ref:`acl`) setzen und den :ref:`Benutzerzugriff <manage-acl>` pro "
+"Projekt einstellen."
 
 #: ../../admin/access.rst:205
 msgid ""
@@ -438,7 +440,7 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Standardmäßig verhindert dies, dass Weblate den Zugriff von `Benutzer`- und "
-"`Betrachter` (:ref:`default teams <default-teams>`) aufgrund der eigenen "
+"`Betrachter`-:ref:`Standardteams <default-teams>` aufgrund der eigenen "
 "Konfiguration dieser Teams gewährt. Dies hindert Sie jedoch nicht daran, "
 "diesen Projekten plattformweit Berechtigungen zu erteilen, indem Sie die "
 "Standardteams ändern, ein neues Team erstellen oder zusätzliche "
@@ -501,9 +503,9 @@ msgid ""
 msgstr ""
 "Die leistungsfähigsten Funktionen der Zugriffssteuerung von Weblate können "
 "in der :ref:`management-interface` konfiguriert werden. Sie können damit die "
-"Berechtigungen für jedes Projekt verwalten. Sie müssen die :ref:`access "
-"control <acl>` nicht zwingend auf :guilabel:`Benutzerdefiniert` umstellen, "
-"um sie nutzen zu können. Sie benötigen jedoch Superuser-Rechte."
+"Berechtigungen für jedes Projekt verwalten. Sie müssen die :ref:`"
+"Zugriffssteuerung <acl>` nicht zwingend auf :guilabel:`Benutzerdefiniert` "
+"umstellen, um sie nutzen zu können. Sie benötigen jedoch Superuser-Rechte."
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -529,21 +531,23 @@ msgid ""
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
 "Um Berechtigungen für eine ganze Instanz auf einmal zu verwalten, fügen Sie "
-"Benutzer zu der entsprechenden :ref:`default teams <default-teams>` hinzu:"
+"Benutzer zu den entsprechenden :ref:`Standardteams <default-teams>` hinzu:"
 
 #: ../../admin/access.rst:259
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Benutzer` (dies geschieht standardmäßig durch :ref:`automatic team "
-"assignment <autoteam>`)."
+"`Benutzer` (dies geschieht standardmäßig durch :ref:`Automatische "
+"Teamzuweisungen <autoteam>`)."
 
 #: ../../admin/access.rst:261
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr "`Prüfer` (wenn Sie :ref:`review workflow <reviews>` verwenden)."
+msgstr ""
+"`Prüfer` (wenn Sie den :ref:`Überprüfungsablauf <reviews>` mit dedizierten "
+"Prüfern verwenden)."
 
 #: ../../admin/access.rst:263
 msgid ""
@@ -634,8 +638,8 @@ msgid ""
 "<default-teams>`."
 msgstr ""
 "Entziehen Sie allen Benutzern die Erlaubnis, `Tschechisch` zu übersetzen. In "
-"der Standardkonfiguration kann dies durch Ändern von `Benutzer` (:ref:"
-"`default team <default-teams>`) erfolgen."
+"der Standardkonfiguration kann dies durch Ändern des `Benutzer`-:ref:`"
+"Standardteams <default-teams>` erfolgen."
 
 #: ../../admin/access.rst:296
 msgid "Group `Users`"
@@ -855,8 +859,8 @@ msgstr ""
 "entweder durch direkte Auflistung oder indem :guilabel:`Projektauswahl` auf "
 "einen Wert wie :guilabel:`Alle öffentlichen Projekte` gesetzt wird, werden "
 "alle diese Berechtigungen auf alle Projekte angewandt, was effektiv "
-"dieselben Zugriffsrechte für alle nicht eingeschränkten Komponenten (:ref:"
-"`unrestricted components <component-restricted>`) des Projekts gewährt."
+"dieselben Zugriffsrechte für alle :ref:`nicht eingeschränkten Komponenten "
+"<component-restricted>` des Projekts gewährt."
 
 #: ../../admin/access.rst:405
 msgid ""
@@ -1791,8 +1795,8 @@ msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Standardmäßig macht :ref:`automatic team assignment <autoteam>` alle neuen "
-"Benutzerkonten zu Mitgliedern dieses Teams, wenn sie beitreten."
+"Standardmäßig werden alle neuen Konten durch :ref:`Automatische "
+"Teamzuweisungen <autoteam>` zu Mitgliedern dieses Teams, wenn sie beitreten."
 
 #: ../../admin/access.rst:1021
 msgid "Default roles: none"
@@ -2146,9 +2150,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Geben Sie den Slug einer Komponente ein, die als Ausgangszeichenkette "
-"verwendet werden soll. Lassen Sie das Feld leer, um alle Komponenten im "
-"aktuellen Projekt zu verwenden."
+"Den Slug einer Komponente eingeben, die als Ausgangszeichenkette verwendet "
+"werden soll. Das Feld leer lassen, um alle Komponenten im aktuellen Projekt "
+"zu verwenden."
 
 #: ../../admin/addons.rst:161 ../../api.rst:2084
 msgid "Machine translation engines"
@@ -3087,10 +3091,6 @@ msgid "Long lines wrapping"
 msgstr "Umbruch langer Zeilen"
 
 #: ../../admin/addons.rst:754 ../../snippets/file-format-parameters.rst:37
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -3134,10 +3134,6 @@ msgid "Only wrap lines at newlines"
 msgstr "Zeilenumbruch nur nach Zeilenvorschüben"
 
 #: ../../admin/addons.rst:778
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
@@ -4640,7 +4636,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:70
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
+msgstr ":doc:`Python Social Auth Backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:73
 msgid "OpenID authentication"
@@ -5119,7 +5115,7 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
-"Es gibt einige Inkompatibilitäten im Python LDAP 3.1.0 Modul, die Sie "
+"Es gibt einige Inkompatibilitäten im Python-LDAP-3.1.0-Modul, die Sie "
 "möglicherweise daran hindern, diese Version zu verwenden. Wenn Sie den "
 "Fehler `AttributeError: 'module' object has no attribute '_trace_level' "
 "<https://github.com/python-ldap/python-ldap/issues/226>`_ erhalten, könnte "
@@ -7287,7 +7283,7 @@ msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"Bitte prüfen Sie auch :doc:`Django's documentation <django:ref/settings>` "
+"Bitte lesen Sie auch die :doc:`Django-Dokumentation <django:ref/settings>` "
 "für Parameter zur Konfiguration von Django selbst."
 
 #: ../../admin/config.rst:26
@@ -8970,29 +8966,25 @@ msgstr ""
 
 #: ../../admin/config.rst:1818
 msgid "SESSION_COOKIE_AGE_2FA"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: ../../admin/config.rst:1822
-#, fuzzy
-#| msgid ""
-#| "Set session expiry for authenticated users. This complements :setting:"
-#| "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgid ""
 "Set session expiry while in :ref:`2fa`. This complements :setting:`django:"
 "SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"Setzt den Sitzungsablauf für authentifizierte Benutzer. Dies ergänzt :"
-"setting:`django:SESSION_COOKIE_AGE`, das für nicht authentifizierte Benutzer "
-"verwendet wird."
+"Legt den Ablauf der Sitzung in :ref:`2fa` fest. Dies ergänzt "
+":setting:`django:SESSION_COOKIE_AGE`, das für nicht authentifizierte "
+"Benutzer verwendet wird."
 
 #: ../../admin/config.rst:1832
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"Setzt den Sitzungsablauf für authentifizierte Benutzer. Dies ergänzt :"
-"setting:`django:SESSION_COOKIE_AGE`, das für nicht authentifizierte Benutzer "
-"verwendet wird."
+"Legt den Ablauf der Sitzung für authentifizierte Benutzer fest. Dies ergänzt "
+":setting:`django:SESSION_COOKIE_AGE`, das für nicht authentifizierte "
+"Benutzer verwendet wird."
 
 #: ../../admin/config.rst:1844
 msgid ""
@@ -10406,10 +10398,10 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"Bei :ref:`using Docker <docker-deploy>` können Sie Python-Module in :file:`/"
-"app/data/python/` (siehe :ref:`docker-volume`) ablegen, sodass sie von "
-"Weblate geladen werden können, zum Beispiel aus einer Settings-Override-"
-"Datei (:ref:`settings override file <docker-settings-override>`)."
+"Wenn Sie :ref:`Docker <docker-deploy>` verwenden, können Sie Python-Module "
+"in :file:`/app/data/python/` ablegen (siehe :ref:`docker-volume`), sodass "
+"sie von Weblate geladen werden können, zum Beispiel aus einer :ref:`Settings-"
+"Override-Datei <docker-settings-override>`."
 
 #: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -12942,7 +12934,7 @@ msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
-":ref:`Redis broker configuration in Celery <celery:broker-redis-"
+":ref:`Redis-Broker-Konfiguration in Celery <celery:broker-redis-"
 "configuration>`"
 
 #: ../../admin/install.rst:1703
@@ -14550,7 +14542,8 @@ msgstr ""
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
+":ref:`Konfiguration der Code-Hosting-Zugangsdaten in Docker <docker-vcs-"
+"config>`"
 
 #: ../../admin/install/docker.rst:1166
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
@@ -15249,23 +15242,19 @@ msgid "Configure how many WSGI workers should be executed."
 msgstr "Konfiguriert, wie viele WSGI-Worker ausgeführt werden sollen."
 
 #: ../../admin/install/docker.rst:1991
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr "Der Standardwert ist :envvar:`WEBLATE_WORKERS`."
+msgstr ""
+"Der Standardwert ist die Hälfte von :envvar:`WEBLATE_WORKERS`, beträgt aber "
+"immer mindestens 2."
 
 #: ../../admin/install/docker.rst:2002
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` now configures number of threads instead of "
-#| "processes."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will used by :"
 "program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` konfiguriert nun die Anzahl der Threads anstatt der "
-"Prozesse."
+":envvar:`WEB_WORKERS` konfiguriert, wie viele Worker-Prozesse von "
+":program:`granian` verwendet werden sollen."
 
 #: ../../admin/install/docker.rst:2006
 msgid ""
@@ -15435,8 +15424,8 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
-":ref:`Docker environment variables <docker-environment>` sollen die am "
-"meisten relevanteste :ref:`configuration settings <config>` für Ihre Weblate-"
+":ref:`Docker-Umgebungsvariablen <docker-environment>` sollen die "
+"relevantesten :ref:`Konfigurationseinstellungen <config>` für Ihre Weblate-"
 "Installationen aufzeigen."
 
 #: ../../admin/install/docker.rst:2118
@@ -15446,8 +15435,9 @@ msgid ""
 "in a future version of Weblate <report-issue>`."
 msgstr ""
 "Wenn Sie eine Einstellung finden, die nicht als Umgebungsvariable verfügbar "
-"ist und Sie glauben, dass sie es sein sollte, können Sie :ref:`ask for it to "
-"be exposed in a future version of Weblate <report-issue>` verwenden."
+"ist und Sie glauben, dass sie es sein sollte, können Sie :ref:`fordern, dass "
+"sie in einer zukünftigen Version von Weblate <report-issue>` verfügbar "
+"gemacht wird."
 
 #: ../../admin/install/docker.rst:2122
 msgid ""
@@ -15458,8 +15448,8 @@ msgid ""
 msgstr ""
 "Wenn Sie eine Einstellung ändern müssen, die nicht als Docker-"
 "Umgebungsvariable verfügbar ist, können Sie dies trotzdem tun, entweder "
-"unter :ref:`from the data volume <docker-settings-override>` oder :ref:"
-"`extending the Docker image <docker-custom-settings>`."
+":ref:`über das Daten-Volume <docker-settings-override>` oder :ref:`durch "
+"Erweitern des Docker-Images <docker-custom-settings>`."
 
 #: ../../admin/install/docker.rst:2134
 msgid "Overriding settings from the data volume"
@@ -15472,9 +15462,9 @@ msgid ""
 "settings defined through environment variables."
 msgstr ""
 "Sie können eine Datei unter :file:`/app/data/settings-override.py` "
-"erstellen, d. h. im Stammverzeichnis des :ref:`data volume <docker-volume>`, "
-"um die durch Umgebungsvariablen definierten Einstellungen zu erweitern oder "
-"zu überschreiben."
+"erstellen, d. h. im Stammverzeichnis des :ref:`Daten-Volumes <docker-volume>`"
+", um die durch Umgebungsvariablen definierten Einstellungen zu erweitern "
+"oder zu überschreiben."
 
 #: ../../admin/install/docker.rst:2144
 msgid "Overriding settings by extending the Docker image"
@@ -15490,7 +15480,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2148
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ":ref:`Create a custom Python package <custom-module>`."
+msgstr ":ref:`Ein benutzerdefiniertes Python-Paket erstellen <custom-module>`."
 
 #: ../../admin/install/docker.rst:2150
 msgid ""
@@ -15537,11 +15527,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
-"Es gibt `keine saubere Möglichkeit <https://github.com/docker/compose/"
-"issues/7231>`__, dies mit ``docker-compose.override.yml`` zu tun. Sie "
-"*könnten* ``build: .`` zum ``weblate``-Knoten in dieser Datei hinzufügen, "
-"aber dann wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in "
-"Ihrem System markiert, was problematisch sein könnte."
+"Es gibt `keine saubere Möglichkeit <https://github.com/docker/compose/issues/"
+"7231>`__, dies mit ``docker-compose.override.yml`` zu tun. Sie *könnten* "
+"``build: .`` zum ``weblate``-Knoten in dieser Datei hinzufügen, aber dann "
+"wird Ihr benutzerdefiniertes Image als ``weblate/weblate`` in Ihrem System "
+"getaggt, was problematisch sein könnte."
 
 #: ../../admin/install/docker.rst:2187
 msgid ""
@@ -17427,14 +17417,8 @@ msgid "IBM Watson Language Translator"
 msgstr "IBM Watson Language Translator"
 
 #: ../../admin/machine.rst:441
-#, fuzzy
-#| msgid ""
-#| "This service is deprecated by vendor and will be withdrawn entirely as of "
-#| "10 December 2024."
 msgid "This service was withdrawn by vendor as of 10 December 2024."
-msgstr ""
-"Dieser Dienst ist veraltet und wird am 10. Dezember 2024 vollständig "
-"eingestellt."
+msgstr "Dieser Dienst wurde vom Anbieter zum 10. Dezember 2024 eingestellt."
 
 #: ../../admin/machine.rst:446
 msgid "LibreTranslate"
@@ -17962,9 +17946,9 @@ msgid ""
 msgstr ""
 "Der maschinelle Übersetzungsdienst von Weblate kann Übersetzungen basierend "
 "auf den exakten Übereinstimmungen einer Zeichenkette in den aktuell "
-"vorhandenen Zeichenketten in einem :guilabel:`Übersetzt`-, :guilabel:"
-"`Genehmigt`-, oder :guilabel:`Schreibgeschützt`-:ref:`states <states>` "
-"innerhalb von Weblate bereitstellen."
+"vorhandenen Zeichenketten in einem :guilabel:`Übersetzt`-, "
+":guilabel:`Genehmigt`-, oder :guilabel:`Schreibgeschützt`-:ref:`Status "
+"<states>` innerhalb von Weblate bereitstellen."
 
 #: ../../admin/machine.rst:874
 msgid "Weblate Translation Memory"
@@ -19419,10 +19403,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"Um die Repositorys mit eingeschränktem Zugriff zu durchsuchen (mit :ref:"
-"`access control <acl>` auf `Privat` oder wenn :setting:`REQUIRE_LOGIN` "
-"aktiviert ist), ist ein API-Token erforderlich, das Sie in Ihrem :ref:`user "
-"profile <user-profile>` erhalten können:"
+"Um die Repositorys mit eingeschränktem Zugriff zu durchsuchen (mit :ref"
+":`Projekt-Zugriffssteuerung <acl>` auf `Privat` oder wenn "
+":setting:`REQUIRE_LOGIN` aktiviert ist), ist ein API-Token erforderlich, das "
+"Sie in Ihrem :ref:`Benutzerprofil <user-profile>` erhalten können:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -20852,8 +20836,8 @@ msgstr "Basisdatei bearbeiten"
 #: ../../admin/projects.rst:562
 msgid "Whether to allow editing strings in the :ref:`component-template`."
 msgstr ""
-"Ob das Bearbeiten von Zeichenketten in :ref:`component-template` erlaubt "
-"werden soll."
+"Ob die Bearbeitung von Zeichenketten in der :ref:`einsprachigen "
+"Basissprachdatei <component-template>` erlaubt werden soll."
 
 #: ../../admin/projects.rst:576
 msgid ""
@@ -22335,8 +22319,8 @@ msgid ""
 msgstr ""
 "Sobald die automatische Zustimmung eingerichtet ist, verlieren normale "
 "Benutzer die Berechtigung, Übersetzungen direkt zu speichern oder Vorschläge "
-"anzunehmen. Dies kann mit :guilabel:`Zeichenkette bearbeiten, wenn "
-"Vorschläge erzwungen werden` (:ref:`permission <privileges>`) außer Kraft "
+"anzunehmen. Dies kann mit der :guilabel:`Zeichenkette bearbeiten, wenn "
+"Vorschläge erzwungen werden`-:ref:`Berechtigung <privileges>` außer Kraft "
 "gesetzt werden."
 
 #: ../../admin/translating.rst:23
@@ -22344,8 +22328,8 @@ msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
-"Sie können dies mit der :ref:`access control <access-control>` in einer der "
-"folgenden Einrichtungen kombinieren:"
+"Sie können dies mit der :ref:`Zugriffssteuerung <access-control>` in einem "
+"der folgenden Einrichtungen kombinieren:"
 
 #: ../../admin/translating.rst:26
 msgid ""
@@ -22592,13 +22576,14 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"Prüfen Sie vor einem Upgrade immer :ref:`version-specific-instructions`. "
-"Wenn Sie eine Version überspringen, befolgen Sie unbedingt die Anweisungen "
-"für alle Versionen, die Sie bei einem solchen Upgrade überspringen. Manchmal "
-"ist es besser, schrittweise auf eine Zwischenversion zu aktualisieren, um "
-"eine reibungslose Migration zu gewährleisten. Upgrades über mehrere "
-"Versionen hinweg sollten funktionieren, sind aber nicht so gut getestet wie "
-"Upgrades einzelner Versionen!"
+"Prüfen Sie vor einem Upgrade immer die :ref:`versionsspezifischen "
+"Anweisungen <version-specific-instructions>`. Wenn Sie eine Version "
+"überspringen, befolgen Sie unbedingt die Anweisungen für alle Versionen, die "
+"Sie bei einem solchen Upgrade überspringen. Manchmal ist es besser, "
+"schrittweise auf eine Zwischenversion zu aktualisieren, um eine reibungslose "
+"Migration zu gewährleisten. Upgrades über mehrere Versionen hinweg sollten "
+"funktionieren, sind aber nicht so gut getestet wie Upgrades einzelner "
+"Versionen!"
 
 #: ../../admin/upgrade.rst:33
 msgid ""
@@ -24618,7 +24603,7 @@ msgstr "Gibt eine Liste der Übersetzungseinheiten zurück."
 
 #: ../../api.rst:2039 ../../api.rst:2211
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr "Suchanfrage-Zeichenkette :doc:`/user/search` (optional)"
+msgstr "Zeichenkette der :doc:`/user/search` (optional)"
 
 #: ../../api.rst:2041
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -24673,16 +24658,16 @@ msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
 msgstr ""
+"Der Parameter ``filter_type`` wird nicht mehr unterstützt und die Filterung "
+"erfolgt über den Parameter ``q``."
 
 #: ../../api.rst:2072
 msgid "Trigger automatic translation."
 msgstr "Löst die automatische Übersetzung aus."
 
 #: ../../api.rst:2081
-#, fuzzy
-#| msgid "Automatic translation using already translated strings."
 msgid "Automatic translation search string, see :ref:`search-strings`."
-msgstr "Automatische Übersetzung verwendet bereits übersetzte Zeichenketten."
+msgstr "Suchbegriff für automatische Übersetzung, siehe :ref:`search-strings`."
 
 #: ../../api.rst:2082
 msgid "Automatic translation source - ``mt`` or ``others``"
@@ -24693,8 +24678,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Aktivieren Sie den Beitrag zum gemeinsamen Übersetzungsspeicher für das "
-"Projekt, um Zugriff auf zusätzliche Komponenten zu erhalten."
+"Den Beitrag zum gemeinsamen Übersetzungsspeicher für das Projekt aktivieren, "
+"um Zugriff auf zusätzliche Komponenten zu erhalten."
 
 #: ../../api.rst:2089
 msgid ""
@@ -25629,17 +25614,15 @@ msgstr ""
 
 #: ../../api.rst:2737
 msgid "The search looks for:"
-msgstr ""
+msgstr "Gesucht wird nach:"
 
 #: ../../api.rst:2740 ../../api.rst:2751
 msgid "Categories"
 msgstr "Kategorien"
 
 #: ../../api.rst:2745
-#, fuzzy
-#| msgid "Search string"
 msgid "Search query string"
-msgstr "Suchzeichenkette"
+msgstr "Zeichenkette der Suchanfrage"
 
 #: ../../api.rst:2746
 msgid "Name of the matched item."
@@ -25981,16 +25964,12 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.13.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.13.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "*Released on September 14th 2023.*"
 msgid "*Released on September 4th 2025.*"
-msgstr "*Veröffentlicht am 14. September 2023.*"
+msgstr "*Veröffentlicht am 4. September 2025.*"
 
 #: ../../changes.rst:7 ../../changes.rst:48 ../../changes.rst:167
 #: ../../changes.rst:321 ../../changes.rst:487 ../../changes.rst:598
@@ -26017,14 +25996,14 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Smarter retries of unwritable pending changes."
-msgstr "Verbesserte Darstellung von Warnungen bei Änderungen."
+msgstr ""
+"Intelligentere Wiederholungsversuche für nicht schreibbare ausstehende "
+"Änderungen."
 
 #: ../../changes.rst:11
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr "Fehlgeschlagene :ref:`2fa` ist im :ref:`audit-log` sichtbar."
 
 #: ../../changes.rst:14 ../../changes.rst:75 ../../changes.rst:123
 #: ../../changes.rst:143 ../../changes.rst:196 ../../changes.rst:230
@@ -26047,62 +26026,46 @@ msgstr "Fehlerbehebungen"
 
 #: ../../changes.rst:15
 msgid "Sign-in form not shown for LDAP."
-msgstr ""
+msgstr "Anmeldeformular wird für LDAP nicht angezeigt."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Users object attributes are documented at :http:get:`/api/users/(str:"
-#| "username)/`."
 msgid "Access control for :http:get:`/api/users/(str:username)/`."
-msgstr ""
-"Die Objektattribute von Benutzern sind unter :http:get:`/api/users/(str:"
-"username)/` dokumentiert."
+msgstr "Zugriffssteuerung für :http:get:`/api/users/(str:username)/`."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ":ref:`check-rst-references` allows translatable reference names."
-msgstr ""
-"Prüfung auf :ref:`check-rst-references` zur Validierung der Referenzen von "
-"reStructuredText."
+msgstr ":ref:`check-rst-references` erlaubt übersetzbare Referenznamen."
 
 #: ../../changes.rst:18
 msgid ":ref:`file_format_params` were not properly applied in some situations."
 msgstr ""
+":ref:`file_format_params` wurden in einigen Situationen nicht richtig "
+"angewendet."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
 msgid "Removed stale :ref:`addon-weblate.xml.customize`."
-msgstr ""
-"Erweiterte Unterstützung von Formaten für :ref:`addon-weblate.json."
-"customize`."
+msgstr "Veraltete :ref:`addon-weblate.xml.customize` entfernt."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ":ref:`mt-openai` compatibility with latest models."
 msgid ":ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0."
-msgstr ":ref:`mt-openai`-Kompatibilität mit den neuesten Modellen."
+msgstr ":ref:`mt-libretranslate`-Kompatibilität mit LibreTranslate 1.7.0."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Notify users mentioned in comments."
 msgid "Username autocompletion in comments."
-msgstr "Benachrichtigung von in Kommentaren erwähnten Benutzern."
+msgstr "Automatisches Vervollständigen des Benutzernamens in Kommentaren."
 
 #: ../../changes.rst:22
 msgid "Shorten session expiry while in :ref:`2fa`."
-msgstr ""
+msgstr "Ablauf der Sitzung während der :ref:`2fa` verkürzt."
 
 #: ../../changes.rst:23
 msgid "Statistics when using :ref:`component-links`."
-msgstr ""
+msgstr "Statistiken bei Verwenden von :ref:`component-links`."
 
 #: ../../changes.rst:24
 msgid ":ref:`componentlists` are no longer blocking dashboard loading."
 msgstr ""
+":ref:`componentlists` blockieren nicht mehr das Laden der Übersichtsseite."
 
 #: ../../changes.rst:27 ../../changes.rst:82 ../../changes.rst:205
 #: ../../changes.rst:355 ../../changes.rst:438 ../../changes.rst:528
@@ -26114,10 +26077,10 @@ msgid "Compatibility"
 msgstr "Kompatibilität"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Improved support for extended metadata in :ref:`tbx`."
 msgid "Removed support for no longer working :ref:`mt-ibm`."
-msgstr "Verbesserte Unterstützung für erweiterte Metadaten in :ref:`tbx`."
+msgstr ""
+"Die Unterstützung für den nicht mehr funktionierenden :ref:`mt-ibm` wurde "
+"entfernt."
 
 #: ../../changes.rst:31 ../../changes.rst:87 ../../changes.rst:128
 #: ../../changes.rst:147 ../../changes.rst:211 ../../changes.rst:234
@@ -26175,19 +26138,14 @@ msgstr ""
 "durchzuführen."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notably, "
 "``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; "
 "please adjust your settings accordingly."
 msgstr ""
-"Es gibt mehrere Änderungen in :file:`settings_example.py`, vor allem bei der "
-"Middleware (:setting:`django:MIDDLEWARE`), bitte passen Sie Ihre "
-"Einstellungen entsprechend an."
+"Es gibt mehrere Änderungen in :file:`settings_example.py`, vor allem "
+"``django_otp.middleware.OTPMiddleware`` wurde aus ``MIDDLEWARE`` entfernt; "
+"bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: ../../changes.rst:37 ../../changes.rst:108 ../../changes.rst:132
 #: ../../changes.rst:151 ../../changes.rst:215 ../../changes.rst:238
@@ -26202,26 +26160,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/150?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"150?closed=1>`__."
 
 #: ../../changes.rst:43
 msgid "Weblate 5.13"
 msgstr "Weblate 5.13"
 
 #: ../../changes.rst:45
-#, fuzzy
-#| msgid "*Released on August 15th 2024.*"
 msgid "*Released on August 15th 2025.*"
-msgstr "*Veröffentlicht am 15. August 2024.*"
+msgstr "*Veröffentlicht am 15. August 2025.*"
 
 #: ../../changes.rst:49
 msgid ""
@@ -26278,6 +26230,8 @@ msgid ""
 "Tag and attribute names can now be customized for :ref:`flatxml` with :ref:"
 "`file_format_params`."
 msgstr ""
+"Tag- und Attributnamen können jetzt für :ref:`flatxml` mit "
+":ref:`file_format_params` angepasst werden."
 
 #: ../../changes.rst:60
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
@@ -26411,6 +26365,12 @@ msgid ""
 "limited filters. Existing add-on configuration has been migrated. API users "
 "will need to adjust invocation."
 msgstr ""
+":ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` "
+"und :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/autotranslate/` "
+"unterstützen nun alle Suchoperatoren, nicht nur eingeschränkte Filter. "
+"Bestehende Konfigurationen der Erweiterung wurden migriert. API-Benutzer "
+"müssen den Aufruf anpassen."
 
 #: ../../changes.rst:90
 msgid ""
@@ -26431,20 +26391,17 @@ msgstr ""
 "``INSTALLED_APPS``; bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: ../../changes.rst:92
-#, fuzzy
-#| msgid ""
-#| "Docker container is now using :program:`granian`. This now requires "
-#| "explicit configuration of proxy trusted headers including client "
-#| "protocol. See :ref:`reverse-proxy`."
 msgid ""
 "The Docker container is now using :program:`granian`. This now requires "
 "explicit configuration of proxy trusted headers, including client protocol. :"
 "envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to "
 "avoid redirect loop, for example:"
 msgstr ""
-"Docker-Container verwenden jetzt :program:`granian`. Dies erfordert nun eine "
-"explizite Konfiguration der vertrauenswürdigen Proxy-Header einschließlich "
-"des Client-Protokolls. Siehe :ref:`reverse-proxy`."
+"Der Docker-Container verwendet jetzt :program:`granian`. Dies erfordert nun "
+"eine explizite Konfiguration der vertrauenswürdigen Proxy-Header, "
+"einschließlich des Client-Protokolls. "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` muss typischerweise hinzugefügt "
+"werden, um eine Weiterleitungsschleife zu vermeiden, zum Beispiel:"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -27785,8 +27742,8 @@ msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
 msgstr ""
-":ref:`fedora-messaging` muss aktualisiert werden, um mit dieser Version "
-"kompatibel zu sein."
+"Die :ref:`Fedora-Messaging <fedora-messaging>`-Integration muss aktualisiert "
+"werden, um mit dieser Version kompatibel zu sein."
 
 #: ../../changes.rst:634
 msgid ""
@@ -28293,7 +28250,8 @@ msgstr "Zugänglichkeit der Tastaturnavigation."
 #: ../../changes.rst:870
 msgid ":ref:`git-exporter` now works with all Git based :ref:`vcs`."
 msgstr ""
-":ref:`git-exporter` funktioniert jetzt mit jeder Git-basierten :ref:`vcs`."
+":ref:`git-exporter` funktioniert jetzt mit allen Git-basierten :ref:`"
+"Integrationen der Versionsverwaltung <vcs>`."
 
 #: ../../changes.rst:871
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
@@ -28671,7 +28629,9 @@ msgstr ":doc:`/user/search` unterstützt ``source_changed:DATETIME``."
 
 #: ../../changes.rst:1055
 msgid "Added several new :ref:`component-language_code_style`."
-msgstr "Mehrere neue :ref:`component-language_code_style` hinzugefügt."
+msgstr ""
+"Mehrere neue :ref:`Stile des Sprachcodes <component-language_code_style>` "
+"hinzugefügt."
 
 #: ../../changes.rst:1059
 msgid "Display more details on source string change in history."
@@ -37767,7 +37727,7 @@ msgstr "Verbesserte Leistung der automatischen Übersetzung."
 
 #: ../../changes/v4.rst:973
 msgid "Fixed session expiry for authenticated users."
-msgstr "Den Sitzungsablauf für authentifizierte Benutzer korrigiert."
+msgstr "Der Ablauf der Sitzung für authentifizierte Benutzer korrigiert."
 
 #: ../../changes/v4.rst:974
 msgid "Add support for hiding version information."
@@ -38869,7 +38829,7 @@ msgid ""
 "to contribute."
 msgstr ""
 "Webbasiertes, fortlaufendes Übersetzungstool mit enger :ref:`vcs`, das eine "
-"breite Palette der :ref:`file formats <formats>` unterstützt und es "
+"breite Palette von :ref:`Dateiformaten <formats>` unterstützt und es "
 "Übersetzern leicht macht, etwas beizutragen."
 
 #: ../../contributing/about.rst:13
@@ -40018,7 +39978,7 @@ msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
-":doc:`Translation topic in the Django documentation <django:topics/i18n/"
+":doc:`Übersetzungsthema in der Django-Dokumentation <django:topics/i18n/"
 "translation>`"
 
 #: ../../contributing/frontend.rst:121
@@ -41218,10 +41178,8 @@ msgid "You can then execute the testsuite in the repository checkout:"
 msgstr "Sie können dann die Testsuite im Repository-Checkout ausführen:"
 
 #: ../../contributing/tests.rst:123
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Testing repository"
-msgstr "Zugriff auf Repositorys"
+msgstr "Repository für Tests"
 
 #: ../../contributing/tests.rst:125
 msgid ""
@@ -41233,6 +41191,14 @@ msgid ""
 "tar`, :file:`weblate/trans/tests/data/test-base-repo.hg.tar`, and :file:"
 "`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate repository."
 msgstr ""
+"Viele der Tests in der Weblate-Testsuite verwenden das Test-Repository. Das "
+"Repository für die Testsuite wird unter https://github.com/WeblateOrg/test "
+"verwaltet. Mit dem Skript :file:`scripts/pack-test-data.sh` wird dann ein "
+"Tarball mit einem Repository für jede der unterstützten Versionsverwaltungen "
+"erzeugt. Diese werden als :file:`weblate/trans/tests/data/test-base-"
+"repo.git.tar`, :file:`weblate/trans/tests/data/test-base-repo.hg.tar` und "
+":file:`weblate/trans/tests/data/test-base-repo.svn.tar` im Weblate-"
+"Repository gespeichert."
 
 #: ../../contributing/tests.rst:134
 msgid ""
@@ -41241,6 +41207,11 @@ msgid ""
 "used at the release time. The script tries to create reproducible tarballs "
 "as much as possible."
 msgstr ""
+"Das Repository https://github.com/WeblateOrg/test wird zum "
+"Veröffentlichungszeitpunkt getaggt, wodurch sichergestellt wird, dass die "
+"Release-Tags für den Zugriff auf die zum Veröffentlichungszeitpunkt "
+"verwendeten Testdaten verwendet werden können. Das Skript versucht, so weit "
+"wie möglich reproduzierbare Tarballs zu erstellen."
 
 #: ../../contributing/trademark.rst:2
 msgid "Weblate Trademark Guidelines"
@@ -45436,35 +45407,27 @@ msgstr "Hilfetext"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "flatxml_key_name"
-msgstr ""
+msgstr "flatxml_key_name"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Kategoriename"
+msgstr "FlatXML-Schlüsselname"
 
 #: ../../snippets/file-format-parameters.rst:9
 msgid "flatxml_root_name"
-msgstr ""
+msgstr "flatxml_root_name"
 
 #: ../../snippets/file-format-parameters.rst:9
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Flache XML-Datei"
+msgstr "FlatXML-Wurzelname"
 
 #: ../../snippets/file-format-parameters.rst:11
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "flatxml_value_name"
-msgstr "Flache XML-Datei"
+msgstr "flatxml_value_name"
 
 #: ../../snippets/file-format-parameters.rst:11
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Flache XML-Datei"
+msgstr "FlatXML-Wertname"
 
 #: ../../snippets/file-format-parameters.rst:13
 msgid "json_indent"
@@ -45860,8 +45823,6 @@ msgid "`Application Resource Bundle Specification`_"
 msgstr "`Application-Resource-Bundle-Spezifikation`_"
 
 #: ../../formats/arb.rst:18
-#, fuzzy
-#| msgid "`Internationalizing Flutter apps`_"
 msgid "`Internationalization of Flutter apps`_"
 msgstr "`Internationalisierung von Flutter-Apps`_"
 
@@ -46078,20 +46039,16 @@ msgid "Flat XML files"
 msgstr "Flache XML-Dateien"
 
 #: ../../formats/flatxml.rst:16
-#, fuzzy
-#| msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgid ""
 "The tag and attribute names can now be customized using :ref:"
 "`file_format_params`."
 msgstr ""
-"Die Konfiguration der Einstellungen wurde nach :ref:`file_format_params` "
-"verschoben."
+"Die Tag- und Attributnamen können nun mit :ref:`file_format_params` "
+"angepasst werden."
 
 #: ../../formats/flatxml.rst:18
-#, fuzzy
-#| msgid "Example of a flat XML file:"
 msgid "Example of flat XML files:"
-msgstr "Beispiel für eine flache XML-Datei:"
+msgstr "Beispiel für flache XML-Dateien:"
 
 #: ../../formats/flatxml.rst:38
 msgid "`Flat XML file`"
@@ -46472,18 +46429,13 @@ msgstr ""
 "die nicht korrekt sind."
 
 #: ../../formats/i18next.rst:21
-#, fuzzy
-#| msgid ""
-#| "`i18next <https://www.i18next.com/>`_ is an internationalization "
-#| "framework written in and for JavaScript. Weblate supports its "
-#| "localization files with features such as plurals."
 msgid ""
 "i18next is an internationalization framework written in and for JavaScript. "
 "Weblate supports its localization files with features such as plurals."
 msgstr ""
-"`i18next <https://www.i18next.com/>`_ ist ein in und für JavaScript "
-"geschriebenes Internationalisierungs-Framework. Weblate unterstützt seine "
-"Lokalisierungsdateien mit Funktionen wie Pluralformen."
+"i18next ist ein in und für JavaScript geschriebenes Framework für "
+"Internationalisierung. Weblate unterstützt seine Lokalisierungsdateien mit "
+"Funktionen wie Pluralformen."
 
 #: ../../formats/i18next.rst:24
 msgid ""
@@ -46523,10 +46475,8 @@ msgstr ""
 "der Behandlung von Pluralformen."
 
 #: ../../formats/i18next.rst:45
-#, fuzzy
-#| msgid "https://www.djangoproject.com/"
 msgid "https://www.i18next.com/"
-msgstr "https://www.djangoproject.com/"
+msgstr "https://www.i18next.com/"
 
 #: ../../formats/i18next.rst:46
 msgid "`i18next JSON Format <https://www.i18next.com/misc/json-format>`_"
@@ -50079,8 +50029,6 @@ msgid "Check identifier"
 msgstr "Prüfungskennung"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Triggers"
 msgid "Trigger"
 msgstr "Trigger"
 
@@ -50106,12 +50054,8 @@ msgstr "Trigger"
 #: ../../user/checks.rst:1785 ../../user/checks.rst:1815
 #: ../../user/checks.rst:1934 ../../user/checks.rst:2069
 #: ../../user/checks.rst:2096
-#, fuzzy
-#| msgid "This check ensures they are also found in translation."
 msgid "This check needs to be enabled using a flag."
-msgstr ""
-"Diese Prüfung stellt sicher, dass sie auch in der Übersetzung gefunden "
-"werden."
+msgstr "Diese Prüfung muss durch eine Markierung aktiviert werden."
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
@@ -50179,6 +50123,8 @@ msgstr "Der Text enthält zweimal hintereinander das gleiche Wort."
 #: ../../user/checks.rst:2173
 msgid "This check is always enabled but can be ignored using a flag."
 msgstr ""
+"Diese Prüfung ist immer aktiviert, kann aber durch eine Markierung ignoriert "
+"werden."
 
 #: ../../user/checks.rst:155
 msgid ""
@@ -50272,7 +50218,7 @@ msgstr "Fluent-Teile sollten übereinstimmen."
 
 #: ../../user/checks.rst:0
 msgid "File formats automatically enabling this check"
-msgstr ""
+msgstr "Dateiformate, die diese Prüfung automatisch aktivieren"
 
 #: ../../user/checks.rst:224
 msgid ""
@@ -50729,10 +50675,8 @@ msgid "The i18next interpolation does not match source."
 msgstr "Die i18next-Interpolation passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:570
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`bimono`"
 msgid ":ref:`i18next`, :ref:`i18nextv4`"
-msgstr ":ref:`component`, :ref:`bimono`"
+msgstr ":ref:`i18next`, :ref:`i18nextv4`"
 
 #: ../../user/checks.rst:0
 msgid "Nesting example"
@@ -50758,10 +50702,8 @@ msgstr ""
 "MessageFormat-Zeichenketten."
 
 #: ../../user/checks.rst:594 ../../user/checks.rst:2097
-#, fuzzy
-#| msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgid ":ref:`arb`, :ref:`formatjs`"
-msgstr ":ref:`faq-vcs`, :ref:`alerts`"
+msgstr ":ref:`arb`, :ref:`formatjs`"
 
 #: ../../user/checks.rst:599
 msgid ""
@@ -50879,12 +50821,8 @@ msgid "Java format string does not match source."
 msgstr "Java-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: ../../user/checks.rst:661
-#, fuzzy
-#| msgid ""
-#| ":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 msgid ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
-msgstr ""
-":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
+msgstr ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
 
 #: ../../user/checks.rst:669
 msgid ""
@@ -52122,10 +52060,8 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "Die Übersetzung verwendet unsichere HTML-Auszeichnungen."
 
 #: ../../user/checks.rst:1786
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`bimono`"
 msgid ":ref:`html`, :ref:`markdown`"
-msgstr ":ref:`component`, :ref:`bimono`"
+msgstr ":ref:`html`, :ref:`markdown`"
 
 #: ../../user/checks.rst:1790
 msgid ""
@@ -52635,8 +52571,8 @@ msgid ""
 "Available options might be limited by :ref:`access control <access-control>` "
 "settings."
 msgstr ""
-"Die verfügbaren Optionen können durch die Einstellungen der :ref:`access "
-"control <access-control>` eingeschränkt sein."
+"Die verfügbaren Optionen können durch die Einstellungen von der :ref:`"
+"Zugriffssteuerung <access-control>` eingeschränkt sein."
 
 #: ../../user/files.rst:16
 msgid "Downloading translations"
@@ -52838,8 +52774,8 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Edit strings\" "
 "permission <privileges>`."
 msgstr ""
-"Diese Option ist nur verfügbar, wenn der Benutzer über „Zeichenketten "
-"bearbeiten“ (:ref:`\"Edit strings\" permission <privileges>`) verfügt."
+"Diese Option ist nur verfügbar, wenn der Benutzer über die :ref:`„"
+"Zeichenketten bearbeiten“-Berechtigung <privileges>` verfügt."
 
 #: ../../user/files.rst:107
 msgid "Add as suggestion (``suggest``)"
@@ -52858,8 +52794,8 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Add suggestion\" "
 "permission <privileges>`."
 msgstr ""
-"Diese Option ist nur verfügbar, wenn der Benutzer über „Vorschlag "
-"hinzufügen“ (:ref:`\"Add suggestion\" permission <privileges>`) verfügt."
+"Diese Option ist nur verfügbar, wenn der Benutzer über „Vorschlag hinzufügen“"
+" (:ref:`\"Edit strings\" permission <privileges>`) verfügt."
 
 #: ../../user/files.rst:114
 msgid "Add as approved translation (``approve``)"
@@ -52879,8 +52815,8 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Review strings\" "
 "permission <privileges>`."
 msgstr ""
-"Diese Option ist nur verfügbar, wenn der Benutzer über „Zeichenketten "
-"überprüfen“ (:ref:`\"Review strings\" permission <privileges>`) verfügt."
+"Diese Option ist nur verfügbar, wenn der Benutzer über die :ref:`„"
+"Zeichenketten überprüfen“-Berechtigung <privileges>` verfügt."
 
 #: ../../user/files.rst:121
 msgid "Add as translation needing edit (``fuzzy``)"
@@ -52913,11 +52849,10 @@ msgid ""
 "settings\" permission or \"Add new string\", \"Remove a string\" and \"Edit "
 "strings\" permissions <privileges>`."
 msgstr ""
-"Diese Option ist nur verfügbar, wenn der Benutzer über "
-"„Komponenteneinstellungen bearbeiten“ oder „Neue Zeichenkette hinzufügen“, "
-"„Eine Zeichenkette entfernen“ und „Zeichenketten bearbeiten“ (:ref:`\"Edit "
-"component settings\" permission or \"Add new string\", \"Remove a string\" "
-"and \"Edit strings\" permissions <privileges>`) verfügt."
+"Diese Option ist nur verfügbar, wenn der Benutzer über die :ref:`„"
+"Komponenteneinstellungen bearbeiten“-Berechtigung oder „Neue Zeichenkette "
+"hinzufügen“, „Eine Zeichenkette entfernen“ und „Zeichenketten bearbeiten“-"
+"Berechtigungen <privileges>` verfügt."
 
 #: ../../user/files.rst:134
 msgid "Update source strings (``source``)"
@@ -52938,8 +52873,8 @@ msgid ""
 "the :ref:`\"Upload translations\" permission <privileges>`."
 msgstr ""
 "Diese Option ist nur für einige Dateiformate verfügbar und nur, wenn der "
-"Benutzer über „Übersetzungen hochladen“ (:ref:`\"Upload translations\" "
-"permission <privileges>`) verfügt."
+"Benutzer über die :ref:`„Übersetzungen hochladen“-Berechtigung <privileges>` "
+"verfügt."
 
 #: ../../user/files.rst:140
 msgid "Add new strings (``add``)"
@@ -52975,8 +52910,8 @@ msgid ""
 "<privileges>`."
 msgstr ""
 "Diese Option ist nur verfügbar, wenn :ref:`component-manage_units` "
-"eingeschaltet ist und wenn der Benutzer über „Neue Zeichenkette "
-"hinzufügen“ (:ref:`\"Add new string\" permission <privileges>`) verfügt."
+"eingeschaltet ist und wenn der Benutzer über die :ref:`„Neue Zeichenkette "
+"hinzufügen“-Berechtigung <privileges>` verfügt."
 
 #: ../../user/files.rst:153
 msgid ""
@@ -55216,7 +55151,7 @@ msgstr ""
 
 #: ../../user/translating.rst:442
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
-msgstr ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
+msgstr ":ref:`Erweiterung für Massenbearbeitung <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:445
 msgid "Matrix View"
@@ -56849,10 +56784,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-"Die :ref:`access control <access-control>` wird in den Arbeitsabläufen nicht "
-"im Detail behandelt, da die meisten ihrer Optionen auf jeden Arbeitsablauf "
-"angewendet werden kann. Wie Sie den Zugriff auf Übersetzungen verwalten "
-"können, entnehmen Sie bitte der jeweiligen Dokumentation."
+"Die :ref:`Zugriffssteuerung <access-control>` wird in den Arbeitsabläufen "
+"nicht im Detail behandelt, da die meisten ihrer Optionen auf jeden "
+"Arbeitsablauf angewendet werden kann. Bitte lesen Sie in der jeweiligen "
+"Dokumentation nach, wie Sie den Zugriff auf Übersetzungen verwalten können."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -56932,10 +56867,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
-"Die Zeichenkette ist schreibgeschützt, weil sie eine ``read-only``-"
-"Markierung hat (:ref:`flag <custom-checks>`), eine nicht editierbare "
-"Ausgangszeichenkette ist, oder in der Übersetzungsdatei als solche markiert "
-"wurde."
+"Die Zeichenkette ist schreibgeschützt, weil sie die :ref:`Markierung <custom-"
+"checks>` ``read-only`` hat, eine nicht editierbare Ausgangszeichenkette ist, "
+"oder in der Übersetzungsdatei als solche markiert wurde."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
@@ -57105,7 +57039,9 @@ msgstr ""
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "Oder `Überprüfen` mit :ref:`per-project access control <manage-acl>`."
+msgstr ""
+"Oder `Überprüfen` mit :ref:`projektspezifischer Zugriffssteuerung <manage-"
+"acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
