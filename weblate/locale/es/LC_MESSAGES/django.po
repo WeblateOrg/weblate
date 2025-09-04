@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-09-02 17:03+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -9580,6 +9580,9 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"Considere enviar su edición al <a href=\"%(url)s\">repositorio de datos de "
+"idiomas de Weblate</a> para que pueda incluirse en las futuras versiones de "
+"Weblate."
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9588,6 +9591,10 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"Weblate actualiza automáticamente las definiciones de idioma tras una "
+"migración de la base de datos. Es probable que las ediciones incorrectas se "
+"reviertan.<a href=\"%(url)s\">Consultar la documentación sobre el manejo "
+"adecuado de este.</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2398
 msgid "Workflow"
@@ -9939,21 +9946,17 @@ msgstr[1] "La invitación expirará después de %(count)s horas."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/invite_subject.txt:6
-#, fuzzy, python-format
-#| msgid ""
-#| "%(from_user)s invites you to collaborate on the %(project_name)s "
-#| "translation project at %(site_title)s."
+#, python-format
 msgid ""
 "%(invitation_author)s has invited you to join the %(project_name)s project"
 msgstr ""
-"%(from_user)s desea que participe en el proyecto de traducción de "
-"%(project_name)s en %(site_title)s."
+"%(invitation_author)s te ha invitado a unirte al proyecto %(project_name)s"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/invite_subject.txt:9
 #, python-format
 msgid "%(invitation_author)s has invited you to join"
-msgstr ""
+msgstr "%(invitation_author)s te ha invitado a unirte"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
@@ -10177,10 +10180,8 @@ msgid ""
 msgstr "Si no has empezado esto, infórmelo haciendo clic en el botón de abajo."
 
 #: weblate/templates/mail/shared-activity.html:26
-#, fuzzy
-#| msgid "Audit log"
 msgid "View audit log"
-msgstr "Registro de auditoría"
+msgstr "Visualiza registro de control"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -10296,26 +10297,25 @@ msgid "Backup service: %(url)s"
 msgstr "Servicio de respaldos: %(url)s"
 
 #: weblate/templates/manage/backups.html:25
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed with an error"
-msgstr "¡No se pudo cambiar la prioridad!"
+msgstr "Falló con un error"
 
 #: weblate/templates/manage/backups.html:28
 msgid "Turned off"
 msgstr "Desactivado"
 
 #: weblate/templates/manage/backups.html:48
-#, fuzzy
-#| msgid "Manage your subscriptions"
 msgid "Unpaid service subscription"
-msgstr "Administra tus suscripciones"
+msgstr "Suscripción de servicio no pagado"
 
 #: weblate/templates/manage/backups.html:53
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"El servicio de copia de seguridad se deshabilitó temporalmente debido a una "
+"suscripción no pagada. Habilitar las copias de seguridad renovando la "
+"suscripción."
 
 #: weblate/templates/manage/backups.html:57
 #, fuzzy
