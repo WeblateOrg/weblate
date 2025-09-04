@@ -43,7 +43,8 @@ class ComponentLinkTestCase(ViewTestCase):
         self.assertNotEqual(start_data, other.stats.get_data())
 
     def test_labels(self) -> None:
-        self.other.label_set.create(name="test", color="navy")
+        self.other.label_set.create(name="test other", color="navy")
+        self.project.label_set.create(name="test project", color="navy")
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         project = Project.objects.get(pk=self.project.pk)
@@ -51,3 +52,50 @@ class ComponentLinkTestCase(ViewTestCase):
 
         self.maxDiff = None
         self.assertEqual(project.stats.get_data(), other.stats.get_data())
+
+    def test_cycle(self) -> None:
+        ignore_keys = ("last_changed", "stats_timestamp")
+
+        def compare_stats(one: dict, other: dict, *, equals: bool = True):
+            for key in ignore_keys:
+                for data in (one, other):
+                    data.pop(key)
+            if equals:
+                self.assertEqual(one, other)
+            else:
+                self.assertNotEqual(one, other)
+
+        third_project = Project.objects.create(name="Third", slug="third")
+
+        self.other.label_set.create(name="test other", color="navy")
+        self.project.label_set.create(name="test project", color="navy")
+        third_project.label_set.create(name="test third", color="navy")
+
+        self.maxDiff = None
+        other_component = self.create_po(project=self.other)
+
+        third_component = self.create_po(project=third_project)
+
+        other_component.links.add(third_project)
+        third_component.links.add(self.project)
+
+        # The stats should now match as all the components are same and
+        # each project has two of them
+        project = Project.objects.get(pk=self.project.pk)
+        other = Project.objects.get(pk=self.other.pk)
+        third_project = Project.objects.get(pk=third_project.pk)
+
+        compare_stats(project.stats.get_data(), other.stats.get_data())
+        compare_stats(project.stats.get_data(), third_project.stats.get_data())
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        project = Project.objects.get(pk=self.project.pk)
+        other = Project.objects.get(pk=self.other.pk)
+        third_project = Project.objects.get(pk=third_project.pk)
+
+        compare_stats(project.stats.get_data(), other.stats.get_data())
+        # This one should be different as it does not have the shared component
+        compare_stats(
+            project.stats.get_data(), third_project.stats.get_data(), equals=False
+        )

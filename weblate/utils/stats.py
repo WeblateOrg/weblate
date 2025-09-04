@@ -1226,9 +1226,13 @@ class ProjectLanguageStats(ChecklistStats):
         return self.project.source_review or self.project.translation_review
 
     def get_child_objects(self):
-        return self.language.translation_set.filter(
-            Q(component__project=self.project) | Q(component__links=self.project)
-        ).only("id", "language")
+        return (
+            self.language.translation_set.filter(
+                Q(component__project=self.project) | Q(component__links=self.project)
+            )
+            .distinct()
+            .only("id", "language")
+        )
 
 
 class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
