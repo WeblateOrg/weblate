@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-13 12:02+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -627,10 +627,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Zwei-Faktor-Authentifizierung beim Anmelden mit {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Zwei-Faktor-Authentifizierung beim Anmelden mit {device}"
+msgstr "Zwei-Faktor-Authentifizierung fehlgeschlagen mit {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -4186,10 +4185,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Die Vue-I18n-Formatierung passt nicht zur Ausgangszeichenkette."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Automattic-Komponenten"
+msgstr "Automattic-Komponenten-Formatierung"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -14431,10 +14428,6 @@ msgid "No line wrapping"
 msgstr "Kein Umbruch langer Zeilen"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -14496,22 +14489,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Schließendes Tag für leere XML-Tags einschließen"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Flache XML-Datei"
+msgstr "FlatXML-Wurzelname"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Flache XML-Datei"
+msgstr "FlatXML-Wertname"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Kategoriename"
+msgstr "FlatXML-Schlüsselname"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14732,7 +14719,7 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Bitte beachten Sie, dass bei der Übersetzung aller Zeichenketten alle "
+"Bitte beachten, dass bei der Übersetzung aller Zeichenketten alle "
 "vorhandenen Übersetzungen verworfen werden."
 
 #: weblate/trans/forms.py:926
@@ -14752,8 +14739,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Aktivieren Sie den Beitrag zum gemeinsamen Übersetzungsspeicher für das "
-"Projekt, um Zugriff auf zusätzliche Komponenten zu erhalten."
+"Den Beitrag zum gemeinsamen Übersetzungsspeicher für das Projekt aktivieren, "
+"um Zugriff auf zusätzliche Komponenten zu erhalten."
 
 #: weblate/trans/forms.py:944
 msgid "Machine translation engines"
@@ -14768,9 +14755,9 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Geben Sie den Slug einer Komponente ein, die als Ausgangszeichenkette "
-"verwendet werden soll. Lassen Sie das Feld leer, um alle Komponenten im "
-"aktuellen Projekt zu verwenden."
+"Den Slug einer Komponente eingeben, die als Ausgangszeichenkette verwendet "
+"werden soll. Das Feld leer lassen, um alle Komponenten im aktuellen Projekt "
+"zu verwenden."
 
 #: weblate/trans/forms.py:1002
 msgid "All components in current project"
@@ -15075,10 +15062,9 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Zeichenkette wird Teil des Glossars in allen Sprachen sein"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Alle Projekt kann nun Übersetzungen und deren Änderungen annehmen."
+msgstr ""
+"Wählen Sie diese Option für Übersetzungen, die nicht verwendet werden sollen."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -15089,6 +15075,8 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Wählen Sie diese Option, wenn der Satz unverändert in der Ausgangssprache "
+"bleiben soll."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
