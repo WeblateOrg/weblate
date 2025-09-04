@@ -9,6 +9,8 @@ Weblate 5.13.2
 
 .. rubric:: Bug fixes
 
+* Sign-in could not be completed with LDAP.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
