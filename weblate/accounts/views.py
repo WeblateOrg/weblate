@@ -857,16 +857,24 @@ class WeblateLoginView(BaseLoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
 
+    @cached_property
+    def has_email_auth(self) -> bool:
+        return "email" in get_auth_keys()
+
+    @cached_property
+    def show_login_form(self) -> bool:
+        return self.has_email_auth or any(
+            not isinstance(backend, (BaseAuth, WeblateUserBackend))
+            for backend in get_backends()
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["can_reset"] = "email" in auth_backends
+        context["can_reset"] = self.has_email_auth
         # Show login form for e-mail login or any third-party Django auth backend such as LDAP
-        context["show_login_form"] = context["can_reset"] or any(
-            not isinstance(backend, (BaseAuth, WeblateUserBackend))
-            for backend in get_backends()
-        )
+        context["show_login_form"] = self.show_login_form
         context["title"] = gettext("Sign in")
         return context
 
@@ -881,7 +889,7 @@ class WeblateLoginView(BaseLoginView):
         if len(auth_backends) == 1 and "email" not in auth_backends:
             return redirect_single(request, auth_backends.pop())
 
-        if request.method == "POST" and "email" not in auth_backends:
+        if request.method == "POST" and not self.show_login_form:
             return redirect("login")
 
         return super().dispatch(request, *args, **kwargs)
