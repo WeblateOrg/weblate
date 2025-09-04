@@ -1190,7 +1190,7 @@ class ChecklistStats(SingleLanguageStats):
 
     def aggregate_stats(self, keys: Iterable[str]) -> None:
         self.ensure_loaded()
-        all_stats: list[BaseStats] = self.get_aggregated_stats()
+        all_stats: list[BaseStats] = self.aggregated_stats
         suffixes: tuple[str, ...] = ("", "_words", "_chars")
         for key in keys:
             for suffix in suffixes:
