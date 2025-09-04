@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-02 17:03+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -11090,7 +11090,7 @@ msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
 #, fuzzy
 #| msgid "`gunicorn <https://pypi.org/project/gunicorn>`_"
 msgid "`granian <https://pypi.org/project/granian>`_"
-msgstr "`gunicorn <https://pypi.org/project/gunicorn>`_"
+msgstr "`granian <https://pypi.org/project/granian>`_"
 
 #: ../../admin/install.rst:276
 msgid "wsgi server for Weblate"
@@ -11835,9 +11835,7 @@ msgstr ""
 #| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 #| "<docker-mail>`"
 msgid ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
-msgstr ""
-":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-"<docker-mail>`"
+msgstr ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
 
 #: ../../admin/install.rst:729
 msgid "Running behind reverse proxy"
@@ -11937,6 +11935,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"Este encabezado debe configurarse en "
+":setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) o "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Entorno Docker)."
 
 #: ../../admin/install.rst:771
 msgid ""
@@ -12065,6 +12066,10 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Deshabilite esto para cualquier servidor de producción. Con el modo de "
+"depuración habilitado, Django mostrará trazas inversas en caso de error a "
+"los usuarios, cuando lo deshabilite, los errores se enviarán por correo "
+"electrónico a ``ADMINS`` (ver abajo)."
 
 #: ../../admin/install.rst:922
 msgid ""
@@ -12151,6 +12156,8 @@ msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
+"También puede revisar la misma lista de verificación en :ref:`manage-"
+"performance` en la :ref:`management-interface`."
 
 #: ../../admin/install.rst:1007
 msgid "Disable debug mode"
@@ -12173,7 +12180,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1025
 msgid "Properly configure admins"
-msgstr ""
+msgstr "Configurar correctamente los administradores"
 
 #: ../../admin/install.rst:1027
 msgid ""
@@ -12181,10 +12188,13 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Establecer las direcciones de administrador correctas a la configuración "
+":setting:`ADMINS` para definir quién recibirá correos electrónicos en caso "
+"de que algo salga mal en el servidor, por ejemplo:"
 
 #: ../../admin/install.rst:1041
 msgid "Set correct site domain"
-msgstr ""
+msgstr "Establecer el dominio del sitio correcto"
 
 #: ../../admin/install.rst:1043
 msgid ""
