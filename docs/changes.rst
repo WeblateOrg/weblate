@@ -17,7 +17,7 @@ Weblate 5.13.1
 * Removed stale :ref:`addon-weblate.xml.customize`.
 * :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
 * Username autocompletion in comments.
-* Shorten session expiry while in :ref:`2fa`.
+* Shorten session expiry while in :ref:`2fa` (:cve:`2025-58352` / :ghsa:`377j-wj38-4728`).
 * Statistics when using :ref:`component-links`.
 * :ref:`componentlists` are no longer blocking dashboard loading.
 * OpenMetrics API format.
