@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("addons", "0008_alter_addonactivitylog_event_alter_event_event"),
+        ("addons", "0009_remove_migrated_customize_addons"),
     ]
 
     operations = [
