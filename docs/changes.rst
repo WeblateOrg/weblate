@@ -12,6 +12,7 @@ Weblate 5.13.2
 .. rubric:: Bug fixes
 
 * Sign-in could not be completed with LDAP.
+* Nonspacing mark changes highlighting in history.
 
 .. rubric:: Compatibility
 
