@@ -1,5 +1,5 @@
 Weblate 5.14
---------------
+------------
 
 *Not yet released.*
 
