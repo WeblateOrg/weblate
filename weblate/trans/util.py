@@ -363,10 +363,18 @@ def check_upload_method_permissions(
     user: User, translation: Translation, method: str
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
+    from weblate.formats.base import BilingualUpdateMixin
+
     if method == "source":
         if not translation.is_source:
             return Denied(
                 gettext("Source upload is only supported on the source language.")
+            )
+        if not issubclass(translation.component.file_format_cls, BilingualUpdateMixin):
+            return Denied(
+                gettext(
+                    "Update source strings upload is not supported with this format."
+                )
             )
         return user.has_perm("upload.perform", translation)
     if method == "add":

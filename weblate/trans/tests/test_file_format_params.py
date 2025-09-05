@@ -17,12 +17,12 @@ from weblate.utils.views import get_form_data
 
 
 class BaseFileFormatsTest(ViewTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
 
-    def update_component_file_params(self, **file_param_kwargs):
+    def update_component_file_params(self, **file_param_kwargs) -> None:
         file_param_kwargs = (
             get_default_params_for_file_format(self.component.file_format)
             | file_param_kwargs
@@ -66,7 +66,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
     ) -> Component:
         return Component.objects.get(slug=slug, project_id=self.project.pk)
 
-    def test_file_params(self):
+    def test_file_params(self) -> None:
         self.client_create_component(
             True,
             file_format_params_po_line_wrap="77",
@@ -77,19 +77,19 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.assertEqual(component.file_format_params["po_line_wrap"], "77")
         self.assertNotIn("json_sort_keys", component.file_format_params)
 
-    def test_file_params_invalid(self):
+    def test_file_params_invalid(self) -> None:
         self.client_create_component(False, file_format_params_po_line_wrap="999999")
         with self.assertRaises(Component.DoesNotExist):
             self.get_new_component()
 
-    def test_file_params_update(self):
+    def test_file_params_update(self) -> None:
         self.client_create_component(True)
         self.component = self.get_new_component()
         self.assertFalse(self.component.file_format_params["po_line_wrap"])
         self.update_component_file_params(po_line_wrap=65535)
         self.assertEqual(self.component.file_format_params["po_line_wrap"], "65535")
 
-    def test_create_component_from_existing(self):
+    def test_create_component_from_existing(self) -> None:
         self.update_component_file_params(
             po_line_wrap=-1, po_keep_previous=False, po_fuzzy_matching=False
         )
@@ -177,6 +177,21 @@ class JsonParamsTest(BaseFileFormatsTest):
             commit,
         )
 
+    def test_customize_no_indent(self) -> None:
+        self.update_component_file_params(
+            json_indent=0,
+            json_indent_style="spaces",
+            json_sort_keys=True,
+        )
+
+        commit = self.assert_customize("+")
+        self.assertIn(
+            '''"orangutan": "",
++"thanks": "",
++"try": ""''',
+            commit,
+        )
+
     def test_customize_no_sort(self) -> None:
         self.update_component_file_params(
             json_indent=8,
@@ -222,21 +237,24 @@ class YAMLParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
         return self.create_yaml()
 
+    def assert_customize(self, expected: str) -> None:
+        rev = self.component.repository.last_revision
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn(f"{expected}try:", commit)
+        self.assertIn("cs.yml", commit)
+        with open(self.get_translation().get_filename(), "rb") as handle:
+            self.assertIn(b"\r\n", handle.read())
+
     def test_customize(self) -> None:
         self.update_component_file_params(
             yaml_indent=8,
             yaml_line_wrap=100,
             yaml_line_break="dos",
         )
-        rev = self.component.repository.last_revision
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.get_translation().commit_pending("test", None)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
-        commit = self.component.repository.show(self.component.repository.last_revision)
-        self.assertIn("        try:", commit)
-        self.assertIn("cs.yml", commit)
-        with open(self.get_translation().get_filename(), "rb") as handle:
-            self.assertIn(b"\r\n", handle.read())
+        self.assert_customize("        ")
 
 
 class XMLParamsTest(BaseFileFormatsTest):

@@ -217,7 +217,7 @@ Fluent parts
 :Check class: ``weblate.checks.fluent.parts.FluentPartsCheck``
 :Check identifier: ``fluent-parts``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-parts``
 :Flag to ignore: ``ignore-fluent-parts``
 
@@ -259,7 +259,7 @@ Fluent references
 :Check class: ``weblate.checks.fluent.references.FluentReferencesCheck``
 :Check identifier: ``fluent-references``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-references``
 :Flag to ignore: ``ignore-fluent-references``
 
@@ -332,7 +332,7 @@ Fluent translation inner HTML
 :Check class: ``weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck``
 :Check identifier: ``fluent-target-inner-html``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-target-inner-html``
 :Flag to ignore: ``ignore-fluent-target-inner-html``
 
@@ -402,7 +402,7 @@ Fluent translation syntax
 :Check class: ``weblate.checks.fluent.syntax.FluentTargetSyntaxCheck``
 :Check identifier: ``fluent-target-syntax``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-target-syntax``
 :Flag to ignore: ``ignore-fluent-target-syntax``
 
@@ -524,7 +524,7 @@ C# format
 :Check class: ``weblate.checks.format.CSharpFormatCheck``
 :Check identifier: ``c_sharp_format``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`resourcedictionary`
+:File formats automatically enabling this check: :ref:`resourcedictionary`
 :Flag to enable: ``c-sharp-format``, ``csharp-format``
 :Flag to ignore: ``ignore-c-sharp-format``
 :Position format string example: ``There are {0} apples``
@@ -545,7 +545,7 @@ ECMAScript template literals
 :Check class: ``weblate.checks.format.ESTemplateLiteralsCheck``
 :Check identifier: ``es_format``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`mi18n-lang`
+:File formats automatically enabling this check: :ref:`mi18n-lang`
 :Flag to enable: ``es-format``
 :Flag to ignore: ``ignore-es-format``
 :Interpolation example: ``There are ${number} apples``
@@ -567,7 +567,7 @@ i18next interpolation
 :Check class: ``weblate.checks.format.I18NextInterpolationCheck``
 :Check identifier: ``i18next_interpolation``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`i18next`, :ref:`i18nextv4`
+:File formats automatically enabling this check: :ref:`i18next`, :ref:`i18nextv4`
 :Flag to enable: ``i18next-interpolation``
 :Flag to ignore: ``ignore-i18next-interpolation``
 :Interpolation example: ``There are {{number}} apples``
@@ -591,7 +591,7 @@ ICU MessageFormat
 :Check class: ``weblate.checks.icu.ICUMessageFormatCheck``
 :Check identifier: ``icu_message_format``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`arb`, :ref:`formatjs`
+:File formats automatically enabling this check: :ref:`arb`, :ref:`formatjs`
 :Flag to enable: ``icu-message-format``
 :Flag to ignore: ``ignore-icu-message-format``
 :Interpolation example: ``There {number, plural, one {is one apple} other {are # apples}}.``
@@ -658,7 +658,7 @@ Java format
 :Check class: ``weblate.checks.format.JavaFormatCheck``
 :Check identifier: ``java_printf_format``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`
+:File formats automatically enabling this check: :ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`
 :Flag to enable: ``java-printf-format``
 :Flag to ignore: ``ignore-java-printf-format``
 :Simple format string example: ``There are %d apples``
@@ -1122,7 +1122,7 @@ Markdown links
 :Check class: ``weblate.checks.markup.MarkdownLinkCheck``
 :Check identifier: ``md-link``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-link``
 
@@ -1144,7 +1144,7 @@ Markdown references
 :Check class: ``weblate.checks.markup.MarkdownRefLinkCheck``
 :Check identifier: ``md-reflink``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-reflink``
 
@@ -1165,7 +1165,7 @@ Markdown syntax
 :Check class: ``weblate.checks.markup.MarkdownSyntaxCheck``
 :Check identifier: ``md-syntax``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-syntax``
 
@@ -1783,7 +1783,7 @@ Unsafe HTML
 :Check class: ``weblate.checks.markup.SafeHTMLCheck``
 :Check identifier: ``safe-html``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`html`, :ref:`markdown`
+:File formats automatically enabling this check: :ref:`html`, :ref:`markdown`
 :Flag to enable: ``safe-html``
 :Flag to ignore: ``ignore-safe-html``
 
@@ -1932,7 +1932,7 @@ Fluent source inner HTML
 :Check class: ``weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck``
 :Check identifier: ``fluent-source-inner-html``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-source-inner-html``
 :Flag to ignore: ``ignore-fluent-source-inner-html``
 
@@ -2067,7 +2067,7 @@ Fluent source syntax
 :Check class: ``weblate.checks.fluent.syntax.FluentSourceSyntaxCheck``
 :Check identifier: ``fluent-source-syntax``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`fluent`
+:File formats automatically enabling this check: :ref:`fluent`
 :Flag to enable: ``fluent-source-syntax``
 :Flag to ignore: ``ignore-fluent-source-syntax``
 
@@ -2094,7 +2094,7 @@ ICU MessageFormat syntax
 :Check class: ``weblate.checks.icu.ICUSourceCheck``
 :Check identifier: ``icu_message_format_syntax``
 :Trigger: This check needs to be enabled using a flag.
-:File formats enabling this check: :ref:`arb`, :ref:`formatjs`
+:File formats automatically enabling this check: :ref:`arb`, :ref:`formatjs`
 :Flag to enable: ``icu-message-format``
 :Flag to ignore: ``ignore-icu-message-format``
 

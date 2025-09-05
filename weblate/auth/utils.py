@@ -29,7 +29,7 @@ def get_auth_backends():
     return load_backends(settings.AUTHENTICATION_BACKENDS)
 
 
-def get_auth_keys():
+def get_auth_keys() -> set[str]:
     return set(get_auth_backends().keys())
 
 

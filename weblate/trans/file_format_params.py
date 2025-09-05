@@ -64,6 +64,15 @@ class BaseFileFormatParam:
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         """Configure store with this file format parameters."""
 
+    @classmethod
+    def get_value(cls, file_format_params: dict):
+        value = file_format_params.get(cls.name, cls.default)
+        cast = type(cls.default)
+        try:
+            return cast(value)
+        except (ValueError, TypeError):
+            return cls.default
+
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
@@ -110,8 +119,8 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     default = False
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("JsonFile", store).dump_args["sort_keys"] = file_format_params.get(
-            self.name, self.default
+        cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
+            file_format_params
         )
 
 
@@ -136,14 +145,9 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     default = "spaces"
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        indent = int(
-            file_format_params.get(
-                JSONOutputIndentation.name, JSONOutputIndentation.default
-            )
-            or JSONOutputIndentation.default
-        )
+        indent = JSONOutputIndentation.get_value(file_format_params)
         dump_args = cast("JsonFile", store).dump_args
-        if file_format_params.get(self.name, self.default) == "tabs":
+        if self.get_value(file_format_params) == "tabs":
             dump_args["indent"] = "\t" * indent
         else:
             dump_args["indent"] = indent
@@ -158,7 +162,7 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         dump_args = cast("JsonFile", store).dump_args
-        use_compact_separators = file_format_params.get(self.name, self.default)
+        use_compact_separators = self.get_value(file_format_params)
         dump_args["separators"] = (
             ",",
             ":" if use_compact_separators else ": ",
@@ -194,9 +198,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
     )
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("pofile", store).wrapper.width = int(
-            file_format_params.get(self.name, self.default) or self.default
-        )
+        cast("pofile", store).wrapper.width = int(self.get_value(file_format_params))
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
@@ -216,7 +218,7 @@ class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
     field_class = forms.BooleanField
-    default = False
+    default = True
 
 
 @register_file_format_param
@@ -224,7 +226,7 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -240,11 +242,11 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     label = gettext_lazy("YAML indentation")
     field_class = forms.IntegerField
     default = 2
-    field_kwargs = {"min_value": 0, "max_value": 10}
+    field_kwargs = {"min_value": 1, "max_value": 10}
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         cast("YAMLFile", store).dump_args["indent"] = int(  # type: ignore[assignment]
-            file_format_params.get(self.name, self.default) or self.default
+            self.get_value(file_format_params)
         )
 
 
@@ -264,7 +266,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         cast("YAMLFile", store).dump_args["width"] = int(  # type: ignore[assignment]
-            file_format_params.get(self.name, self.default) or self.default
+            self.get_value(file_format_params)
         )
 
 
@@ -282,7 +284,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
-        line_break = file_format_params.get(self.name, self.default)
+        line_break = self.get_value(file_format_params)
         cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]  # type: ignore[assignment]
 
 
@@ -291,7 +293,7 @@ class XMLClosingTags(BaseFileFormatParam):
     name = "xml_closing_tags"
     label = gettext_lazy("Include closing tag for blank XML tags")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
@@ -305,8 +307,8 @@ class XMLClosingTags(BaseFileFormatParam):
         return result
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("LISAfile", store).XMLSelfClosingTags = not file_format_params.get(
-            self.name, self.default
+        cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
+            file_format_params
         )
 
 

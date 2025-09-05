@@ -21,25 +21,66 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. include:: changes/contributors/5.14.rst
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/149?closed=1>`__.
 
-Weblate 5.13.1
+Weblate 5.13.2
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on September 5th 2025.*
 
 .. rubric:: Improvements
 
+* Error reporting upon validation of the file upload method.
+* Detailed language information in new language notifications.
+
 .. rubric:: Bug fixes
 
-* Access control for :http:get:`/api/users/(str:username)/`.
-
-.. rubric:: Compatibility
+* Sign-in could not be completed with LDAP.
+* Nonspacing mark changes highlighting in history.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.13.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/151?closed=1>`__.
+
+Weblate 5.13.1
+--------------
+
+*Released on September 4th 2025.*
+
+.. rubric:: Improvements
+
+* Smarter retries of unwritable pending changes.
+* Failed :ref:`2fa` is visible in :ref:`audit-log`.
+
+.. rubric:: Bug fixes
+
+* Sign-in form not shown for LDAP.
+* Access control for :http:get:`/api/users/(str:username)/`.
+* :ref:`check-rst-references` allows translatable reference names.
+* :ref:`file_format_params` were not properly applied in some situations.
+* Removed stale :ref:`addon-weblate.xml.customize`.
+* :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
+* Username autocompletion in comments.
+* Shorten session expiry while in :ref:`2fa` (:cve:`2025-58352` / :ghsa:`377j-wj38-4728`).
+* Statistics when using :ref:`component-links`.
+* :ref:`componentlists` are no longer blocking dashboard loading.
+* OpenMetrics API format.
+
+.. rubric:: Compatibility
+
+* Removed support for no longer working :ref:`mt-ibm`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notably, ``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

@@ -11,7 +11,7 @@ from logging.handlers import SysLogHandler
 
 from weblate.api.spectacular import (
     get_drf_settings,
-    get_drf_standardized_errors_sertings,
+    get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
 
@@ -395,7 +395,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
@@ -869,7 +868,7 @@ REST_FRAMEWORK = get_drf_settings(
     anon_throttle="100/day",
     user_throttle="5000/hour",
 )
-DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_sertings()
+DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL

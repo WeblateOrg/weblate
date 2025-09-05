@@ -1033,6 +1033,15 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
         super().assert_same(newdata, testdata)
 
+    def test_default_self_closing_tag(self) -> None:
+        """Test that location tag is self-closed by default."""
+        storage = self.parse_file(self.FILE)
+        unit = storage.all_units[0]
+        unit.mainunit.addlocation("main.c:11")
+        serialized = self.format_class.serialize(storage.store)
+        self.assertIn(b'<location filename="main.c" line="11"/>', serialized)
+        self.assertNotIn(rb"<\location>", serialized)
+
 
 class DTDFormatTest(BaseFormatTest):
     format_class = DTDFormat

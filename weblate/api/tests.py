@@ -205,8 +205,16 @@ class UserAPITest(APIBaseTest):
         )
 
     def test_filter(self) -> None:
+        """Front-end autocompletion interface."""
         self.authenticate(True)
-        response = self.client.get(reverse("api:user-list"), {"username": "api"})
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
         self.assertEqual(response.data["count"], 1)
 
     def test_create(self) -> None:
@@ -3417,6 +3425,28 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
         self.check_upload_changes(changes_start, 1)
+
+        # Non-compatible component
+        self.create_po_mono(name="mono", project=self.component.project)
+
+        with open(TEST_POT, "rb") as handle:
+            response = self.client.put(
+                reverse(
+                    "api:translation-file",
+                    kwargs={
+                        "language__code": "en",
+                        "component__slug": "mono",
+                        "component__project__slug": "test",
+                    },
+                ),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual("method", response.data["errors"][0]["attr"])
+        self.assertIn(
+            "Update source strings upload is not supported with this format.",
+            response.data["errors"][0]["detail"],
+        )
 
     def test_upload_content(self) -> None:
         self.authenticate()

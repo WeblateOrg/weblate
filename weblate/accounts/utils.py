@@ -25,12 +25,12 @@ from weblate.trans.signals import user_pre_delete
 if TYPE_CHECKING:
     from django_otp.models import Device
 
+    from weblate.accounts.types import DeviceType
+
 SESSION_WEBAUTHN_AUDIT = "weblate:second_factor:webauthn_audit_log"
 SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
-
-DeviceType = Literal["totp", "webauthn", "recovery"]
 
 
 def remove_user(user: User, request: AuthenticatedHttpRequest, **params) -> None:
@@ -151,7 +151,10 @@ def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
 
 
 def adjust_session_expiry(
-    request: AuthenticatedHttpRequest, *, is_login: bool = True
+    *,
+    request: AuthenticatedHttpRequest,
+    user: User,
+    is_login: bool = True,
 ) -> None:
     """
     Adjust session expiry based on scope.
@@ -159,6 +162,11 @@ def adjust_session_expiry(
     - Set longer expiry for authenticated users.
     - Set short lived session for SAML authentication flow.
     """
+    is_2fa = False
+    if user.profile.has_2fa and not user.is_verified():
+        # Still in second factor view
+        is_2fa = True
+
     if "saml_only" not in request.session:
         if is_login:
             next_url = request.POST.get("next", request.GET.get("next"))
@@ -169,6 +177,11 @@ def adjust_session_expiry(
     if request.session["saml_only"]:
         # Short lived session for SAML authentication only
         request.session.set_expiry(60)
+    elif is_2fa:
+        request.session.set_expiry(settings.SESSION_COOKIE_AGE_2FA)
+    elif is_login:
+        # Using default expiry for login flow
+        request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     else:
         request.session.set_expiry(settings.SESSION_COOKIE_AGE_AUTHENTICATED)
 

@@ -88,7 +88,9 @@ class Command(BaseCommand):
                     if set(file_format.check_flags) & enable_flags
                 )
                 if file_formats:
-                    lines.append(f":File formats enabling this check: {file_formats}")
+                    lines.append(
+                        f":File formats automatically enabling this check: {file_formats}"
+                    )
                 lines.append(f":Flag to enable: {flags}")
             else:
                 lines.append(

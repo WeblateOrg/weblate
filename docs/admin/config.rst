@@ -1812,6 +1812,16 @@ Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 
 
    `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
+.. setting:: SESSION_COOKIE_AGE_2FA
+
+SESSION_COOKIE_AGE_2FA
+----------------------
+
+.. versionadded:: 5.13.1
+
+Set session expiry while in :ref:`2fa`. This complements
+:setting:`django:SESSION_COOKIE_AGE` which is used for unauthenticated users.
+
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
 SESSION_COOKIE_AGE_AUTHENTICATED

@@ -635,6 +635,28 @@ class ViewTests(ViewTestCase):
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
         self.assertContains(response, "Generate MO files")
 
+    def test_nonexisting(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        # Use bulk_create to avoid hitting save() which relies on class existence
+        Addon.objects.bulk_create([Addon(component=self.component, name=identifier)])
+
+        # Listing of unknown add-on should not crash
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+        self.assertContains(response, "Generate MO files")
+        self.assertContains(response, identifier)
+
+        # Deleting unknown add-on should work
+        addon = Addon.objects.get(name=identifier)
+        response = self.client.post(
+            addon.get_absolute_url(), {"delete": "1"}, follow=True
+        )
+        self.assertContains(response, "No add-ons currently installed")
+        self.assertContains(response, "Generate MO files")
+        # History entry
+        self.assertContains(response, identifier)
+
+        self.assertFalse(Addon.objects.filter(name=identifier).exists())
+
     def test_addon_logs(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),

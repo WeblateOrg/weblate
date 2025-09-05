@@ -7,10 +7,10 @@
 # Marija Grineviciute <marijagrine@protonmail.com>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.13\n"
+"Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-08-12 08:53+0000\n"
-"PO-Revision-Date: 2025-08-23 01:02+0000\n"
+"POT-Creation-Date: 2025-09-03 12:07+0000\n"
+"PO-Revision-Date: 2025-09-04 11:55+0000\n"
 "Last-Translator: Marija Grineviciute <marijagrine@protonmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
 "application/lt/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || "
 "n%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -42,14 +42,12 @@ msgstr ""
 "Šis el. pašto adresas jau naudojamas. Nurodykite kitą el. pašto adresą."
 
 #: weblate/accounts/forms.py:118
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
 msgstr ""
 "Toks vartotojo vardas jau yra naudojamas. Pasirinkite kitą vartotojo vardą."
 
 #: weblate/accounts/forms.py:130 weblate/accounts/forms.py:1026
-#: weblate/auth/models.py:463 weblate/auth/models.py:1166
+#: weblate/auth/models.py:464 weblate/auth/models.py:1182
 #: weblate/templates/auth/team.html:106 weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:47
 msgid "Full name"
@@ -59,17 +57,15 @@ msgstr "Vardas ir pavardė"
 msgid "Name is also used in version control commits."
 msgstr ""
 
-#: weblate/accounts/forms.py:197 weblate/accounts/models.py:808
+#: weblate/accounts/forms.py:197 weblate/accounts/models.py:829
 #, fuzzy
 #| msgid "Register email"
 msgid "Commit e-mail"
 msgstr "El. pašto adreso užregistravimas"
 
 #: weblate/accounts/forms.py:198
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "Use account e-mail address"
-msgstr "El. pašto adreso užregistravimas"
+msgstr "Naudoti paskyros el. pašto adresą"
 
 #: weblate/accounts/forms.py:200
 msgid ""
@@ -77,27 +73,22 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
-#: weblate/accounts/forms.py:233 weblate/accounts/models.py:802
-#, fuzzy
-#| msgid "Your e-mail"
+#: weblate/accounts/forms.py:233 weblate/accounts/models.py:823
 msgid "Public e-mail"
-msgstr "Jūsų el. pašto adresas"
+msgstr "Viešas el. pašto adresas"
 
 #: weblate/accounts/forms.py:234
 msgid "Hide e-mail address from public view"
-msgstr ""
+msgstr "Slėpti el. pašto adresą, kad nebūtų matomas viešai"
 
 #: weblate/accounts/forms.py:352
-#, fuzzy, python-format
-#| msgid "Component list"
+#, python-format
 msgid "Component list: %s"
-msgstr "Komponentų sąrašas"
+msgstr "Komponentų sąrašas: %s"
 
 #: weblate/accounts/forms.py:379
-#, fuzzy
-#| msgid "Account removal"
 msgid "Account e-mail"
-msgstr "Paskyros panaikinimas"
+msgstr "Paskyros el. paštas"
 
 #: weblate/accounts/forms.py:381
 msgid ""
@@ -106,32 +97,28 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/forms.py:449
-#, fuzzy
-#| msgid "CSRF verification failed. Request aborted."
 msgid "Verification failed. Try again later."
-msgstr "„CSRF“ patvirtinimas nepavyko. Užklausa nutraukta."
+msgstr "Patvirtinimas nepavyko. Bandykite dar kartą vėliau."
 
 #: weblate/accounts/forms.py:450
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Baigėsi patvirtinimo galiojimo laikas. Bandykite dar kartą."
 
 #: weblate/accounts/forms.py:451
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Nesu robotas"
 
 #: weblate/accounts/forms.py:452
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Verification completed"
-msgstr "Prisijungimas atšauktas."
+msgstr "Patvirtinimas atliktas"
 
 #: weblate/accounts/forms.py:453
 msgid "Verifying…"
-msgstr ""
+msgstr "Tvirtinama…"
 
 #: weblate/accounts/forms.py:455
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Tvirtinimas dar nebaigtas, prašome palaukti."
 
 #: weblate/accounts/forms.py:465
 #, fuzzy
@@ -149,7 +136,7 @@ msgstr "Kas yra „%s“?"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:558
 msgid "That was not correct, please try again."
-msgstr ""
+msgstr "Atsakymas neteisingas, bandykite dar kartą."
 
 #: weblate/accounts/forms.py:571 weblate/accounts/forms.py:578
 msgid "Validation failed, please try again."
@@ -171,27 +158,27 @@ msgstr "Jūsų el. pašto adresas"
 #: weblate/templates/manage/performance.html:81
 #: weblate/trans/models/announcement.py:72
 msgid "Message"
-msgstr ""
+msgstr "Žinutė"
 
 #: weblate/accounts/forms.py:607
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
+"Susisiekite su mumis anglų kalba. Kitu atveju galime neapdoroti jūsų "
+"užklausos."
 
-#: weblate/accounts/forms.py:624 weblate/accounts/templatetags/authnames.py:33
-#: weblate/auth/models.py:469 weblate/auth/models.py:1183
+#: weblate/accounts/forms.py:624 weblate/accounts/templatetags/authnames.py:35
+#: weblate/auth/models.py:470 weblate/auth/models.py:1199
 #: weblate/templates/accounts/user.html:239
 #: weblate/templates/manage/users.html:46
 #: weblate/templates/trans/project-access.html:49 weblate/utils/fields.py:36
 #: weblate/wladmin/forms.py:44
-#, fuzzy
-#| msgid "E-mail"
 msgid "E-mail"
-msgstr "El. pašto adresas"
+msgstr "El. paštas"
 
 #: weblate/accounts/forms.py:625
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr ""
+msgstr "El. laiškas su patvirtinimo nuoroda bus išsiųstas čia."
 
 #: weblate/accounts/forms.py:675
 msgid "New password"
@@ -199,11 +186,11 @@ msgstr "Naujas slaptažodis"
 
 #: weblate/accounts/forms.py:680
 msgid "New password confirmation"
-msgstr "Pakartotinai įveskite naują slaptažodį"
+msgstr "Naujo slaptažodžio patvirtinimas"
 
 #: weblate/accounts/forms.py:708
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Jūsų slaptažodis buvo pakeistas."
 
 #: weblate/accounts/forms.py:722
 msgid "Current password"
@@ -211,7 +198,7 @@ msgstr "Dabartinis slaptažodis"
 
 #: weblate/accounts/forms.py:723
 msgid "Leave empty if you have not set a password yet."
-msgstr ""
+msgstr "Palikite tuščią, jei dar nenustatėte slaptažodžio."
 
 #: weblate/accounts/forms.py:737
 msgid "You have entered an invalid password."
@@ -219,15 +206,15 @@ msgstr "Įvedėte neteisingą slaptažodį."
 
 #: weblate/accounts/forms.py:750
 msgid "Username or e-mail"
-msgstr "Naudotojo vardas arba el. pašto adresas"
+msgstr "Vartotojo vardas arba el. paštas"
 
-#: weblate/accounts/forms.py:751 weblate/accounts/templatetags/authnames.py:32
+#: weblate/accounts/forms.py:751 weblate/accounts/templatetags/authnames.py:34
 msgid "Password"
 msgstr "Slaptažodis"
 
 #: weblate/accounts/forms.py:755
 msgid "Please enter the correct username and password."
-msgstr ""
+msgstr "Įveskite teisingą vartotojo vardą ir slaptažodį."
 
 #: weblate/accounts/forms.py:757
 msgid "This account is inactive."
@@ -243,25 +230,23 @@ msgstr "Pranešimai apie vertimus"
 
 #: weblate/accounts/forms.py:901
 msgid "Use default setting"
-msgstr ""
+msgstr "Naudoti numatytąjį nustatymą"
 
 #: weblate/accounts/forms.py:933
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Stebimi projektai"
+msgstr "Kiti projektai"
 
-#: weblate/accounts/forms.py:935 weblate/accounts/models.py:724
+#: weblate/accounts/forms.py:935 weblate/accounts/models.py:745
 #: weblate/templates/accounts/profile.html:106
 #: weblate/templates/accounts/user.html:162
 msgid "Watched projects"
 msgstr "Stebimi projektai"
 
-#: weblate/accounts/forms.py:937 weblate/accounts/models.py:697
+#: weblate/accounts/forms.py:937 weblate/accounts/models.py:718
 #: weblate/templates/accounts/user.html:159
 #: weblate/templates/dashboard/user.html:31
 msgid "Managed projects"
-msgstr "Valdomi projektai"
+msgstr "Administruojami projektai"
 
 #: weblate/accounts/forms.py:939
 msgid "Project: {}"
@@ -330,56 +315,45 @@ msgid ""
 "%(component)s."
 msgstr ""
 
-#: weblate/accounts/forms.py:1025 weblate/auth/models.py:450
-#: weblate/auth/models.py:1157 weblate/templates/auth/team.html:105
+#: weblate/accounts/forms.py:1025 weblate/auth/models.py:451
+#: weblate/auth/models.py:1173 weblate/templates/auth/team.html:105
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:46 weblate/utils/forms.py:80
 msgid "Username"
-msgstr "Naudotojo/Vartotojo vardas"
+msgstr "Vartotojo vardas"
 
-#: weblate/accounts/forms.py:1027 weblate/auth/models.py:493
+#: weblate/accounts/forms.py:1027 weblate/auth/models.py:494
 #: weblate/trans/forms.py:1384
 msgid "Date joined"
-msgstr ""
+msgstr "Prisijungimo data"
 
 #: weblate/accounts/forms.py:1028
 msgid "Translations made"
-msgstr ""
+msgstr "Atlikti vertimai"
 
 #: weblate/accounts/forms.py:1029
 msgid "Suggestions made"
-msgstr ""
+msgstr "Pateikti pasiūlymai"
 
 #: weblate/accounts/forms.py:1030
-#, fuzzy
-#| msgid "Status"
 msgid "Comments made"
-msgstr "Būsena"
+msgstr "Pateikti komentarai"
 
 #: weblate/accounts/forms.py:1031
-#, fuzzy
-#| msgctxt "Per-project access-control team name"
-#| msgid "Screenshots"
 msgid "Screenshots uploaded"
-msgstr "Ekrano nuotraukos"
+msgstr "Įkeltos ekrano nuotraukos"
 
 #: weblate/accounts/forms.py:1055
-#, fuzzy
-#| msgid "Watched translations"
 msgid "The chosen sorting is not supported."
-msgstr "Stebimi vertimai"
+msgstr "Pasirinktas rūšiavimas nepalaikomas."
 
 #: weblate/accounts/forms.py:1072
-#, fuzzy
-#| msgid "Glossary"
 msgid "Add user to a team"
-msgstr "Aiškinamasis žodynas"
+msgstr "Įtraukti vartotoją į komandą"
 
 #: weblate/accounts/forms.py:1084
-#, fuzzy
-#| msgid "Edit"
 msgid "Add team"
-msgstr "Keisti"
+msgstr "Įtraukti komandą"
 
 #: weblate/accounts/forms.py:1098
 #, fuzzy
@@ -392,10 +366,8 @@ msgid "Verify the code from the app"
 msgstr ""
 
 #: weblate/accounts/forms.py:1117
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Discard previously configured authentication apps"
-msgstr "Stebimi vertimai"
+msgstr "Pašalinti anksčiau sukonfigūruotas autentifikacijos programas"
 
 #: weblate/accounts/forms.py:1121
 msgid ""
@@ -426,290 +398,270 @@ msgstr ""
 
 #: weblate/accounts/forms.py:1259
 msgid "Enter the code from the app"
-msgstr ""
+msgstr "Įveskite kodą iš programėlės"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:223
-#, fuzzy
-#| msgid "Password has been changed."
+#: weblate/accounts/models.py:225
 msgid "Password changed."
 msgstr "Slaptažodis pakeistas."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:225
-#, python-brace-format
-msgid "Username changed from {old} to {new}."
-msgstr ""
-
-#. Translators: Audit log entry
 #: weblate/accounts/models.py:227
 #, python-brace-format
-msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgid "Username changed from {old} to {new}."
+msgstr "Vartotojo vardas pakeistas iš {old} į {new}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:229
 #, python-brace-format
-msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgid "E-mail changed from {old} to {new}."
+msgstr "El. pašto adresas pakeistas iš {old} į {new}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:231
-#, fuzzy
-#| msgid "Password reset"
-msgid "Password reset requested."
-msgstr "Iš naujo nustatyti slaptažodį"
+#, python-brace-format
+msgid "Full name changed from {old} to {new}."
+msgstr "Vardas ir pavardė pakeisti iš {old} į {new}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:233
-msgid "Password reset confirmed, password turned off."
-msgstr ""
+msgid "Password reset requested."
+msgstr "Prašoma atkurti slaptažodį."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:235
-#, python-brace-format
-msgid "Configured sign in using {method} ({name})."
-msgstr ""
+msgid "Password reset confirmed, password turned off."
+msgstr "Slaptažodžio atkūrimas patvirtintas, slaptažodis deaktyvuotas."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:237
 #, python-brace-format
-msgid "Removed sign in using {method} ({name})."
-msgstr ""
+msgid "Configured sign in using {method} ({name})."
+msgstr "Sukonfigūruotas prisijungimas su {method} ({name})."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:239
 #, python-brace-format
-msgid "Signed in using {method} ({name})."
-msgstr ""
+msgid "Removed sign in using {method} ({name})."
+msgstr "Pašalintas prisijungimas su {method} ({name})."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:241
 #, python-brace-format
-msgid "Signed in using {method} ({name}) from a new device."
-msgstr ""
+msgid "Signed in using {method} ({name})."
+msgstr "Prisijungta su {method} ({name})."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:243
-#, fuzzy
-#| msgid "Watched translations"
-msgid "Somebody attempted to register with your e-mail."
-msgstr "Stebimi vertimai"
-
-#: weblate/accounts/models.py:246
-#, fuzzy
-#| msgid "Watched translations"
-msgid "Somebody attempted to register using your e-mail address."
-msgstr "Stebimi vertimai"
+#, python-brace-format
+msgid "Signed in using {method} ({name}) from a new device."
+msgstr "Prisijungta su {method} ({name}) naujame įrenginyje."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:249
-#, python-brace-format
-msgid "Could not sign in using {method} ({name})."
-msgstr ""
+#: weblate/accounts/models.py:245
+msgid "Somebody attempted to register with your e-mail."
+msgstr "Kažkas mėgino užsiregistruoti su jūsų el. paštu."
+
+#: weblate/accounts/models.py:248
+msgid "Somebody attempted to register using your e-mail address."
+msgstr "Kažkas mėgino užsiregistruoti naudodamasis jūsų el. pašto adresu."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:251
-#, fuzzy
-#| msgid "Translation status"
-msgid "Account locked due to many failed sign in attempts."
-msgstr "Vertimų būsena"
+#, python-brace-format
+msgid "Could not sign in using {method} ({name})."
+msgstr "Nepavyko prisijungti su {method} ({name})."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:253
-#, fuzzy
-#| msgid "Register email"
-msgid "Account locked by the site administrator."
-msgstr "El. pašto adreso užregistravimas"
+msgid "Account locked due to many failed sign in attempts."
+msgstr "Paskyra užrakinta dėl daug nesėkmingų bandymų prisijungti."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:255
-msgid "Account and all private data removed."
-msgstr ""
+msgid "Account locked by the site administrator."
+msgstr "Tinklalapio administratorius užrakino paskyrą."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:257
+msgid "Account and all private data removed."
+msgstr "Paskyra ir visi privatūs duomenys pašalinti."
+
+#. Translators: Audit log entry
+#: weblate/accounts/models.py:259
 #, python-brace-format
 msgid "Account removal confirmation sent to {email}."
 msgstr "Paskyros pašalinimo patvirtinimas buvo nusiųstas į {email}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:259
+#: weblate/accounts/models.py:261
 #, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr ""
+msgstr "Sutikimas su Bendrosiomis sąlygomis {date}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:261
+#: weblate/accounts/models.py:263
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
 msgstr "Pakviestas į „{site_title}“ vartotojo – {username}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:263
+#: weblate/accounts/models.py:265
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr ""
-
-#. Translators: Audit log entry
-#: weblate/accounts/models.py:265
-msgid "Started trial period."
-msgstr ""
+msgstr "Priėmė {username} kvietimą."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:267
+msgid "Started trial period."
+msgstr "Pradėtas bandomasis laikotarpis."
+
+#. Translators: Audit log entry
+#: weblate/accounts/models.py:269
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
 msgstr ""
 
-#: weblate/accounts/models.py:270
+#: weblate/accounts/models.py:272
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:274
+#: weblate/accounts/models.py:276
 #, python-brace-format
 msgid "Access to project {project} was blocked."
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:276
-#, fuzzy
-#| msgid "Administration"
+#: weblate/accounts/models.py:278
 msgid "User was enabled by administrator."
-msgstr "Administravimas"
+msgstr "Administratorius įgalino vartotoją."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:278
+#: weblate/accounts/models.py:280
 #, fuzzy
 #| msgid "Administration"
 msgid "User was disabled by administrator."
 msgstr "Administravimas"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:280
+#: weblate/accounts/models.py:282
 msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:282
-#, fuzzy, python-brace-format
-#| msgid "Invited to {site_title} by {username}."
+#: weblate/accounts/models.py:284
+#, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "Pakviestas į „{site_title}“ vartotojo – {username}."
+msgstr "{username} įtraukė vartotoją į {team} komandą."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:284
+#: weblate/accounts/models.py:286
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
 
-#: weblate/accounts/models.py:287
+#: weblate/accounts/models.py:289
 msgid "Two-factor authentication recovery codes were generated"
 msgstr ""
 
-#: weblate/accounts/models.py:291
+#: weblate/accounts/models.py:293
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr ""
-
-#. Translators: Audit log entry
-#: weblate/accounts/models.py:294
-#, python-brace-format
-msgid "Two-factor authentication added: {device}"
 msgstr ""
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:296
 #, python-brace-format
-msgid "Two-factor authentication removed: {device}"
+msgid "Two-factor authentication added: {device}"
 msgstr ""
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:298
 #, python-brace-format
-msgid "Two-factor authentication sign in using {device}"
+msgid "Two-factor authentication removed: {device}"
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:305
-#, fuzzy
-#| msgid "Current password"
-msgid "Configured password to sign in."
-msgstr "Dabartinis slaptažodis"
+#: weblate/accounts/models.py:300
+#, python-brace-format
+msgid "Two-factor authentication sign in using {device}"
+msgstr ""
 
-#. Translators: Audit log entry
-#: weblate/accounts/models.py:307
-#, fuzzy
-#| msgid "Set my password"
-msgid "Signed in using password."
-msgstr "Nustatyti slaptažodį"
-
-#. Translators: Audit log entry
-#: weblate/accounts/models.py:309
-#, fuzzy
-#| msgid "Set my password"
-msgid "Signed in using password from a new device."
-msgstr "Nustatyti slaptažodį"
+#: weblate/accounts/models.py:303
+#, python-brace-format
+msgid "Two-factor authentication failed using {device_type}"
+msgstr "Dviejų faktorių autentifikacija nepavyko naudojant {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "You have entered an invalid password."
-msgid "Could not sign in using password."
-msgstr "Įvedėte klaidingą slaptažodį."
+msgid "Configured password to sign in."
+msgstr "Sukonfigūruotas prisijungimo slaptažodis."
+
+#. Translators: Audit log entry
+#: weblate/accounts/models.py:313
+msgid "Signed in using password."
+msgstr "Prisijungta naudojantis slaptažodžiu."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:315
+msgid "Signed in using password from a new device."
+msgstr "Prisijungta naujame įrenginyje naudojantis slaptažodžiu."
+
+#. Translators: Audit log entry
+#: weblate/accounts/models.py:317
+msgid "Could not sign in using password."
+msgstr "Nepavyko prisijungti naudojant slaptažodį."
+
+#. Translators: Audit log entry
+#: weblate/accounts/models.py:321
 #, python-brace-format
 msgid "Invited to {project} by {username}."
 msgstr "Pakviestas į „{project}“ vartotojo – {username}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:319
-#, fuzzy
-#| msgid "Password has been changed."
+#: weblate/accounts/models.py:325
 msgid "Password configured."
-msgstr "Slaptažodis pakeistas."
+msgstr "Slaptažodis sukonfigūruotas."
 
-#: weblate/accounts/models.py:326
+#: weblate/accounts/models.py:332
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 
-#: weblate/accounts/models.py:330
+#: weblate/accounts/models.py:336
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
 
-#: weblate/accounts/models.py:334 weblate/accounts/models.py:338
+#: weblate/accounts/models.py:340 weblate/accounts/models.py:344
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
 
-#: weblate/accounts/models.py:482 weblate/templates/accounts/profile.html:503
+#: weblate/accounts/models.py:491 weblate/templates/accounts/profile.html:503
 #: weblate/templates/accounts/user.html:297
 msgid "Account activity"
 msgstr "Paskyros aktyvumas"
 
-#: weblate/accounts/models.py:574
+#: weblate/accounts/models.py:595
 msgid "Interface Language"
 msgstr "Sąsajos kalba"
 
-#: weblate/accounts/models.py:580
+#: weblate/accounts/models.py:601
 msgid "Translated languages"
 msgstr "Išverstos kalbos (Kalbos, į kurias verčiate)"
 
-#: weblate/accounts/models.py:583
+#: weblate/accounts/models.py:604
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
 
-#: weblate/accounts/models.py:590
+#: weblate/accounts/models.py:611
 msgid "Secondary languages"
 msgstr "Antrinės kalbos"
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:613
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -717,237 +669,219 @@ msgstr ""
 "Pasirinkite kalbas, kurias suprantate. Pranešimai šiomis kalbomis bus rodomi "
 "šalia pranešimo, kurį verčiate į tiesiogine kalbą."
 
-#: weblate/accounts/models.py:604
+#: weblate/accounts/models.py:625
 msgid "Theme"
 msgstr ""
 
-#: weblate/accounts/models.py:609
+#: weblate/accounts/models.py:630
 msgid "Hide completed translations on the dashboard"
 msgstr ""
 
-#: weblate/accounts/models.py:613
+#: weblate/accounts/models.py:634
 msgid "Show secondary translations in the Zen mode"
 msgstr ""
 
-#: weblate/accounts/models.py:617
+#: weblate/accounts/models.py:638
 msgid "Hide source if a secondary translation exists"
 msgstr ""
 
-#: weblate/accounts/models.py:624
+#: weblate/accounts/models.py:645
 msgid "Editor link"
 msgstr ""
 
-#: weblate/accounts/models.py:626
+#: weblate/accounts/models.py:647
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
 
-#: weblate/accounts/models.py:635
-#, fuzzy
-#| msgid "Add new association"
+#: weblate/accounts/models.py:656
 msgid "Translation editor mode"
-msgstr "Pridėti naują asociaciją"
+msgstr "Vertimo redagavimo režimas"
 
-#: weblate/accounts/models.py:637
+#: weblate/accounts/models.py:658
 #, fuzzy
 #| msgid "Full name"
 msgid "Full editor"
 msgstr "Vardas ir pavardė"
 
-#: weblate/accounts/models.py:638
+#: weblate/accounts/models.py:659
 msgid "Zen mode"
 msgstr ""
 
-#: weblate/accounts/models.py:645
+#: weblate/accounts/models.py:666
 #, fuzzy
 #| msgid "Add new association"
 msgid "Zen editor mode"
 msgstr "Pridėti naują asociaciją"
 
-#: weblate/accounts/models.py:647
+#: weblate/accounts/models.py:668
 msgid "Top to bottom"
 msgstr ""
 
-#: weblate/accounts/models.py:648
+#: weblate/accounts/models.py:669
 msgid "Side by side"
 msgstr ""
 
-#: weblate/accounts/models.py:656
+#: weblate/accounts/models.py:677
 msgid "Special characters"
 msgstr "Specializuotieji rašmenys"
 
-#: weblate/accounts/models.py:658
+#: weblate/accounts/models.py:679
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
 
-#: weblate/accounts/models.py:664
-#, fuzzy
-#| msgid "Translated languages"
+#: weblate/accounts/models.py:685
 msgid "Number of nearby strings"
-msgstr "Kalbos, į kurias verčiate"
+msgstr "Gretimų eilučių skaičius"
 
-#: weblate/accounts/models.py:668
+#: weblate/accounts/models.py:689
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 
-#: weblate/accounts/models.py:672
-#, fuzzy
-#| msgid "Projects"
+#: weblate/accounts/models.py:693
 msgid "Automatically watch projects on contribution"
-msgstr "Projektai"
+msgstr "Automatiškai stebėti projektus, prie kurių prisidedu"
 
-#: weblate/accounts/models.py:675
+#: weblate/accounts/models.py:696
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
 
-#: weblate/accounts/models.py:679
+#: weblate/accounts/models.py:700
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Contribute to personal translation memory"
 msgstr "Stebimi vertimai"
 
-#: weblate/accounts/models.py:682
+#: weblate/accounts/models.py:703
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
 
-#: weblate/accounts/models.py:693 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:714 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
 msgstr "Stebimi vertimai"
 
-#: weblate/accounts/models.py:694 weblate/templates/dashboard/user.html:23
-#, fuzzy
-#| msgid "Component list"
+#: weblate/accounts/models.py:715 weblate/templates/dashboard/user.html:23
 msgid "All component lists"
-msgstr "Komponentų sąrašas"
+msgstr "Visi komponentų sąrašai"
 
-#: weblate/accounts/models.py:695 weblate/templates/dashboard/user.html:83
+#: weblate/accounts/models.py:716 weblate/templates/dashboard/user.html:88
 msgid "Component list"
 msgstr "Komponentų sąrašas"
 
-#: weblate/accounts/models.py:696 weblate/templates/dashboard/user.html:27
+#: weblate/accounts/models.py:717 weblate/templates/dashboard/user.html:27
 msgid "Suggested translations"
 msgstr "Vertimo pasiūlymai"
 
-#: weblate/accounts/models.py:710
+#: weblate/accounts/models.py:731
 msgid "Default dashboard view"
 msgstr ""
 
-#: weblate/accounts/models.py:716
+#: weblate/accounts/models.py:737
 msgid "Default component list"
-msgstr ""
+msgstr "Numatytasis komponentų sąrašas"
 
-#: weblate/accounts/models.py:726
+#: weblate/accounts/models.py:747
 #: weblate/templates/snippets/watch-dropdown.html:59
 #: weblate/templates/snippets/watch-dropdown.html:66
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
+"Galite gauti pranešimus apie stebimus projektus ir jie yra rodomi valdymo "
+"skydelyje pagal numatytuosius nustatymus."
 
-#: weblate/accounts/models.py:734
+#: weblate/accounts/models.py:755
 msgid "Website URL"
-msgstr ""
+msgstr "Svetainės URL"
 
-#: weblate/accounts/models.py:739
-#, fuzzy
-#| msgid "Register email"
+#: weblate/accounts/models.py:760
 msgid "Contact URL"
-msgstr "El. pašto adreso užregistravimas"
+msgstr "Kontaktinis URL"
 
-#: weblate/accounts/models.py:743
+#: weblate/accounts/models.py:764
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
 
-#: weblate/accounts/models.py:747
-#, fuzzy
-#| msgid "Username"
+#: weblate/accounts/models.py:768
 msgid "Liberapay username"
-msgstr "Naudotojo vardas"
+msgstr "„Liberapay“ vartotojo vardas"
 
-#: weblate/accounts/models.py:750
+#: weblate/accounts/models.py:771
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
 
-#: weblate/accounts/models.py:756
+#: weblate/accounts/models.py:777
 msgid "Fediverse URL"
 msgstr ""
 
-#: weblate/accounts/models.py:759
+#: weblate/accounts/models.py:780
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
 
-#: weblate/accounts/models.py:765
+#: weblate/accounts/models.py:786
 msgid "Code site URL"
 msgstr ""
 
-#: weblate/accounts/models.py:768
+#: weblate/accounts/models.py:789
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 
-#: weblate/accounts/models.py:773
-#, fuzzy
-#| msgid "Username"
+#: weblate/accounts/models.py:794
 msgid "GitHub username"
-msgstr "Naudotojo vardas"
+msgstr "„GitHub“ vartotojo vardas"
 
-#: weblate/accounts/models.py:778
-#, fuzzy
-#| msgid "Username"
+#: weblate/accounts/models.py:799
 msgid "X username"
-msgstr "Naudotojo vardas"
+msgstr "„X“ vartotojo vardas"
 
-#: weblate/accounts/models.py:783
+#: weblate/accounts/models.py:804
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "„LinkedIn“ profilio vardas"
 
-#: weblate/accounts/models.py:785
+#: weblate/accounts/models.py:806
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr ""
 
-#: weblate/accounts/models.py:792
+#: weblate/accounts/models.py:813
 #: weblate/templates/snippets/embed-units.html:57
-#, fuzzy
-#| msgid "Action"
 msgid "Location"
-msgstr "Veiksmas"
+msgstr "Vietovė"
 
-#: weblate/accounts/models.py:797
+#: weblate/accounts/models.py:818
 msgid "Company"
-msgstr ""
+msgstr "Įmonė"
 
-#: weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Choose languages to which you can translate."
+#: weblate/accounts/models.py:898
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Pasirinkite kalbas, į kurias galite versti."
+msgstr "Pasirinkite, kurį komponentų sąrašą norite matyti valdymo skydelyje."
 
-#: weblate/accounts/models.py:888
+#: weblate/accounts/models.py:909
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/accounts/models.py:1067 weblate/trans/views/edit.py:376
+#: weblate/accounts/models.py:1088 weblate/trans/views/edit.py:376
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
 
-#: weblate/accounts/models.py:1199
+#: weblate/accounts/models.py:1227
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Please provide an e-mail address for submitting translations."
@@ -987,18 +921,14 @@ msgid "Operation was performed in the repository"
 msgstr "Saugyklų būsena"
 
 #: weblate/accounts/notifications.py:541
-#, fuzzy
-#| msgid "Component list"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Komponentų sąrašas"
+msgstr "Komponentas buvo užrakintas arba atrakintas"
 
 #: weblate/accounts/notifications.py:551
-#, fuzzy
-#| msgid "Recent changes"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Paskiausi pakeitimai"
+msgstr "Licencija buvo pakeista"
 
 #: weblate/accounts/notifications.py:558
 msgctxt "Notification name"
@@ -1020,46 +950,34 @@ msgid "Contributor made their first translation"
 msgstr "Stebimi vertimai"
 
 #: weblate/accounts/notifications.py:608
-#, fuzzy
-#| msgid "Add new association"
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr "Pridėti naują asociaciją"
+msgstr "Buvo pridėtas pasiūlymas"
 
 #: weblate/accounts/notifications.py:617
-#, fuzzy
-#| msgid "translated"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "išversta"
+msgstr "Kalba buvo išversta"
 
 #: weblate/accounts/notifications.py:625
-#, fuzzy
-#| msgid "Component list"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Komponentų sąrašas"
+msgstr "Komponentas buvo išverstas"
 
 #: weblate/accounts/notifications.py:633
-#, fuzzy
-#| msgid "Status"
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr "Būsena"
+msgstr "Buvo pridėtas komentaras"
 
 #: weblate/accounts/notifications.py:661
-#, fuzzy
-#| msgid "Delete this account"
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr "Panaikinti šią paskyrą"
+msgstr "Buvote paminėtas komentare"
 
 #: weblate/accounts/notifications.py:695
-#, fuzzy
-#| msgid "Your account has been removed."
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Jūsų paskyra pašalinta."
+msgstr "Jūsų vertimas buvo pakomentuotas"
 
 #: weblate/accounts/notifications.py:727
 #, fuzzy
@@ -1195,123 +1113,123 @@ msgid ""
 "{0}."
 msgstr ""
 
-#: weblate/accounts/templatetags/authnames.py:55
+#: weblate/accounts/templatetags/authnames.py:57
 msgid "Use security key (WebAuthn)"
 msgstr ""
 
-#: weblate/accounts/templatetags/authnames.py:56
+#: weblate/accounts/templatetags/authnames.py:58
 #, fuzzy
 #| msgid "Authentication"
 msgid "Use authentication app (TOTP)"
 msgstr "Autentifikavimas"
 
-#: weblate/accounts/templatetags/authnames.py:57
+#: weblate/accounts/templatetags/authnames.py:59
 msgid "Use recovery codes"
-msgstr ""
-
-#: weblate/accounts/types.py:12
-msgctxt "Theme selection"
-msgid "Sync with system"
-msgstr ""
-
-#: weblate/accounts/types.py:13
-msgctxt "Theme selection"
-msgid "Light"
 msgstr ""
 
 #: weblate/accounts/types.py:14
 msgctxt "Theme selection"
+msgid "Sync with system"
+msgstr ""
+
+#: weblate/accounts/types.py:15
+msgctxt "Theme selection"
+msgid "Light"
+msgstr ""
+
+#: weblate/accounts/types.py:16
+msgctxt "Theme selection"
 msgid "Dark"
 msgstr ""
 
-#: weblate/accounts/utils.py:185
+#: weblate/accounts/utils.py:198
 #, fuzzy, python-format
 #| msgid "Security"
 msgid "Security key (%s)"
 msgstr "Saugumas"
 
-#: weblate/accounts/utils.py:191
+#: weblate/accounts/utils.py:204
 #, fuzzy, python-format
 #| msgid "Authentication"
 msgid "Authentication app (%s)"
 msgstr "Autentifikavimas"
 
-#: weblate/accounts/views.py:198 weblate/accounts/views.py:1074
-#: weblate/accounts/views.py:1131 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:201 weblate/accounts/views.py:1080
+#: weblate/accounts/views.py:1137 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:34
 #: weblate/templates/accounts/user.html:411
 msgid "Password reset"
 msgstr "Iš naujo nustatyti slaptažodį"
 
-#: weblate/accounts/views.py:201
+#: weblate/accounts/views.py:204
 #, fuzzy
 #| msgid "Remove my account"
 msgid "Remove account"
 msgstr "Pašalinti paskyrą"
 
-#: weblate/accounts/views.py:204 weblate/accounts/views.py:975
+#: weblate/accounts/views.py:207 weblate/accounts/views.py:981
 msgid "User registration"
 msgstr "Naudotojo/Vartotojo registracija"
 
-#: weblate/accounts/views.py:249
+#: weblate/accounts/views.py:252
 #, fuzzy
 #| msgid "Register email"
 msgid "Could not send message to administrator."
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:266
+#: weblate/accounts/views.py:269
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Could not open a ticket, please try again later."
 msgstr "Stebimi vertimai"
 
-#: weblate/accounts/views.py:271 weblate/accounts/views.py:292
+#: weblate/accounts/views.py:274 weblate/accounts/views.py:295
 msgid "Your request has been sent, you will shortly hear from us."
 msgstr ""
 
-#: weblate/accounts/views.py:418
+#: weblate/accounts/views.py:421
 msgid "Your profile has been updated."
 msgstr "Jūsų profilis atnaujintas."
 
-#: weblate/accounts/views.py:461
+#: weblate/accounts/views.py:462
 msgid "User profile"
 msgstr "Naudotojo/Vartotojo profilis"
 
-#: weblate/accounts/views.py:487
+#: weblate/accounts/views.py:488
 msgid "Your account has been removed."
 msgstr "Jūsų paskyra pašalinta."
 
-#: weblate/accounts/views.py:553
+#: weblate/accounts/views.py:554
 msgid "Too many messages sent, please try again later."
 msgstr ""
 
-#: weblate/accounts/views.py:577 weblate/templates/accounts/contact.html:7
+#: weblate/accounts/views.py:578 weblate/templates/accounts/contact.html:7
 #: weblate/templates/footer.html:36
 msgid "Contact"
-msgstr ""
+msgstr "Kontaktai"
 
-#: weblate/accounts/views.py:601 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:602 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Priegloba"
 
-#: weblate/accounts/views.py:622
+#: weblate/accounts/views.py:623
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
 
-#: weblate/accounts/views.py:642
+#: weblate/accounts/views.py:643
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
 
-#: weblate/accounts/views.py:648 weblate/templates/accounts/hosting.html:62
+#: weblate/accounts/views.py:649 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr ""
 
-#: weblate/accounts/views.py:864 weblate/templates/403.html:20
+#: weblate/accounts/views.py:870 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
 #: weblate/templates/accounts/2fa.html:33
 #: weblate/templates/accounts/login.html:7
@@ -1322,102 +1240,102 @@ msgstr ""
 #: weblate/templates/weblate_auth/invitation_detail.html:33
 #: weblate/wladmin/sites.py:60
 msgid "Sign in"
-msgstr ""
+msgstr "Prisijungti"
 
-#: weblate/accounts/views.py:907
+#: weblate/accounts/views.py:913
 msgid "Signed out"
 msgstr ""
 
-#: weblate/accounts/views.py:1003
+#: weblate/accounts/views.py:1009
 msgid "Register e-mail"
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:1019 weblate/accounts/views.py:1094
+#: weblate/accounts/views.py:1025 weblate/accounts/views.py:1100
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 
-#: weblate/accounts/views.py:1050 weblate/templates/accounts/password.html:17
+#: weblate/accounts/views.py:1056 weblate/templates/accounts/password.html:17
 #: weblate/templates/accounts/profile.html:206
 #: weblate/wladmin/templates/admin/base.html:13
 msgid "Change password"
 msgstr "Keisti slaptažodį"
 
-#: weblate/accounts/views.py:1060
+#: weblate/accounts/views.py:1066
 #, fuzzy
 #| msgid "Password reset"
 msgid "Password reset has been already completed."
 msgstr "Iš naujo nustatyti slaptažodį"
 
-#: weblate/accounts/views.py:1299
+#: weblate/accounts/views.py:1305
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Could not remove user identity"
 msgstr "Saugyklų būsena"
 
-#: weblate/accounts/views.py:1309
+#: weblate/accounts/views.py:1315
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
-#: weblate/accounts/views.py:1346
+#: weblate/accounts/views.py:1352
 #, fuzzy, python-format
 #| msgid "Register email"
 msgid "Could not authenticate: %s"
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:1356
+#: weblate/accounts/views.py:1362
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Could not complete registration."
 msgstr "Saugyklų būsena"
 
-#: weblate/accounts/views.py:1359
+#: weblate/accounts/views.py:1365
 msgid "Please check if you have already registered an account."
 msgstr ""
 
-#: weblate/accounts/views.py:1362
+#: weblate/accounts/views.py:1368
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 
-#: weblate/accounts/views.py:1373
+#: weblate/accounts/views.py:1379
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
 msgstr ""
 
-#: weblate/accounts/views.py:1381
+#: weblate/accounts/views.py:1387
 msgid "Could not authenticate due to invalid session state."
 msgstr ""
 
-#: weblate/accounts/views.py:1390
+#: weblate/accounts/views.py:1396
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 
-#: weblate/accounts/views.py:1394
+#: weblate/accounts/views.py:1400
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Please register using e-mail instead."
 msgstr "Stebimi vertimai"
 
-#: weblate/accounts/views.py:1401
+#: weblate/accounts/views.py:1407
 msgid "New registrations are turned off."
 msgstr "Naujos registracijos yra išjungtos."
 
-#: weblate/accounts/views.py:1450
+#: weblate/accounts/views.py:1456
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 
-#: weblate/accounts/views.py:1456
+#: weblate/accounts/views.py:1462
 #, fuzzy
 #| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
 msgstr "Prisijungimas atšauktas."
 
-#: weblate/accounts/views.py:1459
+#: weblate/accounts/views.py:1465
 msgid "The server does not allow authentication."
 msgstr ""
 
-#: weblate/accounts/views.py:1464
+#: weblate/accounts/views.py:1470
 #, fuzzy
 #| msgid ""
 #| "This e-mail address is already in use. Please supply a different e-mail "
@@ -1425,59 +1343,59 @@ msgstr ""
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "Toks el. pašto adresas jau naudojamas. Įveskite kitą el. pašto adresą."
 
-#: weblate/accounts/views.py:1470
+#: weblate/accounts/views.py:1476
 #, fuzzy
 #| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
 msgstr "Toks naudotojas jau yra. Pasirinkite kitą naudotojo vardą."
 
-#: weblate/accounts/views.py:1476
+#: weblate/accounts/views.py:1482
 #, fuzzy
 #| msgid "This username is already taken. Please choose another."
 msgid "The supplied user identity is already in use for another account."
 msgstr "Toks naudotojas jau yra. Pasirinkite kitą naudotojo vardą."
 
-#: weblate/accounts/views.py:1482
+#: weblate/accounts/views.py:1488
 #, fuzzy
 #| msgid "Register email"
 msgid "The authentication provider could not be reached."
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:1516 weblate/accounts/views.py:1529
+#: weblate/accounts/views.py:1522 weblate/accounts/views.py:1535
 #, fuzzy
 #| msgid "Action"
 msgid "Notification settings adjusted."
 msgstr "Veiksmas"
 
-#: weblate/accounts/views.py:1534
+#: weblate/accounts/views.py:1540
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
 
-#: weblate/accounts/views.py:1657
+#: weblate/accounts/views.py:1663
 #, fuzzy
 #| msgid "Register email"
 msgid "The security key was removed."
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:1658
+#: weblate/accounts/views.py:1664
 #, python-format
 msgid "The security key %s was registered."
 msgstr ""
 
-#: weblate/accounts/views.py:1695
+#: weblate/accounts/views.py:1701
 #, fuzzy
 #| msgid "Register email"
 msgid "The authentication app was removed."
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/accounts/views.py:1696
+#: weblate/accounts/views.py:1702
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr ""
 
-#: weblate/accounts/views.py:1838
+#: weblate/accounts/views.py:1848
 #, fuzzy
 #| msgid "Status"
 msgid "Second factor sign in"
@@ -1797,11 +1715,11 @@ msgstr ""
 msgid "I confirm the above matches look correct"
 msgstr ""
 
-#: weblate/addons/forms.py:308 weblate/trans/models/component.py:3208
+#: weblate/addons/forms.py:308 weblate/trans/models/component.py:3210
 msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 
-#: weblate/addons/forms.py:316 weblate/trans/models/component.py:3141
+#: weblate/addons/forms.py:316 weblate/trans/models/component.py:3143
 #, fuzzy
 #| msgid "Watched translations"
 msgid "You can not use a base file for bilingual translation."
@@ -2195,46 +2113,46 @@ msgid ""
 "email."
 msgstr ""
 
-#: weblate/api/spectacular.py:59
+#: weblate/api/spectacular.py:60
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
 msgstr ""
 
-#: weblate/api/views.py:155
+#: weblate/api/views.py:156
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Could not obtain the lock to perform the operation."
 msgstr "Saugyklų būsena"
 
-#: weblate/api/views.py:161
+#: weblate/api/views.py:162
 msgid "Specified unit id is not a translation source unit."
 msgstr ""
 
-#: weblate/api/views.py:172
+#: weblate/api/views.py:173
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr "Saugyklų būsena"
 
-#: weblate/api/views.py:180
+#: weblate/api/views.py:181
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr "Saugyklų būsena"
 
-#: weblate/api/views.py:187
+#: weblate/api/views.py:188
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "Saugyklų būsena"
 
-#: weblate/api/views.py:2515 weblate/auth/models.py:979
+#: weblate/api/views.py:2566 weblate/auth/models.py:995
 #: weblate/checks/views.py:233 weblate/checks/views.py:240
 #: weblate/templates/accounts/user.html:266
 #: weblate/templates/accounts/user.html:319
-#: weblate/templates/dashboard/user.html:89 weblate/templates/data.html:28
+#: weblate/templates/dashboard/user.html:94 weblate/templates/data.html:28
 #: weblate/templates/data.html:69 weblate/templates/data.html:113
 #: weblate/templates/language.html:70 weblate/templates/list-projects.html:3
 #: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1967
@@ -2243,13 +2161,13 @@ msgstr "Saugyklų būsena"
 msgid "Project"
 msgstr "Projektas"
 
-#: weblate/api/views.py:2523 weblate/trans/forms.py:1971
+#: weblate/api/views.py:2574 weblate/trans/forms.py:1971
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
 #: weblate/trans/models/component.py:384
 msgid "Category"
 msgstr ""
 
-#: weblate/api/views.py:2531 weblate/checks/views.py:235
+#: weblate/api/views.py:2582 weblate/checks/views.py:235
 #: weblate/checks/views.py:242 weblate/templates/accounts/user.html:267
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-language.html:81
@@ -2263,11 +2181,11 @@ msgstr ""
 msgid "Component"
 msgstr ""
 
-#: weblate/api/views.py:2539
+#: weblate/api/views.py:2590
 msgid "User"
-msgstr "Naudotojas"
+msgstr "Vartotojas"
 
-#: weblate/api/views.py:2547 weblate/fonts/models.py:148
+#: weblate/api/views.py:2598 weblate/fonts/models.py:148
 #: weblate/templates/category.html:144 weblate/templates/component.html:179
 #: weblate/templates/lang/language_form.html:8
 #: weblate/templates/languages.html:14 weblate/templates/project.html:222
@@ -2291,7 +2209,7 @@ msgstr "Asmeninė informacija"
 msgid "Authentication"
 msgstr "Autentifikavimas"
 
-#: weblate/auth/admin.py:160 weblate/auth/models.py:108
+#: weblate/auth/admin.py:160 weblate/auth/models.py:109
 msgid "Permissions"
 msgstr "Leidimai"
 
@@ -2781,7 +2699,7 @@ msgstr "Saugyklų būsena"
 #: weblate/auth/data.py:248
 msgctxt "Access-control role"
 msgid "Billing"
-msgstr ""
+msgstr "Mokėjimas"
 
 #: weblate/auth/data.py:249
 #, fuzzy
@@ -2889,7 +2807,7 @@ msgstr "VCS"
 #: weblate/auth/data.py:306
 msgctxt "Per-project access-control team name"
 msgid "Billing"
-msgstr ""
+msgstr "Mokėjimas"
 
 #: weblate/auth/forms.py:91 weblate/auth/views.py:183
 #, fuzzy
@@ -2901,12 +2819,12 @@ msgstr "El. pašto adreso užregistravimas"
 msgid "Cannot change this on a built-in team."
 msgstr ""
 
-#: weblate/auth/models.py:98
+#: weblate/auth/models.py:99
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr ""
 
-#: weblate/auth/models.py:104 weblate/auth/models.py:128
+#: weblate/auth/models.py:105 weblate/auth/models.py:129
 #: weblate/templates/fonts/fontgroup_detail.html:25
 #: weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:80
@@ -2916,53 +2834,53 @@ msgstr ""
 msgid "Name"
 msgstr "Vardas"
 
-#: weblate/auth/models.py:110
+#: weblate/auth/models.py:111
 msgid "Choose permissions granted to this role."
 msgstr ""
 
-#: weblate/auth/models.py:131 weblate/templates/accounts/profile.html:439
+#: weblate/auth/models.py:132 weblate/templates/accounts/profile.html:439
 #: weblate/templates/auth/team.html:60 weblate/templates/manage/teams.html:24
 #: weblate/templates/trans/project-access.html:216
 msgid "Roles"
 msgstr ""
 
-#: weblate/auth/models.py:133
+#: weblate/auth/models.py:134
 msgid "Choose roles granted to this team."
 msgstr ""
 
-#: weblate/auth/models.py:145
+#: weblate/auth/models.py:146
 #, fuzzy
 #| msgid "Projects"
 msgid "Project selection"
 msgstr "Projektai"
 
-#: weblate/auth/models.py:147 weblate/auth/models.py:175
+#: weblate/auth/models.py:148 weblate/auth/models.py:176
 msgid "As defined"
 msgstr ""
 
-#: weblate/auth/models.py:148 weblate/templates/auth/teams-projects.html:4
+#: weblate/auth/models.py:149 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
 msgstr ""
 
-#: weblate/auth/models.py:149 weblate/templates/auth/teams-projects.html:6
+#: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:6
 #, fuzzy
 #| msgid "Your public profile"
 msgid "All public projects"
 msgstr "Jūsų viešasis profilis"
 
-#: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:8
+#: weblate/auth/models.py:151 weblate/templates/auth/teams-projects.html:8
 #, fuzzy
 #| msgid "Watched projects"
 msgid "All protected projects"
 msgstr "Stebimi projektai"
 
-#: weblate/auth/models.py:151
+#: weblate/auth/models.py:152
 #, fuzzy
 #| msgid "Component list"
 msgid "From component list"
 msgstr "Komponentų sąrašas"
 
-#: weblate/auth/models.py:156 weblate/billing/admin.py:74
+#: weblate/auth/models.py:157 weblate/billing/admin.py:74
 #: weblate/billing/models.py:297 weblate/templates/accounts/profile.html:440
 #: weblate/templates/auth/team.html:68 weblate/templates/base.html:149
 #: weblate/templates/base5.html:150 weblate/templates/billing/list.html:7
@@ -2975,7 +2893,7 @@ msgstr "Komponentų sąrašas"
 msgid "Projects"
 msgstr "Projektai"
 
-#: weblate/auth/models.py:160 weblate/templates/accounts/profile.html:442
+#: weblate/auth/models.py:161 weblate/templates/accounts/profile.html:442
 #: weblate/templates/auth/team.html:72
 #: weblate/templates/category-language.html:11
 #: weblate/templates/category.html:14 weblate/templates/component-list.html:8
@@ -2988,28 +2906,28 @@ msgstr "Projektai"
 msgid "Components"
 msgstr ""
 
-#: weblate/auth/models.py:163
+#: weblate/auth/models.py:164
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Empty selection grants access to all components in project scope."
 msgstr "Stebimi vertimai"
 
-#: weblate/auth/models.py:168
+#: weblate/auth/models.py:169
 msgid "Component lists"
 msgstr ""
 
-#: weblate/auth/models.py:173
+#: weblate/auth/models.py:174
 #, fuzzy
 #| msgid "Language code"
 msgid "Language selection"
 msgstr "Kalbos kodas"
 
-#: weblate/auth/models.py:176 weblate/templates/auth/teams-languages.html:4
+#: weblate/auth/models.py:177 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1135 weblate/trans/forms.py:1377
 msgid "All languages"
 msgstr ""
 
-#: weblate/auth/models.py:181 weblate/billing/models.py:333
+#: weblate/auth/models.py:182 weblate/billing/models.py:333
 #: weblate/lang/views.py:53 weblate/templates/accounts/profile.html:19
 #: weblate/templates/accounts/profile.html:70
 #: weblate/templates/accounts/profile.html:441
@@ -3030,31 +2948,31 @@ msgstr ""
 msgid "Languages"
 msgstr "Kalbos"
 
-#: weblate/auth/models.py:185
+#: weblate/auth/models.py:186
 #, fuzzy
 #| msgid "Internal Server Error"
 msgid "Internal Weblate team"
 msgstr "Vidinė serverio klaida"
 
-#: weblate/auth/models.py:190
+#: weblate/auth/models.py:191
 #, fuzzy
 #| msgid "Register email"
 msgid "Team administrators"
 msgstr "El. pašto adreso užregistravimas"
 
-#: weblate/auth/models.py:193
+#: weblate/auth/models.py:194
 msgid "The administrator can add or remove users from a team."
 msgstr ""
 
-#: weblate/auth/models.py:198 weblate/trans/models/project.py:231
+#: weblate/auth/models.py:199 weblate/trans/models/project.py:231
 msgid "Enforced two-factor authentication"
 msgstr ""
 
-#: weblate/auth/models.py:201
+#: weblate/auth/models.py:202
 msgid "Requires users to have two-factor authentication configured."
 msgstr ""
 
-#: weblate/auth/models.py:454 weblate/utils/forms.py:77
+#: weblate/auth/models.py:455 weblate/utils/forms.py:77
 #: weblate/utils/validators.py:176
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -3063,92 +2981,92 @@ msgstr ""
 "Vartotojo vardą gali sudaryti tik raidės, skaitmenys ir šie ženklai: @ . + - "
 "_"
 
-#: weblate/auth/models.py:459
+#: weblate/auth/models.py:460
 msgid "A user with that username already exists."
 msgstr ""
 
-#: weblate/auth/models.py:475 weblate/auth/models.py:1187
+#: weblate/auth/models.py:476 weblate/auth/models.py:1203
 #, fuzzy
 #| msgid "Status"
 msgid "Superuser status"
 msgstr "Būsena"
 
-#: weblate/auth/models.py:477 weblate/auth/models.py:1189
+#: weblate/auth/models.py:478 weblate/auth/models.py:1205
 msgid "User has all possible permissions."
 msgstr ""
 
-#: weblate/auth/models.py:480 weblate/billing/models.py:178
+#: weblate/auth/models.py:481 weblate/billing/models.py:178
 #: weblate/memory/models.py:426 weblate/templates/check_list.html:38
 msgid "Active"
 msgstr ""
 
-#: weblate/auth/models.py:482
+#: weblate/auth/models.py:483
 msgid "Mark user as inactive instead of removing."
 msgstr ""
 
-#: weblate/auth/models.py:490 weblate/templates/trans/project-access.html:313
+#: weblate/auth/models.py:491 weblate/templates/trans/project-access.html:313
 msgid "Expires"
 msgstr ""
 
-#: weblate/auth/models.py:497 weblate/templates/accounts/profile.html:34
+#: weblate/auth/models.py:498 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:186 weblate/templates/auth/team.html:38
 #: weblate/templates/manage/teams.html:10
 #: weblate/templates/manage/users.html:48
 #: weblate/templates/trans/project-access.html:13
 #: weblate/templates/trans/project-access.html:52
 #: weblate/templates/trans/project-access.html:209
-#: weblate/templates/trans/project-access.html:314 weblate/trans/forms.py:3142
+#: weblate/templates/trans/project-access.html:314 weblate/trans/forms.py:3148
 #: weblate/wladmin/views.py:89
 msgid "Teams"
 msgstr ""
 
-#: weblate/auth/models.py:500 weblate/auth/models.py:1178
+#: weblate/auth/models.py:501 weblate/auth/models.py:1194
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 
-#: weblate/auth/models.py:950
+#: weblate/auth/models.py:966
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Regular expression for e-mail address"
 msgstr "Stebimi vertimai"
 
-#: weblate/auth/models.py:954
+#: weblate/auth/models.py:970
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 
-#: weblate/auth/models.py:959
+#: weblate/auth/models.py:975
 msgid "Team to assign"
 msgstr ""
 
-#: weblate/auth/models.py:974 weblate/trans/forms.py:1339
+#: weblate/auth/models.py:990 weblate/trans/forms.py:1339
 msgid "User to block"
 msgstr ""
 
-#: weblate/auth/models.py:981
+#: weblate/auth/models.py:997
 #, fuzzy
 #| msgid "About Weblate"
 msgid "Block expiry"
 msgstr "Apie Weblate"
 
-#: weblate/auth/models.py:1151 weblate/trans/forms.py:1320
+#: weblate/auth/models.py:1167 weblate/trans/forms.py:1320
 msgid "User to add"
 msgstr ""
 
-#: weblate/auth/models.py:1153 weblate/trans/forms.py:1323
+#: weblate/auth/models.py:1169 weblate/trans/forms.py:1323
 #: weblate/trans/forms.py:1341
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 
-#: weblate/auth/models.py:1161
+#: weblate/auth/models.py:1177
 msgid "Suggest username for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1170
+#: weblate/auth/models.py:1186
 msgid "Suggest full name for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1176 weblate/templates/accounts/profile.html:438
+#: weblate/auth/models.py:1192 weblate/templates/accounts/profile.html:438
 #: weblate/templates/accounts/user.html:320
 msgid "Team"
 msgstr ""
@@ -3432,10 +3350,8 @@ msgstr[2] "Sudaro daug %d projektų"
 msgstr[3] "Sudaro %d projektų"
 
 #: weblate/billing/models.py:489
-#, fuzzy
-#| msgid "Project website"
 msgid "Project website missing!"
-msgstr "Projekto svetainė"
+msgstr "Trūksta projekto svetainės!"
 
 #: weblate/billing/models.py:493
 #, fuzzy
@@ -3650,10 +3566,8 @@ msgid "Mismatching line breaks"
 msgstr ""
 
 #: weblate/checks/chars.py:435
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "Naujų eilučių skaičius vertime nesutampa su šaltiniu."
 
 #: weblate/checks/chars.py:443 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
@@ -3787,14 +3701,12 @@ msgid "Text contains the same word twice in a row."
 msgstr ""
 
 #: weblate/checks/duplicate.py:102
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Jūsų paskyra pašalinta."
-msgstr[1] "Jūsų paskyra pašalinta."
-msgstr[2] "Jūsų paskyra pašalinta."
-msgstr[3] "Jūsų paskyra pašalinta."
+msgstr[0] "Šis žodis dubliuojasi:"
+msgstr[1] "Šie žodžiai dubliuojasi:"
+msgstr[2] "Šie žodžiai dubliuojasi:"
+msgstr[3] "Šie žodžiai dubliuojasi:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
@@ -4476,7 +4388,7 @@ msgstr "Vertimų būsena"
 #: weblate/checks/format.py:827
 #, fuzzy
 #| msgid "Automatic suggestions"
-msgid "Automattic Components"
+msgid "Automattic components formatting"
 msgstr "Automatiniai pasiūlymai"
 
 #: weblate/checks/format.py:829
@@ -4615,10 +4527,8 @@ msgid "BBCode markup"
 msgstr ""
 
 #: weblate/checks/markup.py:120
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "BBKodas vertime nesutampa su šaltiniu."
 
 #: weblate/checks/markup.py:203
 msgid "XML syntax"
@@ -4635,10 +4545,8 @@ msgid "XML markup"
 msgstr ""
 
 #: weblate/checks/markup.py:229
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "XML tags in translation do not match source."
-msgstr "Numeris „\\n“ tiesioginių vertime nesutampa su originalu"
+msgstr "XML žymės vertime nesutampa su šaltiniu."
 
 #: weblate/checks/markup.py:287
 #, fuzzy
@@ -4688,33 +4596,33 @@ msgstr ""
 msgid "The translation uses unsafe HTML markup."
 msgstr "Vertimų būsena"
 
-#: weblate/checks/markup.py:471
+#: weblate/checks/markup.py:473
 msgid "Inconsistent reStructuredText"
 msgstr ""
 
-#: weblate/checks/markup.py:473
+#: weblate/checks/markup.py:475
 #, fuzzy
 #| msgid "Permissions"
 msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "Leidimai"
 
-#: weblate/checks/markup.py:478
+#: weblate/checks/markup.py:480
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The following reStructuredText markup is missing: {}"
 msgstr "Jūsų paskyra pašalinta."
 
-#: weblate/checks/markup.py:483
+#: weblate/checks/markup.py:485
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The following reStructuredText markup is extra: {}"
 msgstr "Jūsų paskyra pašalinta."
 
-#: weblate/checks/markup.py:628
+#: weblate/checks/markup.py:630
 msgid "reStructuredText syntax error"
 msgstr ""
 
-#: weblate/checks/markup.py:629
+#: weblate/checks/markup.py:631
 #, fuzzy
 #| msgid "Watched translations"
 msgid "reStructuredText syntax error in the translation."
@@ -4868,9 +4776,9 @@ msgstr "čečėnų"
 #: weblate/checks/views.py:237 weblate/templates/accounts/user.html:198
 #: weblate/templates/accounts/user_contributions.html:20
 #: weblate/templates/category-language.html:8
-#: weblate/templates/dashboard/user.html:67
-#: weblate/templates/dashboard/user.html:99
-#: weblate/templates/dashboard/user.html:110
+#: weblate/templates/dashboard/componentlist.html:1
+#: weblate/templates/dashboard/user.html:72
+#: weblate/templates/dashboard/user.html:104
 #: weblate/templates/language-project.html:10
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:9
@@ -4981,52 +4889,52 @@ msgid "Could not load strings from the file, try choosing other format."
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/convert.py:281
+#: weblate/formats/convert.py:282
 #, fuzzy
 #| msgid "Profile"
 msgid "HTML file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:316
+#: weblate/formats/convert.py:317
 #, fuzzy
 #| msgid "Preferences"
 msgid "Markdown file"
 msgstr "Nuostatos"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:356
+#: weblate/formats/convert.py:357
 #, fuzzy
 #| msgid "Profile"
 msgid "OpenDocument file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:421
+#: weblate/formats/convert.py:422
 #, fuzzy
 #| msgid "Profile"
 msgid "IDML file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:480
+#: weblate/formats/convert.py:481
 msgid "RC file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/convert.py:548
+#: weblate/formats/convert.py:549
 #, fuzzy
 #| msgid "Profile"
 msgid "Plain text file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:586
+#: weblate/formats/convert.py:587
 msgid "DokuWiki text file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/convert.py:594
+#: weblate/formats/convert.py:595
 msgid "MediaWiki text file"
 msgstr ""
 
@@ -5069,12 +4977,12 @@ msgid "JSON"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1561
+#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1567
 msgid "JSON nested structure file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1490
+#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1496
 msgid "Android String Resource"
 msgstr ""
 
@@ -5093,287 +5001,287 @@ msgid "Multivalue CSV file (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1179
+#: weblate/formats/ttkit.py:1185
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "gettext PO file"
 msgstr "Sukurti SSH raktą"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1256
 msgid "gettext PO file (monolingual)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1275
+#: weblate/formats/ttkit.py:1281
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Qt Linguist translation file"
 msgstr "Stebimi vertimai"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1290
+#: weblate/formats/ttkit.py:1296
 #, fuzzy
 #| msgid "Translation status"
 msgid "XLIFF 1.2 translation file"
 msgstr "Vertimų būsena"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1329
+#: weblate/formats/ttkit.py:1335
 msgid "XLIFF 1.2 with placeables support"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1337
+#: weblate/formats/ttkit.py:1343
 #, fuzzy
 #| msgid "Watched translations"
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "Stebimi vertimai"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1369
+#: weblate/formats/ttkit.py:1375
 #, fuzzy
 #| msgid "Status"
 msgid "iOS strings (UTF-16)"
 msgstr "Būsena"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1379
+#: weblate/formats/ttkit.py:1385
 msgid "iOS strings (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1387
+#: weblate/formats/ttkit.py:1393
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1397
+#: weblate/formats/ttkit.py:1403
 msgid "Java Properties (UTF-16)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1408
+#: weblate/formats/ttkit.py:1414
 msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1421
+#: weblate/formats/ttkit.py:1427
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Joomla language file"
 msgstr "Kalbos, į kurias verčiate"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1431
+#: weblate/formats/ttkit.py:1437
 msgid "GWT properties (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1442
+#: weblate/formats/ttkit.py:1448
 msgid "GWT properties (ISO-8859-1)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1449
+#: weblate/formats/ttkit.py:1455
 msgid "PHP strings"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1469
+#: weblate/formats/ttkit.py:1475
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Laravel PHP strings"
 msgstr "Kalbos, į kurias verčiate"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1477
+#: weblate/formats/ttkit.py:1483
 msgid ".NET resource file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1513
+#: weblate/formats/ttkit.py:1519
 msgid "Mobile Kotlin Resource"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1526
 msgid "Compose Multiplatform Resource"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1540
 #, fuzzy, python-format
 #| msgid "Add new association"
 msgid "Could not parse the key: %s"
 msgstr "Pridėti naują asociaciją"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1540
+#: weblate/formats/ttkit.py:1546
 msgid "JSON file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1569
+#: weblate/formats/ttkit.py:1575
 msgid "WebExtension JSON file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1580
+#: weblate/formats/ttkit.py:1586
 msgid "i18next JSON file v3"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1591
+#: weblate/formats/ttkit.py:1597
 msgid "i18next JSON file v4"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1598
+#: weblate/formats/ttkit.py:1604
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "go-i18n v1 JSON file"
 msgstr "Sukurti SSH raktą"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1608
+#: weblate/formats/ttkit.py:1614
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "go-i18n v2 JSON file"
 msgstr "Sukurti SSH raktą"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1617
+#: weblate/formats/ttkit.py:1623
 msgid "ARB file"
 msgstr "ARB failas"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1627
+#: weblate/formats/ttkit.py:1633
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "gotext JSON file"
 msgstr "Sukurti SSH raktą"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1637
+#: weblate/formats/ttkit.py:1643
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "Format.JS JSON file"
 msgstr "Sukurti SSH raktą"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1646
+#: weblate/formats/ttkit.py:1652
 msgid "CSV file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1749
+#: weblate/formats/ttkit.py:1755
 msgid "CSV file (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1763
 msgid "Simple CSV file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1776
+#: weblate/formats/ttkit.py:1782
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1784
+#: weblate/formats/ttkit.py:1790
 msgid "Simple CSV file (UTF-8)"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1792
+#: weblate/formats/ttkit.py:1798
 msgid "YAML file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1812
+#: weblate/formats/ttkit.py:1818
 msgid "Ruby YAML file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1821
+#: weblate/formats/ttkit.py:1827
 msgid "DTD file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1866
+#: weblate/formats/ttkit.py:1872
 msgid "SubRip subtitle file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1882
+#: weblate/formats/ttkit.py:1888
 msgid "MicroDVD subtitle file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1890
+#: weblate/formats/ttkit.py:1896
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1898
+#: weblate/formats/ttkit.py:1904
 msgid "SubStation Alpha subtitle file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1906
+#: weblate/formats/ttkit.py:1912
 #, fuzzy
 #| msgid "Profile"
 msgid "Flat XML file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1916
+#: weblate/formats/ttkit.py:1935
 #, fuzzy
 #| msgid "Recent changes"
 msgid "ResourceDictionary file"
 msgstr "Paskiausi pakeitimai"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1930
+#: weblate/formats/ttkit.py:1949
 #, fuzzy
 #| msgid "Profile"
 msgid "INI file"
 msgstr "Profilis"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1975
+#: weblate/formats/ttkit.py:1993
 msgid "Inno Setup INI file"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2184
+#: weblate/formats/ttkit.py:2201
 #, fuzzy
 #| msgid "Translated languages"
 msgid "TermBase eXchange file"
 msgstr "Kalbos, į kurias verčiate"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2221
+#: weblate/formats/ttkit.py:2238
 #, fuzzy
 #| msgid "Translated languages"
 msgid "@draggable/i18n lang file"
 msgstr "Kalbos, į kurias verčiate"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2231
+#: weblate/formats/ttkit.py:2248
 msgid "Haiku catkeys"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2251
+#: weblate/formats/ttkit.py:2268
 #, fuzzy
 #| msgid "Permissions"
 msgid "Stringsdict file"
 msgstr "Leidimai"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2323
+#: weblate/formats/ttkit.py:2340
 #, fuzzy
 #| msgid "Profile"
 msgid "Fluent file"
@@ -5767,7 +5675,7 @@ msgstr ""
 #: weblate/legal/templates/legal/contracts.html:10
 #: weblate/legal/templates/legal/privacy.html:10
 msgid "Privacy"
-msgstr ""
+msgstr "Privatumas"
 
 #: weblate/legal/templates/legal/contracts.html:20 weblate/legal/views.py:22
 msgid "Subcontractors"
@@ -5833,7 +5741,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/terms.html:10
 msgid "Terms"
-msgstr ""
+msgstr "Sąlygos"
 
 #: weblate/legal/views.py:18 weblate/templates/category-language.html:14
 #: weblate/templates/category.html:17 weblate/templates/component-list.html:11
@@ -6318,10 +6226,9 @@ msgid "Could not parse JSON file: %s"
 msgstr "Pridėti naują asociaciją"
 
 #: weblate/memory/models.py:293
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file!"
+#, python-format
 msgid "Could not parse TMX file: %s"
-msgstr "Nebuvo galima analizuoti „TMX“ failo!"
+msgstr "Nepavyko išanalizuoti TMX failo: %s"
 
 #: weblate/memory/models.py:302
 msgid "Source language not defined in the TMX file!"
@@ -6638,6 +6545,8 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
+"Vykdant jūsų prašymą serveris susidūrė su rimtomis problemomis. Ši klaida "
+"buvo užregistruota kaip %(error_id)s."
 
 #: weblate/templates/500.html:37
 msgid ""
@@ -6822,7 +6731,7 @@ msgid "Commit signing is not configured."
 msgstr ""
 
 #: weblate/templates/about/stats.html:10
-#: weblate/templates/dashboard/user.html:51 weblate/templates/data.html:58
+#: weblate/templates/dashboard/user.html:56 weblate/templates/data.html:58
 #: weblate/trans/views/about.py:21
 msgid "Statistics"
 msgstr "Statistika/-os"
@@ -7180,7 +7089,7 @@ msgstr ""
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:944
 #: weblate/templates/translate.html:1039
 msgid "Save"
-msgstr "Įrašyti/Išsaugoti"
+msgstr "Išsaugoti"
 
 #: weblate/templates/accounts/profile.html:112
 msgid ""
@@ -7831,7 +7740,7 @@ msgstr "Naudotojo vardas"
 #: weblate/templates/snippets/info.html:35 weblate/trans/forms.py:2461
 #: weblate/wladmin/views.py:96
 msgid "Billing"
-msgstr ""
+msgstr "Mokėjimas"
 
 #: weblate/templates/accounts/user.html:189
 #: weblate/templates/fonts/font_list.html:51
@@ -7859,7 +7768,7 @@ msgid "Browse all translations with contribution"
 msgstr "Projektai"
 
 #: weblate/templates/accounts/user.html:209
-#: weblate/templates/dashboard/user.html:91
+#: weblate/templates/dashboard/user.html:96
 #, fuzzy
 #| msgid "Watched projects"
 msgid "Browse all managed projects"
@@ -8082,7 +7991,7 @@ msgstr "Paskiausi pakeitimai"
 #: weblate/templates/addons/addon_list.html:11
 #: weblate/templates/category-language.html:25
 #: weblate/templates/category.html:28 weblate/templates/component.html:33
-#: weblate/templates/dashboard/user.html:45
+#: weblate/templates/dashboard/user.html:50
 #: weblate/templates/language-project.html:27
 #: weblate/templates/language.html:19 weblate/templates/project.html:30
 #: weblate/templates/translate.html:338 weblate/templates/translation.html:32
@@ -8119,29 +8028,30 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: weblate/templates/addons/addon_list.html:57
+#: weblate/templates/addons/addon_list.html:63
 msgid "Uninstall"
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:59
+#: weblate/templates/addons/addon_list.html:65
 #, fuzzy
 #| msgid "View"
 msgid "View Logs"
 msgstr "Rodyti"
 
-#: weblate/templates/addons/addon_list.html:61 weblate/templates/guide.html:57
+#: weblate/templates/addons/addon_list.html:67 weblate/templates/guide.html:57
 #: weblate/templates/machinery/list.html:53
 #: weblate/templates/memory/index.html:253
+#: weblate/templates/memory/index.html:273
 msgid "Configure"
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:70
+#: weblate/templates/addons/addon_list.html:76
 #, fuzzy
 #| msgid "Translation status"
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr "Vertimų būsena"
 
-#: weblate/templates/addons/addon_list.html:75
+#: weblate/templates/addons/addon_list.html:81
 #, fuzzy, python-format
 #| msgid "Translation status"
 msgid "Manage project-wide add-ons (%(count)s installed)"
@@ -8151,7 +8061,7 @@ msgstr[1] "Vertimų būsena"
 msgstr[2] "Vertimų būsena"
 msgstr[3] "Vertimų būsena"
 
-#: weblate/templates/addons/addon_list.html:83
+#: weblate/templates/addons/addon_list.html:89
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
@@ -8160,33 +8070,33 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: weblate/templates/addons/addon_list.html:93
+#: weblate/templates/addons/addon_list.html:99
 msgid "Available add-ons"
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:105
+#: weblate/templates/addons/addon_list.html:111
 #, fuzzy
 #| msgid "Translation status"
 msgid "The add-on can only be installed on the component level."
 msgstr "Vertimų būsena"
 
-#: weblate/templates/addons/addon_list.html:106
 #: weblate/templates/addons/addon_list.html:112
+#: weblate/templates/addons/addon_list.html:118
 #: weblate/templates/machinery/list.html:85
 msgid "Install"
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:122
+#: weblate/templates/addons/addon_list.html:128
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:124
+#: weblate/templates/addons/addon_list.html:130
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
 
-#: weblate/templates/addons/addon_list.html:133
+#: weblate/templates/addons/addon_list.html:139
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "Arabic languages"
@@ -8542,7 +8452,7 @@ msgstr ""
 #: weblate/templates/base.html:141 weblate/templates/base5.html:138
 #: weblate/templates/category-language.html:17
 #: weblate/templates/category.html:20 weblate/templates/component.html:25
-#: weblate/templates/dashboard/user.html:59
+#: weblate/templates/dashboard/user.html:64
 #: weblate/templates/language-project.html:19
 #: weblate/templates/language.html:16 weblate/templates/manage/users.html:109
 #: weblate/templates/project.html:22
@@ -8555,7 +8465,7 @@ msgstr ""
 #: weblate/templates/trans/change_list.html:61
 #: weblate/templates/translate.html:481 weblate/templates/translation.html:24
 msgid "Search"
-msgstr ""
+msgstr "Ieškoti"
 
 #: weblate/templates/base.html:161 weblate/templates/base5.html:164
 msgid "Manage watched projects"
@@ -8676,7 +8586,7 @@ msgstr "Vertimų būsena"
 #: weblate/templates/weblate_auth/invitation_detail.html:35
 #: weblate/wladmin/templates/admin/base.html:17
 msgid "Sign out"
-msgstr ""
+msgstr "Atsijungti"
 
 #: weblate/templates/base.html:369 weblate/templates/base.html:372
 #: weblate/templates/base5.html:396 weblate/templates/base5.html:398
@@ -8941,10 +8851,8 @@ msgid "Purchase new hosting plan"
 msgstr ""
 
 #: weblate/templates/billing/state-snippet.html:11
-#, fuzzy
-#| msgid "Component list"
 msgid "Awaiting payment"
-msgstr "Komponentų sąrašas"
+msgstr "Laukiama mokėjimo"
 
 #: weblate/templates/billing/status.html:8
 msgid "Current plan"
@@ -8976,10 +8884,8 @@ msgid "Yearly price"
 msgstr "Kaina metams"
 
 #: weblate/templates/billing/status.html:81
-#, fuzzy
-#| msgid "Translated languages"
 msgid "Hosted strings limit"
-msgstr "Kalbos, į kurias verčiate"
+msgstr "Priglobiamų eilučių limitas"
 
 #: weblate/templates/billing/status.html:87
 msgid "Strings limit"
@@ -8987,7 +8893,7 @@ msgstr ""
 
 #: weblate/templates/billing/status.html:93
 msgid "Languages limit"
-msgstr ""
+msgstr "Kalbų limitas"
 
 #: weblate/templates/billing/status.html:99
 msgid "Projects limit"
@@ -9057,7 +8963,7 @@ msgstr ""
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:79
 #: weblate/templates/snippets/billing-failure.html:13
 msgid "Check your billing status"
-msgstr ""
+msgstr "Patikrinkite savo mokėjimo būseną"
 
 #: weblate/templates/browse.html:17
 #: weblate/templates/snippets/list-objects.html:151
@@ -9076,7 +8982,7 @@ msgstr ""
 
 #: weblate/templates/category-language.html:21
 #: weblate/templates/category.html:24 weblate/templates/component.html:29
-#: weblate/templates/dashboard/user.html:41
+#: weblate/templates/dashboard/user.html:46
 #: weblate/templates/language-project.html:23 weblate/templates/project.html:26
 #: weblate/templates/translation.html:28
 msgid "Insights"
@@ -9174,7 +9080,7 @@ msgid "Announcements"
 msgstr ""
 
 #: weblate/templates/category.html:40 weblate/templates/component.html:46
-#: weblate/templates/dashboard/user.html:54 weblate/templates/project.html:48
+#: weblate/templates/dashboard/user.html:59 weblate/templates/project.html:48
 msgid "Translation reports"
 msgstr ""
 
@@ -9270,14 +9176,14 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/category.html:296 weblate/templates/component.html:350
-#: weblate/templates/dashboard/user.html:124 weblate/templates/project.html:382
+#: weblate/templates/dashboard/user.html:130 weblate/templates/project.html:382
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
 
 #: weblate/templates/category.html:308 weblate/templates/component.html:362
-#: weblate/templates/dashboard/user.html:134 weblate/templates/project.html:394
+#: weblate/templates/dashboard/user.html:140 weblate/templates/project.html:394
 msgid "Credits"
 msgstr ""
 
@@ -9290,19 +9196,19 @@ msgstr ""
 
 #: weblate/templates/category.html:318 weblate/templates/category.html:339
 #: weblate/templates/component.html:372 weblate/templates/component.html:393
-#: weblate/templates/dashboard/user.html:144
-#: weblate/templates/dashboard/user.html:163 weblate/templates/project.html:404
+#: weblate/templates/dashboard/user.html:150
+#: weblate/templates/dashboard/user.html:169 weblate/templates/project.html:404
 #: weblate/templates/project.html:425
 msgid "Generate"
 msgstr "Sugeneruoti"
 
 #: weblate/templates/category.html:331 weblate/templates/component.html:385
-#: weblate/templates/dashboard/user.html:155 weblate/templates/project.html:417
+#: weblate/templates/dashboard/user.html:161 weblate/templates/project.html:417
 msgid "Contributor stats"
 msgstr ""
 
 #: weblate/templates/category.html:335 weblate/templates/component.html:389
-#: weblate/templates/dashboard/user.html:159 weblate/templates/project.html:421
+#: weblate/templates/dashboard/user.html:165 weblate/templates/project.html:421
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
 
@@ -9393,7 +9299,7 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_list.html:16
 #: weblate/templates/snippets/info.html:519 weblate/trans/forms.py:1768
 msgid "Screenshots"
-msgstr "Ekrano nuotraukos/Iškarpos"
+msgstr "Ekrano nuotraukos"
 
 #: weblate/templates/component.html:130
 #, fuzzy
@@ -9443,7 +9349,8 @@ msgstr "Projektas / komponentas"
 msgid "Moving or renaming the component will also change its URLs."
 msgstr ""
 
-#: weblate/templates/component.html:343 weblate/templates/project.html:375
+#: weblate/templates/component.html:343
+#: weblate/templates/dashboard/user.html:116 weblate/templates/project.html:375
 #: weblate/templates/translate.html:462 weblate/templates/translation.html:437
 msgid "Loading…"
 msgstr ""
@@ -9502,25 +9409,25 @@ msgstr[3] ""
 msgid "Configure dashboard"
 msgstr "Dabartinis slaptažodis"
 
-#: weblate/templates/dashboard/user.html:48
+#: weblate/templates/dashboard/user.html:53
 #, fuzzy
 #| msgid "Recent changes"
 msgid "Recent additions"
 msgstr "Paskiausi pakeitimai"
 
-#: weblate/templates/dashboard/user.html:75
+#: weblate/templates/dashboard/user.html:80
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
 
-#: weblate/templates/dashboard/user.html:102
+#: weblate/templates/dashboard/user.html:107
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
 
-#: weblate/templates/dashboard/user.html:139
+#: weblate/templates/dashboard/user.html:145
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
@@ -9797,7 +9704,7 @@ msgid "Add font"
 msgstr ""
 
 #: weblate/templates/fonts/font_list.html:114
-#: weblate/templates/memory/index.html:295
+#: weblate/templates/memory/index.html:315
 #: weblate/templates/screenshots/screenshot_list.html:38
 #: weblate/templates/translate.html:1009 weblate/templates/translation.html:385
 #: weblate/templates/translation.html:399
@@ -9832,12 +9739,12 @@ msgstr ""
 #: weblate/templates/footer.html:13
 msgctxt "General terms and conditions"
 msgid "Terms"
-msgstr ""
+msgstr "Sąlygos"
 
 #: weblate/templates/footer.html:16 weblate/templates/footer.html:26
 msgctxt "Privacy policy"
 msgid "Privacy"
-msgstr ""
+msgstr "Privatumas"
 
 #: weblate/templates/footer.html:21
 msgctxt "Link to legal documents"
@@ -9852,11 +9759,9 @@ msgid "Status"
 msgstr "Būsena"
 
 #: weblate/templates/footer.html:43
-#, fuzzy
-#| msgid "About Weblate"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Apie Weblate"
+msgstr "Tapkite „Weblate“ rėmėju"
 
 #: weblate/templates/guide.html:27
 msgid ""
@@ -10140,7 +10045,7 @@ msgstr "Arabų kalbos"
 msgid "Shortcut"
 msgstr ""
 
-#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:3026
+#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:3032
 msgid "Action"
 msgstr "Veiksmas"
 
@@ -11178,10 +11083,8 @@ msgid "Support expiry"
 msgstr "Apie Weblate"
 
 #: weblate/templates/manage/index.html:71
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Discover Weblate"
-msgstr "Paremti Weblate"
+msgstr "Atrasti „Weblate“"
 
 #: weblate/templates/manage/index.html:73
 #, fuzzy
@@ -11570,8 +11473,8 @@ msgstr "Komponentų sąrašas"
 #: weblate/templates/memory/index.html:53
 #: weblate/templates/memory/index.html:138
 #: weblate/templates/memory/index.html:230
-#: weblate/templates/memory/index.html:266
-#: weblate/templates/memory/index.html:278
+#: weblate/templates/memory/index.html:286
+#: weblate/templates/memory/index.html:298
 #, fuzzy
 #| msgid "Download"
 msgid "Download as JSON"
@@ -11580,8 +11483,8 @@ msgstr "Parsisiųsti"
 #: weblate/templates/memory/index.html:54
 #: weblate/templates/memory/index.html:140
 #: weblate/templates/memory/index.html:232
-#: weblate/templates/memory/index.html:267
-#: weblate/templates/memory/index.html:279
+#: weblate/templates/memory/index.html:287
+#: weblate/templates/memory/index.html:299
 #, fuzzy
 #| msgid "Download"
 msgid "Download as TMX"
@@ -11618,35 +11521,43 @@ msgstr ""
 msgid "Entries for %(source_language)s to %(target_language)s"
 msgstr ""
 
-#: weblate/templates/memory/index.html:238
+#: weblate/templates/memory/index.html:239
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Shared translation memory"
 msgstr "Stebimi vertimai"
 
 #. Translators: Shared translation memory is enabled
-#: weblate/templates/memory/index.html:243
+#: weblate/templates/memory/index.html:244
+#: weblate/templates/memory/index.html:264
 msgid "on"
 msgstr ""
 
 #. Translators: Shared translation memory is disabled
-#: weblate/templates/memory/index.html:246
+#: weblate/templates/memory/index.html:247
+#: weblate/templates/memory/index.html:267
 msgid "off"
 msgstr ""
 
-#: weblate/templates/memory/index.html:261
+#: weblate/templates/memory/index.html:259 weblate/trans/models/project.py:215
+#, fuzzy
+#| msgid "Translation status"
+msgid "Autoclean translation memory"
+msgstr "Vertimų būsena"
+
+#: weblate/templates/memory/index.html:281
 #, fuzzy
 #| msgid "Component list"
 msgid "Number of shared entries in this Weblate instance"
 msgstr "Komponentų sąrašas"
 
-#: weblate/templates/memory/index.html:273
+#: weblate/templates/memory/index.html:293
 #, fuzzy
 #| msgid "Component list"
 msgid "Total number of entries in this Weblate instance"
 msgstr "Komponentų sąrašas"
 
-#: weblate/templates/memory/index.html:291
+#: weblate/templates/memory/index.html:311
 #, fuzzy
 #| msgid "Add new association"
 msgid "Import translation memory"
@@ -14342,7 +14253,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Aiškinamasis žodynas"
 
 #: weblate/templates/translate.html:719 weblate/templates/translate.html:1035
-#: weblate/trans/models/component.py:4022
+#: weblate/trans/models/component.py:4024
 #, fuzzy
 #| msgid "Glossary"
 msgid "Add term to glossary"
@@ -14714,7 +14625,7 @@ msgid "Translation added"
 msgstr "Vertimų būsena"
 
 #. Translators: Name of event in the history
-#: weblate/trans/actions.py:24 weblate/trans/models/project.py:755
+#: weblate/trans/actions.py:24 weblate/trans/models/project.py:758
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Automatically translated"
@@ -15356,10 +15267,9 @@ msgid "File mask matches the main component."
 msgstr "Vertimų būsena"
 
 #: weblate/trans/discovery.py:328
-#, fuzzy, python-brace-format
-#| msgid "Translation status"
+#, python-brace-format
 msgid "{filename} ({parameter}) does not exist."
-msgstr "Vertimų būsena"
+msgstr "{filename}{parameter} neegzistuoja."
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:32
@@ -15387,115 +15297,133 @@ msgstr ""
 msgid "All recent changes made using Weblate in %s."
 msgstr ""
 
-#: weblate/trans/file_format_params.py:105
+#: weblate/trans/file_format_params.py:117
 #, fuzzy
 #| msgid "SSH keys"
 msgid "Sort JSON keys"
 msgstr "SSH raktai"
 
-#: weblate/trans/file_format_params.py:118
+#: weblate/trans/file_format_params.py:130
 #, fuzzy
 #| msgid "Documentation"
 msgid "JSON indentation"
 msgstr "Dokumentacija"
 
-#: weblate/trans/file_format_params.py:127
+#: weblate/trans/file_format_params.py:139
 #, fuzzy
 #| msgid "Documentation"
 msgid "JSON indentation style"
 msgstr "Dokumentacija"
 
-#: weblate/trans/file_format_params.py:130
+#: weblate/trans/file_format_params.py:142
 msgid "Spaces"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:131
+#: weblate/trans/file_format_params.py:143
 msgid "Tabs"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:152
+#: weblate/trans/file_format_params.py:159
 msgid "Avoid spaces after separators"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:172
-#: weblate/trans/file_format_params.py:251
+#: weblate/trans/file_format_params.py:179
+#: weblate/trans/file_format_params.py:256
 msgid "Long lines wrapping"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:178
+#: weblate/trans/file_format_params.py:185
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:183
+#: weblate/trans/file_format_params.py:190
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:185
-#: weblate/trans/file_format_params.py:259
+#: weblate/trans/file_format_params.py:192
+#: weblate/trans/file_format_params.py:264
 msgid "No line wrapping"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:189
+#: weblate/trans/file_format_params.py:196
 msgid ""
-"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
-#: weblate/trans/file_format_params.py:206
+#: weblate/trans/file_format_params.py:211
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Keep previous msgids of translated strings"
 msgstr "Kalbos, į kurias verčiate"
 
-#: weblate/trans/file_format_params.py:214
+#: weblate/trans/file_format_params.py:219
 msgid "Do not include location information in the file"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:222
+#: weblate/trans/file_format_params.py:227
 msgid "Use fuzzy matching"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:237
+#: weblate/trans/file_format_params.py:242
 #, fuzzy
 #| msgid "Documentation"
 msgid "YAML indentation"
 msgstr "Dokumentacija"
 
-#: weblate/trans/file_format_params.py:255
+#: weblate/trans/file_format_params.py:260
 msgid "Wrap lines at 80 chars"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:256
+#: weblate/trans/file_format_params.py:261
 msgid "Wrap lines at 100 chars"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:257
+#: weblate/trans/file_format_params.py:262
 msgid "Wrap lines at 120 chars"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:258
+#: weblate/trans/file_format_params.py:263
 msgid "Wrap lines at 180 chars"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:271
+#: weblate/trans/file_format_params.py:276
 msgid "Line breaks"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:274
+#: weblate/trans/file_format_params.py:279
 msgid "DOS (\\r\\n)"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:275
+#: weblate/trans/file_format_params.py:280
 msgid "UNIX (\\n)"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:276
+#: weblate/trans/file_format_params.py:281
 msgid "MAC (\\r)"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:289
+#: weblate/trans/file_format_params.py:294
 msgid "Include closing tag for blank XML tags"
 msgstr ""
+
+#: weblate/trans/file_format_params.py:322
+#, fuzzy
+#| msgid "Profile"
+msgid "FlatXML Root name"
+msgstr "Profilis"
+
+#: weblate/trans/file_format_params.py:331
+#, fuzzy
+#| msgid "Profile"
+msgid "FlatXML value name"
+msgstr "Profilis"
+
+#: weblate/trans/file_format_params.py:340
+#, fuzzy
+#| msgid "Full name"
+msgid "FlatXML key name"
+msgstr "Vardas ir pavardė"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16087,7 +16015,7 @@ msgid ""
 msgstr ""
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2683 weblate/trans/models/component.py:3934
+#: weblate/trans/forms.py:2683 weblate/trans/models/component.py:3936
 msgid "Context"
 msgstr ""
 
@@ -16117,145 +16045,155 @@ msgstr "Stebimi vertimai"
 msgid "String will be part of the glossary in all languages"
 msgstr "Kalbos, į kurias verčiate"
 
-#: weblate/trans/forms.py:2736
+#: weblate/trans/forms.py:2734
+msgid "Mark this option for translations that should not be used."
+msgstr ""
+
+#: weblate/trans/forms.py:2739
 #, fuzzy
 #| msgid "translated"
 msgid "Untranslatable term"
 msgstr "išversta"
 
-#: weblate/trans/forms.py:2764
+#: weblate/trans/forms.py:2741
+msgid ""
+"Mark this option if the sentence should stay as in the source language, "
+"without change."
+msgstr ""
+
+#: weblate/trans/forms.py:2770
 #, fuzzy
 #| msgid "Watched translations"
 msgid "You do not have permission to create terminology."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/forms.py:2830
+#: weblate/trans/forms.py:2836
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Paremti Weblate"
 
-#: weblate/trans/forms.py:2831
+#: weblate/trans/forms.py:2837
 #, fuzzy
 #| msgid "Download"
 msgid "Do not change"
 msgstr "Parsisiųsti"
 
-#: weblate/trans/forms.py:2835
+#: weblate/trans/forms.py:2841
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation flags to add"
 msgstr "Vertimų būsena"
 
-#: weblate/trans/forms.py:2838
+#: weblate/trans/forms.py:2844
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation flags to remove"
 msgstr "Vertimų būsena"
 
-#: weblate/trans/forms.py:2842
+#: weblate/trans/forms.py:2848
 msgid "Labels to add"
 msgstr ""
 
-#: weblate/trans/forms.py:2848
+#: weblate/trans/forms.py:2854
 #, fuzzy
 #| msgid "Language code"
 msgid "Labels to remove"
 msgstr "Kalbos kodas"
 
-#: weblate/trans/forms.py:2902
+#: weblate/trans/forms.py:2908
 msgid "I accept the contributor license agreement"
 msgstr ""
 
-#: weblate/trans/forms.py:2931
+#: weblate/trans/forms.py:2937
 msgid "The slug does not match the one marked for deletion!"
 msgstr "Šis pažymėtojas nesutampa su pažymėtu pašalinimui!"
 
-#: weblate/trans/forms.py:2937 weblate/trans/forms.py:2956
-#: weblate/trans/forms.py:2967 weblate/trans/forms.py:2983
-#: weblate/trans/forms.py:2992 weblate/trans/forms.py:3003
+#: weblate/trans/forms.py:2943 weblate/trans/forms.py:2962
+#: weblate/trans/forms.py:2973 weblate/trans/forms.py:2989
+#: weblate/trans/forms.py:2998 weblate/trans/forms.py:3009
 #, fuzzy
 #| msgid "New password confirmation"
 msgid "Removal confirmation"
 msgstr "Pakartotinai įveskite naują slaptažodį"
 
-#: weblate/trans/forms.py:2939
+#: weblate/trans/forms.py:2945
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:2958
+#: weblate/trans/forms.py:2964
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:2968
+#: weblate/trans/forms.py:2974
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the slug of the project to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:2984
+#: weblate/trans/forms.py:2990
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the slug of the category to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:2994
+#: weblate/trans/forms.py:3000
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:3005
+#: weblate/trans/forms.py:3011
 #, fuzzy
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Pasirinkite kalbas, į kurias galite versti."
 
-#: weblate/trans/forms.py:3032
+#: weblate/trans/forms.py:3038
 #, fuzzy
 #| msgid "Username"
 msgid "Author username"
 msgstr "Naudotojo vardas"
 
-#: weblate/trans/forms.py:3035
+#: weblate/trans/forms.py:3041
 #, fuzzy
 #| msgid "Username"
 msgid "Exclude author (username)"
 msgstr "Naudotojo vardas"
 
-#: weblate/trans/forms.py:3038
+#: weblate/trans/forms.py:3044
 #, fuzzy
 #| msgid "Change password"
 msgid "Change period"
 msgstr "Keisti slaptažodį"
 
-#: weblate/trans/forms.py:3121
+#: weblate/trans/forms.py:3127
 msgid "Expiry cannot be in the past."
 msgstr ""
 
-#: weblate/trans/forms.py:3160
+#: weblate/trans/forms.py:3166
 #, fuzzy
 #| msgid "Add new association"
 msgid "Customize translation workflow for this language"
 msgstr "Pridėti naują asociaciją"
 
-#: weblate/trans/forms.py:3162
+#: weblate/trans/forms.py:3168
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
 
-#: weblate/trans/forms.py:3205
+#: weblate/trans/forms.py:3211
 #, fuzzy
 #| msgid "Add new association"
 msgid "Customize translation workflow for this language in this project"
 msgstr "Pridėti naują asociaciją"
 
-#: weblate/trans/forms.py:3208
+#: weblate/trans/forms.py:3214
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
@@ -16531,19 +16469,19 @@ msgid "Category name"
 msgstr "Vardas ir pavardė"
 
 #: weblate/trans/models/category.py:57 weblate/trans/models/component.py:368
-#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:171
+#: weblate/trans/models/componentlist.py:34 weblate/trans/models/project.py:171
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Display name"
 msgstr "Kalbos, į kurias verčiate"
 
 #: weblate/trans/models/category.py:60 weblate/trans/models/component.py:371
-#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:175
+#: weblate/trans/models/componentlist.py:38 weblate/trans/models/project.py:175
 msgid "URL slug"
 msgstr ""
 
 #: weblate/trans/models/category.py:62 weblate/trans/models/component.py:373
-#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:178
+#: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:178
 msgid "Name used in URLs and filenames."
 msgstr ""
 
@@ -17122,8 +17060,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "Saugyklų būsena"
 
 #: weblate/trans/models/component.py:1773
-#: weblate/trans/models/component.py:3122
-#: weblate/trans/models/component.py:3186
+#: weblate/trans/models/component.py:3124
+#: weblate/trans/models/component.py:3188
 #, fuzzy
 #| msgid "Translation status"
 msgid "File does not exist."
@@ -17151,50 +17089,50 @@ msgstr "Stebimi vertimai"
 msgid "Could not clean the repository on %s."
 msgstr "Saugyklų būsena"
 
-#: weblate/trans/models/component.py:2361
+#: weblate/trans/models/component.py:2363
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:2367
+#: weblate/trans/models/component.py:2369
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid "Could not merge remote branch into %s."
 msgstr "Saugyklų būsena"
 
-#: weblate/trans/models/component.py:2966
+#: weblate/trans/models/component.py:2968
 #, fuzzy
 #| msgid "Watched projects"
 msgid "Category does not belong to this project."
 msgstr "Stebimi projektai"
 
-#: weblate/trans/models/component.py:2970
+#: weblate/trans/models/component.py:2972
 msgid "Categorized component can not be shared."
 msgstr ""
 
-#: weblate/trans/models/component.py:2982
+#: weblate/trans/models/component.py:2984
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 
-#: weblate/trans/models/component.py:2992
+#: weblate/trans/models/component.py:2994
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3001
+#: weblate/trans/models/component.py:3003
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3012
+#: weblate/trans/models/component.py:3014
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr ""
 
-#: weblate/trans/models/component.py:3024
+#: weblate/trans/models/component.py:3026
 msgid "The file mask did not match any files."
 msgstr ""
 
-#: weblate/trans/models/component.py:3034
+#: weblate/trans/models/component.py:3036
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -17202,19 +17140,18 @@ msgid ""
 "different resources."
 msgstr ""
 
-#: weblate/trans/models/component.py:3052
+#: weblate/trans/models/component.py:3054
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3073
-#, fuzzy, python-brace-format
-#| msgid "Watched translations"
+#: weblate/trans/models/component.py:3075
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "Stebimi vertimai"
+msgstr "Nepavyko išanalizuoti {file}: {error}"
 
-#: weblate/trans/models/component.py:3081
+#: weblate/trans/models/component.py:3083
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Could not parse %d matched file."
@@ -17224,209 +17161,207 @@ msgstr[1] "Stebimi vertimai"
 msgstr[2] "Stebimi vertimai"
 msgstr[3] "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3115
+#: weblate/trans/models/component.py:3117
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 
-#: weblate/trans/models/component.py:3126
+#: weblate/trans/models/component.py:3128
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Could not parse base file for new translations: %s"
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3130
+#: weblate/trans/models/component.py:3132
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Unrecognized base file for new translations."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3145
+#: weblate/trans/models/component.py:3147
 msgid "Editing template is not supported with this file format."
 msgstr ""
 
-#: weblate/trans/models/component.py:3151
-#: weblate/trans/models/component.py:3168
+#: weblate/trans/models/component.py:3153
+#: weblate/trans/models/component.py:3170
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 
-#: weblate/trans/models/component.py:3160
+#: weblate/trans/models/component.py:3162
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
 
-#: weblate/trans/models/component.py:3175
+#: weblate/trans/models/component.py:3177
 msgid "Using a .pot file as base file is unsupported."
 msgstr ""
 
-#: weblate/trans/models/component.py:3191
+#: weblate/trans/models/component.py:3193
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Could not parse translation base file: %s"
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3202
+#: weblate/trans/models/component.py:3204
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3221
+#: weblate/trans/models/component.py:3223
 #, fuzzy
 #| msgid "Source code repository"
 msgid "Choose No remote repository for local: URL."
 msgstr "Pradinio kodo saugykla"
 
-#: weblate/trans/models/component.py:3226
+#: weblate/trans/models/component.py:3228
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Push URL is not used without a remote repository."
 msgstr "Saugyklų būsena"
 
-#: weblate/trans/models/component.py:3240
+#: weblate/trans/models/component.py:3242
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
 
-#: weblate/trans/models/component.py:3245
+#: weblate/trans/models/component.py:3247
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid "Could not update repository: %s"
 msgstr "Saugyklų būsena"
 
-#: weblate/trans/models/component.py:3254
+#: weblate/trans/models/component.py:3256
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "Saugyklų būsena"
 
-#: weblate/trans/models/component.py:3267
+#: weblate/trans/models/component.py:3269
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
 
-#: weblate/trans/models/component.py:3298
+#: weblate/trans/models/component.py:3300
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 
-#: weblate/trans/models/component.py:3330
+#: weblate/trans/models/component.py:3332
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:3341 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3343 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:3349
+#: weblate/trans/models/component.py:3351
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 
-#: weblate/trans/models/component.py:3728
+#: weblate/trans/models/component.py:3730
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Could not add new translation file."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3735
+#: weblate/trans/models/component.py:3737
 #, fuzzy
 #| msgid "Watched translations"
 msgid "You do not have permissions to add new translation file."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3743
-#: weblate/trans/models/component.py:3751
+#: weblate/trans/models/component.py:3745
+#: weblate/trans/models/component.py:3753
 #, fuzzy
 #| msgid "Translation status"
 msgid "The monolingual base language file is invalid."
 msgstr "Vertimų būsena"
 
-#: weblate/trans/models/component.py:3756
+#: weblate/trans/models/component.py:3758
 #, fuzzy
 #| msgid "Watched translations"
 msgid "The template for new translations is invalid."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/component.py:3801
+#: weblate/trans/models/component.py:3803
 #, fuzzy
 #| msgid "Translation status"
 msgid "The given language is used as a source language."
 msgstr "Vertimų būsena"
 
-#: weblate/trans/models/component.py:3808
+#: weblate/trans/models/component.py:3810
 #, fuzzy
 #| msgid "Translation status"
 msgid "The given language already exists."
 msgstr "Vertimų būsena"
 
-#: weblate/trans/models/component.py:3817
+#: weblate/trans/models/component.py:3819
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:3850
+#: weblate/trans/models/component.py:3852
 msgid "Translation file already exists!"
 msgstr ""
 
-#: weblate/trans/models/component.py:3874
+#: weblate/trans/models/component.py:3876
 #, fuzzy
 #| msgid "Translation status"
 msgid "The translation will be updated in the background."
 msgstr "Vertimų būsena"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3936 weblate/utils/views.py:215
+#: weblate/trans/models/component.py:3938 weblate/utils/views.py:215
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
 
-#: weblate/trans/models/component.py:4023
+#: weblate/trans/models/component.py:4025
 #, fuzzy
 #| msgid "Add new association"
 msgid "Add new translation string"
 msgstr "Pridėti naują asociaciją"
 
-#: weblate/trans/models/component.py:4072
-#, fuzzy
-#| msgid "Status of repositories"
+#: weblate/trans/models/component.py:4074
 msgid "Could not get repository status!"
-msgstr "Saugyklų būsena"
+msgstr "Nepavyko gauti saugyklos būsenos!"
 
-#: weblate/trans/models/componentlist.py:25
+#: weblate/trans/models/componentlist.py:31
 msgid "Component list name"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:39
+#: weblate/trans/models/componentlist.py:45
 #, fuzzy
 #| msgid "Dashboard"
 msgid "Show on dashboard"
 msgstr "Skydelis"
 
-#: weblate/trans/models/componentlist.py:43
+#: weblate/trans/models/componentlist.py:49
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:71
+#: weblate/trans/models/componentlist.py:80
 msgid "Project regular expression"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:75
+#: weblate/trans/models/componentlist.py:84
 msgid "Regular expression which is used to match project slug."
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:79
+#: weblate/trans/models/componentlist.py:88
 msgid "Component regular expression"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:83
+#: weblate/trans/models/componentlist.py:92
 msgid "Regular expression which is used to match component slug."
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:88
+#: weblate/trans/models/componentlist.py:97
 msgid "Component list to assign"
 msgstr ""
 
@@ -17466,7 +17401,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:164
 msgid "Custom"
-msgstr ""
+msgstr "Tinkintas"
 
 #: weblate/trans/models/project.py:184
 msgid "Main website of translated project."
@@ -17505,12 +17440,6 @@ msgstr "Stebimi vertimai"
 #: weblate/trans/models/project.py:211
 msgid "Contributes to the pool of shared translations between projects."
 msgstr ""
-
-#: weblate/trans/models/project.py:215
-#, fuzzy
-#| msgid "Translation status"
-msgid "Autoclean translation memory"
-msgstr "Vertimų būsena"
 
 #: weblate/trans/models/project.py:218
 msgid ""
@@ -17580,28 +17509,28 @@ msgstr ""
 msgid "Could not accept suggestion!"
 msgstr "Nebuvo galima priimti pasiūlymo!"
 
-#: weblate/trans/models/translation.py:278
+#: weblate/trans/models/translation.py:281
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: weblate/trans/models/translation.py:287
+#: weblate/trans/models/translation.py:290
 #, fuzzy, python-format
 #| msgid "Watched translations"
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/models/translation.py:1090
+#: weblate/trans/models/translation.py:1115
 msgid "“{}”"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1093
+#: weblate/trans/models/translation.py:1118
 msgid "…"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1100
+#: weblate/trans/models/translation.py:1125
 #, fuzzy, python-format
 #| msgid "Status of repositories"
 msgid "Could not find %d string:"
@@ -17611,44 +17540,44 @@ msgstr[1] "Saugyklų būsena"
 msgstr[2] "Saugyklų būsena"
 msgstr[3] "Saugyklų būsena"
 
-#: weblate/trans/models/translation.py:1284
-#: weblate/trans/models/translation.py:1337
-#: weblate/trans/models/translation.py:1419
+#: weblate/trans/models/translation.py:1309
+#: weblate/trans/models/translation.py:1362
+#: weblate/trans/models/translation.py:1444
 #, fuzzy, python-format
 #| msgid "Add new association"
 msgid "Could not commit pending changes: %s"
 msgstr "Pridėti naują asociaciją"
 
-#: weblate/trans/models/translation.py:1981
+#: weblate/trans/models/translation.py:2006
 msgid "Plurals are not supported by the file format."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1986 weblate/trans/models/unit.py:752
+#: weblate/trans/models/translation.py:2011 weblate/trans/models/unit.py:752
 #: weblate/utils/forms.py:127
 #, fuzzy, python-format
 #| msgid "Special characters"
 msgid "String contains control character: %s"
 msgstr "Specialialieji rašmenys"
 
-#: weblate/trans/models/translation.py:1991
+#: weblate/trans/models/translation.py:2016
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1994
+#: weblate/trans/models/translation.py:2019
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1998
+#: weblate/trans/models/translation.py:2023
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:2006
+#: weblate/trans/models/translation.py:2031
 #, fuzzy
 #| msgid "Translation status"
 msgid "This string seems to already exist."
 msgstr "Vertimų būsena"
 
-#: weblate/trans/models/translation.py:2013
+#: weblate/trans/models/translation.py:2038
 #, fuzzy
 #| msgid "Permissions"
 msgid "Failed adding string, no translation found."
@@ -18309,19 +18238,19 @@ msgstr ""
 msgid "Could not parse uploaded ZIP file."
 msgstr "Stebimi vertimai"
 
-#: weblate/trans/views/dashboard.py:157
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:166
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:180
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
@@ -19296,22 +19225,22 @@ msgstr ""
 #. Translators: The Weblate server is hosted by the Weblate team
 #: weblate/wladmin/models.py:128
 msgid "Hosted service"
-msgstr ""
+msgstr "Priglobta paslauga"
 
 #. Translators: The Weblate server has paid support from the Weblate team
 #: weblate/wladmin/models.py:130
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "Pagrindinis savarankiškos prieglobos palaikymas"
 
 #. Translators: The Weblate server has extended support from the Weblate team
 #: weblate/wladmin/models.py:132
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "Išplėstinis savarankiškos prieglobos palaikymas"
 
 #. Translators: The Weblate server has premium support from the Weblate team
 #: weblate/wladmin/models.py:134
 msgid "Premium self-hosted support"
-msgstr ""
+msgstr "Premium savarankiškos prieglobos palaikymas"
 
 #: weblate/wladmin/models.py:171
 #, fuzzy
