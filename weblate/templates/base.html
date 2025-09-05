@@ -296,7 +296,7 @@
                           <a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% translate "Add new translation component" %}</a>
                         </li>
                       {% endif %}
-                      {% if component and user_can_add_translation|default:False %}
+                      {% if component and user_can_add_translation %}
                         <li>
                           <a href="{% url "new-language" path=component.get_url_path %}">{% translate "Start new translation" %}</a>
                         </li>
