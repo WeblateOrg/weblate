@@ -513,6 +513,11 @@ class Change(models.Model, UserDisplayMixin):
                 name="trans_change_translation_idx",
             ),
             models.Index(
+                fields=["category", "-timestamp", "action"],
+                condition=Q(category__isnull=False),
+                name="trans_change_category_idx",
+            ),
+            models.Index(
                 fields=["unit", "-timestamp", "action"],
                 condition=Q(unit__isnull=False),
                 name="trans_change_unit_idx",
