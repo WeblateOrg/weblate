@@ -7,6 +7,8 @@ Weblate 5.13.2
 
 .. rubric:: Improvements
 
+* Error reporting upon validation of the file upload method.
+
 .. rubric:: Bug fixes
 
 * Sign-in could not be completed with LDAP.

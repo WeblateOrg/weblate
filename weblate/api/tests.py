@@ -3426,6 +3426,28 @@ class TranslationAPITest(APIBaseTest):
 
         self.check_upload_changes(changes_start, 1)
 
+        # Non-compatible component
+        self.create_po_mono(name="mono", project=self.component.project)
+
+        with open(TEST_POT, "rb") as handle:
+            response = self.client.put(
+                reverse(
+                    "api:translation-file",
+                    kwargs={
+                        "language__code": "en",
+                        "component__slug": "mono",
+                        "component__project__slug": "test",
+                    },
+                ),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual("method", response.data["errors"][0]["attr"])
+        self.assertIn(
+            "Update source strings upload is not supported with this format.",
+            response.data["errors"][0]["detail"],
+        )
+
     def test_upload_content(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
