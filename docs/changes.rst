@@ -1,9 +1,7 @@
 Weblate 5.13.2
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on September 5th 2025.*
 
 .. rubric:: Improvements
 
@@ -14,8 +12,6 @@ Weblate 5.13.2
 
 * Sign-in could not be completed with LDAP.
 * Nonspacing mark changes highlighting in history.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
