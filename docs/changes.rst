@@ -5,6 +5,8 @@ Weblate 5.14
 
 .. rubric:: New features
 
+* :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
