@@ -1,6 +1,6 @@
 {% extends "mail/base.html" %}
 
-{% load i18n translations %}
+{% load humanize i18n translations %}
 
 {% block content %}
   {% if was_added %}
@@ -22,8 +22,26 @@
 
     <h2>{% translate "Requested language" %}</h2>
   {% endif %}
-
-  <p>{{ language }} ({{ language.code }})</p>
+  <table>
+    <tr>
+      <td>{% translate "Language name" %}</td>
+      <td>{{ language }}</td>
+    </tr>
+    <tr>
+      <td>{% translate "Language code" %}</td>
+      <td>
+        <code>{{ language.code }}</code>
+      </td>
+    </tr>
+    <tr>
+      <td>{% translate "Text direction" %}</td>
+      <td>{{ language.get_direction_display }}</td>
+    </tr>
+    <tr>
+      <td>{% translate "Number of speakers" %}</td>
+      <td>{{ language.population|intcomma }}</td>
+    </tr>
+  </table>
 
   <div class="line buttons">
     <a class="button" href="{{ component.get_absolute_url }}">{% translate "View translation component" %}</a>

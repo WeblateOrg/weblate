@@ -8,6 +8,7 @@ Weblate 5.13.2
 .. rubric:: Improvements
 
 * Error reporting upon validation of the file upload method.
+* Detailed language information in new language notifications.
 
 .. rubric:: Bug fixes
 
