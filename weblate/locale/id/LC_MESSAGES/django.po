@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-24 02:02+0000\n"
+"PO-Revision-Date: 2025-09-06 17:03+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -616,10 +616,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Masuk dengan autentikasi dua faktor menggunakan {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Masuk dengan autentikasi dua faktor menggunakan {device}"
+msgstr "Autentikasi dua faktor gagal menggunakan {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -4091,10 +4090,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Pemformatan Vue I18n tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Komponen Automattic"
+msgstr "Pemformatan komponen Automattic"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -14098,16 +14095,13 @@ msgid "No line wrapping"
 msgstr "Tanpa pemecahan baris"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Secara bawaan, gettext memecah baris pada 77 karakter dan di baris baru. "
-"Dengan parameter --no-wrap, pemecahan hanya dilakukan pada baris baru."
+"Secara bawaan, gettext membungkus baris dengan 77 karakter dan pada baris "
+"baru. Dengan parameter --no-wrap, pembungkusan hanya dilakukan pada baris "
+"baru."
 
 #: weblate/trans/file_format_params.py:211
 msgid "Keep previous msgids of translated strings"
@@ -14162,22 +14156,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Sertakan tag penutup untuk tag XML yang kosong"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Berkas Flat XML"
+msgstr "Nama Root FlatXML"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Berkas Flat XML"
+msgstr "Nama nilai FlatXML"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Nama kategori"
+msgstr "Nama kunci FlatXML"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14721,10 +14709,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "String akan menjadi bagian dari glosarium di semua bahasa"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Proyek sekarang terbuka untuk memperbarui terjemahan."
+msgstr "Tandai pilihan ini untuk terjemahan yang tidak boleh digunakan."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14735,6 +14721,8 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Tandai pilihan ini jika kalimat harus tetap seperti dalam bahasa sumber, "
+"tanpa perubahan."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
