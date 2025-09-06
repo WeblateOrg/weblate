@@ -72,6 +72,7 @@ class MockComponent:
         self.name = "MockComponent"
         self.file_format = "auto"
         self.is_multivalue = False
+        self.hide_glossary_matches = False
 
 
 class MockTranslation:
