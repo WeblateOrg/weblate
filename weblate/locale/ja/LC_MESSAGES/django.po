@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-09-06 17:03+0000\n"
+"PO-Revision-Date: 2025-09-07 18:02+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -605,10 +605,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "{device} を使用した二要素認証サインイン"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "{device} を使用した二要素認証サインイン"
+msgstr "{device_type} を使用した二要素認証に失敗しました"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -1934,10 +1933,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "無効なアドオン名: \"%s\""
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "アドオンのアンインストール"
+msgstr "アドオンをインストールできませんでした:「%s」"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -2063,11 +2061,10 @@ msgstr ""
 "コンポーネント %s のロックを取得できなかったため、操作を実行できません。"
 
 #: weblate/api/views.py:188
-#, fuzzy, python-format
-#| msgid "Could not obtain repository lock to perform the operation."
+#, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
-msgstr "リポジトリロックを取得できなかったため、操作を実行できません。"
+msgstr "%(origin)s の %(scope)s ロックを取得できなかったため、操作を実行できません。"
 
 #: weblate/api/views.py:2566 weblate/auth/models.py:995
 #: weblate/checks/views.py:233 weblate/checks/views.py:240
@@ -3418,11 +3415,9 @@ msgid "Text contains the same word twice in a row."
 msgstr "翻訳文で同じ単語が 2 回連続した文字列:"
 
 #: weblate/checks/duplicate.py:102
-#, fuzzy
-#| msgid "The following components would be created"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "以下のコンポーネントが作成されます"
+msgstr[0] "以下の単語が連続しています:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
@@ -6514,9 +6509,8 @@ msgstr ""
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "The password is used to verify important changes on your account."
-msgstr ""
-"パスワードは、お使いのアカウントに対して重要な変更を行なう際、確認のために使"
-"用します。"
+msgstr "パスワードは、お使いのアカウントに対して重要な変更を行う際、確認のために使用"
+"します。"
 
 #: weblate/templates/accounts/password-warning.html:13
 msgid "Configure the password"
@@ -6874,9 +6868,8 @@ msgstr "Git リポジトリへのアクセス"
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
-msgstr ""
-"API キーは、自動的に公開された git リポジトリに対して認証を行なう際にも使用し"
-"ます。"
+msgstr "API キーは、自動的に公開された git "
+"リポジトリに対して認証を行う際にも使用します。"
 
 #: weblate/templates/accounts/profile.html:624
 msgid ""
@@ -7971,26 +7964,20 @@ msgid "Get help"
 msgstr "サポート依頼"
 
 #: weblate/templates/base.html:379 weblate/templates/base5.html:403
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact server admins"
 msgstr "サイト管理者に連絡"
 
 #: weblate/templates/base.html:382 weblate/templates/base5.html:406
-#, fuzzy
-#| msgid "Community support"
 msgid "Community discussions"
-msgstr "コミュニティによるサポート"
+msgstr "コミュニティの議論"
 
 #: weblate/templates/base.html:386 weblate/templates/base5.html:410
 msgid "Professional support"
-msgstr ""
+msgstr "専門家によるサポート"
 
 #: weblate/templates/base.html:390 weblate/templates/base5.html:414
-#, fuzzy
-#| msgid "Get support"
 msgid "Get professional support"
-msgstr "サポートを受ける"
+msgstr "専門家のサポートを受ける"
 
 #: weblate/templates/base.html:399 weblate/templates/base.html:401
 #: weblate/templates/base5.html:423 weblate/templates/base5.html:425
@@ -8013,10 +8000,8 @@ msgid "Keyboard shortcuts"
 msgstr "キーボードショートカット"
 
 #: weblate/templates/base.html:407 weblate/templates/base5.html:431
-#, fuzzy
-#| msgid "Create project"
 msgid "Weblate project"
-msgstr "プロジェクトの作成"
+msgstr "Weblate プロジェクト"
 
 #: weblate/templates/base.html:409
 msgctxt "Contribute to Weblate"
@@ -8024,11 +8009,9 @@ msgid "Contribute"
 msgstr "貢献"
 
 #: weblate/templates/base.html:413
-#, fuzzy
-#| msgid "Get support"
 msgctxt "Support Weblate financially"
 msgid "Become a supporter"
-msgstr "サポートを受ける"
+msgstr "支援者になる"
 
 #: weblate/templates/base.html:417 weblate/templates/footer.html:9
 msgctxt "About this server"
@@ -8036,11 +8019,9 @@ msgid "About"
 msgstr "概要"
 
 #: weblate/templates/base.html:420
-#, fuzzy
-#| msgid "Website URL"
 msgctxt "Weblate website"
 msgid "Website"
-msgstr "Web サイトの URL"
+msgstr "Webサイト"
 
 #: weblate/templates/base.html:449 weblate/templates/base5.html:474
 #: weblate/templates/manage/index.html:43
@@ -8735,9 +8716,8 @@ msgstr ""
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
-msgstr ""
-"翻訳を行なうにはサインインする必要があります。サインインしない場合は、提案の"
-"み可能です。"
+msgstr "翻訳を行うにはサインインする必要があります。サインインしない場合は、提案のみ"
+"可能です。"
 
 #: weblate/templates/dashboard/anonymous.html:17
 #, python-format
@@ -9368,10 +9348,8 @@ msgid "or"
 msgstr "または"
 
 #: weblate/templates/keyboard-shortcuts.html:58
-#, fuzzy
-#| msgid "Navigate to the first translation in the current search."
 msgid "Navigate to the previous translation in the current search."
-msgstr "現在の検索で最初の翻訳に移動します。"
+msgstr "現在の検索で前の翻訳に移動します。"
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
@@ -9887,7 +9865,7 @@ msgstr "おめでとうございます"
 #: weblate/templates/mail/new_contributor.html:8
 #, python-format
 msgid "The user %(username)s has just made a first contribution."
-msgstr "ユーザー %(username)s は、はじめての貢献を行ないました。"
+msgstr "ユーザー %(username)s は、はじめての貢献を行いました。"
 
 #: weblate/templates/mail/new_contributor_subject.txt:4
 #, python-format
@@ -11192,7 +11170,7 @@ msgstr "プロジェクトの保守担当者"
 
 #: weblate/templates/snippets/info.html:47
 msgid "Project reviewers"
-msgstr ""
+msgstr "プロジェクトの査読者"
 
 #: weblate/templates/snippets/info.html:54
 msgid "Automatic component list assignment"
@@ -11221,7 +11199,7 @@ msgstr[0] "提案は、%(count)s 票を獲得すると、翻訳として自動�
 
 #: weblate/templates/snippets/info.html:102
 msgid "Translations can be made directly."
-msgstr "翻訳は直接行なうことができます。"
+msgstr "翻訳は直接行うことができます。"
 
 #: weblate/templates/snippets/info.html:104
 msgid "Translation suggestions can be made."
@@ -11376,7 +11354,7 @@ msgstr "未翻訳の文字列"
 
 #: weblate/templates/snippets/info.html:387
 msgid "Global numbers"
-msgstr "グローバルナンバー"
+msgstr "全体の数値"
 
 #: weblate/templates/snippets/info.html:420
 #: weblate/templates/snippets/info.html:528
@@ -13070,7 +13048,7 @@ msgstr "その他の言語"
 
 #: weblate/templates/translate.html:338
 msgid "List of recent changes done in Weblate"
-msgstr "Weblate 内で行なわれた最近の変更の一覧"
+msgstr "Weblate 内で行われた最近の変更の一覧"
 
 #: weblate/templates/translate.html:374
 msgid "Showing only subset of the strings as there were too many matches."
@@ -14000,13 +13978,11 @@ msgid "New revision: {}"
 msgstr "新しいリビジョン: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s 文字編集"
+msgstr[0] "%(count)d 文字編集"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14518,10 +14494,8 @@ msgid "Report period"
 msgstr "レポート期間"
 
 #: weblate/trans/forms.py:1381
-#, fuzzy
-#| msgid "Sort By"
 msgid "Sort by"
-msgstr "並び替える基準"
+msgstr "並べ替える基準"
 
 #: weblate/trans/forms.py:1383
 msgid "Strings translated"
@@ -14529,7 +14503,7 @@ msgstr "翻訳済の文字列"
 
 #: weblate/trans/forms.py:1389
 msgid "Sort order"
-msgstr ""
+msgstr "並べ替え順"
 
 #: weblate/trans/forms.py:1444
 msgid "You do not have permission to access this component."
@@ -15101,16 +15075,12 @@ msgid "Parent category has to be different!"
 msgstr "親カテゴリーは別に存在しなければいけません！"
 
 #: weblate/trans/models/change.py:64
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created from scratch"
-msgstr "コンポーネント作成"
+msgstr "ゼロからコンポーネント作成"
 
 #: weblate/trans/models/change.py:65
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "コンポーネント作成"
+msgstr "ブランチとしてコンポーネント作成"
 
 #: weblate/trans/models/change.py:66
 msgid "Component created via API"
@@ -15118,15 +15088,15 @@ msgstr "APIでコンポーネントを作成"
 
 #: weblate/trans/models/change.py:67
 msgid "Component created from version control"
-msgstr "バージョン管理から作成されたコンポーネント"
+msgstr "バージョン管理からコンポーネントを作成"
 
 #: weblate/trans/models/change.py:68
 msgid "Component created via ZIP upload"
-msgstr "ZIPアップロードによって作成されたコンポーネント"
+msgstr "ZIPアップロードからコンポーネント作成"
 
 #: weblate/trans/models/change.py:69
 msgid "Component created via document upload"
-msgstr "ドキュメントのアップロードで作成したコンポーネント"
+msgstr "ドキュメントのアップロードからコンポーネント作成"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:531
@@ -16618,29 +16588,27 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:801
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "%(component)s に、新しい言語を追加しました"
+msgstr[0] "%(count)d 個のコンポーネントに %(language)s の言語を追加しました。"
 
 #: weblate/trans/views/basic.py:815
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "%(component)s で新しい言語のリクエスト"
+msgstr[0] "%(count)d 個のコンポーネントに %(language)s の言語をリクエストしました。"
 
 #: weblate/trans/views/basic.py:829
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "%(component)s に、新しい言語を追加しました"
+msgstr[0] "%(count)d 個のコンポーネントに %(language)s "
+"の言語を追加できませんでした。コンポーネントの設定を確認してください。"
 
 #: weblate/trans/views/basic.py:905
 msgid ""
