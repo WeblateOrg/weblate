@@ -611,11 +611,19 @@ Imports users from JSON dump of the Django auth_users database.
     With this option it will just check whether a given file can be imported and
     report possible conflicts arising from usernames or e-mails.
 
-You can dump users from the existing Django installation using:
+You can dump users from the existing Django site using:
 
 .. code-block:: sh
 
-    weblate dumpdata auth.User > users.json
+    ./manage.py dumpdata auth.User > users.json
+
+.. hint::
+
+   Use :wladmin:`dumpuserdata` for dumping data from other Weblate server as that includes user settings as well.
+
+.. seealso::
+
+   :ref:`pootle-migration`
 
 install_addon
 -------------
