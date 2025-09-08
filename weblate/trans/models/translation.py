@@ -1453,6 +1453,9 @@ class Translation(
                 component.file_format_cls,
                 None,
                 is_template=True,
+                language_code=self.language_code,
+                source_language=self.component.source_language.code,
+                file_format_params=self.component.file_format_params,
             )
 
         else:
@@ -1462,6 +1465,9 @@ class Translation(
             filecopy,
             component.file_format_cls,
             template_store,
+            language_code=self.language_code,
+            source_language=self.component.source_language.code,
+            file_format_params=self.component.file_format_params,
         )
 
         # Check valid plural forms
