@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-25 20:11+0000\n"
+"PO-Revision-Date: 2025-09-08 18:02+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -601,10 +601,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Prijava putem dvofaktorske autentifikacije korištenjem {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Prijava putem dvofaktorske autentifikacije korištenjem {device}"
+msgstr "Dvofaktorska autentifikacija nije uspjela koristeći {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -2208,27 +2207,27 @@ msgstr "Zaključaj komponentu, onemogućuje prevođenja"
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "Add glossary entry"
-msgstr "Dodaj zapis u glosar"
+msgstr "Dodaj unos u glosar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Add glossary terminology"
-msgstr "Dodaj pojam u glosar"
+msgstr "Dodaj terminologiju glosara"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Edit glossary entry"
-msgstr "Uredi zapis u glosaru"
+msgstr "Uredi unos u glosaru"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Delete glossary entry"
-msgstr "Izbriši zapis iz glosara"
+msgstr "Izbriši unos iz glosara"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
 msgid "Upload glossary entries"
-msgstr "Prenesi zapise u glosaru"
+msgstr "Prenesi unose u glosaru"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:45
@@ -2914,17 +2913,17 @@ msgstr "Prijavi se za spremanje prijevoda."
 
 #: weblate/auth/permissions.py:221
 msgid "Insufficient privileges for approving translations."
-msgstr "Nedovoljna prava za odobravanje prijevoda."
+msgstr "Nedovoljne dozvole za odobravanje prijevoda."
 
 #: weblate/auth/permissions.py:223 weblate/trans/views/edit.py:438
 #: weblate/trans/views/edit.py:460 weblate/trans/views/edit.py:480
 #: weblate/trans/views/edit.py:1006
 msgid "Insufficient privileges for saving translations."
-msgstr "Nedovoljna prava za spremanje prijevoda."
+msgstr "Nedovoljne dozvole za spremanje prijevoda."
 
 #: weblate/auth/permissions.py:231 weblate/auth/permissions.py:469
 msgid "Insufficient privileges for editing source strings."
-msgstr "Nedovoljna prava za uređivanje izvornog izraza."
+msgstr "Nedovoljne dozvole za uređivanje izvornog izraza."
 
 #: weblate/auth/permissions.py:235
 msgid "Suggestion voting is disabled."
@@ -4054,10 +4053,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Vue I18n formatiranje se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Automattic komponente"
+msgstr "Automatsko formatiranje komponenti"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -4398,7 +4395,7 @@ msgstr "Prijevod"
 
 #: weblate/configuration/apps.py:12
 msgid "Weblate configuration"
-msgstr "Konfiguracija Weblatea"
+msgstr "Weblate konfiguracija"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:86
@@ -4796,7 +4793,7 @@ msgstr "SubStation Alpha datoteka titlova"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1912
 msgid "Flat XML file"
-msgstr "Jednoslojna XML datoteka"
+msgstr "Flat XML datoteka"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1935
@@ -4978,7 +4975,7 @@ msgstr "Ne razlikuje velika i mala slova"
 #: weblate/lang/models.py:909
 msgctxt "Plural type"
 msgid "None"
-msgstr "Ništa"
+msgstr "Nema"
 
 #: weblate/lang/models.py:913
 msgctxt "Plural type"
@@ -5701,7 +5698,7 @@ msgstr ""
 
 #: weblate/memory/forms.py:63
 msgid "Confirm deleting all translation memory entries"
-msgstr "Potvrdi brisanje svih zapisa u prevodilačkoj memoriji"
+msgstr "Potvrdi brisanje svih unosa u prevodilačkoj memoriji"
 
 #: weblate/memory/models.py:205
 #, python-format
@@ -5710,7 +5707,7 @@ msgstr "Nepodržan datotečni sufiks: %s"
 
 #: weblate/memory/models.py:227
 msgid "No valid entries found in the uploaded file!"
-msgstr "U prenesenoj datoteci nisu nađeni ispravni zapisi!"
+msgstr "U prenesenoj datoteci nisu pronađeni ispravni unosi!"
 
 #: weblate/memory/models.py:248 weblate/memory/models.py:255
 #, python-format
@@ -5770,7 +5767,7 @@ msgstr "Datoteka {}"
 
 #: weblate/memory/views.py:83
 msgid "Entries were deleted."
-msgstr "Zapisi su izbrisani."
+msgstr "Unosi su izbrisani."
 
 #: weblate/memory/views.py:123
 msgid ""
@@ -5781,7 +5778,7 @@ msgstr ""
 
 #: weblate/memory/views.py:147
 msgid "File processed, the entries will appear shortly."
-msgstr "Datoteka obrađena, zapisi će se uskoro prikazati."
+msgstr "Datoteka je obrađena, unosi će se uskoro prikazati."
 
 #: weblate/metrics/wrapper.py:18
 msgctxt "Short name of month"
@@ -5908,7 +5905,7 @@ msgstr "Nije dozvoljeno"
 
 #: weblate/templates/403.html:16
 msgid "Insufficient privileges to display this page."
-msgstr "Nedovoljna prava za prikaz ove stranice."
+msgstr "Nedovoljne dozvole za prikaz ove stranice."
 
 #: weblate/templates/403.html:22 weblate/templates/404.html:23
 #: weblate/templates/base.html:146 weblate/templates/base.html:434
@@ -10562,15 +10559,15 @@ msgstr "Stanje prevodilačke memorije"
 #: weblate/templates/memory/index.html:43
 #, python-format
 msgid "Number of entries for %(project)s"
-msgstr "Broj zapisa za %(project)s"
+msgstr "Broj unosa za %(project)s"
 
 #: weblate/templates/memory/index.html:45
 msgid "Number of uploaded shared entries"
-msgstr "Broj prenešenih dijeljenih zapisa"
+msgstr "Broj prenešenih dijeljenih unosa"
 
 #: weblate/templates/memory/index.html:47
 msgid "Number of your entries"
-msgstr "Broj tvojih zapisa"
+msgstr "Broj tvojih unosa"
 
 #: weblate/templates/memory/index.html:53
 #: weblate/templates/memory/index.html:138
@@ -10597,12 +10594,11 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
-"Ovo će zauvijek ukloniti %(count)s zapis iz tvoje prevodilačke memorije."
+msgstr[0] "Ovo će zauvijek ukloniti %(count)s unos iz tvoje prevodilačke memorije."
 msgstr[1] ""
-"Ovo će zauvijek ukloniti %(count)s zapisa iz tvoje prevodilačke memorije."
+"Ovo će zauvijek ukloniti %(count)s unosa iz tvoje prevodilačke memorije."
 msgstr[2] ""
-"Ovo će zauvijek ukloniti %(count)s zapisa iz tvoje prevodilačke memorije."
+"Ovo će zauvijek ukloniti %(count)s unosa iz tvoje prevodilačke memorije."
 
 #: weblate/templates/memory/index.html:93
 #: weblate/templates/memory/index.html:114
@@ -11084,8 +11080,8 @@ msgid ""
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
 "Ti si član tima koji zahtijeva dvofaktorsku autentikaciju. Nećeš moći "
-"koristiti nijednu od njegovih privilegija sve dok ne konfiguriraš "
-"dvofaktorsku autentikaciju."
+"koristiti nijednu njegovu dozvolu sve dok ne konfiguriraš dvofaktorsku "
+"autentikaciju."
 
 #: weblate/templates/snippets/git-info.html:7
 #: weblate/trans/models/component.py:402
@@ -13033,7 +13029,7 @@ msgstr "Spremi i ostani"
 
 #: weblate/templates/translate.html:262
 msgid "Insufficient privileges for adding suggestions."
-msgstr "Nedovoljna prava za dodavanje prijedloga."
+msgstr "Nedovoljne dozvole za dodavanje prijedloga."
 
 #: weblate/templates/translate.html:263
 msgid "Suggest"
@@ -14141,10 +14137,6 @@ msgid "No line wrapping"
 msgstr "Bez prelamanja redaka"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -14205,22 +14197,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Uključi završnu oznaku za prazne XML oznake"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Jednoslojna XML datoteka"
+msgstr "Ime korijena u FlatXML-u"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Jednoslojna XML datoteka"
+msgstr "Ime vrijednosti u FlatXML-u"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Ime kategorije"
+msgstr "Ime ključa u FlatXML-u"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14651,12 +14637,18 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"Politika potvrđivanja samo odobrenih prijevoda zahtijeva uključene preglede "
+"prijevoda. Najprije uključi preglede prijevoda ili odaberi jednu drugačiju "
+"politiku potvrđivanja."
 
 #: weblate/trans/forms.py:2340
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"Pregledi prijevoda su obavezni za politiku potvrđivanja samo odobrenih "
+"prijevoda. Odaberi jednu drugačiju politiku potvrđivanja prije nego što "
+"isključivanja pregleda prijevoda."
 
 #: weblate/trans/forms.py:2388
 msgid "Access"
@@ -14750,10 +14742,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Izraz će biti dio glosara na svim jezicima"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Projekt je sada otvoren za aktualiziranje prijevoda."
+msgstr "Označi ovu opciju za prijevode koji se ne trebaju koristiti."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14764,14 +14754,15 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Označi ovu opciju ako rečenica treba ostati na izvornom jeziku, bez promjena."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
-msgstr "Nemaš dozvolu za stvaranje pojmova."
+msgstr "Nemaš dozvolu za stvaranje terminologije."
 
 #: weblate/trans/forms.py:2836
 msgid "State to set"
-msgstr "Postavljanje stanja"
+msgstr "Stanje za postavljanje"
 
 #: weblate/trans/forms.py:2837
 msgid "Do not change"
@@ -14779,19 +14770,19 @@ msgstr "Ne mijenjaj"
 
 #: weblate/trans/forms.py:2841
 msgid "Translation flags to add"
-msgstr "Dodavanje prevodilačkih oznaka"
+msgstr "Prevodilačke oznake za dodavanje"
 
 #: weblate/trans/forms.py:2844
 msgid "Translation flags to remove"
-msgstr "Uklanjanje prevodilačkih oznaka"
+msgstr "Prevodilačke oznake za uklanjanje"
 
 #: weblate/trans/forms.py:2848
 msgid "Labels to add"
-msgstr "Dodavanje etiketa"
+msgstr "Etikete za dodavanje"
 
 #: weblate/trans/forms.py:2854
 msgid "Labels to remove"
-msgstr "Uklanjanje etiketa"
+msgstr "Etikete za uklanjanje"
 
 #: weblate/trans/forms.py:2908
 msgid "I accept the contributor license agreement"
@@ -16819,7 +16810,7 @@ msgstr "Tvoj prijedlog je prazan!"
 
 #: weblate/trans/views/edit.py:300
 msgid "You don't have privileges to add suggestions!"
-msgstr "Nemaš prava za dodavanje prijedloga!"
+msgstr "Nemaš dozvole za dodavanje prijedloga!"
 
 #: weblate/trans/views/edit.py:308
 msgid "Your suggestion has been identified as spam!"
@@ -16855,15 +16846,15 @@ msgstr "Nije moguće vratiti na prazni prijevod!"
 
 #: weblate/trans/views/edit.py:508
 msgid "You do not have privilege to accept suggestions!"
-msgstr "Nemaš prava za prihvaćanje prijedloga!"
+msgstr "Nemaš dozvolu za prihvaćanje prijedloga!"
 
 #: weblate/trans/views/edit.py:514
 msgid "You do not have privilege to delete suggestions!"
-msgstr "Nemaš prava za brisanje prijedloga!"
+msgstr "Nemaš dozvolu za brisanje prijedloga!"
 
 #: weblate/trans/views/edit.py:519
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Nemaš pravo glasanja za prijedloge!"
+msgstr "Nemaš dozvolu za glasanje za prijedloge!"
 
 #: weblate/trans/views/edit.py:553
 msgid "Invalid suggestion!"
