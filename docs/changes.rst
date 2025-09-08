@@ -9,6 +9,9 @@ Weblate 5.14
 
 .. rubric:: Improvements
 
+* :ref:`date-search`.
+* Last changed loookup in :ref:`search-strings`.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
