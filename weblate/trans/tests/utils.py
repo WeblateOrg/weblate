@@ -323,9 +323,9 @@ class RepoTestMixin:
             "webextension/_locales/en/messages.json",
         )
 
-    def create_ftl(self) -> Component:
+    def create_ftl(self, **kwargs) -> Component:
         return self._create_component(
-            "fluent", "ftl/locales/*/test.ftl", "ftl/locales/en/test.ftl"
+            "fluent", "ftl/locales/*/test.ftl", "ftl/locales/en/test.ftl", **kwargs
         )
 
     def create_json_intermediate(self, **kwargs) -> Component:
