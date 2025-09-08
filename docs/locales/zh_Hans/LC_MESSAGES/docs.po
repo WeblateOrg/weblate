@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-06 17:03+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-09-08 18:02+0000\n"
+"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -177,9 +177,8 @@ msgid ""
 "Instance administrators can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
-msgstr ""
-"实例管理员可使用 :ref:`custom settings <custom-acl>` 修改在 `公开`、 `受保护"
-"` 和 `私密` 项目中对用户可用的权限集。"
+msgstr "实例管理员可使用 :ref:`自定义设置 <custom-acl>` 修改在 `公开`、`受保护` 和 "
+"`私密` 项目中对用户可用的权限集。"
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
@@ -223,7 +222,7 @@ msgstr "在审校中核准翻译。"
 
 #: ../../admin/access.rst:108
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr "只有 :ref:`review workflow <reviews>` 开启才可用。"
+msgstr "只有 :ref:`审校流程 <reviews>` 开启才可用。"
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
@@ -245,9 +244,8 @@ msgstr "`原文`"
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
-msgstr ""
-"编辑源字符串（如果 :ref:`project settings <component-manage_units>` 允许）和"
-"源字符串信息。"
+msgstr "编辑源字符串（如果 :ref:`项目设置 <component-manage_units>` "
+"允许）和源字符串信息。"
 
 #: ../../admin/access.rst:119
 msgid "`Languages`"
@@ -368,8 +366,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"从 :guilabel:`Users` 选项卡的 :ref:`management interface <management-"
-"interface>` 可获得能在站点范围使用的同类邀请。"
+"从 :guilabel:`用户` 选项卡的 :ref:`管理界面 <management-interface>` "
+"可获得能在站点范围使用的同类邀请。"
 
 #: ../../admin/access.rst:185
 msgid ""
@@ -401,8 +399,8 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"你可以将你的项目设为 :guilabel:`Protected` 或 :guilabel:`Private`\\ （见 :"
-"ref:`acl`）并根据不同项目 :ref:`manage users access <manage-acl>`。"
+"你可以将你的项目设为 :guilabel:`受保护` 或 :guilabel:`私密`\\ （见 "
+":ref:`acl`）并根据不同项目 :ref:`管理用户权限 <manage-acl>`。"
 
 #: ../../admin/access.rst:205
 msgid ""
@@ -413,10 +411,11 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"默认情况下，这防止 Weblate 因这些团队自己的配置 :ref:`default teams <default-"
-"teams>` 而授予 `用户` 和 `查看者` 所提供的访问权限。但这并不妨碍您向这些项目"
-"授予站点范围的权限，可用的方法有改变默认团队、创建一个新团队，或如下方 :ref:"
-"`custom-acl` 中所述为单个部件创建额外的自定义设置。"
+"默认情况下，这防止 Weblate 因这些团队自己的配置 :ref:`默认团队 <default-"
+"teams>` 而授予 `用户` 和 `查看者` "
+"所提供的访问权限。但这并不妨碍您向这些项目授予站点范围的权限，可用的方法有改"
+"变默认团队、创建一个新团队，或如下方 :ref:`custom-acl` "
+"中所述为单个部件创建额外的自定义设置。"
 
 #: ../../admin/access.rst:211
 msgid ""
@@ -467,9 +466,10 @@ msgid ""
 "guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"Weblate 访问控制系统最强大的功能可以在 :ref:`management-interface` 进行配置。"
-"您可以使用它来管理任何项目的权限。你不一定要将它切换到 :guilabel:`Custom` :"
-"ref:`access control <acl>` 来使用它。但是你必须有超级用户权限才能使用它。"
+"Weblate 访问控制系统最强大的功能可以在 :ref:`management-interface` "
+"进行配置。您可以使用它来管理任何项目的权限。你不一定要将它切换到 "
+":guilabel:`自定义` :ref:`访问控制 <acl>` "
+"来使用它。但是你必须有超级用户权限才能使用它。"
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -491,22 +491,20 @@ msgstr "站点范围内的权限管理"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
-msgstr ""
-"要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`default teams "
-"<default-teams>`："
+msgstr "要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认团队 <default-"
+"teams>`："
 
 #: ../../admin/access.rst:259
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
-msgstr "`用户` （默认由 :ref:`automatic team assignment <autoteam>` 完成）。"
+msgstr "`用户`\\ （默认由 :ref:`自动团队分配 <autoteam>` 完成）。"
 
 #: ../../admin/access.rst:261
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr ""
-"`审校员` （如果你在使用有专门审校的 :ref:`review workflow <reviews>`）。"
+msgstr "`审校员`\\ （如果你在使用有专门审校的 :ref:`审校流程 <reviews>`）。"
 
 #: ../../admin/access.rst:263
 msgid ""
@@ -586,9 +584,8 @@ msgid ""
 "Remove the permission to translate `Czech` from all users. In the default "
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
-msgstr ""
-"移除所有用户翻译 `捷克语` 的权限。在默认配置中，这可以通过修改 `用户` :ref:"
-"`default team <default-teams>` 来实现。"
+msgstr "移除所有用户翻译 `捷克语` 的权限。在默认配置中，这可以通过修改 `用户` :ref:`"
+"默认团队 <default-teams>` 来实现。"
 
 #: ../../admin/access.rst:296
 msgid "Group `Users`"
@@ -782,10 +779,10 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"否则，如果团队指定了任何 :guilabel:`Projects``，通过直接列出它们或通过将 :"
-"guilabel:`Projects selection` 设置为例如 :guilabel:`Projects selection` 的"
-"值，所有这些权限应用于所有项目，这有效地授予访问所有项目的相同权限 :ref:"
-"`unrestricted components <component-restricted>`。"
+"否则，如果团队指定了任何 :guilabel:`项目`，通过直接列出它们或通过将 "
+":guilabel:`项目选择` 设置为例如 :guilabel:`项目选择` "
+"的值，所有这些权限应用于所有项目，这有效地授予访问所有项目的相同权限 :ref:`"
+"unrestricted components <component-restricted>`。"
 
 #: ../../admin/access.rst:405
 msgid ""
@@ -1691,9 +1688,8 @@ msgstr ""
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
-msgstr ""
-"默认情况下，:ref:`automatic team assignment <autoteam>` 会在新成员加入时创建"
-"这个团队的所有新账户成员。"
+msgstr "默认情况下，:ref:`自动团队分配 <autoteam>` "
+"会在新成员加入时创建这个团队的所有新账户成员。"
 
 #: ../../admin/access.rst:1021
 msgid "Default roles: none"
@@ -4703,7 +4699,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:562
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ":ref:`Configuring SAML in Docker <docker-saml>`"
+msgstr ":ref:`在 Docker 中配置 SAML <docker-saml>`"
 
 #: ../../admin/auth.rst:568
 msgid "LDAP authentication"
@@ -9382,9 +9378,9 @@ msgid ""
 "by Weblate, for example from a :ref:`settings override file <docker-settings-"
 "override>`."
 msgstr ""
-"使用 :ref:`using Docker <docker-deploy>` 时，你可将 Python 模块置于 :file:`/"
-"app/data/python/` (见 :ref:`docker-volume`) 以便它们可以由 Weblate 从 :ref:"
-"`settings override file <docker-settings-override>` 等处进行加载。"
+":ref:`使用 Docker <docker-deploy>` 时，你可将 Python 模块置于 :file:`/app/"
+"data/python/` (见 :ref:`docker-volume`) 以便它们可以由 Weblate 从 :ref:`"
+"settings override file <docker-settings-override>` 等处进行加载。"
 
 #: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -13893,8 +13889,8 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
-":ref:`Docker environment variables <docker-environment>` 旨在暴露与 Weblate "
-"安装相关的大多数 :ref:`configuration settings <config>`。"
+":ref:`Docker 环境变量 <docker-environment>` 旨在暴露与 Weblate "
+"安装相关的大多数 :ref:`配置设置 <config>`。"
 
 #: ../../admin/install/docker.rst:2118
 msgid ""
@@ -13902,8 +13898,8 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
-"如果您发现没有作为环境变量公开的设置，并且您认为它应该公开，请随时 :ref:`ask "
-"for it to be exposed in a future version of Weblate <report-issue>`。"
+"如果您发现没有作为环境变量公开的设置，并且您认为它应该公开，请随时 :ref:`"
+"要求在未来版本的 Weblate 中公开它 <report-issue>`。"
 
 #: ../../admin/install/docker.rst:2122
 msgid ""
@@ -13912,9 +13908,9 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
-"如果您需要修改未公开为 Docker 环境变量的设置，您仍然可以这样做，要么 :ref:"
-"`from the data volume <docker-settings-override>`，要么 :ref:`extending the "
-"Docker image <docker-custom-settings>`。"
+"如果您需要修改未公开为 Docker 环境变量的设置，您仍然可以这样做，要么 :ref:`"
+"来自数据卷 <docker-settings-override>`，要么 :ref:`扩展 Docker 镜像 <docker-"
+"custom-settings>`。"
 
 #: ../../admin/install/docker.rst:2134
 msgid "Overriding settings from the data volume"
@@ -13926,8 +13922,8 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
-"您可以在 :file:`/app/data/settings-override.py` 创建一个文件，即在 :ref:"
-"`data volume <docker-volume>` 的根目录，以扩展或覆盖通过环境变量定义的设置。"
+"您可以在 :file:`/app/data/settings-override.py` 创建一个文件，即在 :ref:`"
+"数据卷 <docker-volume>` 的根目录，以扩展或覆盖通过环境变量定义的设置。"
 
 #: ../../admin/install/docker.rst:2144
 msgid "Overriding settings by extending the Docker image"
@@ -13941,7 +13937,7 @@ msgstr "要在 Docker 镜像级别而不是从数据卷覆盖设置："
 
 #: ../../admin/install/docker.rst:2148
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ":ref:`Create a custom Python package <custom-module>`."
+msgstr ":ref:`创建自定义 Python 包 <custom-module>`。"
 
 #: ../../admin/install/docker.rst:2150
 msgid ""
@@ -16154,9 +16150,9 @@ msgid ""
 "`Translated`, :guilabel:`Approved`, or :guilabel:`Read-only` :ref:`states "
 "<states>` inside Weblate."
 msgstr ""
-"基于 Weblate 内 :guilabel:`Translated`、:guilabel:`Approved` 或 :guilabel:"
-"`Read-only` :ref:`states <states>` 下当前现有字符串中一条字符串的精准匹配，"
-"Weblate 机器翻译服务可以提供翻译。"
+"基于 Weblate 内 :guilabel:`已翻译`、:guilabel:`已批准` 或 :guilabel:`只读` "
+":ref:`状态 <states>` 下当前现有字符串中一条字符串的精准匹配，Weblate "
+"机器翻译服务可以提供翻译。"
 
 #: ../../admin/machine.rst:874
 msgid "Weblate Translation Memory"
@@ -17416,9 +17412,9 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"受限浏览仓库的权限 （对于 `私密` :ref:`access control <acl>` 项目或者当开启 :"
-"setting:`REQUIRE_LOGIN` 时）需要可在 :ref:`user profile <user-profile>` 获得"
-"的 API 令牌："
+"受限浏览仓库的权限 （对于 `私密` :ref:`访问控制 <acl>` 项目或者当开启 "
+":setting:`REQUIRE_LOGIN` 时）需要可在 :ref:`用户个人资料 <user-profile>` "
+"获得的 API 令牌："
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -18254,8 +18250,8 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
-"**只包括已批准的译文**：只有审校员已批准的译文会被提交。此选项要求启用 :ref:"
-"`project-translation_review` 。"
+"**只包括已批准的译文**：只有审校员已批准的译文会被提交。此选项要求启用 :ref"
+":`project-translation_review`。"
 
 #: ../../admin/projects.rst:277
 msgid "Enable hooks"
@@ -19972,17 +19968,14 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` :ref:"
 "`permission <privileges>`."
 msgstr ""
-"一旦设置了自动接受，普通用户会失去直接保存翻译或接受建议的权限。要绕过这一"
-"点，可以通过设置 :guilabel:`Edit string when suggestions are enforced` :ref:"
-"`permission <privileges>`。"
+"一旦设置了自动接受，普通用户会失去直接保存翻译或接受建议的权限。要绕过这一点"
+"，可以通过设置 :guilabel:`当建议强制时编辑字符串` :ref:`权限 <privileges>`。"
 
 #: ../../admin/translating.rst:23
 msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
-msgstr ""
-"您可以将这些与 :ref:`access control <access-control>` 结合起来，形成下列设置"
-"之一："
+msgstr "您可以将这些与 :ref:`访问控制 <access-control>` 结合起来，形成下列设置之一："
 
 #: ../../admin/translating.rst:26
 msgid ""
@@ -23530,7 +23523,7 @@ msgid ""
 "please adjust your settings accordingly."
 msgstr ""
 "在 :file:`settings_example.py` 中有几项更改，最明显的是从 ``MIDDLEWARE`` "
-"中去掉了 ``django_otp.middleware.OTPMiddleware`` ；请相应调整你的设置。"
+"中去掉了 ``django_otp.middleware.OTPMiddleware``；请相应调整你的设置。"
 
 #: ../../changes.rst:37 ../../changes.rst:108 ../../changes.rst:132
 #: ../../changes.rst:151 ../../changes.rst:215 ../../changes.rst:238
@@ -23725,7 +23718,7 @@ msgstr ""
 ":ref:`machine-translation`、:ref:`addon-weblate.autotranslate.autotranslate` "
 "和 :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/autotranslate/` "
-"现在支持所有的搜索运算符，不只是有限的筛选器。现有的附加组件配置已被迁移。 "
+"现在支持所有的搜索运算符，不只是有限的筛选器。现有的附加组件配置已被迁移。"
 "API 用户需要调整调用。"
 
 #: ../../changes.rst:90
@@ -34842,8 +34835,8 @@ msgid ""
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-":ref:`vcs` 严格的基于 Web 的持续本地化工具，支持的 :ref:`file formats "
-"<formats>` 范围广泛，让译者可以轻松地作贡献。"
+":ref:`vcs` 严格的基于 Web 的持续本地化工具，支持的 :ref:`文件格式 <formats>` "
+"范围广泛，让译者可以轻松地作贡献。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -45708,7 +45701,7 @@ msgstr "简单格式字符串"
 
 #: ../../user/checks.rst:872
 msgid ":ref:`Python brace format <python:formatstrings>`"
-msgstr ":ref:`Python brace format <python:formatstrings>`"
+msgstr ":ref:`Python brace 格式 <python:formatstrings>`"
 
 #: ../../user/checks.rst:873 ../../user/checks.rst:895
 msgid ""
@@ -45728,7 +45721,7 @@ msgstr "Python 格式的字符串与原文不匹配。"
 
 #: ../../user/checks.rst:894
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ":ref:`Python string formatting <python:old-string-formatting>`"
+msgstr ":ref:`Python 字符串格式化 <python:old-string-formatting>`"
 
 #: ../../user/checks.rst:900
 msgid "Qt format"
@@ -47072,7 +47065,7 @@ msgstr ""
 msgid ""
 "Available options might be limited by :ref:`access control <access-control>` "
 "settings."
-msgstr "可用选项可能受限于 :ref:`access control <access-control>`。"
+msgstr "可用选项可能受限于 :ref:`访问控制 <access-control>`。"
 
 #: ../../user/files.rst:16
 msgid "Downloading translations"
@@ -47246,8 +47239,7 @@ msgstr "仅使用上传文件中的译文，不使用其他内容。"
 msgid ""
 "This option is available only if the user has the :ref:`\"Edit strings\" "
 "permission <privileges>`."
-msgstr ""
-"此选项只在用户有 :ref:`\"Edit strings\" permission <privileges>` 时可用。"
+msgstr "此选项只在用户有 :ref:`“编辑字符串”权限 <privileges>` 时可用。"
 
 #: ../../user/files.rst:107
 msgid "Add as suggestion (``suggest``)"
@@ -47263,8 +47255,7 @@ msgstr "导入的字符串将添加为建议，当您希望审核上传的字符
 msgid ""
 "This option is available only if the user has the :ref:`\"Add suggestion\" "
 "permission <privileges>`."
-msgstr ""
-"此选项只在用户有 :ref:`\"Add suggestion\" permission <privileges>` 时可用。"
+msgstr "此选项只在用户有 :ref:`“添加建议”权限 <privileges>` 时可用。"
 
 #: ../../user/files.rst:114
 msgid "Add as approved translation (``approve``)"
@@ -47282,8 +47273,7 @@ msgstr ""
 msgid ""
 "This option is available only if the user has the :ref:`\"Review strings\" "
 "permission <privileges>`."
-msgstr ""
-"此选项只在用户有 :ref:`\"Review strings\" permission <privileges>` 时可用。"
+msgstr "此选项只在用户有 :ref:`“审校字符串”权限 <privileges>` 时可用。"
 
 #: ../../user/files.rst:121
 msgid "Add as translation needing edit (``fuzzy``)"
@@ -47312,10 +47302,8 @@ msgid ""
 "This option is available only if the user has the :ref:`\"Edit component "
 "settings\" permission or \"Add new string\", \"Remove a string\" and \"Edit "
 "strings\" permissions <privileges>`."
-msgstr ""
-"此选项只在用户有 :ref:`\"Edit component settings\" permission or \"Add new "
-"string\", \"Remove a string\" and \"Edit strings\" permissions <privileges>` "
-"时可用。"
+msgstr "此选项只在用户有 :ref:`“编辑部件”权限或“新增字符串”、“删除字符串”和“编辑设置”"
+"权限 <privileges>` 时可用。"
 
 #: ../../user/files.rst:134
 msgid "Update source strings (``source``)"
@@ -47333,9 +47321,8 @@ msgstr ""
 msgid ""
 "This option is available only for some file formats and only if the user has "
 "the :ref:`\"Upload translations\" permission <privileges>`."
-msgstr ""
-"此选项仅适用某些文件格式且仅当用户有 :ref:`\"Upload translations\" "
-"permission <privileges>` 时可用。"
+msgstr "此选项仅适用某些文件格式且仅当用户有 :ref:`“上传译文”权限 <privileges>` "
+"时可用。"
 
 #: ../../user/files.rst:140
 msgid "Add new strings (``add``)"
@@ -47365,8 +47352,8 @@ msgid ""
 "and only if the user has the :ref:`\"Add new string\" permission "
 "<privileges>`."
 msgstr ""
-"此选项仅在 :ref:`component-manage_units` 开启且用户有 :ref:`\"Add new "
-"string\" permission <privileges>` 时可用。"
+"此选项仅在 :ref:`component-manage_units` 开启且用户有 :ref:`“新增字符串”权限 "
+"<privileges>` 时可用。"
 
 #: ../../user/files.rst:153
 msgid ""
@@ -49338,7 +49325,7 @@ msgstr ""
 
 #: ../../user/translating.rst:442
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
-msgstr ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
+msgstr ":ref:`批量编辑附加组件 <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:445
 msgid "Matrix View"
@@ -50788,9 +50775,9 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-":ref:`access control <access-control>` 并没有作为整体在工作流程中被详细讨论，"
-"因它的大多数选项都可以应用于任何工作流。请参考有关如何管理对翻译的访问的相关"
-"文档。"
+":ref:`访问控制 <access-control>` "
+"并没有作为整体在工作流程中被详细讨论，因它的大多数选项都可以应用于任何工作流"
+"。请参考有关如何管理对翻译的访问的相关文档。"
 
 #: ../../workflows.rst:52
 msgid ""
@@ -50858,8 +50845,8 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
-"字符串只读的原因包括有 ``read-only`` :ref:`flag <custom-checks>`、是不可编辑"
-"的源字符串，或者在翻译文件中被标为只读。"
+"字符串只读的原因包括有 ``read-only`` :ref:`标记 <custom-"
+"checks>`、是不可编辑的源字符串，或者在翻译文件中被标为只读。"
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
@@ -50932,7 +50919,7 @@ msgstr "译者群组"
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "或者通过 :ref:`per-project access control <manage-acl>` 进行 `翻译`。"
+msgstr "或者通过 :ref:`每个项目的访问控制 <manage-acl>` 进行 `翻译`。"
 
 #: ../../workflows.rst:125 ../../workflows.rst:157 ../../workflows.rst:190
 msgid "Reviewers group"
@@ -51009,7 +50996,7 @@ msgstr "建议还可以用于建议更改已核准的字符串。"
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "或使用 :ref:`per-project access control <manage-acl>` 进行 `审校`。"
+msgstr "或使用 :ref:`每个项目的访问控制 <manage-acl>` 进行 `审校`。"
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
