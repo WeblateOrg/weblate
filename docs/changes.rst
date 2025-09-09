@@ -9,6 +9,9 @@ Weblate 5.13.3
 
 .. rubric:: Bug fixes
 
+* Plurals and :ref:`file_format_params` handling on file upload.
+* Components pagination.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
