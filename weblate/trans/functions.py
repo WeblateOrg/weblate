@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.db.models import DateTimeField, Func
+from django.db.models import DateTimeField, Expression, Func
 
 VALID_UNIT_VALUES = {
     "MICROSECOND",
@@ -21,7 +21,9 @@ class MySQLTimestampAdd(Func):
     function = "TIMESTAMPADD"
     output_field = DateTimeField()
 
-    def __init__(self, unit, interval, timestamp):
+    def __init__(self, unit: str, interval: Expression, timestamp: Expression):
+        # unit is a string (not a Value/Expression) as mysql/mariadb throws an
+        # error if the unit argument to TIMESTAMPADD is quoted.
         if unit not in VALID_UNIT_VALUES:
             msg = f"Invalid unit: {unit}"
             raise ValueError(msg)
@@ -41,6 +43,8 @@ class MySQLTimestampAdd(Func):
             compiler, connection
         )
 
+        # override default template to avoid addition of unnecessary parentheses
+        # around function arguments
         sql = f"{self.function}({self.unit}, {interval_sql}, {timestamp_sql})"
         params = interval_params + timestamp_params
         return sql, params
