@@ -1410,6 +1410,19 @@ Keycloak
 
     Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
 
+    .. hint::
+
+       When Keycloak is configured to abstract third-party IDP, you will need
+       to configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain.
+
+       .. code-block:: yaml
+          :caption: Example when Keycloak is passing authentication to Microsoft.
+
+          environment:
+            WEBLATE_CSP_FORM_SRC: login.microsoftonline.com
+
+
+
 Linux vendors
 ~~~~~~~~~~~~~
 
