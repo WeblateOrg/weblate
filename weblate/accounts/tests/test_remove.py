@@ -23,7 +23,8 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         # Verify confirmation URL
         response = self.client.get(url, follow=True)
         self.assertContains(
-            response, "By pressing following button, your will no longer be able to use"
+            response,
+            "By pressing the following button, you will no longer be able to use",
         )
         # Confirm removal
         response = self.client.post(reverse("remove"), follow=True)
