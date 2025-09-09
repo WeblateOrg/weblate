@@ -21,7 +21,7 @@
           <li>{% translate "Account removal deletes all your private data." %}</li>
           {% if user.owned_projects %}
             <li>
-              {% translate "You will lose access to the projects you manage. The projects themselves won't be removed." %}
+              {% translate "You will lose access to the projects you manage. Projects themselves will not be removed." %}
               <ul>
                 {% for project in user.owned_projects %}
                   <li>
@@ -32,7 +32,7 @@
             </li>
           {% endif %}
           {% if has_billing %}
-            <li>{% translate "Any billing you might have created will not be terminated by account removal." %}</li>
+            <li>{% translate "Any billing you might have created will not be terminated by this account removal." %}</li>
           {% endif %}
           {% if is_confirmation %}
             <li>
@@ -40,7 +40,7 @@
             </li>
           {% else %}
             <li>
-              {% blocktranslate %}You will have to confirm account removal by clicking link in e-mail you will receive.{% endblocktranslate %}
+              {% blocktranslate %}You will have to confirm the account removal by clicking the link in the e-mail you will receive.{% endblocktranslate %}
             </li>
           {% endif %}
         </ul>
