@@ -17,16 +17,33 @@
       </div>
       <div class="panel-body">
         {{ confirm_form|crispy }}
-        <p>{% translate "Account removal deletes all your private data." %}</p>
-        {% if is_confirmation %}
-          <p>
-            {% blocktranslate %}By pressing following button, your will no longer be able to use this account.{% endblocktranslate %}
-          </p>
-        {% else %}
-          <p>
-            {% blocktranslate %}You will have to confirm account removal by clicking link in e-mail you will receive.{% endblocktranslate %}
-          </p>
-        {% endif %}
+        <ul>
+          <li>{% translate "Account removal deletes all your private data." %}</li>
+          {% if user.owned_projects %}
+            <li>
+              {% translate "You will lose access to the projects you manage. The projects themselves won't be removed." %}
+              <ul>
+                {% for project in user.owned_projects %}
+                  <li>
+                    <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endif %}
+          {% if has_billing %}
+            <li>{% translate "Any billing you might have created will not be terminated by account removal." %}</li>
+          {% endif %}
+          {% if is_confirmation %}
+            <li>
+              {% blocktranslate %}By pressing following button, your will no longer be able to use this account.{% endblocktranslate %}
+            </li>
+          {% else %}
+            <li>
+              {% blocktranslate %}You will have to confirm account removal by clicking link in e-mail you will receive.{% endblocktranslate %}
+            </li>
+          {% endif %}
+        </ul>
         {% csrf_token %}
       </div>
       <div class="panel-footer">
