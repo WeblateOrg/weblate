@@ -17,7 +17,14 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.db import IntegrityError, transaction
-from django.db.models import Count, DateTimeField, Expression, ExpressionWrapper, F, Value
+from django.db.models import (
+    Count,
+    DateTimeField,
+    Expression,
+    ExpressionWrapper,
+    F,
+    Value,
+)
 from django.db.models.functions import Now
 from django.http import Http404
 from django.http.request import HttpRequest
