@@ -27,7 +27,7 @@ from weblate.formats.exporters import (
     XlsxExporter,
 )
 from weblate.formats.helpers import NamedBytesIO
-from weblate.formats.ttkit import CSVFormat
+from weblate.formats.multi import MultiCSVUtf8Format
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -451,7 +451,7 @@ class MultiCSVExporterTest(PoExporterTest):
             component = Component(
                 slug="test-component",
                 project=project,
-                file_format="csv",
+                file_format="csv-multi-utf-8",
                 filemask="*.csv",
                 template="",
                 new_base="",
@@ -467,8 +467,9 @@ class MultiCSVExporterTest(PoExporterTest):
             translation.save()
 
             # Create a format instance and load the file
-            storage = CSVFormat(
-                csv_file_path, template_store=CSVFormat(csv_file_path, is_template=True)
+            storage = MultiCSVUtf8Format(
+                csv_file_path,
+                template_store=MultiCSVUtf8Format(csv_file_path, is_template=True),
             )
 
             # Import all units from the CSV into the translation

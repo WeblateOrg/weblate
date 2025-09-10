@@ -35,6 +35,8 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.lisa import LISAfile
 
+    from weblate.trans.models import Translation
+
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
 XML_REPLACE_CHARMAP = dict.fromkeys(
@@ -211,7 +213,7 @@ class MoExporter(PoExporter):
         self.storage.addunit(output)
 
     @staticmethod
-    def supports(translation):
+    def supports(translation: Translation) -> bool:
         return translation.component.file_format in {"po", "po-mono"}
 
 
@@ -254,6 +256,10 @@ class MultiCSVExporter(CVSBaseExporter):
     content_type = "text/csv"
     extension = "csv"
     verbose = gettext_lazy("Multivalue CSV")
+
+    @staticmethod
+    def supports(translation: Translation) -> bool:
+        return translation.component.file_format_cls.has_multiple_strings
 
     def string_filter(self, text):
         """
@@ -327,7 +333,7 @@ class MonolingualExporter(BaseExporter):
     """Base class for monolingual exports."""
 
     @staticmethod
-    def supports(translation):
+    def supports(translation: Translation) -> bool:
         return translation.component.has_template()
 
     def build_unit(self, unit):
