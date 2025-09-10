@@ -26,11 +26,10 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
-from weblate.trans.util import xliff_string_to_rich
+from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
 from .base import BaseExporter
-from .multi import MultiCSVUtf8Format
 
 if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
@@ -272,19 +271,16 @@ class MultiCSVExporter(CVSBaseExporter):
         return text
 
     def add_units(self, units):
-        """
-        Override add_units to handle multivalue units by adding each translation
-        as a separate row in the CSV export.
-        """
-        from weblate.trans.util import split_plural
-        
+        # Override add_units to handle multivalue units by adding each translation
+        # as a separate row in the CSV export.
+
         for unit in units:
             if not unit.target:
                 continue
-                
+
             # Split the target into plural forms
             targets = split_plural(unit.target)
-            
+
             if len(targets) > 1:
                 # Multiple translations for this unit - add each one separately
                 for target in targets:
@@ -301,7 +297,7 @@ class MultiCSVExporter(CVSBaseExporter):
                             explanation=unit.explanation,
                             state=unit.state,
                             position=unit.position,
-                            id_hash=unit.id_hash
+                            id_hash=unit.id_hash,
                         )
                         # Set source_unit to the original unit's source_unit to avoid None issues
                         temp_unit.source_unit = unit.source_unit
