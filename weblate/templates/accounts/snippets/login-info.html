@@ -20,25 +20,23 @@
 
   {% include 'legal/documents/summary.html' %}
 
-{% else %} 
+{% else %}
   <ul>
-   <li>
-    {% translate "By registering, you agree that your name and username will be visible publicly as long as your account exists." %}
-   </li>
+    <li>
+      {% translate "By registering, you agree that your name and username will be visible publicly as long as your account exists." %}
+    </li>
     {% if private_commit_email_opt_in %}
-    <li>
-      {% translate "Additionally, your name and e-mail can be used in version control system commits to author the changes you made; they can be stored there indefinitely." %}
-    </li>
-    <li>
-      {% translate "You can enable the use of a private commit e-mail in your profile." %}
-    </li>  
+      <li>
+        {% translate "Additionally, your name and e-mail can be used in version control system commits to author the changes you made; they can be stored there indefinitely." %}
+      </li>
+      <li>{% translate "You can enable the use of a private commit e-mail in your profile." %}</li>
     {% else %}
-    <li>
-      {% translate "Additionally, your name can be used in version control system commits to author the changes you made; it can be stored there indefinitely." %}
-    </li>
+      <li>
+        {% translate "Additionally, your name can be used in version control system commits to author the changes you made; it can be stored there indefinitely." %}
+      </li>
     {% endif %}
     <li>
-    {% translate "Your contribution will be published under the license defined by each project you contributed to." %}
-    </li>  
+      {% translate "Your contribution will be published under the license defined by each project you contributed to." %}
+    </li>
   </ul>
 {% endif %}
