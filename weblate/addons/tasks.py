@@ -113,31 +113,33 @@ def language_consistency(
     ).exclude(translation_count=languages.count())
 
     for component in components.iterator():
-        missing = languages.exclude(
-            Q(translation__component=component) | Q(component=component)
-        )
-        if not missing:
-            continue
-        component.commit_pending("language consistency", None)
-        for language in missing:
-            new_lang = component.add_new_language(
-                language,
-                request,
-                send_signal=False,
-                create_translations=False,
+        # Avoid two language consistency add-ons working at same on a single component
+        with component.lock:
+            missing = languages.exclude(
+                Q(translation__component=component) | Q(component=component)
             )
-            if new_lang is None:
-                component.log_warning(
-                    "could not add %s language for language consistency: %s",
+            if not missing:
+                continue
+            component.commit_pending("language consistency", None)
+            for language in missing:
+                new_lang = component.add_new_language(
                     language,
-                    component.new_lang_error_message,
+                    request,
+                    send_signal=False,
+                    create_translations=False,
                 )
-            else:
-                new_lang.log_info("added for language consistency")
-        try:
-            component.create_translations_immediate()
-        except FileParseError as error:
-            component.log_error("could not parse translation files: %s", error)
+                if new_lang is None:
+                    component.log_warning(
+                        "could not add %s language for language consistency: %s",
+                        language,
+                        component.new_lang_error_message,
+                    )
+                else:
+                    new_lang.log_info("added for language consistency")
+            try:
+                component.create_translations_immediate()
+            except FileParseError as error:
+                component.log_error("could not parse translation files: %s", error)
 
 
 @app.task(trail=False)
