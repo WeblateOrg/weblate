@@ -7,6 +7,7 @@ Weblate 5.14
 
 * :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
 * :http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`.
+* Added multivalue CSV in :ref:`download` for multivalue formats.
 
 .. rubric:: Improvements
 
