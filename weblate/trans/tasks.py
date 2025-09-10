@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.db import IntegrityError, transaction
-from django.db.models import Count, DateTimeField, ExpressionWrapper, F, Value
+from django.db.models import Count, DateTimeField, Expression, ExpressionWrapper, F, Value
 from django.db.models.functions import Now
 from django.http import Http404
 from django.http.request import HttpRequest
@@ -157,6 +157,7 @@ def commit_pending(
         components = Component.objects.filter(translation__pk__in=pks)
 
     hours_expr = F("commit_pending_age") if hours is None else Value(hours)
+    age_cutoff: Expression
     if using_postgresql():
         age_cutoff = ExpressionWrapper(
             Now() - hours_expr * timedelta(hours=1), output_field=DateTimeField()

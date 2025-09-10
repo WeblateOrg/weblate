@@ -30,12 +30,7 @@ class MySQLTimestampAdd(Func):
         self.unit = unit
         super().__init__(interval, timestamp)
 
-    def as_sql(
-        self,
-        compiler,
-        connection,
-        **kwargs,
-    ):
+    def as_sql(self, compiler, connection):
         interval_sql, interval_params = self.source_expressions[0].as_sql(
             compiler, connection
         )
@@ -46,5 +41,5 @@ class MySQLTimestampAdd(Func):
         # override default template to avoid addition of unnecessary parentheses
         # around function arguments
         sql = f"{self.function}({self.unit}, {interval_sql}, {timestamp_sql})"
-        params = interval_params + timestamp_params
+        params = interval_params + timestamp_params  # type: ignore[operator]
         return sql, params
