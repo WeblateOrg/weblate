@@ -45,7 +45,7 @@ class MySQLTimestampAdd(Func):
         function: str | None = None,
         template: str | None = None,
         arg_joiner: str | None = None,
-        **extra_context: Any,
+        **extra_context: Any,  # noqa: ANN401
     ) -> _AsSqlType:
         interval_sql, interval_params = self.source_expressions[0].as_sql(
             compiler, connection
