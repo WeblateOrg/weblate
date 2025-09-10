@@ -105,6 +105,28 @@ EOF
     check
 fi
 
+semver_compare "$1" ">" "5.5"
+addon_scopes=$?
+# Create addons with different scopes
+semver_compare "$1" "<" "5.12"
+file_format_params=$?
+
+if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
+    ./manage.py shell << EOF
+from weblate.addons.models import Addon
+from weblate.trans.models import Component, Project
+Addon.objects.bulk_create([
+	Addon(name="weblate.gettext.msgmerge", configuration={"previous": False}),
+	Addon(project_id=1, name="weblate.gettext.customize", configuration={"width": -1}),
+	Addon(component_id=1, name="weblate.gettext.msgmerge", configuration={"no_location": True}),
+	Addon(name="weblate.yaml.customize", configuration={"line_break": "dos"}),
+	Addon(project_id=1, name="weblate.yaml.customize", configuration={"indent": 2}),
+	Addon(component_id=1, name="weblate.json.customize", configuration={"style": "spaces"}),
+])
+EOF
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -140,6 +162,26 @@ if change.author != author:
 if change.source_unit_explanation != unit.source_unit.explanation:
     errors.append(f"Source unit explanation mismatch: '{change.source_unit_explanation}' != '{unit.source_unit.explanation}'")
 assert not errors, "\n".join(errors)
+EOF
+    check
+fi
+
+if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
+    # check that relevant addon parameters have been migrated to file_format_params
+    uv run --all-extras ./manage.py shell << EOF
+from weblate.addons.models import Addon
+from weblate.trans.models import Component
+file_format_params = Component.objects.get(pk=1).file_format_params
+# check site wide params are migrated
+assert 'yaml_line_break' not in file_format_params
+assert 'yaml_indent' not in file_format_params
+assert 'json_indent_style' not in file_format_params
+assert file_format_params['po_line_wrap'] == -1
+assert file_format_params['po_keep_previous'] is False
+assert file_format_params['po_no_location'] is True
+assert not Addon.objects.filter(name="weblate.json.customize").exists()
+assert not Addon.objects.filter(name="weblate.gettext.customize").exists()
+assert Addon.objects.filter(name="weblate.gettext.msgmerge").exists()
 EOF
     check
 fi

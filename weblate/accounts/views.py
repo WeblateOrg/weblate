@@ -17,7 +17,7 @@ import qrcode
 import qrcode.image.svg
 import social_django.utils
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import REDIRECT_FIELD_NAME, get_backends
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -57,6 +57,7 @@ from django_otp.models import Device
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp.util import random_hex
+from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
@@ -64,6 +65,7 @@ from django_otp_webauthn.views import (
 )
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
+from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
@@ -80,6 +82,7 @@ from social_core.exceptions import (
 from social_django.utils import load_backend, load_strategy
 from social_django.views import complete, disconnect
 
+from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
     CommitForm,
@@ -121,7 +124,6 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
-    DeviceType,
     get_key_name,
     lock_user,
     remove_user,
@@ -149,6 +151,7 @@ from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
+    from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
 
 CONTACT_TEMPLATE = """
@@ -454,9 +457,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": user.cached_groups.prefetch_related(
-                "roles", "projects", "languages", "components"
-            ),
+            "user_groups": user.cached_groups,
             "profile": profile,
             "title": gettext("User profile"),
             "licenses": license_components,
@@ -799,7 +800,7 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
             os.path.join(settings.STATIC_URL, "state/ghost.svg"), permanent=True
         )
     # Bot and anonymous accounts
-    if email.startswith("noreply") and email.endswith("@weblate.org"):
+    if not email or (email.startswith("noreply") and email.endswith("@weblate.org")):
         return redirect(get_fallback_avatar_url(int(size)), permanent=True)
     # Project API tokens
     if email.endswith("@bots.noreply.weblate.org"):
@@ -856,11 +857,24 @@ class WeblateLoginView(BaseLoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
 
+    @cached_property
+    def has_email_auth(self) -> bool:
+        return "email" in get_auth_keys()
+
+    @cached_property
+    def show_login_form(self) -> bool:
+        return self.has_email_auth or any(
+            not isinstance(backend, (BaseAuth, WeblateUserBackend))
+            for backend in get_backends()
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["login_email"] = context["can_reset"] = "email" in auth_backends
+        context["can_reset"] = self.has_email_auth
+        # Show login form for e-mail login or any third-party Django auth backend such as LDAP
+        context["show_login_form"] = self.show_login_form
         context["title"] = gettext("Sign in")
         return context
 
@@ -875,7 +889,7 @@ class WeblateLoginView(BaseLoginView):
         if len(auth_backends) == 1 and "email" not in auth_backends:
             return redirect_single(request, auth_backends.pop())
 
-        if request.method == "POST" and "email" not in auth_backends:
+        if request.method == "POST" and not self.show_login_form:
             return redirect("login")
 
         return super().dispatch(request, *args, **kwargs)
@@ -1777,7 +1791,7 @@ class TOTPView(FormView):
 
 class SecondFactorMixin(View):
     def second_factor_completed(self, device: Device) -> None:
-        # Store audit log entry aboute used device and update last used device type
+        # Store audit log entry about used device and update last used device type
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
         del self.request.session[SESSION_SECOND_FACTOR_USER]
@@ -1790,6 +1804,10 @@ class SecondFactorMixin(View):
         else:
             self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             # This is completed in social_complete after completing social login
+
+    def second_factor_failed(self) -> None:
+        user = self.get_user()
+        user.profile.log_2fa_failed(self.request, self.get_backend())
 
     def get_user(self) -> User:
         try:
@@ -1848,6 +1866,10 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
 
         return HttpResponseRedirect(self.get_success_url())
 
+    def form_invalid(self, form):
+        self.second_factor_failed()
+        return super().form_invalid(form)
+
 
 class WeblateBeginCredentialAuthenticationView(
     SecondFactorMixin, BeginCredentialAuthenticationView
@@ -1861,3 +1883,10 @@ class WeblateCompleteCredentialAuthenticationView(
 ):
     def complete_auth(self, device: WebAuthnCredential) -> User:
         return self.second_factor_completed(device)
+
+    def post(self, *args, **kwargs):
+        try:
+            return super().post(*args, **kwargs)
+        except OTPWebAuthnApiError:
+            self.second_factor_failed()
+            raise

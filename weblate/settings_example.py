@@ -11,7 +11,7 @@ from logging.handlers import SysLogHandler
 
 from weblate.api.spectacular import (
     get_drf_settings,
-    get_drf_standardized_errors_sertings,
+    get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
 
@@ -395,7 +395,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
@@ -798,7 +797,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",
 #     "weblate.addons.gettext.MsgmergeAddon",
-#     "weblate.addons.gettext.GettextCustomizeAddon",
 #     "weblate.addons.gettext.GettextAuthorComments",
 #     "weblate.addons.cleanup.CleanupAddon",
 #     "weblate.addons.cleanup.RemoveBlankAddon",
@@ -809,18 +807,16 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.flags.TargetEditAddon",
 #     "weblate.addons.flags.SameEditAddon",
 #     "weblate.addons.flags.BulkEditAddon",
+#     "weblate.addons.flags.TargetRepoUpdateAddon",
 #     "weblate.addons.generate.GenerateFileAddon",
 #     "weblate.addons.generate.PseudolocaleAddon",
 #     "weblate.addons.generate.PrefillAddon",
 #     "weblate.addons.generate.FillReadOnlyAddon",
-#     "weblate.addons.json.JSONCustomizeAddon",
-#     "weblate.addons.xml.XMLCustomizeAddon",
 #     "weblate.addons.properties.PropertiesSortAddon",
 #     "weblate.addons.git.GitSquashAddon",
 #     "weblate.addons.removal.RemoveComments",
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
-#     "weblate.addons.yaml.YAMLCustomizeAddon",
 #     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.webhooks.WebhookAddon",
 #     "weblate.addons.webhooks.SlackWebhookAddon",
@@ -872,7 +868,7 @@ REST_FRAMEWORK = get_drf_settings(
     anon_throttle="100/day",
     user_throttle="5000/hour",
 )
-DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_sertings()
+DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL

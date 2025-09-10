@@ -43,7 +43,7 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
-from weblate.trans.signals import component_post_update, store_post_load, vcs_pre_commit
+from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
@@ -60,6 +60,7 @@ from weblate.utils.state import (
     StringState,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -239,13 +240,15 @@ class Translation(
         return self.component.project
 
     @cached_property
-    def is_template(self):
+    def is_template(self) -> bool:
         """
         Check whether this is template translation.
 
         This means that translations should be propagated as sources to others.
         """
-        return self.component.template and self.filename == self.component.template
+        return (
+            self.component.has_template() and self.filename == self.component.template
+        )
 
     @cached_property
     def is_source(self) -> bool:
@@ -333,7 +336,7 @@ class Translation(
                     NamedBytesIO(fileobj.name, fileobj.read())
                 )
                 fileobj.seek(0)
-            store = self.component.file_format_cls(
+            return self.component.file_format_cls(
                 fileobj,
                 template,
                 language_code=self.language_code,
@@ -342,9 +345,8 @@ class Translation(
                 else self.component.source_language.code,
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
+                file_format_params=self.component.file_format_params,
             )
-            store_post_load.send(sender=self.__class__, translation=self, store=store)
-            return store
 
     @cached_property
     def store(self):
@@ -748,19 +750,23 @@ class Translation(
         # 1. Always, if it has been applied successfully.
         # 2. If it failed to apply, it can be removed only if a newer pending
         #    change targeting the same unit has since been successfully applied.
-        changes_to_delete = []
-        units_updated = set()
-        # iterate the pending changes in reverse order to ensure only changes made after
-        # a failed change are considered.
-        for change in reversed(pending_changes):
-            status = all_changes_status[change.pk]
-            if status:
-                changes_to_delete.append(change.pk)
-                units_updated.add(change.unit.pk)
-            elif change.unit.pk in units_updated:
-                changes_to_delete.append(change.pk)
+        # In some cases, a previously failed change may be resolved by a subsequent
+        # change to the unit. Failed pending changes are not retried on every commit
+        # attempt and hence may be absent from the list of pending changes being
+        # currently processed. Hence, we track the latest timestamp up to which
+        # changes to a unit have been applied successfully and delete all pending
+        # changes for the unit until that timestamp.
+        success_times = {}
+        for change in pending_changes:
+            if all_changes_status.get(change.pk):
+                prev = success_times.get(change.unit_id)
+                if prev is None or change.timestamp > prev:
+                    success_times[change.unit_id] = change.timestamp
 
-        PendingUnitChange.objects.filter(pk__in=changes_to_delete).delete()
+        for unit_id, ts in success_times.items():
+            PendingUnitChange.objects.filter(
+                unit_id=unit_id, timestamp__lte=ts
+            ).delete()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -856,7 +862,7 @@ class Translation(
         return self.component.repo_needs_push()
 
     @cached_property
-    def filenames(self):
+    def filenames(self) -> list[str]:
         if not self.filename:
             return []
         if self.component.file_format_cls.simple_filename:
@@ -962,6 +968,15 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
+                    pending_change.metadata.update(
+                        {
+                            "last_failed": timezone.now().isoformat(),
+                            "failed_revision": self.revision,
+                            "weblate_version": GIT_VERSION,
+                            "blocking_unit": True,
+                        }
+                    )
+                    pending_change.save()
                     # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
@@ -986,8 +1001,6 @@ class Translation(
                     report_error(
                         "Could not update unit", project=self.component.project
                     )
-                    # TODO: once we have a deeper stack of pending changes,
-                    # this should be kept as pending, so that the changes are not lost
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
@@ -995,6 +1008,17 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target=self.component.get_parse_error_message(error),
                     )
+
+                    pending_change.metadata.update(
+                        {
+                            "last_failed": timezone.now().isoformat(),
+                            "failed_revision": self.revision,
+                            "weblate_version": GIT_VERSION,
+                            "blocking_unit": False,
+                        }
+                    )
+                    pending_change.save()
+                    # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
 
@@ -1274,8 +1298,6 @@ class Translation(
         self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
     ) -> UploadResult:
         """Replace source translations with uploaded one."""
-        from weblate.addons.gettext import GettextCustomizeAddon, MsgmergeAddon
-
         component = self.component
         filenames = []
         with component.repository.lock:
@@ -1296,13 +1318,7 @@ class Translation(
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
-                if addon := component.get_addon(MsgmergeAddon.name):
-                    args = addon.addon.get_msgmerge_args(component)
-                else:
-                    args = ["--previous"]
-                    if addon := component.get_addon(GettextCustomizeAddon.name):
-                        args.extend(addon.addon.get_msgmerge_args(component))
-
+                args = self.component.file_format_cls.get_msgmerge_args(component)
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language
@@ -1437,11 +1453,11 @@ class Translation(
                 component.file_format_cls,
                 None,
                 is_template=True,
+                language_code=self.language_code,
+                source_language=self.component.source_language.code,
+                file_format_params=self.component.file_format_params,
             )
-            if isinstance(template_store, component.file_format_cls):
-                store_post_load.send(
-                    sender=self.__class__, translation=self, store=template_store
-                )
+
         else:
             template_store = component.template_store
         store = try_load(
@@ -1449,9 +1465,10 @@ class Translation(
             filecopy,
             component.file_format_cls,
             template_store,
+            language_code=self.language_code,
+            source_language=self.component.source_language.code,
+            file_format_params=self.component.file_format_params,
         )
-        if isinstance(store, component.file_format_cls):
-            store_post_load.send(sender=self.__class__, translation=self, store=store)
 
         # Check valid plural forms
         if hasattr(store.store, "parseheader"):

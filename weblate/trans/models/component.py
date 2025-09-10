@@ -62,7 +62,6 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
-    store_post_load,
     translation_post_add,
     vcs_post_commit,
     vcs_post_push,
@@ -531,6 +530,12 @@ class Component(
         max_length=50,
         choices=FILE_FORMATS.get_choices(),
         blank=False,
+    )
+
+    file_format_params = models.JSONField(
+        verbose_name=gettext_lazy("File format parameters"),
+        default=dict,
+        blank=True,
     )
 
     locked = models.BooleanField(
@@ -2098,7 +2103,9 @@ class Component(
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
-        ).exclude(translation__language_id=self.source_language_id):
+        ).exclude(
+            translation__language_id=self.source_language_id, translation__filename=""
+        ):
             PendingUnitChange.store_unit_change(unit)
 
         self.change_set.create(
@@ -3055,7 +3062,9 @@ class Component(
         for match in matches:
             try:
                 store = self.file_format_cls(
-                    os.path.join(dir_path, match), self.template_store
+                    os.path.join(dir_path, match),
+                    self.template_store,
+                    file_format_params=self.file_format_params,
                 )
                 store.check_valid()
             except Exception as error:
@@ -3625,10 +3634,10 @@ class Component(
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
-    def has_template(self):
+    def has_template(self) -> bool:
         """Return true if component is using template for translation."""
         monolingual = self.file_format_cls.monolingual
-        return (monolingual or monolingual is None) and self.template
+        return (monolingual or monolingual is None) and bool(self.template)
 
     def drop_template_store_cache(self) -> None:
         if "template_store" in self.__dict__:
@@ -3651,18 +3660,12 @@ class Component(
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        store = self.file_format_cls(
+        return self.file_format_cls(
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
+            file_format_params=self.file_format_params,
         )
-        if self.pk:
-            store_post_load.send(
-                sender=self.__class__,
-                translation=self.source_translation,
-                store=store,
-            )
-        return store
 
     @cached_property
     def intermediate_store(self):
@@ -3679,19 +3682,13 @@ class Component(
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
         with self.start_sentry_span("load_template_store"):
-            store = self.file_format_cls(
+            return self.file_format_cls(
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
                 is_template=True,
+                file_format_params=self.file_format_params,
             )
-            if self.pk:
-                store_post_load.send(
-                    sender=self.__class__,
-                    translation=self.source_translation,
-                    store=store,
-                )
-            return store
 
     @cached_property
     def template_store(self):
@@ -3779,8 +3776,8 @@ class Component(
     @transaction.atomic
     def add_new_language(  # noqa: C901
         self,
-        language,
-        request,
+        language: Language,
+        request: AuthenticatedHttpRequest | None,
         send_signal: bool = True,
         create_translations: bool = True,
         show_messages: bool = True,
@@ -3854,16 +3851,7 @@ class Component(
                 if show_messages:
                     messages.error(request, gettext("Translation file already exists!"))
             else:
-                file_format.add_language(
-                    fullname,
-                    language,
-                    base_filename,
-                    callback=lambda store: store_post_load.send(
-                        sender=translation.__class__,
-                        translation=translation,
-                        store=store,
-                    ),
-                )
+                file_format.add_language(fullname, language, base_filename)
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation

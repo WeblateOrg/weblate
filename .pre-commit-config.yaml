@@ -18,12 +18,12 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.25.0
+  rev: 1.28.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '5.1']
 - repo: https://github.com/adamchainz/djade-pre-commit
-  rev: 1.4.0
+  rev: 1.6.0
   hooks:
   - id: djade
     args: [--target-version, '5.1']
@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.12.8
+  rev: v0.12.12
   hooks:
   - id: ruff-check
     args:
@@ -47,7 +47,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==v0.12.3
+    - ruff==0.12.12
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -75,21 +75,21 @@ repos:
   - id: shfmt
     args: [--write]
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v5.0.2
+  rev: v5.1.1
   hooks:
   - id: reuse
 - repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.10.0.1
+  rev: v0.11.0.1
   hooks:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.1.4
+  rev: v2.2.3
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.1.4'
+    - '@biomejs/biome@2.2.3'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -116,7 +116,7 @@ repos:
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
-    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst
+    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst|docs/snippets/file-format-parameters.rst
   - id: rst-http
     name: http link in rst text
     description: Detect mistake of using http links
@@ -158,7 +158,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.35.3
+  rev: v1.36.2
   hooks:
   - id: typos
     args: []
@@ -169,7 +169,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.11.0
+  rev: v1.12.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint

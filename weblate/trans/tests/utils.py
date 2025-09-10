@@ -323,6 +323,11 @@ class RepoTestMixin:
             "webextension/_locales/en/messages.json",
         )
 
+    def create_ftl(self) -> Component:
+        return self._create_component(
+            "fluent", "ftl/locales/*/test.ftl", "ftl/locales/en/test.ftl"
+        )
+
     def create_json_intermediate(self, **kwargs) -> Component:
         return self._create_component(
             "json",
@@ -375,8 +380,8 @@ class RepoTestMixin:
     def create_resx(self) -> Component:
         return self._create_component("resx", "resx/*.resx", "resx/en.resx")
 
-    def create_yaml(self) -> Component:
-        return self._create_component("yaml", "yml/*.yml", "yml/en.yml")
+    def create_yaml(self, **kwargs) -> Component:
+        return self._create_component("yaml", "yml/*.yml", "yml/en.yml", **kwargs)
 
     def create_ruby_yaml(self) -> Component:
         return self._create_component("ruby-yaml", "ruby-yml/*.yml", "ruby-yml/en.yml")

@@ -611,11 +611,19 @@ Imports users from JSON dump of the Django auth_users database.
     With this option it will just check whether a given file can be imported and
     report possible conflicts arising from usernames or e-mails.
 
-You can dump users from the existing Django installation using:
+You can dump users from the existing Django site using:
 
 .. code-block:: sh
 
-    weblate dumpdata auth.User > users.json
+    ./manage.py dumpdata auth.User > users.json
+
+.. hint::
+
+   Use :wladmin:`dumpuserdata` for dumping data from other Weblate server as that includes user settings as well.
+
+.. seealso::
+
+   :ref:`pootle-migration`
 
 install_addon
 -------------
@@ -639,11 +647,11 @@ Installs an add-on to a set of components.
 You can either define which project or component to install the add-on in (for example
 ``weblate/application``), or use ``--all`` to include all existing components.
 
-To install :ref:`addon-weblate.gettext.customize` for all components:
+To install :ref:`addon-weblate.gettext.mo` for all components:
 
 .. code-block:: shell
 
-   weblate install_addon --addon weblate.gettext.customize --configuration '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.mo --configuration '{"fuzzy": true}' --update --all
 
 .. seealso::
 
@@ -763,6 +771,13 @@ list_versions
 .. weblate-admin:: list_versions
 
 Lists all Weblate dependencies and their versions.
+
+list_file_format_params
+-----------------------
+
+.. weblate-admin:: list_file_format_params
+
+Lists File format parameters.
 
 loadpo
 ------

@@ -1,7 +1,103 @@
-Weblate 5.13
+Weblate 5.14
 ------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+* :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
+
+.. rubric:: Improvements
+
+* :ref:`date-search`.
+* Last changed loookup in :ref:`search-strings`.
+
+.. rubric:: Bug fixes
+
+* Plurals and :ref:`file_format_params` handling on file upload.
+* Components pagination.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/149?closed=1>`__.
+
+Weblate 5.13.2
+--------------
+
+*Released on September 5th 2025.*
+
+.. rubric:: Improvements
+
+* Error reporting upon validation of the file upload method.
+* Detailed language information in new language notifications.
+
+.. rubric:: Bug fixes
+
+* Sign-in could not be completed with LDAP.
+* Nonspacing mark changes highlighting in history.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.13.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/151?closed=1>`__.
+
+Weblate 5.13.1
+--------------
+
+*Released on September 4th 2025.*
+
+.. rubric:: Improvements
+
+* Smarter retries of unwritable pending changes.
+* Failed :ref:`2fa` is visible in :ref:`audit-log`.
+
+.. rubric:: Bug fixes
+
+* Sign-in form not shown for LDAP.
+* Access control for :http:get:`/api/users/(str:username)/`.
+* :ref:`check-rst-references` allows translatable reference names.
+* :ref:`file_format_params` were not properly applied in some situations.
+* Removed stale :ref:`addon-weblate.xml.customize`.
+* :ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0.
+* Username autocompletion in comments.
+* Shorten session expiry while in :ref:`2fa` (:cve:`2025-58352` / :ghsa:`377j-wj38-4728`).
+* Statistics when using :ref:`component-links`.
+* :ref:`componentlists` are no longer blocking dashboard loading.
+* OpenMetrics API format.
+
+.. rubric:: Compatibility
+
+* Removed support for no longer working :ref:`mt-ibm`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notably, ``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; please adjust your settings accordingly.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.13.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/150?closed=1>`__.
+
+Weblate 5.13
+------------
+
+*Released on August 15th 2025.*
 
 .. rubric:: New features
 
@@ -10,6 +106,9 @@ Weblate 5.13
 * :doc:`/formats/catkeys`.
 * Some flags are now added to a string by default, based on locations; see :ref:`location-based-flags`.
 * Added :ref:`project-commit_policy` setting to control which translations are included when committing changes.
+* :ref:`file_format_params` can now be configured at the component level.
+* New management command :wladmin:`list_file_format_params` to list all available file format parameters.
+* Tag and attribute names can now be customized for :ref:`flatxml` with :ref:`file_format_params`.
 
 .. rubric:: Improvements
 
@@ -36,13 +135,29 @@ Weblate 5.13
 
 .. rubric:: Compatibility
 
+* Some addons have been deprecated and replaced by :ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`.
+* :ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` and :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/` now support all search operators, not only limited filters. Existing add-on configuration has been migrated. API users will need to adjust invocation.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
 * There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
-* Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers including client protocol. See :ref:`reverse-proxy`.
+* The Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers, including client protocol.
+  :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to avoid redirect loop, for example:
+
+  .. code-block:: yaml
+
+     services:
+       weblate:
+         environment:
+           WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
+           WEBLATE_SECURE_PROXY_SSL_HEADER: HTTP_X_FORWARDED_PROTO,https
+
+  .. seealso::
+
+     :ref:`reverse-proxy`
 
 .. rubric:: Contributors
 
@@ -1491,5 +1606,6 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 * There are several changes in :file:`settings_example.py`, most notable is changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your settings accordingly.
 * Several previously optional dependencies are now required.
 * The database upgrade can take considerable time on larger sites due to structure changes.
+
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/99?closed=1>`__.

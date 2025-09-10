@@ -8,6 +8,7 @@ from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
 import responses
+from django.conf import settings
 from django.core.files import File
 from django.test.utils import modify_settings
 from django.urls import reverse
@@ -131,7 +132,10 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 class UserAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 0)
+        self.authenticate(False)
+        response = self.client.get(reverse("api:user-list"))
+        self.assertEqual(response.data["count"], 1)
         self.assertNotIn("email", response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
@@ -153,8 +157,64 @@ class UserAPITest(APIBaseTest):
             response.data["languages"],
         )
 
+    def test_get_anonymous(self) -> None:
+        # User info not accessible without auth
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            authenticated=False,
+            code=404,
+        )
+        # User is able to get another user basic info, but not full details
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            superuser=False,
+            code=200,
+            data={"full_name": "Anonymous", "username": settings.ANONYMOUS_USER_NAME},
+            skip=("id",),
+        )
+        # Admin can get full details
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            superuser=True,
+            code=200,
+            data={
+                "email": "noreply@weblate.org",
+                "full_name": "Anonymous",
+                "username": settings.ANONYMOUS_USER_NAME,
+                "is_superuser": False,
+                "is_active": False,
+                "is_bot": False,
+                "last_login": None,
+            },
+            skip=(
+                "id",
+                "groups",
+                "languages",
+                "notifications",
+                "date_joined",
+                "url",
+                "statistics_url",
+                "contributions_url",
+            ),
+        )
+
     def test_filter(self) -> None:
-        response = self.client.get(reverse("api:user-list"), {"username": "api"})
+        """Front-end autocompletion interface."""
+        self.authenticate(True)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
         self.assertEqual(response.data["count"], 1)
 
     def test_create(self) -> None:
@@ -1135,7 +1195,13 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["slug"], "test")
 
     def test_repo_op_denied(self) -> None:
-        for operation in ("push", "pull", "reset", "cleanup", "commit"):
+        for operation in (
+            "push",
+            "pull",
+            "reset",
+            "cleanup",
+            "commit",
+        ):
             self.do_request(
                 "api:project-repository",
                 self.project_kwargs,
@@ -1153,6 +1219,59 @@ class ProjectAPITest(APIBaseTest):
                 superuser=True,
                 request={"operation": operation},
             )
+
+    def test_project_lock_endpoint(self) -> None:
+        """Test the dedicated project lock API endpoint."""
+        # Test without authentication
+        self.do_request("api:project-lock", self.project_kwargs, data={"locked": False})
+
+        # Test without permissions
+        self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": True},
+            code=403,
+        )
+
+        self.authenticate(True)
+
+        # Initially unlocked
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertFalse(response.data["locked"])
+
+        # Lock the project
+        response = self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": True},
+            superuser=True,
+        )
+        self.assertTrue(response.data["locked"])
+
+        # Verify lock status persists
+        response = self.do_request("api:project-lock", self.project_kwargs)
+        self.assertTrue(response.data["locked"])
+
+        # Unlock the project
+        response = self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            request={"lock": False},
+            superuser=True,
+        )
+        self.assertFalse(response.data["locked"])
+
+        # Test invalid request
+        self.do_request(
+            "api:project-lock",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+        )
 
     def test_repo_invalid(self) -> None:
         self.do_request(
@@ -1172,7 +1291,11 @@ class ProjectAPITest(APIBaseTest):
             "api:project-repository",
             self.project_kwargs,
             superuser=True,
-            data={"needs_push": False, "needs_merge": False, "needs_commit": False},
+            data={
+                "needs_push": False,
+                "needs_merge": False,
+                "needs_commit": False,
+            },
             skip=("url",),
         )
 
@@ -2577,6 +2700,8 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data, {"locked": True})
         response = self.client.post(url, {"lock": False})
         self.assertEqual(response.data, {"locked": False})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 400)
 
     def test_repo_status_denied(self) -> None:
         self.do_request("api:component-repository", self.component_kwargs, code=403)
@@ -3300,6 +3425,28 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
         self.check_upload_changes(changes_start, 1)
+
+        # Non-compatible component
+        self.create_po_mono(name="mono", project=self.component.project)
+
+        with open(TEST_POT, "rb") as handle:
+            response = self.client.put(
+                reverse(
+                    "api:translation-file",
+                    kwargs={
+                        "language__code": "en",
+                        "component__slug": "mono",
+                        "component__project__slug": "test",
+                    },
+                ),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual("method", response.data["errors"][0]["attr"])
+        self.assertIn(
+            "Update source strings upload is not supported with this format.",
+            response.data["errors"][0]["detail"],
+        )
 
     def test_upload_content(self) -> None:
         self.authenticate()

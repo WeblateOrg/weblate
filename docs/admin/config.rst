@@ -1812,6 +1812,16 @@ Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 
 
    `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
+.. setting:: SESSION_COOKIE_AGE_2FA
+
+SESSION_COOKIE_AGE_2FA
+----------------------
+
+.. versionadded:: 5.13.1
+
+Set session expiry while in :ref:`2fa`. This complements
+:setting:`django:SESSION_COOKIE_AGE` which is used for unauthenticated users.
+
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 
 SESSION_COOKIE_AGE_AUTHENTICATED
@@ -2110,7 +2120,6 @@ example:
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.consistency.LanguageConsistencyAddon",
@@ -2120,15 +2129,12 @@ example:
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
-        "weblate.addons.json.JSONCustomizeAddon",
-        "weblate.addons.xml.XMLCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",
         "weblate.addons.removal.RemoveComments",
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.autotranslate.AutoTranslateAddon",
-        "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
         # Add-on you want to include
         "weblate.addons.example.ExampleAddon",

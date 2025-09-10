@@ -116,6 +116,13 @@ Unit post-save
 
 Triggered just after the string is saved.
 
+.. _addon-event-unit-post-sync:
+
+Unit post-sync
+--------------
+
+Triggered after the string is synchronized with the VCS.
+
 .. _addon-event-unit-pre-create:
 
 Unit pre-create
@@ -571,6 +578,23 @@ translations created by the developers.
 
    :ref:`states`
 
+.. _addon-weblate.flags.target_repo_update:
+
+Flag updated translations from repository as "Needs editing"
+------------------------------------------------------------
+
+:Add-on ID: ``weblate.flags.target_repo_update``
+:Configuration: `This add-on has no configuration.`
+:Triggers: :ref:`addon-event-unit-post-sync`
+
+Whenever a string translation is changed from the VCS, it is flagged as needing
+editing in Weblate. Especially useful if translation files are often updated
+manually or by an external service.
+
+.. seealso::
+
+   :ref:`states`
+
 .. _addon-weblate.generate.fill_read_only:
 
 Fill read-only strings with source
@@ -747,9 +771,11 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 Customize gettext output
 ------------------------
 
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.gettext.customize``
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-                | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
+                | ``width`` | Long lines wrapping | By default, gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines.|
                 |           |                     |                                                                                                                                   |
                 |           |                     | .. list-table:: Available choices:                                                                                                |
                 |           |                     |    :width: 100%                                                                                                                   |
@@ -773,7 +799,7 @@ It offers the following options:
 
 .. note::
 
-   By default gettext wraps lines at 77 characters and at newlines.
+   By default, gettext wraps lines at 77 characters and at newlines.
    With the ``--no-wrap`` parameter, wrapping is only done at newlines.
 
 
@@ -817,20 +843,18 @@ The location of the generated MO file can be customized and the field for it use
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
+.. versionchanged:: 5.13
+
+   :guilabel: Settings configuration has been moved to :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.gettext.msgmerge``
-:Configuration: +-----------------+--------------------------------------------+--+
-                | ``previous``    | Keep previous msgids of translated strings |  |
-                +-----------------+--------------------------------------------+--+
-                | ``no_location`` | Remove locations of translated strings     |  |
-                +-----------------+--------------------------------------------+--+
-                | ``fuzzy``       | Use fuzzy matching                         |  |
-                +-----------------+--------------------------------------------+--+
+:Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
-Most msgmerge command-line options can be set up through the add-on
+Most msgmerge command-line options can be set up through file format parameters
 configuration.
 
 .. seealso::
@@ -895,6 +919,8 @@ Customize JSON output
 .. versionchanged:: 5.12
 
    :guilabel:`Avoid spaces after separators` option added.
+
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.json.customize``
 :Configuration: +----------------------------+-------------------------------+------------------------------------+
@@ -1425,6 +1451,8 @@ Customize XML output
 
 .. versionadded:: 4.15
 
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
+
 :Add-on ID: ``weblate.xml.customize``
 :Configuration: +------------------+----------------------------------------+--+
                 | ``closing_tags`` | Include closing tag for blank XML tags |  |
@@ -1437,6 +1465,8 @@ Allows adjusting XML output behavior, for example closing tags.
 
 Customize YAML output
 ---------------------
+
+.. versionremoved:: 5.13 Replaced by :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.yaml.customize``
 :Configuration: +----------------+---------------------+------------------------------------+

@@ -62,6 +62,7 @@ from weblate.utils.validators import CRUD_RE, validate_fullname, validate_userna
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
 
+    from django_otp.models import Device
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
     from social_django.strategy import DjangoStrategy
@@ -506,6 +507,9 @@ class User(AbstractBaseUser):
     # social_auth integration
     social_auth: DjangoStorage
 
+    # django_otp integration (via OTPMiddleware)
+    otp_device: Device
+
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "full_name"]
@@ -593,6 +597,10 @@ class User(AbstractBaseUser):
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
+
+    def is_verified(self) -> bool:
+        # django_otp overrides this method in OTPMiddleware
+        return False
 
     @cached_property
     def is_authenticated(self) -> bool:  # type: ignore[override]
@@ -769,12 +777,20 @@ class User(AbstractBaseUser):
                 "componentlists__components",
                 queryset=Component.objects.only("id", "project_id"),
             ),
+            # The name and slug are used when rendering the groups
             Prefetch(
                 "components",
-                queryset=Component.objects.all().only("id", "project_id"),
+                queryset=Component.objects.all().only(
+                    "id", "project_id", "name", "slug"
+                ),
             ),
-            Prefetch("projects", queryset=Project.objects.only("id", "access_control")),
-            Prefetch("languages", queryset=Language.objects.only("id")),
+            # The name and slug are used when rendering the groups
+            Prefetch(
+                "projects",
+                queryset=Project.objects.only("id", "access_control", "name", "slug"),
+            ),
+            # The name and code are used when rendering the groups
+            Prefetch("languages", queryset=Language.objects.only("id", "name", "code")),
         )
 
     def group_enforces_2fa(self) -> bool:
@@ -1245,7 +1261,9 @@ class WeblateAuthConf(AppConf):
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = "anonymous"
+
     SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+    SESSION_COOKIE_AGE_2FA = 180
 
     class Meta:
         prefix = ""

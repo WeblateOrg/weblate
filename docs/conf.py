@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.13"
+release = "5.14"
 
 # -- General configuration ---------------------------------------------------
 
@@ -388,6 +388,8 @@ linkcheck_ignore = [
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
     "https://www.bis.doc.gov/",
+    "https://www.libravatar.org/",
+    "https://akismet.com/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",

@@ -21,6 +21,7 @@ from django.shortcuts import redirect, resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
+from packaging.version import Version
 from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
@@ -38,8 +39,39 @@ if TYPE_CHECKING:
     from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation, Unit
 
+
+def detect_strxfrm() -> bool:
+    # macOS problematic behavior
+    if platform.system() == "Darwin":
+        version = Version(platform.mac_ver()[0])
+        if version > Version("15.0") and version < Version("15.6"):
+            # Avoid triggering strxfrm on macOS 15 until 15.6 where it either
+            # crashes with OSError or causes Python segmentation fault.
+            return False
+
+    if locale.strxfrm("a") == "a":
+        # Initialize to sane Unicode locales for strxfrm
+        try:
+            locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
+        except locale.Error:
+            return False
+
+        # Try whether strxfrm works
+        try:
+            locale.strxfrm("zkouška")
+        except OSError:
+            # Crashes on macOS 15 and some FreeBSD derivatives, see
+            # https://github.com/python/cpython/issues/130567
+            return False
+
+        return True
+
+    # Assume it is not working
+    return False
+
+
 PLURAL_SEPARATOR = "\x1e\x1e"
-USE_STRXFRM = False
+USE_STRXFRM = detect_strxfrm()
 
 PRIORITY_CHOICES = (
     (60, gettext_lazy("Very high")),
@@ -53,26 +85,6 @@ PRIORITY_CHOICES = (
 CJK_PATTERN = re.compile(
     r"([\u1100-\u11ff\u2e80-\u2fdf\u2ff0-\u9fff\ua960-\ua97f\uac00-\ud7ff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef\U0001aff0-\U0001b16f\U0001f200-\U0001f2ff\U00020000-\U0003FFFF]+)"
 )
-
-if platform.system() == "Darwin" and platform.mac_ver()[0].split(".", 1)[0] == "15":
-    # Avoid triggering strxfrm on macOS 15 where it either crashes with OSError
-    # or causes Python segmentation fault.
-    USE_STRXFRM = False
-elif locale.strxfrm("a") == "a":
-    # Initialize to sane Unicode locales for strxfrm
-    try:
-        locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
-    except locale.Error:
-        USE_STRXFRM = False
-    else:
-        try:
-            locale.strxfrm("zkouška")
-        except OSError:
-            # Crashes on macOS 15, see
-            # https://github.com/python/cpython/issues/130567
-            USE_STRXFRM = False
-        else:
-            USE_STRXFRM = True
 
 
 def is_plural(text: str) -> bool:
@@ -363,10 +375,18 @@ def check_upload_method_permissions(
     user: User, translation: Translation, method: str
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
+    from weblate.formats.base import BilingualUpdateMixin
+
     if method == "source":
         if not translation.is_source:
             return Denied(
                 gettext("Source upload is only supported on the source language.")
+            )
+        if not issubclass(translation.component.file_format_cls, BilingualUpdateMixin):
+            return Denied(
+                gettext(
+                    "Update source strings upload is not supported with this format."
+                )
             )
         return user.has_perm("upload.perform", translation)
     if method == "add":

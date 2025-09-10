@@ -204,6 +204,11 @@ Whether to automatically remove outdated and obsolete entries from translation m
 
    This does not affect manually uploaded memory entries.
 
+.. seealso::
+
+   * :ref:`memory-status`
+   * :ref:`autoclean-tm`
+
 .. _project-access_control:
 
 Access control
