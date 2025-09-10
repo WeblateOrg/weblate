@@ -4,6 +4,8 @@
 
 """Test for ACL management."""
 
+from typing import TYPE_CHECKING, cast
+
 from django.conf import settings
 from django.core import mail
 from django.test.utils import override_settings
@@ -15,6 +17,9 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.utils.pii import mask_email
+
+if TYPE_CHECKING:
+    from weblate.accounts.models import AuditLog
 
 
 class ACLTest(FixtureTestCase, RegistrationTestMixin):
@@ -208,6 +213,20 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Verify user was added
         response = self.client.get(self.access_url)
         self.assertContains(response, "example-username")
+
+        user = User.objects.get(username="example-username")
+
+        # Inspect audit log
+        audit: AuditLog | None = None
+        for current in user.auditlog_set.filter(activity="team-add"):
+            if current.params["team"] == "Administration":
+                audit = current
+                break
+
+        self.assertIsNotNone(
+            audit, "Audit log entry for adding to the Administration team not found"
+        )
+        self.assertEqual(cast("AuditLog", audit).params["username"], self.user.username)
 
     def remove_user(self) -> None:
         # Remove user

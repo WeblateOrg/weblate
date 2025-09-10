@@ -20,7 +20,7 @@ from weblate.auth.models import (
     User,
 )
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
-from weblate.trans.util import redirect_next
+from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
 from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
@@ -156,6 +156,15 @@ class InvitationView(DetailView):
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = self.get_object()
+        if request.user.is_authenticated and self.object.user != request.user:
+            # Invitation not for this user (either is for email and user is None or different user)
+            messages.error(
+                request,
+                gettext(
+                    "This invitation can be accepted only by the e-mail address chosen by the inviter; it can't be used by your account."
+                ),
+            )
+            return redirect_param("profile", "#account")
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)

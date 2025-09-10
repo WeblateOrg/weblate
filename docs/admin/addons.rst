@@ -845,7 +845,7 @@ Update PO files to match POT (msgmerge)
 
 .. versionchanged:: 5.13
 
-   :guilabel: Settings configuration has been moved to :ref:`file_format_params`.
+   :guilabel:`Settings` configuration has been moved to :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.gettext.msgmerge``
 :Configuration: `This add-on has no configuration.`

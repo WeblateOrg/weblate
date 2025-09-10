@@ -922,17 +922,30 @@ class User(AbstractBaseUser):
             self.get_visible_name(), address or self.profile.get_commit_email()
         )
 
-    def add_team(self, request: AuthenticatedHttpRequest | None, team: Group) -> None:
+    def add_team(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        team: Group,
+        *,
+        user: User | None = None,
+    ) -> None:
         from weblate.accounts.models import AuditLog
 
         self.groups.add(team)
+
+        username: str | None
+        if user is not None:
+            username = user.username
+        elif request is not None:
+            username = request.user.username
+        else:
+            username = None
+
         AuditLog.objects.create(
             user=self,
             request=request if request is not None and request.user == self else None,
             activity="team-add",
-            username=request.user.username
-            if request is not None and request.user
-            else None,
+            username=username,
             team=team.name,
         )
 
@@ -1249,7 +1262,7 @@ class Invitation(models.Model):
             username=self.author.username,
         )
 
-        user.add_team(request, self.group)
+        user.add_team(request, self.group, user=self.author)
 
         self.delete()
 
