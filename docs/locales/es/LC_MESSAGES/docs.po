@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-08 18:02+0000\n"
+"PO-Revision-Date: 2025-09-09 17:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -13946,6 +13946,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
+"Cada contenedor de Weblate tiene un rol definido usando la variable de "
+"entorno :envvar:`WEBLATE_SERVICE`. Seguir atentamente la documentación, ya "
+"que algunos de los servicios deberían ejecutarse solo una vez en el clúster, "
+"y el orden de los servicios también es importante."
 
 #: ../../admin/install/docker.rst:422
 msgid ""
@@ -13953,16 +13957,21 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Puede encontrar una configuración de ejemplo en el repositorio ``docker-"
+"compose`` como `docker-compose-split.yml <https://github.com/WeblateOrg/"
+"docker-compose/blob/main/docker-compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:429
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Variables de entorno de Docker"
 
 #: ../../admin/install/docker.rst:431
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
+"Muchas de las :ref:`config` de Weblate se pueden configurar en el contenedor "
+"Docker utilizando las variables de entorno que se describen a continuación."
 
 #: ../../admin/install/docker.rst:434
 msgid ""
@@ -14023,21 +14032,26 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:496
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "Para un registro más silencioso, use ``ERROR`` o ``WARNING``."
 
 #: ../../admin/install/docker.rst:500
 msgid "Configures the logging of the database queries verbosity."
 msgstr ""
+"Configura el registro de la verbosidad de las consultas de la base de datos."
 
 #: ../../admin/install/docker.rst:506
 msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Configura el registro remoto mediante la conexión GELF TCP. Se puede "
+"utilizar para integrarse con Graylog."
 
 #: ../../admin/install/docker.rst:512
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Use un puerto personalizado para :envvar:`WEBLATE_LOG_GELF_HOST`, valor "
+"predeterminado 12201."
 
 #: ../../admin/install/docker.rst:516
 msgid "Changes the site-title shown in the header of all pages."
@@ -14051,7 +14065,7 @@ msgstr "Configura el dominio del sitio. Este parámetro es obligatorio."
 
 #: ../../admin/install/docker.rst:522
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Incluir el puerto si se usa uno no estándar."
 
 #: ../../admin/install/docker.rst:539
 msgid ""
@@ -14059,6 +14073,9 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"Configura el nombre y el correo electrónico del administrador del sitio. Se "
+"usa tanto para configuración :setting:`ADMINS` y creación de un usuario "
+"`admin` (ver :envvar:`WEBLATE_ADMIN_PASSWORD` para más información)."
 
 #: ../../admin/install/docker.rst:559
 msgid "Sets the password for the `admin` user."
@@ -14122,10 +14139,8 @@ msgid "Configures the address for outgoing e-mails."
 msgstr "Configura la dirección de los correos electrónicos salientes."
 
 #: ../../admin/install/docker.rst:615
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`ADMINS_CONTACT`."
-msgstr "Configura :setting:`STATUS_URL`."
+msgstr "Configurar :setting:`ADMINS_CONTACT`."
 
 #: ../../admin/install/docker.rst:619
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."

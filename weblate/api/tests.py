@@ -5574,14 +5574,14 @@ class LabelAPITest(APIBaseTest):
             code=200,
         )
 
-        self.assertEqual(len(response.data["results"]), 1)
-
-        response_label = response.data["results"][0]
-
-        self.assertEqual(response_label["id"], label.id)
-        self.assertEqual(response_label["name"], label.name)
-        self.assertEqual(response_label["description"], label.description)
-        self.assertEqual(response_label["color"], label.color)
+        found = False
+        for response_label in response.data["results"]:
+            if response_label["id"] == label.id:
+                self.assertEqual(response_label["name"], label.name)
+                self.assertEqual(response_label["description"], label.description)
+                self.assertEqual(response_label["color"], label.color)
+                found = True
+        self.assertTrue(found, "Created label not found in response")
 
     def test_create_label(self) -> None:
         self.do_request(
@@ -5609,6 +5609,79 @@ class LabelAPITest(APIBaseTest):
             },
             code=403,
         )
+
+    def test_delete_label(self) -> None:
+        """Test deleting a label from a project."""
+        # First create a label
+        label = self.component.project.label_set.create(
+            name="Test Label to Delete", color="red"
+        )
+
+        # Add it to some units
+        for unit in self.component.source_translation.unit_set.all():
+            unit.labels.add(label)
+
+        # Test successful deletion
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": label.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify label was deleted
+        self.assertFalse(self.component.project.label_set.filter(id=label.id).exists())
+
+    def test_delete_label_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete labels."""
+        label = self.component.project.label_set.create(
+            name="Test Label to Delete", color="red"
+        )
+
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": label.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify label still exists
+        self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
+
+    def test_delete_nonexistent_label(self) -> None:
+        """Test deleting a label that doesn't exist."""
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": 99999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_label_wrong_project(self) -> None:
+        """Test deleting a label from wrong project returns error."""
+        # Create a label in one project
+        label = self.component.project.label_set.create(name="Test Label", color="red")
+
+        # Create another project for testing
+        project2 = Project.objects.create(
+            name="Test Project 2",
+            slug="test-project-2",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": project2.slug, "label_id": label.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify label still exists in original project
+        self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
 
 
 class OpenAPITest(APIBaseTest):

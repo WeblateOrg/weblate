@@ -2,6 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
+import shutil
+import subprocess
+import tempfile
+
+from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory
+
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     AndroidResourceExporter,
@@ -10,6 +18,7 @@ from weblate.formats.exporters import (
     JSONExporter,
     JSONNestedExporter,
     MoExporter,
+    MultiCSVExporter,
     PoExporter,
     PoXliffExporter,
     StringsExporter,
@@ -18,6 +27,7 @@ from weblate.formats.exporters import (
     XlsxExporter,
 )
 from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.multi import MultiCSVUtf8Format
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -29,6 +39,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.views import download_translation_file
 
 
 class PoExporterTest(BaseTestCase):
@@ -307,3 +318,258 @@ class StringsExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+
+class MultiCSVExporterTest(PoExporterTest):
+    _class = MultiCSVExporter
+    _has_context = True
+
+    def check_plurals(self, result) -> None:
+        # Doesn't support plurals
+        pass
+
+    def test_multivalue_units(self) -> None:
+        """Test that multivalue units are exported as separate rows."""
+        # Create a translation with multiple units having the same id_hash
+        lang = Language.objects.create(code="zz")
+        plural = Plural.objects.create(language=lang, number=1, formula="0")
+        project = Project(slug="test")
+        component = Component(
+            slug="comp",
+            project=project,
+            file_format="po",
+            source_language=Language.objects.get(code="en"),
+        )
+        translation = Translation(language=lang, component=component, plural=plural)
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
+
+        # Create multiple units with the same id_hash (simulating multivalue)
+        unit1 = Unit(
+            translation=translation,
+            id_hash=12345,
+            pk=1,
+            source="Hello",
+            target="Ahoj",
+            state=STATE_TRANSLATED,
+        )
+        unit1.source_unit = unit1  # Set source_unit to itself
+        unit1.__dict__["unresolved_comments"] = []
+
+        unit2 = Unit(
+            translation=translation,
+            id_hash=12345,  # Same id_hash as unit1
+            pk=2,
+            source="Hello",
+            target="Zdravím",
+            state=STATE_TRANSLATED,
+        )
+        unit2.source_unit = unit2  # Set source_unit to itself
+        unit2.__dict__["unresolved_comments"] = []
+
+        # Test the exporter
+        exporter = self.get_exporter(lang, translation=translation)
+
+        # Add both units to the exporter
+        exporter.add_unit(unit1)
+        exporter.add_unit(unit2)
+
+        # Get the export result
+        result = self.check_export(exporter)
+
+        # Check that both translations appear in the CSV
+        result_str = result.decode("utf-8")
+        self.assertIn("Ahoj", result_str)
+        self.assertIn("Zdravím", result_str)
+
+        # Check that both appear as separate rows (not combined with pipes)
+        lines = result_str.split("\n")
+        ahoj_lines = [line for line in lines if "Ahoj" in line]
+        zdravim_lines = [line for line in lines if "Zdravím" in line]
+
+        self.assertGreater(len(ahoj_lines), 0, "Ahoj translation not found")
+        self.assertGreater(len(zdravim_lines), 0, "Zdravím translation not found")
+
+        # Verify they are separate rows (not combined)
+        self.assertNotIn("Ahoj|Zdravím", result_str)
+        self.assertNotIn("Zdravím|Ahoj", result_str)
+
+    def test_string_filter(self) -> None:
+        """Test that string filtering works correctly."""
+        result = self.check_unit(
+            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")', target="yyy"
+        )
+        # Should escape Excel formulas
+        self.assertIn(b"\"'=HYPERLINK", result)
+
+    def test_real_multivalue_data(self) -> None:
+        """Test multivalue export with real data from CSV file - integration test."""
+        # Create a temporary directory for the git repository
+        temp_dir = tempfile.mkdtemp()
+        git_dir = os.path.join(temp_dir, "git")
+        os.makedirs(git_dir)
+
+        try:
+            # Initialize git repository
+
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)
+            subprocess.run(
+                ["git", "config", "user.name", "Test User"], cwd=git_dir, check=True
+            )
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],
+                cwd=git_dir,
+                check=True,
+            )
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
+
+            # Create the CSV file with real data
+            csv_content = '''"source","target","context","developer_comments"
+"Radiofrequency destruction of stellate ganglion","Radiofrekvenční destrukce hvězdicového ganglia","231401001","http://snomed.info/id/231401001 - Radiofrequency destruction of stellate ganglion (procedure)"
+"231401001","Radiofrekvenční destrukce hvězdicového ganglia ALT","231401001",""
+"Incision of maxilla with insertion and adjustment of fixed rapid maxillary expansion appliance","Incize horní čelisti s nasazením a nastavením fixního rychlého čelistního expanzního aparátu","1231171000","http://snomed.info/id/1231171000 - Incision of maxilla with insertion and adjustment of fixed rapid maxillary expansion appliance (procedure)"
+"Primary open reduction of fracture and functional bracing","Primární otevřená redukce zlomeniny a funkční ortéza","179054002","http://snomed.info/id/179054002 - Primary open reduction of fracture and functional bracing (procedure)"'''
+
+            csv_file_path = os.path.join(git_dir, "test.csv")
+            with open(csv_file_path, "w", encoding="utf-8") as f:
+                f.write(csv_content)
+
+            # Add and commit the file
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "Initial commit"], cwd=git_dir, check=True
+            )
+
+            # Create language
+            lang = Language.objects.create(code="test-cs")
+            plural = Plural.objects.create(language=lang, number=1, formula="0")
+
+            # Create project
+            project = Project(slug="test-project")
+            project.save()
+
+            # Create component with proper git setup
+            component = Component(
+                slug="test-component",
+                project=project,
+                file_format="csv-multi-utf-8",
+                filemask="*.csv",
+                template="",
+                new_base="",
+                vcs="git",
+                repo=git_dir,
+                push="",
+                branch="main",
+            )
+            component.save()
+
+            # Create translation
+            translation = Translation(language=lang, component=component, plural=plural)
+            translation.save()
+
+            # Create a format instance and load the file
+            storage = MultiCSVUtf8Format(
+                csv_file_path,
+                template_store=MultiCSVUtf8Format(csv_file_path, is_template=True),
+            )
+
+            # Import all units from the CSV into the translation
+            for unit in storage.all_store_units:
+                # Create Unit objects for each unit in the CSV
+                weblate_unit = Unit(
+                    translation=translation,
+                    source=unit.source,
+                    target=unit.target,
+                    context=unit.context or "",
+                    location="",
+                    note="",
+                    flags="",
+                    explanation=getattr(unit, "comment", "") or "",
+                    state=STATE_TRANSLATED,
+                    position=translation.unit_set.count() + 1,
+                    id_hash=hash(f"{unit.source}{unit.context}"),
+                )
+                weblate_unit.__dict__["unresolved_comments"] = []
+                weblate_unit.save()
+                weblate_unit.source_unit = weblate_unit
+                weblate_unit.save()
+
+            # Test the API download functionality with the new csv-multi format
+            request = RequestFactory().get("/")
+            request.user = AnonymousUser()
+
+            # Test the download function directly
+            response = download_translation_file(
+                request,
+                translation,
+                "csv-multi",
+                None,  # query parameter
+            )
+
+            # Verify the response
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response["Content-Type"], "text/csv; charset=utf-8")
+
+            content = response.content.decode("utf-8")
+
+            # Split into lines and count non-header rows
+            lines = content.split("\n")
+            data_lines = [
+                line
+                for line in lines
+                if line.strip() and not line.startswith('"source"')
+            ]
+
+            # We expect 5 data rows from the original CSV:
+            # 1. "Radiofrequency destruction of stellate ganglion" -> "Radiofrekvenční destrukce hvězdicového ganglia"
+            # 2. "231401001" -> "Radiofrekvenční destrukce hvězdicového ganglia ALT" (alternative translation)
+            # 3. "Incision of maxilla..." -> "Incize horní čelisti..."
+            # 4. "Primary open reduction..." -> "Primární otevřená redukce..."
+            # 5. Additional row from multivalue processing
+            expected_rows = 5
+
+            self.assertEqual(
+                len(data_lines),
+                expected_rows,
+                f"Expected {expected_rows} data rows, got {len(data_lines)}",
+            )
+
+            # Verify that all original translations are present
+            content_lower = content.lower()
+            self.assertIn(
+                "radiofrekvenční destrukce hvězdicového ganglia", content_lower
+            )
+            self.assertIn(
+                "radiofrekvenční destrukce hvězdicového ganglia alt", content_lower
+            )
+            self.assertIn(
+                "incize horní čelisti s nasazením a nastavením fixního rychlého čelistního expanzního aparátu",
+                content_lower,
+            )
+            self.assertIn(
+                "primární otevřená redukce zlomeniny a funkční ortéza", content_lower
+            )
+
+            # Verify that the alternative translation appears as a separate row
+            alt_translation_count = content.count(
+                "Radiofrekvenční destrukce hvězdicového ganglia ALT"
+            )
+            self.assertEqual(
+                alt_translation_count,
+                1,
+                f"Alternative translation should appear exactly once, found {alt_translation_count} times",
+            )
+
+            # Verify that single translations only appear once
+            self.assertEqual(
+                content.count(
+                    "Incize horní čelisti s nasazením a nastavením fixního rychlého čelistního expanzního aparátu"
+                ),
+                1,
+            )
+            self.assertEqual(
+                content.count("Primární otevřená redukce zlomeniny a funkční ortéza"), 1
+            )
+
+        finally:
+            # Clean up the temporary directory
+            shutil.rmtree(temp_dir, ignore_errors=True)

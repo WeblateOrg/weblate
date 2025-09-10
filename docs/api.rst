@@ -1261,6 +1261,17 @@ Projects
     :<json string name: name of the label
     :<json string color: color of the label
 
+.. http:delete:: /api/projects/(string:project)/labels/(int:label_id)/
+
+   .. versionadded:: 5.14
+
+    Deletes a label from a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param label_id: ID of the label to delete
+    :type label_id: integer
+
 .. http:get:: /api/projects/(string:project)/credits/
 
     Returns contributor credits for a project.

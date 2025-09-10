@@ -26,7 +26,7 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
-from weblate.trans.util import xliff_string_to_rich
+from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
 from .base import BaseExporter
@@ -34,6 +34,8 @@ from .base import BaseExporter
 if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.lisa import LISAfile
+
+    from weblate.trans.models import Translation
 
 # Map to remove control characters except newlines and tabs
 # Based on lxml - src/lxml/apihelpers.pxi _is_valid_xml_utf8
@@ -211,7 +213,7 @@ class MoExporter(PoExporter):
         self.storage.addunit(output)
 
     @staticmethod
-    def supports(translation):
+    def supports(translation: Translation) -> bool:
         return translation.component.file_format in {"po", "po-mono"}
 
 
@@ -249,6 +251,73 @@ class CSVExporter(CVSBaseExporter):
         return text
 
 
+class MultiCSVExporter(CVSBaseExporter):
+    name = "csv-multi"
+    content_type = "text/csv"
+    extension = "csv"
+    verbose = gettext_lazy("Multivalue CSV")
+
+    @staticmethod
+    def supports(translation: Translation) -> bool:
+        return translation.component.file_format_cls.has_multiple_strings
+
+    def string_filter(self, text):
+        """
+        Avoid Excel interpreting text as formula.
+
+        This is really bad idea, implemented in Excel, as this change leads to
+        displaying additional ' in all other tools, but this seems to be what most
+        people have gotten used to. Hopefully these characters are not widely used at
+        first position of translatable strings, so that harm is reduced.
+
+        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
+        """
+        if text and text[0] in PROHIBITED_INITIAL_CHARS:
+            return "'{}'".format(text.replace("|", "\\|"))
+        return text
+
+    def add_units(self, units):
+        # Override add_units to handle multivalue units by adding each translation
+        # as a separate row in the CSV export.
+
+        for unit in units:
+            if not unit.target:
+                continue
+
+            # Split the target into plural forms
+            targets = split_plural(unit.target)
+
+            if len(targets) > 1:
+                # Multiple translations for this unit - add each one separately
+                for target in targets:
+                    if target.strip():  # Only add non-empty targets
+                        # Create a temporary unit with this specific target
+                        temp_unit = type(unit)(
+                            translation=unit.translation,
+                            source=unit.source,
+                            target=target,
+                            context=unit.context,
+                            location=unit.location,
+                            note=unit.note,
+                            flags=unit.flags,
+                            explanation=unit.explanation,
+                            state=unit.state,
+                            position=unit.position,
+                            id_hash=unit.id_hash,
+                        )
+                        # Set source_unit to the original unit's source_unit to avoid None issues
+                        temp_unit.source_unit = unit.source_unit
+                        # Set unresolved_comments to empty list to avoid query issues
+                        temp_unit.__dict__["unresolved_comments"] = []
+                        # Set suggestions to empty list to avoid database query issues
+                        temp_unit.__dict__["suggestions"] = []
+
+                        self.add_unit(temp_unit)
+            else:
+                # Single translation - add normally
+                self.add_unit(unit)
+
+
 class XlsxExporter(XMLFilterMixin, CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -264,7 +333,7 @@ class MonolingualExporter(BaseExporter):
     """Base class for monolingual exports."""
 
     @staticmethod
-    def supports(translation):
+    def supports(translation: Translation) -> bool:
         return translation.component.has_template()
 
     def build_unit(self, unit):
