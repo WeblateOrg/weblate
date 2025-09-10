@@ -7,6 +7,10 @@ Weblate 5.13.3
 
 .. rubric:: Improvements
 
+* :ref:`date-search`.
+* Last changed loookup in :ref:`search-strings`.
+* Text on the registration page informs about possible use of user’s data in more detail.
+
 .. rubric:: Bug fixes
 
 * Plurals and :ref:`file_format_params` handling on file upload.
