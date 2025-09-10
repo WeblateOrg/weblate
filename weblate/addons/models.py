@@ -24,6 +24,7 @@ from weblate.trans.signals import (
     change_bulk_create,
     component_post_update,
     translation_post_add,
+    unit_post_sync,
     unit_pre_create,
     vcs_post_commit,
     vcs_post_push,
@@ -158,18 +159,28 @@ class Addon(models.Model):
         self.event_set.exclude(event__in=events).delete()
 
     @cached_property
-    def addon_class(self):
+    def addon_class(self) -> type[BaseAddon]:
         return ADDONS[self.name]
 
     @cached_property
-    def addon(self):
+    def addon(self) -> BaseAddon:
         return self.addon_class(self)
+
+    @property
+    def is_valid(self) -> bool:
+        return self.name in ADDONS
+
+    @property
+    def addon_name(self) -> str:
+        if not self.is_valid:
+            return self.name
+        return self.addon.name
 
     def delete(self, using=None, keep_parents=False):
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE)
         # Delete any addon alerts
-        if self.addon.alert:
+        if self.is_valid and self.addon.alert:
             if self.component:
                 self.component.delete_alert(self.addon.alert)
             elif self.project:
@@ -184,7 +195,8 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
         # Trigger post uninstall action
-        self.addon.post_uninstall()
+        if self.is_valid:
+            self.addon.post_uninstall()
         return result
 
     def disable(self) -> None:
@@ -245,6 +257,7 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.TargetEditAddon",
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
+        "weblate.addons.flags.TargetRepoUpdateAddon",
         "weblate.addons.generate.GenerateFileAddon",
         "weblate.addons.generate.PseudolocaleAddon",
         "weblate.addons.generate.PrefillAddon",
@@ -584,6 +597,16 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
     if filtered:
         addon_change.delay_on_commit(filtered)
+
+
+@receiver(unit_post_sync)
+def unit_post_sync_handler(sender, unit: Unit, updated_attr: str, **kwargs) -> None:
+    handle_addon_event(
+        AddonEvent.EVENT_UNIT_POST_SYNC,
+        "unit_post_sync",
+        (unit, updated_attr),
+        translation=unit.translation,
+    )
 
 
 class AddonActivityLog(models.Model):

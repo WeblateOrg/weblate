@@ -43,7 +43,6 @@ class WeblateConf(AppConf):
         "weblate.machinery.yandexv2.YandexV2Translation",
         "weblate.machinery.saptranslationhub.SAPTranslationHub",
         "weblate.machinery.youdao.YoudaoTranslation",
-        "weblate.machinery.ibm.IBMTranslation",
         "weblate.machinery.systran.SystranTranslation",
         "weblate.machinery.openai.OpenAITranslation",
         "weblate.machinery.openai.AzureOpenAITranslation",

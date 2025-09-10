@@ -1878,28 +1878,37 @@ class Differ:
                 and pointer > 0
                 and diffs[pointer - 1][0] == self.DIFF_EQUAL
             ):
-                # Merge previous character to current diff
-                previous_char = diffs[pointer - 1][1][-1]
+                # Merge previous characters up to anything else than non spacing mark to current diff
+                previous_block = diffs[pointer - 1][1]
+                merged = 1
+                while (
+                    merged < len(previous_block)
+                    and previous_block[-merged] in COMPOSITING_CHARS
+                ):
+                    merged += 1
+
+                previous_chars = previous_block[-merged:]
+
                 current_operation = diffs[pointer][0]
                 diffs[pointer] = (
                     current_operation,
-                    f"{previous_char}{diffs[pointer][1]}",
+                    f"{previous_chars}{diffs[pointer][1]}",
                 )
                 new_operation = (
                     self.DIFF_DELETE
                     if current_operation == self.DIFF_INSERT
                     else self.DIFF_INSERT
                 )
-                if len(diffs[pointer - 1][1]) == 1:
-                    diffs[pointer - 1] = (new_operation, previous_char)
+                if len(previous_block) == merged:
+                    diffs[pointer - 1] = (new_operation, previous_chars)
                 else:
                     # Remove extracted char
                     diffs[pointer - 1] = (
                         diffs[pointer - 1][0],
-                        diffs[pointer - 1][1][:-1],
+                        previous_block[:-merged],
                     )
                     # Build new diff entry
-                    new_diff = (new_operation, previous_char)
+                    new_diff = (new_operation, previous_chars)
                     # Extend diff list
                     diffs.insert(pointer, new_diff)
                     pointer += 1

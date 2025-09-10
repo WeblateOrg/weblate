@@ -9,7 +9,7 @@ from django.db import migrations
 from weblate.trans.filter import FILTERS
 
 
-def update_autotranslate_filter_type(apps, schema_editor):
+def update_autotranslate_filter_type(apps, schema_editor) -> None:
     """
     Update filter_type to use search queries for autotranslate addons.
 

@@ -382,7 +382,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
-    def test_no_eligible_components(self):
+    def test_no_eligible_components(self) -> None:
         self.project.component_set.update(new_lang="none")
         response = self.client.get(self.url, follow=True)
         self.assertRedirects(response, self.project.get_absolute_url())
@@ -406,13 +406,13 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         )
         self.assertIn("form", response.context)
 
-    def test_permission(self):
+    def test_permission(self) -> None:
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save(update_fields=["access_control"])
         response = self.client.get(self.url, follow=True)
         self.assertEqual(response.status_code, 403)
 
-    def test_existing_language_excluded(self):
+    def test_existing_language_excluded(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 
@@ -601,7 +601,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "TestCL")
         self.assertContains(response, self.component.name)
 
-    def test_view_category(self):
+    def test_view_category(self) -> None:
         category = self.create_category(self.project)
         cat_component = self.create_po(
             project=self.project, category=category, name="Category Component"

@@ -50,7 +50,6 @@ from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
-from weblate.machinery.ibm import IBMTranslation
 from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -234,7 +233,8 @@ LIBRETRANSLATE_TRANS_ERROR_RESPONSE = {
 LIBRETRANSLATE_LANG_RESPONSE = [
     {"code": "en", "name": "English"},
     {"code": "ar", "name": "Arabic"},
-    {"code": "zh", "name": "Chinese"},
+    {"code": "zh-Hant", "name": "Chinese (Traditional)"},
+    {"code": "zh-Hans", "name": "Chinese (Simplified)"},
     {"code": "fr", "name": "French"},
     {"code": "de", "name": "German"},
     {"code": "hi", "name": "Hindi"},
@@ -307,7 +307,13 @@ class BaseMachineTranslationTest(TestCase):
             )
 
     def assert_translate(
-        self, lang, word, expected_len, machine=None, cache=False, unit_args=None
+        self,
+        lang: str,
+        word: str,
+        expected_len: int,
+        machine: BatchMachineTranslation | None = None,
+        cache: bool = False,
+        unit_args=None,
     ):
         if unit_args is None:
             unit_args = {}
@@ -315,6 +321,8 @@ class BaseMachineTranslationTest(TestCase):
             machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
+        if expected_len:
+            self.assertGreater(len(translation), 0)
         for items in translation:
             self.assertEqual(len(items), expected_len)
             self.assertIsInstance(items, list)
@@ -2100,6 +2108,18 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_chinese(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_response()
+        self.assert_translate(
+            "zh_Hant", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assert_translate(
+            "zh_Hans", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+
+    @responses.activate
     def test_cache(self) -> None:
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
@@ -2426,48 +2446,6 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
         )
         patcher.start()
         self.addCleanup(patcher.stop)
-
-
-class IBMTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS = IBMTranslation
-    EXPECTED_LEN = 1
-    ENGLISH = "en"
-    SUPPORTED = "zh-TW"
-    CONFIGURATION = {
-        "url": "https://api.region.language-translator.watson.cloud.ibm.com/"
-        "instances/id",
-        "key": "x",
-    }
-
-    def mock_empty(self) -> NoReturn:
-        self.skipTest("Not tested")
-
-    def mock_error(self) -> NoReturn:
-        self.skipTest("Not tested")
-
-    def mock_response(self) -> None:
-        responses.add(
-            responses.GET,
-            "https://api.region.language-translator.watson.cloud.ibm.com/"
-            "instances/id/v3/languages?version=2018-05-01",
-            json={
-                "languages": [
-                    {"language": "en"},
-                    {"language": "zh-TW"},
-                    {"language": "de"},
-                ]
-            },
-        )
-        responses.add(
-            responses.POST,
-            "https://api.region.language-translator.watson.cloud.ibm.com/"
-            "instances/id/v3/translate?version=2018-05-01",
-            json={
-                "translations": [{"translation": "window"}],
-                "word_count": 1,
-                "character_count": 6,
-            },
-        )
 
 
 class OpenAITranslationTest(BaseMachineTranslationTest):

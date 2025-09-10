@@ -63,7 +63,7 @@ def ssh_file(filename: str) -> Path:
     return data_path("ssh") / filename
 
 
-def is_key_line(key):
+def is_key_line(key: str) -> bool:
     """Check whether this line looks like a valid known_hosts line."""
     if not key:
         return False
@@ -78,7 +78,7 @@ def is_key_line(key):
     )
 
 
-def parse_hosts_line(line):
+def parse_hosts_line(line: str) -> tuple[str, str, str]:
     """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
     digest = hashlib.sha256(b64decode(key)).digest()
@@ -89,7 +89,7 @@ def parse_hosts_line(line):
     return host, keytype, fingerprint
 
 
-def get_host_keys():
+def get_host_keys() -> list[tuple[str, str, str]]:
     """Return list of host keys."""
     try:
         result = []
@@ -324,7 +324,7 @@ class SSHWrapper:
     # - force not using system configuration (to avoid evil things as SendEnv)
 
     @cached_property
-    def digest(self):
+    def digest(self) -> str:
         return calculate_checksum(self.get_content())
 
     @property
@@ -336,7 +336,7 @@ class SSHWrapper:
         """
         return ssh_file(f"bin-{self.digest}")
 
-    def get_content(self, command="ssh"):
+    def get_content(self, command: str = "ssh") -> str:
         return SSH_WRAPPER_TEMPLATE.format(
             command=command,
             known_hosts=ssh_file(KNOWN_HOSTS).as_posix(),
@@ -366,10 +366,13 @@ class SSHWrapper:
                 pass
 
         for command in ("ssh", "scp"):
+            path = find_command(command)
+            if path is None:
+                continue
             filename = self.path / command
 
             if not filename.exists():
-                filename.write_text(self.get_content(find_command(command)))
+                filename.write_text(self.get_content(path))
 
             if not os.access(filename, os.X_OK):
                 filename.chmod(0o755)

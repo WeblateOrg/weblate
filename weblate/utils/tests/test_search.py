@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
 
 from django.db.models import Count, Expression, F, Q
 from django.test import TestCase
+from django.utils.timezone import get_current_timezone
 
 from weblate.auth.models import User
 from weblate.trans.actions import ActionEvents
@@ -232,6 +233,12 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "source_changed:>20190301",
             Q(source_unit__last_updated__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)),
+        )
+
+    def test_last_updated(self) -> None:
+        self.assert_query(
+            "last_changed:>20190301",
+            Q(last_updated__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC)),
         )
 
     def test_bool(self) -> None:
@@ -488,6 +495,38 @@ class UnitQueryParserTest(SearchTestCase):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
+    def test_timestamp_exact_iso(self) -> None:
+        timestamp = datetime.now(tz=timezone(timedelta(hours=3)))
+        self.assert_query(
+            f"changed:{timestamp.isoformat()}",
+            Q(change__timestamp=timestamp)
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+        self.assert_query(
+            f"changed:={timestamp.isoformat()}",
+            Q(change__timestamp__exact=timestamp)
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_timestamp_exact_date(self) -> None:
+        # The microsecond = 5 is relict from the parser, it should be avoided if possible
+        timestamp = datetime(
+            2013, 7, 21, 22, 15, 20, tzinfo=timezone(timedelta(hours=5))
+        )
+        self.assert_query(
+            "changed:='21 July 2013 10:15:20 pm +0500'",
+            Q(change__timestamp__exact=timestamp)
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_timestamp_exact_human(self) -> None:
+        timestamp = datetime(2013, 7, 21, 22, 15, 20, tzinfo=get_current_timezone())
+        self.assert_query(
+            "changed:='21 July year 2013 10:15:20 pm'",
+            Q(change__timestamp__exact=timestamp)
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
     def test_timestamp_interval(self) -> None:
         self.assert_query(
             "changed:2020-03-27",
@@ -495,6 +534,32 @@ class UnitQueryParserTest(SearchTestCase):
                 change__timestamp__range=(
                     datetime(2020, 3, 27, 0, 0, tzinfo=UTC),
                     datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=UTC),
+                )
+            )
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_timestamp_interval_human(self) -> None:
+        today = datetime.now(tz=get_current_timezone())
+        timestamp = today - timedelta(days=20)
+        self.assert_query(
+            "changed:'20 days ago'",
+            Q(
+                change__timestamp__range=(
+                    timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
+                    timestamp.replace(
+                        hour=23, minute=59, second=59, microsecond=999999
+                    ),
+                )
+            )
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+        self.assert_query(
+            "changed:[20_days_ago to today]",
+            Q(
+                change__timestamp__range=(
+                    timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
+                    today.replace(hour=23, minute=59, second=59, microsecond=999999),
                 )
             )
             & Q(change__action__in=Change.ACTIONS_CONTENT),

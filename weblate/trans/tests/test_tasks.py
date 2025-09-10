@@ -7,11 +7,12 @@ from datetime import timedelta
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from weblate.trans.models import Comment, Suggestion
+from weblate.trans.models import Comment, PendingUnitChange, Suggestion
 from weblate.trans.tasks import (
     cleanup_old_comments,
     cleanup_old_suggestions,
     cleanup_suggestions,
+    commit_pending,
     daily_update_checks,
 )
 from weblate.trans.tests.test_views import ViewTestCase
@@ -91,3 +92,31 @@ class CleanupTest(ViewTestCase):
 class TasksTest(ViewTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
+
+    def test_commit_pending(self):
+        self.component.commit_pending_age = 1
+        self.component.save()
+
+        component2 = self.create_ftl(name="Component 2", project=self.project)
+        component2.commit_pending_age = 3
+        component2.save()
+
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        translation2 = component2.translation_set.get(language_code="cs")
+        unit2 = translation2.unit_set.get(source="Hello, ${ name }!")
+        unit2.translate(self.user, "Ahoj ${ name }!\n", STATE_TRANSLATED)
+
+        self.assertEqual(self.component.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 1)
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
+        commit_pending()
+        self.assertEqual(self.component.count_pending_units, 0)
+        self.assertEqual(component2.count_pending_units, 1)
+
+        commit_pending(hours=1)
+        self.assertEqual(component2.count_pending_units, 0)

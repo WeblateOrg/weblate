@@ -1790,7 +1790,7 @@ class Migration(migrations.Migration):
             model_name="change",
             index=models.Index(
                 fields=["language", "action", "timestamp"],
-                name="trans_chang_languag_33816c_idx",
+                name="trans_chang_languag_33816c_idx",  # codespell:ignore
             ),
         ),
         migrations.AddIndex(
@@ -1825,7 +1825,7 @@ class Migration(migrations.Migration):
             model_name="change",
             index=models.Index(
                 fields=["user", "action", "timestamp"],
-                name="trans_chang_user_id_88ba38_idx",
+                name="trans_chang_user_id_88ba38_idx",  # codespell:ignore
             ),
         ),
         migrations.AddIndex(

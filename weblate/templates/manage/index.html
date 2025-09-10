@@ -94,7 +94,8 @@
         <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
         <a href=""
            class="btn btn-danger link-post pull-right"
-           data-href="{% url 'manage-activate' %}">{% translate "Unlink support package" %}</a>
+           data-href="{% url 'manage-activate' %}"
+           data-params='{"unlink":1}'>{% translate "Unlink support package" %}</a>
       {% endif %}
       {% if support.name == 'community' %}
         <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>

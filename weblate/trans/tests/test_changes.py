@@ -104,7 +104,7 @@ class ChangesTest(ViewTestCase):
         )
         self.assertContains(response, "String added in the upload")
 
-    def test_last_changes_display(self):
+    def test_last_changes_display(self) -> None:
         unit_to_delete = self.get_unit("Orangutan has %d banana")
         self.translation.delete_unit(None, unit_to_delete)
         response = self.client.get(reverse("changes"))

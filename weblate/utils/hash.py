@@ -36,16 +36,16 @@ def calculate_hash(*parts: str) -> int:
     return raw_hash(*parts) - 2**63
 
 
-def calculate_checksum(*parts: str):
+def calculate_checksum(*parts: str) -> str:
     """Calculate siphashc checksum for given strings."""
     return format(raw_hash(*parts), "016x")
 
 
-def checksum_to_hash(checksum: str):
+def checksum_to_hash(checksum: str) -> int:
     """Convert hex to id_hash (signed 64-bit int)."""
     return int(checksum, 16) - 2**63
 
 
-def hash_to_checksum(id_hash: int):
+def hash_to_checksum(id_hash: int) -> str:
     """Convert id_hash (signed 64-bit int) to unsigned hex."""
     return format(id_hash + 2**63, "016x")

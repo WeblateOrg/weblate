@@ -109,6 +109,11 @@ real_patterns = [
         name="component-list",
     ),
     path(
+        "component-list/<name:name>/dashboard/",
+        weblate.trans.views.dashboard.component_list_user,
+        name="component-list-dashboard",
+    ),
+    path(
         "browse/<object_path:path>/",
         weblate.trans.views.edit.browse,
         name="browse",
@@ -996,6 +1001,10 @@ if "weblate.legal" in settings.INSTALLED_APPS:
             ),
             path(
                 "security.txt",
+                RedirectView.as_view(url="/.well-known/security.txt", permanent=True),
+            ),
+            path(
+                ".well-known/security.txt",
                 TemplateView.as_view(
                     template_name="security.txt", content_type="text/plain"
                 ),

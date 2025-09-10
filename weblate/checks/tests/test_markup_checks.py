@@ -736,6 +736,24 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_ref_translated(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Available only if :ref:`review workflow <reviews>` is on.",
+                "Kun tilgængelig, hvis :ref:`gennemgå arbejdsgang <reviews>` er slået til.",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Available only if :ref:`review workflow <reviews>` is on.",
+                "Kun tilgængelig, hvis :ref:`gennemgå arbejdsgang <gennemga>` er slået til.",
+                "rst-text",
+            ),
+        )
+
     def test_references_space(self) -> None:
         result = self.do_test(
             True,

@@ -105,6 +105,7 @@ from weblate.trans.models import (
     Change,
     Component,
     ComponentList,
+    Label,
     Project,
     Unit,
 )
@@ -447,7 +448,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             queryset = User.objects.none()
-        elif not user.has_perm("user.edit"):
+        elif not user.has_perm("user.edit") and self.lookup_field not in request.GET:
             queryset = User.objects.filter(pk=user.pk)
         else:
             queryset = self.get_queryset()
@@ -1169,12 +1170,34 @@ class ProjectViewSet(
                     status=HTTP_201_CREATED,
                 )
 
+        # GET request - return all labels for the project
         queryset = obj.label_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
-
         serializer = LabelSerializer(page, many=True, context={"request": request})
-
         return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Delete a label from a project.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("label_id", int, OpenApiParameter.PATH)],
+    )
+    @action(detail=True, methods=["delete"], url_path="labels/(?P<label_id>[0-9]+)")
+    @transaction.atomic
+    def delete_labels(self, request: Request, slug, label_id):
+        obj = self.get_object()
+
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not delete labels")
+
+        try:
+            label = obj.label_set.get(id=label_id)
+        except Label.DoesNotExist as error:
+            msg = f"Label with ID {label_id} was not found in project {obj}"
+            raise Http404(msg) from error
+
+        label.delete()
+
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):

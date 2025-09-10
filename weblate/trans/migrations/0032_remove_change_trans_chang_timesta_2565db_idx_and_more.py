@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveIndex(
             model_name="change",
-            name="trans_chang_languag_33816c_idx",
+            name="trans_chang_languag_33816c_idx",  # codespell:ignore
         ),
         migrations.RemoveIndex(
             model_name="change",
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveIndex(
             model_name="change",
-            name="trans_chang_user_id_88ba38_idx",
+            name="trans_chang_user_id_88ba38_idx",  # codespell:ignore
         ),
         migrations.AddIndex(
             model_name="change",

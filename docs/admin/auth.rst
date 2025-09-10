@@ -557,6 +557,16 @@ configure your IDP to provide them:
    The example above and the Docker image define an IDP called ``weblate``.
    You might need to configure this string as :guilabel:`Relay` in your IDP.
 
+.. note::
+
+   Weblate authentication relies on the ``RelayState`` parameter to be passed
+   through the authentication process. This needs to be configured with some
+   identity providers:
+
+   * `How to Send a Custom RelayState with Okta`_
+
+.. _How to Send a Custom RelayState with Okta: https://support.okta.com/help/s/article/How-to-send-a-custom-relaystate-to-application-through-idp-initiated-authentication-urls
+
 .. seealso::
 
    * :ref:`Configuring SAML in Docker <docker-saml>`

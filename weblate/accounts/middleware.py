@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request
+from django_otp.middleware import OTPMiddleware
 
 from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
@@ -35,8 +36,12 @@ def get_user(request: AuthenticatedHttpRequest):
     return request.weblate_cached_user
 
 
-class AuthenticationMiddleware:
-    """Copy of django.contrib.auth.middleware.AuthenticationMiddleware."""
+class AuthenticationMiddleware(OTPMiddleware):
+    """
+    Copy of django.contrib.auth.middleware.AuthenticationMiddleware.
+
+    It subclasses OTPMiddleware to get access to _verify_user.
+    """
 
     def __init__(self, get_response=None) -> None:
         self.get_response = get_response
@@ -47,6 +52,7 @@ class AuthenticationMiddleware:
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
+        self._verify_user(request, user)
 
         # Get language to use in this request
         if user.is_authenticated and user.profile.language:
@@ -60,7 +66,7 @@ class AuthenticationMiddleware:
 
         # Extend session expiry for authenticated users
         if user.is_authenticated:
-            adjust_session_expiry(request, is_login=False)
+            adjust_session_expiry(request=request, user=user, is_login=False)
 
         # Based on django.middleware.locale.LocaleMiddleware
         activate(language)

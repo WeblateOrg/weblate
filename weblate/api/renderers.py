@@ -23,7 +23,7 @@ class OpenMetricsRenderer(BaseRenderer):
             elif isinstance(value, dict):
                 # Celery queues
                 for queue, stat in value.items():
-                    result.append(f'{key}(queue="{queue}") {stat}')
+                    result.append(f'{key}{{queue="{queue}"}} {stat}')
 
         result.append("# EOF")
         return "\n".join(result)

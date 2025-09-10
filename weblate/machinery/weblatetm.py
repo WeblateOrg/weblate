@@ -55,12 +55,19 @@ class WeblateTranslation(InternalMachineTranslation):
             lookup["source__lower__md5"] = MD5(Lower(Value(text)))
             lookup["source"] = text
 
-        matching_units = base.filter(
-            translation__component__source_language=source_language,
-            translation__language=target_language,
-            state__gte=STATE_TRANSLATED,
-            **lookup,
-        ).prefetch()
+        matching_units = (
+            base.filter(
+                translation__component__source_language=source_language,
+                translation__language=target_language,
+                state__gte=STATE_TRANSLATED,
+                **lookup,
+            )
+            .exclude(
+                # The read-only strings can be possibly blank
+                target__lower__md5=MD5(Lower(Value("")))
+            )
+            .prefetch()
+        )
 
         # We want only close matches here
         adjust_similarity_threshold(0.98)

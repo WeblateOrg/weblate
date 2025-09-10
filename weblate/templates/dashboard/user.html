@@ -33,7 +33,12 @@
     {% endif %}
     {% for componentlist in componentlists %}
       <li {% active_link componentlist.tab_slug %}>
-        <a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a>
+        <a href="#{{ componentlist.tab_slug }}"
+           data-toggle="tab"
+           data-href="{% url 'component-list-dashboard' name=componentlist.slug %}">
+          {{ componentlist.name }}
+          <span class="badge">{{ componentlist.translations|length }}</span>
+        </a>
       </li>
     {% endfor %}
     <li class="dropdown">
@@ -107,7 +112,8 @@
 
     {% for componentlist in componentlists %}
       <div {% active_tab componentlist.tab_slug %}>
-        {% include "snippets/list-objects.html" with objects=componentlist.translations label=_("Translation") name_source="translation" %}
+
+        <p>{% translate "Loading…" %}</p>
       </div>
     {% endfor %}
 

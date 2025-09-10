@@ -29,7 +29,7 @@
         </h4>
         <div class="panel panel-default">
           <div class="panel-body">
-            {% if login_email %}
+            {% if show_login_form %}
               <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 {{ form|crispy }}

@@ -455,7 +455,7 @@ def notify_connect(
             action = "auth-connect"
         else:
             action = "login"
-            adjust_session_expiry(strategy.request)
+            adjust_session_expiry(request=strategy.request, user=user)
         AuditLog.objects.create(
             user,
             strategy.request,
