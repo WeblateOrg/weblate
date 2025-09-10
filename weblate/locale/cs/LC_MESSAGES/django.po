@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-18 07:02+0000\n"
-"Last-Translator: Fjuro <fjuro@alius.cz>\n"
+"PO-Revision-Date: 2025-09-11 12:02+0000\n"
+"Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -530,7 +530,7 @@ msgstr "Zahájeno zkušební období."
 #: weblate/accounts/models.py:269
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr "Odesláno potvrzení na {email}."
+msgstr "Odeslán potvrzovací e-mail na {email}."
 
 #: weblate/accounts/models.py:272
 msgid ""
@@ -600,10 +600,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Přihlášení dvoufaktorovým ověřováním pomocí {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Přihlášení dvoufaktorovým ověřováním pomocí {device}"
+msgstr "Selhalo přihlášení dvoufaktorovým ověřováním pomocí {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -4042,10 +4041,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Formátovací řetězec Vue I18n v překladu neodpovídá zdroji."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Komponenty Automattic"
+msgstr "Formátování komponent Automattic"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -14079,10 +14076,6 @@ msgid "No line wrapping"
 msgstr "Nezalamovat řádky"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -14143,22 +14136,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Zahrnout uzavírací značky pro prázdné značky XML"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Plochý soubor XML"
+msgstr "Název kořenu FlatXML"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Plochý soubor XML"
+msgstr "Název hodnoty FlatXML"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Jméno kategorie"
+msgstr "Název klíče FlatXML"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14695,10 +14682,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Řetězec bude součástí glosáře ve všech jazycích"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Projekt je nyní přístupný pro překládání."
+msgstr "Tuto možnost označte u překladů, které by se neměly používat."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14709,6 +14694,7 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Zaškrtněte tuto možnost, pokud má věta zůstat beze změny v původním jazyce."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
