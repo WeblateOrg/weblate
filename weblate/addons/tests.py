@@ -80,7 +80,7 @@ from .models import ADDONS, Addon, AddonActivityLog
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
-from .tasks import cleanup_addon_activity_log, daily_addons
+from .tasks import addon_change, cleanup_addon_activity_log, daily_addons
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
@@ -1377,6 +1377,44 @@ class AutoTranslateAddonTest(ViewTestCase):
             },
         )
         addon.component_update(self.component)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_auto_change_event(self):
+        component_1 = self.create_po_new_base(name="Component 1", project=self.project)
+        component_1.allow_translation_propagation = False
+        component_1.save()
+        component_2 = self.create_po_new_base(name="Component 2", project=self.project)
+        component_2.allow_translation_propagation = False
+        component_2.save()
+        AutoTranslateAddon.create(
+            project=self.project,
+            configuration={
+                "component": None,
+                "q": "has:comment AND state:<translated",
+                "auto_source": "others",
+                "engines": ["weblate"],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        for component in (component_1, component_2):
+            component.source_translation.add_unit(
+                None, context="", source="one", target=None, author=self.user
+            )
+
+        translation_1 = component_1.translation_set.get(language_code="cs")
+        unit_1 = translation_1.unit_set.get(source="one")
+        unit_1.translate(self.user, "jeden", STATE_TRANSLATED)
+
+        translation_2 = component_2.translation_set.get(language_code="cs")
+        unit_2 = translation_2.unit_set.get(source="one")
+        Comment.objects.create(unit=unit_2, comment="Foo")
+        change = unit_2.change_set.latest("timestamp")
+
+        addon_change.run([change.pk])
+
+        unit_2 = translation_2.unit_set.get(source="one")
+        self.assertEqual(unit_2.target, "jeden")
 
 
 class BulkEditAddonTest(ViewTestCase):
