@@ -30,7 +30,9 @@ class MySQLTimestampAdd(Func):
         self.unit = unit
         super().__init__(interval, timestamp)
 
-    def as_sql(self, compiler, connection, function, template, arg_joiner, **extra_context):
+    def as_sql(
+        self, compiler, connection, function, template, arg_joiner, **extra_context
+    ):
         interval_sql, interval_params = self.source_expressions[0].as_sql(
             compiler, connection, function, template, arg_joiner, **extra_context
         )
