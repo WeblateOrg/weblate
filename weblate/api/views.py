@@ -454,7 +454,8 @@ class UserViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             queryset = User.objects.none()
         elif not user.has_perm("user.edit") and self.lookup_field not in request.GET:
-            queryset = User.objects.filter(pk=user.pk)
+            # Order to avoid warning from the paginator
+            queryset = User.objects.filter(pk=user.pk).order_by("id")
         else:
             queryset = self.get_queryset()
 
