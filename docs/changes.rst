@@ -7,14 +7,15 @@ Weblate 5.13.3
 
 .. rubric:: Improvements
 
-* :ref:`date-search`.
-* Last changed loookup in :ref:`search-strings`.
 * Text on the registration page informs about possible use of user’s data in more detail.
+* Clarified account removal view.
 
 .. rubric:: Bug fixes
 
-* Plurals and :ref:`file_format_params` handling on file upload.
 * Components pagination.
+* Source string location display.
+* Correctly track team adding via invitation in :ref:`audit-log`.
+* :ref:`addon-weblate.consistency.languages` no longer includes shared component languages.
 
 .. rubric:: Compatibility
 
