@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import re
 from collections import Counter, defaultdict
-from re import Pattern
 from typing import TYPE_CHECKING, Literal
 
 from django.utils.functional import SimpleLazyObject
@@ -14,14 +13,16 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import MissingExtraDict, SourceCheck, TargetCheck
+from weblate.checks.base import SourceCheck, TargetCheck
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+    from re import Pattern
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.checks.base import MissingExtraDict
     from weblate.trans.models import Unit
 
     from .models import Check

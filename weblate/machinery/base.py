@@ -33,12 +33,7 @@ from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
 from .types import (
-    DownloadMultipleTranslations,
-    DownloadTranslations,
-    SettingsDict,
     SourceLanguageChoices,
-    TranslationResultDict,
-    UnitMemoryResultDict,
 )
 
 if TYPE_CHECKING:
@@ -49,6 +44,14 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.trans.models.unit import UnitQuerySet
+
+    from .types import (
+        DownloadMultipleTranslations,
+        DownloadTranslations,
+        SettingsDict,
+        TranslationResultDict,
+        UnitMemoryResultDict,
+    )
 
 
 def get_machinery_language(language: Language) -> Language:

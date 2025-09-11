@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 import dateutil.parser
 from appconf import AppConf
@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
     BackupError,
@@ -35,6 +35,9 @@ from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
 from weblate.vcs.ssh import ensure_ssh_key
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class WeblateConf(AppConf):

@@ -15,24 +15,29 @@ from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
 from weblate.machinery.base import (
-    BatchMachineTranslation,
     MachineTranslationError,
-    UnitMemoryResultDict,
 )
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Suggestion, Translation, Unit
+from weblate.trans.models import Component, Suggestion, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
-    StringState,
 )
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.machinery.base import (
+        BatchMachineTranslation,
+        UnitMemoryResultDict,
+    )
+    from weblate.trans.models import Translation
+    from weblate.utils.state import (
+        StringState,
+    )
 
 
 class AutoTranslate:

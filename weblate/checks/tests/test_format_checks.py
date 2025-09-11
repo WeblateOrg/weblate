@@ -6,11 +6,12 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.test import SimpleTestCase
 
 from weblate.checks.format import (
     AutomatticComponentsCheck,
-    BaseFormatCheck,
     CFormatCheck,
     CSharpFormatCheck,
     ESTemplateLiteralsCheck,
@@ -37,6 +38,11 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import join_plural
+
+if TYPE_CHECKING:
+    from weblate.checks.format import (
+        BaseFormatCheck,
+    )
 
 
 class PythonFormatCheckTest(CheckTestCase):

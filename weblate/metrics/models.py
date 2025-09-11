@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import datetime
 from itertools import zip_longest
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from django.core.cache import cache
 from django.db import models, transaction
@@ -28,15 +28,20 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
-from weblate.trans.models.change import Change, ChangeQuerySet
+from weblate.trans.models.change import Change
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import (
-    BaseStats,
     CategoryLanguage,
     GlobalStats,
     ProjectLanguage,
     prefetch_stats,
 )
+
+if TYPE_CHECKING:
+    from weblate.trans.models.change import ChangeQuerySet
+    from weblate.utils.stats import (
+        BaseStats,
+    )
 
 BASIC_KEYS = {
     "all",

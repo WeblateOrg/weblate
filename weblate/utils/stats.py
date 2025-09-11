@@ -16,7 +16,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, F, Model, Q
+from django.db.models import Count, F, Q
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -39,6 +39,8 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
+
+    from django.db.models import Model
 
     from weblate.trans.models import Category, Component, Project
 

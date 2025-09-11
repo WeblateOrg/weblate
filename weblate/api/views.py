@@ -16,7 +16,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -69,7 +69,6 @@ from weblate.api.serializers import (
     MemorySerializer,
     MetricsSerializer,
     MonolingualUnitSerializer,
-    NewUnitSerializer,
     NotificationSerializer,
     ProjectLockSerializer,
     ProjectMachinerySettingsSerializer,
@@ -89,7 +88,7 @@ from weblate.api.serializers import (
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
-from weblate.auth.models import AuthenticatedHttpRequest, Group, Role, User
+from weblate.auth.models import Group, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
@@ -134,7 +133,13 @@ from weblate.utils.views import download_translation_file, zip_download
 from .renderers import FlatJsonRenderer, OpenMetricsRenderer
 
 if TYPE_CHECKING:
+    from django.db.models import Model
     from rest_framework.request import Request
+
+    from weblate.api.serializers import (
+        NewUnitSerializer,
+    )
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 REPO_OPERATIONS = {
     "push": ("vcs.push", "do_push", (), True),

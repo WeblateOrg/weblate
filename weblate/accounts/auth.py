@@ -4,12 +4,17 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 def try_get_user(username, list_all=False):

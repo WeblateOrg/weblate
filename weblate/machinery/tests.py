@@ -39,10 +39,8 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
-    BatchMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
-    SettingsDict,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
@@ -74,6 +72,11 @@ from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
     from requests import PreparedRequest
+
+    from weblate.machinery.base import (
+        BatchMachineTranslation,
+        SettingsDict,
+    )
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 

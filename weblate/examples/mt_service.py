@@ -1,8 +1,15 @@
 """Machine translation example."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import dictionary  # type: ignore[import-not-found]
 
-from weblate.machinery.base import DownloadTranslations, MachineTranslation
+from weblate.machinery.base import MachineTranslation
+
+if TYPE_CHECKING:
+    from weblate.machinery.base import DownloadTranslations
 
 
 class SampleTranslation(MachineTranslation):

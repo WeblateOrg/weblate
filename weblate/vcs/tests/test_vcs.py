@@ -9,7 +9,7 @@ import os.path
 import re
 import shutil
 import tempfile
-from typing import Any, NoReturn
+from typing import TYPE_CHECKING, Any, NoReturn
 from unittest.mock import patch
 
 import responses
@@ -20,7 +20,7 @@ from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.vcs.base import Repository, RepositoryError
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import (
     AzureDevOpsRepository,
     BitbucketCloudRepository,
@@ -36,6 +36,9 @@ from weblate.vcs.git import (
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
+
+if TYPE_CHECKING:
+    from weblate.vcs.base import Repository
 
 
 class AzureDevOpsFakeRepository(AzureDevOpsRepository):

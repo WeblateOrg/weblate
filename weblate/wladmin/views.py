@@ -14,7 +14,7 @@ from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count, QuerySet
+from django.db.models import Count
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -32,9 +32,7 @@ from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
 from weblate.auth.models import (
-    AuthenticatedHttpRequest,
     Group,
-    GroupQuerySet,
     Invitation,
     User,
 )
@@ -54,7 +52,6 @@ from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 from weblate.vcs.ssh import (
-    KeyType,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
@@ -74,8 +71,17 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service, support_status_update
 
 if TYPE_CHECKING:
+    from django.db.models import QuerySet
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
+
+    from weblate.auth.models import (
+        AuthenticatedHttpRequest,
+        GroupQuerySet,
+    )
+    from weblate.vcs.ssh import (
+        KeyType,
+    )
 
 MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),

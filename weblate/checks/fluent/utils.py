@@ -10,9 +10,6 @@ from typing import TYPE_CHECKING
 from django.utils.html import escape, format_html, format_html_join
 from django.utils.safestring import mark_safe
 from translate.storage.fluent import (
-    FluentPart,
-    FluentReference,
-    FluentSelectorBranch,
     FluentUnit,
 )
 
@@ -20,6 +17,11 @@ if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
     from django.utils.safestring import SafeString
+    from translate.storage.fluent import (
+        FluentPart,
+        FluentReference,
+        FluentSelectorBranch,
+    )
 
     from weblate.checks.models import Check as CheckModel
     from weblate.trans.models.unit import Unit as TransUnitModel

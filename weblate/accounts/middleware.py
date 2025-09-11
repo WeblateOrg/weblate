@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import auth
@@ -15,7 +16,10 @@ from django_otp.middleware import OTPMiddleware
 
 from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
-from weblate.auth.models import AuthenticatedHttpRequest, get_anonymous
+from weblate.auth.models import get_anonymous
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 def get_user(request: AuthenticatedHttpRequest):

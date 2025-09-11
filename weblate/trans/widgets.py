@@ -33,7 +33,6 @@ from weblate.utils import messages
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
-    BaseStats,
     GlobalStats,
     ProjectLanguage,
     ProjectLanguageStats,
@@ -45,6 +44,10 @@ from weblate.utils.views import get_percent_color
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
     from django_stubs_ext import StrOrPromise
+
+    from weblate.utils.stats import (
+        BaseStats,
+    )
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
