@@ -134,6 +134,7 @@ from .renderers import FlatJsonRenderer, OpenMetricsRenderer
 
 if TYPE_CHECKING:
     from django.db.models import Model
+    from django.http import HttpResponse
     from rest_framework.request import Request
 
     from weblate.api.serializers import (
@@ -241,24 +242,27 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             raise Http404(msg)
         return super().perform_content_negotiation(request, force)
 
-    def download_file(self, filename, content_type, component=None):
+    def download_file(
+        self, filename: str, content_type: str, component: Component | None = None
+    ) -> HttpResponse:
         """Download file."""
         if os.path.isdir(filename):
-            response = zip_download(filename, [filename])
-            basename = component.slug if component else "weblate"
-            filename = f"{basename}.zip"
-        else:
-            try:
-                response = FileResponse(
-                    open(filename, "rb"),  # noqa: SIM115
-                    content_type=content_type,
-                )
-            except FileNotFoundError as error:
-                msg = "File not found"
-                raise Http404(msg) from error
-            filename = os.path.basename(filename)
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
-        return response
+            return zip_download(
+                filename,
+                [filename],
+                name=component.slug if component else "weblate",
+            )
+        try:
+            open_file = open(filename, "rb")  # noqa: SIM115
+        except FileNotFoundError as error:
+            msg = "File not found"
+            raise Http404(msg) from error
+        return FileResponse(
+            open_file,
+            content_type=content_type,
+            as_attachment=True,
+            filename=os.path.basename(filename),
+        )
 
 
 class WeblateViewSet(DownloadViewSet):

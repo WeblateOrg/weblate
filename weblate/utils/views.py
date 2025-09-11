@@ -41,6 +41,8 @@ from weblate.utils.stats import (
 from weblate.vcs.git import LocalRepository
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from django.db.models import Model
     from django.http import (
         HttpRequest,
@@ -496,7 +498,7 @@ def import_message(
         messages.success(request, message)
 
 
-def iter_files(filenames):
+def iter_files(filenames: list[str]) -> Generator[str]:
     for filename in filenames:
         if os.path.isdir(filename):
             for root, _unused, files in os.walk(filename):
@@ -512,7 +514,7 @@ def zip_download(
     filenames: list[str],
     name: str = "translations",
     extra: dict[str, bytes | str] | None = None,
-):
+) -> HttpResponse:
     response = HttpResponse(content_type="application/zip")
     with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
         for filename in iter_files(filenames):
