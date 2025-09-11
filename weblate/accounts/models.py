@@ -1129,7 +1129,7 @@ class Profile(models.Model):
     @property
     def has_2fa(self) -> bool:
         return any(
-            isinstance(device, TOTPDevice | WebAuthnCredential)
+            isinstance(device, (TOTPDevice, WebAuthnCredential))
             for device in self.second_factors
         )
 

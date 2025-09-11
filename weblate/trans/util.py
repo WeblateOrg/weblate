@@ -109,7 +109,7 @@ def get_string(
         return ""
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
-    if isinstance(text, list | GeneratorType):
+    if isinstance(text, (list, GeneratorType)):
         return join_plural(get_string(str(item)) for item in text)
     if isinstance(text, str):
         # Remove possible surrogates in the string. There doesn't seem to be

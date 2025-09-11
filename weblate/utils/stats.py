@@ -124,7 +124,7 @@ def prefetch_stats(queryset):
     # is returned.
     # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
-    result = objects if isinstance(queryset, chain | GeneratorType) else queryset
+    result = objects if isinstance(queryset, (chain, GeneratorType)) else queryset
 
     # Bail out in case the query is empty
     if not objects:

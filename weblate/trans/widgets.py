@@ -459,7 +459,7 @@ class MultiLanguageWidget(SVGWidget):
         color = self.COLOR_MAP[self.color]
         language_width = 190
         languages: list[BaseStats | ProjectLanguage]
-        if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
+        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
             languages = [self.stats]
         elif isinstance(self.obj, ProjectLanguage):
             languages = [self.obj]
@@ -566,7 +566,7 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             threshold = 0
 
         languages: list[BaseStats | ProjectLanguage]
-        if isinstance(self.stats, ProjectLanguageStats | TranslationStats):
+        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
             languages = [self.stats]
         elif isinstance(self.obj, ProjectLanguage):
             languages = [self.obj]
