@@ -457,6 +457,25 @@ ignore = [
 addopts = "--reuse-db --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
 DJANGO_SETTINGS_MODULE = "weblate.settings_test"
 FAIL_INVALID_TEMPLATE_VARS = true
+filterwarnings = [
+  "error",
+  # Warning in the third-party module
+  "ignore:defusedxml.cElementTree is deprecated, import from defusedxml.ElementTree instead.:DeprecationWarning:openid.oidutil",
+  # TODO: Will be fixed in next PyGobject release.
+  "ignore:GioUnix was imported without specifying a version first:gi.PyGIWarning",
+  # There is no better way to differentiate DATA_DIR for the xdist executed tests
+  "ignore:Implicitly cleaning up <TemporaryDirectory.*/xdist-:ResourceWarning",
+  # There is no way to address this in a backwards compatible way
+  "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
+  # There is no way to address this in a backwards compatible way
+  "ignore:The FORMS_URLFIELD_ASSUME_HTTPS transitional setting:django.utils.deprecation.RemovedInDjango60Warning",
+  # TODO: Selenium code should be migrated
+  'default:set_timeout\(\) in RemoteConnection is deprecated:DeprecationWarning',
+  # Warning in the third-party module
+  'ignore:datetime.datetime.utcnow\(\) is deprecated and scheduled:DeprecationWarning:saml2.utils',
+  # importlib warning on Python 3.11
+  'ignore:DynamicImporter:ImportWarning'
+]
 python_files = ["test_*.py", "tests.py"]
 
 [tool.ruff.format]
