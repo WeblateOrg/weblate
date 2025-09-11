@@ -1324,7 +1324,7 @@ def indicate_alerts(
     project: Project | None = None
     project_language: ProjectLanguage | None = None
 
-    if isinstance(obj, Translation | GhostTranslation):
+    if isinstance(obj, (Translation, GhostTranslation)):
         translation = obj
         component = obj.component
         project = component.project
