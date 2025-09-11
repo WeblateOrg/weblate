@@ -13,6 +13,7 @@ Weblate 5.13.3
 .. rubric:: Bug fixes
 
 * Components pagination.
+* :ref:`projectbackup` with same named components in different categories.
 * Source string location display.
 * Correctly track team adding via invitation in :ref:`audit-log`.
 * :ref:`addon-weblate.consistency.languages` no longer includes shared component languages.
