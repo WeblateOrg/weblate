@@ -693,7 +693,12 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             "username": "test",
             "token": "token",
             "organization": "organization",
-        }
+        },
+        "summanv.visualstudio.com": {
+            "username": "test",
+            "token": "token",
+            "organization": "organization",
+        },
     }
 )
 class VCSAzureDevOpsTest(VCSGitUpstreamTest):
@@ -829,6 +834,16 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_credentials()["url"],
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
+        )
+
+    def test_api_url_visualstudio_com(self) -> None:
+        # HTTPS with PAT
+        self.repo.component.repo = (
+            "https://username:PAT@summanv.visualstudio.com/Lancelot/_git/GoSuite"
+        )
+        self.assertEqual(
+            self.repo.get_credentials()["url"],
+            "https://summanv.visualstudio.com/Lancelot/_apis/git/repositories/GoSuite",
         )
 
     @responses.activate

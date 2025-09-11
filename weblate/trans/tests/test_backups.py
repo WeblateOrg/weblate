@@ -25,6 +25,7 @@ from weblate.trans.backups import ProjectBackup, list_backups
 from weblate.trans.models import (
     Category,
     Comment,
+    Component,
     PendingUnitChange,
     Project,
     Suggestion,
@@ -95,7 +96,7 @@ class BackupsTest(ViewTestCase):
         with ZipFile(backup.filename, "r") as zipfile:
             files = set(zipfile.namelist())
             self.assertIn("weblate-backup.json", files)
-            self.assertIn("components/test.json", files)
+            self.assertIn("components/my-category/test.json", files)
             self.assertIn("components/glossary.json", files)
             self.assertIn("vcs/my-category/test/.git/index", files)
             self.assertIn("vcs/glossary/.git/index", files)
@@ -203,6 +204,39 @@ class BackupsTest(ViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
+
+    def test_create_duplicate(self):
+        def extract_names(qs) -> list[str]:
+            return list(qs.order_by("name").values_list("name", flat=True))
+
+        category = self.project.category_set.create(
+            name="My Category", slug="my-category"
+        )
+        self.create_link_existing(name="Test", slug="test", category=category)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        self.assertTrue(os.path.exists(backup.filename))
+
+        restore = ProjectBackup(backup.filename)
+
+        if not connection.features.can_return_rows_from_bulk_insert:
+            return
+
+        restore.validate()
+
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        self.assertEqual(
+            extract_names(Category.objects.filter(project=self.project)),
+            extract_names(Category.objects.filter(project=restored)),
+        )
+        self.assertEqual(
+            extract_names(Component.objects.filter(project=self.project)),
+            extract_names(Component.objects.filter(project=restored)),
+        )
 
     @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_supported(self) -> None:
