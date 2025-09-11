@@ -144,8 +144,10 @@ def language_consistency(
 
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
-    def daily_callback(addon: Addon, component: Component) -> None:
-        addon.addon.daily(component)
+    def daily_callback(
+        addon: Addon, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
+        addon.addon.daily(component, activity_log_id=activity_log_id)
 
     today = timezone.now()
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY)

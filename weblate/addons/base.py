@@ -232,20 +232,31 @@ class BaseAddon:
             for key, values in cls.compat.items()
         )
 
-    def pre_push(self, component: Component) -> None:
+    def pre_push(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def post_push(self, component: Component) -> None:
+    def post_push(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def pre_update(self, component: Component) -> None:
+    def pre_update(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool
+        self,
+        component: Component,
+        previous_head: str,
+        skip_push: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         """
         Event handler after repository is updated from upstream.
@@ -260,32 +271,53 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def pre_commit(
-        self, translation: Translation, author: str, store_hash: bool
+        self,
+        translation: Translation,
+        author: str,
+        store_hash: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component: Component, store_hash: bool) -> None:
+    def post_commit(
+        self,
+        component: Component,
+        store_hash: bool,
+        *,
+        activity_log_id: int | None = None,
+    ) -> None:
         """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_add(self, translation: Translation) -> None:
+    def post_add(
+        self, translation: Translation, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler after new translation is added."""
         # To be implemented in a subclass
 
-    def unit_pre_create(self, unit: Unit) -> None:
+    def unit_pre_create(
+        self, unit: Unit, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def daily(self, component: Component) -> None:
+    def daily(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler daily."""
         # To be implemented in a subclass
 
-    def component_update(self, component: Component) -> None:
+    def component_update(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler for component update."""
         # To be implemented in a subclass
 
-    def change_event(self, change: Change) -> None:
+    def change_event(
+        self, change: Change, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler for change event."""
         # To be implemented in a subclass
 
@@ -447,7 +479,12 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool
+        self,
+        component: Component,
+        previous_head: str,
+        skip_push: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with component.repository.lock:

@@ -73,7 +73,7 @@ class CDNJSAddon(BaseAddon):
             settings.LOCALIZE_CDN_URL, self.instance.state["uuid"], "weblate.js"
         )
 
-    def post_commit(self, component: Component, store_hash: bool) -> None:
+    def post_commit(self, component: Component, store_hash: bool, **kwargs) -> None:
         # Get list of applicable translations
         threshold = self.instance.configuration["threshold"]
         translations = [
@@ -124,11 +124,13 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component) -> None:
+    def daily(self, component, **kwargs) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
         cdn_parse_html.delay(self.instance.id, component.id)
 
-    def post_update(self, component, previous_head: str, skip_push: bool) -> None:
+    def post_update(
+        self, component, previous_head: str, skip_push: bool, **kwargs
+    ) -> None:
         self.daily(component)

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Literal, overload
+from typing import TYPE_CHECKING, Literal, Protocol, overload
 
 import sentry_sdk
 from appconf import AppConf
@@ -300,12 +300,18 @@ REPO_EVENTS = {
 }
 
 
+class AddonCallbackMethod(Protocol):
+    def __call__(
+        self, addon: Addon, component: Component, *, activity_log_id: int | None = None
+    ) -> None: ...
+
+
 def execute_addon_event(
     addon: Addon,
     component: Component | None,
     scope: Translation | Component | Project | None,
     event: AddonEvent,
-    method: str | Callable[[Addon, Component], None],
+    method: str | AddonCallbackMethod,
     args: tuple | None = None,
 ) -> None:
     # Trigger repository scoped add-ons only on the main component
@@ -334,6 +340,13 @@ def execute_addon_event(
     log_result = None
     error_occurred = False
 
+    activity_log = AddonActivityLog.objects.create(
+        addon=addon,
+        component=component,
+        event=event,
+        pending=True,
+    )
+
     with transaction.atomic():
         addon_logger("debug", "running %s add-on: %s", event.label, addon.name)
         # Skip unsupported components silently
@@ -355,13 +368,17 @@ def execute_addon_event(
             # Execute event in senty span to track performance
             with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
                 if isinstance(method, str):
-                    log_result = getattr(addon.addon, method)(*args)
+                    log_result = getattr(addon.addon, method)(
+                        *args, activity_log_id=activity_log.pk
+                    )
                 elif component is None:
                     log_result = "Missing component parameter!"
                     error_occurred = True
                 else:
                     # Callback is used in tasks
-                    log_result = method(addon, component)
+                    log_result = method(
+                        addon, component, activity_log_id=activity_log.pk
+                    )
         except DjangoDatabaseError:
             raise
         except Exception as error:
@@ -384,12 +401,12 @@ def execute_addon_event(
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
-                AddonActivityLog.objects.create(
-                    addon=addon,
-                    component=component,
-                    event=event,
-                    details={"result": log_result, "error": error_occurred},
-                )
+                activity_log = AddonActivityLog.objects.get(pk=activity_log.pk)
+                if log_result:
+                    activity_log.update_result(log_result, save=False)
+                activity_log.pending = False
+                activity_log.details["error"] = error_occurred
+                activity_log.save()
 
 
 @overload
@@ -619,6 +636,7 @@ class AddonActivityLog(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
     created = models.DateTimeField(auto_now_add=True)
     details = models.JSONField(default=dict)
+    pending = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "add-on activity log"
@@ -630,3 +648,14 @@ class AddonActivityLog(models.Model):
 
     def get_details_display(self) -> str:
         return self.addon.addon.render_activity_log(self)
+
+    def update_result(self, result: str, save: bool = True) -> None:
+        """Update the result field in the details JSON."""
+        details = self.details or {}
+        if current_result := details.get("result"):
+            result = f"{current_result}\n{result}"
+
+        details["result"] = result
+        self.details = details
+        if save:
+            self.save()
