@@ -53,6 +53,7 @@ PREFETCH_FIELDS = (
     "author",
     "translation",
     "component",
+    "category",
     "project",
     "component__source_language",
     "unit",
@@ -161,6 +162,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.count_stats(days, step, dtstart)
 
     def prefetch_for_render(self) -> ChangeQuerySet:
+        """
+        Prefetch needed related fields for rendering.
+
+        Might be used with Change.fill_in_prefetched.
+        """
         return self.prefetch().select_related(
             "alert",
             "screenshot",
@@ -644,7 +650,11 @@ class Change(models.Model, UserDisplayMixin):
         self.store_last_change(self.translation, self)
 
     def fixup_references(self) -> None:
-        """Update references based to least specific one."""
+        """
+        Update references based to least specific one.
+
+        Update Change.fill_in_prefetched together with this one
+        """
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:
@@ -738,6 +748,24 @@ class Change(models.Model, UserDisplayMixin):
     def get_uuid(self) -> UUID:
         """Return uuid for this change."""
         return uuid5(WEBLATE_UUID_NAMESPACE, f"{self.action}.{self.id}")
+
+    def fill_in_prefetched(self) -> None:
+        """
+        Fill in prefetched data into nested objects.
+
+        - Based on fixup_references.
+        - Uses data from prefetch_for_render
+        """
+        if self.unit:
+            self.unit.translation = self.translation
+        if self.screenshot:
+            self.screenshot.translation = self.translation
+        if self.translation:
+            self.translation.component = self.component
+            self.translation.language = self.language
+        if self.component:
+            self.component.project = self.project
+            self.component.category = self.category
 
 
 @receiver(post_save, sender=Change)
