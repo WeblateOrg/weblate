@@ -1340,11 +1340,14 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             parts = slug.split("/_git/")
             owner = owner + "/" + parts[0]  # we want owner to be org/project
             slug = parts[1]
-        elif "/" in slug:
-            parts = slug.split("/")
 
-            owner = owner + "/" + parts[0]  # we want owner to be org/project
-            slug = parts[1]
+        else:
+            slug = slug.removeprefix("_git/")
+            if "/" in slug:
+                parts = slug.split("/")
+
+                owner = owner + "/" + parts[0]  # we want owner to be org/project
+                slug = parts[1]
 
         return (scheme, username, password, host, owner, slug)
 
