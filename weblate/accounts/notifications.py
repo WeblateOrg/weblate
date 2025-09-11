@@ -89,7 +89,7 @@ def get_email_headers(notification: str) -> dict[str, str]:
     }
 
 
-def register_notification(handler: type[Notification]):
+def register_notification(handler: type[Notification]) -> type[Notification]:
     """Register notification handler."""
     NOTIFICATIONS.append(handler)
     for action in handler.actions:
@@ -122,7 +122,7 @@ class Notification:
     ignore_watched: bool = False
     any_watched: bool = False
     required_attr: str | None = None
-    skip_when_notify: list[Any] = []
+    skip_when_notify: list[type[Notification]] = []
 
     def __init__(
         self,
@@ -213,9 +213,11 @@ class Notification:
 
             yield subscription
 
-    def missing_required_attrs(self, change) -> bool:
+    def missing_required_attrs(self, change: Change | None) -> bool:
         if not self.required_attr:
             return False
+        if change is None:
+            return True
         try:
             return getattr(change, self.required_attr) is None
         except ObjectDoesNotExist:
@@ -254,8 +256,8 @@ class Notification:
             last_user = user
             if subscription.frequency != frequency:
                 continue
-            if frequency == NotificationFrequency.FREQ_INSTANT and self.should_skip(
-                user, change
+            if frequency == NotificationFrequency.FREQ_INSTANT and (
+                change is None or self.should_skip(user, change)
             ):
                 continue
             last_user.current_subscription = subscription
@@ -374,7 +376,12 @@ class Notification:
         return headers
 
     def send_immediate(
-        self, language, email, change, extracontext=None, subscription=None
+        self,
+        language: str | None,
+        email: str,
+        change: Change,
+        extracontext: dict | None = None,
+        subscription: Subscription | None = None,
     ) -> None:
         with override("en" if language is None else language):
             context = self.get_context(change, subscription, extracontext)
@@ -393,15 +400,15 @@ class Notification:
                 self.get_headers(context),
             )
 
-    def _convert_change_skip(self, change):
+    def _convert_change_skip(self, change: Change) -> Change:
         return change
 
-    def should_skip(self, user: User, change):
+    def should_skip(self, user: User, change: Change) -> bool:
         if not self.skip_when_notify:
             return False
         if self.child_notify is None:
             self.child_notify = [
-                notify_class(None) for notify_class in self.skip_when_notify
+                notify_class([]) for notify_class in self.skip_when_notify
             ]
         converted_change = self._convert_change_skip(change)
         return any(
@@ -415,7 +422,7 @@ class Notification:
             for child_notify in self.child_notify
         )
 
-    def notify_immediate(self, change) -> None:
+    def notify_immediate(self, change: Change) -> None:
         for user in self.get_users(NotificationFrequency.FREQ_INSTANT, change):
             if change.project is None or user.can_access_project(change.project):
                 self.send_immediate(
@@ -499,10 +506,13 @@ class Notification:
                 overlimit=overlimit,
             )
 
-    def filter_changes(self, **kwargs) -> QuerySet[Change]:
+    def filter_changes(
+        self, days: int = 0, weeks: int = 0, months: int = 0
+    ) -> QuerySet[Change]:
         return Change.objects.filter(
             action__in=self.actions,
-            timestamp__gte=timezone.now() - relativedelta(**kwargs),
+            timestamp__gte=timezone.now()
+            - relativedelta(days=days, weeks=weeks, months=months),
         ).prefetch_for_render()
 
     def notify_daily(self) -> None:
@@ -650,11 +660,11 @@ class NewCommentNotificaton(Notification):
             return translation.language
         return None
 
-    def notify_immediate(self, change) -> None:
+    def notify_immediate(self, change: Change) -> None:
         super().notify_immediate(change)
 
         # Notify upstream
-        report_source_bugs = change.component.report_source_bugs
+        report_source_bugs = cast("Component", change.component).report_source_bugs
         if change.comment and change.comment.unit.is_source and report_source_bugs:
             self.send_immediate("en", report_source_bugs, change)
 
@@ -794,8 +804,8 @@ class NewAnnouncementNotificaton(Notification):
     required_attr = "announcement"
     any_watched: bool = True
 
-    def should_skip(self, user: User, change) -> bool:
-        return not change.announcement.notify
+    def should_skip(self, user: User, change: Change) -> bool:
+        return not cast("Announcement", change.announcement).notify
 
     def get_language_filter(
         self, change: Change | None, translation: Translation | None
@@ -812,20 +822,21 @@ class NewAlertNotificaton(Notification):
     template_name = "new_alert"
     required_attr = "alert"
 
-    def should_skip(self, user: User, change):
+    def should_skip(self, user: User, change: Change) -> bool:
         try:
-            alert = change.alert
+            alert = cast("Alert", change.alert)
         except Alert.DoesNotExist:
             # Alert was removed meanwhile
             return False
+        component = cast("Component", change.component)
         if alert.obj.link_wide:
             # Notify for main component
-            if not change.component.linked_component:
+            if not component.linked_component:
                 return False
             # Notify only for others only when user will not get main.
             # This handles component level subscriptions.
             fake = copy(change)
-            fake.component = change.component.linked_component
+            fake.component = component.linked_component
             fake.project = fake.component.project
             return bool(
                 list(
@@ -835,9 +846,9 @@ class NewAlertNotificaton(Notification):
                 )
             )
         if alert.obj.project_wide:
-            first_component = change.component.project.component_set.order_by("id")[0]
+            first_component = component.project.component_set.order_by("id")[0]
             # Notify for the first component
-            if change.component.id == first_component.id:
+            if component.id == first_component.id:
                 return True
             # Notify only for others only when user will not get first.
             # This handles component level subscriptions.
@@ -865,7 +876,7 @@ class MergeFailureNotification(Notification):
     template_name = "repository_error"
     skip_when_notify = [NewAlertNotificaton]
 
-    def _convert_change_skip(self, change):
+    def _convert_change_skip(self, change: Change) -> Change:
         fake = copy(change)
         fake.action = ActionEvents.ALERT
         fake.alert = Alert(name="MergeFailure", details={"error": ""})
@@ -876,7 +887,7 @@ class SummaryNotification(Notification):
     filter_languages = True
 
     @classmethod
-    def get_freq_choices(cls):
+    def get_freq_choices(cls) -> list[tuple[int, StrOrPromise]]:
         return [
             x
             for x in super().get_freq_choices()
@@ -968,7 +979,7 @@ def get_notification_emails(
     notification: str,
     context: dict[str, Any] | None = None,
     info: str | None = None,
-):
+) -> list[OutgoingEmail]:
     """Render notification email."""
     context = context or {}
 
