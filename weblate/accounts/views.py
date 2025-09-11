@@ -97,7 +97,6 @@ from weblate.accounts.forms import (
     NotificationForm,
     OTPTokenForm,
     PasswordConfirmForm,
-    ProfileBaseForm,
     ProfileForm,
     RegistrationForm,
     ResetForm,
@@ -151,6 +150,9 @@ from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
+    from weblate.accounts.forms import (
+        ProfileBaseForm,
+    )
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
 

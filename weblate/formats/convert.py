@@ -40,7 +40,6 @@ from translate.storage.xml_extract.extract import (
 
 from weblate.formats.base import (
     TranslationFormat,
-    TranslationUnit,
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
@@ -54,6 +53,9 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+    from weblate.formats.base import (
+        TranslationUnit,
+    )
     from weblate.trans.models import Unit
 
 

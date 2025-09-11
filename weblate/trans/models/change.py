@@ -7,7 +7,7 @@ from __future__ import annotations
 import logging
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, overload
-from uuid import UUID, uuid5
+from uuid import uuid5
 
 import sentry_sdk
 from django.conf import settings
@@ -39,6 +39,7 @@ from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from uuid import UUID
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation

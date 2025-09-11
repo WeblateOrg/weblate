@@ -19,7 +19,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component, Project, Translation
+from weblate.trans.models import Translation
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
@@ -35,6 +35,7 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.trans.models import Component, Project
 
 
 class BaseAddonForm(forms.Form):

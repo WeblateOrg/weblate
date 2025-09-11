@@ -3,16 +3,20 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import argparse
 from collections import defaultdict
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
-from git import Commit, Repo
-from git.diff import Diff
+from git import Repo
 
 import weblate.utils.version
+
+if TYPE_CHECKING:
+    from git import Commit
+    from git.diff import Diff
 
 VERSION = weblate.utils.version.VERSION_BASE
 ROOT_DIR = Path(__file__).parent.parent

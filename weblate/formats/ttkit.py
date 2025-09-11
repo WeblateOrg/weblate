@@ -26,7 +26,6 @@ from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
-from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
@@ -67,6 +66,8 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")

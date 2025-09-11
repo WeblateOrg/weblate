@@ -1,11 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 import shutil
 import subprocess
 import tempfile
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
@@ -13,7 +15,6 @@ from django.test import RequestFactory
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     AndroidResourceExporter,
-    BaseExporter,
     CSVExporter,
     JSONExporter,
     JSONNestedExporter,
@@ -40,6 +41,11 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.views import download_translation_file
+
+if TYPE_CHECKING:
+    from weblate.formats.exporters import (
+        BaseExporter,
+    )
 
 
 class PoExporterTest(BaseTestCase):

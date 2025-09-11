@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Count, Expression, F, Q, Value
+from django.db.models import Count, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -23,7 +23,6 @@ from pyparsing import (
     CaselessKeyword,
     OpAssoc,
     Optional,
-    ParserElement,
     ParseResults,
     Regex,
     Word,
@@ -49,6 +48,11 @@ from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from django.db.models import Expression
+    from pyparsing import (
+        ParserElement,
+    )
 
 
 # Helper parsing objects

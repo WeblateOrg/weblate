@@ -6,10 +6,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.db.models import DateTimeField, Expression, Func
+from django.db.models import DateTimeField, Func
 
 if TYPE_CHECKING:
     from django.db.backends.base.base import BaseDatabaseWrapper
+    from django.db.models import Expression
     from django.db.models.sql.compiler import SQLCompiler, _AsSqlType
 
 VALID_UNIT_VALUES = {

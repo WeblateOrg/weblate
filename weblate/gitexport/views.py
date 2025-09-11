@@ -13,14 +13,14 @@ from selectors import EVENT_READ, DefaultSelector
 from typing import TYPE_CHECKING, BinaryIO, cast
 
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
-from django.http import Http404, HttpRequest, StreamingHttpResponse
-from django.http.response import HttpResponse, HttpResponseBase, HttpResponseServerError
+from django.http import Http404, StreamingHttpResponse
+from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
 from weblate.utils.errors import report_error
@@ -29,6 +29,11 @@ from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+    from django.http import HttpRequest
+    from django.http.response import HttpResponseBase
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 def response_authenticate():

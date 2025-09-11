@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -14,8 +16,11 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import ROLES
-from weblate.auth.models import AuthenticatedHttpRequest, AutoGroup, Group, Role, User
+from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.wladmin.models import WeblateModelAdmin
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 BUILT_IN_ROLES = {role[0] for role in ROLES}
 

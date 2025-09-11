@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.db.models import Value
@@ -14,7 +14,10 @@ from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
-from .base import DownloadTranslations, InternalMachineTranslation
+from .base import InternalMachineTranslation
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class WeblateTranslation(InternalMachineTranslation):

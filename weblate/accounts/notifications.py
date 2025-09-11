@@ -14,7 +14,7 @@ from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.signing import TimestampSigner
-from django.db.models import IntegerChoices, Q, QuerySet
+from django.db.models import IntegerChoices, Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -27,20 +27,15 @@ from django.utils.translation import (
 )
 from siphashc import siphash
 
-from weblate.accounts.tasks import OutgoingEmail, send_mails
+from weblate.accounts.tasks import send_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Alert,
-    Announcement,
     Change,
-    Comment,
-    Component,
-    Project,
     Translation,
-    Unit,
 )
 from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
@@ -52,9 +47,18 @@ from weblate.utils.version import USER_AGENT
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.models import Subscription
+    from weblate.accounts.tasks import OutgoingEmail
+    from weblate.trans.models import (
+        Announcement,
+        Comment,
+        Component,
+        Project,
+        Unit,
+    )
 
 
 class NotificationFrequency(IntegerChoices):

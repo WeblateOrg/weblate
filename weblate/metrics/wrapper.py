@@ -6,13 +6,17 @@ from __future__ import annotations
 
 from calendar import monthrange
 from datetime import date, timedelta
+from typing import TYPE_CHECKING
 
 from django.core.cache import cache
 from django.utils import timezone
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import cached_property
 from django.utils.translation import pgettext_lazy
 
 from weblate.metrics.models import Metric
+
+if TYPE_CHECKING:
+    from django.utils.functional import Promise
 
 MONTH_NAMES = [
     pgettext_lazy("Short name of month", "Jan"),

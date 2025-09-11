@@ -4,6 +4,8 @@
 
 """Simple mathematical captcha."""
 
+from __future__ import annotations
+
 import ast
 import base64
 import json
@@ -11,11 +13,15 @@ import operator
 import time
 import urllib.parse
 from random import SystemRandom
+from typing import TYPE_CHECKING
 
-from altcha import Challenge, Solution, solve_challenge
+from altcha import solve_challenge
 from django.utils.html import format_html
 
 from weblate.utils.templatetags.icons import icon
+
+if TYPE_CHECKING:
+    from altcha import Challenge, Solution
 
 TIMEDELTA = 600
 

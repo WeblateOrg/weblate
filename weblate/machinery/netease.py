@@ -2,13 +2,18 @@
 # Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import random
 import time
 from hashlib import sha1
+from typing import TYPE_CHECKING
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
 

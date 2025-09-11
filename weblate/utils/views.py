@@ -17,9 +17,7 @@ from django.core.paginator import EmptyPage, Paginator
 from django.http import (
     FileResponse,
     Http404,
-    HttpRequest,
     HttpResponse,
-    HttpResponseBase,
     HttpResponseRedirect,
 )
 from django.shortcuts import get_object_or_404
@@ -36,7 +34,6 @@ from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.stats import (
-    BaseStats,
     CategoryLanguage,
     ProjectLanguage,
     prefetch_stats,
@@ -45,9 +42,16 @@ from weblate.vcs.git import LocalRepository
 
 if TYPE_CHECKING:
     from django.db.models import Model
+    from django.http import (
+        HttpRequest,
+        HttpResponseBase,
+    )
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
+    from weblate.utils.stats import (
+        BaseStats,
+    )
 
 
 class UnsupportedPathObjectError(Http404):

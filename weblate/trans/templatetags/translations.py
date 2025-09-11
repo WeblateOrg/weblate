@@ -11,7 +11,7 @@ from datetime import date, datetime
 from html import escape as html_escape
 from typing import TYPE_CHECKING
 
-from django import forms, template
+from django import template
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
@@ -19,7 +19,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape, format_html, format_html_join, linebreaks, urlize
-from django.utils.safestring import SafeString, mark_safe
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
 
@@ -32,12 +32,9 @@ from weblate.lang.models import Language
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.forms import FieldDocsMixin
 from weblate.trans.models import (
-    Alert,
     Announcement,
     Category,
-    Change,
     Component,
-    ComponentList,
     ContributorAgreement,
     Project,
     Translation,
@@ -58,7 +55,6 @@ from weblate.utils.stats import (
     CategoryLanguage,
     GhostCategoryLanguageStats,
     GhostProjectLanguageStats,
-    GhostStats,
     ProjectLanguage,
 )
 from weblate.utils.templatetags.icons import icon
@@ -67,12 +63,22 @@ from weblate.utils.views import SORT_CHOICES
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
+    from django import forms
     from django.db.models import Model, QuerySet
     from django.forms.boundfield import BoundField
     from django.template.context import Context
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.metrics.wrapper import MetricsWrapper
+    from weblate.trans.models import (
+        Alert,
+        Change,
+        ComponentList,
+    )
+    from weblate.utils.stats import (
+        GhostStats,
+    )
 
 register = template.Library()
 

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -19,6 +19,8 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, StringState
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project, Translation, Unit
 

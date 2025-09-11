@@ -1,13 +1,17 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import operator
-from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.rst import format_table
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class Command(BaseCommand):

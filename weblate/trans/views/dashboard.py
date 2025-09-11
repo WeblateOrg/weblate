@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Count
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import translation
@@ -24,7 +24,7 @@ from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.trans.models.translation import GhostTranslation, TranslationQuerySet
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -33,7 +33,10 @@ from weblate.utils.views import get_paginator
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.translation import TranslationQuerySet
 
 
 def get_untranslated(
