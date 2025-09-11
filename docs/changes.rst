@@ -11,6 +11,8 @@ Weblate 5.14
 
 .. rubric:: Improvements
 
+* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
+
 * :ref:`date-search`.
 * Last changed loookup in :ref:`search-strings`.
 

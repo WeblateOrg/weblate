@@ -431,7 +431,9 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_class = UserFilter
 
     def get_serializer_class(self):
-        if self.request.user.has_perm("user.edit"):
+        if self.request.user.has_perm("user.view") or self.request.user.has_perm(
+            "user.edit"
+        ):
             return FullUserSerializer
         return BasicUserSerializer
 
@@ -440,7 +442,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return User.objects.none()
         queryset = User.objects.order_by("id")
-        if not user.has_perm("user.edit"):
+        if not user.has_perm("user.edit") and not user.has_perm("user.view"):
             return queryset
         return queryset.prefetch_related("groups", "profile", "profile__languages")
 
@@ -457,7 +459,10 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if not user.is_authenticated:
             queryset = User.objects.none()
-        elif not user.has_perm("user.edit") and self.lookup_field not in request.GET:
+        elif (
+            not (user.has_perm("user.edit") or user.has_perm("user.view"))
+            and self.lookup_field not in request.GET
+        ):
             # Order to avoid warning from the paginator
             queryset = User.objects.filter(pk=user.pk).order_by("id")
         else:
@@ -668,12 +673,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
 
     def get_queryset(self):
-        if self.request.user.has_perm("group.edit"):
+        user = self.request.user
+        if user.has_perm("group.edit") or user.has_perm("group.view"):
             queryset = Group.objects.all()
         else:
-            queryset = Group.objects.filter(
-                Q(user=self.request.user) | Q(admins=self.request.user)
-            ).distinct()
+            queryset = Group.objects.filter(Q(user=user) | Q(admins=user)).distinct()
         return queryset.order_by("id")
 
     def perm_check(
@@ -958,12 +962,11 @@ class RoleViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
 
     def get_queryset(self):
-        if self.request.user.has_perm("role.edit"):
+        user = self.request.user
+        if user.has_perm("role.edit") or user.has_perm("role.view"):
             return Role.objects.order_by("id").all()
         return (
-            Role.objects.filter(group__in=self.request.user.groups.all())
-            .order_by("id")
-            .distinct()
+            Role.objects.filter(group__in=user.groups.all()).order_by("id").distinct()
         )
 
     def perm_check(self, request: Request) -> None:

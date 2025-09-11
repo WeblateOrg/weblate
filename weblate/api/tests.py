@@ -17,7 +17,7 @@ from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import Subscription
 from weblate.api.serializers import CommentSerializer
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -76,8 +76,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
         self.user.profile.languages.add(Language.objects.get(code="cs"))
-        group = Group.objects.get(name="Users")
-        self.user.groups.add(group)
+        self.group = Group.objects.get(name="Users")
+        self.user.groups.add(self.group)
 
     def create_acl(self):
         project = Project.objects.create(
@@ -128,16 +128,34 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             self.assertEqual(response.data, data)
         return response
 
+    def grant_perm_to_user(
+        self, perm: str, group_name: str = "Permission group"
+    ) -> None:
+        permission = Permission.objects.get(codename=perm)
+        group = Group.objects.get_or_create(name=group_name)[0]
+        role = Role.objects.create(name="Permission role")
+        role.permissions.add(permission)
+        group.roles.add(role)
+        self.user.groups.add(group)
+
 
 class UserAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 0)
+
         self.authenticate(False)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 1)
         self.assertNotIn("email", response.data["results"][0])
+
         self.authenticate(True)
+        response = self.client.get(reverse("api:user-list"))
+        self.assertEqual(response.data["count"], 3)
+        self.assertIsNotNone(response.data["results"][0]["email"])
+
+        self.authenticate(False)
+        self.grant_perm_to_user("user.view")
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 3)
         self.assertIsNotNone(response.data["results"][0]["email"])
@@ -146,9 +164,34 @@ class UserAPITest(APIBaseTest):
         language = Language.objects.get(code="cs")
         response = self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": "apitest"},
             method="get",
             superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["username"], "apitest")
+        self.assertIn(
+            f"http://example.com/api/languages/{language.code}/",
+            response.data["languages"],
+        )
+
+        # user without permission can only see basic information
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
+            code=200,
+        )
+        self.assertNotIn("languages", response.data)
+
+        # user with right permission can see detailed information
+        self.grant_perm_to_user("user.view")
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
@@ -486,19 +529,39 @@ class GroupAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 2)
-        self.authenticate(True)
+
+        self.grant_perm_to_user("group.view", "Viewers")
+        self.authenticate(False)
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 7)
 
     def test_get(self) -> None:
+        # user can see details of group they are member of
         response = self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="get",
-            superuser=True,
             code=200,
         )
         self.assertEqual(response.data["name"], "Users")
+
+        # user without view permission can't see other group details
+        Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Test Group").id},
+            method="get",
+            code=404,
+        )
+
+        # user with view permission can see other group details
+        self.grant_perm_to_user("group.view", "Viewers")
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Test Group").id},
+            method="get",
+            code=200,
+        )
 
     def test_get_user(self) -> None:
         response = self.do_request(
@@ -1055,14 +1118,29 @@ class RoleAPITest(APIBaseTest):
     def test_list_roles(self) -> None:
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 2)
+
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 16)
 
+        self.authenticate(False)
+        self.grant_perm_to_user("role.view")  # also creates a new role
+        response = self.client.get(reverse("api:role-list"))
+        self.assertEqual(response.data["count"], 17)
+
     def test_get_role(self) -> None:
+        # user can view details of a role they have
         role = Role.objects.get(name="Access repository")
         response = self.client.get(reverse("api:role-detail", kwargs={"id": role.pk}))
         self.assertEqual(response.data["name"], role.name)
+
+        # user without view permission can't see other role details
+        new_role = Role.objects.create(name="Test Role")
+        self.do_request("api:role-detail", kwargs={"id": new_role.pk}, code=404)
+
+        # user with view permission can view other role details
+        self.grant_perm_to_user("role.view")
+        self.do_request("api:role-detail", kwargs={"id": new_role.pk}, code=200)
 
     def test_create(self) -> None:
         self.do_request("api:role-list", method="post", code=403)
