@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import threading
+import warnings
 from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
@@ -366,7 +367,15 @@ class BaseTermExpr:
             )
 
         try:
-            result = dateutil_parse(text, default=default)
+            with warnings.catch_warnings():
+                # Ignore ambiguous date warning, it is gracefully handled by datetutil
+                # or raises exception.
+                warnings.filterwarnings(
+                    "ignore",
+                    "Parsing dates involving a day of month without a year specified",
+                    DeprecationWarning,
+                )
+                result = dateutil_parse(text, default=default)
         except ParserError:
             result = None
 
