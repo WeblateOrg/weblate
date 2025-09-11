@@ -198,7 +198,7 @@ amazon = [
   "boto3>=1.38.0,<2.0"
 ]
 antispam = [
-  "python-akismet>=0.4.2,<0.5"
+  "python-akismet>=0.4.3,<0.5"
 ]
 gelf = [
   "logging-gelf>=0.0.32,<0.1"
@@ -226,7 +226,7 @@ postgres = [
   "psycopg[binary]>=3.1.8,<4"
 ]
 saml = [
-  "python3-saml>=1.2.1"
+  "python3-saml>=1.16.0"
 ]
 saml2idp = [
   "djangosaml2idp==0.7.2"
@@ -460,6 +460,34 @@ ignore = [
 addopts = "--reuse-db --cov=weblate --cov-report= --durations=20 --durations-min=2 --ignore=data --ignore=data-test --ignore=dev-docker --ignore=scripts"
 DJANGO_SETTINGS_MODULE = "weblate.settings_test"
 FAIL_INVALID_TEMPLATE_VARS = true
+# The single quote is used intentionall to be sorted by toml-sort at the end
+# what is needed to make them match as the last match is used.
+filterwarnings = [
+  # Treat all unfiltered warnings as errors
+  "error",
+  # Warning in the third-party module (python3-saml)
+  "ignore:datetime.datetime.utcnow:DeprecationWarning:onelogin.saml2.utils",
+  # Warning in the third-party module (openid)
+  "ignore:defusedxml.cElementTree is deprecated, import from defusedxml.ElementTree instead.:DeprecationWarning:openid.oidutil",
+  # importlib warning on Python 3.11
+  "ignore:DynamicImporter:ImportWarning",
+  # TODO: Will be fixed in next PyGobject release.
+  "ignore:GioUnix was imported without specifying a version first:gi.PyGIWarning",
+  # There is no better way to differentiate DATA_DIR for the xdist executed tests
+  "ignore:Implicitly cleaning up <TemporaryDirectory.*/xdist-:ResourceWarning",
+  # Happens via dateparser
+  "ignore:Parsing dates involving a day of month without a year specified:Warning",
+  # There is no way to address this in a backwards compatible way
+  "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
+  # There is no way to address this in a backwards compatible way
+  "ignore:The FORMS_URLFIELD_ASSUME_HTTPS transitional setting:django.utils.deprecation.RemovedInDjango60Warning",
+  # Triggered when Selenium can not be started
+  'default:Selenium error:UserWarning',
+  # TODO: Selenium code should be migrated
+  'default:set_timeout\(\) in RemoteConnection is deprecated:DeprecationWarning',
+  # TODO: these might be worth investigating
+  'default:unclosed:ResourceWarning'
+]
 python_files = ["test_*.py", "tests.py"]
 
 [tool.ruff.format]
