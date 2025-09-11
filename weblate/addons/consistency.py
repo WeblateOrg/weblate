@@ -11,9 +11,11 @@ from django.utils.translation import gettext_lazy
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.tasks import language_consistency
+from weblate.lang.models import Language
 
 if TYPE_CHECKING:
     from weblate.addons.models import Addon
+    from weblate.trans.models import Component, Translation
 
 
 class LanguageConsistencyAddon(BaseAddon):
@@ -29,14 +31,20 @@ class LanguageConsistencyAddon(BaseAddon):
     user_name = "languages"
     user_verbose = "Languages add-on"
 
-    def daily(self, component) -> None:
+    def daily(self, component: Component) -> None:
+        # The languages list is built here because we want to exclude shared
+        # component's languages that are included in Project.languages
         language_consistency.delay_on_commit(
             self.instance.id,
-            [language.id for language in component.project.languages],
+            list(
+                Language.objects.filter(
+                    translation__component__project=component.project
+                ).values_list("id", flat=True)
+            ),
             component.project_id,
         )
 
-    def post_add(self, translation) -> None:
+    def post_add(self, translation: Translation) -> None:
         language_consistency.delay_on_commit(
             self.instance.id,
             [translation.language_id],
