@@ -16,6 +16,7 @@ Weblate 5.13.3
 * Source string location display.
 * Correctly track team adding via invitation in :ref:`audit-log`.
 * :ref:`addon-weblate.consistency.languages` no longer includes shared component languages.
+* :ref:`azure-devops-push` API URL parsing.
 
 .. rubric:: Compatibility
 
