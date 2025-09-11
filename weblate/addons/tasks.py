@@ -204,6 +204,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
     )
 
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
+        change.fill_in_prefetched()
         # Filter addons for this change
         change_addons = [
             addon
