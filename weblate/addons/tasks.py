@@ -170,12 +170,11 @@ def update_addon_activity_log(
     pk: int, result: str = "", error_occurred: bool = False, pending: bool | None = None
 ) -> None:
     addon_activity_log = AddonActivityLog.objects.select_for_update().get(id=pk)
+    addon_activity_log.details["error"] = error_occurred
     if result:
-        addon_activity_log.update_result(result, save=False)
+        addon_activity_log.update_result(result)
     if pending is not None:
         addon_activity_log.pending = pending
-    if error_occurred is not None:
-        addon_activity_log.details["error"] = error_occurred
     addon_activity_log.save()
 
 

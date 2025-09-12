@@ -651,7 +651,7 @@ class AddonActivityLog(models.Model):
     def get_details_display(self) -> str:
         return self.addon.addon.render_activity_log(self)
 
-    def update_result(self, result: str, save: bool = True) -> None:
+    def update_result(self, result: str) -> None:
         """Update the result field in the details JSON."""
         details = self.details or {}
         if current_result := details.get("result"):
@@ -659,5 +659,3 @@ class AddonActivityLog(models.Model):
 
         details["result"] = result
         self.details = details
-        if save:
-            self.save()
