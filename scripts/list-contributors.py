@@ -81,7 +81,10 @@ def get_commit_authors(commit: Commit) -> set[str]:
 def get_contributors() -> dict[CategoryType, list[str]]:
     contributors: dict[CategoryType, list[str]] = defaultdict(list)
     repo = Repo.init(ROOT_DIR)
-    tags = sorted(repo.tags, key=lambda tag: tag.commit.committed_date)
+    tags = sorted(
+        (tag for tag in repo.tags if tag.name.startswith("weblate-")),
+        key=lambda tag: tag.commit.committed_date,
+    )
     recent_tag = tags[-1]
     commits = list(repo.iter_commits(f"{recent_tag}..HEAD"))
     previous = recent_tag.object.object
